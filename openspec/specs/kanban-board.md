@@ -1,6 +1,6 @@
 # Kanban Board Specification
 
-**Status**: idea
+**Status**: planned
 
 **Standards**: Schema.org ItemList (board), DefinedTerm (column), Kanban Guide (kanban.university)
 **Feature tier**: MVP
@@ -70,6 +70,47 @@ The system MUST render a kanban board with columns and task cards for each proje
 - THEN the system MUST assign the task to that column
 - AND the task MUST disappear from the backlog panel
 
+#### Scenario: Delete column with tasks
+- GIVEN a column contains one or more tasks
+- WHEN a user deletes the column from project settings
+- THEN the system MUST show a dialog: "This column contains {N} tasks. Move them to the backlog, or move to another column?"
+- AND the system MUST NOT delete the column until the user confirms a destination for the tasks
+- AND if "Move to backlog" is chosen, all tasks MUST have their `column` cleared
+- AND if "Move to column" is chosen, all tasks MUST be reassigned to the selected column
+
+#### Scenario: Empty board — no columns yet
+- GIVEN a project has no columns (e.g., default columns were cleared by admin before project was created)
+- WHEN a member opens the board view
+- THEN the system MUST show a CnEmptyState with message "No columns yet"
+- AND a project creator or admin MUST see an "Add column" button to create the first column
+
+#### Scenario: Empty board — no tasks yet
+- GIVEN a project has columns but no tasks
+- WHEN a member opens the board view
+- THEN each empty column MUST show a CnEmptyState with a "+ Add task" button
+- AND clicking "+ Add task" in a column MUST open the task creation form with that column pre-selected
+
+### Requirement: View Toggle — Kanban and List [MVP]
+The system MUST allow users to switch between kanban (card) view and list (table) view for a project's tasks.
+
+#### Scenario: Switch to list view
+- GIVEN a user is on the kanban board view
+- WHEN the user clicks the list view toggle button
+- THEN the system MUST render tasks as a sortable flat list (title, assignee, due date, status, priority, labels)
+- AND the selected view MUST persist in the URL hash so the page reloads in the same view
+
+#### Scenario: Switch back to kanban view
+- GIVEN a user is in the list view
+- WHEN the user clicks the kanban view toggle button
+- THEN the system MUST render the kanban board with columns and cards
+- AND any active filter MUST remain applied in the new view
+
+#### Scenario: Update task from list view
+- GIVEN a user is in list view
+- WHEN the user clicks a task row
+- THEN the system MUST navigate to the task detail view (CnDetailPage)
+- AND the browser back button MUST return to list view (not kanban view)
+
 ## User Stories
 
 - As a developer, I want to see all project tasks as cards on a board so that I understand the current state of work at a glance
@@ -77,6 +118,9 @@ The system MUST render a kanban board with columns and task cards for each proje
 - As a project lead, I want to set WIP limits on columns so that the team doesn't overload any single stage
 - As a user, I want to filter the board by my name so that I can see only my tasks
 - As an admin, I want to add and reorder columns so that the board matches our team's workflow
+- As a user, I want to switch between kanban and list view so that I can choose the layout that suits my current focus
+- As a project creator, I want guidance when my board has no columns yet so that I know how to get started
+- As a user, I want a safe prompt when deleting a column that contains tasks so that I don't accidentally lose work
 
 ## Acceptance Criteria
 
@@ -87,9 +131,14 @@ The system MUST render a kanban board with columns and task cards for each proje
 - [ ] Filter by assignee, label, and priority works without full page reload
 - [ ] Filter state is reflected in the URL hash (shareable)
 - [ ] Columns can be created, renamed, reordered, and deleted via project settings
-- [ ] Deleting a column with tasks prompts: "Move tasks to backlog" or "Move to another column"
+- [ ] Deleting a column with tasks prompts the user to move tasks to backlog or another column before deleting
 - [ ] Board is keyboard-navigable (WCAG AA)
-- [ ] Empty columns show a clear "Empty" state with a "+ Add task" button
+- [ ] Empty columns show a CnEmptyState with a "+ Add task" button; clicking pre-selects that column in the task form
+- [ ] A board with no columns shows a CnEmptyState with an "Add column" button (visible to creator/admin)
+- [ ] View toggle (kanban ↔ list) is available in the project toolbar; selected view persists in the URL hash
+- [ ] List view shows tasks as a sortable table: title, assignee, due date, status, priority, labels
+- [ ] Switching views preserves active filters
+- [ ] Clicking a task in list view navigates to task detail; back button returns to list view
 
 ## Notes
 

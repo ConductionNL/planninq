@@ -1,6 +1,6 @@
 # Admin & User Settings Specification
 
-**Status**: idea
+**Status**: planned
 
 **Standards**: Nextcloud OCP\IAppConfig (admin), OCP\IConfig (user), NcAppSettingsDialog (user), CnSettingsSection + CnVersionInfoCard (@conduction/nextcloud-vue)
 **Feature tier**: MVP
@@ -41,11 +41,23 @@ No OpenRegister entities. Settings are stored in Nextcloud's native config stora
 ### Requirement: Admin Settings Page [MVP]
 The system MUST provide an admin settings page under Nextcloud Administration → Planix.
 
+#### Scenario: Admin access only
+- GIVEN a regular (non-admin) Nextcloud user
+- WHEN they attempt to access the Planix admin settings URL directly
+- THEN Nextcloud MUST return a 403 Forbidden response
+- AND the admin settings section MUST NOT appear in the user's Settings navigation
+
 #### Scenario: View admin settings
 - GIVEN a Nextcloud admin opens Administration → Planix
 - THEN the system MUST render a CnVersionInfoCard as the first section (app name, version, update status)
 - AND the system MUST show a CnSettingsSection for "Default Project Configuration"
 - AND the section MUST show the current `default_columns` value as an editable list
+
+#### Scenario: CnVersionInfoCard — update available
+- GIVEN a newer version of Planix is available in the Nextcloud App Store
+- WHEN the admin views the Planix admin settings
+- THEN CnVersionInfoCard MUST display the current version and an "Update available" indicator
+- AND the indicator MUST link to the Nextcloud App Store entry for Planix
 
 #### Scenario: Configure default columns
 - GIVEN the admin is in the "Default Project Configuration" section
@@ -82,6 +94,12 @@ The system MUST provide a user settings dialog via NcAppSettingsDialog, accessib
 - THEN the system MUST save `default_view = kanban` via OCP\IConfig
 - AND the next time the user opens a project, the board view MUST be shown by default
 
+#### Scenario: Settings persist across sessions
+- GIVEN a user has set `notify_assigned = false` and `default_view = kanban`
+- WHEN the user closes Planix and returns in a new browser session
+- THEN the notification toggle MUST still be off
+- AND the default view MUST still be "Kanban"
+
 ## User Stories
 
 - As an admin, I want to configure the default column set so that new projects start with our team's standard workflow
@@ -89,17 +107,21 @@ The system MUST provide a user settings dialog via NcAppSettingsDialog, accessib
 - As a user, I want to control which notifications I receive so that I'm not overwhelmed by alerts
 - As a user, I want to choose my default view so that Planix opens in the mode I use most
 - As an admin, I want to initialize the OpenRegister schemas from the settings page so that I can set up the app without CLI access
+- As an admin, I want to be notified of available updates in the settings page so that I can keep the app current
+- As a user, I want my preferences to survive a browser restart so that I don't have to configure Planix each time
 
 ## Acceptance Criteria
 
 - [ ] Admin settings page appears under Nextcloud Administration with link "Planix"
+- [ ] Non-admin users cannot access the admin settings page (403 response; section not shown in navigation)
 - [ ] First section is CnVersionInfoCard showing app name, version, and update status
+- [ ] CnVersionInfoCard shows an "Update available" indicator and App Store link when a newer version exists
 - [ ] Admin can configure default columns via an editable ordered list
 - [ ] Admin can trigger OpenRegister initialization from the settings page
 - [ ] NcAppSettingsDialog opens from the Planix navigation — uses NcAppSettingsDialog NOT NcDialog
 - [ ] Dialog contains notification toggles: task assigned (default on), due date reminder (default on)
 - [ ] Dialog contains display preferences: default view selector
-- [ ] All settings persist across sessions (stored via IAppConfig / IConfig)
+- [ ] All settings persist across browser sessions (stored via IAppConfig / IConfig)
 - [ ] Notification settings are respected by NotificationService (SUBJECT_SETTING_MAP pattern)
 - [ ] Settings page is accessible (WCAG AA) and uses NL Design System CSS variables
 
