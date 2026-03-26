@@ -389,6 +389,59 @@ CnSettingsSection (name="OpenRegister Setup", ...)
 
 **Note**: Uses `NcAppSettingsDialog` (NOT `NcDialog`). Triggered from the `?` / gear icon in the Planix top navigation bar. See `openspec/specs/nextcloud-app/spec.md` for the authoritative pattern.
 
+### 3.9 Timesheet View
+
+```
+┌────────────────────────────────────────────────────────────────────┐
+│  PLANIX › My Timesheet                                             │
+├────────────────────────────────────────────────────────────────────┤
+│  [This week ▾]  Mar 24 – Mar 30, 2026           Total: 14h 30m    │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│  📅 Monday, Mar 24                                     2h 45m     │
+│  ──────────────────────────────────────────────────────────────── │
+│  Fix auth token expiry bug       API Gateway     0h 45m  [✎] [✕] │
+│  Write deployment checklist      Infra Migration 2h 00m  [✎] [✕] │
+│                                                                    │
+│  📅 Tuesday, Mar 25                                    4h 00m     │
+│  ──────────────────────────────────────────────────────────────── │
+│  Fix auth token expiry bug       API Gateway     1h 30m  [✎] [✕] │
+│  Migrate to PostgreSQL pool      API Gateway     2h 30m  [✎] [✕] │
+│                                                                    │
+│  📅 Wednesday, Mar 26                                  3h 45m     │
+│  ──────────────────────────────────────────────────────────────── │
+│  Review PR #42 — rate limiting   API Gateway     0h 45m  [✎] [✕] │
+│  Add CSRF token validation       API Gateway     3h 00m  [✎] [✕] │
+│                                                                    │
+│  📅 Thursday, Mar 27 · 2h 30m  │  📅 Friday, Mar 28 · 1h 30m    │
+│  ──────────────────────────────┤──────────────────────────────── │
+│  Pagination for /list   1h 00m │  Write OpenAPI 3.0 spec 1h 30m  │
+│  Update error format    1h 30m │                                  │
+│                                                                    │
+├────────────────────────────────────────────────────────────────────┤
+│  Week total: 14h 30m                          [+ Log time]        │
+└────────────────────────────────────────────────────────────────────┘
+```
+
+**Component hierarchy**:
+```
+CnListViewLayout (title="My Timesheet")
+├─ date range selector (This week / Last week / This month / Custom)
+├─ week total badge
+├─ CnDataTable (grouped by date)
+│   ├─ date group header (date label + daily total)
+│   └─ rows: task title (link) | project badge | duration | [edit] [delete]
+└─ week total footer + [+ Log time] CTA
+```
+
+**Key UX patterns** (sourced from Leantime, OpenProject, Harvest):
+- Date grouped rows with daily subtotals — scan work patterns at a glance
+- Inline edit and delete per row — correct mistakes without navigating away
+- Task title is a clickable link → task detail view (back returns to timesheet)
+- Week view with mini day columns for at-a-glance density when days are sparse
+- Weekly total prominently displayed in header and footer
+- "Log time" CTA always visible — encourages consistent logging
+
 ---
 
 ## 4. Updated Feature Counts (after design review)

@@ -114,7 +114,8 @@ A task is the core unit of work in Planix. Tasks belong to a project, can be pla
 | `description` | string | `DESCRIPTION` | `schema:description` | — | No | — |
 | `status` | enum | `STATUS` | `schema:actionStatus` | `status` | Yes | `open` |
 | `priority` | enum: low, normal, high, urgent | `PRIORITY` (1-9) | — | — | No | `normal` |
-| `project` | reference | `RELATED-TO` (parent project) | — | `zaakUuid` (optional) | No | — |
+| `project` | reference | `RELATED-TO` (parent project) | — | — | No | — |
+| `zaakUuid` | string (UUID) | — | — | Procest case UUID (cross-app bridge) | No | null |
 | `column` | reference | — | — | — | No | null (backlog) |
 | `columnOrder` | integer | — | `schema:position` | — | No | 0 |
 | `assignedTo` | string (user UID) | `ATTENDEE` | `schema:agent` | `toegewezenAanGebruikersnaam` | No | — |

@@ -88,6 +88,12 @@ The system MUST provide a timesheet view showing the current user's time entries
 - THEN the system MUST filter entries to the selected range
 - AND the total for the range MUST be displayed
 
+#### Scenario: Navigate to task from timesheet
+- GIVEN the timesheet shows a time entry row
+- WHEN the user clicks the task title in the timesheet row
+- THEN the system MUST navigate to the task detail view
+- AND the browser back button MUST return to the timesheet at the same scroll position and date filter
+
 ## User Stories
 
 - As a developer, I want to log the time I spent on a task so that the team has accurate capacity data
@@ -110,6 +116,7 @@ The system MUST provide a timesheet view showing the current user's time entries
 - [ ] Timesheet can be filtered by date range
 - [ ] Users can edit and delete their own time entries
 - [ ] Admins (V1) can view and export all users' time entries per project
+- [ ] Clicking a task title in the timesheet navigates to the task detail; back button returns to timesheet
 
 ## Notes
 

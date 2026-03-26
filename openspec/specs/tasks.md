@@ -69,6 +69,13 @@ The system MUST allow authenticated users to create, read, update, and delete ta
 - THEN the system MUST show only urgent tasks on the board
 - AND non-urgent tasks MUST be visually hidden or faded
 
+#### Scenario: Assignment notification sent
+- GIVEN UserA is a member of a project
+- WHEN UserB assigns a task to UserA
+- THEN the system MUST create a Nextcloud notification for UserA with subject `task_assigned`
+- AND the notification MUST only be sent if UserA has `notify_assigned = true` in their user settings
+- AND UserA MUST NOT receive a notification if they assigned the task to themselves
+
 ## User Stories
 
 - As a team member, I want to create a task with a title and description so that I can capture work that needs to be done
@@ -88,6 +95,8 @@ The system MUST allow authenticated users to create, read, update, and delete ta
 - [ ] Board filter by priority, assignee, and label works without page reload
 - [ ] Tasks show assignee avatar, due date, priority color, and label chips on kanban cards
 - [ ] Overdue tasks (dueDate < today, status != done) are highlighted in red on cards
+- [ ] Assigning a task to another user triggers a `task_assigned` notification (respects `notify_assigned` user setting)
+- [ ] A user assigning a task to themselves does NOT trigger an assignment notification
 
 ## Notes
 
