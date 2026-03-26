@@ -52,7 +52,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
     <screenshot>https://raw.githubusercontent.com/ConductionNL/planix/main/img/app-store.svg</screenshot>
 
     <dependencies>
-        <nextcloud min-version="28" max-version="33"/>
+        <nextcloud min-version="28" max-version="34"/>
         <php min-version="8.1"/>
     </dependencies>
 
