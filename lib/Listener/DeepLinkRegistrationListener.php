@@ -48,13 +48,39 @@ class DeepLinkRegistrationListener implements IEventListener
             return;
         }
 
-        // Register example object deep links.
-        // Update the register slug, schema slug, and URL template to match your app's actual schemas.
         $event->register(
             appId: 'planix',
             registerSlug: 'planix',
-            schemaSlug: 'example',
-            urlTemplate: '/apps/planix/#/examples/{uuid}'
+            schemaSlug: 'task',
+            urlTemplate: '/apps/planix/#/tasks/{uuid}'
+        );
+
+        $event->register(
+            appId: 'planix',
+            registerSlug: 'planix',
+            schemaSlug: 'project',
+            urlTemplate: '/apps/planix/#/projects/{uuid}'
+        );
+
+        $event->register(
+            appId: 'planix',
+            registerSlug: 'planix',
+            schemaSlug: 'column',
+            urlTemplate: '/apps/planix/#/columns/{uuid}'
+        );
+
+        $event->register(
+            appId: 'planix',
+            registerSlug: 'planix',
+            schemaSlug: 'label',
+            urlTemplate: '/apps/planix/#/labels/{uuid}'
+        );
+
+        $event->register(
+            appId: 'planix',
+            registerSlug: 'planix',
+            schemaSlug: 'timeEntry',
+            urlTemplate: '/apps/planix/#/time-entries/{uuid}'
         );
 
     }//end handle()
