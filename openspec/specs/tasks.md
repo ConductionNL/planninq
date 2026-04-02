@@ -1,11 +1,12 @@
 # Tasks Specification
 
-**Status**: planned
+**Status**: in-progress
 
 **Standards**: iCalendar VTODO (RFC 5545), Schema.org Action/PlanAction, VNG InterneTaak
 **Feature tier**: MVP
 
-**OpenSpec changes:** _(links to openspec/changes/ directories when in-progress or done)_
+**OpenSpec changes:**
+- [register-schemas](../changes/register-schemas/) — defines the Task schema in planix_register.json
 
 ## Purpose
 

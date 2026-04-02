@@ -1,11 +1,12 @@
 # Procest Integration Specification
 
-**Status**: planned
+**Status**: in-progress
 
 **Standards**: VNG ZGW InterneTaak, Schema.org Action, OpenRegister object references
 **Feature tier**: MVP (caseReference field); V1 (full bridge API)
 
-**OpenSpec changes:** _(links to openspec/changes/ directories when in-progress or done)_
+**OpenSpec changes:**
+- [procest-integration](../changes/procest-integration/) — MVP: case badge, case link, manual linking via edit forms
 
 ## Purpose
 

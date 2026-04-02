@@ -12,7 +12,7 @@ Nextcloud Deck is the only native Nextcloud kanban app — and it is fundamental
 
 | Name | Status | Key Features | Gaps |
 |------|--------|-------------|------|
-| **Nextcloud Deck** | Bundled, active (v1.17, Feb 2026) | Kanban boards, cards, labels, file attachment, mobile apps, Circles sharing | No backlog, no time tracking, no GitHub sync, no WIP limits, 6500+ DB queries per board, no multi-view |
+| **Nextcloud Deck** | Bundled, active | Kanban boards, cards, labels, file attachment, mobile apps, Circles sharing | No backlog, no time tracking, no GitHub sync, no WIP limits, 6500+ DB queries per board, no multi-view |
 | **Nextcloud Tasks** | Bundled, active | CalDAV/VTODO task sync, due dates, priorities, sub-tasks | No project grouping, no kanban board, no time tracking, no team collaboration |
 | **Nextcloud Deck Extended** | Community, low activity | Minor Deck extensions | Unmaintained, Deck fork approach |
 

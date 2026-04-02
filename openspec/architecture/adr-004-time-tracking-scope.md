@@ -16,6 +16,8 @@ Time tracking is a key differentiator for Planix vs. competitors (Plane, Taiga, 
 
 MVP includes manual time logging only (TimeEntry entity with task, user, duration in minutes, date, and optional description). Live timers are deferred to V1. External integrations are Enterprise tier.
 
+**Time entries are per-task only, in all tiers.** `TimeEntry.task` is always required — there are no project-level time entries. Overhead work (meetings, planning, standups) is tracked as tasks. This keeps the data model simple and queryable with no special cases.
+
 ## Consequences
 
 **Positive:**

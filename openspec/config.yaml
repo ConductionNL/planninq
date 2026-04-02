@@ -56,7 +56,7 @@ rules:
     - MUST use NL Design System double-fallback CSS pattern (cn- prefix)
     - MUST use Vue Router (hash mode) for all navigation — src/router/index.js, registered in main.js, <router-view /> in App.vue
     - MainMenu navigation via :to prop on NcAppNavigationItem (NOT @click + $router.push())
-    - Detail views use route props functions: props: route => ({ taskId: route.params.id })
+    - "Detail views use route props functions: props: route => ({ taskId: route.params.id })"
     - Kanban board is a custom Planix component (drag-and-drop) built on @conduction/nextcloud-vue base components
     - Check OpenRegister dependency and show NcEmptyContent when not installed
   tasks:

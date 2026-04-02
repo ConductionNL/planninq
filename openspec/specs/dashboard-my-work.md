@@ -1,11 +1,12 @@
 # Dashboard & My Work Specification
 
-**Status**: planned
+**Status**: in-progress
 
 **Standards**: Schema.org Action/PlanAction (task aggregation), Nextcloud Dashboard API (OCP\Dashboard\IWidget)
 **Feature tier**: MVP
 
-**OpenSpec changes:** _(links to openspec/changes/ directories when in-progress or done)_
+**OpenSpec changes:**
+- [dashboard-my-work](../changes/dashboard-my-work/) — implements dashboard landing page, KPI cards, My Work view
 
 ## Purpose
 

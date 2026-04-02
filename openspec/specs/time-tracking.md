@@ -1,11 +1,12 @@
 # Time Tracking Specification
 
-**Status**: planned
+**Status**: in-progress
 
 **Standards**: Schema.org QuantitativeValue, iCalendar ESTIMATED-DURATION (RFC 7986), OpenProject spentTime model
 **Feature tier**: MVP
 
-**OpenSpec changes:** _(links to openspec/changes/ directories when in-progress or done)_
+**OpenSpec changes:**
+- [time-tracking](../changes/time-tracking/) — implements manual time logging, timesheet view, estimate input, progress indicator
 
 ## Purpose
 

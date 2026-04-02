@@ -1,11 +1,12 @@
 # Admin & User Settings Specification
 
-**Status**: planned
+**Status**: in-progress
 
 **Standards**: Nextcloud OCP\IAppConfig (admin), OCP\IConfig (user), NcAppSettingsDialog (user), CnSettingsSection + CnVersionInfoCard (@conduction/nextcloud-vue)
 **Feature tier**: MVP
 
-**OpenSpec changes:** _(links to openspec/changes/ directories when in-progress or done)_
+**OpenSpec changes:**
+- [admin-user-settings](../changes/admin-user-settings/) — implements admin settings page, user settings dialog, notification toggles, column config
 
 ## Purpose
 

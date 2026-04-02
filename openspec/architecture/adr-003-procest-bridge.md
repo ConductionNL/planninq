@@ -23,6 +23,8 @@ Loose coupling via schema fields. The Task entity has two optional fields:
 
 Planix does not call Procest APIs in MVP. Procest creates tasks in Planix via OpenRegister directly, populating these fields. Planix displays them as read-only metadata on the task detail view.
 
+**Project ownership is configurable — Procest's UI decides.** When creating tasks for a case, Procest's UI presents a project picker. The user can create a new Planix project (with `caseReference` linking back to the case) or add tasks to an existing project (with `zaakUuid` on each task). Planix has no routing or default-project mechanism — it reads whatever Procest wrote to OpenRegister.
+
 ## Consequences
 
 **Positive:**

@@ -1,11 +1,12 @@
 # Projects Specification
 
-**Status**: planned
+**Status**: in-progress
 
 **Standards**: Schema.org CreativeWork, iCalendar VTODO (parent container reference)
 **Feature tier**: MVP
 
-**OpenSpec changes:** _(links to openspec/changes/ directories when in-progress or done)_
+**OpenSpec changes:**
+- [register-schemas](../changes/register-schemas/) — defines the Project schema in planix_register.json
 
 ## Purpose
 

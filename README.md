@@ -46,15 +46,19 @@ graph TD
     A --> E[Nextcloud Search]
 ```
 
-_Update this diagram during `/app-explore` sessions as the architecture evolves._
+See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full architecture breakdown.
 
 ### Data Model
 
-| Object | Description |
-|--------|-------------|
-| _(define your data objects here)_ | — |
+| Object | Schema.org Type | Description |
+|--------|----------------|-------------|
+| Task | `schema:Action` / `schema:PlanAction` | Core unit of work — title, description, assignee, due date, priority, status, estimates |
+| Project | `schema:CreativeWork` | Container for tasks and kanban board — teams, members, metadata |
+| Column | `schema:DefinedTerm` | Kanban board column — configurable stages with WIP limits |
+| TimeEntry | `schema:QuantitativeValue` | Effort log — task, user, duration (minutes), date, description |
+| Label | `schema:DefinedTerm` | Cross-project tag — name, color, description |
 
-_Data model is defined using OpenRegister schemas. See [`openspec/specs/`](openspec/specs/) for feature-level design decisions and [`openspec/architecture/`](openspec/architecture/) for architectural decisions._
+Data model is defined using OpenRegister schemas. See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for full entity definitions and standards mapping, [`openspec/specs/`](openspec/specs/) for feature-level requirements, and [`openspec/architecture/`](openspec/architecture/) for architectural decisions.
 
 ### Directory Structure
 

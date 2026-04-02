@@ -1,11 +1,12 @@
 # Kanban Board Specification
 
-**Status**: planned
+**Status**: in-progress
 
 **Standards**: Schema.org ItemList (board), DefinedTerm (column), Kanban Guide (kanban.university)
 **Feature tier**: MVP
 
-**OpenSpec changes:** _(links to openspec/changes/ directories when in-progress or done)_
+**OpenSpec changes:**
+- [kanban-board](../changes/kanban-board/) — implements the full kanban board view with drag-drop, WIP limits, filters, and view toggle
 
 ## Purpose
 
