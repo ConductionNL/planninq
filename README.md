@@ -26,14 +26,27 @@ _Add screenshots here once the app has a UI._
 
 ## Features
 
-Features are defined in [`openspec/specs/`](openspec/specs/). See the [roadmap](openspec/ROADMAP.md) for planned work.
+Features are defined in [`openspec/specs/`](openspec/specs/). See the [roadmap](openspec/ROADMAP.md) for planned work. Full feature documentation is in [`docs/features/`](docs/features/).
 
-### Core
-- **Dashboard** — Personal overview page with key information at a glance
-- **Admin Settings** — Configurable settings panel for administrators
+### Task & Project Management
+- **Projects** — Create and manage project containers with team members, colors, and kanban boards
+- **Tasks** — Full task lifecycle with priorities, labels, assignees, due dates, and status tracking (open → in progress → done)
+- **Backlog** — Task queue for unscheduled work with sorting and filtering; tasks promote to the board via drag-and-drop
+- **Kanban Board** — Visual board per project with configurable columns, drag-and-drop cards, and WIP limits
+
+### Personal Productivity
+- **Dashboard & My Work** — Personal landing page with KPI cards (open, overdue, in progress, done today), recent projects, and tasks due this week; My Work groups all assigned tasks by urgency
+- **Time Tracking** — Estimate effort per task, log multiple time entries (duration + date + description), and review logged time in a personal timesheet view
+
+### Integration
+- **Procest Integration** — Link tasks and projects to Procest cases via `caseReference` (project) and `zaakUuid` (task) fields; case badges appear in the project list and task detail
+
+### Admin & Configuration
+- **Admin Settings** — Configurable admin panel for default columns, label management, and OpenRegister initialization; uses `CnVersionInfoCard` and `CnSettingsSection` components
+- **User Settings** — Per-user notification preferences and default view selection via `NcAppSettingsDialog`
 
 ### Supporting
-- **OpenRegister Integration** — Pre-wired data layer using OpenRegister objects
+- **OpenRegister Integration** — All data stored as OpenRegister objects; no custom database tables
 - **Quality Pipeline** — PHPCS, PHPMD, Psalm, PHPStan, ESLint, Stylelint
 
 ## Architecture
@@ -98,8 +111,8 @@ planix/
 
 | Dependency | Version |
 |-----------|---------|
-| Nextcloud | 28 – 33 |
-| PHP | 8.1+ |
+| Nextcloud | 31 – 33 |
+| PHP | 8.3+ |
 | Node.js | 20+ |
 | [OpenRegister](https://github.com/ConductionNL/openregister) | latest |
 

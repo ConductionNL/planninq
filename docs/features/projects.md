@@ -6,6 +6,17 @@ Full project management surface for Planix — create, browse, configure, and de
 
 Projects are the top-level container in Planix. Each project groups a set of tasks on a kanban board, has a defined team (members), and optionally links to a Procest case. The `projects` change implements the complete project management UI on top of the OpenRegister data layer established by `register-schemas`.
 
+## Screenshots
+
+![Project list](img/projects-list.png)
+*Project list — browse and filter projects you are a member of*
+
+![Create project dialog](img/projects-create.png)
+*Create project — title, description, color, and icon fields*
+
+![Project settings sidebar](img/projects-settings.png)
+*Project settings sidebar — Details, Members, and Danger Zone tabs*
+
 ## Key Capabilities
 
 - **Project list** — browse all projects you are a member of; search (debounced 300 ms, client-side) and filter by status (Active / Archived / Completed)
@@ -17,14 +28,6 @@ Projects are the top-level container in Planix. Each project groups a set of tas
 - **Archive and delete** — archive hides from default list; delete cascades to columns, tasks, and time entries with confirmation dialog showing task count
 - **i18n** — full Dutch (nl) translation; all strings in `l10n/en.json` and `l10n/nl.json`
 - **Immediate metadata reflection** — sidebar saves update page header and project list without full reload
-
-## Implementation Notes
-
-- Uses `useObjectStore` from `@conduction/nextcloud-vue` for all OpenRegister CRUD operations
-- Member filtering is applied client-side (OpenRegister member filter falls back gracefully on MariaDB environments)
-- `publicWrite: true` and `publicRead: true` are set on the planix register via `lib/Settings/PlanixSettings.php` to allow project creation for all authenticated users
-- Webpack `output.publicPath` overridden to `/apps-extra/planix/js/` in `webpack.config.js` (app lives in apps-extra, not apps)
-- `NcChip` imported directly from `@nextcloud/vue/dist/Components/NcChip.js` (not available in main index in v8.16.0)
 
 ## Standards
 
