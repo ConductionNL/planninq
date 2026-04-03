@@ -3,7 +3,7 @@
   "info": {
     "title": "Planix Register",
     "description": "Register containing all schemas for the Planix application.",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "x-openregister": {
     "type": "application",
@@ -13,30 +13,530 @@
   },
   "paths": {},
   "components": {
+    "registers": {
+      "planix": {
+        "title": "Planix",
+        "description": "Planix application data register — tasks, projects, columns, time entries, and labels.",
+        "slug": "planix",
+        "version": "0.2.0",
+        "schemas": ["task", "project", "column", "timeEntry", "label"],
+        "tablePrefix": "planix",
+        "folder": "planix"
+      }
+    },
     "schemas": {
-      "example": {
-        "slug": "example",
-        "icon": "FileDocumentOutline",
+      "task": {
+        "slug": "task",
+        "icon": "CheckboxMarkedOutline",
         "version": "0.1.0",
-        "title": "Example",
-        "description": "Example schema — replace with your app's actual schemas.",
+        "title": "Task",
+        "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "type": "object",
-        "required": [
-          "title"
-        ],
+        "required": ["title", "status"],
         "properties": {
           "title": {
             "type": "string",
-            "description": "The title of the example object",
-            "example": "My example"
+            "description": "Short title of the task"
           },
           "description": {
             "type": "string",
-            "description": "An optional description",
-            "example": "This is an example"
+            "description": "Detailed description"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current lifecycle status",
+            "enum": ["open", "in_progress", "blocked", "done", "cancelled"],
+            "default": "open"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority level",
+            "enum": ["low", "normal", "high", "urgent"],
+            "default": "normal"
+          },
+          "project": {
+            "type": "string",
+            "description": "UUID of the parent Project",
+            "format": "uuid"
+          },
+          "zaakUuid": {
+            "type": "string",
+            "description": "UUID of a linked Procest zaak",
+            "format": "uuid",
+            "nullable": true
+          },
+          "column": {
+            "type": "string",
+            "description": "UUID of the kanban Column (null = backlog)",
+            "format": "uuid",
+            "nullable": true
+          },
+          "columnOrder": {
+            "type": "integer",
+            "description": "Sort order within the column",
+            "default": 0
+          },
+          "assignedTo": {
+            "type": "string",
+            "description": "Nextcloud user UID of the assignee"
+          },
+          "dueDate": {
+            "type": "string",
+            "description": "Due date in ISO 8601 format",
+            "format": "date"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date in ISO 8601 format",
+            "format": "date"
+          },
+          "estimatedDuration": {
+            "type": "integer",
+            "description": "Estimated effort in minutes"
+          },
+          "percentComplete": {
+            "type": "integer",
+            "description": "Completion percentage (0\u2013100)",
+            "minimum": 0,
+            "maximum": 100,
+            "default": 0
+          },
+          "labels": {
+            "type": "array",
+            "description": "UUIDs of linked Label objects",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "default": []
+          },
+          "parent": {
+            "type": "string",
+            "description": "UUID of the parent Task (sub-task support)",
+            "format": "uuid",
+            "nullable": true
+          },
+          "calendarEventUid": {
+            "type": "string",
+            "description": "UID of the linked NC Tasks / CalDAV VTODO event",
+            "nullable": true
+          },
+          "completedAt": {
+            "type": "string",
+            "description": "ISO 8601 datetime when the task was completed",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "project": {
+        "slug": "project",
+        "icon": "FolderOutline",
+        "version": "0.1.0",
+        "title": "Project",
+        "description": "A container grouping related tasks and kanban columns. Maps to schema:CreativeWork.",
+        "type": "object",
+        "required": ["title", "status"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Project name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Purpose and scope of the project"
+          },
+          "status": {
+            "type": "string",
+            "description": "Project lifecycle status",
+            "enum": ["active", "archived", "completed"],
+            "default": "active"
+          },
+          "color": {
+            "type": "string",
+            "description": "Hex colour code for visual identification",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "icon": {
+            "type": "string",
+            "description": "Emoji or MDI icon name"
+          },
+          "members": {
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "defaultAssignee": {
+            "type": "string",
+            "description": "Nextcloud user UID who receives new tasks by default"
+          },
+          "caseReference": {
+            "type": "string",
+            "description": "UUID of a linked Procest case",
+            "format": "uuid",
+            "nullable": true
+          },
+          "labels": {
+            "type": "array",
+            "description": "UUIDs of Label objects available within this project",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "default": []
+          }
+        }
+      },
+      "column": {
+        "slug": "column",
+        "icon": "ViewColumnOutline",
+        "version": "0.1.0",
+        "title": "Column",
+        "description": "A kanban column belonging to a project. Maps to schema:DefinedTerm.",
+        "type": "object",
+        "required": ["title", "project", "order"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Column heading (e.g. 'In Progress')"
+          },
+          "project": {
+            "type": "string",
+            "description": "UUID of the parent Project",
+            "format": "uuid"
+          },
+          "order": {
+            "type": "integer",
+            "description": "Left-to-right display order (0-based)",
+            "default": 0
+          },
+          "wipLimit": {
+            "type": "integer",
+            "description": "Work-in-progress limit (null = unlimited)",
+            "nullable": true
+          },
+          "color": {
+            "type": "string",
+            "description": "Hex colour code for the column header",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "type": {
+            "type": "string",
+            "description": "Functional type: active columns hold in-flight work; done columns auto-complete tasks",
+            "enum": ["active", "done"],
+            "default": "active"
+          }
+        }
+      },
+      "timeEntry": {
+        "slug": "timeEntry",
+        "icon": "TimerOutline",
+        "version": "0.1.0",
+        "title": "Time Entry",
+        "description": "Time logged by a user against a task. Maps to schema:QuantitativeValue.",
+        "type": "object",
+        "required": ["task", "user", "duration", "date"],
+        "properties": {
+          "task": {
+            "type": "string",
+            "description": "UUID of the related Task",
+            "format": "uuid"
+          },
+          "user": {
+            "type": "string",
+            "description": "Nextcloud user UID of the person who logged the time"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Time logged in minutes"
+          },
+          "date": {
+            "type": "string",
+            "description": "Date the work was performed (ISO 8601)",
+            "format": "date"
+          },
+          "description": {
+            "type": "string",
+            "description": "Optional note about the work performed"
+          }
+        }
+      },
+      "label": {
+        "slug": "label",
+        "icon": "TagOutline",
+        "version": "0.1.0",
+        "title": "Label",
+        "description": "A colour-coded tag applicable to tasks and projects. Maps to schema:DefinedTerm.",
+        "type": "object",
+        "required": ["title", "color"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Label display name"
+          },
+          "color": {
+            "type": "string",
+            "description": "Hex colour for the label chip",
+            "pattern": "^#[0-9A-Fa-f]{6}$",
+            "default": "#4376FC"
+          },
+          "description": {
+            "type": "string",
+            "description": "Optional explanation of when to use this label"
           }
         }
       }
-    }
+    },
+    "objects": [
+      {
+        "@self": { "register": "planix", "schema": "label", "slug": "bug", "id": "00000000-0000-4000-c000-000000000001" },
+        "title": "Bug",
+        "color": "#E74C3C",
+        "description": "Something is broken and needs fixing"
+      },
+      {
+        "@self": { "register": "planix", "schema": "label", "slug": "feature", "id": "00000000-0000-4000-c000-000000000002" },
+        "title": "Feature",
+        "color": "#4376FC",
+        "description": "New functionality"
+      },
+      {
+        "@self": { "register": "planix", "schema": "label", "slug": "docs", "id": "00000000-0000-4000-c000-000000000003" },
+        "title": "Docs",
+        "color": "#27AE60",
+        "description": "Documentation update"
+      },
+      {
+        "@self": { "register": "planix", "schema": "label", "slug": "design", "id": "00000000-0000-4000-c000-000000000004" },
+        "title": "Design",
+        "color": "#9B59B6",
+        "description": "UI/UX work"
+      },
+      {
+        "@self": { "register": "planix", "schema": "label", "slug": "infrastructure", "id": "00000000-0000-4000-c000-000000000005" },
+        "title": "Infrastructure",
+        "color": "#F39C12",
+        "description": "DevOps, deployment, and server work"
+      },
+      {
+        "@self": { "register": "planix", "schema": "project", "slug": "client-portal-v2", "id": "00000000-0000-4000-a000-000000000001" },
+        "title": "Client Portal v2",
+        "description": "Redesign and rebuild the self-service client portal using NL Design System components.",
+        "status": "active",
+        "color": "#4376FC",
+        "icon": "\ud83c\udf10",
+        "members": ["admin", "jdoe", "mvanderberg"],
+        "defaultAssignee": "jdoe"
+      },
+      {
+        "@self": { "register": "planix", "schema": "project", "slug": "infrastructure-migration", "id": "00000000-0000-4000-a000-000000000002" },
+        "title": "Infrastructure Migration",
+        "description": "Migrate on-premise services to managed Kubernetes cluster before Q3.",
+        "status": "active",
+        "color": "#F39C12",
+        "icon": "\u2601\ufe0f",
+        "members": ["admin", "ksmits"],
+        "defaultAssignee": "ksmits"
+      },
+      {
+        "@self": { "register": "planix", "schema": "project", "slug": "onboarding-automation", "id": "00000000-0000-4000-a000-000000000003" },
+        "title": "Onboarding Automation",
+        "description": "Automate new-employee onboarding workflows via n8n and Nextcloud.",
+        "status": "active",
+        "color": "#27AE60",
+        "icon": "\ud83e\udd1d",
+        "members": ["admin", "jdoe", "mvanderberg", "ksmits"],
+        "defaultAssignee": "admin"
+      },
+      {
+        "@self": { "register": "planix", "schema": "column", "slug": "portal-todo", "id": "00000000-0000-4000-b000-000000000001" },
+        "title": "To Do",
+        "project": "00000000-0000-4000-a000-000000000001",
+        "order": 0,
+        "wipLimit": null,
+        "type": "active"
+      },
+      {
+        "@self": { "register": "planix", "schema": "column", "slug": "portal-in-progress", "id": "00000000-0000-4000-b000-000000000002" },
+        "title": "In Progress",
+        "project": "00000000-0000-4000-a000-000000000001",
+        "order": 1,
+        "wipLimit": 3,
+        "type": "active"
+      },
+      {
+        "@self": { "register": "planix", "schema": "column", "slug": "portal-review", "id": "00000000-0000-4000-b000-000000000003" },
+        "title": "Review",
+        "project": "00000000-0000-4000-a000-000000000001",
+        "order": 2,
+        "wipLimit": 2,
+        "type": "active"
+      },
+      {
+        "@self": { "register": "planix", "schema": "column", "slug": "portal-done", "id": "00000000-0000-4000-b000-000000000004" },
+        "title": "Done",
+        "project": "00000000-0000-4000-a000-000000000001",
+        "order": 3,
+        "wipLimit": null,
+        "type": "done"
+      },
+      {
+        "@self": { "register": "planix", "schema": "column", "slug": "infra-todo", "id": "00000000-0000-4000-b000-000000000005" },
+        "title": "To Do",
+        "project": "00000000-0000-4000-a000-000000000002",
+        "order": 0,
+        "wipLimit": null,
+        "type": "active"
+      },
+      {
+        "@self": { "register": "planix", "schema": "column", "slug": "infra-in-progress", "id": "00000000-0000-4000-b000-000000000006" },
+        "title": "In Progress",
+        "project": "00000000-0000-4000-a000-000000000002",
+        "order": 1,
+        "wipLimit": 3,
+        "type": "active"
+      },
+      {
+        "@self": { "register": "planix", "schema": "column", "slug": "infra-review", "id": "00000000-0000-4000-b000-000000000007" },
+        "title": "Review",
+        "project": "00000000-0000-4000-a000-000000000002",
+        "order": 2,
+        "wipLimit": 2,
+        "type": "active"
+      },
+      {
+        "@self": { "register": "planix", "schema": "column", "slug": "infra-done", "id": "00000000-0000-4000-b000-000000000008" },
+        "title": "Done",
+        "project": "00000000-0000-4000-a000-000000000002",
+        "order": 3,
+        "wipLimit": null,
+        "type": "done"
+      },
+      {
+        "@self": { "register": "planix", "schema": "column", "slug": "onboard-todo", "id": "00000000-0000-4000-b000-000000000009" },
+        "title": "To Do",
+        "project": "00000000-0000-4000-a000-000000000003",
+        "order": 0,
+        "wipLimit": null,
+        "type": "active"
+      },
+      {
+        "@self": { "register": "planix", "schema": "column", "slug": "onboard-in-progress", "id": "00000000-0000-4000-b000-000000000010" },
+        "title": "In Progress",
+        "project": "00000000-0000-4000-a000-000000000003",
+        "order": 1,
+        "wipLimit": 3,
+        "type": "active"
+      },
+      {
+        "@self": { "register": "planix", "schema": "column", "slug": "onboard-review", "id": "00000000-0000-4000-b000-000000000011" },
+        "title": "Review",
+        "project": "00000000-0000-4000-a000-000000000003",
+        "order": 2,
+        "wipLimit": 2,
+        "type": "active"
+      },
+      {
+        "@self": { "register": "planix", "schema": "column", "slug": "onboard-done", "id": "00000000-0000-4000-b000-000000000012" },
+        "title": "Done",
+        "project": "00000000-0000-4000-a000-000000000003",
+        "order": 3,
+        "wipLimit": null,
+        "type": "done"
+      },
+      {
+        "@self": { "register": "planix", "schema": "task", "slug": "fix-login-redirect", "id": "00000000-0000-4000-d000-000000000001" },
+        "title": "Fix login page redirect bug",
+        "description": "After OAuth login the user is redirected to / instead of the originally requested page.",
+        "status": "in_progress",
+        "priority": "high",
+        "project": "00000000-0000-4000-a000-000000000001",
+        "column": "00000000-0000-4000-b000-000000000002",
+        "columnOrder": 0,
+        "assignedTo": "jdoe",
+        "dueDate": "2026-04-10",
+        "labels": ["00000000-0000-4000-c000-000000000001"],
+        "percentComplete": 40
+      },
+      {
+        "@self": { "register": "planix", "schema": "task", "slug": "design-dashboard-widgets", "id": "00000000-0000-4000-d000-000000000002" },
+        "title": "Design dashboard widget layout",
+        "description": "Create Figma mockups for the new widget-based dashboard using NL Design System tokens.",
+        "status": "open",
+        "priority": "normal",
+        "project": "00000000-0000-4000-a000-000000000001",
+        "column": "00000000-0000-4000-b000-000000000001",
+        "columnOrder": 0,
+        "assignedTo": "mvanderberg",
+        "dueDate": "2026-04-18",
+        "labels": ["00000000-0000-4000-c000-000000000004"]
+      },
+      {
+        "@self": { "register": "planix", "schema": "task", "slug": "write-api-docs", "id": "00000000-0000-4000-d000-000000000003" },
+        "title": "Write REST API documentation",
+        "description": "Document all public endpoints in OpenAPI 3.0.0 format and publish to developer portal.",
+        "status": "open",
+        "priority": "normal",
+        "project": "00000000-0000-4000-a000-000000000001",
+        "column": "00000000-0000-4000-b000-000000000001",
+        "columnOrder": 1,
+        "assignedTo": "jdoe",
+        "labels": ["00000000-0000-4000-c000-000000000003"],
+        "estimatedDuration": 240
+      },
+      {
+        "@self": { "register": "planix", "schema": "task", "slug": "k8s-namespace-setup", "id": "00000000-0000-4000-d000-000000000004" },
+        "title": "Set up production Kubernetes namespaces",
+        "description": "Create namespaces, resource quotas, and network policies for prod environment.",
+        "status": "open",
+        "priority": "urgent",
+        "project": "00000000-0000-4000-a000-000000000002",
+        "column": "00000000-0000-4000-b000-000000000005",
+        "columnOrder": 0,
+        "assignedTo": "ksmits",
+        "dueDate": "2026-04-07",
+        "labels": ["00000000-0000-4000-c000-000000000005"]
+      },
+      {
+        "@self": { "register": "planix", "schema": "task", "slug": "onboarding-n8n-workflow", "id": "00000000-0000-4000-d000-000000000005" },
+        "title": "Build n8n onboarding workflow",
+        "description": "Create the automated onboarding flow: create NC account, add to groups, send welcome email, generate Planix project.",
+        "status": "open",
+        "priority": "normal",
+        "project": "00000000-0000-4000-a000-000000000003",
+        "column": "00000000-0000-4000-b000-000000000009",
+        "columnOrder": 0,
+        "assignedTo": "admin",
+        "estimatedDuration": 180,
+        "labels": ["00000000-0000-4000-c000-000000000002"]
+      },
+      {
+        "@self": { "register": "planix", "schema": "timeEntry", "slug": "te-fix-login-2026-04-01" },
+        "task": "00000000-0000-4000-d000-000000000001",
+        "user": "jdoe",
+        "duration": 90,
+        "date": "2026-04-01",
+        "description": "Traced redirect issue to missing redirect_uri state parameter in OAuth middleware."
+      },
+      {
+        "@self": { "register": "planix", "schema": "timeEntry", "slug": "te-fix-login-2026-04-02" },
+        "task": "00000000-0000-4000-d000-000000000001",
+        "user": "jdoe",
+        "duration": 60,
+        "date": "2026-04-02",
+        "description": "Implemented fix and wrote unit test."
+      },
+      {
+        "@self": { "register": "planix", "schema": "timeEntry", "slug": "te-k8s-2026-04-01" },
+        "task": "00000000-0000-4000-d000-000000000004",
+        "user": "ksmits",
+        "duration": 45,
+        "date": "2026-04-01",
+        "description": "Drafted namespace YAML manifests for review."
+      }
+    ]
   }
 }
