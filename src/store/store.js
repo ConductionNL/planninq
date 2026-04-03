@@ -1,5 +1,6 @@
 import { generateUrl } from '@nextcloud/router'
 import { useObjectStore } from './modules/object.js'
+import { useObjectStore as useConductionObjectStore } from '@conduction/nextcloud-vue'
 import { useSettingsStore } from './modules/settings.js'
 
 export async function initializeStores() {
@@ -9,6 +10,12 @@ export async function initializeStores() {
 	objectStore.configure({
 		baseUrl: generateUrl('/apps/openregister/api/objects'),
 		schemaBaseUrl: generateUrl('/apps/openregister/api/schemas'),
+	})
+
+	// Configure the @conduction/nextcloud-vue objectStore used by the projects store.
+	const conductionObjectStore = useConductionObjectStore()
+	conductionObjectStore.configure({
+		baseUrl: generateUrl('/apps/openregister/api/objects'),
 	})
 
 	await settingsStore.fetchSettings()

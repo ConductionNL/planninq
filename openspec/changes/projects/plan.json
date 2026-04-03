@@ -1,0 +1,577 @@
+{
+  "change": "projects",
+  "project": "planix",
+  "repo": "ConductionNL/planix",
+  "created": "2026-04-03",
+  "tracking_issue": 4,
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Create directory structure for new files",
+      "description": "Create src/views/, src/store/, src/components/dialogs/, src/navigation/ if they do not exist. Confirm router file at src/router/index.js.",
+      "status": "pending",
+      "spec_ref": "setup",
+      "acceptance_criteria": [
+        "Directories created if not present",
+        "Router file confirmed at src/router/index.js"
+      ],
+      "files_likely_affected": ["src/views/", "src/store/", "src/components/dialogs/", "src/navigation/", "src/router/index.js"]
+    },
+    {
+      "id": 2,
+      "title": "Verify @conduction/nextcloud-vue exports",
+      "description": "Confirm CnListViewLayout, CnDetailPage, CnObjectSidebar, useObjectStore, useListView, useDetailView are exported.",
+      "status": "pending",
+      "spec_ref": "setup",
+      "acceptance_criteria": [
+        "All 6 exports present",
+        "If any missing, ticket opened and local polyfill stub created"
+      ],
+      "files_likely_affected": ["package.json"]
+    },
+    {
+      "id": 3,
+      "title": "Confirm register-schemas is applied",
+      "description": "Verify planix register contains the project schema in OpenRegister.",
+      "status": "pending",
+      "spec_ref": "setup",
+      "acceptance_criteria": [
+        "project schema exists in OpenRegister for planix register"
+      ],
+      "files_likely_affected": []
+    },
+    {
+      "id": 4,
+      "title": "Create src/store/projects.js — base store with useObjectStore",
+      "description": "Create Pinia store useProjectsStore with useObjectStore(register: planix, schema: project). Expose projects, activeProject, loading, error.",
+      "status": "pending",
+      "spec_ref": "store",
+      "acceptance_criteria": [
+        "Store created with correct register and schema",
+        "Reactive state exposed"
+      ],
+      "files_likely_affected": ["src/store/projects.js"]
+    },
+    {
+      "id": 5,
+      "title": "Implement fetchProjects(filters)",
+      "description": "Call objectStore.getObjects with member filtering. Handle loading/error state.",
+      "status": "pending",
+      "spec_ref": "store",
+      "acceptance_criteria": [
+        "Members filtered server-side or client-side with documentation",
+        "Loading and error state handled"
+      ],
+      "files_likely_affected": ["src/store/projects.js"]
+    },
+    {
+      "id": 6,
+      "title": "Implement fetchProject(id)",
+      "description": "Call objectStore.getObject(id). Handle 403 by setting error to forbidden and redirecting.",
+      "status": "pending",
+      "spec_ref": "store",
+      "acceptance_criteria": [
+        "403 sets error to forbidden and redirects to /projects"
+      ],
+      "files_likely_affected": ["src/store/projects.js"]
+    },
+    {
+      "id": 7,
+      "title": "Implement createProject(data)",
+      "description": "POST with status: active and members: [currentUserUid]. Call createDefaultColumns on success.",
+      "status": "pending",
+      "spec_ref": "store",
+      "acceptance_criteria": [
+        "status and members merged into data",
+        "createDefaultColumns called on success",
+        "Error thrown on failure"
+      ],
+      "files_likely_affected": ["src/store/projects.js"]
+    },
+    {
+      "id": 8,
+      "title": "Implement updateProject(id, data)",
+      "description": "Call objectStore.updateObject. Update projects array and activeProject in place.",
+      "status": "pending",
+      "spec_ref": "store",
+      "acceptance_criteria": [
+        "projects array updated in place",
+        "activeProject updated if matching"
+      ],
+      "files_likely_affected": ["src/store/projects.js"]
+    },
+    {
+      "id": 9,
+      "title": "Implement createDefaultColumns(projectId)",
+      "description": "Read default_columns from admin settings with hardcoded fallback. POST each column. Return { created, failed }.",
+      "status": "pending",
+      "spec_ref": "store",
+      "acceptance_criteria": [
+        "Admin settings read with fallback to hardcoded defaults",
+        "Returns { created, failed } without throwing on partial failure"
+      ],
+      "files_likely_affected": ["src/store/projects.js"]
+    },
+    {
+      "id": 10,
+      "title": "Implement archiveProject(id)",
+      "description": "Call updateProject(id, { status: archived }). Remove from projects list.",
+      "status": "pending",
+      "spec_ref": "store",
+      "acceptance_criteria": [
+        "Status updated to archived",
+        "Project removed from list"
+      ],
+      "files_likely_affected": ["src/store/projects.js"]
+    },
+    {
+      "id": 11,
+      "title": "Implement deleteProject(id)",
+      "description": "Cascade delete: timeEntries → tasks → columns → project. Show toast on failure.",
+      "status": "pending",
+      "spec_ref": "store",
+      "acceptance_criteria": [
+        "Deletes in correct order",
+        "Toast shown on failure, cascade halted"
+      ],
+      "files_likely_affected": ["src/store/projects.js"]
+    },
+    {
+      "id": 12,
+      "title": "Implement addMember(projectId, userUid)",
+      "description": "Append uid to members[] with duplicate guard.",
+      "status": "pending",
+      "spec_ref": "store",
+      "acceptance_criteria": [
+        "Duplicate UIDs prevented"
+      ],
+      "files_likely_affected": ["src/store/projects.js"]
+    },
+    {
+      "id": 13,
+      "title": "Implement removeMember(projectId, userUid)",
+      "description": "Filter out uid from members[]. Return count of tasks assigned to uid in this project.",
+      "status": "pending",
+      "spec_ref": "store",
+      "acceptance_criteria": [
+        "UID removed from members",
+        "Returns assigned task count for warning dialog"
+      ],
+      "files_likely_affected": ["src/store/projects.js"]
+    },
+    {
+      "id": 14,
+      "title": "Implement leaveProject(projectId)",
+      "description": "Call removeMember for currentUser. Return { isLastMember: true } if members would become empty.",
+      "status": "pending",
+      "spec_ref": "store",
+      "acceptance_criteria": [
+        "Returns isLastMember: true without removing if last member"
+      ],
+      "files_likely_affected": ["src/store/projects.js"]
+    },
+    {
+      "id": 15,
+      "title": "Create src/views/ProjectList.vue",
+      "description": "CnListViewLayout with useListView. Calls fetchProjects on mount.",
+      "status": "pending",
+      "spec_ref": "list-view",
+      "acceptance_criteria": [
+        "Layout and data binding with loading and error states"
+      ],
+      "files_likely_affected": ["src/views/ProjectList.vue"]
+    },
+    {
+      "id": 16,
+      "title": "Create src/components/ProjectListItem.vue",
+      "description": "Renders color swatch, icon, title, member count badge, status chip. CSS variables only.",
+      "status": "pending",
+      "spec_ref": "list-view",
+      "acceptance_criteria": [
+        "All fields rendered",
+        "No hardcoded colors"
+      ],
+      "files_likely_affected": ["src/components/ProjectListItem.vue"]
+    },
+    {
+      "id": 17,
+      "title": "Add search filter (debounced 300 ms)",
+      "description": "Computed property filters projects by title and description. Does not mutate store.",
+      "status": "pending",
+      "spec_ref": "list-view",
+      "acceptance_criteria": [
+        "Debounced 300ms",
+        "Computed only, no store mutation"
+      ],
+      "files_likely_affected": ["src/views/ProjectList.vue"]
+    },
+    {
+      "id": 18,
+      "title": "Add status filter chips",
+      "description": "Active/Archived/Completed chips using NcChip. Maps to status query param.",
+      "status": "pending",
+      "spec_ref": "list-view",
+      "acceptance_criteria": [
+        "NcChip used",
+        "Maps to fetchProjects status param"
+      ],
+      "files_likely_affected": ["src/views/ProjectList.vue"]
+    },
+    {
+      "id": 19,
+      "title": "Add empty state with NcEmptyContent",
+      "description": "No projects yet + create action. Separate message for no search results.",
+      "status": "pending",
+      "spec_ref": "list-view",
+      "acceptance_criteria": [
+        "Empty state shown when no projects",
+        "Separate message for filtered empty state"
+      ],
+      "files_likely_affected": ["src/views/ProjectList.vue"]
+    },
+    {
+      "id": 20,
+      "title": "Add New project button",
+      "description": "NcButton type primary opens ProjectCreationDialog.",
+      "status": "pending",
+      "spec_ref": "list-view",
+      "acceptance_criteria": [
+        "Button enabled during list loading",
+        "Opens creation dialog"
+      ],
+      "files_likely_affected": ["src/views/ProjectList.vue"]
+    },
+    {
+      "id": 21,
+      "title": "Create src/components/dialogs/ProjectCreationDialog.vue",
+      "description": "NcDialog with Title (required), Description, Color, Icon fields.",
+      "status": "pending",
+      "spec_ref": "creation",
+      "acceptance_criteria": [
+        "All fields present",
+        "Calls projectsStore.createProject on submit"
+      ],
+      "files_likely_affected": ["src/components/dialogs/ProjectCreationDialog.vue"]
+    },
+    {
+      "id": 22,
+      "title": "Implement form validation",
+      "description": "Submit disabled until title non-empty. Inline error on blur.",
+      "status": "pending",
+      "spec_ref": "creation",
+      "acceptance_criteria": [
+        "Submit disabled when title empty",
+        "Inline error on focus-blur with empty title"
+      ],
+      "files_likely_affected": ["src/components/dialogs/ProjectCreationDialog.vue"]
+    },
+    {
+      "id": 23,
+      "title": "Implement loading state during creation",
+      "description": "Spinner on submit button; button disabled; dialog close prevented.",
+      "status": "pending",
+      "spec_ref": "creation",
+      "acceptance_criteria": [
+        "Spinner shown during loading",
+        "Dialog cannot be closed during loading"
+      ],
+      "files_likely_affected": ["src/components/dialogs/ProjectCreationDialog.vue"]
+    },
+    {
+      "id": 24,
+      "title": "Handle creation success",
+      "description": "Close dialog, success toast, navigate to /projects/{newId}. Warning toast for partial column failures.",
+      "status": "pending",
+      "spec_ref": "creation",
+      "acceptance_criteria": [
+        "Dialog closed on success",
+        "Navigation to new project",
+        "Warning toast if column creation partial failure"
+      ],
+      "files_likely_affected": ["src/components/dialogs/ProjectCreationDialog.vue"]
+    },
+    {
+      "id": 25,
+      "title": "Handle creation error",
+      "description": "Error toast shown; dialog stays open; field values preserved.",
+      "status": "pending",
+      "spec_ref": "creation",
+      "acceptance_criteria": [
+        "Dialog stays open on error",
+        "Field values preserved"
+      ],
+      "files_likely_affected": ["src/components/dialogs/ProjectCreationDialog.vue"]
+    },
+    {
+      "id": 26,
+      "title": "Create src/views/ProjectBoard.vue",
+      "description": "CnDetailPage shell with header. Placeholder content + View Backlog link. Calls fetchProject on mount.",
+      "status": "pending",
+      "spec_ref": "detail",
+      "acceptance_criteria": [
+        "Header shows title, icon, color, gear icon",
+        "fetchProject called on mount"
+      ],
+      "files_likely_affected": ["src/views/ProjectBoard.vue"]
+    },
+    {
+      "id": 27,
+      "title": "Handle 403 in ProjectBoard.vue",
+      "description": "Access-denied NcEmptyContent shown. No project data or gear icon exposed.",
+      "status": "pending",
+      "spec_ref": "detail",
+      "acceptance_criteria": [
+        "Access-denied state shown when error is forbidden"
+      ],
+      "files_likely_affected": ["src/views/ProjectBoard.vue"]
+    },
+    {
+      "id": 28,
+      "title": "Create src/views/ProjectBacklog.vue",
+      "description": "Placeholder NcEmptyContent with breadcrumb using CnDetailPage shell.",
+      "status": "pending",
+      "spec_ref": "detail",
+      "acceptance_criteria": [
+        "Breadcrumb: Projects > {title} > Backlog"
+      ],
+      "files_likely_affected": ["src/views/ProjectBacklog.vue"]
+    },
+    {
+      "id": 29,
+      "title": "Create src/components/ProjectSettingsSidebar.vue",
+      "description": "CnObjectSidebar with Details, Members, and Danger Zone sections.",
+      "status": "pending",
+      "spec_ref": "detail",
+      "acceptance_criteria": [
+        "Details section with all fields",
+        "Members section with search and remove",
+        "Danger Zone with archive and delete"
+      ],
+      "files_likely_affected": ["src/components/ProjectSettingsSidebar.vue"]
+    },
+    {
+      "id": 30,
+      "title": "Implement immediate metadata reflection after save",
+      "description": "Page header and breadcrumb update without route reload. projectsStore.projects updated.",
+      "status": "pending",
+      "spec_ref": "detail",
+      "acceptance_criteria": [
+        "No full route reload on save",
+        "List view reflects change if navigated back"
+      ],
+      "files_likely_affected": ["src/views/ProjectBoard.vue", "src/store/projects.js"]
+    },
+    {
+      "id": 31,
+      "title": "Create src/components/MemberSearch.vue",
+      "description": "Input calls Nextcloud Users API. Dropdown of results. Calls addMember on select.",
+      "status": "pending",
+      "spec_ref": "members",
+      "acceptance_criteria": [
+        "Calls /ocs/v2.php/cloud/users?search=...",
+        "Prevents adding existing members"
+      ],
+      "files_likely_affected": ["src/components/MemberSearch.vue"]
+    },
+    {
+      "id": 32,
+      "title": "Implement member removal with assigned-task warning",
+      "description": "Fetch assigned task count before removing. Show warning if count > 0. Require second click.",
+      "status": "pending",
+      "spec_ref": "members",
+      "acceptance_criteria": [
+        "Inline warning shown if assigned tasks exist",
+        "Second click required to confirm"
+      ],
+      "files_likely_affected": ["src/components/ProjectSettingsSidebar.vue"]
+    },
+    {
+      "id": 33,
+      "title": "Create src/components/dialogs/ProjectLeaveDialog.vue",
+      "description": "Confirmation dialog for leaving. Last-member warning included. Explicit confirmation required.",
+      "status": "pending",
+      "spec_ref": "members",
+      "acceptance_criteria": [
+        "Last-member warning shown when applicable",
+        "Explicit confirmation always required"
+      ],
+      "files_likely_affected": ["src/components/dialogs/ProjectLeaveDialog.vue"]
+    },
+    {
+      "id": 34,
+      "title": "Create src/components/dialogs/ProjectDeleteDialog.vue",
+      "description": "Shows task count on open. Red confirm button. Calls deleteProject on confirm.",
+      "status": "pending",
+      "spec_ref": "deletion",
+      "acceptance_criteria": [
+        "Task count fetched and displayed on open",
+        "Confirm button uses NcButton type error"
+      ],
+      "files_likely_affected": ["src/components/dialogs/ProjectDeleteDialog.vue"]
+    },
+    {
+      "id": 35,
+      "title": "Post-delete navigation",
+      "description": "Navigate to /projects with success toast after delete.",
+      "status": "pending",
+      "spec_ref": "deletion",
+      "acceptance_criteria": [
+        "Navigates to /projects on success",
+        "Success toast shown"
+      ],
+      "files_likely_affected": ["src/views/ProjectBoard.vue"]
+    },
+    {
+      "id": 36,
+      "title": "Add routes to src/router/index.js",
+      "description": "Add /projects, /projects/:id, /projects/:id/backlog routes with dynamic imports.",
+      "status": "pending",
+      "spec_ref": "routing",
+      "acceptance_criteria": [
+        "All three routes added with dynamic imports"
+      ],
+      "files_likely_affected": ["src/router/index.js"]
+    },
+    {
+      "id": 37,
+      "title": "Add Projects entry to src/navigation/MainMenu.vue",
+      "description": "NcAppNavigationItem with label, FolderOutline icon, router link. First nav item.",
+      "status": "pending",
+      "spec_ref": "routing",
+      "acceptance_criteria": [
+        "Active state set automatically by Vue Router"
+      ],
+      "files_likely_affected": ["src/navigation/MainMenu.vue"]
+    },
+    {
+      "id": 38,
+      "title": "Add PHP routes to appinfo/routes.php",
+      "description": "Page controller routes for /projects, /projects/{id}, /projects/{id}/backlog.",
+      "status": "pending",
+      "spec_ref": "routing",
+      "acceptance_criteria": [
+        "SPA shell served for all /projects* paths"
+      ],
+      "files_likely_affected": ["appinfo/routes.php"]
+    },
+    {
+      "id": 39,
+      "title": "Filter project list by current user membership",
+      "description": "Server-side filtering preferred; client-side fallback documented.",
+      "status": "pending",
+      "spec_ref": "access-control",
+      "acceptance_criteria": [
+        "Only member projects shown",
+        "Fallback documented if server-side unavailable"
+      ],
+      "files_likely_affected": ["src/store/projects.js"]
+    },
+    {
+      "id": 40,
+      "title": "Guard /projects/:id route against non-members",
+      "description": "Show access-denied state (not silent redirect) if user not in members[].",
+      "status": "pending",
+      "spec_ref": "access-control",
+      "acceptance_criteria": [
+        "Access-denied message shown",
+        "No silent redirect"
+      ],
+      "files_likely_affected": ["src/views/ProjectBoard.vue"]
+    },
+    {
+      "id": 41,
+      "title": "Add all project strings to l10n/en.json",
+      "description": "All t('planix', '...') strings from design.md added.",
+      "status": "pending",
+      "spec_ref": "i18n",
+      "acceptance_criteria": [
+        "All strings present with exact key from code"
+      ],
+      "files_likely_affected": ["l10n/en.json"]
+    },
+    {
+      "id": 42,
+      "title": "Add Dutch translations to l10n/nl.json",
+      "description": "All strings translated. Key translations: Projects→Projecten, New project→Nieuw project, etc.",
+      "status": "pending",
+      "spec_ref": "i18n",
+      "acceptance_criteria": [
+        "All strings in human-readable Dutch",
+        "Key translations verified"
+      ],
+      "files_likely_affected": ["l10n/nl.json"]
+    },
+    {
+      "id": 43,
+      "title": "Manual smoke test — project list",
+      "description": "Navigate to Planix, confirm Projects nav entry, 3 seed projects, search filtering.",
+      "status": "pending",
+      "spec_ref": "testing",
+      "acceptance_criteria": ["Projects nav appears", "3 seed projects shown", "Search filters correctly"],
+      "files_likely_affected": []
+    },
+    {
+      "id": 44,
+      "title": "Manual smoke test — project creation",
+      "description": "Create project from dialog. Confirm appears in list. Confirm 4 default columns created.",
+      "status": "pending",
+      "spec_ref": "testing",
+      "acceptance_criteria": ["Project appears in list", "4 default columns created in OpenRegister"],
+      "files_likely_affected": []
+    },
+    {
+      "id": 45,
+      "title": "Manual smoke test — project settings",
+      "description": "Edit title and color; confirm immediate reflection. Add/remove members; confirm warning for assigned tasks.",
+      "status": "pending",
+      "spec_ref": "testing",
+      "acceptance_criteria": ["Header updates immediately", "Member management works", "Warning shown for assigned tasks"],
+      "files_likely_affected": []
+    },
+    {
+      "id": 46,
+      "title": "Manual smoke test — archive and delete",
+      "description": "Archive a project; confirm it disappears from default list. Delete with tasks; confirm count and cascade.",
+      "status": "pending",
+      "spec_ref": "testing",
+      "acceptance_criteria": ["Archived project hidden", "Deletion cascade verified"],
+      "files_likely_affected": []
+    },
+    {
+      "id": 47,
+      "title": "Manual smoke test — access control",
+      "description": "Log in as non-member. Confirm no projects in list. Navigate directly to /projects/{id}; confirm access-denied state.",
+      "status": "pending",
+      "spec_ref": "testing",
+      "acceptance_criteria": ["No projects shown for non-member", "Access-denied state shown for direct URL"],
+      "files_likely_affected": []
+    },
+    {
+      "id": 48,
+      "title": "Run ESLint",
+      "description": "npm run lint in Planix directory. Fix all errors and warnings from this change.",
+      "status": "pending",
+      "spec_ref": "testing",
+      "acceptance_criteria": ["Zero ESLint errors from this change"],
+      "files_likely_affected": []
+    },
+    {
+      "id": 49,
+      "title": "Run composer check:strict",
+      "description": "Fix any PHPCS, PHPMD, Psalm, PHPStan issues introduced by this change.",
+      "status": "pending",
+      "spec_ref": "testing",
+      "acceptance_criteria": ["composer check:strict passes"],
+      "files_likely_affected": ["appinfo/routes.php"]
+    },
+    {
+      "id": 50,
+      "title": "Verify WCAG AA compliance for new components",
+      "description": "Color swatches have aria-label; keyboard navigation; dialogs trap focus; contrast ratios meet WCAG AA.",
+      "status": "pending",
+      "spec_ref": "testing",
+      "acceptance_criteria": ["All accessibility requirements met"],
+      "files_likely_affected": []
+    }
+  ]
+}

@@ -27,6 +27,8 @@
 			<NcAppContent>
 				<router-view />
 			</NcAppContent>
+			<!-- Sidebar outlet: views inject their sidebar component here -->
+			<component :is="activeSidebar" v-if="activeSidebar" @close="activeSidebar = null" />
 		</template>
 		<NcAppContent v-else>
 			<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
@@ -54,9 +56,23 @@ export default {
 		MainMenu,
 	},
 
+	provide() {
+		return {
+			// Views can call this.setSidebar(componentDefinition) to render a sidebar.
+			setSidebar: (component) => {
+				this.activeSidebar = component
+			},
+			closeSidebar: () => {
+				this.activeSidebar = null
+			},
+		}
+	},
+
 	data() {
 		return {
 			storesReady: false,
+			/** @type {object|null} Active sidebar component definition */
+			activeSidebar: null,
 		}
 	},
 
