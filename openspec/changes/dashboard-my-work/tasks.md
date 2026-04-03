@@ -230,6 +230,39 @@
 
 ---
 
+### Task 14: BUG — KPI Cards Missing Accessibility Roles (from test-app 2026-04-04)
+- **spec_ref**: `openspec/changes/dashboard-my-work/specs/dashboard-my-work/spec.md#requirement-kpi-card-component`
+- **files**: `src/components/KpiCard.vue`
+- **acceptance_criteria**:
+  - GIVEN a `KpiCard` component WHEN inspected in the DOM THEN the root element has `role="button"` and `aria-label="{label}: {count}"` (e.g., `aria-label="Overdue: 3"`)
+  - GIVEN a screen reader user navigates the dashboard WHEN they reach a KPI card THEN the card is announced as a button with its label and count
+  - GIVEN a keyboard user presses Tab WHEN focus reaches a KPI card THEN it receives visible focus and Enter/Space triggers the click handler
+- **bug_details**: Accessibility test agent found that clickable KPI cards lack `role="button"` and `aria-label` attributes. Screen readers cannot announce them as interactive elements. This is a WCAG 4.1.2 (Name, Role, Value) violation.
+- **severity**: MEDIUM
+- [ ] Add `role="button"` to the KpiCard root element
+- [ ] Add `aria-label` computed as `t('planix', '{label}: {count}', { label, count })`
+- [ ] Add `tabindex="0"` if not already focusable
+- [ ] Ensure `@keyup.enter` and `@keyup.space` trigger the same click handler
+- [ ] Test with keyboard navigation
+
+---
+
+### Task 15: BUG — Dashboard Images Missing Alt Text (from test-app 2026-04-04)
+- **spec_ref**: `openspec/changes/dashboard-my-work/specs/dashboard-my-work/spec.md`
+- **files**: `src/views/DashboardView.vue`, `src/components/DashboardRecentProjects.vue`, `src/components/DashboardDueThisWeek.vue`
+- **acceptance_criteria**:
+  - GIVEN any image or icon in the dashboard views WHEN inspected THEN decorative images have `aria-hidden="true"` and functional images have meaningful `alt` text
+  - GIVEN a screen reader user navigates the dashboard WHEN they encounter navigation icons (dashboard.svg, app.svg) THEN decorative icons are skipped and functional icons are announced
+- **bug_details**: Accessibility test agent found 15 images across the dashboard without alt text, including navigation icons (dashboard.svg, app.svg) and decorative elements. This is a WCAG 1.1.1 (Non-text Content) violation. Note: some of these images may be in shared navigation components rather than dashboard-specific code — fix what's in scope for this change and flag any shared component issues.
+- **severity**: MEDIUM
+- [ ] Audit all `<img>` and `<NcIconSvgWrapper>` elements in dashboard components
+- [ ] Add `alt=""` and `aria-hidden="true"` to decorative images/icons
+- [ ] Add meaningful `alt` text to functional images (e.g., project icons)
+- [ ] For shared Nextcloud navigation icons outside this change's scope: document as a known issue
+- [ ] Test
+
+---
+
 ## Verification
 - [ ] All tasks checked off
 - [ ] Manual testing against acceptance criteria

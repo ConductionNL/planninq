@@ -273,6 +273,51 @@
 
 ---
 
+### Task 14: BUG — Fix /api/health and /api/metrics Endpoints (from test-app 2026-04-04)
+- **spec_ref**: `openspec/specs/admin-user-settings.md`
+- **files**: `lib/Controller/SettingsController.php`, `appinfo/routes.php`
+- **acceptance_criteria**:
+  - GIVEN an authenticated user calls `GET /index.php/apps/planix/api/health` WHEN the controller handles the request THEN HTTP 200 is returned with a JSON health status (not 500)
+  - GIVEN an authenticated user calls `GET /index.php/apps/planix/api/metrics` WHEN the controller handles the request THEN HTTP 200 is returned with a JSON metrics object (not 500)
+- **bug_details**: API test agent found both `/api/health` and `/api/metrics` return HTTP 500 Internal Server Error. Either the routes are not defined, the controller actions throw unhandled exceptions, or required dependencies are not injected.
+- **severity**: MEDIUM
+- [ ] Check if `/api/health` and `/api/metrics` routes exist in `appinfo/routes.php`
+- [ ] If routes exist: check the controller action for unhandled exceptions or missing dependencies
+- [ ] If routes don't exist: either add them or remove them from the app (if not part of the spec)
+- [ ] Test
+
+---
+
+### Task 15: BUG — Admin Settings Route Returns 404 (from test-app 2026-04-04)
+- **spec_ref**: `openspec/changes/admin-user-settings/specs/admin-user-settings/spec.md#requirement-admin-settings-vue-mount`
+- **files**: `lib/Settings/AdminSettings.php`, `lib/AppInfo/Application.php`
+- **acceptance_criteria**:
+  - GIVEN an admin navigates to `/settings/admin/planix` WHEN the page loads THEN the Planix admin settings panel renders (not a 404)
+  - GIVEN `AdminSettings.php` WHEN registered in `Application.php` THEN it is registered via `ISettingsManager::registerSettings()`
+- **bug_details**: All test agents found that `/settings/admin/planix` returns 404. The app has an internal settings page at `/index.php/apps/planix/settings`, but the standard Nextcloud admin settings integration is missing.
+- **severity**: MEDIUM
+- [ ] Verify `AdminSettings.php` implements `ISettings` and is registered in `Application.php` via `$context->registerSettings()`
+- [ ] Check that the section ID matches `planix` and the priority is set correctly
+- [ ] If AdminSettings.php doesn't exist yet: this is expected and will be implemented in Task 6-7 of this change
+- [ ] Test
+
+---
+
+### Task 16: BUG — Settings Form Labels Use div Instead of label Elements (from test-app 2026-04-04)
+- **spec_ref**: `openspec/changes/admin-user-settings/specs/admin-user-settings/spec.md#requirement-ncappsettingsdialog-layout`
+- **files**: `src/views/settings/AdminSettings.vue`, `src/views/settings/UserSettings.vue`
+- **acceptance_criteria**:
+  - GIVEN any form field in admin or user settings WHEN inspected in the DOM THEN it has a proper `<label>` element associated via `for` attribute or wrapping the input
+  - GIVEN a screen reader user navigates the settings form WHEN they tab to an input THEN the label is announced (WCAG 3.3.2)
+- **bug_details**: Accessibility test agent found that configuration labels in the settings views use `<div>` elements instead of proper `<label>` elements. This is a WCAG 3.3.2 violation.
+- **severity**: MEDIUM
+- [ ] Audit all form inputs in `AdminSettings.vue` and `UserSettings.vue` for proper `<label>` elements
+- [ ] Replace any `<div>` acting as a label with a `<label for="...">` element
+- [ ] Ensure NcCheckboxRadioSwitch components have proper label text (they handle this internally — verify usage is correct)
+- [ ] Test with keyboard navigation
+
+---
+
 ## Verification
 - [ ] All tasks checked off
 - [ ] Manual testing against acceptance criteria

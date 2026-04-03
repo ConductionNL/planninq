@@ -334,6 +334,36 @@
 
 ---
 
+### Task 20: BUG — Fix Task Status Enum Validation (from test-app 2026-04-04)
+- **spec_ref**: `openspec/specs/tasks.md#requirement-task-crud`
+- **files**: `lib/Settings/planix_register.json`, `src/store/tasks.js`
+- **acceptance_criteria**:
+  - GIVEN a POST to the task collection endpoint with `{ title: "Test", status: "in_progress" }` WHEN the API processes the request THEN it returns HTTP 200/201 (not 400 with "Property 'status' should be one of: , but is 'in_progress'")
+  - GIVEN the `task` schema in `planix_register.json` WHEN the status field enum is inspected THEN it contains all valid values: `["open", "in_progress", "blocked", "done", "cancelled"]`
+- **bug_details**: API test agent found that POST to create a task returns 400: "Property 'status' should be one of: , but is 'in_progress'" — the status enum appears empty or not loading in OpenRegister. This blocks ALL task creation.
+- **severity**: HIGH
+- [ ] Inspect `lib/Settings/planix_register.json` — verify the `status` field on the `task` schema has its enum values populated (not empty array)
+- [ ] If enum values are defined in JSON but not loading: check whether `ConfigurationService::importFromApp()` correctly imports enum constraints, or whether OpenRegister drops them during schema registration
+- [ ] After fix, verify via API: `POST /index.php/apps/openregister/api/objects/task` with `{ title: "Test", status: "open" }` returns 200/201
+- [ ] Test
+
+---
+
+### Task 21: BUG — Support PATCH for Partial Task Updates (from test-app 2026-04-04)
+- **spec_ref**: `openspec/specs/tasks.md#requirement-task-crud`
+- **files**: `src/store/tasks.js`
+- **acceptance_criteria**:
+  - GIVEN an existing task WHEN `updateTask(id, { priority: "high" })` is called THEN only the changed fields are sent (not the entire object)
+  - GIVEN a PUT request with only `{ priority: "high" }` WHEN OpenRegister processes the request THEN it does NOT require all required fields (title, status) to be resent
+- **bug_details**: API test agent found that PUT requires the full object to be resent — sending only changed fields fails because required fields are missing. The store's `updateTask` should either use PATCH (if OpenRegister supports it) or merge changed fields with the existing object before sending PUT.
+- **severity**: MEDIUM
+- [ ] Check if OpenRegister supports PATCH method on object endpoints
+- [ ] If PATCH supported: update `updateTask()` in `src/store/tasks.js` to use PATCH
+- [ ] If PATCH not supported: update `updateTask()` to merge `data` with current task object before sending PUT
+- [ ] Test
+
+---
+
 ## Verification
 - [ ] All tasks checked off
 - [ ] Manual testing against acceptance criteria
