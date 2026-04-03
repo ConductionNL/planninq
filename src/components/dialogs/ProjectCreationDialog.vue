@@ -16,7 +16,7 @@
 						:error="titleTouched && !form.title.trim()"
 						required
 						@update:value="form.title = $event"
-						@blur="titleTouched = true" />
+						@focusout.native="titleTouched = true" />
 					<span
 						v-if="titleTouched && !form.title.trim()"
 						class="project-creation-dialog__error"
@@ -79,7 +79,7 @@
 
 <script>
 import { NcButton, NcDialog, NcTextField, NcTextArea, NcLoadingIcon } from '@nextcloud/vue'
-import { showError } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { useProjectsStore } from '../../store/projects.js'
 
 export default {
@@ -139,6 +139,7 @@ export default {
 					icon: this.form.icon.trim() || undefined,
 				})
 
+				showSuccess(this.t('planix', 'Project created'))
 				this.$emit('created', project)
 
 				// Warn if column creation had partial failures.

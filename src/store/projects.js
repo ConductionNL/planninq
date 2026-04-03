@@ -85,12 +85,10 @@ export const useProjectsStore = defineStore('projects', {
 				const objectStore = this._objectStore()
 				const uid = this._currentUid()
 
-				// Prefer server-side member filtering; fall back to client-side.
+				// Fetch all projects; client-side filter below keeps only member projects.
+				// Note: server-side `members[]` array filter uses PostgreSQL jsonb syntax
+				// which is incompatible with MariaDB — do not pass it as a query param.
 				const params = { ...filters }
-				if (uid) {
-					// OpenRegister supports `?members[]=uid` for array field filtering.
-					params['members[]'] = uid
-				}
 
 				const results = await objectStore.fetchCollection(PROJECT_SCHEMA, params)
 
@@ -101,8 +99,10 @@ export const useProjectsStore = defineStore('projects', {
 
 				return this.projects
 			} catch (err) {
-				this.error = err.message || 'fetch-error'
-				console.error('fetchProjects error:', err)
+				const status = err.response?.status ?? err.status
+				const message = err.response?.data?.message ?? err.message ?? 'fetch-error'
+				this.error = message
+				console.error('fetchProjects error:', { status, message, err })
 				return []
 			} finally {
 				this.loading = false

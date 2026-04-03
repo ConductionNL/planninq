@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { NcChip } from '@nextcloud/vue'
+import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
 
 export default {
 	name: 'ProjectListItem',

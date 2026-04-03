@@ -281,6 +281,8 @@ export default {
 					description: this.form.description.trim() || undefined,
 					color: this.form.color,
 					icon: this.form.icon.trim() || undefined,
+					// Always include existing members so a PATCH/PUT does not wipe them
+					members: Array.isArray(this.project.members) ? this.project.members : [],
 				})
 				showSuccess(this.t('planix', 'Project saved'))
 			} catch {

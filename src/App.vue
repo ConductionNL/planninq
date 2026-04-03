@@ -28,7 +28,12 @@
 				<router-view />
 			</NcAppContent>
 			<!-- Sidebar outlet: views inject their sidebar component here -->
-			<component :is="activeSidebar" v-if="activeSidebar" @close="activeSidebar = null" />
+			<component
+				:is="activeSidebar"
+				v-if="activeSidebar"
+				v-bind="activeSidebar.propsData || {}"
+				v-on="activeSidebar.on || {}"
+				@close="activeSidebar = null" />
 		</template>
 		<NcAppContent v-else>
 			<div style="display: flex; justify-content: center; align-items: center; height: 100%;">

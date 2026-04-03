@@ -99,7 +99,8 @@
 </template>
 
 <script>
-import { NcButton, NcChip, NcTextField, NcLoadingIcon, NcEmptyContent } from '@nextcloud/vue'
+import { NcButton, NcTextField, NcLoadingIcon, NcEmptyContent } from '@nextcloud/vue'
+import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
 import { useListView } from '@conduction/nextcloud-vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
@@ -129,7 +130,9 @@ export default {
 
 	setup() {
 		// useListView manages search term and filter state per spec requirement.
-		const listView = useListView({})
+		// fetchFn is provided as a no-op because filtering is done client-side;
+		// omitting it causes a TypeError in the compiled dist when onSearchInput fires.
+		const listView = useListView({ fetchFn: async () => {} })
 		return { listView }
 	},
 

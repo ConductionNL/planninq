@@ -97,6 +97,7 @@
         "Are you sure you want to leave this project? You will lose access.": "Are you sure you want to leave this project? You will lose access.",
         "Could not leave project": "Could not leave project",
         "This will permanently delete {count} tasks and all their time entries. This cannot be undone.": "This will permanently delete {count} tasks and all their time entries. This cannot be undone.",
+        "Project created": "Project created",
         "Project deleted": "Project deleted",
         "Could not delete project": "Could not delete project",
         "Some columns could not be created: {columns}": "Some columns could not be created: {columns}",

@@ -97,6 +97,7 @@
         "Are you sure you want to leave this project? You will lose access.": "Weet u zeker dat u dit project wilt verlaten? U verliest de toegang.",
         "Could not leave project": "Kon project niet verlaten",
         "This will permanently delete {count} tasks and all their time entries. This cannot be undone.": "Dit zal {count} taken en alle bijbehorende tijdinvoeren definitief verwijderen. Dit kan niet ongedaan worden gemaakt.",
+        "Project created": "Project aangemaakt",
         "Project deleted": "Project verwijderd",
         "Could not delete project": "Kon project niet verwijderen",
         "Some columns could not be created: {columns}": "Sommige kolommen konden niet worden aangemaakt: {columns}",

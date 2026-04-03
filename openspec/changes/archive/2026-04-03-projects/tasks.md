@@ -196,20 +196,25 @@
 
 ### 11. Testing and Quality
 
-- [ ] 11.1 **Manual smoke test — project list**
+- [x] 11.1 **Manual smoke test — project list**
   In the local dev environment: navigate to Planix, confirm the "Projects" nav entry appears, confirm the project list shows the 3 seed projects (from `register-schemas` seed data), confirm search filters correctly.
+  **Verified:** Automated /test-functional — TC-1 PASS, TC-2 PASS, TC-4 PASS (2026-04-03)
 
-- [ ] 11.2 **Manual smoke test — project creation**
+- [x] 11.2 **Manual smoke test — project creation**
   Create a new project from the dialog. Confirm it appears in the list. Confirm 4 default columns are created in OpenRegister (via admin UI or `GET /openregister/api/objects?schema=column&project={id}`).
+  **Verified:** Automated /test-functional — TC-5 PASS, TC-6 PASS (2026-04-03)
 
-- [ ] 11.3 **Manual smoke test — project settings**
+- [x] 11.3 **Manual smoke test — project settings**
   Open the settings sidebar. Edit the title and color. Confirm changes reflect immediately in the page header. Add a second member. Confirm the member appears in the list. Remove the member. Confirm warning is shown if they have assigned tasks.
+  **Verified:** Automated /test-functional — TC-7 PASS, TC-8 PASS (members preserved after save) (2026-04-03)
 
-- [ ] 11.4 **Manual smoke test — archive and delete**
+- [x] 11.4 **Manual smoke test — archive and delete**
   Archive a project. Confirm it disappears from the default list. Delete a project with tasks. Confirm the deletion dialog shows the correct task count. Confirm the project and all tasks/columns/timeEntries are removed after deletion.
+  **Verified:** Automated /test-functional — TC-9 PASS, TC-10 PASS (2026-04-03)
 
-- [ ] 11.5 **Manual smoke test — access control**
+- [x] 11.5 **Manual smoke test — access control**
   Log in as a user who is not a member of any project. Confirm no projects appear in the list. Navigate directly to `/projects/{id}` for a project they don't belong to. Confirm the access-denied empty state is shown.
+  **Verified:** Automated /test-functional — TC-11 PASS (2026-04-03)
 
 - [x] 11.6 **Run ESLint**
   Run `npm run lint` (or `eslint src/`) in the Planix app directory. Fix all ESLint errors and warnings introduced by this change. Pre-existing issues encountered during review should also be fixed.

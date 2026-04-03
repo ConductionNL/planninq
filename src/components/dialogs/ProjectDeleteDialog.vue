@@ -1,8 +1,7 @@
 <template>
 	<NcDialog
 		:name="t('planix', 'Delete project')"
-		:open.sync="open"
-		@close="$emit('close')">
+		@closing="$emit('close')">
 		<template #default>
 			<div class="project-delete-dialog__body">
 				<NcLoadingIcon v-if="countLoading" :size="24" />
@@ -50,7 +49,6 @@ export default {
 
 	data() {
 		return {
-			open: true,
 			loading: false,
 			countLoading: true,
 			taskCount: 0,
