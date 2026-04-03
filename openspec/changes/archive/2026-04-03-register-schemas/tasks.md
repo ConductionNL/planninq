@@ -44,17 +44,17 @@
 - [x] 12. **Remove `example` schema reference from `DeepLinkRegistrationListener`**
   Search `lib/Listener/DeepLinkRegistrationListener.php` (and any other PHP or JS files) for references to the slug `"example"` pointing to the Planix register. Remove or replace those references so no code depends on the deleted schema.
 
-- [ ] 13. **Verify import in local dev environment**
+- [x] 13. **Verify import in local dev environment**
   Boot the Docker dev environment, enable Planix, and confirm via the OpenRegister admin UI or API that:
   - All 5 schemas are present in the `planix` register.
   - All seed objects are created (5 labels, 3 projects, 12 columns, 5 tasks, 3 time entries).
   - The register version stored in `appconfig` matches `0.2.0`.
 
-- [ ] 14. **Verify idempotency — re-import does not create duplicates**
+- [x] 14. **Verify idempotency — re-import does not create duplicates**
   Manually trigger a second import (e.g. by temporarily resetting the stored version in `appconfig`, then reloading the app). Confirm that object counts remain unchanged after the second import.
 
-- [ ] 15. **Verify schema validation**
+- [x] 15. **Verify schema validation**
   Using curl or Postman, send a POST request to the OpenRegister API to create a Task without a `title` field. Confirm HTTP 400 is returned. Repeat with `status: "unknown"` and confirm HTTP 400.
 
-- [ ] 16. **Run `composer check:strict`**
+- [x] 16. **Run `composer check:strict`**
   Run `composer check:strict` in the Planix app directory. Fix any PHPCS, PHPMD, Psalm, or PHPStan issues introduced by or encountered during this change.
