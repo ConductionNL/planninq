@@ -65,4 +65,10 @@ webpackConfig.plugins = [
 // preventing the nextcloud-vue submodule's nested deps (Vue 3) from leaking in.
 webpackConfig.resolve.alias['@nextcloud/dialogs'] = path.resolve(__dirname, 'node_modules/@nextcloud/dialogs')
 
+// Override publicPath: app lives in apps-extra/planix/, not apps/planix/
+webpackConfig.output = {
+	...webpackConfig.output,
+	publicPath: '/apps-extra/planix/js/',
+}
+
 module.exports = webpackConfig
