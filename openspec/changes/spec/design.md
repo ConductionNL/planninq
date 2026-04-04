@@ -1,6 +1,6 @@
 # Admin Settings MVP
 
-**Status**: approved
+**Status**: pr-created
 **Spec reference**: [admin-user-settings](../../specs/admin-user-settings.md)
 **Priority**: MVP
 
