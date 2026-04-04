@@ -1,48 +1,29 @@
-# Tasks — Admin Settings MVP
+# Tasks — Dashboard & My Work MVP
 
-## Task 1: Backend — SettingsController admin endpoints
-**spec_ref**: admin-user-settings.md → Requirement: Admin Settings Page
-**files_likely_affected**: lib/Controller/SettingsController.php, appinfo/routes.php
+## Task 1: Dashboard KPI cards with real data
+**spec_ref**: dashboard-my-work.md → Scenario: Dashboard KPI cards
+**files_likely_affected**: src/views/Dashboard.vue, src/store/modules/object.js
 **acceptance_criteria**:
-- [x] `GET /api/settings` returns current admin settings as JSON
-- [x] `POST /api/settings` accepts a JSON body and stores values via IAppConfig
-- [x] Settings include: `default_columns` (JSON string), `allow_project_creation` (string)
-- [x] Only admin users can write settings (middleware or annotation check)
-- [x] Returns 403 for non-admin write attempts
+- [ ] Dashboard fetches tasks assigned to current user from OpenRegister on mount
+- [ ] Shows 4 KPI cards: Open, Overdue, In Progress, Completed Today
+- [ ] KPI counts are computed from real task data (not sample/placeholder)
+- [ ] Each KPI card is clickable (navigates to My Work with filter — wire route, actual filtering in Task 3)
 
-## Task 2: Backend — SettingsService business logic
-**spec_ref**: admin-user-settings.md → Data Model
-**files_likely_affected**: lib/Service/SettingsService.php
+## Task 2: Recent projects and tasks due this week
+**spec_ref**: dashboard-my-work.md → Scenario: Recent projects list + Tasks due this week
+**files_likely_affected**: src/views/Dashboard.vue
 **acceptance_criteria**:
-- [x] `getAdminSettings()` reads all planix admin keys from IAppConfig with defaults
-- [x] `setAdminSettings(array $settings)` validates and stores each key
-- [x] Default values match the spec: `default_columns = ["To Do","In Progress","Review","Done"]`
-- [x] Unknown keys are silently ignored (no error, no storage)
+- [ ] Shows 5 most recently active projects the user is a member of
+- [ ] Each project shows: title, task count, progress bar (done/total)
+- [ ] Shows tasks due within 7 days, sorted by due date ascending
+- [ ] Due date highlighted if today or tomorrow
 
-## Task 3: Frontend — AdminRoot with CnVersionInfoCard
-**spec_ref**: admin-user-settings.md → Scenario: View admin settings
-**files_likely_affected**: src/views/settings/AdminRoot.vue, src/views/settings/Settings.vue
+## Task 3: My Work view
+**spec_ref**: dashboard-my-work.md → Scenario: Display My Work
+**files_likely_affected**: src/views/MyWork.vue (new), src/router/index.js
 **acceptance_criteria**:
-- [x] Admin settings page renders under Nextcloud Administration → Planix
-- [x] First section is CnVersionInfoCard showing app name and version
-- [x] Page uses CnSettingsSection for each logical group
-- [x] Loads current settings from `GET /api/settings` on mount
-
-## Task 4: Frontend — Default columns editor
-**spec_ref**: admin-user-settings.md → Scenario: Configure default columns
-**files_likely_affected**: src/views/settings/Settings.vue or new component
-**acceptance_criteria**:
-- [x] Shows current default columns as an editable ordered list
-- [x] Admin can add, remove, and reorder column names
-- [x] Changes are saved via `POST /api/settings` on save button click
-- [x] Shows success/error feedback after save
-
-## Task 5: Frontend — OpenRegister initialization section
-**spec_ref**: admin-user-settings.md → Scenario: OpenRegister initialization
-**files_likely_affected**: src/views/settings/Settings.vue or new component
-**acceptance_criteria**:
-- [x] Shows whether the Planix register is initialized (green check / warning)
-- [x] If not initialized, shows "Initialize register" button
-- [x] Button triggers register initialization (calls backend endpoint)
-- [x] Shows loading state during initialization
-- [x] Shows success or error result after completion
+- [ ] New route /my-work with MyWork.vue component
+- [ ] Tasks grouped into: Overdue, Due this week, Everything else
+- [ ] Within each group, sorted by priority (urgent → high → normal → low)
+- [ ] Each task shows: project name badge, title, due date, priority dot
+- [ ] Empty state: CnEmptyState with "No tasks assigned to you" and "Browse projects" action
