@@ -15,13 +15,19 @@
 			</template>
 		</CnVersionInfoCard>
 
-		<Settings v-if="storesReady" />
+		<template v-if="storesReady">
+			<Settings />
+			<DefaultColumns />
+			<OpenRegisterInit />
+		</template>
 	</div>
 </template>
 
 <script>
 import { CnVersionInfoCard } from '@conduction/nextcloud-vue'
 import Settings from './Settings.vue'
+import DefaultColumns from './DefaultColumns.vue'
+import OpenRegisterInit from './OpenRegisterInit.vue'
 import { initializeStores } from '../../store/store.js'
 
 export default {
@@ -29,6 +35,8 @@ export default {
 	components: {
 		CnVersionInfoCard,
 		Settings,
+		DefaultColumns,
+		OpenRegisterInit,
 	},
 	data() {
 		return {
