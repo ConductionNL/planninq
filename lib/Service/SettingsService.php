@@ -118,11 +118,14 @@ class SettingsService
     /**
      * Store admin settings. Unknown keys are silently ignored.
      *
+     * Internal use only — callers outside this class must go through updateSettings(),
+     * which enforces the admin authorization check at the controller layer.
+     *
      * @param array<string,mixed> $settings Settings to persist
      *
      * @return array<string,string> The full admin settings after update
      */
-    public function setAdminSettings(array $settings): array
+    private function setAdminSettings(array $settings): array
     {
         foreach (array_keys(self::ADMIN_CONFIG_DEFAULTS) as $key) {
             if (array_key_exists($key, $settings) === true) {
@@ -262,8 +265,10 @@ class SettingsService
     /**
      * Directly update the planix register's public access flags in the DB.
      *
-     * Called after importFromApp to ensure publicWrite/publicRead are set even
-     * if OpenRegister's ConfigurationService did not update an existing record.
+     * Called after importFromApp to ensure publicWrite/publicRead are set to 0
+     * (private) even if OpenRegister's ConfigurationService did not update an
+     * existing record. Keeps the register accessible only to authenticated
+     * Nextcloud users; never grants anonymous access.
      * Fails silently — any exception is logged as a warning only.
      *
      * @return void
@@ -274,11 +279,11 @@ class SettingsService
             $db = $this->container->get(\OCP\IDBConnection::class);
             $qb = $db->getQueryBuilder();
             $qb->update('openregister_registers')
-                ->set('public_write', $qb->createNamedParameter(1, \OCP\DB\QueryBuilder\IQueryBuilder::PARAM_INT))
-                ->set('public_read', $qb->createNamedParameter(1, \OCP\DB\QueryBuilder\IQueryBuilder::PARAM_INT))
+                ->set('public_write', $qb->createNamedParameter(0, \OCP\DB\QueryBuilder\IQueryBuilder::PARAM_INT))
+                ->set('public_read', $qb->createNamedParameter(0, \OCP\DB\QueryBuilder\IQueryBuilder::PARAM_INT))
                 ->where($qb->expr()->eq('slug', $qb->createNamedParameter('planix')));
             $qb->executeStatement();
-            $this->logger->info('Planix: register publicWrite/publicRead ensured in DB');
+            $this->logger->info('Planix: register publicWrite/publicRead set to private (0) in DB');
         } catch (\Throwable $e) {
             $this->logger->warning(
                 'Planix: could not directly update register public access in DB',

@@ -141,7 +141,10 @@ class SettingsServiceTest extends TestCase
     }//end testGetAdminSettingsReturnsDefaults()
 
     /**
-     * Test setAdminSettings() stores only known keys and ignores unknown ones.
+     * Test that updateSettings() stores only known admin keys and ignores unknown ones.
+     *
+     * The private setAdminSettings() is exercised via the public updateSettings()
+     * entry point, which is the intended caller.
      *
      * @return void
      */
@@ -163,7 +166,10 @@ class SettingsServiceTest extends TestCase
                 }
             );
 
-        $this->service->setAdminSettings(
+        $this->appManager->method('isInstalled')->willReturn(false);
+        $this->userSession->method('getUser')->willReturn(null);
+
+        $this->service->updateSettings(
             [
                 'default_columns' => '["Sprint","Done"]',
                 'unknown_key'     => 'should be ignored',
@@ -176,7 +182,10 @@ class SettingsServiceTest extends TestCase
     }//end testSetAdminSettingsIgnoresUnknownKeys()
 
     /**
-     * Test setAdminSettings() stores allow_project_creation value.
+     * Test that updateSettings() stores allow_project_creation value.
+     *
+     * The private setAdminSettings() is exercised via the public updateSettings()
+     * entry point, which is the intended caller.
      *
      * @return void
      */
@@ -197,7 +206,10 @@ class SettingsServiceTest extends TestCase
                 }
             );
 
-        $result = $this->service->setAdminSettings(['allow_project_creation' => 'admins']);
+        $this->appManager->method('isInstalled')->willReturn(false);
+        $this->userSession->method('getUser')->willReturn(null);
+
+        $result = $this->service->updateSettings(['allow_project_creation' => 'admins']);
 
         self::assertSame(expected: 'admins', actual: $stored['allow_project_creation']);
         self::assertSame(expected: 'admins', actual: $result['allow_project_creation']);
