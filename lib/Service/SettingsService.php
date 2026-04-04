@@ -231,7 +231,7 @@ class SettingsService
             );
             return [
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => 'Configuration import failed. Check the server log for details.',
             ];
         }//end try
     }//end loadConfiguration()
