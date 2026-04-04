@@ -23,6 +23,10 @@
 		</NcEmptyContent>
 
 		<template v-else>
+			<p v-if="activeFilter" class="my-work__filter-banner">
+				{{ filterLabel }}
+			</p>
+
 			<section v-if="overdueTasks.length" class="my-work__group my-work__group--overdue">
 				<h3 class="my-work__group-title">
 					<AlertCircleOutline :size="18" />
@@ -38,9 +42,8 @@
 							class="my-work__priority-dot"
 							:class="'my-work__priority-dot--' + (task.priority || 'normal')"
 							:title="task.priority || 'normal'" />
-						<span
-							class="my-work__task-title"
-							@click="goToTask(task)">
+						<!-- TODO: navigate to task detail (CnDetailPage) once a /tasks/:id route is available -->
+						<span class="my-work__task-title">
 							{{ task.title }}
 						</span>
 						<span v-if="projectTitle(task.project)" class="my-work__project-badge">
@@ -68,9 +71,8 @@
 							class="my-work__priority-dot"
 							:class="'my-work__priority-dot--' + (task.priority || 'normal')"
 							:title="task.priority || 'normal'" />
-						<span
-							class="my-work__task-title"
-							@click="goToTask(task)">
+						<!-- TODO: navigate to task detail (CnDetailPage) once a /tasks/:id route is available -->
+						<span class="my-work__task-title">
 							{{ task.title }}
 						</span>
 						<span v-if="projectTitle(task.project)" class="my-work__project-badge">
@@ -98,9 +100,8 @@
 							class="my-work__priority-dot"
 							:class="'my-work__priority-dot--' + (task.priority || 'normal')"
 							:title="task.priority || 'normal'" />
-						<span
-							class="my-work__task-title"
-							@click="goToTask(task)">
+						<!-- TODO: navigate to task detail (CnDetailPage) once a /tasks/:id route is available -->
+						<span class="my-work__task-title">
 							{{ task.title }}
 						</span>
 						<span v-if="projectTitle(task.project)" class="my-work__project-badge">
@@ -157,7 +158,33 @@ export default {
 			d.setHours(0, 0, 0, 0)
 			return d
 		},
+		activeFilter() {
+			return this.$route.query?.filter || null
+		},
+		filterLabel() {
+			const labels = {
+				open: t('planix', 'Showing: Open tasks'),
+				overdue: t('planix', 'Showing: Overdue tasks'),
+				in_progress: t('planix', 'Showing: In Progress tasks'),
+				completed_today: t('planix', 'Showing: Completed today'),
+			}
+			return labels[this.activeFilter] || ''
+		},
 		allTasks() {
+			const filter = this.activeFilter
+			if (filter === 'completed_today') {
+				const today = this.todayMidnight
+				return this.tasks.filter((task) => {
+					if (!task.completedAt) return false
+					const completed = new Date(task.completedAt)
+					completed.setHours(0, 0, 0, 0)
+					return completed.getTime() === today.getTime()
+				})
+			}
+			if (filter === 'in_progress') {
+				return this.tasks.filter((task) => task.status === 'in_progress')
+			}
+			// filter=open or no filter: show all active (non-done) tasks
 			return this.tasks.filter((task) => task.status !== 'done')
 		},
 		overdueTasks() {
@@ -240,11 +267,6 @@ export default {
 			if (due.getTime() === today.getTime()) return t('planix', 'Today')
 			if (due.getTime() === tomorrow.getTime()) return t('planix', 'Tomorrow')
 			return due.toLocaleDateString()
-		},
-		goToTask(task) {
-			if (task.project) {
-				this.$router.push({ name: 'ProjectBoard', params: { id: task.project } })
-			}
 		},
 	},
 }
@@ -345,11 +367,15 @@ export default {
 
 .my-work__task-title {
 	flex: 1;
-	cursor: pointer;
 }
 
-.my-work__task-title:hover {
-	text-decoration: underline;
+.my-work__filter-banner {
+	margin: 0 0 16px;
+	padding: 8px 12px;
+	background: var(--color-background-dark);
+	border-radius: var(--border-radius);
+	font-size: 13px;
+	color: var(--color-text-maxcontrast);
 }
 
 .my-work__project-badge {
