@@ -36,12 +36,22 @@ class SettingsService
 {
 
     /**
-     * Configuration keys managed by this service.
+     * Legacy configuration keys (register setup keys).
      *
      * @var array<string>
      */
     private const CONFIG_KEYS = [
         'register',
+    ];
+
+    /**
+     * Admin configuration keys with their default values.
+     *
+     * @var array<string,string>
+     */
+    private const ADMIN_CONFIG_DEFAULTS = [
+        'default_columns'        => '["To Do","In Progress","Review","Done"]',
+        'allow_project_creation' => 'all',
     ];
 
     /**
@@ -77,7 +87,54 @@ class SettingsService
     }//end isOpenRegisterAvailable()
 
     /**
-     * Retrieve all current settings.
+     * Check whether the current user has Nextcloud admin privileges.
+     *
+     * @return bool
+     */
+    public function isCurrentUserAdmin(): bool
+    {
+        $user = $this->userSession->getUser();
+        return ($user !== null && $this->groupManager->isAdmin($user->getUID()));
+    }//end isCurrentUserAdmin()
+
+    /**
+     * Retrieve all admin settings with defaults applied.
+     *
+     * Reads each key in ADMIN_CONFIG_DEFAULTS from IAppConfig, falling back to
+     * the defined default when no value has been stored yet.
+     *
+     * @return array<string,string>
+     */
+    public function getAdminSettings(): array
+    {
+        $settings = [];
+        foreach (self::ADMIN_CONFIG_DEFAULTS as $key => $default) {
+            $settings[$key] = $this->appConfig->getValueString(Application::APP_ID, $key, $default);
+        }
+
+        return $settings;
+    }//end getAdminSettings()
+
+    /**
+     * Store admin settings. Unknown keys are silently ignored.
+     *
+     * @param array<string,mixed> $settings Settings to persist
+     *
+     * @return array<string,string> The full admin settings after update
+     */
+    public function setAdminSettings(array $settings): array
+    {
+        foreach (array_keys(self::ADMIN_CONFIG_DEFAULTS) as $key) {
+            if (array_key_exists($key, $settings) === true) {
+                $this->appConfig->setValueString(Application::APP_ID, $key, (string) $settings[$key]);
+            }
+        }
+
+        return $this->getAdminSettings();
+    }//end setAdminSettings()
+
+    /**
+     * Retrieve all current settings (admin + metadata).
      *
      * Returns a flat array containing all app config values plus metadata
      * fields (openregisters, isAdmin) consumed by the frontend.
@@ -91,14 +148,12 @@ class SettingsService
             $settings[$key] = $this->appConfig->getValueString(Application::APP_ID, $key, '');
         }
 
-        $user    = $this->userSession->getUser();
-        $isAdmin = ($user !== null && $this->groupManager->isAdmin($user->getUID()));
-
         return array_merge(
             $settings,
+            $this->getAdminSettings(),
             [
                 'openregisters' => $this->isOpenRegisterAvailable(),
-                'isAdmin'       => $isAdmin,
+                'isAdmin'       => $this->isCurrentUserAdmin(),
             ]
         );
     }//end getSettings()
@@ -117,6 +172,8 @@ class SettingsService
                 $this->appConfig->setValueString(Application::APP_ID, $key, (string) $data[$key]);
             }
         }
+
+        $this->setAdminSettings(settings: $data);
 
         return $this->getSettings();
     }//end updateSettings()

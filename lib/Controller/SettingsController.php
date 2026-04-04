@@ -24,6 +24,7 @@ namespace OCA\Planix\Controller;
 use OCA\Planix\AppInfo\Application;
 use OCA\Planix\Service\SettingsService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
@@ -62,12 +63,19 @@ class SettingsController extends Controller
     }//end index()
 
     /**
-     * Update settings with provided data.
+     * Update settings with provided data. Only admin users may write settings.
      *
      * @return JSONResponse
      */
     public function create(): JSONResponse
     {
+        if ($this->settingsService->isCurrentUserAdmin() === false) {
+            return new JSONResponse(
+                ['error' => 'Admin privileges required to modify settings.'],
+                Http::STATUS_FORBIDDEN
+            );
+        }
+
         $data   = $this->request->getParams();
         $config = $this->settingsService->updateSettings($data);
 

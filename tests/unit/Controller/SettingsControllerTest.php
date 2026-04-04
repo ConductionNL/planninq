@@ -1,5 +1,8 @@
 <?php
 
+// SPDX-License-Identifier: EUPL-1.2
+// Copyright (C) 2024 Conduction B.V.
+
 /**
  * Unit tests for SettingsController.
  *
@@ -21,6 +24,7 @@ namespace OCA\Planix\Tests\Unit\Controller;
 
 use OCA\Planix\Controller\SettingsController;
 use OCA\Planix\Service\SettingsService;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -80,9 +84,11 @@ class SettingsControllerTest extends TestCase
     public function testIndexReturnsJsonResponseWithSettings(): void
     {
         $settings = [
-            'register'      => 'some-uuid',
-            'openregisters' => true,
-            'isAdmin'       => false,
+            'register'               => 'some-uuid',
+            'default_columns'        => '["To Do","In Progress","Review","Done"]',
+            'allow_project_creation' => 'all',
+            'openregisters'          => true,
+            'isAdmin'                => false,
         ];
 
         $this->settingsService->expects($this->once())
@@ -97,14 +103,40 @@ class SettingsControllerTest extends TestCase
     }//end testIndexReturnsJsonResponseWithSettings()
 
     /**
-     * Test that create() calls updateSettings with request params and returns success.
+     * Test that create() returns 403 when the current user is not an admin.
+     *
+     * @return void
+     */
+    public function testCreateReturnsForbiddenForNonAdmin(): void
+    {
+        $this->settingsService->expects($this->once())
+            ->method('isCurrentUserAdmin')
+            ->willReturn(false);
+
+        $this->settingsService->expects($this->never())
+            ->method('updateSettings');
+
+        $result = $this->controller->create();
+
+        self::assertInstanceOf(JSONResponse::class, $result);
+        self::assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
+        self::assertArrayHasKey('error', $result->getData());
+
+    }//end testCreateReturnsForbiddenForNonAdmin()
+
+    /**
+     * Test that create() calls updateSettings with request params and returns success for admins.
      *
      * @return void
      */
     public function testCreateCallsUpdateSettingsAndReturnsSuccess(): void
     {
-        $params  = ['register' => 'new-uuid'];
-        $updated = ['register' => 'new-uuid', 'openregisters' => true, 'isAdmin' => false];
+        $params  = ['register' => 'new-uuid', 'default_columns' => '["Backlog","Doing","Done"]'];
+        $updated = array_merge($params, ['openregisters' => true, 'isAdmin' => true]);
+
+        $this->settingsService->expects($this->once())
+            ->method('isCurrentUserAdmin')
+            ->willReturn(true);
 
         $this->request->expects($this->once())
             ->method('getParams')
@@ -118,6 +150,7 @@ class SettingsControllerTest extends TestCase
         $result = $this->controller->create();
 
         self::assertInstanceOf(JSONResponse::class, $result);
+        self::assertSame(200, $result->getStatus());
         self::assertTrue($result->getData()['success']);
         self::assertArrayHasKey('config', $result->getData());
 
