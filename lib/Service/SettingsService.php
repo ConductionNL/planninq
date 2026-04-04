@@ -42,6 +42,18 @@ class SettingsService
      */
     private const CONFIG_KEYS = [
         'register',
+        'default_columns',
+        'allow_project_creation',
+    ];
+
+    /**
+     * Default values for admin settings.
+     *
+     * @var array<string,string>
+     */
+    private const DEFAULTS = [
+        'default_columns'        => '["To Do","In Progress","Review","Done"]',
+        'allow_project_creation' => 'all',
     ];
 
     /**
@@ -77,6 +89,17 @@ class SettingsService
     }//end isOpenRegisterAvailable()
 
     /**
+     * Determine whether the current user is an administrator.
+     *
+     * @return bool
+     */
+    public function isCurrentUserAdmin(): bool
+    {
+        $user = $this->userSession->getUser();
+        return ($user !== null && $this->groupManager->isAdmin($user->getUID()));
+    }//end isCurrentUserAdmin()
+
+    /**
      * Retrieve all current settings.
      *
      * Returns a flat array containing all app config values plus metadata
@@ -88,20 +111,42 @@ class SettingsService
     {
         $settings = [];
         foreach (self::CONFIG_KEYS as $key) {
-            $settings[$key] = $this->appConfig->getValueString(Application::APP_ID, $key, '');
+            $default = (self::DEFAULTS[$key] ?? '');
+            $raw     = $this->appConfig->getValueString(Application::APP_ID, $key, $default);
+            if ($key === 'default_columns') {
+                $decoded = json_decode($raw, true);
+                if (is_array($decoded) === true) {
+                    $settings[$key] = $decoded;
+                } else {
+                    $settings[$key] = json_decode($default, true);
+                }
+            } else {
+                if ($raw !== '') {
+                    $settings[$key] = $raw;
+                } else {
+                    $settings[$key] = $default;
+                }
+            }
         }
-
-        $user    = $this->userSession->getUser();
-        $isAdmin = ($user !== null && $this->groupManager->isAdmin($user->getUID()));
 
         return array_merge(
             $settings,
             [
                 'openregisters' => $this->isOpenRegisterAvailable(),
-                'isAdmin'       => $isAdmin,
+                'isAdmin'       => $this->isCurrentUserAdmin(),
             ]
         );
     }//end getSettings()
+
+    /**
+     * Retrieve admin settings with defaults applied.
+     *
+     * @return array<string,mixed>
+     */
+    public function getAdminSettings(): array
+    {
+        return $this->getSettings();
+    }//end getAdminSettings()
 
     /**
      * Update settings with the provided data.
@@ -112,14 +157,38 @@ class SettingsService
      */
     public function updateSettings(array $data): array
     {
+        return $this->setAdminSettings(data: $data);
+    }//end updateSettings()
+
+    /**
+     * Validate and persist admin settings. Unknown keys are silently ignored.
+     *
+     * @param array<string,mixed> $data Key-value pairs to store.
+     *
+     * @return array<string,mixed> The updated settings after save.
+     */
+    public function setAdminSettings(array $data): array
+    {
         foreach (self::CONFIG_KEYS as $key) {
-            if (isset($data[$key]) === true) {
+            if (isset($data[$key]) === false) {
+                continue;
+            }
+
+            if ($key === 'default_columns') {
+                if (is_array($data[$key]) === true) {
+                    $value = json_encode($data[$key]);
+                } else {
+                    $value = (string) $data[$key];
+                }
+
+                $this->appConfig->setValueString(Application::APP_ID, $key, $value);
+            } else {
                 $this->appConfig->setValueString(Application::APP_ID, $key, (string) $data[$key]);
             }
         }
 
         return $this->getSettings();
-    }//end updateSettings()
+    }//end setAdminSettings()
 
     /**
      * Load configuration from planix_register.json via OpenRegister.
