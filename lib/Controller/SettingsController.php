@@ -24,6 +24,7 @@ namespace OCA\Planix\Controller;
 use OCA\Planix\AppInfo\Application;
 use OCA\Planix\Service\SettingsService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
@@ -48,7 +49,7 @@ class SettingsController extends Controller
     }//end __construct()
 
     /**
-     * Retrieve all current settings.
+     * Retrieve all current admin settings.
      *
      * @NoAdminRequired
      *
@@ -57,19 +58,23 @@ class SettingsController extends Controller
     public function index(): JSONResponse
     {
         return new JSONResponse(
-            $this->settingsService->getSettings()
+            $this->settingsService->getAdminSettings()
         );
     }//end index()
 
     /**
-     * Update settings with provided data.
+     * Update settings with provided data. Admin-only.
      *
      * @return JSONResponse
      */
     public function create(): JSONResponse
     {
+        if ($this->settingsService->isCurrentUserAdmin() === false) {
+            return new JSONResponse(['error' => 'Forbidden'], Http::STATUS_FORBIDDEN);
+        }
+
         $data   = $this->request->getParams();
-        $config = $this->settingsService->updateSettings($data);
+        $config = $this->settingsService->setAdminSettings($data);
 
         return new JSONResponse(
             [
