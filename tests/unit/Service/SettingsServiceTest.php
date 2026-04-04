@@ -1,8 +1,5 @@
 <?php
 
-// SPDX-License-Identifier: EUPL-1.2
-// Copyright (C) 2024 Conduction B.V.
-
 /**
  * Unit tests for SettingsService.
  *
@@ -98,12 +95,12 @@ class SettingsServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->appConfig    = $this->createMock(IAppConfig::class);
-        $this->appManager   = $this->createMock(IAppManager::class);
-        $this->container    = $this->createMock(ContainerInterface::class);
-        $this->groupManager = $this->createMock(IGroupManager::class);
-        $this->userSession  = $this->createMock(IUserSession::class);
-        $this->logger       = $this->createMock(LoggerInterface::class);
+        $this->appConfig    = $this->createMock(originalClassName: IAppConfig::class);
+        $this->appManager   = $this->createMock(originalClassName: IAppManager::class);
+        $this->container    = $this->createMock(originalClassName: ContainerInterface::class);
+        $this->groupManager = $this->createMock(originalClassName: IGroupManager::class);
+        $this->userSession  = $this->createMock(originalClassName: IUserSession::class);
+        $this->logger       = $this->createMock(originalClassName: LoggerInterface::class);
 
         $this->service = new SettingsService(
             appConfig: $this->appConfig,
@@ -132,14 +129,14 @@ class SettingsServiceTest extends TestCase
 
         $result = $this->service->getAdminSettings();
 
-        self::assertArrayHasKey('default_columns', $result);
-        self::assertArrayHasKey('allow_project_creation', $result);
+        self::assertArrayHasKey(key: 'default_columns', array: $result);
+        self::assertArrayHasKey(key: 'allow_project_creation', array: $result);
 
         $columns = json_decode($result['default_columns'], true);
-        self::assertIsArray($columns);
-        self::assertContains('To Do', $columns);
-        self::assertContains('Done', $columns);
-        self::assertSame('all', $result['allow_project_creation']);
+        self::assertIsArray(actual: $columns);
+        self::assertContains(needle: 'To Do', haystack: $columns);
+        self::assertContains(needle: 'Done', haystack: $columns);
+        self::assertSame(expected: 'all', actual: $result['allow_project_creation']);
 
     }//end testGetAdminSettingsReturnsDefaults()
 
@@ -151,7 +148,7 @@ class SettingsServiceTest extends TestCase
     public function testSetAdminSettingsIgnoresUnknownKeys(): void
     {
         $stored = [];
-        $this->appConfig->expects($this->exactly(1))
+        $this->appConfig->expects($this->exactly(count: 1))
             ->method('setValueString')
             ->willReturnCallback(
                 function (string $appId, string $key, string $value) use (&$stored): void {
@@ -166,13 +163,15 @@ class SettingsServiceTest extends TestCase
                 }
             );
 
-        $this->service->setAdminSettings([
-            'default_columns' => '["Sprint","Done"]',
-            'unknown_key'     => 'should be ignored',
-        ]);
+        $this->service->setAdminSettings(
+            [
+                'default_columns' => '["Sprint","Done"]',
+                'unknown_key'     => 'should be ignored',
+            ]
+        );
 
-        self::assertArrayHasKey('default_columns', $stored);
-        self::assertArrayNotHasKey('unknown_key', $stored);
+        self::assertArrayHasKey(key: 'default_columns', array: $stored);
+        self::assertArrayNotHasKey(key: 'unknown_key', array: $stored);
 
     }//end testSetAdminSettingsIgnoresUnknownKeys()
 
@@ -200,8 +199,8 @@ class SettingsServiceTest extends TestCase
 
         $result = $this->service->setAdminSettings(['allow_project_creation' => 'admins']);
 
-        self::assertSame('admins', $stored['allow_project_creation']);
-        self::assertSame('admins', $result['allow_project_creation']);
+        self::assertSame(expected: 'admins', actual: $stored['allow_project_creation']);
+        self::assertSame(expected: 'admins', actual: $result['allow_project_creation']);
 
     }//end testSetAdminSettingsStoresAllowProjectCreation()
 
@@ -212,13 +211,13 @@ class SettingsServiceTest extends TestCase
      */
     public function testIsCurrentUserAdminReturnsTrueForAdmin(): void
     {
-        $user = $this->createMock(IUser::class);
+        $user = $this->createMock(originalClassName: IUser::class);
         $user->method('getUID')->willReturn('admin');
 
         $this->userSession->method('getUser')->willReturn($user);
         $this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
 
-        self::assertTrue($this->service->isCurrentUserAdmin());
+        self::assertTrue(condition: $this->service->isCurrentUserAdmin());
 
     }//end testIsCurrentUserAdminReturnsTrueForAdmin()
 
@@ -231,7 +230,7 @@ class SettingsServiceTest extends TestCase
     {
         $this->userSession->method('getUser')->willReturn(null);
 
-        self::assertFalse($this->service->isCurrentUserAdmin());
+        self::assertFalse(condition: $this->service->isCurrentUserAdmin());
 
     }//end testIsCurrentUserAdminReturnsFalseWithoutUser()
 
@@ -259,10 +258,10 @@ class SettingsServiceTest extends TestCase
 
         $result = $this->service->getSettings();
 
-        self::assertArrayHasKey('default_columns', $result);
-        self::assertArrayHasKey('allow_project_creation', $result);
-        self::assertSame('admins', $result['allow_project_creation']);
-        self::assertTrue($result['openregisters']);
+        self::assertArrayHasKey(key: 'default_columns', array: $result);
+        self::assertArrayHasKey(key: 'allow_project_creation', array: $result);
+        self::assertSame(expected: 'admins', actual: $result['allow_project_creation']);
+        self::assertTrue(condition: $result['openregisters']);
 
     }//end testGetSettingsIncludesAdminKeys()
 }//end class

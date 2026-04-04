@@ -65,6 +65,8 @@ class SettingsController extends Controller
     /**
      * Update settings with provided data. Only admin users may write settings.
      *
+     * @NoAdminRequired
+     *
      * @return JSONResponse
      */
     public function create(): JSONResponse
@@ -92,11 +94,21 @@ class SettingsController extends Controller
      *
      * Forces a fresh import regardless of version, auto-configuring
      * all schema and register IDs from the import result.
+     * Only admin users may trigger this operation.
+     *
+     * @NoAdminRequired
      *
      * @return JSONResponse
      */
     public function load(): JSONResponse
     {
+        if ($this->settingsService->isCurrentUserAdmin() === false) {
+            return new JSONResponse(
+                ['error' => 'Admin privileges required to trigger configuration import.'],
+                Http::STATUS_FORBIDDEN
+            );
+        }
+
         $result = $this->settingsService->loadConfiguration(force: true);
 
         return new JSONResponse($result);

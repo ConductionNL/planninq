@@ -1,8 +1,5 @@
 <?php
 
-// SPDX-License-Identifier: EUPL-1.2
-// Copyright (C) 2024 Conduction B.V.
-
 /**
  * Unit tests for SettingsController.
  *
@@ -66,8 +63,8 @@ class SettingsControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->request         = $this->createMock(IRequest::class);
-        $this->settingsService = $this->createMock(SettingsService::class);
+        $this->request         = $this->createMock(originalClassName: IRequest::class);
+        $this->settingsService = $this->createMock(originalClassName: SettingsService::class);
 
         $this->controller = new SettingsController(
             request: $this->request,
@@ -97,8 +94,8 @@ class SettingsControllerTest extends TestCase
 
         $result = $this->controller->index();
 
-        self::assertInstanceOf(JSONResponse::class, $result);
-        self::assertSame($settings, $result->getData());
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: $settings, actual: $result->getData());
 
     }//end testIndexReturnsJsonResponseWithSettings()
 
@@ -118,9 +115,9 @@ class SettingsControllerTest extends TestCase
 
         $result = $this->controller->create();
 
-        self::assertInstanceOf(JSONResponse::class, $result);
-        self::assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
-        self::assertArrayHasKey('error', $result->getData());
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
 
     }//end testCreateReturnsForbiddenForNonAdmin()
 
@@ -149,15 +146,37 @@ class SettingsControllerTest extends TestCase
 
         $result = $this->controller->create();
 
-        self::assertInstanceOf(JSONResponse::class, $result);
-        self::assertSame(200, $result->getStatus());
-        self::assertTrue($result->getData()['success']);
-        self::assertArrayHasKey('config', $result->getData());
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: 200, actual: $result->getStatus());
+        self::assertTrue(condition: $result->getData()['success']);
+        self::assertArrayHasKey(key: 'config', array: $result->getData());
 
     }//end testCreateCallsUpdateSettingsAndReturnsSuccess()
 
     /**
-     * Test that load() returns the result of loadConfiguration.
+     * Test that load() returns 403 when the current user is not an admin.
+     *
+     * @return void
+     */
+    public function testLoadReturnsForbiddenForNonAdmin(): void
+    {
+        $this->settingsService->expects($this->once())
+            ->method('isCurrentUserAdmin')
+            ->willReturn(false);
+
+        $this->settingsService->expects($this->never())
+            ->method('loadConfiguration');
+
+        $result = $this->controller->load();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testLoadReturnsForbiddenForNonAdmin()
+
+    /**
+     * Test that load() returns the result of loadConfiguration for admins.
      *
      * @return void
      */
@@ -170,14 +189,18 @@ class SettingsControllerTest extends TestCase
         ];
 
         $this->settingsService->expects($this->once())
+            ->method('isCurrentUserAdmin')
+            ->willReturn(true);
+
+        $this->settingsService->expects($this->once())
             ->method('loadConfiguration')
             ->with(force: true)
             ->willReturn($loadResult);
 
         $result = $this->controller->load();
 
-        self::assertInstanceOf(JSONResponse::class, $result);
-        self::assertTrue($result->getData()['success']);
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertTrue(condition: $result->getData()['success']);
 
     }//end testLoadReturnsConfigurationResult()
 }//end class
