@@ -94,6 +94,10 @@ class SettingsController extends Controller
      */
     public function load(): JSONResponse
     {
+        if ($this->settingsService->isCurrentUserAdmin() === false) {
+            return new JSONResponse(['error' => 'Forbidden'], Http::STATUS_FORBIDDEN);
+        }
+
         $result = $this->settingsService->loadConfiguration(force: true);
 
         return new JSONResponse($result);

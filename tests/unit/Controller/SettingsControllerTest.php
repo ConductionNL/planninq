@@ -148,7 +148,25 @@ class SettingsControllerTest extends TestCase
     }//end testCreateCallsSetAdminSettingsAndReturnsSuccess()
 
     /**
-     * Test that load() returns the result of loadConfiguration.
+     * Test that load() returns 403 for non-admin users.
+     *
+     * @return void
+     */
+    public function testLoadReturnsForbiddenForNonAdmin(): void
+    {
+        $this->settingsService->expects($this->once())
+            ->method('isCurrentUserAdmin')
+            ->willReturn(false);
+
+        $result = $this->controller->load();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: 403, actual: $result->getStatus());
+
+    }//end testLoadReturnsForbiddenForNonAdmin()
+
+    /**
+     * Test that load() returns the result of loadConfiguration for admin users.
      *
      * @return void
      */
@@ -159,6 +177,10 @@ class SettingsControllerTest extends TestCase
             'message' => 'Configuration imported successfully.',
             'version' => '0.1.0',
         ];
+
+        $this->settingsService->expects($this->once())
+            ->method('isCurrentUserAdmin')
+            ->willReturn(true);
 
         $this->settingsService->expects($this->once())
             ->method('loadConfiguration')
