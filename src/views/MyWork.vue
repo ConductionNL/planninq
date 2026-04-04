@@ -234,7 +234,7 @@ export default {
 
 				const [tasks, projects] = await Promise.all([
 					objectStore.fetchCollection(TASK_SCHEMA, { assignedTo: uid }),
-					objectStore.fetchCollection(PROJECT_SCHEMA, {}),
+					objectStore.fetchCollection(PROJECT_SCHEMA, { members: uid }),
 				])
 
 				this.tasks = tasks || []

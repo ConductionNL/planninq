@@ -149,9 +149,7 @@ export default {
 			}
 		},
 		recentProjects() {
-			const uid = getCurrentUser()?.uid || ''
 			return [...this.projects]
-				.filter((p) => Array.isArray(p.members) && p.members.includes(uid))
 				.sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0))
 				.slice(0, 5)
 		},
@@ -187,7 +185,7 @@ export default {
 
 				const [tasks, projects] = await Promise.all([
 					objectStore.fetchCollection(TASK_SCHEMA, { assignedTo: uid }),
-					objectStore.fetchCollection(PROJECT_SCHEMA, {}),
+					objectStore.fetchCollection(PROJECT_SCHEMA, { members: uid }),
 				])
 
 				this.tasks = tasks || []
