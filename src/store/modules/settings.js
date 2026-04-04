@@ -49,7 +49,9 @@ export const useSettingsStore = defineStore('settings', {
 				})
 				if (response.ok) {
 					const data = await response.json()
-					this.settings = data
+					if (data?.config) {
+						this.settings = data.config
+					}
 					return data
 				}
 			} catch (error) {
