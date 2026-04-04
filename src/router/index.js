@@ -27,6 +27,11 @@ export default new Router({
 			name: 'ProjectBacklog',
 			component: () => import('../views/ProjectBacklog.vue'),
 		},
+		{
+			path: '/my-work',
+			name: 'MyWork',
+			component: () => import('../views/MyWork.vue'),
+		},
 		{ path: '*', redirect: '/' },
 	],
 })
