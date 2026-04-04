@@ -1,6 +1,6 @@
 # Dashboard & My Work MVP
 
-**Status**: approved
+**Status**: pr-created
 **Spec reference**: [dashboard-my-work](../../specs/dashboard-my-work.md)
 **Priority**: MVP
 
