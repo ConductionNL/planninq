@@ -62,8 +62,8 @@ class SettingsControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->request         = $this->createMock(IRequest::class);
-        $this->settingsService = $this->createMock(SettingsService::class);
+        $this->request         = $this->createMock(originalClassName: IRequest::class);
+        $this->settingsService = $this->createMock(originalClassName: SettingsService::class);
 
         $this->controller = new SettingsController(
             request: $this->request,
@@ -73,55 +73,79 @@ class SettingsControllerTest extends TestCase
     }//end setUp()
 
     /**
-     * Test that index() returns a JSONResponse containing the settings from the service.
+     * Test that index() returns a JSONResponse containing the admin settings from the service.
      *
      * @return void
      */
     public function testIndexReturnsJsonResponseWithSettings(): void
     {
         $settings = [
-            'register'      => 'some-uuid',
-            'openregisters' => true,
-            'isAdmin'       => false,
+            'register'               => 'some-uuid',
+            'default_columns'        => ['To Do', 'In Progress', 'Review', 'Done'],
+            'allow_project_creation' => 'all',
+            'openregisters'          => true,
+            'isAdmin'                => false,
         ];
 
         $this->settingsService->expects($this->once())
-            ->method('getSettings')
+            ->method('getAdminSettings')
             ->willReturn($settings);
 
         $result = $this->controller->index();
 
-        self::assertInstanceOf(JSONResponse::class, $result);
-        self::assertSame($settings, $result->getData());
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: $settings, actual: $result->getData());
 
     }//end testIndexReturnsJsonResponseWithSettings()
 
     /**
-     * Test that create() calls updateSettings with request params and returns success.
+     * Test that create() returns 403 for non-admin users.
      *
      * @return void
      */
-    public function testCreateCallsUpdateSettingsAndReturnsSuccess(): void
+    public function testCreateReturnsForbiddenForNonAdmin(): void
     {
-        $params  = ['register' => 'new-uuid'];
-        $updated = ['register' => 'new-uuid', 'openregisters' => true, 'isAdmin' => false];
+        $this->settingsService->expects($this->once())
+            ->method('isCurrentUserAdmin')
+            ->willReturn(false);
+
+        $result = $this->controller->create();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: 403, actual: $result->getStatus());
+
+    }//end testCreateReturnsForbiddenForNonAdmin()
+
+    /**
+     * Test that create() calls setAdminSettings with request params and returns success.
+     *
+     * @return void
+     */
+    public function testCreateCallsSetAdminSettingsAndReturnsSuccess(): void
+    {
+        $params  = ['default_columns' => ['To Do', 'Done'], 'allow_project_creation' => 'all'];
+        $updated = array_merge($params, ['register' => '', 'openregisters' => true, 'isAdmin' => true]);
+
+        $this->settingsService->expects($this->once())
+            ->method('isCurrentUserAdmin')
+            ->willReturn(true);
 
         $this->request->expects($this->once())
             ->method('getParams')
             ->willReturn($params);
 
         $this->settingsService->expects($this->once())
-            ->method('updateSettings')
+            ->method('setAdminSettings')
             ->with($params)
             ->willReturn($updated);
 
         $result = $this->controller->create();
 
-        self::assertInstanceOf(JSONResponse::class, $result);
-        self::assertTrue($result->getData()['success']);
-        self::assertArrayHasKey('config', $result->getData());
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertTrue(condition: $result->getData()['success']);
+        self::assertArrayHasKey(key: 'config', array: $result->getData());
 
-    }//end testCreateCallsUpdateSettingsAndReturnsSuccess()
+    }//end testCreateCallsSetAdminSettingsAndReturnsSuccess()
 
     /**
      * Test that load() returns the result of loadConfiguration.
@@ -143,8 +167,8 @@ class SettingsControllerTest extends TestCase
 
         $result = $this->controller->load();
 
-        self::assertInstanceOf(JSONResponse::class, $result);
-        self::assertTrue($result->getData()['success']);
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertTrue(condition: $result->getData()['success']);
 
     }//end testLoadReturnsConfigurationResult()
 }//end class
