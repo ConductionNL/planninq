@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: EUPL-1.2
-// Copyright (C) 2026 Conduction B.V.
 <template>
 	<div class="my-work">
 		<header class="my-work__header">
@@ -123,6 +121,7 @@
 // Copyright (C) 2026 Conduction B.V.
 import { useObjectStore } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
 import { NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import CalendarClock from 'vue-material-design-icons/CalendarClock.vue'
@@ -213,6 +212,9 @@ export default {
 
 				this.tasks = tasks || []
 				this.projects = projects || []
+			} catch (error) {
+				console.error('planix: fetchData failed', error)
+				showError(t('planix', 'Failed to load your tasks. Please try again.'))
 			} finally {
 				this.loading = false
 			}

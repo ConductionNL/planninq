@@ -96,6 +96,7 @@
 <script>
 import { CnConfigurationCard, CnKpiGrid, CnStatsBlock, useObjectStore } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
 import { NcLoadingIcon } from '@nextcloud/vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import CheckCircleOutline from 'vue-material-design-icons/CheckCircleOutline.vue'
@@ -191,6 +192,9 @@ export default {
 
 				this.tasks = tasks || []
 				this.projects = projects || []
+			} catch (error) {
+				console.error('planix: fetchData failed', error)
+				showError(t('planix', 'Failed to load your tasks. Please try again.'))
 			} finally {
 				this.loading = false
 			}
