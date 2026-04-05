@@ -4,17 +4,16 @@
 /**
  * Time Entries Pinia store.
  *
- * Uses the shared @conduction/nextcloud-vue objectStore for all OpenRegister
- * CRUD operations on timeEntry objects.
+ * Calls the TimeEntryController REST endpoints so that server-side validation,
+ * task-existence checks, and owner-only delete enforcement are always exercised.
  */
 import { defineStore } from 'pinia'
-import { useObjectStore } from '@conduction/nextcloud-vue'
-import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 
-const REGISTER = 'planix'
-const TIME_ENTRY_SCHEMA = 'timeEntry'
+const API_BASE = generateUrl('/apps/planix/api/time-entries')
 
 export const useTimeEntriesStore = defineStore('timeEntries', {
 	state: () => ({
@@ -37,20 +36,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 
 	actions: {
 		/**
-		 * Get the shared objectStore with timeEntry type registered.
-		 *
-		 * @return {object}
-		 */
-		_objectStore() {
-			const store = useObjectStore()
-			if (!store.objectTypeRegistry?.[TIME_ENTRY_SCHEMA]) {
-				store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER)
-			}
-			return store
-		},
-
-		/**
-		 * Fetch all time entries for a given task.
+		 * Fetch all time entries for a given task via GET /api/time-entries?taskId=.
 		 *
 		 * @param {string} taskId Task UUID
 		 * @return {Promise<Array>}
@@ -59,9 +45,8 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 			this.loading = true
 			this.error = null
 			try {
-				const objectStore = this._objectStore()
-				const results = await objectStore.fetchCollection(TIME_ENTRY_SCHEMA, { task: taskId })
-				this.entries = results || []
+				const response = await axios.get(API_BASE, { params: { taskId } })
+				this.entries = response.data || []
 				return this.entries
 			} catch (err) {
 				this.error = err.message || 'fetch-error'
@@ -73,7 +58,9 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		},
 
 		/**
-		 * Create a new time entry.
+		 * Create a new time entry via POST /api/time-entries.
+		 *
+		 * The server sets the `user` field — the client does not supply it.
 		 *
 		 * @param {object} data Time entry data { task, duration, date, description }
 		 * @return {Promise<object|null>}
@@ -82,18 +69,8 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 			this.loading = true
 			this.error = null
 			try {
-				const objectStore = this._objectStore()
-				const uid = getCurrentUser()?.uid || ''
-				const entry = await objectStore.saveObject(TIME_ENTRY_SCHEMA, {
-					...data,
-					user: uid,
-				})
-				if (!entry) {
-					const err = objectStore.getError(TIME_ENTRY_SCHEMA)
-					this.error = err?.message || 'create-error'
-					showError(t('planix', 'Failed to create time entry'))
-					return null
-				}
+				const response = await axios.post(API_BASE, data)
+				const entry = response.data
 				this.entries = [...this.entries, entry]
 				return entry
 			} catch (err) {
@@ -106,7 +83,9 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		},
 
 		/**
-		 * Delete a time entry by ID.
+		 * Delete a time entry by ID via DELETE /api/time-entries/{id}.
+		 *
+		 * The server enforces owner-only access.
 		 *
 		 * @param {string} id Time entry UUID
 		 * @return {Promise<boolean>}
@@ -115,12 +94,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 			this.loading = true
 			this.error = null
 			try {
-				const objectStore = this._objectStore()
-				const ok = await objectStore.deleteObject(TIME_ENTRY_SCHEMA, id)
-				if (!ok) {
-					showError(t('planix', 'Failed to delete time entry'))
-					return false
-				}
+				await axios.delete(`${API_BASE}/${id}`)
 				this.entries = this.entries.filter((e) => e.id !== id)
 				return true
 			} catch (err) {

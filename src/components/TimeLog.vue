@@ -191,6 +191,7 @@ export default {
 		},
 
 		async deleteEntry(id) {
+			if (!window.confirm(t('planix', 'Delete this time entry? This action cannot be undone.'))) return
 			await this.timeEntriesStore.deleteEntry(id)
 		},
 	},

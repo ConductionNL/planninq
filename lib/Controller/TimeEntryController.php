@@ -56,6 +56,7 @@ class TimeEntryController extends Controller
      * Expects JSON body with: taskId, duration (minutes, > 0), date (ISO 8601), description (optional).
      *
      * @NoAdminRequired
+     * @NoCSRFRequired
      *
      * @return JSONResponse
      */
@@ -94,6 +95,7 @@ class TimeEntryController extends Controller
      * Expects query parameter: taskId.
      *
      * @NoAdminRequired
+     * @NoCSRFRequired
      *
      * @return JSONResponse
      */
@@ -115,14 +117,26 @@ class TimeEntryController extends Controller
             );
         }
 
+        if (preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $taskId) !== 1) {
+            return new JSONResponse(
+                ['error' => 'taskId must be a valid UUID.'],
+                Http::STATUS_BAD_REQUEST
+            );
+        }
+
         try {
             $entries = $this->timeEntryService->listTimeEntries($taskId);
 
             return new JSONResponse($entries);
+        } catch (\InvalidArgumentException $e) {
+            return new JSONResponse(
+                ['error' => $e->getMessage()],
+                Http::STATUS_NOT_FOUND
+            );
         } catch (\RuntimeException $e) {
             return new JSONResponse(
                 ['error' => $e->getMessage()],
-                Http::STATUS_INTERNAL_SERVER_ERROR
+                Http::STATUS_FORBIDDEN
             );
         }
 
@@ -134,11 +148,19 @@ class TimeEntryController extends Controller
      * @param string $id The time entry UUID
      *
      * @NoAdminRequired
+     * @NoCSRFRequired
      *
      * @return JSONResponse
      */
     public function destroy(string $id): JSONResponse
     {
+        if (preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $id) !== 1) {
+            return new JSONResponse(
+                ['error' => 'Invalid identifier format.'],
+                Http::STATUS_BAD_REQUEST
+            );
+        }
+
         $userId = $this->timeEntryService->getCurrentUserId();
         if ($userId === null) {
             return new JSONResponse(

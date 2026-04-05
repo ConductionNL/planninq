@@ -246,7 +246,7 @@ class TimeEntryControllerTest extends TestCase
             ->method('getCurrentUserId')
             ->willReturn(null);
 
-        $result = $this->controller->destroy('entry-uuid-1');
+        $result = $this->controller->destroy('c0000000-0000-4000-a000-000000000003');
 
         self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
         self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
@@ -266,10 +266,10 @@ class TimeEntryControllerTest extends TestCase
 
         $this->timeEntryService->expects($this->once())
             ->method('deleteTimeEntry')
-            ->with('entry-uuid-1')
+            ->with('d0000000-0000-4000-a000-000000000004')
             ->willReturn(true);
 
-        $result = $this->controller->destroy('entry-uuid-1');
+        $result = $this->controller->destroy('d0000000-0000-4000-a000-000000000004');
 
         self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
         self::assertSame(expected: 200, actual: $result->getStatus());
@@ -290,13 +290,54 @@ class TimeEntryControllerTest extends TestCase
 
         $this->timeEntryService->expects($this->once())
             ->method('deleteTimeEntry')
-            ->with('entry-uuid-1')
+            ->with('a0000000-0000-4000-a000-000000000001')
             ->willThrowException(new \RuntimeException('Only the owner may delete a time entry.'));
 
-        $result = $this->controller->destroy('entry-uuid-1');
+        $result = $this->controller->destroy('a0000000-0000-4000-a000-000000000001');
 
         self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
         self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
 
     }//end testDestroyReturnsForbiddenForNonOwner()
+
+    /**
+     * Test that destroy() returns 404 when the entry does not exist.
+     *
+     * @return void
+     */
+    public function testDestroyReturnsNotFoundWhenEntryDoesNotExist(): void
+    {
+        $this->timeEntryService->expects($this->once())
+            ->method(constraint: 'getCurrentUserId')
+            ->willReturn(value: 'testuser');
+
+        $this->timeEntryService->expects($this->once())
+            ->method(constraint: 'deleteTimeEntry')
+            ->with(self::identicalTo(value: 'b0000000-0000-4000-a000-000000000002'))
+            ->willThrowException(new \InvalidArgumentException('Time entry not found.'));
+
+        $result = $this->controller->destroy('b0000000-0000-4000-a000-000000000002');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_NOT_FOUND, actual: $result->getStatus());
+        self::assertSame(expected: 'Time entry not found.', actual: $result->getData()['error']);
+
+    }//end testDestroyReturnsNotFoundWhenEntryDoesNotExist()
+
+    /**
+     * Test that destroy() returns 400 when the id is not a valid UUID.
+     *
+     * @return void
+     */
+    public function testDestroyReturnsBadRequestForInvalidUuid(): void
+    {
+        $this->timeEntryService->expects($this->never())
+            ->method('getCurrentUserId');
+
+        $result = $this->controller->destroy('not-a-uuid');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $result->getStatus());
+
+    }//end testDestroyReturnsBadRequestForInvalidUuid()
 }//end class

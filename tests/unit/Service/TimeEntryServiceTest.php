@@ -118,15 +118,37 @@ class TimeEntryServiceTest extends TestCase
      */
     public function testCreateTimeEntryThrowsWhenTaskIdMissing(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('taskId is required.');
+        $this->expectException(exception: \InvalidArgumentException::class);
+        $this->expectExceptionMessage(message: 'taskId is required.');
 
-        $this->service->createTimeEntry([
-            'duration' => 60,
-            'date'     => '2026-04-01',
-        ]);
+        $this->service->createTimeEntry(
+            [
+                'duration' => 60,
+                'date'     => '2026-04-01',
+            ]
+        );
 
     }//end testCreateTimeEntryThrowsWhenTaskIdMissing()
+
+    /**
+     * Test createTimeEntry() throws when taskId is not a valid UUID.
+     *
+     * @return void
+     */
+    public function testCreateTimeEntryThrowsWhenTaskIdInvalidUuid(): void
+    {
+        $this->expectException(exception: \InvalidArgumentException::class);
+        $this->expectExceptionMessage(message: 'taskId must be a valid UUID.');
+
+        $this->service->createTimeEntry(
+            [
+                'taskId'   => 'not-a-uuid',
+                'duration' => 60,
+                'date'     => '2026-04-01',
+            ]
+        );
+
+    }//end testCreateTimeEntryThrowsWhenTaskIdInvalidUuid()
 
     /**
      * Test createTimeEntry() throws when duration is zero.
@@ -135,33 +157,18 @@ class TimeEntryServiceTest extends TestCase
      */
     public function testCreateTimeEntryThrowsWhenDurationIsZero(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('duration must be greater than 0.');
+        $this->expectException(exception: \InvalidArgumentException::class);
+        $this->expectExceptionMessage(message: 'duration must be greater than 0.');
 
-        $this->service->createTimeEntry([
-            'taskId'   => 'task-uuid-1',
-            'duration' => 0,
-            'date'     => '2026-04-01',
-        ]);
+        $this->service->createTimeEntry(
+            [
+                'taskId'   => '00000000-0000-4000-a000-000000000001',
+                'duration' => 0,
+                'date'     => '2026-04-01',
+            ]
+        );
 
     }//end testCreateTimeEntryThrowsWhenDurationIsZero()
-
-    /**
-     * Test createTimeEntry() throws when date is missing.
-     *
-     * @return void
-     */
-    public function testCreateTimeEntryThrowsWhenDateMissing(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('date is required.');
-
-        $this->service->createTimeEntry([
-            'taskId'   => 'task-uuid-1',
-            'duration' => 60,
-        ]);
-
-    }//end testCreateTimeEntryThrowsWhenDateMissing()
 
     /**
      * Test createTimeEntry() throws when duration is negative.
@@ -170,14 +177,55 @@ class TimeEntryServiceTest extends TestCase
      */
     public function testCreateTimeEntryThrowsWhenDurationIsNegative(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('duration must be greater than 0.');
+        $this->expectException(exception: \InvalidArgumentException::class);
+        $this->expectExceptionMessage(message: 'duration must be greater than 0.');
 
-        $this->service->createTimeEntry([
-            'taskId'   => 'task-uuid-1',
-            'duration' => -5,
-            'date'     => '2026-04-01',
-        ]);
+        $this->service->createTimeEntry(
+            [
+                'taskId'   => '00000000-0000-4000-a000-000000000001',
+                'duration' => -5,
+                'date'     => '2026-04-01',
+            ]
+        );
 
     }//end testCreateTimeEntryThrowsWhenDurationIsNegative()
+
+    /**
+     * Test createTimeEntry() throws when date is missing.
+     *
+     * @return void
+     */
+    public function testCreateTimeEntryThrowsWhenDateMissing(): void
+    {
+        $this->expectException(exception: \InvalidArgumentException::class);
+        $this->expectExceptionMessage(message: 'date is required.');
+
+        $this->service->createTimeEntry(
+            [
+                'taskId'   => '00000000-0000-4000-a000-000000000001',
+                'duration' => 60,
+            ]
+        );
+
+    }//end testCreateTimeEntryThrowsWhenDateMissing()
+
+    /**
+     * Test createTimeEntry() throws when date is not a valid ISO 8601 date.
+     *
+     * @return void
+     */
+    public function testCreateTimeEntryThrowsWhenDateInvalidFormat(): void
+    {
+        $this->expectException(exception: \InvalidArgumentException::class);
+        $this->expectExceptionMessage(message: 'date must be a valid ISO 8601 date (YYYY-MM-DD).');
+
+        $this->service->createTimeEntry(
+            [
+                'taskId'   => '00000000-0000-4000-a000-000000000001',
+                'duration' => 60,
+                'date'     => 'not-a-date',
+            ]
+        );
+
+    }//end testCreateTimeEntryThrowsWhenDateInvalidFormat()
 }//end class

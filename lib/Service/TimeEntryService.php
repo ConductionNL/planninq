@@ -55,6 +55,20 @@ class TimeEntryService
     private const TASK_SCHEMA = 'task';
 
     /**
+     * The OpenRegister schema slug for projects.
+     *
+     * @var string
+     */
+    private const PROJECT_SCHEMA = 'project';
+
+    /**
+     * Regex pattern for UUID v4 format validation.
+     *
+     * @var string
+     */
+    private const UUID_PATTERN = '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i';
+
+    /**
      * Constructor for the TimeEntryService.
      *
      * @param ContainerInterface $container   The container
@@ -220,12 +234,39 @@ class TimeEntryService
     /**
      * List time entries for a given task.
      *
+     * Enforces read access: the requesting user must be a member of the project
+     * that owns the task (IDOR guard — SEC-001).
+     *
      * @param string $taskId The task UUID
      *
      * @return array<int,array<string,mixed>>
+     *
+     * @throws \InvalidArgumentException When the task does not exist.
+     * @throws \RuntimeException         When the current user is not a project member.
      */
     public function listTimeEntries(string $taskId): array
     {
+        $task = $this->findObject(schema: self::TASK_SCHEMA, id: $taskId);
+        if ($task === null) {
+            throw new \InvalidArgumentException('Task not found.');
+        }
+
+        $userId    = $this->getCurrentUserId();
+        $projectId = ($task['project'] ?? null);
+
+        if ($projectId !== null) {
+            $project = $this->findObject(schema: self::PROJECT_SCHEMA, id: $projectId);
+            if ($project !== null) {
+                $members = ($project['members'] ?? []);
+            } else {
+                $members = [];
+            }
+
+            if (empty($members) === false && in_array($userId, $members, true) === false) {
+                throw new \RuntimeException('Access denied: you are not a member of this project.');
+            }
+        }
+
         return $this->findObjects(schema: self::SCHEMA, filters: ['task' => $taskId]);
 
     }//end listTimeEntries()
@@ -271,12 +312,22 @@ class TimeEntryService
             throw new \InvalidArgumentException('taskId is required.');
         }
 
+        if (preg_match(self::UUID_PATTERN, $data['taskId']) !== 1) {
+            throw new \InvalidArgumentException('taskId must be a valid UUID.');
+        }
+
         if (isset($data['duration']) === false || (int) $data['duration'] <= 0) {
             throw new \InvalidArgumentException('duration must be greater than 0.');
         }
 
         if (empty($data['date']) === true) {
             throw new \InvalidArgumentException('date is required.');
+        }
+
+        if (\DateTime::createFromFormat('Y-m-d', $data['date']) === false
+            || preg_match('/^\d{4}-\d{2}-\d{2}$/', $data['date']) !== 1
+        ) {
+            throw new \InvalidArgumentException('date must be a valid ISO 8601 date (YYYY-MM-DD).');
         }
 
     }//end validateTimeEntryData()
