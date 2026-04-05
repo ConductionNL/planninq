@@ -19,7 +19,6 @@
 
 // SPDX-License-Identifier: EUPL-1.2
 // Copyright (C) 2026 Conduction B.V.
-
 declare(strict_types=1);
 
 namespace OCA\Planix\Service;
@@ -130,13 +129,17 @@ class TimeEntryService
     private function findObject(string $schema, string $id): ?array
     {
         $objectService = $this->getObjectService();
-        $result = $objectService->findObject(
+        $result        = $objectService->findObject(
             register: self::REGISTER,
             schema: $schema,
             id: $id,
         );
 
-        return (is_array($result) === true && empty($result) === false) ? $result : null;
+        if (is_array($result) === true && empty($result) === false) {
+            return $result;
+        }
+
+        return null;
 
     }//end findObject()
 
@@ -190,9 +193,9 @@ class TimeEntryService
      */
     public function createTimeEntry(array $data): array
     {
-        $this->validateTimeEntryData($data);
+        $this->validateTimeEntryData(data: $data);
 
-        $task = $this->findObject(self::TASK_SCHEMA, $data['taskId']);
+        $task = $this->findObject(schema: self::TASK_SCHEMA, id: $data['taskId']);
         if ($task === null) {
             throw new \InvalidArgumentException('Task not found.');
         }
@@ -200,8 +203,8 @@ class TimeEntryService
         $userId = $this->getCurrentUserId();
 
         $entry = $this->saveObject(
-            self::SCHEMA,
-            [
+            schema: self::SCHEMA,
+            data: [
                 'task'        => $data['taskId'],
                 'user'        => $userId,
                 'duration'    => (int) $data['duration'],
@@ -223,7 +226,7 @@ class TimeEntryService
      */
     public function listTimeEntries(string $taskId): array
     {
-        return $this->findObjects(self::SCHEMA, ['task' => $taskId]);
+        return $this->findObjects(schema: self::SCHEMA, filters: ['task' => $taskId]);
 
     }//end listTimeEntries()
 
@@ -239,7 +242,7 @@ class TimeEntryService
      */
     public function deleteTimeEntry(string $id): bool
     {
-        $entry = $this->findObject(self::SCHEMA, $id);
+        $entry = $this->findObject(schema: self::SCHEMA, id: $id);
         if ($entry === null) {
             throw new \InvalidArgumentException('Time entry not found.');
         }
@@ -249,7 +252,7 @@ class TimeEntryService
             throw new \RuntimeException('Only the owner may delete a time entry.');
         }
 
-        return $this->deleteObject(self::SCHEMA, $id);
+        return $this->deleteObject(schema: self::SCHEMA, id: $id);
 
     }//end deleteTimeEntry()
 
