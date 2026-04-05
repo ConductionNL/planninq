@@ -1,39 +1,28 @@
-# Admin Settings MVP
+# Time Tracking MVP
 
-**Status**: pr-created
-**Spec reference**: [admin-user-settings](../../specs/admin-user-settings.md)
+**Status**: approved
+**Spec reference**: [time-tracking](../../specs/time-tracking.md)
 **Priority**: MVP
 
 ## Summary
 
-Implement the admin settings page for Planix. This is the first MVP feature that wires up
-the backend settings API with a proper frontend admin page. The user settings dialog is
-deferred to a follow-up change — this change focuses on the admin side only.
+Add basic time tracking to Planix. Users can log time entries against tasks
+and view a simple timesheet. No complex reporting — just CRUD for time entries
+and a per-task time log display.
 
-## Scope
+## Scope (MVP only — 2 tasks)
 
-- Admin settings page under Nextcloud Administration → Planix
-- CnVersionInfoCard as the first section
-- Default columns configuration (editable ordered list)
-- OpenRegister initialization status and trigger button
-- Backend: SettingsController with read/write endpoints via IAppConfig
-- Frontend: AdminRoot.vue with CnVersionInfoCard + CnSettingsSection components
+- Backend: TimeEntry service + controller (CRUD via OpenRegister)
+- Frontend: Time log section on task detail + simple "Log time" form
 
 ## Out of scope
 
-- User settings dialog (NcAppSettingsDialog) — separate change
-- Procest bridge settings — V1, separate change
-- Notification preferences — separate change
+- Timesheet views, burndown charts, CSV export (V1)
+- Timer/stopwatch functionality (V1)
+- Approval workflows (V1)
 
 ## Architecture
 
-- Backend: `SettingsController` exposes `GET /api/settings` and `POST /api/settings`
-- Settings stored via `OCP\IAppConfig` (server-side, admin-only)
-- Frontend: Vue 2 + `@conduction/nextcloud-vue` components
-- No new database tables or OpenRegister entities
-
-## Risks
-
-- CnVersionInfoCard and CnSettingsSection require `@conduction/nextcloud-vue` — verify the
-  dependency is declared in package.json
-- OpenRegister initialization depends on OpenRegister being installed and enabled
+- TimeEntry stored as OpenRegister objects (schema already defined in register)
+- Backend: TimeEntryController with standard CRUD endpoints
+- Frontend: TimeLog.vue component embedded in task detail view
