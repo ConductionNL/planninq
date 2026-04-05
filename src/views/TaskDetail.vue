@@ -18,7 +18,7 @@ Copyright (C) 2026 Conduction B.V.
 				{{ projectTitle }}
 			</NcButton>
 			<span aria-hidden="true">&rsaquo;</span>
-			<span>{{ task ? task.title : $route.params.id }}</span>
+			<span>{{ task ? task.title : $route.params.taskId }}</span>
 		</nav>
 
 		<!-- Loading state -->

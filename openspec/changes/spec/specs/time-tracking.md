@@ -1,6 +1,6 @@
 # Time Tracking Specification
 
-**Status**: idea
+**Status**: implemented
 
 **Standards**: Schema.org QuantitativeValue, iCalendar ESTIMATED-DURATION (RFC 7986), OpenProject spentTime model
 **Feature tier**: MVP
@@ -100,15 +100,15 @@ The system MUST provide a timesheet view showing the current user's time entries
 
 - [ ] Time estimate can be set on any task (input accepts "1h 30m", "90m", "1.5h" formats)
 - [ ] Estimated duration is stored in minutes and displayed in human-readable format on task card and detail
-- [ ] "Log time" button is accessible from the task detail view
-- [ ] A time entry requires at minimum a duration and a date
-- [ ] Multiple time entries can be added to the same task
-- [ ] Total logged time is computed from all entries and displayed on the task
+- [x] "Log time" button is accessible from the task detail view
+- [x] A time entry requires at minimum a duration and a date
+- [x] Multiple time entries can be added to the same task
+- [x] Total logged time is computed from all entries and displayed on the task
 - [ ] Logged time vs estimated time shows a progress indicator (e.g., "1h 30m / 3h")
 - [ ] Timesheet view shows all entries by the current user grouped by date
 - [ ] Timesheet shows daily totals and weekly total
 - [ ] Timesheet can be filtered by date range
-- [ ] Users can edit and delete their own time entries
+- [x] Users can edit and delete their own time entries
 - [ ] Admins (V1) can view and export all users' time entries per project
 
 ## Notes

@@ -83,6 +83,32 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		},
 
 		/**
+		 * Update a time entry via PUT /api/time-entries/{id}.
+		 *
+		 * The server enforces owner-only access.
+		 *
+		 * @param {string} id   Time entry UUID
+		 * @param {object} data Fields to update { duration, date, description }
+		 * @return {Promise<object|null>}
+		 */
+		async updateEntry(id, data) {
+			this.loading = true
+			this.error = null
+			try {
+				const response = await axios.put(`${API_BASE}/${id}`, data)
+				const updated = response.data
+				this.entries = this.entries.map((e) => e.id === id ? updated : e)
+				return updated
+			} catch (err) {
+				this.error = err.message || 'update-error'
+				showError(t('planix', 'Failed to update time entry'))
+				return null
+			} finally {
+				this.loading = false
+			}
+		},
+
+		/**
 		 * Delete a time entry by ID via DELETE /api/time-entries/{id}.
 		 *
 		 * The server enforces owner-only access.

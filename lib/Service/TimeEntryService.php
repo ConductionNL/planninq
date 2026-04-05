@@ -248,6 +248,10 @@ class TimeEntryService
         }
 
         $userId = $this->getCurrentUserId();
+        if ($userId === null) {
+            throw new \RuntimeException('Access denied: authentication required.');
+        }
+
         $this->assertProjectMembership(task: $task, userId: $userId);
 
         $entry = $this->saveObject(
@@ -286,11 +290,61 @@ class TimeEntryService
         }
 
         $userId = $this->getCurrentUserId();
+        if ($userId === null) {
+            throw new \RuntimeException('Access denied: authentication required.');
+        }
+
         $this->assertProjectMembership(task: $task, userId: $userId);
 
         return $this->findObjects(schema: self::SCHEMA, filters: ['task' => $taskId]);
 
     }//end listTimeEntries()
+
+    /**
+     * Update a time entry. Only the owner may edit.
+     *
+     * @param string              $id   The time entry UUID
+     * @param array<string,mixed> $data Fields to update (duration, date, description)
+     *
+     * @return array<string,mixed> The updated time entry
+     *
+     * @throws \InvalidArgumentException When the entry is not found or data is invalid.
+     * @throws \RuntimeException         When the current user is not the owner.
+     */
+    public function updateTimeEntry(string $id, array $data): array
+    {
+        $entry = $this->findObject(schema: self::SCHEMA, id: $id);
+        if ($entry === null) {
+            throw new \InvalidArgumentException('Time entry not found.');
+        }
+
+        $userId = $this->getCurrentUserId();
+        if ($userId === null) {
+            throw new \RuntimeException('Access denied: authentication required.');
+        }
+
+        if (($entry['user'] ?? '') !== $userId) {
+            throw new \RuntimeException('Only the owner may edit a time entry.');
+        }
+
+        $this->validateUpdateData(data: $data);
+
+        $merged = $entry;
+        if (isset($data['duration']) === true) {
+            $merged['duration'] = (int) $data['duration'];
+        }
+
+        if (isset($data['date']) === true) {
+            $merged['date'] = $data['date'];
+        }
+
+        if (array_key_exists('description', $data) === true) {
+            $merged['description'] = ($data['description'] ?? '');
+        }
+
+        return $this->saveObject(schema: self::SCHEMA, data: $merged);
+
+    }//end updateTimeEntry()
 
     /**
      * Delete a time entry. Only the owner may delete.
@@ -317,6 +371,37 @@ class TimeEntryService
         return $this->deleteObject(schema: self::SCHEMA, id: $id);
 
     }//end deleteTimeEntry()
+
+    /**
+     * Validate partial update data for a time entry.
+     *
+     * Only validates fields that are present in $data.
+     *
+     * @param array<string,mixed> $data The update data
+     *
+     * @return void
+     *
+     * @throws \InvalidArgumentException When a provided field fails validation.
+     */
+    private function validateUpdateData(array $data): void
+    {
+        if (isset($data['duration']) === true && (int) $data['duration'] <= 0) {
+            throw new \InvalidArgumentException('duration must be greater than 0.');
+        }
+
+        if (isset($data['date']) === true) {
+            if (empty($data['date']) === true) {
+                throw new \InvalidArgumentException('date is required.');
+            }
+
+            if (\DateTime::createFromFormat('Y-m-d', $data['date']) === false
+                || preg_match('/^\d{4}-\d{2}-\d{2}$/', $data['date']) !== 1
+            ) {
+                throw new \InvalidArgumentException('date must be a valid ISO 8601 date (YYYY-MM-DD).');
+            }
+        }
+
+    }//end validateUpdateData()
 
     /**
      * Validate time entry input data.

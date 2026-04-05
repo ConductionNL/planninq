@@ -13,6 +13,7 @@ return [
         // Time entry CRUD endpoints.
         ['name' => 'time_entry#create',  'url' => '/api/time-entries',      'verb' => 'POST'],
         ['name' => 'time_entry#index',   'url' => '/api/time-entries',      'verb' => 'GET'],
+        ['name' => 'time_entry#update',  'url' => '/api/time-entries/{id}', 'verb' => 'PUT'],
         ['name' => 'time_entry#destroy', 'url' => '/api/time-entries/{id}', 'verb' => 'DELETE'],
 
         // Prometheus metrics endpoint.

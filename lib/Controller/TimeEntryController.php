@@ -142,6 +142,53 @@ class TimeEntryController extends Controller
     }//end index()
 
     /**
+     * Update a time entry (owner only).
+     *
+     * Expects JSON body with any of: duration (minutes, > 0), date (ISO 8601), description.
+     *
+     * @param string $id The time entry UUID
+     *
+     * @NoAdminRequired
+     *
+     * @return JSONResponse
+     */
+    public function update(string $id): JSONResponse
+    {
+        if (preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $id) !== 1) {
+            return new JSONResponse(
+                ['error' => 'Invalid identifier format.'],
+                Http::STATUS_BAD_REQUEST
+            );
+        }
+
+        $userId = $this->timeEntryService->getCurrentUserId();
+        if ($userId === null) {
+            return new JSONResponse(
+                ['error' => 'Authentication required.'],
+                Http::STATUS_FORBIDDEN
+            );
+        }
+
+        try {
+            $data  = $this->request->getParams();
+            $entry = $this->timeEntryService->updateTimeEntry($id, $data);
+
+            return new JSONResponse($entry);
+        } catch (\InvalidArgumentException $e) {
+            return new JSONResponse(
+                ['error' => $e->getMessage()],
+                Http::STATUS_BAD_REQUEST
+            );
+        } catch (\RuntimeException $e) {
+            return new JSONResponse(
+                ['error' => $e->getMessage()],
+                Http::STATUS_FORBIDDEN
+            );
+        }
+
+    }//end update()
+
+    /**
      * Delete a time entry (owner only).
      *
      * @param string $id The time entry UUID

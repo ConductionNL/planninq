@@ -63,32 +63,87 @@ Copyright (C) 2026 Conduction B.V.
 				v-for="entry in sortedEntries"
 				:key="entry.id"
 				class="time-log__entry">
-				<div class="time-log__entry-info">
-					<span class="time-log__entry-date">{{ formatDate(entry.date) }}</span>
-					<span class="time-log__entry-duration">{{ formatDuration(entry.duration) }}</span>
-					<span v-if="entry.description" class="time-log__entry-description">
-						{{ entry.description }}
-					</span>
-				</div>
-				<NcButton
-					v-if="isOwner(entry)"
-					type="tertiary"
-					:aria-label="t('planix', 'Delete time entry')"
-					@click="deleteEntry(entry.id)">
-					<template #icon>
-						<DeleteOutline :size="20" />
-					</template>
-				</NcButton>
+				<!-- Edit mode -->
+				<template v-if="editingId === entry.id">
+					<form class="time-log__edit-form" @submit.prevent="saveEdit">
+						<div class="time-log__form-row">
+							<NcTextField
+								:value.sync="editForm.duration"
+								:label="t('planix', 'Minutes')"
+								type="number"
+								:min="1"
+								required />
+							<NcTextField
+								:value.sync="editForm.date"
+								:label="t('planix', 'Date')"
+								type="date"
+								required />
+						</div>
+						<NcTextField
+							:value.sync="editForm.description"
+							:label="t('planix', 'Description (optional)')" />
+						<div class="time-log__edit-actions">
+							<NcButton
+								type="primary"
+								native-type="submit"
+								:disabled="!isEditFormValid || loading">
+								{{ t('planix', 'Save') }}
+							</NcButton>
+							<NcButton type="secondary" @click="cancelEdit">
+								{{ t('planix', 'Cancel') }}
+							</NcButton>
+						</div>
+					</form>
+				</template>
+
+				<!-- View mode -->
+				<template v-else>
+					<div class="time-log__entry-info">
+						<span class="time-log__entry-date">{{ formatDate(entry.date) }}</span>
+						<span class="time-log__entry-duration">{{ formatDuration(entry.duration) }}</span>
+						<span v-if="entry.description" class="time-log__entry-description">
+							{{ entry.description }}
+						</span>
+					</div>
+					<div v-if="isOwner(entry)" class="time-log__entry-actions">
+						<NcButton
+							type="tertiary"
+							:aria-label="t('planix', 'Edit time entry')"
+							@click="beginEdit(entry)">
+							<template #icon>
+								<PencilOutline :size="20" />
+							</template>
+						</NcButton>
+						<NcButton
+							type="tertiary"
+							:aria-label="t('planix', 'Delete time entry')"
+							@click="requestDelete(entry.id)">
+							<template #icon>
+								<DeleteOutline :size="20" />
+							</template>
+						</NcButton>
+					</div>
+				</template>
 			</li>
 		</ul>
+
+		<!-- Delete confirmation dialog -->
+		<NcDialog
+			v-if="pendingDeleteId !== null"
+			:name="t('planix', 'Delete time entry')"
+			:message="t('planix', 'Delete this time entry? This action cannot be undone.')"
+			:buttons="confirmDeleteButtons"
+			@closing="pendingDeleteId = null" />
 	</div>
 </template>
 
 <script>
-import { NcButton, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { NcButton, NcDialog, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import DeleteOutline from 'vue-material-design-icons/DeleteOutline.vue'
+import PencilOutline from 'vue-material-design-icons/PencilOutline.vue'
 import TimerOutline from 'vue-material-design-icons/TimerOutline.vue'
 import { getCurrentUser } from '@nextcloud/auth'
+import { translate as t } from '@nextcloud/l10n'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
 
 export default {
@@ -96,10 +151,12 @@ export default {
 
 	components: {
 		NcButton,
+		NcDialog,
 		NcEmptyContent,
 		NcLoadingIcon,
 		NcTextField,
 		DeleteOutline,
+		PencilOutline,
 		TimerOutline,
 	},
 
@@ -117,6 +174,13 @@ export default {
 				date: new Date().toISOString().slice(0, 10),
 				description: '',
 			},
+			editingId: null,
+			editForm: {
+				duration: '',
+				date: '',
+				description: '',
+			},
+			pendingDeleteId: null,
 		}
 	},
 
@@ -140,6 +204,22 @@ export default {
 		},
 		isFormValid() {
 			return parseInt(this.form.duration, 10) > 0 && this.form.date !== ''
+		},
+		isEditFormValid() {
+			return parseInt(this.editForm.duration, 10) > 0 && this.editForm.date !== ''
+		},
+		confirmDeleteButtons() {
+			return [
+				{
+					label: t('planix', 'Cancel'),
+					callback: () => { this.pendingDeleteId = null },
+				},
+				{
+					label: t('planix', 'Delete'),
+					type: 'error',
+					callback: () => this.confirmDelete(),
+				},
+			]
 		},
 	},
 
@@ -192,8 +272,38 @@ export default {
 			}
 		},
 
-		async deleteEntry(id) {
-			if (!window.confirm(t('planix', 'Delete this time entry? This action cannot be undone.'))) return
+		beginEdit(entry) {
+			this.editingId = entry.id
+			this.editForm.duration = String(entry.duration)
+			this.editForm.date = entry.date || ''
+			this.editForm.description = entry.description || ''
+		},
+
+		cancelEdit() {
+			this.editingId = null
+		},
+
+		async saveEdit() {
+			if (!this.isEditFormValid || this.editingId === null) return
+
+			const updated = await this.timeEntriesStore.updateEntry(this.editingId, {
+				duration: parseInt(this.editForm.duration, 10),
+				date: this.editForm.date,
+				description: this.editForm.description,
+			})
+
+			if (updated) {
+				this.editingId = null
+			}
+		},
+
+		requestDelete(id) {
+			this.pendingDeleteId = id
+		},
+
+		async confirmDelete() {
+			const id = this.pendingDeleteId
+			this.pendingDeleteId = null
 			await this.timeEntriesStore.deleteEntry(id)
 		},
 	},
@@ -292,5 +402,23 @@ export default {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.time-log__entry-actions {
+	display: flex;
+	gap: 4px;
+}
+
+.time-log__edit-form {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	width: 100%;
+	padding: 8px 0;
+}
+
+.time-log__edit-actions {
+	display: flex;
+	gap: 8px;
 }
 </style>
