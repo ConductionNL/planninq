@@ -177,17 +177,19 @@ export default {
 		async submitEntry() {
 			if (!this.isFormValid) return
 
-			await this.timeEntriesStore.createEntry({
-				task: this.taskId,
+			const entry = await this.timeEntriesStore.createEntry({
+				taskId: this.taskId,
 				duration: parseInt(this.form.duration, 10),
 				date: this.form.date,
 				description: this.form.description,
 			})
 
-			// Reset form on success.
-			this.form.duration = ''
-			this.form.description = ''
-			this.form.date = new Date().toISOString().slice(0, 10)
+			// Reset form only on success — preserve data if request failed.
+			if (entry) {
+				this.form.duration = ''
+				this.form.description = ''
+				this.form.date = new Date().toISOString().slice(0, 10)
+			}
 		},
 
 		async deleteEntry(id) {

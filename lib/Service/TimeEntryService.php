@@ -196,14 +196,47 @@ class TimeEntryService
     }//end deleteObject()
 
     /**
+     * Assert that the current user is a member of the project that owns the task.
+     *
+     * Denies access if the task has no associated project, if the project record
+     * cannot be found, or if the user is not listed in the project members array.
+     * Fails closed by design: when in doubt, deny.
+     *
+     * @param array<string,mixed> $task   The resolved task object
+     * @param string              $userId The UID of the requesting user
+     *
+     * @return void
+     *
+     * @throws \RuntimeException When access is denied.
+     */
+    private function assertProjectMembership(array $task, string $userId): void
+    {
+        $projectId = ($task['project'] ?? null);
+        if ($projectId === null) {
+            throw new \RuntimeException('Access denied: task is not associated with any project.');
+        }
+
+        $project = $this->findObject(schema: self::PROJECT_SCHEMA, id: $projectId);
+        if ($project === null) {
+            throw new \RuntimeException('Access denied: project not found.');
+        }
+
+        $members = ($project['members'] ?? []);
+        if (in_array($userId, $members, true) === false) {
+            throw new \RuntimeException('Access denied: you are not a member of this project.');
+        }
+
+    }//end assertProjectMembership()
+
+    /**
      * Create a new time entry.
      *
      * @param array<string,mixed> $data Time entry data (taskId, duration, date, description)
      *
      * @return array<string,mixed> The created time entry
      *
-     * @throws \InvalidArgumentException When validation fails.
-     * @throws \RuntimeException         When the task does not exist.
+     * @throws \InvalidArgumentException When validation fails or the task does not exist.
+     * @throws \RuntimeException         When the user is not a member of the task's project.
      */
     public function createTimeEntry(array $data): array
     {
@@ -215,6 +248,7 @@ class TimeEntryService
         }
 
         $userId = $this->getCurrentUserId();
+        $this->assertProjectMembership(task: $task, userId: $userId);
 
         $entry = $this->saveObject(
             schema: self::SCHEMA,
@@ -235,7 +269,7 @@ class TimeEntryService
      * List time entries for a given task.
      *
      * Enforces read access: the requesting user must be a member of the project
-     * that owns the task (IDOR guard — SEC-001).
+     * that owns the task (IDOR guard — SEC-001/SEC-002/F-002).
      *
      * @param string $taskId The task UUID
      *
@@ -251,21 +285,8 @@ class TimeEntryService
             throw new \InvalidArgumentException('Task not found.');
         }
 
-        $userId    = $this->getCurrentUserId();
-        $projectId = ($task['project'] ?? null);
-
-        if ($projectId !== null) {
-            $project = $this->findObject(schema: self::PROJECT_SCHEMA, id: $projectId);
-            if ($project !== null) {
-                $members = ($project['members'] ?? []);
-            } else {
-                $members = [];
-            }
-
-            if (empty($members) === false && in_array($userId, $members, true) === false) {
-                throw new \RuntimeException('Access denied: you are not a member of this project.');
-            }
-        }
+        $userId = $this->getCurrentUserId();
+        $this->assertProjectMembership(task: $task, userId: $userId);
 
         return $this->findObjects(schema: self::SCHEMA, filters: ['task' => $taskId]);
 

@@ -56,7 +56,6 @@ class TimeEntryController extends Controller
      * Expects JSON body with: taskId, duration (minutes, > 0), date (ISO 8601), description (optional).
      *
      * @NoAdminRequired
-     * @NoCSRFRequired
      *
      * @return JSONResponse
      */
@@ -148,7 +147,6 @@ class TimeEntryController extends Controller
      * @param string $id The time entry UUID
      *
      * @NoAdminRequired
-     * @NoCSRFRequired
      *
      * @return JSONResponse
      */
