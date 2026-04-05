@@ -1,6 +1,6 @@
 # Time Tracking MVP
 
-**Status**: approved
+**Status**: pr-created
 **Spec reference**: [time-tracking](../../specs/time-tracking.md)
 **Priority**: MVP
 
