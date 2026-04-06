@@ -1,6 +1,9 @@
 <?php
 
 /**
+ * SPDX-License-Identifier: EUPL-1.2
+ * Copyright (C) 2026 Conduction B.V.
+ *
  * Planix Health Controller
  *
  * Public health check endpoint for load balancers and monitoring.
@@ -15,18 +18,13 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * @spec openspec/changes/status-api/tasks.md#task-1
  */
 
-// SPDX-License-Identifier: EUPL-1.2
-// Copyright (C) 2026 Conduction B.V.
 declare(strict_types=1);
 
 namespace OCA\Planix\Controller;
 
 use OCA\Planix\AppInfo\Application;
-use OCA\Planix\Service\SettingsService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -36,26 +34,22 @@ use OCP\IRequest;
 /**
  * Public health check endpoint for load balancers and monitoring.
  *
- * Returns the application status, version, and OpenRegister availability.
- *
- * @spec openspec/changes/status-api/tasks.md#task-1
+ * Returns the application status and OpenRegister availability.
+ * Version is intentionally omitted to prevent unauthenticated version
+ * fingerprinting (SEC-001 / CWE-200).
  */
 class HealthController extends Controller
 {
     /**
      * Constructor for the HealthController.
      *
-     * @param IRequest        $request         The request object
-     * @param SettingsService $settingsService The settings service
-     * @param IAppManager     $appManager      The app manager
-     *
-     * @spec openspec/changes/status-api/tasks.md#task-1
+     * @param IRequest    $request    The request object
+     * @param IAppManager $appManager The app manager
      *
      * @return void
      */
     public function __construct(
         IRequest $request,
-        private SettingsService $settingsService,
         private IAppManager $appManager,
     ) {
         parent::__construct(appName: Application::APP_ID, request: $request);
@@ -66,18 +60,18 @@ class HealthController extends Controller
      *
      * Returns HTTP 200 when healthy (OpenRegister available),
      * HTTP 503 when degraded (OpenRegister unavailable).
+     * Version is omitted from the public response to prevent unauthenticated
+     * version fingerprinting (OWASP A05 / CWE-200).
      *
      * @PublicPage
      * @NoCSRFRequired
      * @NoAdminRequired
      *
-     * @spec openspec/changes/status-api/tasks.md#task-1
-     *
      * @return JSONResponse
      */
     public function index(): JSONResponse
     {
-        $openRegisterAvailable = $this->settingsService->isOpenRegisterAvailable();
+        $openRegisterAvailable = $this->appManager->isInstalled('openregister');
 
         $status     = 'degraded';
         $httpStatus = Http::STATUS_SERVICE_UNAVAILABLE;
@@ -89,7 +83,6 @@ class HealthController extends Controller
 
         $data = [
             'status'                => $status,
-            'version'               => $this->appManager->getAppVersion(appId: Application::APP_ID),
             'openRegisterAvailable' => $openRegisterAvailable,
         ];
 

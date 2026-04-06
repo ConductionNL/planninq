@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: Planix Health API
+  description: >
+    Public health check endpoint for load balancers and monitoring systems.
+    Version is intentionally omitted from the response to prevent unauthenticated
+    version fingerprinting (SEC-001 / CWE-200 / OWASP A05:2021).
+  version: 1.0.0
+  license:
+    name: EUPL-1.2
+    url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+
+paths:
+  /api/health:
+    get:
+      operationId: health_index
+      summary: Application health status
+      description: >
+        Returns the current application health status and OpenRegister availability.
+        This endpoint is public and requires no authentication, making it suitable
+        for load balancer health checks and external monitoring.
+      security: []
+      tags:
+        - health
+      responses:
+        '200':
+          description: Application is healthy — OpenRegister is available.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: ok
+                openRegisterAvailable: true
+        '503':
+          description: Application is degraded — OpenRegister is unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: degraded
+                openRegisterAvailable: false
+
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - openRegisterAvailable
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+            - degraded
+          description: >
+            'ok' when all dependencies are available; 'degraded' when one or more
+            dependencies (e.g. OpenRegister) are unavailable.
+        openRegisterAvailable:
+          type: boolean
+          description: >
+            Whether the OpenRegister Nextcloud app is installed and available.
+            Exposed for load balancer routing decisions. Infrastructure topology
+            disclosure is an accepted risk for this public monitoring endpoint
+            (SEC-002 / CWE-497 — documented accepted risk).

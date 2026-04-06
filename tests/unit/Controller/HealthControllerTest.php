@@ -1,6 +1,9 @@
 <?php
 
 /**
+ * SPDX-License-Identifier: EUPL-1.2
+ * Copyright (C) 2026 Conduction B.V.
+ *
  * Unit tests for HealthController.
  *
  * @category Test
@@ -13,18 +16,13 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * @spec openspec/changes/status-api/tasks.md#task-1
  */
 
-// SPDX-License-Identifier: EUPL-1.2
-// Copyright (C) 2026 Conduction B.V.
 declare(strict_types=1);
 
 namespace OCA\Planix\Tests\Unit\Controller;
 
 use OCA\Planix\Controller\HealthController;
-use OCA\Planix\Service\SettingsService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -34,8 +32,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for HealthController.
- *
- * @spec openspec/changes/status-api/tasks.md#task-1
  */
 class HealthControllerTest extends TestCase
 {
@@ -55,13 +51,6 @@ class HealthControllerTest extends TestCase
     private IRequest&MockObject $request;
 
     /**
-     * Mock SettingsService.
-     *
-     * @var SettingsService&MockObject
-     */
-    private SettingsService&MockObject $settingsService;
-
-    /**
      * Mock IAppManager.
      *
      * @var IAppManager&MockObject
@@ -77,13 +66,11 @@ class HealthControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->request         = $this->createMock(originalClassName: IRequest::class);
-        $this->settingsService = $this->createMock(originalClassName: SettingsService::class);
-        $this->appManager      = $this->createMock(originalClassName: IAppManager::class);
+        $this->request    = $this->createMock(originalClassName: IRequest::class);
+        $this->appManager = $this->createMock(originalClassName: IAppManager::class);
 
         $this->controller = new HealthController(
             request: $this->request,
-            settingsService: $this->settingsService,
             appManager: $this->appManager,
         );
 
@@ -96,14 +83,10 @@ class HealthControllerTest extends TestCase
      */
     public function testIndexReturnsOkWhenOpenRegisterAvailable(): void
     {
-        $this->settingsService->expects($this->once())
-            ->method('isOpenRegisterAvailable')
-            ->willReturn(true);
-
         $this->appManager->expects($this->once())
-            ->method('getAppVersion')
-            ->with(appId: 'planix')
-            ->willReturn('0.2.1');
+            ->method('isInstalled')
+            ->with('openregister')
+            ->willReturn(true);
 
         $result = $this->controller->index();
 
@@ -112,7 +95,6 @@ class HealthControllerTest extends TestCase
 
         $data = $result->getData();
         self::assertSame(expected: 'ok', actual: $data['status']);
-        self::assertSame(expected: '0.2.1', actual: $data['version']);
         self::assertTrue(condition: $data['openRegisterAvailable']);
 
     }//end testIndexReturnsOkWhenOpenRegisterAvailable()
@@ -124,14 +106,10 @@ class HealthControllerTest extends TestCase
      */
     public function testIndexReturnsDegradedWhenOpenRegisterUnavailable(): void
     {
-        $this->settingsService->expects($this->once())
-            ->method('isOpenRegisterAvailable')
-            ->willReturn(false);
-
         $this->appManager->expects($this->once())
-            ->method('getAppVersion')
-            ->with(appId: 'planix')
-            ->willReturn('0.2.1');
+            ->method('isInstalled')
+            ->with('openregister')
+            ->willReturn(false);
 
         $result = $this->controller->index();
 
@@ -145,28 +123,23 @@ class HealthControllerTest extends TestCase
     }//end testIndexReturnsDegradedWhenOpenRegisterUnavailable()
 
     /**
-     * Test that response contains all required fields.
+     * Test that response contains all required fields and no version field.
      *
      * @return void
      */
     public function testIndexResponseContainsAllRequiredFields(): void
     {
-        $this->settingsService->expects($this->once())
-            ->method('isOpenRegisterAvailable')
-            ->willReturn(true);
-
         $this->appManager->expects($this->once())
-            ->method('getAppVersion')
-            ->with(appId: 'planix')
-            ->willReturn('1.0.0');
+            ->method('isInstalled')
+            ->with('openregister')
+            ->willReturn(true);
 
         $result = $this->controller->index();
         $data   = $result->getData();
 
         self::assertArrayHasKey(key: 'status', array: $data);
-        self::assertArrayHasKey(key: 'version', array: $data);
         self::assertArrayHasKey(key: 'openRegisterAvailable', array: $data);
-        self::assertSame(expected: '1.0.0', actual: $data['version']);
+        self::assertArrayNotHasKey(key: 'version', array: $data);
 
     }//end testIndexResponseContainsAllRequiredFields()
 }//end class
