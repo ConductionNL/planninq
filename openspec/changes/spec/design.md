@@ -1,6 +1,6 @@
 # Kanban Board MVP
 
-**Status**: approved
+**Status**: pr-created
 **Spec reference**: [kanban-board](../../specs/kanban-board.md)
 **Priority**: MVP
 
