@@ -71,6 +71,10 @@ class HealthController extends Controller
      */
     public function index(): JSONResponse
     {
+        // NOTE: isEnabledForUser() (not isInstalled()) is used intentionally here.
+        // SettingsService::isOpenRegisterAvailable() uses isInstalled(), which is true
+        // even when an app is installed but disabled. A health probe must reflect whether
+        // the dependency is operational (i.e. enabled), not merely present on the filesystem.
         $openRegisterAvailable = $this->appManager->isEnabledForUser('openregister');
         $version = $this->appManager->getAppVersion(Application::APP_ID);
 

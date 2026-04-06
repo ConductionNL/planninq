@@ -74,5 +74,8 @@ components:
           example: "0.2.1"
         openRegisterAvailable:
           type: boolean
-          description: Whether the OpenRegister Nextcloud app is installed and available.
+          description: >
+            Whether the OpenRegister Nextcloud app is enabled and available.
+            This reflects enabled state (IAppManager::isEnabledForUser), not merely
+            installed state — an installed-but-disabled app returns false here.
           example: true

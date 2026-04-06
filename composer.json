@@ -46,7 +46,8 @@
 		"test:all": "./vendor/bin/phpunit --colors=always || echo 'Tests require Nextcloud environment, skipping...'",
 		"check": "E=0; for CMD in lint phpcs psalm test:unit; do echo; echo \"=== $CMD ===\"; composer $CMD || E=1; done; echo; if [ $E -eq 0 ]; then echo \"ALL CHECKS PASSED\"; else echo \"SOME CHECKS FAILED (see above)\"; fi; exit $E",
 		"check:full": "E=0; for CMD in lint phpcs psalm phpstan test:all; do echo; echo \"=== $CMD ===\"; composer $CMD || E=1; done; echo; if [ $E -eq 0 ]; then echo \"ALL CHECKS PASSED\"; else echo \"SOME CHECKS FAILED (see above)\"; fi; exit $E",
-		"check:strict": "E=0; for CMD in lint phpcs phpmd psalm phpstan test:all; do echo; echo \"=== $CMD ===\"; composer $CMD || E=1; done; echo; if [ $E -eq 0 ]; then echo \"ALL CHECKS PASSED\"; else echo \"SOME CHECKS FAILED (see above)\"; fi; exit $E",
+		"check:oas-sync": "bash -c 'INFO_VER=$(grep -oP \"(?<=<version>)[^<]+\" appinfo/info.xml | head -1); OAS_VER=$(grep -oP \"^  version: \\K.+\" docs/openapi.yaml | head -1); if [ \"$INFO_VER\" != \"$OAS_VER\" ]; then echo \"OAS version mismatch: appinfo/info.xml=[$INFO_VER] docs/openapi.yaml=[$OAS_VER]\"; exit 1; else echo \"OAS version sync OK: $INFO_VER\"; fi'",
+		"check:strict": "E=0; for CMD in lint phpcs phpmd psalm phpstan test:all check:oas-sync; do echo; echo \"=== $CMD ===\"; composer $CMD || E=1; done; echo; if [ $E -eq 0 ]; then echo \"ALL CHECKS PASSED\"; else echo \"SOME CHECKS FAILED (see above)\"; fi; exit $E",
 		"fix": [
 			"@cs:fix"
 		],
