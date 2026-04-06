@@ -63,7 +63,11 @@
 			</div>
 
 			<!-- Kanban board -->
-			<div v-else class="kanban-board" role="region" :aria-label="t('planix', 'Kanban board')">
+			<div
+				v-else
+				class="kanban-board"
+				role="region"
+				:aria-label="t('planix', 'Kanban board')">
 				<div class="kanban-board__columns">
 					<div
 						v-for="column in columns"
@@ -160,8 +164,6 @@ import { NcAvatar, NcButton, NcEmptyContent, NcLoadingIcon, NcTextField } from '
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
-
 import { getCurrentUser } from '@nextcloud/auth'
 import { useProjectsStore } from '../store/projects.js'
 import ProjectSettingsSidebar from '../components/ProjectSettingsSidebar.vue'
@@ -178,7 +180,6 @@ export default {
 		CogIcon,
 		LockOutline,
 		PlusIcon,
-		ViewColumnOutline,
 	},
 
 	inject: {

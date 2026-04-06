@@ -33,7 +33,6 @@ use OCP\IRequest;
  */
 class ColumnController extends Controller
 {
-
     /**
      * Constructor for the ColumnController.
      *
@@ -106,11 +105,16 @@ class ColumnController extends Controller
             );
         }
 
+        $wipLimit = null;
+        if (isset($data['wipLimit']) === true) {
+            $wipLimit = (int) $data['wipLimit'];
+        }
+
         $columnData = [
             'title'    => $data['title'] ?? '',
             'project'  => $projectId,
             'order'    => (int) ($data['order'] ?? ($data['position'] ?? 0)),
-            'wipLimit' => isset($data['wipLimit']) ? (int) $data['wipLimit'] : null,
+            'wipLimit' => $wipLimit,
             'color'    => $data['color'] ?? null,
             'type'     => $data['type'] ?? 'active',
         ];
@@ -124,9 +128,9 @@ class ColumnController extends Controller
     /**
      * Update an existing column.
      *
-     * @NoAdminRequired
-     *
      * @param string $id The column UUID
+     *
+     * @NoAdminRequired
      *
      * @return JSONResponse
      */
@@ -160,7 +164,11 @@ class ColumnController extends Controller
         }
 
         if (array_key_exists('wipLimit', $data) === true) {
-            $updateData['wipLimit'] = $data['wipLimit'] !== null ? (int) $data['wipLimit'] : null;
+            if ($data['wipLimit'] !== null) {
+                $updateData['wipLimit'] = (int) $data['wipLimit'];
+            } else {
+                $updateData['wipLimit'] = null;
+            }
         }
 
         if (isset($data['color']) === true) {
@@ -180,9 +188,9 @@ class ColumnController extends Controller
     /**
      * Delete a column. Tasks in this column are moved to the backlog.
      *
-     * @NoAdminRequired
-     *
      * @param string $id The column UUID
+     *
+     * @NoAdminRequired
      *
      * @return JSONResponse
      */

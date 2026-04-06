@@ -33,7 +33,6 @@ use Psr\Log\LoggerInterface;
  */
 class ColumnService
 {
-
     /**
      * Constructor for the ColumnService.
      *
@@ -76,7 +75,11 @@ class ColumnService
     private function getCurrentUid(): string
     {
         $user = $this->userSession->getUser();
-        return $user !== null ? $user->getUID() : '';
+        if ($user !== null) {
+            return $user->getUID();
+        }
+
+        return '';
 
     }//end getCurrentUid()
 
@@ -124,9 +127,12 @@ class ColumnService
             filters: ['project' => $projectId],
         );
 
-        usort($columns, static function (array $a, array $b): int {
-            return ($a['order'] ?? 0) <=> ($b['order'] ?? 0);
-        });
+        usort(
+                $columns,
+                static function (array $a, array $b): int {
+                    return ($a['order'] ?? 0) <=> ($b['order'] ?? 0);
+                }
+                );
 
         return $columns;
 
@@ -144,7 +150,11 @@ class ColumnService
         $objectService = $this->getObjectService();
         $column        = $objectService->findObject(register: 'planix', schema: 'column', id: $id);
 
-        return $column ?: null;
+        if ($column === false || $column === null) {
+            return null;
+        }
+
+        return $column;
 
     }//end findColumn()
 
