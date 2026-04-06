@@ -79,8 +79,12 @@ class ProjectController extends Controller
     /**
      * Retrieve a single project by ID.
      *
-     * Returns 404 when the project does not exist. Returns 403 when
-     * the current user is not a member of the project.
+     * Authentication is checked before the datastore lookup to prevent a
+     * 404/403 oracle that would allow unauthenticated callers to enumerate
+     * valid project UUIDs (IDOR — CWE-284).
+     *
+     * Returns 403 when the caller is unauthenticated or not a project member.
+     * Returns 404 only for authenticated members who look up a non-existent ID.
      *
      * @param string $id The project UUID
      *
@@ -91,20 +95,21 @@ class ProjectController extends Controller
     public function show(string $id): JSONResponse
     {
         try {
-            $project = $this->projectService->find(id: $id);
-
-            if ($project === null) {
-                return new JSONResponse(
-                    data: ['error' => 'Project not found.'],
-                    statusCode: Http::STATUS_NOT_FOUND
-                );
-            }
-
+            // Auth check BEFORE the datastore lookup — prevents 404/403 oracle enumeration.
             $uid = $this->projectService->getCurrentUserId();
-            if ($uid === null || $this->projectService->isMember(project: $project, uid: $uid) === false) {
+            if ($uid === null) {
                 return new JSONResponse(
                     data: ['error' => 'Access denied.'],
                     statusCode: Http::STATUS_FORBIDDEN
+                );
+            }
+
+            $project = $this->projectService->find(id: $id);
+
+            if ($project === null || $this->projectService->isMember(project: $project, uid: $uid) === false) {
+                return new JSONResponse(
+                    data: ['error' => 'Project not found.'],
+                    statusCode: Http::STATUS_NOT_FOUND
                 );
             }
 
@@ -120,7 +125,7 @@ class ProjectController extends Controller
     }//end show()
 
     /**
-     * Create a new project. Title is required.
+     * Create a new project. Title is required. Returns 403 when unauthenticated.
      *
      * @NoAdminRequired
      *
@@ -129,6 +134,15 @@ class ProjectController extends Controller
     public function create(): JSONResponse
     {
         try {
+            // Guard unauthenticated callers here so we return 403, not 500.
+            $uid = $this->projectService->getCurrentUserId();
+            if ($uid === null) {
+                return new JSONResponse(
+                    data: ['error' => 'Access denied.'],
+                    statusCode: Http::STATUS_FORBIDDEN
+                );
+            }
+
             $params = $this->request->getParams();
             $title  = trim((string) ($params['title'] ?? ''));
 
@@ -139,10 +153,18 @@ class ProjectController extends Controller
                 );
             }
 
+            $color = (string) ($params['color'] ?? '');
+            if ($color !== '' && preg_match('/^#[0-9A-Fa-f]{6}$/', $color) !== 1) {
+                return new JSONResponse(
+                    data: ['error' => 'Invalid color format. Expected #RRGGBB hex color.'],
+                    statusCode: Http::STATUS_BAD_REQUEST
+                );
+            }
+
             $data = [
                 'title'       => $title,
                 'description' => ($params['description'] ?? ''),
-                'color'       => ($params['color'] ?? ''),
+                'color'       => $color,
             ];
 
             $project = $this->projectService->create(data: $data);
@@ -165,6 +187,10 @@ class ProjectController extends Controller
      * Partially update an existing project. Only members may update; only the owner may
      * modify the members list.
      *
+     * Authentication is checked before the datastore lookup to prevent a
+     * 404/403 oracle that would allow unauthenticated callers to enumerate
+     * valid project UUIDs (IDOR — CWE-284).
+     *
      * @param string $id The project UUID
      *
      * @NoAdminRequired
@@ -174,20 +200,21 @@ class ProjectController extends Controller
     public function update(string $id): JSONResponse
     {
         try {
-            $project = $this->projectService->find(id: $id);
-
-            if ($project === null) {
-                return new JSONResponse(
-                    data: ['error' => 'Project not found.'],
-                    statusCode: Http::STATUS_NOT_FOUND
-                );
-            }
-
+            // Auth check BEFORE the datastore lookup — prevents 404/403 oracle enumeration.
             $uid = $this->projectService->getCurrentUserId();
-            if ($uid === null || $this->projectService->isMember(project: $project, uid: $uid) === false) {
+            if ($uid === null) {
                 return new JSONResponse(
                     data: ['error' => 'Access denied.'],
                     statusCode: Http::STATUS_FORBIDDEN
+                );
+            }
+
+            $project = $this->projectService->find(id: $id);
+
+            if ($project === null || $this->projectService->isMember(project: $project, uid: $uid) === false) {
+                return new JSONResponse(
+                    data: ['error' => 'Project not found.'],
+                    statusCode: Http::STATUS_NOT_FOUND
                 );
             }
 
@@ -200,6 +227,27 @@ class ProjectController extends Controller
                 return new JSONResponse(
                     data: ['error' => 'Only the project owner may modify the member list.'],
                     statusCode: Http::STATUS_FORBIDDEN
+                );
+            }
+
+            // Validate color format when provided.
+            if (isset($params['color']) === true && $params['color'] !== '') {
+                if (preg_match('/^#[0-9A-Fa-f]{6}$/', (string) $params['color']) !== 1) {
+                    return new JSONResponse(
+                        data: ['error' => 'Invalid color format. Expected #RRGGBB hex color.'],
+                        statusCode: Http::STATUS_BAD_REQUEST
+                    );
+                }
+            }
+
+            // Validate status enum when provided.
+            $allowedStatuses = ['active', 'archived', 'completed'];
+            if (isset($params['status']) === true
+                && in_array($params['status'], $allowedStatuses, strict: true) === false
+            ) {
+                return new JSONResponse(
+                    data: ['error' => 'Invalid status. Allowed values: active, archived, completed.'],
+                    statusCode: Http::STATUS_BAD_REQUEST
                 );
             }
 
@@ -227,6 +275,12 @@ class ProjectController extends Controller
     /**
      * Delete a project. Only the owner (first member) may delete.
      *
+     * Authentication is checked before the datastore lookup to prevent a
+     * 404/403 oracle that would allow unauthenticated callers to enumerate
+     * valid project UUIDs (IDOR — CWE-284).
+     *
+     * Note: isOwner implies membership — no separate isMember check needed.
+     *
      * @param string $id The project UUID
      *
      * @NoAdminRequired
@@ -236,20 +290,21 @@ class ProjectController extends Controller
     public function destroy(string $id): JSONResponse
     {
         try {
-            $project = $this->projectService->find(id: $id);
-
-            if ($project === null) {
+            // Auth check BEFORE the datastore lookup — prevents 404/403 oracle enumeration.
+            $uid = $this->projectService->getCurrentUserId();
+            if ($uid === null) {
                 return new JSONResponse(
-                    data: ['error' => 'Project not found.'],
-                    statusCode: Http::STATUS_NOT_FOUND
+                    data: ['error' => 'Access denied.'],
+                    statusCode: Http::STATUS_FORBIDDEN
                 );
             }
 
-            $uid = $this->projectService->getCurrentUserId();
-            if ($uid === null || $this->projectService->isOwner(project: $project, uid: $uid) === false) {
+            $project = $this->projectService->find(id: $id);
+
+            if ($project === null || $this->projectService->isOwner(project: $project, uid: $uid) === false) {
                 return new JSONResponse(
-                    data: ['error' => 'Only the project owner may delete this project.'],
-                    statusCode: Http::STATUS_FORBIDDEN
+                    data: ['error' => 'Project not found.'],
+                    statusCode: Http::STATUS_NOT_FOUND
                 );
             }
 

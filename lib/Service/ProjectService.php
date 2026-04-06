@@ -114,11 +114,16 @@ class ProjectService
     }//end getObjectService()
 
     /**
-     * Fetch all projects the current user is a member of.
+     * Fetch all active projects the current user is a member of.
      *
      * Returns an empty list when there is no authenticated user.
      *
-     * @return array<int,array<string,mixed>> List of projects
+     * Note: OpenRegister's MariaDB backend lacks JSON-column operators, so we
+     * fetch all projects and apply the membership + status filters in PHP.
+     * This is an O(N) scan on total project count. A server-side filter should
+     * be added once OpenRegister exposes a `filters` parameter (backlog item).
+     *
+     * @return array<int,array<string,mixed>> List of active projects the user is a member of
      */
     public function findAll(): array
     {
@@ -134,12 +139,19 @@ class ProjectService
             schema: self::PROJECT_SCHEMA
         );
 
-        // Client-side member filter (MariaDB lacks jsonb operators).
+        // Client-side member + status filter (MariaDB lacks jsonb operators).
         return array_values(
             array_filter(
                 $objects,
                 static function (array $project) use ($uid): bool {
                     $members = ($project['members'] ?? []);
+                    $status  = ($project['status'] ?? 'active');
+
+                    // Only show active projects (archived/completed are excluded from default list).
+                    if ($status !== 'active') {
+                        return false;
+                    }
+
                     return is_array($members) && in_array(needle: $uid, haystack: $members, strict: true);
                 }
             )
@@ -323,15 +335,49 @@ class ProjectService
     }//end update()
 
     /**
-     * Delete a project by ID.
+     * Delete a project and all its associated kanban columns.
+     *
+     * Columns are fetched and deleted before the project record to prevent
+     * orphaned column objects accumulating in the OpenRegister store.
      *
      * @param string $id The project UUID
      *
-     * @return bool Whether the deletion was successful
+     * @return bool Whether the project deletion was successful
      */
     public function delete(string $id): bool
     {
         $objectService = $this->getObjectService();
+
+        // Cascade-delete all columns that reference this project.
+        try {
+            $columns = $objectService->findAll(
+                register: self::REGISTER_SLUG,
+                schema: self::COLUMN_SCHEMA
+            );
+
+            foreach ($columns as $column) {
+                if (isset($column['project']) === true && (string) $column['project'] === $id) {
+                    try {
+                        $objectService->delete(
+                            id: (string) $column['id'],
+                            register: self::REGISTER_SLUG,
+                            schema: self::COLUMN_SCHEMA
+                        );
+                    } catch (\Throwable $e) {
+                        // Best-effort deletion — log but continue so the project itself is still deleted.
+                        $this->logger->error(
+                            'Planix: failed to delete column "'.(string) ($column['id'] ?? '').'" during project cascade delete',
+                            ['exception' => $e->getMessage()]
+                        );
+                    }
+                }
+            }
+        } catch (\Throwable $e) {
+            $this->logger->error(
+                'Planix: failed to fetch columns for cascade delete of project "'.$id.'"',
+                ['exception' => $e->getMessage()]
+            );
+        }//end try
 
         return $objectService->delete(
             id: $id,

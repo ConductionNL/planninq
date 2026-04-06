@@ -190,6 +190,19 @@ class ProjectServiceTest extends TestCase
     }//end testGetCurrentUserIdReturnsNullWithoutUser()
 
     /**
+     * Test isOwner() returns false when the members key is absent.
+     *
+     * @return void
+     */
+    public function testIsOwnerReturnsFalseWhenMembersKeyMissing(): void
+    {
+        $project = ['id' => 'p1'];
+
+        self::assertFalse(condition: $this->service->isOwner(project: $project, uid: 'alice'));
+
+    }//end testIsOwnerReturnsFalseWhenMembersKeyMissing()
+
+    /**
      * Test findAll() returns an empty array when no user is authenticated.
      *
      * @return void
@@ -206,6 +219,40 @@ class ProjectServiceTest extends TestCase
         self::assertSame(expected: [], actual: $result);
 
     }//end testFindAllReturnsEmptyArrayWhenUnauthenticated()
+
+    /**
+     * Test findAll() returns only projects the user is a member of and filters out non-active projects.
+     *
+     * @return void
+     */
+    public function testFindAllFiltersToMemberActiveProjects(): void
+    {
+        $user = $this->createMock(originalClassName: \OCP\IUser::class);
+        $user->method('getUID')->willReturn('alice');
+        $this->userSession->method('getUser')->willReturn($user);
+
+        $allProjects = [
+            ['id' => 'p1', 'title' => 'My Active',   'members' => ['alice'],       'status' => 'active'],
+            ['id' => 'p2', 'title' => 'Not Member',   'members' => ['bob'],         'status' => 'active'],
+            ['id' => 'p3', 'title' => 'My Archived',  'members' => ['alice'],       'status' => 'archived'],
+            ['id' => 'p4', 'title' => 'My Completed', 'members' => ['alice'],       'status' => 'completed'],
+            ['id' => 'p5', 'title' => 'No Status',    'members' => ['alice']],
+        ];
+
+        $objectService = $this->createMock(originalClassName: \stdClass::class);
+        $objectService->method('findAll')->willReturn($allProjects);
+
+        $this->container->method('get')->willReturn($objectService);
+
+        $result = $this->service->findAll();
+
+        // Only p1 (alice + active) and p5 (alice + no status defaults to active) should be returned.
+        self::assertCount(expectedCount: 2, haystack: $result);
+        $ids = array_column($result, 'id');
+        self::assertContains(needle: 'p1', haystack: $ids);
+        self::assertContains(needle: 'p5', haystack: $ids);
+
+    }//end testFindAllFiltersToMemberActiveProjects()
 
     /**
      * Test create() throws RuntimeException when no user is authenticated.

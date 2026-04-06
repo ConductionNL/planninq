@@ -6,7 +6,7 @@
 **acceptance_criteria**:
 - [x] `GET /api/projects` lists all projects the user is a member of
 - [x] `POST /api/projects` creates a project (title required, description optional, color optional)
-- [x] `PUT /api/projects/{id}` updates a project (owner or member only)
+- [x] `PATCH /api/projects/{id}` partially updates a project (owner or member only)
 - [x] `DELETE /api/projects/{id}` deletes a project (owner only)
 - [x] Returns 404 for non-existent project IDs
 - [x] Returns 403 for unauthorized access
