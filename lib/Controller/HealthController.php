@@ -5,6 +5,9 @@
  *
  * Provides a public health check endpoint for load balancers and monitoring.
  *
+ * SPDX-License-Identifier: EUPL-1.2
+ * Copyright (C) 2026 Conduction B.V.
+ *
  * @spec openspec/changes/status-api/tasks.md#task-1
  *
  * @category Controller
@@ -18,9 +21,6 @@
  *
  * @link https://conduction.nl
  */
-
-// SPDX-License-Identifier: EUPL-1.2
-// Copyright (C) 2026 Conduction B.V.
 
 declare(strict_types=1);
 
@@ -43,10 +43,10 @@ class HealthController extends Controller
     /**
      * Constructor for the HealthController.
      *
-     * @spec openspec/changes/status-api/tasks.md#task-1
-     *
      * @param IRequest    $request    The request object
      * @param IAppManager $appManager The app manager for checking installed apps
+     *
+     * @spec openspec/changes/status-api/tasks.md#task-1
      *
      * @return void
      */
@@ -63,28 +63,31 @@ class HealthController extends Controller
      * Returns HTTP 200 when healthy (OpenRegister available),
      * HTTP 503 when OpenRegister is unavailable.
      *
-     * @spec openspec/changes/status-api/tasks.md#task-1
-     *
      * @PublicPage
      * @NoCSRFRequired
+     *
+     * @spec openspec/changes/status-api/tasks.md#task-1
      *
      * @return JSONResponse
      */
     public function index(): JSONResponse
     {
-        $openRegisterAvailable = $this->appManager->isInstalled('openregister');
-        $version               = $this->appManager->getAppVersion(Application::APP_ID);
+        $hasRegister = $this->appManager->isInstalled('openregister');
+        $version     = $this->appManager->getAppVersion(Application::APP_ID);
 
-        $status     = $openRegisterAvailable ? 'ok' : 'degraded';
-        $httpStatus = $openRegisterAvailable
-            ? Http::STATUS_OK
-            : Http::STATUS_SERVICE_UNAVAILABLE;
+        $status     = 'degraded';
+        $httpStatus = Http::STATUS_SERVICE_UNAVAILABLE;
+
+        if ($hasRegister === true) {
+            $status     = 'ok';
+            $httpStatus = Http::STATUS_OK;
+        }
 
         return new JSONResponse(
             [
                 'status'                => $status,
                 'version'               => $version,
-                'openRegisterAvailable' => $openRegisterAvailable,
+                'openRegisterAvailable' => $hasRegister,
             ],
             $httpStatus
         );
