@@ -13,7 +13,7 @@ return [
         // Column CRUD endpoints.
         ['name' => 'column#index',   'url' => '/api/columns',      'verb' => 'GET'],
         ['name' => 'column#create',  'url' => '/api/columns',      'verb' => 'POST'],
-        ['name' => 'column#update',  'url' => '/api/columns/{id}', 'verb' => 'PUT'],
+        ['name' => 'column#update',  'url' => '/api/columns/{id}', 'verb' => 'PATCH'],
         ['name' => 'column#destroy', 'url' => '/api/columns/{id}', 'verb' => 'DELETE'],
 
         // Prometheus metrics endpoint.

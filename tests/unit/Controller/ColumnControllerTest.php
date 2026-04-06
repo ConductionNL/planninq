@@ -92,6 +92,11 @@ class ColumnControllerTest extends TestCase
             ->willReturn($projectId);
 
         $this->columnService->expects($this->once())
+            ->method('findProject')
+            ->with($projectId)
+            ->willReturn(['id' => $projectId, 'members' => ['user1']]);
+
+        $this->columnService->expects($this->once())
             ->method('isProjectMember')
             ->with($projectId)
             ->willReturn(true);
@@ -110,6 +115,36 @@ class ColumnControllerTest extends TestCase
     }//end testIndexReturnsColumnsForProjectMember()
 
     /**
+     * Test that index() returns 404 for non-existent projects.
+     *
+     * @return void
+     */
+    public function testIndexReturnsNotFoundForNonExistentProject(): void
+    {
+        $projectId = 'nonexistent';
+
+        $this->request->expects($this->once())
+            ->method('getParam')
+            ->with('projectId')
+            ->willReturn($projectId);
+
+        $this->columnService->expects($this->once())
+            ->method('findProject')
+            ->with($projectId)
+            ->willReturn(null);
+
+        $this->columnService->expects($this->never())
+            ->method('listColumns');
+
+        $result = $this->controller->index();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_NOT_FOUND, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testIndexReturnsNotFoundForNonExistentProject()
+
+    /**
      * Test that index() returns 403 for non-project-members.
      *
      * @return void
@@ -122,6 +157,11 @@ class ColumnControllerTest extends TestCase
             ->method('getParam')
             ->with('projectId')
             ->willReturn($projectId);
+
+        $this->columnService->expects($this->once())
+            ->method('findProject')
+            ->with($projectId)
+            ->willReturn(['id' => $projectId, 'members' => ['other-user']]);
 
         $this->columnService->expects($this->once())
             ->method('isProjectMember')
@@ -173,6 +213,11 @@ class ColumnControllerTest extends TestCase
             ->willReturn($params);
 
         $this->columnService->expects($this->once())
+            ->method('findProject')
+            ->with('proj-uuid-1')
+            ->willReturn(['id' => 'proj-uuid-1', 'members' => ['user1']]);
+
+        $this->columnService->expects($this->once())
             ->method('isProjectMember')
             ->with('proj-uuid-1')
             ->willReturn(true);
@@ -188,6 +233,92 @@ class ColumnControllerTest extends TestCase
         self::assertSame(expected: 'col-new', actual: $result->getData()['id']);
 
     }//end testCreateReturnsCreatedColumn()
+
+    /**
+     * Test that create() returns 400 when project field is missing.
+     *
+     * @return void
+     */
+    public function testCreateReturnsBadRequestWithoutProject(): void
+    {
+        $this->request->expects($this->once())
+            ->method('getParams')
+            ->willReturn(['title' => 'My Column']);
+
+        $this->columnService->expects($this->never())
+            ->method('isProjectMember');
+
+        $result = $this->controller->create();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testCreateReturnsBadRequestWithoutProject()
+
+    /**
+     * Test that create() returns 400 when title is empty.
+     *
+     * @return void
+     */
+    public function testCreateReturnsBadRequestWithEmptyTitle(): void
+    {
+        $this->request->expects($this->once())
+            ->method('getParams')
+            ->willReturn(['project' => 'proj-uuid-1', 'title' => '']);
+
+        $this->columnService->expects($this->once())
+            ->method('findProject')
+            ->with('proj-uuid-1')
+            ->willReturn(['id' => 'proj-uuid-1', 'members' => ['user1']]);
+
+        $this->columnService->expects($this->once())
+            ->method('isProjectMember')
+            ->with('proj-uuid-1')
+            ->willReturn(true);
+
+        $this->columnService->expects($this->never())
+            ->method('createColumn');
+
+        $result = $this->controller->create();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testCreateReturnsBadRequestWithEmptyTitle()
+
+    /**
+     * Test that create() returns 403 for non-project-member.
+     *
+     * @return void
+     */
+    public function testCreateReturnsForbiddenForNonMember(): void
+    {
+        $this->request->expects($this->once())
+            ->method('getParams')
+            ->willReturn(['title' => 'My Column', 'project' => 'proj-uuid-1']);
+
+        $this->columnService->expects($this->once())
+            ->method('findProject')
+            ->with('proj-uuid-1')
+            ->willReturn(['id' => 'proj-uuid-1', 'members' => ['other-user']]);
+
+        $this->columnService->expects($this->once())
+            ->method('isProjectMember')
+            ->with('proj-uuid-1')
+            ->willReturn(false);
+
+        $this->columnService->expects($this->never())
+            ->method('createColumn');
+
+        $result = $this->controller->create();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testCreateReturnsForbiddenForNonMember()
 
     /**
      * Test that update() returns 404 for non-existent column.
@@ -252,7 +383,7 @@ class ColumnControllerTest extends TestCase
     }//end testDestroyReturnsNotFoundForMissingColumn()
 
     /**
-     * Test that destroy() deletes column and returns success for project member.
+     * Test that destroy() deletes column and returns 204 for project member.
      *
      * @return void
      */
@@ -277,8 +408,7 @@ class ColumnControllerTest extends TestCase
 
         $result = $this->controller->destroy('col-1');
 
-        self::assertSame(expected: 200, actual: $result->getStatus());
-        self::assertTrue(condition: $result->getData()['success']);
+        self::assertSame(expected: Http::STATUS_NO_CONTENT, actual: $result->getStatus());
 
     }//end testDestroyDeletesColumnForMember()
 }//end class

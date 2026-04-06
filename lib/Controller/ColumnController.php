@@ -66,6 +66,13 @@ class ColumnController extends Controller
             );
         }
 
+        if ($this->columnService->findProject($projectId) === null) {
+            return new JSONResponse(
+                ['error' => 'Project not found.'],
+                Http::STATUS_NOT_FOUND
+            );
+        }
+
         if ($this->columnService->isProjectMember($projectId) === false) {
             return new JSONResponse(
                 ['error' => 'You are not a member of this project.'],
@@ -98,10 +105,25 @@ class ColumnController extends Controller
             );
         }
 
+        if ($this->columnService->findProject($projectId) === null) {
+            return new JSONResponse(
+                ['error' => 'Project not found.'],
+                Http::STATUS_NOT_FOUND
+            );
+        }
+
         if ($this->columnService->isProjectMember($projectId) === false) {
             return new JSONResponse(
                 ['error' => 'You are not a member of this project.'],
                 Http::STATUS_FORBIDDEN
+            );
+        }
+
+        $title = $data['title'] ?? '';
+        if (empty($title) === true) {
+            return new JSONResponse(
+                ['error' => 'The title field is required.'],
+                Http::STATUS_BAD_REQUEST
             );
         }
 
@@ -111,7 +133,7 @@ class ColumnController extends Controller
         }
 
         $columnData = [
-            'title'    => $data['title'] ?? '',
+            'title'    => $title,
             'project'  => $projectId,
             'order'    => (int) ($data['order'] ?? ($data['position'] ?? 0)),
             'wipLimit' => $wipLimit,
@@ -212,9 +234,16 @@ class ColumnController extends Controller
             );
         }
 
-        $this->columnService->deleteColumn($id);
+        $deleted = $this->columnService->deleteColumn($id);
 
-        return new JSONResponse(['success' => true]);
+        if ($deleted === false) {
+            return new JSONResponse(
+                ['error' => 'Failed to delete column.'],
+                Http::STATUS_INTERNAL_SERVER_ERROR
+            );
+        }
+
+        return new JSONResponse(null, Http::STATUS_NO_CONTENT);
 
     }//end destroy()
 }//end class

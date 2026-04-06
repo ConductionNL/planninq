@@ -96,8 +96,8 @@
 								<div class="kanban-card__header">
 									<span
 										class="kanban-card__priority"
-										:class="'kanban-card__priority--' + (task.priority || 'normal')"
-										:title="task.priority || 'normal'" />
+										:class="'kanban-card__priority--' + sanitizePriority(task.priority)"
+										:title="sanitizePriority(task.priority)" />
 									<span class="kanban-card__title">{{ task.title }}</span>
 								</div>
 								<div class="kanban-card__meta">
@@ -248,6 +248,11 @@ export default {
 					deleted: () => this.$router.push({ name: 'Projects' }),
 				},
 			})
+		},
+
+		sanitizePriority(priority) {
+			const allowed = ['low', 'normal', 'high', 'urgent']
+			return allowed.includes(priority) ? priority : 'normal'
 		},
 
 		tasksForColumn(columnId) {

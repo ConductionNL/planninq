@@ -84,6 +84,31 @@ class ColumnService
     }//end getCurrentUid()
 
     /**
+     * Find a project by ID.
+     *
+     * @param string $projectId The project UUID
+     *
+     * @return array|null Project data or null if not found
+     */
+    public function findProject(string $projectId): ?array
+    {
+        try {
+            $objectService = $this->getObjectService();
+            $project       = $objectService->findObject(register: 'planix', schema: 'project', id: $projectId);
+
+            if ($project === null || $project === false) {
+                return null;
+            }
+
+            return $project;
+        } catch (\Throwable $e) {
+            $this->logger->warning('Planix: project lookup failed', ['exception' => $e->getMessage()]);
+            return null;
+        }
+
+    }//end findProject()
+
+    /**
      * Check whether the current user is a member of the given project.
      *
      * @param string $projectId The project UUID
@@ -92,22 +117,19 @@ class ColumnService
      */
     public function isProjectMember(string $projectId): bool
     {
-        try {
-            $objectService = $this->getObjectService();
-            $project       = $objectService->findObject(register: 'planix', schema: 'project', id: $projectId);
-
-            if ($project === null) {
-                return false;
-            }
-
-            $members = $project['members'] ?? [];
-            $uid     = $this->getCurrentUid();
-
-            return in_array($uid, $members, true);
-        } catch (\Throwable $e) {
-            $this->logger->warning('Planix: membership check failed', ['exception' => $e->getMessage()]);
+        $uid = $this->getCurrentUid();
+        if ($uid === '') {
             return false;
         }
+
+        $project = $this->findProject(projectId: $projectId);
+        if ($project === null) {
+            return false;
+        }
+
+        $members = $project['members'] ?? [];
+
+        return in_array($uid, $members, true);
 
     }//end isProjectMember()
 
@@ -161,12 +183,22 @@ class ColumnService
     /**
      * Create a new column.
      *
+     * Callers must have verified project membership before calling this method.
+     * This guard provides defense-in-depth by re-checking membership.
+     *
      * @param array $data Column fields (title, projectId, position)
      *
      * @return array The created column
+     *
+     * @throws \RuntimeException When caller is not a project member
      */
     public function createColumn(array $data): array
     {
+        $projectId = $data['project'] ?? '';
+        if ($this->isProjectMember(projectId: $projectId) === false) {
+            throw new \RuntimeException('Forbidden: caller is not a member of project '.$projectId);
+        }
+
         $objectService = $this->getObjectService();
 
         return $objectService->saveObject(
@@ -180,13 +212,28 @@ class ColumnService
     /**
      * Update an existing column.
      *
+     * Callers must have verified project membership before calling this method.
+     * This guard provides defense-in-depth by re-checking membership via the column's project.
+     *
      * @param string $id   The column UUID
      * @param array  $data Updated fields
      *
      * @return array The updated column
+     *
+     * @throws \RuntimeException When caller is not a project member or column not found
      */
     public function updateColumn(string $id, array $data): array
     {
+        $column = $this->findColumn(id: $id);
+        if ($column === null) {
+            throw new \RuntimeException('Column not found: '.$id);
+        }
+
+        $projectId = $column['project'] ?? '';
+        if ($this->isProjectMember(projectId: $projectId) === false) {
+            throw new \RuntimeException('Forbidden: caller is not a member of project '.$projectId);
+        }
+
         $objectService = $this->getObjectService();
 
         return $objectService->saveObject(
@@ -200,12 +247,27 @@ class ColumnService
     /**
      * Delete a column and move its tasks to the backlog (column = null).
      *
+     * Callers must have verified project membership before calling this method.
+     * This guard provides defense-in-depth by re-checking membership via the column's project.
+     *
      * @param string $id The column UUID
      *
      * @return bool True on success
+     *
+     * @throws \RuntimeException When caller is not a project member or column not found
      */
     public function deleteColumn(string $id): bool
     {
+        $column = $this->findColumn(id: $id);
+        if ($column === null) {
+            throw new \RuntimeException('Column not found: '.$id);
+        }
+
+        $projectId = $column['project'] ?? '';
+        if ($this->isProjectMember(projectId: $projectId) === false) {
+            throw new \RuntimeException('Forbidden: caller is not a member of project '.$projectId);
+        }
+
         $objectService = $this->getObjectService();
 
         // Move tasks assigned to this column to backlog (column = null).
