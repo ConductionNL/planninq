@@ -150,20 +150,24 @@ class SettingsServiceTest extends TestCase
      */
     public function testSetAdminSettingsIgnoresUnknownKeys(): void
     {
-        $stored = [];
-        $this->appConfig->expects($this->exactly(count: 1))
+        // Expect setValueString to be called exactly once, with 'default_columns' — never with 'unknown_key'.
+        $this->appConfig->expects($this->once())
             ->method('setValueString')
-            ->willReturnCallback(
-                function (string $appId, string $key, string $value) use (&$stored): bool {
-                    $stored[$key] = $value;
-                    return true;
-                }
-            );
+            ->with(
+                $this->anything(),
+                'default_columns',
+                '["Sprint","Done"]'
+            )
+            ->willReturn(true);
 
         $this->appConfig->method('getValueString')
             ->willReturnCallback(
-                function (string $appId, string $key, string $default='') use (&$stored): string {
-                    return ($stored[$key] ?? $default);
+                function (string $appId, string $key, string $default=''): string {
+                    if ($key === 'default_columns') {
+                        return '["Sprint","Done"]';
+                    }
+
+                    return $default;
                 }
             );
 
@@ -177,9 +181,8 @@ class SettingsServiceTest extends TestCase
             ]
         );
 
-        self::assertArrayHasKey(key: 'default_columns', array: $stored);
-        self::assertArrayNotHasKey(key: 'unknown_key', array: $stored);
-
+        // PHPUnit verifies the expects(once())+with() constraint at test end:
+        // if setValueString had been called for 'unknown_key' the test would fail.
     }//end testSetAdminSettingsIgnoresUnknownKeys()
 
     /**
@@ -192,19 +195,24 @@ class SettingsServiceTest extends TestCase
      */
     public function testSetAdminSettingsStoresAllowProjectCreation(): void
     {
-        $stored = [];
-        $this->appConfig->method('setValueString')
-            ->willReturnCallback(
-                function (string $appId, string $key, string $value) use (&$stored): bool {
-                    $stored[$key] = $value;
-                    return true;
-                }
-            );
+        // Verify setValueString is called with the correct key/value pair.
+        $this->appConfig->expects($this->once())
+            ->method('setValueString')
+            ->with(
+                $this->anything(),
+                'allow_project_creation',
+                'admins'
+            )
+            ->willReturn(true);
 
         $this->appConfig->method('getValueString')
             ->willReturnCallback(
-                function (string $appId, string $key, string $default='') use (&$stored): string {
-                    return ($stored[$key] ?? $default);
+                function (string $appId, string $key, string $default=''): string {
+                    if ($key === 'allow_project_creation') {
+                        return 'admins';
+                    }
+
+                    return $default;
                 }
             );
 
@@ -213,7 +221,6 @@ class SettingsServiceTest extends TestCase
 
         $result = $this->service->updateSettings(['allow_project_creation' => 'admins']);
 
-        self::assertSame(expected: 'admins', actual: $stored['allow_project_creation']);
         self::assertSame(expected: 'admins', actual: $result['allow_project_creation']);
 
     }//end testSetAdminSettingsStoresAllowProjectCreation()
