@@ -10,6 +10,11 @@ return [
         ['name' => 'settings#create', 'url' => '/api/settings', 'verb' => 'POST'],
         ['name' => 'settings#load',  'url' => '/api/settings/load', 'verb' => 'POST'],
 
+        // Labels.
+        ['name' => 'label#index',   'url' => '/api/labels',      'verb' => 'GET'],
+        ['name' => 'label#create',  'url' => '/api/labels',      'verb' => 'POST'],
+        ['name' => 'label#destroy', 'url' => '/api/labels/{id}', 'verb' => 'DELETE'],
+
         // Prometheus metrics endpoint.
         ['name' => 'metrics#index', 'url' => '/api/metrics', 'verb' => 'GET'],
         // Health check endpoint.
