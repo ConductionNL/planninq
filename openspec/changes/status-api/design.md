@@ -1,6 +1,6 @@
 # Status API
 
-**Status**: approved
+**Status**: pr-created
 
 ## Summary
 Add a health check endpoint to Planix per ADR-015 (Prometheus metrics & health).

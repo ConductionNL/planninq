@@ -4,6 +4,6 @@
 **spec_ref**: status-api/design.md
 **files_likely_affected**: lib/Controller/HealthController.php (new), appinfo/routes.php
 **acceptance_criteria**:
-- [ ] `GET /api/health` returns JSON with `status`, `version`, and `openRegisterAvailable` fields
-- [ ] Endpoint is public (no auth required) for load balancer use
-- [ ] Returns HTTP 200 when healthy, 503 when OpenRegister unavailable
+- [x] `GET /api/health` returns JSON with `status`, `version`, and `openRegisterAvailable` fields
+- [x] Endpoint is public (no auth required) for load balancer use
+- [x] Returns HTTP 200 when healthy, 503 when OpenRegister unavailable
