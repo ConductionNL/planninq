@@ -96,7 +96,7 @@ class LabelService
         $objectService->setSchema(self::SCHEMA_SLUG);
 
         return $objectService->findAll(
-            config: [
+            [
                 'filters' => [
                     'register' => self::REGISTER_SLUG,
                     'schema'   => self::SCHEMA_SLUG,
@@ -122,9 +122,10 @@ class LabelService
         $objectService->setSchema(self::SCHEMA_SLUG);
 
         $object = $objectService->createFromArray(
-            object: $data,
-            register: self::REGISTER_SLUG,
-            schema: self::SCHEMA_SLUG,
+            $data,
+            [],
+            self::REGISTER_SLUG,
+            self::SCHEMA_SLUG,
         );
 
         return $object->jsonSerialize();
@@ -146,7 +147,7 @@ class LabelService
         $objectService->setRegister(self::REGISTER_SLUG);
         $objectService->setSchema(self::SCHEMA_SLUG);
 
-        return $objectService->deleteObject(uuid: $id);
+        return $objectService->deleteObject($id);
 
     }//end delete()
 }//end class

@@ -119,7 +119,7 @@ class LabelServiceTest extends TestCase
         $this->objectService->expects($this->once())
             ->method('findAll')
             ->with(
-                config: [
+                [
                     'filters' => [
                         'register' => 'planix',
                         'schema'   => 'label',
@@ -162,9 +162,10 @@ class LabelServiceTest extends TestCase
         $this->objectService->expects($this->once())
             ->method('createFromArray')
             ->with(
-                object: $data,
-                register: 'planix',
-                schema: 'label',
+                $data,
+                [],
+                'planix',
+                'label',
             )
             ->willReturn($mockEntity);
 
@@ -184,7 +185,7 @@ class LabelServiceTest extends TestCase
     {
         $this->objectService->expects($this->once())
             ->method('deleteObject')
-            ->with(uuid: 'uuid-to-delete')
+            ->with('uuid-to-delete')
             ->willReturn(true);
 
         $result = $this->service->delete(id: 'uuid-to-delete');
