@@ -26,6 +26,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * Tests for LabelController.
@@ -55,6 +56,13 @@ class LabelControllerTest extends TestCase
     private LabelService&MockObject $labelService;
 
     /**
+     * Mock LoggerInterface.
+     *
+     * @var LoggerInterface&MockObject
+     */
+    private LoggerInterface&MockObject $logger;
+
+    /**
      * Set up test fixtures.
      *
      * @return void
@@ -65,10 +73,12 @@ class LabelControllerTest extends TestCase
 
         $this->request      = $this->createMock(originalClassName: IRequest::class);
         $this->labelService = $this->createMock(originalClassName: LabelService::class);
+        $this->logger       = $this->createMock(originalClassName: LoggerInterface::class);
 
         $this->controller = new LabelController(
             request: $this->request,
             labelService: $this->labelService,
+            logger: $this->logger,
         );
 
     }//end setUp()
@@ -263,6 +273,25 @@ class LabelControllerTest extends TestCase
     }//end testDestroyReturnsForbiddenForNonAdmin()
 
     /**
+     * Test that destroy() returns 400 when the id is not a valid UUID.
+     *
+     * @return void
+     */
+    public function testDestroyReturnsBadRequestForInvalidId(): void
+    {
+        $this->labelService->method('isCurrentUserAdmin')->willReturn(true);
+
+        $this->labelService->expects($this->never())->method('delete');
+
+        $result = $this->controller->destroy(id: 'not-a-uuid');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testDestroyReturnsBadRequestForInvalidId()
+
+    /**
      * Test that destroy() returns 204 No Content on successful deletion.
      *
      * @return void
@@ -271,12 +300,14 @@ class LabelControllerTest extends TestCase
     {
         $this->labelService->method('isCurrentUserAdmin')->willReturn(true);
 
+        $validUuid = 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11';
+
         $this->labelService->expects($this->once())
             ->method('delete')
-            ->with('uuid-to-delete')
+            ->with($validUuid)
             ->willReturn(true);
 
-        $result = $this->controller->destroy(id: 'uuid-to-delete');
+        $result = $this->controller->destroy(id: $validUuid);
 
         self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
         self::assertSame(expected: Http::STATUS_NO_CONTENT, actual: $result->getStatus());
@@ -292,12 +323,14 @@ class LabelControllerTest extends TestCase
     {
         $this->labelService->method('isCurrentUserAdmin')->willReturn(true);
 
+        $validUuid = 'b1ffcd00-0000-4000-8000-000000000001';
+
         $this->labelService->expects($this->once())
             ->method('delete')
-            ->with('uuid-missing')
+            ->with($validUuid)
             ->willReturn(false);
 
-        $result = $this->controller->destroy(id: 'uuid-missing');
+        $result = $this->controller->destroy(id: $validUuid);
 
         self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
         self::assertSame(expected: Http::STATUS_NOT_FOUND, actual: $result->getStatus());

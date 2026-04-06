@@ -29,6 +29,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 
 /**
  * Controller for managing labels via REST API.
@@ -40,14 +41,16 @@ class LabelController extends Controller
     /**
      * Constructor for the LabelController.
      *
-     * @param IRequest     $request      The request object
-     * @param LabelService $labelService The label service
+     * @param IRequest        $request      The request object
+     * @param LabelService    $labelService The label service
+     * @param LoggerInterface $logger       The logger
      *
      * @return void
      */
     public function __construct(
         IRequest $request,
         private LabelService $labelService,
+        private LoggerInterface $logger,
     ) {
         parent::__construct(appName: Application::APP_ID, request: $request);
     }//end __construct()
@@ -67,8 +70,9 @@ class LabelController extends Controller
             $labels = $this->labelService->findAll();
             return new JSONResponse($labels);
         } catch (\RuntimeException $e) {
+            $this->logger->error('LabelController: failed to list labels', ['exception' => $e->getMessage()]);
             return new JSONResponse(
-                ['error' => $e->getMessage()],
+                ['error' => 'An internal error occurred. Please try again later.'],
                 Http::STATUS_INTERNAL_SERVER_ERROR
             );
         }
@@ -123,8 +127,9 @@ class LabelController extends Controller
             $label = $this->labelService->create(data: ['title' => $title, 'color' => $color]);
             return new JSONResponse($label, Http::STATUS_CREATED);
         } catch (\RuntimeException $e) {
+            $this->logger->error('LabelController: failed to create label', ['exception' => $e->getMessage()]);
             return new JSONResponse(
-                ['error' => $e->getMessage()],
+                ['error' => 'An internal error occurred. Please try again later.'],
                 Http::STATUS_INTERNAL_SERVER_ERROR
             );
         }
@@ -153,6 +158,10 @@ class LabelController extends Controller
             );
         }
 
+        if (preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $id) !== 1) {
+            return new JSONResponse(['error' => 'Invalid label ID format.'], Http::STATUS_BAD_REQUEST);
+        }
+
         try {
             $deleted = $this->labelService->delete(id: $id);
             if ($deleted === false) {
@@ -161,8 +170,9 @@ class LabelController extends Controller
 
             return new JSONResponse(data: [], statusCode: Http::STATUS_NO_CONTENT);
         } catch (\RuntimeException $e) {
+            $this->logger->error('LabelController: failed to delete label', ['exception' => $e->getMessage()]);
             return new JSONResponse(
-                ['error' => $e->getMessage()],
+                ['error' => 'An internal error occurred. Please try again later.'],
                 Http::STATUS_INTERNAL_SERVER_ERROR
             );
         }
