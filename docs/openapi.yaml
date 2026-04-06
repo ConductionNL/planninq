@@ -1,0 +1,77 @@
+openapi: 3.0.3
+info:
+  title: Planix API
+  description: >
+    REST API for the Planix Nextcloud application.
+    Conforms to the Common Ground API standard and NL API strategie guidelines.
+  version: 0.2.1
+  license:
+    name: EUPL-1.2
+    url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+  contact:
+    name: Conduction B.V.
+    url: https://conduction.nl
+
+servers:
+  - url: /apps/planix
+    description: Nextcloud app base path
+
+paths:
+  /api/health:
+    get:
+      operationId: health_index
+      summary: Application health check
+      description: >
+        Returns the current health status of the Planix application.
+        Intended for load balancer probes and monitoring systems.
+        This endpoint is unauthenticated and publicly accessible.
+      tags:
+        - health
+      responses:
+        '200':
+          description: Application is healthy — OpenRegister is available.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: ok
+                version: "0.2.1"
+                openRegisterAvailable: true
+        '503':
+          description: Application is degraded — OpenRegister is unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: degraded
+                version: "0.2.1"
+                openRegisterAvailable: false
+
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - version
+        - openRegisterAvailable
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+            - degraded
+          description: >
+            "ok" when all dependencies are available; "degraded" when one or
+            more required dependencies (OpenRegister) are unavailable.
+          example: ok
+        version:
+          type: string
+          description: The installed version of the Planix app, as recorded in appinfo/info.xml.
+          example: "0.2.1"
+        openRegisterAvailable:
+          type: boolean
+          description: Whether the OpenRegister Nextcloud app is installed and available.
+          example: true
