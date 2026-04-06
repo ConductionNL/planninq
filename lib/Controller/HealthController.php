@@ -3,10 +3,10 @@
 /**
  * Planix Health Controller
  *
- * Controller for the health check endpoint used by load balancers
- * and monitoring systems.
+ * Public health check endpoint for load balancer probes and monitoring.
  *
- * @spec     openspec/changes/status-api/tasks.md#task-1
+ * @spec openspec/changes/status-api/tasks.md#task-1
+ *
  * @category Controller
  * @package  OCA\Planix\Controller
  *
@@ -33,10 +33,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
 /**
- * Health check controller for load balancer and monitoring use.
- *
- * Returns the application status, version, and OpenRegister availability.
- * This endpoint is public (no authentication required).
+ * Public health check endpoint for load balancer probes and monitoring.
  *
  * @spec openspec/changes/status-api/tasks.md#task-1
  */
@@ -46,7 +43,7 @@ class HealthController extends Controller
      * Constructor for the HealthController.
      *
      * @param IRequest    $request    The request object
-     * @param IAppManager $appManager The app manager for checking installed apps
+     * @param IAppManager $appManager The Nextcloud app manager
      *
      * @spec openspec/changes/status-api/tasks.md#task-1
      *
@@ -60,10 +57,11 @@ class HealthController extends Controller
     }//end __construct()
 
     /**
-     * Return application health status.
+     * Return application health status as JSON.
      *
-     * Returns HTTP 200 with status "ok" when OpenRegister is available,
-     * or HTTP 503 with status "degraded" when OpenRegister is unavailable.
+     * Returns HTTP 200 when healthy (OpenRegister available) or HTTP 503 when
+     * OpenRegister is unavailable. The response always includes `status`,
+     * `version`, and `openRegisterAvailable` fields.
      *
      * @spec openspec/changes/status-api/tasks.md#task-1
      *
@@ -76,13 +74,12 @@ class HealthController extends Controller
     public function index(): JSONResponse
     {
         $openRegisterAvailable = $this->appManager->isInstalled('openregister');
-        $version = $this->getAppVersion();
 
         if ($openRegisterAvailable === true) {
             return new JSONResponse(
                 [
                     'status'                => 'ok',
-                    'version'               => $version,
+                    'version'               => '0.2.1',
                     'openRegisterAvailable' => true,
                 ],
                 Http::STATUS_OK
@@ -92,32 +89,10 @@ class HealthController extends Controller
         return new JSONResponse(
             [
                 'status'                => 'degraded',
-                'version'               => $version,
+                'version'               => '0.2.1',
                 'openRegisterAvailable' => false,
             ],
             Http::STATUS_SERVICE_UNAVAILABLE
         );
     }//end index()
-
-    /**
-     * Read the app version from appinfo/info.xml.
-     *
-     * @spec openspec/changes/status-api/tasks.md#task-1
-     *
-     * @return string The application version or "unknown" on failure
-     */
-    private function getAppVersion(): string
-    {
-        $infoPath = dirname(__DIR__, 2).'/appinfo/info.xml';
-        if (file_exists($infoPath) === false) {
-            return 'unknown';
-        }
-
-        $xml = simplexml_load_file($infoPath);
-        if ($xml === false || isset($xml->version) === false) {
-            return 'unknown';
-        }
-
-        return (string) $xml->version;
-    }//end getAppVersion()
 }//end class
