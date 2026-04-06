@@ -1,0 +1,183 @@
+openapi: 3.0.3
+info:
+  title: Planix Label API
+  description: REST endpoints for managing labels in Planix.
+  version: 1.0.0
+  license:
+    name: EUPL-1.2
+    url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+  contact:
+    name: Conduction B.V.
+    url: https://conduction.nl
+
+servers:
+  - url: /apps/planix
+
+tags:
+  - name: Labels
+    description: Label management endpoints
+
+paths:
+  /api/labels:
+    get:
+      operationId: listLabels
+      summary: List all labels
+      description: Returns all labels stored in the Planix register. Available to any authenticated user.
+      tags:
+        - Labels
+      responses:
+        '200':
+          description: An array of label objects.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Label'
+        '500':
+          description: OpenRegister is unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - nextcloudSession: []
+
+    post:
+      operationId: createLabel
+      summary: Create a label
+      description: Creates a new label. Requires admin privileges.
+      tags:
+        - Labels
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabelInput'
+      responses:
+        '201':
+          description: Label created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Label'
+        '400':
+          description: Validation error — missing or invalid field.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Caller does not have admin privileges.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: OpenRegister is unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - nextcloudSession: []
+
+  /api/labels/{id}:
+    delete:
+      operationId: deleteLabel
+      summary: Delete a label
+      description: Deletes a label by UUID. Requires admin privileges.
+      tags:
+        - Labels
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: UUID of the label to delete.
+          schema:
+            type: string
+            format: uuid
+            example: 550e8400-e29b-41d4-a716-446655440000
+      responses:
+        '204':
+          description: Label deleted successfully. No response body.
+        '403':
+          description: Caller does not have admin privileges.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Label not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: OpenRegister is unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - nextcloudSession: []
+
+components:
+  schemas:
+    Label:
+      type: object
+      description: A label object as stored in OpenRegister.
+      required:
+        - title
+        - color
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of the label.
+          example: 550e8400-e29b-41d4-a716-446655440000
+        title:
+          type: string
+          description: Display name of the label.
+          example: Bug
+        color:
+          type: string
+          description: Hex colour code of the label (6- or 8-digit).
+          pattern: '^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$'
+          example: '#FF0000'
+
+    LabelInput:
+      type: object
+      description: Fields required to create a label.
+      required:
+        - title
+        - color
+      properties:
+        title:
+          type: string
+          description: Display name of the label.
+          example: Bug
+        color:
+          type: string
+          description: Hex colour code (6- or 8-digit, e.g. #RRGGBB or #RRGGBBAA).
+          pattern: '^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$'
+          example: '#FF0000'
+
+    Error:
+      type: object
+      description: A generic API error response.
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Human-readable error message.
+          example: Admin privileges required to create labels.
+
+  securitySchemes:
+    nextcloudSession:
+      type: apiKey
+      in: cookie
+      name: nc_session_id
+      description: Nextcloud session cookie (standard Nextcloud authentication).

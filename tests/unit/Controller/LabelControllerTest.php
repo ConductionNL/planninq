@@ -106,12 +106,33 @@ class LabelControllerTest extends TestCase
     }//end testIndexReturnsAllLabels()
 
     /**
+     * Test that create() returns 403 when the user is not an admin.
+     *
+     * @return void
+     */
+    public function testCreateReturnsForbiddenForNonAdmin(): void
+    {
+        $this->labelService->method('isCurrentUserAdmin')->willReturn(false);
+
+        $this->labelService->expects($this->never())->method('create');
+
+        $result = $this->controller->create();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testCreateReturnsForbiddenForNonAdmin()
+
+    /**
      * Test that create() returns 400 when title is missing.
      *
      * @return void
      */
     public function testCreateReturnsBadRequestWithoutTitle(): void
     {
+        $this->labelService->method('isCurrentUserAdmin')->willReturn(true);
+
         $this->request->method('getParam')
             ->willReturnMap(
                 [
@@ -138,6 +159,8 @@ class LabelControllerTest extends TestCase
      */
     public function testCreateReturnsBadRequestWithoutColor(): void
     {
+        $this->labelService->method('isCurrentUserAdmin')->willReturn(true);
+
         $this->request->method('getParam')
             ->willReturnMap(
                 [
@@ -158,12 +181,41 @@ class LabelControllerTest extends TestCase
     }//end testCreateReturnsBadRequestWithoutColor()
 
     /**
+     * Test that create() returns 400 when color is not a valid hex format.
+     *
+     * @return void
+     */
+    public function testCreateReturnsBadRequestForInvalidColorFormat(): void
+    {
+        $this->labelService->method('isCurrentUserAdmin')->willReturn(true);
+
+        $this->request->method('getParam')
+            ->willReturnMap(
+                [
+                    ['title', null, 'Bug'],
+                    ['color', null, 'not-a-color'],
+                ]
+            );
+
+        $this->labelService->expects($this->never())->method('create');
+
+        $result = $this->controller->create();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testCreateReturnsBadRequestForInvalidColorFormat()
+
+    /**
      * Test that create() creates a label with title and color.
      *
      * @return void
      */
     public function testCreateReturnsCreatedLabel(): void
     {
+        $this->labelService->method('isCurrentUserAdmin')->willReturn(true);
+
         $this->request->method('getParam')
             ->willReturnMap(
                 [
@@ -192,12 +244,33 @@ class LabelControllerTest extends TestCase
     }//end testCreateReturnsCreatedLabel()
 
     /**
+     * Test that destroy() returns 403 when the user is not an admin.
+     *
+     * @return void
+     */
+    public function testDestroyReturnsForbiddenForNonAdmin(): void
+    {
+        $this->labelService->method('isCurrentUserAdmin')->willReturn(false);
+
+        $this->labelService->expects($this->never())->method('delete');
+
+        $result = $this->controller->destroy(id: 'uuid-to-delete');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testDestroyReturnsForbiddenForNonAdmin()
+
+    /**
      * Test that destroy() returns 204 No Content on successful deletion.
      *
      * @return void
      */
     public function testDestroyReturnsNoContent(): void
     {
+        $this->labelService->method('isCurrentUserAdmin')->willReturn(true);
+
         $this->labelService->expects($this->once())
             ->method('delete')
             ->with('uuid-to-delete')
@@ -217,6 +290,8 @@ class LabelControllerTest extends TestCase
      */
     public function testDestroyReturnsNotFoundWhenLabelMissing(): void
     {
+        $this->labelService->method('isCurrentUserAdmin')->willReturn(true);
+
         $this->labelService->expects($this->once())
             ->method('delete')
             ->with('uuid-missing')

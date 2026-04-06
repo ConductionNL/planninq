@@ -23,6 +23,8 @@ declare(strict_types=1);
 
 namespace OCA\Planix\Service;
 
+use OCP\IGroupManager;
+use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -51,16 +53,32 @@ class LabelService
     /**
      * Constructor for the LabelService.
      *
-     * @param ContainerInterface $container The service container
-     * @param LoggerInterface    $logger    The logger
+     * @param ContainerInterface $container    The service container
+     * @param LoggerInterface    $logger       The logger
+     * @param IGroupManager      $groupManager The group manager
+     * @param IUserSession       $userSession  The user session
      *
      * @return void
      */
     public function __construct(
         private ContainerInterface $container,
         private LoggerInterface $logger,
+        private IGroupManager $groupManager,
+        private IUserSession $userSession,
     ) {
     }//end __construct()
+
+    /**
+     * Check whether the current user has Nextcloud admin privileges.
+     *
+     * @return bool
+     */
+    public function isCurrentUserAdmin(): bool
+    {
+        $user = $this->userSession->getUser();
+        return ($user !== null && $this->groupManager->isAdmin($user->getUID()));
+
+    }//end isCurrentUserAdmin()
 
     /**
      * Get the OpenRegister ObjectService from the container.

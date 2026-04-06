@@ -78,7 +78,7 @@ class LabelController extends Controller
     /**
      * Create a new label.
      *
-     * Requires 'title' and 'color' in the request body.
+     * Requires 'title' and 'color' in the request body. Only admin users may create labels.
      *
      * @NoAdminRequired
      *
@@ -88,6 +88,13 @@ class LabelController extends Controller
      */
     public function create(): JSONResponse
     {
+        if ($this->labelService->isCurrentUserAdmin() === false) {
+            return new JSONResponse(
+                ['error' => 'Admin privileges required to create labels.'],
+                Http::STATUS_FORBIDDEN
+            );
+        }
+
         $title = $this->request->getParam('title');
         $color = $this->request->getParam('color');
 
@@ -101,6 +108,13 @@ class LabelController extends Controller
         if (empty($color) === true) {
             return new JSONResponse(
                 ['error' => 'The "color" field is required.'],
+                Http::STATUS_BAD_REQUEST
+            );
+        }
+
+        if (preg_match('/^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$/', $color) !== 1) {
+            return new JSONResponse(
+                ['error' => 'The "color" field must be a valid hex color (e.g. #RRGGBB or #RRGGBBAA).'],
                 Http::STATUS_BAD_REQUEST
             );
         }
@@ -120,6 +134,8 @@ class LabelController extends Controller
     /**
      * Delete a label by UUID.
      *
+     * Only admin users may delete labels.
+     *
      * @param string $id The label UUID
      *
      * @NoAdminRequired
@@ -130,6 +146,13 @@ class LabelController extends Controller
      */
     public function destroy(string $id): JSONResponse
     {
+        if ($this->labelService->isCurrentUserAdmin() === false) {
+            return new JSONResponse(
+                ['error' => 'Admin privileges required to delete labels.'],
+                Http::STATUS_FORBIDDEN
+            );
+        }
+
         try {
             $deleted = $this->labelService->delete(id: $id);
             if ($deleted === false) {

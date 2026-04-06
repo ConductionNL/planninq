@@ -20,6 +20,9 @@ declare(strict_types=1);
 namespace OCA\Planix\Tests\Unit\Service;
 
 use OCA\Planix\Service\LabelService;
+use OCP\IGroupManager;
+use OCP\IUser;
+use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -53,6 +56,20 @@ class LabelServiceTest extends TestCase
     private LoggerInterface&MockObject $logger;
 
     /**
+     * Mock IGroupManager.
+     *
+     * @var IGroupManager&MockObject
+     */
+    private IGroupManager&MockObject $groupManager;
+
+    /**
+     * Mock IUserSession.
+     *
+     * @var IUserSession&MockObject
+     */
+    private IUserSession&MockObject $userSession;
+
+    /**
      * Mock ObjectService (simulates OpenRegister).
      *
      * @var MockObject
@@ -70,6 +87,8 @@ class LabelServiceTest extends TestCase
 
         $this->container     = $this->createMock(originalClassName: ContainerInterface::class);
         $this->logger        = $this->createMock(originalClassName: LoggerInterface::class);
+        $this->groupManager  = $this->createMock(originalClassName: IGroupManager::class);
+        $this->userSession   = $this->createMock(originalClassName: IUserSession::class);
         $this->objectService = $this->getMockBuilder(className: \stdClass::class)
             ->addMethods(
                 [
@@ -89,6 +108,8 @@ class LabelServiceTest extends TestCase
         $this->service = new LabelService(
             container: $this->container,
             logger: $this->logger,
+            groupManager: $this->groupManager,
+            userSession: $this->userSession,
         );
 
     }//end setUp()
@@ -199,6 +220,8 @@ class LabelServiceTest extends TestCase
         $service = new LabelService(
             container: $container,
             logger: $this->logger,
+            groupManager: $this->groupManager,
+            userSession: $this->userSession,
         );
 
         $this->expectException(exception: \RuntimeException::class);
@@ -207,4 +230,38 @@ class LabelServiceTest extends TestCase
         $service->findAll();
 
     }//end testFindAllThrowsWhenOpenRegisterUnavailable()
+
+    /**
+     * Test that isCurrentUserAdmin() returns true for an admin user.
+     *
+     * @return void
+     */
+    public function testIsCurrentUserAdminReturnsTrueForAdmin(): void
+    {
+        $user = $this->createMock(originalClassName: IUser::class);
+        $user->method('getUID')->willReturn('admin');
+
+        $this->userSession->method('getUser')->willReturn($user);
+        $this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+
+        self::assertTrue(condition: $this->service->isCurrentUserAdmin());
+
+    }//end testIsCurrentUserAdminReturnsTrueForAdmin()
+
+    /**
+     * Test that isCurrentUserAdmin() returns false for a non-admin user.
+     *
+     * @return void
+     */
+    public function testIsCurrentUserAdminReturnsFalseForNonAdmin(): void
+    {
+        $user = $this->createMock(originalClassName: IUser::class);
+        $user->method('getUID')->willReturn('user1');
+
+        $this->userSession->method('getUser')->willReturn($user);
+        $this->groupManager->method('isAdmin')->with('user1')->willReturn(false);
+
+        self::assertFalse(condition: $this->service->isCurrentUserAdmin());
+
+    }//end testIsCurrentUserAdminReturnsFalseForNonAdmin()
 }//end class
