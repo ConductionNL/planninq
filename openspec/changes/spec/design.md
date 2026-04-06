@@ -1,6 +1,6 @@
 # Projects CRUD MVP
 
-**Status**: approved
+**Status**: pr-created
 **Spec reference**: [projects](../../specs/projects.md)
 **Priority**: MVP
 
