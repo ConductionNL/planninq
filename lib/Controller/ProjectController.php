@@ -19,7 +19,6 @@
 
 // SPDX-License-Identifier: EUPL-1.2
 // Copyright (C) 2026 Conduction B.V.
-
 declare(strict_types=1);
 
 namespace OCA\Planix\Controller;
@@ -36,7 +35,6 @@ use OCP\IRequest;
  */
 class ProjectController extends Controller
 {
-
     /**
      * Constructor for the ProjectController.
      *
@@ -80,9 +78,9 @@ class ProjectController extends Controller
      * Returns 404 when the project does not exist. Returns 403 when
      * the current user is not a member of the project.
      *
-     * @NoAdminRequired
-     *
      * @param string $id The project UUID
+     *
+     * @NoAdminRequired
      *
      * @return JSONResponse
      */
@@ -112,7 +110,7 @@ class ProjectController extends Controller
                 data: ['error' => $e->getMessage()],
                 statusCode: Http::STATUS_INTERNAL_SERVER_ERROR
             );
-        }
+        }//end try
 
     }//end show()
 
@@ -153,16 +151,16 @@ class ProjectController extends Controller
                 data: ['error' => $e->getMessage()],
                 statusCode: Http::STATUS_INTERNAL_SERVER_ERROR
             );
-        }
+        }//end try
 
     }//end create()
 
     /**
      * Update an existing project. Only members may update.
      *
-     * @NoAdminRequired
-     *
      * @param string $id The project UUID
+     *
+     * @NoAdminRequired
      *
      * @return JSONResponse
      */
@@ -203,16 +201,16 @@ class ProjectController extends Controller
                 data: ['error' => $e->getMessage()],
                 statusCode: Http::STATUS_INTERNAL_SERVER_ERROR
             );
-        }
+        }//end try
 
     }//end update()
 
     /**
      * Delete a project. Only the owner (first member) may delete.
      *
-     * @NoAdminRequired
-     *
      * @param string $id The project UUID
+     *
+     * @NoAdminRequired
      *
      * @return JSONResponse
      */
@@ -244,7 +242,7 @@ class ProjectController extends Controller
                 data: ['error' => $e->getMessage()],
                 statusCode: Http::STATUS_INTERNAL_SERVER_ERROR
             );
-        }
+        }//end try
 
     }//end destroy()
 }//end class

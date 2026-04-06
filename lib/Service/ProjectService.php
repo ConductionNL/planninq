@@ -19,7 +19,6 @@
 
 // SPDX-License-Identifier: EUPL-1.2
 // Copyright (C) 2026 Conduction B.V.
-
 declare(strict_types=1);
 
 namespace OCA\Planix\Service;
@@ -195,12 +194,17 @@ class ProjectService
         $objectService = $this->getObjectService();
         $uid           = $this->getCurrentUserId();
 
+        $members = [];
+        if ($uid !== null) {
+            $members = [$uid];
+        }
+
         $projectData = [
             'title'       => $data['title'],
             'description' => ($data['description'] ?? ''),
             'color'       => ($data['color'] ?? ''),
             'status'      => ($data['status'] ?? 'active'),
-            'members'     => $uid !== null ? [$uid] : [],
+            'members'     => $members,
         ];
 
         return $objectService->save(
