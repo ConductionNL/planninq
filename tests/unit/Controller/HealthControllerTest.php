@@ -87,7 +87,7 @@ class HealthControllerTest extends TestCase
     public function testIndexReturnsOkWhenOpenRegisterAvailable(): void
     {
         $this->appManager->expects($this->once())
-            ->method('isInstalled')
+            ->method('isEnabledForUser')
             ->with('openregister')
             ->willReturn(true);
 
@@ -111,7 +111,7 @@ class HealthControllerTest extends TestCase
     public function testIndexReturnsDegradedWhenOpenRegisterUnavailable(): void
     {
         $this->appManager->expects($this->once())
-            ->method('isInstalled')
+            ->method('isEnabledForUser')
             ->with('openregister')
             ->willReturn(false);
 
@@ -135,7 +135,7 @@ class HealthControllerTest extends TestCase
     public function testResponseContainsRequiredFields(): void
     {
         $this->appManager->expects($this->once())
-            ->method('isInstalled')
+            ->method('isEnabledForUser')
             ->with('openregister')
             ->willReturn(true);
 
@@ -156,7 +156,7 @@ class HealthControllerTest extends TestCase
     public function testVersionIsNonEmptyString(): void
     {
         $this->appManager->expects($this->once())
-            ->method('isInstalled')
+            ->method('isEnabledForUser')
             ->with('openregister')
             ->willReturn(true);
 

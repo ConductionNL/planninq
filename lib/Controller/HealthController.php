@@ -71,7 +71,7 @@ class HealthController extends Controller
      */
     public function index(): JSONResponse
     {
-        $openRegisterAvailable = $this->appManager->isInstalled('openregister');
+        $openRegisterAvailable = $this->appManager->isEnabledForUser('openregister');
         $version = $this->appManager->getAppVersion(Application::APP_ID);
 
         if ($openRegisterAvailable === true) {

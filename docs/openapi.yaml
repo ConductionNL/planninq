@@ -4,6 +4,7 @@ info:
   description: >
     REST API for the Planix Nextcloud application.
     Conforms to the Common Ground API standard and NL API strategie guidelines.
+  # KEEP IN SYNC with appinfo/info.xml <version>
   version: 0.2.1
   license:
     name: EUPL-1.2
