@@ -21,7 +21,6 @@
 
 // SPDX-License-Identifier: EUPL-1.2
 // Copyright (C) 2026 Conduction B.V.
-
 declare(strict_types=1);
 
 namespace OCA\Planix\Controller;
@@ -46,10 +45,10 @@ class HealthController extends Controller
     /**
      * Constructor for the HealthController.
      *
-     * @spec openspec/changes/status-api/tasks.md#task-1
-     *
      * @param IRequest    $request    The request object
      * @param IAppManager $appManager The app manager for checking installed apps
+     *
+     * @spec openspec/changes/status-api/tasks.md#task-1
      *
      * @return void
      */
@@ -77,7 +76,7 @@ class HealthController extends Controller
     public function index(): JSONResponse
     {
         $openRegisterAvailable = $this->appManager->isInstalled('openregister');
-        $version               = $this->getAppVersion();
+        $version = $this->getAppVersion();
 
         if ($openRegisterAvailable === true) {
             return new JSONResponse(
