@@ -74,12 +74,13 @@ class HealthController extends Controller
     public function index(): JSONResponse
     {
         $openRegisterAvailable = $this->appManager->isInstalled('openregister');
+        $version = $this->appManager->getAppVersion(Application::APP_ID);
 
         if ($openRegisterAvailable === true) {
             return new JSONResponse(
                 [
                     'status'                => 'ok',
-                    'version'               => '0.2.1',
+                    'version'               => $version,
                     'openRegisterAvailable' => true,
                 ],
                 Http::STATUS_OK
@@ -89,7 +90,7 @@ class HealthController extends Controller
         return new JSONResponse(
             [
                 'status'                => 'degraded',
-                'version'               => '0.2.1',
+                'version'               => $version,
                 'openRegisterAvailable' => false,
             ],
             Http::STATUS_SERVICE_UNAVAILABLE

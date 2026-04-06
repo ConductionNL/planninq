@@ -71,6 +71,9 @@ class HealthControllerTest extends TestCase
         $this->request    = $this->createMock(originalClassName: IRequest::class);
         $this->appManager = $this->createMock(originalClassName: IAppManager::class);
 
+        $this->appManager->method('getAppVersion')
+            ->willReturn('0.2.1');
+
         $this->controller = new HealthController(
             request: $this->request,
             appManager: $this->appManager,
