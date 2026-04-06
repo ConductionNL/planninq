@@ -26,7 +26,8 @@ paths:
       operationId: listProjects
       summary: List projects for the authenticated user
       description: >
-        Returns every project the authenticated user is a member of.
+        Returns active projects the authenticated user is a member of.
+        Archived and completed projects are excluded from this list.
         Returns an empty array when unauthenticated.
       tags: [projects]
       security:

@@ -220,6 +220,14 @@ class ProjectController extends Controller
 
             $params = $this->request->getParams();
 
+            // Validate title when provided — must not be blank (mirrors create() behaviour).
+            if (array_key_exists('title', $params) === true && trim((string) $params['title']) === '') {
+                return new JSONResponse(
+                    data: ['error' => 'Title cannot be empty.'],
+                    statusCode: Http::STATUS_BAD_REQUEST
+                );
+            }
+
             // Only the project owner may modify the members list (prevents ownership hijack).
             if (array_key_exists('members', $params) === true
                 && $this->projectService->isOwner(project: $project, uid: $uid) === false

@@ -148,9 +148,9 @@ class ProjectControllerTest extends TestCase
             ->with(id: 'nonexistent')
             ->willReturn(null);
 
-        $this->projectService->expects($this->once())
-            ->method('isMember')
-            ->willReturn(false);
+        // find() returns null, so the || short-circuits — isMember is never called.
+        $this->projectService->expects($this->never())
+            ->method('isMember');
 
         $result = $this->controller->show(id: 'nonexistent');
 
@@ -358,9 +358,9 @@ class ProjectControllerTest extends TestCase
             ->with(id: 'missing')
             ->willReturn(null);
 
-        $this->projectService->expects($this->once())
-            ->method('isMember')
-            ->willReturn(false);
+        // find() returns null, so the || short-circuits — isMember is never called.
+        $this->projectService->expects($this->never())
+            ->method('isMember');
 
         $result = $this->controller->update(id: 'missing');
 
@@ -399,6 +399,41 @@ class ProjectControllerTest extends TestCase
         self::assertSame(expected: Http::STATUS_NOT_FOUND, actual: $result->getStatus());
 
     }//end testUpdateReturnsNotFoundForNonMember()
+
+    /**
+     * Test that update() returns 400 when title is an empty string.
+     *
+     * @return void
+     */
+    public function testUpdateReturnsBadRequestForEmptyTitle(): void
+    {
+        $project = ['id' => 'p1', 'title' => 'Alpha', 'members' => ['owner1']];
+
+        $this->projectService->expects($this->once())
+            ->method('getCurrentUserId')
+            ->willReturn('owner1');
+
+        $this->projectService->expects($this->once())
+            ->method('find')
+            ->with(id: 'p1')
+            ->willReturn($project);
+
+        $this->projectService->expects($this->once())
+            ->method('isMember')
+            ->with(project: $project, uid: 'owner1')
+            ->willReturn(true);
+
+        $this->request->expects($this->once())
+            ->method('getParams')
+            ->willReturn(['title' => '   ']);
+
+        $result = $this->controller->update(id: 'p1');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testUpdateReturnsBadRequestForEmptyTitle()
 
     /**
      * Test that update() returns 403 when a non-owner attempts to modify the members list.
@@ -586,9 +621,9 @@ class ProjectControllerTest extends TestCase
             ->with(id: 'gone')
             ->willReturn(null);
 
-        $this->projectService->expects($this->once())
-            ->method('isOwner')
-            ->willReturn(false);
+        // find() returns null, so the || short-circuits — isOwner is never called.
+        $this->projectService->expects($this->never())
+            ->method('isOwner');
 
         $result = $this->controller->destroy(id: 'gone');
 
