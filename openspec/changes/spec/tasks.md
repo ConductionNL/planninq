@@ -1,23 +1,48 @@
-# Tasks — Kanban Board MVP
+# Tasks — Admin Settings MVP
 
-## Task 1: Backend — Column CRUD endpoints
-**spec_ref**: kanban-board.md → Requirement: Column Management
-**files_likely_affected**: lib/Controller/ColumnController.php (new), appinfo/routes.php
+## Task 1: Backend — SettingsController admin endpoints
+**spec_ref**: admin-user-settings.md → Requirement: Admin Settings Page
+**files_likely_affected**: lib/Controller/SettingsController.php, appinfo/routes.php
 **acceptance_criteria**:
-- [x] `GET /api/columns?projectId={id}` lists columns for a project, ordered by position
-- [x] `POST /api/columns` creates a column (title, projectId, position)
-- [x] `PUT /api/columns/{id}` updates a column (title, position)
-- [x] `DELETE /api/columns/{id}` deletes a column (moves tasks to backlog)
-- [x] Returns 404 for non-existent columns
-- [x] Returns 403 for non-project-members
+- [x] `GET /api/settings` returns current admin settings as JSON
+- [x] `POST /api/settings` accepts a JSON body and stores values via IAppConfig
+- [x] Settings include: `default_columns` (JSON string), `allow_project_creation` (string)
+- [x] Only admin users can write settings (middleware or annotation check)
+- [x] Returns 403 for non-admin write attempts
 
-## Task 2: Frontend — Kanban board view
-**spec_ref**: kanban-board.md → Scenario: View kanban board
-**files_likely_affected**: src/views/KanbanBoard.vue (new), src/router/index.js
+## Task 2: Backend — SettingsService business logic
+**spec_ref**: admin-user-settings.md → Data Model
+**files_likely_affected**: lib/Service/SettingsService.php
 **acceptance_criteria**:
-- [x] /projects/:id/board route shows the kanban board for a project
-- [x] Board displays columns left-to-right with task cards in each
-- [x] Each task card shows: title, assignee avatar, priority indicator, due date
-- [x] Empty columns show "No tasks" placeholder
-- [x] "Add column" button at the right edge of the board
-- [x] Column header shows title and task count
+- [x] `getAdminSettings()` reads all planix admin keys from IAppConfig with defaults
+- [x] `setAdminSettings(array $settings)` validates and stores each key
+- [x] Default values match the spec: `default_columns = ["To Do","In Progress","Review","Done"]`
+- [x] Unknown keys are silently ignored (no error, no storage)
+
+## Task 3: Frontend — AdminRoot with CnVersionInfoCard
+**spec_ref**: admin-user-settings.md → Scenario: View admin settings
+**files_likely_affected**: src/views/settings/AdminRoot.vue, src/views/settings/Settings.vue
+**acceptance_criteria**:
+- [x] Admin settings page renders under Nextcloud Administration → Planix
+- [x] First section is CnVersionInfoCard showing app name and version
+- [x] Page uses CnSettingsSection for each logical group
+- [x] Loads current settings from `GET /api/settings` on mount
+
+## Task 4: Frontend — Default columns editor
+**spec_ref**: admin-user-settings.md → Scenario: Configure default columns
+**files_likely_affected**: src/views/settings/Settings.vue or new component
+**acceptance_criteria**:
+- [x] Shows current default columns as an editable ordered list
+- [x] Admin can add, remove, and reorder column names
+- [x] Changes are saved via `POST /api/settings` on save button click
+- [x] Shows success/error feedback after save
+
+## Task 5: Frontend — OpenRegister initialization section
+**spec_ref**: admin-user-settings.md → Scenario: OpenRegister initialization
+**files_likely_affected**: src/views/settings/Settings.vue or new component
+**acceptance_criteria**:
+- [x] Shows whether the Planix register is initialized (green check / warning)
+- [x] If not initialized, shows "Initialize register" button
+- [x] Button triggers register initialization (calls backend endpoint)
+- [x] Shows loading state during initialization
+- [x] Shows success or error result after completion

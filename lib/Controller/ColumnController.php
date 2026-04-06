@@ -66,14 +66,15 @@ class ColumnController extends Controller
             );
         }
 
-        if ($this->columnService->findProject($projectId) === null) {
+        $project = $this->columnService->findProject($projectId);
+        if ($project === null) {
             return new JSONResponse(
                 ['error' => 'Project not found.'],
                 Http::STATUS_NOT_FOUND
             );
         }
 
-        if ($this->columnService->isProjectMember($projectId) === false) {
+        if ($this->columnService->isProjectMember($projectId, $project) === false) {
             return new JSONResponse(
                 ['error' => 'You are not a member of this project.'],
                 Http::STATUS_FORBIDDEN
@@ -105,14 +106,15 @@ class ColumnController extends Controller
             );
         }
 
-        if ($this->columnService->findProject($projectId) === null) {
+        $project = $this->columnService->findProject($projectId);
+        if ($project === null) {
             return new JSONResponse(
                 ['error' => 'Project not found.'],
                 Http::STATUS_NOT_FOUND
             );
         }
 
-        if ($this->columnService->isProjectMember($projectId) === false) {
+        if ($this->columnService->isProjectMember($projectId, $project) === false) {
             return new JSONResponse(
                 ['error' => 'You are not a member of this project.'],
                 Http::STATUS_FORBIDDEN
@@ -201,7 +203,14 @@ class ColumnController extends Controller
             $updateData['type'] = $data['type'];
         }
 
-        $updated = $this->columnService->updateColumn($id, $updateData);
+        try {
+            $updated = $this->columnService->updateColumn($id, $updateData);
+        } catch (\RuntimeException $e) {
+            return new JSONResponse(
+                ['error' => 'Failed to update column.'],
+                Http::STATUS_INTERNAL_SERVER_ERROR
+            );
+        }
 
         return new JSONResponse($updated);
 
@@ -234,7 +243,14 @@ class ColumnController extends Controller
             );
         }
 
-        $deleted = $this->columnService->deleteColumn($id);
+        try {
+            $deleted = $this->columnService->deleteColumn($id);
+        } catch (\RuntimeException $e) {
+            return new JSONResponse(
+                ['error' => 'Failed to delete column.'],
+                Http::STATUS_INTERNAL_SERVER_ERROR
+            );
+        }
 
         if ($deleted === false) {
             return new JSONResponse(

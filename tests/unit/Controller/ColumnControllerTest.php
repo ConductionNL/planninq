@@ -91,14 +91,16 @@ class ColumnControllerTest extends TestCase
             ->with('projectId')
             ->willReturn($projectId);
 
+        $project = ['id' => $projectId, 'members' => ['user1']];
+
         $this->columnService->expects($this->once())
             ->method('findProject')
             ->with($projectId)
-            ->willReturn(['id' => $projectId, 'members' => ['user1']]);
+            ->willReturn($project);
 
         $this->columnService->expects($this->once())
             ->method('isProjectMember')
-            ->with($projectId)
+            ->with($projectId, $project)
             ->willReturn(true);
 
         $this->columnService->expects($this->once())
@@ -158,14 +160,16 @@ class ColumnControllerTest extends TestCase
             ->with('projectId')
             ->willReturn($projectId);
 
+        $project = ['id' => $projectId, 'members' => ['other-user']];
+
         $this->columnService->expects($this->once())
             ->method('findProject')
             ->with($projectId)
-            ->willReturn(['id' => $projectId, 'members' => ['other-user']]);
+            ->willReturn($project);
 
         $this->columnService->expects($this->once())
             ->method('isProjectMember')
-            ->with($projectId)
+            ->with($projectId, $project)
             ->willReturn(false);
 
         $this->columnService->expects($this->never())
@@ -212,14 +216,16 @@ class ColumnControllerTest extends TestCase
             ->method('getParams')
             ->willReturn($params);
 
+        $project = ['id' => 'proj-uuid-1', 'members' => ['user1']];
+
         $this->columnService->expects($this->once())
             ->method('findProject')
             ->with('proj-uuid-1')
-            ->willReturn(['id' => 'proj-uuid-1', 'members' => ['user1']]);
+            ->willReturn($project);
 
         $this->columnService->expects($this->once())
             ->method('isProjectMember')
-            ->with('proj-uuid-1')
+            ->with('proj-uuid-1', $project)
             ->willReturn(true);
 
         $this->columnService->expects($this->once())
@@ -267,14 +273,16 @@ class ColumnControllerTest extends TestCase
             ->method('getParams')
             ->willReturn(['project' => 'proj-uuid-1', 'title' => '']);
 
+        $project = ['id' => 'proj-uuid-1', 'members' => ['user1']];
+
         $this->columnService->expects($this->once())
             ->method('findProject')
             ->with('proj-uuid-1')
-            ->willReturn(['id' => 'proj-uuid-1', 'members' => ['user1']]);
+            ->willReturn($project);
 
         $this->columnService->expects($this->once())
             ->method('isProjectMember')
-            ->with('proj-uuid-1')
+            ->with('proj-uuid-1', $project)
             ->willReturn(true);
 
         $this->columnService->expects($this->never())
@@ -299,14 +307,16 @@ class ColumnControllerTest extends TestCase
             ->method('getParams')
             ->willReturn(['title' => 'My Column', 'project' => 'proj-uuid-1']);
 
+        $project = ['id' => 'proj-uuid-1', 'members' => ['other-user']];
+
         $this->columnService->expects($this->once())
             ->method('findProject')
             ->with('proj-uuid-1')
-            ->willReturn(['id' => 'proj-uuid-1', 'members' => ['other-user']]);
+            ->willReturn($project);
 
         $this->columnService->expects($this->once())
             ->method('isProjectMember')
-            ->with('proj-uuid-1')
+            ->with('proj-uuid-1', $project)
             ->willReturn(false);
 
         $this->columnService->expects($this->never())
@@ -319,6 +329,72 @@ class ColumnControllerTest extends TestCase
         self::assertArrayHasKey(key: 'error', array: $result->getData());
 
     }//end testCreateReturnsForbiddenForNonMember()
+
+    /**
+     * Test that update() returns 500 when service throws RuntimeException.
+     *
+     * @return void
+     */
+    public function testUpdateReturns500OnServiceException(): void
+    {
+        $column = ['id' => 'col-1', 'project' => 'proj-uuid-1', 'title' => 'To Do'];
+
+        $this->columnService->expects($this->once())
+            ->method('findColumn')
+            ->with('col-1')
+            ->willReturn($column);
+
+        $this->columnService->expects($this->once())
+            ->method('isProjectMember')
+            ->with('proj-uuid-1')
+            ->willReturn(true);
+
+        $this->request->expects($this->once())
+            ->method('getParams')
+            ->willReturn(['title' => 'Updated']);
+
+        $this->columnService->expects($this->once())
+            ->method('updateColumn')
+            ->willThrowException(new \RuntimeException('OpenRegister unavailable'));
+
+        $result = $this->controller->update('col-1');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_INTERNAL_SERVER_ERROR, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testUpdateReturns500OnServiceException()
+
+    /**
+     * Test that destroy() returns 500 when service throws RuntimeException.
+     *
+     * @return void
+     */
+    public function testDestroyReturns500OnServiceException(): void
+    {
+        $column = ['id' => 'col-1', 'project' => 'proj-uuid-1', 'title' => 'To Do'];
+
+        $this->columnService->expects($this->once())
+            ->method('findColumn')
+            ->with('col-1')
+            ->willReturn($column);
+
+        $this->columnService->expects($this->once())
+            ->method('isProjectMember')
+            ->with('proj-uuid-1')
+            ->willReturn(true);
+
+        $this->columnService->expects($this->once())
+            ->method('deleteColumn')
+            ->willThrowException(new \RuntimeException('OpenRegister unavailable'));
+
+        $result = $this->controller->destroy('col-1');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_INTERNAL_SERVER_ERROR, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testDestroyReturns500OnServiceException()
 
     /**
      * Test that update() returns 404 for non-existent column.

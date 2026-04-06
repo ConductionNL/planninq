@@ -111,18 +111,22 @@ class ColumnService
     /**
      * Check whether the current user is a member of the given project.
      *
-     * @param string $projectId The project UUID
+     * @param string     $projectId The project UUID
+     * @param array|null $project   Pre-fetched project data to avoid a second lookup; fetched if null
      *
      * @return bool
      */
-    public function isProjectMember(string $projectId): bool
+    public function isProjectMember(string $projectId, ?array $project=null): bool
     {
         $uid = $this->getCurrentUid();
         if ($uid === '') {
             return false;
         }
 
-        $project = $this->findProject(projectId: $projectId);
+        if ($project === null) {
+            $project = $this->findProject(projectId: $projectId);
+        }
+
         if ($project === null) {
             return false;
         }
@@ -169,14 +173,19 @@ class ColumnService
      */
     public function findColumn(string $id): ?array
     {
-        $objectService = $this->getObjectService();
-        $column        = $objectService->findObject(register: 'planix', schema: 'column', id: $id);
+        try {
+            $objectService = $this->getObjectService();
+            $column        = $objectService->findObject(register: 'planix', schema: 'column', id: $id);
 
-        if ($column === false || $column === null) {
+            if ($column === false || $column === null) {
+                return null;
+            }
+
+            return $column;
+        } catch (\Throwable $e) {
+            $this->logger->warning('Planix: column lookup failed', ['exception' => $e->getMessage()]);
             return null;
         }
-
-        return $column;
 
     }//end findColumn()
 

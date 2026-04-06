@@ -1,12 +1,40 @@
 # Tasks: kanban-board
 
 **Change ID:** kanban-board
-**Status:** draft
+**Status:** pr-created
 **Created:** 2026-04-02
 
 ---
 
-## Implementation Tasks
+## MVP Implementation Tasks (PR #83)
+
+These are the tasks actually implemented in PR #83 (simplified PHP-controller approach):
+
+### Task 1: Backend — Column CRUD endpoints
+**spec_ref**: kanban-board.md → Requirement: Column Management
+**files_likely_affected**: lib/Controller/ColumnController.php (new), appinfo/routes.php
+**acceptance_criteria**:
+- [x] `GET /api/columns?projectId={id}` lists columns for a project, ordered by position
+- [x] `POST /api/columns` creates a column (title, projectId, position)
+- [x] `PATCH /api/columns/{id}` updates a column (title, position) — partial update per RFC 7231 / NL API strategie
+- [x] `DELETE /api/columns/{id}` deletes a column (moves tasks to backlog), returns 204 No Content
+- [x] Returns 404 for non-existent columns or projects
+- [x] Returns 403 for non-project-members
+
+### Task 2: Frontend — Kanban board view
+**spec_ref**: kanban-board.md → Scenario: View kanban board
+**files_likely_affected**: src/views/ProjectBoard.vue, src/store/projects.js
+**acceptance_criteria**:
+- [x] /projects/:id/board route shows the kanban board for a project
+- [x] Board displays columns left-to-right with task cards in each
+- [x] Each task card shows: title, assignee avatar, priority indicator, due date
+- [x] Empty columns show "No tasks" placeholder
+- [x] "Add column" button at the right edge of the board
+- [x] Column header shows title and task count
+
+---
+
+## Full Spec Tasks (future iterations)
 
 ### Task 1: Setup and Dependencies
 - **spec_ref**: `openspec/changes/kanban-board/proposal.md`

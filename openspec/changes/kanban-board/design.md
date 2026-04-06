@@ -1,8 +1,14 @@
 # Design: kanban-board
 
 **Change ID:** kanban-board
-**Status:** draft
+**Status:** pr-created
 **Created:** 2026-04-02
+**PR:** https://github.com/ConductionNL/planix/pull/83
+
+> **Implementation note:** The MVP shipped in PR #83 implements the kanban board as a
+> PHP-controller-backed feature (ColumnController + ColumnService + ProjectBoard.vue)
+> rather than the pure-Vue/Pinia approach described below. The full spec remains here
+> as the target architecture for future iterations.
 
 ---
 
