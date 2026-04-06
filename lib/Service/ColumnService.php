@@ -195,16 +195,17 @@ class ColumnService
      * Callers must have verified project membership before calling this method.
      * This guard provides defense-in-depth by re-checking membership.
      *
-     * @param array $data Column fields (title, projectId, position)
+     * @param array      $data    Column fields (title, projectId, position)
+     * @param array|null $project Pre-fetched project array to avoid a second lookup; fetched if null
      *
      * @return array The created column
      *
      * @throws \RuntimeException When caller is not a project member
      */
-    public function createColumn(array $data): array
+    public function createColumn(array $data, ?array $project=null): array
     {
         $projectId = $data['project'] ?? '';
-        if ($this->isProjectMember(projectId: $projectId) === false) {
+        if ($this->isProjectMember(projectId: $projectId, project: $project) === false) {
             throw new \RuntimeException('Forbidden: caller is not a member of project '.$projectId);
         }
 

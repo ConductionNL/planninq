@@ -129,6 +129,15 @@ class ColumnController extends Controller
             );
         }
 
+        $allowedTypes = ['active', 'done'];
+        $type         = $data['type'] ?? 'active';
+        if (in_array($type, $allowedTypes, true) === false) {
+            return new JSONResponse(
+                ['error' => 'Invalid type. Allowed values: active, done.'],
+                Http::STATUS_BAD_REQUEST
+            );
+        }
+
         $wipLimit = null;
         if (isset($data['wipLimit']) === true) {
             $wipLimit = (int) $data['wipLimit'];
@@ -140,10 +149,10 @@ class ColumnController extends Controller
             'order'    => (int) ($data['order'] ?? ($data['position'] ?? 0)),
             'wipLimit' => $wipLimit,
             'color'    => $data['color'] ?? null,
-            'type'     => $data['type'] ?? 'active',
+            'type'     => $type,
         ];
 
-        $column = $this->columnService->createColumn($columnData);
+        $column = $this->columnService->createColumn($columnData, $project);
 
         return new JSONResponse($column, Http::STATUS_CREATED);
 
@@ -200,7 +209,22 @@ class ColumnController extends Controller
         }
 
         if (isset($data['type']) === true) {
+            $allowedTypes = ['active', 'done'];
+            if (in_array($data['type'], $allowedTypes, true) === false) {
+                return new JSONResponse(
+                    ['error' => 'Invalid type. Allowed values: active, done.'],
+                    Http::STATUS_BAD_REQUEST
+                );
+            }
+
             $updateData['type'] = $data['type'];
+        }
+
+        if (empty($updateData) === true) {
+            return new JSONResponse(
+                ['error' => 'No valid fields provided for update.'],
+                Http::STATUS_BAD_REQUEST
+            );
         }
 
         try {

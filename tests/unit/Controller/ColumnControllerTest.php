@@ -331,6 +331,107 @@ class ColumnControllerTest extends TestCase
     }//end testCreateReturnsForbiddenForNonMember()
 
     /**
+     * Test that create() returns 400 when an invalid type value is provided.
+     *
+     * @return void
+     */
+    public function testCreateReturnsBadRequestWithInvalidType(): void
+    {
+        $this->request->expects($this->once())
+            ->method('getParams')
+            ->willReturn(['title' => 'My Column', 'project' => 'proj-uuid-1', 'type' => 'invalid-type']);
+
+        $project = ['id' => 'proj-uuid-1', 'members' => ['user1']];
+
+        $this->columnService->expects($this->once())
+            ->method('findProject')
+            ->with('proj-uuid-1')
+            ->willReturn($project);
+
+        $this->columnService->expects($this->once())
+            ->method('isProjectMember')
+            ->willReturn(true);
+
+        $this->columnService->expects($this->never())
+            ->method('createColumn');
+
+        $result = $this->controller->create();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testCreateReturnsBadRequestWithInvalidType()
+
+    /**
+     * Test that update() returns 400 when an invalid type value is provided.
+     *
+     * @return void
+     */
+    public function testUpdateReturnsBadRequestWithInvalidType(): void
+    {
+        $column = ['id' => 'col-1', 'project' => 'proj-uuid-1', 'title' => 'To Do'];
+
+        $this->columnService->expects($this->once())
+            ->method('findColumn')
+            ->with('col-1')
+            ->willReturn($column);
+
+        $this->columnService->expects($this->once())
+            ->method('isProjectMember')
+            ->with('proj-uuid-1')
+            ->willReturn(true);
+
+        $this->request->expects($this->once())
+            ->method('getParams')
+            ->willReturn(['type' => 'invalid-type']);
+
+        $this->columnService->expects($this->never())
+            ->method('updateColumn');
+
+        $result = $this->controller->update('col-1');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testUpdateReturnsBadRequestWithInvalidType()
+
+    /**
+     * Test that update() returns 400 when PATCH body contains no recognised fields.
+     *
+     * @return void
+     */
+    public function testUpdateReturnsBadRequestWithEmptyBody(): void
+    {
+        $column = ['id' => 'col-1', 'project' => 'proj-uuid-1', 'title' => 'To Do'];
+
+        $this->columnService->expects($this->once())
+            ->method('findColumn')
+            ->with('col-1')
+            ->willReturn($column);
+
+        $this->columnService->expects($this->once())
+            ->method('isProjectMember')
+            ->with('proj-uuid-1')
+            ->willReturn(true);
+
+        $this->request->expects($this->once())
+            ->method('getParams')
+            ->willReturn([]);
+
+        $this->columnService->expects($this->never())
+            ->method('updateColumn');
+
+        $result = $this->controller->update('col-1');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testUpdateReturnsBadRequestWithEmptyBody()
+
+    /**
      * Test that update() returns 500 when service throws RuntimeException.
      *
      * @return void
