@@ -10,6 +10,13 @@ return [
         ['name' => 'settings#create', 'url' => '/api/settings', 'verb' => 'POST'],
         ['name' => 'settings#load',  'url' => '/api/settings/load', 'verb' => 'POST'],
 
+        // Project CRUD.
+        ['name' => 'project#index',   'url' => '/api/projects',      'verb' => 'GET'],
+        ['name' => 'project#show',    'url' => '/api/projects/{id}',  'verb' => 'GET'],
+        ['name' => 'project#create',  'url' => '/api/projects',      'verb' => 'POST'],
+        ['name' => 'project#update',  'url' => '/api/projects/{id}',  'verb' => 'PUT'],
+        ['name' => 'project#destroy', 'url' => '/api/projects/{id}',  'verb' => 'DELETE'],
+
         // Prometheus metrics endpoint.
         ['name' => 'metrics#index', 'url' => '/api/metrics', 'verb' => 'GET'],
         // Health check endpoint.

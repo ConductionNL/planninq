@@ -1,39 +1,29 @@
-# Admin Settings MVP
+# Projects CRUD MVP
 
-**Status**: pr-created
-**Spec reference**: [admin-user-settings](../../specs/admin-user-settings.md)
+**Status**: approved
+**Spec reference**: [projects](../../specs/projects.md)
 **Priority**: MVP
 
 ## Summary
 
-Implement the admin settings page for Planix. This is the first MVP feature that wires up
-the backend settings API with a proper frontend admin page. The user settings dialog is
-deferred to a follow-up change — this change focuses on the admin side only.
+Add project management CRUD to Planix. Users can create, view, edit, and delete
+projects. Each project has a title, description, color, and members list. Projects
+are stored as OpenRegister objects.
 
-## Scope
+## Scope (2 tasks)
 
-- Admin settings page under Nextcloud Administration → Planix
-- CnVersionInfoCard as the first section
-- Default columns configuration (editable ordered list)
-- OpenRegister initialization status and trigger button
-- Backend: SettingsController with read/write endpoints via IAppConfig
-- Frontend: AdminRoot.vue with CnVersionInfoCard + CnSettingsSection components
+- Backend: ProjectController with CRUD endpoints via OpenRegister
+- Frontend: Projects list view + create/edit form
 
 ## Out of scope
 
-- User settings dialog (NcAppSettingsDialog) — separate change
-- Procest bridge settings — V1, separate change
-- Notification preferences — separate change
+- Kanban boards per project (separate spec)
+- Project templates
+- Project archiving
 
 ## Architecture
 
-- Backend: `SettingsController` exposes `GET /api/settings` and `POST /api/settings`
-- Settings stored via `OCP\IAppConfig` (server-side, admin-only)
-- Frontend: Vue 2 + `@conduction/nextcloud-vue` components
-- No new database tables or OpenRegister entities
-
-## Risks
-
-- CnVersionInfoCard and CnSettingsSection require `@conduction/nextcloud-vue` — verify the
-  dependency is declared in package.json
-- OpenRegister initialization depends on OpenRegister being installed and enabled
+- Projects stored as OpenRegister objects (schema already in register)
+- Backend: ProjectController with GET/POST/PUT/DELETE
+- Frontend: ProjectsList.vue (list + cards) + ProjectForm.vue (create/edit dialog)
+- Uses OpenRegister object store for data access
