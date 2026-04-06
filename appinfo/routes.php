@@ -15,6 +15,11 @@ return [
         // Health check endpoint.
         ['name' => 'health#index', 'url' => '/api/health', 'verb' => 'GET'],
 
+        // Label CRUD endpoints.
+        ['name' => 'label#index',   'url' => '/api/labels',      'verb' => 'GET'],
+        ['name' => 'label#create',  'url' => '/api/labels',      'verb' => 'POST'],
+        ['name' => 'label#destroy', 'url' => '/api/labels/{id}', 'verb' => 'DELETE'],
+
         // SPA catch-all — same controller as the index route; must use a distinct route name
         // (duplicate names replace the earlier route in Symfony, which breaks GET /).
         ['name' => 'dashboard#catchAll', 'url' => '/{path}', 'verb' => 'GET', 'requirements' => ['path' => '.+'], 'defaults' => ['path' => '']],
