@@ -33,7 +33,6 @@ use OCP\IRequest;
  */
 class LabelController extends Controller
 {
-
     /**
      * Constructor for the LabelController.
      *
@@ -103,9 +102,9 @@ class LabelController extends Controller
     /**
      * Delete a label by ID.
      *
-     * @NoAdminRequired
-     *
      * @param string $id The label UUID
+     *
+     * @NoAdminRequired
      *
      * @return JSONResponse
      */

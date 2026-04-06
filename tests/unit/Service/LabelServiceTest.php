@@ -70,7 +70,9 @@ class LabelServiceTest extends TestCase
 
         $this->container     = $this->createMock(originalClassName: ContainerInterface::class);
         $this->logger        = $this->createMock(originalClassName: LoggerInterface::class);
-        $this->objectService = $this->createMock(originalClassName: \stdClass::class);
+        $this->objectService = $this->getMockBuilder(className: \stdClass::class)
+            ->addMethods(['getResultArrayForRequest', 'saveObject', 'deleteObject'])
+            ->getMock();
 
         $this->container->method('get')
             ->with('OCA\OpenRegister\Service\ObjectService')
@@ -176,7 +178,7 @@ class LabelServiceTest extends TestCase
             logger: $this->logger,
         );
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(exception: \RuntimeException::class);
         $service->findAll();
 
     }//end testThrowsWhenOpenRegisterUnavailable()

@@ -84,11 +84,7 @@ class LabelService
     public function findAll(): array
     {
         $objectService = $this->getObjectService();
-        $result = $objectService->getResultArrayForRequest(
-            register: self::REGISTER,
-            schema: self::SCHEMA,
-            requestParams: []
-        );
+        $result        = $objectService->getResultArrayForRequest(self::REGISTER, self::SCHEMA, []);
 
         return ($result['results'] ?? []);
 
@@ -114,11 +110,7 @@ class LabelService
             $labelData['description'] = $data['description'];
         }
 
-        return $objectService->saveObject(
-            register: self::REGISTER,
-            schema: self::SCHEMA,
-            object: $labelData
-        );
+        return $objectService->saveObject(self::REGISTER, self::SCHEMA, $labelData);
 
     }//end create()
 
@@ -133,11 +125,7 @@ class LabelService
     {
         $objectService = $this->getObjectService();
 
-        return $objectService->deleteObject(
-            register: self::REGISTER,
-            schema: self::SCHEMA,
-            id: $id
-        );
+        return $objectService->deleteObject(self::REGISTER, self::SCHEMA, $id);
 
     }//end delete()
 }//end class
