@@ -21,7 +21,6 @@
 
 // SPDX-License-Identifier: EUPL-1.2
 // Copyright (C) 2026 Conduction B.V.
-
 declare(strict_types=1);
 
 namespace OCA\Planix\Controller;
@@ -43,7 +42,6 @@ use OCP\IRequest;
  */
 class HealthController extends Controller
 {
-
     /**
      * Constructor for the HealthController.
      *
@@ -81,15 +79,19 @@ class HealthController extends Controller
     {
         $openRegisterAvailable = $this->settingsService->isOpenRegisterAvailable();
 
+        $status     = 'degraded';
+        $httpStatus = Http::STATUS_SERVICE_UNAVAILABLE;
+
+        if ($openRegisterAvailable === true) {
+            $status     = 'ok';
+            $httpStatus = Http::STATUS_OK;
+        }
+
         $data = [
-            'status'                => $openRegisterAvailable ? 'ok' : 'degraded',
+            'status'                => $status,
             'version'               => $this->appManager->getAppVersion(appId: Application::APP_ID),
             'openRegisterAvailable' => $openRegisterAvailable,
         ];
-
-        $httpStatus = $openRegisterAvailable
-            ? Http::STATUS_OK
-            : Http::STATUS_SERVICE_UNAVAILABLE;
 
         return new JSONResponse($data, $httpStatus);
     }//end index()
