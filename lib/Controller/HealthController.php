@@ -58,8 +58,8 @@ class HealthController extends Controller
      * Return application health status as JSON.
      *
      * Returns HTTP 200 when healthy (OpenRegister available) or HTTP 503 when
-     * OpenRegister is unavailable. The response always includes `status`,
-     * `version`, and `openRegisterAvailable` fields.
+     * OpenRegister is unavailable. The response always includes `status` and
+     * `openRegisterAvailable` fields.
      *
      * @spec openspec/changes/status-api/tasks.md#task-1
      *
@@ -76,13 +76,11 @@ class HealthController extends Controller
         // even when an app is installed but disabled. A health probe must reflect whether
         // the dependency is operational (i.e. enabled), not merely present on the filesystem.
         $openRegisterAvailable = $this->appManager->isEnabledForUser('openregister');
-        $version = $this->appManager->getAppVersion(Application::APP_ID);
 
         if ($openRegisterAvailable === true) {
             return new JSONResponse(
                 [
                     'status'                => 'ok',
-                    'version'               => $version,
                     'openRegisterAvailable' => true,
                 ],
                 Http::STATUS_OK
@@ -92,7 +90,6 @@ class HealthController extends Controller
         return new JSONResponse(
             [
                 'status'                => 'degraded',
-                'version'               => $version,
                 'openRegisterAvailable' => false,
             ],
             Http::STATUS_SERVICE_UNAVAILABLE

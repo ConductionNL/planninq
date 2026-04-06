@@ -8,6 +8,22 @@ on:
   workflow_dispatch:
 
 jobs:
+  oas-version-sync:
+    name: OAS version sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assert openapi.yaml version matches appinfo/info.xml
+        run: |
+          INFO_VERSION=$(grep -oP '(?<=<version>)[^<]+' appinfo/info.xml)
+          OAS_VERSION=$(grep -oP '(?<=^  version: )\S+' docs/openapi.yaml)
+          echo "appinfo/info.xml version : $INFO_VERSION"
+          echo "docs/openapi.yaml version: $OAS_VERSION"
+          if [ "$INFO_VERSION" != "$OAS_VERSION" ]; then
+            echo "ERROR: version mismatch — bump docs/openapi.yaml to match appinfo/info.xml"
+            exit 1
+          fi
+
   quality:
     uses: ConductionNL/.github/.github/workflows/quality.yml@main
     with:

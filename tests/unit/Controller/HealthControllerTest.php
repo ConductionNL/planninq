@@ -69,9 +69,6 @@ class HealthControllerTest extends TestCase
         $this->request    = $this->createMock(originalClassName: IRequest::class);
         $this->appManager = $this->createMock(originalClassName: IAppManager::class);
 
-        $this->appManager->method('getAppVersion')
-            ->willReturn('0.2.1');
-
         $this->controller = new HealthController(
             request: $this->request,
             appManager: $this->appManager,
@@ -98,7 +95,6 @@ class HealthControllerTest extends TestCase
 
         $data = $result->getData();
         self::assertSame(expected: 'ok', actual: $data['status']);
-        self::assertArrayHasKey(key: 'version', array: $data);
         self::assertTrue(condition: $data['openRegisterAvailable']);
 
     }//end testIndexReturnsOkWhenOpenRegisterAvailable()
@@ -122,13 +118,12 @@ class HealthControllerTest extends TestCase
 
         $data = $result->getData();
         self::assertSame(expected: 'degraded', actual: $data['status']);
-        self::assertArrayHasKey(key: 'version', array: $data);
         self::assertFalse(condition: $data['openRegisterAvailable']);
 
     }//end testIndexReturnsDegradedWhenOpenRegisterUnavailable()
 
     /**
-     * Test that the response always contains the three required fields.
+     * Test that the healthy response always contains the two required fields.
      *
      * @return void
      */
@@ -143,28 +138,27 @@ class HealthControllerTest extends TestCase
         $data   = $result->getData();
 
         self::assertArrayHasKey(key: 'status', array: $data);
-        self::assertArrayHasKey(key: 'version', array: $data);
         self::assertArrayHasKey(key: 'openRegisterAvailable', array: $data);
 
     }//end testResponseContainsRequiredFields()
 
     /**
-     * Test that the version field is a non-empty string.
+     * Test that the degraded response always contains the two required fields.
      *
      * @return void
      */
-    public function testVersionIsNonEmptyString(): void
+    public function testDegradedResponseContainsRequiredFields(): void
     {
         $this->appManager->expects($this->once())
             ->method('isEnabledForUser')
             ->with('openregister')
-            ->willReturn(true);
+            ->willReturn(false);
 
         $result = $this->controller->index();
         $data   = $result->getData();
 
-        self::assertIsString(actual: $data['version']);
-        self::assertNotEmpty(actual: $data['version']);
+        self::assertArrayHasKey(key: 'status', array: $data);
+        self::assertArrayHasKey(key: 'openRegisterAvailable', array: $data);
 
-    }//end testVersionIsNonEmptyString()
+    }//end testDegradedResponseContainsRequiredFields()
 }//end class

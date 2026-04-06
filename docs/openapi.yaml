@@ -37,7 +37,6 @@ paths:
                 $ref: '#/components/schemas/HealthResponse'
               example:
                 status: ok
-                version: "0.2.1"
                 openRegisterAvailable: true
         '503':
           description: Application is degraded — OpenRegister is unavailable.
@@ -47,7 +46,6 @@ paths:
                 $ref: '#/components/schemas/HealthResponse'
               example:
                 status: degraded
-                version: "0.2.1"
                 openRegisterAvailable: false
 
 components:
@@ -56,7 +54,6 @@ components:
       type: object
       required:
         - status
-        - version
         - openRegisterAvailable
       properties:
         status:
@@ -68,10 +65,6 @@ components:
             "ok" when all dependencies are available; "degraded" when one or
             more required dependencies (OpenRegister) are unavailable.
           example: ok
-        version:
-          type: string
-          description: The installed version of the Planix app, as recorded in appinfo/info.xml.
-          example: "0.2.1"
         openRegisterAvailable:
           type: boolean
           description: >
