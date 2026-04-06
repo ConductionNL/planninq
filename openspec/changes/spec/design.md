@@ -1,6 +1,6 @@
 # Label CRUD
 
-**Status**: approved
+**Status**: pr-created
 **Priority**: MVP
 
 ## Summary
