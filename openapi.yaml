@@ -1,0 +1,90 @@
+# SPDX-License-Identifier: EUPL-1.2
+# Copyright (C) 2026 Conduction B.V.
+openapi: 3.0.3
+info:
+  title: Planix API
+  description: >
+    REST API for the Planix Kanban project and task management application.
+    Conforms to the Common Ground API standard and NL API strategie.
+  version: 0.2.1
+  license:
+    name: EUPL-1.2
+    url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+  contact:
+    name: Conduction B.V.
+    url: https://conduction.nl
+
+servers:
+  - url: /index.php/apps/planix
+    description: Nextcloud app base path
+
+paths:
+  /api/health:
+    get:
+      operationId: health.index
+      summary: Application health check
+      description: >
+        Returns the current health status of the Planix application and the
+        availability of its OpenRegister dependency. Intended for use by load
+        balancers and monitoring systems.
+
+        Version information is intentionally omitted from the public response
+        to prevent unauthenticated version fingerprinting (OWASP A05 / CWE-200).
+      tags:
+        - Health
+      security: []
+      responses:
+        '200':
+          description: Application is healthy — OpenRegister is available.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthOk'
+              example:
+                status: ok
+                openRegisterAvailable: true
+        '503':
+          description: Application is degraded — OpenRegister is unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthDegraded'
+              example:
+                status: degraded
+                openRegisterAvailable: false
+
+components:
+  schemas:
+    HealthOk:
+      type: object
+      required:
+        - status
+        - openRegisterAvailable
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+          description: Indicates the application is fully operational.
+        openRegisterAvailable:
+          type: boolean
+          enum:
+            - true
+          description: Whether the OpenRegister dependency is installed and available.
+
+    HealthDegraded:
+      type: object
+      required:
+        - status
+        - openRegisterAvailable
+      properties:
+        status:
+          type: string
+          enum:
+            - degraded
+          description: Indicates the application is running in a degraded state.
+        openRegisterAvailable:
+          type: boolean
+          enum:
+            - false
+          description: Whether the OpenRegister dependency is installed and available.
