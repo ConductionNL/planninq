@@ -29,6 +29,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 
 /**
  * Controller for managing Planix project CRUD operations.
@@ -38,14 +39,16 @@ class ProjectController extends Controller
     /**
      * Constructor for the ProjectController.
      *
-     * @param IRequest       $request        The request object
-     * @param ProjectService $projectService The project service
+     * @param IRequest        $request        The request object
+     * @param ProjectService  $projectService The project service
+     * @param LoggerInterface $logger         The logger
      *
      * @return void
      */
     public function __construct(
         IRequest $request,
         private ProjectService $projectService,
+        private LoggerInterface $logger,
     ) {
         parent::__construct(appName: Application::APP_ID, request: $request);
 
@@ -64,8 +67,9 @@ class ProjectController extends Controller
             $projects = $this->projectService->findAll();
             return new JSONResponse(data: $projects);
         } catch (\Throwable $e) {
+            $this->logger->error('ProjectController error: '.$e->getMessage(), ['exception' => $e]);
             return new JSONResponse(
-                data: ['error' => $e->getMessage()],
+                data: ['error' => 'An unexpected error occurred.'],
                 statusCode: Http::STATUS_INTERNAL_SERVER_ERROR
             );
         }
@@ -97,7 +101,7 @@ class ProjectController extends Controller
             }
 
             $uid = $this->projectService->getCurrentUserId();
-            if ($uid !== null && $this->projectService->isMember(project: $project, uid: $uid) === false) {
+            if ($uid === null || $this->projectService->isMember(project: $project, uid: $uid) === false) {
                 return new JSONResponse(
                     data: ['error' => 'Access denied.'],
                     statusCode: Http::STATUS_FORBIDDEN
@@ -106,8 +110,9 @@ class ProjectController extends Controller
 
             return new JSONResponse(data: $project);
         } catch (\Throwable $e) {
+            $this->logger->error('ProjectController error: '.$e->getMessage(), ['exception' => $e]);
             return new JSONResponse(
-                data: ['error' => $e->getMessage()],
+                data: ['error' => 'An unexpected error occurred.'],
                 statusCode: Http::STATUS_INTERNAL_SERVER_ERROR
             );
         }//end try
@@ -147,8 +152,9 @@ class ProjectController extends Controller
                 statusCode: Http::STATUS_CREATED
             );
         } catch (\Throwable $e) {
+            $this->logger->error('ProjectController error: '.$e->getMessage(), ['exception' => $e]);
             return new JSONResponse(
-                data: ['error' => $e->getMessage()],
+                data: ['error' => 'An unexpected error occurred.'],
                 statusCode: Http::STATUS_INTERNAL_SERVER_ERROR
             );
         }//end try
@@ -156,7 +162,8 @@ class ProjectController extends Controller
     }//end create()
 
     /**
-     * Update an existing project. Only members may update.
+     * Partially update an existing project. Only members may update; only the owner may
+     * modify the members list.
      *
      * @param string $id The project UUID
      *
@@ -177,7 +184,7 @@ class ProjectController extends Controller
             }
 
             $uid = $this->projectService->getCurrentUserId();
-            if ($uid !== null && $this->projectService->isMember(project: $project, uid: $uid) === false) {
+            if ($uid === null || $this->projectService->isMember(project: $project, uid: $uid) === false) {
                 return new JSONResponse(
                     data: ['error' => 'Access denied.'],
                     statusCode: Http::STATUS_FORBIDDEN
@@ -185,7 +192,18 @@ class ProjectController extends Controller
             }
 
             $params = $this->request->getParams();
-            $data   = [];
+
+            // Only the project owner may modify the members list (prevents ownership hijack).
+            if (array_key_exists('members', $params) === true
+                && $this->projectService->isOwner(project: $project, uid: $uid) === false
+            ) {
+                return new JSONResponse(
+                    data: ['error' => 'Only the project owner may modify the member list.'],
+                    statusCode: Http::STATUS_FORBIDDEN
+                );
+            }
+
+            $data = [];
 
             foreach (['title', 'description', 'color', 'status', 'members'] as $key) {
                 if (array_key_exists($key, $params) === true) {
@@ -197,8 +215,9 @@ class ProjectController extends Controller
 
             return new JSONResponse(data: $updated);
         } catch (\Throwable $e) {
+            $this->logger->error('ProjectController error: '.$e->getMessage(), ['exception' => $e]);
             return new JSONResponse(
-                data: ['error' => $e->getMessage()],
+                data: ['error' => 'An unexpected error occurred.'],
                 statusCode: Http::STATUS_INTERNAL_SERVER_ERROR
             );
         }//end try
@@ -227,7 +246,7 @@ class ProjectController extends Controller
             }
 
             $uid = $this->projectService->getCurrentUserId();
-            if ($uid !== null && $this->projectService->isOwner(project: $project, uid: $uid) === false) {
+            if ($uid === null || $this->projectService->isOwner(project: $project, uid: $uid) === false) {
                 return new JSONResponse(
                     data: ['error' => 'Only the project owner may delete this project.'],
                     statusCode: Http::STATUS_FORBIDDEN
@@ -238,8 +257,9 @@ class ProjectController extends Controller
 
             return new JSONResponse(data: ['success' => true]);
         } catch (\Throwable $e) {
+            $this->logger->error('ProjectController error: '.$e->getMessage(), ['exception' => $e]);
             return new JSONResponse(
-                data: ['error' => $e->getMessage()],
+                data: ['error' => 'An unexpected error occurred.'],
                 statusCode: Http::STATUS_INTERNAL_SERVER_ERROR
             );
         }//end try

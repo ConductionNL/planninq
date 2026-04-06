@@ -1,0 +1,272 @@
+# SPDX-License-Identifier: EUPL-1.2
+# Copyright (C) 2026 Conduction B.V.
+openapi: 3.0.3
+info:
+  title: Planix — Projects API
+  description: >
+    CRUD endpoints for Planix projects. All endpoints require an active Nextcloud
+    session (@NoAdminRequired). Non-members receive 403; unauthenticated callers
+    receive 403.
+  version: 1.0.0
+  license:
+    name: EUPL-1.2
+    url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+
+servers:
+  - url: /apps/planix/api
+    description: Nextcloud app base path
+
+tags:
+  - name: projects
+    description: Project lifecycle management
+
+paths:
+  /projects:
+    get:
+      operationId: listProjects
+      summary: List projects for the authenticated user
+      description: >
+        Returns every project the authenticated user is a member of.
+        Returns an empty array when unauthenticated.
+      tags: [projects]
+      security:
+        - nextcloudSession: []
+      responses:
+        '200':
+          description: Array of project objects (may be empty)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    post:
+      operationId: createProject
+      summary: Create a new project
+      description: >
+        Creates a project and provisions the default kanban columns.
+        The authenticated user becomes the first member (owner).
+        Returns 403 when unauthenticated.
+      tags: [projects]
+      security:
+        - nextcloudSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectInput'
+      responses:
+        '201':
+          description: Project created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Validation error (e.g. title missing)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /projects/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: UUID of the project
+        schema:
+          type: string
+          format: uuid
+
+    get:
+      operationId: getProject
+      summary: Retrieve a single project
+      description: >
+        Returns the project identified by `id`. Returns 403 when the
+        authenticated user is not a member or has no active session.
+      tags: [projects]
+      security:
+        - nextcloudSession: []
+      responses:
+        '200':
+          description: Project object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    patch:
+      operationId: updateProject
+      summary: Partially update a project
+      description: >
+        Updates the specified fields of a project. Only project members may
+        call this endpoint. Only the owner may modify the `members` field.
+        Returns 403 for unauthenticated callers, non-members, or when a
+        non-owner attempts to change `members`.
+      tags: [projects]
+      security:
+        - nextcloudSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectPatch'
+      responses:
+        '200':
+          description: Updated project object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    delete:
+      operationId: deleteProject
+      summary: Delete a project
+      description: >
+        Permanently deletes the project. Only the project owner (first member)
+        may call this endpoint. Returns 403 for unauthenticated callers or
+        non-owners.
+      tags: [projects]
+      security:
+        - nextcloudSession: []
+      responses:
+        '200':
+          description: Deletion confirmed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+components:
+  securitySchemes:
+    nextcloudSession:
+      type: apiKey
+      in: cookie
+      name: nc_session_id
+      description: Active Nextcloud session cookie (@NoAdminRequired annotation)
+
+  schemas:
+    Project:
+      type: object
+      description: A Planix project (maps to schema:CreativeWork)
+      required: [id, title, status, members]
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID assigned by OpenRegister
+        title:
+          type: string
+          description: Project name
+        description:
+          type: string
+          description: Optional longer description
+        status:
+          type: string
+          enum: [active, archived, completed]
+          default: active
+        color:
+          type: string
+          description: Hex colour code (e.g. #3a86ff)
+          pattern: '^#[0-9A-Fa-f]{6}$'
+          nullable: true
+        members:
+          type: array
+          description: Ordered list of Nextcloud UIDs; index 0 is the owner
+          items:
+            type: string
+
+    ProjectInput:
+      type: object
+      required: [title]
+      properties:
+        title:
+          type: string
+          description: Project name (required)
+        description:
+          type: string
+          description: Optional longer description
+        color:
+          type: string
+          description: Hex colour code
+          pattern: '^#[0-9A-Fa-f]{6}$'
+
+    ProjectPatch:
+      type: object
+      description: >
+        All fields are optional. Members may update title, description, color,
+        and status. Only the owner may update the members array.
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+          pattern: '^#[0-9A-Fa-f]{6}$'
+        status:
+          type: string
+          enum: [active, archived, completed]
+        members:
+          type: array
+          description: Owner-only — replaces the full members list
+          items:
+            type: string
+
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+
+  responses:
+    Forbidden:
+      description: Access denied (unauthenticated or insufficient permissions)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Project not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Unexpected server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

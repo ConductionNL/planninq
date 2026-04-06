@@ -17,7 +17,6 @@
 
 // SPDX-License-Identifier: EUPL-1.2
 // Copyright (C) 2026 Conduction B.V.
-
 declare(strict_types=1);
 
 namespace OCA\Planix\Tests\Unit\Controller;
@@ -29,6 +28,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * Tests for ProjectController.
@@ -58,6 +58,13 @@ class ProjectControllerTest extends TestCase
     private ProjectService&MockObject $projectService;
 
     /**
+     * Mock LoggerInterface.
+     *
+     * @var LoggerInterface&MockObject
+     */
+    private LoggerInterface&MockObject $logger;
+
+    /**
      * Set up test fixtures.
      *
      * @return void
@@ -68,10 +75,12 @@ class ProjectControllerTest extends TestCase
 
         $this->request        = $this->createMock(originalClassName: IRequest::class);
         $this->projectService = $this->createMock(originalClassName: ProjectService::class);
+        $this->logger         = $this->createMock(originalClassName: LoggerInterface::class);
 
         $this->controller = new ProjectController(
             request: $this->request,
             projectService: $this->projectService,
+            logger: $this->logger,
         );
 
     }//end setUp()
@@ -119,6 +128,31 @@ class ProjectControllerTest extends TestCase
         self::assertArrayHasKey(key: 'error', array: $result->getData());
 
     }//end testShowReturnsNotFoundForMissingProject()
+
+    /**
+     * Test that show() returns 403 when the user session is absent (null UID).
+     *
+     * @return void
+     */
+    public function testShowReturnsForbiddenForNullUid(): void
+    {
+        $project = ['id' => 'p1', 'title' => 'Alpha', 'members' => ['owner1']];
+
+        $this->projectService->expects($this->once())
+            ->method('find')
+            ->with(id: 'p1')
+            ->willReturn($project);
+
+        $this->projectService->expects($this->once())
+            ->method('getCurrentUserId')
+            ->willReturn(null);
+
+        $result = $this->controller->show(id: 'p1');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
+
+    }//end testShowReturnsForbiddenForNullUid()
 
     /**
      * Test that show() returns 403 when the user is not a member.
@@ -246,6 +280,31 @@ class ProjectControllerTest extends TestCase
     }//end testUpdateReturnsNotFoundForMissingProject()
 
     /**
+     * Test that update() returns 403 when the user session is absent (null UID).
+     *
+     * @return void
+     */
+    public function testUpdateReturnsForbiddenForNullUid(): void
+    {
+        $project = ['id' => 'p1', 'title' => 'Alpha', 'members' => ['owner1']];
+
+        $this->projectService->expects($this->once())
+            ->method('find')
+            ->with(id: 'p1')
+            ->willReturn($project);
+
+        $this->projectService->expects($this->once())
+            ->method('getCurrentUserId')
+            ->willReturn(null);
+
+        $result = $this->controller->update(id: 'p1');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
+
+    }//end testUpdateReturnsForbiddenForNullUid()
+
+    /**
      * Test that update() returns 403 when the user is not a member.
      *
      * @return void
@@ -276,6 +335,89 @@ class ProjectControllerTest extends TestCase
     }//end testUpdateReturnsForbiddenForNonMember()
 
     /**
+     * Test that update() returns 403 when a non-owner attempts to modify the members list.
+     *
+     * @return void
+     */
+    public function testUpdateReturnsForbiddenWhenNonOwnerModifiesMembers(): void
+    {
+        $project = ['id' => 'p1', 'title' => 'Alpha', 'members' => ['owner1', 'user2']];
+
+        $this->projectService->expects($this->once())
+            ->method('find')
+            ->with(id: 'p1')
+            ->willReturn($project);
+
+        $this->projectService->expects($this->once())
+            ->method('getCurrentUserId')
+            ->willReturn('user2');
+
+        $this->projectService->expects($this->once())
+            ->method('isMember')
+            ->with(project: $project, uid: 'user2')
+            ->willReturn(true);
+
+        $this->projectService->expects($this->once())
+            ->method('isOwner')
+            ->with(project: $project, uid: 'user2')
+            ->willReturn(false);
+
+        $this->request->expects($this->once())
+            ->method('getParams')
+            ->willReturn(['members' => ['attacker']]);
+
+        $result = $this->controller->update(id: 'p1');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
+
+    }//end testUpdateReturnsForbiddenWhenNonOwnerModifiesMembers()
+
+    /**
+     * Test that update() allows the owner to modify the members list.
+     *
+     * @return void
+     */
+    public function testUpdateAllowsOwnerToModifyMembers(): void
+    {
+        $project = ['id' => 'p1', 'title' => 'Alpha', 'members' => ['owner1']];
+        $updated = ['id' => 'p1', 'title' => 'Alpha', 'members' => ['owner1', 'user2']];
+
+        $this->projectService->expects($this->once())
+            ->method('find')
+            ->with(id: 'p1')
+            ->willReturn($project);
+
+        $this->projectService->expects($this->once())
+            ->method('getCurrentUserId')
+            ->willReturn('owner1');
+
+        $this->projectService->expects($this->once())
+            ->method('isMember')
+            ->with(project: $project, uid: 'owner1')
+            ->willReturn(true);
+
+        $this->projectService->expects($this->once())
+            ->method('isOwner')
+            ->with(project: $project, uid: 'owner1')
+            ->willReturn(true);
+
+        $this->request->expects($this->once())
+            ->method('getParams')
+            ->willReturn(['members' => ['owner1', 'user2']]);
+
+        $this->projectService->expects($this->once())
+            ->method('update')
+            ->willReturn($updated);
+
+        $result = $this->controller->update(id: 'p1');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: 200, actual: $result->getStatus());
+
+    }//end testUpdateAllowsOwnerToModifyMembers()
+
+    /**
      * Test that destroy() returns 404 for a non-existent project.
      *
      * @return void
@@ -293,6 +435,31 @@ class ProjectControllerTest extends TestCase
         self::assertSame(expected: Http::STATUS_NOT_FOUND, actual: $result->getStatus());
 
     }//end testDestroyReturnsNotFoundForMissingProject()
+
+    /**
+     * Test that destroy() returns 403 when the user session is absent (null UID).
+     *
+     * @return void
+     */
+    public function testDestroyReturnsForbiddenForNullUid(): void
+    {
+        $project = ['id' => 'p1', 'title' => 'Alpha', 'members' => ['owner1']];
+
+        $this->projectService->expects($this->once())
+            ->method('find')
+            ->with(id: 'p1')
+            ->willReturn($project);
+
+        $this->projectService->expects($this->once())
+            ->method('getCurrentUserId')
+            ->willReturn(null);
+
+        $result = $this->controller->destroy(id: 'p1');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
+
+    }//end testDestroyReturnsForbiddenForNullUid()
 
     /**
      * Test that destroy() returns 403 when the user is not the owner.

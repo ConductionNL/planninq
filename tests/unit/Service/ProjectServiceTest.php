@@ -17,12 +17,12 @@
 
 // SPDX-License-Identifier: EUPL-1.2
 // Copyright (C) 2026 Conduction B.V.
-
 declare(strict_types=1);
 
 namespace OCA\Planix\Tests\Unit\Service;
 
 use OCA\Planix\Service\ProjectService;
+use OCP\IAppConfig;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -65,6 +65,13 @@ class ProjectServiceTest extends TestCase
     private LoggerInterface&MockObject $logger;
 
     /**
+     * Mock IAppConfig.
+     *
+     * @var IAppConfig&MockObject
+     */
+    private IAppConfig&MockObject $appConfig;
+
+    /**
      * Set up test fixtures.
      *
      * @return void
@@ -76,11 +83,13 @@ class ProjectServiceTest extends TestCase
         $this->container   = $this->createMock(originalClassName: ContainerInterface::class);
         $this->userSession = $this->createMock(originalClassName: IUserSession::class);
         $this->logger      = $this->createMock(originalClassName: LoggerInterface::class);
+        $this->appConfig   = $this->createMock(originalClassName: IAppConfig::class);
 
         $this->service = new ProjectService(
             container: $this->container,
             userSession: $this->userSession,
             logger: $this->logger,
+            appConfig: $this->appConfig,
         );
 
     }//end setUp()
@@ -179,4 +188,38 @@ class ProjectServiceTest extends TestCase
         self::assertNull(actual: $this->service->getCurrentUserId());
 
     }//end testGetCurrentUserIdReturnsNullWithoutUser()
+
+    /**
+     * Test findAll() returns an empty array when no user is authenticated.
+     *
+     * @return void
+     */
+    public function testFindAllReturnsEmptyArrayWhenUnauthenticated(): void
+    {
+        $this->userSession->method('getUser')->willReturn(null);
+
+        // GetObjectService must NOT be called — no database query for unauthenticated callers.
+        $this->container->expects($this->never())->method('get');
+
+        $result = $this->service->findAll();
+
+        self::assertSame(expected: [], actual: $result);
+
+    }//end testFindAllReturnsEmptyArrayWhenUnauthenticated()
+
+    /**
+     * Test create() throws RuntimeException when no user is authenticated.
+     *
+     * @return void
+     */
+    public function testCreateThrowsWhenUnauthenticated(): void
+    {
+        $this->userSession->method('getUser')->willReturn(null);
+
+        $this->expectException(exception: \RuntimeException::class);
+        $this->expectExceptionMessage(message: 'Cannot create project: no authenticated user.');
+
+        $this->service->create(data: ['title' => 'Test']);
+
+    }//end testCreateThrowsWhenUnauthenticated()
 }//end class

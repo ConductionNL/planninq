@@ -14,7 +14,7 @@ return [
         ['name' => 'project#index',   'url' => '/api/projects',      'verb' => 'GET'],
         ['name' => 'project#show',    'url' => '/api/projects/{id}',  'verb' => 'GET'],
         ['name' => 'project#create',  'url' => '/api/projects',      'verb' => 'POST'],
-        ['name' => 'project#update',  'url' => '/api/projects/{id}',  'verb' => 'PUT'],
+        ['name' => 'project#update',  'url' => '/api/projects/{id}',  'verb' => 'PATCH'],
         ['name' => 'project#destroy', 'url' => '/api/projects/{id}',  'verb' => 'DELETE'],
 
         // Prometheus metrics endpoint.
