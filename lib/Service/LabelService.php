@@ -95,21 +95,14 @@ class LabelService
         $objectService->setRegister(self::REGISTER_SLUG);
         $objectService->setSchema(self::SCHEMA_SLUG);
 
-        return $objectService->findAll(
-            [
-                'filters' => [
-                    'register' => self::REGISTER_SLUG,
-                    'schema'   => self::SCHEMA_SLUG,
-                ],
-            ]
-        );
+        return $objectService->findAll([]);
 
     }//end findAll()
 
     /**
      * Create a new label.
      *
-     * @param array<string,mixed> $data The label data (title required, color optional)
+     * @param array<string,mixed> $data The label data (title and color are required)
      *
      * @return array<string,mixed> The created label object
      *
@@ -124,8 +117,6 @@ class LabelService
         $object = $objectService->createFromArray(
             $data,
             [],
-            self::REGISTER_SLUG,
-            self::SCHEMA_SLUG,
         );
 
         return $object->jsonSerialize();

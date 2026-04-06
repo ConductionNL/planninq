@@ -78,7 +78,7 @@ class LabelController extends Controller
     /**
      * Create a new label.
      *
-     * Requires 'name' in the request body. 'color' is optional.
+     * Requires 'title' and 'color' in the request body.
      *
      * @NoAdminRequired
      *
@@ -88,23 +88,25 @@ class LabelController extends Controller
      */
     public function create(): JSONResponse
     {
-        $name  = $this->request->getParam('name');
+        $title = $this->request->getParam('title');
         $color = $this->request->getParam('color');
 
-        if (empty($name) === true) {
+        if (empty($title) === true) {
             return new JSONResponse(
-                ['error' => 'The "name" field is required.'],
+                ['error' => 'The "title" field is required.'],
                 Http::STATUS_BAD_REQUEST
             );
         }
 
-        $data = ['title' => $name];
-        if (empty($color) === false) {
-            $data['color'] = $color;
+        if (empty($color) === true) {
+            return new JSONResponse(
+                ['error' => 'The "color" field is required.'],
+                Http::STATUS_BAD_REQUEST
+            );
         }
 
         try {
-            $label = $this->labelService->create(data: $data);
+            $label = $this->labelService->create(data: ['title' => $title, 'color' => $color]);
             return new JSONResponse($label, Http::STATUS_CREATED);
         } catch (\RuntimeException $e) {
             return new JSONResponse(
@@ -129,8 +131,12 @@ class LabelController extends Controller
     public function destroy(string $id): JSONResponse
     {
         try {
-            $this->labelService->delete(id: $id);
-            return new JSONResponse(['success' => true]);
+            $deleted = $this->labelService->delete(id: $id);
+            if ($deleted === false) {
+                return new JSONResponse(['error' => 'Label not found.'], Http::STATUS_NOT_FOUND);
+            }
+
+            return new JSONResponse(data: [], statusCode: Http::STATUS_NO_CONTENT);
         } catch (\RuntimeException $e) {
             return new JSONResponse(
                 ['error' => $e->getMessage()],

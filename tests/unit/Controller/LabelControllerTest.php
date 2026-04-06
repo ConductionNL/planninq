@@ -106,16 +106,42 @@ class LabelControllerTest extends TestCase
     }//end testIndexReturnsAllLabels()
 
     /**
-     * Test that create() returns 400 when name is missing.
+     * Test that create() returns 400 when title is missing.
      *
      * @return void
      */
-    public function testCreateReturnsBadRequestWithoutName(): void
+    public function testCreateReturnsBadRequestWithoutTitle(): void
     {
         $this->request->method('getParam')
             ->willReturnMap(
                 [
-                    ['name', null, null],
+                    ['title', null, null],
+                    ['color', null, '#FF0000'],
+                ]
+            );
+
+        $this->labelService->expects($this->never())
+            ->method('create');
+
+        $result = $this->controller->create();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testCreateReturnsBadRequestWithoutTitle()
+
+    /**
+     * Test that create() returns 400 when color is missing.
+     *
+     * @return void
+     */
+    public function testCreateReturnsBadRequestWithoutColor(): void
+    {
+        $this->request->method('getParam')
+            ->willReturnMap(
+                [
+                    ['title', null, 'Bug'],
                     ['color', null, null],
                 ]
             );
@@ -129,10 +155,10 @@ class LabelControllerTest extends TestCase
         self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $result->getStatus());
         self::assertArrayHasKey(key: 'error', array: $result->getData());
 
-    }//end testCreateReturnsBadRequestWithoutName()
+    }//end testCreateReturnsBadRequestWithoutColor()
 
     /**
-     * Test that create() creates a label with name and color.
+     * Test that create() creates a label with title and color.
      *
      * @return void
      */
@@ -141,7 +167,7 @@ class LabelControllerTest extends TestCase
         $this->request->method('getParam')
             ->willReturnMap(
                 [
-                    ['name', null, 'Bug'],
+                    ['title', null, 'Bug'],
                     ['color', null, '#FF0000'],
                 ]
             );
@@ -166,44 +192,11 @@ class LabelControllerTest extends TestCase
     }//end testCreateReturnsCreatedLabel()
 
     /**
-     * Test that create() creates a label with name only (no color).
+     * Test that destroy() returns 204 No Content on successful deletion.
      *
      * @return void
      */
-    public function testCreateWithNameOnlyOmitsColor(): void
-    {
-        $this->request->method('getParam')
-            ->willReturnMap(
-                [
-                    ['name', null, 'Enhancement'],
-                    ['color', null, null],
-                ]
-            );
-
-        $created = [
-            'id'    => 'uuid-new',
-            'title' => 'Enhancement',
-            'color' => '#4376FC',
-        ];
-
-        $this->labelService->expects($this->once())
-            ->method('create')
-            ->with(['title' => 'Enhancement'])
-            ->willReturn($created);
-
-        $result = $this->controller->create();
-
-        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
-        self::assertSame(expected: Http::STATUS_CREATED, actual: $result->getStatus());
-
-    }//end testCreateWithNameOnlyOmitsColor()
-
-    /**
-     * Test that destroy() returns success on valid deletion.
-     *
-     * @return void
-     */
-    public function testDestroyReturnsSuccess(): void
+    public function testDestroyReturnsNoContent(): void
     {
         $this->labelService->expects($this->once())
             ->method('delete')
@@ -213,10 +206,29 @@ class LabelControllerTest extends TestCase
         $result = $this->controller->destroy(id: 'uuid-to-delete');
 
         self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
-        self::assertSame(expected: Http::STATUS_OK, actual: $result->getStatus());
-        self::assertTrue(condition: $result->getData()['success']);
+        self::assertSame(expected: Http::STATUS_NO_CONTENT, actual: $result->getStatus());
 
-    }//end testDestroyReturnsSuccess()
+    }//end testDestroyReturnsNoContent()
+
+    /**
+     * Test that destroy() returns 404 when the label does not exist.
+     *
+     * @return void
+     */
+    public function testDestroyReturnsNotFoundWhenLabelMissing(): void
+    {
+        $this->labelService->expects($this->once())
+            ->method('delete')
+            ->with('uuid-missing')
+            ->willReturn(false);
+
+        $result = $this->controller->destroy(id: 'uuid-missing');
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_NOT_FOUND, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testDestroyReturnsNotFoundWhenLabelMissing()
 
     /**
      * Test that index() returns 500 when OpenRegister is unavailable.

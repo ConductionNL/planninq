@@ -70,7 +70,7 @@ class LabelServiceTest extends TestCase
 
         $this->container     = $this->createMock(originalClassName: ContainerInterface::class);
         $this->logger        = $this->createMock(originalClassName: LoggerInterface::class);
-        $this->objectService = $this->getMockBuilder(\stdClass::class)
+        $this->objectService = $this->getMockBuilder(className: \stdClass::class)
             ->addMethods(
                 [
                     'setRegister',
@@ -118,14 +118,7 @@ class LabelServiceTest extends TestCase
 
         $this->objectService->expects($this->once())
             ->method('findAll')
-            ->with(
-                [
-                    'filters' => [
-                        'register' => 'planix',
-                        'schema'   => 'label',
-                    ],
-                ]
-            )
+            ->with([])
             ->willReturn($labels);
 
         $result = $this->service->findAll();
@@ -146,7 +139,7 @@ class LabelServiceTest extends TestCase
             'color' => '#FF0000',
         ];
 
-        $mockEntity = $this->getMockBuilder(\stdClass::class)
+        $mockEntity = $this->getMockBuilder(className: \stdClass::class)
             ->addMethods(['jsonSerialize'])
             ->getMock();
 
@@ -164,8 +157,6 @@ class LabelServiceTest extends TestCase
             ->with(
                 $data,
                 [],
-                'planix',
-                'label',
             )
             ->willReturn($mockEntity);
 
@@ -210,8 +201,8 @@ class LabelServiceTest extends TestCase
             logger: $this->logger,
         );
 
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('OpenRegister is not installed or enabled.');
+        $this->expectException(exception: \RuntimeException::class);
+        $this->expectExceptionMessage(message: 'OpenRegister is not installed or enabled.');
 
         $service->findAll();
 
