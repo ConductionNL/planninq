@@ -43,6 +43,9 @@ export const useProjectsStore = defineStore('projects', {
 		/** @type {object|null} */ activeProject: null,
 		/** @type {boolean} */ loading: false,
 		/** @type {string|null} */ error: null,
+		/** @type {Array} */ columns: [],
+		/** @type {Array} */ tasks: [],
+		/** @type {boolean} */ boardLoading: false,
 	}),
 
 	actions: {
@@ -259,6 +262,104 @@ export const useProjectsStore = defineStore('projects', {
 			}
 
 			return { created, failed: failedTitles.length }
+		},
+
+		// ── 2.6b fetchColumns ─────────────────────────────────────────────
+
+		/**
+		 * Fetch columns for a project, ordered by position.
+		 *
+		 * @param {string} projectId Parent project ID
+		 * @return {Promise<Array>}
+		 */
+		async fetchColumns(projectId) {
+			try {
+				const objectStore = this._objectStore()
+				const results = await objectStore.fetchCollection(COLUMN_SCHEMA, { project: projectId })
+				this.columns = [...results].sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+				return this.columns
+			} catch (err) {
+				console.error('fetchColumns error:', err)
+				this.columns = []
+				return []
+			}
+		},
+
+		// ── 2.6c fetchTasks ───────────────────────────────────────────────
+
+		/**
+		 * Fetch tasks for a project.
+		 *
+		 * @param {string} projectId Parent project ID
+		 * @return {Promise<Array>}
+		 */
+		async fetchTasks(projectId) {
+			try {
+				const objectStore = this._objectStore()
+				const results = await objectStore.fetchCollection(TASK_SCHEMA, { project: projectId })
+				this.tasks = results
+				return this.tasks
+			} catch (err) {
+				console.error('fetchTasks error:', err)
+				this.tasks = []
+				return []
+			}
+		},
+
+		// ── 2.6d fetchBoard ───────────────────────────────────────────────
+
+		/**
+		 * Fetch all board data (columns + tasks) for a project.
+		 *
+		 * @param {string} projectId Parent project ID
+		 * @return {Promise<{columns: Array, tasks: Array}>}
+		 */
+		async fetchBoard(projectId) {
+			this.boardLoading = true
+			try {
+				const [columns, tasks] = await Promise.all([
+					this.fetchColumns(projectId),
+					this.fetchTasks(projectId),
+				])
+				return { columns, tasks }
+			} finally {
+				this.boardLoading = false
+			}
+		},
+
+		// ── 2.6e createColumn ─────────────────────────────────────────────
+
+		/**
+		 * Create a new column for a project.
+		 *
+		 * @param {object} data Column fields
+		 * @return {Promise<object>}
+		 */
+		async createNewColumn(data) {
+			const objectStore = this._objectStore()
+			const column = await objectStore.saveObject(COLUMN_SCHEMA, data)
+			if (column) {
+				this.columns = [...this.columns, column].sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+			}
+			return column
+		},
+
+		// ── 2.6f updateTask ───────────────────────────────────────────────
+
+		/**
+		 * Update a task (e.g. move to a different column).
+		 *
+		 * @param {string} taskId Task ID
+		 * @param {object} data Updated fields
+		 * @return {Promise<object|null>}
+		 */
+		async updateTask(taskId, data) {
+			const objectStore = this._objectStore()
+			const updated = await objectStore.saveObject(TASK_SCHEMA, { id: taskId, ...data })
+			if (updated) {
+				this.tasks = this.tasks.map((t) => (t.id === taskId ? { ...t, ...updated } : t))
+			}
+			return updated
 		},
 
 		// ── 2.7 archiveProject ────────────────────────────────────────────

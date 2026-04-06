@@ -1,39 +1,27 @@
-# Admin Settings MVP
+# Kanban Board MVP
 
-**Status**: pr-created
-**Spec reference**: [admin-user-settings](../../specs/admin-user-settings.md)
+**Status**: approved
+**Spec reference**: [kanban-board](../../specs/kanban-board.md)
 **Priority**: MVP
 
 ## Summary
 
-Implement the admin settings page for Planix. This is the first MVP feature that wires up
-the backend settings API with a proper frontend admin page. The user settings dialog is
-deferred to a follow-up change — this change focuses on the admin side only.
+Add kanban board view to Planix. Users can see tasks organized in columns per project,
+with drag-and-drop between columns. Each column represents a workflow stage.
 
-## Scope
+## Scope (2 tasks)
 
-- Admin settings page under Nextcloud Administration → Planix
-- CnVersionInfoCard as the first section
-- Default columns configuration (editable ordered list)
-- OpenRegister initialization status and trigger button
-- Backend: SettingsController with read/write endpoints via IAppConfig
-- Frontend: AdminRoot.vue with CnVersionInfoCard + CnSettingsSection components
+- Backend: ColumnController for managing columns per project
+- Frontend: KanbanBoard.vue with columns and task cards
 
 ## Out of scope
 
-- User settings dialog (NcAppSettingsDialog) — separate change
-- Procest bridge settings — V1, separate change
-- Notification preferences — separate change
+- WIP limits (V1)
+- Swimlanes (V1)
+- Column templates (V1)
 
 ## Architecture
 
-- Backend: `SettingsController` exposes `GET /api/settings` and `POST /api/settings`
-- Settings stored via `OCP\IAppConfig` (server-side, admin-only)
-- Frontend: Vue 2 + `@conduction/nextcloud-vue` components
-- No new database tables or OpenRegister entities
-
-## Risks
-
-- CnVersionInfoCard and CnSettingsSection require `@conduction/nextcloud-vue` — verify the
-  dependency is declared in package.json
-- OpenRegister initialization depends on OpenRegister being installed and enabled
+- Columns stored as OpenRegister objects (schema already defined)
+- Backend: ColumnController with CRUD + reorder endpoint
+- Frontend: KanbanBoard.vue using CnDataTable for now (drag-drop in V1)

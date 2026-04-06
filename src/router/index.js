@@ -23,6 +23,11 @@ export default new Router({
 			component: () => import('../views/ProjectBoard.vue'),
 		},
 		{
+			path: '/projects/:id/board',
+			name: 'ProjectBoardView',
+			component: () => import('../views/ProjectBoard.vue'),
+		},
+		{
 			path: '/projects/:id/backlog',
 			name: 'ProjectBacklog',
 			component: () => import('../views/ProjectBacklog.vue'),
