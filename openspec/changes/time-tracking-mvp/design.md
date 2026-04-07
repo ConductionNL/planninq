@@ -1,6 +1,6 @@
 # Design: Time Tracking MVP
 
-**Status:** proposed
+**Status:** pr-created
 **Spec:** [time-tracking](../../specs/time-tracking.md)
 **ADR dependencies:** [task-status-model](../../architecture/task-status-model.md)
 
