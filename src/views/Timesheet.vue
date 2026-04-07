@@ -2,7 +2,7 @@
 SPDX-License-Identifier: EUPL-1.2
 Copyright (C) 2026 Conduction B.V.
 
-@spec openspec/changes/time-tracking-mvp/tasks.md#task-6
+@see openspec/changes/time-tracking-mvp/tasks.md#task-6
 -->
 <template>
 	<div class="timesheet">
@@ -76,7 +76,7 @@ Copyright (C) 2026 Conduction B.V.
 /**
  * Personal timesheet view showing time entries grouped by day.
  *
- * @spec openspec/changes/time-tracking-mvp/tasks.md#task-6
+ * @see openspec/changes/time-tracking-mvp/tasks.md#task-6
  */
 import { NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -119,7 +119,7 @@ function dateRange(start, end) {
 }
 
 export default {
-	name: 'TimesheetView',
+	name: 'Timesheet',
 
 	components: { NcEmptyContent, NcLoadingIcon, NcSelect, TimerOutline },
 
@@ -150,7 +150,7 @@ export default {
 		/**
 		 * Entries filtered to the selected date range.
 		 *
-		 * @spec openspec/changes/time-tracking-mvp/tasks.md#task-6
+		 * @see openspec/changes/time-tracking-mvp/tasks.md#task-6
 		 * @return {Array}
 		 */
 		filteredEntries() {
@@ -161,7 +161,7 @@ export default {
 		/**
 		 * Group entries by date with daily subtotals.
 		 *
-		 * @spec openspec/changes/time-tracking-mvp/tasks.md#task-6
+		 * @see openspec/changes/time-tracking-mvp/tasks.md#task-6
 		 * @return {Array<{date: string, total: number, entries: Array}>}
 		 */
 		groupedEntries() {
@@ -179,7 +179,7 @@ export default {
 		/**
 		 * Total logged time in range.
 		 *
-		 * @spec openspec/changes/time-tracking-mvp/tasks.md#task-6
+		 * @see openspec/changes/time-tracking-mvp/tasks.md#task-6
 		 * @return {string}
 		 */
 		formattedTotal() {
@@ -210,7 +210,7 @@ export default {
 		/**
 		 * Load all time entries for the current user.
 		 *
-		 * @spec openspec/changes/time-tracking-mvp/tasks.md#task-6
+		 * @see openspec/changes/time-tracking-mvp/tasks.md#task-6
 		 */
 		async loadEntries() {
 			this.loading = true

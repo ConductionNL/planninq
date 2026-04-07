@@ -2,7 +2,7 @@
 SPDX-License-Identifier: EUPL-1.2
 Copyright (C) 2026 Conduction B.V.
 
-@spec openspec/changes/time-tracking-mvp/tasks.md#task-5
+@see openspec/changes/time-tracking-mvp/tasks.md#task-5
 -->
 <template>
 	<div class="task-detail">
@@ -36,7 +36,9 @@ Copyright (C) 2026 Conduction B.V.
 					</template>
 				</NcButton>
 				<div class="task-detail__header-info">
-					<h2 class="task-detail__title">{{ task.title }}</h2>
+					<h2 class="task-detail__title">
+						{{ task.title }}
+					</h2>
 					<div class="task-detail__meta">
 						<NcChip v-if="task.status" :text="task.status" no-close />
 						<NcChip v-if="task.priority" :text="task.priority" no-close />
@@ -154,7 +156,7 @@ Copyright (C) 2026 Conduction B.V.
 /**
  * Task detail view with time tracking section.
  *
- * @spec openspec/changes/time-tracking-mvp/tasks.md#task-5
+ * @see openspec/changes/time-tracking-mvp/tasks.md#task-5
  */
 import { NcButton, NcChip, NcEmptyContent, NcLoadingIcon, NcProgressBar } from '@nextcloud/vue'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -208,7 +210,7 @@ export default {
 		/**
 		 * Sum of all time entry durations.
 		 *
-		 * @spec openspec/changes/time-tracking-mvp/tasks.md#task-5
+		 * @see openspec/changes/time-tracking-mvp/tasks.md#task-5
 		 * @return {number}
 		 */
 		loggedDuration() {
@@ -237,7 +239,7 @@ export default {
 		/**
 		 * Load task and its time entries.
 		 *
-		 * @spec openspec/changes/time-tracking-mvp/tasks.md#task-5
+		 * @see openspec/changes/time-tracking-mvp/tasks.md#task-5
 		 */
 		async loadTask() {
 			this.loading = true
@@ -283,7 +285,7 @@ export default {
 		/**
 		 * Update the estimated duration on the task.
 		 *
-		 * @spec openspec/changes/time-tracking-mvp/tasks.md#task-3
+		 * @see openspec/changes/time-tracking-mvp/tasks.md#task-3
 		 * @param {number|null} minutes New estimate
 		 */
 		async updateEstimate(minutes) {
@@ -324,7 +326,7 @@ export default {
 		/**
 		 * Delete a time entry.
 		 *
-		 * @spec openspec/changes/time-tracking-mvp/tasks.md#task-5
+		 * @see openspec/changes/time-tracking-mvp/tasks.md#task-5
 		 * @param {object} entry The time entry to delete
 		 */
 		async deleteEntry(entry) {

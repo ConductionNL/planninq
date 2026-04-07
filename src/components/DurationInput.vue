@@ -2,7 +2,7 @@
 SPDX-License-Identifier: EUPL-1.2
 Copyright (C) 2026 Conduction B.V.
 
-@spec openspec/changes/time-tracking-mvp/tasks.md#task-2
+@see openspec/changes/time-tracking-mvp/tasks.md#task-2
 -->
 <template>
 	<div class="duration-input">
@@ -28,7 +28,7 @@ Copyright (C) 2026 Conduction B.V.
  * Accepts formats like "2h 30m", "2.5h", "150m", "150" (minutes)
  * and emits the value in minutes.
  *
- * @spec openspec/changes/time-tracking-mvp/tasks.md#task-2
+ * @see openspec/changes/time-tracking-mvp/tasks.md#task-2
  */
 import { NcTextField } from '@nextcloud/vue'
 import { translate as t } from '@nextcloud/l10n'
@@ -43,7 +43,7 @@ import { translate as t } from '@nextcloud/l10n'
  * - "150m"   → 150
  * - "150"    → 150 (bare number = minutes)
  *
- * @spec openspec/changes/time-tracking-mvp/tasks.md#task-2
+ * @see openspec/changes/time-tracking-mvp/tasks.md#task-2
  * @param {string} input Raw user input
  * @return {number|null} Duration in minutes, or null if unparseable
  */
@@ -78,7 +78,7 @@ export function parseDuration(input) {
 /**
  * Format minutes into a human-readable duration string.
  *
- * @spec openspec/changes/time-tracking-mvp/tasks.md#task-2
+ * @see openspec/changes/time-tracking-mvp/tasks.md#task-2
  * @param {number} minutes Duration in minutes
  * @return {string} Formatted string (e.g. "2h 30m")
  */

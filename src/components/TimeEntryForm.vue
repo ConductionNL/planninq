@@ -2,7 +2,7 @@
 SPDX-License-Identifier: EUPL-1.2
 Copyright (C) 2026 Conduction B.V.
 
-@spec openspec/changes/time-tracking-mvp/tasks.md#task-4
+@see openspec/changes/time-tracking-mvp/tasks.md#task-4
 -->
 <template>
 	<form class="time-entry-form" @submit.prevent="onSubmit">
@@ -49,7 +49,7 @@ Copyright (C) 2026 Conduction B.V.
 /**
  * Form for creating or editing a time entry on a task.
  *
- * @spec openspec/changes/time-tracking-mvp/tasks.md#task-4
+ * @see openspec/changes/time-tracking-mvp/tasks.md#task-4
  */
 import { NcButton, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -113,7 +113,7 @@ export default {
 		/**
 		 * Submit the time entry (create or update).
 		 *
-		 * @spec openspec/changes/time-tracking-mvp/tasks.md#task-4
+		 * @see openspec/changes/time-tracking-mvp/tasks.md#task-4
 		 */
 		async onSubmit() {
 			if (!this.isValid) return

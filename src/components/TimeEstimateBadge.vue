@@ -2,7 +2,7 @@
 SPDX-License-Identifier: EUPL-1.2
 Copyright (C) 2026 Conduction B.V.
 
-@spec openspec/changes/time-tracking-mvp/tasks.md#task-3
+@see openspec/changes/time-tracking-mvp/tasks.md#task-3
 -->
 <template>
 	<span v-if="estimatedDuration" class="time-estimate-badge" :title="tooltipText">
@@ -15,7 +15,7 @@ Copyright (C) 2026 Conduction B.V.
 /**
  * Badge displaying estimated duration on kanban cards.
  *
- * @spec openspec/changes/time-tracking-mvp/tasks.md#task-3
+ * @see openspec/changes/time-tracking-mvp/tasks.md#task-3
  */
 import TimerOutline from 'vue-material-design-icons/TimerOutline.vue'
 import { formatDuration } from './DurationInput.vue'
