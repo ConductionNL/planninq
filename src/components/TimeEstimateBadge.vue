@@ -3,6 +3,11 @@ SPDX-License-Identifier: EUPL-1.2
 Copyright (C) 2026 Conduction B.V.
 
 @see openspec/changes/time-tracking-mvp/tasks.md#task-3
+
+NOTE: This component is intentionally forward-declared. Task 3.4 (adding the badge to the
+kanban card) is blocked because ProjectBoard.vue and ProjectBacklog.vue are placeholder stubs
+with no rendered task cards yet. This component will be integrated once the kanban card
+component is implemented. See: openspec/changes/time-tracking-mvp/tasks.md#3.4
 -->
 <template>
 	<span v-if="estimatedDuration" class="time-estimate-badge" :title="tooltipText">
