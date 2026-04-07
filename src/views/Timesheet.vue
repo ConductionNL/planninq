@@ -91,7 +91,7 @@ import { formatDuration } from '../utils/duration.js'
  * @spec openspec/changes/time-tracking-mvp/tasks.md#task-6
  */
 export default {
-	name: 'TimesheetView',
+	name: 'Timesheet',
 
 	components: { NcButton, NcEmptyContent, NcLoadingIcon, NcTextField, TimerOffOutline },
 
