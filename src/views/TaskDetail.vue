@@ -333,6 +333,7 @@ export default {
 		 * @param {object} entry The time entry to delete
 		 */
 		async deleteEntry(entry) {
+			if (!window.confirm(t('planix', 'Delete this time entry?'))) return
 			try {
 				const ok = await this.objectStore.deleteObject(TIME_ENTRY_SCHEMA, entry.id)
 				if (ok !== false) {

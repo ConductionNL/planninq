@@ -80,6 +80,7 @@ Copyright (C) 2026 Conduction B.V.
  */
 import { NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
 import { useObjectStore } from '@conduction/nextcloud-vue'
 import { translate as t } from '@nextcloud/l10n'
 import TimerOutline from 'vue-material-design-icons/TimerOutline.vue'
@@ -290,13 +291,16 @@ export default {
 		},
 
 		goToTask(entry) {
-			if (entry.task) {
-				const task = this.tasks[entry.task]
-				this.$router.push({
-					name: 'TaskDetail',
-					params: { id: task?.project ?? 'unknown', taskId: entry.task },
-				})
+			if (!entry.task) return
+			const task = this.tasks[entry.task]
+			if (!task?.project) {
+				showError(t('planix', 'Could not navigate to task — project not loaded'))
+				return
 			}
+			this.$router.push({
+				name: 'TaskDetail',
+				params: { id: task.project, taskId: entry.task },
+			})
 		},
 	},
 }
