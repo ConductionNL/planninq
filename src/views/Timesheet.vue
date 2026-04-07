@@ -155,11 +155,15 @@ export default {
 			try {
 				const objectStore = useObjectStore()
 				const uid = getCurrentUser()?.uid || ''
-				this.entries = await objectStore.fetchCollection('timeEntry', { user: uid })
+				this.entries = await objectStore.fetchCollection('timeEntry', {
+					user: uid,
+					date__gte: this.startDate,
+					date__lte: this.endDate,
+				})
 
-				// Fetch referenced tasks for display
+				// Fetch referenced tasks concurrently
 				const taskIds = [...new Set(this.entries.map((e) => e.task).filter(Boolean))]
-				for (const taskId of taskIds) {
+				await Promise.all(taskIds.map(async (taskId) => {
 					if (!this.tasks[taskId]) {
 						try {
 							const task = await objectStore.fetchObject('task', taskId)
@@ -170,7 +174,7 @@ export default {
 							// task may have been deleted
 						}
 					}
-				}
+				}))
 			} catch (err) {
 				console.error('Failed to load time entries:', err)
 			} finally {
@@ -186,7 +190,7 @@ export default {
 			this.$router.push({ name: 'TaskDetail', params: { taskId } })
 		},
 
-		applyPreset(key) {
+		async applyPreset(key) {
 			this.activePreset = key
 			const today = new Date()
 
@@ -203,17 +207,19 @@ export default {
 				this.startDate = lastMonday.toISOString().slice(0, 10)
 				this.endDate = lastSunday.toISOString().slice(0, 10)
 			}
-			// 'custom' — keep current dates
+			await this.loadEntries()
 		},
 
 		onStartDateChange(val) {
 			this.startDate = val
 			this.activePreset = 'custom'
+			this.loadEntries()
 		},
 
 		onEndDateChange(val) {
 			this.endDate = val
 			this.activePreset = 'custom'
+			this.loadEntries()
 		},
 	},
 }

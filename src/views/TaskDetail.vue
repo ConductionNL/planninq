@@ -53,7 +53,14 @@ Copyright (C) 2026 Conduction B.V.
 
 			<!-- Time Tracking Section -->
 			<div class="task-detail__section">
-				<div class="task-detail__section-header" @click="timeTrackingOpen = !timeTrackingOpen">
+				<div
+					class="task-detail__section-header"
+					role="button"
+					tabindex="0"
+					:aria-expanded="timeTrackingOpen"
+					@click="timeTrackingOpen = !timeTrackingOpen"
+					@keyup.enter="timeTrackingOpen = !timeTrackingOpen"
+					@keyup.space.prevent="timeTrackingOpen = !timeTrackingOpen">
 					<h3>{{ t('planix', 'Time Tracking') }}</h3>
 					<ChevronDown v-if="timeTrackingOpen" :size="20" />
 					<ChevronRight v-else :size="20" />
@@ -141,6 +148,8 @@ import { NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
 import { getCurrentUser } from '@nextcloud/auth'
 import { useObjectStore } from '@conduction/nextcloud-vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
+import axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
 
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
@@ -181,6 +190,7 @@ export default {
 			loading: false,
 			timeTrackingOpen: true,
 			showTimeForm: false,
+			projectsStore: useProjectsStore(),
 		}
 	},
 
@@ -196,8 +206,7 @@ export default {
 			return Math.round((this.loggedDuration / this.task.estimatedDuration) * 100)
 		},
 		projectTitle() {
-			const store = useProjectsStore()
-			return store.activeProject?.title || this.t('planix', 'Project')
+			return this.projectsStore.activeProject?.title || this.t('planix', 'Project')
 		},
 	},
 
@@ -219,9 +228,8 @@ export default {
 					await this.loadTimeEntries()
 					// Load project for breadcrumb
 					if (this.task.project) {
-						const projectsStore = useProjectsStore()
-						if (!projectsStore.activeProject || projectsStore.activeProject.id !== this.task.project) {
-							await projectsStore.fetchProject(this.task.project)
+						if (!this.projectsStore.activeProject || this.projectsStore.activeProject.id !== this.task.project) {
+							await this.projectsStore.fetchProject(this.task.project)
 						}
 					}
 				}
@@ -264,14 +272,15 @@ export default {
 
 		async deleteEntry(entry) {
 			try {
-				const objectStore = useObjectStore()
-				const ok = await objectStore.deleteObject('timeEntry', entry.id)
-				if (ok !== false) {
-					this.timeEntries = this.timeEntries.filter((e) => e.id !== entry.id)
-					showSuccess(this.t('planix', 'Time entry deleted'))
-				}
+				await axios.delete(generateUrl('/apps/planix/api/time-entries/' + entry.id))
+				this.timeEntries = this.timeEntries.filter((e) => e.id !== entry.id)
+				showSuccess(this.t('planix', 'Time entry deleted'))
 			} catch (err) {
-				showError(this.t('planix', 'Failed to delete time entry'))
+				if (err?.response?.status === 403) {
+					showError(this.t('planix', 'You can only delete your own time entries'))
+				} else {
+					showError(this.t('planix', 'Failed to delete time entry'))
+				}
 			}
 		},
 	},

@@ -16,7 +16,7 @@
   - [x] 3.1 Add estimate input field to task detail view using DurationInput component
   - [x] 3.2 Save estimatedDuration to task object via useObjectStore
   - [x] 3.3 Create `src/components/TimeEstimateBadge.vue` showing estimate on kanban cards (e.g., "⏱ 2h 30m")
-  - [x] 3.4 Add badge to kanban card component
+  - [ ] 3.4 Add badge to kanban card component — blocked: no kanban card component yet (ProjectBoard is a placeholder); tracked in follow-up
 
 - [x] 4. Create time logging form
   - [x] 4.1 Create `src/components/TimeEntryForm.vue` with fields: duration (DurationInput), date (date picker, default today), description (text)
