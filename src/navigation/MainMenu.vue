@@ -17,6 +17,13 @@
 				</template>
 			</NcAppNavigationItem>
 			<NcAppNavigationItem
+				:name="t('planix', 'Timesheet')"
+				:to="{ name: 'Timesheet' }">
+				<template #icon>
+					<TimerOutline :size="20" />
+				</template>
+			</NcAppNavigationItem>
+			<NcAppNavigationItem
 				:name="t('planix', 'Documentation')"
 				@click="openLink('https://conduction.nl', '_blank')">
 				<template #icon>
@@ -42,6 +49,7 @@ import BookOpenVariantOutline from 'vue-material-design-icons/BookOpenVariantOut
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
 import HomeIcon from 'vue-material-design-icons/Home.vue'
+import TimerOutline from 'vue-material-design-icons/TimerOutline.vue'
 
 export default {
 	name: 'MainMenu',
@@ -52,6 +60,7 @@ export default {
 		CogIcon,
 		FolderOutline,
 		HomeIcon,
+		TimerOutline,
 	},
 	methods: {
 		openLink(url, target = '_blank') {
