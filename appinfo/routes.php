@@ -10,8 +10,9 @@ return [
         ['name' => 'settings#create', 'url' => '/api/settings', 'verb' => 'POST'],
         ['name' => 'settings#load',  'url' => '/api/settings/load', 'verb' => 'POST'],
 
-        // Time entry ownership-validated delete (SEC-001: server-side guard against IDOR).
-        ['name' => 'time_entry#destroy', 'url' => '/api/time-entries/{id}', 'verb' => 'DELETE'],
+        // Time entry server-side guards (SEC-W-001 create attribution, SEC-001 delete ownership).
+        ['name' => 'time_entry#create',  'url' => '/api/time-entries',       'verb' => 'POST'],
+        ['name' => 'time_entry#destroy', 'url' => '/api/time-entries/{id}',  'verb' => 'DELETE'],
 
         // Prometheus metrics endpoint.
         ['name' => 'metrics#index', 'url' => '/api/metrics', 'verb' => 'GET'],

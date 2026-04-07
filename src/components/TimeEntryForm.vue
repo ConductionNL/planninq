@@ -56,8 +56,8 @@ Copyright (C) 2026 Conduction B.V.
 
 <script>
 import { NcButton, NcNoteCard, NcTextField } from '@nextcloud/vue'
-import { getCurrentUser } from '@nextcloud/auth'
-import { useObjectStore } from '@conduction/nextcloud-vue'
+import axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
 import DurationInput from './DurationInput.vue'
 
 /**
@@ -103,16 +103,20 @@ export default {
 			this.success = false
 
 			try {
-				const objectStore = useObjectStore()
-				const entry = {
+				// POST to the server-side controller which substitutes the
+				// authenticated session UID for the 'user' field (SEC-W-001).
+				const payload = {
 					task: this.taskId,
-					user: getCurrentUser()?.uid || '',
 					duration: this.duration,
 					date: this.date,
 					description: this.description || undefined,
 				}
 
-				const result = await objectStore.saveObject('timeEntry', entry)
+				const response = await axios.post(
+					generateUrl('/apps/planix/api/time-entries'),
+					payload
+				)
+				const result = response.data
 				if (!result) {
 					this.error = this.t('planix', 'Failed to save time entry.')
 					return

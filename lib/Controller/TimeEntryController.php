@@ -32,11 +32,14 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Controller that validates ownership before deleting a time entry.
+ * Controller that enforces server-side ownership for time entry mutations.
  *
  * The frontend ObjectStore calls OpenRegister directly for most CRUD, but
- * DELETE is routed through this controller so the server can verify that the
- * requesting user is the owner of the time entry before the delete is executed.
+ * CREATE and DELETE are routed through this controller so the server can:
+ *   - CREATE: substitute the authenticated session UID for any client-supplied
+ *     user field, preventing IDOR on time entry attribution (SEC-W-001).
+ *   - DELETE: verify that the requesting user is the owner of the time entry
+ *     before the delete is executed (SEC-001).
  */
 class TimeEntryController extends Controller
 {
@@ -58,6 +61,60 @@ class TimeEntryController extends Controller
     ) {
         parent::__construct(appName: Application::APP_ID, request: $request);
     }//end __construct()
+
+    /**
+     * Create a time entry, substituting the server-side user UID for any
+     * client-supplied value to prevent IDOR on time entry attribution (SEC-W-001).
+     *
+     * Returns 401 when called without a session, 500 on OpenRegister failure,
+     * and 200 with the created entry on success.
+     *
+     * @return JSONResponse
+     *
+     * @NoAdminRequired
+     */
+    public function create(): JSONResponse
+    {
+        $currentUser = $this->userSession->getUser();
+        if ($currentUser === null) {
+            return new JSONResponse(['error' => 'Unauthenticated'], Http::STATUS_UNAUTHORIZED);
+        }
+
+        $params = $this->request->getParams();
+
+        // Override any client-supplied 'user' with the authenticated session UID.
+        $entry = [
+            'task'        => ($params['task'] ?? null),
+            'user'        => $currentUser->getUID(),
+            'duration'    => ($params['duration'] ?? null),
+            'date'        => ($params['date'] ?? null),
+            'description' => ($params['description'] ?? null),
+        ];
+
+        // Strip null-valued keys before forwarding to OpenRegister.
+        $entry = array_filter($entry, static fn($v) => $v !== null);
+
+        try {
+            $objectService = $this->container->get('OCA\OpenRegister\Service\ObjectService');
+
+            $result = $objectService->saveObject(
+                register: 'planix',
+                schema: 'timeEntry',
+                object: $entry
+            );
+
+            return new JSONResponse($result);
+        } catch (\Throwable $e) {
+            $this->logger->error(
+                'Planix: TimeEntry create failed',
+                ['exception' => $e->getMessage()]
+            );
+            return new JSONResponse(
+                ['error' => 'Failed to create time entry'],
+                Http::STATUS_INTERNAL_SERVER_ERROR
+            );
+        }//end try
+    }//end create()
 
     /**
      * Delete a time entry after verifying that the caller is its owner.
