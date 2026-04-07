@@ -22,8 +22,8 @@
         "schemas": ["task", "project", "column", "timeEntry", "label"],
         "tablePrefix": "planix",
         "folder": "planix",
-        "publicWrite": true,
-        "publicRead": true
+        "publicWrite": false,
+        "publicRead": false
       }
     },
     "schemas": {

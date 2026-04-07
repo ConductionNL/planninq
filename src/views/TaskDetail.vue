@@ -79,11 +79,11 @@ Copyright (C) 2026 Conduction B.V.
 					<div v-if="task.estimatedDuration" class="task-detail__time-progress">
 						<div class="task-detail__time-progress-labels">
 							<span>{{ formattedLogged }} / {{ formattedEstimate }}</span>
-							<span>{{ progressPercent }}%</span>
+							<span>{{ rawProgressPercent }}%</span>
 						</div>
 						<NcProgressBar
 							:value="progressPercent"
-							:error="progressPercent > 100" />
+							:error="rawProgressPercent > 100" />
 					</div>
 					<div v-else class="task-detail__time-total">
 						{{ t('planix', 'Total logged: {total}', { total: formattedLogged }) }}
@@ -203,6 +203,7 @@ export default {
 			timeTrackingOpen: true,
 			showEntryForm: false,
 			editingEntry: null,
+			objectStore: null,
 		}
 	},
 
@@ -222,10 +223,20 @@ export default {
 		formattedEstimate() {
 			return formatDuration(this.task?.estimatedDuration)
 		},
-		progressPercent() {
+		rawProgressPercent() {
 			if (!this.task?.estimatedDuration) return 0
-			return Math.min(Math.round((this.loggedDuration / this.task.estimatedDuration) * 100), 200)
+			return Math.round((this.loggedDuration / this.task.estimatedDuration) * 100)
 		},
+		progressPercent() {
+			return Math.min(this.rawProgressPercent, 100)
+		},
+	},
+
+	created() {
+		const store = useObjectStore()
+		store.registerObjectType(TASK_SCHEMA, TASK_SCHEMA, REGISTER)
+		store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER)
+		this.objectStore = store
 	},
 
 	async mounted() {
@@ -244,7 +255,7 @@ export default {
 		async loadTask() {
 			this.loading = true
 			try {
-				const objectStore = this._objectStore()
+				const objectStore = this.objectStore
 				const taskId = this.$route.params.taskId
 
 				this.task = await objectStore.fetchObject(TASK_SCHEMA, taskId)
@@ -260,7 +271,7 @@ export default {
 
 		async loadTimeEntries() {
 			try {
-				const objectStore = this._objectStore()
+				const objectStore = this.objectStore
 				const entries = await objectStore.fetchCollection(TIME_ENTRY_SCHEMA, {
 					task: this.task.id,
 				})
@@ -271,16 +282,6 @@ export default {
 			}
 		},
 
-		_objectStore() {
-			const store = useObjectStore()
-			if (!store.objectTypeRegistry?.[TASK_SCHEMA]) {
-				store.registerObjectType(TASK_SCHEMA, TASK_SCHEMA, REGISTER)
-			}
-			if (!store.objectTypeRegistry?.[TIME_ENTRY_SCHEMA]) {
-				store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER)
-			}
-			return store
-		},
 
 		/**
 		 * Update the estimated duration on the task.
@@ -290,7 +291,7 @@ export default {
 		 */
 		async updateEstimate(minutes) {
 			try {
-				const objectStore = this._objectStore()
+				const objectStore = this.objectStore
 				const updated = await objectStore.saveObject(TASK_SCHEMA, {
 					id: this.task.id,
 					estimatedDuration: minutes,
@@ -331,7 +332,7 @@ export default {
 		 */
 		async deleteEntry(entry) {
 			try {
-				const objectStore = this._objectStore()
+				const objectStore = this.objectStore
 				const ok = await objectStore.deleteObject(TIME_ENTRY_SCHEMA, entry.id)
 				if (ok !== false) {
 					this.timeEntries = this.timeEntries.filter((e) => e.id !== entry.id)

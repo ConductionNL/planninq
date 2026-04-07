@@ -133,6 +133,7 @@ export default {
 			entries: [],
 			tasks: {},
 			loading: true,
+			objectStore: null,
 			selectedRange: { id: 'this-week', label: t('planix', 'This week') },
 			rangeStart: monday.toISOString().slice(0, 10),
 			rangeEnd: sunday.toISOString().slice(0, 10),
@@ -188,6 +189,13 @@ export default {
 		},
 	},
 
+	created() {
+		const store = useObjectStore()
+		store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER)
+		store.registerObjectType(TASK_SCHEMA, TASK_SCHEMA, REGISTER)
+		this.objectStore = store
+	},
+
 	async mounted() {
 		await this.loadEntries()
 	},
@@ -195,17 +203,6 @@ export default {
 	methods: {
 		t,
 		formatDuration,
-
-		_objectStore() {
-			const store = useObjectStore()
-			if (!store.objectTypeRegistry?.[TIME_ENTRY_SCHEMA]) {
-				store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER)
-			}
-			if (!store.objectTypeRegistry?.[TASK_SCHEMA]) {
-				store.registerObjectType(TASK_SCHEMA, TASK_SCHEMA, REGISTER)
-			}
-			return store
-		},
 
 		/**
 		 * Load all time entries for the current user.
@@ -215,7 +212,7 @@ export default {
 		async loadEntries() {
 			this.loading = true
 			try {
-				const objectStore = this._objectStore()
+				const objectStore = this.objectStore
 				const uid = getCurrentUser()?.uid || ''
 
 				const entries = await objectStore.fetchCollection(TIME_ENTRY_SCHEMA, {
@@ -292,7 +289,11 @@ export default {
 
 		goToTask(entry) {
 			if (entry.task) {
-				this.$router.push({ name: 'TaskDetail', params: { taskId: entry.task } })
+				const task = this.tasks[entry.task]
+				this.$router.push({
+					name: 'TaskDetail',
+					params: { id: task?.project ?? 'unknown', taskId: entry.task },
+				})
 			}
 		},
 	},

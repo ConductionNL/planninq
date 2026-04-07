@@ -285,7 +285,7 @@ class SettingsService
             $qb->executeStatement();
             $this->logger->info('Planix: register publicWrite/publicRead set to private (0) in DB');
         } catch (\Throwable $e) {
-            $this->logger->warning(
+            $this->logger->error(
                 'Planix: could not directly update register public access in DB',
                 ['error' => $e->getMessage()]
             );
