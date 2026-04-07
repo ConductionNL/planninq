@@ -191,8 +191,12 @@ export default {
 
 	created() {
 		const store = useObjectStore()
-		store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER)
-		store.registerObjectType(TASK_SCHEMA, TASK_SCHEMA, REGISTER)
+		if (!store.objectTypeRegistry?.[TIME_ENTRY_SCHEMA]) {
+			store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER)
+		}
+		if (!store.objectTypeRegistry?.[TASK_SCHEMA]) {
+			store.registerObjectType(TASK_SCHEMA, TASK_SCHEMA, REGISTER)
+		}
 		this.objectStore = store
 	},
 
@@ -212,10 +216,8 @@ export default {
 		async loadEntries() {
 			this.loading = true
 			try {
-				const objectStore = this.objectStore
 				const uid = getCurrentUser()?.uid || ''
-
-				const entries = await objectStore.fetchCollection(TIME_ENTRY_SCHEMA, {
+				const entries = await this.objectStore.fetchCollection(TIME_ENTRY_SCHEMA, {
 					user: uid,
 				})
 				this.entries = entries
@@ -225,7 +227,7 @@ export default {
 				for (const id of taskIds) {
 					if (!this.tasks[id]) {
 						try {
-							const task = await objectStore.fetchObject(TASK_SCHEMA, id)
+							const task = await this.objectStore.fetchObject(TASK_SCHEMA, id)
 							if (task) {
 								this.$set(this.tasks, id, task)
 							}

@@ -234,8 +234,12 @@ export default {
 
 	created() {
 		const store = useObjectStore()
-		store.registerObjectType(TASK_SCHEMA, TASK_SCHEMA, REGISTER)
-		store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER)
+		if (!store.objectTypeRegistry?.[TASK_SCHEMA]) {
+			store.registerObjectType(TASK_SCHEMA, TASK_SCHEMA, REGISTER)
+		}
+		if (!store.objectTypeRegistry?.[TIME_ENTRY_SCHEMA]) {
+			store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER)
+		}
 		this.objectStore = store
 	},
 
@@ -255,10 +259,8 @@ export default {
 		async loadTask() {
 			this.loading = true
 			try {
-				const objectStore = this.objectStore
 				const taskId = this.$route.params.taskId
-
-				this.task = await objectStore.fetchObject(TASK_SCHEMA, taskId)
+				this.task = await this.objectStore.fetchObject(TASK_SCHEMA, taskId)
 				if (this.task) {
 					await this.loadTimeEntries()
 				}
@@ -271,8 +273,7 @@ export default {
 
 		async loadTimeEntries() {
 			try {
-				const objectStore = this.objectStore
-				const entries = await objectStore.fetchCollection(TIME_ENTRY_SCHEMA, {
+				const entries = await this.objectStore.fetchCollection(TIME_ENTRY_SCHEMA, {
 					task: this.task.id,
 				})
 				this.timeEntries = entries.sort((a, b) => (b.date || '').localeCompare(a.date || ''))
@@ -282,7 +283,6 @@ export default {
 			}
 		},
 
-
 		/**
 		 * Update the estimated duration on the task.
 		 *
@@ -291,8 +291,7 @@ export default {
 		 */
 		async updateEstimate(minutes) {
 			try {
-				const objectStore = this.objectStore
-				const updated = await objectStore.saveObject(TASK_SCHEMA, {
+				const updated = await this.objectStore.saveObject(TASK_SCHEMA, {
 					id: this.task.id,
 					estimatedDuration: minutes,
 				})
@@ -305,6 +304,9 @@ export default {
 			}
 		},
 
+		// TODO(SEC-003): This check is UI-only. The underlying OpenRegister DELETE/PATCH
+		// endpoints are callable directly by any authenticated user regardless of ownership.
+		// Server-side enforcement is tracked in: https://github.com/ConductionNL/planix/issues/146
 		isOwnEntry(entry) {
 			return entry.user === (getCurrentUser()?.uid || '')
 		},
@@ -332,8 +334,7 @@ export default {
 		 */
 		async deleteEntry(entry) {
 			try {
-				const objectStore = this.objectStore
-				const ok = await objectStore.deleteObject(TIME_ENTRY_SCHEMA, entry.id)
+				const ok = await this.objectStore.deleteObject(TIME_ENTRY_SCHEMA, entry.id)
 				if (ok !== false) {
 					this.timeEntries = this.timeEntries.filter((e) => e.id !== entry.id)
 					showSuccess(t('planix', 'Time entry deleted'))

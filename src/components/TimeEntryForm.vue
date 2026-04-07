@@ -107,6 +107,14 @@ export default {
 		},
 	},
 
+	created() {
+		const store = useObjectStore()
+		if (!store.objectTypeRegistry?.[TIME_ENTRY_SCHEMA]) {
+			store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER)
+		}
+		this.objectStore = store
+	},
+
 	methods: {
 		t,
 
@@ -120,11 +128,10 @@ export default {
 			this.saving = true
 
 			try {
-				const objectStore = useObjectStore()
-				if (!objectStore.objectTypeRegistry?.[TIME_ENTRY_SCHEMA]) {
-					objectStore.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER)
-				}
-
+				// TODO(SEC-002): The `user` field is set client-side from the Nextcloud auth object.
+				// Until the OpenRegister backend enforces server-side ownership binding, an
+				// authenticated user with direct API access could supply an arbitrary user UID.
+				// Tracked in: https://github.com/ConductionNL/planix/issues/146
 				const data = {
 					task: this.taskId,
 					user: getCurrentUser()?.uid || '',
@@ -137,7 +144,7 @@ export default {
 					data.id = this.editEntry.id
 				}
 
-				const result = await objectStore.saveObject(TIME_ENTRY_SCHEMA, data)
+				const result = await this.objectStore.saveObject(TIME_ENTRY_SCHEMA, data)
 				if (result) {
 					showSuccess(
 						this.editEntry
