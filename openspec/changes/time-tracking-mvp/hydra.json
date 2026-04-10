@@ -1,0 +1,10 @@
+{
+  "spec_slug": "time-tracking-mvp",
+  "title": "Time Tracking MVP",
+  "app": "planix",
+  "repo": "https://github.com/ConductionNL/planix",
+  "depends_on": [
+    "dashboard-my-work"
+  ],
+  "issue": "https://github.com/ConductionNL/planix/issues/128"
+}

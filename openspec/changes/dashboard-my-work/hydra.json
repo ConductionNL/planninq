@@ -1,0 +1,8 @@
+{
+  "spec_slug": "dashboard-my-work",
+  "title": "Dashboard & My Work MVP",
+  "app": "planix",
+  "repo": "https://github.com/ConductionNL/planix",
+  "depends_on": [],
+  "issue": "https://github.com/ConductionNL/planix/issues/16"
+}
