@@ -10,6 +10,13 @@
 				</template>
 			</NcAppNavigationItem>
 			<NcAppNavigationItem
+				:name="t('planix', 'My Work')"
+				:to="{ name: 'MyWork' }">
+				<template #icon>
+					<AccountClockOutline :size="20" />
+				</template>
+			</NcAppNavigationItem>
+			<NcAppNavigationItem
 				:name="t('planix', 'Projects')"
 				:to="{ name: 'Projects' }">
 				<template #icon>
@@ -38,6 +45,7 @@
 
 <script>
 import { NcAppNavigation, NcAppNavigationItem } from '@nextcloud/vue'
+import AccountClockOutline from 'vue-material-design-icons/AccountClockOutline.vue'
 import BookOpenVariantOutline from 'vue-material-design-icons/BookOpenVariantOutline.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
@@ -48,6 +56,7 @@ export default {
 	components: {
 		NcAppNavigation,
 		NcAppNavigationItem,
+		AccountClockOutline,
 		BookOpenVariantOutline,
 		CogIcon,
 		FolderOutline,
