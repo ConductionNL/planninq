@@ -4,5 +4,17 @@
   "app": "planix",
   "repo": "https://github.com/ConductionNL/planix",
   "depends_on": [],
-  "issue": "https://github.com/ConductionNL/planix/issues/16"
+  "issue": "https://github.com/ConductionNL/planix/issues/16",
+  "pipeline": {
+    "review_rounds": 0,
+    "build_count": 1,
+    "fix_iterations": 0,
+    "total_cost_eur": 0,
+    "total_turns": 88,
+    "findings_open": 0,
+    "findings_fixed": 0,
+    "suggestions_open": 0,
+    "last_code_review_pass": null,
+    "last_security_review_pass": null
+  }
 }
