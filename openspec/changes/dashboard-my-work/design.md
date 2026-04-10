@@ -1,7 +1,7 @@
 # Design: dashboard-my-work
 
 **Change ID:** dashboard-my-work
-**Status:** draft
+**Status:** pr-created
 **Created:** 2026-04-02
 
 ---
