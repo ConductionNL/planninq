@@ -1,0 +1,3 @@
+{
+  "apexcharts": "MIT licensed open-source charting library (community edition). The license-checker reports 'Custom' because the npm package.json uses 'SEE LICENSE IN LICENSE' and the LICENSE file contains a logo URL. The software itself is MIT — verified at https://github.com/apexcharts/apexcharts.js/blob/main/LICENSE. Pulled in as a transitive peer dependency via @conduction/nextcloud-vue → vue-apexcharts."
+}
