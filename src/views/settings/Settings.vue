@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<!-- Default Project Configuration -->
+		<!-- Default project configuration -->
 		<CnSettingsSection
-			:name="t('planix', 'Default Project Configuration')"
+			:name="t('planix', 'Default project configuration')"
 			:description="t('planix', 'Configure the default column set for new projects')">
 			<form @submit.prevent="saveColumns">
 				<div class="columns-editor">
@@ -59,9 +59,9 @@
 			</form>
 		</CnSettingsSection>
 
-		<!-- Register Setup -->
+		<!-- Register setup -->
 		<CnSettingsSection
-			:name="t('planix', 'Register Setup')"
+			:name="t('planix', 'Register setup')"
 			:description="t('planix', 'OpenRegister schema and register initialization for Planix')">
 			<div class="register-status">
 				<span v-if="settings.openregisters" class="status-indicator status-ok">
