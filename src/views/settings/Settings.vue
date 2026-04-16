@@ -190,9 +190,9 @@ export default {
 				default_columns: JSON.stringify(this.columnList.filter(c => c.trim() !== '')),
 			})
 			if (result) {
-				this.columnsSuccess = t('planix', 'Default columns saved successfully')
+				this.columnsSuccess = this.t('planix', 'Default columns saved successfully')
 			} else {
-				this.columnsError = t('planix', 'Failed to save default columns')
+				this.columnsError = this.t('planix', 'Failed to save default columns')
 			}
 			this.savingColumns = false
 		},
@@ -207,12 +207,12 @@ export default {
 				})
 				const data = await response.json()
 				if (data.success) {
-					this.initSuccess = t('planix', 'Register initialized successfully')
+					this.initSuccess = this.t('planix', 'Register initialized successfully')
 				} else {
-					this.initError = data.message || t('planix', 'Initialization failed')
+					this.initError = data.message || this.t('planix', 'Initialization failed')
 				}
 			} catch (e) {
-				this.initError = t('planix', 'Initialization failed')
+				this.initError = this.t('planix', 'Initialization failed')
 			}
 			this.initializing = false
 		},
@@ -222,7 +222,7 @@ export default {
 			const settingsStore = useSettingsStore()
 			const result = await settingsStore.saveSettings(this.form)
 			if (result) {
-				this.successMessage = t('planix', 'Settings saved successfully')
+				this.successMessage = this.t('planix', 'Settings saved successfully')
 			}
 			this.saving = false
 		},

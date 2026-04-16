@@ -107,7 +107,28 @@
         "Failed to delete project": "Verwijderen van project mislukt",
         "An error occurred during project deletion": "Er is een fout opgetreden bij het verwijderen van het project",
         "Saving\u2026": "Opslaan\u2026",
-        "User search results": "Gebruikerszoekresultaten"
+        "User search results": "Gebruikerszoekresultaten",
+        "Default Project Configuration": "Standaard projectconfiguratie",
+        "Configure the default column set for new projects": "Configureer de standaardkolommenset voor nieuwe projecten",
+        "Column name": "Kolomnaam",
+        "Move up": "Omhoog verplaatsen",
+        "Move down": "Omlaag verplaatsen",
+        "Remove column": "Kolom verwijderen",
+        "Add column": "Kolom toevoegen",
+        "Register Setup": "Register instellen",
+        "OpenRegister schema and register initialization for Planix": "OpenRegister-schema en registerinitialisatie voor Planix",
+        "OpenRegister is available": "OpenRegister is beschikbaar",
+        "OpenRegister is not installed or enabled": "OpenRegister is niet ge\u00efnstalleerd of ingeschakeld",
+        "Initializing...": "Initialiseren...",
+        "Initialize register": "Register initialiseren",
+        "Default columns saved successfully": "Standaardkolommen succesvol opgeslagen",
+        "Failed to save default columns": "Opslaan van standaardkolommen mislukt",
+        "Register initialized successfully": "Register succesvol ge\u00efnitialiseerd",
+        "Initialization failed": "Initialisatie mislukt",
+        "Version Information": "Versie-informatie",
+        "Information about the current Planix installation": "Informatie over de huidige Planix-installatie",
+        "Support": "Ondersteuning",
+        "For support, contact us at": "Voor ondersteuning, neem contact met ons op via"
     },
-    "plurals": ""
+    "plurals": {}
 }
