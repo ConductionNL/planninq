@@ -1,5 +1,7 @@
 # Design: Task Due Date Warning
 
+**Status**: pr-created
+
 ## Summary
 
 Add a visual warning indicator to tasks that are approaching or past their due date. Tasks due within 2 days get a yellow warning badge, and overdue tasks get a red badge on the kanban board and task list.
