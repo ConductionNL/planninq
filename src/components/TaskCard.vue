@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
+import { NcChip } from '@nextcloud/vue'
 import { dueDateStatus } from '../utils/taskHelpers.js'
 
 export default {
