@@ -13,7 +13,10 @@
     "lint": "eslint src",
     "lint-fix": "npm run lint -- --fix",
     "stylelint": "stylelint src/**/*.vue src/**/*.scss src/**/*.css",
-    "stylelint-fix": "stylelint src/**/*.vue src/**/*.scss src/**/*.css --fix"
+    "stylelint-fix": "stylelint src/**/*.vue src/**/*.scss src/**/*.css --fix",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
@@ -47,12 +50,15 @@
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "css-loader": "~7.1.1",
-    "eslint-plugin-vue": "^9.21.1",
-    "vue-eslint-parser": "^9.4.3",
     "eslint": "^8.56.0",
     "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-vue": "^9.21.1",
+    "happy-dom": "^20.9.0",
+    "jsdom": "^29.0.2",
     "style-loader": "~4.0.0",
     "stylelint": "^15.11.0",
+    "vitest": "^1.0.0",
+    "vue-eslint-parser": "^9.4.3",
     "vue-loader": "^15.11.1 <16.0.0",
     "vue-template-compiler": "^2.7.16",
     "webpack": "^5.94.0",

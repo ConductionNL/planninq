@@ -107,7 +107,19 @@
         "Failed to delete project": "Verwijderen van project mislukt",
         "An error occurred during project deletion": "Er is een fout opgetreden bij het verwijderen van het project",
         "Saving\u2026": "Opslaan\u2026",
-        "User search results": "Gebruikerszoekresultaten"
+        "User search results": "Gebruikerszoekresultaten",
+        "Due soon": "Binnenkort vervallen",
+        "Overdue": "Vervallen",
+        "Assigned to: {user}": "Toegewezen aan: {user}",
+        "Open": "Open",
+        "In Progress": "In behandeling",
+        "Blocked": "Geblokkeerd",
+        "Done": "Afgerond",
+        "Cancelled": "Geannuleerd",
+        "Low": "Laag",
+        "Normal": "Normaal",
+        "High": "Hoog",
+        "Urgent": "Spoedeisend"
     },
     "plurals": ""
 }

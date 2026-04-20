@@ -9,7 +9,7 @@
       "id": 1,
       "title": "Add dueDateStatus computed helper to src/utils/taskHelpers.js",
       "description": "Computed helper that takes a task object and returns null | approaching | overdue based on dueDate vs today",
-      "status": "pending",
+      "status": "done",
       "spec_ref": "openspec/changes/task-due-date-warning/specs/kanban-board/spec.md#requirement-due-date-status-helper",
       "acceptance_criteria": [
         "Returns null when no dueDate or dueDate > 2 days away",
@@ -22,7 +22,7 @@
       "id": 2,
       "title": "Add due date badge to TaskCard.vue",
       "description": "Show colored chip/badge based on dueDateStatus: yellow Due soon, red Overdue, or no chip",
-      "status": "pending",
+      "status": "done",
       "spec_ref": "openspec/changes/task-due-date-warning/specs/kanban-board/spec.md#requirement-due-date-badge-on-task-card",
       "acceptance_criteria": [
         "Yellow chip with text Due soon when approaching",
@@ -35,7 +35,7 @@
       "id": 3,
       "title": "Add CSS styling for the two badge states using Nextcloud theming variables",
       "description": "Style the approaching and overdue badges using Nextcloud CSS custom properties",
-      "status": "pending",
+      "status": "done",
       "spec_ref": "openspec/changes/task-due-date-warning/specs/kanban-board/spec.md#requirement-due-date-badge-on-task-card",
       "acceptance_criteria": [
         "Badge colors use Nextcloud theming CSS variables",
@@ -47,7 +47,7 @@
       "id": 4,
       "title": "Add unit test for dueDateStatus helper",
       "description": "Cover all boundary conditions: no due date, future, approaching, today, past",
-      "status": "pending",
+      "status": "done",
       "spec_ref": "openspec/changes/task-due-date-warning/specs/kanban-board/spec.md#requirement-due-date-status-helper",
       "acceptance_criteria": [
         "Test no due date returns null",

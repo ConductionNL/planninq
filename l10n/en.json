@@ -107,7 +107,19 @@
         "Failed to delete project": "Failed to delete project",
         "An error occurred during project deletion": "An error occurred during project deletion",
         "Saving\u2026": "Saving\u2026",
-        "User search results": "User search results"
+        "User search results": "User search results",
+        "Due soon": "Due soon",
+        "Overdue": "Overdue",
+        "Assigned to: {user}": "Assigned to: {user}",
+        "Open": "Open",
+        "In Progress": "In Progress",
+        "Blocked": "Blocked",
+        "Done": "Done",
+        "Cancelled": "Cancelled",
+        "Low": "Low",
+        "Normal": "Normal",
+        "High": "High",
+        "Urgent": "Urgent"
     },
     "plurals": ""
 }
