@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.1">
 <title data-rh="true">Link a task to a Procest case | Planix</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://planix.conduction.nl/docs/tutorials/user/link-procest/"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Link a task to a Procest case | Planix"><meta data-rh="true" name="description" content="Tie a Planix task to a Procest case (zaak) so case-work and task tracking stay in sync — VNG InterneTaak field mapping included."><meta data-rh="true" property="og:description" content="Tie a Planix task to a Procest case (zaak) so case-work and task tracking stay in sync — VNG InterneTaak field mapping included."><link data-rh="true" rel="icon" href="/img/favicon.svg"><link data-rh="true" rel="canonical" href="https://planix.conduction.nl/docs/tutorials/user/link-procest/"><link data-rh="true" rel="alternate" href="https://planix.conduction.nl/docs/tutorials/user/link-procest/" hreflang="en"><link data-rh="true" rel="alternate" href="https://planix.conduction.nl/docs/tutorials/user/link-procest/" hreflang="x-default"><link data-rh="true" rel="stylesheet" href="/lib/canal-footer.css"><link data-rh="true" rel="stylesheet" href="/lib/kade-cyclist.css"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Tutorials","item":"https://planix.conduction.nl/docs/category/tutorials"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://planix.conduction.nl/docs/category/user-guide"},{"@type":"ListItem","position":3,"name":"Link a task to a Procest case","item":"https://planix.conduction.nl/docs/tutorials/user/link-procest"}]}</script><link rel="stylesheet" href="/assets/css/styles.47fb3c37.css">
-<script src="/assets/js/runtime~main.55017881.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.065f603b.js" defer="defer"></script>
 <script src="/assets/js/main.4e04b204.js" defer="defer"></script>
 </head>
 <body>
@@ -25,23 +25,23 @@
 <ol>
 <li class="">
 <p>Open the task detail. Find the <strong>Case</strong> (Procest <code>zaakUuid</code>) field on the core info card. If Procest pre-populated the task it&#x27;s already filled — read-only. If you&#x27;re linking by hand, paste the case UUID and save.</p>
-<p><img decoding="async" loading="lazy" src="/screenshots/tutorials/user/08-link-procest-01.png" alt="Case field on a task — Procest UUID" class="img_ev3q"></p>
+<p><img decoding="async" loading="lazy" alt="Case field on a task — Procest UUID" src="/assets/images/08-link-procest-01-7584f7fd7fabbd8cec786849c1a37390.png" width="1280" height="800" class="img_ev3q"></p>
 </li>
 <li class="">
 <p>With the link saved, the task detail renders the <strong>Case</strong> badge with a deep-link to the case in the Procest app. Clicking the badge opens the case in a new tab (Procest&#x27;s case detail).</p>
-<p><img decoding="async" loading="lazy" src="/screenshots/tutorials/user/08-link-procest-02.png" alt="Case badge linking to Procest" class="img_ev3q"></p>
+<p><img decoding="async" loading="lazy" alt="Case badge linking to Procest" src="/assets/images/08-link-procest-02-7584f7fd7fabbd8cec786849c1a37390.png" width="1280" height="800" class="img_ev3q"></p>
 </li>
 <li class="">
 <p>The project too can carry a Procest case reference (<code>caseReference</code>). Open the project&#x27;s settings sidebar (gear icon → Details tab), paste the case UUID into the <strong>Case reference</strong> field, save. Projects with a case reference get a <code>Case: {caseNumber}</code> badge in the project list and project detail.</p>
-<p><img decoding="async" loading="lazy" src="/screenshots/tutorials/user/08-link-procest-03.png" alt="Project with case reference" class="img_ev3q"></p>
+<p><img decoding="async" loading="lazy" alt="Project with case reference" src="/assets/images/08-link-procest-03-7584f7fd7fabbd8cec786849c1a37390.png" width="1280" height="800" class="img_ev3q"></p>
 </li>
 <li class="">
 <p>Mark the linked task as <strong>Done</strong>. Planix writes the completion time onto the task&#x27;s <code>completedAt</code> field. The VNG InterneTaak mapping means Procest will pick the completion time up as the <code>afhandelingsdatum</code> on its side when it next syncs. Procest sees the task as handled; the case can advance.</p>
-<p><img decoding="async" loading="lazy" src="/screenshots/tutorials/user/08-link-procest-04.png" alt="Task marked done, completedAt set" class="img_ev3q"></p>
+<p><img decoding="async" loading="lazy" alt="Task marked done, completedAt set" src="/assets/images/08-link-procest-04-7584f7fd7fabbd8cec786849c1a37390.png" width="1280" height="800" class="img_ev3q"></p>
 </li>
 <li class="">
 <p>To remove the link without deleting the task, clear the <strong>Case</strong> field. The task stays in Planix, just no longer tied to a Procest case; the badge disappears. The project&#x27;s case reference works the same way.</p>
-<p><img decoding="async" loading="lazy" src="/screenshots/tutorials/user/08-link-procest-05.png" alt="Case link cleared, badge gone" class="img_ev3q"></p>
+<p><img decoding="async" loading="lazy" alt="Case link cleared, badge gone" src="/assets/images/08-link-procest-05-7584f7fd7fabbd8cec786849c1a37390.png" width="1280" height="800" class="img_ev3q"></p>
 </li>
 </ol>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="verification">Verification<a href="#verification" class="hash-link" aria-label="Direct link to Verification" title="Direct link to Verification" translate="no">​</a></h2>

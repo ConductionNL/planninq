@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.1">
 <title data-rh="true">Manage Planix settings | Planix</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://planix.conduction.nl/docs/tutorials/admin/admin-settings/"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Manage Planix settings | Planix"><meta data-rh="true" name="description" content="Open Planix&#x27;s admin settings, confirm the version, initialise the OpenRegister register and schemas, and toggle the Procest bridge."><meta data-rh="true" property="og:description" content="Open Planix&#x27;s admin settings, confirm the version, initialise the OpenRegister register and schemas, and toggle the Procest bridge."><link data-rh="true" rel="icon" href="/img/favicon.svg"><link data-rh="true" rel="canonical" href="https://planix.conduction.nl/docs/tutorials/admin/admin-settings/"><link data-rh="true" rel="alternate" href="https://planix.conduction.nl/docs/tutorials/admin/admin-settings/" hreflang="en"><link data-rh="true" rel="alternate" href="https://planix.conduction.nl/docs/tutorials/admin/admin-settings/" hreflang="x-default"><link data-rh="true" rel="stylesheet" href="/lib/canal-footer.css"><link data-rh="true" rel="stylesheet" href="/lib/kade-cyclist.css"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Tutorials","item":"https://planix.conduction.nl/docs/category/tutorials"},{"@type":"ListItem","position":2,"name":"Admin guide","item":"https://planix.conduction.nl/docs/category/admin-guide"},{"@type":"ListItem","position":3,"name":"Manage Planix settings","item":"https://planix.conduction.nl/docs/tutorials/admin/admin-settings"}]}</script><link rel="stylesheet" href="/assets/css/styles.47fb3c37.css">
-<script src="/assets/js/runtime~main.55017881.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.065f603b.js" defer="defer"></script>
 <script src="/assets/js/main.4e04b204.js" defer="defer"></script>
 </head>
 <body>
@@ -24,23 +24,23 @@
 <ol>
 <li class="">
 <p>Open <strong>Settings → Administration → Planix</strong>. The page opens with the <strong>App version info</strong> card at the top.</p>
-<p><img decoding="async" loading="lazy" src="/screenshots/tutorials/admin/03-admin-settings-01.png" alt="Planix admin settings — version section" class="img_ev3q"></p>
+<p><img decoding="async" loading="lazy" alt="Planix admin settings — version section" src="/assets/images/03-admin-settings-01-aacf46fefe47fa613d69a97ede9a806f.png" width="1280" height="800" class="img_ev3q"></p>
 </li>
 <li class="">
 <p>Confirm the <strong>Version</strong>. The <code>CnVersionInfoCard</code> shows the installed Planix version and the connection status to OpenRegister. If a newer version is available on the Nextcloud App Store, an <em>Update available</em> indicator with a link is rendered. Use this to confirm Nextcloud loaded the version you expect after an install or upgrade.</p>
-<p><img decoding="async" loading="lazy" src="/screenshots/tutorials/admin/03-admin-settings-02.png" alt="Version info card" class="img_ev3q"></p>
+<p><img decoding="async" loading="lazy" alt="Version info card" src="/assets/images/03-admin-settings-02-aacf46fefe47fa613d69a97ede9a806f.png" width="1280" height="800" class="img_ev3q"></p>
 </li>
 <li class="">
 <p>Scroll to the <strong>OpenRegister Setup</strong> card. It shows whether the Planix register and its eight schemas (project, column, task, task-comment, time-entry, label, member, settings) are initialised. On a fresh install the card displays <strong>Initialize register</strong>; click it to import the OpenAPI 3.0 register definition from <code>lib/Settings/planix_register.json</code> into OpenRegister.</p>
-<p><img decoding="async" loading="lazy" src="/screenshots/tutorials/admin/03-admin-settings-03.png" alt="OpenRegister Setup card" class="img_ev3q"></p>
+<p><img decoding="async" loading="lazy" alt="OpenRegister Setup card" src="/assets/images/03-admin-settings-03-aacf46fefe47fa613d69a97ede9a806f.png" width="1280" height="800" class="img_ev3q"></p>
 </li>
 <li class="">
 <p>After the import succeeds, the card switches to <em>Register initialised</em> and lists each schema with a green tick. If the <em>Initialize register</em> action fails, the Nextcloud log will carry the underlying error — usually an OpenRegister version skew on the import API. Once both apps are on compatible versions, re-run.</p>
-<p><img decoding="async" loading="lazy" src="/screenshots/tutorials/admin/03-admin-settings-04.png" alt="Register initialised — schemas listed" class="img_ev3q"></p>
+<p><img decoding="async" loading="lazy" alt="Register initialised — schemas listed" src="/assets/images/03-admin-settings-04-aacf46fefe47fa613d69a97ede9a806f.png" width="1280" height="800" class="img_ev3q"></p>
 </li>
 <li class="">
 <p>Confirm the <strong>Procest bridge</strong> toggle (under the OpenRegister card) is set to your preference. Default is <strong>on</strong>: Planix tasks and projects accept Procest case UUIDs (<code>zaakUuid</code>, <code>caseReference</code>) and render deep-links into the Procest app when set (see <a class="" href="/docs/tutorials/user/link-procest/">Link a task to a Procest case</a>). Switching it <strong>off</strong> disables the deep-linking; the metadata fields still exist as read-only.</p>
-<p><img decoding="async" loading="lazy" src="/screenshots/tutorials/admin/03-admin-settings-05.png" alt="Procest bridge toggle" class="img_ev3q"></p>
+<p><img decoding="async" loading="lazy" alt="Procest bridge toggle" src="/assets/images/03-admin-settings-05-aacf46fefe47fa613d69a97ede9a806f.png" width="1280" height="800" class="img_ev3q"></p>
 </li>
 </ol>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="verification">Verification<a href="#verification" class="hash-link" aria-label="Direct link to Verification" title="Direct link to Verification" translate="no">​</a></h2>
