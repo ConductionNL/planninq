@@ -1,0 +1,160 @@
+{
+  "change": "task-comments",
+  "project": "planix",
+  "repo": "ConductionNL/planix",
+  "created": "2026-04-28",
+  "tracking_issue": 183,
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Create CommentController.php",
+      "description": "Create lib/Controller/CommentController.php with @NoAdminRequired on all methods; inject ICommentsManager, IUserSession, IRequest; implement listComments returning id/message/actorId/actorDisplayName/creationDateTime",
+      "status": "pending",
+      "spec_ref": "REQ-TC-001",
+      "acceptance_criteria": [
+        "@NoAdminRequired annotation on all methods",
+        "Returns comments array with id, message, actorId, actorDisplayName, creationDateTime"
+      ],
+      "files_likely_affected": ["lib/Controller/CommentController.php"]
+    },
+    {
+      "id": 2,
+      "title": "Implement createComment",
+      "description": "Validate message 1–5000 chars (return 422 on violation), call ICommentsManager::create() with actorType COMMENT_ACTOR_TYPE_USERS, return 201 with comment object",
+      "status": "pending",
+      "spec_ref": "REQ-TC-002",
+      "acceptance_criteria": [
+        "Return 422 on empty or too-long message",
+        "actorType: COMMENT_ACTOR_TYPE_USERS",
+        "Return 201 with comment object on success"
+      ],
+      "files_likely_affected": ["lib/Controller/CommentController.php"]
+    },
+    {
+      "id": 3,
+      "title": "Implement deleteComment",
+      "description": "Fetch comment, check actorId === $userId OR user is NC admin, call ICommentsManager::delete($commentId), return 204; return 403 if not authorized, 404 if not found",
+      "status": "pending",
+      "spec_ref": "REQ-TC-003",
+      "acceptance_criteria": [
+        "Return 403 if not authorized",
+        "Return 404 if comment not found",
+        "Return 204 on success"
+      ],
+      "files_likely_affected": ["lib/Controller/CommentController.php"]
+    },
+    {
+      "id": 4,
+      "title": "Implement getCommentCounts batch endpoint",
+      "description": "Accept ?ids[]=... query param, call ICommentsManager::getNumberOfCommentsForObject per task ID, return map {taskId: count}",
+      "status": "pending",
+      "spec_ref": "REQ-TC-005",
+      "acceptance_criteria": [
+        "Accepts array of task IDs via query param",
+        "Returns {taskId: count} map"
+      ],
+      "files_likely_affected": ["lib/Controller/CommentController.php"]
+    },
+    {
+      "id": 5,
+      "title": "Register routes in appinfo/routes.php",
+      "description": "Register GET /api/tasks/{id}/comments, POST /api/tasks/{id}/comments, DELETE /api/tasks/{id}/comments/{commentId}, GET /api/tasks/comment-counts pointing to CommentController",
+      "status": "pending",
+      "spec_ref": "REQ-TC-001, REQ-TC-002, REQ-TC-003, REQ-TC-005",
+      "acceptance_criteria": [
+        "All 4 routes registered",
+        "All pointing to CommentController"
+      ],
+      "files_likely_affected": ["appinfo/routes.php"]
+    },
+    {
+      "id": 6,
+      "title": "Create TaskComments.vue component",
+      "description": "Create src/components/TaskComments.vue with props: { taskId: String }, fetch comments on mount, store in local ref([]) array",
+      "status": "pending",
+      "spec_ref": "REQ-TC-004",
+      "acceptance_criteria": [
+        "Renders actorDisplayName, relative timestamp, message for each comment",
+        "Compose area with textarea, Post button, char-count warning",
+        "Post action: optimistic prepend, 201 success, error toast on failure",
+        "Delete action: own comments only (or admin), confirmation dialog"
+      ],
+      "files_likely_affected": ["src/components/TaskComments.vue"]
+    },
+    {
+      "id": 7,
+      "title": "Wire TaskComments.vue tab into TaskDetail sidebar",
+      "description": "Import TaskComments.vue and add as tab alongside Details, Files, and Audit Trail; pass taskId as prop; label: Comments",
+      "status": "pending",
+      "spec_ref": "REQ-TC-004",
+      "acceptance_criteria": [
+        "Comments tab visible in task detail sidebar",
+        "taskId prop passed correctly"
+      ],
+      "files_likely_affected": ["src/views/TaskDetail.vue"]
+    },
+    {
+      "id": 8,
+      "title": "Add fetchCommentCounts to tasks store",
+      "description": "Add fetchCommentCounts(taskIds) action to src/store/tasks.js — calls batch endpoint, stores result in commentCounts map keyed by task ID",
+      "status": "pending",
+      "spec_ref": "REQ-TC-005-TASK",
+      "acceptance_criteria": [
+        "Single batch call with all visible task IDs",
+        "commentCounts map available to components"
+      ],
+      "files_likely_affected": ["src/store/tasks.js"]
+    },
+    {
+      "id": 9,
+      "title": "Add comment count badge to TaskCard.vue",
+      "description": "Conditionally render NcCounterBubble showing commentCounts[task.id] only when count > 0",
+      "status": "pending",
+      "spec_ref": "REQ-TC-005, REQ-TC-005-TASK",
+      "acceptance_criteria": [
+        "Badge only visible when count > 0",
+        "Single batch call dispatched after tasks load"
+      ],
+      "files_likely_affected": ["src/components/TaskCard.vue"]
+    },
+    {
+      "id": 10,
+      "title": "PHPUnit: listComments",
+      "description": "Unit test for CommentController::listComments — mock ICommentsManager, assert response structure and HTTP 200",
+      "status": "pending",
+      "spec_ref": "REQ-TC-001",
+      "acceptance_criteria": [
+        "Mock ICommentsManager returns fixture comments",
+        "Assert HTTP 200 and response structure"
+      ],
+      "files_likely_affected": ["tests/Unit/Controller/CommentControllerTest.php"]
+    },
+    {
+      "id": 11,
+      "title": "PHPUnit: createComment",
+      "description": "Unit test asserting 201 on valid input, 422 on empty message, 422 on message > 5000 chars",
+      "status": "pending",
+      "spec_ref": "REQ-TC-002",
+      "acceptance_criteria": [
+        "Assert 201 valid input",
+        "Assert 422 empty message",
+        "Assert 422 message over 5000 chars"
+      ],
+      "files_likely_affected": ["tests/Unit/Controller/CommentControllerTest.php"]
+    },
+    {
+      "id": 12,
+      "title": "PHPUnit: deleteComment",
+      "description": "Unit test asserting 204 for own comment, 204 for admin, 403 for non-owner non-admin, 404 for missing comment",
+      "status": "pending",
+      "spec_ref": "REQ-TC-003",
+      "acceptance_criteria": [
+        "Assert 204 own comment",
+        "Assert 204 admin",
+        "Assert 403 non-owner non-admin",
+        "Assert 404 missing comment"
+      ],
+      "files_likely_affected": ["tests/Unit/Controller/CommentControllerTest.php"]
+    }
+  ]
+}

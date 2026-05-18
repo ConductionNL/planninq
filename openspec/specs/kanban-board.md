@@ -8,6 +8,7 @@
 **OpenSpec changes:**
 - [kanban-board](../changes/kanban-board/) — implements the full kanban board view with drag-drop, WIP limits, filters, and view toggle
 - [task-due-date-warning](../changes/task-due-date-warning/) — adds due date warning badges (yellow "Due soon", red "Overdue") to task cards
+- [task-quick-add](../changes/task-quick-add/) — replaces board placeholder with column layout, basic task cards, and inline quick-add footer per column
 
 ## Purpose
 
