@@ -65,4 +65,14 @@ webpackConfig.plugins = [
 // preventing the nextcloud-vue submodule's nested deps (Vue 3) from leaking in.
 webpackConfig.resolve.alias['@nextcloud/dialogs'] = path.resolve(__dirname, 'node_modules/@nextcloud/dialogs')
 
+// Override publicPath so dynamic webpack chunks load from the standard
+// Nextcloud user-installed-app layout. The webpack-vue-config default of
+// /apps/{appName}/js/ is PHP-routed and returns 401 for static asset
+// requests; /apps-extra/ doesn't exist in the dev container. Every other
+// ConductionNL app is served from /custom_apps/<slug>/js/.
+webpackConfig.output = {
+	...webpackConfig.output,
+	publicPath: '/custom_apps/planix/js/',
+}
+
 module.exports = webpackConfig

@@ -14,6 +14,7 @@ Unlike Nextcloud Deck (which lacks backlog management, time tracking, and WIP li
 
 ## Getting Started
 
-- [Architecture & Data Model](./ARCHITECTURE) — Standards research, entity definitions, Nextcloud integration strategy
-- [Feature Analysis](./FEATURES) — Competitive landscape, feature matrix, and roadmap
-- [Design References](./DESIGN-REFERENCES) — Wireframes and UX patterns
+- [Architecture & Data Model](./ARCHITECTURE.md) — Standards research, entity definitions, Nextcloud integration strategy
+- [Feature Analysis](./FEATURES.md) — Competitive landscape, feature matrix, and roadmap
+- [Design References](./DESIGN-REFERENCES.md) — Wireframes and UX patterns
+- [Features](./features/README.md) — Per-feature documentation: projects, tasks, Kanban board, dashboard, time tracking, settings, and Procest integration

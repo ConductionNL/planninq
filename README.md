@@ -16,7 +16,7 @@
 
 ---
 
-Planix is a Kanban-based project and task management app for Nextcloud, built as a thin client on OpenRegister. It manages projects, tasks, kanban boards with WIP limits, backlogs, and time entries for internal dev and IT teams.
+Planix is a Kanban-based project and task management app for Nextcloud, built as a thin client on OpenRegister. It manages projects, tasks, kanban boards with WIP limits, backlogs, and time entries — giving internal dev and IT teams a focused workflow tool built directly into their Nextcloud environment. Unlike Nextcloud Deck (which lacks backlog management, time tracking, and WIP limits), Planix closes the gap between Deck's simplicity and Jira's complexity.
 
 > **Pre-wired for [OpenRegister](https://github.com/ConductionNL/openregister)** — all data is stored as OpenRegister objects. If your app needs OpenRegister, install it first. If not, remove the dependency from `appinfo/info.xml` and `openspec/app-config.json`.
 
@@ -26,14 +26,27 @@ _Add screenshots here once the app has a UI._
 
 ## Features
 
-Features are defined in [`openspec/specs/`](openspec/specs/). See the [roadmap](openspec/ROADMAP.md) for planned work.
+Features are defined in [`openspec/specs/`](openspec/specs/). See the [roadmap](openspec/ROADMAP.md) for planned work. Full feature documentation is in [`docs/features/`](docs/features/).
 
-### Core
-- **Dashboard** — Personal overview page with key information at a glance
-- **Admin Settings** — Configurable settings panel for administrators
+### Task & Project Management
+- **Projects** — Create and manage project containers with team members, colors, and kanban boards
+- **Tasks** — Full task lifecycle with priorities, labels, assignees, due dates, and status tracking (open → in progress → done)
+- **Backlog** — Task queue for unscheduled work with sorting and filtering; tasks promote to the board via drag-and-drop
+- **Kanban Board** — Visual board per project with configurable columns, drag-and-drop cards, and WIP limits
+
+### Personal Productivity
+- **Dashboard & My Work** — Personal landing page with KPI cards (open, overdue, in progress, done today), recent projects, and tasks due this week; My Work groups all assigned tasks by urgency
+- **Time Tracking** — Estimate effort per task, log multiple time entries (duration + date + description), and review logged time in a personal timesheet view
+
+### Integration
+- **Procest Integration** — Link tasks and projects to Procest cases via `caseReference` (project) and `zaakUuid` (task) fields; case badges appear in the project list and task detail
+
+### Admin & Configuration
+- **Admin Settings** — Configurable admin panel for default columns, label management, and OpenRegister initialization; uses `CnVersionInfoCard` and `CnSettingsSection` components
+- **User Settings** — Per-user notification preferences and default view selection via `NcAppSettingsDialog`
 
 ### Supporting
-- **OpenRegister Integration** — Pre-wired data layer using OpenRegister objects
+- **OpenRegister Integration** — All data stored as OpenRegister objects; no custom database tables
 - **Quality Pipeline** — PHPCS, PHPMD, Psalm, PHPStan, ESLint, Stylelint
 
 ## Architecture
@@ -46,15 +59,19 @@ graph TD
     A --> E[Nextcloud Search]
 ```
 
-_Update this diagram during `/app-explore` sessions as the architecture evolves._
+See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full architecture breakdown.
 
 ### Data Model
 
-| Object | Description |
-|--------|-------------|
-| _(define your data objects here)_ | — |
+| Object | Schema.org Type | Description |
+|--------|----------------|-------------|
+| Task | `schema:Action` / `schema:PlanAction` | Core unit of work — title, description, assignee, due date, priority, status, estimates |
+| Project | `schema:CreativeWork` | Container for tasks and kanban board — teams, members, metadata |
+| Column | `schema:DefinedTerm` | Kanban board column — configurable stages with WIP limits |
+| TimeEntry | `schema:QuantitativeValue` | Effort log — task, user, duration (minutes), date, description |
+| Label | `schema:DefinedTerm` | Cross-project tag — name, color, description |
 
-_Data model is defined using OpenRegister schemas. See [`openspec/specs/`](openspec/specs/) for feature-level design decisions and [`openspec/architecture/`](openspec/architecture/) for architectural decisions._
+Data model is defined using OpenRegister schemas. See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for full entity definitions and standards mapping, [`openspec/specs/`](openspec/specs/) for feature-level requirements, and [`openspec/architecture/`](openspec/architecture/) for architectural decisions.
 
 ### Directory Structure
 
@@ -94,8 +111,8 @@ planix/
 
 | Dependency | Version |
 |-----------|---------|
-| Nextcloud | 28 – 33 |
-| PHP | 8.1+ |
+| Nextcloud | 31 – 33 |
+| PHP | 8.3+ |
 | Node.js | 20+ |
 | [OpenRegister](https://github.com/ConductionNL/openregister) | latest |
 

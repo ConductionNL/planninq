@@ -12,6 +12,21 @@ export default new Router({
 	routes: [
 		{ path: '/', name: 'Dashboard', component: Dashboard },
 		{ path: '/settings', name: 'Settings', component: AdminRoot },
+		{
+			path: '/projects',
+			name: 'Projects',
+			component: () => import('../views/ProjectList.vue'),
+		},
+		{
+			path: '/projects/:id',
+			name: 'ProjectBoard',
+			component: () => import('../views/ProjectBoard.vue'),
+		},
+		{
+			path: '/projects/:id/backlog',
+			name: 'ProjectBacklog',
+			component: () => import('../views/ProjectBacklog.vue'),
+		},
 		{ path: '*', redirect: '/' },
 	],
 })

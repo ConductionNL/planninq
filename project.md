@@ -45,4 +45,4 @@ See the workspace-level `.claude/docs/` for:
 
 ## Standards
 
-This app follows all [Conduction app standards](../.claude/openspec/architecture/).
+This app follows all Conduction app standards (16 company-wide ADRs covering OpenRegister, REST API, NL Design, i18n, security, testing, and documentation).

@@ -10,6 +10,13 @@
 				</template>
 			</NcAppNavigationItem>
 			<NcAppNavigationItem
+				:name="t('planix', 'Projects')"
+				:to="{ name: 'Projects' }">
+				<template #icon>
+					<FolderOutline :size="20" />
+				</template>
+			</NcAppNavigationItem>
+			<NcAppNavigationItem
 				:name="t('planix', 'Documentation')"
 				@click="openLink('https://conduction.nl', '_blank')">
 				<template #icon>
@@ -33,6 +40,7 @@
 import { NcAppNavigation, NcAppNavigationItem } from '@nextcloud/vue'
 import BookOpenVariantOutline from 'vue-material-design-icons/BookOpenVariantOutline.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
+import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
 import HomeIcon from 'vue-material-design-icons/Home.vue'
 
 export default {
@@ -42,6 +50,7 @@ export default {
 		NcAppNavigationItem,
 		BookOpenVariantOutline,
 		CogIcon,
+		FolderOutline,
 		HomeIcon,
 	},
 	methods: {
