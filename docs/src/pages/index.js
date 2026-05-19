@@ -391,7 +391,7 @@ export default function Home() {
   return (
     <Layout
       title="Planix, kanban project management for Nextcloud teams"
-      description="Planix runs the board — projects, tasks, Kanban columns with WIP limits, a real backlog, and per-task time entries — a focused workflow tool for dev and IT teams, built into Nextcloud on top of OpenRegister."
+      description="Kanban project management for Nextcloud dev and IT teams. Projects, tasks, WIP-limited columns, a real backlog, and per-task time tracking."
     >
       <main className="marketing-page">
         <DetailHero
