@@ -144,6 +144,12 @@ platform-diagram .row .name {
 platform-diagram .row + .row { border-top: 1px solid var(--c-cobalt-50); }
 platform-diagram a.row { text-decoration: none; color: inherit; cursor: pointer; }
 platform-diagram a.row:hover { text-decoration: none; }
+/* Hovered row escapes its own overflow:hidden clip and creates a
+   stacking context so the .desc tooltip can extend below the row AND
+   paint above later-DOM-order siblings. Without overflow:visible the
+   absolute-positioned .desc gets cropped to the row's bounding box;
+   without z-index the .desc has no stacking context to escape. */
+platform-diagram .row:hover { overflow: visible; z-index: 10; }
 
 /* Multi-column box: rows are wrapped in <.col> so the .row+.row border only
    draws within a single column. The columns sit side by side with a thin
@@ -254,9 +260,11 @@ platform-diagram .workspace-corner-hex.fam-solutions { background: #E34234; }
 platform-diagram .fam-integrate  .glyph,
 platform-diagram .workspace-corner-hex.fam-integrate { background: var(--c-cobalt-400); }
 platform-diagram .fam-builder    .glyph,
-platform-diagram .workspace-corner-hex.fam-builder   { background: var(--c-cobalt-300); }
-/* App Builder hex: KNVB orange (override fam-builder) */
-platform-diagram .workspace-corner-hex.app-builder   { background: var(--c-orange-knvb); }
+platform-diagram .workspace-corner-hex.fam-builder   { background: var(--c-orange-knvb); }
+/* App Builder hex: KNVB orange across the board. The hex represents
+   the "compose your own app" pathway — that's the proposition we want
+   the eye to land on, badge or no badge. */
+platform-diagram .workspace-corner-hex.app-builder { background: var(--c-orange-knvb); }
 platform-diagram .fam-nextcloud  .glyph,
 platform-diagram .workspace-corner-hex.fam-nextcloud { background: var(--c-nextcloud-blue); }
 
