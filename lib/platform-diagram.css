@@ -75,7 +75,7 @@ platform-diagram .workspace:not(.box-wrap):not(.workspace-corner-hex) {
   width: 360px;
   aspect-ratio: 1.7320508 / 2;
   clip-path: var(--hex-pointy-top);
-  background: var(--gradient-nextcloud);
+  background: var(--c-nextcloud-blue);
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   color: white;
@@ -96,8 +96,12 @@ platform-diagram .workspace:not(.box-wrap):not(.workspace-corner-hex) .role {
   margin-top: 14px;
 }
 
-/* ---- Box-wrap (positioning shell for each list) ---- */
-platform-diagram .box-wrap { position: relative; }
+/* ---- Box-wrap (positioning shell for each list) ----
+   Hover raises the wrap's z-index so its absolute-positioned .desc
+   tooltip stacks above neighbouring lists (without this the tooltip
+   slides under the next .box-wrap and is unreadable). */
+platform-diagram .box-wrap { position: relative; z-index: 1; }
+platform-diagram .box-wrap:hover { z-index: 20; }
 
 /* ---- List-box ---- */
 platform-diagram .box {
@@ -138,6 +142,8 @@ platform-diagram .row .name {
   min-width: 0;
 }
 platform-diagram .row + .row { border-top: 1px solid var(--c-cobalt-50); }
+platform-diagram a.row { text-decoration: none; color: inherit; cursor: pointer; }
+platform-diagram a.row:hover { text-decoration: none; }
 
 /* Multi-column box: rows are wrapped in <.col> so the .row+.row border only
    draws within a single column. The columns sit side by side with a thin
@@ -396,15 +402,17 @@ platform-diagram .box-wrap.app-builder {
   opacity: var(--pd-list-progress);
 }
 
-/* App Builder list: dashed coming-soon styling */
-platform-diagram .box-wrap.app-builder .box {
+/* App Builder list: when a COMING SOON-style badge is attached we treat the
+   cluster as a placeholder (dashed border, faded text). When no badge is
+   set the cluster styles like every other list — OpenBuilt is a real app. */
+platform-diagram .box-wrap.app-builder.has-badge .box {
   border-style: dashed;
   background: var(--c-cobalt-50);
   opacity: 0.92;
 }
-platform-diagram .box-wrap.app-builder .row { color: var(--c-cobalt-400); font-style: italic; }
-platform-diagram .box-wrap.app-builder .row .desc { font-style: normal; }
-platform-diagram .box-wrap.app-builder .row:hover .name { color: var(--c-cobalt-700); }
+platform-diagram .box-wrap.app-builder.has-badge .row { color: var(--c-cobalt-400); font-style: italic; }
+platform-diagram .box-wrap.app-builder.has-badge .row .desc { font-style: normal; }
+platform-diagram .box-wrap.app-builder.has-badge .row:hover .name { color: var(--c-cobalt-700); }
 
 /* Badge (e.g. COMING SOON) — generic, attaches to any .box-wrap */
 platform-diagram .box-wrap .badge {
