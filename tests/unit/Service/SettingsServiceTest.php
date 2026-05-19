@@ -154,8 +154,9 @@ class SettingsServiceTest extends TestCase
         $this->appConfig->expects($this->exactly(count: 1))
             ->method('setValueString')
             ->willReturnCallback(
-                function (string $appId, string $key, string $value) use (&$stored): void {
+                function (string $appId, string $key, string $value) use (&$stored): bool {
                     $stored[$key] = $value;
+                    return true;
                 }
             );
 
@@ -194,8 +195,9 @@ class SettingsServiceTest extends TestCase
         $stored = [];
         $this->appConfig->method('setValueString')
             ->willReturnCallback(
-                function (string $appId, string $key, string $value) use (&$stored): void {
+                function (string $appId, string $key, string $value) use (&$stored): bool {
                     $stored[$key] = $value;
+                    return true;
                 }
             );
 
