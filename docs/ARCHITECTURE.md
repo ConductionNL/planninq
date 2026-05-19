@@ -407,7 +407,7 @@ The configuration is imported via `ConfigurationService::importFromApp()` in the
 
 ## 5. Resolved Research Questions
 
-All research questions below have been resolved. Decisions are recorded in the app-specific ADRs under [`openspec/architecture/`](../openspec/architecture/).
+All research questions below have been resolved. Decisions are recorded in the app-specific ADRs under [`openspec/architecture/`](https://github.com/ConductionNL/planix/tree/development/openspec/architecture).
 
 1. **CalDAV VTODO sync** — **One-way export to Nextcloud Tasks app in V1.** The `calendarEventUid` field on Task stores the VTODO UID. Planix writes tasks to CalDAV; changes made in the Tasks app are not synced back. Two-way sync was rejected due to data model mismatch (Tasks app has no concept of projects, columns, or WIP limits).
 
