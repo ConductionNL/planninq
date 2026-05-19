@@ -11,7 +11,7 @@ Planix is a sister app to Procest (case management). When a Procest case require
 ### Case Reference on Project
 
 - A project can carry a `caseReference` field containing a Procest case UUID
-- Projects with a case reference show a **"Case: {caseNumber}"** badge in the project list and project detail
+- Projects with a case reference show a **`Case: {caseNumber}`** badge in the project list and project detail
 - The case reference can be set manually via the project edit form by entering a Procest case UUID
 
 ### Task Case Link
@@ -46,4 +46,4 @@ Tasks bridged from Procest follow the VNG InterneTaak field mapping:
 
 ## Spec
 
-- [procest-integration spec](../../openspec/specs/procest-integration.md)
+- [procest-integration spec](https://github.com/ConductionNL/planix/blob/development/openspec/specs/procest-integration.md)

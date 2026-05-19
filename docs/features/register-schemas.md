@@ -33,4 +33,4 @@ Fresh installs include demo data:
 
 ## Specs
 
-- [register-schemas spec](../../openspec/specs/register-schemas/spec.md)
+- [register-schemas spec](https://github.com/ConductionNL/planix/blob/development/openspec/specs/register-schemas/spec.md)
