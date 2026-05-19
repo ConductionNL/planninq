@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<!-- Default Project Configuration -->
+		<!-- Default project configuration -->
 		<CnSettingsSection
-			:name="t('planix', 'Default Project Configuration')"
+			:name="t('planix', 'Default project configuration')"
 			:description="t('planix', 'Configure the default column set for new projects')">
 			<form @submit.prevent="saveColumns">
 				<div class="columns-editor">
@@ -59,9 +59,9 @@
 			</form>
 		</CnSettingsSection>
 
-		<!-- Register Setup -->
+		<!-- Register setup -->
 		<CnSettingsSection
-			:name="t('planix', 'Register Setup')"
+			:name="t('planix', 'Register setup')"
 			:description="t('planix', 'OpenRegister schema and register initialization for Planix')">
 			<div class="register-status">
 				<span v-if="settings.openregisters" class="status-indicator status-ok">
@@ -190,9 +190,9 @@ export default {
 				default_columns: JSON.stringify(this.columnList.filter(c => c.trim() !== '')),
 			})
 			if (result) {
-				this.columnsSuccess = t('planix', 'Default columns saved successfully')
+				this.columnsSuccess = this.t('planix', 'Default columns saved successfully')
 			} else {
-				this.columnsError = t('planix', 'Failed to save default columns')
+				this.columnsError = this.t('planix', 'Failed to save default columns')
 			}
 			this.savingColumns = false
 		},
@@ -207,12 +207,12 @@ export default {
 				})
 				const data = await response.json()
 				if (data.success) {
-					this.initSuccess = t('planix', 'Register initialized successfully')
+					this.initSuccess = this.t('planix', 'Register initialized successfully')
 				} else {
-					this.initError = data.message || t('planix', 'Initialization failed')
+					this.initError = data.message || this.t('planix', 'Initialization failed')
 				}
 			} catch (e) {
-				this.initError = t('planix', 'Initialization failed')
+				this.initError = this.t('planix', 'Initialization failed')
 			}
 			this.initializing = false
 		},
@@ -222,7 +222,7 @@ export default {
 			const settingsStore = useSettingsStore()
 			const result = await settingsStore.saveSettings(this.form)
 			if (result) {
-				this.successMessage = t('planix', 'Settings saved successfully')
+				this.successMessage = this.t('planix', 'Settings saved successfully')
 			}
 			this.saving = false
 		},

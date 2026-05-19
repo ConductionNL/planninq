@@ -25,19 +25,21 @@
 			</NcAppNavigationItem>
 		</template>
 		<template #footer>
-			<NcAppNavigationItem
-				:name="t('planix', 'Settings')"
-				:to="{ name: 'Settings' }">
-				<template #icon>
-					<CogIcon :size="20" />
-				</template>
-			</NcAppNavigationItem>
+			<NcAppNavigationSettings>
+				<NcAppNavigationItem
+					:name="t('planix', 'Settings')"
+					@click="$emit('open-settings')">
+					<template #icon>
+						<CogIcon :size="20" />
+					</template>
+				</NcAppNavigationItem>
+			</NcAppNavigationSettings>
 		</template>
 	</NcAppNavigation>
 </template>
 
 <script>
-import { NcAppNavigation, NcAppNavigationItem } from '@nextcloud/vue'
+import { NcAppNavigation, NcAppNavigationItem, NcAppNavigationSettings } from '@nextcloud/vue'
 import BookOpenVariantOutline from 'vue-material-design-icons/BookOpenVariantOutline.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
@@ -48,6 +50,7 @@ export default {
 	components: {
 		NcAppNavigation,
 		NcAppNavigationItem,
+		NcAppNavigationSettings,
 		BookOpenVariantOutline,
 		CogIcon,
 		FolderOutline,
