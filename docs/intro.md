@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+description: Get started with Planix, kanban project management for Nextcloud teams. Boards, lanes, tickets, and CI signal in your collaboration stack.
 ---
 
 # Planix
