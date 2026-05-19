@@ -5,7 +5,7 @@
 			:app-version="appVersion"
 			:is-up-to-date="true"
 			:show-update-button="true"
-			:title="t('planix', 'Version Information')"
+			:title="t('planix', 'Version information')"
 			:description="t('planix', 'Information about the current Planix installation')">
 			<template #footer>
 				<div class="cn-support-info">

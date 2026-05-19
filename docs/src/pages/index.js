@@ -390,15 +390,14 @@ const WIDGETS = [
 export default function Home() {
   return (
     <Layout
-      title="Planix"
+      title="Planix, kanban project management for Nextcloud teams"
       description="Planix runs the board — projects, tasks, Kanban columns with WIP limits, a real backlog, and per-task time entries — a focused workflow tool for dev and IT teams, built into Nextcloud on top of OpenRegister."
     >
       <main className="marketing-page">
         <DetailHero
           background="cobalt"
           appId="planix"
-          status={{ label: 'Beta', color: 'var(--c-orange-knvb)' }}
-          version="v0.2"
+          /* status + version dropped — preset 2.10+ auto-derives from appinfo/info.xml */
           locales="EN"
           title="Planix"
           tagline={TAGLINE}
