@@ -1,0 +1,8 @@
+{
+  "spec_slug": "projects",
+  "title": "Projects Specification",
+  "app": "planix",
+  "repo": "https://github.com/ConductionNL/planix",
+  "depends_on": [],
+  "issue": null
+}
