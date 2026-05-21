@@ -1,5 +1,7 @@
 # Design: Task Quick-Add
 
+**Status**: pr-created
+
 ## Context
 
 `ProjectBoard.vue` currently renders a "Board view coming soon" `NcEmptyContent` placeholder. This change replaces it with a real column layout and adds the first interactive board feature: an inline quick-add input in each column's footer.

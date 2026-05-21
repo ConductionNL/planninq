@@ -9,7 +9,7 @@
       "id": 1,
       "title": "Render kanban columns in ProjectBoard.vue",
       "description": "Replace the \"Board view coming soon\" NcEmptyContent placeholder with a real column layout. Fetch columns from OpenRegister filtered by project.id, render them in order sequence as a horizontal scrollable list.",
-      "status": "pending",
+      "status": "done",
       "spec_ref": "openspec/changes/task-quick-add/specs/kanban-board/spec.md",
       "acceptance_criteria": [
         "The \"Board view coming soon\" NcEmptyContent is removed from the template",
@@ -28,7 +28,7 @@
       "id": 2,
       "title": "Create QuickAddTask.vue component",
       "description": "Create src/components/QuickAddTask.vue with toggle behaviour between trigger button and expanded inline form.",
-      "status": "pending",
+      "status": "done",
       "spec_ref": "openspec/changes/task-quick-add/specs/kanban-board/spec.md",
       "acceptance_criteria": [
         "File src/components/QuickAddTask.vue exists with name: 'QuickAddTask'",
@@ -50,7 +50,7 @@
       "id": 3,
       "title": "Wire keyboard handling (Enter / Escape)",
       "description": "Add @keydown event handlers to the textarea in QuickAddTask.vue for Enter, Escape, and Shift+Enter.",
-      "status": "pending",
+      "status": "done",
       "spec_ref": "openspec/changes/task-quick-add/specs/kanban-board/spec.md",
       "acceptance_criteria": [
         "@keydown.enter.prevent calls handleEnter(event)",
@@ -68,7 +68,7 @@
       "id": 4,
       "title": "Connect to task creation store / API",
       "description": "Implement submit() in QuickAddTask.vue. Check whether useObjectStore exposes a createObject(type, payload) action; if not, add it. Wire the submit method to POST to OpenRegister using @nextcloud/axios.",
-      "status": "pending",
+      "status": "done",
       "spec_ref": "openspec/changes/task-quick-add/specs/kanban-board/spec.md",
       "acceptance_criteria": [
         "submit() sets saving = true and clears errorMessage before the request",
@@ -89,12 +89,12 @@
       "id": 5,
       "title": "Add loading state and error feedback",
       "description": "Wire the saving and errorMessage state into the template. Disable inputs during save. Show error text on failure.",
-      "status": "pending",
+      "status": "done",
       "spec_ref": "openspec/changes/task-quick-add/specs/kanban-board/spec.md",
       "acceptance_criteria": [
         "<textarea> has :disabled=\"saving\" binding",
         "Save button has :disabled=\"saving || !draft.trim()\" binding",
-        "Save button shows NcLoadingIcon and text \"Saving…\" when saving === true, and \"Save\" otherwise",
+        "Save button shows NcLoadingIcon and text \"Saving\u2026\" when saving === true, and \"Save\" otherwise",
         "Cancel button has :disabled=\"saving\" binding",
         "Error span with role=\"alert\" renders between textarea and action buttons when errorMessage is set",
         ".quick-add-task__error uses color: var(--color-error)",
@@ -108,7 +108,7 @@
       "id": 6,
       "title": "Accessibility and i18n",
       "description": "Verify and complete all WCAG AA and i18n requirements across QuickAddTask.vue and the column rendering in ProjectBoard.vue.",
-      "status": "pending",
+      "status": "done",
       "spec_ref": "openspec/changes/task-quick-add/specs/kanban-board/spec.md",
       "acceptance_criteria": [
         "Every user-visible string uses t('planix', '...')",
@@ -117,7 +117,7 @@
         "The trigger NcButton has :aria-label so icon-only rendering is accessible",
         "The error span has role=\"alert\" so screen readers announce errors immediately",
         "Focus management is correct: textarea receives focus on expand; trigger button receives focus on cancel/success",
-        "Color is never the sole error indicator — error text is always present alongside the red color",
+        "Color is never the sole error indicator \u2014 error text is always present alongside the red color",
         "All new i18n strings added to l10n/ translation source"
       ],
       "files_likely_affected": [
@@ -129,15 +129,15 @@
     {
       "id": 7,
       "title": "Create basic TaskCard.vue component",
-      "description": "Create src/components/TaskCard.vue — a minimal read-only card that renders the core task fields inside a column.",
-      "status": "pending",
+      "description": "Create src/components/TaskCard.vue \u2014 a minimal read-only card that renders the core task fields inside a column.",
+      "status": "done",
       "spec_ref": "openspec/changes/task-quick-add/specs/kanban-board/spec.md",
       "acceptance_criteria": [
         "File src/components/TaskCard.vue exists with name: 'TaskCard'",
         "Prop: task: Object (required)",
         "Card renders task.title as the primary text",
         "Card renders a priority indicator dot using Nextcloud CSS variables for color",
-        "Card renders task.dueDate if present — red text if the date is in the past",
+        "Card renders task.dueDate if present \u2014 red text if the date is in the past",
         "Card renders task.assignee if present (display name, or UUID last-8 as fallback)",
         "All user-visible strings use t('planix', '...')",
         "Card is keyboard-focusable (tabindex=\"0\") for future navigation wiring",

@@ -10,12 +10,12 @@
 Replace the "Board view coming soon" `NcEmptyContent` placeholder in `src/views/ProjectBoard.vue` with a real column layout. Fetch columns from OpenRegister filtered by `project.id`, render them in `order` sequence as a horizontal scrollable list. Show a "No columns yet" empty state when the project has no columns.
 
 **acceptance_criteria**:
-- The "Board view coming soon" `NcEmptyContent` is removed from the template
-- `columns` computed property returns columns from `useObjectStore` filtered to the current project, sorted by `order`
-- Columns render as a horizontal `<div class="project-board__columns">` with one `.project-board__column` per column entry
-- Each column shows its `title` in a `.project-board__column-header`
-- When `columns.length === 0` and not loading, an `NcEmptyContent` renders with text "No columns yet"
-- A loading indicator (`NcLoadingIcon` or similar) is shown while `columnsLoading` is true
+- [x] The "Board view coming soon" `NcEmptyContent` is removed from the template
+- [x] `columns` computed property returns columns from `useObjectStore` filtered to the current project, sorted by `order`
+- [x] Columns render as a horizontal `<div class="project-board__columns">` with one `.project-board__column` per column entry
+- [x] Each column shows its `title` in a `.project-board__column-header`
+- [x] When `columns.length === 0` and not loading, an `NcEmptyContent` renders with text "No columns yet"
+- [x] A loading indicator (`NcLoadingIcon` or similar) is shown while `columnsLoading` is true
 
 **files_likely_affected**:
 - `src/views/ProjectBoard.vue`
@@ -38,16 +38,16 @@ Replace the "Board view coming soon" `NcEmptyContent` placeholder in `src/views/
 Create `src/components/QuickAddTask.vue`. The component renders a "+ Add task" trigger button. On click, it expands to an inline `<textarea>` with Save and Cancel buttons. This task covers the static structure and toggle behaviour (no API call yet — wired in Task 4).
 
 **acceptance_criteria**:
-- File `src/components/QuickAddTask.vue` exists with `name: 'QuickAddTask'`
-- Props: `columnId: String` (required), `projectId: String` (required)
-- Local state: `active: false`, `draft: ''`, `saving: false`, `errorMessage: ''`
-- When `active === false`: renders an `NcButton` with label "Add task" and a `PlusIcon`
-- When `active === true`: renders the expanded form with `<label>` (visually hidden), `<textarea>`, optional error span, Save button, Cancel button
-- `activate()` sets `active = true`, clears `errorMessage`, and focuses the textarea via `$nextTick`
-- `cancel()` sets `active = false`, clears `draft` and `errorMessage`, and returns focus to the trigger button
-- `NcButton`, `NcLoadingIcon` are imported from `@conduction/nextcloud-vue` and registered in `components: {}`
-- `PlusIcon` is imported from `vue-material-design-icons/Plus.vue`
-- All user-visible strings use `t('planix', '...')`
+- [x] File `src/components/QuickAddTask.vue` exists with `name: 'QuickAddTask'`
+- [x] Props: `columnId: String` (required), `projectId: String` (required)
+- [x] Local state: `active: false`, `draft: ''`, `saving: false`, `errorMessage: ''`
+- [x] When `active === false`: renders an `NcButton` with label "Add task" and a `PlusIcon`
+- [x] When `active === true`: renders the expanded form with `<label>` (visually hidden), `<textarea>`, optional error span, Save button, Cancel button
+- [x] `activate()` sets `active = true`, clears `errorMessage`, and focuses the textarea via `$nextTick`
+- [x] `cancel()` sets `active = false`, clears `draft` and `errorMessage`, and returns focus to the trigger button
+- [x] `NcButton`, `NcLoadingIcon` are imported and registered in `components: {}`
+- [x] `PlusIcon` is imported from `vue-material-design-icons/Plus.vue`
+- [x] All user-visible strings use `t('planix', '...')`
 
 **files_likely_affected**:
 - `src/components/QuickAddTask.vue` (new)
@@ -62,12 +62,12 @@ Create `src/components/QuickAddTask.vue`. The component renders a "+ Add task" t
 Add `@keydown` event handlers to the `<textarea>` in `QuickAddTask.vue` for the three keyboard interactions.
 
 **acceptance_criteria**:
-- `@keydown.enter.prevent` calls `handleEnter(event)`
-- `handleEnter` does nothing if `draft.trim()` is empty or `saving === true`
-- `handleEnter` calls `submit()` otherwise
-- `@keydown.esc` calls `cancel()`
-- A `@keydown.shift.enter` guard (or `if (event.shiftKey) return` inside `handleEnter`) allows the default textarea newline behaviour and does NOT call `submit()`
-- Keyboard shortcuts work the same whether the user reaches them via mouse or keyboard navigation
+- [x] `@keydown.enter.prevent` calls `handleEnter(event)`
+- [x] `handleEnter` does nothing if `draft.trim()` is empty or `saving === true`
+- [x] `handleEnter` calls `submit()` otherwise
+- [x] `@keydown.esc` calls `cancel()`
+- [x] A `@keydown.shift.enter` guard (or `if (event.shiftKey) return` inside `handleEnter`) allows the default textarea newline behaviour and does NOT call `submit()`
+- [x] Keyboard shortcuts work the same whether the user reaches them via mouse or keyboard navigation
 
 **files_likely_affected**:
 - `src/components/QuickAddTask.vue`
@@ -85,14 +85,14 @@ Add `@keydown` event handlers to the `<textarea>` in `QuickAddTask.vue` for the 
 Implement `submit()` in `QuickAddTask.vue`. Check whether `useObjectStore` exposes a `createObject(type, payload)` action; if not, add it. Wire the submit method to POST to OpenRegister using `@nextcloud/axios`.
 
 **acceptance_criteria**:
-- `submit()` sets `saving = true` and clears `errorMessage` before the request
-- The API call uses `axios` from `@nextcloud/axios` (NEVER raw `fetch()`)
-- The request POSTs to `generateUrl('/apps/openregister/api/objects')` with body `{ register, schema, object: { title, column: columnId, project: projectId } }`
-- `register` and `schema` values are read from `useSettingsStore` (keys for the task type)
-- On success (HTTP 2xx): `$emit('task-created', { task: response.data })`, then `cancel()` is called
-- The full `await` call is wrapped in `try/catch`
-- On catch: `errorMessage` is set, `saving = false` (draft is NOT cleared)
-- `saving` is reset to `false` in `finally` or in both success and error branches
+- [x] `submit()` sets `saving = true` and clears `errorMessage` before the request
+- [x] The API call uses `axios` from `@nextcloud/axios` (NEVER raw `fetch()`)
+- [x] The request POSTs to `generateUrl('/apps/openregister/api/objects')` with body `{ register, schema, object: { title, column: columnId, project: projectId } }`
+- [x] `register` and `schema` values are resolved from the registered object type
+- [x] On success (HTTP 2xx): `$emit('task-created', { task: response.data })`, then `cancel()` is called
+- [x] The full `await` call is wrapped in `try/catch`
+- [x] On catch: `errorMessage` is set, `saving = false` (draft is NOT cleared)
+- [x] `saving` is reset to `false` in both success and error branches
 
 **files_likely_affected**:
 - `src/components/QuickAddTask.vue`
@@ -111,13 +111,13 @@ Implement `submit()` in `QuickAddTask.vue`. Check whether `useObjectStore` expos
 Wire the `saving` and `errorMessage` state into the template. Disable inputs during save. Show error text on failure. Style both states with Nextcloud CSS variables.
 
 **acceptance_criteria**:
-- `<textarea>` has `:disabled="saving"` binding
-- Save button has `:disabled="saving || !draft.trim()"` binding
-- Save button shows `NcLoadingIcon` and text "Saving…" when `saving === true`, and "Save" otherwise
-- Cancel button has `:disabled="saving"` binding
-- Error span with `role="alert"` renders between textarea and action buttons when `errorMessage` is set
-- `.quick-add-task__error` uses `color: var(--color-error)`
-- After a successful save the error span is hidden (because `cancel()` clears `errorMessage`)
+- [x] `<textarea>` has `:disabled="saving"` binding
+- [x] Save button has `:disabled="saving || !draft.trim()"` binding
+- [x] Save button shows `NcLoadingIcon` and text "Saving…" when `saving === true`, and "Save" otherwise
+- [x] Cancel button has `:disabled="saving"` binding
+- [x] Error span with `role="alert"` renders between textarea and action buttons when `errorMessage` is set
+- [x] `.quick-add-task__error` uses `color: var(--color-error)`
+- [x] After a successful save the error span is hidden (because `cancel()` clears `errorMessage`)
 
 **files_likely_affected**:
 - `src/components/QuickAddTask.vue`
@@ -132,13 +132,13 @@ Wire the `saving` and `errorMessage` state into the template. Disable inputs dur
 Verify and complete all WCAG AA and i18n requirements across both `QuickAddTask.vue` and the column rendering in `ProjectBoard.vue`.
 
 **acceptance_criteria**:
-- Every user-visible string uses `t('planix', '...')`
-- The `<textarea>` has an associated `<label>` via matching `for`/`id` pair
-- The expanded form has `role="form"` and `aria-label`
-- The trigger `NcButton` has `:aria-label` so icon-only rendering is accessible
-- The error span has `role="alert"` so screen readers announce errors immediately
-- Focus management is correct: textarea receives focus on expand; trigger button receives focus on cancel/success
-- Color is never the sole error indicator — error text is always present alongside the red color
+- [x] Every user-visible string uses `t('planix', '...')`
+- [x] The `<textarea>` has an associated `<label>` via matching `for`/`id` pair
+- [x] The expanded form has `role="form"` and `aria-label`
+- [x] The trigger `NcButton` has `:aria-label` so icon-only rendering is accessible
+- [x] The error span has `role="alert"` so screen readers announce errors immediately
+- [x] Focus management is correct: textarea receives focus on expand; trigger button receives focus on cancel/success
+- [x] Color is never the sole error indicator — error text is always present alongside the red color
 
 **files_likely_affected**:
 - `src/components/QuickAddTask.vue`
@@ -155,15 +155,15 @@ Verify and complete all WCAG AA and i18n requirements across both `QuickAddTask.
 Create `src/components/TaskCard.vue` — a minimal read-only card that renders the core task fields inside a column.
 
 **acceptance_criteria**:
-- File `src/components/TaskCard.vue` exists with `name: 'TaskCard'`
-- Prop: `task: Object` (required)
-- Card renders `task.title` as the primary text
-- Card renders a priority indicator dot using Nextcloud CSS variables for color
-- Card renders `task.dueDate` if present — red text using `var(--color-error)` if the date is in the past
-- Card renders `task.assignee` if present (display name, or UUID last-8 as fallback)
-- All user-visible strings use `t('planix', '...')`
-- Card is keyboard-focusable (`tabindex="0"`) for future navigation wiring
-- Component is imported and registered in `ProjectBoard.vue`'s `components: {}`
+- [x] File `src/components/TaskCard.vue` exists with `name: 'TaskCard'`
+- [x] Prop: `task: Object` (required)
+- [x] Card renders `task.title` as the primary text
+- [x] Card renders a priority indicator dot using Nextcloud CSS variables for color
+- [x] Card renders `task.dueDate` if present — red text using `var(--color-error)` if the date is in the past
+- [x] Card renders `task.assignee` if present (display name, or UUID last-8 as fallback)
+- [x] All user-visible strings use `t('planix', '...')`
+- [x] Card is keyboard-focusable (`tabindex="0"`) for future navigation wiring
+- [x] Component is imported and registered in `ProjectBoard.vue`'s `components: {}`
 
 **files_likely_affected**:
 - `src/components/TaskCard.vue` (new)
