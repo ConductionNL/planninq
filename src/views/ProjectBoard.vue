@@ -57,21 +57,50 @@
 				</div>
 			</div>
 
-			<!-- Board placeholder -->
+			<!-- Columns loading indicator -->
+			<div v-if="columnsLoading" class="project-board__columns-loading">
+				<NcLoadingIcon :size="32" />
+			</div>
+
+			<!-- No columns state -->
 			<NcEmptyContent
-				:name="t('planix', 'Board view coming soon')"
-				:description="t('planix', 'The Kanban board is being built. Use the Backlog view in the meantime.')">
+				v-else-if="!columnsLoading && columns.length === 0"
+				:name="t('planix', 'No columns yet')"
+				:description="t('planix', 'Add columns in project settings to set up your board.')">
 				<template #icon>
 					<ViewColumnOutline :size="20" />
 				</template>
-				<template #action>
-					<NcButton
-						type="secondary"
-						@click="$router.push({ name: 'ProjectBacklog', params: { id: project.id } })">
-						{{ t('planix', 'View Backlog') }}
-					</NcButton>
-				</template>
 			</NcEmptyContent>
+
+			<!-- Column list -->
+			<div v-else class="project-board__columns">
+				<div
+					v-for="column in columns"
+					:key="column.id"
+					class="project-board__column">
+					<div class="project-board__column-header">
+						<span class="project-board__column-title">{{ column.title }}</span>
+					</div>
+
+					<div class="project-board__column-body">
+						<TaskCard
+							v-for="task in columnTasks[column.id] || []"
+							:key="task.id"
+							:task="task" />
+						<NcEmptyContent
+							v-if="!columnTasksLoading && !(columnTasks[column.id] || []).length"
+							:name="t('planix', 'No tasks')"
+							:description="t('planix', 'Use the button below to add your first task.')" />
+					</div>
+
+					<div class="project-board__column-footer">
+						<QuickAddTask
+							:column-id="column.id"
+							:project-id="project.id"
+							@task-created="onTaskCreated(column.id, $event.task)" />
+					</div>
+				</div>
+			</div>
 		</template>
 
 		<!-- Settings sidebar (rendered via App.vue outlet, passed via provide) -->
@@ -86,8 +115,17 @@ import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { useProjectsStore } from '../store/projects.js'
+import { useObjectStore } from '../store/modules/object.js'
 import ProjectSettingsSidebar from '../components/ProjectSettingsSidebar.vue'
+import QuickAddTask from '../components/QuickAddTask.vue'
+import TaskCard from '../components/TaskCard.vue'
 
+/**
+ * ProjectBoard — renders a project's kanban columns with inline quick-add.
+ *
+ * @spec openspec/changes/task-quick-add/tasks.md#task-1
+ * @spec openspec/changes/task-quick-add/tasks.md#task-7
+ */
 export default {
 	name: 'ProjectBoard',
 
@@ -98,6 +136,8 @@ export default {
 		CogIcon,
 		LockOutline,
 		ViewColumnOutline,
+		QuickAddTask,
+		TaskCard,
 	},
 
 	inject: {
@@ -105,9 +145,19 @@ export default {
 		closeSidebar: { default: null },
 	},
 
+	data() {
+		return {
+			columnTasks: {},
+			columnTasksLoading: false,
+		}
+	},
+
 	computed: {
 		projectsStore() {
 			return useProjectsStore()
+		},
+		objectStore() {
+			return useObjectStore()
 		},
 		project() {
 			return this.projectsStore.activeProject
@@ -124,11 +174,25 @@ export default {
 			}
 			return false
 		},
+		columns() {
+			const all = this.objectStore.objects['column'] || []
+			return all
+				.filter(c => c.project === this.project?.id)
+				.slice()
+				.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+		},
+		columnsLoading() {
+			return !!this.objectStore.loading['column']
+		},
 	},
 
 	async mounted() {
 		const id = this.$route.params.id
 		await this.projectsStore.fetchProject(id)
+
+		if (this.project) {
+			await this.loadColumns()
+		}
 	},
 
 	beforeDestroy() {
@@ -136,6 +200,57 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Fetch columns for the current project, then fetch their tasks.
+		 *
+		 * @spec openspec/changes/task-quick-add/tasks.md#task-1
+		 */
+		async loadColumns() {
+			await this.objectStore.fetchObjects('column', {
+				'object.project': this.project.id,
+			})
+			await this.loadColumnTasks()
+		},
+
+		/**
+		 * Fetch all tasks for the current project and group them by column.
+		 *
+		 * @spec openspec/changes/task-quick-add/tasks.md#task-1
+		 */
+		async loadColumnTasks() {
+			this.columnTasksLoading = true
+			try {
+				await this.objectStore.fetchObjects('task', {
+					'object.project': this.project.id,
+				})
+				const tasks = this.objectStore.objects['task'] || []
+				const grouped = {}
+				tasks.forEach(task => {
+					const col = task.column || task['object.column']
+					if (!col) return
+					if (!grouped[col]) grouped[col] = []
+					grouped[col].push(task)
+				})
+				this.columnTasks = grouped
+			} finally {
+				this.columnTasksLoading = false
+			}
+		},
+
+		/**
+		 * Prepend the newly created task into the correct column bucket.
+		 *
+		 * @param {string} columnId
+		 * @param {object} task
+		 * @spec openspec/changes/task-quick-add/tasks.md#task-2
+		 */
+		onTaskCreated(columnId, task) {
+			if (!this.columnTasks[columnId]) {
+				this.$set(this.columnTasks, columnId, [])
+			}
+			this.columnTasks[columnId] = [task, ...this.columnTasks[columnId]]
+		},
+
 		openSettings() {
 			if (!this.setSidebar) return
 			this.setSidebar({
@@ -194,9 +309,53 @@ export default {
 	gap: 4px;
 }
 
-.project-board__loading {
+.project-board__loading,
+.project-board__columns-loading {
 	display: flex;
 	justify-content: center;
 	padding: 60px;
+}
+
+.project-board__columns {
+	display: flex;
+	gap: 12px;
+	overflow-x: auto;
+	padding-bottom: 16px;
+	align-items: flex-start;
+}
+
+.project-board__column {
+	flex: 0 0 260px;
+	min-width: 200px;
+	display: flex;
+	flex-direction: column;
+	border-radius: var(--border-radius-large);
+	border: 1px solid var(--color-border);
+	background: var(--color-background-dark);
+}
+
+.project-board__column-header {
+	padding: 10px 12px;
+	border-bottom: 1px solid var(--color-border);
+}
+
+.project-board__column-title {
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--color-main-text);
+}
+
+.project-board__column-body {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 8px;
+	min-height: 60px;
+}
+
+.project-board__column-footer {
+	padding: 6px 8px;
+	border-top: 1px solid var(--color-border);
 }
 </style>

@@ -1,8 +1,12 @@
 import { defineStore } from 'pinia'
+import axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
 
 /**
  * Generic OpenRegister object store.
  * Configure it with baseUrl and schemaBaseUrl, then register object types.
+ *
+ * @spec openspec/changes/task-quick-add/tasks.md#task-4
  */
 export const useObjectStore = defineStore('object', {
 	state: () => ({
@@ -55,6 +59,34 @@ export const useObjectStore = defineStore('object', {
 				this.loading[type] = false
 			}
 			return []
+		},
+
+		/**
+		 * Create a new object of the given type via OpenRegister.
+		 *
+		 * @param {string} type   Registered object type (e.g. 'task')
+		 * @param {object} object Object properties to save
+		 * @return {Promise<object|null>} Created object or null on failure
+		 *
+		 * @spec openspec/changes/task-quick-add/tasks.md#task-4
+		 */
+		async createObject(type, object) {
+			if (!this.objectTypes[type]) {
+				console.warn(`Object type "${type}" is not registered`)
+				return null
+			}
+
+			const { schema, register } = this.objectTypes[type]
+			const url = generateUrl('/apps/openregister/api/objects')
+
+			const response = await axios.post(url, { register, schema, object })
+			const created = response.data
+
+			if (!this.objects[type]) {
+				this.objects[type] = []
+			}
+			this.objects[type].push(created)
+			return created
 		},
 	},
 })
