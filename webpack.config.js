@@ -43,17 +43,6 @@ webpackConfig.resolve.alias = {
 	'@nextcloud/vue$': path.resolve(__dirname, 'node_modules/@nextcloud/vue'),
 }
 
-webpackConfig.module.rules.push(
-	{
-		test: /\.vue$/,
-		loader: 'vue-loader',
-	},
-	{
-		test: /\.css$/,
-		use: ['style-loader', 'css-loader'],
-	},
-)
-
 webpackConfig.plugins = [
 	new VueLoaderPlugin(),
 	new webpack.DefinePlugin({ appName: JSON.stringify(appId) }),
