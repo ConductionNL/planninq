@@ -175,14 +175,14 @@ export default {
 			return false
 		},
 		columns() {
-			const all = this.objectStore.objects['column'] || []
+			const all = this.objectStore.objects.column || []
 			return all
 				.filter(c => c.project === this.project?.id)
 				.slice()
 				.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
 		},
 		columnsLoading() {
-			return !!this.objectStore.loading['column']
+			return !!this.objectStore.loading.column
 		},
 	},
 
@@ -223,7 +223,7 @@ export default {
 				await this.objectStore.fetchObjects('task', {
 					'object.project': this.project.id,
 				})
-				const tasks = this.objectStore.objects['task'] || []
+				const tasks = this.objectStore.objects.task || []
 				const grouped = {}
 				tasks.forEach(task => {
 					const col = task.column || task['object.column']
