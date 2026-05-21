@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "spec_slug": "task-quick-add",
+  "repo": "https://github.com/ConductionNL/planix",
+  "issue": 199,
+  "cycles": [
+    {
+      "cycle": 1,
+      "trigger": "orchestrator",
+      "started_at": "2026-05-21T15:36:14Z",
+      "ended_at": null,
+      "outcome": "in-flight",
+      "outcome_reason": null,
+      "pattern_tags": [],
+      "stages": [
+        {
+          "stage": "build",
+          "persona": "Al Gorithm",
+          "model": "sonnet",
+          "container": "hydra-builder",
+          "started_at": "2026-05-21T15:27:04Z",
+          "ended_at": "2026-05-21T15:36:12Z",
+          "exit_code": 0,
+          "turns_used": 103,
+          "turns_budget": 200,
+          "turns_per_session": [
+            103
+          ],
+          "turns_max_session": 103,
+          "sessions_count": 1,
+          "checks_run": [],
+          "checks_skipped": [
+            "composer check:strict (phpcs) \u2014 Rule 0b",
+            "composer test:unit (phpunit) \u2014 Rule 0b"
+          ],
+          "findings": [
+            {
+              "id": "build-rule-0b-skipped",
+              "severity": "WARNING",
+              "gate": "rule-0b",
+              "rule": "builder did not invoke mandatory pre-push gate (composer check:strict, phpunit)",
+              "status": "open",
+              "note": "Rule 0b in images/builder/CLAUDE.md asks the builder to invoke composer check:strict + phpunit before push. No invocations found in transcript. Pre-review-quality runs the same checks on the host before reviewers dispatch \u2014 downstream is authoritative; this finding is advisory only.",
+              "autofixable": false
+            }
+          ],
+          "decisions": [],
+          "verdict": "pass",
+          "duration_seconds": 548
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "runs": 1,
+    "turns_used": 103,
+    "cost_usd": 0.0,
+    "duration_seconds": 548,
+    "cycles": 1,
+    "by_stage": {
+      "build": {
+        "runs": 1,
+        "turns_used": 103,
+        "cost_usd": 0.0,
+        "duration_seconds": 548
+      }
+    }
+  }
+}
