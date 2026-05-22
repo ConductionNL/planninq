@@ -8,6 +8,17 @@
 **OpenSpec changes:**
 - [register-schemas](../changes/register-schemas/) — defines the Task schema in planix_register.json
 
+## Placement & Information Architecture
+
+**Placement type:** `SUB_PAGE` — Sub-page beneath a top-level menu entry. Renders as a page inside the parent surface (usually reachable via a router child route or a tab on the parent index page).
+
+**Lives at:** Mijn werk > Mijn taken (also Projecten > Taken)
+
+**Rationale:** tasks live in two views, one model  
+_Source: /tmp/ia-small5.md_
+
+> **Implementation note for builders:** Respect the placement above. Do not promote this spec to a top-level menu item, sub-page, or new route unless the placement type explicitly says so. If the placement is `DETAIL_TAB`, `WIDGET`, `ACTION`, `SETTING`, or `INFRA`, the feature must NOT introduce a new entry in the app sidebar. When in doubt, ask before creating a new top-level surface.
+
 ## Purpose
 
 Tasks are the core unit of work in Planix. A task represents a discrete piece of work with a title, description, assignee, due date, priority, and status. Tasks belong to a project and may be placed in a kanban column or held in the backlog. Users create tasks to track and coordinate work across a dev or IT team.
