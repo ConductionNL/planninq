@@ -1,0 +1,8 @@
+{
+  "spec_slug": "raadsbesluit-deliverable-chain",
+  "title": "Raadsbesluit Deliverable Chain (decidesk \u2192 planix \u2192 procest \u2192 mydash)",
+  "app": "planix",
+  "repo": "https://github.com/ConductionNL/planix",
+  "depends_on": [],
+  "issue": null
+}
