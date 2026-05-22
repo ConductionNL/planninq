@@ -1,0 +1,8 @@
+{
+  "spec_slug": "capacity-planning-resource",
+  "title": "Capacity Planning \u2014 Resource Scheduling",
+  "app": "planix",
+  "repo": "https://github.com/ConductionNL/planix",
+  "depends_on": [],
+  "issue": null
+}
