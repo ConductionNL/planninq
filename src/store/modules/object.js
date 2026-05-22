@@ -72,8 +72,7 @@ export const useObjectStore = defineStore('object', {
 		 */
 		async createObject(type, object) {
 			if (!this.objectTypes[type]) {
-				console.warn(`Object type "${type}" is not registered`)
-				return null
+				throw new Error(`Object type "${type}" is not registered`)
 			}
 
 			const { schema, register } = this.objectTypes[type]

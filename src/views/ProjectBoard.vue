@@ -167,7 +167,10 @@ export default {
 		},
 		accessDenied() {
 			const store = this.projectsStore
+			// Primary gate: OpenRegister RBAC returns HTTP 403 → store sets error='forbidden'.
 			if (store.error === 'forbidden') return true
+			// Defence-in-depth only: if the server returned 200 but the user is not listed as
+			// a member, hide the board. This must NOT be relied on as the sole access gate.
 			if (!store.loading && store.activeProject) {
 				const uid = getCurrentUser()?.uid
 				return !!uid && !store.activeProject.members?.includes(uid)
