@@ -1,3 +1,6 @@
+<!-- SPDX-FileCopyrightText: 2024 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
+
 <template>
 	<div class="quick-add-task">
 		<!-- Collapsed state: trigger button -->
@@ -59,7 +62,7 @@
 </template>
 
 <script>
-import { NcButton, NcLoadingIcon } from '@nextcloud/vue'
+import { NcButton, NcLoadingIcon } from '@conduction/nextcloud-vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import { useObjectStore } from '../store/modules/object.js'
 

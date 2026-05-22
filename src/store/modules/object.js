@@ -40,19 +40,11 @@ export const useObjectStore = defineStore('object', {
 			const { schema, register } = this.objectTypes[type]
 
 			try {
-				const url = new URL(this.baseUrl, window.location.origin)
-				url.searchParams.set('register', register)
-				url.searchParams.set('schema', schema)
-				Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v))
-
-				const response = await fetch(url.toString(), {
-					headers: { requesttoken: OC.requestToken },
+				const { data } = await axios.get(this.baseUrl, {
+					params: { register, schema, ...params },
 				})
-				if (response.ok) {
-					const data = await response.json()
-					this.objects[type] = data.results || data
-					return this.objects[type]
-				}
+				this.objects[type] = data.results || data
+				return this.objects[type]
 			} catch (error) {
 				console.error(`Failed to fetch ${type} objects:`, error)
 			} finally {
