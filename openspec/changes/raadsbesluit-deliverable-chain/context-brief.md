@@ -3,6 +3,17 @@ status: draft
 ---
 # Raadsbesluit Deliverable Chain (decidesk → planix → procest → mydash)
 
+## Placement & Information Architecture
+
+**Placement type:** `DETAIL_TAB` — Tab on the detail view of an existing object. NOT a standalone page — appears inside the parent record's detail surface (e.g. an extra tab on the existing detail header).
+
+**Lives at:** Projecten > project > Raadsbesluit-chain (+ Portfolio widget)
+
+**Rationale:** chain is a relation, not a menu  
+_Source: /tmp/ia-small5.md_
+
+> **Implementation note for builders:** Respect the placement above. Do not promote this spec to a top-level menu item, sub-page, or new route unless the placement type explicitly says so. If the placement is `DETAIL_TAB`, `WIDGET`, `ACTION`, `SETTING`, or `INFRA`, the feature must NOT introduce a new entry in the app sidebar. When in doubt, ask before creating a new top-level surface.
+
 ## Purpose
 
 In een gemiddelde Nederlandse gemeente neemt de gemeenteraad 200-400 raadsbesluiten per jaar. Elk besluit draagt het college op iets te doen: een beleid uit te voeren, een budget te besteden, een verordening te implementeren, een initiatief van de stad te honoreren. Wat daarna gebeurt is voor de meeste raadsleden een black box. Het college rapporteert in de bestuursrapportage (vaak twee per jaar) of in de jaarrekening, maanden of jaren na het besluit. Wanneer een raadslid tussendoor vraagt "hoever staat het met motie M-2025-073?", moet de griffier ambtelijk navragen, het antwoord komt schriftelijk in een volgende cyclus, en intussen is de actualiteit weg. Het gevolg is een structureel **vertrouwens- en informatie-tekort tussen raad en college**, dat de afgelopen jaren door commissies (Van Aartsen, Van Zwol) is benoemd als één van de grootste knelpunten in de lokale democratie.
