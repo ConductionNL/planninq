@@ -8,6 +8,17 @@
 **OpenSpec changes:**
 - [kanban-board](../changes/kanban-board/) — implements the full kanban board view with drag-drop, WIP limits, filters, and view toggle
 
+## Placement & Information Architecture
+
+**Placement type:** `TOP_MENU` — Top-level menu entry — this functionality earns its own item in the app's left-nav.
+
+**Lives at:** Borden
+
+**Rationale:** kanban is its own surface  
+_Source: /tmp/ia-small5.md_
+
+> **Implementation note for builders:** Respect the placement above. Do not promote this spec to a top-level menu item, sub-page, or new route unless the placement type explicitly says so. If the placement is `DETAIL_TAB`, `WIDGET`, `ACTION`, `SETTING`, or `INFRA`, the feature must NOT introduce a new entry in the app sidebar. When in doubt, ask before creating a new top-level surface.
+
 ## Purpose
 
 The kanban board is the primary visual interface for a project in Planix. It shows tasks as cards organized into configurable columns (stages). Users drag and drop cards between columns to update task status. WIP limits on columns enforce flow discipline. Boards are filtered by assignee, label, or priority to focus attention. Each project has exactly one kanban board; columns are managed as part of the project.
