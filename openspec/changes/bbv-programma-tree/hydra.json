@@ -1,0 +1,8 @@
+{
+  "spec_slug": "bbv-programma-tree",
+  "title": "BBV Programma Tree (Programma \u2192 Doel \u2192 Indicator)",
+  "app": "planix",
+  "repo": "https://github.com/ConductionNL/planix",
+  "depends_on": [],
+  "issue": null
+}
