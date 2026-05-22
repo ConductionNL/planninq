@@ -8,6 +8,17 @@
 **OpenSpec changes:**
 - [dashboard-my-work](../changes/dashboard-my-work/) — implements dashboard landing page, KPI cards, My Work view
 
+## Placement & Information Architecture
+
+**Placement type:** `TOP_MENU` — Top-level menu entry — this functionality earns its own item in the app's left-nav.
+
+**Lives at:** Mijn werk
+
+**Rationale:** primary landing  
+_Source: /tmp/ia-small5.md_
+
+> **Implementation note for builders:** Respect the placement above. Do not promote this spec to a top-level menu item, sub-page, or new route unless the placement type explicitly says so. If the placement is `DETAIL_TAB`, `WIDGET`, `ACTION`, `SETTING`, or `INFRA`, the feature must NOT introduce a new entry in the app sidebar. When in doubt, ask before creating a new top-level surface.
+
 ## Purpose
 
 The dashboard is the landing page for Planix — a personal overview of the user's work state across all projects. It shows KPI cards (open tasks, overdue, in progress, completed today), recent projects, and quick access to tasks due soon. The "My Work" view provides a focused, priority-sorted list of all tasks assigned to the current user, grouped by urgency. Both views are personal — no new entity is needed; they are frontend aggregation patterns over Task and Project queries.
