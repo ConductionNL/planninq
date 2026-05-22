@@ -4,6 +4,17 @@ Draft — planix spec brief, 2026-05-21.
 
 # Capacity Planning — Resource Scheduling
 
+## Placement & Information Architecture
+
+**Placement type:** `SUB_PAGE` — Sub-page beneath a top-level menu entry. Renders as a page inside the parent surface (usually reachable via a router child route or a tab on the parent index page).
+
+**Lives at:** Portfolio > Capaciteitsplanning
+
+**Rationale:** resource view is portfolio-level  
+_Source: /tmp/ia-small5.md_
+
+> **Implementation note for builders:** Respect the placement above. Do not promote this spec to a top-level menu item, sub-page, or new route unless the placement type explicitly says so. If the placement is `DETAIL_TAB`, `WIDGET`, `ACTION`, `SETTING`, or `INFRA`, the feature must NOT introduce a new entry in the app sidebar. When in doubt, ask before creating a new top-level surface.
+
 ## Purpose
 
 Planix moet kunnen beantwoorden wie wanneer wat doet, en — vooral — wie nog wat kan. Vandaag plannen veel teams projecten met een mix van Jira, Excel en post-its, met als gevolg dat dezelfde senior-developer op drie projecten 100% gepland staat terwijl een junior 40% leeg is. Capacity Planning introduceert een eerste-klas resource-laag in planix: per persoon een geconfigureerde capaciteit (uren per week, rekening houdend met part-time-percentage, vakantie, ziekte en non-billable-tijd zoals opleidingen of teamoverleg), per taak / sprint / project een forecast (toegewezen uren of story-points omgerekend), en een continue vergelijking tussen die twee. Onder-bezetting (capaciteit > forecast) signaleert wie nog capaciteit heeft voor extra werk; over-bezetting (forecast > capaciteit) escaleert vroeg, idealiter weken vóór de deadline, zodat herschikking of scope-cut nog kan. Skill-matching koppelt taken aan personen met de juiste competenties — geen Vue-taak op iemand die alleen .NET kan. Forecast-vs-actual sluit de loop: na afloop zien we wie hoeveel uren werkelijk besteed heeft, wat de forecast-accuracy verbetert.
