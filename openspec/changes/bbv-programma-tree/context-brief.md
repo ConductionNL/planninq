@@ -3,6 +3,17 @@ status: draft
 ---
 # BBV Programma Tree (Programma → Doel → Indicator)
 
+## Placement & Information Architecture
+
+**Placement type:** `DETAIL_TAB` — Tab on the detail view of an existing object. NOT a standalone page — appears inside the parent record's detail surface (e.g. an extra tab on the existing detail header).
+
+**Lives at:** Projecten > project > BBV-koppeling (+ Portfolio view)
+
+**Rationale:** tree is a view, not a menu  
+_Source: /tmp/ia-small5.md_
+
+> **Implementation note for builders:** Respect the placement above. Do not promote this spec to a top-level menu item, sub-page, or new route unless the placement type explicitly says so. If the placement is `DETAIL_TAB`, `WIDGET`, `ACTION`, `SETTING`, or `INFRA`, the feature must NOT introduce a new entry in the app sidebar. When in doubt, ask before creating a new top-level surface.
+
 ## Purpose
 
 Dutch decentral overheden (gemeenten, provincies, waterschappen) are legally bound by the **Besluit Begroting en Verantwoording provincies en gemeenten (BBV)** to structure their annual programmabegroting and jaarrekening around a hierarchy of **programma's → doelen (wat willen we bereiken) → activiteiten (wat gaan we daarvoor doen) → indicatoren (hoe meten we het) → middelen (wat mag het kosten)**. Today this hierarchy lives in PDF programmabegrotingen, Excel-trees inside finance suites (iV3, Pepperflow, LIAS), and standalone P&C-tools that don't talk to the operational systems where the actual work happens. The result is the well-known "begroting-realisatie kloof": councillors see what was budgeted in November, then wait twelve months for the jaarrekening to learn what was delivered, with no live link to the projects (planix), zaken (procest), or raadsbesluiten (decidesk) that should be executing on those doelen.
