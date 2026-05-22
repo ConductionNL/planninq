@@ -3,6 +3,17 @@ status: draft
 ---
 # Portfolio Dashboard PMO (Project Management Office Rollup)
 
+## Placement & Information Architecture
+
+**Placement type:** `SUB_PAGE` — Sub-page beneath a top-level menu entry. Renders as a page inside the parent surface (usually reachable via a router child route or a tab on the parent index page).
+
+**Lives at:** Portfolio > PMO-dashboard
+
+**Rationale:** PMO rollup  
+_Source: /tmp/ia-small5.md_
+
+> **Implementation note for builders:** Respect the placement above. Do not promote this spec to a top-level menu item, sub-page, or new route unless the placement type explicitly says so. If the placement is `DETAIL_TAB`, `WIDGET`, `ACTION`, `SETTING`, or `INFRA`, the feature must NOT introduce a new entry in the app sidebar. When in doubt, ask before creating a new top-level surface.
+
 ## Purpose
 
 Organisaties met meer dan een handvol parallelle projecten hebben binnen een paar maanden behoefte aan een Project Management Office (PMO). De PMO bestaat soms uit één persoon, soms uit een team, maar de kerntaak is altijd dezelfde: zicht houden op het hele portfolio van projecten — hoe staan we ervoor, waar lopen we vast, waar conflicteren resources, welke risico's nemen we, en passen we als organisatie binnen ons budget. In gemeentes, provincies, woningcorporaties, zorginstellingen en MKB-bedrijven die planix gaan gebruiken zal dezelfde behoefte ontstaan: een centraal, configureerbaar **portfolio-dashboard** dat over alle projecten heen aggregeert en de PMO + het bestuur in staat stelt om in één oogopslag de staat van de uitvoering te begrijpen.
