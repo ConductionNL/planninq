@@ -123,17 +123,15 @@ class SettingsService
      *
      * @param array<string,mixed> $settings Settings to persist
      *
-     * @return array<string,string> The full admin settings after update
+     * @return void
      */
-    private function setAdminSettings(array $settings): array
+    private function setAdminSettings(array $settings): void
     {
         foreach (array_keys(self::ADMIN_CONFIG_DEFAULTS) as $key) {
             if (array_key_exists($key, $settings) === true) {
                 $this->appConfig->setValueString(Application::APP_ID, $key, (string) $settings[$key]);
             }
         }
-
-        return $this->getAdminSettings();
     }//end setAdminSettings()
 
     /**
