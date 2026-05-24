@@ -29,6 +29,13 @@
 </template>
 
 <script>
+/**
+ * ProjectDeleteDialog.
+ *
+ * Confirms cascade-deletion of a project, showing the assigned-task warning.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-9
+ */
 import { NcButton, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import { useProjectsStore } from '../../store/projects.js'

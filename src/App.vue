@@ -45,6 +45,14 @@
 </template>
 
 <script>
+/**
+ * App root component.
+ *
+ * Renders the OpenRegister-required gate when OR is missing (admin sees an
+ * install link); otherwise mounts the main app shell.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-5
+ */
 import { NcButton, NcContent, NcAppContent, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
 import { generateUrl, imagePath } from '@nextcloud/router'
 import { initializeStores } from './store/store.js'

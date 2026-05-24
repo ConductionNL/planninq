@@ -20,6 +20,14 @@
 </template>
 
 <script>
+/**
+ * AdminRoot view.
+ *
+ * Admin settings root mounted by settings.js bootstrap; renders the
+ * version info card and the Settings form.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+ */
 import { CnVersionInfoCard } from '@conduction/nextcloud-vue'
 import Settings from './Settings.vue'
 import { initializeStores } from '../../store/store.js'

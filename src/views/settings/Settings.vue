@@ -118,6 +118,15 @@
 </template>
 
 <script>
+/**
+ * Settings view (admin form).
+ *
+ * Admin form with the default-columns editor, OpenRegister initialize button,
+ * and the legacy register-id field.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+ */
 import { NcButton } from '@nextcloud/vue'
 import { CnSettingsSection } from '@conduction/nextcloud-vue'
 import { useSettingsStore } from '../../store/modules/settings.js'
@@ -181,6 +190,11 @@ export default {
 			;[updated[index], updated[target]] = [updated[target], updated[index]]
 			this.columnList = updated
 		},
+		/**
+		 * Persist the default-columns JSON via settingsStore.saveSettings.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+		 */
 		async saveColumns() {
 			this.savingColumns = true
 			this.columnsSuccess = ''
@@ -196,6 +210,11 @@ export default {
 			}
 			this.savingColumns = false
 		},
+		/**
+		 * Trigger SettingsController::load to re-import the planix register.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
+		 */
 		async initializeRegister() {
 			this.initializing = true
 			this.initSuccess = ''

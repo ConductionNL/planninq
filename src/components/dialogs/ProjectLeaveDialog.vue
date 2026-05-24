@@ -30,6 +30,13 @@
 </template>
 
 <script>
+/**
+ * ProjectLeaveDialog.
+ *
+ * Leave-project flow with last-member warning.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+ */
 import { NcButton, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
 import { showError } from '@nextcloud/dialogs'
 import { useProjectsStore } from '../../store/projects.js'

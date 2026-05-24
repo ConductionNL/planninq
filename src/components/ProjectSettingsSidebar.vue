@@ -183,6 +183,18 @@
 </template>
 
 <script>
+/**
+ * ProjectSettingsSidebar.
+ *
+ * NcAppSidebar with Details/Members/Danger tabs for editing a project,
+ * managing members, and archive/delete actions. Renders the read-only
+ * caseReference field in the Details tab for procest-integration.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-13
+ */
 import {
 	NcAppSidebar,
 	NcAppSidebarTab,
@@ -273,6 +285,11 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Persist title/description/color/icon edits via updateProject.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
+		 */
 		async saveDetails() {
 			this.saving = true
 			try {
@@ -296,6 +313,13 @@ export default {
 			this.projectsStore.fetchProject(this.project.id)
 		},
 
+		/**
+		 * Show assigned-task warning before removing a member.
+		 *
+		 * @param {string} uid Nextcloud UID to remove
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 */
 		async confirmRemoveMember(uid) {
 			const count = await this.projectsStore.removeMember(this.project.id, uid)
 			// If member had assigned tasks, show warning first and re-add them.
@@ -325,6 +349,11 @@ export default {
 			this.pendingRemoveUid = null
 		},
 
+		/**
+		 * Archive the project from the danger-zone tab.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+		 */
 		async doArchive() {
 			const result = await this.projectsStore.archiveProject(this.project.id)
 			if (result) {
