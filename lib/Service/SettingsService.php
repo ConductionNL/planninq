@@ -231,17 +231,12 @@ class SettingsService
 
             if (empty($result) === false) {
                 $this->logger->info('Planix: register configuration imported successfully');
-                $this->ensureRegisterPublicAccess();
                 return [
                     'success' => true,
                     'message' => 'Configuration imported successfully.',
                     'version' => ($result['version'] ?? 'unknown'),
                 ];
             }
-
-            // ImportFromApp may return empty even when the register already existed
-            // and was updated. Apply the public-access patch unconditionally.
-            $this->ensureRegisterPublicAccess();
 
             return [
                 'success' => false,
@@ -259,35 +254,4 @@ class SettingsService
         }//end try
 
     }//end loadConfiguration()
-
-    /**
-     * Directly update the planix register's public access flags in the DB.
-     *
-     * Called after importFromApp to ensure publicWrite/publicRead are set to 0
-     * (private) even if OpenRegister's ConfigurationService did not update an
-     * existing record. Keeps the register accessible only to authenticated
-     * Nextcloud users; never grants anonymous access.
-     * Fails silently — any exception is logged as a warning only.
-     *
-     * @return void
-     */
-    private function ensureRegisterPublicAccess(): void
-    {
-        try {
-            $db = $this->container->get(\OCP\IDBConnection::class);
-            $qb = $db->getQueryBuilder();
-            $qb->update('openregister_registers')
-                ->set('public_write', $qb->createNamedParameter(0, \OCP\DB\QueryBuilder\IQueryBuilder::PARAM_INT))
-                ->set('public_read', $qb->createNamedParameter(0, \OCP\DB\QueryBuilder\IQueryBuilder::PARAM_INT))
-                ->where($qb->expr()->eq('slug', $qb->createNamedParameter('planix')));
-            $qb->executeStatement();
-            $this->logger->info('Planix: register publicWrite/publicRead set to private (0) in DB');
-        } catch (\Throwable $e) {
-            $this->logger->warning(
-                'Planix: could not directly update register public access in DB',
-                ['error' => $e->getMessage()]
-            );
-        }//end try
-
-    }//end ensureRegisterPublicAccess()
 }//end class
