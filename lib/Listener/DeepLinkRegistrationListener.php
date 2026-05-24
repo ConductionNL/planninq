@@ -15,6 +15,8 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-3
  */
 
 declare(strict_types=1);
@@ -41,6 +43,8 @@ class DeepLinkRegistrationListener implements IEventListener
      * @param Event $event The event to handle
      *
      * @return void
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-3
      */
     public function handle(Event $event): void
     {

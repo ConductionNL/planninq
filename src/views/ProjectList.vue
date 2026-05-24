@@ -99,6 +99,14 @@
 </template>
 
 <script>
+/**
+ * ProjectList view.
+ *
+ * Renders the project list with status filters, search, and empty-states.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-11
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
+ */
 import { NcButton, NcTextField, NcLoadingIcon, NcEmptyContent } from '@nextcloud/vue'
 import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
 import { useListView } from '@conduction/nextcloud-vue'
@@ -189,14 +197,35 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Filter projects by status.
+		 *
+		 * @param {string|null} status Status to filter on
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-11
+		 */
 		setStatusFilter(status) {
 			this.activeStatus = status
 		},
 
+		/**
+		 * Navigate to a project's board.
+		 *
+		 * @param {object} project Project to navigate to
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-11
+		 */
 		navigateToProject(project) {
 			this.$router.push({ name: 'ProjectBoard', params: { id: project.id } })
 		},
 
+		/**
+		 * Handle project-created event from the creation dialog.
+		 *
+		 * @param {object} project Newly created project
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
+		 */
 		async onProjectCreated(project) {
 			this.showCreationDialog = false
 			this.$router.push({ name: 'ProjectBoard', params: { id: project.id } })

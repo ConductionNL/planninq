@@ -78,6 +78,14 @@
 </template>
 
 <script>
+/**
+ * ProjectCreationDialog.
+ *
+ * NcDialog wrapping the new-project form with title/description/color/icon
+ * fields, required-title validation, and submit→createProject wiring.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
+ */
 import { NcButton, NcDialog, NcTextField, NcTextArea, NcLoadingIcon } from '@nextcloud/vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { useProjectsStore } from '../../store/projects.js'
@@ -127,6 +135,11 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Validate the form and create the project.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
+		 */
 		async submit() {
 			this.titleTouched = true
 			if (!this.isValid || this.loading) return

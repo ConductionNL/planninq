@@ -79,6 +79,13 @@
 </template>
 
 <script>
+/**
+ * ProjectBoard view.
+ *
+ * Project board header + settings cog; the kanban board itself is a placeholder.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
+ */
 import { NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
@@ -136,6 +143,11 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Open the project settings sidebar via the App.vue outlet.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
+		 */
 		openSettings() {
 			if (!this.setSidebar) return
 			this.setSidebar({

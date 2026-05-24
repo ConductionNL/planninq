@@ -3,6 +3,12 @@
  *
  * Uses the shared @conduction/nextcloud-vue objectStore for all OpenRegister
  * CRUD operations. Provides project-specific helpers on top.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-8
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-9
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  */
 import { defineStore } from 'pinia'
 import { useObjectStore } from '@conduction/nextcloud-vue'
@@ -77,6 +83,8 @@ export const useProjectsStore = defineStore('projects', {
 		 *
 		 * @param {object} filters Additional filters (e.g. { status: 'active' })
 		 * @return {Promise<Array>}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
 		 */
 		async fetchProjects(filters = {}) {
 			this.loading = true
@@ -117,6 +125,8 @@ export const useProjectsStore = defineStore('projects', {
 		 *
 		 * @param {string} id Project ID
 		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
 		 */
 		async fetchProject(id) {
 			this.loading = true
@@ -153,6 +163,8 @@ export const useProjectsStore = defineStore('projects', {
 		 *
 		 * @param {object} data Project fields (title required)
 		 * @return {Promise<object>} Created project
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
 		 */
 		async createProject(data) {
 			this.loading = true
@@ -195,6 +207,8 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} id Project ID
 		 * @param {object} data Updated fields
 		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
 		 */
 		async updateProject(id, data) {
 			this.loading = true
@@ -231,6 +245,8 @@ export const useProjectsStore = defineStore('projects', {
 		 *
 		 * @param {string} projectId Parent project ID
 		 * @return {Promise<{created: number, failed: number}>}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-8
 		 */
 		async createDefaultColumns(projectId) {
 			const objectStore = this._objectStore()
@@ -268,6 +284,8 @@ export const useProjectsStore = defineStore('projects', {
 		 *
 		 * @param {string} id Project ID
 		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
 		 */
 		async archiveProject(id) {
 			const updated = await this.updateProject(id, { status: 'archived' })
@@ -286,6 +304,8 @@ export const useProjectsStore = defineStore('projects', {
 		 *
 		 * @param {string} id Project ID
 		 * @return {Promise<boolean>}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-9
 		 */
 		async deleteProject(id) {
 			this.loading = true
@@ -357,6 +377,8 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} projectId Project ID
 		 * @param {string} userUid Nextcloud UID to add
 		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
 		 */
 		async addMember(projectId, userUid) {
 			const project = await this.fetchProject(projectId)
@@ -378,6 +400,8 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} projectId Project ID
 		 * @param {string} userUid Nextcloud UID to remove
 		 * @return {Promise<number>} Count of tasks assigned to that member
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
 		 */
 		async removeMember(projectId, userUid) {
 			const project = await this.fetchProject(projectId)
@@ -407,6 +431,8 @@ export const useProjectsStore = defineStore('projects', {
 		 *
 		 * @param {string} projectId Project ID
 		 * @return {Promise<{isLastMember: boolean}|number>}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
 		 */
 		async leaveProject(projectId) {
 			const project = await this.fetchProject(projectId)
