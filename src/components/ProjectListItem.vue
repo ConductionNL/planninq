@@ -57,14 +57,14 @@ export default {
 
 	computed: {
 		/**
-		 * @spec exclude Trivial display formatter — counts the members array length.
+		 * @spec openspec/changes/retrofit-2026-05-26-planix-display-capabilities/tasks.md#task-4
 		 */
 		memberCount() {
 			return Array.isArray(this.project.members) ? this.project.members.length : 0
 		},
 
 		/**
-		 * @spec exclude Trivial display formatter — maps status to a translated label.
+		 * @spec openspec/changes/retrofit-2026-05-26-planix-display-capabilities/tasks.md#task-1
 		 */
 		statusLabel() {
 			const map = {
@@ -76,7 +76,7 @@ export default {
 		},
 
 		/**
-		 * @spec exclude Trivial display formatter — maps status to an NcChip type.
+		 * @spec openspec/changes/retrofit-2026-05-26-planix-display-capabilities/tasks.md#task-2
 		 */
 		statusType() {
 			const map = { active: 'success', archived: 'warning', completed: 'default' }
