@@ -50,6 +50,8 @@ class DashboardController extends Controller
      * @NoCSRFRequired
      *
      * @return TemplateResponse
+     *
+     * @spec openspec/changes/retrofit-2026-05-25-app-shell-and-data-store/tasks.md#task-1
      */
     public function page(): TemplateResponse
     {
@@ -63,6 +65,8 @@ class DashboardController extends Controller
      * @NoCSRFRequired
      *
      * @return TemplateResponse
+     *
+     * @spec openspec/changes/retrofit-2026-05-25-app-shell-and-data-store/tasks.md#task-1
      */
     public function catchAll(): TemplateResponse
     {

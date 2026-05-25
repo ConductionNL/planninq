@@ -57,9 +57,15 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * @spec exclude Store passthrough — returns the projects Pinia store.
+		 */
 		projectsStore() {
 			return useProjectsStore()
 		},
+		/**
+		 * @spec exclude Trivial display getter — active project title with UUID fallback.
+		 */
 		projectTitle() {
 			return this.projectsStore.activeProject?.title || this.$route.params.id
 		},

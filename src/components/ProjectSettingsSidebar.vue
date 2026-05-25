@@ -265,15 +265,24 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * @spec exclude Store passthrough — returns the projects Pinia store.
+		 */
 		projectsStore() {
 			return useProjectsStore()
 		},
+		/**
+		 * @spec exclude Auth passthrough — returns the current user's UID.
+		 */
 		currentUid() {
 			return getCurrentUser()?.uid || ''
 		},
 	},
 
 	watch: {
+		/**
+		 * @spec exclude Framework glue — syncs the project prop into the edit form on change.
+		 */
 		project(newVal) {
 			if (newVal) {
 				this.form.title = newVal.title || ''
@@ -309,6 +318,9 @@ export default {
 			}
 		},
 
+		/**
+		 * @spec exclude Event-wiring glue — refreshes the project after a member is added.
+		 */
 		onMemberAdded() {
 			this.projectsStore.fetchProject(this.project.id)
 		},
@@ -336,6 +348,12 @@ export default {
 			await this.projectsStore.fetchProject(this.project.id)
 		},
 
+		/**
+		 * Confirm a pending member removal after the assigned-task warning —
+		 * removes the member and refreshes the project.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 */
 		async executeRemoval() {
 			if (this.pendingRemoveUid) {
 				await this.projectsStore.removeMember(this.project.id, this.pendingRemoveUid)
@@ -344,6 +362,9 @@ export default {
 			this.cancelRemoval()
 		},
 
+		/**
+		 * @spec exclude State-reset glue — clears the pending member-removal warning.
+		 */
 		cancelRemoval() {
 			this.removalWarning = null
 			this.pendingRemoveUid = null
@@ -363,12 +384,18 @@ export default {
 			this.confirmArchive = false
 		},
 
+		/**
+		 * @spec exclude Event-wiring glue — closes the sidebar and routes to Projects after leaving.
+		 */
 		onLeft() {
 			this.showLeaveDialog = false
 			this.$emit('close')
 			this.$router.push({ name: 'Projects' })
 		},
 
+		/**
+		 * @spec exclude Event-wiring glue — re-emits deleted/close after a project delete.
+		 */
 		onDeleted() {
 			this.showDeleteDialog = false
 			this.$emit('deleted')
