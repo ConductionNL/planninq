@@ -181,7 +181,7 @@ export default {
 		},
 
 		/**
-		 * @spec exclude Static config getter — returns the translated status filter chip definitions.
+		 * @spec openspec/changes/retrofit-2026-05-26-planix-display-capabilities/tasks.md#task-3
 		 */
 		statusChips() {
 			return [
