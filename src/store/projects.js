@@ -54,6 +54,9 @@ export const useProjectsStore = defineStore('projects', {
 	actions: {
 		// ── Internal helpers ──────────────────────────────────────────────
 
+		/**
+		 * @spec exclude Internal helper — lazily registers Planix schemas on the shared object store and returns it.
+		 */
 		_objectStore() {
 			const store = useObjectStore()
 			// Register types if not yet registered.
@@ -72,6 +75,9 @@ export const useProjectsStore = defineStore('projects', {
 			return store
 		},
 
+		/**
+		 * @spec exclude Auth passthrough — returns the current user's UID.
+		 */
 		_currentUid() {
 			return getCurrentUser()?.uid || ''
 		},
@@ -453,6 +459,8 @@ export const useProjectsStore = defineStore('projects', {
 		 *
 		 * @param {string} projectId Project ID
 		 * @return {Promise<number>}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-9
 		 */
 		async getTaskCount(projectId) {
 			try {

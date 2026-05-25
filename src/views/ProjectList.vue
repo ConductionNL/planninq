@@ -136,6 +136,9 @@ export default {
 		ProjectCreationDialog,
 	},
 
+	/**
+	 * @spec exclude Composable-wiring glue — instantiates useListView for search/filter state.
+	 */
 	setup() {
 		// useListView manages search term and filter state per spec requirement.
 		// fetchFn is provided as a no-op because filtering is done client-side;
@@ -152,19 +155,34 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * @spec exclude Store passthrough — returns the projects Pinia store.
+		 */
 		projectsStore() {
 			return useProjectsStore()
 		},
+		/**
+		 * @spec exclude Store passthrough — proxies projectsStore.projects.
+		 */
 		projects() {
 			return this.projectsStore.projects
 		},
+		/**
+		 * @spec exclude Store passthrough — proxies projectsStore.loading.
+		 */
 		loading() {
 			return this.projectsStore.loading
 		},
+		/**
+		 * @spec exclude Store passthrough — proxies projectsStore.error.
+		 */
 		error() {
 			return this.projectsStore.error
 		},
 
+		/**
+		 * @spec exclude Static config getter — returns the translated status filter chip definitions.
+		 */
 		statusChips() {
 			return [
 				{ value: null, label: this.t('planix', 'All') },
@@ -174,6 +192,14 @@ export default {
 			]
 		},
 
+		/**
+		 * Client-side filtered project list — applies the active status filter
+		 * and the useListView search term (title/description, case-insensitive).
+		 *
+		 * @return {Array}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-11
+		 */
 		// Client-side filter — uses useListView's searchTerm and local activeStatus.
 		filteredProjects() {
 			let list = this.projects

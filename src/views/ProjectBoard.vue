@@ -113,15 +113,33 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * @spec exclude Store passthrough — returns the projects Pinia store.
+		 */
 		projectsStore() {
 			return useProjectsStore()
 		},
+		/**
+		 * @spec exclude Store passthrough — proxies projectsStore.activeProject.
+		 */
 		project() {
 			return this.projectsStore.activeProject
 		},
+		/**
+		 * @spec exclude Store passthrough — proxies projectsStore.loading.
+		 */
 		loading() {
 			return this.projectsStore.loading
 		},
+		/**
+		 * Whether the current user is denied access to the project — true on a
+		 * stored 403 (`forbidden`) or when the loaded project's members array
+		 * does not include the current user's UID.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 */
 		accessDenied() {
 			const store = this.projectsStore
 			if (store.error === 'forbidden') return true
@@ -133,6 +151,9 @@ export default {
 		},
 	},
 
+	/**
+	 * @spec exclude Lifecycle glue — fetches the route's project on mount; fetch behavior is spec'd in projects#REQ-Project-Lifecycle.
+	 */
 	async mounted() {
 		const id = this.$route.params.id
 		await this.projectsStore.fetchProject(id)

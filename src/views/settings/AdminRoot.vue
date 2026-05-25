@@ -44,6 +44,9 @@ export default {
 			appVersion: document.getElementById('planix-settings')?.dataset?.version || 'Unknown',
 		}
 	},
+	/**
+	 * @spec exclude Lifecycle bootstrap — awaits initializeStores() then flips storesReady; store wiring is spec'd in app-shell-and-data-store.
+	 */
 	async created() {
 		await initializeStores()
 		this.storesReady = true

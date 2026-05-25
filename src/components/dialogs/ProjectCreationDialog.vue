@@ -117,9 +117,15 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * @spec exclude Store passthrough — returns the projects Pinia store.
+		 */
 		projectsStore() {
 			return useProjectsStore()
 		},
+		/**
+		 * @spec exclude Store passthrough — proxies projectsStore.loading.
+		 */
 		loading() {
 			return this.projectsStore.loading
 		},
@@ -128,6 +134,9 @@ export default {
 		},
 	},
 
+	/**
+	 * @spec exclude Lifecycle glue — autofocuses the title field on mount.
+	 */
 	mounted() {
 		this.$nextTick(() => {
 			this.$refs.titleField?.$el?.querySelector('input')?.focus()

@@ -79,6 +79,9 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * @spec exclude Event-wiring glue — debounces input and delegates to searchUsers (covered by task-10).
+		 */
 		onInput(value) {
 			this.query = value
 			this.searched = false

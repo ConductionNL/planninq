@@ -57,6 +57,9 @@ export default {
 		HomeIcon,
 	},
 	methods: {
+		/**
+		 * @spec exclude Trivial helper — opens an external URL via window.open.
+		 */
 		openLink(url, target = '_blank') {
 			window.open(url, target)
 		},

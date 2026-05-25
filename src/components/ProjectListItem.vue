@@ -56,10 +56,16 @@ export default {
 	emits: ['click'],
 
 	computed: {
+		/**
+		 * @spec exclude Trivial display formatter — counts the members array length.
+		 */
 		memberCount() {
 			return Array.isArray(this.project.members) ? this.project.members.length : 0
 		},
 
+		/**
+		 * @spec exclude Trivial display formatter — maps status to a translated label.
+		 */
 		statusLabel() {
 			const map = {
 				active: this.t('planix', 'Active'),
@@ -69,6 +75,9 @@ export default {
 			return map[this.project.status] || this.project.status || this.t('planix', 'Active')
 		},
 
+		/**
+		 * @spec exclude Trivial display formatter — maps status to an NcChip type.
+		 */
 		statusType() {
 			const map = { active: 'success', archived: 'warning', completed: 'default' }
 			return map[this.project.status] || 'default'

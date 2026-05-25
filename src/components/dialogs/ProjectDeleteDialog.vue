@@ -62,6 +62,11 @@ export default {
 		}
 	},
 
+	/**
+	 * Load the project's task count to populate the cascade-delete warning.
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-9
+	 */
 	async mounted() {
 		const store = useProjectsStore()
 		this.taskCount = await store.getTaskCount(this.project.id)
@@ -69,6 +74,11 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Confirm and execute the cascade deletion of the project.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-9
+		 */
 		async confirm() {
 			this.loading = true
 			try {
