@@ -32,7 +32,7 @@
 				:placeholder="t('planix', 'Task title — press Enter to save, Escape to cancel')"
 				:disabled="saving"
 				rows="2"
-				@keydown.enter.prevent="handleEnter"
+				@keydown.enter="handleEnter"
 				@keydown.esc="cancel" />
 			<span
 				v-if="errorMessage"
@@ -152,6 +152,7 @@ export default {
 		 */
 		handleEnter(event) {
 			if (event.shiftKey) return
+			event.preventDefault()
 			if (!this.draft.trim() || this.saving) return
 			this.submit()
 		},

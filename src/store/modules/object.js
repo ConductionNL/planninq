@@ -58,7 +58,7 @@ export const useObjectStore = defineStore('object', {
 		 *
 		 * @param {string} type   Registered object type (e.g. 'task')
 		 * @param {object} object Object properties to save
-		 * @return {Promise<object|null>} Created object or null on failure
+		 * @return {Promise<object>} Created object; throws on failure
 		 *
 		 * @spec openspec/changes/task-quick-add/tasks.md#task-4
 		 */
