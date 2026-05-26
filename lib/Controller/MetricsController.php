@@ -56,6 +56,8 @@ class MetricsController extends Controller
      *
      * @NoCSRFRequired
      *
+     * @spec exclude observability endpoint per ADR-006 (metrics plumbing, no business capability)
+     *
      * @return TextPlainResponse Plain text response with Prometheus metrics.
      */
     public function index(): TextPlainResponse

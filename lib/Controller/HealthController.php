@@ -59,6 +59,8 @@ class HealthController extends Controller
      *
      * @NoCSRFRequired
      *
+     * @spec exclude observability endpoint per ADR-006 (health plumbing, no business capability)
+     *
      * @return JSONResponse JSON response with health status and checks.
      */
     public function index(): JSONResponse
