@@ -282,6 +282,7 @@ export default {
 	watch: {
 		/**
 		 * @spec exclude Framework glue — syncs the project prop into the edit form on change.
+		 * @param {object} newVal The updated project object.
 		 */
 		project(newVal) {
 			if (newVal) {

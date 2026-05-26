@@ -292,43 +292,54 @@ export default {
 .form-group {
 	margin-bottom: 12px;
 }
+
 .form-group label {
 	display: block;
 	margin-bottom: 4px;
 	font-weight: 600;
 }
+
 .success-message {
 	color: var(--color-success);
 	margin-bottom: 8px;
 }
+
 .error-message {
 	color: var(--color-error);
 	margin-bottom: 8px;
 }
+
 .columns-editor {
 	margin-bottom: 16px;
 }
+
 .column-item {
 	display: flex;
 	align-items: center;
 	gap: 8px;
 	margin-bottom: 8px;
 }
+
 .column-input {
 	flex: 1;
 }
+
 .register-status {
 	margin-bottom: 12px;
 }
+
 .status-indicator {
 	font-weight: 600;
 }
+
 .status-ok {
 	color: var(--color-success);
 }
+
 .status-warn {
 	color: var(--color-warning);
 }
+
 .register-init {
 	display: flex;
 	flex-direction: column;

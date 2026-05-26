@@ -81,6 +81,7 @@ export default {
 	methods: {
 		/**
 		 * @spec exclude Event-wiring glue — debounces input and delegates to searchUsers (covered by task-10).
+		 * @param {string} value The current search input value.
 		 */
 		onInput(value) {
 			this.query = value

@@ -59,6 +59,8 @@ export default {
 	methods: {
 		/**
 		 * @spec exclude Trivial helper — opens an external URL via window.open.
+		 * @param {string} url The URL to open.
+		 * @param {string} [target] The window target (defaults to _blank).
 		 */
 		openLink(url, target = '_blank') {
 			window.open(url, target)

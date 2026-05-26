@@ -38,7 +38,8 @@
   "overrides": {
     "libxmljs2": "^0.37.0",
     "@nextcloud/axios": "~2.5.2",
-    "@nextcloud/l10n": "3.4.1"
+    "@nextcloud/l10n": "3.4.1",
+    "eslint-plugin-import-x": "4.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
@@ -56,7 +57,7 @@
     "@typescript-eslint/parser": "^7.18.0",
     "babel-loader": "^10.1.1",
     "css-loader": "~7.1.1",
-    "node-polyfill-webpack-plugin": "3.0.0",
+    "node-polyfill-webpack-plugin": "4.0.0",
     "eslint-plugin-vue": "^9.21.1",
     "vue-eslint-parser": "^9.4.3",
     "eslint": "^8.56.0",
