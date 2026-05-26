@@ -26,6 +26,7 @@ namespace OCA\Planix\Controller;
 use OCA\Planix\AppInfo\Application;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TextPlainResponse;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -39,14 +40,16 @@ class MetricsController extends Controller
     /**
      * Constructor for the MetricsController.
      *
-     * @param IRequest $request The request object
-     * @param IConfig  $config  The config service
+     * @param IRequest   $request   The request object
+     * @param IConfig    $config    The config service
+     * @param IAppConfig $appConfig The typed app-config service
      *
      * @return void
      */
     public function __construct(
         IRequest $request,
         private readonly IConfig $config,
+        private readonly IAppConfig $appConfig,
     ) {
         parent::__construct(appName: Application::APP_ID, request: $request);
     }//end __construct()
@@ -64,7 +67,7 @@ class MetricsController extends Controller
     {
         $lines = [];
 
-        $appVersion = $this->config->getAppValue(Application::APP_ID, 'installed_version', '0.0.0');
+        $appVersion = $this->appConfig->getValueString(Application::APP_ID, 'installed_version', '0.0.0');
         $phpVersion = PHP_VERSION;
         $ncVersion  = $this->config->getSystemValueString('version', '0.0.0');
 
