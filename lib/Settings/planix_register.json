@@ -3,7 +3,7 @@
   "info": {
     "title": "Planix Register",
     "description": "Register containing all schemas for the Planix application.",
-    "version": "0.2.1"
+    "version": "0.2.2"
   },
   "x-openregister": {
     "type": "application",
@@ -21,9 +21,7 @@
         "version": "0.2.0",
         "schemas": ["task", "project", "column", "timeEntry", "label"],
         "tablePrefix": "planix",
-        "folder": "planix",
-        "publicWrite": true,
-        "publicRead": true
+        "folder": "planix"
       }
     },
     "schemas": {

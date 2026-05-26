@@ -15,6 +15,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  */
 
 declare(strict_types=1);
@@ -54,6 +57,8 @@ class SettingsController extends Controller
      * @NoAdminRequired
      *
      * @return JSONResponse
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
      */
     public function index(): JSONResponse
     {
@@ -68,6 +73,8 @@ class SettingsController extends Controller
      * @NoAdminRequired
      *
      * @return JSONResponse
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
      */
     public function create(): JSONResponse
     {
@@ -99,6 +106,8 @@ class SettingsController extends Controller
      * @NoAdminRequired
      *
      * @return JSONResponse
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
      */
     public function load(): JSONResponse
     {

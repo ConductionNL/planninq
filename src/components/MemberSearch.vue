@@ -34,6 +34,13 @@
 </template>
 
 <script>
+/**
+ * MemberSearch component.
+ *
+ * Debounced OCS /cloud/users search for adding project members.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+ */
 import { NcAvatar, NcTextField } from '@nextcloud/vue'
 import { generateUrl } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
@@ -72,6 +79,9 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * @spec exclude Event-wiring glue — debounces input and delegates to searchUsers (covered by task-10).
+		 */
 		onInput(value) {
 			this.query = value
 			this.searched = false
@@ -83,6 +93,13 @@ export default {
 			this.debounceTimer = setTimeout(() => this.searchUsers(value), 300)
 		},
 
+		/**
+		 * Search Nextcloud users via OCS endpoint with 300ms debounce.
+		 *
+		 * @param {string} term Search term
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 */
 		async searchUsers(term) {
 			this.loading = true
 			try {
@@ -108,6 +125,13 @@ export default {
 			}
 		},
 
+		/**
+		 * Add the selected user as a project member.
+		 *
+		 * @param {object} user User object with id and displayName
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 */
 		async selectUser(user) {
 			if (this.existingMembers.includes(user.id)) return
 			try {

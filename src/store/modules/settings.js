@@ -1,3 +1,11 @@
+/**
+ * Settings Pinia store.
+ *
+ * Bootstraps the admin settings UI by fetching/saving the planix settings
+ * payload (admin config + openregisters flag + isAdmin flag).
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+ */
 import { defineStore } from 'pinia'
 import { generateUrl } from '@nextcloud/router'
 
@@ -15,6 +23,13 @@ export const useSettingsStore = defineStore('settings', {
 	},
 
 	actions: {
+		/**
+		 * Fetch settings from the backend.
+		 *
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+		 */
 		async fetchSettings() {
 			this.loading = true
 			try {
@@ -36,6 +51,14 @@ export const useSettingsStore = defineStore('settings', {
 			return null
 		},
 
+		/**
+		 * Persist settings to the backend.
+		 *
+		 * @param {object} settings Settings to save
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+		 */
 		async saveSettings(settings) {
 			this.loading = true
 			try {

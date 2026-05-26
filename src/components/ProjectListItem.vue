@@ -56,10 +56,16 @@ export default {
 	emits: ['click'],
 
 	computed: {
+		/**
+		 * @spec openspec/changes/retrofit-2026-05-26-planix-display-capabilities/tasks.md#task-4
+		 */
 		memberCount() {
 			return Array.isArray(this.project.members) ? this.project.members.length : 0
 		},
 
+		/**
+		 * @spec openspec/changes/retrofit-2026-05-26-planix-display-capabilities/tasks.md#task-1
+		 */
 		statusLabel() {
 			const map = {
 				active: this.t('planix', 'Active'),
@@ -69,6 +75,9 @@ export default {
 			return map[this.project.status] || this.project.status || this.t('planix', 'Active')
 		},
 
+		/**
+		 * @spec openspec/changes/retrofit-2026-05-26-planix-display-capabilities/tasks.md#task-2
+		 */
 		statusType() {
 			const map = { active: 'success', archived: 'warning', completed: 'default' }
 			return map[this.project.status] || 'default'

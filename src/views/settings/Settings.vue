@@ -118,6 +118,15 @@
 </template>
 
 <script>
+/**
+ * Settings view (admin form).
+ *
+ * Admin form with the default-columns editor, OpenRegister initialize button,
+ * and the legacy register-id field.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+ */
 import { NcButton } from '@nextcloud/vue'
 import { CnSettingsSection } from '@conduction/nextcloud-vue'
 import { useSettingsStore } from '../../store/modules/settings.js'
@@ -148,16 +157,30 @@ export default {
 		}
 	},
 	computed: {
+		/**
+		 * @spec exclude Store passthrough — proxies the settings store's settings object.
+		 */
 		settings() {
 			return useSettingsStore().settings || {}
 		},
 	},
+	/**
+	 * @spec exclude Lifecycle glue — seeds the form fields from the settings store on create.
+	 */
 	created() {
 		const settingsStore = useSettingsStore()
 		this.form.register = settingsStore.settings?.register || ''
 		this.loadColumnList(settingsStore.settings)
 	},
 	methods: {
+		/**
+		 * Parse the stored default_columns JSON into the editable list,
+		 * falling back to the hardcoded default set on parse failure.
+		 *
+		 * @param {object} settings Settings object holding default_columns
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+		 */
 		loadColumnList(settings) {
 			try {
 				const raw = settings?.default_columns || '["To Do","In Progress","Review","Done"]'
@@ -166,12 +189,32 @@ export default {
 				this.columnList = ['To Do', 'In Progress', 'Review', 'Done']
 			}
 		},
+		/**
+		 * Append an empty column to the editable default-columns list.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+		 */
 		addColumn() {
 			this.columnList.push('')
 		},
+		/**
+		 * Remove the column at the given index from the editable list.
+		 *
+		 * @param {number} index Index of the column to remove
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+		 */
 		removeColumn(index) {
 			this.columnList.splice(index, 1)
 		},
+		/**
+		 * Reorder a column up or down within the editable list.
+		 *
+		 * @param {number} index     Index of the column to move
+		 * @param {number} direction -1 to move up, +1 to move down
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+		 */
 		moveColumn(index, direction) {
 			const target = index + direction
 			if (target < 0 || target >= this.columnList.length) {
@@ -181,6 +224,11 @@ export default {
 			;[updated[index], updated[target]] = [updated[target], updated[index]]
 			this.columnList = updated
 		},
+		/**
+		 * Persist the default-columns JSON via settingsStore.saveSettings.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+		 */
 		async saveColumns() {
 			this.savingColumns = true
 			this.columnsSuccess = ''
@@ -196,6 +244,11 @@ export default {
 			}
 			this.savingColumns = false
 		},
+		/**
+		 * Trigger SettingsController::load to re-import the planix register.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
+		 */
 		async initializeRegister() {
 			this.initializing = true
 			this.initSuccess = ''
@@ -216,6 +269,11 @@ export default {
 			}
 			this.initializing = false
 		},
+		/**
+		 * Persist the legacy register-id field via settingsStore.saveSettings.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+		 */
 		async save() {
 			this.saving = true
 			this.successMessage = ''

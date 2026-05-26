@@ -30,6 +30,13 @@
 </template>
 
 <script>
+/**
+ * ProjectLeaveDialog.
+ *
+ * Leave-project flow with last-member warning.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+ */
 import { NcButton, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
 import { showError } from '@nextcloud/dialogs'
 import { useProjectsStore } from '../../store/projects.js'
@@ -56,6 +63,12 @@ export default {
 		}
 	},
 
+	/**
+	 * Probe whether leaving would remove the last member, to show the
+	 * last-member warning before confirmation.
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+	 */
 	async mounted() {
 		const store = useProjectsStore()
 		const result = await store.leaveProject(this.projectId)
@@ -66,6 +79,11 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Confirm leaving the project by removing the current user as a member.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 */
 		async confirm() {
 			this.loading = true
 			try {

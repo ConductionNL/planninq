@@ -79,6 +79,13 @@
 </template>
 
 <script>
+/**
+ * ProjectBoard view.
+ *
+ * Project board header + settings cog; the kanban board itself is a placeholder.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
+ */
 import { NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
@@ -106,15 +113,33 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * @spec exclude Store passthrough — returns the projects Pinia store.
+		 */
 		projectsStore() {
 			return useProjectsStore()
 		},
+		/**
+		 * @spec exclude Store passthrough — proxies projectsStore.activeProject.
+		 */
 		project() {
 			return this.projectsStore.activeProject
 		},
+		/**
+		 * @spec exclude Store passthrough — proxies projectsStore.loading.
+		 */
 		loading() {
 			return this.projectsStore.loading
 		},
+		/**
+		 * Whether the current user is denied access to the project — true on a
+		 * stored 403 (`forbidden`) or when the loaded project's members array
+		 * does not include the current user's UID.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 */
 		accessDenied() {
 			const store = this.projectsStore
 			if (store.error === 'forbidden') return true
@@ -126,6 +151,9 @@ export default {
 		},
 	},
 
+	/**
+	 * @spec exclude Lifecycle glue — fetches the route's project on mount; fetch behavior is spec'd in projects#REQ-Project-Lifecycle.
+	 */
 	async mounted() {
 		const id = this.$route.params.id
 		await this.projectsStore.fetchProject(id)
@@ -136,6 +164,11 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Open the project settings sidebar via the App.vue outlet.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
+		 */
 		openSettings() {
 			if (!this.setSidebar) return
 			this.setSidebar({

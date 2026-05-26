@@ -35,4 +35,4 @@ From My Work you can update a task's status via an inline dropdown, or click the
 
 ## Spec
 
-- [dashboard-my-work spec](../../openspec/specs/dashboard-my-work.md)
+- [dashboard-my-work spec](https://github.com/ConductionNL/planix/blob/development/openspec/specs/dashboard-my-work.md)

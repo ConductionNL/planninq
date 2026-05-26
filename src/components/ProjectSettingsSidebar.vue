@@ -183,6 +183,18 @@
 </template>
 
 <script>
+/**
+ * ProjectSettingsSidebar.
+ *
+ * NcAppSidebar with Details/Members/Danger tabs for editing a project,
+ * managing members, and archive/delete actions. Renders the read-only
+ * caseReference field in the Details tab for procest-integration.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-13
+ */
 import {
 	NcAppSidebar,
 	NcAppSidebarTab,
@@ -253,15 +265,24 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * @spec exclude Store passthrough — returns the projects Pinia store.
+		 */
 		projectsStore() {
 			return useProjectsStore()
 		},
+		/**
+		 * @spec exclude Auth passthrough — returns the current user's UID.
+		 */
 		currentUid() {
 			return getCurrentUser()?.uid || ''
 		},
 	},
 
 	watch: {
+		/**
+		 * @spec exclude Framework glue — syncs the project prop into the edit form on change.
+		 */
 		project(newVal) {
 			if (newVal) {
 				this.form.title = newVal.title || ''
@@ -273,6 +294,11 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Persist title/description/color/icon edits via updateProject.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
+		 */
 		async saveDetails() {
 			this.saving = true
 			try {
@@ -292,10 +318,20 @@ export default {
 			}
 		},
 
+		/**
+		 * @spec exclude Event-wiring glue — refreshes the project after a member is added.
+		 */
 		onMemberAdded() {
 			this.projectsStore.fetchProject(this.project.id)
 		},
 
+		/**
+		 * Show assigned-task warning before removing a member.
+		 *
+		 * @param {string} uid Nextcloud UID to remove
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 */
 		async confirmRemoveMember(uid) {
 			const count = await this.projectsStore.removeMember(this.project.id, uid)
 			// If member had assigned tasks, show warning first and re-add them.
@@ -312,6 +348,12 @@ export default {
 			await this.projectsStore.fetchProject(this.project.id)
 		},
 
+		/**
+		 * Confirm a pending member removal after the assigned-task warning —
+		 * removes the member and refreshes the project.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 */
 		async executeRemoval() {
 			if (this.pendingRemoveUid) {
 				await this.projectsStore.removeMember(this.project.id, this.pendingRemoveUid)
@@ -320,11 +362,19 @@ export default {
 			this.cancelRemoval()
 		},
 
+		/**
+		 * @spec exclude State-reset glue — clears the pending member-removal warning.
+		 */
 		cancelRemoval() {
 			this.removalWarning = null
 			this.pendingRemoveUid = null
 		},
 
+		/**
+		 * Archive the project from the danger-zone tab.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+		 */
 		async doArchive() {
 			const result = await this.projectsStore.archiveProject(this.project.id)
 			if (result) {
@@ -334,12 +384,18 @@ export default {
 			this.confirmArchive = false
 		},
 
+		/**
+		 * @spec exclude Event-wiring glue — closes the sidebar and routes to Projects after leaving.
+		 */
 		onLeft() {
 			this.showLeaveDialog = false
 			this.$emit('close')
 			this.$router.push({ name: 'Projects' })
 		},
 
+		/**
+		 * @spec exclude Event-wiring glue — re-emits deleted/close after a project delete.
+		 */
 		onDeleted() {
 			this.showDeleteDialog = false
 			this.$emit('deleted')

@@ -32,6 +32,17 @@
 </template>
 
 <script>
+/**
+ * ProjectBacklog view.
+ *
+ * Renders the `/projects/:id/backlog` route as a navigable shell — breadcrumb
+ * back to the project board plus a placeholder NcEmptyContent. Hydrates the
+ * projects store on direct deep link so the breadcrumb resolves the project
+ * title rather than echoing the raw UUID. Stays a placeholder until
+ * tasks#REQ-Task-CRUD lands.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-reverse-spec-projects-backlog/tasks.md#task-1
+ */
 import { NcButton, NcEmptyContent } from '@nextcloud/vue'
 import FormatListBulleted from 'vue-material-design-icons/FormatListBulleted.vue'
 import { useProjectsStore } from '../store/projects.js'
@@ -46,14 +57,26 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * @spec exclude Store passthrough — returns the projects Pinia store.
+		 */
 		projectsStore() {
 			return useProjectsStore()
 		},
+		/**
+		 * @spec exclude Trivial display getter — active project title with UUID fallback.
+		 */
 		projectTitle() {
 			return this.projectsStore.activeProject?.title || this.$route.params.id
 		},
 	},
 
+	/**
+	 * Hydrate the projects store on direct deep link so the breadcrumb
+	 * title resolves to the project title rather than the raw UUID.
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-reverse-spec-projects-backlog/tasks.md#task-1
+	 */
 	async mounted() {
 		if (!this.projectsStore.activeProject || this.projectsStore.activeProject.id !== this.$route.params.id) {
 			await this.projectsStore.fetchProject(this.$route.params.id)

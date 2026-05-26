@@ -99,6 +99,14 @@
 </template>
 
 <script>
+/**
+ * ProjectList view.
+ *
+ * Renders the project list with status filters, search, and empty-states.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-11
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
+ */
 import { NcButton, NcTextField, NcLoadingIcon, NcEmptyContent } from '@nextcloud/vue'
 import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
 import { useListView } from '@conduction/nextcloud-vue'
@@ -128,6 +136,9 @@ export default {
 		ProjectCreationDialog,
 	},
 
+	/**
+	 * @spec exclude Composable-wiring glue — instantiates useListView for search/filter state.
+	 */
 	setup() {
 		// useListView manages search term and filter state per spec requirement.
 		// fetchFn is provided as a no-op because filtering is done client-side;
@@ -144,19 +155,34 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * @spec exclude Store passthrough — returns the projects Pinia store.
+		 */
 		projectsStore() {
 			return useProjectsStore()
 		},
+		/**
+		 * @spec exclude Store passthrough — proxies projectsStore.projects.
+		 */
 		projects() {
 			return this.projectsStore.projects
 		},
+		/**
+		 * @spec exclude Store passthrough — proxies projectsStore.loading.
+		 */
 		loading() {
 			return this.projectsStore.loading
 		},
+		/**
+		 * @spec exclude Store passthrough — proxies projectsStore.error.
+		 */
 		error() {
 			return this.projectsStore.error
 		},
 
+		/**
+		 * @spec openspec/changes/retrofit-2026-05-26-planix-display-capabilities/tasks.md#task-3
+		 */
 		statusChips() {
 			return [
 				{ value: null, label: this.t('planix', 'All') },
@@ -166,6 +192,14 @@ export default {
 			]
 		},
 
+		/**
+		 * Client-side filtered project list — applies the active status filter
+		 * and the useListView search term (title/description, case-insensitive).
+		 *
+		 * @return {Array}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-11
+		 */
 		// Client-side filter — uses useListView's searchTerm and local activeStatus.
 		filteredProjects() {
 			let list = this.projects
@@ -189,14 +223,35 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Filter projects by status.
+		 *
+		 * @param {string|null} status Status to filter on
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-11
+		 */
 		setStatusFilter(status) {
 			this.activeStatus = status
 		},
 
+		/**
+		 * Navigate to a project's board.
+		 *
+		 * @param {object} project Project to navigate to
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-11
+		 */
 		navigateToProject(project) {
 			this.$router.push({ name: 'ProjectBoard', params: { id: project.id } })
 		},
 
+		/**
+		 * Handle project-created event from the creation dialog.
+		 *
+		 * @param {object} project Newly created project
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
+		 */
 		async onProjectCreated(project) {
 			this.showCreationDialog = false
 			this.$router.push({ name: 'ProjectBoard', params: { id: project.id } })

@@ -15,6 +15,8 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  */
 
 declare(strict_types=1);
@@ -45,6 +47,8 @@ class AdminSettings implements ISettings
      * Get the settings form template.
      *
      * @return TemplateResponse
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
      */
     public function getForm(): TemplateResponse
     {

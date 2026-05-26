@@ -15,6 +15,12 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-1
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-3
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-5
  */
 
 declare(strict_types=1);
@@ -80,6 +86,8 @@ class SettingsService
      * Check whether OpenRegister is installed and available.
      *
      * @return bool
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-5
      */
     public function isOpenRegisterAvailable(): bool
     {
@@ -90,6 +98,8 @@ class SettingsService
      * Check whether the current user has Nextcloud admin privileges.
      *
      * @return bool
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
      */
     public function isCurrentUserAdmin(): bool
     {
@@ -104,6 +114,8 @@ class SettingsService
      * the defined default when no value has been stored yet.
      *
      * @return array<string,string>
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
      */
     public function getAdminSettings(): array
     {
@@ -123,17 +135,17 @@ class SettingsService
      *
      * @param array<string,mixed> $settings Settings to persist
      *
-     * @return array<string,string> The full admin settings after update
+     * @return void
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
      */
-    private function setAdminSettings(array $settings): array
+    private function setAdminSettings(array $settings): void
     {
         foreach (array_keys(self::ADMIN_CONFIG_DEFAULTS) as $key) {
             if (array_key_exists($key, $settings) === true) {
                 $this->appConfig->setValueString(Application::APP_ID, $key, (string) $settings[$key]);
             }
         }
-
-        return $this->getAdminSettings();
     }//end setAdminSettings()
 
     /**
@@ -143,6 +155,8 @@ class SettingsService
      * fields (openregisters, isAdmin) consumed by the frontend.
      *
      * @return array<string,mixed>
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
      */
     public function getSettings(): array
     {
@@ -167,6 +181,8 @@ class SettingsService
      * @param array<string,mixed> $data The data to update
      *
      * @return array<string,mixed> The updated settings
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
      */
     public function updateSettings(array $data): array
     {
@@ -187,6 +203,10 @@ class SettingsService
      * @param bool $force Force re-import even if already configured.
      *
      * @return array<string,mixed> Result with success flag, message, and version.
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-1
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-3
      */
     public function loadConfiguration(bool $force=false): array
     {
@@ -233,17 +253,12 @@ class SettingsService
 
             if (empty($result) === false) {
                 $this->logger->info('Planix: register configuration imported successfully');
-                $this->ensureRegisterPublicAccess();
                 return [
                     'success' => true,
                     'message' => 'Configuration imported successfully.',
                     'version' => ($result['version'] ?? 'unknown'),
                 ];
             }
-
-            // ImportFromApp may return empty even when the register already existed
-            // and was updated. Apply the public-access patch unconditionally.
-            $this->ensureRegisterPublicAccess();
 
             return [
                 'success' => false,
@@ -261,35 +276,4 @@ class SettingsService
         }//end try
 
     }//end loadConfiguration()
-
-    /**
-     * Directly update the planix register's public access flags in the DB.
-     *
-     * Called after importFromApp to ensure publicWrite/publicRead are set to 0
-     * (private) even if OpenRegister's ConfigurationService did not update an
-     * existing record. Keeps the register accessible only to authenticated
-     * Nextcloud users; never grants anonymous access.
-     * Fails silently — any exception is logged as a warning only.
-     *
-     * @return void
-     */
-    private function ensureRegisterPublicAccess(): void
-    {
-        try {
-            $db = $this->container->get(\OCP\IDBConnection::class);
-            $qb = $db->getQueryBuilder();
-            $qb->update('openregister_registers')
-                ->set('public_write', $qb->createNamedParameter(0, \OCP\DB\QueryBuilder\IQueryBuilder::PARAM_INT))
-                ->set('public_read', $qb->createNamedParameter(0, \OCP\DB\QueryBuilder\IQueryBuilder::PARAM_INT))
-                ->where($qb->expr()->eq('slug', $qb->createNamedParameter('planix')));
-            $qb->executeStatement();
-            $this->logger->info('Planix: register publicWrite/publicRead set to private (0) in DB');
-        } catch (\Throwable $e) {
-            $this->logger->warning(
-                'Planix: could not directly update register public access in DB',
-                ['error' => $e->getMessage()]
-            );
-        }//end try
-
-    }//end ensureRegisterPublicAccess()
 }//end class
