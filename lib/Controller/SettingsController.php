@@ -30,6 +30,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
+use OCP\IUserSession;
 
 /**
  * Controller for managing Planix application settings.
@@ -41,18 +42,23 @@ class SettingsController extends Controller
      *
      * @param IRequest        $request         The request object
      * @param SettingsService $settingsService The settings service
+     * @param IUserSession    $userSession     The user session
      *
      * @return void
      */
     public function __construct(
         IRequest $request,
         private SettingsService $settingsService,
+        private IUserSession $userSession,
     ) {
         parent::__construct(appName: Application::APP_ID, request: $request);
     }//end __construct()
 
     /**
      * Retrieve all current settings.
+     *
+     * Returns app configuration including an isAdmin flag consumed by
+     * the frontend. Any authenticated user may read settings.
      *
      * @NoAdminRequired
      *
@@ -62,6 +68,10 @@ class SettingsController extends Controller
      */
     public function index(): JSONResponse
     {
+        if ($this->userSession->getUser() === null) {
+            return new JSONResponse(['error' => 'Not authenticated.'], Http::STATUS_UNAUTHORIZED);
+        }
+
         return new JSONResponse(
             $this->settingsService->getSettings()
         );
