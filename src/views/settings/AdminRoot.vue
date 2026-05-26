@@ -28,6 +28,7 @@
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  */
+import { loadState } from '@nextcloud/initial-state'
 import { CnVersionInfoCard } from '@conduction/nextcloud-vue'
 import Settings from './Settings.vue'
 import { initializeStores } from '../../store/store.js'
@@ -41,7 +42,7 @@ export default {
 	data() {
 		return {
 			storesReady: false,
-			appVersion: document.getElementById('planix-settings')?.dataset?.version || 'Unknown',
+			appVersion: loadState('planix', 'version', 'Unknown'),
 		}
 	},
 	/**
