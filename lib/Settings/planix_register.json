@@ -18,7 +18,7 @@
         "title": "Planix",
         "description": "Planix application data register — tasks, projects, columns, time entries, and labels.",
         "slug": "planix",
-        "version": "0.2.1",
+        "version": "0.2.3",
         "schemas": ["task", "project", "column", "timeEntry", "label"],
         "tablePrefix": "planix",
         "folder": "planix",
