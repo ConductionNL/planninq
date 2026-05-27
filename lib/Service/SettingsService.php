@@ -246,6 +246,24 @@ class SettingsService
                 ];
             }
 
+            // Validate that the imported JSON belongs to this app to prevent
+            // accidentally loading a register file from a different application.
+            $declaredApp = ($configData['x-openregister']['app'] ?? '');
+            if ($declaredApp !== Application::APP_ID) {
+                $this->logger->error(
+                    'Planix: register JSON x-openregister.app mismatch',
+                    ['expected' => Application::APP_ID, 'got' => $declaredApp]
+                );
+                return [
+                    'success' => false,
+                    'message' => sprintf(
+                        'Register JSON is for app "%s", expected "%s".',
+                        $declaredApp,
+                        Application::APP_ID
+                    ),
+                ];
+            }
+
             $configVersion = ($configData['info']['version'] ?? '0.0.0');
 
             $configurationService = $this->container->get('OCA\OpenRegister\Service\ConfigurationService');

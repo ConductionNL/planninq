@@ -31,4 +31,4 @@ export async function initializeStores() {
 	return { settingsStore, objectStore }
 }
 
-export { useObjectStore, useSettingsStore }
+export { useSettingsStore }

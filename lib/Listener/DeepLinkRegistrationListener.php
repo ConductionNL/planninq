@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace OCA\Planix\Listener;
 
 use OCA\OpenRegister\Event\DeepLinkRegistrationEvent;
+use OCA\Planix\AppInfo\Application;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 
@@ -53,38 +54,38 @@ class DeepLinkRegistrationListener implements IEventListener
         }
 
         $event->register(
-            appId: 'planix',
-            registerSlug: 'planix',
+            appId: Application::APP_ID,
+            registerSlug: Application::APP_ID,
             schemaSlug: 'task',
-            urlTemplate: '/apps/planix/#/tasks/{uuid}'
+            urlTemplate: '/apps/'.Application::APP_ID.'/projects/{project}?task={uuid}'
         );
 
         $event->register(
-            appId: 'planix',
-            registerSlug: 'planix',
+            appId: Application::APP_ID,
+            registerSlug: Application::APP_ID,
             schemaSlug: 'project',
-            urlTemplate: '/apps/planix/#/projects/{uuid}'
+            urlTemplate: '/apps/'.Application::APP_ID.'/projects/{uuid}'
         );
 
         $event->register(
-            appId: 'planix',
-            registerSlug: 'planix',
+            appId: Application::APP_ID,
+            registerSlug: Application::APP_ID,
             schemaSlug: 'column',
-            urlTemplate: '/apps/planix/#/columns/{uuid}'
+            urlTemplate: '/apps/'.Application::APP_ID.'/projects/{project}'
         );
 
         $event->register(
-            appId: 'planix',
-            registerSlug: 'planix',
+            appId: Application::APP_ID,
+            registerSlug: Application::APP_ID,
             schemaSlug: 'label',
-            urlTemplate: '/apps/planix/#/labels/{uuid}'
+            urlTemplate: '/apps/'.Application::APP_ID.'/projects'
         );
 
         $event->register(
-            appId: 'planix',
-            registerSlug: 'planix',
+            appId: Application::APP_ID,
+            registerSlug: Application::APP_ID,
             schemaSlug: 'timeEntry',
-            urlTemplate: '/apps/planix/#/time-entries/{uuid}'
+            urlTemplate: '/apps/'.Application::APP_ID.'/projects/{project}?task={task}'
         );
 
     }//end handle()
