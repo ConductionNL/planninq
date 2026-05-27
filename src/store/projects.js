@@ -181,6 +181,7 @@ export const useProjectsStore = defineStore('projects', {
 				const projectData = {
 					...data,
 					status: data.status || 'active',
+					owner: uid || undefined,
 					members: uid ? [uid] : [],
 				}
 
@@ -397,60 +398,68 @@ export const useProjectsStore = defineStore('projects', {
 			return this.updateProject(projectId, { members })
 		},
 
-		// ── 2.10 removeMember ─────────────────────────────────────────────
+		// ── 2.10 getMemberTaskCount ───────────────────────────────────────
+
+		/**
+		 * Return the number of tasks currently assigned to a member in a project.
+		 * Pure read — no side effects.
+		 *
+		 * @param {string} projectId Project ID
+		 * @param {string} userUid Nextcloud UID to query
+		 * @return {Promise<number>} Count of tasks assigned to that member
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 */
+		async getMemberTaskCount(projectId, userUid) {
+			try {
+				const objectStore = this._objectStore()
+				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, {
+					project: projectId,
+					assignedTo: userUid,
+				})
+				return tasks.length
+			} catch {
+				return 0
+			}
+		},
+
+		// ── 2.11 removeMember ─────────────────────────────────────────────
 
 		/**
 		 * Remove a member from a project.
-		 * Returns the count of tasks currently assigned to that member.
+		 * Pure write — does NOT query or return task counts.
+		 * Call getMemberTaskCount first if a warning is needed.
 		 *
 		 * @param {string} projectId Project ID
 		 * @param {string} userUid Nextcloud UID to remove
-		 * @return {Promise<number>} Count of tasks assigned to that member
+		 * @return {Promise<object|null>} Updated project or null on failure
 		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
 		 */
 		async removeMember(projectId, userUid) {
 			const project = await this.fetchProject(projectId)
-			if (!project) return 0
-
-			// Count assigned tasks for the warning dialog.
-			const objectStore = this._objectStore()
-			const tasks = await objectStore.fetchCollection(TASK_SCHEMA, {
-				project: projectId,
-				assignedTo: userUid,
-			})
-			const assignedCount = tasks.length
+			if (!project) return null
 
 			const members = (Array.isArray(project.members) ? project.members : []).filter(
 				(uid) => uid !== userUid,
 			)
-			await this.updateProject(projectId, { members })
-
-			return assignedCount
+			return this.updateProject(projectId, { members })
 		},
 
-		// ── 2.11 leaveProject ─────────────────────────────────────────────
+		// ── 2.12 leaveProject ────────────────────────────────────────────
 
 		/**
 		 * Current user leaves a project.
-		 * Returns { isLastMember: true } without removing if the user is the last member.
+		 * Always removes the user — the caller is responsible for confirming
+		 * last-member situations before calling this action.
 		 *
 		 * @param {string} projectId Project ID
-		 * @return {Promise<{isLastMember: boolean}|number>}
+		 * @return {Promise<object|null>} Updated project or null on failure
 		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
 		 */
 		async leaveProject(projectId) {
-			const project = await this.fetchProject(projectId)
-			if (!project) return { isLastMember: false }
-
-			const members = Array.isArray(project.members) ? project.members : []
 			const uid = this._currentUid()
-
-			if (members.filter((m) => m !== uid).length === 0) {
-				return { isLastMember: true }
-			}
-
 			return this.removeMember(projectId, uid)
 		},
 
