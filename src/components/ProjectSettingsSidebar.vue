@@ -328,25 +328,26 @@ export default {
 
 		/**
 		 * Show assigned-task warning before removing a member.
+		 * Queries the task count first (read-only); only removes if count is zero.
 		 *
 		 * @param {string} uid Nextcloud UID to remove
 		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
 		 */
 		async confirmRemoveMember(uid) {
-			const count = await this.projectsStore.removeMember(this.project.id, uid)
-			// If member had assigned tasks, show warning first and re-add them.
+			const count = await this.projectsStore.getMemberTaskCount(this.project.id, uid)
 			if (count > 0) {
-				// Re-add (removal already happened) — we need to prevent this.
-				// Actually removeMember returns the count AND removes. Undo by re-adding.
-				await this.projectsStore.addMember(this.project.id, uid)
+				// Show warning — do NOT remove yet.
 				this.pendingRemoveUid = uid
 				this.removalWarning = this.t('planix', '{name} has {count} assigned tasks in this project', {
 					name: uid,
 					count,
 				})
+			} else {
+				// No assigned tasks — remove immediately.
+				await this.projectsStore.removeMember(this.project.id, uid)
+				await this.projectsStore.fetchProject(this.project.id)
 			}
-			await this.projectsStore.fetchProject(this.project.id)
 		},
 
 		/**
