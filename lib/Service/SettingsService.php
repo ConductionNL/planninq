@@ -128,7 +128,44 @@ class SettingsService
     }//end getAdminSettings()
 
     /**
+     * Validate the default_columns value before persisting.
+     *
+     * Must be a non-empty JSON array of non-empty strings. Returns a normalised
+     * JSON string on success or null when validation fails (caller should reject).
+     *
+     * @param string $raw Raw value submitted by the client
+     *
+     * @return string|null Normalised JSON string, or null on validation failure
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+     */
+    public function validateDefaultColumns(string $raw): ?string
+    {
+        $decoded = json_decode($raw, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return null;
+        }
+
+        if (is_array($decoded) === false || count($decoded) === 0) {
+            return null;
+        }
+
+        $normalised = [];
+        foreach ($decoded as $item) {
+            if (is_string($item) === false || trim($item) === '') {
+                return null;
+            }
+
+            $normalised[] = trim($item);
+        }
+
+        return json_encode($normalised);
+
+    }//end validateDefaultColumns()
+
+    /**
      * Store admin settings. Unknown keys are silently ignored.
+     * Validates default_columns JSON shape before persisting; rejects malformed values.
      *
      * Internal use only — callers outside this class must go through updateSettings(),
      * which enforces the admin authorization check at the controller layer.
@@ -142,10 +179,28 @@ class SettingsService
     private function setAdminSettings(array $settings): void
     {
         foreach (array_keys(self::ADMIN_CONFIG_DEFAULTS) as $key) {
-            if (array_key_exists($key, $settings) === true) {
-                $this->appConfig->setValueString(Application::APP_ID, $key, (string) $settings[$key]);
+            if (array_key_exists($key, $settings) === false) {
+                continue;
             }
-        }
+
+            $value = (string) $settings[$key];
+
+            if ($key === 'default_columns') {
+                $validated = $this->validateDefaultColumns($value);
+                if ($validated === null) {
+                    $this->logger->warning(
+                        'Planix: invalid default_columns value rejected',
+                        ['raw' => $value]
+                    );
+                    continue;
+                }
+
+                $value = $validated;
+            }
+
+            $this->appConfig->setValueString(Application::APP_ID, $key, $value);
+        }//end foreach
+
     }//end setAdminSettings()
 
     /**

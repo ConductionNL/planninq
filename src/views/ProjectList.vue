@@ -15,8 +15,9 @@
 					:no-close="true"
 					:aria-pressed="activeStatus === chip.value"
 					@click="setStatusFilter(chip.value)" />
-				<!-- New project button -->
+				<!-- New project button — hidden when creation is restricted to admins -->
 				<NcButton
+					v-if="canCreateProject"
 					type="primary"
 					@click="showCreationDialog = true">
 					<template #icon>
@@ -60,11 +61,11 @@
 		<NcEmptyContent
 			v-else-if="projects.length === 0"
 			:name="t('planix', 'No projects yet')"
-			:description="t('planix', 'Create your first project to get started.')">
+			:description="canCreateProject ? t('planix', 'Create your first project to get started.') : t('planix', 'No projects are available to you yet. Ask an administrator to create one.')">
 			<template #icon>
 				<FolderOutline :size="20" />
 			</template>
-			<template #action>
+			<template v-if="canCreateProject" #action>
 				<NcButton type="primary" @click="showCreationDialog = true">
 					{{ t('planix', 'Create your first project') }}
 				</NcButton>
@@ -90,9 +91,9 @@
 				@click="navigateToProject(project)" />
 		</ul>
 
-		<!-- Creation dialog -->
+		<!-- Creation dialog — only mounted when creation is permitted -->
 		<ProjectCreationDialog
-			v-if="showCreationDialog"
+			v-if="showCreationDialog && canCreateProject"
 			@close="showCreationDialog = false"
 			@created="onProjectCreated" />
 	</div>
@@ -116,6 +117,7 @@ import Magnify from 'vue-material-design-icons/Magnify.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
 import { useProjectsStore } from '../store/projects.js'
+import { useSettingsStore } from '../store/modules/settings.js'
 import ProjectListItem from '../components/ProjectListItem.vue'
 import ProjectCreationDialog from '../components/dialogs/ProjectCreationDialog.vue'
 
@@ -178,6 +180,25 @@ export default {
 		 */
 		error() {
 			return this.projectsStore.error
+		},
+
+		/**
+		 * Returns true when the current user is allowed to create new projects.
+		 * Reads allow_project_creation: 'all' (default) | 'admins'.
+		 * Any unrecognised value defaults to allowing all authenticated users.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
+		 */
+		canCreateProject() {
+			const settingsStore = useSettingsStore()
+			const policy = settingsStore.settings?.allow_project_creation || 'all'
+			if (policy === 'admins') {
+				return !!settingsStore.isAdmin
+			}
+			// 'all' or any unrecognised value — every authenticated user may create.
+			return true
 		},
 
 		/**

@@ -323,12 +323,15 @@ export const useProjectsStore = defineStore('projects', {
 				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, { project: id })
 
 				// 2. Fetch and delete time entries for each task.
+				// NOTE: deletion is sequential and non-transactional. A mid-flight failure
+				// (network drop, server error) will leave orphaned objects. The error messages
+				// below prompt the user to retry, which will pick up where deletion failed.
 				for (const task of tasks) {
 					const entries = await objectStore.fetchCollection(TIME_ENTRY_SCHEMA, { task: task.id })
 					for (const entry of entries) {
 						const ok = await objectStore.deleteObject(TIME_ENTRY_SCHEMA, entry.id)
 						if (!ok) {
-							showError(t('planix', 'Failed to delete time entry — deletion stopped'))
+							showError(t('planix', 'Failed to delete a time entry. Some data may remain — please retry deleting the project.'))
 							return false
 						}
 					}
@@ -338,7 +341,7 @@ export const useProjectsStore = defineStore('projects', {
 				for (const task of tasks) {
 					const ok = await objectStore.deleteObject(TASK_SCHEMA, task.id)
 					if (!ok) {
-						showError(t('planix', 'Failed to delete task — deletion stopped'))
+						showError(t('planix', 'Failed to delete a task. Some data may remain — please retry deleting the project.'))
 						return false
 					}
 				}
@@ -348,7 +351,7 @@ export const useProjectsStore = defineStore('projects', {
 				for (const col of columns) {
 					const ok = await objectStore.deleteObject(COLUMN_SCHEMA, col.id)
 					if (!ok) {
-						showError(t('planix', 'Failed to delete column — deletion stopped'))
+						showError(t('planix', 'Failed to delete a column. Some data may remain — please retry deleting the project.'))
 						return false
 					}
 				}
@@ -356,7 +359,7 @@ export const useProjectsStore = defineStore('projects', {
 				// 5. Delete the project itself.
 				const ok = await objectStore.deleteObject(PROJECT_SCHEMA, id)
 				if (!ok) {
-					showError(t('planix', 'Failed to delete project'))
+					showError(t('planix', 'Failed to delete project. Please retry.'))
 					return false
 				}
 
