@@ -1,14 +1,16 @@
 <?php
 
 /**
- * Planix Migration — Ensure register public access settings
+ * Planix Migration — Re-import register with explicit access controls
  *
  * Triggers the post-migration repair step so that the Planix register's
- * publicWrite and publicRead settings are applied in the live OpenRegister DB.
+ * publicRead: false and publicWrite: false settings are applied in the
+ * live OpenRegister DB.
  * This migration introduces no schema changes; its sole purpose is to run
  * InitializeSettings as a post-migration repair step, which calls
  * SettingsService::loadConfiguration(force: true) with the updated
- * planix_register.json (version 0.2.1) that contains publicWrite: true.
+ * planix_register.json (version 0.2.1) that contains explicit publicWrite: false
+ * and publicRead: false together with authorization blocks on all data schemas.
  *
  * @category Migration
  * @package  OCA\Planix\Migration
@@ -35,8 +37,10 @@ use OCP\Migration\SimpleMigrationStep;
  * Empty schema migration that triggers the post-migration repair step.
  *
  * The repair step (InitializeSettings) re-runs loadConfiguration(force: true)
- * with the updated register spec (version 0.2.1) which includes
- * publicWrite: true and publicRead: true on the planix register.
+ * with the updated register spec (version 0.2.1) which sets
+ * publicWrite: false and publicRead: false on the planix register and
+ * adds authorization blocks to project, task, column, and timeEntry schemas
+ * to enforce member-based row-level access control.
  */
 class Version20260403000000 extends SimpleMigrationStep
 {
