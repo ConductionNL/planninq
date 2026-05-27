@@ -76,7 +76,7 @@ class HealthController extends Controller
             $checks['database'] = 'ok';
         } catch (\Exception $e) {
             $checks['database'] = 'error';
-            $status             = 'error';
+            $status = 'error';
             $this->logger->error(
                 'Planix health check: database failed',
                 ['exception' => $e->getMessage()]
