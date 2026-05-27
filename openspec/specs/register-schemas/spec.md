@@ -9,6 +9,8 @@
 
 ## Purpose
 
+<!-- @e2e exclude pure-backend spec: all scenarios concern PHP file content inspection, OpenRegister API validation (HTTP responses), install-time repair steps, and version-skip logic — no browser UI surface exists for any scenario -->
+
 This spec defines the requirements for the Planix OpenRegister schema definitions. The register file declares the data model that all Planix features are built upon. Correct schema definitions, seed data, and import behaviour are prerequisites for every other Planix capability.
 
 ---
