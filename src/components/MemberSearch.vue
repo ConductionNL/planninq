@@ -96,6 +96,7 @@ export default {
 
 		/**
 		 * Search Nextcloud users via OCS endpoint with 300ms debounce.
+		 * Surfaces errors to the user via showError toast instead of swallowing them.
 		 *
 		 * @param {string} term Search term
 		 *
@@ -111,7 +112,9 @@ export default {
 						'OCS-APIRequest': 'true',
 					},
 				})
-				if (!resp.ok) throw new Error(resp.statusText)
+				if (!resp.ok) {
+					throw new Error(`${resp.status} ${resp.statusText}`)
+				}
 				const data = await resp.json()
 				const users = data.ocs?.data?.users || data.ocs?.data || []
 				// Normalise to { id, displayName }
@@ -120,6 +123,8 @@ export default {
 				).filter((u) => !this.existingMembers.includes(u.id))
 			} catch (err) {
 				console.error('User search failed:', err)
+				showError(this.t('planix', 'Could not search for users. Please try again.'))
+				this.results = []
 			} finally {
 				this.loading = false
 				this.searched = true

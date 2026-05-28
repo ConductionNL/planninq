@@ -108,6 +108,37 @@ class SettingsService
     }//end isCurrentUserAdmin()
 
     /**
+     * Check whether the current user is allowed to create a project.
+     *
+     * Enforces the `allow_project_creation` admin setting server-side.
+     * 'all' (default) — any authenticated user may create a project.
+     * 'admins' — only Nextcloud admins may create a project.
+     *
+     * This is the server-side enforcement for the client-side `canCreateProject`
+     * computed property in ProjectList.vue (closes #H2).
+     *
+     * @return bool
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+     */
+    public function canCurrentUserCreateProject(): bool
+    {
+        $policy = $this->appConfig->getValueString(
+            Application::APP_ID,
+            'allow_project_creation',
+            'all'
+        );
+
+        if ($policy === 'admins') {
+            return $this->isCurrentUserAdmin();
+        }
+
+        // Default ('all'): any authenticated user may create.
+        return $this->userSession->getUser() !== null;
+
+    }//end canCurrentUserCreateProject()
+
+    /**
      * Retrieve all admin settings with defaults applied.
      *
      * Reads each key in ADMIN_CONFIG_DEFAULTS from IAppConfig, falling back to
@@ -128,7 +159,44 @@ class SettingsService
     }//end getAdminSettings()
 
     /**
+     * Validate the default_columns value before persisting.
+     *
+     * Must be a non-empty JSON array of non-empty strings. Returns a normalised
+     * JSON string on success or null when validation fails (caller should reject).
+     *
+     * @param string $raw Raw value submitted by the client
+     *
+     * @return string|null Normalised JSON string, or null on validation failure
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+     */
+    public function validateDefaultColumns(string $raw): ?string
+    {
+        $decoded = json_decode($raw, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return null;
+        }
+
+        if (is_array($decoded) === false || count($decoded) === 0) {
+            return null;
+        }
+
+        $normalised = [];
+        foreach ($decoded as $item) {
+            if (is_string($item) === false || trim($item) === '') {
+                return null;
+            }
+
+            $normalised[] = trim($item);
+        }
+
+        return json_encode($normalised);
+
+    }//end validateDefaultColumns()
+
+    /**
      * Store admin settings. Unknown keys are silently ignored.
+     * Validates default_columns JSON shape before persisting; rejects malformed values.
      *
      * Internal use only — callers outside this class must go through updateSettings(),
      * which enforces the admin authorization check at the controller layer.
@@ -142,10 +210,28 @@ class SettingsService
     private function setAdminSettings(array $settings): void
     {
         foreach (array_keys(self::ADMIN_CONFIG_DEFAULTS) as $key) {
-            if (array_key_exists($key, $settings) === true) {
-                $this->appConfig->setValueString(Application::APP_ID, $key, (string) $settings[$key]);
+            if (array_key_exists($key, $settings) === false) {
+                continue;
             }
-        }
+
+            $value = (string) $settings[$key];
+
+            if ($key === 'default_columns') {
+                $validated = $this->validateDefaultColumns($value);
+                if ($validated === null) {
+                    $this->logger->warning(
+                        'Planix: invalid default_columns value rejected',
+                        ['raw' => $value]
+                    );
+                    continue;
+                }
+
+                $value = $validated;
+            }
+
+            $this->appConfig->setValueString(Application::APP_ID, $key, $value);
+        }//end foreach
+
     }//end setAdminSettings()
 
     /**
@@ -243,6 +329,24 @@ class SettingsService
                 return [
                     'success' => false,
                     'message' => 'Failed to parse configuration file: '.json_last_error_msg(),
+                ];
+            }
+
+            // Validate that the imported JSON belongs to this app to prevent
+            // accidentally loading a register file from a different application.
+            $declaredApp = ($configData['x-openregister']['app'] ?? '');
+            if ($declaredApp !== Application::APP_ID) {
+                $this->logger->error(
+                    'Planix: register JSON x-openregister.app mismatch',
+                    ['expected' => Application::APP_ID, 'got' => $declaredApp]
+                );
+                return [
+                    'success' => false,
+                    'message' => sprintf(
+                        'Register JSON is for app "%s", expected "%s".',
+                        $declaredApp,
+                        Application::APP_ID
+                    ),
                 ];
             }
 

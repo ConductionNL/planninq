@@ -18,7 +18,7 @@
 			</NcAppNavigationItem>
 			<NcAppNavigationItem
 				:name="t('planix', 'Documentation')"
-				@click="openLink('https://conduction.nl', '_blank')">
+				@click="openLink('https://planix.conduction.nl', '_blank')">
 				<template #icon>
 					<BookOpenVariantOutline :size="20" />
 				</template>
@@ -58,12 +58,15 @@ export default {
 	},
 	methods: {
 		/**
-		 * @spec exclude Trivial helper — opens an external URL via window.open.
+		 * Opens an external URL in a new tab with noopener and noreferrer
+		 * to prevent the opened page from accessing window.opener.
+		 *
+		 * @spec exclude Trivial helper — opens an external URL safely via window.open.
 		 * @param {string} url The URL to open.
 		 * @param {string} [target] The window target (defaults to _blank).
 		 */
 		openLink(url, target = '_blank') {
-			window.open(url, target)
+			window.open(url, target, 'noopener,noreferrer')
 		},
 	},
 }

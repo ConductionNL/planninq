@@ -59,6 +59,40 @@
 			</form>
 		</CnSettingsSection>
 
+		<!-- Project creation policy -->
+		<CnSettingsSection
+			:name="t('planix', 'Project creation')"
+			:description="t('planix', 'Control who may create new projects')">
+			<form @submit.prevent="saveCreationPolicy">
+				<div class="form-group">
+					<label for="allow-project-creation">{{ t('planix', 'Allow project creation') }}</label>
+					<select
+						id="allow-project-creation"
+						v-model="creationPolicy"
+						class="column-input">
+						<option value="all">
+							{{ t('planix', 'All authenticated users') }}
+						</option>
+						<option value="admins">
+							{{ t('planix', 'Administrators only') }}
+						</option>
+					</select>
+				</div>
+				<div v-if="creationPolicySuccess" class="success-message">
+					{{ creationPolicySuccess }}
+				</div>
+				<div v-if="creationPolicyError" class="error-message">
+					{{ creationPolicyError }}
+				</div>
+				<NcButton
+					type="primary"
+					native-type="submit"
+					:disabled="savingCreationPolicy">
+					{{ savingCreationPolicy ? t('planix', 'Saving...') : t('planix', 'Save') }}
+				</NcButton>
+			</form>
+		</CnSettingsSection>
+
 		<!-- Register setup -->
 		<CnSettingsSection
 			:name="t('planix', 'Register setup')"
@@ -154,6 +188,11 @@ export default {
 			initializing: false,
 			initSuccess: '',
 			initError: '',
+			// allow_project_creation
+			creationPolicy: 'all',
+			savingCreationPolicy: false,
+			creationPolicySuccess: '',
+			creationPolicyError: '',
 		}
 	},
 	computed: {
@@ -170,6 +209,7 @@ export default {
 	created() {
 		const settingsStore = useSettingsStore()
 		this.form.register = settingsStore.settings?.register || ''
+		this.creationPolicy = settingsStore.settings?.allow_project_creation || 'all'
 		this.loadColumnList(settingsStore.settings)
 	},
 	methods: {
@@ -244,6 +284,27 @@ export default {
 			}
 			this.savingColumns = false
 		},
+		/**
+		 * Persist the project creation policy via settingsStore.saveSettings.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+		 */
+		async saveCreationPolicy() {
+			this.savingCreationPolicy = true
+			this.creationPolicySuccess = ''
+			this.creationPolicyError = ''
+			const settingsStore = useSettingsStore()
+			const result = await settingsStore.saveSettings({
+				allow_project_creation: this.creationPolicy,
+			})
+			if (result) {
+				this.creationPolicySuccess = this.t('planix', 'Creation policy saved successfully')
+			} else {
+				this.creationPolicyError = this.t('planix', 'Failed to save creation policy')
+			}
+			this.savingCreationPolicy = false
+		},
+
 		/**
 		 * Trigger SettingsController::load to re-import the planix register.
 		 *

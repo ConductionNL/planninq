@@ -39,6 +39,7 @@
  */
 import { NcButton, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
 import { showError } from '@nextcloud/dialogs'
+import { getCurrentUser } from '@nextcloud/auth'
 import { useProjectsStore } from '../../store/projects.js'
 
 export default {
@@ -64,17 +65,20 @@ export default {
 	},
 
 	/**
-	 * Probe whether leaving would remove the last member, to show the
-	 * last-member warning before confirmation.
+	 * Probe whether leaving would remove the last member by inspecting the
+	 * already-loaded project data — no write operation is performed here.
 	 *
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
 	 */
 	async mounted() {
 		const store = useProjectsStore()
-		const result = await store.leaveProject(this.projectId)
-		// Check if this would be last-member removal.
-		if (result && typeof result === 'object' && result.isLastMember) {
-			this.isLastMember = true
+		const project = await store.fetchProject(this.projectId)
+		if (project) {
+			const uid = getCurrentUser()?.uid || ''
+			const otherMembers = (Array.isArray(project.members) ? project.members : []).filter(
+				(m) => m !== uid,
+			)
+			this.isLastMember = otherMembers.length === 0
 		}
 	},
 
@@ -88,12 +92,8 @@ export default {
 			this.loading = true
 			try {
 				const store = useProjectsStore()
-				// Force removal even if last member.
-				const project = await store.fetchProject(this.projectId)
-				if (project) {
-					const uid = store._currentUid()
-					await store.removeMember(this.projectId, uid)
-				}
+				const uid = getCurrentUser()?.uid || ''
+				await store.removeMember(this.projectId, uid)
 				this.$emit('left')
 			} catch {
 				showError(this.t('planix', 'Could not leave project'))

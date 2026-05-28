@@ -147,6 +147,10 @@ export default {
 		/**
 		 * Validate the form and create the project.
 		 *
+		 * Posts to the Planix server-side project proxy (ProjectController::create)
+		 * which enforces the allow_project_creation policy before writing to OR.
+		 * A 403 response means creation is restricted to administrators.
+		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
 		 */
 		async submit() {
@@ -166,8 +170,11 @@ export default {
 
 				// Warn if column creation had partial failures.
 				// (Warnings are already shown inside createDefaultColumns via toast)
-			} catch {
-				showError(this.t('planix', 'Could not create project. Please try again.'))
+			} catch (err) {
+				const message = err?.message?.includes('restricted to administrators')
+					? this.t('planix', 'Project creation is restricted to administrators.')
+					: this.t('planix', 'Could not create project. Please try again.')
+				showError(message)
 				// Keep dialog open and preserve form values.
 			}
 		},
