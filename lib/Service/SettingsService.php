@@ -217,7 +217,7 @@ class SettingsService
             $value = (string) $settings[$key];
 
             if ($key === 'default_columns') {
-                $validated = $this->validateDefaultColumns($value);
+                $validated = $this->validateDefaultColumns(raw: $value);
                 if ($validated === null) {
                     $this->logger->warning(
                         'Planix: invalid default_columns value rejected',
