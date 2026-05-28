@@ -108,6 +108,37 @@ class SettingsService
     }//end isCurrentUserAdmin()
 
     /**
+     * Check whether the current user is allowed to create a project.
+     *
+     * Enforces the `allow_project_creation` admin setting server-side.
+     * 'all' (default) — any authenticated user may create a project.
+     * 'admins' — only Nextcloud admins may create a project.
+     *
+     * This is the server-side enforcement for the client-side `canCreateProject`
+     * computed property in ProjectList.vue (closes #H2).
+     *
+     * @return bool
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+     */
+    public function canCurrentUserCreateProject(): bool
+    {
+        $policy = $this->appConfig->getValueString(
+            Application::APP_ID,
+            'allow_project_creation',
+            'all'
+        );
+
+        if ($policy === 'admins') {
+            return $this->isCurrentUserAdmin();
+        }
+
+        // Default ('all'): any authenticated user may create.
+        return $this->userSession->getUser() !== null;
+
+    }//end canCurrentUserCreateProject()
+
+    /**
      * Retrieve all admin settings with defaults applied.
      *
      * Reads each key in ADMIN_CONFIG_DEFAULTS from IAppConfig, falling back to
