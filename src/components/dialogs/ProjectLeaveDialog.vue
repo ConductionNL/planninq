@@ -92,8 +92,7 @@ export default {
 			this.loading = true
 			try {
 				const store = useProjectsStore()
-				const uid = getCurrentUser()?.uid || ''
-				await store.removeMember(this.projectId, uid)
+				await store.leaveProject(this.projectId)
 				this.$emit('left')
 			} catch {
 				showError(this.t('planix', 'Could not leave project'))
