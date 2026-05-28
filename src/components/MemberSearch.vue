@@ -71,11 +71,14 @@ export default {
 			loading: false,
 			searched: false,
 			debounceTimer: null,
+			/** @type {AbortController|null} */
+			abortController: null,
 		}
 	},
 
 	beforeDestroy() {
 		clearTimeout(this.debounceTimer)
+		this.abortController?.abort()
 	},
 
 	methods: {
@@ -87,6 +90,8 @@ export default {
 			this.query = value
 			this.searched = false
 			clearTimeout(this.debounceTimer)
+			// Cancel any in-flight request from the previous keystroke.
+			this.abortController?.abort()
 			if (value.length < 2) {
 				this.results = []
 				return
@@ -96,6 +101,7 @@ export default {
 
 		/**
 		 * Search Nextcloud users via OCS endpoint with 300ms debounce.
+		 * Cancels in-flight requests via AbortController to avoid stale results.
 		 * Surfaces errors to the user via showError toast instead of swallowing them.
 		 *
 		 * @param {string} term Search term
@@ -103,10 +109,12 @@ export default {
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
 		 */
 		async searchUsers(term) {
+			this.abortController = new AbortController()
 			this.loading = true
 			try {
 				const url = generateUrl('/ocs/v2.php/cloud/users')
 				const resp = await fetch(`${url}?search=${encodeURIComponent(term)}&limit=10`, {
+					signal: this.abortController.signal,
 					headers: {
 						requesttoken: OC.requestToken,
 						'OCS-APIRequest': 'true',
@@ -122,6 +130,8 @@ export default {
 					typeof u === 'string' ? { id: u, displayName: u } : u,
 				).filter((u) => !this.existingMembers.includes(u.id))
 			} catch (err) {
+				// Ignore abort errors — they occur when a newer keystroke cancels this request.
+				if (err.name === 'AbortError') return
 				console.error('User search failed:', err)
 				showError(this.t('planix', 'Could not search for users. Please try again.'))
 				this.results = []

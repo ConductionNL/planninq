@@ -4,18 +4,12 @@
 			<h2>{{ t('planix', 'Dashboard') }}</h2>
 		</header>
 
-		<CnKpiGrid :columns="4">
+		<CnKpiGrid :columns="3">
 			<CnStatsBlock
 				:title="t('planix', 'Active projects')"
 				:count="activeProjectCount"
 				:icon="FolderOutline"
 				variant="primary"
-				horizontal />
-			<CnStatsBlock
-				:title="t('planix', 'My open tasks')"
-				:count="openTaskCount"
-				:icon="CheckboxMarkedOutline"
-				variant="warning"
 				horizontal />
 			<CnStatsBlock
 				:title="t('planix', 'Projects I am in')"
@@ -76,7 +70,6 @@ import { CnConfigurationCard, CnKpiGrid, CnStatsBlock } from '@conduction/nextcl
 import { NcButton, NcLoadingIcon } from '@nextcloud/vue'
 import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
 import ArchiveOutline from 'vue-material-design-icons/ArchiveOutline.vue'
-import CheckboxMarkedOutline from 'vue-material-design-icons/CheckboxMarkedOutline.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
 
 import { useProjectsStore } from '../store/projects.js'
@@ -93,7 +86,6 @@ export default {
 	data() {
 		return {
 			FolderOutline,
-			CheckboxMarkedOutline,
 			AccountGroupOutline,
 			ArchiveOutline,
 		}
@@ -135,16 +127,6 @@ export default {
 		 */
 		memberProjectCount() {
 			return this.projectsStore.projects.length
-		},
-		/**
-		 * Placeholder count for open tasks assigned to current user.
-		 * The task store is not bootstrapped here; returns 0 until a dedicated
-		 * task dashboard store is added.
-		 *
-		 * @return {number}
-		 */
-		openTaskCount() {
-			return 0
 		},
 		/**
 		 * Up to 5 most recent active projects, sorted by title for now.

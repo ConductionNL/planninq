@@ -112,6 +112,16 @@ export default {
 		closeSidebar: { default: null },
 	},
 
+	data() {
+		return {
+			/**
+			 * UUID of the task to highlight/scroll to from the ?task= deep-link query param.
+			 * Consumed by the kanban board once the card rendering is implemented.
+			 */
+			highlightTaskId: null,
+		}
+	},
+
 	computed: {
 		/**
 		 * @spec exclude Store passthrough — returns the projects Pinia store.
@@ -157,6 +167,14 @@ export default {
 	async mounted() {
 		const id = this.$route.params.id
 		await this.projectsStore.fetchProject(id)
+
+		// Deep-link support: when the route contains ?task=<uuid>, store the
+		// highlighted task ID so the board (once implemented) can scroll/highlight
+		// the matching card. Ignored when the full kanban board is not yet rendered.
+		const taskId = this.$route.query.task
+		if (taskId) {
+			this.highlightTaskId = taskId
+		}
 	},
 
 	beforeDestroy() {

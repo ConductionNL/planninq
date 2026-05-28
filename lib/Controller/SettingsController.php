@@ -80,7 +80,8 @@ class SettingsController extends Controller
     /**
      * Update settings with provided data. Only admin users may write settings.
      *
-     * @NoAdminRequired
+     * Admin access is enforced by both the NC admin middleware (no @NoAdminRequired)
+     * and the explicit isCurrentUserAdmin() body check (defence-in-depth).
      *
      * @return JSONResponse
      *
@@ -113,7 +114,8 @@ class SettingsController extends Controller
      * all schema and register IDs from the import result.
      * Only admin users may trigger this operation.
      *
-     * @NoAdminRequired
+     * Admin access is enforced by both the NC admin middleware (no @NoAdminRequired)
+     * and the explicit isCurrentUserAdmin() body check (defence-in-depth).
      *
      * @return JSONResponse
      *
