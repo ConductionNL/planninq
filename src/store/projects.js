@@ -446,6 +446,13 @@ export const useProjectsStore = defineStore('projects', {
 			const members = (Array.isArray(project.members) ? project.members : []).filter(
 				(uid) => uid !== userUid,
 			)
+
+			// Refuse to leave a project with no remaining members — an orphaned
+			// project is inaccessible and unrecoverable without admin intervention.
+			if (members.length === 0) {
+				throw new Error('Cannot remove the last member from a project')
+			}
+
 			return this.updateProject(projectId, { members })
 		},
 

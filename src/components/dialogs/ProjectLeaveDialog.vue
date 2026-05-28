@@ -14,7 +14,7 @@
 
 		<template #actions>
 			<NcButton
-				:disabled="loading"
+				:disabled="loading || isLastMember"
 				type="error"
 				@click="confirm">
 				<template v-if="loading" #icon>
