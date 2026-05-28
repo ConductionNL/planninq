@@ -125,11 +125,10 @@ class ProjectController extends Controller
         }
 
         // Server-side enforcement of the allow_project_creation admin setting (C1).
-        if ($this->settingsService->canCurrentUserCreateProject() === false) {
-            return new JSONResponse(
-                ['error' => 'Project creation is restricted to administrators.'],
-                Http::STATUS_FORBIDDEN
-            );
+        // Delegate to the dedicated policy-check endpoint so the gate logic stays in one place.
+        $policyCheck = $this->checkCreatePolicy();
+        if ($policyCheck->getStatus() === Http::STATUS_FORBIDDEN) {
+            return $policyCheck;
         }
 
         try {
