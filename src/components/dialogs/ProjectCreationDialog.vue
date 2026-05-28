@@ -88,7 +88,6 @@
  */
 import { NcButton, NcDialog, NcTextField, NcTextArea, NcLoadingIcon } from '@nextcloud/vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { generateUrl } from '@nextcloud/router'
 import { useProjectsStore } from '../../store/projects.js'
 
 export default {
@@ -148,34 +147,15 @@ export default {
 		/**
 		 * Validate the form and create the project.
 		 *
-		 * Calls the server-side policy check endpoint before delegating to OR.
-		 * This enforces the allow_project_creation setting server-side even
-		 * for users who bypass the client-side canCreateProject guard.
+		 * Posts to the Planix server-side project proxy (ProjectController::create)
+		 * which enforces the allow_project_creation policy before writing to OR.
+		 * A 403 response means creation is restricted to administrators.
 		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
 		 */
 		async submit() {
 			this.titleTouched = true
 			if (!this.isValid || this.loading) return
-
-			// Server-side policy gate: 403 = creation restricted to admins.
-			try {
-				const policyUrl = generateUrl('/apps/planix/api/projects/check-create-policy')
-				const policyResp = await fetch(policyUrl, {
-					headers: { requesttoken: OC.requestToken },
-				})
-				if (policyResp.status === 403) {
-					showError(this.t('planix', 'Project creation is restricted to administrators.'))
-					this.$emit('close')
-					return
-				}
-				if (!policyResp.ok) {
-					throw new Error(`Policy check failed: ${policyResp.status}`)
-				}
-			} catch (err) {
-				showError(this.t('planix', 'Could not verify project creation policy. Please try again.'))
-				return
-			}
 
 			try {
 				const project = await this.projectsStore.createProject({
@@ -190,8 +170,11 @@ export default {
 
 				// Warn if column creation had partial failures.
 				// (Warnings are already shown inside createDefaultColumns via toast)
-			} catch {
-				showError(this.t('planix', 'Could not create project. Please try again.'))
+			} catch (err) {
+				const message = err?.message?.includes('restricted to administrators')
+					? this.t('planix', 'Project creation is restricted to administrators.')
+					: this.t('planix', 'Could not create project. Please try again.')
+				showError(message)
 				// Keep dialog open and preserve form values.
 			}
 		},

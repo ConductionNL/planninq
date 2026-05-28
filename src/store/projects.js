@@ -11,9 +11,10 @@
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  */
 import { defineStore } from 'pinia'
-import { useObjectStore } from '@conduction/nextcloud-vue'
+import { useObjectStore, buildHeaders } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
+import { generateUrl } from '@nextcloud/router'
 import { showError, showWarning } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 
@@ -165,7 +166,15 @@ export const useProjectsStore = defineStore('projects', {
 		// ── 2.4 createProject ─────────────────────────────────────────────
 
 		/**
-		 * Create a new project. Also creates default columns on success.
+		 * Create a new project via the Planix server-side proxy endpoint.
+		 *
+		 * Posts to `/api/projects` (ProjectController::create) which enforces
+		 * the `allow_project_creation` policy server-side BEFORE writing to OR,
+		 * closing the TOCTOU gap where a caller could bypass the policy by
+		 * posting directly to OR's generic object API (C1 fix).
+		 *
+		 * Owner and initial membership are set server-side; any values passed
+		 * here for those fields are overridden by the controller.
 		 *
 		 * @param {object} data Project fields (title required)
 		 * @return {Promise<object>} Created project
@@ -176,21 +185,24 @@ export const useProjectsStore = defineStore('projects', {
 			this.loading = true
 			this.error = null
 			try {
-				const objectStore = this._objectStore()
-				const uid = this._currentUid()
-				const projectData = {
-					...data,
-					status: data.status || 'active',
-					owner: uid || undefined,
-					members: uid ? [uid] : [],
+				const url = generateUrl('/apps/planix/api/projects')
+				const response = await fetch(url, {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({
+						...data,
+						status: data.status || 'active',
+					}),
+				})
+
+				if (!response.ok) {
+					const errorData = await response.json().catch(() => ({}))
+					const message = errorData?.error || 'create-error'
+					this.error = message
+					throw new Error(message)
 				}
 
-				const project = await objectStore.saveObject(PROJECT_SCHEMA, projectData)
-				if (!project) {
-					const err = objectStore.getError(PROJECT_SCHEMA)
-					this.error = err?.message || 'create-error'
-					throw new Error(this.error)
-				}
+				const project = await response.json()
 
 				this.projects = [...this.projects, project]
 
@@ -209,7 +221,12 @@ export const useProjectsStore = defineStore('projects', {
 		// ── 2.5 updateProject ─────────────────────────────────────────────
 
 		/**
-		 * Update an existing project.
+		 * Update an existing project (full PUT via OR object store).
+		 *
+		 * Used for owner-initiated updates where ALL fields are provided.
+		 * For partial/single-field updates (e.g. members-only changes) use
+		 * patchProject() instead to avoid OR's PUT fill-missing-with-null
+		 * semantics wiping fields like `owner` (C2 fix).
 		 *
 		 * @param {string} id Project ID
 		 * @param {object} data Updated fields
@@ -238,6 +255,54 @@ export const useProjectsStore = defineStore('projects', {
 				return updated
 			} catch (err) {
 				this.error = err.message || 'update-error'
+				return null
+			} finally {
+				this.loading = false
+			}
+		},
+
+		// ── 2.5b patchProject ────────────────────────────────────────────
+
+		/**
+		 * Partially update a project via OR's PATCH endpoint.
+		 *
+		 * OR PATCH merges the supplied fields with the existing object rather
+		 * than replacing it (unlike PUT which fills missing schema properties
+		 * with null). Use this for member-only or other single-field changes
+		 * to avoid silently wiping `owner` and other required fields (C2 fix).
+		 *
+		 * @param {string} id Project ID
+		 * @param {object} partial Only the fields to change
+		 * @return {Promise<object|null>}
+		 */
+		async patchProject(id, partial) {
+			this.loading = true
+			this.error = null
+			try {
+				const url = generateUrl(`/apps/openregister/api/objects/planix/project/${id}`)
+				const response = await fetch(url, {
+					method: 'PATCH',
+					headers: buildHeaders(),
+					body: JSON.stringify(partial),
+				})
+
+				if (!response.ok) {
+					const errorData = await response.json().catch(() => ({}))
+					this.error = errorData?.message || 'patch-error'
+					return null
+				}
+
+				const updated = await response.json()
+
+				// Update local arrays.
+				this.projects = this.projects.map((p) => (p.id === id ? { ...p, ...updated } : p))
+				if (this.activeProject?.id === id) {
+					this.activeProject = { ...this.activeProject, ...updated }
+				}
+
+				return updated
+			} catch (err) {
+				this.error = err.message || 'patch-error'
 				return null
 			} finally {
 				this.loading = false
@@ -384,6 +449,10 @@ export const useProjectsStore = defineStore('projects', {
 		/**
 		 * Add a Nextcloud user as a project member.
 		 *
+		 * Uses PATCH (not PUT) so that only `members` is changed server-side.
+		 * OR's PUT semantics fill every missing schema property with null,
+		 * which would wipe `owner` and make the project uneditable (C2 fix).
+		 *
 		 * @param {string} projectId Project ID
 		 * @param {string} userUid Nextcloud UID to add
 		 * @return {Promise<object|null>}
@@ -398,7 +467,7 @@ export const useProjectsStore = defineStore('projects', {
 			if (members.includes(userUid)) return project // Guard against duplicates.
 
 			members.push(userUid)
-			return this.updateProject(projectId, { members })
+			return this.patchProject(projectId, { members })
 		},
 
 		// ── 2.10 getMemberTaskCount ───────────────────────────────────────
@@ -429,9 +498,18 @@ export const useProjectsStore = defineStore('projects', {
 		// ── 2.11 removeMember ─────────────────────────────────────────────
 
 		/**
-		 * Remove a member from a project.
+		 * Remove a member from a project (owner removing another member).
+		 *
 		 * Pure write — does NOT query or return task counts.
 		 * Call getMemberTaskCount first if a warning is needed.
+		 *
+		 * Uses PATCH (not PUT) so that only `members` is changed server-side,
+		 * avoiding OR's PUT fill-missing-with-null behaviour that would wipe
+		 * `owner` and make the project permanently uneditable (C2 fix).
+		 *
+		 * For the current user removing themselves, use leaveProject() instead,
+		 * which routes through a server-side proxy that bypasses the owner-match
+		 * RBAC rule (C3 fix).
 		 *
 		 * @param {string} projectId Project ID
 		 * @param {string} userUid Nextcloud UID to remove
@@ -453,15 +531,22 @@ export const useProjectsStore = defineStore('projects', {
 				throw new Error('Cannot remove the last member from a project')
 			}
 
-			return this.updateProject(projectId, { members })
+			return this.patchProject(projectId, { members })
 		},
 
 		// ── 2.12 leaveProject ────────────────────────────────────────────
 
 		/**
-		 * Current user leaves a project.
-		 * Always removes the user — the caller is responsible for confirming
-		 * last-member situations before calling this action.
+		 * Current user leaves a project via the Planix server-side proxy (C3 fix).
+		 *
+		 * Non-owner members cannot update a project through OR's normal write
+		 * path because OR RBAC requires `match: { owner: "$userId" }` for updates.
+		 * The `/api/projects/{id}/leave` endpoint validates membership and performs
+		 * the update with `_rbac: false` (OR's server-trust escape hatch), so only
+		 * the `members` array is changed and no other fields are affected.
+		 *
+		 * The caller is responsible for confirming last-member situations before
+		 * calling this action (the server will also reject it with 422).
 		 *
 		 * @param {string} projectId Project ID
 		 * @return {Promise<object|null>} Updated project or null on failure
@@ -469,8 +554,36 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
 		 */
 		async leaveProject(projectId) {
-			const uid = this._currentUid()
-			return this.removeMember(projectId, uid)
+			this.loading = true
+			this.error = null
+			try {
+				const url = generateUrl(`/apps/planix/api/projects/${projectId}/leave`)
+				const response = await fetch(url, {
+					method: 'POST',
+					headers: buildHeaders(),
+				})
+
+				if (!response.ok) {
+					const errorData = await response.json().catch(() => ({}))
+					this.error = errorData?.error || 'leave-error'
+					return null
+				}
+
+				const updated = await response.json()
+
+				// Remove from local project list (user is no longer a member).
+				this.projects = this.projects.filter((p) => p.id !== projectId)
+				if (this.activeProject?.id === projectId) {
+					this.activeProject = null
+				}
+
+				return updated
+			} catch (err) {
+				this.error = err.message || 'leave-error'
+				return null
+			} finally {
+				this.loading = false
+			}
 		},
 
 		/**
