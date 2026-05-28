@@ -12,6 +12,10 @@ return [
 
         // Project creation policy check — enforces allow_project_creation server-side.
         ['name' => 'project#checkCreatePolicy', 'url' => '/api/projects/check-create-policy', 'verb' => 'GET'],
+        // Project create proxy — C1: enforces policy then calls OR ObjectService server-side.
+        ['name' => 'project#create', 'url' => '/api/projects', 'verb' => 'POST'],
+        // Leave-project proxy — C3: allows non-owner members to remove themselves (_rbac: false).
+        ['name' => 'project#leaveProject', 'url' => '/api/projects/{projectId}/leave', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
 
         // Prometheus metrics endpoint.
         ['name' => 'metrics#index', 'url' => '/api/metrics', 'verb' => 'GET'],
