@@ -3,7 +3,7 @@
   "info": {
     "title": "Planix Register",
     "description": "Register containing all schemas for the Planix application.",
-    "version": "0.2.3"
+    "version": "0.2.4"
   },
   "x-openregister": {
     "type": "application",
@@ -18,7 +18,7 @@
         "title": "Planix",
         "description": "Planix application data register — tasks, projects, columns, time entries, and labels.",
         "slug": "planix",
-        "version": "0.2.3",
+        "version": "0.2.4",
         "schemas": ["task", "project", "column", "timeEntry", "label"],
         "tablePrefix": "planix",
         "folder": "planix",
@@ -30,7 +30,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedOutline",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "type": "object",
@@ -43,7 +43,13 @@
             },
             { "group": "admin" }
           ],
-          "create": ["authenticated"],
+          "create": [
+            {
+              "group": "authenticated",
+              "match": { "project": { "$in": { "$lookup": { "schema": "project", "field": "id", "where": { "members": { "$contains": "$userId" } } } } } }
+            },
+            { "group": "admin" }
+          ],
           "update": [
             {
               "group": "authenticated",
@@ -158,7 +164,7 @@
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns. Maps to schema:CreativeWork.",
         "type": "object",
@@ -175,7 +181,7 @@
           "update": [
             {
               "group": "authenticated",
-              "match": { "members": { "$contains": "$userId" } }
+              "match": { "owner": "$userId" }
             },
             { "group": "admin" }
           ],
@@ -247,7 +253,7 @@
       "column": {
         "slug": "column",
         "icon": "ViewColumnOutline",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "title": "Column",
         "description": "A kanban column belonging to a project. Maps to schema:DefinedTerm.",
         "type": "object",
@@ -260,7 +266,13 @@
             },
             { "group": "admin" }
           ],
-          "create": ["authenticated"],
+          "create": [
+            {
+              "group": "authenticated",
+              "match": { "project": { "$in": { "$lookup": { "schema": "project", "field": "id", "where": { "members": { "$contains": "$userId" } } } } } }
+            },
+            { "group": "admin" }
+          ],
           "update": [
             {
               "group": "authenticated",
@@ -312,7 +324,7 @@
       "timeEntry": {
         "slug": "timeEntry",
         "icon": "TimerOutline",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "title": "Time Entry",
         "description": "Time logged by a user against a task. Maps to schema:QuantitativeValue.",
         "type": "object",
@@ -329,7 +341,13 @@
             },
             { "group": "admin" }
           ],
-          "create": ["authenticated"],
+          "create": [
+            {
+              "group": "authenticated",
+              "match": { "user": "$userId" }
+            },
+            { "group": "admin" }
+          ],
           "update": [
             {
               "group": "authenticated",
