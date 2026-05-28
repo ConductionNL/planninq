@@ -10,6 +10,9 @@ return [
         ['name' => 'settings#create', 'url' => '/api/settings', 'verb' => 'POST'],
         ['name' => 'settings#load',  'url' => '/api/settings/load', 'verb' => 'POST'],
 
+        // Project creation policy check — enforces allow_project_creation server-side.
+        ['name' => 'project#checkCreatePolicy', 'url' => '/api/projects/check-create-policy', 'verb' => 'GET'],
+
         // Prometheus metrics endpoint.
         ['name' => 'metrics#index', 'url' => '/api/metrics', 'verb' => 'GET'],
         // Health check endpoint.
