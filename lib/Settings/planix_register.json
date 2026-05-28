@@ -177,7 +177,7 @@
             },
             { "group": "admin" }
           ],
-          "create": ["authenticated"],
+          "create": ["admin"],
           "update": [
             {
               "group": "authenticated",

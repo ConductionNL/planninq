@@ -181,14 +181,14 @@ class PlanixRegisterSchemaTest extends TestCase
     }//end testAllDataSchemasHaveAuthorizationBlocks()
 
     /**
-     * Project read and update authorization must include a members-based match rule.
+     * Project read authorization must include a members-based match rule.
      *
      * This is the core of the IDOR fix: a non-member must not be able to
-     * list or modify projects they do not belong to.
+     * list projects they do not belong to.
      *
      * @return void
      */
-    public function testProjectAuthorizationEnforcesMembershipForReadAndUpdate(): void
+    public function testProjectAuthorizationEnforcesMembershipForRead(): void
     {
         $auth = $this->register['components']['schemas']['project']['authorization'];
 
@@ -205,20 +205,36 @@ class PlanixRegisterSchemaTest extends TestCase
             message: 'Project read authorization must include a members-based row-filter rule (issue #257)'
         );
 
-        $hasMembersUpdateRule = false;
-        foreach ($auth['update'] as $rule) {
-            if (is_array($rule) === true && isset($rule['match']['members']) === true) {
-                $hasMembersUpdateRule = true;
+    }//end testProjectAuthorizationEnforcesMembershipForRead()
+
+    /**
+     * Project update authorization must include an owner-based match rule.
+     *
+     * Security intent (wave-3 fix): only the project owner (or admin) may
+     * mutate project metadata. Non-owner members use the server-side
+     * leaveProject proxy (C3) for the sole member-write they are permitted.
+     *
+     * @return void
+     */
+    public function testProjectUpdateAuthorizationEnforcesOwner(): void
+    {
+        $auth        = $this->register['components']['schemas']['project']['authorization'];
+        $updateRules = $auth['update'];
+
+        $hasOwnerRule = false;
+        foreach ($updateRules as $rule) {
+            if (is_array($rule) === true && isset($rule['match']['owner']) === true) {
+                $hasOwnerRule = true;
                 break;
             }
         }
 
         self::assertTrue(
-            condition: $hasMembersUpdateRule,
-            message: 'Project update authorization must include a members-based row-filter rule (issue #257)'
+            condition: $hasOwnerRule,
+            message: 'Project update authorization must restrict to the project owner (wave-3 C3 fix)'
         );
 
-    }//end testProjectAuthorizationEnforcesMembershipForReadAndUpdate()
+    }//end testProjectUpdateAuthorizationEnforcesOwner()
 
     /**
      * Project delete authorization must include an owner-based match rule.

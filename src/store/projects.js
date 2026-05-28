@@ -360,7 +360,11 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
 		 */
 		async archiveProject(id) {
-			const updated = await this.updateProject(id, { status: 'archived' })
+			// Use PATCH (not PUT) so only `status` is changed server-side.
+			// OR's PUT semantics fill every missing schema property with null,
+			// which would wipe `owner` and make the project permanently
+			// uneditable by the owner (H1 / same root cause as C2).
+			const updated = await this.patchProject(id, { status: 'archived' })
 			if (updated) {
 				// Remove from the active list (default filter excludes archived).
 				this.projects = this.projects.filter((p) => p.id !== id)
