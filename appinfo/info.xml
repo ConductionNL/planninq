@@ -39,17 +39,17 @@ Vrij en open source onder de EUPL-1.2-licentie.
     <author mail="info@conduction.nl" homepage="https://www.conduction.nl/">Conduction</author>
     <namespace>Planix</namespace>
     <documentation>
-        <user>https://github.com/ConductionNL/planix</user>
-        <admin>https://github.com/ConductionNL/planix</admin>
-        <developer>https://github.com/ConductionNL/planix</developer>
+        <user>https://codeberg.org/Conduction/planix</user>
+        <admin>https://codeberg.org/Conduction/planix</admin>
+        <developer>https://codeberg.org/Conduction/planix</developer>
     </documentation>
     <category>organization</category>
-    <website>https://github.com/ConductionNL/planix</website>
-    <discussion>https://github.com/ConductionNL/planix/discussions</discussion>
-    <bugs>https://github.com/ConductionNL/planix/issues</bugs>
-    <repository>https://github.com/ConductionNL/planix</repository>
+    <website>https://codeberg.org/Conduction/planix</website>
+    <discussion>https://codeberg.org/Conduction/planix/discussions</discussion>
+    <bugs>https://codeberg.org/Conduction/planix/issues</bugs>
+    <repository>https://codeberg.org/Conduction/planix</repository>
 
-    <screenshot>https://raw.githubusercontent.com/ConductionNL/planix/main/img/app-store.svg</screenshot>
+    <screenshot>https://codeberg.org/Conduction/planix/raw/branch/main/img/app-store.svg</screenshot>
 
     <dependencies>
         <nextcloud min-version="28" max-version="34"/>
