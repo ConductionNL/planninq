@@ -9,16 +9,16 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/ConductionNL/planix/releases"><img src="https://img.shields.io/github/v/release/ConductionNL/planix" alt="Latest release"></a>
-  <a href="https://github.com/ConductionNL/planix/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-EUPL--1.2-blue" alt="License"></a>
-  <a href="https://github.com/ConductionNL/planix/actions"><img src="https://img.shields.io/github/actions/workflow/status/ConductionNL/planix/code-quality.yml?label=quality" alt="Code quality"></a>
+  <a href="https://codeberg.org/Conduction/planix/releases"><img src="https://img.shields.io/gitea/v/release/Conduction/planix?gitea_url=https%3A%2F%2Fcodeberg.org" alt="Latest release"></a>
+  <a href="https://codeberg.org/Conduction/planix/src/branch/main/LICENSE"><img src="https://img.shields.io/badge/license-EUPL--1.2-blue" alt="License"></a>
+  <a href="https://ci.codeberg.org/repos/Conduction/planix"><img src="https://ci.codeberg.org/api/badges/Conduction/planix/status.svg" alt="Code quality"></a>
 </p>
 
 ---
 
 Planix is a Kanban-based project and task management app for Nextcloud, built as a thin client on OpenRegister. It manages projects, tasks, kanban boards with WIP limits, backlogs, and time entries — giving internal dev and IT teams a focused workflow tool built directly into their Nextcloud environment. Unlike Nextcloud Deck (which lacks backlog management, time tracking, and WIP limits), Planix closes the gap between Deck's simplicity and Jira's complexity.
 
-> **Pre-wired for [OpenRegister](https://github.com/ConductionNL/openregister)** — all data is stored as OpenRegister objects. If your app needs OpenRegister, install it first. If not, remove the dependency from `appinfo/info.xml` and `openspec/app-config.json`.
+> **Pre-wired for [OpenRegister](https://codeberg.org/Conduction/openregister)** — all data is stored as OpenRegister objects. If your app needs OpenRegister, install it first. If not, remove the dependency from `appinfo/info.xml` and `openspec/app-config.json`.
 
 ## Screenshots
 
@@ -114,7 +114,7 @@ planix/
 | Nextcloud | 31 – 33 |
 | PHP | 8.3+ |
 | Node.js | 20+ |
-| [OpenRegister](https://github.com/ConductionNL/openregister) | latest |
+| [OpenRegister](https://codeberg.org/Conduction/openregister) | latest |
 
 ## Installation
 
@@ -130,7 +130,7 @@ planix/
 
 ```bash
 cd /var/www/html/custom_apps
-git clone https://github.com/ConductionNL/planix.git planix
+git clone https://codeberg.org/Conduction/planix.git planix
 cd planix
 npm install && npm run build
 php occ app:enable planix
@@ -216,7 +216,7 @@ docker exec nextcloud php occ app:enable planix
 
 ## Related Apps
 
-- **[OpenRegister](https://github.com/ConductionNL/openregister)** — Object storage layer (required dependency)
+- **[OpenRegister](https://codeberg.org/Conduction/openregister)** — Object storage layer (required dependency)
 
 _Add related apps here as integrations are built._
 
