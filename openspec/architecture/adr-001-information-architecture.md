@@ -154,5 +154,5 @@ register-schemas).
 
 - `/tmp/ia-small5.md` — fleet-wide IA design pass (2026-05-22), Section 3
 - planix `openspec/specs/` — per-spec details for each slug in the mapping table
-- Related app ADRs (cross-cutting IA): `openbuilt/openspec/architecture/`,
+- Related app ADRs (cross-cutting IA): `openbuild/openspec/architecture/`,
   `scholiq/openspec/architecture/`
