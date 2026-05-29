@@ -46,4 +46,4 @@ Tasks bridged from Procest follow the VNG InterneTaak field mapping:
 
 ## Spec
 
-- [procest-integration spec](https://github.com/ConductionNL/planix/blob/development/openspec/specs/procest-integration.md)
+- [procest-integration spec](https://codeberg.org/Conduction/planix/src/branch/development/openspec/specs/procest-integration.md)
