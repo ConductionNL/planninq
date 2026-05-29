@@ -9,9 +9,9 @@
 </p>
 
 <p align="center">
-  <a href="https://codeberg.org/Conduction/planix/releases"><img src="https://img.shields.io/github/v/release/ConductionNL/planix" alt="Latest release"></a>
+  <a href="https://codeberg.org/Conduction/planix/releases"><img src="https://img.shields.io/gitea/v/release/Conduction/planix?gitea_url=https%3A%2F%2Fcodeberg.org" alt="Latest release"></a>
   <a href="https://codeberg.org/Conduction/planix/src/branch/main/LICENSE"><img src="https://img.shields.io/badge/license-EUPL--1.2-blue" alt="License"></a>
-  <a href="https://codeberg.org/Conduction/planix/actions"><img src="https://img.shields.io/github/actions/workflow/status/ConductionNL/planix/code-quality.yml?label=quality" alt="Code quality"></a>
+  <a href="https://ci.codeberg.org/repos/Conduction/planix"><img src="https://ci.codeberg.org/api/badges/Conduction/planix/status.svg" alt="Code quality"></a>
 </p>
 
 ---
