@@ -44,4 +44,4 @@ Time tracking in Planix operates at the task level. Each task carries an optiona
 
 ## Spec
 
-- [time-tracking spec](https://github.com/ConductionNL/planix/blob/development/openspec/specs/time-tracking.md)
+- [time-tracking spec](https://codeberg.org/Conduction/planix/src/branch/development/openspec/specs/time-tracking.md)

@@ -27,4 +27,4 @@ A task represents a piece of work within a project. Tasks carry a title, descrip
 
 ## Spec
 
-- [tasks spec](https://github.com/ConductionNL/planix/blob/development/openspec/specs/tasks.md)
+- [tasks spec](https://codeberg.org/Conduction/planix/src/branch/development/openspec/specs/tasks.md)

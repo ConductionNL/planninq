@@ -16,7 +16,7 @@ Planix is a Kanban-based project and task management app for Nextcloud, built as
 | `architecture/` | App-specific Architectural Decision Records (ADRs) |
 | `changes/` | Individual change directories, each with a full set of specification artifacts (created on first change) |
 
-> If `app-config.json` has `"requiresOpenRegister": true`, install [OpenRegister](https://github.com/ConductionNL/openregister) before enabling this app. Planix requires OpenRegister as its data storage layer.
+> If `app-config.json` has `"requiresOpenRegister": true`, install [OpenRegister](https://codeberg.org/Conduction/openregister) before enabling this app. Planix requires OpenRegister as its data storage layer.
 
 ## Artifact Progression
 

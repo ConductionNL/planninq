@@ -1,7 +1,7 @@
 publiccodeYmlVersion: "0.4"
 
 name: Planix
-url: "https://github.com/ConductionNL/planix"
+url: "https://codeberg.org/Conduction/planix"
 softwareVersion: "0.2.1"
 releaseDate: "2026-05-26"
 developmentStatus: beta
