@@ -4,7 +4,8 @@
  * Unit tests for ProjectController.
  *
  * Covers C1 (create policy enforcement), C3 (leaveProject RBAC bypass),
- * and the legacy checkCreatePolicy endpoint.
+ * the legacy checkCreatePolicy endpoint, SB1 (_rbac:false regression),
+ * WF1 (error envelope), and WF2 (owner-leave ownership handoff).
  *
  * @category Test
  * @package  OCA\Planix\Tests\Unit\Controller
@@ -148,7 +149,7 @@ class ProjectControllerTest extends TestCase
 
     }//end testCheckCreatePolicyReturnsForbiddenWhenDenied()
 
-    // ── create (C1) ──────────────────────────────────────────────────────────
+    // ── create (C1 + SB1) ────────────────────────────────────────────────────
 
     /**
      * Create returns 401 when no user is authenticated.
@@ -223,7 +224,137 @@ class ProjectControllerTest extends TestCase
 
     }//end testCreateReturnsServiceUnavailableWhenORUnavailable()
 
-    // ── leaveProject (C3) ────────────────────────────────────────────────────
+    /**
+     * SB1 regression: non-admin user with allow_project_creation='all' can
+     * create a project successfully (201). Verifies that saveObject is called
+     * with _rbac:false so the schema-level "create":["admin"] defence-in-depth
+     * rule does not block the proxy path.
+     *
+     * @return void
+     */
+    public function testCreateSucceedsForNonAdminWhenPolicyAllowsAll(): void
+    {
+        $user = $this->createMock(originalClassName: IUser::class);
+        $user->method('getUID')->willReturn('regularuser');
+
+        $this->userSession->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
+
+        // Policy gate passes (allow_project_creation = 'all').
+        $this->settingsService->expects($this->once())
+            ->method('canCurrentUserCreateProject')
+            ->willReturn(true);
+
+        // Fake saved entity.
+        $savedEntity = new class {
+            /**
+             * Returns a serialised project stub.
+             *
+             * @return array<string,mixed>
+             */
+            public function jsonSerialize(): array
+            {
+                return ['id' => 'new-uuid', 'title' => 'My Project', 'owner' => 'regularuser'];
+            }//end jsonSerialize()
+        };
+
+        $objectService = $this->getMockBuilder(className: \stdClass::class)
+            ->addMethods(['saveObject'])
+            ->getMock();
+
+        $objectService->expects($this->once())
+            ->method('saveObject')
+            ->willReturn($savedEntity);
+
+        $this->container->expects($this->once())
+            ->method('get')
+            ->with('OCA\\OpenRegister\\Service\\ObjectService')
+            ->willReturn($objectService);
+
+        $this->request->method('getParams')->willReturn(['title' => 'My Project']);
+
+        $result = $this->controller->create();
+
+        self::assertSame(expected: Http::STATUS_CREATED, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'id', array: $result->getData());
+
+    }//end testCreateSucceedsForNonAdminWhenPolicyAllowsAll()
+
+    // ── WF1 error envelope ───────────────────────────────────────────────────
+
+    /**
+     * Create returns 500 for unexpected errors from ObjectService.
+     *
+     * @return void
+     */
+    public function testCreateReturnsInternalServerErrorForUnexpectedThrowable(): void
+    {
+        $user = $this->createMock(originalClassName: IUser::class);
+        $user->method('getUID')->willReturn('alice');
+
+        $this->userSession->method('getUser')->willReturn($user);
+        $this->settingsService->method('canCurrentUserCreateProject')->willReturn(true);
+
+        $objectService = $this->getMockBuilder(className: \stdClass::class)
+            ->addMethods(['saveObject'])
+            ->getMock();
+
+        $objectService->method('saveObject')
+            ->willThrowException(new \RuntimeException('Unexpected DB error'));
+
+        $this->container->method('get')->willReturn($objectService);
+        $this->request->method('getParams')->willReturn(['title' => 'X']);
+
+        $result = $this->controller->create();
+
+        self::assertSame(expected: Http::STATUS_INTERNAL_SERVER_ERROR, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testCreateReturnsInternalServerErrorForUnexpectedThrowable()
+
+    /**
+     * LeaveProject returns 500 for unexpected errors from ObjectService.
+     *
+     * @return void
+     */
+    public function testLeaveProjectReturnsInternalServerErrorForUnexpectedThrowable(): void
+    {
+        $user = $this->createMock(originalClassName: IUser::class);
+        $user->method('getUID')->willReturn('bob');
+
+        $this->userSession->method('getUser')->willReturn($user);
+
+        $entity = new class {
+            /**
+             * Returns a project stub with bob as member.
+             *
+             * @return array<string,mixed>
+             */
+            public function getObject(): array
+            {
+                return ['owner' => 'alice', 'members' => ['alice', 'bob']];
+            }//end getObject()
+        };
+
+        $objectService = $this->getMockBuilder(className: \stdClass::class)
+            ->addMethods(['setRegister', 'setSchema', 'find', 'saveObject'])
+            ->getMock();
+
+        $objectService->method('find')->willReturn($entity);
+        $objectService->method('saveObject')
+            ->willThrowException(new \RuntimeException('Unexpected DB error'));
+
+        $this->container->method('get')->willReturn($objectService);
+
+        $result = $this->controller->leaveProject('project-uuid-1');
+
+        self::assertSame(expected: Http::STATUS_INTERNAL_SERVER_ERROR, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testLeaveProjectReturnsInternalServerErrorForUnexpectedThrowable()
+
+    // ── leaveProject (C3 + WF2) ──────────────────────────────────────────────
 
     /**
      * LeaveProject returns 401 when the user is not authenticated.
@@ -263,5 +394,191 @@ class ProjectControllerTest extends TestCase
         $result = $this->controller->leaveProject('project-uuid-1');
 
         self::assertSame(expected: Http::STATUS_SERVICE_UNAVAILABLE, actual: $result->getStatus());
+
     }//end testLeaveProjectReturnsServiceUnavailableWhenORUnavailable()
+
+    /**
+     * WF2: When the project owner leaves, ownership transfers to the
+     * alphabetically-first remaining member.
+     *
+     * @return void
+     */
+    public function testLeaveProjectTransfersOwnershipWhenOwnerLeaves(): void
+    {
+        $user = $this->createMock(originalClassName: IUser::class);
+        $user->method('getUID')->willReturn('alice');
+
+        $this->userSession->method('getUser')->willReturn($user);
+
+        // Fake entity: alice is owner and member; bob and carol are other members.
+        $entity = new class {
+            /**
+             * Returns the project stub.
+             *
+             * @return array<string,mixed>
+             */
+            public function getObject(): array
+            {
+                return [
+                    'id'      => 'project-uuid-1',
+                    'title'   => 'Test Project',
+                    'owner'   => 'alice',
+                    'members' => ['alice', 'bob', 'carol'],
+                ];
+            }//end getObject()
+        };
+
+        // Capture saved payload to assert ownership transferred to 'bob' (alphabetically first after 'alice').
+        $savedPayload = null;
+        $savedEntity  = new class {
+            /**
+             * Returns a serialised saved project.
+             *
+             * @return array<string,mixed>
+             */
+            public function jsonSerialize(): array
+            {
+                return ['id' => 'project-uuid-1', 'owner' => 'bob', 'members' => ['bob', 'carol']];
+            }//end jsonSerialize()
+        };
+
+        $objectService = $this->getMockBuilder(className: \stdClass::class)
+            ->addMethods(['setRegister', 'setSchema', 'find', 'saveObject'])
+            ->getMock();
+
+        $objectService->method('find')->willReturn($entity);
+        $objectService->expects($this->once())
+            ->method('saveObject')
+            ->willReturnCallback(
+                function () use ($savedEntity, &$savedPayload) {
+                    $args         = func_get_args();
+                    $savedPayload = $args[0] ?? null;
+                    return $savedEntity;
+                }
+            );
+
+        $this->container->method('get')->willReturn($objectService);
+
+        $result = $this->controller->leaveProject('project-uuid-1');
+
+        self::assertSame(expected: Http::STATUS_OK, actual: $result->getStatus());
+        // Owner in the saved payload must be 'bob' (alphabetically first of remaining members).
+        self::assertNotNull(actual: $savedPayload, message: 'saveObject must have been called');
+        self::assertSame(expected: 'bob', actual: ($savedPayload['owner'] ?? null));
+        self::assertNotContains(needle: 'alice', haystack: ($savedPayload['members'] ?? []));
+
+    }//end testLeaveProjectTransfersOwnershipWhenOwnerLeaves()
+
+    /**
+     * WF2: When a non-owner member leaves, the owner field is unchanged.
+     *
+     * @return void
+     */
+    public function testLeaveProjectDoesNotChangeOwnerWhenNonOwnerLeaves(): void
+    {
+        $user = $this->createMock(originalClassName: IUser::class);
+        $user->method('getUID')->willReturn('bob');
+
+        $this->userSession->method('getUser')->willReturn($user);
+
+        $entity = new class {
+            /**
+             * Returns the project stub.
+             *
+             * @return array<string,mixed>
+             */
+            public function getObject(): array
+            {
+                return [
+                    'id'      => 'project-uuid-1',
+                    'title'   => 'Test Project',
+                    'owner'   => 'alice',
+                    'members' => ['alice', 'bob'],
+                ];
+            }//end getObject()
+        };
+
+        $savedPayload = null;
+        $savedEntity  = new class {
+            /**
+             * Returns a serialised saved project.
+             *
+             * @return array<string,mixed>
+             */
+            public function jsonSerialize(): array
+            {
+                return ['id' => 'project-uuid-1', 'owner' => 'alice', 'members' => ['alice']];
+            }//end jsonSerialize()
+        };
+
+        $objectService = $this->getMockBuilder(className: \stdClass::class)
+            ->addMethods(['setRegister', 'setSchema', 'find', 'saveObject'])
+            ->getMock();
+
+        $objectService->method('find')->willReturn($entity);
+        $objectService->expects($this->once())
+            ->method('saveObject')
+            ->willReturnCallback(
+                function () use ($savedEntity, &$savedPayload) {
+                    $args         = func_get_args();
+                    $savedPayload = $args[0] ?? null;
+                    return $savedEntity;
+                }
+            );
+
+        $this->container->method('get')->willReturn($objectService);
+
+        $result = $this->controller->leaveProject('project-uuid-1');
+
+        self::assertSame(expected: Http::STATUS_OK, actual: $result->getStatus());
+        self::assertNotNull(actual: $savedPayload);
+        // Owner must remain 'alice' — non-owner bob leaving does not change ownership.
+        self::assertSame(expected: 'alice', actual: ($savedPayload['owner'] ?? null));
+        self::assertNotContains(needle: 'bob', haystack: ($savedPayload['members'] ?? []));
+
+    }//end testLeaveProjectDoesNotChangeOwnerWhenNonOwnerLeaves()
+
+    /**
+     * LeaveProject returns 422 when trying to leave as the last member.
+     *
+     * @return void
+     */
+    public function testLeaveProjectRefusesWhenLastMember(): void
+    {
+        $user = $this->createMock(originalClassName: IUser::class);
+        $user->method('getUID')->willReturn('alice');
+
+        $this->userSession->method('getUser')->willReturn($user);
+
+        $entity = new class {
+            /**
+             * Returns the project stub with alice as sole member.
+             *
+             * @return array<string,mixed>
+             */
+            public function getObject(): array
+            {
+                return [
+                    'id'      => 'project-uuid-1',
+                    'owner'   => 'alice',
+                    'members' => ['alice'],
+                ];
+            }//end getObject()
+        };
+
+        $objectService = $this->getMockBuilder(className: \stdClass::class)
+            ->addMethods(['setRegister', 'setSchema', 'find', 'saveObject'])
+            ->getMock();
+
+        $objectService->method('find')->willReturn($entity);
+        $objectService->expects($this->never())->method('saveObject');
+
+        $this->container->method('get')->willReturn($objectService);
+
+        $result = $this->controller->leaveProject('project-uuid-1');
+
+        self::assertSame(expected: Http::STATUS_UNPROCESSABLE_ENTITY, actual: $result->getStatus());
+        self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+    }//end testLeaveProjectRefusesWhenLastMember()
 }//end class
