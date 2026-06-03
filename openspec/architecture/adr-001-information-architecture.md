@@ -8,7 +8,7 @@
 planix is the operational planning surface — kanban boards, tasks, time-tracking,
 projects, capacity planning, risk register, and PMO-rollup — used by both overheid
 and MKB teams. It receives raadsbesluiten from decidesk via the deliverable-chain,
-feeds progress to mydash, and consumes the BBV-programma-tree from financeq so that
+feeds progress to launchpad, and consumes the BBV-programma-tree from financeq so that
 projects ladder up to programma's, doelen, and indicatoren.
 
 The app currently inherits ~13 spec slugs of mixed scope: dashboards, boards,
@@ -79,7 +79,7 @@ register-schemas).
    programma or besluit — they are views/relations, not separate nouns the user
    creates. Surface them as tabs on the project detail (and as read-only widgets
    in Portfolio), never as their own menu items. The same rule applies to any
-   future cross-app chain (e.g. financeq budget-realisatie, mydash bestuurder-
+   future cross-app chain (e.g. financeq budget-realisatie, launchpad bestuurder-
    view): one project, many ladder-views.
 
 3. **One task model, two contexts.** Tasks live in a single underlying model
@@ -96,7 +96,7 @@ register-schemas).
    another user's time entry from a project screen.
 
 5. **Integrations and plumbing live in Beheer, results live inline.**
-   procest-integration, decidesk-koppeling, mydash-koppeling, financeq-bridge,
+   procest-integration, decidesk-koppeling, launchpad-koppeling, financeq-bridge,
    register-schemas, connectors, and all other adapter configuration sit under
    Beheer. The user-facing result surfaces inline on the operational object
    ("taak auto-aangemaakt door procest", "raadsbesluit-deadline op project",
@@ -125,7 +125,7 @@ register-schemas).
   debates per-PR.
 - The medewerker surface (Mijn werk + Borden) stays small and learnable even as
   the app accumulates portfolio, chain, and integration features.
-- Cross-app chain hops (decidesk → planix → procest → mydash) stay invisible to
+- Cross-app chain hops (decidesk → planix → procest → launchpad) stay invisible to
   the medewerker; the platform plumbing is owned by Beheer and audit, not the
   daily UI.
 - One task model + one time-tracking surface eliminates two classes of bugs
@@ -154,5 +154,5 @@ register-schemas).
 
 - `/tmp/ia-small5.md` — fleet-wide IA design pass (2026-05-22), Section 3
 - planix `openspec/specs/` — per-spec details for each slug in the mapping table
-- Related app ADRs (cross-cutting IA): `openbuilt/openspec/architecture/`,
+- Related app ADRs (cross-cutting IA): `openbuild/openspec/architecture/`,
   `scholiq/openspec/architecture/`
