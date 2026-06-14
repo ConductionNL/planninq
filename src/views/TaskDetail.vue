@@ -54,14 +54,9 @@
 			     OpenRegister per-object endpoints (ADR-022) — no planix PHP. -->
 			<CnObjectSidebar
 				:open="true"
-				:use-registry="false"
-				:object-id="taskId"
-				object-type="planix-task"
-				:register="register"
-				schema="task"
+				v-bind="sidebarConfig"
 				:title="taskTitle"
 				:subtitle="t('planix', 'Task')"
-				:hidden-tabs="['tags', 'tasks']"
 				:files-label="t('planix', 'Attachments')"
 				:notes-label="t('planix', 'Comments')"
 				:audit-trail-label="t('planix', 'Activity')"
@@ -78,6 +73,7 @@ import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { useSettingsStore } from '../store/modules/settings.js'
+import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
 
 /**
  * Task detail view.
@@ -105,8 +101,6 @@ export default {
 		return {
 			projectsStore: useProjectsStore(),
 			settingsStore: useSettingsStore(),
-			/** OpenRegister register slug the task lives in. */
-			register: 'planix',
 		}
 	},
 
@@ -121,6 +115,11 @@ export default {
 		/** The loaded task object (or null). */
 		task() {
 			return this.activeTask
+		},
+
+		/** CnObjectSidebar props (register/schema/objectId/hidden tabs). */
+		sidebarConfig() {
+			return taskCollaborationSidebarConfig({ id: this.taskId })
 		},
 
 		/** Display title of the task. */
