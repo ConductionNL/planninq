@@ -110,6 +110,12 @@ class DependencyController extends Controller
             $edge = $this->dependencyService->create(blocker: (string) $blocker, blocked: (string) $blocked);
             return new JSONResponse($edge, Http::STATUS_CREATED);
         } catch (DependencyValidationException $e) {
+            // Project-membership guard (IDOR): a non-member caller is rejected by
+            // DependencyService with CODE_FORBIDDEN, surfaced here as 403.
+            if ($e->getCode() === DependencyValidationException::CODE_FORBIDDEN) {
+                return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
+            }
+
             return $this->toResponse(e: $e);
         } catch (\Throwable $e) {
             $this->logger->error('Planix: dependency create failed', ['exception' => $e->getMessage()]);
@@ -134,6 +140,12 @@ class DependencyController extends Controller
             $this->dependencyService->delete(id: $id);
             return new JSONResponse(['deleted' => true]);
         } catch (DependencyValidationException $e) {
+            // Project-membership guard (IDOR): a non-member caller is rejected by
+            // DependencyService with CODE_FORBIDDEN, surfaced here as 403.
+            if ($e->getCode() === DependencyValidationException::CODE_FORBIDDEN) {
+                return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
+            }
+
             return $this->toResponse(e: $e);
         } catch (\Throwable $e) {
             $this->logger->error('Planix: dependency delete failed', ['exception' => $e->getMessage(), 'id' => $id]);

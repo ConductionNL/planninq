@@ -65,6 +65,210 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Task Dependencies",
+			"description": "Server-side dependency-edge validation: create/delete, self-edge 422, duplicate 422, transitive cycle 422 (path named). Requires the planix app and its register installed; project_id must be a project the admin belongs to. spec: openspec/changes/task-dependencies/specs/task-dependencies/spec.md",
+			"item": [
+				{
+					"name": "Create blocker task A",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": { "mode": "raw", "raw": "{\"title\":\"Dep test A\",\"status\":\"open\",\"project\":\"{{project_id}}\"}" },
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task",
+						"description": "Seed task A directly via the OpenRegister object API (fixture setup)."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task A created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('task_a', j.id || (j['@self'] && j['@self'].id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create blocked task B",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": { "mode": "raw", "raw": "{\"title\":\"Dep test B\",\"status\":\"open\",\"project\":\"{{project_id}}\"}" },
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task B created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('task_b', j.id || (j['@self'] && j['@self'].id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create blocked task C",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": { "mode": "raw", "raw": "{\"title\":\"Dep test C\",\"status\":\"open\",\"project\":\"{{project_id}}\"}" },
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task C created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('task_c', j.id || (j['@self'] && j['@self'].id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create edge A blocks B",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": { "mode": "raw", "raw": "{\"blocker\":\"{{task_a}}\",\"blocked\":\"{{task_b}}\"}" },
+						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('edge A->B created', function () {",
+									"    pm.response.to.have.status(201);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('edge_ab', j.id || (j['@self'] && j['@self'].id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Self-edge rejected (422)",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": { "mode": "raw", "raw": "{\"blocker\":\"{{task_a}}\",\"blocked\":\"{{task_a}}\"}" },
+						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('self-edge is 422', function () { pm.response.to.have.status(422); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Duplicate edge rejected (422)",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": { "mode": "raw", "raw": "{\"blocker\":\"{{task_a}}\",\"blocked\":\"{{task_b}}\"}" },
+						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('duplicate is 422', function () { pm.response.to.have.status(422); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create edge B blocks C",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": { "mode": "raw", "raw": "{\"blocker\":\"{{task_b}}\",\"blocked\":\"{{task_c}}\"}" },
+						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('edge B->C created', function () { pm.response.to.have.status(201); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Transitive cycle C blocks A rejected (422 with path)",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": { "mode": "raw", "raw": "{\"blocker\":\"{{task_c}}\",\"blocked\":\"{{task_a}}\"}" },
+						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('cycle is 422 naming the path', function () {",
+									"    pm.response.to.have.status(422);",
+									"    pm.expect(pm.response.json().error).to.match(/cycle/i);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Delete edge A blocks B",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/planix/api/dependencies/{{edge_ab}}"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('edge deleted', function () { pm.response.to.have.status(200); });"
+								]
+							}
+						}
+					]
+				}
+			]
 		}
 	]
 }

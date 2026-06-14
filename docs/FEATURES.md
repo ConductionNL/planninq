@@ -60,7 +60,7 @@ No dedicated Dutch government task management tools were identified. OpenProject
 | Task status lifecycle (open → in_progress → done) | **MVP** | Core workflow |
 | Task labels / tags | **MVP** | Cross-project categorization |
 | Sub-tasks (one level deep) | **V1** | Breakdown complex work |
-| Task dependencies (blocks / is-blocked-by) | **V1** | Flow management |
+| Task dependencies (blocks / is-blocked-by) | **V1 — implemented** | Flow management (server-side cycle detection) |
 | Recurring tasks | **V1** | Regular work patterns |
 | Task templates | **Enterprise** | Standardized workflows |
 | Custom task fields | **Enterprise** | Domain-specific metadata |
@@ -94,7 +94,7 @@ No dedicated Dutch government task management tools were identified. OpenProject
 | Task count per column (shown in column header) | **MVP** | Instant awareness of column load; present in every kanban tool |
 | Overdue task highlight (red border/badge on card) | **MVP** | Urgency signal visible without opening task — Jira, Linear, Asana pattern |
 | Collapsed columns | **V1** | Space management |
-| Blocked task indicators | **V1** | Dependency visibility |
+| Blocked task indicators | **V1 — implemented** | Dependency visibility (derived blocked badge) |
 | Card quick-edit (inline title/status change) | **V1** | Speed of use |
 
 ### Backlog Management
