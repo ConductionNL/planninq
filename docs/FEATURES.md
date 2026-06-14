@@ -166,7 +166,7 @@ No dedicated Dutch government task management tools were identified. OpenProject
 | Feature | Tier | Justification |
 |---------|------|---------------|
 | Notification: task assigned | **MVP** | Immediate assignment feedback |
-| Notification: task due date approaching (1 day before) | **MVP** | Deadline reminder |
+| Notification: task due date approaching (configurable lead time, default 1 day) | **MVP — implemented** | Deadline reminder. Declarative `taskDueSoon` rule on the `task` schema (`x-openregister-notifications`, ADR-031), dispatched by the OpenRegister scheduled notification engine; per-user opt-out via the `notify_due_reminder` toggle; admin-configurable lead time (`due_reminder_lead_hours`, 1–336 h). See `openspec/specs/task-notifications.md`. |
 | Notification: task overdue | **V1** | Urgency escalation |
 | Notification: task commented | **V1** | Collaboration |
 | Notification: task status changed | **V1** | Status tracking |
