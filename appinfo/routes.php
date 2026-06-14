@@ -18,6 +18,12 @@ return [
         // Leave-project proxy — C3: allows non-owner members to remove themselves (_rbac: false).
         ['name' => 'project#leaveProject', 'url' => '/api/projects/{projectId}/leave', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
 
+        // Label management (admin-only) — usage listing + cascade delete.
+        // Admin posture enforced by NC SecurityMiddleware (no #[NoAdminRequired]
+        // on the controller methods) plus an explicit isCurrentUserAdmin() check.
+        ['name' => 'label#index', 'url' => '/api/labels', 'verb' => 'GET'],
+        ['name' => 'label#destroy', 'url' => '/api/labels/{id}', 'verb' => 'DELETE', 'requirements' => ['id' => '[^/]+']],
+
         // Dependency edge create — server-side cycle/self/duplicate/cross-project validation.
         ['name' => 'dependency#create', 'url' => '/api/dependencies', 'verb' => 'POST'],
         // Dependency edge delete — project-member guarded.
