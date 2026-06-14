@@ -48,7 +48,6 @@ use Psr\Log\LoggerInterface;
  */
 class DependencyController extends Controller
 {
-
     /**
      * Constructor for the DependencyController.
      *
@@ -108,10 +107,10 @@ class DependencyController extends Controller
     public function create(?string $blocker=null, ?string $blocked=null): JSONResponse
     {
         try {
-            $edge = $this->dependencyService->create((string) $blocker, (string) $blocked);
+            $edge = $this->dependencyService->create(blocker: (string) $blocker, blocked: (string) $blocked);
             return new JSONResponse($edge, Http::STATUS_CREATED);
         } catch (DependencyValidationException $e) {
-            return $this->toResponse($e);
+            return $this->toResponse(e: $e);
         } catch (\Throwable $e) {
             $this->logger->error('Planix: dependency create failed', ['exception' => $e->getMessage()]);
             return new JSONResponse(['error' => 'Failed to create dependency.'], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -132,10 +131,10 @@ class DependencyController extends Controller
     public function destroy(string $id): JSONResponse
     {
         try {
-            $this->dependencyService->delete($id);
+            $this->dependencyService->delete(id: $id);
             return new JSONResponse(['deleted' => true]);
         } catch (DependencyValidationException $e) {
-            return $this->toResponse($e);
+            return $this->toResponse(e: $e);
         } catch (\Throwable $e) {
             $this->logger->error('Planix: dependency delete failed', ['exception' => $e->getMessage(), 'id' => $id]);
             return new JSONResponse(['error' => 'Failed to delete dependency.'], Http::STATUS_INTERNAL_SERVER_ERROR);

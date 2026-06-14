@@ -80,7 +80,7 @@ class DependencyValidationException extends \RuntimeException
      */
     public function __construct(string $message, int $code)
     {
-        parent::__construct($message, $code);
+        parent::__construct(message: $message, code: $code);
 
     }//end __construct()
 }//end class

@@ -1,5 +1,17 @@
 {
     "translations": {
+        "Dependencies": "Afhankelijkheden",
+        "Blocked": "Geblokkeerd",
+        "Blocked by": "Geblokkeerd door",
+        "Blocks": "Blokkeert",
+        "Blocked by {count} open task(s)": "Geblokkeerd door {count} openstaande taak/taken",
+        "This task is blocked by {count} unfinished task(s).": "Deze taak wordt geblokkeerd door {count} onafgeronde taak/taken.",
+        "Remove dependency": "Afhankelijkheid verwijderen",
+        "No blocking tasks.": "Geen blokkerende taken.",
+        "This task blocks no other tasks.": "Deze taak blokkeert geen andere taken.",
+        "Add a blocking task": "Een blokkerende taak toevoegen",
+        "Pick a task that must finish first": "Kies een taak die eerst moet worden afgerond",
+        "Add": "Toevoegen",
         "Planix settings": "Planix instellingen",
         "Notifications": "Meldingen",
         "Notify me 1 day before a task's due date": "Stuur mij een melding 1 dag voor de einddatum van een taak",

@@ -134,68 +134,19 @@ class DependencyService
     public function create(string $blocker, string $blocked): array
     {
         // 1. No self-edge.
-        if ($blocker === '' || $blocked === '') {
-            throw new DependencyValidationException(
-                message: 'Both blocker and blocked task are required.',
-                code: DependencyValidationException::CODE_VALIDATION
-            );
-        }
-
-        if ($blocker === $blocked) {
-            throw new DependencyValidationException(
-                message: 'A task cannot depend on itself.',
-                code: DependencyValidationException::CODE_VALIDATION
-            );
-        }
+        $this->assertDistinctTasks(blocker: $blocker, blocked: $blocked);
 
         $objectService = $this->objectService();
 
         // 2. Both tasks exist and share a project.
-        $blockerTask = $this->fetchTask($objectService, $blocker);
-        $blockedTask = $this->fetchTask($objectService, $blocked);
-
-        if ($blockerTask === null || $blockedTask === null) {
-            throw new DependencyValidationException(
-                message: 'One or both tasks could not be found.',
-                code: DependencyValidationException::CODE_NOT_FOUND
-            );
-        }
-
-        $projectId = (string) ($blockerTask['project'] ?? '');
-        if ($projectId === '' || $projectId !== (string) ($blockedTask['project'] ?? '')) {
-            throw new DependencyValidationException(
-                message: 'Dependencies can only link tasks within the same project.',
-                code: DependencyValidationException::CODE_VALIDATION
-            );
-        }
+        $projectId = $this->resolveSharedProjectId(objectService: $objectService, blocker: $blocker, blocked: $blocked);
 
         // 3. Membership guard (IDOR) — caller must be a member of the project.
-        $this->assertProjectMember($objectService, $projectId);
+        $this->assertProjectMember(objectService: $objectService, projectId: $projectId);
 
-        // Load the project's existing edges once; used for duplicate + cycle checks.
-        $edges = $this->fetchProjectEdges($objectService, $projectId);
-
-        // 4. No duplicate edge.
-        foreach ($edges as $edge) {
-            if ((string) ($edge['blocker'] ?? '') === $blocker
-                && (string) ($edge['blocked'] ?? '') === $blocked
-            ) {
-                throw new DependencyValidationException(
-                    message: 'This dependency already exists.',
-                    code: DependencyValidationException::CODE_VALIDATION
-                );
-            }
-        }
-
-        // 5. Cycle check — would adding blocker→blocked close a cycle?
-        $path = self::cyclePath($edges, $blocker, $blocked);
-        if ($path !== null) {
-            $rendered = $this->renderPath($objectService, $path);
-            throw new DependencyValidationException(
-                message: 'This dependency would create a cycle: '.$rendered,
-                code: DependencyValidationException::CODE_VALIDATION
-            );
-        }
+        // 4. + 5. No duplicate edge; no cycle. Loads the project edges once.
+        $edges = $this->fetchProjectEdges(objectService: $objectService, projectId: $projectId);
+        $this->assertEdgeIsValid(objectService: $objectService, edges: $edges, blocker: $blocker, blocked: $blocked);
 
         $saved = $objectService->saveObject(
             object: ['blocker' => $blocker, 'blocked' => $blocked],
@@ -212,6 +163,105 @@ class DependencyService
         return $saved->jsonSerialize();
 
     }//end create()
+
+    /**
+     * Assert the two task ids are both present and distinct (no self-edge).
+     *
+     * @param string $blocker UUID of the blocking task.
+     * @param string $blocked UUID of the blocked task.
+     *
+     * @return void
+     *
+     * @throws DependencyValidationException When empty or equal.
+     */
+    private function assertDistinctTasks(string $blocker, string $blocked): void
+    {
+        if ($blocker === '' || $blocked === '') {
+            throw new DependencyValidationException(
+                message: 'Both blocker and blocked task are required.',
+                code: DependencyValidationException::CODE_VALIDATION
+            );
+        }
+
+        if ($blocker === $blocked) {
+            throw new DependencyValidationException(
+                message: 'A task cannot depend on itself.',
+                code: DependencyValidationException::CODE_VALIDATION
+            );
+        }
+
+    }//end assertDistinctTasks()
+
+    /**
+     * Verify both tasks exist and belong to the same project; return that project id.
+     *
+     * @param object $objectService The OR ObjectService.
+     * @param string $blocker       UUID of the blocking task.
+     * @param string $blocked       UUID of the blocked task.
+     *
+     * @return string The shared project UUID.
+     *
+     * @throws DependencyValidationException When a task is missing or the projects differ.
+     */
+    private function resolveSharedProjectId(object $objectService, string $blocker, string $blocked): string
+    {
+        $blockerTask = $this->fetchTask(objectService: $objectService, taskId: $blocker);
+        $blockedTask = $this->fetchTask(objectService: $objectService, taskId: $blocked);
+
+        if ($blockerTask === null || $blockedTask === null) {
+            throw new DependencyValidationException(
+                message: 'One or both tasks could not be found.',
+                code: DependencyValidationException::CODE_NOT_FOUND
+            );
+        }
+
+        $projectId = (string) ($blockerTask['project'] ?? '');
+        if ($projectId === '' || $projectId !== (string) ($blockedTask['project'] ?? '')) {
+            throw new DependencyValidationException(
+                message: 'Dependencies can only link tasks within the same project.',
+                code: DependencyValidationException::CODE_VALIDATION
+            );
+        }
+
+        return $projectId;
+
+    }//end resolveSharedProjectId()
+
+    /**
+     * Assert the proposed edge is neither a duplicate nor cycle-forming.
+     *
+     * @param object                         $objectService The OR ObjectService (for path rendering).
+     * @param array<int,array<string,mixed>> $edges         The project's existing edges.
+     * @param string                         $blocker       UUID of the blocking task.
+     * @param string                         $blocked       UUID of the blocked task.
+     *
+     * @return void
+     *
+     * @throws DependencyValidationException On a duplicate or a cycle (message names the path).
+     */
+    private function assertEdgeIsValid(object $objectService, array $edges, string $blocker, string $blocked): void
+    {
+        foreach ($edges as $edge) {
+            if ((string) ($edge['blocker'] ?? '') === $blocker
+                && (string) ($edge['blocked'] ?? '') === $blocked
+            ) {
+                throw new DependencyValidationException(
+                    message: 'This dependency already exists.',
+                    code: DependencyValidationException::CODE_VALIDATION
+                );
+            }
+        }
+
+        $path = self::cyclePath(edges: $edges, blocker: $blocker, blocked: $blocked);
+        if ($path !== null) {
+            $rendered = $this->renderPath(objectService: $objectService, path: $path);
+            throw new DependencyValidationException(
+                message: 'This dependency would create a cycle: '.$rendered,
+                code: DependencyValidationException::CODE_VALIDATION
+            );
+        }
+
+    }//end assertEdgeIsValid()
 
     /**
      * Delete a dependency edge after a project-membership guard.
@@ -239,18 +289,24 @@ class DependencyService
         }
 
         $edge        = $entity->getObject();
-        $blockerTask = $this->fetchTask($objectService, (string) ($edge['blocker'] ?? ''));
-        $projectId   = $blockerTask !== null ? (string) ($blockerTask['project'] ?? '') : '';
+        $blockerTask = $this->fetchTask(objectService: $objectService, taskId: (string) ($edge['blocker'] ?? ''));
+
+        $projectId = '';
+        if ($blockerTask !== null) {
+            $projectId = (string) ($blockerTask['project'] ?? '');
+        }
 
         // Membership guard. When the blocker task is gone the edge is an orphan;
         // fall back to the blocked task's project so orphan cleanup stays member-gated.
         if ($projectId === '') {
-            $blockedTask = $this->fetchTask($objectService, (string) ($edge['blocked'] ?? ''));
-            $projectId   = $blockedTask !== null ? (string) ($blockedTask['project'] ?? '') : '';
+            $blockedTask = $this->fetchTask(objectService: $objectService, taskId: (string) ($edge['blocked'] ?? ''));
+            if ($blockedTask !== null) {
+                $projectId = (string) ($blockedTask['project'] ?? '');
+            }
         }
 
         if ($projectId !== '') {
-            $this->assertProjectMember($objectService, $projectId);
+            $this->assertProjectMember(objectService: $objectService, projectId: $projectId);
         }
 
         $objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $id);
@@ -283,7 +339,7 @@ class DependencyService
         $objectService->setSchema(self::SCHEMA);
 
         $removed = 0;
-        foreach ($this->fetchAllEdges($objectService) as $edge) {
+        foreach ($this->fetchAllEdges(objectService: $objectService) as $edge) {
             $edgeId = (string) ($edge['id'] ?? '');
             if ($edgeId === '') {
                 continue;
@@ -333,17 +389,7 @@ class DependencyService
             return [$blocker, $blocker];
         }
 
-        // Build adjacency: blocker UUID → list of blocked UUIDs.
-        $adjacency = [];
-        foreach ($edges as $edge) {
-            $from = (string) ($edge['blocker'] ?? '');
-            $to   = (string) ($edge['blocked'] ?? '');
-            if ($from === '' || $to === '') {
-                continue;
-            }
-
-            $adjacency[$from][] = $to;
-        }
+        $adjacency = self::buildAdjacency(edges: $edges);
 
         // Does `blocked` already reach `blocker`? DFS following blocker→blocked.
         $visited = [];
@@ -370,11 +416,35 @@ class DependencyService
 
                 $stack[] = [$next, array_merge($trail, [$next])];
             }
-        }
+        }//end while
 
         return null;
 
     }//end cyclePath()
+
+    /**
+     * Build an adjacency map (blocker UUID → list of blocked UUIDs) from edges.
+     *
+     * @param array<int,array<string,mixed>> $edges Existing edges.
+     *
+     * @return array<string,array<int,string>>
+     */
+    private static function buildAdjacency(array $edges): array
+    {
+        $adjacency = [];
+        foreach ($edges as $edge) {
+            $from = (string) ($edge['blocker'] ?? '');
+            $to   = (string) ($edge['blocked'] ?? '');
+            if ($from === '' || $to === '') {
+                continue;
+            }
+
+            $adjacency[$from][] = $to;
+        }
+
+        return $adjacency;
+
+    }//end buildAdjacency()
 
     /**
      * Convenience boolean wrapper around {@see cyclePath()}.
@@ -384,10 +454,12 @@ class DependencyService
      * @param string                         $blocked UUID of the proposed blocked task.
      *
      * @return bool True when the edge would form a cycle.
+     *
+     * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
      */
     public static function wouldFormCycle(array $edges, string $blocker, string $blocked): bool
     {
-        return self::cyclePath($edges, $blocker, $blocked) !== null;
+        return self::cyclePath(edges: $edges, blocker: $blocker, blocked: $blocked) !== null;
 
     }//end wouldFormCycle()
 
@@ -474,14 +546,14 @@ class DependencyService
      */
     private function fetchProjectEdges(object $objectService, string $projectId): array
     {
-        $taskIds = $this->fetchProjectTaskIds($objectService, $projectId);
+        $taskIds = $this->fetchProjectTaskIds(objectService: $objectService, projectId: $projectId);
         if ($taskIds === []) {
             return [];
         }
 
         $taskIdSet = array_fill_keys($taskIds, true);
         $edges     = [];
-        foreach ($this->fetchAllEdges($objectService) as $edge) {
+        foreach ($this->fetchAllEdges(objectService: $objectService) as $edge) {
             $blockerId = (string) ($edge['blocker'] ?? '');
             if (isset($taskIdSet[$blockerId]) === true) {
                 $edges[] = $edge;
@@ -507,8 +579,8 @@ class DependencyService
         $results = $objectService->searchObjects(filters: ['project' => $projectId]);
 
         $ids = [];
-        foreach ($this->normaliseResults($results) as $row) {
-            $id = $this->extractId($row);
+        foreach ($this->normaliseResults(results: $results) as $row) {
+            $id = $this->extractId(row: $row);
             if ($id !== '') {
                 $ids[] = $id;
             }
@@ -533,9 +605,9 @@ class DependencyService
         $results = $objectService->searchObjects();
 
         $edges = [];
-        foreach ($this->normaliseResults($results) as $row) {
-            $data       = $this->extractData($row);
-            $data['id'] = $this->extractId($row);
+        foreach ($this->normaliseResults(results: $results) as $row) {
+            $data       = $this->extractData(row: $row);
+            $data['id'] = $this->extractId(row: $row);
             $edges[]    = $data;
         }
 
@@ -600,8 +672,13 @@ class DependencyService
     {
         $titles = [];
         foreach ($path as $uuid) {
-            $task     = $this->fetchTask($objectService, $uuid);
-            $titles[] = ($task !== null && ($task['title'] ?? '') !== '') ? (string) $task['title'] : $uuid;
+            $task  = $this->fetchTask(objectService: $objectService, taskId: $uuid);
+            $title = $uuid;
+            if ($task !== null && ($task['title'] ?? '') !== '') {
+                $title = (string) $task['title'];
+            }
+
+            $titles[] = $title;
         }
 
         return implode(' → ', $titles);
