@@ -145,7 +145,7 @@ No dedicated Dutch government task management tools were identified. OpenProject
 | OpenRegister setup (register + schemas) | **MVP** | App initialization |
 | App version info (CnVersionInfoCard) | **MVP** | Standard NC admin pattern |
 | Default column set (configure global template) | **MVP** | Project consistency |
-| Label management (create, edit, delete app-wide labels) | **MVP** | Shared vocabulary |
+| Label management (create, edit, delete app-wide labels) ✅ | **MVP** | Shared vocabulary — implemented (label-management-admin: Label Management settings section, usage counts, cascade delete) |
 | User settings — manage which users can create projects | **V1** | Access control |
 | Procest integration toggle (enable/disable bridge) | **V1** | Cross-app integration |
 

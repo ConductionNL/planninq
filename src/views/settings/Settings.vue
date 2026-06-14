@@ -123,6 +123,55 @@
 			</form>
 		</CnSettingsSection>
 
+		<!-- Label management -->
+		<CnSettingsSection
+			:name="t('planix', 'Label management')"
+			:description="t('planix', 'Create, edit, and delete the app-wide labels that tasks reference')">
+			<div class="label-mgmt">
+				<NcLoadingIcon v-if="labelsLoading" :size="24" />
+				<div v-else-if="labelsError" class="error-message" role="alert">
+					{{ labelsError }}
+				</div>
+				<template v-else>
+					<p v-if="labels.length === 0" class="label-mgmt__empty">
+						{{ t('planix', 'No labels yet.') }}
+					</p>
+					<ul v-else class="label-mgmt__list">
+						<li
+							v-for="label in labels"
+							:key="label.id"
+							class="label-mgmt__item">
+							<span
+								class="label-mgmt__chip"
+								:style="{ backgroundColor: label.color }" />
+							<span class="label-mgmt__title">{{ label.title }}</span>
+							<span v-if="label.description" class="label-mgmt__desc">{{ label.description }}</span>
+							<span class="label-mgmt__usage">
+								{{ n('planix', 'used by {count} task', 'used by {count} tasks', label.usageCount || 0, { count: label.usageCount || 0 }) }}
+							</span>
+							<NcButton
+								type="tertiary"
+								:aria-label="t('planix', 'Edit label')"
+								@click="openEdit(label)">
+								{{ t('planix', 'Edit') }}
+							</NcButton>
+							<NcButton
+								type="tertiary"
+								:aria-label="t('planix', 'Delete label')"
+								@click="openDelete(label)">
+								{{ t('planix', 'Delete') }}
+							</NcButton>
+						</li>
+					</ul>
+					<NcButton
+						type="secondary"
+						@click="openCreate">
+						+ {{ t('planix', 'Create label') }}
+					</NcButton>
+				</template>
+			</div>
+		</CnSettingsSection>
+
 		<!-- Register setup -->
 		<CnSettingsSection
 			:name="t('planix', 'Register setup')"
@@ -178,6 +227,17 @@
 				</NcButton>
 			</form>
 		</CnSettingsSection>
+
+		<LabelEditDialog
+			v-if="showLabelEdit"
+			:label="editingLabel"
+			@close="showLabelEdit = false"
+			@saved="onLabelSaved" />
+		<LabelDeleteDialog
+			v-if="showLabelDelete"
+			:label="deletingLabel"
+			@close="showLabelDelete = false"
+			@deleted="onLabelDeleted" />
 	</div>
 </template>
 
@@ -191,16 +251,22 @@
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  */
-import { NcButton } from '@nextcloud/vue'
+import { NcButton, NcLoadingIcon } from '@nextcloud/vue'
 import { CnSettingsSection } from '@conduction/nextcloud-vue'
 import { useSettingsStore } from '../../store/modules/settings.js'
+import { useLabelsStore } from '../../store/labels.js'
+import LabelEditDialog from '../../components/dialogs/LabelEditDialog.vue'
+import LabelDeleteDialog from '../../components/dialogs/LabelDeleteDialog.vue'
 import { generateUrl } from '@nextcloud/router'
 
 export default {
 	name: 'Settings',
 	components: {
 		NcButton,
+		NcLoadingIcon,
 		CnSettingsSection,
+		LabelEditDialog,
+		LabelDeleteDialog,
 	},
 	data() {
 		return {
@@ -228,6 +294,11 @@ export default {
 			savingLeadHours: false,
 			leadHoursSuccess: '',
 			leadHoursError: '',
+			// Label management
+			showLabelEdit: false,
+			showLabelDelete: false,
+			editingLabel: null,
+			deletingLabel: null,
 		}
 	},
 	computed: {
@@ -236,6 +307,24 @@ export default {
 		 */
 		settings() {
 			return useSettingsStore().settings || {}
+		},
+		/**
+		 * @spec exclude Store passthrough — the loaded labels (with usage counts).
+		 */
+		labels() {
+			return useLabelsStore().labels
+		},
+		/**
+		 * @spec exclude Store passthrough — labels loading flag.
+		 */
+		labelsLoading() {
+			return useLabelsStore().loading
+		},
+		/**
+		 * @spec exclude Store passthrough — labels error message.
+		 */
+		labelsError() {
+			return useLabelsStore().error
 		},
 	},
 	/**
@@ -247,8 +336,58 @@ export default {
 		this.creationPolicy = settingsStore.settings?.allow_project_creation || 'all'
 		this.leadHours = parseInt(settingsStore.settings?.due_reminder_lead_hours, 10) || 24
 		this.loadColumnList(settingsStore.settings)
+		useLabelsStore().fetchLabels()
 	},
 	methods: {
+		/**
+		 * Open the label dialog in create mode.
+		 *
+		 * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
+		 */
+		openCreate() {
+			this.editingLabel = null
+			this.showLabelEdit = true
+		},
+		/**
+		 * Open the label dialog in edit mode for the given label.
+		 *
+		 * @param {object} label The label to edit.
+		 *
+		 * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
+		 */
+		openEdit(label) {
+			this.editingLabel = label
+			this.showLabelEdit = true
+		},
+		/**
+		 * Open the delete-confirmation dialog for the given label.
+		 *
+		 * @param {object} label The label to delete.
+		 *
+		 * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
+		 */
+		openDelete(label) {
+			this.deletingLabel = label
+			this.showLabelDelete = true
+		},
+		/**
+		 * Refresh labels after a successful create/edit and close the dialog.
+		 *
+		 * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
+		 */
+		async onLabelSaved() {
+			this.showLabelEdit = false
+			await useLabelsStore().fetchLabels()
+		},
+		/**
+		 * Refresh labels after a successful delete and close the dialog.
+		 *
+		 * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
+		 */
+		async onLabelDeleted() {
+			this.showLabelDelete = false
+			await useLabelsStore().fetchLabels()
+		},
 		/**
 		 * Parse the stored default_columns JSON into the editable list,
 		 * falling back to the hardcoded default set on parse failure.
@@ -467,5 +606,52 @@ export default {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
+}
+
+.label-mgmt {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.label-mgmt__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.label-mgmt__item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 0;
+	border-bottom: 1px solid var(--color-border);
+}
+
+.label-mgmt__chip {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.label-mgmt__title {
+	font-weight: 600;
+}
+
+.label-mgmt__desc {
+	color: var(--color-text-maxcontrast);
+	flex: 1;
+}
+
+.label-mgmt__usage {
+	margin-left: auto;
+	color: var(--color-text-maxcontrast);
+	white-space: nowrap;
+}
+
+.label-mgmt__empty {
+	color: var(--color-text-maxcontrast);
 }
 </style>

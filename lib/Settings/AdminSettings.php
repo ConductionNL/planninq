@@ -27,12 +27,17 @@ use OCA\Planix\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\Settings\ISettings;
+use OCP\Settings\IDelegatedSettings;
 
 /**
  * Provides the admin settings form for the Planix application.
+ *
+ * Implements IDelegatedSettings (a superset of ISettings) so the admin-only
+ * label-management API endpoints can reference this class via
+ * #[AuthorizedAdminSetting(self::class)] for a declarative, middleware-enforced
+ * admin gate (matching the controller body's isCurrentUserAdmin() check).
  */
-class AdminSettings implements ISettings
+class AdminSettings implements IDelegatedSettings
 {
     /**
      * Constructor.
@@ -85,4 +90,31 @@ class AdminSettings implements ISettings
     {
         return 10;
     }//end getPriority()
+
+    /**
+     * Human-readable name of this delegated settings page.
+     *
+     * @return string|null
+     *
+     * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
+     */
+    public function getName(): ?string
+    {
+        return null;
+    }//end getName()
+
+    /**
+     * App-config keys an admin delegated to this section may manage.
+     *
+     * Planix does not delegate granular app-config keys to non-admin delegates;
+     * the section remains full-admin only.
+     *
+     * @return array<string,string>
+     *
+     * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
+     */
+    public function getAuthorizedAppConfig(): array
+    {
+        return [];
+    }//end getAuthorizedAppConfig()
 }//end class
