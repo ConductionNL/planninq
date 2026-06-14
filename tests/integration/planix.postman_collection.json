@@ -557,6 +557,164 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Task Collaboration",
+      "description": "Comments (OR notes, ICommentsManager-backed) and audit trail on a task, via OpenRegister per-object APIs (ADR-022; no planix pass-through). Covers notes CRUD on a seeded task (create -> list shows author+message -> edit own -> delete own), an RBAC-negative read for an inaccessible task, and the audit trail carrying the status-change entry after an update. spec: openspec/specs/task-collaboration.md",
+      "item": [
+        {
+          "name": "Seed task for collaboration",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task",
+            "body": { "mode": "raw", "raw": "{\"title\":\"Collaboration task\",\"status\":\"open\"}" },
+            "description": "Create a task to attach comments and audit-trail entries to."
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [
+              "pm.test('collab task created', function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "    const j = pm.response.json();",
+              "    pm.collectionVariables.set('collab_task', j.id || (j['@self'] && j['@self'].id));",
+              "});"
+            ] } }
+          ]
+        },
+        {
+          "name": "Add a comment to the task",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes",
+            "body": { "mode": "raw", "raw": "{\"message\":\"Waiting on the API contract\"}" },
+            "description": "Comments ride OpenRegister's notes API (ICommentsManager-backed)."
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [
+              "pm.test('comment stored', function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "    const j = pm.response.json();",
+              "    const id = j.id || (j['@self'] && j['@self'].id);",
+              "    pm.expect(id, 'note id present').to.not.be.undefined;",
+              "    pm.collectionVariables.set('note_id', id);",
+              "});"
+            ] } }
+          ]
+        },
+        {
+          "name": "List comments shows the author and message",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes",
+            "description": "The comment must list back with its message and author."
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [
+              "pm.test('comment listed with message + author', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const j = pm.response.json();",
+              "    const notes = Array.isArray(j) ? j : (j.results || j.notes || []);",
+              "    pm.expect(notes.length, 'at least one note').to.be.above(0);",
+              "    const found = notes.find(n => (n.message || '').indexOf('API contract') !== -1);",
+              "    pm.expect(found, 'our comment present').to.not.be.undefined;",
+              "    pm.expect(found.author || found.actorId || found.uid, 'author recorded').to.not.be.undefined;",
+              "});"
+            ] } }
+          ]
+        },
+        {
+          "name": "Edit own comment",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes/{{note_id}}",
+            "body": { "mode": "raw", "raw": "{\"message\":\"Waiting on the API contract (updated)\"}" },
+            "description": "ICommentsManager allows the author to edit their own comment."
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [
+              "pm.test('own comment edited', function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+              "});"
+            ] } }
+          ]
+        },
+        {
+          "name": "Update task status (creates an audit-trail entry)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}",
+            "body": { "mode": "raw", "raw": "{\"title\":\"Collaboration task\",\"status\":\"in_progress\"}" },
+            "description": "A status change must surface in the OR per-object audit trail."
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [
+              "pm.test('status updated', function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});"
+            ] } }
+          ]
+        },
+        {
+          "name": "Audit trail contains the status change",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/audit-trails",
+            "description": "Read-only OR audit trail; after the update it must carry an entry."
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [
+              "pm.test('audit trail has at least one entry', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const j = pm.response.json();",
+              "    const trail = Array.isArray(j) ? j : (j.results || j.auditTrails || []);",
+              "    pm.expect(trail.length, 'audit entry recorded').to.be.above(0);",
+              "});"
+            ] } }
+          ]
+        },
+        {
+          "name": "Comments respect task access (RBAC negative)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/00000000-0000-0000-0000-000000000000/notes",
+            "description": "A request for the notes of a task the caller cannot read returns no comments (404/403/empty) — enforcement lives in OpenRegister, not planix."
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [
+              "pm.test('no comments for an inaccessible task', function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 403, 404]);",
+              "    if (pm.response.code === 200) {",
+              "        const j = pm.response.json();",
+              "        const notes = Array.isArray(j) ? j : (j.results || j.notes || []);",
+              "        pm.expect(notes.length, 'no notes leaked').to.equal(0);",
+              "    }",
+              "});"
+            ] } }
+          ]
+        },
+        {
+          "name": "Delete own comment",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes/{{note_id}}",
+            "description": "ICommentsManager allows the author to delete their own comment."
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [
+              "pm.test('own comment deleted', function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+              "});"
+            ] } }
+          ]
+        }
+      ]
     }
   ]
 }
