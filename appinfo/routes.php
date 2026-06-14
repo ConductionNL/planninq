@@ -8,6 +8,7 @@ return [
         ['name' => 'dashboard#page', 'url' => '/', 'verb' => 'GET'],
         ['name' => 'settings#index', 'url' => '/api/settings', 'verb' => 'GET'],
         ['name' => 'settings#create', 'url' => '/api/settings', 'verb' => 'POST'],
+        ['name' => 'settings#updateUser', 'url' => '/api/settings/user', 'verb' => 'POST'],
         ['name' => 'settings#load',  'url' => '/api/settings/load', 'verb' => 'POST'],
 
         // Project creation policy check — enforces allow_project_creation server-side.

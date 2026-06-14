@@ -1,6 +1,14 @@
 {
     "translations": {
         "Planix settings": "Planix instellingen",
+        "Notifications": "Meldingen",
+        "Notify me 1 day before a task's due date": "Stuur mij een melding 1 dag voor de einddatum van een taak",
+        "Notification settings": "Meldingsinstellingen",
+        "Configure when due-date reminders are sent": "Configureer wanneer einddatumherinneringen worden verstuurd",
+        "Due-date reminder lead time (hours)": "Voorlooptijd einddatumherinnering (uren)",
+        "Lead time must be between 1 and 336 hours": "Voorlooptijd moet tussen 1 en 336 uur liggen",
+        "Reminder lead time saved successfully": "Voorlooptijd herinnering succesvol opgeslagen",
+        "Failed to save reminder lead time": "Opslaan van voorlooptijd herinnering mislukt",
         "Configure the app settings": "Configureer de app-instellingen",
         "Configuration": "Configuratie",
         "Completed": "Afgerond",

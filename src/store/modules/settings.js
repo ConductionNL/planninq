@@ -82,5 +82,39 @@ export const useSettingsStore = defineStore('settings', {
 			}
 			return null
 		},
+
+		/**
+		 * Persist per-user settings (notification toggles) to the backend.
+		 *
+		 * @param {object} settings User settings to save
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+		 */
+		async saveUserSettings(settings) {
+			this.loading = true
+			try {
+				const response = await fetch(generateUrl('/apps/planix/api/settings/user'), {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						requesttoken: OC.requestToken,
+					},
+					body: JSON.stringify(settings),
+				})
+				if (response.ok) {
+					const data = await response.json()
+					if (data?.config) {
+						this.settings = data.config
+					}
+					return data
+				}
+			} catch (error) {
+				console.error('Failed to save user settings:', error)
+			} finally {
+				this.loading = false
+			}
+			return null
+		},
 	},
 })

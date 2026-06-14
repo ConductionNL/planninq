@@ -30,7 +30,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedOutline",
-        "version": "0.1.2",
+        "version": "0.1.3",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "type": "object",
@@ -64,6 +64,27 @@
             },
             { "group": "admin" }
           ]
+        },
+        "x-openregister-notifications": {
+          "taskDueSoon": {
+            "trigger": {
+              "type": "scheduled",
+              "intervalSec": 3600,
+              "filter": {
+                "dueDate": { "operator": "withinNext", "value": "PT24H" },
+                "status": { "operator": "notEquals", "value": "done" }
+              }
+            },
+            "enabled": true,
+            "channels": ["nc-notification"],
+            "recipients": [
+              { "kind": "field", "field": "assignedTo" }
+            ],
+            "subject": {
+              "en": "Task \"{{title}}\" is due soon",
+              "nl": "Taak \"{{title}}\" moet binnenkort af"
+            }
+          }
         },
         "properties": {
           "title": {

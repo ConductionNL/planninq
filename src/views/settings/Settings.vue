@@ -93,6 +93,36 @@
 			</form>
 		</CnSettingsSection>
 
+		<!-- Notification settings -->
+		<CnSettingsSection
+			:name="t('planix', 'Notification settings')"
+			:description="t('planix', 'Configure when due-date reminders are sent')">
+			<form @submit.prevent="saveLeadHours">
+				<div class="form-group">
+					<label for="due-reminder-lead-hours">{{ t('planix', 'Due-date reminder lead time (hours)') }}</label>
+					<input
+						id="due-reminder-lead-hours"
+						v-model="leadHours"
+						type="number"
+						min="1"
+						max="336"
+						class="column-input">
+				</div>
+				<div v-if="leadHoursSuccess" class="success-message">
+					{{ leadHoursSuccess }}
+				</div>
+				<div v-if="leadHoursError" class="error-message">
+					{{ leadHoursError }}
+				</div>
+				<NcButton
+					type="primary"
+					native-type="submit"
+					:disabled="savingLeadHours">
+					{{ savingLeadHours ? t('planix', 'Saving...') : t('planix', 'Save') }}
+				</NcButton>
+			</form>
+		</CnSettingsSection>
+
 		<!-- Register setup -->
 		<CnSettingsSection
 			:name="t('planix', 'Register setup')"
@@ -193,6 +223,11 @@ export default {
 			savingCreationPolicy: false,
 			creationPolicySuccess: '',
 			creationPolicyError: '',
+			// due_reminder_lead_hours
+			leadHours: 24,
+			savingLeadHours: false,
+			leadHoursSuccess: '',
+			leadHoursError: '',
 		}
 	},
 	computed: {
@@ -210,6 +245,7 @@ export default {
 		const settingsStore = useSettingsStore()
 		this.form.register = settingsStore.settings?.register || ''
 		this.creationPolicy = settingsStore.settings?.allow_project_creation || 'all'
+		this.leadHours = parseInt(settingsStore.settings?.due_reminder_lead_hours, 10) || 24
 		this.loadColumnList(settingsStore.settings)
 	},
 	methods: {
@@ -305,6 +341,32 @@ export default {
 			this.savingCreationPolicy = false
 		},
 
+		/**
+		 * Persist the due-date reminder lead time via settingsStore.saveSettings.
+		 * Validates the 1–336 hour range inline before submitting.
+		 *
+		 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#3
+		 */
+		async saveLeadHours() {
+			this.leadHoursSuccess = ''
+			this.leadHoursError = ''
+			const hours = parseInt(this.leadHours, 10)
+			if (Number.isNaN(hours) || hours < 1 || hours > 336) {
+				this.leadHoursError = this.t('planix', 'Lead time must be between 1 and 336 hours')
+				return
+			}
+			this.savingLeadHours = true
+			const settingsStore = useSettingsStore()
+			const result = await settingsStore.saveSettings({
+				due_reminder_lead_hours: String(hours),
+			})
+			if (result) {
+				this.leadHoursSuccess = this.t('planix', 'Reminder lead time saved successfully')
+			} else {
+				this.leadHoursError = this.t('planix', 'Failed to save reminder lead time')
+			}
+			this.savingLeadHours = false
+		},
 		/**
 		 * Trigger SettingsController::load to re-import the planix register.
 		 *
