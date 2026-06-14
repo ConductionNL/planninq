@@ -22,7 +22,13 @@ declare(strict_types=1);
 namespace OCA\Planix\AppInfo;
 
 use OCA\Planix\Listener\DeepLinkRegistrationListener;
+use OCA\Planix\Listener\TaskActivityListener;
 use OCA\OpenRegister\Event\DeepLinkRegistrationEvent;
+use OCA\OpenRegister\Event\ObjectCreatedEvent;
+use OCA\OpenRegister\Event\ObjectDeletedEvent;
+use OCA\OpenRegister\Event\ObjectUpdatedEvent;
+use OCA\Planix\Activity\Filter;
+use OCA\Planix\Activity\Provider;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -62,6 +68,25 @@ class Application extends App implements IBootstrap
             event: DeepLinkRegistrationEvent::class,
             listener: DeepLinkRegistrationListener::class
         );
+
+        // Publish task lifecycle events to the Nextcloud Activity stream.
+        // Scoped inside the listener to the planix register's `task` schema.
+        $context->registerEventListener(
+            event: ObjectCreatedEvent::class,
+            listener: TaskActivityListener::class
+        );
+        $context->registerEventListener(
+            event: ObjectUpdatedEvent::class,
+            listener: TaskActivityListener::class
+        );
+        $context->registerEventListener(
+            event: ObjectDeletedEvent::class,
+            listener: TaskActivityListener::class
+        );
+
+        // Register the Activity provider + filter (the "Planix" Activity filter).
+        $context->registerActivityFilter(Filter::class);
+        $context->registerActivityProvider(Provider::class);
 
     }//end register()
 
