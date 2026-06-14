@@ -8,6 +8,7 @@ Defines directed dependencies between tasks of the same project: a `dependency` 
 The system MUST allow project members to link two tasks of the same project with a directed dependency (blocker → blocked) and to remove such links. The task detail MUST show both directions — "Blocked by" (incoming) and "Blocks" (outgoing) — with each linked task's title and status, and provide a picker limited to tasks of the same project. Reads use the OpenRegister API directly; create and delete go through planix endpoints that perform validation (ADR-022 — validation is domain logic, not pass-through).
 
 #### Scenario: Add a blocked-by dependency
+@e2e exclude task-detail render layer not yet built (tasks#REQ-Task-CRUD); store + TaskDependencies.vue covered by Vitest, write path by Newman
 - GIVEN tasks "Deploy" and "Fix login" exist in the same project
 - WHEN a project member opens "Deploy" and adds "Fix login" under "Blocked by"
 - THEN a dependency edge (blocker: "Fix login", blocked: "Deploy") MUST be stored
@@ -15,6 +16,7 @@ The system MUST allow project members to link two tasks of the same project with
 - AND "Fix login" MUST list "Deploy" under "Blocks"
 
 #### Scenario: Remove a dependency
+@e2e exclude task-detail render layer not yet built (tasks#REQ-Task-CRUD); remove path covered by Newman delete + Vitest list rendering
 - GIVEN "Deploy" is blocked by "Fix login"
 - WHEN a project member removes the link from either task's Dependencies section
 - THEN the edge MUST be deleted
@@ -36,6 +38,7 @@ The system MUST allow project members to link two tasks of the same project with
 The system MUST reject, server-side, any dependency that would make a project's dependency graph cyclic — including self-dependencies and the degenerate two-task cycle — with an error that names the conflicting path. Duplicate edges MUST also be rejected. Diamond shapes (two paths to the same task without a cycle) are legal.
 
 #### Scenario: Direct cycle rejected
+@e2e exclude graph validation contract, covered by PHPUnit (testTwoNodeCycle) + Newman; UI picker not yet built
 - GIVEN "A" is blocked by "B"
 - WHEN a member attempts to add "B" blocked by "A"
 - THEN the system MUST reject it with an error naming the cycle
@@ -64,11 +67,13 @@ The system MUST reject, server-side, any dependency that would make a project's 
 A task with at least one blocker whose status is not `done` or `cancelled` MUST display a "Blocked" indicator; the indicator MUST disappear once every blocker is completed or cancelled. The indicator is derived at render time and MUST NOT write to the task's `status` field; it MUST NOT prevent moving the task (soft signal, consistent with the WIP-limit philosophy). The task detail MUST list which open blockers cause the state. Derivation MUST tolerate edges whose blocker task no longer resolves (ignore them) and MUST terminate on any graph shape.
 
 #### Scenario: Blocker completion clears the indicator
+@e2e exclude board card render layer not yet built (tasks#REQ-Task-CRUD); badge derivation covered by Vitest (isBlocked done/cancelled → false) + PHPUnit
 - GIVEN "Deploy" is blocked by "Fix login" (status `in_progress`) and shows a Blocked badge on its kanban card
 - WHEN "Fix login" is moved to a done column (status `done`)
 - THEN "Deploy" MUST no longer show the Blocked badge on board or detail
 
 #### Scenario: Blocked task can still be moved
+@e2e exclude board drag layer not yet built (tasks#REQ-Task-CRUD); the badge is derived-only and never gates a write — soft-signal invariant covered by Vitest/PHPUnit (no status write)
 - GIVEN "Deploy" shows the Blocked indicator
 - WHEN a member drags "Deploy" to another column
 - THEN the move MUST succeed (the indicator never hard-blocks)
@@ -85,6 +90,7 @@ A task with at least one blocker whose status is not `done` or `cancelled` MUST 
 Deleting a task MUST also delete every dependency edge in which it participates (as blocker or blocked), alongside the existing TimeEntry cascade. Moving a task to another project MUST remove its dependency edges (the same-project invariant holds by construction).
 
 #### Scenario: Task delete removes its edges
+@e2e exclude cascade contract, covered by PHPUnit (testRemoveEdgesForTaskCascades); the task-delete UI caller is not yet built (tasks#REQ-Task-CRUD)
 - GIVEN "Fix login" blocks "Deploy"
 - WHEN "Fix login" is deleted (per the tasks spec's delete flow)
 - THEN the edge MUST be deleted
