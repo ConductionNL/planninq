@@ -113,6 +113,24 @@ The system MUST allow users to switch between kanban (card) view and list (table
 - THEN the system MUST navigate to the task detail view (CnDetailPage)
 - AND the browser back button MUST return to list view (not kanban view)
 
+### Requirement: Blocked task indicator on cards [V1]
+Task cards on the kanban board MUST show a compact "Blocked" indicator when the task's derived blocked state (per the `task-dependencies` capability: at least one blocker not `done`/`cancelled`) is true. The indicator MUST be visually consistent with the card's other status chips (priority, due-date badge), MUST not require opening the task to be understood, and MUST never prevent dragging the card (soft signal, same philosophy as the WIP limit). Board filters and the list-view toggle MUST render the indicator identically.
+
+#### Scenario: Blocked badge shown on the card
+- GIVEN a task on the board is blocked by an open task
+- WHEN the board renders
+- THEN the task's card MUST show a "Blocked" badge alongside its existing chips
+
+#### Scenario: Badge visible in list view too
+- GIVEN the same blocked task
+- WHEN the user toggles the board to list view
+- THEN the row MUST show the same blocked indication
+
+#### Scenario: Dragging a blocked card is not prevented
+- GIVEN a card shows the Blocked badge
+- WHEN the user drags it to another column
+- THEN the drop MUST succeed and the badge MUST remain while blockers stay open
+
 ## User Stories
 
 - As a developer, I want to see all project tasks as cards on a board so that I understand the current state of work at a glance

@@ -1,5 +1,17 @@
 {
     "translations": {
+        "Dependencies": "Dependencies",
+        "Blocked": "Blocked",
+        "Blocked by": "Blocked by",
+        "Blocks": "Blocks",
+        "Blocked by {count} open task(s)": "Blocked by {count} open task(s)",
+        "This task is blocked by {count} unfinished task(s).": "This task is blocked by {count} unfinished task(s).",
+        "Remove dependency": "Remove dependency",
+        "No blocking tasks.": "No blocking tasks.",
+        "This task blocks no other tasks.": "This task blocks no other tasks.",
+        "Add a blocking task": "Add a blocking task",
+        "Pick a task that must finish first": "Pick a task that must finish first",
+        "Add": "Add",
         "Planix settings": "Planix settings",
         "Configure the app settings": "Configure the app settings",
         "Configuration": "Configuration",

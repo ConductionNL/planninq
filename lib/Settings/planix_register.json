@@ -3,7 +3,7 @@
   "info": {
     "title": "Planix Register",
     "description": "Register containing all schemas for the Planix application.",
-    "version": "0.2.4"
+    "version": "0.2.5"
   },
   "x-openregister": {
     "type": "application",
@@ -18,8 +18,8 @@
         "title": "Planix",
         "description": "Planix application data register — tasks, projects, columns, time entries, and labels.",
         "slug": "planix",
-        "version": "0.2.4",
-        "schemas": ["task", "project", "column", "timeEntry", "label"],
+        "version": "0.2.5",
+        "schemas": ["task", "project", "column", "timeEntry", "label", "dependency"],
         "tablePrefix": "planix",
         "folder": "planix",
         "publicRead": false,
@@ -437,6 +437,36 @@
           "description": {
             "type": "string",
             "description": "Optional explanation of when to use this label"
+          }
+        }
+      },
+      "dependency": {
+        "slug": "dependency",
+        "icon": "VectorPolyline",
+        "version": "0.1.0",
+        "title": "Dependency",
+        "description": "A directed dependency edge between two tasks of the same project (blocker → blocked). One row per directed edge. Maps to schema:Action.",
+        "type": "object",
+        "required": ["blocker", "blocked"],
+        "authorization": {
+          "read": [
+            { "group": "authenticated" },
+            { "group": "admin" }
+          ],
+          "create": ["admin"],
+          "update": ["admin"],
+          "delete": ["admin"]
+        },
+        "properties": {
+          "blocker": {
+            "type": "string",
+            "description": "UUID of the task that blocks (must complete before the blocked task can proceed)",
+            "format": "uuid"
+          },
+          "blocked": {
+            "type": "string",
+            "description": "UUID of the task that is blocked (waits on the blocker)",
+            "format": "uuid"
           }
         }
       }

@@ -367,4 +367,118 @@ class PlanixRegisterSchemaTest extends TestCase
         );
 
     }//end testDueSoonRecipientFieldExistsOnSchema()
+
+    /**
+     * The register MUST declare exactly the six expected schemas.
+     *
+     * Adds `dependency` to the previously exact set of five; `example` must
+     * not be present.
+     *
+     * @return void
+     *
+     * @spec openspec/changes/task-dependencies/specs/register-schemas/spec.md
+     */
+    public function testRegisterDeclaresExactlySixSchemas(): void
+    {
+        $expected = ['task', 'project', 'column', 'timeEntry', 'label', 'dependency'];
+
+        $listed = $this->register['components']['registers']['planix']['schemas'];
+        sort($listed);
+        $sortedExpected = $expected;
+        sort($sortedExpected);
+        self::assertSame(
+            expected: $sortedExpected,
+            actual: $listed,
+            message: 'register schema list must be exactly the six expected schemas'
+        );
+
+        $defined = array_keys($this->register['components']['schemas']);
+        sort($defined);
+        self::assertSame(
+            expected: $sortedExpected,
+            actual: $defined,
+            message: 'components.schemas must define exactly the six expected schemas'
+        );
+
+        self::assertArrayNotHasKey(
+            key: 'example',
+            array: $this->register['components']['schemas'],
+            message: 'placeholder example schema must not be present'
+        );
+
+    }//end testRegisterDeclaresExactlySixSchemas()
+
+    /**
+     * The dependency schema MUST require blocker + blocked as UUID strings.
+     *
+     * @return void
+     *
+     * @spec openspec/changes/task-dependencies/specs/register-schemas/spec.md
+     */
+    public function testDependencySchemaHasRequiredUuidFields(): void
+    {
+        self::assertArrayHasKey(
+            key: 'dependency',
+            array: $this->register['components']['schemas'],
+            message: 'dependency schema must be declared'
+        );
+
+        $dependency = $this->register['components']['schemas']['dependency'];
+
+        self::assertContains(
+            needle: 'blocker',
+            haystack: $dependency['required'],
+            message: 'dependency must require blocker'
+        );
+        self::assertContains(
+            needle: 'blocked',
+            haystack: $dependency['required'],
+            message: 'dependency must require blocked'
+        );
+
+        foreach (['blocker', 'blocked'] as $field) {
+            self::assertSame(
+                expected: 'string',
+                actual: $dependency['properties'][$field]['type'],
+                message: "{$field} must be a string"
+            );
+            self::assertSame(
+                expected: 'uuid',
+                actual: $dependency['properties'][$field]['format'],
+                message: "{$field} must be format uuid"
+            );
+        }
+
+    }//end testDependencySchemaHasRequiredUuidFields()
+
+    /**
+     * The dependency schema MUST carry an authorization block for all actions.
+     *
+     * @return void
+     *
+     * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
+     */
+    public function testDependencySchemaHasAuthorizationBlock(): void
+    {
+        $dependency = $this->register['components']['schemas']['dependency'];
+
+        self::assertArrayHasKey(
+            key: 'authorization',
+            array: $dependency,
+            message: 'dependency schema must have an authorization block'
+        );
+
+        foreach (['read', 'create', 'update', 'delete'] as $action) {
+            self::assertArrayHasKey(
+                key: $action,
+                array: $dependency['authorization'],
+                message: "dependency authorization must define '{$action}'"
+            );
+            self::assertNotEmpty(
+                actual: $dependency['authorization'][$action],
+                message: "dependency authorization '{$action}' must not be empty"
+            );
+        }
+
+    }//end testDependencySchemaHasAuthorizationBlock()
 }//end class
