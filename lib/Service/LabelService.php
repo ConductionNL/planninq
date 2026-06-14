@@ -159,8 +159,8 @@ class LabelService
 
         $labels = [];
         foreach ($this->fetchAll(objectService: $objectService, schema: self::LABEL_SCHEMA) as $label) {
-            $id                 = (string) ($label['id'] ?? '');
-            $label['id']         = $id;
+            $id          = (string) ($label['id'] ?? '');
+            $label['id'] = $id;
             $label['usageCount'] = ($counts[$id] ?? 0);
             $labels[]            = $label;
         }

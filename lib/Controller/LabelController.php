@@ -35,9 +35,11 @@ namespace OCA\Planix\Controller;
 use OCA\Planix\AppInfo\Application;
 use OCA\Planix\Service\LabelService;
 use OCA\Planix\Service\SettingsService;
+use OCA\Planix\Settings\AdminSettings;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\IRequest;
 
 /**
@@ -45,7 +47,6 @@ use OCP\IRequest;
  */
 class LabelController extends Controller
 {
-
     /**
      * Constructor for the LabelController.
      *
@@ -74,6 +75,7 @@ class LabelController extends Controller
      *
      * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
      */
+    #[AuthorizedAdminSetting(settings: AdminSettings::class)]
     public function index(): JSONResponse
     {
         if ($this->settingsService->isCurrentUserAdmin() === false) {
@@ -101,6 +103,7 @@ class LabelController extends Controller
      *
      * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
      */
+    #[AuthorizedAdminSetting(settings: AdminSettings::class)]
     public function destroy(string $id): JSONResponse
     {
         if ($this->settingsService->isCurrentUserAdmin() === false) {
