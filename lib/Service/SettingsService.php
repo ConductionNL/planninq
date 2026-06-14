@@ -30,6 +30,7 @@ namespace OCA\Planix\Service;
 use OCA\Planix\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
@@ -58,12 +59,43 @@ class SettingsService
     private const ADMIN_CONFIG_DEFAULTS = [
         'default_columns'        => '["To Do","In Progress","Review","Done"]',
         'allow_project_creation' => 'all',
+        'due_reminder_lead_hours' => '24',
     ];
+
+    /**
+     * Slug of the OpenRegister schema carrying the due-soon reminder rule.
+     *
+     * @var string
+     */
+    public const TASK_SCHEMA_SLUG = 'task';
+
+    /**
+     * Notification rule key for the due-date reminder (paired with the
+     * `task_due_soon` subject key referenced by the user-settings spec).
+     *
+     * @var string
+     */
+    public const DUE_REMINDER_RULE_KEY = 'taskDueSoon';
+
+    /**
+     * Lower bound (inclusive) for the due-reminder lead time, in hours.
+     *
+     * @var int
+     */
+    public const LEAD_HOURS_MIN = 1;
+
+    /**
+     * Upper bound (inclusive) for the due-reminder lead time, in hours (2 weeks).
+     *
+     * @var int
+     */
+    public const LEAD_HOURS_MAX = 336;
 
     /**
      * Constructor for the SettingsService.
      *
      * @param IAppConfig         $appConfig    The app config interface
+     * @param IConfig            $config       The user config interface
      * @param IAppManager        $appManager   The app manager
      * @param ContainerInterface $container    The container
      * @param IGroupManager      $groupManager The group manager
@@ -74,6 +106,7 @@ class SettingsService
      */
     public function __construct(
         private IAppConfig $appConfig,
+        private IConfig $config,
         private IAppManager $appManager,
         private ContainerInterface $container,
         private IGroupManager $groupManager,
@@ -229,10 +262,145 @@ class SettingsService
                 $value = $validated;
             }
 
+            if ($key === 'due_reminder_lead_hours') {
+                $validated = $this->validateLeadHours(raw: $value);
+                if ($validated === null) {
+                    $this->logger->warning(
+                        'Planix: invalid due_reminder_lead_hours value rejected',
+                        ['raw' => $value]
+                    );
+                    continue;
+                }
+
+                $this->appConfig->setValueString(Application::APP_ID, $key, (string) $validated);
+                // Reflect the new lead window on the live task schema rule.
+                $this->patchDueReminderWindow(hours: $validated);
+                continue;
+            }
+
             $this->appConfig->setValueString(Application::APP_ID, $key, $value);
         }//end foreach
 
     }//end setAdminSettings()
+
+    /**
+     * Validate the due_reminder_lead_hours value before persisting.
+     *
+     * Must be a numeric integer string within the accepted range
+     * (LEAD_HOURS_MIN..LEAD_HOURS_MAX). Returns the validated integer on
+     * success or null when validation fails (caller should reject).
+     *
+     * @param string $raw Raw value submitted by the client
+     *
+     * @return int|null Validated lead hours, or null on validation failure
+     *
+     * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#3
+     */
+    public function validateLeadHours(string $raw): ?int
+    {
+        $trimmed = trim($raw);
+        if ($trimmed === '' || preg_match('/^\d+$/', $trimmed) !== 1) {
+            return null;
+        }
+
+        $hours = (int) $trimmed;
+        if ($hours < self::LEAD_HOURS_MIN || $hours > self::LEAD_HOURS_MAX) {
+            return null;
+        }
+
+        return $hours;
+
+    }//end validateLeadHours()
+
+    /**
+     * Resolve the effective due-reminder lead time in hours.
+     *
+     * @return int The configured lead time, or the default (24) when unset.
+     *
+     * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#3
+     */
+    public function getDueReminderLeadHours(): int
+    {
+        $stored = $this->appConfig->getValueString(
+            Application::APP_ID,
+            'due_reminder_lead_hours',
+            self::ADMIN_CONFIG_DEFAULTS['due_reminder_lead_hours']
+        );
+
+        $validated = $this->validateLeadHours(raw: $stored);
+        if ($validated === null) {
+            return (int) self::ADMIN_CONFIG_DEFAULTS['due_reminder_lead_hours'];
+        }
+
+        return $validated;
+
+    }//end getDueReminderLeadHours()
+
+    /**
+     * Build the ISO-8601 duration string for a `withinNext` lead window.
+     *
+     * @param int $hours The lead time in hours.
+     *
+     * @return string e.g. `PT24H`
+     *
+     * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#3
+     */
+    public function leadHoursToDuration(int $hours): string
+    {
+        return 'PT'.$hours.'H';
+
+    }//end leadHoursToDuration()
+
+    /**
+     * Patch the live `taskDueSoon` rule's `withinNext` window on the OpenRegister
+     * task schema. No-op (logged) when OpenRegister is unavailable or the schema
+     * cannot be resolved — the IAppConfig value remains the source of truth and a
+     * later register import re-applies the rule.
+     *
+     * @param int $hours The lead time in hours to apply.
+     *
+     * @return void
+     *
+     * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#3
+     */
+    private function patchDueReminderWindow(int $hours): void
+    {
+        if ($this->isOpenRegisterAvailable() === false) {
+            $this->logger->info('Planix: OpenRegister unavailable, lead-time window not patched on live schema');
+            return;
+        }
+
+        try {
+            $schemaMapper = $this->container->get('OCA\OpenRegister\Db\SchemaMapper');
+            $schemas      = $schemaMapper->findBySlug(self::TASK_SCHEMA_SLUG);
+            if (is_array($schemas) === false || count($schemas) === 0) {
+                $this->logger->warning('Planix: task schema not found, cannot patch due-reminder window');
+                return;
+            }
+
+            $schema        = $schemas[0];
+            $configuration = ($schema->getConfiguration() ?? []);
+            if (isset($configuration['x-openregister-notifications'][self::DUE_REMINDER_RULE_KEY]['trigger']['filter']['dueDate']) === false) {
+                $this->logger->warning('Planix: taskDueSoon rule not present on live schema, skipping window patch');
+                return;
+            }
+
+            $configuration['x-openregister-notifications'][self::DUE_REMINDER_RULE_KEY]['trigger']['filter']['dueDate'] = [
+                'operator' => 'withinNext',
+                'value'    => $this->leadHoursToDuration(hours: $hours),
+            ];
+
+            $schema->setConfiguration($configuration);
+            $schemaMapper->update($schema);
+            $this->logger->info('Planix: patched taskDueSoon window to '.$this->leadHoursToDuration(hours: $hours));
+        } catch (\Throwable $e) {
+            $this->logger->warning(
+                'Planix: failed to patch due-reminder window on live schema',
+                ['exception' => $e->getMessage()]
+            );
+        }//end try
+
+    }//end patchDueReminderWindow()
 
     /**
      * Retrieve all current settings (admin + metadata).
@@ -251,15 +419,46 @@ class SettingsService
             $settings[$key] = $this->appConfig->getValueString(Application::APP_ID, $key, '');
         }
 
+        $user        = $this->userSession->getUser();
+        $userSettings = [];
+        if ($user !== null) {
+            $userSettings['notify_due_reminder'] = $this->getNotifyDueReminder($user->getUID());
+        }
+
         return array_merge(
             $settings,
             $this->getAdminSettings(),
+            $userSettings,
             [
                 'openregisters' => $this->isOpenRegisterAvailable(),
                 'isAdmin'       => $this->isCurrentUserAdmin(),
             ]
         );
     }//end getSettings()
+
+    /**
+     * Update the current user's personal settings (notification toggles).
+     *
+     * Distinct from updateSettings() (admin-only IAppConfig). This path is
+     * available to any authenticated user for their own per-user preferences.
+     *
+     * @param string              $userId The user UID.
+     * @param array<string,mixed> $data   The data to update.
+     *
+     * @return array<string,mixed> The updated settings.
+     *
+     * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+     */
+    public function updateUserSettings(string $userId, array $data): array
+    {
+        if (array_key_exists('notify_due_reminder', $data) === true) {
+            $enabled = filter_var($data['notify_due_reminder'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            $this->setNotifyDueReminder(userId: $userId, enabled: ($enabled !== false));
+        }
+
+        return $this->getSettings();
+
+    }//end updateUserSettings()
 
     /**
      * Update settings with the provided data.
@@ -282,6 +481,122 @@ class SettingsService
 
         return $this->getSettings();
     }//end updateSettings()
+
+    /**
+     * Read the current user's notify_due_reminder preference.
+     *
+     * Backed by OCP\IConfig per-user value; defaults to enabled.
+     *
+     * @param string $userId The user UID.
+     *
+     * @return bool True when the user wants due-date reminders (default), false when opted out.
+     *
+     * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+     */
+    public function getNotifyDueReminder(string $userId): bool
+    {
+        $value = $this->config->getUserValue($userId, Application::APP_ID, 'notify_due_reminder', 'true');
+        return ($value !== 'false');
+
+    }//end getNotifyDueReminder()
+
+    /**
+     * Persist a user's notify_due_reminder preference and write it through to
+     * the OpenRegister notification engine's override-only per-(schema, rule)
+     * user preference for (task, taskDueSoon).
+     *
+     * Toggling OFF stores `false` AND writes the OR override `{"enabled": false}`.
+     * Toggling ON stores `true` AND clears the OR override (null) so the user
+     * falls through to the schema default rather than pinning a stale value.
+     *
+     * The OR override write is best-effort: when OpenRegister is unavailable the
+     * IConfig value is still stored, the failure is logged, and the override is
+     * skipped (reconciled later by the repair step / next toggle).
+     *
+     * @param string $userId  The user UID.
+     * @param bool   $enabled Whether due-date reminders are enabled for this user.
+     *
+     * @return void
+     *
+     * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+     */
+    public function setNotifyDueReminder(string $userId, bool $enabled): void
+    {
+        $this->config->setUserValue(
+            $userId,
+            Application::APP_ID,
+            'notify_due_reminder',
+            ($enabled === true) ? 'true' : 'false'
+        );
+
+        // ON clears the override (null → schema default); OFF writes {"enabled": false}.
+        $override = ($enabled === true) ? null : ['enabled' => false];
+        $this->writeDueReminderOverride(userId: $userId, override: $override);
+
+    }//end setNotifyDueReminder()
+
+    /**
+     * Resolve the OpenRegister NotificationPreferenceService from the container,
+     * or null when OpenRegister is unavailable / the class cannot be resolved.
+     *
+     * @return object|null The OR preference service, or null.
+     *
+     * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+     */
+    public function getNotificationPreferenceService(): ?object
+    {
+        if ($this->isOpenRegisterAvailable() === false) {
+            return null;
+        }
+
+        try {
+            return $this->container->get('OCA\OpenRegister\Service\Notification\NotificationPreferenceService');
+        } catch (\Throwable $e) {
+            $this->logger->info('Planix: NotificationPreferenceService unavailable', ['exception' => $e->getMessage()]);
+            return null;
+        }
+
+    }//end getNotificationPreferenceService()
+
+    /**
+     * Write (or clear) the OpenRegister per-user notification override for
+     * (task, taskDueSoon). Guarded gracefully when OpenRegister is unavailable.
+     *
+     * @param string                    $userId   The user UID.
+     * @param array<string, mixed>|null $override Override body, or null to clear.
+     *
+     * @return bool True when the override was written/cleared, false when skipped.
+     *
+     * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+     */
+    public function writeDueReminderOverride(string $userId, ?array $override): bool
+    {
+        $preferenceService = $this->getNotificationPreferenceService();
+        if ($preferenceService === null) {
+            $this->logger->info(
+                'Planix: OpenRegister unavailable, notify_due_reminder override skipped',
+                ['user' => $userId]
+            );
+            return false;
+        }
+
+        try {
+            $preferenceService->setOverride(
+                userId: $userId,
+                schemaSlug: self::TASK_SCHEMA_SLUG,
+                notificationKey: self::DUE_REMINDER_RULE_KEY,
+                override: $override
+            );
+            return true;
+        } catch (\Throwable $e) {
+            $this->logger->warning(
+                'Planix: failed to write notify_due_reminder OR override',
+                ['user' => $userId, 'exception' => $e->getMessage()]
+            );
+            return false;
+        }//end try
+
+    }//end writeDueReminderOverride()
 
     /**
      * Load configuration from planix_register.json via OpenRegister.

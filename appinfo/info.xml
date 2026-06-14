@@ -34,7 +34,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
 
 **Ondersteuning:** Voor ondersteuning, neem contact op via support@conduction.nl.
     ]]></description>
-    <version>0.2.7</version>
+    <version>0.2.8</version>
     <licence>agpl</licence>
     <author mail="info@conduction.nl" homepage="https://www.conduction.nl/">Conduction</author>
     <namespace>Planix</namespace>
@@ -76,6 +76,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
         </install>
         <post-migration>
             <step>OCA\Planix\Repair\InitializeSettings</step>
+            <step>OCA\Planix\Repair\ReconcileDueReminderOverrides</step>
         </post-migration>
     </repair-steps>
 </info>

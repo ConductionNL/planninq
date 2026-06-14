@@ -108,6 +108,37 @@ class SettingsController extends Controller
     }//end create()
 
     /**
+     * Update the current user's personal settings (notification toggles).
+     *
+     * Available to any authenticated user for their own per-user preferences
+     * (stored via OCP\IConfig + written through to the OpenRegister notification
+     * override). Distinct from create(), which is admin-only IAppConfig.
+     *
+     * @NoAdminRequired
+     *
+     * @return JSONResponse
+     *
+     * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+     */
+    public function updateUser(): JSONResponse
+    {
+        $user = $this->userSession->getUser();
+        if ($user === null) {
+            return new JSONResponse(['error' => 'Not authenticated.'], Http::STATUS_UNAUTHORIZED);
+        }
+
+        $data   = $this->request->getParams();
+        $config = $this->settingsService->updateUserSettings($user->getUID(), $data);
+
+        return new JSONResponse(
+            [
+                'success' => true,
+                'config'  => $config,
+            ]
+        );
+    }//end updateUser()
+
+    /**
      * Re-import the configuration from planix_register.json.
      *
      * Forces a fresh import regardless of version, auto-configuring
