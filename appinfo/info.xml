@@ -70,6 +70,15 @@ Vrij en open source onder de EUPL-1.2-licentie.
         <admin-section>OCA\Planix\Sections\SettingsSection</admin-section>
     </settings>
 
+    <activity>
+        <providers>
+            <provider>OCA\Planix\Activity\Provider</provider>
+        </providers>
+        <filters>
+            <filter>OCA\Planix\Activity\Filter</filter>
+        </filters>
+    </activity>
+
     <repair-steps>
         <install>
             <step>OCA\Planix\Repair\InitializeSettings</step>

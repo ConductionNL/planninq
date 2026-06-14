@@ -39,7 +39,6 @@ use OCP\Activity\IManager as IActivityManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IUserSession;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -50,27 +49,6 @@ use Psr\Log\LoggerInterface;
 class TaskActivityListener implements IEventListener
 {
     /**
-     * OpenRegister register slug owning the planix schemas.
-     *
-     * @var string
-     */
-    private const REGISTER_SLUG = 'planix';
-
-    /**
-     * OpenRegister schema slug for tasks.
-     *
-     * @var string
-     */
-    private const TASK_SCHEMA_SLUG = 'task';
-
-    /**
-     * OpenRegister schema slug for projects (members resolution).
-     *
-     * @var string
-     */
-    private const PROJECT_SCHEMA_SLUG = 'project';
-
-    /**
      * The activity app type planix publishes under.
      *
      * @var string
@@ -80,15 +58,15 @@ class TaskActivityListener implements IEventListener
     /**
      * Constructor.
      *
-     * @param IActivityManager   $activityManager The NC activity manager.
-     * @param IUserSession       $userSession     The current user session.
-     * @param ContainerInterface $container        DI container (resolves OR services at runtime).
-     * @param LoggerInterface    $logger          The logger.
+     * @param IActivityManager  $activityManager The NC activity manager.
+     * @param IUserSession      $userSession     The current user session.
+     * @param TaskScopeResolver $scopeResolver   Resolves task scope + project members from OR.
+     * @param LoggerInterface   $logger          The logger.
      */
     public function __construct(
         private IActivityManager $activityManager,
         private IUserSession $userSession,
-        private ContainerInterface $container,
+        private TaskScopeResolver $scopeResolver,
         private LoggerInterface $logger,
     ) {
     }//end __construct()
@@ -148,7 +126,9 @@ class TaskActivityListener implements IEventListener
      */
     private function onChange(object $object, ?array $old, bool $deleted): void
     {
-        if ($this->isPlanixTask(object: $object) === false) {
+        $registerId = (string) ($object->getRegister() ?? '');
+        $schemaId   = (string) ($object->getSchema() ?? '');
+        if ($this->scopeResolver->isPlanixTask(registerId: $registerId, schemaId: $schemaId) === false) {
             return;
         }
 
@@ -178,65 +158,11 @@ class TaskActivityListener implements IEventListener
             $this->publish(
                 subject: $subject,
                 params: $params,
-                objectId: $objectId,
                 actor: $actor,
                 affectedUser: $affectedUser
             );
         }
     }//end onChange()
-
-    /**
-     * Decide whether an object belongs to the planix register's `task` schema.
-     *
-     * Resolves the event object's register and schema IDs to their slugs via the
-     * OpenRegister mappers. Returns false (silently) when OR is unavailable.
-     *
-     * @param object $object The object entity.
-     *
-     * @return bool Whether this is a planix task.
-     */
-    private function isPlanixTask(object $object): bool
-    {
-        $registerId = (string) ($object->getRegister() ?? '');
-        $schemaId   = (string) ($object->getSchema() ?? '');
-        if ($registerId === '' || $schemaId === '') {
-            return false;
-        }
-
-        $registerSlug = $this->resolveSlug(service: 'OCA\\OpenRegister\\Db\\RegisterMapper', id: $registerId);
-        if ($registerSlug !== self::REGISTER_SLUG) {
-            return false;
-        }
-
-        $schemaSlug = $this->resolveSlug(service: 'OCA\\OpenRegister\\Db\\SchemaMapper', id: $schemaId);
-        return $schemaSlug === self::TASK_SCHEMA_SLUG;
-    }//end isPlanixTask()
-
-    /**
-     * Resolve an OpenRegister entity's slug via a mapper FQCN, by id.
-     *
-     * @param string $service The mapper FQCN (RegisterMapper or SchemaMapper).
-     * @param string $id      The numeric/string id to look up.
-     *
-     * @return string The slug, or '' when unresolvable / OR unavailable.
-     */
-    private function resolveSlug(string $service, string $id): string
-    {
-        try {
-            $mapper = $this->container->get($service);
-            $entity = $mapper->find($id);
-            if (is_object($entity) === true && method_exists($entity, 'getSlug') === true) {
-                return (string) $entity->getSlug();
-            }
-        } catch (\Throwable $e) {
-            $this->logger->debug(
-                'Planix: could not resolve OpenRegister slug',
-                ['service' => $service, 'id' => $id, 'exception' => $e->getMessage()]
-            );
-        }
-
-        return '';
-    }//end resolveSlug()
 
     /**
      * Pick the activity subject + params for a change by diffing tracked fields.
@@ -296,7 +222,9 @@ class TaskActivityListener implements IEventListener
      */
     private function resolveAudience(array $taskData, string $actor): array
     {
-        $members = $this->projectMembers(projectId: $this->stringify(value: ($taskData['project'] ?? '')));
+        $members = $this->scopeResolver->projectMembers(
+            projectId: $this->stringify(value: ($taskData['project'] ?? ''))
+        );
 
         $assignee = $this->stringify(value: ($taskData['assignedTo'] ?? ''));
         if ($assignee !== '') {
@@ -317,74 +245,10 @@ class TaskActivityListener implements IEventListener
     }//end resolveAudience()
 
     /**
-     * Fetch the member ids of a project from OpenRegister.
-     *
-     * @param string $projectId The project UUID.
-     *
-     * @return string[] The project's member ids (plus owner), or [] when unresolvable.
-     */
-    private function projectMembers(string $projectId): array
-    {
-        if ($projectId === '') {
-            return [];
-        }
-
-        try {
-            $objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
-            $objectService->setRegister(self::REGISTER_SLUG);
-            $objectService->setSchema(self::PROJECT_SCHEMA_SLUG);
-            $project = $objectService->find($projectId);
-
-            $data = $this->entityToArray(entity: $project);
-            $members = ($data['members'] ?? []);
-            if (is_array($members) === false) {
-                $members = [];
-            }
-
-            $owner = $this->stringify(value: ($data['owner'] ?? ''));
-            if ($owner !== '') {
-                $members[] = $owner;
-            }
-
-            return array_map('strval', $members);
-        } catch (\Throwable $e) {
-            $this->logger->debug(
-                'Planix: could not resolve project members for task activity',
-                ['project' => $projectId, 'exception' => $e->getMessage()]
-            );
-            return [];
-        }//end try
-    }//end projectMembers()
-
-    /**
-     * Normalise an OpenRegister entity or array to a plain data array.
-     *
-     * @param mixed $entity An OR entity object or a plain array.
-     *
-     * @return array<string,mixed> The object data.
-     */
-    private function entityToArray(mixed $entity): array
-    {
-        if (is_object($entity) === true && method_exists($entity, 'getObject') === true) {
-            $data = $entity->getObject();
-            if (is_array($data) === true) {
-                return $data;
-            }
-        }
-
-        if (is_array($entity) === true) {
-            return $entity;
-        }
-
-        return [];
-    }//end entityToArray()
-
-    /**
      * Publish a single activity event to one affected user.
      *
      * @param string $subject      The subject key.
-     * @param array  $params       The subject parameters.
-     * @param string $objectId     The task UUID.
+     * @param array  $params       The subject parameters (carries the task UUID under `objectId`).
      * @param string $actor        The acting user id (author).
      * @param string $affectedUser The recipient user id.
      *
@@ -393,7 +257,6 @@ class TaskActivityListener implements IEventListener
     private function publish(
         string $subject,
         array $params,
-        string $objectId,
         string $actor,
         string $affectedUser
     ): void {

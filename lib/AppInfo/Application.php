@@ -27,8 +27,6 @@ use OCA\OpenRegister\Event\DeepLinkRegistrationEvent;
 use OCA\OpenRegister\Event\ObjectCreatedEvent;
 use OCA\OpenRegister\Event\ObjectDeletedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
-use OCA\Planix\Activity\Filter;
-use OCA\Planix\Activity\Provider;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -84,9 +82,9 @@ class Application extends App implements IBootstrap
             listener: TaskActivityListener::class
         );
 
-        // Register the Activity provider + filter (the "Planix" Activity filter).
-        $context->registerActivityFilter(Filter::class);
-        $context->registerActivityProvider(Provider::class);
+        // NOTE: the Activity Provider + Filter are registered declaratively via
+        // the <activity> block in appinfo/info.xml — IRegistrationContext has no
+        // activity-registration methods in this Nextcloud version.
 
     }//end register()
 
