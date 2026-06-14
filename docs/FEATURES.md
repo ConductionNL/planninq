@@ -177,10 +177,10 @@ No dedicated Dutch government task management tools were identified. OpenProject
 
 | Feature | Tier | Justification |
 |---------|------|---------------|
-| Notes/comments on tasks (ICommentsManager) | **MVP** | Collaboration basics |
-| File attachments on tasks (CnObjectSidebar Files tab) | **MVP** | Document management |
+| Notes/comments on tasks (ICommentsManager) | **MVP** | Collaboration basics — ✅ built (task detail Comments tab via OR notes API; `task-collaboration-sidebar`) |
+| File attachments on tasks (CnObjectSidebar Files tab) | **MVP** | Document management — ✅ built (task detail Attachments tab via OR object-files API; `task-collaboration-sidebar`) |
 | @mention users in comments | **V1** | Direct collaboration |
-| Activity stream on task (CnObjectSidebar Audit Trail tab) | **MVP** | Change visibility |
+| Activity stream on task (CnObjectSidebar Audit Trail tab) | **MVP** | Change visibility — ✅ built (task detail Activity/Audit Trail tab + NC Activity provider/filter for task events; `task-collaboration-sidebar`) |
 | Shared project access (multi-user) | **MVP** | Team collaboration |
 | Talk integration (per-task conversation) | **V1** | Real-time discussion |
 

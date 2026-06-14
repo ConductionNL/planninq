@@ -34,7 +34,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
 
 **Ondersteuning:** Voor ondersteuning, neem contact op via support@conduction.nl.
     ]]></description>
-    <version>0.2.8</version>
+    <version>0.2.9</version>
     <licence>agpl</licence>
     <author mail="info@conduction.nl" homepage="https://www.conduction.nl/">Conduction</author>
     <namespace>Planix</namespace>
@@ -69,6 +69,15 @@ Vrij en open source onder de EUPL-1.2-licentie.
         <admin>OCA\Planix\Settings\AdminSettings</admin>
         <admin-section>OCA\Planix\Sections\SettingsSection</admin-section>
     </settings>
+
+    <activity>
+        <providers>
+            <provider>OCA\Planix\Activity\Provider</provider>
+        </providers>
+        <filters>
+            <filter>OCA\Planix\Activity\Filter</filter>
+        </filters>
+    </activity>
 
     <repair-steps>
         <install>

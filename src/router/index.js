@@ -26,6 +26,11 @@ export default new Router({
 			name: 'ProjectBacklog',
 			component: () => import('../views/ProjectBacklog.vue'),
 		},
+		{
+			path: '/projects/:id/tasks/:taskId',
+			name: 'TaskDetail',
+			component: () => import('../views/TaskDetail.vue'),
+		},
 		{ path: '*', redirect: '/' },
 	],
 })

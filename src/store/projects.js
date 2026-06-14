@@ -48,6 +48,7 @@ export const useProjectsStore = defineStore('projects', {
 	state: () => ({
 		/** @type {Array} */ projects: [],
 		/** @type {object|null} */ activeProject: null,
+		/** @type {object|null} */ activeTask: null,
 		/** @type {boolean} */ loading: false,
 		/** @type {string|null} */ error: null,
 	}),
@@ -157,6 +158,46 @@ export const useProjectsStore = defineStore('projects', {
 			} catch (err) {
 				this.error = err.message || 'fetch-error'
 				console.error('fetchProject error:', err)
+				return null
+			} finally {
+				this.loading = false
+			}
+		},
+
+		// ── 2.3b fetchTask ────────────────────────────────────────────────
+
+		/**
+		 * Fetch a single task by ID and store it on `activeTask`.
+		 *
+		 * Used by the task detail view (TaskDetail.vue) to render the task and
+		 * mount the collaboration sidebar (comments / files / audit trail). Reads
+		 * directly from OpenRegister via the shared object store (ADR-022) — no
+		 * planix pass-through controller.
+		 *
+		 * @param {string} id Task UUID
+		 * @return {Promise<object|null>} The task, or null on error / not found.
+		 *
+		 * @spec openspec/specs/task-collaboration.md
+		 */
+		async fetchTask(id) {
+			this.loading = true
+			this.error = null
+			try {
+				const objectStore = this._objectStore()
+				const task = await objectStore.fetchObject(TASK_SCHEMA, id)
+				if (!task) {
+					const storeError = objectStore.getError(TASK_SCHEMA)
+					this.error = (storeError?.status === 403 || storeError?.statusCode === 403)
+						? 'forbidden'
+						: 'not-found'
+					this.activeTask = null
+					return null
+				}
+				this.activeTask = task
+				return task
+			} catch (err) {
+				this.error = err.message || 'fetch-error'
+				console.error('fetchTask error:', err)
 				return null
 			} finally {
 				this.loading = false

@@ -13,6 +13,47 @@
 export const RESOLVED_BLOCKER_STATUSES = ['done', 'cancelled']
 
 /**
+ * OpenRegister register slug owning the planix schemas.
+ *
+ * @type {string}
+ */
+export const PLANIX_REGISTER = 'planix'
+
+/**
+ * Generic CnObjectSidebar tabs that must stay hidden on the task detail
+ * collaboration sidebar — planix has its own label and sub-task concepts, so
+ * the library's generic `tags` / `tasks` tabs would confuse.
+ *
+ * @type {string[]}
+ */
+export const TASK_SIDEBAR_HIDDEN_TABS = ['tags', 'tasks']
+
+/**
+ * Build the props for the task detail collaboration sidebar (CnObjectSidebar).
+ *
+ * Pure derived state so the wiring (correct register/schema/objectId, hidden
+ * generic tabs, legacy hardcoded-tabs mode) can be unit-tested without mounting
+ * the component. The sidebar surfaces the built-in Comments (notes), Files, and
+ * Audit Trail tabs over OpenRegister per-object APIs (ADR-022) — there is no
+ * planix pass-through controller.
+ *
+ * @param {object} task A task object carrying at least an `id` (UUID).
+ * @return {object} Props to spread onto CnObjectSidebar.
+ *
+ * @spec openspec/specs/task-collaboration.md
+ */
+export function taskCollaborationSidebarConfig(task) {
+	return {
+		objectId: (task && task.id) ? String(task.id) : '',
+		register: PLANIX_REGISTER,
+		schema: 'task',
+		objectType: 'planix-task',
+		useRegistry: false,
+		hiddenTabs: TASK_SIDEBAR_HIDDEN_TABS,
+	}
+}
+
+/**
  * Build a UUID → status map from a list of task objects.
  *
  * Accepts either flat tasks (`{ id, status }`) or OR-shaped tasks
