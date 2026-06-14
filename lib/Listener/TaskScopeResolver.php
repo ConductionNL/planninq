@@ -74,6 +74,8 @@ class TaskScopeResolver
      * @param string $schemaId   The OR schema id from the event object.
      *
      * @return bool Whether this is a planix task.
+     *
+     * @spec openspec/specs/task-collaboration.md
      */
     public function isPlanixTask(string $registerId, string $schemaId): bool
     {
@@ -94,6 +96,8 @@ class TaskScopeResolver
      * @param string $projectId The project UUID.
      *
      * @return string[] The project's member ids, or [] when unresolvable.
+     *
+     * @spec openspec/specs/task-collaboration.md
      */
     public function projectMembers(string $projectId): array
     {

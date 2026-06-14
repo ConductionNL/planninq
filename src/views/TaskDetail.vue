@@ -107,27 +107,47 @@ export default {
 	computed: {
 		...mapState(useProjectsStore, ['activeTask', 'loading', 'error']),
 
-		/** UUID of the task from the route. */
+		/**
+		 * UUID of the task from the route.
+		 *
+		 * @spec openspec/specs/task-collaboration.md
+		 */
 		taskId() {
 			return this.$route.params.taskId
 		},
 
-		/** The loaded task object (or null). */
+		/**
+		 * The loaded task object (or null).
+		 *
+		 * @spec openspec/specs/task-collaboration.md
+		 */
 		task() {
 			return this.activeTask
 		},
 
-		/** CnObjectSidebar props (register/schema/objectId/hidden tabs). */
+		/**
+		 * CnObjectSidebar props (register/schema/objectId/hidden tabs).
+		 *
+		 * @spec openspec/specs/task-collaboration.md
+		 */
 		sidebarConfig() {
 			return taskCollaborationSidebarConfig({ id: this.taskId })
 		},
 
-		/** Display title of the task. */
+		/**
+		 * Display title of the task.
+		 *
+		 * @spec openspec/specs/task-collaboration.md
+		 */
 		taskTitle() {
 			return this.task?.title || this.t('planix', 'Untitled task')
 		},
 
-		/** Label/value pairs rendered in the detail body. */
+		/**
+		 * Label/value pairs rendered in the detail body.
+		 *
+		 * @spec openspec/specs/task-collaboration.md
+		 */
 		fields() {
 			const t = this.task || {}
 			return [
@@ -139,14 +159,22 @@ export default {
 			]
 		},
 
-		/** Title shown in the not-found / forbidden empty state. */
+		/**
+		 * Title shown in the not-found / forbidden empty state.
+		 *
+		 * @spec exclude Presentational empty-state copy; no observable behaviour.
+		 */
 		errorTitle() {
 			return this.error === 'forbidden'
 				? this.t('planix', 'You do not have access to this task')
 				: this.t('planix', 'Task not found')
 		},
 
-		/** Description shown in the not-found / forbidden empty state. */
+		/**
+		 * Description shown in the not-found / forbidden empty state.
+		 *
+		 * @spec exclude Presentational empty-state copy; no observable behaviour.
+		 */
 		errorDescription() {
 			return this.error === 'forbidden'
 				? this.t('planix', 'You are not a member of this task\'s project.')
@@ -157,6 +185,13 @@ export default {
 	watch: {
 		taskId: {
 			immediate: true,
+			/**
+			 * Load the task whenever the route's task id changes.
+			 *
+			 * @param {string} id The task UUID from the route.
+			 *
+			 * @spec openspec/specs/task-collaboration.md
+			 */
 			handler(id) {
 				if (id) {
 					this.projectsStore.fetchTask(id)
@@ -166,7 +201,11 @@ export default {
 	},
 
 	methods: {
-		/** Navigate back to the project board. */
+		/**
+		 * Navigate back to the project board.
+		 *
+		 * @spec exclude Router navigation glue; no observable spec behaviour.
+		 */
 		goBack() {
 			const projectId = this.$route.params.id
 			if (projectId) {
@@ -181,6 +220,8 @@ export default {
 		 * so closing it returns to the board rather than leaving an empty page.
 		 *
 		 * @param {boolean} open Whether the sidebar is now open.
+		 *
+		 * @spec exclude UI affordance (close returns to board); no spec behaviour.
 		 */
 		onSidebarToggle(open) {
 			if (!open) {
