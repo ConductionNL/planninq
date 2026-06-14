@@ -23,6 +23,7 @@ use OCA\Planix\AppInfo\Application;
 use OCA\Planix\Service\SettingsService;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -50,6 +51,13 @@ class SettingsServiceTest extends TestCase
      * @var IAppConfig&MockObject
      */
     private IAppConfig&MockObject $appConfig;
+
+    /**
+     * Mock IConfig.
+     *
+     * @var IConfig&MockObject
+     */
+    private IConfig&MockObject $config;
 
     /**
      * Mock IAppManager.
@@ -96,6 +104,7 @@ class SettingsServiceTest extends TestCase
         parent::setUp();
 
         $this->appConfig    = $this->createMock(originalClassName: IAppConfig::class);
+        $this->config       = $this->createMock(originalClassName: IConfig::class);
         $this->appManager   = $this->createMock(originalClassName: IAppManager::class);
         $this->container    = $this->createMock(originalClassName: ContainerInterface::class);
         $this->groupManager = $this->createMock(originalClassName: IGroupManager::class);
@@ -104,6 +113,7 @@ class SettingsServiceTest extends TestCase
 
         $this->service = new SettingsService(
             appConfig: $this->appConfig,
+            config: $this->config,
             appManager: $this->appManager,
             container: $this->container,
             groupManager: $this->groupManager,
@@ -278,4 +288,218 @@ class SettingsServiceTest extends TestCase
         self::assertTrue(condition: $result['openregisters']);
 
     }//end testGetSettingsIncludesAdminKeys()
+
+    /**
+     * Test validateLeadHours() accepts in-range integers and rejects the rest.
+     *
+     * @return void
+     */
+    public function testValidateLeadHoursBounds(): void
+    {
+        self::assertSame(expected: 1, actual: $this->service->validateLeadHours('1'));
+        self::assertSame(expected: 24, actual: $this->service->validateLeadHours('24'));
+        self::assertSame(expected: 336, actual: $this->service->validateLeadHours('336'));
+
+        self::assertNull(actual: $this->service->validateLeadHours('0'));
+        self::assertNull(actual: $this->service->validateLeadHours('337'));
+        self::assertNull(actual: $this->service->validateLeadHours('1000'));
+        self::assertNull(actual: $this->service->validateLeadHours('abc'));
+        self::assertNull(actual: $this->service->validateLeadHours(''));
+        self::assertNull(actual: $this->service->validateLeadHours('12.5'));
+        self::assertNull(actual: $this->service->validateLeadHours('-5'));
+
+    }//end testValidateLeadHoursBounds()
+
+    /**
+     * Test getDueReminderLeadHours() returns the default 24 when unset.
+     *
+     * @return void
+     */
+    public function testGetDueReminderLeadHoursDefault(): void
+    {
+        $this->appConfig->method('getValueString')
+            ->willReturnCallback(
+                function (string $appId, string $key, string $default=''): string {
+                    return $default;
+                }
+            );
+
+        self::assertSame(expected: 24, actual: $this->service->getDueReminderLeadHours());
+
+    }//end testGetDueReminderLeadHoursDefault()
+
+    /**
+     * Test getDueReminderLeadHours() returns a stored, in-range value.
+     *
+     * @return void
+     */
+    public function testGetDueReminderLeadHoursStored(): void
+    {
+        $this->appConfig->method('getValueString')
+            ->willReturnCallback(
+                function (string $appId, string $key, string $default=''): string {
+                    return ($key === 'due_reminder_lead_hours') ? '48' : $default;
+                }
+            );
+
+        self::assertSame(expected: 48, actual: $this->service->getDueReminderLeadHours());
+
+    }//end testGetDueReminderLeadHoursStored()
+
+    /**
+     * Test leadHoursToDuration() formats the ISO-8601 window.
+     *
+     * @return void
+     */
+    public function testLeadHoursToDuration(): void
+    {
+        self::assertSame(expected: 'PT24H', actual: $this->service->leadHoursToDuration(24));
+        self::assertSame(expected: 'PT1H', actual: $this->service->leadHoursToDuration(1));
+        self::assertSame(expected: 'PT336H', actual: $this->service->leadHoursToDuration(336));
+
+    }//end testLeadHoursToDuration()
+
+    /**
+     * Test setNotifyDueReminder(false) stores false AND writes the OR override.
+     *
+     * @return void
+     */
+    public function testSetNotifyDueReminderOffWritesOverride(): void
+    {
+        $this->appManager->method('isInstalled')->with('openregister')->willReturn(true);
+
+        $stored = [];
+        $this->config->expects($this->once())
+            ->method('setUserValue')
+            ->willReturnCallback(
+                function (string $userId, string $app, string $key, string $value) use (&$stored): void {
+                    $stored[$key] = $value;
+                }
+            );
+
+        $prefService = new TestPreferenceServiceSpy();
+        $this->container->method('get')->willReturn($prefService);
+
+        $this->service->setNotifyDueReminder(userId: 'bob', enabled: false);
+
+        self::assertSame(expected: 'false', actual: $stored['notify_due_reminder']);
+        self::assertCount(expectedCount: 1, haystack: $prefService->calls);
+        self::assertSame(expected: 'bob', actual: $prefService->calls[0]['userId']);
+        self::assertSame(expected: 'task', actual: $prefService->calls[0]['schemaSlug']);
+        self::assertSame(expected: 'taskDueSoon', actual: $prefService->calls[0]['notificationKey']);
+        self::assertSame(expected: ['enabled' => false], actual: $prefService->calls[0]['override']);
+
+    }//end testSetNotifyDueReminderOffWritesOverride()
+
+    /**
+     * Test setNotifyDueReminder(true) stores true AND clears the OR override.
+     *
+     * @return void
+     */
+    public function testSetNotifyDueReminderOnClearsOverride(): void
+    {
+        $this->appManager->method('isInstalled')->with('openregister')->willReturn(true);
+
+        $this->config->expects($this->once())
+            ->method('setUserValue')
+            ->with('carol', Application::APP_ID, 'notify_due_reminder', 'true');
+
+        $prefService = new TestPreferenceServiceSpy();
+        $this->container->method('get')->willReturn($prefService);
+
+        $this->service->setNotifyDueReminder(userId: 'carol', enabled: true);
+
+        self::assertCount(expectedCount: 1, haystack: $prefService->calls);
+        self::assertNull(actual: $prefService->calls[0]['override']);
+
+    }//end testSetNotifyDueReminderOnClearsOverride()
+
+    /**
+     * Test that the OR-unavailable path still stores the IConfig value and
+     * skips the override (no exception, returns false from the writer).
+     *
+     * @return void
+     */
+    public function testSetNotifyDueReminderOpenRegisterUnavailable(): void
+    {
+        $this->appManager->method('isInstalled')->with('openregister')->willReturn(false);
+
+        $this->config->expects($this->once())
+            ->method('setUserValue')
+            ->with('dave', Application::APP_ID, 'notify_due_reminder', 'false');
+
+        // Container::get must never be reached when OR is unavailable.
+        $this->container->expects($this->never())->method('get');
+
+        $this->service->setNotifyDueReminder(userId: 'dave', enabled: false);
+
+        self::assertFalse(condition: $this->service->writeDueReminderOverride('dave', ['enabled' => false]));
+
+    }//end testSetNotifyDueReminderOpenRegisterUnavailable()
+
+    /**
+     * Test getNotifyDueReminder() resolves the stored per-user value (default on).
+     *
+     * @return void
+     */
+    public function testGetNotifyDueReminderDefaultsOn(): void
+    {
+        $this->config->method('getUserValue')
+            ->willReturnCallback(
+                function (string $userId, string $app, string $key, string $default=''): string {
+                    return $default;
+                }
+            );
+
+        self::assertTrue(condition: $this->service->getNotifyDueReminder('eve'));
+
+    }//end testGetNotifyDueReminderDefaultsOn()
+
+    /**
+     * Test getNotifyDueReminder() returns false for a stored opt-out.
+     *
+     * @return void
+     */
+    public function testGetNotifyDueReminderStoredOff(): void
+    {
+        $this->config->method('getUserValue')->willReturn('false');
+
+        self::assertFalse(condition: $this->service->getNotifyDueReminder('frank'));
+
+    }//end testGetNotifyDueReminderStoredOff()
+}//end class
+
+/**
+ * Test double recording NotificationPreferenceService::setOverride calls.
+ */
+class TestPreferenceServiceSpy
+{
+
+    /**
+     * Recorded setOverride calls.
+     *
+     * @var array<int,array<string,mixed>>
+     */
+    public array $calls = [];
+
+    /**
+     * Record a setOverride call.
+     *
+     * @param string                    $userId          The user UID.
+     * @param string                    $schemaSlug      The schema slug.
+     * @param string                    $notificationKey The notification key.
+     * @param array<string,mixed>|null  $override        The override body or null.
+     *
+     * @return void
+     */
+    public function setOverride(string $userId, string $schemaSlug, string $notificationKey, ?array $override): void
+    {
+        $this->calls[] = [
+            'userId'          => $userId,
+            'schemaSlug'      => $schemaSlug,
+            'notificationKey' => $notificationKey,
+            'override'        => $override,
+        ];
+
+    }//end setOverride()
 }//end class

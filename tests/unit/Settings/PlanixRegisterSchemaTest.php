@@ -288,4 +288,83 @@ class PlanixRegisterSchemaTest extends TestCase
         }
 
     }//end testTimeEntryAuthorizationRestrictsWriteToOwningUser()
+
+    /**
+     * The task schema MUST declare a canonical-dialect taskDueSoon rule.
+     *
+     * @return void
+     *
+     * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#2
+     */
+    public function testTaskSchemaHasDueSoonNotificationRule(): void
+    {
+        $task = $this->register['components']['schemas']['task'];
+
+        self::assertArrayHasKey(
+            key: 'x-openregister-notifications',
+            array: $task,
+            message: 'task schema must declare x-openregister-notifications'
+        );
+
+        $notifications = $task['x-openregister-notifications'];
+        self::assertArrayHasKey(
+            key: 'taskDueSoon',
+            array: $notifications,
+            message: 'task schema must declare the taskDueSoon rule'
+        );
+
+        $rule = $notifications['taskDueSoon'];
+
+        // Trigger: scheduled, hourly, with a withinNext dueDate + notEquals status filter.
+        self::assertSame(expected: 'scheduled', actual: $rule['trigger']['type']);
+        self::assertSame(expected: 3600, actual: $rule['trigger']['intervalSec']);
+        self::assertSame(
+            expected: 'withinNext',
+            actual: $rule['trigger']['filter']['dueDate']['operator'],
+            message: 'taskDueSoon must use the withinNext date operator on dueDate'
+        );
+        self::assertSame(
+            expected: 'notEquals',
+            actual: $rule['trigger']['filter']['status']['operator']
+        );
+        self::assertSame(expected: 'done', actual: $rule['trigger']['filter']['status']['value']);
+
+        // Enabled, canonical plural arrays, and field-recipient on the real
+        // assignee field (assignedTo).
+        self::assertTrue(condition: $rule['enabled']);
+        self::assertSame(expected: ['nc-notification'], actual: $rule['channels']);
+        self::assertIsArray(actual: $rule['recipients']);
+        self::assertSame(expected: 'field', actual: $rule['recipients'][0]['kind']);
+        self::assertSame(expected: 'assignedTo', actual: $rule['recipients'][0]['field']);
+
+        // Bilingual subject with the {{title}} placeholder; English source key.
+        self::assertArrayHasKey(key: 'en', array: $rule['subject']);
+        self::assertArrayHasKey(key: 'nl', array: $rule['subject']);
+        self::assertStringContainsString(needle: '{{title}}', haystack: $rule['subject']['en']);
+        self::assertStringContainsString(needle: '{{title}}', haystack: $rule['subject']['nl']);
+
+    }//end testTaskSchemaHasDueSoonNotificationRule()
+
+    /**
+     * The recipient field MUST name a property that exists on the task schema.
+     *
+     * Guards against the spec's `assignee` typo: the real field is `assignedTo`.
+     *
+     * @return void
+     *
+     * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#2
+     */
+    public function testDueSoonRecipientFieldExistsOnSchema(): void
+    {
+        $task      = $this->register['components']['schemas']['task'];
+        $rule      = $task['x-openregister-notifications']['taskDueSoon'];
+        $fieldName = $rule['recipients'][0]['field'];
+
+        self::assertArrayHasKey(
+            key: $fieldName,
+            array: $task['properties'],
+            message: "taskDueSoon recipient field '{$fieldName}' must exist on the task schema"
+        );
+
+    }//end testDueSoonRecipientFieldExistsOnSchema()
 }//end class

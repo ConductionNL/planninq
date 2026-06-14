@@ -24,6 +24,8 @@ use OCA\Planix\Service\SettingsService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -55,6 +57,13 @@ class SettingsControllerTest extends TestCase
     private SettingsService&MockObject $settingsService;
 
     /**
+     * Mock IUserSession.
+     *
+     * @var IUserSession&MockObject
+     */
+    private IUserSession&MockObject $userSession;
+
+    /**
      * Set up test fixtures.
      *
      * @return void
@@ -65,13 +74,56 @@ class SettingsControllerTest extends TestCase
 
         $this->request         = $this->createMock(originalClassName: IRequest::class);
         $this->settingsService = $this->createMock(originalClassName: SettingsService::class);
+        $this->userSession     = $this->createMock(originalClassName: IUserSession::class);
 
         $this->controller = new SettingsController(
             request: $this->request,
             settingsService: $this->settingsService,
+            userSession: $this->userSession,
         );
 
     }//end setUp()
+
+    /**
+     * Test that updateUser() rejects an unauthenticated request.
+     *
+     * @return void
+     */
+    public function testUpdateUserRequiresAuthentication(): void
+    {
+        $this->userSession->method('getUser')->willReturn(null);
+
+        $response = $this->controller->updateUser();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $response);
+        self::assertSame(expected: Http::STATUS_UNAUTHORIZED, actual: $response->getStatus());
+
+    }//end testUpdateUserRequiresAuthentication()
+
+    /**
+     * Test that updateUser() delegates to updateUserSettings for an authed user.
+     *
+     * @return void
+     */
+    public function testUpdateUserDelegatesToService(): void
+    {
+        $user = $this->createMock(originalClassName: IUser::class);
+        $user->method('getUID')->willReturn('alice');
+        $this->userSession->method('getUser')->willReturn($user);
+
+        $this->request->method('getParams')->willReturn(['notify_due_reminder' => false]);
+
+        $this->settingsService->expects($this->once())
+            ->method('updateUserSettings')
+            ->with('alice', ['notify_due_reminder' => false])
+            ->willReturn(['notify_due_reminder' => false]);
+
+        $response = $this->controller->updateUser();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $response);
+        self::assertSame(expected: Http::STATUS_OK, actual: $response->getStatus());
+
+    }//end testUpdateUserDelegatesToService()
 
     /**
      * Test that index() returns a JSONResponse containing the settings from the service.
@@ -87,6 +139,10 @@ class SettingsControllerTest extends TestCase
             'openregisters'          => true,
             'isAdmin'                => false,
         ];
+
+        $user = $this->createMock(originalClassName: IUser::class);
+        $user->method('getUID')->willReturn('alice');
+        $this->userSession->method('getUser')->willReturn($user);
 
         $this->settingsService->expects($this->once())
             ->method('getSettings')
