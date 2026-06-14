@@ -14,18 +14,18 @@
 This spec defines the requirements for the Planix OpenRegister schema definitions. The register file declares the data model that all Planix features are built upon. Correct schema definitions, seed data, and import behaviour are prerequisites for every other Planix capability.
 
 ---
-
 ## Requirements
-
 ### Requirement: All 5 schemas defined [MVP]
 
-The register file MUST declare exactly the schemas `task`, `project`, `column`, `timeEntry`, and `label` in `components/schemas`. The placeholder `example` schema MUST NOT be present.
+The register file MUST declare exactly the schemas `task`, `project`, `column`, `timeEntry`, `label`, and `dependency` in `components/schemas` (six schemas after this change). The placeholder `example` schema MUST NOT be present.
+
+(Modification: adds `dependency` to the previously exact set of 5; the register now declares 6 schemas. All existing scenarios of this requirement remain valid with the enlarged key set.)
 
 #### Scenario: Register file contains required schemas
 
 - GIVEN the file `lib/Settings/planix_register.json` is loaded
 - WHEN its `components.schemas` keys are enumerated
-- THEN the keys MUST include `task`, `project`, `column`, `timeEntry`, and `label`
+- THEN the keys MUST include `task`, `project`, `column`, `timeEntry`, `label`, and `dependency`
 - AND the key `example` MUST NOT be present
 
 #### Scenario: Task schema has required fields declared
@@ -62,7 +62,12 @@ The register file MUST declare exactly the schemas `task`, `project`, `column`, 
 - THEN it MUST contain `title` and `color`
 - AND the `color` property MUST declare the default `"#4376FC"`
 
----
+#### Scenario: Dependency schema has required fields declared
+
+- GIVEN the `dependency` schema definition
+- WHEN its `required` array is inspected
+- THEN it MUST contain `blocker` and `blocked`
+- AND both properties MUST be declared as `type: string` with `format: uuid`
 
 ### Requirement: Schema validation enforced by OpenRegister [MVP]
 
