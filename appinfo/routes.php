@@ -18,6 +18,11 @@ return [
         // Leave-project proxy — C3: allows non-owner members to remove themselves (_rbac: false).
         ['name' => 'project#leaveProject', 'url' => '/api/projects/{projectId}/leave', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
 
+        // Dependency edge create — server-side cycle/self/duplicate/cross-project validation.
+        ['name' => 'dependency#create', 'url' => '/api/dependencies', 'verb' => 'POST'],
+        // Dependency edge delete — project-member guarded.
+        ['name' => 'dependency#destroy', 'url' => '/api/dependencies/{id}', 'verb' => 'DELETE', 'requirements' => ['id' => '[^/]+']],
+
         // Prometheus metrics endpoint.
         ['name' => 'metrics#index', 'url' => '/api/metrics', 'verb' => 'GET'],
         // Health check endpoint.
