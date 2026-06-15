@@ -648,5 +648,71 @@ export const useProjectsStore = defineStore('projects', {
 				return 0
 			}
 		},
+
+		// ── 2.13 fetchTasks ───────────────────────────────────────────────
+
+		/**
+		 * Fetch all tasks of a project for the kanban board.
+		 *
+		 * Reads directly from OpenRegister via the shared object store (ADR-022) —
+		 * there is no planix pass-through controller. OpenRegister scopes the read
+		 * to objects the current user may see, so the board only ever shows tasks
+		 * of a project the user is a member of (the board view additionally guards
+		 * non-member access via `accessDenied`).
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The project's tasks (empty array on error)
+		 *
+		 * @spec openspec/specs/kanban-board.md
+		 */
+		async fetchTasks(projectId) {
+			try {
+				const objectStore = this._objectStore()
+				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, { project: projectId })
+				return Array.isArray(tasks) ? tasks : []
+			} catch (err) {
+				console.error('fetchTasks error:', err)
+				return []
+			}
+		},
+
+		// ── 2.14 updateTaskStatus ─────────────────────────────────────────
+
+		/**
+		 * Move a task to a new status column on the board.
+		 *
+		 * Uses PATCH (not PUT) so only `status` is changed: OpenRegister's PUT
+		 * fills every missing schema property with null, which would wipe
+		 * `title`, `project`, and other required fields (same root cause as the
+		 * project C2 fix). OpenRegister enforces per-object RBAC on the write, so
+		 * a user can only move tasks of a project they are a member of — there is
+		 * no app-level `@NoAdminRequired` endpoint to bypass (ADR-005).
+		 *
+		 * @param {string} taskId Task UUID
+		 * @param {string} status New status (one of the task schema's status enum)
+		 * @return {Promise<object|null>} The updated task, or null on failure
+		 *
+		 * @spec openspec/specs/kanban-board.md
+		 */
+		async updateTaskStatus(taskId, status) {
+			try {
+				const url = generateUrl(`/apps/openregister/api/objects/planix/task/${taskId}`)
+				const response = await fetch(url, {
+					method: 'PATCH',
+					headers: buildHeaders(),
+					body: JSON.stringify({ status }),
+				})
+				if (!response.ok) {
+					const errorData = await response.json().catch(() => ({}))
+					this.error = errorData?.message || 'task-status-error'
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				this.error = err.message || 'task-status-error'
+				console.error('updateTaskStatus error:', err)
+				return null
+			}
+		},
 	},
 })
