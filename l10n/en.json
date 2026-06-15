@@ -185,7 +185,20 @@
         "%1$s changed the due date of %2$s to %3$s": "%1$s changed the due date of %2$s to %3$s",
         "{actor} changed the due date of {task} to %1$s": "{actor} changed the due date of {task} to %1$s",
         "%1$s deleted task %2$s": "%1$s deleted task %2$s",
-        "{actor} deleted task {task}": "{actor} deleted task {task}"
+        "{actor} deleted task {task}": "{actor} deleted task {task}",
+        "Open": "Open",
+        "In Progress": "In Progress",
+        "Done": "Done",
+        "Cancelled": "Cancelled",
+        "Low": "Low",
+        "Normal": "Normal",
+        "High": "High",
+        "Urgent": "Urgent",
+        "Due soon": "Due soon",
+        "Overdue": "Overdue",
+        "Assigned to: {user}": "Assigned to: {user}",
+        "No tasks": "No tasks",
+        "Could not move the task. Please try again.": "Could not move the task. Please try again."
     },
     "plurals": {}
 }

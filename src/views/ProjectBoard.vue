@@ -57,21 +57,52 @@
 				</div>
 			</div>
 
-			<!-- Board placeholder -->
-			<NcEmptyContent
-				:name="t('planix', 'Board view coming soon')"
-				:description="t('planix', 'The Kanban board is being built. Use the Backlog view in the meantime.')">
-				<template #icon>
-					<ViewColumnOutline :size="20" />
-				</template>
-				<template #action>
-					<NcButton
-						type="secondary"
-						@click="$router.push({ name: 'ProjectBacklog', params: { id: project.id } })">
-						{{ t('planix', 'View Backlog') }}
-					</NcButton>
-				</template>
-			</NcEmptyContent>
+			<!-- Board loading overlay (tasks fetch) -->
+			<div v-if="tasksLoading" class="project-board__loading">
+				<NcLoadingIcon :size="32" />
+			</div>
+
+			<!-- Kanban columns -->
+			<div v-else class="project-board__columns" data-cy="kanban-board">
+				<section
+					v-for="column in columns"
+					:key="column.status"
+					class="kanban-column"
+					:data-status="column.status"
+					:aria-label="column.label"
+					:class="{ 'kanban-column--drop-target': dropTargetStatus === column.status }"
+					@dragover.prevent="onDragOver(column.status)"
+					@dragleave="onDragLeave(column.status)"
+					@drop="onDrop(column.status)">
+					<header class="kanban-column__header">
+						<h3 class="kanban-column__title">
+							{{ column.label }}
+						</h3>
+						<span class="kanban-column__count" aria-hidden="true">
+							{{ tasksByStatus[column.status].length }}
+						</span>
+					</header>
+
+					<div class="kanban-column__body">
+						<!-- Task cards -->
+						<div
+							v-for="task in tasksByStatus[column.status]"
+							:key="task.id"
+							class="kanban-column__card"
+							:class="{ 'kanban-column__card--highlight': isHighlighted(task) }"
+							draggable="true"
+							@dragstart="onDragStart(task)"
+							@dragend="onDragEnd">
+							<TaskCard :task="task" />
+						</div>
+
+						<!-- Empty column placeholder -->
+						<p v-if="tasksByStatus[column.status].length === 0" class="kanban-column__empty">
+							{{ t('planix', 'No tasks') }}
+						</p>
+					</div>
+				</section>
+			</div>
 		</template>
 
 		<!-- Settings sidebar (rendered via App.vue outlet, passed via provide) -->
@@ -80,20 +111,28 @@
 
 <script>
 /**
- * ProjectBoard view.
+ * ProjectBoard view — the Kanban board.
  *
- * Project board header + settings cog; the kanban board itself is a placeholder.
+ * Renders the project's tasks as cards grouped into columns by task `status`
+ * (the task schema's status enum: open / in_progress / blocked / done /
+ * cancelled). Cards are dragged between columns to change a task's status,
+ * persisted to OpenRegister via the projects store (`updateTaskStatus`, a
+ * RBAC-scoped PATCH — ADR-005/ADR-022). The move is optimistic and reverts on
+ * a failed write. Each card is a {@link TaskCard}, which surfaces the due-date
+ * warning badge. Empty columns render a graceful placeholder.
  *
- * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
+ * @spec openspec/specs/kanban-board.md
  */
 import { NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
-import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
 
 import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
 import { useProjectsStore } from '../store/projects.js'
+import { groupTasksByStatus, BOARD_STATUSES } from '../utils/taskHelpers.js'
 import ProjectSettingsSidebar from '../components/ProjectSettingsSidebar.vue'
+import TaskCard from '../components/TaskCard.vue'
 
 export default {
 	name: 'ProjectBoard',
@@ -104,7 +143,7 @@ export default {
 		NcLoadingIcon,
 		CogIcon,
 		LockOutline,
-		ViewColumnOutline,
+		TaskCard,
 	},
 
 	inject: {
@@ -116,9 +155,16 @@ export default {
 		return {
 			/**
 			 * UUID of the task to highlight/scroll to from the ?task= deep-link query param.
-			 * Consumed by the kanban board once the card rendering is implemented.
 			 */
 			highlightTaskId: null,
+			/** @type {Array} Tasks of the active project. */
+			tasks: [],
+			/** @type {boolean} Whether the task collection is being fetched. */
+			tasksLoading: false,
+			/** @type {object|null} The task currently being dragged. */
+			draggingTask: null,
+			/** @type {string|null} The status column currently hovered during a drag. */
+			dropTargetStatus: null,
 		}
 	},
 
@@ -142,6 +188,36 @@ export default {
 			return this.projectsStore.loading
 		},
 		/**
+		 * The board's columns, in display order. One column per task status —
+		 * the status enum is the single source of truth for the board lanes.
+		 *
+		 * @return {Array<{status: string, label: string}>}
+		 *
+		 * @spec openspec/specs/kanban-board.md
+		 */
+		columns() {
+			const labels = {
+				open: this.t('planix', 'Open'),
+				in_progress: this.t('planix', 'In Progress'),
+				blocked: this.t('planix', 'Blocked'),
+				done: this.t('planix', 'Done'),
+				cancelled: this.t('planix', 'Cancelled'),
+			}
+			return BOARD_STATUSES.map((status) => ({ status, label: labels[status] }))
+		},
+		/**
+		 * Tasks grouped by their status. Every column key is always present so
+		 * empty columns render gracefully; a task with an unknown status falls
+		 * back to the "open" lane.
+		 *
+		 * @return {Object<string, Array>}
+		 *
+		 * @spec openspec/specs/kanban-board.md
+		 */
+		tasksByStatus() {
+			return groupTasksByStatus(this.tasks, BOARD_STATUSES)
+		},
+		/**
 		 * Whether the current user is denied access to the project — true on a
 		 * stored 403 (`forbidden`) or when the loaded project's members array
 		 * does not include the current user's UID.
@@ -162,19 +238,20 @@ export default {
 	},
 
 	/**
-	 * @spec exclude Lifecycle glue — fetches the route's project on mount; fetch behavior is spec'd in projects#REQ-Project-Lifecycle.
+	 * @spec exclude Lifecycle glue — fetches the route's project + tasks on mount.
 	 */
 	async mounted() {
 		const id = this.$route.params.id
 		await this.projectsStore.fetchProject(id)
 
-		// Deep-link support: when the route contains ?task=<uuid>, store the
-		// highlighted task ID so the board (once implemented) can scroll/highlight
-		// the matching card. Ignored when the full kanban board is not yet rendered.
+		// Deep-link support: when the route contains ?task=<uuid>, highlight the
+		// matching card once the board has rendered.
 		const taskId = this.$route.query.task
 		if (taskId) {
 			this.highlightTaskId = taskId
 		}
+
+		await this.loadTasks(id)
 	},
 
 	beforeDestroy() {
@@ -182,6 +259,103 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Load the project's tasks into the board.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/specs/kanban-board.md
+		 */
+		async loadTasks(projectId) {
+			if (!projectId || this.accessDenied) return
+			this.tasksLoading = true
+			try {
+				this.tasks = await this.projectsStore.fetchTasks(projectId)
+			} finally {
+				this.tasksLoading = false
+			}
+		},
+
+		/**
+		 * @param {object} task The task to test.
+		 * @return {boolean}
+		 * @spec exclude Display predicate — whether a task is the deep-link highlighted card.
+		 */
+		isHighlighted(task) {
+			return !!this.highlightTaskId && task.id === this.highlightTaskId
+		},
+
+		/**
+		 * @param {object} task The task being dragged.
+		 * @spec exclude Drag glue — records the task being dragged.
+		 */
+		onDragStart(task) {
+			this.draggingTask = task
+		},
+
+		/**
+		 * @spec exclude Drag glue — clears drag state when the drag ends.
+		 */
+		onDragEnd() {
+			this.draggingTask = null
+			this.dropTargetStatus = null
+		},
+
+		/**
+		 * @param {string} status The hovered column's status.
+		 * @spec exclude Drag glue — marks the hovered column as the drop target.
+		 */
+		onDragOver(status) {
+			this.dropTargetStatus = status
+		},
+
+		/**
+		 * @param {string} status The column being left.
+		 * @spec exclude Drag glue — clears the drop-target highlight on leave.
+		 */
+		onDragLeave(status) {
+			if (this.dropTargetStatus === status) {
+				this.dropTargetStatus = null
+			}
+		},
+
+		/**
+		 * Drop a dragged task into a column, changing its status.
+		 *
+		 * Applies the move optimistically (the card jumps to the new column
+		 * immediately) and persists it via the RBAC-scoped store action; on a
+		 * failed write the task reverts to its original status and an error toast
+		 * is shown.
+		 *
+		 * @param {string} newStatus The target column's status
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/specs/kanban-board.md
+		 */
+		async onDrop(newStatus) {
+			const task = this.draggingTask
+			this.dropTargetStatus = null
+			this.draggingTask = null
+			if (!task || task.status === newStatus) return
+
+			const previousStatus = task.status
+
+			// Optimistic update.
+			this.tasks = this.tasks.map((existing) =>
+				existing.id === task.id ? { ...existing, status: newStatus } : existing,
+			)
+
+			const updated = await this.projectsStore.updateTaskStatus(task.id, newStatus)
+			if (!updated) {
+				// Revert on failure.
+				this.tasks = this.tasks.map((existing) =>
+					existing.id === task.id ? { ...existing, status: previousStatus } : existing,
+				)
+				showError(this.t('planix', 'Could not move the task. Please try again.'))
+			}
+		},
+
 		/**
 		 * Open the project settings sidebar via the App.vue outlet.
 		 *
@@ -249,5 +423,82 @@ export default {
 	display: flex;
 	justify-content: center;
 	padding: 60px;
+}
+
+.project-board__columns {
+	display: flex;
+	gap: 16px;
+	align-items: flex-start;
+	overflow-x: auto;
+	padding-bottom: 8px;
+}
+
+.kanban-column {
+	flex: 1 0 240px;
+	min-width: 240px;
+	max-width: 320px;
+	display: flex;
+	flex-direction: column;
+	background: var(--color-background-dark);
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	padding: 8px;
+}
+
+.kanban-column--drop-target {
+	border-color: var(--color-primary-element);
+	box-shadow: 0 0 0 2px var(--color-primary-element-light);
+}
+
+.kanban-column__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 4px 8px 8px;
+}
+
+.kanban-column__title {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--color-text-maxcontrast);
+}
+
+.kanban-column__count {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--color-text-maxcontrast);
+	background: var(--color-background-hover);
+	border-radius: 12px;
+	padding: 1px 8px;
+}
+
+.kanban-column__body {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	min-height: 40px;
+}
+
+.kanban-column__card {
+	cursor: grab;
+}
+
+.kanban-column__card:active {
+	cursor: grabbing;
+}
+
+.kanban-column__card--highlight {
+	outline: 2px solid var(--color-primary-element);
+	outline-offset: 2px;
+	border-radius: 8px;
+}
+
+.kanban-column__empty {
+	margin: 0;
+	padding: 12px 8px;
+	font-size: 12px;
+	color: var(--color-text-maxcontrast);
+	text-align: center;
 }
 </style>

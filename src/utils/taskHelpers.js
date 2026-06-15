@@ -234,3 +234,42 @@ export function dueDateStatus(task, now = new Date()) {
 	}
 	return null
 }
+
+/**
+ * The kanban board's columns, in display order. One lane per task `status`
+ * value (the task schema's status enum is the single source of truth for the
+ * board lanes).
+ *
+ * @type {string[]}
+ */
+export const BOARD_STATUSES = ['open', 'in_progress', 'blocked', 'done', 'cancelled']
+
+/**
+ * Group a flat list of tasks into the board's status columns.
+ *
+ * Every column key in `statuses` is always present in the result so empty
+ * columns render gracefully. A task whose `status` is not a known column falls
+ * back to the first column (`open` by default), so an out-of-band / legacy
+ * status never silently drops a card off the board.
+ *
+ * @param {Array<object>} tasks        The project's tasks.
+ * @param {string[]} [statuses]        Ordered status column keys.
+ * @return {Object<string, Array<object>>} Map of status → tasks in that column.
+ *
+ * @spec openspec/specs/kanban-board.md
+ */
+export function groupTasksByStatus(tasks = [], statuses = BOARD_STATUSES) {
+	const fallback = statuses[0]
+	const grouped = {}
+	for (const status of statuses) {
+		grouped[status] = []
+	}
+	for (const task of tasks || []) {
+		if (!task) {
+			continue
+		}
+		const status = grouped[task.status] ? task.status : fallback
+		grouped[status].push(task)
+	}
+	return grouped
+}

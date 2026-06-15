@@ -193,7 +193,20 @@
         "%1$s changed the due date of %2$s to %3$s": "%1$s heeft de vervaldatum van %2$s gewijzigd naar %3$s",
         "{actor} changed the due date of {task} to %1$s": "{actor} heeft de vervaldatum van {task} gewijzigd naar %1$s",
         "%1$s deleted task %2$s": "%1$s heeft taak %2$s verwijderd",
-        "{actor} deleted task {task}": "{actor} heeft taak {task} verwijderd"
+        "{actor} deleted task {task}": "{actor} heeft taak {task} verwijderd",
+        "Open": "Open",
+        "In Progress": "In uitvoering",
+        "Done": "Gereed",
+        "Cancelled": "Geannuleerd",
+        "Low": "Laag",
+        "Normal": "Normaal",
+        "High": "Hoog",
+        "Urgent": "Urgent",
+        "Due soon": "Bijna verlopen",
+        "Overdue": "Verlopen",
+        "Assigned to: {user}": "Toegewezen aan: {user}",
+        "No tasks": "Geen taken",
+        "Could not move the task. Please try again.": "De taak kon niet worden verplaatst. Probeer het opnieuw."
     },
     "plurals": {}
 }
