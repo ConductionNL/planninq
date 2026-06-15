@@ -278,6 +278,8 @@ export default {
 		},
 
 		/**
+		 * @param {object} task The task to test.
+		 * @return {boolean}
 		 * @spec exclude Display predicate — whether a task is the deep-link highlighted card.
 		 */
 		isHighlighted(task) {
@@ -285,6 +287,7 @@ export default {
 		},
 
 		/**
+		 * @param {object} task The task being dragged.
 		 * @spec exclude Drag glue — records the task being dragged.
 		 */
 		onDragStart(task) {
@@ -300,6 +303,7 @@ export default {
 		},
 
 		/**
+		 * @param {string} status The hovered column's status.
 		 * @spec exclude Drag glue — marks the hovered column as the drop target.
 		 */
 		onDragOver(status) {
@@ -307,6 +311,7 @@ export default {
 		},
 
 		/**
+		 * @param {string} status The column being left.
 		 * @spec exclude Drag glue — clears the drop-target highlight on leave.
 		 */
 		onDragLeave(status) {
