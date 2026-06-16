@@ -1,0 +1,15 @@
+# Tasks
+
+- [x] task-1: register-schemas#REQ-Seed-data-loaded-on-install — Seed data loaded on install (retroactive annotation)
+- [x] task-2: register-schemas#REQ-Idempotent-import — Idempotent import (retroactive annotation)
+- [x] task-3: register-schemas#REQ-All-5-schemas-defined — All 5 schemas defined (retroactive annotation)
+- [x] task-4: admin-user-settings#REQ-Admin-Settings-Page — Admin Settings Page (retroactive annotation)
+- [x] task-5: projects#REQ-OpenRegister-Gate — OpenRegister Gate (retroactive annotation)
+- [x] task-6: projects#REQ-Project-Lifecycle — Project Lifecycle (retroactive annotation)
+- [x] task-7: projects#REQ-Project-Settings-Sidebar — Project Settings Sidebar (retroactive annotation)
+- [x] task-8: projects#REQ-Default-Column-Creation — Default Column Creation (retroactive annotation)
+- [x] task-9: projects#REQ-Project-Deletion — Project Deletion (retroactive annotation)
+- [x] task-10: projects#REQ-Member-Management — Member Management (retroactive annotation)
+- [x] task-11: projects#REQ-Project-List-UI — Project List UI (retroactive annotation)
+- [x] task-12: projects#REQ-Project-Creation-Dialog — Project Creation Dialog (retroactive annotation)
+- [x] task-13: procest-integration#REQ-Case-Reference-on-Project — Case Reference on Project (retroactive annotation)

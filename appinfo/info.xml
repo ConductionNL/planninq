@@ -6,7 +6,7 @@
     <name lang="nl">Planix</name>
     <summary lang="en">Flow-based kanban project and task management for Nextcloud dev and IT teams</summary>
     <summary lang="nl">Flow-gebaseerd kanban project- en taakbeheer voor Nextcloud dev- en IT-teams</summary>
-    <description lang="en"><![CDATA[Planix is a Kanban-based project and task management app for Nextcloud, built as a thin client on OpenRegister. It manages projects, tasks, kanban boards with WIP limits, backlogs, and time entries for internal dev and IT teams.
+    <description lang="en"><![CDATA[Planix is a Kanban-based project and task management app for Nextcloud, built as a thin client on OpenRegister. It manages projects, tasks, kanban boards with WIP limits, backlogs, and time entries — giving internal dev and IT teams a focused workflow tool built directly into their Nextcloud environment. Unlike Nextcloud Deck (which lacks backlog management, time tracking, and WIP limits), Planix closes the gap between Deck's simplicity and Jira's complexity.
 
 **Key Features**
 
@@ -34,26 +34,26 @@ Vrij en open source onder de EUPL-1.2-licentie.
 
 **Ondersteuning:** Voor ondersteuning, neem contact op via support@conduction.nl.
     ]]></description>
-    <version>0.1.0</version>
+    <version>0.2.9</version>
     <licence>agpl</licence>
     <author mail="info@conduction.nl" homepage="https://www.conduction.nl/">Conduction</author>
     <namespace>Planix</namespace>
     <documentation>
-        <user>https://github.com/ConductionNL/planix</user>
-        <admin>https://github.com/ConductionNL/planix</admin>
-        <developer>https://github.com/ConductionNL/planix</developer>
+        <user>https://codeberg.org/Conduction/planix</user>
+        <admin>https://codeberg.org/Conduction/planix</admin>
+        <developer>https://codeberg.org/Conduction/planix</developer>
     </documentation>
     <category>organization</category>
-    <website>https://github.com/ConductionNL/planix</website>
-    <discussion>https://github.com/ConductionNL/planix/discussions</discussion>
-    <bugs>https://github.com/ConductionNL/planix/issues</bugs>
-    <repository>https://github.com/ConductionNL/planix</repository>
+    <website>https://codeberg.org/Conduction/planix</website>
+    <discussion>https://codeberg.org/Conduction/planix/discussions</discussion>
+    <bugs>https://codeberg.org/Conduction/planix/issues</bugs>
+    <repository>https://codeberg.org/Conduction/planix</repository>
 
-    <screenshot>https://raw.githubusercontent.com/ConductionNL/planix/main/img/app-store.svg</screenshot>
+    <screenshot>https://codeberg.org/Conduction/planix/raw/branch/main/img/app-store.svg</screenshot>
 
     <dependencies>
-        <nextcloud min-version="28" max-version="33"/>
-        <php min-version="8.1"/>
+        <nextcloud min-version="28" max-version="34"/>
+        <php min-version="8.3"/>
     </dependencies>
 
     <navigations>
@@ -69,4 +69,23 @@ Vrij en open source onder de EUPL-1.2-licentie.
         <admin>OCA\Planix\Settings\AdminSettings</admin>
         <admin-section>OCA\Planix\Sections\SettingsSection</admin-section>
     </settings>
+
+    <activity>
+        <providers>
+            <provider>OCA\Planix\Activity\Provider</provider>
+        </providers>
+        <filters>
+            <filter>OCA\Planix\Activity\Filter</filter>
+        </filters>
+    </activity>
+
+    <repair-steps>
+        <install>
+            <step>OCA\Planix\Repair\InitializeSettings</step>
+        </install>
+        <post-migration>
+            <step>OCA\Planix\Repair\InitializeSettings</step>
+            <step>OCA\Planix\Repair\ReconcileDueReminderOverrides</step>
+        </post-migration>
+    </repair-steps>
 </info>

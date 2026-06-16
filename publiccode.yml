@@ -1,0 +1,64 @@
+publiccodeYmlVersion: "0.4"
+
+name: Planix
+url: "https://codeberg.org/Conduction/planix"
+softwareVersion: "0.2.1"
+releaseDate: "2026-05-26"
+developmentStatus: beta
+softwareType: "standalone/other"
+
+platforms:
+  - nextcloud
+
+categories:
+  - project-management
+  - task-management
+
+description:
+  en:
+    shortDescription: >
+      Kanban-based project and task management for Nextcloud.
+    longDescription: >
+      Planix is a kanban-based project and task management application for Nextcloud.
+      It enables teams to visualise workflows, track progress on tasks and projects,
+      and collaborate effectively. Built on Open Register, it integrates with the
+      Nextcloud ecosystem and supports agile and lean work methodologies suitable
+      for both government organisations and businesses.
+    features:
+      - Kanban board for visual workflow management
+      - Task and project tracking
+      - Team collaboration
+      - Agile and lean workflow support
+
+  nl:
+    shortDescription: >
+      Kanban-gebaseerd project- en taakbeheer voor Nextcloud.
+    longDescription: >
+      Planix is een kanban-gebaseerde project- en taakbeheertoepassing voor Nextcloud.
+      Het stelt teams in staat om workflows te visualiseren, voortgang bij te houden
+      op taken en projecten en effectief samen te werken. Gebouwd op Open Register
+      integreert het met het Nextcloud-ecosysteem en ondersteunt agile en lean
+      werkmethoden die geschikt zijn voor zowel overheidsorganisaties als bedrijven.
+    features:
+      - Kanban-bord voor visueel workflowbeheer
+      - Taken- en projectbeheer
+      - Teamsamenwerking
+      - Ondersteuning voor agile en lean workflows
+
+legal:
+  license: EUPL-1.2
+  mainCopyrightOwner: "Conduction B.V."
+  repoOwner: "Conduction B.V."
+
+maintenance:
+  type: community
+  contacts:
+    - name: Conduction B.V.
+      email: info@conduction.nl
+      affiliation: Conduction B.V.
+
+localisation:
+  localisationReady: true
+  availableLanguages:
+    - nl
+    - en

@@ -15,6 +15,8 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-1
  */
 
 declare(strict_types=1);
@@ -61,6 +63,8 @@ class InitializeSettings implements IRepairStep
      * @param IOutput $output The output interface for progress reporting
      *
      * @return void
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-1
      */
     public function run(IOutput $output): void
     {
@@ -77,7 +81,7 @@ class InitializeSettings implements IRepairStep
         }
 
         try {
-            $result = $this->settingsService->loadConfiguration(force: true);
+            $result = $this->settingsService->loadConfiguration(force: false);
 
             if ($result['success'] === true) {
                 $version = ($result['version'] ?? 'unknown');

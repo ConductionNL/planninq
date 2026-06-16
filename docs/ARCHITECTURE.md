@@ -114,7 +114,8 @@ A task is the core unit of work in Planix. Tasks belong to a project, can be pla
 | `description` | string | `DESCRIPTION` | `schema:description` | — | No | — |
 | `status` | enum | `STATUS` | `schema:actionStatus` | `status` | Yes | `open` |
 | `priority` | enum: low, normal, high, urgent | `PRIORITY` (1-9) | — | — | No | `normal` |
-| `project` | reference | `RELATED-TO` (parent project) | — | `zaakUuid` (optional) | No | — |
+| `project` | reference | `RELATED-TO` (parent project) | — | — | No | — |
+| `zaakUuid` | string (UUID) | — | — | Procest case UUID (cross-app bridge) | No | null |
 | `column` | reference | — | — | — | No | null (backlog) |
 | `columnOrder` | integer | — | `schema:position` | — | No | 0 |
 | `assignedTo` | string (user UID) | `ATTENDEE` | `schema:agent` | `toegewezenAanGebruikersnaam` | No | — |
@@ -404,19 +405,21 @@ Schemas MUST be defined in `lib/Settings/planix_register.json` using OpenAPI 3.0
 
 The configuration is imported via `ConfigurationService::importFromApp()` in the repair step.
 
-## 5. Open Research Questions
+## 5. Resolved Research Questions
 
-1. **CalDAV VTODO sync** — Should Planix offer two-way sync with the Nextcloud Tasks app (CalDAV)? The Tasks app already supports VTODO. A sync would let tasks appear in mobile Calendar apps. Current decision: store `calendarEventUid` field and implement one-way export in V1.
+All research questions below have been resolved. Decisions are recorded in the app-specific ADRs under [`openspec/architecture/`](https://codeberg.org/Conduction/planix/src/branch/development/openspec/architecture).
 
-2. **Sub-task depth** — OpenProject supports unlimited hierarchy; GitHub Issues has no hierarchy. One level of sub-tasks (task → sub-task) is planned. Should we support epic → task → sub-task (three levels)? Current decision: one level only in MVP.
+1. **CalDAV VTODO sync** — **One-way export to Nextcloud Tasks app in V1.** The `calendarEventUid` field on Task stores the VTODO UID. Planix writes tasks to CalDAV; changes made in the Tasks app are not synced back. Two-way sync was rejected due to data model mismatch (Tasks app has no concept of projects, columns, or WIP limits).
 
-3. **Procest task bridge** — When a Procest case creates tasks in Planix, who owns the project? Does each case get its own Planix project, or do case tasks appear in an existing project? Current decision: a dedicated Planix project per case (with `caseReference` linking back).
+2. **Sub-task depth** — **One level only (task → sub-task), all tiers.** Projects serve the "epic" grouping role. No formal Epic entity. This matches Linear and Plane (1 level + containers) and avoids Jira's 3-level complexity.
 
-4. **Time tracking scope** — Should time entries be per-task only, or also per-project (overhead, meetings)? Current decision: per-task only in MVP. Overhead tracking in V1.
+3. **Procest task bridge** — **Configurable — Procest UI decides.** Procest's UI presents a project picker when creating tasks for a case. It may create a new project (with `caseReference`) or add tasks to an existing project (with `zaakUuid` on each task). Planix has no routing mechanism — it reads whatever Procest wrote to OpenRegister. See ADR-003.
 
-5. **GitHub/GitLab sync** — Dev teams want tasks linked to commits and PRs. Should Planix natively sync with GitHub Issues or GitLab Issues? Current decision: out of scope for MVP; targeted for V1 via OpenConnector.
+4. **Time tracking scope** — **Per-task only, forever.** `TimeEntry.task` is always required. Overhead work (meetings, planning) is tracked as tasks — not as project-level time entries. This keeps the data model simple and queryable. No special cases needed. See ADR-004.
 
-6. **WIP limit enforcement** — Should WIP limits be hard (block task drag) or soft (visual warning only)? Current decision: soft limits with prominent visual warning (industry consensus: hard limits cause friction).
+5. **GitHub/GitLab sync** — **Via OpenConnector in V1.** Planix owns no GitHub/GitLab API code. OpenConnector handles the external API mapping (GitHub Issues ↔ Planix tasks). This avoids duplicating integration logic across Conduction apps.
+
+6. **WIP limit enforcement** — **Soft limits with visual warning.** Column header turns orange/red when over the WIP limit; counter shows e.g. `4/3`. Drag is never blocked. Industry consensus: hard limits cause friction and workarounds (Jira, Kanboard both use soft limits).
 
 ## 6. References
 

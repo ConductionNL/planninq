@@ -1,11 +1,12 @@
 # Dashboard & My Work Specification
 
-**Status**: idea
+**Status**: in-progress
 
 **Standards**: Schema.org Action/PlanAction (task aggregation), Nextcloud Dashboard API (OCP\Dashboard\IWidget)
 **Feature tier**: MVP
 
-**OpenSpec changes:** _(links to openspec/changes/ directories when in-progress or done)_
+**OpenSpec changes:**
+- [dashboard-my-work](../changes/dashboard-my-work/) — implements dashboard landing page, KPI cards, My Work view
 
 ## Purpose
 
@@ -73,6 +74,24 @@ The system MUST provide a "My Work" view showing all tasks assigned to the curre
 - WHEN the user opens My Work
 - THEN the system MUST show a CnEmptyState with message "No tasks assigned to you" and a "Browse projects" action
 
+### Requirement: Dashboard Empty State [MVP]
+The system MUST guide new users who have no projects or tasks yet.
+
+#### Scenario: Dashboard — new user with no projects
+- GIVEN a user is authenticated and is not a member of any project
+- WHEN the user opens the Planix dashboard
+- THEN the system MUST show a CnEmptyState in place of the recent projects and due-this-week sections
+- AND the message MUST read "No projects yet"
+- AND a "Create project" button MUST be shown (navigates to the new project form)
+- AND KPI cards MUST all show 0 (not be hidden)
+
+#### Scenario: Dashboard — member of projects but no assigned tasks
+- GIVEN a user is a member of projects but has no tasks assigned to them
+- WHEN the user opens the Planix dashboard
+- THEN KPI cards MUST show 0 for Open, Overdue, In Progress, and Completed Today
+- AND the "Due this week" section MUST show a CnEmptyState: "No tasks due this week"
+- AND recent projects MUST still render normally
+
 ## User Stories
 
 - As a developer, I want to see all my tasks in one place when I open Planix so that I can prioritize my day
@@ -81,20 +100,24 @@ The system MUST provide a "My Work" view showing all tasks assigned to the curre
 - As a user, I want to see my recent projects at a glance so that I can navigate quickly to active work
 - As a user, I want KPI cards on the dashboard so that I can understand my work state without scrolling
 - As a developer, I want to update task status directly from My Work so that I don't have to open each task
+- As a new user, I want a helpful empty state when I have no projects yet so that I know how to get started
+- As a user, I want clicking a KPI card to take me to My Work filtered to that category so that I can act on it immediately
 
 ## Acceptance Criteria
 
 - [ ] Dashboard is the default route (`/`) and loads on Planix open
 - [ ] Dashboard shows 4 KPI cards: Open, Overdue, In Progress, Completed Today
-- [ ] KPI cards are clickable and navigate to My Work with the corresponding filter applied
+- [ ] Each KPI card is clickable and navigates to My Work with the corresponding filter pre-applied
 - [ ] Dashboard shows the 5 most recently active projects with progress bars
 - [ ] Dashboard shows tasks due within 7 days, sorted by due date ascending
+- [ ] "Due this week" section shows CnEmptyState when no tasks are due this week
+- [ ] New user with no projects sees a CnEmptyState with a "Create project" button; KPI cards show 0
 - [ ] My Work groups tasks into Overdue, Due this week, Everything else
 - [ ] Within each group, tasks are sorted by priority (urgent → high → normal → low)
 - [ ] Tasks in My Work show: project name (badge), title, due date, status indicator, priority dot
 - [ ] Status can be updated inline from My Work without full navigation
 - [ ] Clicking a task title in My Work navigates to task detail; back button returns to My Work
-- [ ] Empty My Work state shows CnEmptyState with helpful action
+- [ ] Empty My Work state shows CnEmptyState with "Browse projects" action
 
 ## Notes
 

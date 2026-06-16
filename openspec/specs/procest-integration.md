@@ -1,11 +1,12 @@
 # Procest Integration Specification
 
-**Status**: idea
+**Status**: in-progress
 
 **Standards**: VNG ZGW InterneTaak, Schema.org Action, OpenRegister object references
 **Feature tier**: MVP (caseReference field); V1 (full bridge API)
 
-**OpenSpec changes:** _(links to openspec/changes/ directories when in-progress or done)_
+**OpenSpec changes:**
+- [procest-integration](../changes/procest-integration/) — MVP: case badge, case link, manual linking via edit forms
 
 ## Purpose
 
@@ -34,6 +35,10 @@ See [ARCHITECTURE.md](../../docs/ARCHITECTURE.md) for cross-app relationship dia
 
 ## Requirements
 
+---
+
+## MVP Requirements
+
 ### Requirement: Case Reference on Project [MVP]
 The system MUST support a `caseReference` field on Project to link it to a Procest case.
 
@@ -43,11 +48,36 @@ The system MUST support a `caseReference` field on Project to link it to a Proce
 - THEN the project MUST display a "Case: {caseNumber}" badge
 - AND the project detail MUST show a link to the Procest case
 
+#### Scenario: Manually set caseReference via project edit form
+- GIVEN a user is editing a project
+- WHEN they enter a Procest case UUID in the "Case reference" field and save
+- THEN the system MUST store `caseReference` on the project
+- AND the case badge MUST appear in the project list and detail immediately
+
+### Requirement: Task Case Link [MVP]
+The system MUST support a `zaakUuid` field on Task to link an individual task to a Procest case.
+
 #### Scenario: Individual task linked to a case
 - GIVEN a task has `zaakUuid` set to a Procest case UUID
 - WHEN the task is displayed
-- THEN the task detail MUST show a link to the Procest case
+- THEN the task detail MUST show a read-only "Case" field with a link to the Procest case
 - AND the task MUST appear in the Procest case's task list (via Procest's cross-app query)
+
+#### Scenario: Manually set zaakUuid via task edit form
+- GIVEN a user is editing a task
+- WHEN they enter a Procest case UUID in the "Case UUID" field and save
+- THEN the system MUST store `zaakUuid` on the task
+- AND the case link MUST appear in the task detail immediately
+
+#### Scenario: Bridge disabled — fields still displayed
+- GIVEN the Procest bridge toggle is disabled in admin settings (or not yet configured)
+- WHEN a task with `zaakUuid` is marked done
+- THEN Planix MUST NOT send any request to Procest
+- AND the `caseReference` and `zaakUuid` fields MUST still be stored and displayed in the UI as read-only metadata
+
+---
+
+## V1 Requirements
 
 ### Requirement: Procest Bridge — Create Project from Case [V1]
 When the Procest bridge is enabled, the system MUST allow Procest to create a Planix project for a case via API.
@@ -65,11 +95,12 @@ When the Procest bridge is enabled, the system MUST allow Procest to create a Pl
 - THEN Planix MUST send a PATCH to the Procest case tasks API to mark the InterneTaak as afgehandeld
 - AND Planix MUST log the mirroring event in the task's audit trail
 
-#### Scenario: Procest bridge disabled
-- GIVEN the Procest bridge is disabled in admin settings
-- WHEN a task with `zaakUuid` is marked done
-- THEN Planix MUST NOT send any request to Procest
-- AND the `caseReference` field MUST still be stored and displayed in the UI
+#### Scenario: Procest unreachable — graceful degradation
+- GIVEN the Procest bridge is enabled and a task with `zaakUuid` is marked done
+- WHEN the Procest API is unreachable
+- THEN the task MUST still be updated to `done` in Planix (task update MUST NOT fail)
+- AND Planix MUST log a warning with the failed mirroring attempt
+- AND the user MUST NOT see an error related to Procest
 
 #### Scenario: Bridge API authentication
 - GIVEN Procest sends a bridge request to Planix
@@ -78,22 +109,27 @@ When the Procest bridge is enabled, the system MUST allow Procest to create a Pl
 
 ## User Stories
 
-- As a case handler in Procest, I want a Planix kanban board automatically created for my case so that I can track implementation tasks visually
+- As a case handler in Procest, I want a Planix kanban board automatically created for my case so that I can track implementation tasks visually (V1)
 - As a team member, I want tasks linked to a case to show the case reference so that I know the business context
-- As a case manager, I want task completions in Planix to mirror back to the case status so that Procest stays up to date
+- As a case manager, I want task completions in Planix to mirror back to the case status so that Procest stays up to date (V1)
 - As a Planix user, I want to see a link to the Procest case from a task or project so that I can navigate to the case without searching
+- As a user, I want to manually link a task or project to a Procest case so that I can bridge cases without the full API bridge enabled
+- As a user, I want Planix to remain fully functional even when Procest is unreachable so that my task updates are never blocked
 
 ## Acceptance Criteria
 
-- [ ] `caseReference` field exists on Project entity and is stored/displayed correctly
-- [ ] `zaakUuid` field exists on Task entity
+**MVP:**
+- [ ] `caseReference` field exists on Project entity; can be set manually via project edit form
+- [ ] `zaakUuid` field exists on Task entity; can be set manually via task edit form
 - [ ] Projects with `caseReference` show a case badge in the project list and detail
-- [ ] Task detail shows a link to the Procest case when `zaakUuid` is set
-- [ ] Bridge toggle in admin settings enables/disables cross-app API calls
-- [ ] (V1) Procest can create a Planix project via the bridge API (POST `/planix/api/bridge/project`)
-- [ ] (V1) Task completion triggers a mirroring update to Procest when bridge is enabled
-- [ ] (V1) Bridge API authenticates via shared token
-- [ ] Bridge errors are logged and do not crash the Planix task update flow (graceful degradation)
+- [ ] Task detail shows a read-only case link when `zaakUuid` is set
+- [ ] When bridge is disabled, `caseReference` and `zaakUuid` fields are still stored and displayed; no Procest API calls are made
+
+**V1:**
+- [ ] Procest can create a Planix project via the bridge API (POST `/planix/api/bridge/project`)
+- [ ] Task completion with `zaakUuid` set triggers a mirroring PATCH to Procest when bridge is enabled
+- [ ] If Procest is unreachable during task completion, the task update succeeds and a warning is logged (graceful degradation)
+- [ ] Bridge API authenticates via shared token; unauthenticated requests return 401
 
 ## Notes
 

@@ -5,4 +5,4 @@ use OCP\Util;
 $appId = OCA\Planix\AppInfo\Application::APP_ID;
 Util::addScript($appId, $appId . '-settings');
 ?>
-<div id="planix-settings" data-version="<?php p($_['version'] ?? ''); ?>"></div>
+<div id="planix-settings"></div>
