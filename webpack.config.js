@@ -43,17 +43,12 @@ webpackConfig.resolve.alias = {
 	'@nextcloud/vue$': path.resolve(__dirname, 'node_modules/@nextcloud/vue'),
 }
 
-webpackConfig.module.rules.push(
-	{
-		test: /\.vue$/,
-		loader: 'vue-loader',
-	},
-	{
-		test: /\.css$/,
-		use: ['style-loader', 'css-loader'],
-	},
-)
-
+// The base @nextcloud/webpack-vue-config already registers VUE, CSS, SCSS, JS
+// and ASSET rules. Re-pushing .vue/.css rules here stacked a second loader
+// chain on top of the base one (css-loader!style-loader!css-loader!), so
+// style-loader's JS output was fed back into css-loader and every stylesheet
+// failed with "SyntaxError: Unknown word import". Keep the base rules; only
+// replace plugins below to avoid a duplicate VueLoaderPlugin.
 webpackConfig.plugins = [
 	new VueLoaderPlugin(),
 	new webpack.DefinePlugin({ appName: JSON.stringify(appId) }),
