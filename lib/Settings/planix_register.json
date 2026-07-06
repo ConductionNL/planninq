@@ -3,7 +3,7 @@
   "info": {
     "title": "Planix Register",
     "description": "Register containing all schemas for the Planix application.",
-    "version": "0.2.5"
+    "version": "0.2.6"
   },
   "x-openregister": {
     "type": "application",
@@ -18,7 +18,7 @@
         "title": "Planix",
         "description": "Planix application data register — tasks, projects, columns, time entries, and labels.",
         "slug": "planix",
-        "version": "0.2.5",
+        "version": "0.2.6",
         "schemas": ["task", "project", "column", "timeEntry", "label", "dependency"],
         "tablePrefix": "planix",
         "folder": "planix",
@@ -30,7 +30,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedOutline",
-        "version": "0.1.3",
+        "version": "0.1.4",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
@@ -143,6 +143,13 @@
             "type": "string",
             "description": "Nextcloud user UID of the assignee"
           },
+          "contractorRef": {
+            "title": "Contractor",
+            "type": "string",
+            "description": "UUID reference to the contractor contact/domain object — the portal-subject scoping key; distinct from assignedTo which is the Nextcloud user id",
+            "format": "uuid",
+            "nullable": true
+          },
           "dueDate": {
             "title": "Due Date",
             "type": "string",
@@ -203,7 +210,7 @@
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.1.2",
+        "version": "0.1.3",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -273,6 +280,16 @@
             "description": "Nextcloud user UIDs of project members",
             "items": {
               "type": "string"
+            },
+            "default": []
+          },
+          "contractorRefs": {
+            "title": "Contractors",
+            "type": "array",
+            "description": "UUID references to contractor contact/domain objects with portal visibility of this project — the portal-subject scoping key; distinct from members which are Nextcloud user ids",
+            "items": {
+              "type": "string",
+              "format": "uuid"
             },
             "default": []
           },
@@ -381,7 +398,7 @@
       "timeEntry": {
         "slug": "timeEntry",
         "icon": "TimerOutline",
-        "version": "0.1.2",
+        "version": "0.1.3",
         "title": "Time Entry",
         "description": "Time logged by a user against a task. Maps to schema:QuantitativeValue.",
         "x-schema-org": "schema:QuantitativeValue",
@@ -432,6 +449,13 @@
             "title": "User",
             "type": "string",
             "description": "Nextcloud user UID of the person who logged the time"
+          },
+          "contractorRef": {
+            "title": "Contractor",
+            "type": "string",
+            "description": "UUID reference to the contractor contact/domain object — the portal-subject scoping key; distinct from user which is the Nextcloud user id",
+            "format": "uuid",
+            "nullable": true
           },
           "duration": {
             "title": "Duration",
