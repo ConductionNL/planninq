@@ -57,8 +57,8 @@ class SettingsService
      * @var array<string,string>
      */
     private const ADMIN_CONFIG_DEFAULTS = [
-        'default_columns'        => '["To Do","In Progress","Review","Done"]',
-        'allow_project_creation' => 'all',
+        'default_columns'         => '["To Do","In Progress","Review","Done"]',
+        'allow_project_creation'  => 'all',
         'due_reminder_lead_hours' => '24',
     ];
 
@@ -419,10 +419,10 @@ class SettingsService
             $settings[$key] = $this->appConfig->getValueString(Application::APP_ID, $key, '');
         }
 
-        $user        = $this->userSession->getUser();
+        $user         = $this->userSession->getUser();
         $userSettings = [];
         if ($user !== null) {
-            $userSettings['notify_due_reminder'] = $this->getNotifyDueReminder($user->getUID());
+            $userSettings['notify_due_reminder'] = $this->getNotifyDueReminder(userId: $user->getUID());
         }
 
         return array_merge(
@@ -522,15 +522,24 @@ class SettingsService
      */
     public function setNotifyDueReminder(string $userId, bool $enabled): void
     {
+        $storedValue = 'false';
+        if ($enabled === true) {
+            $storedValue = 'true';
+        }
+
         $this->config->setUserValue(
             $userId,
             Application::APP_ID,
             'notify_due_reminder',
-            ($enabled === true) ? 'true' : 'false'
+            $storedValue
         );
 
         // ON clears the override (null → schema default); OFF writes {"enabled": false}.
-        $override = ($enabled === true) ? null : ['enabled' => false];
+        $override = ['enabled' => false];
+        if ($enabled === true) {
+            $override = null;
+        }
+
         $this->writeDueReminderOverride(userId: $userId, override: $override);
 
     }//end setNotifyDueReminder()
