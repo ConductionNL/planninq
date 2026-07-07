@@ -49,7 +49,9 @@ Vrij en open source onder de EUPL-1.2-licentie.
     <bugs>https://codeberg.org/Conduction/planix/issues</bugs>
     <repository>https://codeberg.org/Conduction/planix</repository>
 
-    <screenshot>https://codeberg.org/Conduction/planix/raw/branch/main/img/app-store.svg</screenshot>
+    <screenshot>https://codeberg.org/Conduction/planix/raw/branch/main/docs/features/img/projects-list.png</screenshot>
+    <screenshot>https://codeberg.org/Conduction/planix/raw/branch/main/docs/features/img/projects-create.png</screenshot>
+    <screenshot>https://codeberg.org/Conduction/planix/raw/branch/main/docs/features/img/projects-settings.png</screenshot>
 
     <dependencies>
         <nextcloud min-version="31" max-version="34"/>
