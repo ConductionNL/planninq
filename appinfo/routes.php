@@ -28,4 +28,7 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'dependency#create', 'url' => '/api/dependencies', 'verb' => 'POST'],
     // Dependency edge delete — project-member guarded.
     ['name' => 'dependency#destroy', 'url' => '/api/dependencies/{id}', 'verb' => 'DELETE', 'requirements' => ['id' => '[^/]+']],
+
+    // Read-only per-project timeline (Gantt) — RBAC-scoped through OR ObjectService.
+    ['name' => 'timeline#forProject', 'url' => '/api/projects/{projectId}/timeline', 'verb' => 'GET', 'requirements' => ['projectId' => '[^/]+']],
 ]);

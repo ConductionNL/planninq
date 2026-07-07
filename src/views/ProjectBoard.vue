@@ -47,6 +47,12 @@
 						{{ t('planix', 'Backlog') }}
 					</NcButton>
 					<NcButton
+						:aria-label="t('planix', 'View timeline')"
+						type="tertiary"
+						@click="$router.push({ name: 'ProjectTimeline', params: { id: project.id } })">
+						{{ t('planix', 'Timeline') }}
+					</NcButton>
+					<NcButton
 						:aria-label="t('planix', 'Project settings')"
 						type="tertiary"
 						@click="openSettings">
