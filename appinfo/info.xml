@@ -34,8 +34,8 @@ Vrij en open source onder de EUPL-1.2-licentie.
 
 **Ondersteuning:** Voor ondersteuning, neem contact op via support@conduction.nl.
     ]]></description>
-    <version>0.2.10</version>
-    <licence>agpl</licence>
+    <version>0.2.11</version>
+    <licence>EUPL-1.2</licence>
     <author mail="info@conduction.nl" homepage="https://www.conduction.nl/">Conduction</author>
     <namespace>Planix</namespace>
     <documentation>
@@ -52,7 +52,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
     <screenshot>https://codeberg.org/Conduction/planix/raw/branch/main/img/app-store.svg</screenshot>
 
     <dependencies>
-        <nextcloud min-version="28" max-version="34"/>
+        <nextcloud min-version="31" max-version="34"/>
         <php min-version="8.3"/>
     </dependencies>
 
