@@ -72,7 +72,7 @@ class Application extends App implements IBootstrap
         // The domain controllers/services (SettingsController + SettingsService
         // with per-user due-reminder logic, Repair\InitializeSettings register
         // import, the kanban Project/Dependency/Label controllers) are kept.
-        $this->registerAppHost($context);
+        $this->registerAppHost(context: $context);
 
         // Publish task lifecycle events to the Nextcloud Activity stream.
         // Scoped inside the listener to the planix register's `task` schema.
@@ -92,7 +92,6 @@ class Application extends App implements IBootstrap
         // NOTE: the Activity Provider + Filter are registered declaratively via
         // the <activity> block in appinfo/info.xml — IRegistrationContext has no
         // activity-registration methods in this Nextcloud version.
-
     }//end register()
 
     /**
