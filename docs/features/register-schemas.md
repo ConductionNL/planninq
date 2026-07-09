@@ -4,7 +4,7 @@ Defines and registers the complete Planix data model in OpenRegister.
 
 ## Overview
 
-Planix uses OpenRegister to store its data model. The `planix_register.json` file defines 5 schemas and seed data that are automatically imported when the app is installed or upgraded.
+Planix uses OpenRegister to store its data model. The `planix_register.json` file defines 6 schemas and seed data that are automatically imported when the app is installed or upgraded.
 
 ## Schemas
 
@@ -13,6 +13,7 @@ Planix uses OpenRegister to store its data model. The `planix_register.json` fil
 - **column** — A kanban board column with WIP limits and ordering
 - **timeEntry** — A time tracking record linked to a task
 - **label** — A categorization tag with color coding
+- **dependency** — A directed blocker → blocked edge between two tasks in the same project
 
 ## Seed Data
 
