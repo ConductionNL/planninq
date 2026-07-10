@@ -16,9 +16,11 @@
  * persistence) live in Newman per the Playwright-UI-only / Newman-for-API
  * convention — these specs are annotated `@e2e exclude` in the deltas.
  *
- * Planix is not installed in the dev container at the time of writing;
- * these tests are scaffolded for a future run and skip cleanly when the
- * app navigation is absent rather than failing the suite.
+ * The planix app and its default due-date-reminder settings are present once
+ * the app is installed (fixtures seeded by `tests/e2e/global-setup.ts`). Only
+ * the legitimate "planix not installed / admin not reachable" skips remain;
+ * the former "settings entry / field not present" guards are now hard
+ * `expect(...)` assertions.
  */
 
 import { test, expect } from '@playwright/test'
@@ -32,7 +34,7 @@ test.describe('Due-date reminder — user settings dialog', () => {
 
 		// Open the user settings dialog from the navigation gear.
 		const gear = page.getByRole('button', { name: /settings/i }).first()
-		test.skip((await gear.count()) === 0, 'Planix settings entry not present')
+		await expect(gear).toBeVisible()
 		await gear.click()
 
 		const toggle = page.getByText(/Notify me 1 day before a task's due date/i)
@@ -59,7 +61,7 @@ test.describe('Due-date reminder — admin lead time', () => {
 		test.skip(res === null || res.status() >= 400, 'Planix admin settings not reachable')
 
 		const field = page.locator('#due-reminder-lead-hours')
-		test.skip((await field.count()) === 0, 'Lead-time field not present')
+		await expect(field).toHaveCount(1)
 
 		// Default is 24 on a fresh install.
 		await expect(field).toHaveValue('24')

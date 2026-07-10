@@ -22,9 +22,11 @@
  * Playwright-UI-only / Newman-for-API convention — those scenarios are annotated
  * `@e2e exclude` in the spec delta.
  *
- * The task detail surface and the Activity entries depend on planix being
- * installed with seeded data; these tests skip cleanly when the app or the
- * surface is absent rather than failing the suite.
+ * The task detail surface is seeded by `tests/e2e/global-setup.ts` (via
+ * `fixtures/seed.ts`) and reachable through the kanban board (see the
+ * kanban-task-detail-keyboard-navigation change). Only the "planix not
+ * installed" and the genuinely-optional "Activity app not available" skips
+ * remain; the former per-tab presence guards are now hard assertions.
  */
 
 import { test, expect } from '@playwright/test'
@@ -39,8 +41,10 @@ async function openFirstTaskDetail(page) {
 	const res = await page.goto(PLANIX_URL)
 	test.skip(res === null || res.status() >= 400, 'Planix not installed in this environment')
 
+	// Seed fixture creates tasks and the board links to their detail view, so a
+	// task link MUST be present — assert rather than skip.
 	const taskLink = page.locator('a[href*="/tasks/"], [data-testid="task-card"]').first()
-	test.skip((await taskLink.count()) === 0, 'No task detail surface reachable in this environment')
+	await expect(taskLink).toHaveCount(1)
 	await taskLink.click()
 }
 
@@ -49,7 +53,7 @@ test.describe('Task collaboration sidebar', () => {
 		await openFirstTaskDetail(page)
 
 		const commentsTab = page.getByRole('tab', { name: /Comments/i })
-		test.skip((await commentsTab.count()) === 0, 'Comments tab not present')
+		await expect(commentsTab).toHaveCount(1)
 		await commentsTab.click()
 
 		const composer = page.locator('textarea, [contenteditable="true"]').first()
@@ -67,7 +71,7 @@ test.describe('Task collaboration sidebar', () => {
 		await openFirstTaskDetail(page)
 
 		const filesTab = page.getByRole('tab', { name: /(Attachments|Files)/i })
-		test.skip((await filesTab.count()) === 0, 'Files tab not present')
+		await expect(filesTab).toHaveCount(1)
 		await filesTab.click()
 
 		// The Files tab renders an upload affordance and a (possibly empty) list.
@@ -80,7 +84,7 @@ test.describe('Task collaboration sidebar', () => {
 		await openFirstTaskDetail(page)
 
 		const auditTab = page.getByRole('tab', { name: /(Activity|Audit)/i })
-		test.skip((await auditTab.count()) === 0, 'Audit Trail tab not present')
+		await expect(auditTab).toHaveCount(1)
 		await auditTab.click()
 
 		// Read-only: the trail exposes no edit/delete actions on its entries.
@@ -94,8 +98,9 @@ test.describe('Task collaboration sidebar', () => {
 		const res = await page.goto(ACTIVITY_URL)
 		test.skip(res === null || res.status() >= 400, 'Activity app not available in this environment')
 
+		// Seeded task creation emits planix activity, so the filter MUST appear
+		// once the (optional) Activity app is present.
 		const planixFilter = page.getByRole('link', { name: /Planix/i }).or(page.getByText(/Planix/i))
-		test.skip((await planixFilter.count()) === 0, 'Planix activity filter not present (no seeded activity)')
 		await expect(planixFilter.first()).toBeVisible()
 	})
 })

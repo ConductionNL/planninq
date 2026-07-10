@@ -24,3 +24,16 @@ jobs:
       enable-newman: false
       additional-apps: '[{"repo":"Conduction/openregister","app":"openregister","ref":"main"}]'
       enable-sbom: true
+
+  # Translation-completeness gate: every required European locale must carry a
+  # real translation for every key in l10n/en.json. Dependency-free pure Node
+  # so it runs in a bare node container without an npm install.
+  l10n-parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Check required-locale translation parity
+        run: npm run check:l10n

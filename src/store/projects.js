@@ -714,5 +714,41 @@ export const useProjectsStore = defineStore('projects', {
 				return null
 			}
 		},
+
+		// ── 2.15 updateTask ────────────────────────────────────────────────
+
+		/**
+		 * Patch arbitrary task fields (e.g. `estimatedDuration`).
+		 *
+		 * Uses PATCH (not PUT) for the same reason as `updateTaskStatus`:
+		 * OpenRegister's PUT nulls every unsupplied schema property, wiping
+		 * required fields. OR enforces per-object RBAC on the write.
+		 *
+		 * @param {string} taskId Task UUID
+		 * @param {object} patch  Fields to change
+		 * @return {Promise<object|null>} The updated task, or null on failure
+		 *
+		 * @spec openspec/specs/time-tracking.md
+		 */
+		async updateTask(taskId, patch) {
+			try {
+				const url = generateUrl(`/apps/openregister/api/objects/planix/task/${taskId}`)
+				const response = await fetch(url, {
+					method: 'PATCH',
+					headers: buildHeaders(),
+					body: JSON.stringify(patch),
+				})
+				if (!response.ok) {
+					const errorData = await response.json().catch(() => ({}))
+					this.error = errorData?.message || 'task-update-error'
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				this.error = err.message || 'task-update-error'
+				console.error('updateTask error:', err)
+				return null
+			}
+		},
 	},
 })

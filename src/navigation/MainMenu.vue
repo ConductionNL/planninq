@@ -10,10 +10,31 @@
 				</template>
 			</NcAppNavigationItem>
 			<NcAppNavigationItem
+				:name="t('planix', 'Boards')"
+				:to="{ name: 'Boards' }">
+				<template #icon>
+					<ViewDashboardOutline :size="20" />
+				</template>
+			</NcAppNavigationItem>
+			<NcAppNavigationItem
 				:name="t('planix', 'Projects')"
 				:to="{ name: 'Projects' }">
 				<template #icon>
 					<FolderOutline :size="20" />
+				</template>
+			</NcAppNavigationItem>
+			<NcAppNavigationItem
+				:name="t('planix', 'Portfolio')"
+				:to="{ name: 'Portfolio' }">
+				<template #icon>
+					<ChartBarIcon :size="20" />
+				</template>
+			</NcAppNavigationItem>
+			<NcAppNavigationItem
+				:name="t('planix', 'Timesheet')"
+				:to="{ name: 'Timesheet' }">
+				<template #icon>
+					<ClockOutline :size="20" />
 				</template>
 			</NcAppNavigationItem>
 			<NcAppNavigationItem
@@ -41,9 +62,12 @@
 <script>
 import { NcAppNavigation, NcAppNavigationItem, NcAppNavigationSettings } from '@nextcloud/vue'
 import BookOpenVariantOutline from 'vue-material-design-icons/BookOpenVariantOutline.vue'
+import ChartBarIcon from 'vue-material-design-icons/ChartBar.vue'
+import ClockOutline from 'vue-material-design-icons/ClockOutline.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
 import HomeIcon from 'vue-material-design-icons/Home.vue'
+import ViewDashboardOutline from 'vue-material-design-icons/ViewDashboardOutline.vue'
 
 export default {
 	name: 'MainMenu',
@@ -52,9 +76,12 @@ export default {
 		NcAppNavigationItem,
 		NcAppNavigationSettings,
 		BookOpenVariantOutline,
+		ChartBarIcon,
+		ClockOutline,
 		CogIcon,
 		FolderOutline,
 		HomeIcon,
+		ViewDashboardOutline,
 	},
 	methods: {
 		/**

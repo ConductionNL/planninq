@@ -45,6 +45,76 @@
 						</dd>
 					</template>
 				</dl>
+
+				<!-- Time tracking -->
+				<section class="task-detail__time" aria-labelledby="task-detail-time-heading">
+					<h3 id="task-detail-time-heading" class="task-detail__section-title">
+						{{ t('planix', 'Time tracking') }}
+					</h3>
+
+					<!-- Estimate input -->
+					<div class="task-detail__estimate">
+						<NcTextField
+							:value.sync="estimateInput"
+							:label="t('planix', 'Estimate')"
+							:error="!!estimateError"
+							:helper-text="estimateError || t('planix', 'e.g. 2h 30m, 90m, 1.5h')"
+							data-testid="estimate-input" />
+						<NcButton
+							type="secondary"
+							:disabled="savingEstimate || !!estimateError || estimateInput.trim() === ''"
+							@click="saveEstimate">
+							{{ t('planix', 'Save estimate') }}
+						</NcButton>
+					</div>
+
+					<!-- Progress: logged vs estimate -->
+					<p
+						v-if="estimateMinutes > 0"
+						class="task-detail__progress"
+						:class="{ 'task-detail__progress--over': isOverEstimate }"
+						data-testid="time-progress">
+						{{ progressText }}
+						<span v-if="isOverEstimate" class="task-detail__overage">
+							({{ t('planix', 'over by {amount}', { amount: overageText }) }})
+						</span>
+					</p>
+					<p v-else class="task-detail__progress" data-testid="time-progress">
+						{{ t('planix', 'Logged: {logged}', { logged: loggedText }) }}
+					</p>
+
+					<!-- Log time -->
+					<NcButton type="primary" data-testid="log-time" @click="openLogDialog()">
+						<template #icon>
+							<ClockPlusOutline :size="20" />
+						</template>
+						{{ t('planix', 'Log time') }}
+					</NcButton>
+
+					<!-- Entries -->
+					<ul v-if="timeEntries.length" class="task-detail__entries">
+						<li v-for="entry in timeEntries" :key="entry.id" class="task-detail__entry">
+							<span class="task-detail__entry-duration">{{ formatMinutes(entry.duration) }}</span>
+							<span class="task-detail__entry-date">{{ entry.date }}</span>
+							<span class="task-detail__entry-desc">{{ entry.description }}</span>
+							<span class="task-detail__entry-user">{{ entry.user }}</span>
+							<NcActions v-if="canModify(entry)">
+								<NcActionButton :close-after-click="true" @click="openLogDialog(entry)">
+									<template #icon>
+										<PencilIcon :size="20" />
+									</template>
+									{{ t('planix', 'Edit') }}
+								</NcActionButton>
+								<NcActionButton :close-after-click="true" @click="deleteEntry(entry)">
+									<template #icon>
+										<DeleteIcon :size="20" />
+									</template>
+									{{ t('planix', 'Delete') }}
+								</NcActionButton>
+							</NcActions>
+						</li>
+					</ul>
+				</section>
 			</div>
 
 			<!-- Collaboration sidebar: comments (notes), files, audit trail.
@@ -62,18 +132,32 @@
 				:audit-trail-label="t('planix', 'Activity')"
 				@update:open="onSidebarToggle" />
 		</div>
+
+		<!-- Log/edit time dialog -->
+		<TimeEntryDialog
+			v-if="dialogOpen"
+			:task-id="taskId"
+			:entry="editingEntry"
+			@close="closeDialog"
+			@saved="onEntrySaved" />
 	</div>
 </template>
 
 <script>
 import { mapState } from 'pinia'
-import { NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
+import { NcActions, NcActionButton, NcButton, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import { CnObjectSidebar } from '@conduction/nextcloud-vue'
 import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
+import ClockPlusOutline from 'vue-material-design-icons/ClockPlusOutline.vue'
+import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import { useProjectsStore } from '../store/projects.js'
+import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
+import { parseDuration, formatDuration } from '../utils/durationParser.js'
+import TimeEntryDialog from '../components/dialogs/TimeEntryDialog.vue'
 
 /**
  * Task detail view.
@@ -89,18 +173,30 @@ export default {
 	name: 'TaskDetail',
 
 	components: {
+		NcActions,
+		NcActionButton,
 		NcButton,
 		NcEmptyContent,
 		NcLoadingIcon,
+		NcTextField,
 		CnObjectSidebar,
 		ArrowLeft,
 		AlertCircleOutline,
+		ClockPlusOutline,
+		PencilIcon,
+		DeleteIcon,
+		TimeEntryDialog,
 	},
 
 	data() {
 		return {
 			projectsStore: useProjectsStore(),
+			timeEntriesStore: useTimeEntriesStore(),
 			settingsStore: useSettingsStore(),
+			estimateInput: '',
+			savingEstimate: false,
+			dialogOpen: false,
+			editingEntry: null,
 		}
 	},
 
@@ -160,6 +256,84 @@ export default {
 		},
 
 		/**
+		 * Time entries for this task (all users) from the timeEntries store.
+		 *
+		 * @spec openspec/specs/time-tracking.md
+		 */
+		timeEntries() {
+			return this.timeEntriesStore.entries
+		},
+
+		/**
+		 * The task's estimate in minutes (0 when unset).
+		 *
+		 * @spec openspec/specs/time-tracking.md
+		 */
+		estimateMinutes() {
+			return Number(this.task?.estimatedDuration) || 0
+		},
+
+		/**
+		 * Total logged minutes across every entry on this task.
+		 *
+		 * @spec openspec/specs/time-tracking.md
+		 */
+		loggedMinutes() {
+			return this.timeEntries.reduce((acc, e) => acc + (Number(e.duration) || 0), 0)
+		},
+
+		/**
+		 * Inline validation error for the estimate input (empty is allowed —
+		 * the Save button is simply disabled — but non-empty must parse).
+		 *
+		 * @spec openspec/specs/time-tracking.md
+		 */
+		estimateError() {
+			if (this.estimateInput.trim() === '') {
+				return ''
+			}
+			return parseDuration(this.estimateInput) === null
+				? this.t('planix', 'Enter a valid estimate (e.g. 2h 30m, 90m, 1.5h)')
+				: ''
+		},
+
+		/**
+		 * Human-readable total logged time.
+		 *
+		 * @spec exclude Display getter — formats loggedMinutes.
+		 */
+		loggedText() {
+			return formatDuration(this.loggedMinutes)
+		},
+
+		/**
+		 * Progress string "logged / estimate", e.g. "1h 30m / 3h".
+		 *
+		 * @spec openspec/specs/time-tracking.md
+		 */
+		progressText() {
+			return `${formatDuration(this.loggedMinutes)} / ${formatDuration(this.estimateMinutes)}`
+		},
+
+		/**
+		 * Whether logged time exceeds the estimate (progress turns red).
+		 *
+		 * @spec openspec/specs/time-tracking.md
+		 */
+		isOverEstimate() {
+			return this.estimateMinutes > 0 && this.loggedMinutes > this.estimateMinutes
+		},
+
+		/**
+		 * Human-readable overage (logged − estimate).
+		 *
+		 * @spec exclude Display getter — formats the overage amount.
+		 */
+		overageText() {
+			return formatDuration(Math.max(0, this.loggedMinutes - this.estimateMinutes))
+		},
+
+		/**
 		 * Title shown in the not-found / forbidden empty state.
 		 *
 		 * @spec exclude Presentational empty-state copy; no observable behaviour.
@@ -192,9 +366,11 @@ export default {
 			 *
 			 * @spec openspec/specs/task-collaboration.md
 			 */
-			handler(id) {
+			async handler(id) {
 				if (id) {
-					this.projectsStore.fetchTask(id)
+					await this.projectsStore.fetchTask(id)
+					this.estimateInput = this.estimateMinutes > 0 ? formatDuration(this.estimateMinutes) : ''
+					await this.timeEntriesStore.fetchForTask(id)
 				}
 			},
 		},
@@ -227,6 +403,92 @@ export default {
 			if (!open) {
 				this.goBack()
 			}
+		},
+
+		/**
+		 * Format minutes for display.
+		 *
+		 * @param {number} minutes Whole minutes.
+		 * @return {string} Human-readable duration.
+		 *
+		 * @spec exclude Display glue — wraps formatDuration for the template.
+		 */
+		formatMinutes(minutes) {
+			return formatDuration(minutes)
+		},
+
+		/**
+		 * Whether the current user may edit/delete a time entry (owner/admin).
+		 *
+		 * @param {object} entry The time entry.
+		 * @return {boolean}
+		 *
+		 * @spec openspec/specs/time-tracking.md
+		 */
+		canModify(entry) {
+			return this.timeEntriesStore.canModify(entry)
+		},
+
+		/**
+		 * Persist the task estimate parsed from the estimate input.
+		 *
+		 * @spec openspec/specs/time-tracking.md
+		 */
+		async saveEstimate() {
+			const minutes = parseDuration(this.estimateInput)
+			if (minutes === null) {
+				return
+			}
+			this.savingEstimate = true
+			try {
+				await this.projectsStore.updateTask(this.taskId, { estimatedDuration: minutes })
+				await this.projectsStore.fetchTask(this.taskId)
+				this.estimateInput = formatDuration(this.estimateMinutes)
+			} finally {
+				this.savingEstimate = false
+			}
+		},
+
+		/**
+		 * Open the log-time dialog (new entry, or editing `entry`).
+		 *
+		 * @param {object|null} entry The entry to edit, or null to create.
+		 *
+		 * @spec openspec/specs/time-tracking.md
+		 */
+		openLogDialog(entry = null) {
+			this.editingEntry = entry
+			this.dialogOpen = true
+		},
+
+		/**
+		 * @spec exclude UI glue — closes the log-time dialog.
+		 */
+		closeDialog() {
+			this.dialogOpen = false
+			this.editingEntry = null
+		},
+
+		/**
+		 * Refresh entries after a create/edit and close the dialog.
+		 *
+		 * @spec openspec/specs/time-tracking.md
+		 */
+		async onEntrySaved() {
+			this.closeDialog()
+			await this.timeEntriesStore.fetchForTask(this.taskId)
+		},
+
+		/**
+		 * Delete a time entry and refresh the task's total.
+		 *
+		 * @param {object} entry The entry to delete.
+		 *
+		 * @spec openspec/specs/time-tracking.md
+		 */
+		async deleteEntry(entry) {
+			await this.timeEntriesStore.delete(entry.id)
+			await this.timeEntriesStore.fetchForTask(this.taskId)
 		},
 	},
 }
@@ -280,5 +542,75 @@ export default {
 
 .task-detail__fields dd {
 	margin: 0;
+}
+
+.task-detail__time {
+	margin-top: 32px;
+	max-width: 640px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.task-detail__section-title {
+	margin: 0;
+	font-size: 16px;
+}
+
+.task-detail__estimate {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+}
+
+.task-detail__estimate > :first-child {
+	flex: 1 1 auto;
+}
+
+.task-detail__progress {
+	margin: 0;
+	font-weight: 600;
+	color: var(--color-text-maxcontrast);
+}
+
+.task-detail__progress--over {
+	color: var(--color-error);
+}
+
+.task-detail__overage {
+	font-weight: normal;
+}
+
+.task-detail__entries {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.task-detail__entry {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 6px 8px;
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+}
+
+.task-detail__entry-duration {
+	font-weight: 600;
+	min-width: 64px;
+}
+
+.task-detail__entry-desc {
+	flex: 1 1 auto;
+	color: var(--color-text-maxcontrast);
+}
+
+.task-detail__entry-user {
+	color: var(--color-text-maxcontrast);
+	font-size: 12px;
 }
 </style>

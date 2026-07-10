@@ -17,9 +17,11 @@
  * labels) live in Newman / PHPUnit per the Playwright-UI-only / Newman-for-API
  * convention — those scenarios are annotated `@e2e exclude` in the spec delta.
  *
- * Planix is not installed in the dev container at the time of writing; these
- * tests are scaffolded for a future run and skip cleanly when the admin section
- * is absent rather than failing the suite.
+ * A fixture label ("E2E Bug") is seeded by `tests/e2e/global-setup.ts` (via
+ * `fixtures/seed.ts`) and attached to a seeded task, so the admin Label
+ * management section renders its list and controls unconditionally. Only the
+ * legitimate "planix not installed" skip remains; the former "section not
+ * present" guards are now hard `expect(...)` assertions.
  */
 
 import { test, expect } from '@playwright/test'
@@ -33,11 +35,10 @@ test.describe('Label management — admin settings', () => {
 		test.skip(res === null || res.status() >= 400, 'Planix not installed in this environment')
 
 		const section = page.getByText(/Label management/i)
-		test.skip((await section.count()) === 0, 'Label management section not present')
-		await expect(section).toBeVisible()
+		await expect(section.first()).toBeVisible()
 
-		// Seed label "Bug" listed with a usage count.
-		await expect(page.getByText(/Bug/i).first()).toBeVisible()
+		// Seed label "E2E Bug" listed with a usage count (attached to a task).
+		await expect(page.getByText(/E2E Bug/i).first()).toBeVisible()
 		await expect(page.getByText(/used by \d+ tasks?/i).first()).toBeVisible()
 	})
 
@@ -46,7 +47,7 @@ test.describe('Label management — admin settings', () => {
 		test.skip(res === null || res.status() >= 400, 'Planix not installed in this environment')
 
 		const createBtn = page.getByRole('button', { name: /Create label/i }).first()
-		test.skip((await createBtn.count()) === 0, 'Label management section not present')
+		await expect(createBtn).toBeVisible()
 		await createBtn.click()
 
 		await page.getByLabel(/Title/i).fill('Tech debt')
@@ -61,7 +62,7 @@ test.describe('Label management — admin settings', () => {
 		test.skip(res === null || res.status() >= 400, 'Planix not installed in this environment')
 
 		const createBtn = page.getByRole('button', { name: /Create label/i }).first()
-		test.skip((await createBtn.count()) === 0, 'Label management section not present')
+		await expect(createBtn).toBeVisible()
 		await createBtn.click()
 
 		await page.getByLabel(/Title/i).fill('Bad color')
@@ -75,7 +76,7 @@ test.describe('Label management — admin settings', () => {
 		test.skip(res === null || res.status() >= 400, 'Planix not installed in this environment')
 
 		const editBtn = page.getByRole('button', { name: /Edit label/i }).first()
-		test.skip((await editBtn.count()) === 0, 'Label management section not present')
+		await expect(editBtn).toBeVisible()
 		await editBtn.click()
 
 		await page.getByLabel(/Title/i).fill('Defect')
@@ -91,7 +92,7 @@ test.describe('Label management — admin settings', () => {
 		test.skip(res === null || res.status() >= 400, 'Planix not installed in this environment')
 
 		const deleteBtn = page.getByRole('button', { name: /Delete label/i }).first()
-		test.skip((await deleteBtn.count()) === 0, 'Label management section not present')
+		await expect(deleteBtn).toBeVisible()
 		await deleteBtn.click()
 
 		// Confirmation dialog warns about the usage count before deleting.

@@ -1,0 +1,10 @@
+{
+  "spec_slug": "adopt-five-menu-navigation-ia",
+  "title": "Adopt the five-menu navigation IA (ADR-001)",
+  "app": "planix",
+  "repo": "https://codeberg.org/Conduction/planix",
+  "depends_on": [
+    "adopt-cnapproot-manifest-shell"
+  ],
+  "issue": null
+}
