@@ -24,6 +24,7 @@ import { chromium, request, type FullConfig } from '@playwright/test'
 import { execSync } from 'child_process'
 import * as path from 'path'
 import * as fs from 'fs'
+import { seedFixtures } from './fixtures/seed'
 
 const AUTH_DIR = path.resolve(__dirname, '.auth')
 const STORAGE_STATE = path.join(AUTH_DIR, 'admin.json')
@@ -111,6 +112,20 @@ export default async function globalSetup(config: FullConfig): Promise<void> {
 			`Login appears to have failed — still on ${currentUrl}. ` +
 			`Check NC_ADMIN_USER / NC_ADMIN_PASS (defaults admin/admin).`,
 		)
+	}
+
+	// Seed the fixture project/columns/tasks/label the board, collaboration,
+	// label and reminder specs assert against — so their tightened
+	// `expect(...).not.toHaveCount(0)` guards resolve on a fresh container
+	// instead of self-skipping. Idempotent; a false return means planix isn't
+	// installed here and specs take their legitimate "app not installed" skip.
+	try {
+		await seedFixtures(baseURL, { username, password })
+	} catch (err) {
+		// Never let a seeding hiccup abort the whole suite — specs still guard
+		// on the environment-absence path.
+		// eslint-disable-next-line no-console
+		console.warn(`[playwright globalSetup] fixture seeding failed: ${(err as Error).message}`)
 	}
 
 	// Persist the storage state so individual specs reuse the session.

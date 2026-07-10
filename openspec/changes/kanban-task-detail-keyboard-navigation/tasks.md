@@ -1,24 +1,24 @@
 ## 1. Card click/keyboard navigation to TaskDetail
 
-- [ ] 1.1 In `src/views/ProjectBoard.vue`, add a `navigateToTask(task)` method that calls `this.$router.push({ name: 'TaskDetail', params: { id: this.project.id, taskId: task.id } })`, mirroring `ProjectList.vue:265` `navigateToProject`
-- [ ] 1.2 On the card wrapper (`ProjectBoard.vue:88-97`), add `role="button"`, `tabindex="0"`, `:aria-label="task.title"`, `data-testid="task-card"`, `@click="navigateToTask(task)"`, `@keydown.enter="navigateToTask(task)"`, `@keydown.space.prevent="navigateToTask(task)"` — keep the existing `draggable`/`@dragstart`/`@dragend` bindings unchanged. Note: `tests/e2e/task-collaboration.spec.ts:42` already looks for `a[href*="/tasks/"], [data-testid="task-card"]` — the `data-testid` satisfies that selector without needing to change the card to an `<a>` element (which would conflict with `draggable`)
-- [ ] 1.3 Add a visible `:focus-visible` outline in the card's scoped `<style>` (CSS var, no hardcoded color, per CLAUDE.md/ADR-010) so keyboard focus is perceivable
+- [x] 1.1 In `src/views/ProjectBoard.vue`, add a `navigateToTask(task)` method that calls `this.$router.push({ name: 'TaskDetail', params: { id: this.project?.id ?? this.$route.params.id, taskId: task.id } })`, mirroring `ProjectList` `navigateToProject`
+- [x] 1.2 On the card wrapper, add `role="button"`, `tabindex="0"`, `:aria-label="task.title"`, `data-testid="task-card"`, `@click`, `@keydown.enter`, `@keydown.space.prevent` all invoking `navigateToTask(task)` — existing `draggable`/`@dragstart`/`@dragend` bindings unchanged. The `data-testid` satisfies `task-collaboration.spec.ts`'s `[data-testid="task-card"]` selector without changing the card to an `<a>`
+- [x] 1.3 Add a `:focus-visible` outline in the card's scoped `<style>` (`var(--color-primary-element)`, no hardcoded color)
 
 ## 2. Keyboard-operable status change (drag alternative)
 
-- [ ] 2.1 Add a per-card "Move to…" control (e.g. `NcActions` with one `NcActionButton` per other column) to `TaskCard.vue` or the `ProjectBoard.vue` card wrapper, reachable by keyboard (native NC component semantics)
-- [ ] 2.2 Wire its selection handler to call the existing `updateTaskStatus(taskId, status)` action in `src/store/projects.js:697` — the same method the drag-and-drop path already calls — so optimistic update + rollback + RBAC behavior is identical between drag and keyboard
-- [ ] 2.3 Ensure the "Move to…" trigger does not itself become draggable (it is a click/keyboard-only control nested inside the draggable card)
+- [x] 2.1 Added a per-card "Move to…" control (`NcActions` with one `NcActionButton` per other column, `:force-menu="true"`) in the `ProjectBoard.vue` card wrapper, reachable by keyboard
+- [x] 2.2 Wired its handler to `moveTask(task, status)` → shared `applyStatusMove` which calls the existing `updateTaskStatus` store action (the same method the drag path uses via the refactored `onDrop`) — optimistic update + rollback + RBAC identical between drag and keyboard
+- [x] 2.3 The "Move to…" wrapper is `draggable="false"` with `@dragstart.stop`, `@click.stop`, `@keydown.enter/.space.stop` so it never starts a drag or navigates to detail
 
 ## 3. Spec + acceptance criteria
 
-- [ ] 3.1 In `openspec/specs/kanban-board.md`, check off the existing "- [ ] Board is keyboard-navigable (WCAG AA)" acceptance criterion (line 155)
-- [ ] 3.2 Add the MODIFIED requirement in `specs/kanban-board/spec.md` (this change) to the canonical spec
+- [x] 3.1 In `openspec/specs/kanban-board.md`, checked off "Board is keyboard-navigable (WCAG AA)" (line 155)
+- [~] 3.2 Merge the MODIFIED requirement from `specs/kanban-board/spec.md` into the canonical spec — DEFERRED to archive: per house rule, delta→canonical merge is the opsx-archive step (out of apply scope). The delta is authored and well-formed.
 
 ## 4. Verify
 
-- [ ] 4.1 Tab to a card without a mouse; confirm Enter/Space opens `TaskDetail` at `/projects/:id/tasks/:taskId`
-- [ ] 4.2 Tab to a card's "Move to…" control; confirm selecting a column updates the task's status identically to a drag-and-drop move (check via `NcChip` status label update)
-- [ ] 4.3 Confirm existing drag-and-drop still works unchanged (regression check)
-- [ ] 4.4 `openspec validate kanban-task-detail-keyboard-navigation --strict` passes
-- [ ] 4.5 Note for the companion change `e2e-seed-fixtures-for-real-assertions`: once `navigateToTask` exists, `tests/e2e/task-collaboration.spec.ts`'s `taskLink` selector guard can find a real link — re-verify that spec's skip conditions after this change lands
+- [~] 4.1 Tab to a card, Enter/Space opens `TaskDetail` — NEEDS LIVE INSTANCE (no isolated planix+OR container; no deploy to shared dev). Static proof: build + eslint clean; handler pushes the `TaskDetail` route.
+- [~] 4.2 "Move to…" changes status identically to drag — NEEDS LIVE INSTANCE. Code proof: both paths call the single `applyStatusMove` → `updateTaskStatus`.
+- [~] 4.3 Drag-and-drop still works unchanged — NEEDS LIVE INSTANCE. Code proof: `onDrop` refactored to delegate to `applyStatusMove` with identical semantics; drag bindings untouched.
+- [~] 4.4 `openspec validate kanban-task-detail-keyboard-navigation --strict` — DEFERRED: openspec CLI not installed in this worktree.
+- [x] 4.5 Companion note: `navigateToTask` + `data-testid="task-card"` now give `task-collaboration.spec.ts`'s `taskLink` selector a real target; that spec's fixture-absence guards were converted to assertions in the e2e-seed change.

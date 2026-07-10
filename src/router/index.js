@@ -36,6 +36,21 @@ export default new Router({
 			name: 'TaskDetail',
 			component: () => import('../views/TaskDetail.vue'),
 		},
+		{
+			path: '/timesheet',
+			name: 'Timesheet',
+			component: () => import('../views/Timesheet.vue'),
+		},
+		{
+			path: '/boards',
+			name: 'Boards',
+			component: () => import('../views/Boards.vue'),
+		},
+		{
+			path: '/portfolio',
+			name: 'Portfolio',
+			component: () => import('../views/Portfolio.vue'),
+		},
 		{ path: '*', redirect: '/' },
 	],
 })

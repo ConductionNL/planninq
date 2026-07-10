@@ -1,5 +1,6 @@
 {
     "translations": {
+        "Move task to another column": "Move task to another column",
         "Dependencies": "Dependencies",
         "Blocked": "Blocked",
         "Blocked by": "Blocked by",

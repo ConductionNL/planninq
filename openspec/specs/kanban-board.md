@@ -152,7 +152,7 @@ Task cards on the kanban board MUST show a compact "Blocked" indicator when the 
 - [ ] Filter state is reflected in the URL hash (shareable)
 - [ ] Columns can be created, renamed, reordered, and deleted via project settings
 - [ ] Deleting a column with tasks prompts the user to move tasks to backlog or another column before deleting
-- [ ] Board is keyboard-navigable (WCAG AA)
+- [x] Board is keyboard-navigable (WCAG AA)
 - [ ] Empty columns show a CnEmptyState with a "+ Add task" button; clicking pre-selects that column in the task form
 - [ ] A board with no columns shows a CnEmptyState with an "Add column" button (visible to creator/admin)
 - [ ] View toggle (kanban ↔ list) is available in the project toolbar; selected view persists in the URL hash

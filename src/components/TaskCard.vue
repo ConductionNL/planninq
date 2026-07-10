@@ -34,6 +34,13 @@
 				:type="priorityType"
 				:no-close="true"
 				class="task-card__priority-badge" />
+
+			<!-- Estimate (time-tracking) -->
+			<NcChip
+				v-if="estimateLabel"
+				:text="estimateLabel"
+				:no-close="true"
+				class="task-card__estimate-badge" />
 		</div>
 
 		<!-- Assignee (optional) -->
@@ -46,6 +53,7 @@
 <script>
 import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
 import { dueDateStatus } from '../utils/taskHelpers.js'
+import { formatDuration } from '../utils/durationParser.js'
 
 /**
  * Kanban board task card.
@@ -75,6 +83,14 @@ export default {
 		 */
 		dueDateBadgeStatus() {
 			return dueDateStatus(this.task)
+		},
+
+		/**
+		 * @spec openspec/specs/time-tracking.md
+		 */
+		estimateLabel() {
+			const minutes = Number(this.task.estimatedDuration) || 0
+			return minutes > 0 ? formatDuration(minutes) : ''
 		},
 
 		/**

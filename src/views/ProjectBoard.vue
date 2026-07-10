@@ -96,10 +96,43 @@
 							:key="task.id"
 							class="kanban-column__card"
 							:class="{ 'kanban-column__card--highlight': isHighlighted(task) }"
+							role="button"
+							tabindex="0"
+							:aria-label="task.title"
+							data-testid="task-card"
 							draggable="true"
+							@click="navigateToTask(task)"
+							@keydown.enter="navigateToTask(task)"
+							@keydown.space.prevent="navigateToTask(task)"
 							@dragstart="onDragStart(task)"
 							@dragend="onDragEnd">
 							<TaskCard :task="task" />
+
+							<!-- Keyboard-operable status change: accessible equivalent
+							     of drag-and-drop. Not itself draggable, and stops click
+							     propagation so activating it never navigates to detail. -->
+							<div
+								class="kanban-column__card-actions"
+								draggable="false"
+								@click.stop
+								@keydown.enter.stop
+								@keydown.space.stop
+								@dragstart.stop>
+								<NcActions
+									:aria-label="t('planix', 'Move task to another column')"
+									:force-menu="true">
+									<NcActionButton
+										v-for="target in otherColumns(column.status)"
+										:key="target.status"
+										:close-after-click="true"
+										@click="moveTask(task, target.status)">
+										<template #icon>
+											<ArrowRightIcon :size="20" />
+										</template>
+										{{ target.label }}
+									</NcActionButton>
+								</NcActions>
+							</div>
 						</div>
 
 						<!-- Empty column placeholder -->
@@ -129,7 +162,8 @@
  *
  * @spec openspec/specs/kanban-board.md
  */
-import { NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
+import { NcActions, NcActionButton, NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
+import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
 
@@ -144,9 +178,12 @@ export default {
 	name: 'ProjectBoard',
 
 	components: {
+		NcActions,
+		NcActionButton,
 		NcButton,
 		NcEmptyContent,
 		NcLoadingIcon,
+		ArrowRightIcon,
 		CogIcon,
 		LockOutline,
 		TaskCard,
@@ -216,7 +253,7 @@ export default {
 		 * empty columns render gracefully; a task with an unknown status falls
 		 * back to the "open" lane.
 		 *
-		 * @return {Object<string, Array>}
+		 * @return {{[status: string]: Array}}
 		 *
 		 * @spec openspec/specs/kanban-board.md
 		 */
@@ -343,6 +380,67 @@ export default {
 			const task = this.draggingTask
 			this.dropTargetStatus = null
 			this.draggingTask = null
+			await this.applyStatusMove(task, newStatus)
+		},
+
+		/**
+		 * Navigate to a task's detail page. The click/keyboard-activated
+		 * equivalent of the (URL-only) TaskDetail route — mirrors
+		 * `ProjectList.navigateToProject`.
+		 *
+		 * @param {object} task The task to open
+		 *
+		 * @spec openspec/specs/kanban-board.md
+		 */
+		navigateToTask(task) {
+			if (!task) return
+			this.$router.push({
+				name: 'TaskDetail',
+				params: { id: this.project?.id ?? this.$route.params.id, taskId: task.id },
+			})
+		},
+
+		/**
+		 * The board columns other than `currentStatus` — the valid keyboard
+		 * "Move to…" targets for a card in that column.
+		 *
+		 * @param {string} currentStatus The card's current status
+		 * @return {Array<{status: string, label: string}>}
+		 *
+		 * @spec exclude Display helper — filters the column list for the move menu.
+		 */
+		otherColumns(currentStatus) {
+			return this.columns.filter((column) => column.status !== currentStatus)
+		},
+
+		/**
+		 * Keyboard-operable status change: the accessible equivalent of a
+		 * drag-and-drop move. Delegates to the exact same optimistic-update +
+		 * rollback path the drag handler uses, so behaviour and RBAC are
+		 * identical between the two.
+		 *
+		 * @param {object} task      The task to move
+		 * @param {string} newStatus The target column's status
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/specs/kanban-board.md
+		 */
+		async moveTask(task, newStatus) {
+			await this.applyStatusMove(task, newStatus)
+		},
+
+		/**
+		 * Optimistically move a task to `newStatus` and persist it via the
+		 * RBAC-scoped store action; revert + toast on a failed write. Shared by
+		 * both the drag-and-drop drop handler and the keyboard "Move to…" menu.
+		 *
+		 * @param {object} task      The task to move (no-op when null/same status)
+		 * @param {string} newStatus The target column's status
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/specs/kanban-board.md
+		 */
+		async applyStatusMove(task, newStatus) {
 			if (!task || task.status === newStatus) return
 
 			const previousStatus = task.status
@@ -487,11 +585,35 @@ export default {
 }
 
 .kanban-column__card {
+	position: relative;
 	cursor: grab;
+	border-radius: 8px;
 }
 
 .kanban-column__card:active {
 	cursor: grabbing;
+}
+
+/* Perceivable keyboard focus (WCAG 2.4.7) — the card is role="button". */
+.kanban-column__card:focus-visible {
+	outline: 2px solid var(--color-primary-element);
+	outline-offset: 2px;
+}
+
+/* Keyboard "Move to…" affordance, top-right of the card. Revealed on
+   hover/focus-within so it does not clutter the card at rest, but is always
+   reachable by keyboard. */
+.kanban-column__card-actions {
+	position: absolute;
+	top: 6px;
+	inset-inline-end: 6px;
+	opacity: 0;
+	transition: opacity 0.1s ease-in-out;
+}
+
+.kanban-column__card:hover .kanban-column__card-actions,
+.kanban-column__card:focus-within .kanban-column__card-actions {
+	opacity: 1;
 }
 
 .kanban-column__card--highlight {
