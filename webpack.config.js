@@ -66,6 +66,15 @@ webpackConfig.plugins = [
 webpackConfig.resolve.alias['@nextcloud/dialogs/style.css$'] = path.resolve(__dirname, 'node_modules/@nextcloud/dialogs/dist/style.css')
 webpackConfig.resolve.alias['@nextcloud/dialogs'] = path.resolve(__dirname, 'node_modules/@nextcloud/dialogs')
 
+// dialogs v6 drags in a FilePicker chunk that imports node's `path`, and webpack 5 no
+// longer auto-polyfills node core modules — without this the bundle fails to emit with
+// "Can't resolve 'path'". This app only uses the toast APIs (showError/showSuccess/
+// showWarning), so the FilePicker code path never runs and an empty module is safe.
+webpackConfig.resolve.fallback = {
+	...(webpackConfig.resolve.fallback || {}),
+	path: false,
+}
+
 // Override publicPath so dynamic webpack chunks load from the standard
 // Nextcloud user-installed-app layout. The webpack-vue-config default of
 // /apps/{appName}/js/ is PHP-routed and returns 401 for static asset
