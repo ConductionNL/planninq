@@ -91,7 +91,7 @@
 import { NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import ClockOutline from 'vue-material-design-icons/ClockOutline.vue'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
-import { useObjectStore } from '@conduction/nextcloud-vue'
+import { useObjectStore } from '../store/objectStore.js'
 import { formatDuration } from '../utils/durationParser.js'
 import {
 	groupEntriesByDate,
