@@ -117,6 +117,7 @@ import Magnify from 'vue-material-design-icons/Magnify.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
 import { useProjectsStore } from '../store/projects.js'
+import { useObjectStore } from '../store/objectStore.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import ProjectListItem from '../components/ProjectListItem.vue'
 import ProjectCreationDialog from '../components/dialogs/ProjectCreationDialog.vue'
@@ -153,6 +154,15 @@ export default {
 		return {
 			showCreationDialog: false,
 			activeStatus: null,
+			// Live-updates handle for the or-collection-planix-project
+			// subscription. livePendingType marks an in-flight subscribe so a
+			// concurrent call doesn't double-subscribe; liveEpoch invalidates
+			// in-flight resolutions after a release (destroy). liveUnwatch
+			// tears down the collection→projectsStore bridge watcher.
+			liveHandle: null,
+			livePendingType: '',
+			liveEpoch: 0,
+			liveUnwatch: null,
 		}
 	},
 
@@ -239,11 +249,99 @@ export default {
 		},
 	},
 
+	/**
+	 * @spec exclude list-view lifecycle — loads the project list, then attaches the live collection subscription.
+	 */
 	async mounted() {
 		await this.projectsStore.fetchProjects()
+		this.syncLiveSubscription()
+	},
+
+	/**
+	 * Lifecycle hook: release the live collection subscription on unmount.
+	 *
+	 * @spec openspec/specs/realtime-updates.md
+	 */
+	beforeDestroy() {
+		this.releaseLiveSubscription()
 	},
 
 	methods: {
+		/**
+		 * Subscribe to live updates for the planix project collection
+		 * (or-collection-planix-project). Events are refetch hints only: the
+		 * liveUpdatesPlugin re-runs fetchCollection('project') with the
+		 * last-used params; the bridge watcher installed here re-applies the
+		 * member filter into projectsStore.projects so this view re-renders.
+		 * Uses notify_push when available, visibility-gated polling otherwise.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/specs/realtime-updates.md
+		 */
+		async syncLiveSubscription() {
+			const objectStore = useObjectStore()
+			if (typeof objectStore.subscribe !== 'function') {
+				return
+			}
+			const type = 'project'
+			if (this.liveHandle || this.livePendingType === type) {
+				// Already subscribed, or a subscribe is in flight —
+				// re-subscribing would leak the first handle.
+				return
+			}
+			try {
+				// Ensure the 'project' type is registered (with slug hints).
+				this.projectsStore._objectStore()
+				const epoch = this.liveEpoch
+				this.livePendingType = type
+				const handle = await objectStore.subscribe(type)
+				this.livePendingType = ''
+				if (this.liveEpoch !== epoch) {
+					// Released while awaiting (component destroyed) — drop the
+					// now-stale subscription instead of leaking it.
+					objectStore.unsubscribe(handle)
+					return
+				}
+				this.liveHandle = handle
+				// Bridge: event → plugin refetch → collections.project →
+				// projectsStore.projects (which this template renders).
+				this.liveUnwatch = this.$watch(
+					() => objectStore.collections[type],
+					(fresh) => {
+						if (this.liveHandle) {
+							this.projectsStore.applyLiveProjects(fresh)
+						}
+					},
+				)
+			} catch (e) {
+				this.livePendingType = ''
+				this.liveHandle = null
+				console.warn('[ProjectList] live subscription failed:', e?.message ?? e)
+			}
+		},
+
+		/**
+		 * Release the live collection subscription and its bridge watcher, and
+		 * invalidate any in-flight subscribe (its resolution unsubscribes
+		 * itself via the epoch check).
+		 *
+		 * @spec openspec/specs/realtime-updates.md
+		 */
+		releaseLiveSubscription() {
+			this.liveEpoch += 1
+			this.livePendingType = ''
+			if (this.liveUnwatch) {
+				this.liveUnwatch()
+				this.liveUnwatch = null
+			}
+			const objectStore = useObjectStore()
+			if (this.liveHandle && typeof objectStore.unsubscribe === 'function') {
+				objectStore.unsubscribe(this.liveHandle)
+			}
+			this.liveHandle = null
+		},
+
 		/**
 		 * Filter projects by status.
 		 *

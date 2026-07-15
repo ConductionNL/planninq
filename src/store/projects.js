@@ -11,7 +11,8 @@
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  */
 import { defineStore } from 'pinia'
-import { useObjectStore, buildHeaders } from '@conduction/nextcloud-vue'
+import { buildHeaders } from '@conduction/nextcloud-vue'
+import { useObjectStore } from './objectStore.js'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
@@ -61,18 +62,22 @@ export const useProjectsStore = defineStore('projects', {
 		 */
 		_objectStore() {
 			const store = useObjectStore()
-			// Register types if not yet registered.
+			// Register types if not yet registered. The schema constants ARE the
+			// canonical OR slugs (lib/Settings/planix_register.json), so they are
+			// passed as slug hints too — liveUpdatesPlugin then derives the
+			// or-collection-{registerSlug}-{schemaSlug} event key without a lazy
+			// register/schema fetch on first subscribe().
 			if (!store.objectTypeRegistry?.[PROJECT_SCHEMA]) {
-				store.registerObjectType(PROJECT_SCHEMA, PROJECT_SCHEMA, REGISTER)
+				store.registerObjectType(PROJECT_SCHEMA, PROJECT_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: PROJECT_SCHEMA })
 			}
 			if (!store.objectTypeRegistry?.[COLUMN_SCHEMA]) {
-				store.registerObjectType(COLUMN_SCHEMA, COLUMN_SCHEMA, REGISTER)
+				store.registerObjectType(COLUMN_SCHEMA, COLUMN_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: COLUMN_SCHEMA })
 			}
 			if (!store.objectTypeRegistry?.[TASK_SCHEMA]) {
-				store.registerObjectType(TASK_SCHEMA, TASK_SCHEMA, REGISTER)
+				store.registerObjectType(TASK_SCHEMA, TASK_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: TASK_SCHEMA })
 			}
 			if (!store.objectTypeRegistry?.[TIME_ENTRY_SCHEMA]) {
-				store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER)
+				store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: TIME_ENTRY_SCHEMA })
 			}
 			return store
 		},
@@ -123,6 +128,26 @@ export const useProjectsStore = defineStore('projects', {
 			} finally {
 				this.loading = false
 			}
+		},
+
+		/**
+		 * Apply a live-refetched project collection to store state, re-applying
+		 * the same member filter `fetchProjects` uses. Called by the ProjectList
+		 * live-update bridge when liveUpdatesPlugin refreshes the 'project'
+		 * collection after an or-collection event.
+		 *
+		 * @param {Array} results Fresh collection results from the object store
+		 * @return {Array} The filtered project list now in state
+		 *
+		 * @spec openspec/specs/realtime-updates.md
+		 */
+		applyLiveProjects(results) {
+			const uid = this._currentUid()
+			const list = Array.isArray(results) ? results : []
+			this.projects = uid
+				? list.filter((p) => Array.isArray(p.members) && p.members.includes(uid))
+				: list
+			return this.projects
 		},
 
 		// ── 2.3 fetchProject ──────────────────────────────────────────────

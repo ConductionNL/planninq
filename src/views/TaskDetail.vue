@@ -153,6 +153,7 @@ import ClockPlusOutline from 'vue-material-design-icons/ClockPlusOutline.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import { useProjectsStore } from '../store/projects.js'
+import { useObjectStore } from '../store/objectStore.js'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
@@ -197,6 +198,16 @@ export default {
 			savingEstimate: false,
 			dialogOpen: false,
 			editingEntry: null,
+			// Live-updates handle for the or-object-{uuid} subscription of the
+			// task being viewed. livePendingKey marks an in-flight subscribe so
+			// a concurrent same-key call doesn't double-subscribe; liveEpoch
+			// invalidates in-flight resolutions after a release (task switch /
+			// destroy). liveUnwatch tears down the cache→activeTask bridge.
+			liveHandle: null,
+			liveKey: '',
+			livePendingKey: '',
+			liveEpoch: 0,
+			liveUnwatch: null,
 		}
 	},
 
@@ -371,12 +382,117 @@ export default {
 					await this.projectsStore.fetchTask(id)
 					this.estimateInput = this.estimateMinutes > 0 ? formatDuration(this.estimateMinutes) : ''
 					await this.timeEntriesStore.fetchForTask(id)
+					this.syncLiveSubscription()
+				} else {
+					this.releaseLiveSubscription()
 				}
 			},
 		},
 	},
 
+	/**
+	 * Lifecycle hook: release the live object subscription on unmount.
+	 *
+	 * @spec openspec/specs/realtime-updates.md
+	 */
+	beforeDestroy() {
+		this.releaseLiveSubscription()
+	},
+
 	methods: {
+		/**
+		 * Subscribe to live updates for the task being viewed
+		 * (or-object-{uuid}). Events are refetch hints only: the
+		 * liveUpdatesPlugin re-runs fetchObject('task', uuid), which lands in
+		 * the object store's objects.task cache; the watcher installed here
+		 * bridges that fresh data into projectsStore.activeTask so this view
+		 * re-renders. Idempotent per task uuid; releases the previous
+		 * subscription when another task is opened.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/specs/realtime-updates.md
+		 */
+		async syncLiveSubscription() {
+			const objectStore = useObjectStore()
+			if (typeof objectStore.subscribe !== 'function') {
+				return
+			}
+			const uuid = this.taskId
+			if (!uuid) {
+				this.releaseLiveSubscription()
+				return
+			}
+			const type = 'task'
+			const key = `${type}::${uuid}`
+			if (this.liveHandle && this.liveKey === key) {
+				return
+			}
+			if (this.livePendingKey === key) {
+				// A subscribe for this exact task is already in flight —
+				// re-subscribing here would leak the first handle + watcher.
+				return
+			}
+			this.releaseLiveSubscription()
+			try {
+				// Ensure the 'task' type is registered (with slug hints).
+				this.projectsStore._objectStore()
+				const epoch = this.liveEpoch
+				this.livePendingKey = key
+				this.liveKey = key
+				const handle = await objectStore.subscribe(type, uuid)
+				if (this.livePendingKey === key) {
+					this.livePendingKey = ''
+				}
+				if (this.liveEpoch !== epoch) {
+					// Released while awaiting (another task opened, or the
+					// component was destroyed) — drop the stale subscription.
+					objectStore.unsubscribe(handle)
+					return
+				}
+				this.liveHandle = handle
+				// Bridge: event → plugin refetch → objects.task[uuid] cache →
+				// projectsStore.activeTask (which this template renders).
+				this.liveUnwatch = this.$watch(
+					() => objectStore.getObject(type, uuid),
+					(fresh) => {
+						if (fresh && this.liveKey === key) {
+							this.projectsStore.activeTask = fresh
+						}
+					},
+				)
+			} catch (e) {
+				if (this.livePendingKey === key) {
+					this.livePendingKey = ''
+				}
+				this.liveHandle = null
+				this.liveKey = ''
+				console.warn('[TaskDetail] live subscription failed:', e?.message ?? e)
+			}
+		},
+
+		/**
+		 * Release the current live object subscription and its cache watcher,
+		 * and invalidate any in-flight subscribe (its resolution unsubscribes
+		 * itself via the epoch check).
+		 *
+		 * @spec openspec/specs/realtime-updates.md
+		 */
+		releaseLiveSubscription() {
+			this.liveEpoch += 1
+			this.livePendingKey = ''
+			if (this.liveUnwatch) {
+				this.liveUnwatch()
+				this.liveUnwatch = null
+			}
+			const objectStore = useObjectStore()
+			if (this.liveHandle && typeof objectStore.unsubscribe === 'function') {
+				objectStore.unsubscribe(this.liveHandle)
+			}
+			this.liveHandle = null
+			this.liveKey = ''
+		},
+
 		/**
 		 * Navigate back to the project board.
 		 *

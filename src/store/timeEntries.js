@@ -15,7 +15,7 @@
  * @spec openspec/specs/time-tracking.md
  */
 import { defineStore } from 'pinia'
-import { useObjectStore } from '@conduction/nextcloud-vue'
+import { useObjectStore } from './objectStore.js'
 import { getCurrentUser } from '@nextcloud/auth'
 
 const REGISTER = 'planix'
@@ -49,7 +49,10 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		_objectStore() {
 			const store = useObjectStore()
 			if (!store.objectTypeRegistry?.[TIME_ENTRY_SCHEMA]) {
-				store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER)
+				// Schema constant IS the canonical OR slug — pass it as a slug hint
+				// so liveUpdatesPlugin can derive the collection event key without
+				// a lazy register/schema fetch on first subscribe().
+				store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: TIME_ENTRY_SCHEMA })
 			}
 			return store
 		},
