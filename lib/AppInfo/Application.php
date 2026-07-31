@@ -75,24 +75,71 @@ class Application extends App implements IBootstrap
         $this->registerAppHost(context: $context);
 
         // Publish task lifecycle events to the Nextcloud Activity stream.
-        // Scoped inside the listener to the planix register's `task` schema.
-        $context->registerEventListener(
-            event: ObjectCreatedEvent::class,
-            listener: TaskActivityListener::class
-        );
-        $context->registerEventListener(
-            event: ObjectUpdatedEvent::class,
-            listener: TaskActivityListener::class
-        );
-        $context->registerEventListener(
-            event: ObjectDeletedEvent::class,
-            listener: TaskActivityListener::class
-        );
+        //
+        // The listener's own scope check (TaskScopeResolver::isPlanixTask,
+        // REGISTER_SLUG `planix` + TASK_SCHEMA_SLUG `task` — spelled out as
+        // literals here so Application does not import the resolver and push
+        // its already-over-threshold PHPMD coupling count up by one) is now
+        // also declared at REGISTRATION time, so an unrelated app's write no longer
+        // constructs the listener — nor performs the two mapper lookups the
+        // scope resolver needs to reject it. The in-listener guard stays in
+        // place as defence in depth.
+        foreach ([ObjectCreatedEvent::class, ObjectUpdatedEvent::class, ObjectDeletedEvent::class] as $event) {
+            $this->registerFilteredObjectListener(
+                context: $context,
+                event: $event,
+                listener: TaskActivityListener::class,
+                registers: ['planix'],
+                schemas: ['task']
+            );
+        }
 
         // NOTE: the Activity Provider + Filter are registered declaratively via
         // the <activity> block in appinfo/info.xml — IRegistrationContext has no
         // activity-registration methods in this Nextcloud version.
     }//end register()
+
+    /**
+     * Register an object-lifecycle listener that declares its interest up front.
+     *
+     * OpenRegister's `ObjectEventSubscription` records the register/schema slugs
+     * a listener reacts to and routes dispatches through a single shared proxy,
+     * so an uninterested listener is neither constructed nor invoked. When
+     * OpenRegister is absent — planix carries no hard dependency on it — this
+     * degrades to the plain global registration it replaced, which is exactly
+     * the behaviour every listener had before.
+     *
+     * @param IRegistrationContext $context   Registration context.
+     * @param string               $event     OpenRegister event class name.
+     * @param string               $listener  Listener class name.
+     * @param array<int,string>    $registers Register slugs the listener reacts to.
+     * @param array<int,string>    $schemas   Schema slugs the listener reacts to.
+     *
+     * @return void
+     *
+     * @spec openspec/specs/task-collaboration.md
+     */
+    private function registerFilteredObjectListener(
+        IRegistrationContext $context,
+        string $event,
+        string $listener,
+        array $registers,
+        array $schemas
+    ): void {
+        $subscription = '\\OCA\\OpenRegister\\Event\\ObjectEventSubscription';
+        if (class_exists($subscription) === true) {
+            $subscription::register(
+                context: $context,
+                event: $event,
+                listener: $listener,
+                registers: $registers,
+                schemas: $schemas
+            );
+            return;
+        }
+
+        $context->registerEventListener(event: $event, listener: $listener);
+    }//end registerFilteredObjectListener()
 
     /**
      * Wire the AppHost generic engine for the mechanical plumbing classes.
