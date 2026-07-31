@@ -31,6 +31,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -74,26 +75,9 @@ class Application extends App implements IBootstrap
         // import, the kanban Project/Dependency/Label controllers) are kept.
         $this->registerAppHost(context: $context);
 
-        // Publish task lifecycle events to the Nextcloud Activity stream.
+        // NOTE: the task-lifecycle Activity listener is subscribed from boot(),
+        // not here — see registerFilteredObjectListener().
         //
-        // The listener's own scope check (TaskScopeResolver::isPlanixTask,
-        // REGISTER_SLUG `planix` + TASK_SCHEMA_SLUG `task` — spelled out as
-        // literals here so Application does not import the resolver and push
-        // its already-over-threshold PHPMD coupling count up by one) is now
-        // also declared at REGISTRATION time, so an unrelated app's write no longer
-        // constructs the listener — nor performs the two mapper lookups the
-        // scope resolver needs to reject it. The in-listener guard stays in
-        // place as defence in depth.
-        foreach ([ObjectCreatedEvent::class, ObjectUpdatedEvent::class, ObjectDeletedEvent::class] as $event) {
-            $this->registerFilteredObjectListener(
-                context: $context,
-                event: $event,
-                listener: TaskActivityListener::class,
-                registers: ['planix'],
-                schemas: ['task']
-            );
-        }
-
         // NOTE: the Activity Provider + Filter are registered declaratively via
         // the <activity> block in appinfo/info.xml — IRegistrationContext has no
         // activity-registration methods in this Nextcloud version.
@@ -109,18 +93,26 @@ class Application extends App implements IBootstrap
      * degrades to the plain global registration it replaced, which is exactly
      * the behaviour every listener had before.
      *
-     * @param IRegistrationContext $context   Registration context.
-     * @param string               $event     OpenRegister event class name.
-     * @param string               $listener  Listener class name.
-     * @param array<int,string>    $registers Register slugs the listener reacts to.
-     * @param array<int,string>    $schemas   Schema slugs the listener reacts to.
+     * MUST be called from boot(), never from register(). Nextcloud enables each
+     * app's own autoloader immediately before calling that app's register(), so
+     * during register() OpenRegister's classes are only autoloadable to apps
+     * that happen to be registered after it — the class_exists() guard below
+     * would then resolve differently purely by app load order and silently fall
+     * back to an unfiltered registration. boot() runs only after every app's
+     * register() has completed, so the guard is order-independent there.
+     *
+     * @param IEventDispatcher  $dispatcher The live event dispatcher.
+     * @param string            $event      OpenRegister event class name.
+     * @param string            $listener   Listener class name.
+     * @param array<int,string> $registers  Register slugs the listener reacts to.
+     * @param array<int,string> $schemas    Schema slugs the listener reacts to.
      *
      * @return void
      *
      * @spec openspec/specs/task-collaboration.md
      */
     private function registerFilteredObjectListener(
-        IRegistrationContext $context,
+        IEventDispatcher $dispatcher,
         string $event,
         string $listener,
         array $registers,
@@ -128,8 +120,8 @@ class Application extends App implements IBootstrap
     ): void {
         $subscription = '\\OCA\\OpenRegister\\Event\\ObjectEventSubscription';
         if (class_exists($subscription) === true) {
-            $subscription::register(
-                context: $context,
+            $subscription::subscribe(
+                dispatcher: $dispatcher,
                 event: $event,
                 listener: $listener,
                 registers: $registers,
@@ -138,7 +130,16 @@ class Application extends App implements IBootstrap
             return;
         }
 
-        $context->registerEventListener(event: $event, listener: $listener);
+        // Loud on purpose. This fallback is correct but UNFILTERED, and while it
+        // was silent it was indistinguishable from a working narrowing.
+        \OCP\Server::get(\Psr\Log\LoggerInterface::class)->warning(
+            'OpenRegister ObjectEventSubscription unavailable: '.$listener
+            .' fell back to an UNFILTERED registration for '.$event
+            .' and will be invoked on every object write instance-wide.',
+            ['app' => self::APP_ID]
+        );
+
+        $dispatcher->addServiceListener($event, $listener);
     }//end registerFilteredObjectListener()
 
     /**
@@ -272,10 +273,29 @@ class Application extends App implements IBootstrap
      * @param IBootContext $context The boot context
      *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function boot(IBootContext $context): void
     {
+        $dispatcher = $context->getServerContainer()->get(IEventDispatcher::class);
+
+        // Publish task lifecycle events to the Nextcloud Activity stream.
+        //
+        // The listener's own scope check (TaskScopeResolver::isPlanixTask,
+        // REGISTER_SLUG `planix` + TASK_SCHEMA_SLUG `task` — spelled out as
+        // literals here so Application does not import the resolver and push
+        // its already-over-threshold PHPMD coupling count up by one) is now
+        // also declared at SUBSCRIPTION time, so an unrelated app's write no longer
+        // constructs the listener — nor performs the two mapper lookups the
+        // scope resolver needs to reject it. The in-listener guard stays in
+        // place as defence in depth.
+        foreach ([ObjectCreatedEvent::class, ObjectUpdatedEvent::class, ObjectDeletedEvent::class] as $event) {
+            $this->registerFilteredObjectListener(
+                dispatcher: $dispatcher,
+                event: $event,
+                listener: TaskActivityListener::class,
+                registers: ['planix'],
+                schemas: ['task']
+            );
+        }
     }//end boot()
 }//end class
