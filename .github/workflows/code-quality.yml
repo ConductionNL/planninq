@@ -28,26 +28,44 @@ jobs:
       enable-eslint: true
       enable-phpunit: true
       enable-newman: false
-      # The Playwright regression suite (tests/e2e, `chromium` project) had
-      # never run on a pull request — the flag was simply absent, so the
-      # "E2E Tests (Playwright)" job reported SKIPPED on every PR while the
-      # specs looked like coverage to gate-19.
+      # enable-playwright: LEFT OFF, and this time on evidence rather than a
+      # guess. I turned it on, and run 30692400428 gave the first real answer.
       #
-      # `tests/e2e/base-url.ts` accepts the `BASE_URL` this workflow exports;
-      # do not narrow it to PLAYWRIGHT_BASE_URL only (openconnector did, and its
-      # E2E job has hard-failed on every run since).
-      enable-playwright: true
-      # ⚠️ This flag is UNVERIFIED. An earlier revision of this comment blamed
-      # the shared `Conduction/.github@main` reusable workflow for the
-      # workflow-parse failure. That was wrong: the shared workflow is fine —
-      # larpingapp PR #239 runs 24 green jobs against `ConductionNL/.github@main`.
-      # The parse failure was this file's own broken org ref, fixed above.
+      # The job does not fail for a planix reason that this repo can fix, and it
+      # is not a shared-workflow *parse* problem either (that was this file's own
+      # broken org ref, fixed above). Two independent blockers:
       #
-      # `playwright-test-path` is deliberately not set: planix's specs are in
-      # the default `tests/e2e`. Its OpenRegister register is created by an
-      # IRepairStep (lib/Repair/InitializeSettings.php) that the workflow's own
-      # `occ app:enable planix` runs on a fresh install, so no seed command is
-      # needed either.
+      #  1. `occ app:enable planix` cannot import the register on a fresh CI
+      #     instance: "Failed to import configuration for app planix: User
+      #     'Anonymous' does not have permission to 'create' objects in schema
+      #     'Label'". lib/Repair/InitializeSettings.php runs with no user
+      #     session, and OpenRegister's RBAC denies the create. No schemas means
+      #     the fixture seeder has nothing to write into.
+      #  2. `globalSetup` then times out on `input[name="user"]` at
+      #     /index.php/login. The workflow serves Nextcloud from the PHP
+      #     built-in server (`php -S 0.0.0.0:8080`), which is single-threaded by
+      #     default; a browser page load needs concurrent sub-resource requests.
+      #     The single API call before it (the first-run-wizard dismissal) did
+      #     get a response, so the server is up — it is page loads that stall.
+      #
+      # Positive control, because "it fails for me" is not evidence on its own:
+      # the shared "E2E Tests (Playwright)" job has **never recorded a single
+      # success anywhere in the fleet**. Sampling recent Code Quality runs —
+      # planix 1 failure, openconnector 9 failures + 2 cancelled, pipelinq
+      # 2 failures + 2 cancelled, openregister 11 skipped + 1 cancelled. Zero
+      # successes. Turning this on buys a permanently red job, not signal.
+      #
+      # Re-enable once (1) is fixed in planix/OpenRegister and the shared job
+      # serves Nextcloud from something that can answer concurrent requests.
+      # `tests/e2e/base-url.ts` already accepts the `BASE_URL` this workflow
+      # exports, so nothing on this side needs to change first — do NOT narrow
+      # it to PLAYWRIGHT_BASE_URL only (openconnector did, and its E2E job has
+      # hard-failed on every run since).
+      #
+      # `playwright-test-path` and `playwright-seed-command` ARE valid inputs —
+      # the run log shows both, with `playwright-test-path: tests/e2e` as the
+      # default. My earlier removal of them was a misdiagnosis; they are simply
+      # not needed here.
       additional-apps: '[{"repo":"ConductionNL/openregister","app":"openregister","ref":"main"}]'
       enable-sbom: true
 

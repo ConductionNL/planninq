@@ -23,8 +23,16 @@ declare(strict_types=1);
 
 namespace OCA\Planix\Tests\Unit\Controller;
 
+// The test double is not a *Test.php file, so PHPUnit's directory testsuite
+// never loads it and composer's psr-4 map only covers `lib/`. Require it
+// explicitly rather than adding an `autoload-dev` entry, which would change
+// composer.json's content hash and make CI's `composer install` complain that
+// the lock file is out of date.
+require_once __DIR__.'/../Support/ObjectServiceDouble.php';
+
 use OCA\Planix\Controller\ProjectController;
 use OCA\Planix\Service\SettingsService;
+use OCA\Planix\Tests\Unit\Support\ObjectServiceDouble;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
@@ -259,9 +267,7 @@ class ProjectControllerTest extends TestCase
             }//end jsonSerialize()
         };
 
-        $objectService = $this->getMockBuilder(className: \stdClass::class)
-            ->addMethods(['saveObject'])
-            ->getMock();
+        $objectService = $this->createMock(originalClassName: ObjectServiceDouble::class);
 
         $objectService->expects($this->once())
             ->method('saveObject')
@@ -296,9 +302,7 @@ class ProjectControllerTest extends TestCase
         $this->userSession->method('getUser')->willReturn($user);
         $this->settingsService->method('canCurrentUserCreateProject')->willReturn(true);
 
-        $objectService = $this->getMockBuilder(className: \stdClass::class)
-            ->addMethods(['saveObject'])
-            ->getMock();
+        $objectService = $this->createMock(originalClassName: ObjectServiceDouble::class);
 
         $objectService->method('saveObject')
             ->willThrowException(new \RuntimeException('Unexpected DB error'));
@@ -337,9 +341,7 @@ class ProjectControllerTest extends TestCase
             }//end getObject()
         };
 
-        $objectService = $this->getMockBuilder(className: \stdClass::class)
-            ->addMethods(['setRegister', 'setSchema', 'find', 'saveObject'])
-            ->getMock();
+        $objectService = $this->createMock(originalClassName: ObjectServiceDouble::class);
 
         $objectService->method('find')->willReturn($entity);
         $objectService->method('saveObject')
@@ -442,9 +444,7 @@ class ProjectControllerTest extends TestCase
             }//end jsonSerialize()
         };
 
-        $objectService = $this->getMockBuilder(className: \stdClass::class)
-            ->addMethods(['setRegister', 'setSchema', 'find', 'saveObject'])
-            ->getMock();
+        $objectService = $this->createMock(originalClassName: ObjectServiceDouble::class);
 
         $objectService->method('find')->willReturn($entity);
         $objectService->expects($this->once())
@@ -511,9 +511,7 @@ class ProjectControllerTest extends TestCase
             }//end jsonSerialize()
         };
 
-        $objectService = $this->getMockBuilder(className: \stdClass::class)
-            ->addMethods(['setRegister', 'setSchema', 'find', 'saveObject'])
-            ->getMock();
+        $objectService = $this->createMock(originalClassName: ObjectServiceDouble::class);
 
         $objectService->method('find')->willReturn($entity);
         $objectService->expects($this->once())
@@ -566,9 +564,7 @@ class ProjectControllerTest extends TestCase
             }//end getObject()
         };
 
-        $objectService = $this->getMockBuilder(className: \stdClass::class)
-            ->addMethods(['setRegister', 'setSchema', 'find', 'saveObject'])
-            ->getMock();
+        $objectService = $this->createMock(originalClassName: ObjectServiceDouble::class);
 
         $objectService->method('find')->willReturn($entity);
         $objectService->expects($this->never())->method('saveObject');
