@@ -9,7 +9,13 @@ on:
 
 jobs:
   quality:
-    uses: Conduction/.github/.github/workflows/quality.yml@main
+    # ConductionNL, NOT Conduction. Commit 5f4069ac ("org rename", 2026-06-01)
+    # pointed every reusable-workflow call in this repo at `Conduction/.github`,
+    # an org that does not exist. Actions cannot resolve it, so from that date
+    # every Code Quality run produced ZERO jobs and failed instantly — no
+    # ESLint, PHPCS, PHPMD, PHPStan, Psalm, licence scan, security scan or
+    # PHPUnit, and no red test to show for it.
+    uses: ConductionNL/.github/.github/workflows/quality.yml@main
     with:
       app-name: planix
       php-version: "8.3"
@@ -31,19 +37,18 @@ jobs:
       # do not narrow it to PLAYWRIGHT_BASE_URL only (openconnector did, and its
       # E2E job has hard-failed on every run since).
       enable-playwright: true
-      # ⚠️ This flag is UNVERIFIED, and could not be verified: at the time of
-      # writing `Code Quality` fails at workflow-PARSE time ("This run likely
-      # failed because of a workflow file issue", 0s, zero jobs) on planix
-      # `development` itself and on procest and docudesk `development` too —
-      # i.e. on unmodified workflow files. The breakage is in the shared
-      # `Conduction/.github@main` reusable workflow, not here.
+      # ⚠️ This flag is UNVERIFIED. An earlier revision of this comment blamed
+      # the shared `Conduction/.github@main` reusable workflow for the
+      # workflow-parse failure. That was wrong: the shared workflow is fine —
+      # larpingapp PR #239 runs 24 green jobs against `ConductionNL/.github@main`.
+      # The parse failure was this file's own broken org ref, fixed above.
       #
       # `playwright-test-path` is deliberately not set: planix's specs are in
       # the default `tests/e2e`. Its OpenRegister register is created by an
       # IRepairStep (lib/Repair/InitializeSettings.php) that the workflow's own
       # `occ app:enable planix` runs on a fresh install, so no seed command is
       # needed either.
-      additional-apps: '[{"repo":"Conduction/openregister","app":"openregister","ref":"main"}]'
+      additional-apps: '[{"repo":"ConductionNL/openregister","app":"openregister","ref":"main"}]'
       enable-sbom: true
 
   # Translation-completeness gate: every required European locale must carry a
