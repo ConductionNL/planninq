@@ -60,7 +60,7 @@ export function taskCollaborationSidebarConfig(task) {
  * (`{ '@self': { id }, status }`); the first resolvable id wins.
  *
  * @param {Array<object>} tasks The loaded task collection.
- * @return {Object<string,string>} Map of task UUID → status string.
+ * @return {{[uuid: string]: string}} Map of task UUID → status string.
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
  */
@@ -90,7 +90,7 @@ export function statusMapFromTasks(tasks = []) {
  *
  * @param {string} taskId             UUID of the task to test.
  * @param {Array<object>} edges       Dependency edges (`{ blocker, blocked }`).
- * @param {Object<string,string>} statusById Map of task UUID → status.
+ * @param {{[uuid: string]: string}} statusById Map of task UUID → status.
  * @return {boolean} True when the task has at least one open blocker.
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
@@ -119,7 +119,7 @@ export function isBlocked(taskId, edges = [], statusById = {}) {
  * Derive the set of blocked task UUIDs for a whole board in one pass.
  *
  * @param {Array<object>} edges       Dependency edges.
- * @param {Object<string,string>} statusById Map of task UUID → status.
+ * @param {{[uuid: string]: string}} statusById Map of task UUID → status.
  * @return {string[]} Sorted, de-duplicated UUIDs of blocked tasks.
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
@@ -145,7 +145,7 @@ export function deriveBlockedTaskIds(edges = [], statusById = {}) {
  *
  * @param {string} taskId             UUID of the blocked task.
  * @param {Array<object>} edges       Dependency edges.
- * @param {Object<string,string>} statusById Map of task UUID → status.
+ * @param {{[uuid: string]: string}} statusById Map of task UUID → status.
  * @return {string[]} UUIDs of the blockers that are still open.
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
@@ -254,7 +254,7 @@ export const BOARD_STATUSES = ['open', 'in_progress', 'blocked', 'done', 'cancel
  *
  * @param {Array<object>} tasks        The project's tasks.
  * @param {string[]} [statuses]        Ordered status column keys.
- * @return {Object<string, Array<object>>} Map of status → tasks in that column.
+ * @return {{[status: string]: Array<object>}} Map of status → tasks in that column.
  *
  * @spec openspec/specs/kanban-board.md
  */

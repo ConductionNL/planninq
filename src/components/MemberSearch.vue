@@ -1,11 +1,11 @@
 <template>
 	<div class="member-search">
 		<NcTextField
-			:value="query"
+			:model-value="query"
 			:label="t('planix', 'Add member')"
 			:placeholder="t('planix', 'Search for a user…')"
 			:disabled="loading"
-			@update:value="onInput" />
+			@update:modelValue="onInput" />
 
 		<!-- Dropdown results -->
 		<ul
@@ -76,7 +76,7 @@ export default {
 		}
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		clearTimeout(this.debounceTimer)
 		this.abortController?.abort()
 	},

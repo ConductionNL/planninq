@@ -1,22 +1,24 @@
 <template>
 	<NcDialog
+		v-model:open="open"
 		:name="t('planix', 'New project')"
-		:open.sync="open"
 		:can-close="!loading"
 		@close="$emit('close')">
 		<template #default>
 			<form class="project-creation-dialog__form" @submit.prevent="submit">
 				<!-- Title (required) -->
 				<div class="project-creation-dialog__field">
+					<!-- `.native` was removed in Vue 3: a plain @focusout on a
+					     component falls through to its root element via $attrs,
+					     which is exactly what the modifier used to force. -->
 					<NcTextField
 						ref="titleField"
-						:value="form.title"
+						v-model="form.title"
 						:label="t('planix', 'Project title')"
 						:placeholder="t('planix', 'Enter project title…')"
 						:error="titleTouched && !form.title.trim()"
 						required
-						@update:value="form.title = $event"
-						@focusout.native="titleTouched = true" />
+						@focusout="titleTouched = true" />
 					<span
 						v-if="titleTouched && !form.title.trim()"
 						class="project-creation-dialog__error"
@@ -28,11 +30,10 @@
 				<!-- Description (optional) -->
 				<div class="project-creation-dialog__field">
 					<NcTextArea
-						:value="form.description"
+						v-model="form.description"
 						:label="t('planix', 'Description')"
 						:placeholder="t('planix', 'Optional description…')"
-						rows="3"
-						@update:value="form.description = $event" />
+						rows="3" />
 				</div>
 
 				<!-- Color (optional) -->
@@ -51,10 +52,9 @@
 				<!-- Icon / emoji (optional) -->
 				<div class="project-creation-dialog__field">
 					<NcTextField
-						:value="form.icon"
+						v-model="form.icon"
 						:label="t('planix', 'Icon (emoji)')"
-						:placeholder="t('planix', 'e.g. 📁 🚀 ✅')"
-						@update:value="form.icon = $event" />
+						:placeholder="t('planix', 'e.g. 📁 🚀 ✅')" />
 				</div>
 			</form>
 		</template>
@@ -62,8 +62,8 @@
 		<template #actions>
 			<NcButton
 				:disabled="loading || !isValid"
-				type="primary"
-				native-type="submit"
+				variant="primary"
+				type="submit"
 				@click="submit">
 				<template v-if="loading" #icon>
 					<NcLoadingIcon :size="20" />

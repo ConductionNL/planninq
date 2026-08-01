@@ -14,7 +14,7 @@
 					<template #action>
 						<NcButton
 							v-if="isAdmin"
-							type="primary"
+							variant="primary"
 							:href="appStoreUrl">
 							{{ t('planix', 'Install OpenRegister') }}
 						</NcButton>
@@ -53,6 +53,7 @@
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-5
  */
+import { markRaw } from 'vue'
 import { NcButton, NcContent, NcAppContent, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
 import { generateUrl, imagePath } from '@nextcloud/router'
 import { initializeStores } from './store/store.js'
@@ -78,8 +79,14 @@ export default {
 	provide() {
 		return {
 			// Views can call this.setSidebar(componentDefinition) to render a sidebar.
+			//
+			// `markRaw` is required under Vue 3: assigning a component
+			// definition into reactive `data` makes Vue deep-proxy the whole
+			// options object, which it warns about ("Vue received a Component
+			// that was made a reactive object") and which needlessly proxies
+			// every option on every render.
 			setSidebar: (component) => {
-				this.activeSidebar = component
+				this.activeSidebar = component ? markRaw(component) : null
 			},
 			closeSidebar: () => {
 				this.activeSidebar = null

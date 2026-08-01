@@ -1,8 +1,8 @@
 <template>
 	<NcAppSidebar
+		v-model:open="internalOpen"
+		v-model:active="activeTab"
 		:name="project ? project.title : t('planix', 'Project settings')"
-		:open.sync="internalOpen"
-		:active.sync="activeTab"
 		@close="$emit('close')">
 		<!-- Details tab -->
 		<NcAppSidebarTab
@@ -16,16 +16,14 @@
 			<div v-if="project" class="project-settings-sidebar__section">
 				<!-- Title -->
 				<NcTextField
-					:value="form.title"
-					:label="t('planix', 'Title')"
-					@update:value="form.title = $event" />
+					v-model="form.title"
+					:label="t('planix', 'Title')" />
 
 				<!-- Description -->
 				<NcTextArea
-					:value="form.description"
+					v-model="form.description"
 					:label="t('planix', 'Description')"
-					rows="3"
-					@update:value="form.description = $event" />
+					rows="3" />
 
 				<!-- Color -->
 				<div class="project-settings-sidebar__field">
@@ -42,10 +40,9 @@
 
 				<!-- Icon -->
 				<NcTextField
-					:value="form.icon"
+					v-model="form.icon"
 					:label="t('planix', 'Icon (emoji)')"
-					:placeholder="t('planix', 'e.g. 📁 🚀')"
-					@update:value="form.icon = $event" />
+					:placeholder="t('planix', 'e.g. 📁 🚀')" />
 
 				<!-- Case reference (read-only) -->
 				<div v-if="project.caseReference" class="project-settings-sidebar__field">
@@ -56,7 +53,7 @@
 				</div>
 
 				<NcButton
-					type="primary"
+					variant="primary"
 					:disabled="saving"
 					@click="saveDetails">
 					<template v-if="saving" #icon>
@@ -97,7 +94,7 @@
 							<!-- Leave project (current user) -->
 							<NcButton
 								v-if="uid === currentUid"
-								type="tertiary"
+								variant="tertiary"
 								:aria-label="t('planix', 'Leave project')"
 								@click="showLeaveDialog = true">
 								{{ t('planix', 'Leave project') }}
@@ -105,7 +102,7 @@
 							<!-- Remove member (other users) -->
 							<NcButton
 								v-else
-								type="tertiary-no-background"
+								variant="tertiary-no-background"
 								:aria-label="t('planix', 'Remove {name}', { name: uid })"
 								@click="confirmRemoveMember(uid)">
 								<template #icon>
@@ -119,7 +116,7 @@
 				<!-- Assigned task warning before removal -->
 				<div v-if="removalWarning" class="project-settings-sidebar__warning" role="alert">
 					{{ removalWarning }}
-					<NcButton type="error" @click="executeRemoval">
+					<NcButton variant="error" @click="executeRemoval">
 						{{ t('planix', 'Remove anyway') }}
 					</NcButton>
 					<NcButton @click="cancelRemoval">
@@ -143,13 +140,13 @@
 					<p>{{ t('planix', 'Archive this project. It will no longer appear in the active list.') }}</p>
 					<NcButton
 						v-if="!confirmArchive"
-						type="warning"
+						variant="warning"
 						@click="confirmArchive = true">
 						{{ t('planix', 'Archive project') }}
 					</NcButton>
 					<div v-else class="project-settings-sidebar__confirm-row">
 						<span>{{ t('planix', 'Are you sure?') }}</span>
-						<NcButton type="warning" @click="doArchive">
+						<NcButton variant="warning" @click="doArchive">
 							{{ t('planix', 'Yes, archive') }}
 						</NcButton>
 						<NcButton @click="confirmArchive = false">
@@ -160,7 +157,7 @@
 
 				<div class="project-settings-sidebar__danger-item">
 					<p>{{ t('planix', 'Permanently delete this project and all its tasks.') }}</p>
-					<NcButton type="error" @click="showDeleteDialog = true">
+					<NcButton variant="error" @click="showDeleteDialog = true">
 						{{ t('planix', 'Delete project') }}
 					</NcButton>
 				</div>

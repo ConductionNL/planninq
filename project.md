@@ -6,7 +6,7 @@ Planix is a Kanban-based project and task management app for Nextcloud, built as
 
 ## Architecture
 
-- **Type**: Nextcloud App (PHP backend + Vue 2 frontend)
+- **Type**: Nextcloud App (PHP backend + Vue 3 frontend)
 - **Data layer**: OpenRegister (all data stored as register objects)
 - **Pattern**: Thin client — Planix provides UI/UX, OpenRegister handles persistence
 - **License**: EUPL-1.2
@@ -16,7 +16,7 @@ Planix is a Kanban-based project and task management app for Nextcloud, built as
 | Layer | Technology |
 |-------|------------|
 | Backend | PHP 8.1+, Nextcloud AppFramework |
-| Frontend | Vue 2.7, Pinia, @nextcloud/vue |
+| Frontend | Vue 3.5, Pinia, @nextcloud/vue 9 |
 | Data | OpenRegister (JSON object store) |
 | Testing | PHPUnit (unit + integration), Newman (API) |
 | Quality | PHPCS, PHPMD, Psalm, PHPStan, ESLint, Stylelint |

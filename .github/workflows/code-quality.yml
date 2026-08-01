@@ -22,6 +22,20 @@ jobs:
       enable-eslint: true
       enable-phpunit: true
       enable-newman: false
+      # The Playwright regression suite (tests/e2e, `chromium` project) had
+      # never run on a pull request — the flag was simply absent, so the
+      # "E2E Tests (Playwright)" job reported SKIPPED on every PR while the
+      # specs looked like coverage to gate-19.
+      #
+      # `tests/e2e/base-url.ts` accepts the `BASE_URL` this workflow exports;
+      # do not narrow it to PLAYWRIGHT_BASE_URL only (openconnector did, and its
+      # E2E job has hard-failed on every run since).
+      enable-playwright: true
+      playwright-test-path: "tests/e2e"
+      # planix creates its OpenRegister register from an IRepairStep
+      # (lib/Repair/InitializeSettings.php). Re-enabling the app re-runs it, so
+      # the schemas the fixture seeder writes against exist before the suite runs.
+      playwright-seed-command: 'php occ app:disable planix && php occ app:enable planix'
       additional-apps: '[{"repo":"Conduction/openregister","app":"openregister","ref":"main"}]'
       enable-sbom: true
 

@@ -34,13 +34,15 @@
 		<NcChip
 			class="project-list-item__status"
 			:text="statusLabel"
-			:type="statusType"
+			:variant="statusVariant"
 			:no-close="true" />
 	</li>
 </template>
 
 <script>
-import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
+// @nextcloud/vue@9 removed the `dist/Components/*.js` layout; the package now
+// publishes only an `exports` map (root barrel + `./components/<Name>`).
+import { NcChip } from '@nextcloud/vue'
 
 export default {
 	name: 'ProjectListItem',
@@ -78,9 +80,13 @@ export default {
 		/**
 		 * @spec openspec/changes/retrofit-2026-05-26-planix-display-capabilities/tasks.md#task-2
 		 */
-		statusType() {
-			const map = { active: 'success', archived: 'warning', completed: 'default' }
-			return map[this.project.status] || 'default'
+		statusVariant() {
+			// `secondary` is NcChip's own default variant. The pre-migration
+			// code returned 'default', which was never a valid NcChip value in
+			// either major — it only ever tripped the prop validator and fell
+			// through to the base styling.
+			const map = { active: 'success', archived: 'warning', completed: 'secondary' }
+			return map[this.project.status] || 'secondary'
 		},
 	},
 }

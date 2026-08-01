@@ -24,34 +24,40 @@
  */
 
 import { test, expect } from '@playwright/test'
-
-const NC = process.env.NEXTCLOUD_URL || 'http://localhost:8080'
+import { BASE_URL as NC } from './base-url'
+import { PLANIX_ROOT, openPlanixSettingsDialog } from './nav'
 
 test.describe('Due-date reminder — user settings dialog', () => {
 	test('Toggle due-date reminders off and back on persists', async ({ page }) => {
-		const res = await page.goto(`${NC}/index.php/apps/planix/`)
+		const res = await page.goto(PLANIX_ROOT)
 		test.skip(res === null || res.status() >= 400, 'Planix not installed in this environment')
 
-		// Open the user settings dialog from the navigation gear.
-		const gear = page.getByRole('button', { name: /settings/i }).first()
-		await expect(gear).toBeVisible()
-		await gear.click()
+		// Open the planix user-settings dialog.
+		//
+		// The previous `getByRole('button', { name: /settings/i }).first()`
+		// matched NEXTCLOUD's own header control (`aria-label="Settings menu"`),
+		// which precedes the app navigation in the DOM — so this opened the user
+		// menu and then waited out the timeout for a planix toggle that was
+		// never going to appear. See tests/e2e/nav.ts.
+		await openPlanixSettingsDialog(page)
 
 		const toggle = page.getByText(/Notify me 1 day before a task's due date/i)
 		await expect(toggle).toBeVisible()
 
+		const checkbox = page.locator('input[type="checkbox"]').first()
+		await expect(checkbox).toBeChecked()
+
 		// Toggle off, reload, assert it persisted off.
 		await toggle.click()
 		await page.reload()
-		await gear.click()
-		const checkbox = page.locator('input[type="checkbox"]').first()
-		await expect(checkbox).not.toBeChecked()
+		await openPlanixSettingsDialog(page)
+		await expect(page.locator('input[type="checkbox"]').first()).not.toBeChecked()
 
 		// Toggle back on.
-		await toggle.click()
+		await page.getByText(/Notify me 1 day before a task's due date/i).click()
 		await page.reload()
-		await gear.click()
-		await expect(checkbox).toBeChecked()
+		await openPlanixSettingsDialog(page)
+		await expect(page.locator('input[type="checkbox"]').first()).toBeChecked()
 	})
 })
 
@@ -66,14 +72,25 @@ test.describe('Due-date reminder — admin lead time', () => {
 		// Default is 24 on a fresh install.
 		await expect(field).toHaveValue('24')
 
+		// Scope the Save click to THIS form.
+		//
+		// The admin panel renders four independent settings forms, each with its
+		// own "Save". `getByRole('button', { name: /save/i }).last()` therefore
+		// submitted the LAST form on the page (the legacy register-id
+		// configuration), never the lead-time form — so the success message this
+		// test waits for could not appear, and the "0 is rejected" case never
+		// exercised the validator either.
+		const leadTimeForm = page.locator('form:has(#due-reminder-lead-hours)')
+		const save = leadTimeForm.getByRole('button', { name: /save/i })
+
 		// Save 48 → persists.
 		await field.fill('48')
-		await page.getByRole('button', { name: /save/i }).last().click()
+		await save.click()
 		await expect(page.getByText(/Reminder lead time saved successfully/i)).toBeVisible()
 
 		// 0 is rejected with an inline validation error and is not persisted.
 		await field.fill('0')
-		await page.getByRole('button', { name: /save/i }).last().click()
+		await save.click()
 		await expect(page.getByText(/Lead time must be between 1 and 336 hours/i)).toBeVisible()
 	})
 })

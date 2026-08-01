@@ -30,39 +30,25 @@
  */
 
 import { test, expect } from '@playwright/test'
+import { openFixtureProjectBoard } from './nav'
 
-const NC = process.env.NEXTCLOUD_URL || 'http://localhost:8080'
-const PLANIX_URL = `${NC}/index.php/apps/planix/`
-
-// Resolve the first reachable project id from the projects list, or null when
-// planix / a project is not available in this environment.
-async function firstProjectId(page): Promise<string | null> {
-	const res = await page.goto(`${PLANIX_URL}#/projects`, { waitUntil: 'domcontentloaded' })
-	if (!res || res.status() >= 400) {
-		return null
-	}
-	// The SPA renders project cards as router-links to /projects/:id.
-	const link = page.locator('a[href*="/projects/"]').first()
-	try {
-		await link.waitFor({ state: 'visible', timeout: 8000 })
-	} catch {
-		return null
-	}
-	const href = await link.getAttribute('href')
-	const match = href?.match(/\/projects\/([^/?#]+)/)
-	return match ? match[1] : null
-}
+// NOTE — this spec used to resolve its project through
+//   page.goto(`${NC}/index.php/apps/planix/#/projects`)
+//   page.locator('a[href*="/projects/"]')
+// and `test.skip()` when that returned null. BOTH halves were broken: the
+// router is a `createWebHistory` router, so a `#/projects` fragment is not a
+// route, and the app renders no project anchors at all. The helper therefore
+// always returned null and BOTH tests skipped themselves on every run — a
+// green-looking suite in which these scenarios had never once executed.
+// See tests/e2e/nav.ts.
 
 test.describe('Project timeline (Gantt) — read-only view', () => {
 	test('opens the timeline from the board and renders the timeline surface', async ({ page }) => {
-		const res = await page.goto(PLANIX_URL, { waitUntil: 'domcontentloaded' })
-		test.skip(!res || res.status() >= 400, 'Planix app is not reachable in this environment')
+		const projectId = await openFixtureProjectBoard(page)
 
-		const projectId = await firstProjectId(page)
-		test.skip(projectId === null, 'No reachable planix project in this environment')
-
-		// Navigate straight to the timeline route for the resolved project.
-		await page.goto(`${PLANIX_URL}#/projects/${projectId}/timeline`, { waitUntil: 'domcontentloaded' })
+		// Reach the timeline the way a user does — via the board's own action.
+		await page.getByRole('button', { name: 'Timeline' }).click()
+		await expect(page).toHaveURL(new RegExp(`/projects/${projectId}/timeline$`))
 
 		// The Timeline heading must render (the view mounted). One of the
 		// timeline surfaces — the Gantt chart, the unscheduled rail, or the
@@ -82,13 +68,7 @@ test.describe('Project timeline (Gantt) — read-only view', () => {
 	})
 
 	test('offers a Timeline entry on the project board', async ({ page }) => {
-		const res = await page.goto(PLANIX_URL, { waitUntil: 'domcontentloaded' })
-		test.skip(!res || res.status() >= 400, 'Planix app is not reachable in this environment')
-
-		const projectId = await firstProjectId(page)
-		test.skip(projectId === null, 'No reachable planix project in this environment')
-
-		await page.goto(`${PLANIX_URL}#/projects/${projectId}`, { waitUntil: 'domcontentloaded' })
+		await openFixtureProjectBoard(page)
 
 		// The board header exposes a "Timeline" action that navigates to the view.
 		const timelineButton = page.getByRole('button', { name: 'Timeline' })

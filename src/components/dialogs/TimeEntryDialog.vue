@@ -6,7 +6,7 @@
 			<div class="time-entry-dialog__body">
 				<div class="time-entry-dialog__field">
 					<NcTextField
-						:value.sync="durationInput"
+						v-model="durationInput"
 						:label="t('planix', 'Duration')"
 						:error="!!durationError"
 						:helper-text="durationError || t('planix', 'e.g. 2h 30m, 90m, 1.5h')"
@@ -27,7 +27,7 @@
 
 				<div class="time-entry-dialog__field">
 					<NcTextField
-						:value.sync="description"
+						v-model="description"
 						:label="t('planix', 'Description (optional)')" />
 				</div>
 
@@ -42,7 +42,7 @@
 				{{ t('planix', 'Cancel') }}
 			</NcButton>
 			<NcButton
-				type="primary"
+				variant="primary"
 				:disabled="saving || !isValid"
 				@click="save">
 				<template v-if="saving" #icon>

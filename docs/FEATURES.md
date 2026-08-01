@@ -310,7 +310,7 @@ No dedicated Dutch government task management tools were identified. OpenProject
 | Nextcloud Deck owns the kanban mindshare in the NC ecosystem | High | Differentiate on time tracking + backlog + dev integration — Deck explicitly excludes these |
 | Plane (40k+ ★) moves faster than we can | Medium | Focus on Nextcloud-native features that Plane will never build; don't compete on Plane's turf |
 | Small initial team → scope creep | Medium | MVP is strictly kanban + backlog + time tracking; defer everything else |
-| Drag-and-drop kanban is UX-complex in Vue 2 | Medium | Use a proven drag library (vue-draggable/SortableJS); budget time for polish |
+| Drag-and-drop kanban is UX-complex in Vue 3 | Medium | Use a proven drag library (vue-draggable/SortableJS); budget time for polish |
 | OpenRegister performance at scale (many tasks) | Medium | Lean on OpenRegister's pagination and indexing; document pagination patterns early |
 
 ## 6. Recommended Feature Set Summary

@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test'
+import { BASE_URL } from './tests/e2e/base-url'
 
 /**
  * Playwright config for Planix.
@@ -29,7 +30,10 @@ export default defineConfig({
 	globalSetup: require.resolve('./tests/e2e/global-setup'),
 
 	use: {
-		baseURL: process.env.NEXTCLOUD_URL || 'http://localhost:8080',
+		// Single source of truth — see tests/e2e/base-url.ts. Never re-derive
+		// this from an env var inline: absolute and relative navigation in the
+		// same spec must not be able to disagree about which instance they hit.
+		baseURL: BASE_URL,
 		trace: 'on-first-retry',
 		screenshot: 'only-on-failure',
 	},

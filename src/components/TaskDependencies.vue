@@ -18,7 +18,7 @@
 					<span class="task-dependencies__status" :class="`is-${item.status}`" />
 					<span class="task-dependencies__title">{{ item.title }}</span>
 					<NcButton
-						type="tertiary"
+						variant="tertiary"
 						:aria-label="t('planix', 'Remove dependency')"
 						@click="remove(item.edgeId)">
 						<template #icon>
@@ -40,7 +40,7 @@
 					<span class="task-dependencies__status" :class="`is-${item.status}`" />
 					<span class="task-dependencies__title">{{ item.title }}</span>
 					<NcButton
-						type="tertiary"
+						variant="tertiary"
 						:aria-label="t('planix', 'Remove dependency')"
 						@click="remove(item.edgeId)">
 						<template #icon>
@@ -63,7 +63,7 @@
 				:placeholder="t('planix', 'Pick a task that must finish first')"
 				label="title"
 				:disabled="saving" />
-			<NcButton type="secondary" :disabled="!selected || saving" @click="addBlockedBy">
+			<NcButton variant="secondary" :disabled="!selected || saving" @click="addBlockedBy">
 				{{ t('planix', 'Add') }}
 			</NcButton>
 		</div>
@@ -157,7 +157,7 @@ export default {
 		/**
 		 * UUID → task object lookup for resolving linked titles/statuses.
 		 *
-		 * @return {Object<string,object>}
+		 * @return {{[uuid: string]: object}}
 		 *
 		 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
 		 */
@@ -175,7 +175,7 @@ export default {
 		/**
 		 * UUID → status map for the open-blocker banner derivation.
 		 *
-		 * @return {Object<string,string>}
+		 * @return {{[uuid: string]: string}}
 		 *
 		 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
 		 */
@@ -244,8 +244,9 @@ export default {
 		t,
 
 		/**
-		 * @param edge
-		 * @param otherTaskId
+		 * @param {object} edge        The dependency edge object (carries its own id).
+		 * @param {string} otherTaskId UUID of the task at the far end of the edge.
+		 * @return {{edgeId: string, title: string, status: string}} Display row.
 		 * @spec exclude View glue — builds a display row for a linked edge.
 		 */
 		toListItem(edge, otherTaskId) {

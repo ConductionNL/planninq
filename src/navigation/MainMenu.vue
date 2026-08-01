@@ -83,6 +83,12 @@ export default {
 		HomeIcon,
 		ViewDashboardOutline,
 	},
+
+	// Vue 3 warns about "extraneous non-emits event listeners" for any event a
+	// component emits without declaring it, and lets undeclared listeners fall
+	// through onto the root element as native handlers.
+	emits: ['open-settings'],
+
 	methods: {
 		/**
 		 * Opens an external URL in a new tab with noopener and noreferrer
