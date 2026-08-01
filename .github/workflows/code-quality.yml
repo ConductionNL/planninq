@@ -31,15 +31,18 @@ jobs:
       # do not narrow it to PLAYWRIGHT_BASE_URL only (openconnector did, and its
       # E2E job has hard-failed on every run since).
       enable-playwright: true
-      # NOTE: `playwright-test-path` and `playwright-seed-command` are
-      # deliberately absent. Neither is a declared input on
-      # Conduction/.github@main's quality.yml any more, and passing one fails
-      # the run at workflow-PARSE time — "This run likely failed because of a
-      # workflow file issue", zero jobs, no annotation on any step. (That is
-      # also why pipelinq's Code Quality is currently red: it still passes
-      # `playwright-seed-command`.) planix's specs live in the default
-      # `tests/e2e`, and its OpenRegister register is created by an IRepairStep
-      # that the workflow's own `occ app:enable planix` already runs.
+      # ⚠️ This flag is UNVERIFIED, and could not be verified: at the time of
+      # writing `Code Quality` fails at workflow-PARSE time ("This run likely
+      # failed because of a workflow file issue", 0s, zero jobs) on planix
+      # `development` itself and on procest and docudesk `development` too —
+      # i.e. on unmodified workflow files. The breakage is in the shared
+      # `Conduction/.github@main` reusable workflow, not here.
+      #
+      # `playwright-test-path` is deliberately not set: planix's specs are in
+      # the default `tests/e2e`. Its OpenRegister register is created by an
+      # IRepairStep (lib/Repair/InitializeSettings.php) that the workflow's own
+      # `occ app:enable planix` runs on a fresh install, so no seed command is
+      # needed either.
       additional-apps: '[{"repo":"Conduction/openregister","app":"openregister","ref":"main"}]'
       enable-sbom: true
 
