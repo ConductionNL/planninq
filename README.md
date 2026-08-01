@@ -53,7 +53,7 @@ Features are defined in [`openspec/specs/`](openspec/specs/). See the [roadmap](
 
 ```mermaid
 graph TD
-    A[Vue 2 Frontend] -->|REST API| B[OpenRegister API]
+    A[Vue 3 Frontend] -->|REST API| B[OpenRegister API]
     B --> C[(PostgreSQL JSON store)]
     A --> D[Nextcloud Activity]
     A --> E[Nextcloud Search]
@@ -86,7 +86,7 @@ planix/
 │   ├── Repair/InitializeSettings.php
 │   └── Settings/               # AdminSettings, planix_register.json
 ├── templates/                  # PHP templates (SPA shells)
-├── src/                        # Vue 2 frontend
+├── src/                        # Vue 3 frontend
 │   ├── main.js                 # App entry point
 │   ├── App.vue                 # Root component
 │   ├── navigation/MainMenu.vue # App navigation sidebar
@@ -182,7 +182,7 @@ docker exec nextcloud php occ app:enable planix
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | Vue 2.7, Pinia, @nextcloud/vue |
+| Frontend | Vue 3.5, Pinia, @nextcloud/vue 9 |
 | Build | Webpack 5, @nextcloud/webpack-vue-config |
 | Backend | PHP 8.1+, Nextcloud App Framework |
 | Data | OpenRegister (PostgreSQL JSON objects) |

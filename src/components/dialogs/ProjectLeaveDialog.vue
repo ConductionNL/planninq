@@ -1,7 +1,7 @@
 <template>
 	<NcDialog
+		v-model:open="open"
 		:name="t('planix', 'Leave project')"
-		:open.sync="open"
 		@close="$emit('close')">
 		<template #default>
 			<p v-if="isLastMember" class="project-leave-dialog__warning" role="alert">
@@ -15,7 +15,7 @@
 		<template #actions>
 			<NcButton
 				:disabled="loading || isLastMember"
-				type="error"
+				variant="error"
 				@click="confirm">
 				<template v-if="loading" #icon>
 					<NcLoadingIcon :size="16" />

@@ -2,12 +2,12 @@
 	<div class="project-backlog">
 		<!-- Breadcrumb -->
 		<nav class="project-backlog__breadcrumb" aria-label="breadcrumb">
-			<NcButton type="tertiary-no-background" @click="$router.push({ name: 'Projects' })">
+			<NcButton variant="tertiary-no-background" @click="$router.push({ name: 'Projects' })">
 				{{ t('planix', 'Projects') }}
 			</NcButton>
 			<span aria-hidden="true">&rsaquo;</span>
 			<NcButton
-				type="tertiary-no-background"
+				variant="tertiary-no-background"
 				@click="$router.push({ name: 'ProjectBoard', params: { id: $route.params.id } })">
 				{{ projectTitle }}
 			</NcButton>

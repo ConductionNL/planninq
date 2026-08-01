@@ -10,10 +10,14 @@
 			<template #icon>
 				<BellIcon :size="20" />
 			</template>
+			<!-- @nextcloud/vue@9 renamed NcCheckboxRadioSwitch's model prop from
+			     `checked`/`update:checked` to `modelValue`/`update:modelValue`.
+			     The old spelling neither reads nor writes — the switch renders
+			     permanently off and the handler never fires, silently. -->
 			<NcCheckboxRadioSwitch
-				:checked="notifyDueReminder"
+				:model-value="notifyDueReminder"
 				type="switch"
-				@update:checked="onToggleDueReminder">
+				@update:modelValue="onToggleDueReminder">
 				{{ t('planix', 'Notify me 1 day before a task\'s due date') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
@@ -39,6 +43,11 @@ export default {
 			default: false,
 		},
 	},
+
+	// Vue 3 warns about "extraneous non-emits event listeners" for any event a
+	// component emits without declaring it, and lets undeclared listeners fall
+	// through onto the root element as native handlers.
+	emits: ['update:open'],
 	computed: {
 		/**
 		 * Whether due-date reminders are enabled for the current user.

@@ -6,7 +6,7 @@
 			<div class="label-edit-dialog__body">
 				<div class="label-edit-dialog__field">
 					<NcTextField
-						:value.sync="title"
+						v-model="title"
 						:label="t('planix', 'Title')"
 						:error="!!titleError"
 						:helper-text="titleError"
@@ -25,7 +25,7 @@
 							@input="onSwatchInput">
 						<NcTextField
 							id="label-color"
-							:value.sync="color"
+							v-model="color"
 							:label="t('planix', 'Hex color')"
 							:error="!!colorError"
 							:helper-text="colorError || t('planix', 'Six-digit hex code, e.g. #4376FC')" />
@@ -34,7 +34,7 @@
 
 				<div class="label-edit-dialog__field">
 					<NcTextField
-						:value.sync="description"
+						v-model="description"
 						:label="t('planix', 'Description (optional)')" />
 				</div>
 
@@ -49,7 +49,7 @@
 				{{ t('planix', 'Cancel') }}
 			</NcButton>
 			<NcButton
-				type="primary"
+				variant="primary"
 				:disabled="saving || !isValid"
 				@click="save">
 				<template v-if="saving" #icon>

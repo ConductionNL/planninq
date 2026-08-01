@@ -1,13 +1,12 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import { generateUrl } from '@nextcloud/router'
 import Dashboard from '../views/Dashboard.vue'
 
-Vue.use(Router)
-
-export default new Router({
-	mode: 'history',
-	base: generateUrl('/apps/planix'),
+export default createRouter({
+	// vue-router 4 replaces `mode: 'history'` + `base` with a history object
+	// that carries the base itself. The router is installed per app instance
+	// (`app.use(router)` in main.js), so there is no `Vue.use(Router)` any more.
+	history: createWebHistory(generateUrl('/apps/planix')),
 	routes: [
 		{ path: '/', name: 'Dashboard', component: Dashboard },
 		// Settings is a modal dialog (UserSettings.vue), not a route — see ADR-004
@@ -51,6 +50,9 @@ export default new Router({
 			name: 'Portfolio',
 			component: () => import('../views/Portfolio.vue'),
 		},
-		{ path: '*', redirect: '/' },
+		// vue-router 4 REMOVED the bare `path: '*'` wildcard. It does not throw —
+		// the route simply never matches, so an unknown URL renders the app shell
+		// with an empty <main> and nothing in the console. This is the v4 spelling.
+		{ path: '/:pathMatch(.*)*', redirect: '/' },
 	],
 })

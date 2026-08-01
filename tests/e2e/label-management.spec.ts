@@ -25,8 +25,8 @@
  */
 
 import { test, expect } from '@playwright/test'
+import { BASE_URL as NC } from './base-url'
 
-const NC = process.env.NEXTCLOUD_URL || 'http://localhost:8080'
 const SETTINGS_URL = `${NC}/index.php/settings/admin/planix`
 
 test.describe('Label management — admin settings', () => {

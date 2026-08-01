@@ -14,7 +14,7 @@
 				<AlertCircleOutline :size="20" />
 			</template>
 			<template #action>
-				<NcButton type="primary" @click="goBack">
+				<NcButton variant="primary" @click="goBack">
 					{{ t('planix', 'Back to board') }}
 				</NcButton>
 			</template>
@@ -24,7 +24,7 @@
 		<div v-else class="task-detail__layout">
 			<div class="task-detail__main">
 				<div class="task-detail__header">
-					<NcButton type="tertiary" @click="goBack">
+					<NcButton variant="tertiary" @click="goBack">
 						<template #icon>
 							<ArrowLeft :size="20" />
 						</template>
@@ -36,11 +36,15 @@
 				</div>
 
 				<dl class="task-detail__fields">
-					<template v-for="field in fields">
-						<dt :key="field.key + '-dt'">
+					<!-- Vue 3 wants the key on the <template v-for> itself; the
+					     Vue 2 spelling put one on each child, which the Vue 3
+					     compiler rejects with "<template v-for> key should be
+					     placed on the <template> tag". -->
+					<template v-for="field in fields" :key="field.key">
+						<dt>
 							{{ field.label }}
 						</dt>
-						<dd :key="field.key + '-dd'">
+						<dd>
 							{{ field.value || '—' }}
 						</dd>
 					</template>
@@ -55,13 +59,13 @@
 					<!-- Estimate input -->
 					<div class="task-detail__estimate">
 						<NcTextField
-							:value.sync="estimateInput"
+							v-model="estimateInput"
 							:label="t('planix', 'Estimate')"
 							:error="!!estimateError"
 							:helper-text="estimateError || t('planix', 'e.g. 2h 30m, 90m, 1.5h')"
 							data-testid="estimate-input" />
 						<NcButton
-							type="secondary"
+							variant="secondary"
 							:disabled="savingEstimate || !!estimateError || estimateInput.trim() === ''"
 							@click="saveEstimate">
 							{{ t('planix', 'Save estimate') }}
@@ -84,7 +88,7 @@
 					</p>
 
 					<!-- Log time -->
-					<NcButton type="primary" data-testid="log-time" @click="openLogDialog()">
+					<NcButton variant="primary" data-testid="log-time" @click="openLogDialog()">
 						<template #icon>
 							<ClockPlusOutline :size="20" />
 						</template>
@@ -395,7 +399,7 @@ export default {
 	 *
 	 * @spec openspec/specs/realtime-updates.md
 	 */
-	beforeDestroy() {
+	beforeUnmount() {
 		this.releaseLiveSubscription()
 	},
 

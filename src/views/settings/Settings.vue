@@ -16,28 +16,28 @@
 							class="column-input"
 							:placeholder="t('planix', 'Column name')">
 						<NcButton
-							type="tertiary"
+							variant="tertiary"
 							:aria-label="t('planix', 'Move up')"
 							:disabled="index === 0"
 							@click="moveColumn(index, -1)">
 							▲
 						</NcButton>
 						<NcButton
-							type="tertiary"
+							variant="tertiary"
 							:aria-label="t('planix', 'Move down')"
 							:disabled="index === columnList.length - 1"
 							@click="moveColumn(index, 1)">
 							▼
 						</NcButton>
 						<NcButton
-							type="tertiary"
+							variant="tertiary"
 							:aria-label="t('planix', 'Remove column')"
 							@click="removeColumn(index)">
 							✕
 						</NcButton>
 					</div>
 					<NcButton
-						type="secondary"
+						variant="secondary"
 						@click="addColumn">
 						+ {{ t('planix', 'Add column') }}
 					</NcButton>
@@ -51,8 +51,8 @@
 				</div>
 
 				<NcButton
-					type="primary"
-					native-type="submit"
+					variant="primary"
+					type="submit"
 					:disabled="savingColumns">
 					{{ savingColumns ? t('planix', 'Saving...') : t('planix', 'Save') }}
 				</NcButton>
@@ -85,8 +85,8 @@
 					{{ creationPolicyError }}
 				</div>
 				<NcButton
-					type="primary"
-					native-type="submit"
+					variant="primary"
+					type="submit"
 					:disabled="savingCreationPolicy">
 					{{ savingCreationPolicy ? t('planix', 'Saving...') : t('planix', 'Save') }}
 				</NcButton>
@@ -115,8 +115,8 @@
 					{{ leadHoursError }}
 				</div>
 				<NcButton
-					type="primary"
-					native-type="submit"
+					variant="primary"
+					type="submit"
 					:disabled="savingLeadHours">
 					{{ savingLeadHours ? t('planix', 'Saving...') : t('planix', 'Save') }}
 				</NcButton>
@@ -150,13 +150,13 @@
 								{{ n('planix', 'used by {count} task', 'used by {count} tasks', label.usageCount || 0, { count: label.usageCount || 0 }) }}
 							</span>
 							<NcButton
-								type="tertiary"
+								variant="tertiary"
 								:aria-label="t('planix', 'Edit label')"
 								@click="openEdit(label)">
 								{{ t('planix', 'Edit') }}
 							</NcButton>
 							<NcButton
-								type="tertiary"
+								variant="tertiary"
 								:aria-label="t('planix', 'Delete label')"
 								@click="openDelete(label)">
 								{{ t('planix', 'Delete') }}
@@ -164,7 +164,7 @@
 						</li>
 					</ul>
 					<NcButton
-						type="secondary"
+						variant="secondary"
 						@click="openCreate">
 						+ {{ t('planix', 'Create label') }}
 					</NcButton>
@@ -193,7 +193,7 @@
 					{{ initError }}
 				</div>
 				<NcButton
-					type="secondary"
+					variant="secondary"
 					:disabled="initializing"
 					@click="initializeRegister">
 					{{ initializing ? t('planix', 'Initializing...') : t('planix', 'Initialize register') }}
@@ -220,8 +220,8 @@
 				</div>
 
 				<NcButton
-					type="primary"
-					native-type="submit"
+					variant="primary"
+					type="submit"
 					:disabled="saving">
 					{{ saving ? t('planix', 'Saving...') : t('planix', 'Save') }}
 				</NcButton>

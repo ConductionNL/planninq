@@ -26,21 +26,18 @@
  */
 
 import { test, expect } from '@playwright/test'
+import { openFixtureProjectBoard } from './nav'
 
-const NC = process.env.NEXTCLOUD_URL || 'http://localhost:8080'
-const PLANIX_URL = `${NC}/index.php/apps/planix/`
-
-// Open the kanban board of the first reachable project; skips when planix is
-// not installed or no project board is reachable in this environment.
+// Open the kanban board of the first reachable project.
+//
+// The previous implementation loaded the app root and clicked
+// `a[href*="/projects/"]`, guarded by `if (count > 0)`. Planix renders project
+// rows as `<li class="project-list-item">` with a router-push click handler and
+// has no project anchors at all, so that locator matched nothing, the guard
+// swallowed it, and the test asserted the board while still sitting on the
+// Dashboard. See tests/e2e/nav.ts.
 async function openFirstBoard(page) {
-	const res = await page.goto(PLANIX_URL)
-	test.skip(res === null || res.status() >= 400, 'Planix not installed in this environment')
-
-	// Navigate into the first project (the board is the project's default view).
-	const projectLink = page.locator('a[href*="/projects/"]').first()
-	if ((await projectLink.count()) > 0) {
-		await projectLink.click()
-	}
+	await openFixtureProjectBoard(page)
 
 	// After fixture seeding the board MUST render — a missing board here is a
 	// real regression, not an environment quirk, so assert rather than skip.

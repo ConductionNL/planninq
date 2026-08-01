@@ -8,7 +8,7 @@ Planix is a Kanban-based project and task management app for Nextcloud, built as
 
 ```
 ┌─────────────────────────────────────────────────┐
-│  Planix Frontend (Vue 2 + Pinia)                │
+│  Planix Frontend (Vue 3 + Pinia)                │
 │  - Dashboard (My Work, recent projects)         │
 │  - Project list / detail views                  │
 │  - Kanban board view (drag-and-drop)            │

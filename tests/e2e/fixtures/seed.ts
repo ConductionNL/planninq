@@ -83,19 +83,33 @@ function isoDate(days: number): string {
  * Seed the fixtures required by the board / collaboration / label / reminder
  * e2e specs. Safe to call repeatedly (idempotent).
  *
- * @param baseURL Nextcloud base URL (e.g. http://localhost:8080)
+ * @param baseURL Nextcloud base URL, resolved by tests/e2e/base-url.ts
  * @param opts    Optional admin credentials (default admin/admin)
  * @return true when seeding completed, false when planix/OpenRegister is not
  *         installed in this environment (specs then take their legitimate
  *         "app not installed" skip path).
  */
 export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Promise<boolean> {
-	const username = opts.username ?? process.env.NC_ADMIN_USER ?? 'admin'
-	const password = opts.password ?? process.env.NC_ADMIN_PASS ?? 'admin'
+	// ADMIN_USER / ADMIN_PASSWORD are what the shared Conduction/.github quality
+	// workflow exports; NC_ADMIN_* is the local convention.
+	const username = opts.username ?? process.env.NC_ADMIN_USER ?? process.env.ADMIN_USER ?? 'admin'
+	const password = opts.password ?? process.env.NC_ADMIN_PASS ?? process.env.ADMIN_PASSWORD ?? 'admin'
 
 	const ctx: APIRequestContext = await request.newContext({
 		baseURL,
-		httpCredentials: { username, password },
+		// `send: 'always'` is load-bearing, not a tidy-up.
+		//
+		// Playwright's default is `send: 'unauthorized'`: it withholds the
+		// Authorization header until the server answers 401 *with* a
+		// `WWW-Authenticate` challenge. Nextcloud's app routes return a bare
+		// 401 with no such header, so Playwright never learned the scheme and
+		// never retried — the very first write (`POST /apps/planix/api/projects`)
+		// came back 401, `seedFixtures` bailed with "project create failed
+		// (status 401)", and every spec then ran against an EMPTY instance.
+		// That is why the whole 15-test regression suite failed on a fresh
+		// container while the same credentials worked from curl. It only ever
+		// looked green where a shared instance already happened to hold data.
+		httpCredentials: { username, password, send: 'always' },
 		extraHTTPHeaders: {
 			'Content-Type': 'application/json',
 			// OCS marker keeps NC from redirecting API calls to the login form.
@@ -105,6 +119,23 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 	})
 
 	try {
+		// Reset the admin settings the specs treat as preconditions.
+		//
+		// `due-date-reminder-settings.spec.ts` asserts the lead-time field shows
+		// its default of 24 and then SAVES 48 — an app config value that
+		// survives the run. On a persistent instance the very next run therefore
+		// failed on its own leftovers ("expected 24, received 48"), so the test
+		// passed exactly once per container. Preconditions belong to the
+		// harness, not to whichever spec ran last.
+		const settingsReset = await ctx.post('/index.php/apps/planix/api/settings', {
+			data: { due_reminder_lead_hours: '24' },
+			failOnStatusCode: false,
+		})
+		if (!settingsReset.ok()) {
+			// eslint-disable-next-line no-console
+			console.log(`[seed] could not reset admin settings (status ${settingsReset.status()})`)
+		}
+
 		const objectsUrl = (schema: string) =>
 			`/index.php/apps/openregister/api/objects/${REGISTER}/${schema}`
 

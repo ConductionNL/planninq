@@ -5,13 +5,18 @@
 				{{ t('planix', 'Timesheet') }}
 			</h2>
 			<div class="timesheet__filter">
+				<!-- `@input` is dead on @nextcloud/vue@9's NcSelect: it wraps
+				     @nextcloud/vue-select@4, whose only value event is
+				     `update:modelValue` (plus `option:selected` / `search`).
+				     v-model's own handler is registered first, so `preset` is
+				     already updated by the time onPresetChange reads it. -->
 				<NcSelect
 					v-model="preset"
 					:options="presetOptions"
 					:clearable="false"
 					:input-label="t('planix', 'Date range')"
 					label="label"
-					@input="onPresetChange" />
+					@update:modelValue="onPresetChange" />
 				<template v-if="preset && preset.id === 'custom'">
 					<input
 						v-model="customFrom"

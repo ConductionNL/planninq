@@ -49,7 +49,7 @@
 				<p class="planix-dashboard__hint">
 					{{ t('planix', 'Use the Projects page to create and manage your projects and tasks.') }}
 				</p>
-				<NcButton type="primary" @click="$router.push({ name: 'Projects' })">
+				<NcButton variant="primary" @click="$router.push({ name: 'Projects' })">
 					{{ t('planix', 'Go to projects') }}
 				</NcButton>
 			</CnConfigurationCard>

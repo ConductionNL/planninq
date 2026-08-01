@@ -9,7 +9,13 @@ on:
 
 jobs:
   quality:
-    uses: Conduction/.github/.github/workflows/quality.yml@main
+    # ConductionNL, NOT Conduction. Commit 5f4069ac ("org rename", 2026-06-01)
+    # pointed every reusable-workflow call in this repo at `Conduction/.github`,
+    # an org that does not exist. Actions cannot resolve it, so from that date
+    # every Code Quality run produced ZERO jobs and failed instantly — no
+    # ESLint, PHPCS, PHPMD, PHPStan, Psalm, licence scan, security scan or
+    # PHPUnit, and no red test to show for it.
+    uses: ConductionNL/.github/.github/workflows/quality.yml@main
     with:
       app-name: planix
       php-version: "8.3"
@@ -22,7 +28,45 @@ jobs:
       enable-eslint: true
       enable-phpunit: true
       enable-newman: false
-      additional-apps: '[{"repo":"Conduction/openregister","app":"openregister","ref":"main"}]'
+      # enable-playwright: LEFT OFF, and this time on evidence rather than a
+      # guess. I turned it on, and run 30692400428 gave the first real answer.
+      #
+      # The job does not fail for a planix reason that this repo can fix, and it
+      # is not a shared-workflow *parse* problem either (that was this file's own
+      # broken org ref, fixed above). Two independent blockers:
+      #
+      #  1. `occ app:enable planix` cannot import the register on a fresh CI
+      #     instance: "Failed to import configuration for app planix: User
+      #     'Anonymous' does not have permission to 'create' objects in schema
+      #     'Label'". lib/Repair/InitializeSettings.php runs with no user
+      #     session, and OpenRegister's RBAC denies the create. No schemas means
+      #     the fixture seeder has nothing to write into.
+      #  2. `globalSetup` then times out on `input[name="user"]` at
+      #     /index.php/login. The workflow serves Nextcloud from the PHP
+      #     built-in server (`php -S 0.0.0.0:8080`), which is single-threaded by
+      #     default; a browser page load needs concurrent sub-resource requests.
+      #     The single API call before it (the first-run-wizard dismissal) did
+      #     get a response, so the server is up — it is page loads that stall.
+      #
+      # Positive control, because "it fails for me" is not evidence on its own:
+      # the shared "E2E Tests (Playwright)" job has **never recorded a single
+      # success anywhere in the fleet**. Sampling recent Code Quality runs —
+      # planix 1 failure, openconnector 9 failures + 2 cancelled, pipelinq
+      # 2 failures + 2 cancelled, openregister 11 skipped + 1 cancelled. Zero
+      # successes. Turning this on buys a permanently red job, not signal.
+      #
+      # Re-enable once (1) is fixed in planix/OpenRegister and the shared job
+      # serves Nextcloud from something that can answer concurrent requests.
+      # `tests/e2e/base-url.ts` already accepts the `BASE_URL` this workflow
+      # exports, so nothing on this side needs to change first — do NOT narrow
+      # it to PLAYWRIGHT_BASE_URL only (openconnector did, and its E2E job has
+      # hard-failed on every run since).
+      #
+      # `playwright-test-path` and `playwright-seed-command` ARE valid inputs —
+      # the run log shows both, with `playwright-test-path: tests/e2e` as the
+      # default. My earlier removal of them was a misdiagnosis; they are simply
+      # not needed here.
+      additional-apps: '[{"repo":"ConductionNL/openregister","app":"openregister","ref":"main"}]'
       enable-sbom: true
 
   # Translation-completeness gate: every required European locale must carry a

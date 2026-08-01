@@ -30,22 +30,24 @@
  */
 
 import { test, expect } from '@playwright/test'
+import { BASE_URL as NC } from './base-url'
+import { openFixtureProjectBoard } from './nav'
 
-const NC = process.env.NEXTCLOUD_URL || 'http://localhost:8080'
-const PLANIX_URL = `${NC}/index.php/apps/planix/`
 const ACTIVITY_URL = `${NC}/index.php/apps/activity/`
 
-// Open the first available task detail by following a board task link; skips
-// when no project/task is reachable in this environment.
+// Open the first seeded task's detail view.
+//
+// The previous implementation looked for the task card on the app ROOT
+// (the Dashboard), which renders no task cards — the cards live on a project's
+// kanban board, one navigation step further in. `a[href*="/tasks/"]` never
+// matched either: task navigation is a click handler, not an anchor.
 async function openFirstTaskDetail(page) {
-	const res = await page.goto(PLANIX_URL)
-	test.skip(res === null || res.status() >= 400, 'Planix not installed in this environment')
+	await openFixtureProjectBoard(page)
 
-	// Seed fixture creates tasks and the board links to their detail view, so a
-	// task link MUST be present — assert rather than skip.
-	const taskLink = page.locator('a[href*="/tasks/"], [data-testid="task-card"]').first()
-	await expect(taskLink).toHaveCount(1)
-	await taskLink.click()
+	const taskCard = page.locator('[data-testid="task-card"]').first()
+	await expect(taskCard).toBeVisible()
+	await taskCard.click()
+	await expect(page).toHaveURL(/\/tasks\/[^/?#]+$/)
 }
 
 test.describe('Task collaboration sidebar', () => {

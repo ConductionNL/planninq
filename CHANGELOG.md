@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Migrated the frontend from Vue 2.7 to Vue 3.5**, with `@nextcloud/vue` 8 → 9, `vue-router` 3 → 4, `@nextcloud/dialogs` 6 → 7, `vue-loader` 15 → 17, `@nextcloud/webpack-vue-config` 6 → 7 and `@conduction/nextcloud-vue` pinned at `2.1.0-vue3.13`
+- SPA host element renamed `#content` → `#planix-app`: Vue 3's `mount()` renders *inside* the matched element where Vue 2's `$mount()` replaced it, so the old id would have nested the app inside Nextcloud's own `#content` wrapper
+- `output.publicPath` is now `'auto'` instead of a hardcoded `/custom_apps/planix/js/`, so lazy chunks resolve under any Nextcloud apps path
+- ESLint now layers `@conduction/nextcloud-vue`'s `conductionVue3Fixes` on top of the `@nextcloud` base; the Vue-2 preset armed **zero** `vue/no-deprecated-*` rules
+
+### Fixed
+- Four `beforeDestroy` hooks renamed to `beforeUnmount`. Vue 3 never calls `beforeDestroy`, so the live-update subscriptions in `ProjectList`/`TaskDetail`, the sidebar teardown in `ProjectBoard` and the debounce timer + `AbortController` in `MemberSearch` would have leaked with no console output
+- `NcCheckboxRadioSwitch` in the user-settings dialog used the removed `checked` / `update:checked` API — the due-date reminder switch would have rendered permanently off and never saved
+- `NcSelect` in the timesheet listened for `@input`, which `@nextcloud/vue` 9 never emits — the date-range preset would have stopped applying
+- Every `NcButton` / `NcChip` `type` prop renamed to `variant` (v9 repurposed `type` as the *native* button type), and the four `native-type="submit"` buttons in admin settings renamed to `type="submit"`, restoring form submission
+- `NcChip` variants that were set to the non-existent value `'default'` now use `'secondary'`, NcChip's real default
+- `main.js` / `settings.js` now mount even when `l10n/<locale>.json` 404s. `loadTranslations` only calls its callback on success, so mounting inside it rendered a permanently blank app/admin panel for any locale without a bundle
+- Removed the committed `openspec/schemas/conduction` symlink. It dangled in every clone, and because its target climbs seven levels — above the copy root — `docker cp` refused the whole tree with `invalid symlink`, so the app could not be deployed to a container at all
+- e2e: `seedFixtures` now sends HTTP Basic credentials with `send: 'always'`. Playwright withholds them until a `WWW-Authenticate` challenge, which Nextcloud's app routes never send, so the first fixture write returned 401 and the seeder bailed — leaving all 15 regression tests asserting against an empty instance
+- e2e: the target Nextcloud is resolved once in `tests/e2e/base-url.ts`, honours `PLAYWRIGHT_BASE_URL`, and no longer silently defaults to `http://localhost:8080` (the shared development container)
+
 ### Added
 - Spec coverage: project-display capability spec (REQ-PXD-001..004) retroactively documenting project-list status label mapping, status chip type mapping, status filter chips, and member count display
 

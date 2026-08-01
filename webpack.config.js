@@ -26,12 +26,53 @@ webpackConfig.entry = {
 	},
 }
 
-// Use local source when available (monorepo dev), otherwise fall back to npm package
-// `USE_LOCAL_LIB=false` forces the published package even when a sibling checkout
-// is present — without it a local build can never reproduce what CI and production
-// build (they have no sibling, so they always resolve the npm dist).
+// Use local source when available (monorepo dev), otherwise fall back to the
+// npm package. `USE_LOCAL_LIB=false` forces the published package even when a
+// sibling checkout is present — without it a local build can never reproduce
+// what CI and production build (they have no sibling, so they always resolve
+// the npm dist).
+//
+// ⚠️ This alias silently OVERRIDES the exactly-pinned
+// `@conduction/nextcloud-vue` dependency. A sibling `../nextcloud-vue` checkout
+// sitting on the Vue 2 (`1.x` / `beta.*`) line would therefore build this Vue 3
+// app against Vue 2 library sources: the build succeeds and the first symptom
+// is a runtime failure that looks like a migration bug. The shared
+// `apps-extra/nextcloud-vue` checkout is regularly parked on a `beta.*` branch,
+// and `apps-extra/planix` sits right next to it — so this is the normal case,
+// not a hypothetical. Refuse a MAJOR mismatch loudly instead.
 const localLib = path.resolve(__dirname, '../nextcloud-vue/src')
-const useLocalLib = process.env.USE_LOCAL_LIB !== 'false' && fs.existsSync(localLib)
+
+/**
+ * Decide whether the sibling nc-vue checkout may be aliased in.
+ *
+ * @return {boolean} True when the local source should replace the npm package.
+ */
+function resolveUseLocalLib() {
+	if (process.env.USE_LOCAL_LIB === 'false' || !fs.existsSync(localLib)) {
+		return false
+	}
+	const wanted = require('./package.json').dependencies['@conduction/nextcloud-vue']
+	const wantedMajor = String(wanted).replace(/^[^0-9]*/, '').split('.')[0]
+	let localVersion = null
+	try {
+		localVersion = require(path.resolve(localLib, '..', 'package.json')).version
+	} catch (e) {
+		localVersion = null
+	}
+	const localMajor = localVersion ? String(localVersion).split('.')[0] : null
+	if (localMajor !== null && localMajor !== wantedMajor) {
+		throw new Error(
+			`[planix] Refusing to build against ../nextcloud-vue@${localVersion}: this app `
+			+ `depends on @conduction/nextcloud-vue@${wanted} (major ${wantedMajor}). Aliasing a `
+			+ `major-${localMajor} checkout in would silently build Vue 2 library sources into a `
+			+ 'Vue 3 app. Check out the matching nc-vue branch, or set USE_LOCAL_LIB=false to '
+			+ 'build against the pinned npm package.',
+		)
+	}
+	return true
+}
+
+const useLocalLib = resolveUseLocalLib()
 
 webpackConfig.resolve = webpackConfig.resolve || {}
 webpackConfig.resolve.modules = [path.resolve(__dirname, 'node_modules'), 'node_modules']
@@ -41,9 +82,44 @@ webpackConfig.resolve.alias = {
 	...(useLocalLib ? { '@conduction/nextcloud-vue': localLib } : {}),
 	// Deduplicate shared packages so the aliased library source uses
 	// the same instances as the app (prevents dual-Pinia / dual-Vue bugs).
-	'vue$': path.resolve(__dirname, 'node_modules/vue'),
-	'pinia$': path.resolve(__dirname, 'node_modules/pinia'),
-	'@nextcloud/vue$': path.resolve(__dirname, 'node_modules/@nextcloud/vue'),
+	// `vue` and `pinia` still declare `main`, so a directory alias resolves.
+	vue$: path.resolve(__dirname, 'node_modules/vue'),
+	pinia$: path.resolve(__dirname, 'node_modules/pinia'),
+	// MANDATORY, not an optimisation. `@nextcloud/vue@9` hard-depends on
+	// `vue-router ^5.1.0` while this app is on `vue-router@4`, so npm installs
+	// BOTH — `node_modules/vue-router` (4.x) and
+	// `node_modules/@nextcloud/vue/node_modules/vue-router` (5.x). Without this
+	// exact-match alias `main.js` gets the 4.x singleton while every
+	// `@nextcloud/vue` component calling `useRoute()` / `useRouter()` resolves
+	// the 5.x copy — a DIFFERENT injection key, so those components see no
+	// router at all and `<NcAppNavigationItem :to="…">` renders inert with
+	// nothing logged.
+	'vue-router$': path.resolve(__dirname, 'node_modules/vue-router/dist/vue-router.mjs'),
+	// These MUST point at the entry FILE, not the package directory.
+	// @nextcloud/vue@9 and @nextcloud/dialogs@7 declare no `main` and no
+	// `module` — only an `exports` map, which webpack applies to *package
+	// requests* and never to an already-absolutised path. A directory alias
+	// therefore resolves to nothing and every `from '@nextcloud/vue'` in the
+	// app AND inside @conduction/nextcloud-vue's dist fails with
+	// "Can't resolve '@nextcloud/vue'".
+	//
+	// The `$` exact-match suffix matters just as much: without it the alias
+	// would also rewrite subpaths such as `@nextcloud/dialogs/style.css`, which
+	// must keep going through the exports map.
+	'@nextcloud/vue$': path.resolve(__dirname, 'node_modules/@nextcloud/vue/dist/index.mjs'),
+	'@nextcloud/dialogs$': path.resolve(__dirname, 'node_modules/@nextcloud/dialogs/dist/index.mjs'),
+	// Force the library's transitive @nextcloud/axios import to resolve to this
+	// app's installed copy, so interceptors / CSRF tokens are shared. The CJS
+	// build avoids "fully specified" errors from transitive `require('buffer')`.
+	'@nextcloud/axios$': path.resolve(__dirname, 'node_modules/@nextcloud/axios/dist/index.cjs'),
+}
+
+// Allow `.js` import requests to resolve to `.cjs` files. @nextcloud/vue ships
+// .cjs/.mjs; without this, `import './foo.js'` inside its ESM dist fails to
+// find `./foo.cjs`.
+webpackConfig.resolve.extensionAlias = {
+	'.js': ['.cjs', '.js'],
+	...(webpackConfig.resolve.extensionAlias || {}),
 }
 
 // The base @nextcloud/webpack-vue-config already registers VUE, CSS, SCSS, JS
@@ -59,33 +135,35 @@ webpackConfig.plugins = [
 	new NodePolyfillPlugin({ additionalAliases: ['process'] }),
 ]
 
-// Force @nextcloud/dialogs to resolve from this app's node_modules,
-// preventing the nextcloud-vue submodule's nested deps (Vue 3) from leaking in.
-// Register the exact-match style.css alias BEFORE the bare package alias below:
-// enhanced-resolve applies the first matching entry, and the bare alias maps the
-// package to its DIRECTORY, so '@nextcloud/dialogs/style.css' (imported by
-// nextcloud-vue's useAppInstaller) would resolve to a non-existent root style.css.
-// dialogs v6 ships the stylesheet at dist/style.css behind its "exports" map.
-webpackConfig.resolve.alias['@nextcloud/dialogs/style.css$'] = path.resolve(__dirname, 'node_modules/@nextcloud/dialogs/dist/style.css')
-webpackConfig.resolve.alias['@nextcloud/dialogs'] = path.resolve(__dirname, 'node_modules/@nextcloud/dialogs')
-
-// dialogs v6 drags in a FilePicker chunk that imports node's `path`, and webpack 5 no
-// longer auto-polyfills node core modules — without this the bundle fails to emit with
-// "Can't resolve 'path'". This app only uses the toast APIs (showError/showSuccess/
-// showWarning), so the FilePicker code path never runs and an empty module is safe.
+// @nextcloud/dialogs drags in a FilePicker chunk that imports node's `path`,
+// and webpack 5 no longer auto-polyfills node core modules. The Vue 2 build
+// stubbed this out with `path: false` because the app only uses the toast APIs;
+// under @nextcloud/vue@9 the FilePicker is reachable from components the
+// library pulls in, so supply the real shim rather than an empty module.
 webpackConfig.resolve.fallback = {
 	...(webpackConfig.resolve.fallback || {}),
-	path: false,
+	path: require.resolve('path-browserify'),
 }
 
-// Override publicPath so dynamic webpack chunks load from the standard
-// Nextcloud user-installed-app layout. The webpack-vue-config default of
-// /apps/{appName}/js/ is PHP-routed and returns 401 for static asset
-// requests; /apps-extra/ doesn't exist in the dev container. Every other
-// ConductionNL app is served from /custom_apps/<slug>/js/.
+// `@nextcloud/webpack-vue-config` hardcodes `output.publicPath` to
+// `/apps/<appName>/js/`. That is only correct when the app is installed under
+// the apps path whose URL is `/apps`. The standard Docker image registers a
+// SECOND apps path — `/var/www/html/custom_apps` served at `/custom_apps` —
+// which is where a `docker cp`-deployed app lands, and the previous hardcoded
+// `/custom_apps/planix/js/` is in turn wrong for a `/apps`-served install.
+//
+// The entry bundle is unaffected (Nextcloud generates that script tag itself),
+// so the failure only shows on LAZY-LOADED chunks: the wrong path does NOT
+// 404 — Nextcloud answers 200 with `text/html`, the browser refuses it on MIME
+// grounds, and the page dies with a `ChunkLoadError`. Vue 2 barely surfaced
+// this because it emitted few async chunks; the Vue 3 dependency set splits
+// @nextcloud/dialogs, @mdi/js and the Cn components into dozens.
+//
+// `'auto'` makes webpack derive the public path at runtime from the URL the
+// entry script was actually loaded from, so it is correct under every apps path.
 webpackConfig.output = {
 	...webpackConfig.output,
-	publicPath: '/custom_apps/planix/js/',
+	publicPath: 'auto',
 }
 
 module.exports = webpackConfig

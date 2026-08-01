@@ -22,7 +22,7 @@
 				{{ t('planix', 'Cancel') }}
 			</NcButton>
 			<NcButton
-				type="error"
+				variant="error"
 				:disabled="loading"
 				@click="confirm">
 				<template v-if="loading" #icon>

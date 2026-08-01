@@ -9,7 +9,7 @@
 				<LockOutline :size="20" />
 			</template>
 			<template #action>
-				<NcButton type="primary" @click="$router.push({ name: 'Projects' })">
+				<NcButton variant="primary" @click="$router.push({ name: 'Projects' })">
 					{{ t('planix', 'Back to projects') }}
 				</NcButton>
 			</template>
@@ -42,19 +42,19 @@
 				<div class="project-board__header-actions">
 					<NcButton
 						:aria-label="t('planix', 'View backlog')"
-						type="tertiary"
+						variant="tertiary"
 						@click="$router.push({ name: 'ProjectBacklog', params: { id: project.id } })">
 						{{ t('planix', 'Backlog') }}
 					</NcButton>
 					<NcButton
 						:aria-label="t('planix', 'View timeline')"
-						type="tertiary"
+						variant="tertiary"
 						@click="$router.push({ name: 'ProjectTimeline', params: { id: project.id } })">
 						{{ t('planix', 'Timeline') }}
 					</NcButton>
 					<NcButton
 						:aria-label="t('planix', 'Project settings')"
-						type="tertiary"
+						variant="tertiary"
 						@click="openSettings">
 						<template #icon>
 							<CogIcon :size="20" />
@@ -297,7 +297,7 @@ export default {
 		await this.loadTasks(id)
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		this.closeSidebar?.()
 	},
 

@@ -11,14 +11,14 @@
 					v-for="chip in statusChips"
 					:key="String(chip.value)"
 					:text="chip.label"
-					:type="activeStatus === chip.value ? 'primary' : 'secondary'"
+					:variant="activeStatus === chip.value ? 'primary' : 'secondary'"
 					:no-close="true"
 					:aria-pressed="activeStatus === chip.value"
 					@click="setStatusFilter(chip.value)" />
 				<!-- New project button — hidden when creation is restricted to admins -->
 				<NcButton
 					v-if="canCreateProject"
-					type="primary"
+					variant="primary"
 					@click="showCreationDialog = true">
 					<template #icon>
 						<PlusIcon :size="20" />
@@ -31,10 +31,10 @@
 		<!-- Search bar -->
 		<div class="project-list__search">
 			<NcTextField
-				:value="listView.searchTerm.value"
+				:model-value="listView.searchTerm.value"
 				:label="t('planix', 'Search projects')"
 				:placeholder="t('planix', 'Search by title or description\u2026')"
-				@update:value="listView.onSearchInput($event)" />
+				@update:modelValue="listView.onSearchInput($event)" />
 		</div>
 
 		<!-- Loading state -->
@@ -51,7 +51,7 @@
 				<AlertCircleOutline :size="20" />
 			</template>
 			<template #action>
-				<NcButton type="primary" @click="projectsStore.fetchProjects()">
+				<NcButton variant="primary" @click="projectsStore.fetchProjects()">
 					{{ t('planix', 'Retry') }}
 				</NcButton>
 			</template>
@@ -66,7 +66,7 @@
 				<FolderOutline :size="20" />
 			</template>
 			<template v-if="canCreateProject" #action>
-				<NcButton type="primary" @click="showCreationDialog = true">
+				<NcButton variant="primary" @click="showCreationDialog = true">
 					{{ t('planix', 'Create your first project') }}
 				</NcButton>
 			</template>
@@ -108,8 +108,9 @@
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-11
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
  */
-import { NcButton, NcTextField, NcLoadingIcon, NcEmptyContent } from '@nextcloud/vue'
-import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
+// @nextcloud/vue@9 removed the `dist/Components/*.js` layout, so NcChip comes
+// from the root barrel like every other component here.
+import { NcButton, NcChip, NcTextField, NcLoadingIcon, NcEmptyContent } from '@nextcloud/vue'
 import { useListView } from '@conduction/nextcloud-vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
@@ -262,7 +263,7 @@ export default {
 	 *
 	 * @spec openspec/specs/realtime-updates.md
 	 */
-	beforeDestroy() {
+	beforeUnmount() {
 		this.releaseLiveSubscription()
 	},
 

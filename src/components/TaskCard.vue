@@ -16,14 +16,14 @@
 			<NcChip
 				v-if="dueDateBadgeStatus"
 				:text="dueDateBadgeText"
-				:type="dueDateBadgeType"
+				:variant="dueDateBadgeVariant"
 				:no-close="true"
 				class="task-card__due-date-badge" />
 
 			<!-- Status -->
 			<NcChip
 				:text="statusLabel"
-				:type="statusType"
+				:variant="statusVariant"
 				:no-close="true"
 				class="task-card__status-badge" />
 
@@ -31,7 +31,7 @@
 			<NcChip
 				v-if="task.priority"
 				:text="priorityLabel"
-				:type="priorityType"
+				:variant="priorityVariant"
 				:no-close="true"
 				class="task-card__priority-badge" />
 
@@ -51,7 +51,9 @@
 </template>
 
 <script>
-import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
+// @nextcloud/vue@9 removed the `dist/Components/*.js` layout; the package now
+// publishes only an `exports` map (root barrel + `./components/<Name>`).
+import { NcChip } from '@nextcloud/vue'
 import { dueDateStatus } from '../utils/taskHelpers.js'
 import { formatDuration } from '../utils/durationParser.js'
 
@@ -105,14 +107,19 @@ export default {
 		},
 
 		/**
-		 * @spec exclude Display getter — maps the due-date status to a chip colour type.
+		 * @spec exclude Display getter — maps the due-date status to a chip colour variant.
+		 *
+		 * `secondary` is NcChip's own default variant. The pre-migration code
+		 * returned 'default', which was never a valid NcChip value in either
+		 * major — it only tripped the prop validator and fell through to the
+		 * base styling.
 		 */
-		dueDateBadgeType() {
+		dueDateBadgeVariant() {
 			const map = {
 				approaching: 'warning',
 				overdue: 'error',
 			}
-			return map[this.dueDateBadgeStatus] || 'default'
+			return map[this.dueDateBadgeStatus] || 'secondary'
 		},
 
 		/**
@@ -130,17 +137,17 @@ export default {
 		},
 
 		/**
-		 * @spec exclude Display getter — maps the task status to a chip colour type.
+		 * @spec exclude Display getter — maps the task status to a chip colour variant.
 		 */
-		statusType() {
+		statusVariant() {
 			const map = {
-				open: 'default',
+				open: 'secondary',
 				in_progress: 'primary',
 				blocked: 'error',
 				done: 'success',
-				cancelled: 'default',
+				cancelled: 'secondary',
 			}
-			return map[this.task.status] || 'default'
+			return map[this.task.status] || 'secondary'
 		},
 
 		/**
@@ -157,16 +164,16 @@ export default {
 		},
 
 		/**
-		 * @spec exclude Display getter — maps the priority to a chip colour type.
+		 * @spec exclude Display getter — maps the priority to a chip colour variant.
 		 */
-		priorityType() {
+		priorityVariant() {
 			const map = {
-				low: 'default',
-				normal: 'default',
+				low: 'secondary',
+				normal: 'secondary',
 				high: 'warning',
 				urgent: 'error',
 			}
-			return map[this.task.priority] || 'default'
+			return map[this.task.priority] || 'secondary'
 		},
 	},
 }

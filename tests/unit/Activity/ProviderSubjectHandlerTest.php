@@ -44,13 +44,27 @@ class ProviderSubjectHandlerTest extends TestCase
     private ProviderSubjectHandler $handler;
 
     /**
+     * What the handler set on the event double: `parsed`, `rich`, `richParams`.
+     *
+     * Declared here rather than written onto the mock as dynamic properties.
+     * `$event->parsed = …` on a PHPUnit-generated mock is a dynamic property,
+     * deprecated since PHP 8.2 (three deprecations across five tests) and an
+     * outright `Error` in PHP 9 — so the suite would have started failing on a
+     * runtime bump with nothing here having changed.
+     *
+     * @var array<string,mixed>
+     */
+    private array $captured = [];
+
+    /**
      * Set up the handler.
      *
      * @return void
      */
     protected function setUp(): void
     {
-        $this->handler = new ProviderSubjectHandler();
+        $this->handler  = new ProviderSubjectHandler();
+        $this->captured = [];
     }//end setUp()
 
     /**
@@ -71,14 +85,14 @@ class ProviderSubjectHandlerTest extends TestCase
 
         $event->method('setParsedSubject')->willReturnCallback(
             function (string $s) use ($event): IEvent {
-                $event->parsed = $s;
+                $this->captured['parsed'] = $s;
                 return $event;
             }
         );
         $event->method('setRichSubject')->willReturnCallback(
             function (string $s, array $p = []) use ($event): IEvent {
-                $event->rich       = $s;
-                $event->richParams = $p;
+                $this->captured['rich']       = $s;
+                $this->captured['richParams'] = $p;
                 return $event;
             }
         );
@@ -122,12 +136,12 @@ class ProviderSubjectHandlerTest extends TestCase
         $event = $this->fakeEvent('task_created', ['actor' => 'alice', 'title' => 'Write spec', 'objectId' => 'uuid-1']);
         $this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
 
-        $this->assertSame('alice created task Write spec', $event->parsed);
-        $this->assertSame('{actor} created task {task}', $event->rich);
-        $this->assertSame('alice', $event->richParams['actor']['id']);
-        $this->assertSame('Write spec', $event->richParams['task']['name']);
-        $this->assertSame('uuid-1', $event->richParams['task']['id']);
-        $this->assertStringNotContainsString('%', $event->parsed);
+        $this->assertSame('alice created task Write spec', $this->captured['parsed']);
+        $this->assertSame('{actor} created task {task}', $this->captured['rich']);
+        $this->assertSame('alice', $this->captured['richParams']['actor']['id']);
+        $this->assertSame('Write spec', $this->captured['richParams']['task']['name']);
+        $this->assertSame('uuid-1', $this->captured['richParams']['task']['id']);
+        $this->assertStringNotContainsString('%', $this->captured['parsed']);
     }//end testTaskCreatedSubject()
 
     /**
@@ -140,9 +154,9 @@ class ProviderSubjectHandlerTest extends TestCase
         $event = $this->fakeEvent('task_status_changed', ['actor' => 'alice', 'title' => 'T', 'status' => 'done']);
         $this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
 
-        $this->assertSame('alice changed the status of T to done', $event->parsed);
-        $this->assertSame('{actor} changed the status of {task} to done', $event->rich);
-        $this->assertStringNotContainsString('%', $event->parsed);
+        $this->assertSame('alice changed the status of T to done', $this->captured['parsed']);
+        $this->assertSame('{actor} changed the status of {task} to done', $this->captured['rich']);
+        $this->assertStringNotContainsString('%', $this->captured['parsed']);
     }//end testStatusChangedSubject()
 
     /**
@@ -155,8 +169,8 @@ class ProviderSubjectHandlerTest extends TestCase
         $event = $this->fakeEvent('task_assigned_activity', ['actor' => 'alice', 'title' => 'T', 'assignee' => 'bob']);
         $this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
 
-        $this->assertSame('alice assigned T to bob', $event->parsed);
-        $this->assertStringContainsString('bob', $event->rich);
+        $this->assertSame('alice assigned T to bob', $this->captured['parsed']);
+        $this->assertStringContainsString('bob', $this->captured['rich']);
     }//end testAssignedSubject()
 
     /**
@@ -169,8 +183,8 @@ class ProviderSubjectHandlerTest extends TestCase
         $event = $this->fakeEvent('task_due_date_changed', ['actor' => 'alice', 'title' => 'T', 'dueDate' => '2026-07-01']);
         $this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
 
-        $this->assertSame('alice changed the due date of T to 2026-07-01', $event->parsed);
-        $this->assertStringNotContainsString('%', $event->parsed);
+        $this->assertSame('alice changed the due date of T to 2026-07-01', $this->captured['parsed']);
+        $this->assertStringNotContainsString('%', $this->captured['parsed']);
     }//end testDueDateChangedSubject()
 
     /**
@@ -183,7 +197,7 @@ class ProviderSubjectHandlerTest extends TestCase
         $event = $this->fakeEvent('task_deleted', ['actor' => 'alice', 'title' => 'Old task']);
         $this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
 
-        $this->assertSame('alice deleted task Old task', $event->parsed);
-        $this->assertSame('{actor} deleted task {task}', $event->rich);
+        $this->assertSame('alice deleted task Old task', $this->captured['parsed']);
+        $this->assertSame('{actor} deleted task {task}', $this->captured['rich']);
     }//end testDeletedSubject()
 }//end class

@@ -17,7 +17,7 @@
 		<template #actions>
 			<NcButton
 				:disabled="loading || countLoading || !canDelete"
-				type="error"
+				variant="error"
 				@click="confirm">
 				<template v-if="loading" #icon>
 					<NcLoadingIcon :size="16" />

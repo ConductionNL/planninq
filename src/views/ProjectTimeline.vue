@@ -2,7 +2,7 @@
 	<div class="project-timeline">
 		<!-- Breadcrumb back to the board -->
 		<div class="project-timeline__breadcrumb">
-			<NcButton type="tertiary"
+			<NcButton variant="tertiary"
 				:aria-label="t('planix', 'Back to board')"
 				@click="$router.push({ name: 'ProjectBoard', params: { id: projectId } })">
 				<template #icon>
