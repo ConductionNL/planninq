@@ -35,6 +35,12 @@ use Psr\Container\ContainerInterface;
 
 /**
  * Main application class for the Planix Nextcloud app.
+ *
+ * Exceeds PHPMD's object-coupling threshold (15 vs 13): a Nextcloud bootstrap
+ * class names every listener, event and AppHost generic it wires exactly once.
+ * The coupling is the registration table itself, not a design smell.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Application extends App implements IBootstrap
 {
@@ -105,9 +111,16 @@ class Application extends App implements IBootstrap
      * closures simply never run (or surface as a degraded 5xx), so Nextcloud
      * boots cleanly — the lazy-by-construction invariant of ADR-040.
      *
+     * Exceeds PHPMD's 100-line method threshold (109 lines): the body is a flat
+     * registration table of seven `registerService()` calls, each a self-contained
+     * closure. Splitting it would hide half the AppHost wiring in a second method
+     * without removing a single branch — the method has no control flow at all.
+     *
      * @param IRegistrationContext $context The registration context.
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     private function registerAppHost(IRegistrationContext $context): void
     {

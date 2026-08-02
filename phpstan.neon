@@ -37,6 +37,22 @@ parameters:
         - '#has invalid return type OCA\\OpenRegister\\#'
         - '#has invalid type OCA\\OpenRegister\\#'
         - '#implements unknown interface OCA\\OpenRegister\\#'
+        # Planix-namespaced AppHost aliases (ADR-040). These deliberately have NO source
+        # file: Nextcloud derives `OCA\Planix\Controller\FooController` from a route named
+        # `foo#bar`, and Application::registerAppHost() binds each such name in the DI
+        # container to an OpenRegister generic. The `::class` constants are service
+        # identifiers and are never autoloaded — a real class here would shadow the
+        # generic. Listed one by one so a genuine typo in any OTHER Planix class still
+        # fails the gate.
+        - '#Class OCA\\Planix\\Controller\\(Dashboard|Preferences|Health|Metrics)Controller not found#'
+        - '#Class OCA\\Planix\\Settings\\AdminSettings not found#'
+        - '#Class OCA\\Planix\\Sections\\SettingsSection not found#'
+        - '#Class OCA\\Planix\\Listener\\DeepLinkRegistrationListener not found#'
+        # Companion of the AdminSettings entry above: the attribute argument is checked
+        # against class-string<IDelegatedSettings>, which phpstan cannot satisfy for a
+        # class it has just been told does not exist. The DI-registered
+        # GenericAdminSettings does implement IDelegatedSettings at runtime.
+        - '#Parameter (\#\d+ )?\$settings of attribute class OCP\\AppFramework\\Http\\Attribute\\AuthorizedAdminSetting constructor expects class-string<OCP\\Settings\\IDelegatedSettings>, string given#'
         # GuzzleHttp is available at runtime via Nextcloud but not in composer require
         - '#unknown class GuzzleHttp\\#'
         - '#GuzzleHttp\\[a-zA-Z\\]+.*not found#'

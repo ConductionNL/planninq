@@ -438,11 +438,11 @@ class SettingsServiceTest extends TestCase
     }//end testSetNotifyDueReminderOpenRegisterUnavailable()
 
     /**
-     * Test getNotifyDueReminder() resolves the stored per-user value (default on).
+     * Test isNotifyDueReminderEnabled() resolves the stored per-user value (default on).
      *
      * @return void
      */
-    public function testGetNotifyDueReminderDefaultsOn(): void
+    public function testIsNotifyDueReminderEnabledDefaultsOn(): void
     {
         $this->config->method('getUserValue')
             ->willReturnCallback(
@@ -451,22 +451,22 @@ class SettingsServiceTest extends TestCase
                 }
             );
 
-        self::assertTrue(condition: $this->service->getNotifyDueReminder('eve'));
+        self::assertTrue(condition: $this->service->isNotifyDueReminderEnabled('eve'));
 
-    }//end testGetNotifyDueReminderDefaultsOn()
+    }//end testIsNotifyDueReminderEnabledDefaultsOn()
 
     /**
-     * Test getNotifyDueReminder() returns false for a stored opt-out.
+     * Test isNotifyDueReminderEnabled() returns false for a stored opt-out.
      *
      * @return void
      */
-    public function testGetNotifyDueReminderStoredOff(): void
+    public function testIsNotifyDueReminderEnabledStoredOff(): void
     {
         $this->config->method('getUserValue')->willReturn('false');
 
-        self::assertFalse(condition: $this->service->getNotifyDueReminder('frank'));
+        self::assertFalse(condition: $this->service->isNotifyDueReminderEnabled('frank'));
 
-    }//end testGetNotifyDueReminderStoredOff()
+    }//end testIsNotifyDueReminderEnabledStoredOff()
 }//end class
 
 /**

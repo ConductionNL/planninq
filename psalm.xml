@@ -75,6 +75,33 @@
                 <referencedClass name="OCA\OpenRegister\Service\FileService"/>
                 <referencedClass name="OCA\OpenRegister\Service\CalendarEventService"/>
                 <referencedClass name="OCA\OpenRegister\Mcp\IMcpToolProvider"/>
+                <!--
+                  OpenRegister AppHost generics (ADR-040). Application::registerAppHost()
+                  names them as plain FQCN strings and only instantiates them inside a
+                  factory closure, so Planix stays loadable with OpenRegister absent.
+                -->
+                <referencedClass name="OCA\OpenRegister\AppHost\Controller\GenericDashboardController"/>
+                <referencedClass name="OCA\OpenRegister\AppHost\Controller\GenericPreferencesController"/>
+                <referencedClass name="OCA\OpenRegister\AppHost\Controller\GenericHealthController"/>
+                <referencedClass name="OCA\OpenRegister\AppHost\Controller\GenericMetricsController"/>
+                <referencedClass name="OCA\OpenRegister\AppHost\Settings\GenericAdminSettings"/>
+                <referencedClass name="OCA\OpenRegister\AppHost\Settings\GenericSettingsSection"/>
+                <referencedClass name="OCA\OpenRegister\AppHost\Listener\GenericDeepLinkRegistrationListener"/>
+                <!--
+                  Planix-namespaced AppHost aliases (ADR-040). These deliberately have NO
+                  source file: Nextcloud derives `OCA\Planix\Controller\FooController` from
+                  a route named `foo#bar`, and `registerAppHost()` binds each such name in
+                  the DI container to an OpenRegister generic. The `::class` constants are
+                  service identifiers, never autoloaded — the class genuinely does not
+                  exist, and must not, or the alias would shadow the generic.
+                -->
+                <referencedClass name="OCA\Planix\Controller\DashboardController"/>
+                <referencedClass name="OCA\Planix\Controller\PreferencesController"/>
+                <referencedClass name="OCA\Planix\Controller\HealthController"/>
+                <referencedClass name="OCA\Planix\Controller\MetricsController"/>
+                <referencedClass name="OCA\Planix\Settings\AdminSettings"/>
+                <referencedClass name="OCA\Planix\Sections\SettingsSection"/>
+                <referencedClass name="OCA\Planix\Listener\DeepLinkRegistrationListener"/>
                 <!-- Additional OCP infrastructure types used across the fleet -->
                 <referencedClass name="OCP\AppFramework\Bootstrap\IBootContext"/>
                 <referencedClass name="OCP\AppFramework\Bootstrap\IRegistrationContext"/>

@@ -44,6 +44,13 @@ use Psr\Log\LoggerInterface;
  * edge/task arrays. The public {@see create()} / {@see delete()} methods wrap
  * them with the ObjectService persistence and the membership (IDOR) guard.
  *
+ * Exceeds PHPMD's class-complexity threshold (83 vs 50): the bulk is the pure
+ * graph algorithm (cycle detection and blocked-state derivation) described
+ * above. Its branches are the algorithm, and keeping them in one unit-testable
+ * class is precisely what makes the service provable without OpenRegister.
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
  */
 class DependencyService

@@ -38,6 +38,13 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Service for managing Planix application configuration and settings.
+ *
+ * Exceeds PHPMD's class-complexity threshold (62 vs 50): this is the single
+ * read/write point for every admin and per-user Planix setting, so the
+ * complexity is one small default/validate branch per setting key. Splitting it
+ * by key group would duplicate the OpenRegister-availability guard in each part.
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class SettingsService
 {
@@ -422,7 +429,7 @@ class SettingsService
         $user         = $this->userSession->getUser();
         $userSettings = [];
         if ($user !== null) {
-            $userSettings['notify_due_reminder'] = $this->getNotifyDueReminder(userId: $user->getUID());
+            $userSettings['notify_due_reminder'] = $this->isNotifyDueReminderEnabled(userId: $user->getUID());
         }
 
         return array_merge(
@@ -493,12 +500,12 @@ class SettingsService
      *
      * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
      */
-    public function getNotifyDueReminder(string $userId): bool
+    public function isNotifyDueReminderEnabled(string $userId): bool
     {
         $value = $this->config->getUserValue($userId, Application::APP_ID, 'notify_due_reminder', 'true');
         return ($value !== 'false');
 
-    }//end getNotifyDueReminder()
+    }//end isNotifyDueReminderEnabled()
 
     /**
      * Persist a user's notify_due_reminder preference and write it through to
@@ -613,6 +620,12 @@ class SettingsService
      * @param bool $force Force re-import even if already configured.
      *
      * @return array<string,mixed> Result with success flag, message, and version.
+     *
+     * `$force` is not a responsibility switch: both paths run the same import,
+     * and the flag only decides whether the already-configured short-circuit is
+     * consulted. Splitting it into two methods would duplicate the whole import.
+     *
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      *
      * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-1
      * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
