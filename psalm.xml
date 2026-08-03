@@ -16,6 +16,14 @@
     </projectFiles>
     <stubs>
         <file name="vendor/nextcloud/ocp/OCP/Capabilities/ICapability.php" preloadClasses="true" />
+        <!-- OpenRegister AppHost engine stubs (ADR-040). openregister is a
+             sibling Nextcloud app, not a composer dependency, so its classes are
+             genuinely absent from the analysis path. This supplies the real
+             signatures (mirrored from openregister/lib/AppHost/) instead of
+             extending the "OpenRegister cross-app classes" suppress list below,
+             so calls into the engine stay type-checked. Analysis-only: never
+             autoloaded or executed at runtime. -->
+        <file name="tests/stubs/openregister-apphost.stub.php" />
     </stubs>
     <issueHandlers>
         <UndefinedDocblockClass errorLevel="suppress"/>

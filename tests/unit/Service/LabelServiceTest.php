@@ -345,14 +345,26 @@ class LabelServiceTest extends TestCase
             }
 
             /**
+             * Mirrors the real ObjectService entry point the production code
+             * calls. This double previously only offered `searchObjects()`,
+             * which LabelService stopped calling when the register/schema moved
+             * from setter state into explicit slug arguments — so every caller
+             * died with "undefined method searchObjectsBySlug()". The schema is
+             * now read from the ARGUMENT, not from `$this->schema`, which is
+             * exactly the invariant the production change established.
+             *
+             * @param string              $registerSlug Register slug.
+             * @param string              $schemaSlug   Schema slug.
+             * @param array<string,mixed> $filters      Optional filters (ignored — fixtures are pre-scoped).
+             *
              * @return array<int,array<string,mixed>>
              */
-            public function searchObjects(): array
+            public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters=[]): array
             {
-                if ($this->schema === 'task') {
+                if ($schemaSlug === 'task') {
                     return $this->tasks;
                 }
-                if ($this->schema === 'label') {
+                if ($schemaSlug === 'label') {
                     return $this->labels;
                 }
                 return [];

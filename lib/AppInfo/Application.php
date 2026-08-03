@@ -23,7 +23,7 @@ namespace OCA\Planix\AppInfo;
 
 use OCA\Planix\Listener\DeepLinkRegistrationListener;
 use OCA\Planix\Listener\TaskActivityListener;
-use OCA\OpenRegister\Event\DeepLinkRegistrationEvent;
+use OCA\Planix\Settings\AdminSettings;
 use OCA\OpenRegister\Event\ObjectCreatedEvent;
 use OCA\OpenRegister\Event\ObjectDeletedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
@@ -143,15 +143,80 @@ class Application extends App implements IBootstrap
     }//end registerFilteredObjectListener()
 
     /**
+     * OpenRegister's deep-link registration event name.
+     *
+     * @var string
+     */
+    private const OR_DEEPLINK_REGISTRATION_EVENT = 'OCA\\OpenRegister\\Event\\DeepLinkRegistrationEvent';
+
+    /**
+     * Leaf DI service id for the AppHost dashboard SPA controller.
+     *
+     * @var string
+     */
+    private const LEAF_DASHBOARD_CONTROLLER = 'OCA\\Planix\\Controller\\DashboardController';
+
+    /**
+     * Leaf DI service id for the AppHost per-user preferences controller.
+     *
+     * @var string
+     */
+    private const LEAF_PREFERENCES_CONTROLLER = 'OCA\\Planix\\Controller\\PreferencesController';
+
+    /**
+     * Leaf DI service id for the AppHost health controller.
+     *
+     * @var string
+     */
+    private const LEAF_HEALTH_CONTROLLER = 'OCA\\Planix\\Controller\\HealthController';
+
+    /**
+     * Leaf DI service id for the AppHost metrics controller.
+     *
+     * @var string
+     */
+    private const LEAF_METRICS_CONTROLLER = 'OCA\\Planix\\Controller\\MetricsController';
+
+    /**
+     * Leaf DI service id for the AppHost admin settings section.
+     *
+     * @var string
+     */
+    private const LEAF_SETTINGS_SECTION = 'OCA\\Planix\\Sections\\SettingsSection';
+
+    /**
      * Wire the AppHost generic engine for the mechanical plumbing classes.
      *
-     * Aliases the leaf class names (referenced by routes.php and info.xml) to
+     * Aliases the leaf class NAMES (referenced by routes.php and info.xml) to
      * OpenRegister's `OCA\OpenRegister\AppHost\…` generics via factory closures.
-     * Every generic FQCN is a plain string so this method never autoloads an OR
-     * class at bootstrap; the closure body runs only when the leaf DI container
-     * resolves the service (route dispatch). With OpenRegister disabled the
-     * closures simply never run (or surface as a degraded 5xx), so Nextcloud
-     * boots cleanly — the lazy-by-construction invariant of ADR-040.
+     *
+     * BOTH sides of every alias are plain strings. The OR generic FQCN is a
+     * string so this method never autoloads an OR class at bootstrap. The leaf
+     * service id is a string because — apart from AdminSettings, see below —
+     * these leaf classes DO NOT EXIST as PHP classes at all: they are pure DI
+     * service identifiers. Nextcloud's router turns `dashboard#page` into the
+     * name `OCA\Planix\Controller\DashboardController`, looks that string up in
+     * the app container, and gets the generic instance back. Spelling them
+     * `::class` also compiled (class-name resolution is a compile-time string
+     * operation, it never autoloads) but it asserted to psalm/phpstan that a
+     * class existed which never did — the LEAF_* constants above say the same
+     * thing truthfully. `registerService()` takes a string either way, so this
+     * is byte-identical at runtime.
+     *
+     * Two leaf names ARE real classes, both because a Nextcloud API demands a
+     * verifiable `class-string` of them — a contract no bare service id can
+     * satisfy:
+     *   - `Settings\AdminSettings` — `#[AuthorizedAdminSetting(settings: …)]` on
+     *     LabelController is typed `class-string<IDelegatedSettings>`.
+     *   - `Listener\DeepLinkRegistrationListener` — `registerEventListener()` is
+     *     typed `class-string<IEventListener<Event>>`.
+     * Both are one-line subclasses of the corresponding OR generic that add no
+     * behaviour, and both are still only autoloaded from inside the factory
+     * closures below, never at bootstrap.
+     *
+     * With OpenRegister disabled the closures simply never run (or surface as a
+     * degraded 5xx), so Nextcloud boots cleanly — the lazy-by-construction
+     * invariant of ADR-040.
      *
      * @param IRegistrationContext $context The registration context.
      *
@@ -159,11 +224,26 @@ class Application extends App implements IBootstrap
      */
     private function registerAppHost(IRegistrationContext $context): void
     {
+        $this->registerAppHostUi(context: $context);
+        $this->registerAppHostObservability(context: $context);
+        $this->registerAppHostSettings(context: $context);
+        $this->registerAppHostDeepLinks(context: $context);
+    }//end registerAppHost()
+
+    /**
+     * Alias the dashboard SPA and per-user preferences controllers.
+     *
+     * @param IRegistrationContext $context The registration context.
+     *
+     * @return void
+     */
+    private function registerAppHostUi(IRegistrationContext $context): void
+    {
         $appId = self::APP_ID;
 
         // Dashboard SPA + history-mode catch-all.
         $context->registerService(
-            \OCA\Planix\Controller\DashboardController::class,
+            self::LEAF_DASHBOARD_CONTROLLER,
             static function (ContainerInterface $c) use ($appId) {
                 $class = 'OCA\\OpenRegister\\AppHost\\Controller\\GenericDashboardController';
                 return new $class(
@@ -176,7 +256,7 @@ class Application extends App implements IBootstrap
         // Per-user UI preferences (shared nextcloud-vue widgets). Pure engine
         // capability — backs the canonical preferences#* routes.
         $context->registerService(
-            \OCA\Planix\Controller\PreferencesController::class,
+            self::LEAF_PREFERENCES_CONTROLLER,
             static function (ContainerInterface $c) use ($appId) {
                 $class = 'OCA\\OpenRegister\\AppHost\\Controller\\GenericPreferencesController';
                 return new $class(
@@ -187,11 +267,24 @@ class Application extends App implements IBootstrap
                 );
             }
         );
+    }//end registerAppHostUi()
 
-        // Observability — health (public) + metrics (admin), driven by the
-        // `observability` block in src/manifest.json. URLs unchanged.
+    /**
+     * Alias the observability health + metrics controllers.
+     *
+     * Driven by the `observability` block in src/manifest.json. URLs unchanged.
+     *
+     * @param IRegistrationContext $context The registration context.
+     *
+     * @return void
+     */
+    private function registerAppHostObservability(IRegistrationContext $context): void
+    {
+        $appId = self::APP_ID;
+
+        // Health (public).
         $context->registerService(
-            \OCA\Planix\Controller\HealthController::class,
+            self::LEAF_HEALTH_CONTROLLER,
             static function (ContainerInterface $c) use ($appId) {
                 $class = 'OCA\\OpenRegister\\AppHost\\Controller\\GenericHealthController';
                 return new $class(
@@ -202,8 +295,10 @@ class Application extends App implements IBootstrap
                 );
             }
         );
+
+        // Metrics (admin).
         $context->registerService(
-            \OCA\Planix\Controller\MetricsController::class,
+            self::LEAF_METRICS_CONTROLLER,
             static function (ContainerInterface $c) use ($appId) {
                 $class = 'OCA\\OpenRegister\\AppHost\\Controller\\GenericMetricsController';
                 return new $class(
@@ -214,27 +309,38 @@ class Application extends App implements IBootstrap
                 );
             }
         );
+    }//end registerAppHostObservability()
+
+    /**
+     * Alias the admin settings panel and its settings section.
+     *
+     * @param IRegistrationContext $context The registration context.
+     *
+     * @return void
+     */
+    private function registerAppHostSettings(IRegistrationContext $context): void
+    {
+        $appId = self::APP_ID;
 
         // Admin settings panel (IDelegatedSettings, #299) — section id `planix`,
-        // priority 10, identical to the deleted bespoke AdminSettings.
+        // priority 10, identical to the deleted bespoke AdminSettings. This is
+        // the one leaf class that physically exists (see registerAppHost()); it
+        // is a bare subclass, so every behaviour still comes from the engine.
         $context->registerService(
-            \OCA\Planix\Settings\AdminSettings::class,
-            static function (ContainerInterface $c) use ($appId) {
-                $class = 'OCA\\OpenRegister\\AppHost\\Settings\\GenericAdminSettings';
-                return new $class(
-                    appId: $appId,
-                    sectionId: $appId,
-                    priority: 10,
-                    appManager: $c->get('OCP\\App\\IAppManager'),
-                    initialState: $c->get('OCP\\AppFramework\\Services\\IInitialState'),
-                    appConfig: $c->get('OCP\\IAppConfig')
-                );
-            }
+            AdminSettings::class,
+            static fn (ContainerInterface $c): AdminSettings => new AdminSettings(
+                appId: $appId,
+                sectionId: $appId,
+                priority: 10,
+                appManager: $c->get('OCP\\App\\IAppManager'),
+                initialState: $c->get('OCP\\AppFramework\\Services\\IInitialState'),
+                appConfig: $c->get('OCP\\IAppConfig')
+            )
         );
 
         // Admin settings section (IIconSection) — name `Planix`, priority 75.
         $context->registerService(
-            \OCA\Planix\Sections\SettingsSection::class,
+            self::LEAF_SETTINGS_SECTION,
             static function (ContainerInterface $c) use ($appId) {
                 $class = 'OCA\\OpenRegister\\AppHost\\Settings\\GenericSettingsSection';
                 return new $class(
@@ -247,25 +353,42 @@ class Application extends App implements IBootstrap
                 );
             }
         );
+    }//end registerAppHostSettings()
 
-        // Deep-link registration — manifest-driven (src/manifest.json deepLinks).
-        // Only fires when OpenRegister is installed and dispatches the event.
+    /**
+     * Alias and subscribe the manifest-driven deep-link registration listener.
+     *
+     * Only fires when OpenRegister is installed and dispatches the event
+     * (src/manifest.json `deepLinks`).
+     *
+     * @param IRegistrationContext $context The registration context.
+     *
+     * @return void
+     */
+    private function registerAppHostDeepLinks(IRegistrationContext $context): void
+    {
+        $appId = self::APP_ID;
+
+        // Like AdminSettings this leaf class physically exists, because
+        // registerEventListener() is typed `class-string<IEventListener<Event>>`
+        // — see registerAppHost(). It is a bare subclass, so every behaviour
+        // still comes from the engine.
         $context->registerService(
             DeepLinkRegistrationListener::class,
-            static function (ContainerInterface $c) use ($appId) {
-                $class = 'OCA\\OpenRegister\\AppHost\\Listener\\GenericDeepLinkRegistrationListener';
-                return new $class(
-                    appId: $appId,
-                    appManager: $c->get('OCP\\App\\IAppManager'),
-                    logger: $c->get('Psr\\Log\\LoggerInterface')
-                );
-            }
+            static fn (ContainerInterface $c): DeepLinkRegistrationListener => new DeepLinkRegistrationListener(
+                appId: $appId,
+                appManager: $c->get('OCP\\App\\IAppManager'),
+                logger: $c->get('Psr\\Log\\LoggerInterface')
+            )
         );
+        // The event NAME is a plain string for the same reason every OR generic
+        // FQCN in this class is: IEventDispatcher keys on the string, so nothing
+        // here needs OpenRegister to be autoloadable at bootstrap.
         $context->registerEventListener(
-            event: DeepLinkRegistrationEvent::class,
+            event: self::OR_DEEPLINK_REGISTRATION_EVENT,
             listener: DeepLinkRegistrationListener::class
         );
-    }//end registerAppHost()
+    }//end registerAppHostDeepLinks()
 
     /**
      * Boot the application.

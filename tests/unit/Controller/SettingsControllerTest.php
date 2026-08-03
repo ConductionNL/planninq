@@ -20,6 +20,7 @@ declare(strict_types=1);
 namespace OCA\Planix\Tests\Unit\Controller;
 
 use OCA\Planix\Controller\SettingsController;
+use OCA\Planix\Service\RegisterImportService;
 use OCA\Planix\Service\SettingsService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -57,6 +58,13 @@ class SettingsControllerTest extends TestCase
     private SettingsService&MockObject $settingsService;
 
     /**
+     * The mocked register import service.
+     *
+     * @var RegisterImportService&MockObject
+     */
+    private RegisterImportService&MockObject $registerImport;
+
+    /**
      * Mock IUserSession.
      *
      * @var IUserSession&MockObject
@@ -72,13 +80,15 @@ class SettingsControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->request         = $this->createMock(originalClassName: IRequest::class);
-        $this->settingsService = $this->createMock(originalClassName: SettingsService::class);
-        $this->userSession     = $this->createMock(originalClassName: IUserSession::class);
+        $this->request               = $this->createMock(originalClassName: IRequest::class);
+        $this->settingsService       = $this->createMock(originalClassName: SettingsService::class);
+        $this->registerImport = $this->createMock(originalClassName: RegisterImportService::class);
+        $this->userSession           = $this->createMock(originalClassName: IUserSession::class);
 
         $this->controller = new SettingsController(
             request: $this->request,
             settingsService: $this->settingsService,
+            registerImport: $this->registerImport,
             userSession: $this->userSession,
         );
 
@@ -220,8 +230,8 @@ class SettingsControllerTest extends TestCase
             ->method('isCurrentUserAdmin')
             ->willReturn(false);
 
-        $this->settingsService->expects($this->never())
-            ->method('loadConfiguration');
+        $this->registerImport->expects($this->never())
+            ->method('reload');
 
         $result = $this->controller->load();
 
@@ -232,7 +242,7 @@ class SettingsControllerTest extends TestCase
     }//end testLoadReturnsForbiddenForNonAdmin()
 
     /**
-     * Test that load() returns the result of loadConfiguration for admins.
+     * Test that load() returns the result of reloadConfiguration for admins.
      *
      * @return void
      */
@@ -248,9 +258,11 @@ class SettingsControllerTest extends TestCase
             ->method('isCurrentUserAdmin')
             ->willReturn(true);
 
-        $this->settingsService->expects($this->once())
-            ->method('loadConfiguration')
-            ->with(force: true)
+        // RegisterImportService::reload() IS the forced import — the former
+        // SettingsService::loadConfiguration(force: true). The force intent now
+        // lives in the method name, so there are no arguments left to assert.
+        $this->registerImport->expects($this->once())
+            ->method('reload')
             ->willReturn($loadResult);
 
         $result = $this->controller->load();

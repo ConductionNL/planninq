@@ -17,6 +17,14 @@ parameters:
         - lib/Resources/template
     scanDirectories:
         - vendor/nextcloud/ocp
+    scanFiles:
+        # OpenRegister AppHost engine stubs (ADR-040). openregister is a sibling
+        # Nextcloud app, not a composer dependency, so its classes are genuinely
+        # absent from the analysis path. Rather than lean on the blanket
+        # `#unknown class OCA\\OpenRegister\\#` ignore below, this stub supplies
+        # the REAL signatures so calls into the engine are still type-checked.
+        # Analysis-only: never autoloaded or executed at runtime.
+        - tests/stubs/openregister-apphost.stub.php
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         # Nextcloud server internals (\OC, OC_App, OC\) not stubbed in nextcloud/ocp

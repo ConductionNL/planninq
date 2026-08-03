@@ -28,6 +28,8 @@ declare(strict_types=1);
 namespace OCA\Planix\Tests\Unit\Service;
 
 use OCA\Planix\Exception\DependencyValidationException;
+use OCA\Planix\Service\DependencyGraph;
+use OCA\Planix\Service\DependencyRepository;
 use OCA\Planix\Service\DependencyService;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -64,6 +66,13 @@ class DependencyServiceTest extends TestCase
     private LoggerInterface&MockObject $logger;
 
     /**
+     * The real (pure, dependency-free) graph algorithms under test.
+     *
+     * @var DependencyGraph
+     */
+    private DependencyGraph $graph;
+
+    /**
      * Set up fixtures.
      *
      * @return void
@@ -74,6 +83,7 @@ class DependencyServiceTest extends TestCase
         $this->container   = $this->createMock(originalClassName: ContainerInterface::class);
         $this->userSession = $this->createMock(originalClassName: IUserSession::class);
         $this->logger      = $this->createMock(originalClassName: LoggerInterface::class);
+        $this->graph       = new DependencyGraph();
     }//end setUp()
 
     /**
@@ -83,8 +93,17 @@ class DependencyServiceTest extends TestCase
      */
     private function service(): DependencyService
     {
+        // Real (not mocked) collaborators: DependencyRepository is a thin,
+        // behaviour-preserving move of the former private OR read helpers and
+        // still resolves the ObjectService from the SAME mocked container, and
+        // DependencyGraph is pure. Mocking either would replace the code under
+        // test with a double and stop these tests exercising it.
         return new DependencyService(
-            container: $this->container,
+            repository: new DependencyRepository(
+                container: $this->container,
+                logger: $this->logger,
+            ),
+            graph: $this->graph,
             userSession: $this->userSession,
             logger: $this->logger,
         );
@@ -99,8 +118,8 @@ class DependencyServiceTest extends TestCase
      */
     public function testSelfEdgeIsACycle(): void
     {
-        self::assertTrue(DependencyService::wouldFormCycle([], 'A', 'A'));
-        self::assertSame(['A', 'A'], DependencyService::cyclePath([], 'A', 'A'));
+        self::assertTrue($this->graph->wouldFormCycle([], 'A', 'A'));
+        self::assertSame(['A', 'A'], $this->graph->cyclePath([], 'A', 'A'));
     }//end testSelfEdgeIsACycle()
 
     /**
@@ -113,8 +132,8 @@ class DependencyServiceTest extends TestCase
         $edges = [['blocker' => 'A', 'blocked' => 'B']];
         // Proposed edge B→A (B blocks A) — B can already reach A via A→B? No.
         // The existing edge is A→B (A reaches B). Adding B→A: does A (blocked) reach B (blocker)? yes via A→B.
-        self::assertTrue(DependencyService::wouldFormCycle($edges, 'B', 'A'));
-        $path = DependencyService::cyclePath($edges, 'B', 'A');
+        self::assertTrue($this->graph->wouldFormCycle($edges, 'B', 'A'));
+        $path = $this->graph->cyclePath($edges, 'B', 'A');
         self::assertNotNull($path);
         self::assertSame('B', $path[0]);
         self::assertSame('B', $path[count($path) - 1]);
@@ -132,7 +151,7 @@ class DependencyServiceTest extends TestCase
             ['blocker' => 'B', 'blocked' => 'C'],
         ];
         // Add C→A (C blocks A). A (blocked) reaches C (blocker) via A→B→C → cycle.
-        $path = DependencyService::cyclePath($edges, 'C', 'A');
+        $path = $this->graph->cyclePath($edges, 'C', 'A');
         self::assertNotNull($path);
         // Rendered as it would read once closed: C → A → B → C.
         self::assertSame(['C', 'A', 'B', 'C'], $path);
@@ -151,10 +170,10 @@ class DependencyServiceTest extends TestCase
             ['blocker' => 'A', 'blocked' => 'B'],
             ['blocker' => 'A', 'blocked' => 'C'],
         ];
-        self::assertFalse(DependencyService::wouldFormCycle($edges, 'B', 'D'));
+        self::assertFalse($this->graph->wouldFormCycle($edges, 'B', 'D'));
 
         $edges[] = ['blocker' => 'B', 'blocked' => 'D'];
-        self::assertFalse(DependencyService::wouldFormCycle($edges, 'C', 'D'));
+        self::assertFalse($this->graph->wouldFormCycle($edges, 'C', 'D'));
     }//end testDiamondIsNotACycle()
 
     /**
@@ -165,7 +184,7 @@ class DependencyServiceTest extends TestCase
     public function testLegalEdgeIsNotACycle(): void
     {
         $edges = [['blocker' => 'A', 'blocked' => 'B']];
-        self::assertNull(DependencyService::cyclePath($edges, 'B', 'C'));
+        self::assertNull($this->graph->cyclePath($edges, 'B', 'C'));
     }//end testLegalEdgeIsNotACycle()
 
     /**
@@ -181,7 +200,7 @@ class DependencyServiceTest extends TestCase
             ['blocker' => 'B', 'blocked' => 'A'],
         ];
         // Should not infinite-loop; any answer that terminates is correct here.
-        self::assertIsBool(DependencyService::wouldFormCycle($edges, 'A', 'C'));
+        self::assertIsBool($this->graph->wouldFormCycle($edges, 'A', 'C'));
     }//end testTerminatesOnPreExistingCycle()
 
     // ── Pure blocked-state derivation ────────────────────────────────────────
@@ -200,7 +219,7 @@ class DependencyServiceTest extends TestCase
         ];
         $status = ['A' => 'open', 'B' => 'open', 'C' => 'done', 'D' => 'open', 'E' => 'open'];
 
-        self::assertSame(['B'], DependencyService::deriveBlockedTaskIds($edges, $status));
+        self::assertSame(['B'], $this->graph->deriveBlockedTaskIds($edges, $status));
     }//end testDeriveBlockedTaskIds()
 
     /**
@@ -215,7 +234,7 @@ class DependencyServiceTest extends TestCase
             ['blocker' => 'B', 'blocked' => 'C'],
         ];
         $status = ['A' => 'cancelled', 'B' => 'cancelled', 'C' => 'open'];
-        self::assertSame([], DependencyService::deriveBlockedTaskIds($edges, $status));
+        self::assertSame([], $this->graph->deriveBlockedTaskIds($edges, $status));
     }//end testCancelledBlockerDoesNotBlock()
 
     // ── create() validation chain ────────────────────────────────────────────
@@ -528,13 +547,23 @@ class DependencyServiceTest extends TestCase
             }
 
             /**
-             * @param array<string,mixed> $filters Optional filters (project for tasks).
+             * Mirrors the real ObjectService entry point the production code
+             * calls. This double previously only offered `searchObjects()`,
+             * which production stopped calling when the schema/register moved
+             * from setter state into explicit slug arguments — so every caller
+             * died with "undefined method searchObjectsBySlug()". The schema is
+             * now read from the ARGUMENT, not from `$this->schema`, which is
+             * exactly the invariant the production change established.
+             *
+             * @param string              $registerSlug Register slug.
+             * @param string              $schemaSlug   Schema slug.
+             * @param array<string,mixed> $filters      Optional filters (project for tasks).
              *
              * @return array<int,mixed>
              */
-            public function searchObjects(array $filters=[]): array
+            public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters=[]): array
             {
-                if ($this->schema === 'task') {
+                if ($schemaSlug === 'task') {
                     return array_map(fn($id) => ['@self' => ['id' => $id]], $this->projectTaskIds);
                 }
                 // dependency

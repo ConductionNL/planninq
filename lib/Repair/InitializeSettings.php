@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Planix\Repair;
 
+use OCA\Planix\Service\RegisterImportService;
 use OCA\Planix\Service\SettingsService;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -36,13 +37,15 @@ class InitializeSettings implements IRepairStep
     /**
      * Constructor for InitializeSettings.
      *
-     * @param SettingsService $settingsService The settings service
-     * @param LoggerInterface $logger          The logger interface
+     * @param SettingsService       $settingsService The settings service
+     * @param RegisterImportService $registerImport  The register import service
+     * @param LoggerInterface       $logger          The logger interface
      *
      * @return void
      */
     public function __construct(
         private SettingsService $settingsService,
+        private RegisterImportService $registerImport,
         private LoggerInterface $logger,
     ) {
     }//end __construct()
@@ -81,7 +84,7 @@ class InitializeSettings implements IRepairStep
         }
 
         try {
-            $result = $this->settingsService->loadConfiguration(force: false);
+            $result = $this->registerImport->load();
 
             if ($result['success'] === true) {
                 $version = ($result['version'] ?? 'unknown');

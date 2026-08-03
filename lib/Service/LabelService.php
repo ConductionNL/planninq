@@ -34,6 +34,7 @@ namespace OCA\Planix\Service;
 
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * Domain service for app-wide labels.
@@ -187,19 +188,19 @@ class LabelService
      *
      * @return array{tasksUpdated:int} Number of tasks swept on this invocation.
      *
-     * @throws \RuntimeException When OpenRegister is unavailable.
+     * @throws RuntimeException When OpenRegister is unavailable.
      *
      * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
      */
     public function deleteWithCascade(string $labelId): array
     {
         if ($labelId === '') {
-            throw new \RuntimeException('A label id is required.');
+            throw new RuntimeException('A label id is required.');
         }
 
         $objectService = $this->objectService();
         if ($objectService === null) {
-            throw new \RuntimeException('OpenRegister is not available.');
+            throw new RuntimeException('OpenRegister is not available.');
         }
 
         // 1. Sweep first: remove the UUID from every referencing task.
