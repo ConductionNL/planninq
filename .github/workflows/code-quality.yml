@@ -81,6 +81,8 @@ jobs:
   # so it runs in a bare node container without an npm install.
   l10n-parity:
     runs-on: ubuntu-latest
+    # Observed over 17 runs: median 0.2 min, max 0.7 min.
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
