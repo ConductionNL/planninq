@@ -8,9 +8,9 @@
  * live OpenRegister DB.
  * This migration introduces no schema changes; its sole purpose is to run
  * InitializeSettings as a post-migration repair step, which calls
- * SettingsService::loadConfiguration(force: true) with the updated
- * planix_register.json (version 0.2.1) that contains explicit publicWrite: false
- * and publicRead: false together with authorization blocks on all data schemas.
+ * SettingsService::loadConfiguration() with the updated planix_register.json
+ * (version 0.2.1) that contains explicit publicWrite: false and
+ * publicRead: false together with authorization blocks on all data schemas.
  *
  * @category Migration
  * @package  OCA\Planix\Migration
@@ -36,7 +36,7 @@ use OCP\Migration\SimpleMigrationStep;
 /**
  * Empty schema migration that triggers the post-migration repair step.
  *
- * The repair step (InitializeSettings) re-runs loadConfiguration(force: true)
+ * The repair step (InitializeSettings) re-runs loadConfiguration()
  * with the updated register spec (version 0.2.1) which sets
  * publicWrite: false and publicRead: false on the planix register and
  * adds authorization blocks to project, task, column, and timeEntry schemas

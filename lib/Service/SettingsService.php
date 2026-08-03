@@ -94,13 +94,14 @@ class SettingsService
     /**
      * Constructor for the SettingsService.
      *
-     * @param IAppConfig         $appConfig    The app config interface
-     * @param IConfig            $config       The user config interface
-     * @param IAppManager        $appManager   The app manager
-     * @param ContainerInterface $container    The container
-     * @param IGroupManager      $groupManager The group manager
-     * @param IUserSession       $userSession  The user session
-     * @param LoggerInterface    $logger       The logger
+     * @param IAppConfig               $appConfig         The app config interface
+     * @param IConfig                  $config            The user config interface
+     * @param IAppManager              $appManager        The app manager
+     * @param ContainerInterface       $container         The container
+     * @param IGroupManager            $groupManager      The group manager
+     * @param IUserSession             $userSession       The user session
+     * @param LoggerInterface          $logger            The logger
+     * @param DueReminderWindowService $dueReminderWindow The live-schema due-reminder window patcher
      *
      * @return void
      */
@@ -112,6 +113,7 @@ class SettingsService
         private IGroupManager $groupManager,
         private IUserSession $userSession,
         private LoggerInterface $logger,
+        private DueReminderWindowService $dueReminderWindow,
     ) {
     }//end __construct()
 
@@ -274,7 +276,7 @@ class SettingsService
 
                 $this->appConfig->setValueString(Application::APP_ID, $key, (string) $validated);
                 // Reflect the new lead window on the live task schema rule.
-                $this->patchDueReminderWindow(hours: $validated);
+                $this->dueReminderWindow->patch(hours: $validated);
                 continue;
             }
 
@@ -337,72 +339,6 @@ class SettingsService
     }//end getDueReminderLeadHours()
 
     /**
-     * Build the ISO-8601 duration string for a `withinNext` lead window.
-     *
-     * @param int $hours The lead time in hours.
-     *
-     * @return string e.g. `PT24H`
-     *
-     * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#3
-     */
-    public function leadHoursToDuration(int $hours): string
-    {
-        return 'PT'.$hours.'H';
-
-    }//end leadHoursToDuration()
-
-    /**
-     * Patch the live `taskDueSoon` rule's `withinNext` window on the OpenRegister
-     * task schema. No-op (logged) when OpenRegister is unavailable or the schema
-     * cannot be resolved — the IAppConfig value remains the source of truth and a
-     * later register import re-applies the rule.
-     *
-     * @param int $hours The lead time in hours to apply.
-     *
-     * @return void
-     *
-     * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#3
-     */
-    private function patchDueReminderWindow(int $hours): void
-    {
-        if ($this->isOpenRegisterAvailable() === false) {
-            $this->logger->info('Planix: OpenRegister unavailable, lead-time window not patched on live schema');
-            return;
-        }
-
-        try {
-            $schemaMapper = $this->container->get('OCA\OpenRegister\Db\SchemaMapper');
-            $schemas      = $schemaMapper->findBySlug(self::TASK_SCHEMA_SLUG);
-            if (is_array($schemas) === false || count($schemas) === 0) {
-                $this->logger->warning('Planix: task schema not found, cannot patch due-reminder window');
-                return;
-            }
-
-            $schema        = $schemas[0];
-            $configuration = ($schema->getConfiguration() ?? []);
-            if (isset($configuration['x-openregister-notifications'][self::DUE_REMINDER_RULE_KEY]['trigger']['filter']['dueDate']) === false) {
-                $this->logger->warning('Planix: taskDueSoon rule not present on live schema, skipping window patch');
-                return;
-            }
-
-            $configuration['x-openregister-notifications'][self::DUE_REMINDER_RULE_KEY]['trigger']['filter']['dueDate'] = [
-                'operator' => 'withinNext',
-                'value'    => $this->leadHoursToDuration(hours: $hours),
-            ];
-
-            $schema->setConfiguration($configuration);
-            $schemaMapper->update($schema);
-            $this->logger->info('Planix: patched taskDueSoon window to '.$this->leadHoursToDuration(hours: $hours));
-        } catch (\Throwable $e) {
-            $this->logger->warning(
-                'Planix: failed to patch due-reminder window on live schema',
-                ['exception' => $e->getMessage()]
-            );
-        }//end try
-
-    }//end patchDueReminderWindow()
-
-    /**
      * Retrieve all current settings (admin + metadata).
      *
      * Returns a flat array containing all app config values plus metadata
@@ -422,7 +358,7 @@ class SettingsService
         $user         = $this->userSession->getUser();
         $userSettings = [];
         if ($user !== null) {
-            $userSettings['notify_due_reminder'] = $this->getNotifyDueReminder(userId: $user->getUID());
+            $userSettings['notify_due_reminder'] = $this->isNotifyDueReminderEnabled(userId: $user->getUID());
         }
 
         return array_merge(
@@ -493,12 +429,12 @@ class SettingsService
      *
      * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
      */
-    public function getNotifyDueReminder(string $userId): bool
+    public function isNotifyDueReminderEnabled(string $userId): bool
     {
         $value = $this->config->getUserValue($userId, Application::APP_ID, 'notify_due_reminder', 'true');
         return ($value !== 'false');
 
-    }//end getNotifyDueReminder()
+    }//end isNotifyDueReminderEnabled()
 
     /**
      * Persist a user's notify_due_reminder preference and write it through to
@@ -606,102 +542,4 @@ class SettingsService
         }//end try
 
     }//end writeDueReminderOverride()
-
-    /**
-     * Load configuration from planix_register.json via OpenRegister.
-     *
-     * @param bool $force Force re-import even if already configured.
-     *
-     * @return array<string,mixed> Result with success flag, message, and version.
-     *
-     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-1
-     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
-     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-3
-     */
-    public function loadConfiguration(bool $force=false): array
-    {
-        if ($this->isOpenRegisterAvailable() === false) {
-            $this->logger->warning('Planix: OpenRegister not available, skipping register initialization');
-            return [
-                'success' => false,
-                'message' => 'OpenRegister is not installed or enabled.',
-            ];
-        }
-
-        try {
-            $configPath = __DIR__.'/../Settings/planix_register.json';
-            if (file_exists($configPath) === false) {
-                $this->logger->error('Planix: planix_register.json not found at '.$configPath);
-                return [
-                    'success' => false,
-                    'message' => 'Configuration file planix_register.json not found.',
-                ];
-            }
-
-            $configContent = file_get_contents($configPath);
-            if ($configContent === false) {
-                $this->logger->error('Planix: failed to read planix_register.json');
-                return [
-                    'success' => false,
-                    'message' => 'Failed to read configuration file.',
-                ];
-            }
-
-            $configData = json_decode($configContent, true);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                $this->logger->error('Planix: failed to parse planix_register.json: '.json_last_error_msg());
-                return [
-                    'success' => false,
-                    'message' => 'Failed to parse configuration file: '.json_last_error_msg(),
-                ];
-            }
-
-            // Validate that the imported JSON belongs to this app to prevent
-            // accidentally loading a register file from a different application.
-            $declaredApp = ($configData['x-openregister']['app'] ?? '');
-            if ($declaredApp !== Application::APP_ID) {
-                $this->logger->error(
-                    'Planix: register JSON x-openregister.app mismatch',
-                    ['expected' => Application::APP_ID, 'got' => $declaredApp]
-                );
-                return [
-                    'success' => false,
-                    'message' => sprintf(
-                        'Register JSON is for app "%s", expected "%s".',
-                        $declaredApp,
-                        Application::APP_ID
-                    ),
-                ];
-            }
-
-            $configVersion = ($configData['info']['version'] ?? '0.0.0');
-
-            $configurationService = $this->container->get('OCA\OpenRegister\Service\ConfigurationService');
-            $result = $configurationService->importFromApp(appId: Application::APP_ID, data: $configData, version: $configVersion, force: $force);
-
-            if (empty($result) === false) {
-                $this->logger->info('Planix: register configuration imported successfully');
-                return [
-                    'success' => true,
-                    'message' => 'Configuration imported successfully.',
-                    'version' => ($result['version'] ?? 'unknown'),
-                ];
-            }
-
-            return [
-                'success' => false,
-                'message' => 'Import returned an empty result.',
-            ];
-        } catch (\Throwable $e) {
-            $this->logger->error(
-                'Planix: configuration import failed',
-                ['exception' => $e->getMessage()]
-            );
-            return [
-                'success' => false,
-                'message' => $e->getMessage(),
-            ];
-        }//end try
-
-    }//end loadConfiguration()
 }//end class

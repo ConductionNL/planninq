@@ -343,7 +343,7 @@ class ProjectController extends Controller
         }
 
         // Guard: refuse to orphan the project.
-        $remainingMembers = array_values(array_filter($members, static fn($m) => $m !== $uid));
+        $remainingMembers = array_values(array_filter($members, static fn($member) => $member !== $uid));
         if (count($remainingMembers) === 0) {
             return new JSONResponse(
                 ['error' => 'Cannot leave a project with no remaining members. Delete the project instead.'],

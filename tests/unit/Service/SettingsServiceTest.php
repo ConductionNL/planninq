@@ -20,6 +20,7 @@ declare(strict_types=1);
 namespace OCA\Planix\Tests\Unit\Service;
 
 use OCA\Planix\AppInfo\Application;
+use OCA\Planix\Service\DueReminderWindowService;
 use OCA\Planix\Service\SettingsService;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
@@ -111,6 +112,10 @@ class SettingsServiceTest extends TestCase
         $this->userSession  = $this->createMock(originalClassName: IUserSession::class);
         $this->logger       = $this->createMock(originalClassName: LoggerInterface::class);
 
+        // Real (not mocked) collaborator: DueReminderWindowService is a
+        // behaviour-preserving move of the former private patchDueReminderWindow()
+        // and resolves everything from the SAME mocked appManager/container, so
+        // these tests keep exercising the real code path.
         $this->service = new SettingsService(
             appConfig: $this->appConfig,
             config: $this->config,
@@ -119,6 +124,11 @@ class SettingsServiceTest extends TestCase
             groupManager: $this->groupManager,
             userSession: $this->userSession,
             logger: $this->logger,
+            dueReminderWindow: new DueReminderWindowService(
+                appManager: $this->appManager,
+                container: $this->container,
+                logger: $this->logger,
+            ),
         );
 
     }//end setUp()
@@ -353,9 +363,16 @@ class SettingsServiceTest extends TestCase
      */
     public function testLeadHoursToDuration(): void
     {
-        self::assertSame(expected: 'PT24H', actual: $this->service->leadHoursToDuration(24));
-        self::assertSame(expected: 'PT1H', actual: $this->service->leadHoursToDuration(1));
-        self::assertSame(expected: 'PT336H', actual: $this->service->leadHoursToDuration(336));
+        // Moved to DueReminderWindowService alongside patch(); same assertions.
+        $windowService = new DueReminderWindowService(
+            appManager: $this->appManager,
+            container: $this->container,
+            logger: $this->logger,
+        );
+
+        self::assertSame(expected: 'PT24H', actual: $windowService->leadHoursToDuration(24));
+        self::assertSame(expected: 'PT1H', actual: $windowService->leadHoursToDuration(1));
+        self::assertSame(expected: 'PT336H', actual: $windowService->leadHoursToDuration(336));
 
     }//end testLeadHoursToDuration()
 
@@ -438,7 +455,7 @@ class SettingsServiceTest extends TestCase
     }//end testSetNotifyDueReminderOpenRegisterUnavailable()
 
     /**
-     * Test getNotifyDueReminder() resolves the stored per-user value (default on).
+     * Test isNotifyDueReminderEnabled() resolves the stored per-user value (default on).
      *
      * @return void
      */
@@ -451,12 +468,12 @@ class SettingsServiceTest extends TestCase
                 }
             );
 
-        self::assertTrue(condition: $this->service->getNotifyDueReminder('eve'));
+        self::assertTrue(condition: $this->service->isNotifyDueReminderEnabled('eve'));
 
     }//end testGetNotifyDueReminderDefaultsOn()
 
     /**
-     * Test getNotifyDueReminder() returns false for a stored opt-out.
+     * Test isNotifyDueReminderEnabled() returns false for a stored opt-out.
      *
      * @return void
      */
@@ -464,7 +481,7 @@ class SettingsServiceTest extends TestCase
     {
         $this->config->method('getUserValue')->willReturn('false');
 
-        self::assertFalse(condition: $this->service->getNotifyDueReminder('frank'));
+        self::assertFalse(condition: $this->service->isNotifyDueReminderEnabled('frank'));
 
     }//end testGetNotifyDueReminderStoredOff()
 }//end class

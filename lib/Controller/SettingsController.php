@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace OCA\Planix\Controller;
 
 use OCA\Planix\AppInfo\Application;
+use OCA\Planix\Service\RegisterImportService;
 use OCA\Planix\Service\SettingsService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -40,15 +41,17 @@ class SettingsController extends Controller
     /**
      * Constructor for the SettingsController.
      *
-     * @param IRequest        $request         The request object
-     * @param SettingsService $settingsService The settings service
-     * @param IUserSession    $userSession     The user session
+     * @param IRequest              $request         The request object
+     * @param SettingsService       $settingsService The settings service
+     * @param RegisterImportService $registerImport  The register import service
+     * @param IUserSession          $userSession     The user session
      *
      * @return void
      */
     public function __construct(
         IRequest $request,
         private SettingsService $settingsService,
+        private RegisterImportService $registerImport,
         private IUserSession $userSession,
     ) {
         parent::__construct(appName: Application::APP_ID, request: $request);
@@ -161,7 +164,7 @@ class SettingsController extends Controller
             );
         }
 
-        $result = $this->settingsService->loadConfiguration(force: true);
+        $result = $this->registerImport->reload();
 
         return new JSONResponse($result);
     }//end load()
