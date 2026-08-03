@@ -263,9 +263,25 @@ class LabelService
      */
     private function fetchAll(object $objectService, string $schema): array
     {
-        $objectService->setRegister(self::REGISTER);
-        $objectService->setSchema($schema);
-        $results = $objectService->searchObjects();
+        // `searchObjectsBySlug()`, not `setRegister()/setSchema()` +
+        // `searchObjects()`.
+        //
+        // `ObjectService::searchObjects()` does not read the register/schema
+        // left on the service by the setters — it logs
+        // `[MagicMapper] searchObjects() called without register/schema context`
+        // and matches nothing. This method is the ONLY read path behind
+        // `GET /apps/planix/api/labels`, so the admin "Label management" section
+        // rendered "No labels yet." on every instance, however many labels
+        // existed, with no error anywhere in the UI. The e2e suite caught it as
+        // four failing label-management specs on a fresh CI instance that had a
+        // seeded label.
+        //
+        // `searchObjectsBySlug()` resolves both slugs to numeric IDs and
+        // delegates to `searchObjects()` on the documented fast path.
+        $results = $objectService->searchObjectsBySlug(
+            registerSlug: self::REGISTER,
+            schemaSlug: $schema
+        );
 
         $rows = [];
         foreach ($this->normaliseResults(results: $results) as $row) {

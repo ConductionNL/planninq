@@ -574,9 +574,16 @@ class DependencyService
      */
     private function fetchProjectTaskIds(object $objectService, string $projectId): array
     {
-        $objectService->setRegister(self::REGISTER);
-        $objectService->setSchema('task');
-        $results = $objectService->searchObjects(filters: ['project' => $projectId]);
+        // `searchObjectsBySlug()`, not `searchObjects()` — the same defect that
+        // 500'd the timeline endpoint (`Unknown named parameter $filters`, and
+        // `searchObjects()` ignoring the register/schema left by the setters).
+        // Here the fatal lands on dependency creation, whose cross-project guard
+        // reads this list.
+        $results = $objectService->searchObjectsBySlug(
+            registerSlug: self::REGISTER,
+            schemaSlug: 'task',
+            filters: ['project' => $projectId]
+        );
 
         $ids = [];
         foreach ($this->normaliseResults(results: $results) as $row) {
@@ -600,9 +607,14 @@ class DependencyService
      */
     private function fetchAllEdges(object $objectService): array
     {
-        $objectService->setRegister(self::REGISTER);
-        $objectService->setSchema(self::SCHEMA);
-        $results = $objectService->searchObjects();
+        // See fetchProjectTaskIds(): `searchObjects()` silently matches nothing
+        // when the register/schema came from the setters. The cycle detector
+        // reads this edge list, so an empty result made every cycle check pass
+        // vacuously.
+        $results = $objectService->searchObjectsBySlug(
+            registerSlug: self::REGISTER,
+            schemaSlug: self::SCHEMA
+        );
 
         $edges = [];
         foreach ($this->normaliseResults(results: $results) as $row) {

@@ -97,7 +97,25 @@
 		<CnSettingsSection
 			:name="t('planix', 'Notification settings')"
 			:description="t('planix', 'Configure when due-date reminders are sent')">
-			<form @submit.prevent="saveLeadHours">
+			<!--
+				`novalidate` is load-bearing, not tidy-up.
+
+				`saveLeadHours()` implements the range rule itself and renders
+				`Lead time must be between 1 and 336 hours` in the error slot
+				below. But `min="1" max="336"` on the input also arms the
+				browser's native constraint validation, which runs FIRST: on an
+				out-of-range value Chrome cancels the submit event entirely, so
+				`saveLeadHours()` never ran and the app's own message could not
+				appear. The user got a browser-locale tooltip instead of the
+				translated planix string, and the spec scenario "Invalid lead
+				time rejected in the UI" failed on an assertion that was correct.
+
+				The attributes stay: they still give the number input its spinner
+				bounds and communicate the range to assistive technology. Only
+				the automatic block is turned off, so the component's validator
+				is the single thing that decides and reports.
+			-->
+			<form novalidate @submit.prevent="saveLeadHours">
 				<div class="form-group">
 					<label for="due-reminder-lead-hours">{{ t('planix', 'Due-date reminder lead time (hours)') }}</label>
 					<input

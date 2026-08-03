@@ -188,9 +188,31 @@ class TimelineController extends Controller
      */
     private function fetchProjectTasks(object $objectService, string $projectId): array
     {
-        $objectService->setRegister(self::REGISTER);
-        $objectService->setSchema('task');
-        $results = $objectService->searchObjects(filters: ['project' => $projectId]);
+        // `searchObjectsBySlug()`, not `searchObjects()`.
+        //
+        // This call used to be `setRegister()/setSchema()` followed by
+        // `searchObjects(filters: [...])`, and it was broken twice over:
+        //
+        //  1. `ObjectService::searchObjects()` has no `$filters` parameter — its
+        //     signature is `searchObjects(array $query = [], …)`. PHP therefore
+        //     raised `Unknown named parameter $filters` and the whole endpoint
+        //     returned a 500. The Timeline view rendered "Could not load the
+        //     timeline / An unexpected error occurred." on every project.
+        //  2. Even without that, `searchObjects()` does NOT read the register /
+        //     schema left on the service by `setRegister()/setSchema()`. It logs
+        //     `[MagicMapper] searchObjects() called without register/schema
+        //     context` and matches nothing, so the fix could not have been to
+        //     drop the argument name.
+        //
+        // `searchObjectsBySlug()` is the supported slug-aware entry point: it
+        // resolves both slugs to numeric IDs, merges them into the `@self` block
+        // and delegates to `searchObjects()`. Direct keys such as `project` stay
+        // at the top level and hit the object-JSON filter path.
+        $results = $objectService->searchObjectsBySlug(
+            registerSlug: self::REGISTER,
+            schemaSlug: 'task',
+            filters: ['project' => $projectId]
+        );
 
         $tasks = [];
         foreach ($this->normaliseResults(results: $results) as $row) {
@@ -221,9 +243,16 @@ class TimelineController extends Controller
             return [];
         }
 
-        $objectService->setRegister(self::REGISTER);
-        $objectService->setSchema('dependency');
-        $results = $objectService->searchObjects();
+        // See fetchProjectTasks(): `searchObjects()` ignores the register/schema
+        // left on the service by `setRegister()/setSchema()` and logs
+        // `[MagicMapper] searchObjects() called without register/schema context`
+        // before matching nothing. This one did not 500 — it silently returned
+        // an empty edge set, so every timeline rendered with no dependency
+        // arrows and nothing said so.
+        $results = $objectService->searchObjectsBySlug(
+            registerSlug: self::REGISTER,
+            schemaSlug: 'dependency'
+        );
 
         $edges = [];
         foreach ($this->normaliseResults(results: $results) as $row) {
