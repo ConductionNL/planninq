@@ -730,12 +730,27 @@ class DependencyService
     private function extractId(mixed $row): string
     {
         if (is_object($row) === true) {
-            if (method_exists($row, 'getUuid') === true) {
-                return (string) $row->getUuid();
-            }
+            // `is_callable()`, NOT `method_exists()` — see the identical fix in
+            // LabelService::extractId(). \OCP\AppFramework\Db\Entity implements
+            // its accessors through `__call()` and declares neither `getUuid()`
+            // nor `getId()`, so `method_exists()` skipped both branches and this
+            // helper returned '' for every entity. Here that emptied the task-id
+            // set the cross-project guard and the cycle detector compare
+            // against.
+            foreach (['getUuid', 'getId'] as $getter) {
+                if (is_callable([$row, $getter]) === false) {
+                    continue;
+                }
 
-            if (method_exists($row, 'getId') === true) {
-                return (string) $row->getId();
+                try {
+                    $value = $row->$getter();
+                } catch (\Throwable $e) {
+                    continue;
+                }
+
+                if ($value !== null && (string) $value !== '') {
+                    return (string) $value;
+                }
             }
         }
 

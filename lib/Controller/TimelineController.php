@@ -385,12 +385,34 @@ class TimelineController extends Controller
     private function extractId(mixed $row): string
     {
         if (is_object($row) === true) {
-            if (method_exists($row, 'getUuid') === true) {
-                return (string) $row->getUuid();
-            }
+            // `is_callable()`, NOT `method_exists()`.
+            //
+            // OpenRegister's ObjectEntity extends \OCP\AppFramework\Db\Entity,
+            // which implements every property accessor through `__call()`. It
+            // declares no `getUuid()` and — despite appearances — no `getId()`
+            // either; `\OCP\AppFramework\Db\Entity` has neither. `method_exists()`
+            // does not see magic methods, so BOTH branches were skipped, the
+            // array branch below does not apply to an object, and this helper
+            // returned '' for every entity it was ever handed.
+            //
+            // The damage was silent: `forProject()` drops tasks whose extracted
+            // id is empty, so the timeline reported `tasks: []` / `unscheduled:
+            // []` for a project full of dated tasks and rendered its empty
+            // state. `is_callable()` resolves through `__call()`.
+            foreach (['getUuid', 'getId'] as $getter) {
+                if (is_callable([$row, $getter]) === false) {
+                    continue;
+                }
 
-            if (method_exists($row, 'getId') === true) {
-                return (string) $row->getId();
+                try {
+                    $value = $row->$getter();
+                } catch (\Throwable $e) {
+                    continue;
+                }
+
+                if ($value !== null && (string) $value !== '') {
+                    return (string) $value;
+                }
             }
         }
 

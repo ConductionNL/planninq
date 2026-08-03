@@ -68,14 +68,23 @@ test.describe('Label management — admin settings', () => {
 		await expect(createBtn).toBeVisible()
 		await createBtn.click()
 
-		await page.getByLabel(/Title/i).fill('Tech debt')
+		// A run-unique title, because labels are NOT reset between runs.
+		//
+		// Labels are app-wide OpenRegister objects that outlive the suite, so a
+		// fixed "Tech debt" accumulates one row per run against a persistent
+		// instance and the closing `getByText(...)` then resolves to several
+		// elements, which strict mode rejects. CI always starts from a fresh
+		// install so it never saw this; a developer re-running against the same
+		// container hits it on the second run.
+		const title = `Tech debt ${Date.now()}`
+		await page.getByLabel(/Title/i).fill(title)
 		await page.getByLabel(/Hex color/i).fill('#33AA55')
 		// Scoped to the dialog for the same reason as the Save/Delete clicks
 		// below — the list's own trigger is "+ Create label", which does not
 		// collide today, but the page behind the dialog stays mounted.
 		await dialog(page).getByRole('button', { name: /^Create$/i }).click()
 
-		await expect(page.getByText(/Tech debt/i)).toBeVisible()
+		await expect(page.getByText(title)).toBeVisible()
 	})
 
 	test('Invalid color is rejected in the dialog', async ({ page }) => {

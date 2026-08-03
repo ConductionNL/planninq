@@ -74,29 +74,38 @@ test.describe('Task collaboration sidebar', () => {
 		// Match on the ARIA role instead, scoped to the Comments panel — that is
 		// the same element, addressed the way a user perceives it.
 		const composer = panel.getByRole('textbox').first()
-		await composer.fill('Waiting on the API contract')
+
+		// A run-unique body, because comments are NOT reset between runs.
+		//
+		// Notes are stored per object and survive the suite, so a fixed string
+		// leaves one behind on every run and the next run's
+		// `filter({ hasText: … })` then matches several list items. Taking
+		// `.first()` of those picks somebody else's older note instead of the one
+		// this test just wrote — which is how this assertion passed on a clean
+		// instance and failed on the second run against the same one.
+		const body = `Waiting on the API contract ${Date.now()}`
+		await composer.fill(body)
 		await panel.getByRole('button', { name: /(Comment|Send|Post|Add)/i }).first().click()
 
 		// Own comment renders…
-		const note = panel.locator('li').filter({ hasText: 'Waiting on the API contract' }).first()
-		await expect(note).toBeVisible()
+		const note = panel.locator('li').filter({ hasText: body })
+		await expect(note).toHaveCount(1)
 
 		// …and exposes edit/delete actions.
 		//
-		// Those actions live in the list item's NcActions popover, which does
-		// not render its entries into the DOM until the menu is opened — so the
-		// old page-wide `getByRole('button', { name: /(Edit|Delete)/i })` could
-		// never have matched them, whatever the composer did. Open the menu the
-		// way a user does, then assert both entries. NcActionButton exposes
-		// itself as `menuitem` inside a semantic menu and as `button`
-		// otherwise, so accept either rather than depend on that detail.
-		await note.getByRole('button').last().click()
-		const editAction = page.getByRole('menuitem', { name: /^\s*Edit\s*$/i })
-			.or(page.getByRole('button', { name: /^\s*Edit\s*$/i }))
-		await expect(editAction.first()).toBeVisible()
-		const deleteAction = page.getByRole('menuitem', { name: /^\s*Delete\s*$/i })
-			.or(page.getByRole('button', { name: /^\s*Delete\s*$/i }))
-		await expect(deleteAction.first()).toBeVisible()
+		// Those actions live in the list item's NcActions popover, which does not
+		// render its entries into the DOM until the menu is opened — so the old
+		// page-wide `getByRole('button', { name: /(Edit|Delete)/i })` could never
+		// have matched them, whatever the composer did.
+		//
+		// Assert BOTH entries in ONE expectation, scoped to the open menu. Two
+		// separate page-wide waits are what made this flaky: the first could be
+		// satisfied by any visible control named "Edit" elsewhere on the task
+		// page, and by the time the second one ran the popover had closed. The
+		// menu is a `<ul role="menu">` of `role="menuitem"` buttons.
+		await note.getByRole('button', { name: /Actions/i }).click()
+		const menu = page.getByRole('menu')
+		await expect(menu.getByRole('menuitem', { name: /^\s*(Edit|Delete)\s*$/i })).toHaveCount(2)
 	})
 
 	test('Attach a file to a task and remove it', async ({ page }) => {
