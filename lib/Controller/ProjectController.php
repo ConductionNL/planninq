@@ -215,6 +215,13 @@ class ProjectController extends Controller
      *                      403 if policy forbids it; 422 on validation failure;
      *                      502 if upstream unavailable; 503 if OR unavailable.
      *
+     * Exception translation: the body wraps the ObjectService call in
+     * `catch (\Throwable)` and routes it through
+     * {@see classifyObjectServiceException()}, which maps OpenRegister's
+     * NotAuthorizedException to 403, its ValidationException /
+     * CustomValidationException to 422, ProviderUnavailableException to 502 and
+     * anything else to 503. Nothing propagates to Nextcloud's dispatcher.
+     *
      * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
      */
     public function create(): JSONResponse
@@ -302,6 +309,13 @@ class ProjectController extends Controller
      * @return JSONResponse 200 with updated project; 401 if unauthenticated;
      *                      403/404/422 on guard failures; 502 if upstream
      *                      unavailable; 503 if OR unavailable.
+     *
+     * Exception translation: the body wraps the ObjectService call in
+     * `catch (\Throwable)` and routes it through
+     * {@see classifyObjectServiceException()}, which maps OpenRegister's
+     * NotAuthorizedException to 403, its ValidationException /
+     * CustomValidationException to 422, ProviderUnavailableException to 502 and
+     * anything else to 503. Nothing propagates to Nextcloud's dispatcher.
      *
      * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
      */
