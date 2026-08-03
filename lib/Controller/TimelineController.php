@@ -188,9 +188,32 @@ class TimelineController extends Controller
      */
     private function fetchProjectTasks(object $objectService, string $projectId): array
     {
-        $objectService->setRegister(self::REGISTER);
-        $objectService->setSchema('task');
-        $results = $objectService->searchObjects(filters: ['project' => $projectId]);
+        // `searchObjectsBySlug()`, not `searchObjects()`.
+        //
+        // This call used to be `setRegister()/setSchema()` followed by
+        // `searchObjects(filters: [...])`, and it was broken twice over:
+        //
+        // 1. `ObjectService::searchObjects()` has no `$filters` parameter — its
+        // signature is `searchObjects(array $query = [], …)`. PHP therefore
+        // raised `Unknown named parameter $filters` and the whole endpoint
+        // returned a 500. The Timeline view rendered "Could not load the
+        // timeline / An unexpected error occurred." on every project.
+        //
+        // 2. Even without that, `searchObjects()` does NOT read the register or
+        // schema left on the service by `setRegister()/setSchema()`. It logs
+        // `[MagicMapper] searchObjects() called without register/schema
+        // context` and matches nothing, so the fix could not have been to drop
+        // the argument name.
+        //
+        // `searchObjectsBySlug()` is the supported slug-aware entry point: it
+        // resolves both slugs to numeric IDs, merges them into the `@self` block
+        // and delegates to `searchObjects()`. Direct keys such as `project` stay
+        // at the top level and hit the object-JSON filter path.
+        $results = $objectService->searchObjectsBySlug(
+            registerSlug: self::REGISTER,
+            schemaSlug: 'task',
+            filters: ['project' => $projectId]
+        );
 
         $tasks = [];
         foreach ($this->normaliseResults(results: $results) as $row) {
@@ -221,9 +244,16 @@ class TimelineController extends Controller
             return [];
         }
 
-        $objectService->setRegister(self::REGISTER);
-        $objectService->setSchema('dependency');
-        $results = $objectService->searchObjects();
+        // See fetchProjectTasks(): `searchObjects()` ignores the register/schema
+        // left on the service by `setRegister()/setSchema()` and logs
+        // `[MagicMapper] searchObjects() called without register/schema context`
+        // before matching nothing. This one did not 500 — it silently returned
+        // an empty edge set, so every timeline rendered with no dependency
+        // arrows and nothing said so.
+        $results = $objectService->searchObjectsBySlug(
+            registerSlug: self::REGISTER,
+            schemaSlug: 'dependency'
+        );
 
         $edges = [];
         foreach ($this->normaliseResults(results: $results) as $row) {
@@ -356,14 +386,36 @@ class TimelineController extends Controller
     private function extractId(mixed $row): string
     {
         if (is_object($row) === true) {
-            if (method_exists($row, 'getUuid') === true) {
-                return (string) $row->getUuid();
-            }
+            // `is_callable()`, NOT `method_exists()`.
+            //
+            // OpenRegister's ObjectEntity extends \OCP\AppFramework\Db\Entity,
+            // which implements every property accessor through `__call()`. It
+            // declares no `getUuid()` and — despite appearances — no `getId()`
+            // either; `\OCP\AppFramework\Db\Entity` has neither. `method_exists()`
+            // does not see magic methods, so BOTH branches were skipped, the
+            // array branch below does not apply to an object, and this helper
+            // returned '' for every entity it was ever handed.
+            //
+            // The damage was silent: `forProject()` drops tasks whose extracted
+            // id is empty, so the timeline reported `tasks: []` / `unscheduled:
+            // []` for a project full of dated tasks and rendered its empty
+            // state. `is_callable()` resolves through `__call()`.
+            foreach (['getUuid', 'getId'] as $getter) {
+                if (is_callable([$row, $getter]) === false) {
+                    continue;
+                }
 
-            if (method_exists($row, 'getId') === true) {
-                return (string) $row->getId();
-            }
-        }
+                try {
+                    $value = $row->$getter();
+                } catch (\Throwable $e) {
+                    continue;
+                }
+
+                if ($value !== null && (string) $value !== '') {
+                    return (string) $value;
+                }
+            }//end foreach
+        }//end if
 
         if (is_array($row) === true) {
             if (isset($row['@self']['id']) === true) {

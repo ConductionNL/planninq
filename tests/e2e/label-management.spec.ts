@@ -24,10 +24,28 @@
  * present" guards are now hard `expect(...)` assertions.
  */
 
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
 import { BASE_URL as NC } from './base-url'
 
 const SETTINGS_URL = `${NC}/index.php/settings/admin/planix`
+
+/**
+ * The open label dialog (NcDialog renders `role="dialog"`).
+ *
+ * Both label dialogs share button names with controls that stay mounted behind
+ * them — "Save" with four settings forms, "Delete label" with every row's own
+ * delete control — so dialog interactions must be scoped or Playwright's strict
+ * mode aborts on the multiple matches.
+ *
+ * @param page the Playwright page
+ * @return a locator for the open dialog
+ */
+function dialog(page: Page) {
+	// `.last()` because NcDialog can render a native <dialog> (implicit role
+	// "dialog") inside an NcModal wrapper that also declares role="dialog";
+	// the innermost one is the one holding the action buttons.
+	return page.getByRole('dialog').last()
+}
 
 test.describe('Label management — admin settings', () => {
 	test('View labels with usage counts', async ({ page }) => {
@@ -50,11 +68,23 @@ test.describe('Label management — admin settings', () => {
 		await expect(createBtn).toBeVisible()
 		await createBtn.click()
 
-		await page.getByLabel(/Title/i).fill('Tech debt')
+		// A run-unique title, because labels are NOT reset between runs.
+		//
+		// Labels are app-wide OpenRegister objects that outlive the suite, so a
+		// fixed "Tech debt" accumulates one row per run against a persistent
+		// instance and the closing `getByText(...)` then resolves to several
+		// elements, which strict mode rejects. CI always starts from a fresh
+		// install so it never saw this; a developer re-running against the same
+		// container hits it on the second run.
+		const title = `Tech debt ${Date.now()}`
+		await page.getByLabel(/Title/i).fill(title)
 		await page.getByLabel(/Hex color/i).fill('#33AA55')
-		await page.getByRole('button', { name: /^Create$/i }).click()
+		// Scoped to the dialog for the same reason as the Save/Delete clicks
+		// below — the list's own trigger is "+ Create label", which does not
+		// collide today, but the page behind the dialog stays mounted.
+		await dialog(page).getByRole('button', { name: /^Create$/i }).click()
 
-		await expect(page.getByText(/Tech debt/i)).toBeVisible()
+		await expect(page.getByText(title)).toBeVisible()
 	})
 
 	test('Invalid color is rejected in the dialog', async ({ page }) => {
@@ -81,7 +111,15 @@ test.describe('Label management — admin settings', () => {
 
 		await page.getByLabel(/Title/i).fill('Defect')
 		await page.getByLabel(/Hex color/i).fill('#FF8800')
-		await page.getByRole('button', { name: /^Save$/i }).click()
+		// Scope the Save click to the DIALOG.
+		//
+		// The admin panel behind this dialog renders four independent settings
+		// forms, each with its own "Save" button — default columns, project
+		// creation, notification lead time and the legacy register
+		// configuration. A page-wide `getByRole('button', { name: /^Save$/i })`
+		// therefore resolves to five elements and Playwright's strict mode
+		// aborts the test before it clicks anything.
+		await dialog(page).getByRole('button', { name: /^Save$/i }).click()
 
 		// Re-render reflects the new title on the board chip (no task write).
 		await expect(page.getByText(/Defect/i).first()).toBeVisible()
@@ -97,6 +135,15 @@ test.describe('Label management — admin settings', () => {
 
 		// Confirmation dialog warns about the usage count before deleting.
 		await expect(page.getByText(/will be removed from \d+ tasks?/i)).toBeVisible()
-		await page.getByRole('button', { name: /^Delete label$/i }).click()
+		// Scope the confirm click to the DIALOG.
+		//
+		// Every row in the label list carries a delete control whose accessible
+		// name is its `aria-label`, "Delete label" — exactly the name the
+		// dialog's confirm button also has. Once the list renders even one
+		// label, a page-wide match resolves to two elements and strict mode
+		// aborts. (This never surfaced before because the list was always
+		// empty: see LabelService::fetchAll(), which searched with no
+		// register/schema context and returned nothing on every instance.)
+		await dialog(page).getByRole('button', { name: /^Delete label$/i }).click()
 	})
 })

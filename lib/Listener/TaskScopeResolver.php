@@ -143,7 +143,14 @@ class TaskScopeResolver
     {
         try {
             $entity = $this->container->get($service)->find($id);
-            if (is_object($entity) === true && method_exists($entity, 'getSlug') === true) {
+            // `is_callable()`, NOT `method_exists()` — the same defect fixed in
+            // LabelService::extractId(). OpenRegister's Register and Schema
+            // entities extend \OCP\AppFramework\Db\Entity and declare no
+            // `getSlug()`; the accessor is served by `__call()`, which
+            // `method_exists()` cannot see. This method therefore returned ''
+            // unconditionally, and every slug it was asked to resolve came back
+            // empty with nothing logged.
+            if (is_object($entity) === true && is_callable([$entity, 'getSlug']) === true) {
                 return (string) $entity->getSlug();
             }
         } catch (\Throwable $e) {

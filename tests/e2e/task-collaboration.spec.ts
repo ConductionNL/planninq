@@ -58,15 +58,54 @@ test.describe('Task collaboration sidebar', () => {
 		await expect(commentsTab).toHaveCount(1)
 		await commentsTab.click()
 
-		const composer = page.locator('textarea, [contenteditable="true"]').first()
-		await composer.fill('Waiting on the API contract')
-		await page.getByRole('button', { name: /(Comment|Send|Post|Add)/i }).first().click()
+		const panel = page.getByRole('tabpanel', { name: /Comments/i })
 
-		// Own comment renders and exposes edit/delete actions.
-		await expect(page.getByText(/Waiting on the API contract/i)).toBeVisible()
-		await expect(
-			page.getByRole('button', { name: /(Edit|Delete)/i }).first(),
-		).toBeVisible()
+		// The composer is `[contenteditable]`, NOT `[contenteditable="true"]`.
+		//
+		// The previous locator was `textarea, [contenteditable="true"]` and it
+		// matched ZERO elements, so this test spent its whole 60s timeout inside
+		// `fill()` and reported a missing composer that was on screen the entire
+		// time. CnNotesTab renders `NcRichContenteditable`, and @nextcloud/vue
+		// computes that attribute as `plaintext-only` wherever the browser
+		// supports it (Chromium does; see `contenteditableAttributeValue()`),
+		// falling back to `"true"` only on browsers that do not. An exact-value
+		// selector is therefore browser-dependent by construction.
+		//
+		// Match on the ARIA role instead, scoped to the Comments panel — that is
+		// the same element, addressed the way a user perceives it.
+		const composer = panel.getByRole('textbox').first()
+
+		// A run-unique body, because comments are NOT reset between runs.
+		//
+		// Notes are stored per object and survive the suite, so a fixed string
+		// leaves one behind on every run and the next run's
+		// `filter({ hasText: … })` then matches several list items. Taking
+		// `.first()` of those picks somebody else's older note instead of the one
+		// this test just wrote — which is how this assertion passed on a clean
+		// instance and failed on the second run against the same one.
+		const body = `Waiting on the API contract ${Date.now()}`
+		await composer.fill(body)
+		await panel.getByRole('button', { name: /(Comment|Send|Post|Add)/i }).first().click()
+
+		// Own comment renders…
+		const note = panel.locator('li').filter({ hasText: body })
+		await expect(note).toHaveCount(1)
+
+		// …and exposes edit/delete actions.
+		//
+		// Those actions live in the list item's NcActions popover, which does not
+		// render its entries into the DOM until the menu is opened — so the old
+		// page-wide `getByRole('button', { name: /(Edit|Delete)/i })` could never
+		// have matched them, whatever the composer did.
+		//
+		// Assert BOTH entries in ONE expectation, scoped to the open menu. Two
+		// separate page-wide waits are what made this flaky: the first could be
+		// satisfied by any visible control named "Edit" elsewhere on the task
+		// page, and by the time the second one ran the popover had closed. The
+		// menu is a `<ul role="menu">` of `role="menuitem"` buttons.
+		await note.getByRole('button', { name: /Actions/i }).click()
+		const menu = page.getByRole('menu')
+		await expect(menu.getByRole('menuitem', { name: /^\s*(Edit|Delete)\s*$/i })).toHaveCount(2)
 	})
 
 	test('Attach a file to a task and remove it', async ({ page }) => {
@@ -76,10 +115,32 @@ test.describe('Task collaboration sidebar', () => {
 		await expect(filesTab).toHaveCount(1)
 		await filesTab.click()
 
+		const panel = page.getByRole('tabpanel', { name: /(Attachments|Files)/i })
+
 		// The Files tab renders an upload affordance and a (possibly empty) list.
-		await expect(
-			page.getByRole('button', { name: /(Upload|Add|Attach)/i }).first(),
-		).toBeVisible()
+		//
+		// ⚠️ There is no button here, and that is a real accessibility defect —
+		// in `@conduction/nextcloud-vue`, not in planix. `CnFilesTab` renders the
+		// upload affordance as
+		//
+		//     <div class="cn-sidebar-tab__dropzone" @click="triggerFileInput">
+		//       <input ref="fileInput" type="file" class="cn-sidebar-tab__file-input">
+		//       <Upload /> <span>Drop files here or click to browse</span>
+		//     </div>
+		//
+		// — a click-handling `<div>` with no role, no accessible name and no
+		// tabindex, wrapping a visually hidden file input. It cannot be reached
+		// or operated from the keyboard and screen readers announce nothing
+		// actionable (WCAG 2.1.1 Keyboard, 4.1.2 Name/Role/Value). The previous
+		// `getByRole('button', { name: /(Upload|Add|Attach)/i })` was asserting
+		// the component this SHOULD be, and matched nothing.
+		//
+		// Fixing that belongs in nc-vue (this repo may not change it), so assert
+		// the affordance that actually ships — the dropzone and its file input —
+		// and leave this note so the assertion is tightened to a button role
+		// once nc-vue exposes one, rather than quietly forgotten.
+		await expect(panel.getByText(/Drop files here or click to browse/i)).toBeVisible()
+		await expect(panel.locator('input[type="file"]')).toHaveCount(1)
 	})
 
 	test('Audit Trail tab shows the change and is read-only', async ({ page }) => {

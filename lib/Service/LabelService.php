@@ -263,9 +263,25 @@ class LabelService
      */
     private function fetchAll(object $objectService, string $schema): array
     {
-        $objectService->setRegister(self::REGISTER);
-        $objectService->setSchema($schema);
-        $results = $objectService->searchObjects();
+        // `searchObjectsBySlug()`, not `setRegister()/setSchema()` +
+        // `searchObjects()`.
+        //
+        // `ObjectService::searchObjects()` does not read the register/schema
+        // left on the service by the setters — it logs
+        // `[MagicMapper] searchObjects() called without register/schema context`
+        // and matches nothing. This method is the ONLY read path behind
+        // `GET /apps/planix/api/labels`, so the admin "Label management" section
+        // rendered "No labels yet." on every instance, however many labels
+        // existed, with no error anywhere in the UI. The e2e suite caught it as
+        // four failing label-management specs on a fresh CI instance that had a
+        // seeded label.
+        //
+        // `searchObjectsBySlug()` resolves both slugs to numeric IDs and
+        // delegates to `searchObjects()` on the documented fast path.
+        $results = $objectService->searchObjectsBySlug(
+            registerSlug: self::REGISTER,
+            schemaSlug: $schema
+        );
 
         $rows = [];
         foreach ($this->normaliseResults(results: $results) as $row) {
@@ -310,14 +326,37 @@ class LabelService
     private function extractId(mixed $row): string
     {
         if (is_object($row) === true) {
-            if (method_exists($row, 'getUuid') === true) {
-                return (string) $row->getUuid();
-            }
+            // `is_callable()`, NOT `method_exists()`.
+            //
+            // OpenRegister's ObjectEntity extends \OCP\AppFramework\Db\Entity,
+            // which implements every property accessor through `__call()` and
+            // declares neither `getUuid()` nor `getId()`. `method_exists()` does
+            // not see magic methods, so both branches were skipped and this
+            // helper returned '' for every entity.
+            //
+            // Consequences, all silent: every label in
+            // `GET /apps/planix/api/labels` came back with `"id": ""`, so the
+            // admin dialog's `isEdit` (`!!label.id`) was false and the Edit
+            // button opened a CREATE dialog — editing a label would have
+            // duplicated it — while Delete cascaded on an empty id, and
+            // `countUsageByLabel()` keyed every count on '' so every label read
+            // "used by 0 tasks".
+            foreach (['getUuid', 'getId'] as $getter) {
+                if (is_callable([$row, $getter]) === false) {
+                    continue;
+                }
 
-            if (method_exists($row, 'getId') === true) {
-                return (string) $row->getId();
-            }
-        }
+                try {
+                    $value = $row->$getter();
+                } catch (\Throwable $e) {
+                    continue;
+                }
+
+                if ($value !== null && (string) $value !== '') {
+                    return (string) $value;
+                }
+            }//end foreach
+        }//end if
 
         if (is_array($row) === true) {
             if (isset($row['@self']['id']) === true) {
