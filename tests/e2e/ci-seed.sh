@@ -309,20 +309,3 @@ if [ "${GITHUB_ACTIONS:-}" = "true" ] || [ "${CI:-}" = "true" ]; then
 fi
 
 echo "[ci-seed] done."
-
-# ─────────────────────────────────────────────────────────────────────────────
-# TEMPORARY — POSITIVE CONTROL. REVERT THIS BLOCK BEFORE MERGING.
-#
-# Proves the suite actually exercises the planix frontend. A control that
-# DELETES the bundle is defeated by global-setup.ts's `ensureBundleBuilt()`,
-# which only tests `fs.existsSync()` — so this TRUNCATES it to zero bytes
-# instead: the file still exists, nothing rebuilds it, and the SPA gets an
-# empty script.
-#
-# Placed after the bundle gate above on purpose, so the gate still sees the
-# real bundle and the run reaches the specs.
-# ─────────────────────────────────────────────────────────────────────────────
-CONTROL_BUNDLE="${APP_DIR}/js/planix-main.js"
-echo "[control] bundle before: $(stat -c%s "$CONTROL_BUNDLE") bytes"
-: > "$CONTROL_BUNDLE"
-echo "[control] bundle after:  $(stat -c%s "$CONTROL_BUNDLE") bytes"
