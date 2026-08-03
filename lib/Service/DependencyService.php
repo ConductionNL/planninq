@@ -751,8 +751,8 @@ class DependencyService
                 if ($value !== null && (string) $value !== '') {
                     return (string) $value;
                 }
-            }
-        }
+            }//end foreach
+        }//end if
 
         if (is_array($row) === true) {
             if (isset($row['@self']['id']) === true) {

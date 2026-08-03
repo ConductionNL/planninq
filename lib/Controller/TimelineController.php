@@ -193,16 +193,17 @@ class TimelineController extends Controller
         // This call used to be `setRegister()/setSchema()` followed by
         // `searchObjects(filters: [...])`, and it was broken twice over:
         //
-        //  1. `ObjectService::searchObjects()` has no `$filters` parameter — its
-        //     signature is `searchObjects(array $query = [], …)`. PHP therefore
-        //     raised `Unknown named parameter $filters` and the whole endpoint
-        //     returned a 500. The Timeline view rendered "Could not load the
-        //     timeline / An unexpected error occurred." on every project.
-        //  2. Even without that, `searchObjects()` does NOT read the register /
-        //     schema left on the service by `setRegister()/setSchema()`. It logs
-        //     `[MagicMapper] searchObjects() called without register/schema
-        //     context` and matches nothing, so the fix could not have been to
-        //     drop the argument name.
+        // 1. `ObjectService::searchObjects()` has no `$filters` parameter — its
+        // signature is `searchObjects(array $query = [], …)`. PHP therefore
+        // raised `Unknown named parameter $filters` and the whole endpoint
+        // returned a 500. The Timeline view rendered "Could not load the
+        // timeline / An unexpected error occurred." on every project.
+        //
+        // 2. Even without that, `searchObjects()` does NOT read the register or
+        // schema left on the service by `setRegister()/setSchema()`. It logs
+        // `[MagicMapper] searchObjects() called without register/schema
+        // context` and matches nothing, so the fix could not have been to drop
+        // the argument name.
         //
         // `searchObjectsBySlug()` is the supported slug-aware entry point: it
         // resolves both slugs to numeric IDs, merges them into the `@self` block
@@ -413,8 +414,8 @@ class TimelineController extends Controller
                 if ($value !== null && (string) $value !== '') {
                     return (string) $value;
                 }
-            }
-        }
+            }//end foreach
+        }//end if
 
         if (is_array($row) === true) {
             if (isset($row['@self']['id']) === true) {
