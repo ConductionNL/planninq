@@ -110,3 +110,5 @@ The system MUST provide a user settings dialog via NcAppSettingsDialog, accessib
 - The Procest bridge settings section (V1) adds a toggle and base URL field in a dedicated CnSettingsSection.
 - The `SUBJECT_SETTING_MAP` in NotificationService maps each notification subject key (e.g., `task_assigned`) to its corresponding user setting key (e.g., `notify_assigned`). Before sending any notification, the service checks the user's preference.
 - Backend: Settings are exposed via `SettingsController` (admin) and `SettingsController` (user). The frontend queries `/settings/admin` and `/settings/user` to read/write them.
+
+<!-- Synced from change: admin-settings-mvp (2026-04-06) -->
