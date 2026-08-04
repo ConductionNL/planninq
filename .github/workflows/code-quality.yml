@@ -27,7 +27,6 @@ jobs:
       enable-frontend: true
       enable-eslint: true
       enable-phpunit: true
-      enable-newman: false
       # `ref` moved from `main` to `development`. The E2E job needs the AppHost
       # plumbing planix's own appinfo/routes.php already depends on
       # (`\OCA\OpenRegister\AppHost\Routes::standard()`), and `development` is
@@ -75,6 +74,48 @@ jobs:
       playwright-test-path: tests/e2e
       # cwd for this step is the Nextcloud server root.
       playwright-seed-command: 'bash apps/planix/tests/e2e/ci-seed.sh'
+
+      # ── Integration tests ────────────────────────────────────────────────
+      # Was explicitly `false`. tests/integration/planix.postman_collection.json
+      # had never executed in CI. It sits at the default
+      # `newman-collection-path` (tests/integration), which is both the
+      # directory the validator counts collections in and the directory the run
+      # step globs `*.postman_collection.json` in — flat, not recursively.
+      enable-newman: true
+
+      # ── Frontend Check legs ──────────────────────────────────────────────
+      # `frontend-checks` defaults to `[]`, and an empty list means the shared
+      # workflow emits NO "Frontend Check" job at all — so `check:manifest` ran
+      # nowhere while the run still looked complete.
+      # `check:l10n` is deliberately NOT listed here: the dedicated
+      # `l10n-parity` job below already runs it, and a second copy would be the
+      # same check twice with nothing extra to show for it.
+      # Measured on this tree before enabling: `check:manifest` FAILS —
+      # `top-level: menu (array) is required` and `pages (array) is required`,
+      # i.e. planix's src/manifest.json does not carry the fleet manifest shape
+      # at all. A real pre-existing defect; the gate is what makes it visible.
+      # `test` is NOT listed: "Frontend Tests (unit)" already runs it.
+      frontend-checks: '["check:manifest"]'
+
+      # ── Coverage ratchet ─────────────────────────────────────────────────
+      # `enable-coverage-guard` defaults to FALSE, which is why both
+      # "Coverage Baseline Protection" and "Coverage Baseline Check" have only
+      # ever reported `skipped`. It needs two inputs this repo did not have,
+      # both added in this commit: `scripts/coverage-guard.php` (byte-identical
+      # to openregister's) and `.coverage-baseline` = 69.15, this repo's own
+      # measured coverage (872 of 1261 statements) read from clover.xml in the
+      # `coverage-report` artifact of run 30911196345.
+      enable-coverage-guard: true
+
+      # ── Hydra mechanical gates ───────────────────────────────────────────
+      # `enable-hydra-gates` defaults to FALSE, so this tier has never executed
+      # here — the job reported `skipped`, which the Quality Report renders
+      # identically to a pass. Pinned to v1.0.1 so a change to the gate package
+      # cannot move this repo's verdict without a commit here.
+      # `enable-axe` deliberately NOT set: a vanilla Nextcloud 34 already carries
+      # serious/critical violations from core's own UI.
+      enable-hydra-gates: true
+      hydra-gates-ref: v1.0.1
 
   # Translation-completeness gate: every required European locale must carry a
   # real translation for every key in l10n/en.json. Dependency-free pure Node
