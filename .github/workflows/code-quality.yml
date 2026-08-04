@@ -27,7 +27,6 @@ jobs:
       enable-frontend: true
       enable-eslint: true
       enable-phpunit: true
-      enable-newman: false
       # `ref` moved from `main` to `development`. The E2E job needs the AppHost
       # plumbing planix's own appinfo/routes.php already depends on
       # (`\OCA\OpenRegister\AppHost\Routes::standard()`), and `development` is
