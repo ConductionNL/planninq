@@ -36,6 +36,8 @@ namespace OCA\Planix\Service;
 
 /**
  * Pure graph algorithms over the task-dependency edge list.
+ *
+ * @spec openspec/specs/task-dependencies/spec.md
  */
 final class DependencyGraph
 {

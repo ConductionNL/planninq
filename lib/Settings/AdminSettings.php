@@ -40,6 +40,8 @@ use OCA\OpenRegister\AppHost\Settings\GenericAdminSettings;
 
 /**
  * AppHost-backed admin settings panel for Planix (ADR-040).
+ *
+ * @spec openspec/specs/admin-user-settings.md
  */
 class AdminSettings extends GenericAdminSettings
 {

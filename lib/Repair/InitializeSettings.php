@@ -31,6 +31,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Repair step that initializes Planix configuration via SettingsService.
+ *
+ * @spec openspec/specs/register-schemas/spec.md
  */
 class InitializeSettings implements IRepairStep
 {
@@ -54,6 +56,8 @@ class InitializeSettings implements IRepairStep
      * Get the name of this repair step.
      *
      * @return string
+     *
+     * @spec openspec/specs/register-schemas/spec.md
      */
     public function getName(): string
     {

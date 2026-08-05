@@ -38,6 +38,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Service for managing Planix application configuration and settings.
+ *
+ * @spec openspec/specs/admin-user-settings.md
  */
 class SettingsService
 {

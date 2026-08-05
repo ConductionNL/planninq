@@ -42,6 +42,8 @@ use RuntimeException;
  * The aggregation ({@see countUsageByLabel()}) is a pure function over the task
  * label-arrays so it is unit-testable without OpenRegister; {@see listWithUsage()}
  * and {@see deleteWithCascade()} wrap it with the ObjectService persistence.
+ *
+ * @spec openspec/specs/admin-user-settings.md
  */
 class LabelService
 {

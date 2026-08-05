@@ -18,7 +18,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 
 declare(strict_types=1);
@@ -29,6 +29,8 @@ use OCP\Activity\IEvent;
 
 /**
  * Applies subject text and rich parameters to planix task activity events.
+ *
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 class ProviderSubjectHandler
 {
@@ -46,7 +48,7 @@ class ProviderSubjectHandler
      *
      * @return void
      *
-     * @spec openspec/specs/task-collaboration.md
+     * @spec openspec/specs/task-collaboration/spec.md
      */
     public function applySubjectText(IEvent $event, object $l, array $params): void
     {

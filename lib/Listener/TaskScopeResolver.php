@@ -19,7 +19,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 
 declare(strict_types=1);
@@ -31,6 +31,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Resolves planix task scope + project members from OpenRegister.
+ *
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 class TaskScopeResolver
 {
@@ -75,7 +77,7 @@ class TaskScopeResolver
      *
      * @return bool Whether this is a planix task.
      *
-     * @spec openspec/specs/task-collaboration.md
+     * @spec openspec/specs/task-collaboration/spec.md
      */
     public function isPlanixTask(string $registerId, string $schemaId): bool
     {
@@ -97,7 +99,7 @@ class TaskScopeResolver
      *
      * @return string[] The project's member ids, or [] when unresolvable.
      *
-     * @spec openspec/specs/task-collaboration.md
+     * @spec openspec/specs/task-collaboration/spec.md
      */
     public function projectMembers(string $projectId): array
     {

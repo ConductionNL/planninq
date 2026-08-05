@@ -44,6 +44,8 @@ use OCP\IRequest;
 
 /**
  * Controller for app-wide label management (admin-only).
+ *
+ * @spec openspec/specs/admin-user-settings.md
  */
 class LabelController extends Controller
 {
