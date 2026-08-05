@@ -35,6 +35,8 @@ use OCP\IUserSession;
 
 /**
  * Controller for managing Planix application settings.
+ *
+ * @spec openspec/specs/admin-user-settings.md
  */
 class SettingsController extends Controller
 {

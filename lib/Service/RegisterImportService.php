@@ -37,6 +37,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Imports the Planix register definition into OpenRegister.
+ *
+ * @spec openspec/specs/register-schemas/spec.md
  */
 class RegisterImportService
 {

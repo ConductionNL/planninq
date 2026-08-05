@@ -18,7 +18,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 
 declare(strict_types=1);
@@ -34,6 +34,8 @@ use OCP\L10N\IFactory;
 
 /**
  * Activity provider for parsing planix task events.
+ *
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 class Provider implements IProvider
 {
@@ -75,9 +77,14 @@ class Provider implements IProvider
      *
      * @throws UnknownActivityException When the event is not a planix task event.
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter) — $previousEvent required by IProvider interface
+     * @spec openspec/specs/task-collaboration/spec.md
      *
-     * @spec openspec/specs/task-collaboration.md
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter) $previousEvent is mandated
+     *                   by OCP\Activity\IProvider::parse(). It exists so a
+     *                   provider can COLLAPSE consecutive related entries into
+     *                   one; planix renders every task event as its own entry,
+     *                   so the parameter is genuinely unread — it cannot be
+     *                   dropped without breaking the interface contract.
      */
     public function parse($language, IEvent $event, ?IEvent $previousEvent=null): IEvent
     {

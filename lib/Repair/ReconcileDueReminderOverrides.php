@@ -34,6 +34,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Seeds OpenRegister notification overrides for pre-existing due-reminder opt-outs.
+ *
+ * @spec openspec/specs/task-notifications.md
  */
 class ReconcileDueReminderOverrides implements IRepairStep
 {
@@ -57,6 +59,8 @@ class ReconcileDueReminderOverrides implements IRepairStep
      * Get the name of this repair step.
      *
      * @return string
+     *
+     * @spec openspec/specs/task-notifications.md
      */
     public function getName(): string
     {

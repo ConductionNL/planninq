@@ -57,8 +57,6 @@ class Application extends App implements IBootstrap
      * @param IRegistrationContext $context The registration context
      *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function register(IRegistrationContext $context): void
     {
@@ -109,7 +107,7 @@ class Application extends App implements IBootstrap
      *
      * @return void
      *
-     * @spec openspec/specs/task-collaboration.md
+     * @spec openspec/specs/task-collaboration/spec.md
      */
     private function registerFilteredObjectListener(
         IEventDispatcher $dispatcher,
@@ -396,6 +394,8 @@ class Application extends App implements IBootstrap
      * @param IBootContext $context The boot context
      *
      * @return void
+     *
+     * @spec openspec/specs/task-collaboration/spec.md
      */
     public function boot(IBootContext $context): void
     {

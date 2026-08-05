@@ -17,7 +17,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 
 declare(strict_types=1);
@@ -31,6 +31,8 @@ use OCP\IURLGenerator;
 
 /**
  * Activity filter for planix task events.
+ *
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 class Filter implements IFilter
 {
@@ -57,6 +59,8 @@ class Filter implements IFilter
      * Get the unique identifier of the filter.
      *
      * @return string The filter identifier.
+     *
+     * @spec openspec/specs/task-collaboration/spec.md
      */
     public function getIdentifier(): string
     {
@@ -67,6 +71,8 @@ class Filter implements IFilter
      * Get the human-readable name of the filter.
      *
      * @return string The filter name.
+     *
+     * @spec openspec/specs/task-collaboration/spec.md
      */
     public function getName(): string
     {
@@ -77,6 +83,8 @@ class Filter implements IFilter
      * Get the priority of the filter.
      *
      * @return int The filter priority (0-99; lower sorts earlier).
+     *
+     * @spec openspec/specs/task-collaboration/spec.md
      */
     public function getPriority(): int
     {
@@ -87,6 +95,8 @@ class Filter implements IFilter
      * Get the icon URL for the filter.
      *
      * @return string The absolute icon URL.
+     *
+     * @spec openspec/specs/task-collaboration/spec.md
      */
     public function getIcon(): string
     {
@@ -102,7 +112,14 @@ class Filter implements IFilter
      *
      * @return array<array-key, string> The filtered types.
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter) — $types required by IFilter interface
+     * @spec openspec/specs/task-collaboration/spec.md
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter) $types is mandated by
+     *                   OCP\Activity\IFilter::filterTypes(). This filter always
+     *                   narrows to the single planix activity type regardless of
+     *                   what else is on offer, so the incoming list is genuinely
+     *                   unread — the parameter cannot be dropped without
+     *                   breaking the interface contract.
      */
     public function filterTypes(array $types): array
     {
@@ -113,6 +130,8 @@ class Filter implements IFilter
      * Get the allowed apps for this filter.
      *
      * @return array<array-key, string> The allowed app IDs.
+     *
+     * @spec openspec/specs/task-collaboration/spec.md
      */
     public function allowedApps(): array
     {

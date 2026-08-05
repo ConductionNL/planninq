@@ -39,6 +39,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * OpenRegister reads for task dependency edges.
+ *
+ * @spec openspec/specs/task-dependencies/spec.md
  */
 class DependencyRepository
 {
@@ -76,6 +78,8 @@ class DependencyRepository
      * @return object The OR ObjectService.
      *
      * @throws DependencyValidationException When OpenRegister is unavailable.
+     *
+     * @spec openspec/specs/task-dependencies/spec.md
      */
     public function objectService(): object
     {
@@ -97,6 +101,8 @@ class DependencyRepository
      * @param string $taskId        UUID of the task.
      *
      * @return array<string,mixed>|null
+     *
+     * @spec openspec/specs/task-dependencies/spec.md
      */
     public function fetchTask(object $objectService, string $taskId): ?array
     {
@@ -125,6 +131,8 @@ class DependencyRepository
      * @param string $projectId     UUID of the project.
      *
      * @return array<int,array<string,mixed>>
+     *
+     * @spec openspec/specs/task-dependencies/spec.md
      */
     public function fetchProjectEdges(object $objectService, string $projectId): array
     {
@@ -153,6 +161,8 @@ class DependencyRepository
      * @param string $projectId     UUID of the project.
      *
      * @return array<int,string>
+     *
+     * @spec openspec/specs/task-dependencies/spec.md
      */
     public function fetchProjectTaskIds(object $objectService, string $projectId): array
     {
@@ -186,6 +196,8 @@ class DependencyRepository
      * @param object $objectService The OR ObjectService.
      *
      * @return array<int,array<string,mixed>>
+     *
+     * @spec openspec/specs/task-dependencies/spec.md
      */
     public function fetchAllEdges(object $objectService): array
     {

@@ -41,6 +41,8 @@ use OCP\Migration\SimpleMigrationStep;
  * publicWrite: false and publicRead: false on the planix register and
  * adds authorization blocks to project, task, column, and timeEntry schemas
  * to enforce member-based row-level access control.
+ *
+ * @spec openspec/specs/register-schemas/spec.md
  */
 class Version20260403000000 extends SimpleMigrationStep
 {
@@ -52,6 +54,8 @@ class Version20260403000000 extends SimpleMigrationStep
      * @param array   $options       Migration options
      *
      * @return ISchemaWrapper|null
+     *
+     * @spec openspec/specs/register-schemas/spec.md
      */
     public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper
     {

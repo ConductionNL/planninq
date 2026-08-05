@@ -25,7 +25,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 
 declare(strict_types=1);
@@ -45,6 +45,8 @@ use Psr\Log\LoggerInterface;
  * Publishes planix task activity from OpenRegister object events.
  *
  * @implements IEventListener<Event>
+ *
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 class TaskActivityListener implements IEventListener
 {
@@ -82,7 +84,7 @@ class TaskActivityListener implements IEventListener
      *
      * @return void
      *
-     * @spec openspec/specs/task-collaboration.md
+     * @spec openspec/specs/task-collaboration/spec.md
      */
     public function handle(Event $event): void
     {
