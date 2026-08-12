@@ -62,7 +62,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
     <screenshot>https://codeberg.org/Conduction/planix/raw/branch/main/docs/features/img/projects-settings.png</screenshot>
 
     <dependencies>
-        <nextcloud min-version="31" max-version="34"/>
+        <nextcloud min-version="32" max-version="34"/>
         <php min-version="8.3"/>
         <!-- App dependency (not expressible in app-info.xsd): OpenRegister
              (data layer for the task/project/column/timeEntry/label/dependency
