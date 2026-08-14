@@ -62,21 +62,34 @@ Vrij en open source onder de EUPL-1.2-licentie.
     <screenshot>https://codeberg.org/Conduction/planix/raw/branch/main/docs/features/img/projects-settings.png</screenshot>
 
     <dependencies>
-        <nextcloud min-version="32" max-version="34"/>
+        <!-- Order is fixed by app-info.xsd's xs:sequence for <dependencies>:
+             php, database, command, lib, owncloud, nextcloud, architecture,
+             backend. `nextcloud` before `php` validated as "Element 'php':
+             this element is not expected. Expected is one of ( architecture,
+             backend )" — the schema had already passed the php slot. -->
         <php min-version="8.3"/>
+        <nextcloud min-version="32" max-version="34"/>
         <!-- App dependency (not expressible in app-info.xsd): OpenRegister
              (data layer for the task/project/column/timeEntry/label/dependency
              schemas; see lib/Settings/planix_register.json). -->
     </dependencies>
 
-    <navigations>
-        <navigation>
-            <id>planix</id>
-            <name>Planix</name>
-            <route>planix.dashboard.page</route>
-            <icon>app.svg</icon>
-        </navigation>
-    </navigations>
+    <!-- ORDER BELOW IS FIXED BY app-info.xsd, NOT BY PREFERENCE.
+         The <info> children are an xs:sequence: … dependencies, background-jobs,
+         repair-steps, two-factor-providers, commands, settings, activity,
+         dashboard, fulltextsearch, navigations, contactsmenu, …
+         This file previously declared settings → navigations → activity →
+         repair-steps, which fails validation at the first element the schema
+         has already passed. Do not reorder these blocks for readability. -->
+    <repair-steps>
+        <install>
+            <step>OCA\Planix\Repair\InitializeSettings</step>
+        </install>
+        <post-migration>
+            <step>OCA\Planix\Repair\InitializeSettings</step>
+            <step>OCA\Planix\Repair\ReconcileDueReminderOverrides</step>
+        </post-migration>
+    </repair-steps>
 
     <settings>
         <admin>OCA\Planix\Settings\AdminSettings</admin>
@@ -92,13 +105,12 @@ Vrij en open source onder de EUPL-1.2-licentie.
         </filters>
     </activity>
 
-    <repair-steps>
-        <install>
-            <step>OCA\Planix\Repair\InitializeSettings</step>
-        </install>
-        <post-migration>
-            <step>OCA\Planix\Repair\InitializeSettings</step>
-            <step>OCA\Planix\Repair\ReconcileDueReminderOverrides</step>
-        </post-migration>
-    </repair-steps>
+    <navigations>
+        <navigation>
+            <id>planix</id>
+            <name>Planix</name>
+            <route>planix.dashboard.page</route>
+            <icon>app.svg</icon>
+        </navigation>
+    </navigations>
 </info>
