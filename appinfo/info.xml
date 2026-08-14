@@ -81,14 +81,17 @@ Vrij en open source onder de EUPL-1.2-licentie.
          This file previously declared settings → navigations → activity →
          repair-steps, which fails validation at the first element the schema
          has already passed. Do not reorder these blocks for readability. -->
+    <!-- xs:sequence: pre-migration, post-migration, live-migration, install,
+         uninstall. `install` before `post-migration` is invalid even though
+         install runs first chronologically. -->
     <repair-steps>
-        <install>
-            <step>OCA\Planix\Repair\InitializeSettings</step>
-        </install>
         <post-migration>
             <step>OCA\Planix\Repair\InitializeSettings</step>
             <step>OCA\Planix\Repair\ReconcileDueReminderOverrides</step>
         </post-migration>
+        <install>
+            <step>OCA\Planix\Repair\InitializeSettings</step>
+        </install>
     </repair-steps>
 
     <settings>
@@ -96,13 +99,14 @@ Vrij en open source onder de EUPL-1.2-licentie.
         <admin-section>OCA\Planix\Sections\SettingsSection</admin-section>
     </settings>
 
+    <!-- xs:sequence: settings, filters, providers. -->
     <activity>
-        <providers>
-            <provider>OCA\Planix\Activity\Provider</provider>
-        </providers>
         <filters>
             <filter>OCA\Planix\Activity\Filter</filter>
         </filters>
+        <providers>
+            <provider>OCA\Planix\Activity\Provider</provider>
+        </providers>
     </activity>
 
     <navigations>
