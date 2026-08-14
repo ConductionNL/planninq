@@ -611,6 +611,15 @@ export default {
 	transition: opacity 0.1s ease-in-out;
 }
 
+/* WCAG 2.2 2.3.3 — honour a user who has asked the OS for less motion.
+   The transition is decorative; the opacity change itself must still happen,
+   so this removes the animation rather than the state change. */
+@media (prefers-reduced-motion: reduce) {
+	.kanban-column__card-actions {
+		transition: none;
+	}
+}
+
 .kanban-column__card:hover .kanban-column__card-actions,
 .kanban-column__card:focus-within .kanban-column__card-actions {
 	opacity: 1;

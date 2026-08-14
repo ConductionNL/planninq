@@ -13,13 +13,18 @@
 			class="member-search__dropdown"
 			role="listbox"
 			:aria-label="t('planix', 'User search results')">
+			<!-- Same as ProjectListItem: role="option" carries no focusability,
+			     so selection was mouse-only. -->
 			<li
 				v-for="user in results"
 				:key="user.id"
 				class="member-search__result"
 				role="option"
+				tabindex="0"
 				:aria-selected="false"
 				@click="selectUser(user)"
+				@keydown.enter="selectUser(user)"
+				@keydown.space.prevent="selectUser(user)"
 				@keydown.enter="selectUser(user)">
 				<NcAvatar :user="user.id" :size="24" :aria-label="user.displayName || user.id" />
 				<span>{{ user.displayName || user.id }}</span>

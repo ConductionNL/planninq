@@ -29,7 +29,7 @@
     "schemas": {
       "task": {
         "slug": "task",
-        "icon": "CheckboxMarkedOutline",
+        "icon": "CheckboxMarkedCircleOutline",
         "version": "0.1.4",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
@@ -581,7 +581,7 @@
         "description": "Redesign and rebuild the self-service client portal using NL Design System components.",
         "status": "active",
         "color": "#4376FC",
-        "icon": "🌐",
+        "icon": "Web",
         "owner": "admin",
         "members": ["admin", "jdoe", "mvanderberg"],
         "defaultAssignee": "jdoe"
@@ -592,7 +592,7 @@
         "description": "Migrate on-premise services to managed Kubernetes cluster before Q3.",
         "status": "active",
         "color": "#F39C12",
-        "icon": "☁️",
+        "icon": "Cloud",
         "owner": "admin",
         "members": ["admin", "ksmits"],
         "defaultAssignee": "ksmits"
@@ -603,7 +603,7 @@
         "description": "Automate new-employee onboarding workflows via n8n and Nextcloud.",
         "status": "active",
         "color": "#27AE60",
-        "icon": "🤝",
+        "icon": "Handshake",
         "owner": "admin",
         "members": ["admin", "jdoe", "mvanderberg", "ksmits"],
         "defaultAssignee": "admin"

@@ -29,11 +29,19 @@
 			<CnConfigurationCard :title="t('planix', 'My projects')">
 				<NcLoadingIcon v-if="loading" :size="24" />
 				<ul v-else-if="recentProjects.length > 0" class="planix-dashboard__project-list">
+					<!-- A click handler on a non-interactive element is unreachable
+					     by keyboard and invisible to assistive tech. role + tabindex
+					     + the two activation keys make it behave like the button it
+					     already is (WCAG 2.2 2.1.1, 4.1.2). -->
 					<li
 						v-for="project in recentProjects"
 						:key="project.id"
 						class="planix-dashboard__project-item"
-						@click="navigateToProject(project)">
+						role="button"
+						tabindex="0"
+						@click="navigateToProject(project)"
+						@keydown.enter="navigateToProject(project)"
+						@keydown.space.prevent="navigateToProject(project)">
 						<span
 							v-if="project.icon"
 							class="planix-dashboard__project-icon">{{ project.icon }}</span>

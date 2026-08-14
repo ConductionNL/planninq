@@ -1,9 +1,15 @@
 <template>
+	<!-- role="option" is not focusable by default, so the click handler was
+	     mouse-only. tabindex + the two activation keys give it the keyboard
+	     path its role implies (WCAG 2.2 2.1.1). -->
 	<li
 		class="project-list-item"
 		role="option"
+		tabindex="0"
 		:aria-selected="false"
-		@click="$emit('click', project)">
+		@click="$emit('click', project)"
+		@keydown.enter="$emit('click', project)"
+		@keydown.space.prevent="$emit('click', project)">
 		<!-- Color swatch -->
 		<span
 			class="project-list-item__swatch"
@@ -102,6 +108,13 @@ export default {
 	border-radius: var(--border-radius);
 	transition: background-color 0.1s;
 	list-style: none;
+}
+
+/* WCAG 2.2 2.3.3 — the hover/focus colour still changes, just not gradually. */
+@media (prefers-reduced-motion: reduce) {
+	.project-list-item {
+		transition: none;
+	}
 }
 
 .project-list-item:hover {

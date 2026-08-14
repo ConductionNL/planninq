@@ -10,10 +10,15 @@
 						v-for="(col, index) in columnList"
 						:key="index"
 						class="column-item">
+						<!-- A placeholder is not a label: it disappears on input and
+						     screen readers are not required to announce it (WCAG 2.2
+						     3.3.2). The visible text is the column's position in the
+						     list, so the accessible name carries that. -->
 						<input
 							v-model="columnList[index]"
 							type="text"
 							class="column-input"
+							:aria-label="t('planix', 'Column {number} name', { number: index + 1 })"
 							:placeholder="t('planix', 'Column name')">
 						<NcButton
 							variant="tertiary"
