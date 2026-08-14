@@ -106,7 +106,7 @@ jobs:
       # Same invocation as the Playwright seed step — cwd is the Nextcloud
       # server root, and the shared workflow fails the job if the seed exits
       # non-zero rather than running Newman against a half-seeded instance.
-      newman-seed-command: 'bash apps/planix/tests/e2e/ci-seed.sh'
+      newman-seed-command: 'SEED_SCOPE=register bash apps/planix/tests/e2e/ci-seed.sh'
 
       # ── Frontend Check legs ──────────────────────────────────────────────
       # `frontend-checks` defaults to `[]`, and an empty list means the shared

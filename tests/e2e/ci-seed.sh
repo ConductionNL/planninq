@@ -229,6 +229,23 @@ fi
 
 echo "[ci-seed] Planix register + schemas provisioned."
 
+# ── 2b. SCOPE: everything below this line is about the BROWSER ──────────────
+# Sections 3 and 4 warm the SPA and assert that the webpack bundle serves as
+# JavaScript. Both are preconditions for Playwright and for nothing else.
+#
+# The Newman job needs exactly what is above: the register and schemas, so the
+# collection's `POST /apps/openregister/api/objects/planix/task` resolves.
+# It does NOT build the frontend, so the bundle assertion below fails there by
+# construction — correctly reporting a missing bundle in a job that was never
+# going to have one.
+#
+# `SEED_SCOPE=register` stops here. Unset (the Playwright caller) runs the
+# whole script exactly as before, so this cannot change E2E behaviour.
+if [ "${SEED_SCOPE:-full}" = "register" ]; then
+	echo "[ci-seed] SEED_SCOPE=register — skipping SPA warm-up and bundle assertion (browser-only)."
+	exit 0
+fi
+
 # ── 3. Warm the SPA so the first spec doesn't pay the cold start ─────────────
 # The shared workflow serves Nextcloud with `php -S 0.0.0.0:8080`. It now sets
 # PHP_CLI_SERVER_WORKERS=8, but the first hit still pays a cold opcache and the
