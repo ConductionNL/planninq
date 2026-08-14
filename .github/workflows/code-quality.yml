@@ -87,6 +87,27 @@ jobs:
       # step globs `*.postman_collection.json` in — flat, not recursively.
       enable-newman: true
 
+      # Newman needs the SAME seed as Playwright, and it was never given one.
+      #
+      # The collection's first three requests POST to
+      # /apps/openregister/api/objects/planix/task — i.e. they create objects
+      # in Planix's OpenRegister register. On a freshly installed instance
+      # that register does not exist, so those returned 400 and every
+      # dependency request after them returned 412 against tasks that had
+      # never been created. 14 of 25 assertions failed, and the first three
+      # failures were the only real ones; the rest were downstream.
+      #
+      # `occ app:enable planix` is supposed to import the register via the
+      # InitializeSettings repair step, and cannot: an IRepairStep runs with no
+      # user session, so OpenRegister's RBAC denies the import as 'Anonymous'.
+      # ci-seed.sh exists precisely because of that and already provisions the
+      # register + schemas; it was simply only wired to playwright-seed-command.
+      #
+      # Same invocation as the Playwright seed step — cwd is the Nextcloud
+      # server root, and the shared workflow fails the job if the seed exits
+      # non-zero rather than running Newman against a half-seeded instance.
+      newman-seed-command: 'bash apps/planix/tests/e2e/ci-seed.sh'
+
       # ── Frontend Check legs ──────────────────────────────────────────────
       # `frontend-checks` defaults to `[]`, and an empty list means the shared
       # workflow emits NO "Frontend Check" job at all — so `check:manifest` ran
