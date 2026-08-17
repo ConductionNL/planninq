@@ -19,7 +19,14 @@
         "description": "Planix application data register — tasks, projects, columns, time entries, and labels.",
         "slug": "planix",
         "version": "0.2.6",
-        "schemas": ["task", "project", "column", "timeEntry", "label", "dependency"],
+        "schemas": [
+          "task",
+          "project",
+          "column",
+          "timeEntry",
+          "label",
+          "dependency"
+        ],
         "tablePrefix": "planix",
         "folder": "planix",
         "publicRead": false,
@@ -35,35 +42,102 @@
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
         "type": "object",
-        "required": ["title", "status"],
+        "required": [
+          "title",
+          "status"
+        ],
         "authorization": {
           "read": [
             {
               "group": "authenticated",
-              "match": { "project": { "$in": { "$lookup": { "schema": "project", "field": "id", "where": { "members": { "$contains": "$userId" } } } } } }
+              "match": {
+                "project": {
+                  "$in": {
+                    "$lookup": {
+                      "schema": "project",
+                      "field": "id",
+                      "where": {
+                        "members": {
+                          "$contains": "$userId"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ],
           "create": [
             {
               "group": "authenticated",
-              "match": { "project": { "$in": { "$lookup": { "schema": "project", "field": "id", "where": { "members": { "$contains": "$userId" } } } } } }
+              "match": {
+                "project": {
+                  "$in": {
+                    "$lookup": {
+                      "schema": "project",
+                      "field": "id",
+                      "where": {
+                        "members": {
+                          "$contains": "$userId"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ],
           "update": [
             {
               "group": "authenticated",
-              "match": { "project": { "$in": { "$lookup": { "schema": "project", "field": "id", "where": { "members": { "$contains": "$userId" } } } } } }
+              "match": {
+                "project": {
+                  "$in": {
+                    "$lookup": {
+                      "schema": "project",
+                      "field": "id",
+                      "where": {
+                        "members": {
+                          "$contains": "$userId"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ],
           "delete": [
             {
               "group": "authenticated",
-              "match": { "project": { "$in": { "$lookup": { "schema": "project", "field": "id", "where": { "members": { "$contains": "$userId" } } } } } }
+              "match": {
+                "project": {
+                  "$in": {
+                    "$lookup": {
+                      "schema": "project",
+                      "field": "id",
+                      "where": {
+                        "members": {
+                          "$contains": "$userId"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ]
         },
         "x-openregister-notifications": {
@@ -72,14 +146,25 @@
               "type": "scheduled",
               "intervalSec": 3600,
               "filter": {
-                "dueDate": { "operator": "withinNext", "value": "PT24H" },
-                "status": { "operator": "notEquals", "value": "done" }
+                "dueDate": {
+                  "operator": "withinNext",
+                  "value": "PT24H"
+                },
+                "status": {
+                  "operator": "notEquals",
+                  "value": "done"
+                }
               }
             },
             "enabled": true,
-            "channels": ["nc-notification"],
+            "channels": [
+              "nc-notification"
+            ],
             "recipients": [
-              { "kind": "field", "field": "assignedTo" }
+              {
+                "kind": "field",
+                "field": "assignedTo"
+              }
             ],
             "subject": {
               "en": "Task \"{{title}}\" is due soon",
@@ -102,21 +187,33 @@
             "title": "Status",
             "type": "string",
             "description": "Current lifecycle status",
-            "enum": ["open", "in_progress", "blocked", "done", "cancelled"],
+            "enum": [
+              "open",
+              "in_progress",
+              "blocked",
+              "done",
+              "cancelled"
+            ],
             "default": "open"
           },
           "priority": {
             "title": "Priority",
             "type": "string",
             "description": "Priority level",
-            "enum": ["low", "normal", "high", "urgent"],
+            "enum": [
+              "low",
+              "normal",
+              "high",
+              "urgent"
+            ],
             "default": "normal"
           },
           "project": {
             "title": "Project",
             "type": "string",
             "description": "UUID of the parent Project",
-            "format": "uuid"
+            "format": "uuid",
+            "$ref": "project"
           },
           "zaakUuid": {
             "title": "Zaak UUID",
@@ -130,7 +227,8 @@
             "type": "string",
             "description": "UUID of the kanban Column (null = backlog)",
             "format": "uuid",
-            "nullable": true
+            "nullable": true,
+            "$ref": "column"
           },
           "columnOrder": {
             "title": "Column Order",
@@ -148,7 +246,8 @@
             "type": "string",
             "description": "UUID reference to the contractor contact/domain object — the portal-subject scoping key; distinct from assignedTo which is the Nextcloud user id",
             "format": "uuid",
-            "nullable": true
+            "nullable": true,
+            "x-external-register": "openregister"
           },
           "dueDate": {
             "title": "Due Date",
@@ -190,7 +289,8 @@
             "type": "string",
             "description": "UUID of the parent Task (sub-task support)",
             "format": "uuid",
-            "nullable": true
+            "nullable": true,
+            "$ref": "task"
           },
           "calendarEventUid": {
             "title": "Calendar Event UID",
@@ -215,29 +315,48 @@
         "description": "A container grouping related tasks and kanban columns. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
         "type": "object",
-        "required": ["title", "status"],
+        "required": [
+          "title",
+          "status"
+        ],
         "authorization": {
           "read": [
             {
               "group": "authenticated",
-              "match": { "members": { "$contains": "$userId" } }
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ],
-          "create": ["admin"],
+          "create": [
+            "admin"
+          ],
           "update": [
             {
               "group": "authenticated",
-              "match": { "owner": "$userId" }
+              "match": {
+                "owner": "$userId"
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ],
           "delete": [
             {
               "group": "authenticated",
-              "match": { "owner": "$userId" }
+              "match": {
+                "owner": "$userId"
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ]
         },
         "properties": {
@@ -255,7 +374,11 @@
             "title": "Status",
             "type": "string",
             "description": "Project lifecycle status",
-            "enum": ["active", "archived", "completed"],
+            "enum": [
+              "active",
+              "archived",
+              "completed"
+            ],
             "default": "active"
           },
           "color": {
@@ -325,35 +448,103 @@
         "description": "A kanban column belonging to a project. Maps to schema:DefinedTerm.",
         "x-schema-org": "schema:DefinedTerm",
         "type": "object",
-        "required": ["title", "project", "order"],
+        "required": [
+          "title",
+          "project",
+          "order"
+        ],
         "authorization": {
           "read": [
             {
               "group": "authenticated",
-              "match": { "project": { "$in": { "$lookup": { "schema": "project", "field": "id", "where": { "members": { "$contains": "$userId" } } } } } }
+              "match": {
+                "project": {
+                  "$in": {
+                    "$lookup": {
+                      "schema": "project",
+                      "field": "id",
+                      "where": {
+                        "members": {
+                          "$contains": "$userId"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ],
           "create": [
             {
               "group": "authenticated",
-              "match": { "project": { "$in": { "$lookup": { "schema": "project", "field": "id", "where": { "members": { "$contains": "$userId" } } } } } }
+              "match": {
+                "project": {
+                  "$in": {
+                    "$lookup": {
+                      "schema": "project",
+                      "field": "id",
+                      "where": {
+                        "members": {
+                          "$contains": "$userId"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ],
           "update": [
             {
               "group": "authenticated",
-              "match": { "project": { "$in": { "$lookup": { "schema": "project", "field": "id", "where": { "members": { "$contains": "$userId" } } } } } }
+              "match": {
+                "project": {
+                  "$in": {
+                    "$lookup": {
+                      "schema": "project",
+                      "field": "id",
+                      "where": {
+                        "members": {
+                          "$contains": "$userId"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ],
           "delete": [
             {
               "group": "authenticated",
-              "match": { "project": { "$in": { "$lookup": { "schema": "project", "field": "id", "where": { "members": { "$contains": "$userId" } } } } } }
+              "match": {
+                "project": {
+                  "$in": {
+                    "$lookup": {
+                      "schema": "project",
+                      "field": "id",
+                      "where": {
+                        "members": {
+                          "$contains": "$userId"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ]
         },
         "properties": {
@@ -366,7 +557,8 @@
             "title": "Project",
             "type": "string",
             "description": "UUID of the parent Project",
-            "format": "uuid"
+            "format": "uuid",
+            "$ref": "project"
           },
           "order": {
             "title": "Display Order",
@@ -390,7 +582,10 @@
             "title": "Column Type",
             "type": "string",
             "description": "Functional type: active columns hold in-flight work; done columns auto-complete tasks",
-            "enum": ["active", "done"],
+            "enum": [
+              "active",
+              "done"
+            ],
             "default": "active"
           }
         }
@@ -403,39 +598,84 @@
         "description": "Time logged by a user against a task. Maps to schema:QuantitativeValue.",
         "x-schema-org": "schema:QuantitativeValue",
         "type": "object",
-        "required": ["task", "user", "duration", "date"],
+        "required": [
+          "task",
+          "user",
+          "duration",
+          "date"
+        ],
         "authorization": {
           "read": [
             {
               "group": "authenticated",
-              "match": { "user": "$userId" }
+              "match": {
+                "user": "$userId"
+              }
             },
             {
               "group": "authenticated",
-              "match": { "task": { "$in": { "$lookup": { "schema": "task", "field": "id", "where": { "project": { "$in": { "$lookup": { "schema": "project", "field": "id", "where": { "members": { "$contains": "$userId" } } } } } } } } } }
+              "match": {
+                "task": {
+                  "$in": {
+                    "$lookup": {
+                      "schema": "task",
+                      "field": "id",
+                      "where": {
+                        "project": {
+                          "$in": {
+                            "$lookup": {
+                              "schema": "project",
+                              "field": "id",
+                              "where": {
+                                "members": {
+                                  "$contains": "$userId"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ],
           "create": [
             {
               "group": "authenticated",
-              "match": { "user": "$userId" }
+              "match": {
+                "user": "$userId"
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ],
           "update": [
             {
               "group": "authenticated",
-              "match": { "user": "$userId" }
+              "match": {
+                "user": "$userId"
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ],
           "delete": [
             {
               "group": "authenticated",
-              "match": { "user": "$userId" }
+              "match": {
+                "user": "$userId"
+              }
             },
-            { "group": "admin" }
+            {
+              "group": "admin"
+            }
           ]
         },
         "properties": {
@@ -443,7 +683,8 @@
             "title": "Task",
             "type": "string",
             "description": "UUID of the related Task",
-            "format": "uuid"
+            "format": "uuid",
+            "$ref": "task"
           },
           "user": {
             "title": "User",
@@ -455,7 +696,8 @@
             "type": "string",
             "description": "UUID reference to the contractor contact/domain object — the portal-subject scoping key; distinct from user which is the Nextcloud user id",
             "format": "uuid",
-            "nullable": true
+            "nullable": true,
+            "x-external-register": "openregister"
           },
           "duration": {
             "title": "Duration",
@@ -483,12 +725,23 @@
         "description": "A colour-coded tag applicable to tasks and projects. Maps to schema:DefinedTerm.",
         "x-schema-org": "schema:DefinedTerm",
         "type": "object",
-        "required": ["title", "color"],
+        "required": [
+          "title",
+          "color"
+        ],
         "authorization": {
-          "read": ["authenticated"],
-          "create": ["admin"],
-          "update": ["admin"],
-          "delete": ["admin"]
+          "read": [
+            "authenticated"
+          ],
+          "create": [
+            "admin"
+          ],
+          "update": [
+            "admin"
+          ],
+          "delete": [
+            "admin"
+          ]
         },
         "properties": {
           "title": {
@@ -518,98 +771,170 @@
         "description": "A directed dependency edge between two tasks of the same project (blocker → blocked). One row per directed edge. Maps to schema:Action.",
         "x-schema-org": "schema:Action",
         "type": "object",
-        "required": ["blocker", "blocked"],
+        "required": [
+          "blocker",
+          "blocked"
+        ],
         "authorization": {
           "read": [
-            { "group": "authenticated" },
-            { "group": "admin" }
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
           ],
-          "create": ["admin"],
-          "update": ["admin"],
-          "delete": ["admin"]
+          "create": [
+            "admin"
+          ],
+          "update": [
+            "admin"
+          ],
+          "delete": [
+            "admin"
+          ]
         },
         "properties": {
           "blocker": {
             "title": "Blocker Task",
             "type": "string",
             "description": "UUID of the task that blocks (must complete before the blocked task can proceed)",
-            "format": "uuid"
+            "format": "uuid",
+            "$ref": "task"
           },
           "blocked": {
             "title": "Blocked Task",
             "type": "string",
             "description": "UUID of the task that is blocked (waits on the blocker)",
-            "format": "uuid"
+            "format": "uuid",
+            "$ref": "task"
           }
         }
       }
     },
     "objects": [
       {
-        "@self": { "register": "planix", "schema": "label", "slug": "bug", "id": "00000000-0000-4000-c000-000000000001" },
+        "@self": {
+          "register": "planix",
+          "schema": "label",
+          "slug": "bug",
+          "id": "00000000-0000-4000-c000-000000000001"
+        },
         "title": "Bug",
         "color": "#E74C3C",
         "description": "Something is broken and needs fixing"
       },
       {
-        "@self": { "register": "planix", "schema": "label", "slug": "feature", "id": "00000000-0000-4000-c000-000000000002" },
+        "@self": {
+          "register": "planix",
+          "schema": "label",
+          "slug": "feature",
+          "id": "00000000-0000-4000-c000-000000000002"
+        },
         "title": "Feature",
         "color": "#4376FC",
         "description": "New functionality"
       },
       {
-        "@self": { "register": "planix", "schema": "label", "slug": "docs", "id": "00000000-0000-4000-c000-000000000003" },
+        "@self": {
+          "register": "planix",
+          "schema": "label",
+          "slug": "docs",
+          "id": "00000000-0000-4000-c000-000000000003"
+        },
         "title": "Docs",
         "color": "#27AE60",
         "description": "Documentation update"
       },
       {
-        "@self": { "register": "planix", "schema": "label", "slug": "design", "id": "00000000-0000-4000-c000-000000000004" },
+        "@self": {
+          "register": "planix",
+          "schema": "label",
+          "slug": "design",
+          "id": "00000000-0000-4000-c000-000000000004"
+        },
         "title": "Design",
         "color": "#9B59B6",
         "description": "UI/UX work"
       },
       {
-        "@self": { "register": "planix", "schema": "label", "slug": "infrastructure", "id": "00000000-0000-4000-c000-000000000005" },
+        "@self": {
+          "register": "planix",
+          "schema": "label",
+          "slug": "infrastructure",
+          "id": "00000000-0000-4000-c000-000000000005"
+        },
         "title": "Infrastructure",
         "color": "#F39C12",
         "description": "DevOps, deployment, and server work"
       },
       {
-        "@self": { "register": "planix", "schema": "project", "slug": "client-portal-v2", "id": "00000000-0000-4000-a000-000000000001" },
+        "@self": {
+          "register": "planix",
+          "schema": "project",
+          "slug": "client-portal-v2",
+          "id": "00000000-0000-4000-a000-000000000001"
+        },
         "title": "Client Portal v2",
         "description": "Redesign and rebuild the self-service client portal using NL Design System components.",
         "status": "active",
         "color": "#4376FC",
         "icon": "Web",
         "owner": "admin",
-        "members": ["admin", "jdoe", "mvanderberg"],
+        "members": [
+          "admin",
+          "jdoe",
+          "mvanderberg"
+        ],
         "defaultAssignee": "jdoe"
       },
       {
-        "@self": { "register": "planix", "schema": "project", "slug": "infrastructure-migration", "id": "00000000-0000-4000-a000-000000000002" },
+        "@self": {
+          "register": "planix",
+          "schema": "project",
+          "slug": "infrastructure-migration",
+          "id": "00000000-0000-4000-a000-000000000002"
+        },
         "title": "Infrastructure Migration",
         "description": "Migrate on-premise services to managed Kubernetes cluster before Q3.",
         "status": "active",
         "color": "#F39C12",
         "icon": "CloudUpload",
         "owner": "admin",
-        "members": ["admin", "ksmits"],
+        "members": [
+          "admin",
+          "ksmits"
+        ],
         "defaultAssignee": "ksmits"
       },
       {
-        "@self": { "register": "planix", "schema": "project", "slug": "onboarding-automation", "id": "00000000-0000-4000-a000-000000000003" },
+        "@self": {
+          "register": "planix",
+          "schema": "project",
+          "slug": "onboarding-automation",
+          "id": "00000000-0000-4000-a000-000000000003"
+        },
         "title": "Onboarding Automation",
         "description": "Automate new-employee onboarding workflows via n8n and Nextcloud.",
         "status": "active",
         "color": "#27AE60",
         "icon": "AccountMultiplePlus",
         "owner": "admin",
-        "members": ["admin", "jdoe", "mvanderberg", "ksmits"],
+        "members": [
+          "admin",
+          "jdoe",
+          "mvanderberg",
+          "ksmits"
+        ],
         "defaultAssignee": "admin"
       },
       {
-        "@self": { "register": "planix", "schema": "column", "slug": "portal-todo", "id": "00000000-0000-4000-b000-000000000001" },
+        "@self": {
+          "register": "planix",
+          "schema": "column",
+          "slug": "portal-todo",
+          "id": "00000000-0000-4000-b000-000000000001"
+        },
         "title": "To Do",
         "project": "00000000-0000-4000-a000-000000000001",
         "order": 0,
@@ -617,7 +942,12 @@
         "type": "active"
       },
       {
-        "@self": { "register": "planix", "schema": "column", "slug": "portal-in-progress", "id": "00000000-0000-4000-b000-000000000002" },
+        "@self": {
+          "register": "planix",
+          "schema": "column",
+          "slug": "portal-in-progress",
+          "id": "00000000-0000-4000-b000-000000000002"
+        },
         "title": "In Progress",
         "project": "00000000-0000-4000-a000-000000000001",
         "order": 1,
@@ -625,7 +955,12 @@
         "type": "active"
       },
       {
-        "@self": { "register": "planix", "schema": "column", "slug": "portal-review", "id": "00000000-0000-4000-b000-000000000003" },
+        "@self": {
+          "register": "planix",
+          "schema": "column",
+          "slug": "portal-review",
+          "id": "00000000-0000-4000-b000-000000000003"
+        },
         "title": "Review",
         "project": "00000000-0000-4000-a000-000000000001",
         "order": 2,
@@ -633,7 +968,12 @@
         "type": "active"
       },
       {
-        "@self": { "register": "planix", "schema": "column", "slug": "portal-done", "id": "00000000-0000-4000-b000-000000000004" },
+        "@self": {
+          "register": "planix",
+          "schema": "column",
+          "slug": "portal-done",
+          "id": "00000000-0000-4000-b000-000000000004"
+        },
         "title": "Done",
         "project": "00000000-0000-4000-a000-000000000001",
         "order": 3,
@@ -641,7 +981,12 @@
         "type": "done"
       },
       {
-        "@self": { "register": "planix", "schema": "column", "slug": "infra-todo", "id": "00000000-0000-4000-b000-000000000005" },
+        "@self": {
+          "register": "planix",
+          "schema": "column",
+          "slug": "infra-todo",
+          "id": "00000000-0000-4000-b000-000000000005"
+        },
         "title": "To Do",
         "project": "00000000-0000-4000-a000-000000000002",
         "order": 0,
@@ -649,7 +994,12 @@
         "type": "active"
       },
       {
-        "@self": { "register": "planix", "schema": "column", "slug": "infra-in-progress", "id": "00000000-0000-4000-b000-000000000006" },
+        "@self": {
+          "register": "planix",
+          "schema": "column",
+          "slug": "infra-in-progress",
+          "id": "00000000-0000-4000-b000-000000000006"
+        },
         "title": "In Progress",
         "project": "00000000-0000-4000-a000-000000000002",
         "order": 1,
@@ -657,7 +1007,12 @@
         "type": "active"
       },
       {
-        "@self": { "register": "planix", "schema": "column", "slug": "infra-review", "id": "00000000-0000-4000-b000-000000000007" },
+        "@self": {
+          "register": "planix",
+          "schema": "column",
+          "slug": "infra-review",
+          "id": "00000000-0000-4000-b000-000000000007"
+        },
         "title": "Review",
         "project": "00000000-0000-4000-a000-000000000002",
         "order": 2,
@@ -665,7 +1020,12 @@
         "type": "active"
       },
       {
-        "@self": { "register": "planix", "schema": "column", "slug": "infra-done", "id": "00000000-0000-4000-b000-000000000008" },
+        "@self": {
+          "register": "planix",
+          "schema": "column",
+          "slug": "infra-done",
+          "id": "00000000-0000-4000-b000-000000000008"
+        },
         "title": "Done",
         "project": "00000000-0000-4000-a000-000000000002",
         "order": 3,
@@ -673,7 +1033,12 @@
         "type": "done"
       },
       {
-        "@self": { "register": "planix", "schema": "column", "slug": "onboard-todo", "id": "00000000-0000-4000-b000-000000000009" },
+        "@self": {
+          "register": "planix",
+          "schema": "column",
+          "slug": "onboard-todo",
+          "id": "00000000-0000-4000-b000-000000000009"
+        },
         "title": "To Do",
         "project": "00000000-0000-4000-a000-000000000003",
         "order": 0,
@@ -681,7 +1046,12 @@
         "type": "active"
       },
       {
-        "@self": { "register": "planix", "schema": "column", "slug": "onboard-in-progress", "id": "00000000-0000-4000-b000-000000000010" },
+        "@self": {
+          "register": "planix",
+          "schema": "column",
+          "slug": "onboard-in-progress",
+          "id": "00000000-0000-4000-b000-000000000010"
+        },
         "title": "In Progress",
         "project": "00000000-0000-4000-a000-000000000003",
         "order": 1,
@@ -689,7 +1059,12 @@
         "type": "active"
       },
       {
-        "@self": { "register": "planix", "schema": "column", "slug": "onboard-review", "id": "00000000-0000-4000-b000-000000000011" },
+        "@self": {
+          "register": "planix",
+          "schema": "column",
+          "slug": "onboard-review",
+          "id": "00000000-0000-4000-b000-000000000011"
+        },
         "title": "Review",
         "project": "00000000-0000-4000-a000-000000000003",
         "order": 2,
@@ -697,7 +1072,12 @@
         "type": "active"
       },
       {
-        "@self": { "register": "planix", "schema": "column", "slug": "onboard-done", "id": "00000000-0000-4000-b000-000000000012" },
+        "@self": {
+          "register": "planix",
+          "schema": "column",
+          "slug": "onboard-done",
+          "id": "00000000-0000-4000-b000-000000000012"
+        },
         "title": "Done",
         "project": "00000000-0000-4000-a000-000000000003",
         "order": 3,
@@ -705,7 +1085,12 @@
         "type": "done"
       },
       {
-        "@self": { "register": "planix", "schema": "task", "slug": "fix-login-redirect", "id": "00000000-0000-4000-d000-000000000001" },
+        "@self": {
+          "register": "planix",
+          "schema": "task",
+          "slug": "fix-login-redirect",
+          "id": "00000000-0000-4000-d000-000000000001"
+        },
         "title": "Fix login page redirect bug",
         "description": "After OAuth login the user is redirected to / instead of the originally requested page.",
         "status": "in_progress",
@@ -715,11 +1100,18 @@
         "columnOrder": 0,
         "assignedTo": "jdoe",
         "dueDate": "2026-04-10",
-        "labels": ["00000000-0000-4000-c000-000000000001"],
+        "labels": [
+          "00000000-0000-4000-c000-000000000001"
+        ],
         "percentComplete": 40
       },
       {
-        "@self": { "register": "planix", "schema": "task", "slug": "design-dashboard-widgets", "id": "00000000-0000-4000-d000-000000000002" },
+        "@self": {
+          "register": "planix",
+          "schema": "task",
+          "slug": "design-dashboard-widgets",
+          "id": "00000000-0000-4000-d000-000000000002"
+        },
         "title": "Design dashboard widget layout",
         "description": "Create Figma mockups for the new widget-based dashboard using NL Design System tokens.",
         "status": "open",
@@ -729,10 +1121,17 @@
         "columnOrder": 0,
         "assignedTo": "mvanderberg",
         "dueDate": "2026-04-18",
-        "labels": ["00000000-0000-4000-c000-000000000004"]
+        "labels": [
+          "00000000-0000-4000-c000-000000000004"
+        ]
       },
       {
-        "@self": { "register": "planix", "schema": "task", "slug": "write-api-docs", "id": "00000000-0000-4000-d000-000000000003" },
+        "@self": {
+          "register": "planix",
+          "schema": "task",
+          "slug": "write-api-docs",
+          "id": "00000000-0000-4000-d000-000000000003"
+        },
         "title": "Write REST API documentation",
         "description": "Document all public endpoints in OpenAPI 3.0.0 format and publish to developer portal.",
         "status": "open",
@@ -741,11 +1140,18 @@
         "column": "00000000-0000-4000-b000-000000000001",
         "columnOrder": 1,
         "assignedTo": "jdoe",
-        "labels": ["00000000-0000-4000-c000-000000000003"],
+        "labels": [
+          "00000000-0000-4000-c000-000000000003"
+        ],
         "estimatedDuration": 240
       },
       {
-        "@self": { "register": "planix", "schema": "task", "slug": "k8s-namespace-setup", "id": "00000000-0000-4000-d000-000000000004" },
+        "@self": {
+          "register": "planix",
+          "schema": "task",
+          "slug": "k8s-namespace-setup",
+          "id": "00000000-0000-4000-d000-000000000004"
+        },
         "title": "Set up production Kubernetes namespaces",
         "description": "Create namespaces, resource quotas, and network policies for prod environment.",
         "status": "open",
@@ -755,10 +1161,17 @@
         "columnOrder": 0,
         "assignedTo": "ksmits",
         "dueDate": "2026-04-07",
-        "labels": ["00000000-0000-4000-c000-000000000005"]
+        "labels": [
+          "00000000-0000-4000-c000-000000000005"
+        ]
       },
       {
-        "@self": { "register": "planix", "schema": "task", "slug": "onboarding-n8n-workflow", "id": "00000000-0000-4000-d000-000000000005" },
+        "@self": {
+          "register": "planix",
+          "schema": "task",
+          "slug": "onboarding-n8n-workflow",
+          "id": "00000000-0000-4000-d000-000000000005"
+        },
         "title": "Build n8n onboarding workflow",
         "description": "Create the automated onboarding flow: create NC account, add to groups, send welcome email, generate Planix project.",
         "status": "open",
@@ -768,10 +1181,16 @@
         "columnOrder": 0,
         "assignedTo": "admin",
         "estimatedDuration": 180,
-        "labels": ["00000000-0000-4000-c000-000000000002"]
+        "labels": [
+          "00000000-0000-4000-c000-000000000002"
+        ]
       },
       {
-        "@self": { "register": "planix", "schema": "timeEntry", "slug": "te-fix-login-2026-04-01" },
+        "@self": {
+          "register": "planix",
+          "schema": "timeEntry",
+          "slug": "te-fix-login-2026-04-01"
+        },
         "task": "00000000-0000-4000-d000-000000000001",
         "user": "jdoe",
         "duration": 90,
@@ -779,7 +1198,11 @@
         "description": "Traced redirect issue to missing redirect_uri state parameter in OAuth middleware."
       },
       {
-        "@self": { "register": "planix", "schema": "timeEntry", "slug": "te-fix-login-2026-04-02" },
+        "@self": {
+          "register": "planix",
+          "schema": "timeEntry",
+          "slug": "te-fix-login-2026-04-02"
+        },
         "task": "00000000-0000-4000-d000-000000000001",
         "user": "jdoe",
         "duration": 60,
@@ -787,7 +1210,11 @@
         "description": "Implemented fix and wrote unit test."
       },
       {
-        "@self": { "register": "planix", "schema": "timeEntry", "slug": "te-k8s-2026-04-01" },
+        "@self": {
+          "register": "planix",
+          "schema": "timeEntry",
+          "slug": "te-k8s-2026-04-01"
+        },
         "task": "00000000-0000-4000-d000-000000000004",
         "user": "ksmits",
         "duration": 45,
