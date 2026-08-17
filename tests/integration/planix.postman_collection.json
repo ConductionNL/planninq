@@ -1,720 +1,949 @@
 {
-  "info": {
-    "_postman_id": "planix-collection",
-    "name": "Planix Integration Tests",
-    "description": "Integration test collection for the planix Nextcloud app.\nReplace this with your actual API tests.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "auth": {
-    "type": "basic",
-    "basic": [
-      {
-        "key": "username",
-        "value": "{{admin_user}}",
-        "type": "string"
-      },
-      {
-        "key": "password",
-        "value": "{{admin_password}}",
-        "type": "string"
-      }
-    ]
-  },
-  "variable": [
-    {
-      "key": "base_url",
-      "value": "http://localhost:8080",
-      "type": "string"
-    },
-    {
-      "key": "admin_user",
-      "value": "admin",
-      "type": "string"
-    },
-    {
-      "key": "admin_password",
-      "value": "admin",
-      "type": "string"
-    }
-  ],
-  "item": [
-    {
-      "name": "Health Check",
-      "item": [
-        {
-          "name": "Nextcloud status",
-          "request": {
-            "method": "GET",
-            "url": "{{base_url}}/status.php",
-            "description": "Verify Nextcloud is running."
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test('Nextcloud is running', function () {",
-                  "    pm.response.to.have.status(200);",
-                  "    const json = pm.response.json();",
-                  "    pm.expect(json.installed).to.be.true;",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Task Dependencies",
-      "description": "Server-side dependency-edge validation: create/delete, self-edge 422, duplicate 422, transitive cycle 422 (path named). Requires the planix app and its register installed; project_id must be a project the admin belongs to. spec: openspec/changes/task-dependencies/specs/task-dependencies/spec.md",
-      "item": [
-        {
-          "name": "Create blocker task A",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"title\":\"Dep test A\",\"status\":\"open\",\"project\":\"{{project_id}}\"}"
-            },
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task",
-            "description": "Seed task A directly via the OpenRegister object API (fixture setup)."
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('task A created', function () {",
-                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-                  "    const j = pm.response.json();",
-                  "    pm.collectionVariables.set('task_a', j.id || (j['@self'] && j['@self'].id));",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Create blocked task B",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"title\":\"Dep test B\",\"status\":\"open\",\"project\":\"{{project_id}}\"}"
-            },
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task"
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('task B created', function () {",
-                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-                  "    const j = pm.response.json();",
-                  "    pm.collectionVariables.set('task_b', j.id || (j['@self'] && j['@self'].id));",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Create blocked task C",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"title\":\"Dep test C\",\"status\":\"open\",\"project\":\"{{project_id}}\"}"
-            },
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task"
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('task C created', function () {",
-                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-                  "    const j = pm.response.json();",
-                  "    pm.collectionVariables.set('task_c', j.id || (j['@self'] && j['@self'].id));",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Create edge A blocks B",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"blocker\":\"{{task_a}}\",\"blocked\":\"{{task_b}}\"}"
-            },
-            "url": "{{base_url}}/index.php/apps/planix/api/dependencies"
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('edge A->B created', function () {",
-                  "    pm.response.to.have.status(201);",
-                  "    const j = pm.response.json();",
-                  "    pm.collectionVariables.set('edge_ab', j.id || (j['@self'] && j['@self'].id));",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Self-edge rejected (422)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"blocker\":\"{{task_a}}\",\"blocked\":\"{{task_a}}\"}"
-            },
-            "url": "{{base_url}}/index.php/apps/planix/api/dependencies"
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('self-edge is 422', function () { pm.response.to.have.status(422); });"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Duplicate edge rejected (422)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"blocker\":\"{{task_a}}\",\"blocked\":\"{{task_b}}\"}"
-            },
-            "url": "{{base_url}}/index.php/apps/planix/api/dependencies"
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('duplicate is 422', function () { pm.response.to.have.status(422); });"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Create edge B blocks C",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"blocker\":\"{{task_b}}\",\"blocked\":\"{{task_c}}\"}"
-            },
-            "url": "{{base_url}}/index.php/apps/planix/api/dependencies"
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('edge B->C created', function () { pm.response.to.have.status(201); });"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Transitive cycle C blocks A rejected (422 with path)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"blocker\":\"{{task_c}}\",\"blocked\":\"{{task_a}}\"}"
-            },
-            "url": "{{base_url}}/index.php/apps/planix/api/dependencies"
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('cycle is 422 naming the path', function () {",
-                  "    pm.response.to.have.status(422);",
-                  "    pm.expect(pm.response.json().error).to.match(/cycle/i);",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Delete edge A blocks B",
-          "request": {
-            "method": "DELETE",
-            "url": "{{base_url}}/index.php/apps/planix/api/dependencies/{{edge_ab}}"
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('edge deleted', function () { pm.response.to.have.status(200); });"
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Label Management",
-      "description": "Admin label management: create via OR, usage count 0→1, invalid colour 4xx, admin-only listing/cascade endpoints, cascade delete sweeps task.labels. Requires the planix app + register installed; admin auth. spec: openspec/changes/label-management-admin/specs/admin-user-settings/spec.md",
-      "item": [
-        {
-          "name": "Create label via OR API",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/label",
-            "body": {
-              "mode": "raw",
-              "raw": "{\"title\":\"Newman label\",\"color\":\"#33AA55\",\"description\":\"integration\"}"
-            },
-            "description": "Create a label directly on the OR label schema (ADR-022 create path)."
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('label created', function () {",
-                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-                  "    const j = pm.response.json();",
-                  "    pm.collectionVariables.set('label_id', j.id || (j['@self'] && j['@self'].id));",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "List labels shows usage count 0",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": "{{base_url}}/index.php/apps/planix/api/labels",
-            "description": "Admin usage listing; the new label appears with usageCount 0."
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('label listed with count 0', function () {",
-                  "    pm.response.to.have.status(200);",
-                  "    const labels = pm.response.json().labels || [];",
-                  "    const mine = labels.find(l => l.id === pm.collectionVariables.get('label_id'));",
-                  "    pm.expect(mine, 'created label present').to.be.an('object');",
-                  "    pm.expect(mine.usageCount).to.eql(0);",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Create task referencing the label",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task",
-            "body": {
-              "mode": "raw",
-              "raw": "{\"title\":\"Newman label task\",\"status\":\"open\",\"project\":\"{{project_id}}\",\"labels\":[\"{{label_id}}\"]}"
-            },
-            "description": "Seed a task whose labels array contains the new label UUID."
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('task created', function () {",
-                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-                  "    const j = pm.response.json();",
-                  "    pm.collectionVariables.set('label_task', j.id || (j['@self'] && j['@self'].id));",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "List labels shows usage count 1",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": "{{base_url}}/index.php/apps/planix/api/labels",
-            "description": "After attaching to a task the usage count reflects 1."
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('label usage count is 1', function () {",
-                  "    pm.response.to.have.status(200);",
-                  "    const labels = pm.response.json().labels || [];",
-                  "    const mine = labels.find(l => l.id === pm.collectionVariables.get('label_id'));",
-                  "    pm.expect(mine.usageCount).to.eql(1);",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Invalid colour rejected by schema",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/label",
-            "body": {
-              "mode": "raw",
-              "raw": "{\"title\":\"Bad colour\",\"color\":\"not-a-hex\"}"
-            },
-            "description": "A non-6-digit-hex colour must be rejected by OR schema validation (4xx)."
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('invalid colour rejected', function () {",
-                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Cascade delete sweeps the label",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": "{{base_url}}/index.php/apps/planix/api/labels/{{label_id}}",
-            "description": "Admin cascade delete: removes the UUID from referencing tasks then deletes the label; reports tasksUpdated."
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('cascade delete reports tasksUpdated', function () {",
-                  "    pm.response.to.have.status(200);",
-                  "    const j = pm.response.json();",
-                  "    pm.expect(j.success).to.be.true;",
-                  "    pm.expect(j.tasksUpdated).to.be.at.least(1);",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Task labels no longer contain the UUID",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{label_task}}",
-            "description": "The swept task must not retain a dangling label reference."
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('task label reference removed', function () {",
-                  "    pm.response.to.have.status(200);",
-                  "    const j = pm.response.json();",
-                  "    const labels = j.labels || (j['@self'] && j['@self'].labels) || [];",
-                  "    pm.expect(labels).to.not.include(pm.collectionVariables.get('label_id'));",
-                  "});"
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Task Collaboration",
-      "description": "Comments (OR notes, ICommentsManager-backed) and audit trail on a task, via OpenRegister per-object APIs (ADR-022; no planix pass-through). Covers notes CRUD on a seeded task (create -> list shows author+message -> edit own -> delete own), an RBAC-negative read for an inaccessible task, and the audit trail carrying the status-change entry after an update. spec: openspec/specs/task-collaboration.md",
-      "item": [
-        {
-          "name": "Seed task for collaboration",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task",
-            "body": { "mode": "raw", "raw": "{\"title\":\"Collaboration task\",\"status\":\"open\"}" },
-            "description": "Create a task to attach comments and audit-trail entries to."
-          },
-          "event": [
-            { "listen": "test", "script": { "type": "text/javascript", "exec": [
-              "pm.test('collab task created', function () {",
-              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-              "    const j = pm.response.json();",
-              "    pm.collectionVariables.set('collab_task', j.id || (j['@self'] && j['@self'].id));",
-              "});"
-            ] } }
-          ]
-        },
-        {
-          "name": "Add a comment to the task",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes",
-            "body": { "mode": "raw", "raw": "{\"message\":\"Waiting on the API contract\"}" },
-            "description": "Comments ride OpenRegister's notes API (ICommentsManager-backed)."
-          },
-          "event": [
-            { "listen": "test", "script": { "type": "text/javascript", "exec": [
-              "pm.test('comment stored', function () {",
-              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-              "    const j = pm.response.json();",
-              "    const id = j.id || (j['@self'] && j['@self'].id);",
-              "    pm.expect(id, 'note id present').to.not.be.undefined;",
-              "    pm.collectionVariables.set('note_id', id);",
-              "});"
-            ] } }
-          ]
-        },
-        {
-          "name": "List comments shows the author and message",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes",
-            "description": "The comment must list back with its message and author."
-          },
-          "event": [
-            { "listen": "test", "script": { "type": "text/javascript", "exec": [
-              "pm.test('comment listed with message + author', function () {",
-              "    pm.response.to.have.status(200);",
-              "    const j = pm.response.json();",
-              "    const notes = Array.isArray(j) ? j : (j.results || j.notes || []);",
-              "    pm.expect(notes.length, 'at least one note').to.be.above(0);",
-              "    const found = notes.find(n => (n.message || '').indexOf('API contract') !== -1);",
-              "    pm.expect(found, 'our comment present').to.not.be.undefined;",
-              "    pm.expect(found.author || found.actorId || found.uid, 'author recorded').to.not.be.undefined;",
-              "});"
-            ] } }
-          ]
-        },
-        {
-          "name": "Edit own comment",
-          "request": {
-            "method": "PUT",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes/{{note_id}}",
-            "body": { "mode": "raw", "raw": "{\"message\":\"Waiting on the API contract (updated)\"}" },
-            "description": "ICommentsManager allows the author to edit their own comment."
-          },
-          "event": [
-            { "listen": "test", "script": { "type": "text/javascript", "exec": [
-              "pm.test('own comment edited', function () {",
-              "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
-              "});"
-            ] } }
-          ]
-        },
-        {
-          "name": "Update task status (creates an audit-trail entry)",
-          "request": {
-            "method": "PUT",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}",
-            "body": { "mode": "raw", "raw": "{\"title\":\"Collaboration task\",\"status\":\"in_progress\"}" },
-            "description": "A status change must surface in the OR per-object audit trail."
-          },
-          "event": [
-            { "listen": "test", "script": { "type": "text/javascript", "exec": [
-              "pm.test('status updated', function () {",
-              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-              "});"
-            ] } }
-          ]
-        },
-        {
-          "name": "Audit trail contains the status change",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/audit-trails",
-            "description": "Read-only OR audit trail; after the update it must carry an entry."
-          },
-          "event": [
-            { "listen": "test", "script": { "type": "text/javascript", "exec": [
-              "pm.test('audit trail has at least one entry', function () {",
-              "    pm.response.to.have.status(200);",
-              "    const j = pm.response.json();",
-              "    const trail = Array.isArray(j) ? j : (j.results || j.auditTrails || []);",
-              "    pm.expect(trail.length, 'audit entry recorded').to.be.above(0);",
-              "});"
-            ] } }
-          ]
-        },
-        {
-          "name": "Comments respect task access (RBAC negative)",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/00000000-0000-0000-0000-000000000000/notes",
-            "description": "A request for the notes of a task the caller cannot read returns no comments (404/403/empty) — enforcement lives in OpenRegister, not planix."
-          },
-          "event": [
-            { "listen": "test", "script": { "type": "text/javascript", "exec": [
-              "pm.test('no comments for an inaccessible task', function () {",
-              "    pm.expect(pm.response.code).to.be.oneOf([200, 403, 404]);",
-              "    if (pm.response.code === 200) {",
-              "        const j = pm.response.json();",
-              "        const notes = Array.isArray(j) ? j : (j.results || j.notes || []);",
-              "        pm.expect(notes.length, 'no notes leaked').to.equal(0);",
-              "    }",
-              "});"
-            ] } }
-          ]
-        },
-        {
-          "name": "Delete own comment",
-          "request": {
-            "method": "DELETE",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes/{{note_id}}",
-            "description": "ICommentsManager allows the author to delete their own comment."
-          },
-          "event": [
-            { "listen": "test", "script": { "type": "text/javascript", "exec": [
-              "pm.test('own comment deleted', function () {",
-              "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
-              "});"
-            ] } }
-          ]
-        }
-      ]
-    }
-  ]
+	"info": {
+		"_postman_id": "planix-collection",
+		"name": "Planix Integration Tests",
+		"description": "Integration test collection for the planix Nextcloud app.\nReplace this with your actual API tests.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "{{admin_user}}",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "{{admin_password}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "admin_user",
+			"value": "admin",
+			"type": "string"
+		},
+		{
+			"key": "admin_password",
+			"value": "admin",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Nextcloud status",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/status.php",
+						"description": "Verify Nextcloud is running.",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Nextcloud is running', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.installed).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Task Dependencies",
+			"description": "Server-side dependency-edge validation: create/delete, self-edge 422, duplicate 422, transitive cycle 422 (path named). Requires the planix app and its register installed; project_id must be a project the admin belongs to. spec: openspec/changes/task-dependencies/specs/task-dependencies/spec.md",
+			"item": [
+				{
+					"name": "Create blocker task A",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\":\"Dep test A\",\"status\":\"open\",\"project\":\"{{project_id}}\"}"
+						},
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task",
+						"description": "Seed task A directly via the OpenRegister object API (fixture setup)."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task A created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('task_a', j.id || (j['@self'] && j['@self'].id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create blocked task B",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\":\"Dep test B\",\"status\":\"open\",\"project\":\"{{project_id}}\"}"
+						},
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task B created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('task_b', j.id || (j['@self'] && j['@self'].id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create blocked task C",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\":\"Dep test C\",\"status\":\"open\",\"project\":\"{{project_id}}\"}"
+						},
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task C created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('task_c', j.id || (j['@self'] && j['@self'].id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create edge A blocks B",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"blocker\":\"{{task_a}}\",\"blocked\":\"{{task_b}}\"}"
+						},
+						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('edge A->B created', function () {",
+									"    pm.response.to.have.status(201);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('edge_ab', j.id || (j['@self'] && j['@self'].id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Self-edge rejected (422)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"blocker\":\"{{task_a}}\",\"blocked\":\"{{task_a}}\"}"
+						},
+						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('self-edge is 422', function () { pm.response.to.have.status(422); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Duplicate edge rejected (422)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"blocker\":\"{{task_a}}\",\"blocked\":\"{{task_b}}\"}"
+						},
+						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('duplicate is 422', function () { pm.response.to.have.status(422); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create edge B blocks C",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"blocker\":\"{{task_b}}\",\"blocked\":\"{{task_c}}\"}"
+						},
+						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('edge B->C created', function () { pm.response.to.have.status(201); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Transitive cycle C blocks A rejected (422 with path)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"blocker\":\"{{task_c}}\",\"blocked\":\"{{task_a}}\"}"
+						},
+						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('cycle is 422 naming the path', function () {",
+									"    pm.response.to.have.status(422);",
+									"    pm.expect(pm.response.json().error).to.match(/cycle/i);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Delete edge A blocks B",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/planix/api/dependencies/{{edge_ab}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('edge deleted', function () { pm.response.to.have.status(200); });"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Label Management",
+			"description": "Admin label management: create via OR, usage count 0→1, invalid colour 4xx, admin-only listing/cascade endpoints, cascade delete sweeps task.labels. Requires the planix app + register installed; admin auth. spec: openspec/changes/label-management-admin/specs/admin-user-settings/spec.md",
+			"item": [
+				{
+					"name": "Create label via OR API",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/label",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\":\"Newman label\",\"color\":\"#33AA55\",\"description\":\"integration\"}"
+						},
+						"description": "Create a label directly on the OR label schema (ADR-022 create path)."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('label created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('label_id', j.id || (j['@self'] && j['@self'].id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "List labels shows usage count 0",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/planix/api/labels",
+						"description": "Admin usage listing; the new label appears with usageCount 0."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('label listed with count 0', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const labels = pm.response.json().labels || [];",
+									"    const mine = labels.find(l => l.id === pm.collectionVariables.get('label_id'));",
+									"    pm.expect(mine, 'created label present').to.be.an('object');",
+									"    pm.expect(mine.usageCount).to.eql(0);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create task referencing the label",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\":\"Newman label task\",\"status\":\"open\",\"project\":\"{{project_id}}\",\"labels\":[\"{{label_id}}\"]}"
+						},
+						"description": "Seed a task whose labels array contains the new label UUID."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('label_task', j.id || (j['@self'] && j['@self'].id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "List labels shows usage count 1",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/planix/api/labels",
+						"description": "After attaching to a task the usage count reflects 1."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('label usage count is 1', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const labels = pm.response.json().labels || [];",
+									"    const mine = labels.find(l => l.id === pm.collectionVariables.get('label_id'));",
+									"    pm.expect(mine.usageCount).to.eql(1);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Invalid colour rejected by schema",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/label",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\":\"Bad colour\",\"color\":\"not-a-hex\"}"
+						},
+						"description": "A non-6-digit-hex colour must be rejected by OR schema validation (4xx)."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('invalid colour rejected', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Cascade delete sweeps the label",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/planix/api/labels/{{label_id}}",
+						"description": "Admin cascade delete: removes the UUID from referencing tasks then deletes the label; reports tasksUpdated."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('cascade delete reports tasksUpdated', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const j = pm.response.json();",
+									"    pm.expect(j.success).to.be.true;",
+									"    pm.expect(j.tasksUpdated).to.be.at.least(1);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Task labels no longer contain the UUID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{label_task}}",
+						"description": "The swept task must not retain a dangling label reference."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task label reference removed', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const j = pm.response.json();",
+									"    const labels = j.labels || (j['@self'] && j['@self'].labels) || [];",
+									"    pm.expect(labels).to.not.include(pm.collectionVariables.get('label_id'));",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Task Collaboration",
+			"description": "Comments (OR notes, ICommentsManager-backed) and audit trail on a task, via OpenRegister per-object APIs (ADR-022; no planix pass-through). Covers notes CRUD on a seeded task (create -> list shows author+message -> edit own -> delete own), an RBAC-negative read for an inaccessible task, and the audit trail carrying the status-change entry after an update. spec: openspec/specs/task-collaboration.md",
+			"item": [
+				{
+					"name": "Seed task for collaboration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\":\"Collaboration task\",\"status\":\"open\"}"
+						},
+						"description": "Create a task to attach comments and audit-trail entries to."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('collab task created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('collab_task', j.id || (j['@self'] && j['@self'].id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Add a comment to the task",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"message\":\"Waiting on the API contract\"}"
+						},
+						"description": "Comments ride OpenRegister's notes API (ICommentsManager-backed)."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('comment stored', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    const id = j.id || (j['@self'] && j['@self'].id);",
+									"    pm.expect(id, 'note id present').to.not.be.undefined;",
+									"    pm.collectionVariables.set('note_id', id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "List comments shows the author and message",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes",
+						"description": "The comment must list back with its message and author."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('comment listed with message + author', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const j = pm.response.json();",
+									"    const notes = Array.isArray(j) ? j : (j.results || j.notes || []);",
+									"    pm.expect(notes.length, 'at least one note').to.be.above(0);",
+									"    const found = notes.find(n => (n.message || '').indexOf('API contract') !== -1);",
+									"    pm.expect(found, 'our comment present').to.not.be.undefined;",
+									"    pm.expect(found.author || found.actorId || found.uid, 'author recorded').to.not.be.undefined;",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Edit own comment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes/{{note_id}}",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"message\":\"Waiting on the API contract (updated)\"}"
+						},
+						"description": "ICommentsManager allows the author to edit their own comment."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('own comment edited', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Update task status (creates an audit-trail entry)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\":\"Collaboration task\",\"status\":\"in_progress\"}"
+						},
+						"description": "A status change must surface in the OR per-object audit trail."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('status updated', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Audit trail contains the status change",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/audit-trails",
+						"description": "Read-only OR audit trail; after the update it must carry an entry."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('audit trail has at least one entry', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const j = pm.response.json();",
+									"    const trail = Array.isArray(j) ? j : (j.results || j.auditTrails || []);",
+									"    pm.expect(trail.length, 'audit entry recorded').to.be.above(0);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Comments respect task access (RBAC negative)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/00000000-0000-0000-0000-000000000000/notes",
+						"description": "A request for the notes of a task the caller cannot read returns no comments (404/403/empty) — enforcement lives in OpenRegister, not planix."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('no comments for an inaccessible task', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 403, 404]);",
+									"    if (pm.response.code === 200) {",
+									"        const j = pm.response.json();",
+									"        const notes = Array.isArray(j) ? j : (j.results || j.notes || []);",
+									"        pm.expect(notes.length, 'no notes leaked').to.equal(0);",
+									"    }",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Delete own comment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes/{{note_id}}",
+						"description": "ICommentsManager allows the author to delete their own comment."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('own comment deleted', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		}
+	]
 }
