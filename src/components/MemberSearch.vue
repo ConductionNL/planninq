@@ -18,6 +18,7 @@
 				:key="user.id"
 				class="member-search__result"
 				role="option"
+				tabindex="0"
 				:aria-selected="false"
 				@click="selectUser(user)"
 				@keydown.enter="selectUser(user)">
