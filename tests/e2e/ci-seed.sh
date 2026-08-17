@@ -54,6 +54,26 @@ set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 APP_DIR="$(cd -- "${SCRIPT_DIR}/../.." && pwd)"
 
+# ── Mode ─────────────────────────────────────────────────────────────────────
+# `e2e` (default) is the Playwright path and runs everything below, including
+# the closing SPA-bundle gate.
+#
+# `api` is for the Newman job, which needs exactly the same OpenRegister
+# provisioning — without it every request returns **412 Precondition failed**,
+# which is what 14 assertions were reporting — but which has no frontend build
+# step at all. Running the bundle gate there would `exit 1` over a bundle that
+# was never meant to exist, converting a fix for those assertions into a hard
+# job failure. Skipping it removes no coverage: no Newman assertion loads a
+# page. Same split as docudesk's seed, for the same reason.
+SEED_MODE="${1:-e2e}"
+case "$SEED_MODE" in
+	e2e | api) ;;
+	*)
+		echo "::error::unknown seed mode '${SEED_MODE}' — expected 'e2e' or 'api'."
+		exit 1
+		;;
+esac
+
 # ── Target resolution ────────────────────────────────────────────────────────
 # The shared workflow's "Seed test data" step exports BASE_URL / NEXTCLOUD_URL /
 # NC_BASE_URL / ADMIN_USER / ADMIN_PASSWORD / NC_ADMIN_USER / NC_ADMIN_PASS
@@ -249,6 +269,13 @@ do
 		-H 'OCS-APIRequest: true' "${BASE}${path}" || echo 000)"
 	echo "[ci-seed] warm ${path} -> ${code}"
 done
+
+if [ "$SEED_MODE" = "api" ]; then
+	echo "[ci-seed] api mode: skipping the SPA bundle warm-up and gate — the Newman"
+	echo "[ci-seed] suite is HTTP-only and its job never builds the frontend."
+	echo "[ci-seed] done."
+	exit 0
+fi
 
 # Pull the main webpack bundle once so it is in the page cache.
 #
