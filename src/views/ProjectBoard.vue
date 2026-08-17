@@ -616,6 +616,15 @@ export default {
 	opacity: 1;
 }
 
+/* Honour a reduced-motion preference: the fade is decorative, so drop the
+   transition rather than the visibility change — the actions must still
+   appear on hover and focus. */
+@media (prefers-reduced-motion: reduce) {
+	.kanban-column__card-actions {
+		transition: none;
+	}
+}
+
 .kanban-column__card--highlight {
 	outline: 2px solid var(--color-primary-element);
 	outline-offset: 2px;
