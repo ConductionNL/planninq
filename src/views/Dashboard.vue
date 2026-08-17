@@ -29,11 +29,18 @@
 			<CnConfigurationCard :title="t('planix', 'My projects')">
 				<NcLoadingIcon v-if="loading" :size="24" />
 				<ul v-else-if="recentProjects.length > 0" class="planix-dashboard__project-list">
+					<!-- A bare @click on an <li> is mouse-only: the element is
+					     not focusable and fires nothing on Enter or Space, so
+					     this list was unreachable by keyboard entirely. -->
 					<li
 						v-for="project in recentProjects"
 						:key="project.id"
 						class="planix-dashboard__project-item"
-						@click="navigateToProject(project)">
+						role="button"
+						tabindex="0"
+						@click="navigateToProject(project)"
+						@keydown.enter="navigateToProject(project)"
+						@keydown.space.prevent="navigateToProject(project)">
 						<span
 							v-if="project.icon"
 							class="planix-dashboard__project-icon">{{ project.icon }}</span>
