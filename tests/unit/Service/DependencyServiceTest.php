@@ -31,6 +31,7 @@ use OCA\Planix\Exception\DependencyValidationException;
 use OCA\Planix\Service\DependencyGraph;
 use OCA\Planix\Service\DependencyRepository;
 use OCA\Planix\Service\DependencyService;
+use OCP\App\IAppManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -66,6 +67,17 @@ class DependencyServiceTest extends TestCase
     private LoggerInterface&MockObject $logger;
 
     /**
+     * Mock app manager — the OpenRegister availability probe (ADR-083 rule 1).
+     *
+     * Stubbed to report OpenRegister as installed, because these tests are
+     * about dependency-edge behaviour once OR is present. The not-installed
+     * path is a separate concern and is asserted where it belongs.
+     *
+     * @var IAppManager&MockObject
+     */
+    private IAppManager&MockObject $appManager;
+
+    /**
      * The real (pure, dependency-free) graph algorithms under test.
      *
      * @var DependencyGraph
@@ -83,6 +95,8 @@ class DependencyServiceTest extends TestCase
         $this->container   = $this->createMock(originalClassName: ContainerInterface::class);
         $this->userSession = $this->createMock(originalClassName: IUserSession::class);
         $this->logger      = $this->createMock(originalClassName: LoggerInterface::class);
+        $this->appManager  = $this->createMock(originalClassName: IAppManager::class);
+        $this->appManager->method('isInstalled')->willReturn(true);
         $this->graph       = new DependencyGraph();
     }//end setUp()
 
@@ -102,6 +116,7 @@ class DependencyServiceTest extends TestCase
             repository: new DependencyRepository(
                 container: $this->container,
                 logger: $this->logger,
+                appManager: $this->appManager,
             ),
             graph: $this->graph,
             userSession: $this->userSession,
@@ -420,6 +435,62 @@ class DependencyServiceTest extends TestCase
         self::assertContains('e2', $deleted);
         self::assertNotContains('e3', $deleted);
     }//end testRemoveEdgesForTaskCascades()
+
+    // ── OpenRegister availability (ADR-083 rule 1) ───────────────────────────
+
+    /**
+     * With OpenRegister absent, the repository refuses BEFORE touching the
+     * container and reports it as an infrastructure precondition.
+     *
+     * The distinction matters: a container lookup that throws cannot tell
+     * "OpenRegister is not installed" apart from "OpenRegister is installed and
+     * broken", and the caller maps CODE_UNAVAILABLE to 503 — a claim about the
+     * environment, not about the request. Probing IAppManager first is what
+     * makes that claim true.
+     *
+     * @return void
+     */
+    public function testObjectServiceRefusesWhenOpenRegisterIsNotInstalled(): void
+    {
+        $appManager = $this->createMock(originalClassName: IAppManager::class);
+        $appManager->method('isInstalled')->willReturn(false);
+
+        // The container must never be consulted: proving the guard runs FIRST
+        // is the whole point, so a lookup here is a test failure, not a detail.
+        $this->container->expects(self::never())->method('get');
+
+        $repository = new DependencyRepository(
+            container: $this->container,
+            logger: $this->logger,
+            appManager: $appManager,
+        );
+
+        try {
+            $repository->objectService();
+            self::fail('Expected DependencyValidationException when OpenRegister is absent.');
+        } catch (DependencyValidationException $e) {
+            self::assertSame(DependencyValidationException::CODE_UNAVAILABLE, $e->getCode());
+        }
+    }//end testObjectServiceRefusesWhenOpenRegisterIsNotInstalled()
+
+    /**
+     * With OpenRegister present, the guard falls through to the container.
+     *
+     * @return void
+     */
+    public function testObjectServiceResolvesWhenOpenRegisterIsInstalled(): void
+    {
+        $objectService = $this->makeObjectService(edges: []);
+        $this->container->method('get')->willReturn($objectService);
+
+        $repository = new DependencyRepository(
+            container: $this->container,
+            logger: $this->logger,
+            appManager: $this->appManager,
+        );
+
+        self::assertSame($objectService, $repository->objectService());
+    }//end testObjectServiceResolvesWhenOpenRegisterIsInstalled()
 
     // ── Mock helpers ─────────────────────────────────────────────────────────
 

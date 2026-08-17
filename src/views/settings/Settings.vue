@@ -10,10 +10,17 @@
 						v-for="(col, index) in columnList"
 						:key="index"
 						class="column-item">
+						<!-- A placeholder is not an accessible name: it is not
+						     exposed as one, and it disappears the moment the
+						     field has a value. These inputs repeat, so the name
+						     carries the position too — otherwise a screen-reader
+						     user hears "Column name" five times with nothing to
+						     tell the fields apart. -->
 						<input
 							v-model="columnList[index]"
 							type="text"
 							class="column-input"
+							:aria-label="t('planix', 'Column {number} name', { number: index + 1 })"
 							:placeholder="t('planix', 'Column name')">
 						<NcButton
 							variant="tertiary"

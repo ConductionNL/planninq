@@ -1,9 +1,15 @@
 <template>
+	<!-- role="option" alone does not make this reachable: an option still needs
+	     to be focusable and to respond to Enter/Space, or the list is
+	     mouse-only. -->
 	<li
 		class="project-list-item"
 		role="option"
+		tabindex="0"
 		:aria-selected="false"
-		@click="$emit('click', project)">
+		@click="$emit('click', project)"
+		@keydown.enter="$emit('click', project)"
+		@keydown.space.prevent="$emit('click', project)">
 		<!-- Color swatch -->
 		<span
 			class="project-list-item__swatch"
@@ -106,6 +112,14 @@ export default {
 
 .project-list-item:hover {
 	background-color: var(--color-background-hover);
+}
+
+/* The hover colour still changes under reduced motion — only the animated
+   transition to it is dropped. */
+@media (prefers-reduced-motion: reduce) {
+	.project-list-item {
+		transition: none;
+	}
 }
 
 .project-list-item__swatch {

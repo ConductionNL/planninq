@@ -34,6 +34,7 @@ declare(strict_types=1);
 namespace OCA\Planix\Service;
 
 use OCA\Planix\Exception\DependencyValidationException;
+use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -61,14 +62,16 @@ class DependencyRepository
     /**
      * Constructor for the DependencyRepository.
      *
-     * @param ContainerInterface $container The container
-     * @param LoggerInterface    $logger    The logger
+     * @param ContainerInterface $container  The container
+     * @param LoggerInterface    $logger     The logger
+     * @param IAppManager        $appManager The app manager (OpenRegister availability probe)
      *
      * @return void
      */
     public function __construct(
         private ContainerInterface $container,
         private LoggerInterface $logger,
+        private IAppManager $appManager,
     ) {
     }//end __construct()
 
@@ -83,6 +86,24 @@ class DependencyRepository
      */
     public function objectService(): object
     {
+        // ADR-083 rule 1: establish availability BEFORE reaching into the
+        // container. The try/catch below is error handling, not a guard — it
+        // reports after the fact and cannot distinguish "OpenRegister is not
+        // installed" from "OpenRegister is installed and broken". Probing
+        // IAppManager first keeps the dependency optional and visible, which is
+        // why the lookup stays rather than becoming constructor injection:
+        // injecting it would make this class unconstructable on an instance
+        // without OpenRegister, turning a clean message into a 500.
+        //
+        // Same shape as DueReminderWindowService::patch() in this app.
+        if ($this->appManager->isInstalled('openregister') === false) {
+            $this->logger->error('Planix: OpenRegister is not installed, dependency edges unavailable');
+            throw new DependencyValidationException(
+                message: 'OpenRegister is not available.',
+                code: DependencyValidationException::CODE_UNAVAILABLE
+            );
+        }
+
         try {
             return $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
         } catch (\Throwable $e) {
