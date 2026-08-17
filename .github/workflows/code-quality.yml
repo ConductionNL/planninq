@@ -154,6 +154,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          # Matches package.json engines (node ^22.14 || ^24 || >=26). Node 20
+          # ships npm 10, which does not implement `min-release-age` at all —
+          # so running this job on 20 while the repo declares npm ^11 would
+          # leave the .npmrc cooldown inert here regardless of its value.
+          node-version: "22"
       - name: Check required-locale translation parity
         run: npm run check:l10n
