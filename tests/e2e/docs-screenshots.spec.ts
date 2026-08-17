@@ -89,7 +89,11 @@ async function go(page: Page, route: string): Promise<void> {
 		? route
 		: `${APP}${route.startsWith('/') ? route : `/${route}`}`
 	await page.goto(url).catch(() => { /* tolerate 404 — caller decides */ })
-	await page.waitForLoadState('networkidle').catch(() => { /* idle never fires on some pages */ })
+	// ADR-074 rule 4: `networkidle` never settles on Nextcloud — long-polling
+	// and background requests keep the network busy indefinitely, so this wait
+	// always ran to its timeout and was then swallowed by the `.catch()`. It
+	// cost the full timeout on every navigation and guaranteed nothing.
+	await page.waitForLoadState('domcontentloaded').catch(() => { /* navigation may already be settled */ })
 	await dismissOverlays(page)
 	await page.waitForTimeout(900)
 }
