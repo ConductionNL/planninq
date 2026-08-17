@@ -31,6 +31,7 @@ use OCA\Planix\Exception\DependencyValidationException;
 use OCA\Planix\Service\DependencyGraph;
 use OCA\Planix\Service\DependencyRepository;
 use OCA\Planix\Service\DependencyService;
+use OCP\App\IAppManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -66,6 +67,17 @@ class DependencyServiceTest extends TestCase
     private LoggerInterface&MockObject $logger;
 
     /**
+     * Mock app manager — the OpenRegister availability probe (ADR-083 rule 1).
+     *
+     * Stubbed to report OpenRegister as installed, because these tests are
+     * about dependency-edge behaviour once OR is present. The not-installed
+     * path is a separate concern and is asserted where it belongs.
+     *
+     * @var IAppManager&MockObject
+     */
+    private IAppManager&MockObject $appManager;
+
+    /**
      * The real (pure, dependency-free) graph algorithms under test.
      *
      * @var DependencyGraph
@@ -83,6 +95,8 @@ class DependencyServiceTest extends TestCase
         $this->container   = $this->createMock(originalClassName: ContainerInterface::class);
         $this->userSession = $this->createMock(originalClassName: IUserSession::class);
         $this->logger      = $this->createMock(originalClassName: LoggerInterface::class);
+        $this->appManager  = $this->createMock(originalClassName: IAppManager::class);
+        $this->appManager->method('isInstalled')->willReturn(true);
         $this->graph       = new DependencyGraph();
     }//end setUp()
 
@@ -102,6 +116,7 @@ class DependencyServiceTest extends TestCase
             repository: new DependencyRepository(
                 container: $this->container,
                 logger: $this->logger,
+                appManager: $this->appManager,
             ),
             graph: $this->graph,
             userSession: $this->userSession,
