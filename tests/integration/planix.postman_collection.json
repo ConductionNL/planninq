@@ -35,6 +35,12 @@
 			"key": "admin_password",
 			"value": "admin",
 			"type": "string"
+		},
+		{
+			"key": "project_id",
+			"value": "00000000-0000-4000-a000-000000000001",
+			"type": "string",
+			"description": "Seeded project 'Client Portal v2' from lib/Settings/planix_register.json. This variable was REFERENCED by every task-creation request but never defined anywhere, so Postman passed the literal string '{{project_id}}' through and the schema rejected it on format:uuid with a 400."
 		}
 	],
 	"item": [
