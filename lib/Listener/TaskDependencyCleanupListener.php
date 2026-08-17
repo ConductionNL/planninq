@@ -61,7 +61,6 @@ use Psr\Log\LoggerInterface;
  */
 class TaskDependencyCleanupListener implements IEventListener
 {
-
     /**
      * Constructor.
      *
@@ -76,7 +75,6 @@ class TaskDependencyCleanupListener implements IEventListener
         private TaskScopeResolver $scopeResolver,
         private LoggerInterface $logger,
     ) {
-
     }//end __construct()
 
     /**
@@ -85,6 +83,8 @@ class TaskDependencyCleanupListener implements IEventListener
      * @param Event $event The dispatched event.
      *
      * @return void
+     *
+     * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
      */
     public function handle(Event $event): void
     {
@@ -121,7 +121,5 @@ class TaskDependencyCleanupListener implements IEventListener
                 ['exception' => $e->getMessage()]
             );
         }//end try
-
     }//end handle()
-
 }//end class
