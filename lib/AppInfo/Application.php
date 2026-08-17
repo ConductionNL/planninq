@@ -420,5 +420,27 @@ class Application extends App implements IBootstrap
                 schemas: ['task']
             );
         }
+
+        // Dependency-edge cascade, on the PRE-delete event.
+        //
+        // ADR-078 / gate-61 forbid a synchronous write in a POST-event listener
+        // and require deferral; a `*ing` listener is the sanctioned place for
+        // work that must happen INSIDE the delete, which this is — the edges
+        // have to go with the task, not eventually. Before this registration
+        // `DependencyService::removeEdgesForTask()` had no caller at all, so
+        // deleting a task left its edges pointing at nothing (gate-57).
+        //
+        // Both class names are LITERAL STRINGS, not imports, for the same reason
+        // the scope resolver's slugs are literals above: `Application` sits at
+        // PHPMD's CouplingBetweenObjects threshold, and two more `use` lines
+        // measured 14 against a limit of 13. The helper takes `string`, so
+        // nothing is lost but the coupling count.
+        $this->registerFilteredObjectListener(
+            dispatcher: $dispatcher,
+            event: '\\OCA\\OpenRegister\\Event\\ObjectDeletingEvent',
+            listener: '\\OCA\\Planix\\Listener\\TaskDependencyCleanupListener',
+            registers: ['planix'],
+            schemas: ['task']
+        );
     }//end boot()
 }//end class
