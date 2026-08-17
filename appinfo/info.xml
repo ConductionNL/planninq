@@ -61,13 +61,47 @@ Vrij en open source onder de EUPL-1.2-licentie.
     <screenshot>https://codeberg.org/Conduction/planix/raw/branch/main/docs/features/img/projects-create.png</screenshot>
     <screenshot>https://codeberg.org/Conduction/planix/raw/branch/main/docs/features/img/projects-settings.png</screenshot>
 
+    <!-- app-info.xsd defines these as an ORDERED SEQUENCE, not a set. Both the
+         children of <dependencies> and the top-level elements below must appear
+         in schema order or the file fails validation outright — which is what
+         `info.xml lint` was reporting. `<php>` precedes `<nextcloud>`, and the
+         top-level order is dependencies, repair-steps, settings, activity,
+         navigations (matching openregister and docudesk, which validate). -->
     <dependencies>
-        <nextcloud min-version="32" max-version="34"/>
         <php min-version="8.3"/>
+        <nextcloud min-version="32" max-version="34"/>
         <!-- App dependency (not expressible in app-info.xsd): OpenRegister
              (data layer for the task/project/column/timeEntry/label/dependency
              schemas; see lib/Settings/planix_register.json). -->
     </dependencies>
+
+    <!-- Schema order inside <repair-steps> is post-migration before install,
+         which reads backwards but is what app-info.xsd declares. Order here is
+         XML sequence only — it does not change when Nextcloud runs each hook. -->
+    <repair-steps>
+        <post-migration>
+            <step>OCA\Planix\Repair\InitializeSettings</step>
+            <step>OCA\Planix\Repair\ReconcileDueReminderOverrides</step>
+        </post-migration>
+        <install>
+            <step>OCA\Planix\Repair\InitializeSettings</step>
+        </install>
+    </repair-steps>
+
+    <settings>
+        <admin>OCA\Planix\Settings\AdminSettings</admin>
+        <admin-section>OCA\Planix\Sections\SettingsSection</admin-section>
+    </settings>
+
+    <!-- Schema order inside <activity> is settings, filters, providers. -->
+    <activity>
+        <filters>
+            <filter>OCA\Planix\Activity\Filter</filter>
+        </filters>
+        <providers>
+            <provider>OCA\Planix\Activity\Provider</provider>
+        </providers>
+    </activity>
 
     <navigations>
         <navigation>
@@ -77,28 +111,4 @@ Vrij en open source onder de EUPL-1.2-licentie.
             <icon>app.svg</icon>
         </navigation>
     </navigations>
-
-    <settings>
-        <admin>OCA\Planix\Settings\AdminSettings</admin>
-        <admin-section>OCA\Planix\Sections\SettingsSection</admin-section>
-    </settings>
-
-    <activity>
-        <providers>
-            <provider>OCA\Planix\Activity\Provider</provider>
-        </providers>
-        <filters>
-            <filter>OCA\Planix\Activity\Filter</filter>
-        </filters>
-    </activity>
-
-    <repair-steps>
-        <install>
-            <step>OCA\Planix\Repair\InitializeSettings</step>
-        </install>
-        <post-migration>
-            <step>OCA\Planix\Repair\InitializeSettings</step>
-            <step>OCA\Planix\Repair\ReconcileDueReminderOverrides</step>
-        </post-migration>
-    </repair-steps>
 </info>
