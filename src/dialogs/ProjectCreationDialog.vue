@@ -88,7 +88,7 @@
  */
 import { NcButton, NcDialog, NcTextField, NcTextArea, NcLoadingIcon } from '@nextcloud/vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { useProjectsStore } from '../../store/projects.js'
+import { useProjectsStore } from '../store/projects.js'
 
 export default {
 	name: 'ProjectCreationDialog',

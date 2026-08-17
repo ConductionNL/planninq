@@ -40,7 +40,7 @@
 import { NcButton, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
 import { showError } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
-import { useProjectsStore } from '../../store/projects.js'
+import { useProjectsStore } from '../store/projects.js'
 
 export default {
 	name: 'ProjectLeaveDialog',

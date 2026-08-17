@@ -210,8 +210,8 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import { useProjectsStore } from '../store/projects.js'
 import MemberSearch from './MemberSearch.vue'
-import ProjectLeaveDialog from './dialogs/ProjectLeaveDialog.vue'
-import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog.vue'
+import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
+import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
 
 export default {
 	name: 'ProjectSettingsSidebar',

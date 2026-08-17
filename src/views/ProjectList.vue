@@ -121,7 +121,7 @@ import { useProjectsStore } from '../store/projects.js'
 import { useObjectStore } from '../store/objectStore.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import ProjectListItem from '../components/ProjectListItem.vue'
-import ProjectCreationDialog from '../components/dialogs/ProjectCreationDialog.vue'
+import ProjectCreationDialog from '../dialogs/ProjectCreationDialog.vue'
 
 export default {
 	name: 'ProjectList',

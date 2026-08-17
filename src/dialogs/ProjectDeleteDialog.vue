@@ -43,8 +43,8 @@
 import { NcButton, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
-import { useProjectsStore } from '../../store/projects.js'
-import { useSettingsStore } from '../../store/modules/settings.js'
+import { useProjectsStore } from '../store/projects.js'
+import { useSettingsStore } from '../store/modules/settings.js'
 
 export default {
 	name: 'ProjectDeleteDialog',

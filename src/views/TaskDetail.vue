@@ -162,7 +162,7 @@ import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
 import { parseDuration, formatDuration } from '../utils/durationParser.js'
-import TimeEntryDialog from '../components/dialogs/TimeEntryDialog.vue'
+import TimeEntryDialog from '../dialogs/TimeEntryDialog.vue'
 
 /**
  * Task detail view.

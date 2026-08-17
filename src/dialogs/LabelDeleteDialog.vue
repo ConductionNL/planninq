@@ -47,7 +47,7 @@
  */
 import { NcButton, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
 import { showSuccess, showError } from '@nextcloud/dialogs'
-import { useLabelsStore } from '../../store/labels.js'
+import { useLabelsStore } from '../store/labels.js'
 
 export default {
 	name: 'LabelDeleteDialog',

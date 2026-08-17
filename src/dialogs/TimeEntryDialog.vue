@@ -68,8 +68,8 @@
  */
 import { NcButton, NcDialog, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import { showError } from '@nextcloud/dialogs'
-import { useTimeEntriesStore } from '../../store/timeEntries.js'
-import { parseDuration, formatDuration } from '../../utils/durationParser.js'
+import { useTimeEntriesStore } from '../store/timeEntries.js'
+import { parseDuration, formatDuration } from '../utils/durationParser.js'
 
 export default {
 	name: 'TimeEntryDialog',

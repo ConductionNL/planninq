@@ -74,13 +74,13 @@
  */
 import { NcButton, NcDialog, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import { showError } from '@nextcloud/dialogs'
-import { useLabelsStore } from '../../store/labels.js'
+import { useLabelsStore } from '../store/labels.js'
 import {
 	DEFAULT_LABEL_COLOR as DEFAULT_COLOR,
 	isValidHexColor,
 	isValidLabelTitle,
 	normaliseLabelPayload,
-} from '../../utils/labelHelpers.js'
+} from '../utils/labelHelpers.js'
 
 export default {
 	name: 'LabelEditDialog',
