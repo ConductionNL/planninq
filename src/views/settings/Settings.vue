@@ -280,8 +280,8 @@ import { NcButton, NcLoadingIcon } from '@nextcloud/vue'
 import { CnSettingsSection } from '@conduction/nextcloud-vue'
 import { useSettingsStore } from '../../store/modules/settings.js'
 import { useLabelsStore } from '../../store/labels.js'
-import LabelEditDialog from '../../components/dialogs/LabelEditDialog.vue'
-import LabelDeleteDialog from '../../components/dialogs/LabelDeleteDialog.vue'
+import LabelEditDialog from '../../dialogs/LabelEditDialog.vue'
+import LabelDeleteDialog from '../../dialogs/LabelDeleteDialog.vue'
 import { generateUrl } from '@nextcloud/router'
 
 export default {
