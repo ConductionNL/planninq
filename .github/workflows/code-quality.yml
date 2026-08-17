@@ -87,6 +87,19 @@ jobs:
       # step globs `*.postman_collection.json` in — flat, not recursively.
       enable-newman: true
 
+      # The Newman job needs the SAME OpenRegister provisioning the Playwright
+      # job gets. Without it, planix has no register and no schemas, and every
+      # write returns **412 Precondition failed** — which is exactly what 14 of
+      # this collection's assertions were reporting ("expected 201 but got 412",
+      # "expected 422 but got 412", and so on). They were not 14 test bugs; they
+      # were one missing seed, reported fourteen times.
+      #
+      # `ci-seed.sh` already performs and documents that provisioning for
+      # Playwright. The `api` argument reuses it verbatim and only skips the
+      # closing SPA-bundle gate, which would `exit 1` here because the Newman
+      # job has no frontend build step and therefore no bundle to serve.
+      newman-seed-command: 'bash apps/planix/tests/e2e/ci-seed.sh api'
+
       # ── Frontend Check legs ──────────────────────────────────────────────
       # `frontend-checks` defaults to `[]`, and an empty list means the shared
       # workflow emits NO "Frontend Check" job at all — so `check:manifest` ran
