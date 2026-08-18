@@ -188,6 +188,62 @@ class SettingsControllerTest extends TestCase
     }//end testCreateReturnsForbiddenForNonAdmin()
 
     /**
+     * update() is the PUT face of the same write, and carries the same guard.
+     *
+     * `Routes::standard()` declares settings#create (POST) and settings#update
+     * (PUT) against the same URL, and planix implemented only the POST — so PUT
+     * resolved to nothing. Asserting the admin gate here is the point: a
+     * delegating method that quietly lost the guard would be a worse bug than
+     * the missing method it replaced.
+     *
+     * @return void
+     */
+    public function testUpdateReturnsForbiddenForNonAdmin(): void
+    {
+        $this->settingsService->expects($this->once())
+            ->method('isCurrentUserAdmin')
+            ->willReturn(false);
+
+        $this->settingsService->expects($this->never())
+            ->method('updateSettings');
+
+        $result = $this->controller->update();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
+
+    }//end testUpdateReturnsForbiddenForNonAdmin()
+
+    /**
+     * update() performs the same write as create() for an admin.
+     *
+     * @return void
+     */
+    public function testUpdateCallsUpdateSettingsForAdmin(): void
+    {
+        $params = ['register' => 'put-uuid'];
+
+        $this->settingsService->expects($this->once())
+            ->method('isCurrentUserAdmin')
+            ->willReturn(true);
+
+        $this->request->expects($this->once())
+            ->method('getParams')
+            ->willReturn($params);
+
+        $this->settingsService->expects($this->once())
+            ->method('updateSettings')
+            ->with($params)
+            ->willReturn($params);
+
+        $result = $this->controller->update();
+
+        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+        self::assertTrue(condition: $result->getData()['success']);
+
+    }//end testUpdateCallsUpdateSettingsForAdmin()
+
+    /**
      * Test that create() calls updateSettings with request params and returns success for admins.
      *
      * @return void

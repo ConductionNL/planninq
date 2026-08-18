@@ -113,6 +113,30 @@ class SettingsController extends Controller
     }//end create()
 
     /**
+     * Update app settings (PUT /api/settings).
+     *
+     * The canonical AppHost route table declares BOTH `settings#create` (POST)
+     * and `settings#update` (PUT) against /api/settings, and planix implemented
+     * only the POST. `PUT /api/settings` therefore resolved to a method that
+     * does not exist — a DECLARED route with no target, which is exactly what
+     * gate-14's `method-not-found-on-target-controller` finding names, and what
+     * a client following the published route table would have hit.
+     *
+     * Same semantics and the same admin gate as create(): the settings document
+     * is replaced wholesale either way, so this delegates rather than
+     * duplicating the guard.
+     *
+     * @return JSONResponse
+     *
+     * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+     */
+    public function update(): JSONResponse
+    {
+        return $this->create();
+
+    }//end update()
+
+    /**
      * Update the current user's personal settings (notification toggles).
      *
      * Available to any authenticated user for their own per-user preferences
