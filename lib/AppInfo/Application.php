@@ -437,8 +437,8 @@ class Application extends App implements IBootstrap
         // nothing is lost but the coupling count.
         $this->registerFilteredObjectListener(
             dispatcher: $dispatcher,
-            event: '\\OCA\\OpenRegister\\Event\\ObjectDeletingEvent',
-            listener: '\\OCA\\Planix\\Listener\\TaskDependencyCleanupListener',
+            event: 'OCA\\OpenRegister\\Event\\ObjectDeletingEvent',
+            listener: 'OCA\\Planix\\Listener\\TaskDependencyCleanupListener',
             registers: ['planix'],
             schemas: ['task']
         );
