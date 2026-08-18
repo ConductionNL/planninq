@@ -68,10 +68,18 @@ class TaskDependencyCleanupListenerTest extends TestCase
      */
     private function deletingEvent(string $uuid): ObjectDeletingEvent
     {
-        $object = $this->createMock(originalClassName: ObjectEntity::class);
-        $object->method('getRegister')->willReturn('1');
-        $object->method('getSchema')->willReturn('2');
-        $object->method('getUuid')->willReturn($uuid);
+        // ObjectEntity's getRegister/getSchema/getUuid are magic (__call)
+        // accessors, so PHPUnit cannot configure them on a mock — the same
+        // reason TaskActivityListenerTest builds a concrete subclass here.
+        $object = new class($uuid) extends ObjectEntity {
+            // phpcs:disable
+            public function __construct(private string $u) {}
+            public function getObject(): array { return []; }
+            public function getRegister(): ?string { return '1'; }
+            public function getSchema(): ?string { return '2'; }
+            public function getUuid(): ?string { return $this->u; }
+            // phpcs:enable
+        };
 
         return new ObjectDeletingEvent($object);
 
