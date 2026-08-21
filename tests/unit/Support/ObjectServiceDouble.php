@@ -56,158 +56,139 @@ namespace OCA\Planix\Tests\Unit\Support;
  * Every method body is unreachable in tests — PHPUnit replaces them — so they
  * exist only to carry the declared parameter names.
  */
-class ObjectServiceDouble
-{
+class ObjectServiceDouble {
 
+	/**
+	 * Set the current register context.
+	 *
+	 * @param mixed $register Register entity, id, uuid or slug.
+	 *
+	 * @return static
+	 */
+	public function setRegister(mixed $register): static {
+		return $this;
+	}//end setRegister()
 
-    /**
-     * Set the current register context.
-     *
-     * @param mixed $register Register entity, id, uuid or slug.
-     *
-     * @return static
-     */
-    public function setRegister(mixed $register): static
-    {
-        return $this;
+	/**
+	 * Set the current schema context.
+	 *
+	 * @param mixed $schema Schema entity, id, uuid or slug.
+	 *
+	 * @return static
+	 */
+	public function setSchema(mixed $schema): static {
+		return $this;
+	}//end setSchema()
 
-    }//end setRegister()
+	/**
+	 * Find a single object.
+	 *
+	 * @param int|string $id Object id, uuid or slug.
+	 * @param array|null $_extend Properties to extend.
+	 * @param bool $files Whether to include files.
+	 * @param mixed $register Register override.
+	 * @param mixed $schema Schema override.
+	 * @param bool $_rbac Whether to apply RBAC.
+	 * @param bool $_multitenancy Whether to apply the organisation filter.
+	 * @param bool $_render Whether to render the object.
+	 *
+	 * @return object|null
+	 */
+	public function find(
+		int|string $id,
+		?array $_extend = [],
+		bool $files = false,
+		mixed $register = null,
+		mixed $schema = null,
+		bool $_rbac = true,
+		bool $_multitenancy = true,
+		bool $_render = true,
+	): ?object {
+		return null;
+	}//end find()
 
+	/**
+	 * Persist an object.
+	 *
+	 * @param array|object $object The object data or entity.
+	 * @param array|null $extend Properties to extend on the result.
+	 * @param mixed $register Register id, uuid or slug.
+	 * @param mixed $schema Schema id, uuid or slug.
+	 * @param string|null $uuid Uuid of the object to update.
+	 * @param bool $_rbac Whether to apply RBAC.
+	 * @param bool $_multitenancy Whether to apply the organisation filter.
+	 * @param bool $silent Whether to suppress events.
+	 *
+	 * @return object|null
+	 */
+	public function saveObject(
+		array|object $object,
+		?array $extend = [],
+		mixed $register = null,
+		mixed $schema = null,
+		?string $uuid = null,
+		bool $_rbac = true,
+		bool $_multitenancy = true,
+		bool $silent = false,
+	): ?object {
+		return null;
+	}//end saveObject()
 
-    /**
-     * Set the current schema context.
-     *
-     * @param mixed $schema Schema entity, id, uuid or slug.
-     *
-     * @return static
-     */
-    public function setSchema(mixed $schema): static
-    {
-        return $this;
+	/**
+	 * Search objects by register and schema slug.
+	 *
+	 * @param string $registerSlug The register slug.
+	 * @param string $schemaSlug The schema slug.
+	 * @param array $filters Additional filters.
+	 * @param bool $_rbac Whether to apply RBAC.
+	 * @param bool $_multitenancy Whether to apply the organisation filter.
+	 *
+	 * @return array|int
+	 */
+	public function searchObjectsBySlug(
+		string $registerSlug,
+		string $schemaSlug,
+		array $filters = [],
+		bool $_rbac = true,
+		bool $_multitenancy = true,
+	): array|int {
+		return [];
+	}//end searchObjectsBySlug()
 
-    }//end setSchema()
+	/**
+	 * Search objects.
+	 *
+	 * @param array $query The search query.
+	 * @param bool $_rbac Whether to apply RBAC.
+	 * @param bool $_multitenancy Whether to apply the organisation filter.
+	 * @param array|null $ids Optional ids to filter by.
+	 * @param string|null $uses Optional usage filter.
+	 * @param array|null $views Optional view ids.
+	 *
+	 * @return array|int
+	 */
+	public function searchObjects(
+		array $query = [],
+		bool $_rbac = true,
+		bool $_multitenancy = true,
+		?array $ids = null,
+		?string $uses = null,
+		?array $views = null,
+	): array|int {
+		return [];
+	}//end searchObjects()
 
-
-    /**
-     * Find a single object.
-     *
-     * @param int|string $id            Object id, uuid or slug.
-     * @param array|null $_extend       Properties to extend.
-     * @param bool       $files         Whether to include files.
-     * @param mixed      $register      Register override.
-     * @param mixed      $schema        Schema override.
-     * @param bool       $_rbac         Whether to apply RBAC.
-     * @param bool       $_multitenancy Whether to apply the organisation filter.
-     * @param bool       $_render       Whether to render the object.
-     *
-     * @return object|null
-     */
-    public function find(
-        int | string $id,
-        ?array $_extend=[],
-        bool $files=false,
-        mixed $register=null,
-        mixed $schema=null,
-        bool $_rbac=true,
-        bool $_multitenancy=true,
-        bool $_render=true
-    ): ?object {
-        return null;
-
-    }//end find()
-
-
-    /**
-     * Persist an object.
-     *
-     * @param array|object $object        The object data or entity.
-     * @param array|null   $extend        Properties to extend on the result.
-     * @param mixed        $register      Register id, uuid or slug.
-     * @param mixed        $schema        Schema id, uuid or slug.
-     * @param string|null  $uuid          Uuid of the object to update.
-     * @param bool         $_rbac         Whether to apply RBAC.
-     * @param bool         $_multitenancy Whether to apply the organisation filter.
-     * @param bool         $silent        Whether to suppress events.
-     *
-     * @return object|null
-     */
-    public function saveObject(
-        array | object $object,
-        ?array $extend=[],
-        mixed $register=null,
-        mixed $schema=null,
-        ?string $uuid=null,
-        bool $_rbac=true,
-        bool $_multitenancy=true,
-        bool $silent=false
-    ): ?object {
-        return null;
-
-    }//end saveObject()
-
-
-    /**
-     * Search objects by register and schema slug.
-     *
-     * @param string $registerSlug  The register slug.
-     * @param string $schemaSlug    The schema slug.
-     * @param array  $filters       Additional filters.
-     * @param bool   $_rbac         Whether to apply RBAC.
-     * @param bool   $_multitenancy Whether to apply the organisation filter.
-     *
-     * @return array|int
-     */
-    public function searchObjectsBySlug(
-        string $registerSlug,
-        string $schemaSlug,
-        array $filters=[],
-        bool $_rbac=true,
-        bool $_multitenancy=true
-    ): array | int {
-        return [];
-
-    }//end searchObjectsBySlug()
-
-
-    /**
-     * Search objects.
-     *
-     * @param array      $query         The search query.
-     * @param bool       $_rbac         Whether to apply RBAC.
-     * @param bool       $_multitenancy Whether to apply the organisation filter.
-     * @param array|null $ids           Optional ids to filter by.
-     * @param string|null $uses         Optional usage filter.
-     * @param array|null $views         Optional view ids.
-     *
-     * @return array|int
-     */
-    public function searchObjects(
-        array $query=[],
-        bool $_rbac=true,
-        bool $_multitenancy=true,
-        ?array $ids=null,
-        ?string $uses=null,
-        ?array $views=null
-    ): array | int {
-        return [];
-
-    }//end searchObjects()
-
-
-    /**
-     * Delete an object.
-     *
-     * @param mixed $id            Object id or uuid.
-     * @param bool  $_rbac         Whether to apply RBAC.
-     * @param bool  $_multitenancy Whether to apply the organisation filter.
-     *
-     * @return bool
-     */
-    public function deleteObject(mixed $id, bool $_rbac=true, bool $_multitenancy=true): bool
-    {
-        return true;
-
-    }//end deleteObject()
-
+	/**
+	 * Delete an object.
+	 *
+	 * @param mixed $id Object id or uuid.
+	 * @param bool $_rbac Whether to apply RBAC.
+	 * @param bool $_multitenancy Whether to apply the organisation filter.
+	 *
+	 * @return bool
+	 */
+	public function deleteObject(mixed $id, bool $_rbac = true, bool $_multitenancy = true): bool {
+		return true;
+	}//end deleteObject()
 
 }//end class

@@ -43,6 +43,5 @@ use OCA\OpenRegister\AppHost\Settings\GenericAdminSettings;
  *
  * @spec openspec/specs/admin-user-settings.md
  */
-class AdminSettings extends GenericAdminSettings
-{
+class AdminSettings extends GenericAdminSettings {
 }//end class

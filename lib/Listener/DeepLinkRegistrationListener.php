@@ -42,6 +42,5 @@ use OCA\OpenRegister\AppHost\Listener\GenericDeepLinkRegistrationListener;
 /**
  * AppHost-backed deep-link registration listener for Planix (ADR-040).
  */
-class DeepLinkRegistrationListener extends GenericDeepLinkRegistrationListener
-{
+class DeepLinkRegistrationListener extends GenericDeepLinkRegistrationListener {
 }//end class

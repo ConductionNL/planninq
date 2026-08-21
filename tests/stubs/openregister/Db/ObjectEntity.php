@@ -42,34 +42,29 @@ use OCP\AppFramework\Db\Entity;
 /**
  * Test-only stub of the OpenRegister object entity.
  */
-class ObjectEntity extends Entity implements JsonSerializable
-{
-    /**
-     * The decoded object payload.
-     *
-     * @var array<string, mixed>
-     */
-    protected $object = [];
+class ObjectEntity extends Entity implements JsonSerializable {
+	/**
+	 * The decoded object payload.
+	 *
+	 * @var array<string, mixed>
+	 */
+	protected $object = [];
 
-    /**
-     * Return the decoded object payload.
-     *
-     * @return array<string, mixed> The object data.
-     */
-    public function getObject(): array
-    {
-        return $this->object;
+	/**
+	 * Return the decoded object payload.
+	 *
+	 * @return array<string, mixed> The object data.
+	 */
+	public function getObject(): array {
+		return $this->object;
+	}//end getObject()
 
-    }//end getObject()
-
-    /**
-     * Serialise the entity.
-     *
-     * @return array<string, mixed> The serialised entity.
-     */
-    public function jsonSerialize(): array
-    {
-        return $this->object;
-
-    }//end jsonSerialize()
+	/**
+	 * Serialise the entity.
+	 *
+	 * @return array<string, mixed> The serialised entity.
+	 */
+	public function jsonSerialize(): array {
+		return $this->object;
+	}//end jsonSerialize()
 }//end class

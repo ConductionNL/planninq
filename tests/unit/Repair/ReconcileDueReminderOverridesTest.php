@@ -30,189 +30,178 @@ use Psr\Log\LoggerInterface;
 /**
  * Tests the reconciliation repair step seeds overrides idempotently.
  */
-class ReconcileDueReminderOverridesTest extends TestCase
-{
+class ReconcileDueReminderOverridesTest extends TestCase {
 
-    /**
-     * Mock IConfig.
-     *
-     * @var IConfig&MockObject
-     */
-    private IConfig&MockObject $config;
+	/**
+	 * Mock IConfig.
+	 *
+	 * @var IConfig&MockObject
+	 */
+	private IConfig&MockObject $config;
 
-    /**
-     * Mock SettingsService.
-     *
-     * @var SettingsService&MockObject
-     */
-    private SettingsService&MockObject $settingsService;
+	/**
+	 * Mock SettingsService.
+	 *
+	 * @var SettingsService&MockObject
+	 */
+	private SettingsService&MockObject $settingsService;
 
-    /**
-     * Mock LoggerInterface.
-     *
-     * @var LoggerInterface&MockObject
-     */
-    private LoggerInterface&MockObject $logger;
+	/**
+	 * Mock LoggerInterface.
+	 *
+	 * @var LoggerInterface&MockObject
+	 */
+	private LoggerInterface&MockObject $logger;
 
-    /**
-     * Set up fixtures.
-     *
-     * @return void
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
+	/**
+	 * Set up fixtures.
+	 *
+	 * @return void
+	 */
+	protected function setUp(): void {
+		parent::setUp();
 
-        $this->config          = $this->createMock(originalClassName: IConfig::class);
-        $this->settingsService = $this->createMock(originalClassName: SettingsService::class);
-        $this->logger          = $this->createMock(originalClassName: LoggerInterface::class);
+		$this->config = $this->createMock(originalClassName: IConfig::class);
+		$this->settingsService = $this->createMock(originalClassName: SettingsService::class);
+		$this->logger = $this->createMock(originalClassName: LoggerInterface::class);
 
-    }//end setUp()
+	}//end setUp()
 
-    /**
-     * Build the repair step under test.
-     *
-     * @return ReconcileDueReminderOverrides
-     */
-    private function step(): ReconcileDueReminderOverrides
-    {
-        return new ReconcileDueReminderOverrides(
-            config: $this->config,
-            settingsService: $this->settingsService,
-            logger: $this->logger,
-        );
+	/**
+	 * Build the repair step under test.
+	 *
+	 * @return ReconcileDueReminderOverrides
+	 */
+	private function step(): ReconcileDueReminderOverrides {
+		return new ReconcileDueReminderOverrides(
+			config: $this->config,
+			settingsService: $this->settingsService,
+			logger: $this->logger,
+		);
 
-    }//end step()
+	}//end step()
 
-    /**
-     * When OpenRegister is unavailable the step is a no-op (warns, no writes).
-     *
-     * @return void
-     */
-    public function testSkipsWhenOpenRegisterUnavailable(): void
-    {
-        $this->settingsService->method('isOpenRegisterAvailable')->willReturn(false);
-        $this->settingsService->expects($this->never())->method('writeDueReminderOverride');
+	/**
+	 * When OpenRegister is unavailable the step is a no-op (warns, no writes).
+	 *
+	 * @return void
+	 */
+	public function testSkipsWhenOpenRegisterUnavailable(): void {
+		$this->settingsService->method('isOpenRegisterAvailable')->willReturn(false);
+		$this->settingsService->expects($this->never())->method('writeDueReminderOverride');
 
-        $output = $this->createMock(originalClassName: IOutput::class);
-        $output->expects($this->once())->method('warning');
+		$output = $this->createMock(originalClassName: IOutput::class);
+		$output->expects($this->once())->method('warning');
 
-        $this->step()->run($output);
+		$this->step()->run($output);
 
-    }//end testSkipsWhenOpenRegisterUnavailable()
+	}//end testSkipsWhenOpenRegisterUnavailable()
 
-    /**
-     * Seeds {"enabled": false} for every opted-out user without an override.
-     *
-     * @return void
-     */
-    public function testSeedsOverridesForOptedOutUsers(): void
-    {
-        $this->settingsService->method('isOpenRegisterAvailable')->willReturn(true);
+	/**
+	 * Seeds {"enabled": false} for every opted-out user without an override.
+	 *
+	 * @return void
+	 */
+	public function testSeedsOverridesForOptedOutUsers(): void {
+		$this->settingsService->method('isOpenRegisterAvailable')->willReturn(true);
 
-        $this->config->method('getUsersForUserValue')
-            ->with('planix', 'notify_due_reminder', 'false')
-            ->willReturn(['alice', 'bob']);
+		$this->config->method('getUsersForUserValue')
+			->with('planix', 'notify_due_reminder', 'false')
+			->willReturn(['alice', 'bob']);
 
-        // No existing overrides → both get seeded.
-        $prefService = new TestPrefSpy();
-        $this->settingsService->method('getNotificationPreferenceService')->willReturn($prefService);
+		// No existing overrides → both get seeded.
+		$prefService = new TestPrefSpy();
+		$this->settingsService->method('getNotificationPreferenceService')->willReturn($prefService);
 
-        $seeded = [];
-        $this->settingsService->method('writeDueReminderOverride')
-            ->willReturnCallback(
-                function (string $userId, ?array $override) use (&$seeded): bool {
-                    $seeded[$userId] = $override;
-                    return true;
-                }
-            );
+		$seeded = [];
+		$this->settingsService->method('writeDueReminderOverride')
+			->willReturnCallback(
+				function (string $userId, ?array $override) use (&$seeded): bool {
+					$seeded[$userId] = $override;
+					return true;
+				}
+			);
 
-        $output = $this->createMock(originalClassName: IOutput::class);
-        $this->step()->run($output);
+		$output = $this->createMock(originalClassName: IOutput::class);
+		$this->step()->run($output);
 
-        self::assertCount(expectedCount: 2, haystack: $seeded);
-        self::assertSame(expected: ['enabled' => false], actual: $seeded['alice']);
-        self::assertSame(expected: ['enabled' => false], actual: $seeded['bob']);
+		self::assertCount(expectedCount: 2, haystack: $seeded);
+		self::assertSame(expected: ['enabled' => false], actual: $seeded['alice']);
+		self::assertSame(expected: ['enabled' => false], actual: $seeded['bob']);
 
-    }//end testSeedsOverridesForOptedOutUsers()
+	}//end testSeedsOverridesForOptedOutUsers()
 
-    /**
-     * Idempotent: a user who already has an override is NOT clobbered.
-     *
-     * @return void
-     */
-    public function testDoesNotClobberExistingOverride(): void
-    {
-        $this->settingsService->method('isOpenRegisterAvailable')->willReturn(true);
+	/**
+	 * Idempotent: a user who already has an override is NOT clobbered.
+	 *
+	 * @return void
+	 */
+	public function testDoesNotClobberExistingOverride(): void {
+		$this->settingsService->method('isOpenRegisterAvailable')->willReturn(true);
 
-        $this->config->method('getUsersForUserValue')->willReturn(['carol']);
+		$this->config->method('getUsersForUserValue')->willReturn(['carol']);
 
-        // carol already has an explicit override.
-        $prefService = new TestPrefSpy(['carol' => ['enabled' => true]]);
-        $this->settingsService->method('getNotificationPreferenceService')->willReturn($prefService);
+		// carol already has an explicit override.
+		$prefService = new TestPrefSpy(['carol' => ['enabled' => true]]);
+		$this->settingsService->method('getNotificationPreferenceService')->willReturn($prefService);
 
-        $this->settingsService->expects($this->never())->method('writeDueReminderOverride');
+		$this->settingsService->expects($this->never())->method('writeDueReminderOverride');
 
-        $output = $this->createMock(originalClassName: IOutput::class);
-        $this->step()->run($output);
+		$output = $this->createMock(originalClassName: IOutput::class);
+		$this->step()->run($output);
 
-    }//end testDoesNotClobberExistingOverride()
+	}//end testDoesNotClobberExistingOverride()
 
-    /**
-     * No opted-out users → nothing seeded, info logged.
-     *
-     * @return void
-     */
-    public function testNoOptOutsIsNoop(): void
-    {
-        $this->settingsService->method('isOpenRegisterAvailable')->willReturn(true);
-        $this->config->method('getUsersForUserValue')->willReturn([]);
-        $this->settingsService->expects($this->never())->method('writeDueReminderOverride');
+	/**
+	 * No opted-out users → nothing seeded, info logged.
+	 *
+	 * @return void
+	 */
+	public function testNoOptOutsIsNoop(): void {
+		$this->settingsService->method('isOpenRegisterAvailable')->willReturn(true);
+		$this->config->method('getUsersForUserValue')->willReturn([]);
+		$this->settingsService->expects($this->never())->method('writeDueReminderOverride');
 
-        $output = $this->createMock(originalClassName: IOutput::class);
-        $output->expects($this->once())->method('info');
+		$output = $this->createMock(originalClassName: IOutput::class);
+		$output->expects($this->once())->method('info');
 
-        $this->step()->run($output);
+		$this->step()->run($output);
 
-    }//end testNoOptOutsIsNoop()
+	}//end testNoOptOutsIsNoop()
 }//end class
 
 /**
  * Preference-service test double with seeded existing overrides.
  */
-class TestPrefSpy
-{
+class TestPrefSpy {
 
-    /**
-     * Pre-seeded overrides keyed by user UID.
-     *
-     * @var array<string,array<string,mixed>|null>
-     */
-    private array $overrides;
+	/**
+	 * Pre-seeded overrides keyed by user UID.
+	 *
+	 * @var array<string,array<string,mixed>|null>
+	 */
+	private array $overrides;
 
-    /**
-     * Constructor.
-     *
-     * @param array<string,array<string,mixed>|null> $overrides Seed overrides.
-     */
-    public function __construct(array $overrides=[])
-    {
-        $this->overrides = $overrides;
+	/**
+	 * Constructor.
+	 *
+	 * @param array<string,array<string,mixed>|null> $overrides Seed overrides.
+	 */
+	public function __construct(array $overrides = []) {
+		$this->overrides = $overrides;
 
-    }//end __construct()
+	}//end __construct()
 
-    /**
-     * Return the seeded override for a user, or null.
-     *
-     * @param string $userId          The user UID.
-     * @param string $schemaSlug      The schema slug.
-     * @param string $notificationKey The notification key.
-     *
-     * @return array<string,mixed>|null
-     */
-    public function getOverride(string $userId, string $schemaSlug, string $notificationKey): ?array
-    {
-        return ($this->overrides[$userId] ?? null);
-
-    }//end getOverride()
+	/**
+	 * Return the seeded override for a user, or null.
+	 *
+	 * @param string $userId The user UID.
+	 * @param string $schemaSlug The schema slug.
+	 * @param string $notificationKey The notification key.
+	 *
+	 * @return array<string,mixed>|null
+	 */
+	public function getOverride(string $userId, string $schemaSlug, string $notificationKey): ?array {
+		return ($this->overrides[$userId] ?? null);
+	}//end getOverride()
 }//end class
