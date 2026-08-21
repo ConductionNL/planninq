@@ -156,7 +156,22 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 		 * @return the collection rows
 		 */
 		const list = async (schema: string, query = ''): Promise<OrObject[]> => {
-			const res = await ctx.get(objectsUrl(schema) + query, { failOnStatusCode: false })
+			// `_limit` is load-bearing, and the underscore is too.
+			//
+			// OpenRegister pages at 20 by default, and every "does the fixture
+			// already exist?" check below is a findByTitle() over THIS list. Once
+			// the instance held more than 20 projects the seeded board fell off
+			// page one, the check said "absent", and each run created ANOTHER
+			// copy — four "E2E Fixture Board" projects on this instance before it
+			// was noticed. The specs then failed on `toHaveCount(1)`, which reads
+			// like a UI bug and is actually a seeding bug.
+			//
+			// A bare `limit=` would be worse than useless: OpenRegister treats an
+			// unprefixed query key as a PROPERTY FILTER, so it silently matches
+			// nothing and returns an empty page — the same "absent" answer, with
+			// no error to notice.
+			const sep = query.includes('?') ? '&' : '?'
+			const res = await ctx.get(`${objectsUrl(schema)}${query}${sep}_limit=500`, { failOnStatusCode: false })
 			if (!res.ok()) {
 				return []
 			}
