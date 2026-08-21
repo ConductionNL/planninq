@@ -26,6 +26,20 @@ const TASK_SCHEMA = 'task'
 const TIME_ENTRY_SCHEMA = 'timeEntry'
 
 /**
+ * Page size for collection reads that must return EVERY row.
+ *
+ * OpenRegister pages at 20 by default, and this store reads whole collections
+ * for three purposes that are all wrong when truncated: rendering a board,
+ * COUNTING, and cascade-DELETING. A 21-task project rendered 20 tasks, reported
+ * "20" as its total, and — the one that loses data — left tasks 21+ behind as
+ * orphans when the project was deleted, while every call reported success.
+ *
+ * The underscore prefix is required: OpenRegister reads an unprefixed `limit`
+ * as a property filter, which matches nothing and returns an empty collection.
+ */
+const PAGE_ALL = 1000
+
+/**
  * Default columns created for every new project.
  *
  * @return {Array} Column definitions
@@ -109,7 +123,19 @@ export const useProjectsStore = defineStore('projects', {
 				// Fetch all projects; client-side filter below keeps only member projects.
 				// Note: server-side `members[]` array filter uses PostgreSQL jsonb syntax
 				// which is incompatible with MariaDB — do not pass it as a query param.
-				const params = { ...filters }
+				//
+				// `_limit` is what makes "fetch all" true. OpenRegister pages at 20 by
+				// default, and filtering for membership CLIENT-SIDE over a SERVER-PAGED
+				// result is only correct when the page holds everything: on an instance
+				// with 31 projects the user's own board simply stopped appearing in the
+				// list, with no error and no empty state — it was on page two, and page
+				// two was never requested. The bug scales with the instance, so it shows
+				// up first for whoever has the most data.
+				//
+				// The underscore is not cosmetic: OpenRegister treats an unprefixed
+				// `limit` as a PROPERTY filter, which matches nothing and returns an
+				// empty collection — the same silent disappearance, one layer down.
+				const params = { _limit: PAGE_ALL, ...filters }
 
 				const results = await objectStore.fetchCollection(PROJECT_SCHEMA, params)
 
@@ -456,14 +482,14 @@ export const useProjectsStore = defineStore('projects', {
 				const objectStore = this._objectStore()
 
 				// 1. Fetch tasks for this project.
-				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, { project: id })
+				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, { project: id, _limit: PAGE_ALL })
 
 				// 2. Fetch and delete time entries for each task.
 				// NOTE: deletion is sequential and non-transactional. A mid-flight failure
 				// (network drop, server error) will leave orphaned objects. The error messages
 				// below prompt the user to retry, which will pick up where deletion failed.
 				for (const task of tasks) {
-					const entries = await objectStore.fetchCollection(TIME_ENTRY_SCHEMA, { task: task.id })
+					const entries = await objectStore.fetchCollection(TIME_ENTRY_SCHEMA, { task: task.id, _limit: PAGE_ALL })
 					for (const entry of entries) {
 						const ok = await objectStore.deleteObject(TIME_ENTRY_SCHEMA, entry.id)
 						if (!ok) {
@@ -483,7 +509,7 @@ export const useProjectsStore = defineStore('projects', {
 				}
 
 				// 4. Fetch and delete columns.
-				const columns = await objectStore.fetchCollection(COLUMN_SCHEMA, { project: id })
+				const columns = await objectStore.fetchCollection(COLUMN_SCHEMA, { project: id, _limit: PAGE_ALL })
 				for (const col of columns) {
 					const ok = await objectStore.deleteObject(COLUMN_SCHEMA, col.id)
 					if (!ok) {
@@ -558,6 +584,7 @@ export const useProjectsStore = defineStore('projects', {
 				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, {
 					project: projectId,
 					assignedTo: userUid,
+					_limit: PAGE_ALL,
 				})
 				return tasks.length
 			} catch {
@@ -667,7 +694,7 @@ export const useProjectsStore = defineStore('projects', {
 		async getTaskCount(projectId) {
 			try {
 				const objectStore = this._objectStore()
-				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, { project: projectId })
+				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, { project: projectId, _limit: PAGE_ALL })
 				return tasks.length
 			} catch {
 				return 0
@@ -693,7 +720,7 @@ export const useProjectsStore = defineStore('projects', {
 		async fetchTasks(projectId) {
 			try {
 				const objectStore = this._objectStore()
-				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, { project: projectId })
+				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, { project: projectId, _limit: PAGE_ALL })
 				return Array.isArray(tasks) ? tasks : []
 			} catch (err) {
 				console.error('fetchTasks error:', err)
