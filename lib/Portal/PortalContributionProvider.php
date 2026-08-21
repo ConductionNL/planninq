@@ -68,170 +68,162 @@ namespace OCA\Planix\Portal;
  *
  * @spec openspec/changes/portal-contribution/specs/portal-contribution/spec.md
  */
-class PortalContributionProvider
-{
-    /**
-     * The OpenRegister register slug every collection below lives in.
-     *
-     * @var string
-     */
-    private const REGISTER = 'planix';
+class PortalContributionProvider {
+	/**
+	 * The OpenRegister register slug every collection below lives in.
+	 *
+	 * @var string
+	 */
+	private const REGISTER = 'planix';
 
-    /**
-     * The audiences this provider contributes to (contract v2, preferred).
-     *
-     * The registry probes for this method first. Planix serves external
-     * contractors (`external-employee`) only — the client project-view is
-     * deliberately out of scope (no client reference exists in the planix
-     * data model).
-     *
-     * @return array<int, string> The audience identifiers.
-     *
-     * @spec openspec/changes/portal-contribution/specs/portal-contribution/spec.md
-     */
-    public function getAudiences(): array
-    {
-        return ['external-employee'];
+	/**
+	 * The audiences this provider contributes to (contract v2, preferred).
+	 *
+	 * The registry probes for this method first. Planix serves external
+	 * contractors (`external-employee`) only — the client project-view is
+	 * deliberately out of scope (no client reference exists in the planix
+	 * data model).
+	 *
+	 * @return array<int, string> The audience identifiers.
+	 *
+	 * @spec openspec/changes/portal-contribution/specs/portal-contribution/spec.md
+	 */
+	public function getAudiences(): array {
+		return ['external-employee'];
+	}//end getAudiences()
 
-    }//end getAudiences()
+	/**
+	 * The primary audience this provider contributes to (contract v1 fallback).
+	 *
+	 * Kept alongside getAudiences() so the provider also works against a v1
+	 * registry that predates multi-audience support.
+	 *
+	 * @return string The primary audience identifier.
+	 *
+	 * @spec openspec/changes/portal-contribution/specs/portal-contribution/spec.md
+	 */
+	public function getAudience(): string {
+		return 'external-employee';
+	}//end getAudience()
 
-    /**
-     * The primary audience this provider contributes to (contract v1 fallback).
-     *
-     * Kept alongside getAudiences() so the provider also works against a v1
-     * registry that predates multi-audience support.
-     *
-     * @return string The primary audience identifier.
-     *
-     * @spec openspec/changes/portal-contribution/specs/portal-contribution/spec.md
-     */
-    public function getAudience(): string
-    {
-        return 'external-employee';
+	/**
+	 * Build the declarative portal manifest for one resolved subject.
+	 *
+	 * The subject array is server-derived by portaliq (subjectRef UUID,
+	 * audience, organisation, trust level low|substantial|high). Returns null
+	 * for any audience planix does not serve (fail-closed; the registry already
+	 * filters by audience, but a provider must not rely on that). No `minTrust`
+	 * threshold is declared, so every collection defaults to low trust — a
+	 * contractor bearing a resolved `contractorRef` claim is sufficient.
+	 *
+	 * @param array<string, mixed> $subject The resolved portal subject.
+	 *
+	 * @return array<string, mixed>|null The manifest, or null when not contributing.
+	 *
+	 * @spec openspec/changes/portal-contribution/specs/portal-contribution/spec.md
+	 */
+	public function getContribution(array $subject): ?array {
+		$audience = ($subject['audience'] ?? '');
 
-    }//end getAudience()
+		if ($audience === 'external-employee') {
+			return $this->externalEmployeeContribution();
+		}
 
-    /**
-     * Build the declarative portal manifest for one resolved subject.
-     *
-     * The subject array is server-derived by portaliq (subjectRef UUID,
-     * audience, organisation, trust level low|substantial|high). Returns null
-     * for any audience planix does not serve (fail-closed; the registry already
-     * filters by audience, but a provider must not rely on that). No `minTrust`
-     * threshold is declared, so every collection defaults to low trust — a
-     * contractor bearing a resolved `contractorRef` claim is sufficient.
-     *
-     * @param array<string, mixed> $subject The resolved portal subject.
-     *
-     * @return array<string, mixed>|null The manifest, or null when not contributing.
-     *
-     * @spec openspec/changes/portal-contribution/specs/portal-contribution/spec.md
-     */
-    public function getContribution(array $subject): ?array
-    {
-        $audience = ($subject['audience'] ?? '');
+		return null;
+	}//end getContribution()
 
-        if ($audience === 'external-employee') {
-            return $this->externalEmployeeContribution();
-        }
+	/**
+	 * Manifest for the `external-employee` audience (external contractor).
+	 *
+	 * Read surfaces are contractor-scoped: the subject's `contractorRef` claim
+	 * (the contractor contact object UUID) matches `task.contractorRef`,
+	 * `timeEntry.contractorRef` and — for the project list — is contained in
+	 * `project.contractorRefs`. All three collections ship field-projected so
+	 * the internal Nextcloud-uid assignment fields, effort estimates, kanban
+	 * board structure, government case linkage and integration ids never reach
+	 * the contractor. The single create-action lets a contractor log time
+	 * against a task with a strict field whitelist; the logging `user` and the
+	 * `contractorRef` scope key are set server-side, and any future
+	 * approval/billing fields stay back-office-only.
+	 *
+	 * @return array<string, mixed> The external-employee manifest.
+	 *
+	 * @spec openspec/changes/portal-contribution/specs/portal-contribution/spec.md
+	 */
+	private function externalEmployeeContribution(): array {
+		return [
+			'label' => 'Planix',
+			'collections' => [
+				[
+					'id' => 'contractorTasks',
+					'register' => self::REGISTER,
+					'schema' => 'task',
+					'scopeField' => 'contractorRef',
+					'scopeClaim' => 'contractorRef',
+					'label' => 'My tasks',
+					'listable' => true,
+					'fields' => [
+						'title',
+						'description',
+						'status',
+						'priority',
+						'project',
+						'dueDate',
+						'startDate',
+						'completedAt',
+						'labels',
+					],
+				],
+				[
+					'id' => 'contractorTimeEntries',
+					'register' => self::REGISTER,
+					'schema' => 'timeEntry',
+					'scopeField' => 'contractorRef',
+					'scopeClaim' => 'contractorRef',
+					'label' => 'My time entries',
+					'listable' => true,
+					'fields' => [
+						'task',
+						'date',
+						'duration',
+						'description',
+					],
+				],
+				[
+					'id' => 'contractorProjects',
+					'register' => self::REGISTER,
+					'schema' => 'project',
+					'scopeField' => 'contractorRefs',
+					'scopeClaim' => 'contractorRef',
+					'label' => 'My projects',
+					'listable' => true,
+					'fields' => [
+						'title',
+						'description',
+						'status',
+						'color',
+						'icon',
+						'labels',
+					],
+				],
+			],
+			'actions' => [
+				[
+					'id' => 'logTime',
+					'type' => 'create',
+					'label' => 'Log time',
+					'register' => self::REGISTER,
+					'schema' => 'timeEntry',
+					'fields' => [
+						'task',
+						'date',
+						'duration',
+						'description',
+					],
+				],
+			],
+			'notifications' => [],
+		];
 
-        return null;
-
-    }//end getContribution()
-
-    /**
-     * Manifest for the `external-employee` audience (external contractor).
-     *
-     * Read surfaces are contractor-scoped: the subject's `contractorRef` claim
-     * (the contractor contact object UUID) matches `task.contractorRef`,
-     * `timeEntry.contractorRef` and — for the project list — is contained in
-     * `project.contractorRefs`. All three collections ship field-projected so
-     * the internal Nextcloud-uid assignment fields, effort estimates, kanban
-     * board structure, government case linkage and integration ids never reach
-     * the contractor. The single create-action lets a contractor log time
-     * against a task with a strict field whitelist; the logging `user` and the
-     * `contractorRef` scope key are set server-side, and any future
-     * approval/billing fields stay back-office-only.
-     *
-     * @return array<string, mixed> The external-employee manifest.
-     *
-     * @spec openspec/changes/portal-contribution/specs/portal-contribution/spec.md
-     */
-    private function externalEmployeeContribution(): array
-    {
-        return [
-            'label'         => 'Planix',
-            'collections'   => [
-                [
-                    'id'         => 'contractorTasks',
-                    'register'   => self::REGISTER,
-                    'schema'     => 'task',
-                    'scopeField' => 'contractorRef',
-                    'scopeClaim' => 'contractorRef',
-                    'label'      => 'My tasks',
-                    'listable'   => true,
-                    'fields'     => [
-                        'title',
-                        'description',
-                        'status',
-                        'priority',
-                        'project',
-                        'dueDate',
-                        'startDate',
-                        'completedAt',
-                        'labels',
-                    ],
-                ],
-                [
-                    'id'         => 'contractorTimeEntries',
-                    'register'   => self::REGISTER,
-                    'schema'     => 'timeEntry',
-                    'scopeField' => 'contractorRef',
-                    'scopeClaim' => 'contractorRef',
-                    'label'      => 'My time entries',
-                    'listable'   => true,
-                    'fields'     => [
-                        'task',
-                        'date',
-                        'duration',
-                        'description',
-                    ],
-                ],
-                [
-                    'id'         => 'contractorProjects',
-                    'register'   => self::REGISTER,
-                    'schema'     => 'project',
-                    'scopeField' => 'contractorRefs',
-                    'scopeClaim' => 'contractorRef',
-                    'label'      => 'My projects',
-                    'listable'   => true,
-                    'fields'     => [
-                        'title',
-                        'description',
-                        'status',
-                        'color',
-                        'icon',
-                        'labels',
-                    ],
-                ],
-            ],
-            'actions'       => [
-                [
-                    'id'       => 'logTime',
-                    'type'     => 'create',
-                    'label'    => 'Log time',
-                    'register' => self::REGISTER,
-                    'schema'   => 'timeEntry',
-                    'fields'   => [
-                        'task',
-                        'date',
-                        'duration',
-                        'description',
-                    ],
-                ],
-            ],
-            'notifications' => [],
-        ];
-
-    }//end externalEmployeeContribution()
+	}//end externalEmployeeContribution()
 }//end class

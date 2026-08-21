@@ -34,27 +34,25 @@ use OCP\EventDispatcher\Event;
 /**
  * Test-only stub of the object-created event.
  */
-class ObjectCreatedEvent extends Event
-{
-    /**
-     * Constructor.
-     *
-     * @param ObjectEntity $object The created object.
-     */
-    public function __construct(private ObjectEntity $object)
-    {
-        parent::__construct();
+class ObjectCreatedEvent extends Event {
+	/**
+	 * Constructor.
+	 *
+	 * @param ObjectEntity $object The created object.
+	 */
+	public function __construct(
+		private ObjectEntity $object,
+	) {
+		parent::__construct();
 
-    }//end __construct()
+	}//end __construct()
 
-    /**
-     * Return the created object.
-     *
-     * @return ObjectEntity The created object.
-     */
-    public function getObject(): ObjectEntity
-    {
-        return $this->object;
-
-    }//end getObject()
+	/**
+	 * Return the created object.
+	 *
+	 * @return ObjectEntity The created object.
+	 */
+	public function getObject(): ObjectEntity {
+		return $this->object;
+	}//end getObject()
 }//end class

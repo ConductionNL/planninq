@@ -56,397 +56,380 @@ use Psr\Log\LoggerInterface;
  *
  * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md
  */
-class TimelineController extends Controller
-{
+class TimelineController extends Controller {
 
-    /**
-     * OpenRegister register slug owning the planix schemas.
-     *
-     * @var string
-     */
-    private const REGISTER = 'planix';
+	/**
+	 * OpenRegister register slug owning the planix schemas.
+	 *
+	 * @var string
+	 */
+	private const REGISTER = 'planix';
 
-    /**
-     * OpenRegister ObjectService FQCN, resolved at runtime so planix carries no
-     * compile-time dependency on the openregister package (ADR-022).
-     *
-     * @var string
-     */
-    private const OR_OBJECT_SERVICE = 'OCA\\OpenRegister\\Service\\ObjectService';
+	/**
+	 * OpenRegister ObjectService FQCN, resolved at runtime so planix carries no
+	 * compile-time dependency on the openregister package (ADR-022).
+	 *
+	 * @var string
+	 */
+	private const OR_OBJECT_SERVICE = 'OCA\\OpenRegister\\Service\\ObjectService';
 
-    /**
-     * Constructor for the TimelineController.
-     *
-     * @param IRequest           $request     The request object.
-     * @param IUserSession       $userSession The current user session.
-     * @param ContainerInterface $container   The DI container (resolves OR ObjectService at runtime).
-     * @param LoggerInterface    $logger      The logger.
-     *
-     * @return void
-     */
-    public function __construct(
-        IRequest $request,
-        private IUserSession $userSession,
-        private ContainerInterface $container,
-        private LoggerInterface $logger,
-    ) {
-        parent::__construct(appName: Application::APP_ID, request: $request);
+	/**
+	 * Constructor for the TimelineController.
+	 *
+	 * @param IRequest $request The request object.
+	 * @param IUserSession $userSession The current user session.
+	 * @param ContainerInterface $container The DI container (resolves OR ObjectService at runtime).
+	 * @param LoggerInterface $logger The logger.
+	 *
+	 * @return void
+	 */
+	public function __construct(
+		IRequest $request,
+		private IUserSession $userSession,
+		private ContainerInterface $container,
+		private LoggerInterface $logger,
+	) {
+		parent::__construct(appName: Application::APP_ID, request: $request);
 
-    }//end __construct()
+	}//end __construct()
 
-    /**
-     * Return a project's tasks laid out for a time axis, plus its dependency links.
-     *
-     * The response splits tasks into `tasks` (those carrying a `startDate` or
-     * `dueDate`, optionally windowed by `from`/`to`) and `unscheduled` (dateless
-     * tasks, never dropped). `dependencies` echoes the existing stored edges
-     * whose blocker task belongs to this project — the timeline renders what
-     * `task-dependencies` already persists and never creates a new edge.
-     *
-     * @param string      $projectId The OR UUID of the project.
-     * @param string|null $from      Optional ISO date lower bound for the window.
-     * @param string|null $to        Optional ISO date upper bound for the window.
-     *
-     * @return JSONResponse 200 with the timeline payload; 401 if unauthenticated;
-     *                      403 if the caller cannot access the project; 503 if OR
-     *                      is unavailable.
-     *
-     * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md#requirement-a-projects-tasks-can-be-viewed-on-a-time-axis
-     */
-    #[NoAdminRequired]
-    #[NoCSRFRequired]
-    public function forProject(string $projectId, ?string $from=null, ?string $to=null): JSONResponse
-    {
-        $user = $this->userSession->getUser();
-        if ($user === null) {
-            return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
-        }
+	/**
+	 * Return a project's tasks laid out for a time axis, plus its dependency links.
+	 *
+	 * The response splits tasks into `tasks` (those carrying a `startDate` or
+	 * `dueDate`, optionally windowed by `from`/`to`) and `unscheduled` (dateless
+	 * tasks, never dropped). `dependencies` echoes the existing stored edges
+	 * whose blocker task belongs to this project — the timeline renders what
+	 * `task-dependencies` already persists and never creates a new edge.
+	 *
+	 * @param string $projectId The OR UUID of the project.
+	 * @param string|null $from Optional ISO date lower bound for the window.
+	 * @param string|null $to Optional ISO date upper bound for the window.
+	 *
+	 * @return JSONResponse 200 with the timeline payload; 401 if unauthenticated;
+	 *                      403 if the caller cannot access the project; 503 if OR
+	 *                      is unavailable.
+	 *
+	 * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md#requirement-a-projects-tasks-can-be-viewed-on-a-time-axis
+	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	public function forProject(string $projectId, ?string $from = null, ?string $to = null): JSONResponse {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
+		}
 
-        try {
-            $objectService = $this->container->get(self::OR_OBJECT_SERVICE);
-        } catch (\Throwable $e) {
-            $this->logger->error('Planix: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
-            return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
-        }
+		try {
+			$objectService = $this->container->get(self::OR_OBJECT_SERVICE);
+		} catch (\Throwable $e) {
+			$this->logger->error('Planix: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
+			return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
+		}
 
-        // RBAC gate: read the project through ObjectService with RBAC on. A
-        // caller who cannot see the project gets null here → 403 with no tasks,
-        // satisfying "a caller MUST NOT see tasks of a project they cannot access".
-        $objectService->setRegister(self::REGISTER);
-        $objectService->setSchema('project');
-        $project = $objectService->find(id: $projectId);
-        if ($project === null) {
-            return new JSONResponse(
-                ['error' => 'Project not found or not accessible.'],
-                Http::STATUS_FORBIDDEN
-            );
-        }
+		// RBAC gate: read the project through ObjectService with RBAC on. A
+		// caller who cannot see the project gets null here → 403 with no tasks,
+		// satisfying "a caller MUST NOT see tasks of a project they cannot access".
+		$objectService->setRegister(self::REGISTER);
+		$objectService->setSchema('project');
+		$project = $objectService->find(id: $projectId);
+		if ($project === null) {
+			return new JSONResponse(
+				['error' => 'Project not found or not accessible.'],
+				Http::STATUS_FORBIDDEN
+			);
+		}
 
-        $tasks = $this->fetchProjectTasks(objectService: $objectService, projectId: $projectId);
+		$tasks = $this->fetchProjectTasks(objectService: $objectService, projectId: $projectId);
 
-        $scheduled   = [];
-        $unscheduled = [];
-        $taskIdSet   = [];
-        foreach ($tasks as $task) {
-            $row = $this->timelineRow(task: $task);
-            $taskIdSet[$row['id']] = true;
+		$scheduled = [];
+		$unscheduled = [];
+		$taskIdSet = [];
+		foreach ($tasks as $task) {
+			$row = $this->timelineRow(task: $task);
+			$taskIdSet[$row['id']] = true;
 
-            if ($row['startDate'] === null && $row['dueDate'] === null) {
-                unset($row['startDate'], $row['dueDate'], $row['duration']);
-                $unscheduled[] = $row;
-                continue;
-            }
+			if ($row['startDate'] === null && $row['dueDate'] === null) {
+				unset($row['startDate'], $row['dueDate'], $row['duration']);
+				$unscheduled[] = $row;
+				continue;
+			}
 
-            if ($this->withinWindow(row: $row, from: $from, to: $to) === false) {
-                continue;
-            }
+			if ($this->withinWindow(row: $row, from: $from, to: $to) === false) {
+				continue;
+			}
 
-            $scheduled[] = $row;
-        }
+			$scheduled[] = $row;
+		}
 
-        $dependencies = $this->fetchProjectDependencies(objectService: $objectService, taskIdSet: $taskIdSet);
+		$dependencies = $this->fetchProjectDependencies(objectService: $objectService, taskIdSet: $taskIdSet);
 
-        return new JSONResponse(
-            [
-                'projectId'    => $projectId,
-                'window'       => ['from' => $from, 'to' => $to],
-                'tasks'        => $scheduled,
-                'unscheduled'  => $unscheduled,
-                'dependencies' => $dependencies,
-            ]
-        );
+		return new JSONResponse(
+			[
+				'projectId' => $projectId,
+				'window' => ['from' => $from, 'to' => $to],
+				'tasks' => $scheduled,
+				'unscheduled' => $unscheduled,
+				'dependencies' => $dependencies,
+			]
+		);
 
-    }//end forProject()
+	}//end forProject()
 
-    /**
-     * Fetch every task in a project as a plain data array.
-     *
-     * @param object $objectService The OR ObjectService.
-     * @param string $projectId     UUID of the project.
-     *
-     * @return array<int,array<string,mixed>>
-     */
-    private function fetchProjectTasks(object $objectService, string $projectId): array
-    {
-        // `searchObjectsBySlug()`, not `searchObjects()`.
-        //
-        // This call used to be `setRegister()/setSchema()` followed by
-        // `searchObjects(filters: [...])`, and it was broken twice over:
-        //
-        // 1. `ObjectService::searchObjects()` has no `$filters` parameter — its
-        // signature is `searchObjects(array $query = [], …)`. PHP therefore
-        // raised `Unknown named parameter $filters` and the whole endpoint
-        // returned a 500. The Timeline view rendered "Could not load the
-        // timeline / An unexpected error occurred." on every project.
-        //
-        // 2. Even without that, `searchObjects()` does NOT read the register or
-        // schema left on the service by `setRegister()/setSchema()`. It logs
-        // `[MagicMapper] searchObjects() called without register/schema
-        // context` and matches nothing, so the fix could not have been to drop
-        // the argument name.
-        //
-        // `searchObjectsBySlug()` is the supported slug-aware entry point: it
-        // resolves both slugs to numeric IDs, merges them into the `@self` block
-        // and delegates to `searchObjects()`. Direct keys such as `project` stay
-        // at the top level and hit the object-JSON filter path.
-        $results = $objectService->searchObjectsBySlug(
-            registerSlug: self::REGISTER,
-            schemaSlug: 'task',
-            filters: ['project' => $projectId]
-        );
+	/**
+	 * Fetch every task in a project as a plain data array.
+	 *
+	 * @param object $objectService The OR ObjectService.
+	 * @param string $projectId UUID of the project.
+	 *
+	 * @return array<int,array<string,mixed>>
+	 */
+	private function fetchProjectTasks(object $objectService, string $projectId): array {
+		// `searchObjectsBySlug()`, not `searchObjects()`.
+		//
+		// This call used to be `setRegister()/setSchema()` followed by
+		// `searchObjects(filters: [...])`, and it was broken twice over:
+		//
+		// 1. `ObjectService::searchObjects()` has no `$filters` parameter — its
+		// signature is `searchObjects(array $query = [], …)`. PHP therefore
+		// raised `Unknown named parameter $filters` and the whole endpoint
+		// returned a 500. The Timeline view rendered "Could not load the
+		// timeline / An unexpected error occurred." on every project.
+		//
+		// 2. Even without that, `searchObjects()` does NOT read the register or
+		// schema left on the service by `setRegister()/setSchema()`. It logs
+		// `[MagicMapper] searchObjects() called without register/schema
+		// context` and matches nothing, so the fix could not have been to drop
+		// the argument name.
+		//
+		// `searchObjectsBySlug()` is the supported slug-aware entry point: it
+		// resolves both slugs to numeric IDs, merges them into the `@self` block
+		// and delegates to `searchObjects()`. Direct keys such as `project` stay
+		// at the top level and hit the object-JSON filter path.
+		$results = $objectService->searchObjectsBySlug(
+			registerSlug: self::REGISTER,
+			schemaSlug: 'task',
+			filters: ['project' => $projectId]
+		);
 
-        $tasks = [];
-        foreach ($this->normaliseResults(results: $results) as $row) {
-            $data       = $this->extractData(row: $row);
-            $data['id'] = $this->extractId(row: $row);
-            if ($data['id'] !== '') {
-                $tasks[] = $data;
-            }
-        }
+		$tasks = [];
+		foreach ($this->normaliseResults(results: $results) as $row) {
+			$data = $this->extractData(row: $row);
+			$data['id'] = $this->extractId(row: $row);
+			if ($data['id'] !== '') {
+				$tasks[] = $data;
+			}
+		}
 
-        return $tasks;
+		return $tasks;
+	}//end fetchProjectTasks()
 
-    }//end fetchProjectTasks()
+	/**
+	 * Fetch the existing dependency edges whose blocker task belongs to the
+	 * project (its task-id set). Reads — never re-derives or persists — the
+	 * links that `task-dependencies` already stores.
+	 *
+	 * @param object $objectService The OR ObjectService.
+	 * @param array<string,bool> $taskIdSet Set of the project's task UUIDs.
+	 *
+	 * @return array<int,array<string,string>> Edges as {id, blocker, blocked}.
+	 */
+	private function fetchProjectDependencies(object $objectService, array $taskIdSet): array {
+		if ($taskIdSet === []) {
+			return [];
+		}
 
-    /**
-     * Fetch the existing dependency edges whose blocker task belongs to the
-     * project (its task-id set). Reads — never re-derives or persists — the
-     * links that `task-dependencies` already stores.
-     *
-     * @param object             $objectService The OR ObjectService.
-     * @param array<string,bool> $taskIdSet     Set of the project's task UUIDs.
-     *
-     * @return array<int,array<string,string>> Edges as {id, blocker, blocked}.
-     */
-    private function fetchProjectDependencies(object $objectService, array $taskIdSet): array
-    {
-        if ($taskIdSet === []) {
-            return [];
-        }
+		// See fetchProjectTasks(): `searchObjects()` ignores the register/schema
+		// left on the service by `setRegister()/setSchema()` and logs
+		// `[MagicMapper] searchObjects() called without register/schema context`
+		// before matching nothing. This one did not 500 — it silently returned
+		// an empty edge set, so every timeline rendered with no dependency
+		// arrows and nothing said so.
+		$results = $objectService->searchObjectsBySlug(
+			registerSlug: self::REGISTER,
+			schemaSlug: 'dependency'
+		);
 
-        // See fetchProjectTasks(): `searchObjects()` ignores the register/schema
-        // left on the service by `setRegister()/setSchema()` and logs
-        // `[MagicMapper] searchObjects() called without register/schema context`
-        // before matching nothing. This one did not 500 — it silently returned
-        // an empty edge set, so every timeline rendered with no dependency
-        // arrows and nothing said so.
-        $results = $objectService->searchObjectsBySlug(
-            registerSlug: self::REGISTER,
-            schemaSlug: 'dependency'
-        );
+		$edges = [];
+		foreach ($this->normaliseResults(results: $results) as $row) {
+			$data = $this->extractData(row: $row);
+			$blocker = (string)($data['blocker'] ?? '');
+			$blocked = (string)($data['blocked'] ?? '');
+			if (isset($taskIdSet[$blocker]) === false) {
+				continue;
+			}
 
-        $edges = [];
-        foreach ($this->normaliseResults(results: $results) as $row) {
-            $data    = $this->extractData(row: $row);
-            $blocker = (string) ($data['blocker'] ?? '');
-            $blocked = (string) ($data['blocked'] ?? '');
-            if (isset($taskIdSet[$blocker]) === false) {
-                continue;
-            }
+			$edges[] = [
+				'id' => $this->extractId(row: $row),
+				'blocker' => $blocker,
+				'blocked' => $blocked,
+			];
+		}
 
-            $edges[] = [
-                'id'      => $this->extractId(row: $row),
-                'blocker' => $blocker,
-                'blocked' => $blocked,
-            ];
-        }
+		return $edges;
+	}//end fetchProjectDependencies()
 
-        return $edges;
+	/**
+	 * Project a raw task array onto the timeline row shape.
+	 *
+	 * `duration` is read from the task's `estimatedDuration` field (the schema
+	 * carries no separate `duration` property); empty date strings collapse to
+	 * null so the scheduled/unscheduled split is unambiguous.
+	 *
+	 * @param array<string,mixed> $task The raw task data.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function timelineRow(array $task): array {
+		return [
+			'id' => (string)($task['id'] ?? ''),
+			'title' => (string)($task['title'] ?? ''),
+			'status' => (string)($task['status'] ?? ''),
+			'priority' => (string)($task['priority'] ?? ''),
+			'startDate' => $this->nullableDate(value: ($task['startDate'] ?? null)),
+			'dueDate' => $this->nullableDate(value: ($task['dueDate'] ?? null)),
+			'duration' => ($task['estimatedDuration'] ?? null),
+			'percentComplete' => ($task['percentComplete'] ?? null),
+		];
 
-    }//end fetchProjectDependencies()
+	}//end timelineRow()
 
-    /**
-     * Project a raw task array onto the timeline row shape.
-     *
-     * `duration` is read from the task's `estimatedDuration` field (the schema
-     * carries no separate `duration` property); empty date strings collapse to
-     * null so the scheduled/unscheduled split is unambiguous.
-     *
-     * @param array<string,mixed> $task The raw task data.
-     *
-     * @return array<string,mixed>
-     */
-    private function timelineRow(array $task): array
-    {
-        return [
-            'id'              => (string) ($task['id'] ?? ''),
-            'title'           => (string) ($task['title'] ?? ''),
-            'status'          => (string) ($task['status'] ?? ''),
-            'priority'        => (string) ($task['priority'] ?? ''),
-            'startDate'       => $this->nullableDate(value: ($task['startDate'] ?? null)),
-            'dueDate'         => $this->nullableDate(value: ($task['dueDate'] ?? null)),
-            'duration'        => ($task['estimatedDuration'] ?? null),
-            'percentComplete' => ($task['percentComplete'] ?? null),
-        ];
+	/**
+	 * Normalise a date-ish value to a non-empty string or null.
+	 *
+	 * @param mixed $value The raw value.
+	 *
+	 * @return string|null
+	 */
+	private function nullableDate(mixed $value): ?string {
+		if (is_string($value) === true && $value !== '') {
+			return $value;
+		}
 
-    }//end timelineRow()
+		return null;
+	}//end nullableDate()
 
-    /**
-     * Normalise a date-ish value to a non-empty string or null.
-     *
-     * @param mixed $value The raw value.
-     *
-     * @return string|null
-     */
-    private function nullableDate(mixed $value): ?string
-    {
-        if (is_string($value) === true && $value !== '') {
-            return $value;
-        }
+	/**
+	 * Decide whether a scheduled row overlaps the requested [from, to] window.
+	 *
+	 * A missing bound is open-ended. A task with only one of start/due is
+	 * treated as a point on that single date. When neither bound is supplied
+	 * every scheduled row passes.
+	 *
+	 * @param array<string,mixed> $row The timeline row (start/due may be null).
+	 * @param string|null $from Lower bound (ISO date) or null.
+	 * @param string|null $to Upper bound (ISO date) or null.
+	 *
+	 * @return bool
+	 */
+	private function withinWindow(array $row, ?string $from, ?string $to): bool {
+		if ($from === null && $to === null) {
+			return true;
+		}
 
-        return null;
+		$start = ($row['startDate'] ?? $row['dueDate']);
+		$end = ($row['dueDate'] ?? $row['startDate']);
 
-    }//end nullableDate()
+		// A task that starts after the window's end does not overlap.
+		if ($to !== null && $start !== null && $start > $to) {
+			return false;
+		}
 
-    /**
-     * Decide whether a scheduled row overlaps the requested [from, to] window.
-     *
-     * A missing bound is open-ended. A task with only one of start/due is
-     * treated as a point on that single date. When neither bound is supplied
-     * every scheduled row passes.
-     *
-     * @param array<string,mixed> $row  The timeline row (start/due may be null).
-     * @param string|null         $from Lower bound (ISO date) or null.
-     * @param string|null         $to   Upper bound (ISO date) or null.
-     *
-     * @return bool
-     */
-    private function withinWindow(array $row, ?string $from, ?string $to): bool
-    {
-        if ($from === null && $to === null) {
-            return true;
-        }
+		// A task that ends before the window's start does not overlap.
+		if ($from !== null && $end !== null && $end < $from) {
+			return false;
+		}
 
-        $start = ($row['startDate'] ?? $row['dueDate']);
-        $end   = ($row['dueDate'] ?? $row['startDate']);
+		return true;
+	}//end withinWindow()
 
-        // A task that starts after the window's end does not overlap.
-        if ($to !== null && $start !== null && $start > $to) {
-            return false;
-        }
+	/**
+	 * Normalise an ObjectService result set (paginated `results` array, plain
+	 * list, or list of entity objects) to a plain list of rows.
+	 *
+	 * @param mixed $results The raw ObjectService return value.
+	 *
+	 * @return array<int,mixed>
+	 */
+	private function normaliseResults(mixed $results): array {
+		if (is_array($results) === true && array_key_exists('results', $results) === true) {
+			return (array)$results['results'];
+		}
 
-        // A task that ends before the window's start does not overlap.
-        if ($from !== null && $end !== null && $end < $from) {
-            return false;
-        }
+		if (is_array($results) === true) {
+			return $results;
+		}
 
-        return true;
+		return [];
+	}//end normaliseResults()
 
-    }//end withinWindow()
+	/**
+	 * Extract the object UUID from an ObjectService row (entity or array).
+	 *
+	 * @param mixed $row An entity object or a plain array row.
+	 *
+	 * @return string
+	 */
+	private function extractId(mixed $row): string {
+		if (is_object($row) === true) {
+			// `is_callable()`, NOT `method_exists()`.
+			//
+			// OpenRegister's ObjectEntity extends \OCP\AppFramework\Db\Entity,
+			// which implements every property accessor through `__call()`. It
+			// declares no `getUuid()` and — despite appearances — no `getId()`
+			// either; `\OCP\AppFramework\Db\Entity` has neither. `method_exists()`
+			// does not see magic methods, so BOTH branches were skipped, the
+			// array branch below does not apply to an object, and this helper
+			// returned '' for every entity it was ever handed.
+			//
+			// The damage was silent: `forProject()` drops tasks whose extracted
+			// id is empty, so the timeline reported `tasks: []` / `unscheduled:
+			// []` for a project full of dated tasks and rendered its empty
+			// state. `is_callable()` resolves through `__call()`.
+			foreach (['getUuid', 'getId'] as $getter) {
+				if (is_callable([$row, $getter]) === false) {
+					continue;
+				}
 
-    /**
-     * Normalise an ObjectService result set (paginated `results` array, plain
-     * list, or list of entity objects) to a plain list of rows.
-     *
-     * @param mixed $results The raw ObjectService return value.
-     *
-     * @return array<int,mixed>
-     */
-    private function normaliseResults(mixed $results): array
-    {
-        if (is_array($results) === true && array_key_exists('results', $results) === true) {
-            return (array) $results['results'];
-        }
+				try {
+					$value = $row->$getter();
+				} catch (\Throwable $e) {
+					continue;
+				}
 
-        if (is_array($results) === true) {
-            return $results;
-        }
+				if ($value !== null && (string)$value !== '') {
+					return (string)$value;
+				}
+			}//end foreach
+		}//end if
 
-        return [];
+		if (is_array($row) === true) {
+			if (isset($row['@self']['id']) === true) {
+				return (string)$row['@self']['id'];
+			}
 
-    }//end normaliseResults()
+			return (string)($row['id'] ?? '');
+		}
 
-    /**
-     * Extract the object UUID from an ObjectService row (entity or array).
-     *
-     * @param mixed $row An entity object or a plain array row.
-     *
-     * @return string
-     */
-    private function extractId(mixed $row): string
-    {
-        if (is_object($row) === true) {
-            // `is_callable()`, NOT `method_exists()`.
-            //
-            // OpenRegister's ObjectEntity extends \OCP\AppFramework\Db\Entity,
-            // which implements every property accessor through `__call()`. It
-            // declares no `getUuid()` and — despite appearances — no `getId()`
-            // either; `\OCP\AppFramework\Db\Entity` has neither. `method_exists()`
-            // does not see magic methods, so BOTH branches were skipped, the
-            // array branch below does not apply to an object, and this helper
-            // returned '' for every entity it was ever handed.
-            //
-            // The damage was silent: `forProject()` drops tasks whose extracted
-            // id is empty, so the timeline reported `tasks: []` / `unscheduled:
-            // []` for a project full of dated tasks and rendered its empty
-            // state. `is_callable()` resolves through `__call()`.
-            foreach (['getUuid', 'getId'] as $getter) {
-                if (is_callable([$row, $getter]) === false) {
-                    continue;
-                }
+		return '';
+	}//end extractId()
 
-                try {
-                    $value = $row->$getter();
-                } catch (\Throwable $e) {
-                    continue;
-                }
+	/**
+	 * Extract the object data array from an ObjectService row (entity or array).
+	 *
+	 * @param mixed $row An entity object or a plain array row.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function extractData(mixed $row): array {
+		if (is_object($row) === true && method_exists($row, 'getObject') === true) {
+			return (array)$row->getObject();
+		}
 
-                if ($value !== null && (string) $value !== '') {
-                    return (string) $value;
-                }
-            }//end foreach
-        }//end if
+		if (is_array($row) === true) {
+			return $row;
+		}
 
-        if (is_array($row) === true) {
-            if (isset($row['@self']['id']) === true) {
-                return (string) $row['@self']['id'];
-            }
-
-            return (string) ($row['id'] ?? '');
-        }
-
-        return '';
-
-    }//end extractId()
-
-    /**
-     * Extract the object data array from an ObjectService row (entity or array).
-     *
-     * @param mixed $row An entity object or a plain array row.
-     *
-     * @return array<string,mixed>
-     */
-    private function extractData(mixed $row): array
-    {
-        if (is_object($row) === true && method_exists($row, 'getObject') === true) {
-            return (array) $row->getObject();
-        }
-
-        if (is_array($row) === true) {
-            return $row;
-        }
-
-        return [];
-
-    }//end extractData()
+		return [];
+	}//end extractData()
 }//end class

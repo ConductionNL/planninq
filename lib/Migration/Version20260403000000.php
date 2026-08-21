@@ -44,22 +44,19 @@ use OCP\Migration\SimpleMigrationStep;
  *
  * @spec openspec/specs/register-schemas/spec.md
  */
-class Version20260403000000 extends SimpleMigrationStep
-{
-    /**
-     * No schema changes — only the post-migration repair step is needed.
-     *
-     * @param IOutput $output        The migration output handler
-     * @param Closure $schemaClosure Closure to get the current DB schema
-     * @param array   $options       Migration options
-     *
-     * @return ISchemaWrapper|null
-     *
-     * @spec openspec/specs/register-schemas/spec.md
-     */
-    public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper
-    {
-        return null;
-
-    }//end changeSchema()
+class Version20260403000000 extends SimpleMigrationStep {
+	/**
+	 * No schema changes — only the post-migration repair step is needed.
+	 *
+	 * @param IOutput $output The migration output handler
+	 * @param Closure $schemaClosure Closure to get the current DB schema
+	 * @param array $options Migration options
+	 *
+	 * @return ISchemaWrapper|null
+	 *
+	 * @spec openspec/specs/register-schemas/spec.md
+	 */
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
+		return null;
+	}//end changeSchema()
 }//end class
