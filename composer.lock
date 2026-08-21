@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d78f18c4ecfe138a60ea1bae53bb924f",
+    "content-hash": "8edbdcbdd8d79639368af03398cd7c1e",
     "packages": [],
     "packages-dev": [
         {
@@ -463,6 +463,115 @@
                 }
             ],
             "time": "2024-05-06T16:37:16+00:00"
+        },
+        {
+            "name": "conduction/coding-standard",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ConductionNL/coding-standard.git",
+                "reference": "a1854f13cb735e46ecd010767593b4d7bc90d974"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ConductionNL/coding-standard/zipball/a1854f13cb735e46ecd010767593b4d7bc90d974",
+                "reference": "a1854f13cb735e46ecd010767593b4d7bc90d974",
+                "shasum": ""
+            },
+            "require": {
+                "nextcloud/coding-standard": "^1.4",
+                "php": "^8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Conduction\\CodingStandard\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "EUPL-1.2"
+            ],
+            "authors": [
+                {
+                    "name": "Conduction",
+                    "homepage": "https://conduction.nl"
+                }
+            ],
+            "description": "Conduction coding standards for the PHP CS Fixer. Extends nextcloud/coding-standard — adds rules, never overrides them.",
+            "homepage": "https://github.com/ConductionNL/coding-standard",
+            "keywords": [
+                "coding-standard",
+                "conduction",
+                "dev",
+                "nextcloud",
+                "php-cs-fixer"
+            ],
+            "support": {
+                "docs": "https://docs.conduction.nl/WayOfWork/ci-cd/",
+                "issues": "https://github.com/ConductionNL/coding-standard/issues",
+                "source": "https://github.com/ConductionNL/coding-standard/tree/v1.0.0"
+            },
+            "time": "2026-08-12T08:27:21+00:00"
+        },
+        {
+            "name": "conduction/hydra-gates",
+            "version": "v1.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ConductionNL/.github.git",
+                "reference": "3dfcd1e56d27bd06eaa98a9a66e377e7e14fe491"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ConductionNL/.github/zipball/3dfcd1e56d27bd06eaa98a9a66e377e7e14fe491",
+                "reference": "3dfcd1e56d27bd06eaa98a9a66e377e7e14fe491",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "bin": [
+                "hydra-gates/bin/hydra-gates"
+            ],
+            "type": "library",
+            "extra": {
+                "hydra-gates": {
+                    "runner": "hydra-gates/scripts/run-hydra-gates.sh",
+                    "helpers": "hydra-gates/scripts/lib",
+                    "schemas": "hydra-gates/scripts/schemas"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "OCA\\OpenRegister\\Contract\\": "hydra-gates/contracts/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "EUPL-1.2"
+            ],
+            "authors": [
+                {
+                    "name": "Conduction",
+                    "homepage": "https://conduction.nl"
+                }
+            ],
+            "description": "Hydra's mechanical quality gates, packaged so any repo can run them against its own diff. The exit code is the failure COUNT.",
+            "homepage": "https://github.com/ConductionNL/.github/tree/main/hydra-gates",
+            "keywords": [
+                "conduction",
+                "gates",
+                "nextcloud",
+                "quality",
+                "static-analysis"
+            ],
+            "support": {
+                "docs": "https://github.com/ConductionNL/.github/blob/main/hydra-gates/README.md",
+                "issues": "https://github.com/ConductionNL/.github/issues",
+                "source": "https://github.com/ConductionNL/.github/tree/v1.8.2"
+            },
+            "time": "2026-08-20T09:37:12+00:00"
         },
         {
             "name": "consolidation/annotated-command",
@@ -1780,16 +1889,16 @@
         },
         {
             "name": "nextcloud/coding-standard",
-            "version": "v1.4.0",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud/coding-standard.git",
-                "reference": "8e06808c1423e9208d63d1bd205b9a38bd400011"
+                "reference": "80547a93236fbb9c783e05f0f0899043851b0dba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud/coding-standard/zipball/8e06808c1423e9208d63d1bd205b9a38bd400011",
-                "reference": "8e06808c1423e9208d63d1bd205b9a38bd400011",
+                "url": "https://api.github.com/repos/nextcloud/coding-standard/zipball/80547a93236fbb9c783e05f0f0899043851b0dba",
+                "reference": "80547a93236fbb9c783e05f0f0899043851b0dba",
                 "shasum": ""
             },
             "require": {
@@ -1819,9 +1928,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nextcloud/coding-standard/issues",
-                "source": "https://github.com/nextcloud/coding-standard/tree/v1.4.0"
+                "source": "https://github.com/nextcloud/coding-standard/tree/v1.5.0"
             },
-            "time": "2025-06-19T12:27:27+00:00"
+            "time": "2026-05-19T18:30:09+00:00"
         },
         {
             "name": "nextcloud/ocp",
@@ -7886,9 +7995,9 @@
     "platform": {
         "php": "^8.3"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.3"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
