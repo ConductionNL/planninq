@@ -2,7 +2,7 @@
 	<div class="boards">
 		<div class="boards__header">
 			<h2 class="boards__title">
-				{{ t('planix', 'Boards') }}
+				{{ t('planninq', 'Boards') }}
 			</h2>
 		</div>
 
@@ -12,8 +12,8 @@
 
 		<NcEmptyContent
 			v-else-if="projects.length === 0"
-			:name="t('planix', 'No boards yet')"
-			:description="t('planix', 'Create a project to get a board.')">
+			:name="t('planninq', 'No boards yet')"
+			:description="t('planninq', 'Create a project to get a board.')">
 			<template #icon>
 				<ViewDashboardOutline :size="20" />
 			</template>
@@ -32,7 +32,7 @@
 					<span class="boards__card-body">
 						<span class="boards__card-title">{{ project.icon }} {{ project.title }}</span>
 						<span class="boards__card-meta">
-							{{ t('planix', '{count} members', { count: memberCount(project) }) }}
+							{{ t('planninq', '{count} members', { count: memberCount(project) }) }}
 						</span>
 					</span>
 				</button>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Planix Dependency Validation Exception
+ * Planninq Dependency Validation Exception
  *
  * Thrown by DependencyService when a dependency create/delete request fails a
  * domain rule (self-edge, duplicate, cross-project, cycle, non-member) or an
@@ -10,7 +10,7 @@
  * framework (HTTP) coupling.
  *
  * @category Exception
- * @package  OCA\Planix\Exception
+ * @package  OCA\Planninq\Exception
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -25,7 +25,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Exception;
+namespace OCA\Planninq\Exception;
 
 /**
  * Domain exception for dependency operations.

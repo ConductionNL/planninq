@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Planix Dependency Repository
+ * Planninq Dependency Repository
  *
  * The OpenRegister data-access half of task dependencies: resolving the
  * ObjectService, reading tasks/projects/edges, and normalising OR's several
@@ -15,7 +15,7 @@
  * signatures included, so the split is behaviour-preserving.
  *
  * @category Service
- * @package  OCA\Planix\Service
+ * @package  OCA\Planninq\Service
  *
  * @author    Conduction Development Team <dev@conduction.nl>
  * @copyright 2026 Conduction B.V.
@@ -31,9 +31,9 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Service;
+namespace OCA\Planninq\Service;
 
-use OCA\Planix\Exception\DependencyValidationException;
+use OCA\Planninq\Exception\DependencyValidationException;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -45,7 +45,11 @@ use Psr\Log\LoggerInterface;
  */
 class DependencyRepository {
 	/**
-	 * OpenRegister register slug that owns the Planix data.
+	 * OpenRegister register slug that owns the Planninq data.
+	 *
+	 * Deliberately still the PRE-RENAME `planix`. The app id became `planninq`,
+	 * but the register holding the live data is still slugged `planix` and this
+	 * release ships no register-slug migration.
 	 *
 	 * @var string
 	 */
@@ -95,7 +99,7 @@ class DependencyRepository {
 		//
 		// Same shape as DueReminderWindowService::patch() in this app.
 		if ($this->appManager->isInstalled('openregister') === false) {
-			$this->logger->error('Planix: OpenRegister is not installed, dependency edges unavailable');
+			$this->logger->error('Planninq: OpenRegister is not installed, dependency edges unavailable');
 			throw new DependencyValidationException(
 				message: 'OpenRegister is not available.',
 				code: DependencyValidationException::CODE_UNAVAILABLE
@@ -105,7 +109,7 @@ class DependencyRepository {
 		try {
 			return $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 		} catch (\Throwable $e) {
-			$this->logger->error('Planix: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
+			$this->logger->error('Planninq: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
 			throw new DependencyValidationException(
 				message: 'OpenRegister is not available.',
 				code: DependencyValidationException::CODE_UNAVAILABLE

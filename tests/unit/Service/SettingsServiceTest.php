@@ -4,7 +4,7 @@
  * Unit tests for SettingsService.
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Service
+ * @package  OCA\Planninq\Tests\Unit\Service
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -17,11 +17,11 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Service;
+namespace OCA\Planninq\Tests\Unit\Service;
 
-use OCA\Planix\AppInfo\Application;
-use OCA\Planix\Service\DueReminderWindowService;
-use OCA\Planix\Service\SettingsService;
+use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\DueReminderWindowService;
+use OCA\Planninq\Service\SettingsService;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
 use OCP\IConfig;

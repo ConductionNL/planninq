@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Unit tests for the planix TaskActivityListener.
+ * Unit tests for the Planninq TaskActivityListener.
  *
  * Covers the observable behaviours of the listener: subject selection by diff
  * (created / status / assignee / due date / deleted), scoping (non-task and
@@ -10,7 +10,7 @@
  * throwing out of OpenRegister's dispatch).
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Listener
+ * @package  OCA\Planninq\Tests\Unit\Listener
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -25,14 +25,14 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Listener;
+namespace OCA\Planninq\Tests\Unit\Listener;
 
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectCreatedEvent;
 use OCA\OpenRegister\Event\ObjectDeletedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
-use OCA\Planix\Listener\TaskActivityListener;
-use OCA\Planix\Listener\TaskScopeResolver;
+use OCA\Planninq\Listener\TaskActivityListener;
+use OCA\Planninq\Listener\TaskScopeResolver;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\EventDispatcher\Event;
@@ -183,7 +183,7 @@ class TaskActivityListenerTest extends TestCase {
 	}//end makeListener()
 
 	/**
-	 * Build a mock ObjectEntity for a planix task.
+	 * Build a mock ObjectEntity for a Planninq task.
 	 *
 	 * @param array $data The object data.
 	 * @param string $register The register id (default '1' = planix).
@@ -234,7 +234,7 @@ class TaskActivityListenerTest extends TestCase {
 		$this->assertSame('task_created', $this->published[0]['subject']);
 		$this->assertSame('bob', $this->published[0]['affected']);
 		$this->assertSame('alice', $this->published[0]['author']);
-		$this->assertSame('planix_task', $this->published[0]['type']);
+		$this->assertSame('planninq_task', $this->published[0]['type']);
 	}//end testCreatePublishesToMembersExceptActor()
 
 	/**
@@ -333,7 +333,7 @@ class TaskActivityListenerTest extends TestCase {
 	}//end testForeignRegisterIgnored()
 
 	/**
-	 * A non-task schema in the planix register publishes nothing (scoping).
+	 * A non-task schema in the Planninq register publishes nothing (scoping).
 	 *
 	 * @return void
 	 */

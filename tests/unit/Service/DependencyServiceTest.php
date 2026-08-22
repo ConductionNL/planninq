@@ -10,7 +10,7 @@
  * duplicate, non-member, cycle-with-path, and the task-delete cascade).
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Service
+ * @package  OCA\Planninq\Tests\Unit\Service
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -25,12 +25,12 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Service;
+namespace OCA\Planninq\Tests\Unit\Service;
 
-use OCA\Planix\Exception\DependencyValidationException;
-use OCA\Planix\Service\DependencyGraph;
-use OCA\Planix\Service\DependencyRepository;
-use OCA\Planix\Service\DependencyService;
+use OCA\Planninq\Exception\DependencyValidationException;
+use OCA\Planninq\Service\DependencyGraph;
+use OCA\Planninq\Service\DependencyRepository;
+use OCA\Planninq\Service\DependencyService;
 use OCP\App\IAppManager;
 use OCP\IUser;
 use OCP\IUserSession;

@@ -1,14 +1,14 @@
 <template>
 	<NcDialog
 		v-model:open="open"
-		:name="t('planix', 'Leave project')"
+		:name="t('planninq', 'Leave project')"
 		@close="$emit('close')">
 		<template #default>
 			<p v-if="isLastMember" class="project-leave-dialog__warning" role="alert">
-				{{ t('planix', 'You are the last member. Leaving will make this project inaccessible to all users.') }}
+				{{ t('planninq', 'You are the last member. Leaving will make this project inaccessible to all users.') }}
 			</p>
 			<p v-else>
-				{{ t('planix', 'Are you sure you want to leave this project? You will lose access.') }}
+				{{ t('planninq', 'Are you sure you want to leave this project? You will lose access.') }}
 			</p>
 		</template>
 
@@ -20,10 +20,10 @@
 				<template v-if="loading" #icon>
 					<NcLoadingIcon :size="16" />
 				</template>
-				{{ t('planix', 'Leave project') }}
+				{{ t('planninq', 'Leave project') }}
 			</NcButton>
 			<NcButton :disabled="loading" @click="$emit('close')">
-				{{ t('planix', 'Cancel') }}
+				{{ t('planninq', 'Cancel') }}
 			</NcButton>
 		</template>
 	</NcDialog>
@@ -95,7 +95,7 @@ export default {
 				await store.leaveProject(this.projectId)
 				this.$emit('left')
 			} catch {
-				showError(this.t('planix', 'Could not leave project'))
+				showError(this.t('planninq', 'Could not leave project'))
 			} finally {
 				this.loading = false
 			}

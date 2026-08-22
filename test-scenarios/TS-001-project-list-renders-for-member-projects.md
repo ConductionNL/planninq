@@ -29,14 +29,14 @@ spec-refs:
 ## Scenario
 
 - GIVEN the user is authenticated and has projects they are a member of
-- WHEN the user navigates to `/apps/planix/projects`
+- WHEN the user navigates to `/apps/planninq/projects`
 - THEN `CnListViewLayout` renders with a search bar and status filter chips
 - AND each project item shows: color swatch, icon, title, member count, and status badge
 - AND projects where the user is NOT a member are not shown
 
 ## Test Data
 
-_(use seed projects from planix_register.json — ensure admin is a member of at least one)_
+_(use seed projects from planninq_register.json — ensure admin is a member of at least one)_
 
 ## Acceptance Criteria
 

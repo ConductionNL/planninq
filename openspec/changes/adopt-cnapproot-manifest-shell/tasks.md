@@ -1,7 +1,7 @@
 # Tasks: Adopt CnAppRoot + Manifest-v2 Shell
 
 > APPLY STATUS (this session): DEFERRED as a whole. This change is a full
-> replacement of planix's working hand-rolled shell (App.vue + router +
+> replacement of planninq's working hand-rolled shell (App.vue + router +
 > MainMenu + settings bootstrap) with the shared `CnAppRoot` / manifest-v2
 > render pipeline. The CnAppRoot / registry / page-types / menu-layout /
 > integration-registry wiring is intricate (see the pipelinq/decidesk

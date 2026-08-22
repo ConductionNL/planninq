@@ -1,16 +1,19 @@
 // @ts-check
 
 /**
- * Planix documentation site.
+ * Planninq documentation site.
  *
  * Built on @conduction/docusaurus-preset for brand defaults (tokens,
  * theme swizzles for Navbar / Footer, i18n scaffolding, KvK / BTW
  * copyright). Site-specific overrides — locale (en only), sidebar
- * path, mermaid theme, custom prism themes, planix-only navbar
+ * path, mermaid theme, custom prism themes, planninq-only navbar
  * items — are passed through createConfig() opts.
  *
  * Migrated from the old preset-classic `docusaurus/` site (planix.app)
- * to the brand preset and the planix.conduction.nl domain. Adapted
+ * to the brand preset and the planix.conduction.nl domain. That docs
+ * hostname is deliberately still the pre-rename one — the app is now
+ * Planninq, but the published site and its DNS record have not moved,
+ * so `url` below and `static/CNAME` must keep matching it. Adapted
  * from the decidesk / pipelinq docs sites.
  */
 
@@ -23,13 +26,13 @@ const { createConfig, baseFooterLinks } = require('@conduction/docusaurus-preset
 const BRAND_THEME = require.resolve('@conduction/docusaurus-preset/theme');
 
 const config = createConfig({
-  title: 'Planix',
+  title: 'Planninq',
   tagline: 'Flow-based Kanban project and task management for Nextcloud dev and IT teams',
   url: 'https://planix.conduction.nl',
   baseUrl: '/',
 
   organizationName: 'ConductionNL',
-  projectName: 'planix',
+  projectName: 'planninq',
 
   /* English-only for now. The brand preset ships a multi-locale i18n
      block (nl/en/de/fr), but enabling locales without translated
@@ -45,10 +48,10 @@ const config = createConfig({
     },
   },
 
-  /* The planix docs source lives at the repo root of `docs/` rather
+  /* The planninq docs source lives at the repo root of `docs/` rather
      than under a `docs/` subfolder, so we override the preset's default
      `presets:` block to point `docs.path` at './' and disable the blog
-     plugin. customCss carries planix-specific CSS only — brand tokens
+     plugin. customCss carries planninq-specific CSS only — brand tokens
      and the theme swizzles are auto-loaded by the brand theme entry in
      `themes:` below. */
   presets: [
@@ -63,7 +66,7 @@ const config = createConfig({
              plus the standard node_modules bucket. */
           exclude: ['**/node_modules/**', 'src/**'],
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://codeberg.org/Conduction/planix/src/branch/development/docs/',
+          editUrl: 'https://codeberg.org/Conduction/planninq/src/branch/development/docs/',
         },
         blog: false,
         theme: {
@@ -76,8 +79,8 @@ const config = createConfig({
   themes: [BRAND_THEME, '@docusaurus/theme-mermaid'],
 
   /* Brand navbar provides locale dropdown + GitHub by default; we
-     replace items[] with planix's own (Documentation sidebar link,
-     planix GitHub link). Object.assign in createConfig is shallow,
+     replace items[] with planninq's own (Documentation sidebar link,
+     planninq GitHub link). Object.assign in createConfig is shallow,
      so items: replaces wholesale. */
   navbar: {
     items: [
@@ -88,7 +91,7 @@ const config = createConfig({
         label: 'Documentation',
       },
       {
-        href: 'https://codeberg.org/Conduction/planix',
+        href: 'https://codeberg.org/Conduction/planninq',
         label: 'GitHub',
         position: 'right',
       },

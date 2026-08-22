@@ -2,15 +2,15 @@
 
 ## Architecture Overview
 
-Planix is a thin OpenRegister client: it owns no database tables, and its whole
-data model is the six schemas in `lib/Settings/planix_register.json`, imported
+Planninq is a thin OpenRegister client: it owns no database tables, and its whole
+data model is the six schemas in `lib/Settings/planninq_register.json`, imported
 by the repair step via `ConfigurationService::importFromApp()`. Adding a portal
 scoping identity therefore means one thing only — three additive properties in
 that register JSON, plus the version bumps that make the version-gated import
 re-apply them. No PHP, no routes, no UI.
 
 ```
-lib/Settings/planix_register.json
+lib/Settings/planninq_register.json
   task      + contractorRef  (uuid)      alongside assignedTo (NC uid)
   timeEntry + contractorRef  (uuid)      alongside user       (NC uid)
   project   + contractorRefs (uuid[])    alongside members    (NC uid[])
@@ -30,7 +30,7 @@ change, and even that is pure data assembly.
 
 ## Additive-remap rationale (why not repurpose the NC-uid fields?)
 
-Planix scopes every work item by Nextcloud user id today, verified at HEAD:
+Planninq scopes every work item by Nextcloud user id today, verified at HEAD:
 
 | Schema      | NC-uid field (kept)     | New UUID domain-ref (added) |
 |-------------|-------------------------|-----------------------------|
@@ -66,7 +66,7 @@ the portal — fail-closed by construction, which is why the property is optiona
 live tasks/time-entries and `contractorRefs` onto projects (mapping each
 contractor contact to the work they may see) is operational data work, NOT a
 schema change — it is a **documented follow-up**, deliberately out of this
-change. Until an operator backfills, the planix portal section is empty, not
+change. Until an operator backfills, the planninq portal section is empty, not
 broken.
 
 ## API Design
@@ -77,7 +77,7 @@ serves reads/creates; portaliq invokes it server-side with subject scoping
 
 ## Database Changes
 
-None owned by planix (thin OR client). The register JSON gains three additive,
+None owned by planninq (thin OR client). The register JSON gains three additive,
 optional properties; the version-gated import (repair step →
 `ConfigurationService::importFromApp()`, `force: false`) applies them on upgrade
 because register + schema + `info.xml` versions bump together. No `migration.md`
@@ -106,7 +106,7 @@ None. No controllers, services, mappers, events, or `Application.php` changes.
 ```
 lib/
   Settings/
-    planix_register.json    (+ contractorRef/contractorRefs; versions bumped)
+    planninq_register.json    (+ contractorRef/contractorRefs; versions bumped)
 appinfo/
   info.xml                  (0.2.9 → 0.2.10)
 openspec/

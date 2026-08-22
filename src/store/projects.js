@@ -19,6 +19,9 @@ import { generateUrl } from '@nextcloud/router'
 import { showError, showWarning } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 
+// The OpenRegister register SLUG, not the app id: the app id became
+// `planninq` but the register holding the live data is still slugged `planix`
+// and this release ships no register-slug migration.
 const REGISTER = 'planix'
 const PROJECT_SCHEMA = 'project'
 const COLUMN_SCHEMA = 'column'
@@ -32,7 +35,7 @@ const TIME_ENTRY_SCHEMA = 'timeEntry'
  */
 function getDefaultColumns() {
 	try {
-		const state = loadState('planix', 'default_columns', null)
+		const state = loadState('planninq', 'default_columns', null)
 		if (Array.isArray(state) && state.length > 0) return state
 	} catch {
 		// fall through to hardcoded defaults
@@ -58,12 +61,12 @@ export const useProjectsStore = defineStore('projects', {
 		// ── Internal helpers ──────────────────────────────────────────────
 
 		/**
-		 * @spec exclude Internal helper — lazily registers Planix schemas on the shared object store and returns it.
+		 * @spec exclude Internal helper — lazily registers Planninq schemas on the shared object store and returns it.
 		 */
 		_objectStore() {
 			const store = useObjectStore()
 			// Register types if not yet registered. The schema constants ARE the
-			// canonical OR slugs (lib/Settings/planix_register.json), so they are
+			// canonical OR slugs (lib/Settings/planninq_register.json), so they are
 			// passed as slug hints too — liveUpdatesPlugin then derives the
 			// or-collection-{registerSlug}-{schemaSlug} event key without a lazy
 			// register/schema fetch on first subscribe().
@@ -197,7 +200,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * Used by the task detail view (TaskDetail.vue) to render the task and
 		 * mount the collaboration sidebar (comments / files / audit trail). Reads
 		 * directly from OpenRegister via the shared object store (ADR-022) — no
-		 * planix pass-through controller.
+		 * Planninq pass-through controller.
 		 *
 		 * @param {string} id Task UUID
 		 * @return {Promise<object|null>} The task, or null on error / not found.
@@ -232,7 +235,7 @@ export const useProjectsStore = defineStore('projects', {
 		// ── 2.4 createProject ─────────────────────────────────────────────
 
 		/**
-		 * Create a new project via the Planix server-side proxy endpoint.
+		 * Create a new project via the Planninq server-side proxy endpoint.
 		 *
 		 * Posts to `/api/projects` (ProjectController::create) which enforces
 		 * the `allow_project_creation` policy server-side BEFORE writing to OR,
@@ -251,7 +254,7 @@ export const useProjectsStore = defineStore('projects', {
 			this.loading = true
 			this.error = null
 			try {
-				const url = generateUrl('/apps/planix/api/projects')
+				const url = generateUrl('/apps/planninq/api/projects')
 				const response = await fetch(url, {
 					method: 'POST',
 					headers: buildHeaders(),
@@ -406,7 +409,7 @@ export const useProjectsStore = defineStore('projects', {
 
 			if (failedTitles.length > 0) {
 				showWarning(
-					t('planix', 'Some columns could not be created: {columns}', {
+					t('planninq', 'Some columns could not be created: {columns}', {
 						columns: failedTitles.join(', '),
 					}),
 				)
@@ -467,7 +470,7 @@ export const useProjectsStore = defineStore('projects', {
 					for (const entry of entries) {
 						const ok = await objectStore.deleteObject(TIME_ENTRY_SCHEMA, entry.id)
 						if (!ok) {
-							showError(t('planix', 'Failed to delete a time entry. Some data may remain — please retry deleting the project.'))
+							showError(t('planninq', 'Failed to delete a time entry. Some data may remain — please retry deleting the project.'))
 							return false
 						}
 					}
@@ -477,7 +480,7 @@ export const useProjectsStore = defineStore('projects', {
 				for (const task of tasks) {
 					const ok = await objectStore.deleteObject(TASK_SCHEMA, task.id)
 					if (!ok) {
-						showError(t('planix', 'Failed to delete a task. Some data may remain — please retry deleting the project.'))
+						showError(t('planninq', 'Failed to delete a task. Some data may remain — please retry deleting the project.'))
 						return false
 					}
 				}
@@ -487,7 +490,7 @@ export const useProjectsStore = defineStore('projects', {
 				for (const col of columns) {
 					const ok = await objectStore.deleteObject(COLUMN_SCHEMA, col.id)
 					if (!ok) {
-						showError(t('planix', 'Failed to delete a column. Some data may remain — please retry deleting the project.'))
+						showError(t('planninq', 'Failed to delete a column. Some data may remain — please retry deleting the project.'))
 						return false
 					}
 				}
@@ -495,7 +498,7 @@ export const useProjectsStore = defineStore('projects', {
 				// 5. Delete the project itself.
 				const ok = await objectStore.deleteObject(PROJECT_SCHEMA, id)
 				if (!ok) {
-					showError(t('planix', 'Failed to delete project. Please retry.'))
+					showError(t('planninq', 'Failed to delete project. Please retry.'))
 					return false
 				}
 
@@ -507,7 +510,7 @@ export const useProjectsStore = defineStore('projects', {
 				return true
 			} catch (err) {
 				this.error = err.message || 'delete-error'
-				showError(t('planix', 'An error occurred during project deletion'))
+				showError(t('planninq', 'An error occurred during project deletion'))
 				return false
 			} finally {
 				this.loading = false
@@ -607,7 +610,7 @@ export const useProjectsStore = defineStore('projects', {
 		// ── 2.12 leaveProject ────────────────────────────────────────────
 
 		/**
-		 * Current user leaves a project via the Planix server-side proxy (C3 fix).
+		 * Current user leaves a project via the Planninq server-side proxy (C3 fix).
 		 *
 		 * Non-owner members cannot update a project through OR's normal write
 		 * path because OR RBAC requires `match: { owner: "$userId" }` for updates.
@@ -627,7 +630,7 @@ export const useProjectsStore = defineStore('projects', {
 			this.loading = true
 			this.error = null
 			try {
-				const url = generateUrl(`/apps/planix/api/projects/${projectId}/leave`)
+				const url = generateUrl(`/apps/planninq/api/projects/${projectId}/leave`)
 				const response = await fetch(url, {
 					method: 'POST',
 					headers: buildHeaders(),
@@ -680,7 +683,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * Fetch all tasks of a project for the kanban board.
 		 *
 		 * Reads directly from OpenRegister via the shared object store (ADR-022) —
-		 * there is no planix pass-through controller. OpenRegister scopes the read
+		 * there is no Planninq pass-through controller. OpenRegister scopes the read
 		 * to objects the current user may see, so the board only ever shows tasks
 		 * of a project the user is a member of (the board view additionally guards
 		 * non-member access via `accessDenied`).

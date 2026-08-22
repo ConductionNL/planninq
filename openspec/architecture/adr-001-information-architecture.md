@@ -5,7 +5,7 @@
 
 ## Context
 
-planix is the operational planning surface — kanban boards, tasks, time-tracking,
+planninq is the operational planning surface — kanban boards, tasks, time-tracking,
 projects, capacity planning, risk register, and PMO-rollup — used by both overheid
 and MKB teams. It receives raadsbesluiten from decidesk via the deliverable-chain,
 feeds progress to launchpad, and consumes the BBV-programma-tree from financeq so that
@@ -21,8 +21,8 @@ sidebar past the 5–7 item cognitive ceiling, fracture the medewerker home page
 register schemas) that the user should not have to think about.
 
 The fleet-wide Information Architecture design pass (`/tmp/ia-small5.md`,
-2026-05-22) bounded planix at **five** top-level menus and produced a mapping
-table for every existing spec. This ADR lifts the planix-only design rules from
+2026-05-22) bounded planninq at **five** top-level menus and produced a mapping
+table for every existing spec. This ADR lifts the planninq-only design rules from
 that document into a per-app architecture record so that future spec authors and
 implementers (opsx-ff, opsx-apply, team-architect) have a single canonical
 reference.
@@ -34,7 +34,7 @@ reference.
 
 ## Decision
 
-planix adopts the following Information Architecture.
+planninq adopts the following Information Architecture.
 
 ### Top-level navigation (5 menus)
 
@@ -68,7 +68,7 @@ register-schemas).
 
 ### Design rules
 
-1. **5-menu ceiling — no sixth menu.** planix's sidebar is capped at five
+1. **5-menu ceiling — no sixth menu.** planninq's sidebar is capped at five
    top-level menus (Mijn werk, Borden, Projecten, Portfolio, Beheer). New specs
    that look like "another noun" must be placed as a sub-page, tab, or widget
    under one of these five. Promoting a feature to a sixth menu requires a
@@ -125,7 +125,7 @@ register-schemas).
   debates per-PR.
 - The medewerker surface (Mijn werk + Borden) stays small and learnable even as
   the app accumulates portfolio, chain, and integration features.
-- Cross-app chain hops (decidesk → planix → procest → launchpad) stay invisible to
+- Cross-app chain hops (decidesk → planninq → procest → launchpad) stay invisible to
   the medewerker; the platform plumbing is owned by Beheer and audit, not the
   daily UI.
 - One task model + one time-tracking surface eliminates two classes of bugs
@@ -153,6 +153,6 @@ register-schemas).
 ## References
 
 - `/tmp/ia-small5.md` — fleet-wide IA design pass (2026-05-22), Section 3
-- planix `openspec/specs/` — per-spec details for each slug in the mapping table
+- planninq `openspec/specs/` — per-spec details for each slug in the mapping table
 - Related app ADRs (cross-cutting IA): `openbuild/openspec/architecture/`,
   `scholiq/openspec/architecture/`

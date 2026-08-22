@@ -41,7 +41,7 @@ if ($ncLoaded === false && $autoloader instanceof \Composer\Autoload\ClassLoader
 
 	// OpenRegister is a sibling Nextcloud app, not a composer dependency, so
 	// its runtime classes are genuinely absent from a bare unit-test process.
-	// tests/stubs/openregister/ carries the handful of signatures planix's
+	// tests/stubs/openregister/ carries the handful of signatures planninq's
 	// listeners consume. Same containment rule as above: this prefix exists
 	// only on the PHPUnit process's loader, and it is APPENDED, so a real
 	// OCA\OpenRegister class always wins when one is on the path.
@@ -58,7 +58,7 @@ if (is_dir($serverTestsLib)) {
 
 // Stub Doctrine\DBAL\ParameterType for unit tests that mock IDBConnection or
 // IQueryBuilder. The real class lives in doctrine/dbal, which Nextcloud
-// provides at runtime but which is not one of planix's composer dev deps.
+// provides at runtime but which is not one of planninq's composer dev deps.
 if (class_exists('Doctrine\\DBAL\\ParameterType') === false) {
 	eval(
 		'namespace Doctrine\\DBAL; '

@@ -1,5 +1,5 @@
 {
-	"name": "conductionnl/planix",
+	"name": "conductionnl/planninq",
 	"description": "Flow-based kanban project and task management for Nextcloud dev and IT teams",
 	"license": "EUPL-1.2",
 	"authors": [
@@ -11,7 +11,7 @@
 	],
 	"autoload": {
 		"psr-4": {
-			"OCA\\Planix\\": "lib/"
+			"OCA\\Planninq\\": "lib/"
 		}
 	},
 	"require": {

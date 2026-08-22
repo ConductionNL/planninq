@@ -4,7 +4,7 @@
  * Unit tests for ReconcileDueReminderOverrides repair step.
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Repair
+ * @package  OCA\Planninq\Tests\Unit\Repair
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -17,10 +17,10 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Repair;
+namespace OCA\Planninq\Tests\Unit\Repair;
 
-use OCA\Planix\Repair\ReconcileDueReminderOverrides;
-use OCA\Planix\Service\SettingsService;
+use OCA\Planninq\Repair\ReconcileDueReminderOverrides;
+use OCA\Planninq\Service\SettingsService;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -106,7 +106,7 @@ class ReconcileDueReminderOverridesTest extends TestCase {
 		$this->settingsService->method('isOpenRegisterAvailable')->willReturn(true);
 
 		$this->config->method('getUsersForUserValue')
-			->with('planix', 'notify_due_reminder', 'false')
+			->with('planninq', 'notify_due_reminder', 'false')
 			->willReturn(['alice', 'bob']);
 
 		// No existing overrides → both get seeded.

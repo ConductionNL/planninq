@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test'
 import { BASE_URL } from './tests/e2e/base-url'
 
 /**
- * Playwright config for Planix.
+ * Playwright config for Planninq.
  *
  * Scaffolded via the journeydoc-init pattern (ADR-030) with the shared
  * globalSetup + storageState scaffold from hydra#272. The regression

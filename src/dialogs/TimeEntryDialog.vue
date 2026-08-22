@@ -1,34 +1,34 @@
 <template>
 	<NcDialog
-		:name="isEdit ? t('planix', 'Edit time entry') : t('planix', 'Log time')"
+		:name="isEdit ? t('planninq', 'Edit time entry') : t('planninq', 'Log time')"
 		@closing="$emit('close')">
 		<template #default>
 			<div class="time-entry-dialog__body">
 				<div class="time-entry-dialog__field">
 					<NcTextField
 						v-model="durationInput"
-						:label="t('planix', 'Duration')"
+						:label="t('planninq', 'Duration')"
 						:error="!!durationError"
-						:helper-text="durationError || t('planix', 'e.g. 2h 30m, 90m, 1.5h')"
+						:helper-text="durationError || t('planninq', 'e.g. 2h 30m, 90m, 1.5h')"
 						required />
 				</div>
 
 				<div class="time-entry-dialog__field">
 					<label class="time-entry-dialog__label" for="time-entry-date">
-						{{ t('planix', 'Date') }}
+						{{ t('planninq', 'Date') }}
 					</label>
 					<input
 						id="time-entry-date"
 						v-model="date"
 						type="date"
 						class="time-entry-dialog__date"
-						:aria-label="t('planix', 'Date')">
+						:aria-label="t('planninq', 'Date')">
 				</div>
 
 				<div class="time-entry-dialog__field">
 					<NcTextField
 						v-model="description"
-						:label="t('planix', 'Description (optional)')" />
+						:label="t('planninq', 'Description (optional)')" />
 				</div>
 
 				<div v-if="submitError" class="time-entry-dialog__error" role="alert">
@@ -39,7 +39,7 @@
 
 		<template #actions>
 			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planix', 'Cancel') }}
+				{{ t('planninq', 'Cancel') }}
 			</NcButton>
 			<NcButton
 				variant="primary"
@@ -48,7 +48,7 @@
 				<template v-if="saving" #icon>
 					<NcLoadingIcon :size="16" />
 				</template>
-				{{ isEdit ? t('planix', 'Save') : t('planix', 'Log time') }}
+				{{ isEdit ? t('planninq', 'Save') : t('planninq', 'Log time') }}
 			</NcButton>
 		</template>
 	</NcDialog>
@@ -128,7 +128,7 @@ export default {
 				return ''
 			}
 			return this.parsedMinutes === null
-				? this.t('planix', 'Enter a valid duration (e.g. 2h 30m, 90m, 1.5h)')
+				? this.t('planninq', 'Enter a valid duration (e.g. 2h 30m, 90m, 1.5h)')
 				: ''
 		},
 
@@ -170,7 +170,7 @@ export default {
 				}
 				this.$emit('saved')
 			} catch (err) {
-				this.submitError = store.error || this.t('planix', 'Could not save the time entry. Please try again.')
+				this.submitError = store.error || this.t('planninq', 'Could not save the time entry. Please try again.')
 				showError(this.submitError)
 			} finally {
 				this.saving = false

@@ -1,6 +1,6 @@
-# Planix — Features
+# Planninq — Features
 
-Planix is a project management app for Nextcloud, providing kanban boards, task management, time tracking, and project organization.
+Planninq is a project management app for Nextcloud, providing kanban boards, task management, time tracking, and project organization.
 
 ## Features
 

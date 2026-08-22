@@ -6,12 +6,12 @@ Portaliq (hydra ADR-046) is the one shared external portal for people without
 Nextcloud accounts. Domain apps contribute by shipping a single plain class at a
 convention FQCN; portaliq's `PortalContributionRegistry` resolves
 `OCA\{App}\Portal\PortalContributionProvider` per installed app and duck-types
-it (`method_exists`, never `instanceof`). Planix adds exactly one new file under
+it (`method_exists`, never `instanceof`). Planninq adds exactly one new file under
 `lib/Portal/` and touches nothing else in the runtime app:
 
 ```
 portaliq (if installed)
-  └─ registry resolves OCA\Planix\Portal\PortalContributionProvider (FQCN)
+  └─ registry resolves OCA\Planninq\Portal\PortalContributionProvider (FQCN)
        └─ getAudiences() → ['external-employee']   (v2, preferred)
        └─ getAudience()  → 'external-employee'      (v1 fallback)
        └─ getContribution($subject) → manifest (pure data) or null
@@ -20,8 +20,8 @@ portaliq (if installed)
                and subject claim ∈ project.contractorRefs
 ```
 
-`ucfirst('planix')` → `Planix`, which matches this app's composer PSR-4
-namespace and `info.xml` `<namespace>Planix</namespace>` exactly — no casing
+`ucfirst('planninq')` → `Planninq`, which matches this app's composer PSR-4
+namespace and `info.xml` `<namespace>Planninq</namespace>` exactly — no casing
 subtlety. Without portaliq the class is never instantiated: ~1 KB of inert
 dead-weight by design (amendment A1). There is deliberately **no** DI
 registration in `lib/AppInfo/Application.php` — discovery is pull-based from
@@ -42,7 +42,7 @@ enforces (scoping, trust, RBAC) is data in the manifest, evaluated portaliq-side
 
 ## Additive-remap rationale + claim names
 
-This change consumes the `portal-identity` scoping properties. Planix scopes all
+This change consumes the `portal-identity` scoping properties. Planninq scopes all
 internal work by Nextcloud uid (verified at HEAD): `task.assignedTo`,
 `timeEntry.user`, `project.members`. Amendment A4 forbids scoping an external
 subject by an NC uid, so `portal-identity` added a UUID domain ref ALONGSIDE each
@@ -64,7 +64,7 @@ onto live objects is a `portal-identity` follow-up, not part of this change.
 ## Read-field projections (what a contractor may see)
 
 Portaliq whitelist-projects rows after per-row verification (identifiers always
-survive; a malformed `fields` list degrades to identifiers-only). Every planix
+survive; a malformed `fields` list degrades to identifiers-only). Every planninq
 read is projected to drop internal/estimate/private columns:
 
 ### `contractorTasks` (schema `task`)
@@ -114,13 +114,13 @@ fields stay back-office-only. Portaliq enforces the whitelist server-side.
 
 No `minTrust` is declared on any collection or action, so every surface defaults
 to **low** trust: a subject bearing a resolved `contractorRef` claim is
-sufficient. Planix's contractor data (task titles, hours) is ordinary business
+sufficient. Planninq's contractor data (task titles, hours) is ordinary business
 data, not special-category — unlike, say, pipelinq's booking notes — so no
 elevated eIDAS threshold is warranted.
 
 ## Inbox
 
-**None.** The manifest's `notifications` is empty. Planix does emit task
+**None.** The manifest's `notifications` is empty. Planninq does emit task
 notifications — the declarative `taskDueSoon` rule (`x-openregister-notifications`
 on the `task` schema) — but its recipient is the NC uid `assignedTo` via
 Nextcloud's `IManager`, NOT a per-subject OpenRegister collection scoped by
@@ -189,14 +189,14 @@ fail-closed default.
 - **Both audience methods vs v2-only** — v2-only would be leaner, but the
   registry's v1 fallback path must keep working; two constant-return methods
   cost nothing.
-- **One audience vs many** — planix honestly has one external audience
+- **One audience vs many** — planninq honestly has one external audience
   (contractor). A client project-view is out of scope because no client
   reference exists in the model; inventing one to pad the manifest would be
   cargo-culting.
 - **Project list via `contractorRefs` vs derived join** — the flat ADR-046
   contract cannot express a two-hop task→project join, so the project read is
   scoped directly by `project.contractorRefs`, at the cost of a backfill.
-- **No `minTrust`** — planix contractor data is ordinary business data; an
+- **No `minTrust`** — planninq contractor data is ordinary business data; an
   elevated threshold would be speculative and would gate honest reads.
 - **Plain class vs shared interface package** — an interface import would give
   static safety but create exactly the coupling A1 forbids; duck typing is the

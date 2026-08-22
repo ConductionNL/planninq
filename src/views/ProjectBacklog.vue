@@ -3,7 +3,7 @@
 		<!-- Breadcrumb -->
 		<nav class="project-backlog__breadcrumb" aria-label="breadcrumb">
 			<NcButton variant="tertiary-no-background" @click="$router.push({ name: 'Projects' })">
-				{{ t('planix', 'Projects') }}
+				{{ t('planninq', 'Projects') }}
 			</NcButton>
 			<span aria-hidden="true">&rsaquo;</span>
 			<NcButton
@@ -12,18 +12,18 @@
 				{{ projectTitle }}
 			</NcButton>
 			<span aria-hidden="true">&rsaquo;</span>
-			<span>{{ t('planix', 'Backlog') }}</span>
+			<span>{{ t('planninq', 'Backlog') }}</span>
 		</nav>
 
 		<!-- Page header -->
 		<div class="project-backlog__header">
-			<h2>{{ t('planix', 'Backlog') }}</h2>
+			<h2>{{ t('planninq', 'Backlog') }}</h2>
 		</div>
 
 		<!-- Placeholder -->
 		<NcEmptyContent
-			:name="t('planix', 'Backlog view coming soon')"
-			:description="t('planix', 'Task management will be available in a future update.')">
+			:name="t('planninq', 'Backlog view coming soon')"
+			:description="t('planninq', 'Task management will be available in a future update.')">
 			<template #icon>
 				<FormatListBulleted :size="20" />
 			</template>

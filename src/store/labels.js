@@ -5,7 +5,7 @@
  * straight to the OpenRegister object API (ADR-022 — labels are plain OR objects
  * on the `label` schema, validated by the schema's `^#[0-9A-Fa-f]{6}$` colour
  * pattern). The usage-count listing and the cascade delete route through the
- * planix admin endpoints because they add real server logic (aggregation and a
+ * Planninq admin endpoints because they add real server logic (aggregation and a
  * server-authoritative `task.labels` sweep) — see LabelService.
  *
  * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
@@ -14,6 +14,9 @@ import { defineStore } from 'pinia'
 import { buildHeaders } from '@conduction/nextcloud-vue'
 import { generateUrl } from '@nextcloud/router'
 
+// The OpenRegister register SLUG, not the app id: the app id became
+// `planninq` but the register holding the live data is still slugged `planix`
+// and this release ships no register-slug migration.
 const REGISTER = 'planix'
 const LABEL_SCHEMA = 'label'
 
@@ -28,9 +31,9 @@ export const useLabelsStore = defineStore('labels', {
 
 	actions: {
 		/**
-		 * Fetch all labels with their usage counts from the planix admin endpoint.
+		 * Fetch all labels with their usage counts from the Planninq admin endpoint.
 		 *
-		 * Uses the planix endpoint (not the raw OR API) because it returns the
+		 * Uses the Planninq endpoint (not the raw OR API) because it returns the
 		 * per-label task usage count alongside each label in one round-trip.
 		 *
 		 * @return {Promise<Array<object>>} The loaded labels (sorted by title server-side).
@@ -41,7 +44,7 @@ export const useLabelsStore = defineStore('labels', {
 			this.loading = true
 			this.error = null
 			try {
-				const url = generateUrl('/apps/planix/api/labels')
+				const url = generateUrl('/apps/planninq/api/labels')
 				const response = await fetch(url, { headers: buildHeaders() })
 				if (!response.ok) {
 					this.labels = []
@@ -118,7 +121,7 @@ export const useLabelsStore = defineStore('labels', {
 		},
 
 		/**
-		 * Delete a label through the planix cascade endpoint.
+		 * Delete a label through the Planninq cascade endpoint.
 		 *
 		 * The server removes the label's UUID from every referencing task before
 		 * deleting the label object (idempotent), and reports how many tasks were
@@ -131,7 +134,7 @@ export const useLabelsStore = defineStore('labels', {
 		 */
 		async deleteLabel(id) {
 			this.error = null
-			const url = generateUrl(`/apps/planix/api/labels/${id}`)
+			const url = generateUrl(`/apps/planninq/api/labels/${id}`)
 			const response = await fetch(url, {
 				method: 'DELETE',
 				headers: buildHeaders(),

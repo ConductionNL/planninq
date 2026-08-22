@@ -11,7 +11,7 @@
  * windowing, the 401-when-unauthenticated guard, and the empty-project case.
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Controller
+ * @package  OCA\Planninq\Tests\Unit\Controller
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -26,9 +26,9 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Controller;
+namespace OCA\Planninq\Tests\Unit\Controller;
 
-use OCA\Planix\Controller\TimelineController;
+use OCA\Planninq\Controller\TimelineController;
 use OCP\AppFramework\Http;
 use OCP\IRequest;
 use OCP\IUser;

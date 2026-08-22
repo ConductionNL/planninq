@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Planix TaskScopeResolver.
+ * Planninq TaskScopeResolver.
  *
- * Decides whether an OpenRegister object belongs to the planix register's
+ * Decides whether an OpenRegister object belongs to the Planninq register's
  * `task` schema, and resolves a project's members — the two OpenRegister
  * lookups the {@see TaskActivityListener} needs, pulled out so the listener
  * stays simple and the resolution is independently testable.
  *
  * @category Listener
- * @package  OCA\Planix\Listener
+ * @package  OCA\Planninq\Listener
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -24,19 +24,24 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Listener;
+namespace OCA\Planninq\Listener;
 
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Resolves planix task scope + project members from OpenRegister.
+ * Resolves Planninq task scope + project members from OpenRegister.
  *
  * @spec openspec/specs/task-collaboration/spec.md
  */
 class TaskScopeResolver {
 	/**
-	 * OpenRegister register slug owning the planix schemas.
+	 * OpenRegister register slug owning the Planninq schemas.
+	 *
+	 * Deliberately still the PRE-RENAME `planix`. The app id became `planninq`,
+	 * but the register holding the live data is still slugged `planix` and this
+	 * release ships no register-slug migration. Application::boot() repeats this
+	 * value as a literal at subscription time and must stay in step with it.
 	 *
 	 * @var string
 	 */
@@ -69,16 +74,16 @@ class TaskScopeResolver {
 	}//end __construct()
 
 	/**
-	 * Decide whether a register/schema id pair is the planix `task` schema.
+	 * Decide whether a register/schema id pair is the Planninq `task` schema.
 	 *
 	 * @param string $registerId The OR register id from the event object.
 	 * @param string $schemaId The OR schema id from the event object.
 	 *
-	 * @return bool Whether this is a planix task.
+	 * @return bool Whether this is a Planninq task.
 	 *
 	 * @spec openspec/specs/task-collaboration/spec.md
 	 */
-	public function isPlanixTask(string $registerId, string $schemaId): bool {
+	public function isPlanninqTask(string $registerId, string $schemaId): bool {
 		if ($registerId === '' || $schemaId === '') {
 			return false;
 		}
@@ -88,7 +93,7 @@ class TaskScopeResolver {
 		}
 
 		return $this->resolveSlug(service: 'OCA\\OpenRegister\\Db\\SchemaMapper', id: $schemaId) === self::TASK_SCHEMA_SLUG;
-	}//end isPlanixTask()
+	}//end isPlanninqTask()
 
 	/**
 	 * Fetch the member ids of a project (plus its owner) from OpenRegister.
@@ -123,7 +128,7 @@ class TaskScopeResolver {
 			return array_map('strval', $members);
 		} catch (\Throwable $e) {
 			$this->logger->debug(
-				'Planix: could not resolve project members for task activity',
+				'Planninq: could not resolve project members for task activity',
 				['project' => $projectId, 'exception' => $e->getMessage()]
 			);
 			return [];
@@ -153,7 +158,7 @@ class TaskScopeResolver {
 			}
 		} catch (\Throwable $e) {
 			$this->logger->debug(
-				'Planix: could not resolve OpenRegister slug',
+				'Planninq: could not resolve OpenRegister slug',
 				['service' => $service, 'id' => $id, 'exception' => $e->getMessage()]
 			);
 		}

@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Planix Activity ProviderSubjectHandler.
+ * Planninq Activity ProviderSubjectHandler.
  *
- * Applies the human-readable subject text and rich parameters to a planix task
+ * Applies the human-readable subject text and rich parameters to a Planninq task
  * activity event, keyed by the event subject. Pulled out of {@see Provider} so
  * the subject rendering can be unit-tested in isolation.
  *
  * @category Activity
- * @package  OCA\Planix\Activity
+ * @package  OCA\Planninq\Activity
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -23,12 +23,12 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Activity;
+namespace OCA\Planninq\Activity;
 
 use OCP\Activity\IEvent;
 
 /**
- * Applies subject text and rich parameters to planix task activity events.
+ * Applies subject text and rich parameters to Planninq task activity events.
  *
  * @spec openspec/specs/task-collaboration/spec.md
  */

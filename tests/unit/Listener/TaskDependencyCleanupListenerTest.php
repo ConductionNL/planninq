@@ -8,7 +8,7 @@
  * a task left its dependency edges pointing at nothing.
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Listener
+ * @package  OCA\Planninq\Tests\Unit\Listener
  *
  * @author    Conduction Development Team <dev@conduction.nl>
  * @copyright 2026 Conduction B.V.
@@ -24,19 +24,19 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Listener;
+namespace OCA\Planninq\Tests\Unit\Listener;
 
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
-use OCA\Planix\Listener\TaskDependencyCleanupListener;
-use OCA\Planix\Listener\TaskScopeResolver;
-use OCA\Planix\Service\DependencyService;
+use OCA\Planninq\Listener\TaskDependencyCleanupListener;
+use OCA\Planninq\Listener\TaskScopeResolver;
+use OCA\Planninq\Service\DependencyService;
 use OCP\EventDispatcher\Event;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 /**
- * @covers \OCA\Planix\Listener\TaskDependencyCleanupListener
+ * @covers \OCA\Planninq\Listener\TaskDependencyCleanupListener
  */
 class TaskDependencyCleanupListenerTest extends TestCase {
 
@@ -93,13 +93,13 @@ class TaskDependencyCleanupListenerTest extends TestCase {
 	}//end deletingEvent()
 
 	/**
-	 * Deleting a planix task cascades to its dependency edges.
+	 * Deleting a Planninq task cascades to its dependency edges.
 	 *
 	 * @return void
 	 */
-	public function testCascadesForAPlanixTask(): void {
+	public function testCascadesForAPlanninqTask(): void {
 		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
-		$resolver->method('isPlanixTask')->willReturn(true);
+		$resolver->method('isPlanninqTask')->willReturn(true);
 
 		$service = $this->createMock(originalClassName: DependencyService::class);
 		$service->expects(self::once())
@@ -109,23 +109,23 @@ class TaskDependencyCleanupListenerTest extends TestCase {
 
 		$this->listener($service, $resolver)->handle($this->deletingEvent('task-uuid'));
 
-	}//end testCascadesForAPlanixTask()
+	}//end testCascadesForAPlanninqTask()
 
 	/**
 	 * An object from another app is left entirely alone.
 	 *
 	 * @return void
 	 */
-	public function testIgnoresObjectsThatAreNotPlanixTasks(): void {
+	public function testIgnoresObjectsThatAreNotPlanninqTasks(): void {
 		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
-		$resolver->method('isPlanixTask')->willReturn(false);
+		$resolver->method('isPlanninqTask')->willReturn(false);
 
 		$service = $this->createMock(originalClassName: DependencyService::class);
 		$service->expects(self::never())->method('removeEdgesForTask');
 
 		$this->listener($service, $resolver)->handle($this->deletingEvent('other-uuid'));
 
-	}//end testIgnoresObjectsThatAreNotPlanixTasks()
+	}//end testIgnoresObjectsThatAreNotPlanninqTasks()
 
 	/**
 	 * A cleanup failure must not propagate: the user's delete still proceeds.
@@ -137,7 +137,7 @@ class TaskDependencyCleanupListenerTest extends TestCase {
 	 */
 	public function testASwallowedFailureDoesNotBlockTheDelete(): void {
 		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
-		$resolver->method('isPlanixTask')->willReturn(true);
+		$resolver->method('isPlanninqTask')->willReturn(true);
 
 		$service = $this->createMock(originalClassName: DependencyService::class);
 		$service->method('removeEdgesForTask')->willThrowException(new \RuntimeException('boom'));
@@ -154,7 +154,7 @@ class TaskDependencyCleanupListenerTest extends TestCase {
 	 */
 	public function testIgnoresUnrelatedEvents(): void {
 		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
-		$resolver->expects(self::never())->method('isPlanixTask');
+		$resolver->expects(self::never())->method('isPlanninqTask');
 
 		$service = $this->createMock(originalClassName: DependencyService::class);
 		$service->expects(self::never())->method('removeEdgesForTask');

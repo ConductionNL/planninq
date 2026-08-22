@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Planix Application
+ * Planninq Application
  *
- * Main application class for the Planix Nextcloud app.
+ * Main application class for the Planninq Nextcloud app.
  *
  * @category AppInfo
- * @package  OCA\Planix\AppInfo
+ * @package  OCA\Planninq\AppInfo
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -19,14 +19,14 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\AppInfo;
+namespace OCA\Planninq\AppInfo;
 
 use OCA\OpenRegister\Event\ObjectCreatedEvent;
 use OCA\OpenRegister\Event\ObjectDeletedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
-use OCA\Planix\Listener\DeepLinkRegistrationListener;
-use OCA\Planix\Listener\TaskActivityListener;
-use OCA\Planix\Settings\AdminSettings;
+use OCA\Planninq\Listener\DeepLinkRegistrationListener;
+use OCA\Planninq\Listener\TaskActivityListener;
+use OCA\Planninq\Settings\AdminSettings;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -35,10 +35,12 @@ use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Container\ContainerInterface;
 
 /**
- * Main application class for the Planix Nextcloud app.
+ * Main application class for the Planninq Nextcloud app.
+ *
+ * @spec openspec/specs/app-metadata/spec.md
  */
 class Application extends App implements IBootstrap {
-	public const APP_ID = 'planix';
+	public const APP_ID = 'planninq';
 
 	/**
 	 * Constructor for the Application class.
@@ -84,7 +86,7 @@ class Application extends App implements IBootstrap {
 	 * OpenRegister's `ObjectEventSubscription` records the register/schema slugs
 	 * a listener reacts to and routes dispatches through a single shared proxy,
 	 * so an uninterested listener is neither constructed nor invoked. When
-	 * OpenRegister is absent — planix carries no hard dependency on it — this
+	 * OpenRegister is absent — planninq carries no hard dependency on it — this
 	 * degrades to the plain global registration it replaced, which is exactly
 	 * the behaviour every listener had before.
 	 *
@@ -149,35 +151,35 @@ class Application extends App implements IBootstrap {
 	 *
 	 * @var string
 	 */
-	private const LEAF_DASHBOARD_CONTROLLER = 'OCA\\Planix\\Controller\\DashboardController';
+	private const LEAF_DASHBOARD_CONTROLLER = 'OCA\\Planninq\\Controller\\DashboardController';
 
 	/**
 	 * Leaf DI service id for the AppHost per-user preferences controller.
 	 *
 	 * @var string
 	 */
-	private const LEAF_PREFERENCES_CONTROLLER = 'OCA\\Planix\\Controller\\PreferencesController';
+	private const LEAF_PREFERENCES_CONTROLLER = 'OCA\\Planninq\\Controller\\PreferencesController';
 
 	/**
 	 * Leaf DI service id for the AppHost health controller.
 	 *
 	 * @var string
 	 */
-	private const LEAF_HEALTH_CONTROLLER = 'OCA\\Planix\\Controller\\HealthController';
+	private const LEAF_HEALTH_CONTROLLER = 'OCA\\Planninq\\Controller\\HealthController';
 
 	/**
 	 * Leaf DI service id for the AppHost metrics controller.
 	 *
 	 * @var string
 	 */
-	private const LEAF_METRICS_CONTROLLER = 'OCA\\Planix\\Controller\\MetricsController';
+	private const LEAF_METRICS_CONTROLLER = 'OCA\\Planninq\\Controller\\MetricsController';
 
 	/**
 	 * Leaf DI service id for the AppHost admin settings section.
 	 *
 	 * @var string
 	 */
-	private const LEAF_SETTINGS_SECTION = 'OCA\\Planix\\Sections\\SettingsSection';
+	private const LEAF_SETTINGS_SECTION = 'OCA\\Planninq\\Sections\\SettingsSection';
 
 	/**
 	 * Wire the AppHost generic engine for the mechanical plumbing classes.
@@ -190,7 +192,7 @@ class Application extends App implements IBootstrap {
 	 * service id is a string because — apart from AdminSettings, see below —
 	 * these leaf classes DO NOT EXIST as PHP classes at all: they are pure DI
 	 * service identifiers. Nextcloud's router turns `dashboard#page` into the
-	 * name `OCA\Planix\Controller\DashboardController`, looks that string up in
+	 * name `OCA\Planninq\Controller\DashboardController`, looks that string up in
 	 * the app container, and gets the generic instance back. Spelling them
 	 * `::class` also compiled (class-name resolution is a compile-time string
 	 * operation, it never autoloads) but it asserted to psalm/phpstan that a
@@ -313,7 +315,7 @@ class Application extends App implements IBootstrap {
 	private function registerAppHostSettings(IRegistrationContext $context): void {
 		$appId = self::APP_ID;
 
-		// Admin settings panel (IDelegatedSettings, #299) — section id `planix`,
+		// Admin settings panel (IDelegatedSettings, #299) — section id `planninq`,
 		// priority 10, identical to the deleted bespoke AdminSettings. This is
 		// the one leaf class that physically exists (see registerAppHost()); it
 		// is a bare subclass, so every behaviour still comes from the engine.
@@ -329,14 +331,14 @@ class Application extends App implements IBootstrap {
 			)
 		);
 
-		// Admin settings section (IIconSection) — name `Planix`, priority 75.
+		// Admin settings section (IIconSection) — name `Planninq`, priority 75.
 		$context->registerService(
 			self::LEAF_SETTINGS_SECTION,
 			static function (ContainerInterface $c) use ($appId) {
 				$class = 'OCA\\OpenRegister\\AppHost\\Settings\\GenericSettingsSection';
 				return new $class(
 					sectionId: $appId,
-					name: 'Planix',
+					name: 'Planninq',
 					appId: $appId,
 					iconFile: 'app-dark.svg',
 					priority: 75,
@@ -394,7 +396,7 @@ class Application extends App implements IBootstrap {
 
 		// Publish task lifecycle events to the Nextcloud Activity stream.
 		//
-		// The listener's own scope check (TaskScopeResolver::isPlanixTask,
+		// The listener's own scope check (TaskScopeResolver::isPlanninqTask,
 		// REGISTER_SLUG `planix` + TASK_SCHEMA_SLUG `task` — spelled out as
 		// literals here so Application does not import the resolver and push
 		// its already-over-threshold PHPMD coupling count up by one) is now
@@ -402,6 +404,13 @@ class Application extends App implements IBootstrap {
 		// constructs the listener — nor performs the two mapper lookups the
 		// scope resolver needs to reject it. The in-listener guard stays in
 		// place as defence in depth.
+		//
+		// The register slug below is still the PRE-RENAME `planix`, deliberately.
+		// The app id became `planninq`, but the OpenRegister register that holds
+		// the live data is still slugged `planix` on every existing install, and
+		// this release ships no register-slug migration. Changing the literal
+		// here without one would point the app at a register that does not
+		// exist yet and silently orphan every stored task.
 		foreach ([ObjectCreatedEvent::class, ObjectUpdatedEvent::class, ObjectDeletedEvent::class] as $event) {
 			$this->registerFilteredObjectListener(
 				dispatcher: $dispatcher,
@@ -429,7 +438,7 @@ class Application extends App implements IBootstrap {
 		$this->registerFilteredObjectListener(
 			dispatcher: $dispatcher,
 			event: 'OCA\\OpenRegister\\Event\\ObjectDeletingEvent',
-			listener: 'OCA\\Planix\\Listener\\TaskDependencyCleanupListener',
+			listener: 'OCA\\Planninq\\Listener\\TaskDependencyCleanupListener',
 			registers: ['planix'],
 			schemas: ['task']
 		);

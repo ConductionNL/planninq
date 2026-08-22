@@ -7,7 +7,7 @@ kind: code
 ## Why
 
 `openspec/architecture/adr-001-information-architecture.md` (accepted
-2026-05-23) commits planix to a 5-menu top-level navigation — **Mijn werk,
+2026-05-23) commits planninq to a 5-menu top-level navigation — **Mijn werk,
 Borden, Projecten, Portfolio, Beheer** — with an explicit spec→placement
 mapping table naming `capacity-planning-resource`, `portfolio-dashboard-pmo`,
 `bbv-programma-tree`, `risk-register-issue-tracking`, and

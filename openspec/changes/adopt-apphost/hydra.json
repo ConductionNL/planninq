@@ -1,8 +1,8 @@
 {
   "spec_slug": "adopt-apphost",
   "title": "Adopt OpenRegister AppHost (observability + boilerplate)",
-  "app": "planix",
-  "repo": "https://codeberg.org/Conduction/planix",
+  "app": "planninq",
+  "repo": "https://codeberg.org/Conduction/planninq",
   "depends_on": [
     "apphost-observability-engine",
     "apphost-boilerplate-controllers"

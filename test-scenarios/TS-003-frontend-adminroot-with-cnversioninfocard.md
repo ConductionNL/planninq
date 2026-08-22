@@ -32,7 +32,7 @@ spec-refs:
 - GIVEN the app is installed and user is logged in as admin
 - WHEN the user navigates to the relevant page
 - THEN 
-Admin settings page renders under Nextcloud Administration → Planix- AND First section is CnVersionInfoCard showing app name and version- AND Page uses CnSettingsSection for each logical group- AND Loads current settings from `GET /api/settings` on mount
+Admin settings page renders under Nextcloud Administration → Planninq- AND First section is CnVersionInfoCard showing app name and version- AND Page uses CnSettingsSection for each logical group- AND Loads current settings from `GET /api/settings` on mount
 
 ## Test Data
 
@@ -40,7 +40,7 @@ _(use default dev environment — admin/admin on localhost:8080)_
 
 ## Acceptance Criteria
 
-- [ ] Admin settings page renders under Nextcloud Administration → Planix
+- [ ] Admin settings page renders under Nextcloud Administration → Planninq
 - [ ] First section is CnVersionInfoCard showing app name and version
 - [ ] Page uses CnSettingsSection for each logical group
 - [ ] Loads current settings from `GET /api/settings` on mount

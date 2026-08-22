@@ -25,7 +25,7 @@ EUPL token used MUST be the one the deployed Nextcloud `app-info.xsd` accepts at
 #### Scenario: No AGPL self-licence reference remains
 
 - **WHEN** the tree is grepped for the app's own licence declaration
-- **THEN** no `agpl`/`AGPL` value MUST remain that refers to planix's own licence (dependency-allowlist mentions of other licences are unaffected)
+- **THEN** no `agpl`/`AGPL` value MUST remain that refers to planninq's own licence (dependency-allowlist mentions of other licences are unaffected)
 
 @e2e exclude manifest-licence consistency + xsd validity is a static metadata check, not a UI flow.
 

@@ -9,7 +9,7 @@
  *
  * Mirrored from openregister/lib/Event/ObjectDeletingEvent.php.
  *
- * ⚠️ The FULL surface is mirrored deliberately, not just the one method planix
+ * ⚠️ The FULL surface is mirrored deliberately, not just the one method planninq
  * calls. A stub narrower than the real class makes an incompatible usage legal
  * here and fatal in CI, and `StoppableEventInterface` is load-bearing: this is
  * a PRE-event, so stopping propagation VETOES the delete. A stub that silently

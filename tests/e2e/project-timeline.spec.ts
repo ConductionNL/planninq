@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
  * E2E (UI-only) coverage for the read-only project timeline (Gantt) view
@@ -24,7 +24,7 @@
  * `@e2e exclude` in the spec (unit-tested in TimelineControllerTest /
  * timelineHelpers.spec.js — API/pure-logic surfaces, no deterministic UI yet).
  *
- * Planix is not installed in the shared dev container at the time of writing;
+ * Planninq is not installed in the shared dev container at the time of writing;
  * this test skips cleanly when the app or a board is not reachable rather than
  * failing the suite (shared-instance isolation — see the change's verify notes).
  */
@@ -33,7 +33,7 @@ import { test, expect } from '@playwright/test'
 import { openFixtureProjectBoard } from './nav'
 
 // NOTE — this spec used to resolve its project through
-//   page.goto(`${NC}/index.php/apps/planix/#/projects`)
+//   page.goto(`${NC}/index.php/apps/planninq/#/projects`)
 //   page.locator('a[href*="/projects/"]')
 // and `test.skip()` when that returned null. BOTH halves were broken: the
 // router is a `createWebHistory` router, so a `#/projects` fragment is not a

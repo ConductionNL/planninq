@@ -1,7 +1,7 @@
 <template>
-	<span v-if="blocked" class="planix-blocked-badge" :title="title">
+	<span v-if="blocked" class="planninq-blocked-badge" :title="title">
 		<LockOutline :size="14" />
-		<span class="planix-blocked-badge__label">{{ t('planix', 'Blocked') }}</span>
+		<span class="planninq-blocked-badge__label">{{ t('planninq', 'Blocked') }}</span>
 	</span>
 </template>
 
@@ -55,9 +55,9 @@ export default {
 		 */
 		title() {
 			if (this.openBlockerCount > 0) {
-				return t('planix', 'Blocked by {count} open task(s)', { count: this.openBlockerCount })
+				return t('planninq', 'Blocked by {count} open task(s)', { count: this.openBlockerCount })
 			}
-			return t('planix', 'Blocked')
+			return t('planninq', 'Blocked')
 		},
 	},
 
@@ -68,7 +68,7 @@ export default {
 </script>
 
 <style scoped>
-.planix-blocked-badge {
+.planninq-blocked-badge {
 	display: inline-flex;
 	align-items: center;
 	gap: 2px;
@@ -82,7 +82,7 @@ export default {
 	white-space: nowrap;
 }
 
-.planix-blocked-badge__label {
+.planninq-blocked-badge__label {
 	letter-spacing: 0.02em;
 }
 </style>

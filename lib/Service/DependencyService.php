@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Planix Dependency Service
+ * Planninq Dependency Service
  *
  * Server-side management of directed task-to-task dependency edges
  * (blocker → blocked) with the one invariant OpenRegister cannot enforce:
@@ -13,7 +13,7 @@
  * is genuine domain logic, not an ObjectService pass-through.
  *
  * @category Service
- * @package  OCA\Planix\Service
+ * @package  OCA\Planninq\Service
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -28,9 +28,9 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Service;
+namespace OCA\Planninq\Service;
 
-use OCA\Planix\Exception\DependencyValidationException;
+use OCA\Planninq\Exception\DependencyValidationException;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
@@ -51,7 +51,11 @@ use Psr\Log\LoggerInterface;
 class DependencyService {
 
 	/**
-	 * OpenRegister register slug owning the planix schemas.
+	 * OpenRegister register slug owning the Planninq schemas.
+	 *
+	 * Deliberately still the PRE-RENAME `planix`. The app id became `planninq`,
+	 * but the register holding the live data is still slugged `planix` and this
+	 * release ships no register-slug migration.
 	 *
 	 * @var string
 	 */
@@ -127,7 +131,7 @@ class DependencyService {
 		);
 
 		$this->logger->info(
-			'Planix: dependency created',
+			'Planninq: dependency created',
 			['blocker' => $blocker, 'blocked' => $blocked, 'project' => $projectId]
 		);
 
@@ -276,7 +280,7 @@ class DependencyService {
 
 		$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $id);
 
-		$this->logger->info('Planix: dependency deleted', ['id' => $id]);
+		$this->logger->info('Planninq: dependency deleted', ['id' => $id]);
 
 	}//end delete()
 
@@ -318,7 +322,7 @@ class DependencyService {
 		}
 
 		if ($removed > 0) {
-			$this->logger->info('Planix: dependency edges cascaded', ['task' => $taskId, 'removed' => $removed]);
+			$this->logger->info('Planninq: dependency edges cascaded', ['task' => $taskId, 'removed' => $removed]);
 		}
 
 		return $removed;

@@ -1,25 +1,25 @@
 <template>
 	<section class="task-dependencies">
 		<h3 class="task-dependencies__heading">
-			{{ t('planix', 'Dependencies') }}
+			{{ t('planninq', 'Dependencies') }}
 		</h3>
 
 		<!-- Blocked banner: lists the open blockers that cause the blocked state. -->
 		<div v-if="openBlockers.length > 0" class="task-dependencies__banner">
 			<LockOutline :size="16" />
-			<span>{{ t('planix', 'This task is blocked by {count} unfinished task(s).', { count: openBlockers.length }) }}</span>
+			<span>{{ t('planninq', 'This task is blocked by {count} unfinished task(s).', { count: openBlockers.length }) }}</span>
 		</div>
 
 		<!-- Blocked by (incoming edges). -->
 		<div class="task-dependencies__group">
-			<h4>{{ t('planix', 'Blocked by') }}</h4>
+			<h4>{{ t('planninq', 'Blocked by') }}</h4>
 			<ul v-if="blockedByTasks.length > 0" class="task-dependencies__list">
 				<li v-for="item in blockedByTasks" :key="item.edgeId" class="task-dependencies__item">
 					<span class="task-dependencies__status" :class="`is-${item.status}`" />
 					<span class="task-dependencies__title">{{ item.title }}</span>
 					<NcButton
 						variant="tertiary"
-						:aria-label="t('planix', 'Remove dependency')"
+						:aria-label="t('planninq', 'Remove dependency')"
 						@click="remove(item.edgeId)">
 						<template #icon>
 							<CloseIcon :size="16" />
@@ -28,20 +28,20 @@
 				</li>
 			</ul>
 			<p v-else class="task-dependencies__empty">
-				{{ t('planix', 'No blocking tasks.') }}
+				{{ t('planninq', 'No blocking tasks.') }}
 			</p>
 		</div>
 
 		<!-- Blocks (outgoing edges). -->
 		<div class="task-dependencies__group">
-			<h4>{{ t('planix', 'Blocks') }}</h4>
+			<h4>{{ t('planninq', 'Blocks') }}</h4>
 			<ul v-if="blocksTasks.length > 0" class="task-dependencies__list">
 				<li v-for="item in blocksTasks" :key="item.edgeId" class="task-dependencies__item">
 					<span class="task-dependencies__status" :class="`is-${item.status}`" />
 					<span class="task-dependencies__title">{{ item.title }}</span>
 					<NcButton
 						variant="tertiary"
-						:aria-label="t('planix', 'Remove dependency')"
+						:aria-label="t('planninq', 'Remove dependency')"
 						@click="remove(item.edgeId)">
 						<template #icon>
 							<CloseIcon :size="16" />
@@ -50,7 +50,7 @@
 				</li>
 			</ul>
 			<p v-else class="task-dependencies__empty">
-				{{ t('planix', 'This task blocks no other tasks.') }}
+				{{ t('planninq', 'This task blocks no other tasks.') }}
 			</p>
 		</div>
 
@@ -59,12 +59,12 @@
 			<NcSelect
 				v-model="selected"
 				:options="pickerOptions"
-				:input-label="t('planix', 'Add a blocking task')"
-				:placeholder="t('planix', 'Pick a task that must finish first')"
+				:input-label="t('planninq', 'Add a blocking task')"
+				:placeholder="t('planninq', 'Pick a task that must finish first')"
 				label="title"
 				:disabled="saving" />
 			<NcButton variant="secondary" :disabled="!selected || saving" @click="addBlockedBy">
-				{{ t('planix', 'Add') }}
+				{{ t('planninq', 'Add') }}
 			</NcButton>
 		</div>
 
@@ -82,7 +82,7 @@
  * validation-error display.
  *
  * Reads come from the dependencies store (OR API directly); create/delete go
- * through the planix endpoints, where the server enforces no-self, no-dup,
+ * through the Planninq endpoints, where the server enforces no-self, no-dup,
  * same-project, and acyclicity — the inline error renders the server message
  * (including the named cycle path).
  *

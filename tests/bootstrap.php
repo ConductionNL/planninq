@@ -19,6 +19,6 @@ if (!defined('OC_CONSOLE')) {
 	}
 
 	\OC_App::loadApps();
-	\OC_App::loadApp('planix');
+	\OC_App::loadApp('planninq');
 	OC_Hook::clear();
 }

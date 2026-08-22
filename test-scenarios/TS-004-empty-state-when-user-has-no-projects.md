@@ -27,7 +27,7 @@ spec-refs:
 ## Scenario
 
 - GIVEN the user is authenticated but is not a member of any project
-- WHEN the user navigates to `/apps/planix/projects`
+- WHEN the user navigates to `/apps/planninq/projects`
 - THEN `NcEmptyContent` is shown with title "No projects yet"
 - AND an action button "Create your first project" is visible
 - AND no project items are rendered

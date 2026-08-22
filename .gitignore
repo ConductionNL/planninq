@@ -85,7 +85,7 @@ docker/dolphin/models/
 # ⚠️ Do NOT copy the opencatalogi reference and add `/playwright-report/` and
 # `/test-results/` at the app root. That repo moved its CI config's outputDir to
 # the app root because the shared workflow uploads
-# `server/apps/<app>/{playwright-report,test-results}/`. In planix the app-root
+# `server/apps/<app>/{playwright-report,test-results}/`. In planninq the app-root
 # `test-results/` directory is TRACKED — it holds the persona test reports the
 # rules just below deliberately keep in git — so pointing Playwright at it would
 # drop trace folders into a documentation directory and `/test-results/` here

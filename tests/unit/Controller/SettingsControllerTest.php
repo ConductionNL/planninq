@@ -4,7 +4,7 @@
  * Unit tests for SettingsController.
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Controller
+ * @package  OCA\Planninq\Tests\Unit\Controller
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -17,11 +17,11 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Controller;
+namespace OCA\Planninq\Tests\Unit\Controller;
 
-use OCA\Planix\Controller\SettingsController;
-use OCA\Planix\Service\RegisterImportService;
-use OCA\Planix\Service\SettingsService;
+use OCA\Planninq\Controller\SettingsController;
+use OCA\Planninq\Service\RegisterImportService;
+use OCA\Planninq\Service\SettingsService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
@@ -185,7 +185,7 @@ class SettingsControllerTest extends TestCase {
 	 * update() is the PUT face of the same write, and carries the same guard.
 	 *
 	 * `Routes::standard()` declares settings#create (POST) and settings#update
-	 * (PUT) against the same URL, and planix implemented only the POST — so PUT
+	 * (PUT) against the same URL, and planninq implemented only the POST — so PUT
 	 * resolved to nothing. Asserting the admin gate here is the point: a
 	 * delegating method that quietly lost the guard would be a worse bug than
 	 * the missing method it replaced.

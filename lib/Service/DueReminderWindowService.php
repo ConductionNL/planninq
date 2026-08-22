@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Planix Due-Reminder Window Service
+ * Planninq Due-Reminder Window Service
  *
  * Owns one concern: reflecting the configured due-reminder lead time onto the
  * LIVE OpenRegister `task` schema, by patching the `withinNext` window of the
@@ -18,7 +18,7 @@
  * depends on THIS class, so depending back on it would close a DI cycle.
  *
  * @category Service
- * @package  OCA\Planix\Service
+ * @package  OCA\Planninq\Service
  *
  * @author    Conduction Development Team <dev@conduction.nl>
  * @copyright 2026 Conduction B.V.
@@ -34,7 +34,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Service;
+namespace OCA\Planninq\Service;
 
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
@@ -103,7 +103,7 @@ class DueReminderWindowService {
 	 */
 	public function patch(int $hours): void {
 		if ($this->appManager->isInstalled('openregister') === false) {
-			$this->logger->info('Planix: OpenRegister unavailable, lead-time window not patched on live schema');
+			$this->logger->info('Planninq: OpenRegister unavailable, lead-time window not patched on live schema');
 			return;
 		}
 
@@ -111,14 +111,14 @@ class DueReminderWindowService {
 			$schemaMapper = $this->container->get('OCA\OpenRegister\Db\SchemaMapper');
 			$schemas = $schemaMapper->findBySlug(self::TASK_SCHEMA_SLUG);
 			if (is_array($schemas) === false || count($schemas) === 0) {
-				$this->logger->warning('Planix: task schema not found, cannot patch due-reminder window');
+				$this->logger->warning('Planninq: task schema not found, cannot patch due-reminder window');
 				return;
 			}
 
 			$schema = $schemas[0];
 			$configuration = ($schema->getConfiguration() ?? []);
 			if (isset($configuration['x-openregister-notifications'][self::DUE_REMINDER_RULE_KEY]['trigger']['filter']['dueDate']) === false) {
-				$this->logger->warning('Planix: taskDueSoon rule not present on live schema, skipping window patch');
+				$this->logger->warning('Planninq: taskDueSoon rule not present on live schema, skipping window patch');
 				return;
 			}
 
@@ -129,10 +129,10 @@ class DueReminderWindowService {
 
 			$schema->setConfiguration($configuration);
 			$schemaMapper->update($schema);
-			$this->logger->info('Planix: patched taskDueSoon window to ' . $this->leadHoursToDuration(hours: $hours));
+			$this->logger->info('Planninq: patched taskDueSoon window to ' . $this->leadHoursToDuration(hours: $hours));
 		} catch (\Throwable $e) {
 			$this->logger->warning(
-				'Planix: failed to patch due-reminder window on live schema',
+				'Planninq: failed to patch due-reminder window on live schema',
 				['exception' => $e->getMessage()]
 			);
 		}//end try

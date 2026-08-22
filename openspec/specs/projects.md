@@ -11,12 +11,12 @@ retrofit_extensions:
 **Feature tier**: MVP
 
 **OpenSpec changes:**
-- [register-schemas](../changes/register-schemas/) — defines the Project schema in planix_register.json
+- [register-schemas](../changes/register-schemas/) — defines the Project schema in planninq_register.json
 - [projects](../changes/archive/2026-04-03-projects/) _(archived 2026-04-03)_ — implements the full project management UI
 
 ## Purpose
 
-A project is the top-level container for tasks and the kanban board in Planix. Projects group related work, define a team (members), and provide the kanban board (columns) that tasks flow through. Each project has exactly one implicit kanban board. Tasks without a column are in the project's backlog. Projects can optionally be linked to a Procest case for cross-app integration.
+A project is the top-level container for tasks and the kanban board in Planninq. Projects group related work, define a team (members), and provide the kanban board (columns) that tasks flow through. Each project has exactly one implicit kanban board. Tasks without a column are in the project's backlog. Projects can optionally be linked to a Procest case for cross-app integration.
 
 ## Data Model
 
@@ -61,13 +61,13 @@ The system MUST allow authenticated users to create, read, update, and archive p
 
 #### Scenario: Procest bridge — case creates project
 - GIVEN the Procest bridge is enabled in admin settings
-- WHEN a Procest case creates a linked Planix project
+- WHEN a Procest case creates a linked Planninq project
 - THEN the project MUST have `caseReference` set to the Procest case UUID
 - AND a label `[Case: {caseNumber}]` MUST be applied to the project
 
 #### Scenario: OpenRegister not installed
-- GIVEN Planix is installed but OpenRegister is not
-- WHEN any user opens Planix
+- GIVEN Planninq is installed but OpenRegister is not
+- WHEN any user opens Planninq
 - THEN the system MUST show a centered NcEmptyContent (no sidebar, no navigation) with an appropriate message
 - AND admin users MUST see an "Install OpenRegister" button linking to the Nextcloud App Store
 
@@ -120,7 +120,7 @@ The system MUST allow admins and project creators to permanently delete a projec
 - As a project creator, I want to add team members so that they can see and work on tasks
 - As a user, I want to see a list of my active projects so that I can navigate between them quickly
 - As an admin, I want to archive completed projects so that the project list stays manageable
-- As a user bridging Procest, I want a Planix project automatically created from a case so that I can track case-related tasks on a kanban board
+- As a user bridging Procest, I want a Planninq project automatically created from a case so that I can track case-related tasks on a kanban board
 - As a project creator, I want to update the project title, color, and icon so that it stays recognizable as scope evolves
 - As a project creator, I want to remove a member who has left the team, with a warning about their assigned tasks
 - As a team member, I want to leave a project I no longer contribute to so that my project list stays relevant
@@ -242,7 +242,7 @@ Default columns MUST be created by the frontend store immediately after project 
 - THEN the store MUST use the hardcoded fallback: To Do (order 0), In Progress (order 1, WIP 3), Review (order 2, WIP 2), Done (order 3, type "done")
 
 #### Scenario: Default column configuration
-- GIVEN an admin has set `default_columns` in Planix admin settings
+- GIVEN an admin has set `default_columns` in Planninq admin settings
 - WHEN a project is created
 - THEN the store MUST read the admin setting and use that column definition instead of the fallback
 
@@ -250,7 +250,7 @@ Default columns MUST be created by the frontend store immediately after project 
 
 ### Requirement: i18n Coverage [MVP]
 
-All user-visible strings in project-related components MUST be wrapped in `t('planix', '...')`.
+All user-visible strings in project-related components MUST be wrapped in `t('planninq', '...')`.
 
 #### Scenario: Translation completeness
 - GIVEN a developer adds a new user-visible string to any project component
@@ -292,7 +292,7 @@ The OpenRegister gate check MUST occur in the App root component (`App.vue`) bef
 - WHEN OpenRegister is not installed
 - THEN the entire app MUST render `NcEmptyContent` (no sidebar, no navigation) with:
   - Title: "OpenRegister is required"
-  - Description: "Planix requires OpenRegister to store its data."
+  - Description: "Planninq requires OpenRegister to store its data."
   - Action button (admin only): "Install OpenRegister" linking to the Nextcloud App Store
 
 ---
@@ -330,7 +330,7 @@ The system MUST provide a navigable Backlog route per project that renders insid
 ## Notes
 
 - Project deletion is a destructive operation — requires confirmation dialog and admin permission
-- Procest bridge integration (V1): the `caseReference` field allows a Procest case to own a Planix project; task completions may mirror back to the case status
+- Procest bridge integration (V1): the `caseReference` field allows a Procest case to own a Planninq project; task completions may mirror back to the case status
 - Admin setting `default_columns` defines which columns are created when a new project is initialized
 - Future: project templates (V1) will pre-populate columns, labels, and default tasks from a template
 - Implementation uses `thin-client` + `useObjectStore` architecture: all state is fetched from OpenRegister; no local database tables

@@ -8,7 +8,7 @@
  * WF1 (error envelope), and WF2 (owner-leave ownership handoff).
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Controller
+ * @package  OCA\Planninq\Tests\Unit\Controller
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -21,7 +21,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Controller;
+namespace OCA\Planninq\Tests\Unit\Controller;
 
 // The test double is not a *Test.php file, so PHPUnit's directory testsuite
 // never loads it and composer's psr-4 map only covers `lib/`. Require it
@@ -30,9 +30,9 @@ namespace OCA\Planix\Tests\Unit\Controller;
 // the lock file is out of date.
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 
-use OCA\Planix\Controller\ProjectController;
-use OCA\Planix\Service\SettingsService;
-use OCA\Planix\Tests\Unit\Support\ObjectServiceDouble;
+use OCA\Planninq\Controller\ProjectController;
+use OCA\Planninq\Service\SettingsService;
+use OCA\Planninq\Tests\Unit\Support\ObjectServiceDouble;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;

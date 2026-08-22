@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
  * Playwright e2e fixture seeder.
  *
  * The four board/collaboration/label/reminder specs used to self-`test.skip()`
- * whenever the environment carried no pre-existing planix data — so on every
+ * whenever the environment carried no pre-existing Planninq data — so on every
  * CI run they reported *skipped* (non-failing) instead of exercising a real
  * assertion. That is the textbook "phantom green" failure mode: gate-19 sees a
  * real `@e2e` file reference and is satisfied, but the scenario never runs.
@@ -17,7 +17,7 @@
  * container. It is invoked from `global-setup.ts` after the browser login.
  *
  * Auth: HTTP Basic (admin/admin by default), mirroring
- * `tests/integration/planix.postman_collection.json`. Basic-auth API requests
+ * `tests/integration/planninq.postman_collection.json`. Basic-auth API requests
  * bypass Nextcloud's session-cookie CSRF check, so we do not need the
  * `requesttoken` that the browser storage-state cookie jar lacks.
  *
@@ -28,6 +28,9 @@
 
 import { request, type APIRequestContext } from '@playwright/test'
 
+// The OpenRegister register SLUG, not the app id: the app id became
+// `planninq` but the register holding the live data is still slugged `planix`
+// and this release ships no register-slug migration.
 const REGISTER = 'planix'
 
 /** Stable titles used for check-then-create idempotency. */
@@ -85,7 +88,7 @@ function isoDate(days: number): string {
  *
  * @param baseURL Nextcloud base URL, resolved by tests/e2e/base-url.ts
  * @param opts    Optional admin credentials (default admin/admin)
- * @return true when seeding completed, false when planix/OpenRegister is not
+ * @return true when seeding completed, false when Planninq/OpenRegister is not
  *         installed in this environment (specs then take their legitimate
  *         "app not installed" skip path).
  */
@@ -103,7 +106,7 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 		// Authorization header until the server answers 401 *with* a
 		// `WWW-Authenticate` challenge. Nextcloud's app routes return a bare
 		// 401 with no such header, so Playwright never learned the scheme and
-		// never retried — the very first write (`POST /apps/planix/api/projects`)
+		// never retried — the very first write (`POST /apps/planninq/api/projects`)
 		// came back 401, `seedFixtures` bailed with "project create failed
 		// (status 401)", and every spec then ran against an EMPTY instance.
 		// That is why the whole 15-test regression suite failed on a fresh
@@ -127,7 +130,7 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 		// failed on its own leftovers ("expected 24, received 48"), so the test
 		// passed exactly once per container. Preconditions belong to the
 		// harness, not to whichever spec ran last.
-		const settingsReset = await ctx.post('/index.php/apps/planix/api/settings', {
+		const settingsReset = await ctx.post('/index.php/apps/planninq/api/settings', {
 			data: { due_reminder_lead_hours: '24' },
 			failOnStatusCode: false,
 		})
@@ -139,12 +142,12 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 		const objectsUrl = (schema: string) =>
 			`/index.php/apps/openregister/api/objects/${REGISTER}/${schema}`
 
-		// Probe: if the planix register/schema is absent, OR answers 4xx/5xx and
+		// Probe: if the Planninq register/schema is absent, OR answers 4xx/5xx and
 		// we bail so specs take the honest "app not installed" skip.
 		const probe = await ctx.get(objectsUrl('project'), { failOnStatusCode: false })
 		if (probe.status() >= 400) {
 			// eslint-disable-next-line no-console
-			console.log(`[seed] planix register not reachable (status ${probe.status()}); skipping fixture seed`)
+			console.log(`[seed] Planninq register not reachable (status ${probe.status()}); skipping fixture seed`)
 			return false
 		}
 
@@ -175,10 +178,10 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 		const findByTitle = (rows: OrObject[], title: string): OrObject | undefined =>
 			rows.find((r) => r.title === title)
 
-		// ── Project (via the planix policy-enforcing create proxy) ──────────
+		// ── Project (via the Planninq policy-enforcing create proxy) ────────
 		let project = findByTitle(await list('project'), FIXTURE.projectTitle)
 		if (!project) {
-			const res = await ctx.post('/index.php/apps/planix/api/projects', {
+			const res = await ctx.post('/index.php/apps/planninq/api/projects', {
 				data: {
 					title: FIXTURE.projectTitle,
 					description: 'Seeded by Playwright global-setup for real e2e assertions.',

@@ -8,13 +8,13 @@
  * not under `lib/`, is not in the composer PSR-4 map, and nothing requires it.
  *
  * Why it exists: openregister is a sibling Nextcloud app, not a composer
- * dependency, so its classes genuinely are not on the analysis path. planix
+ * dependency, so its classes genuinely are not on the analysis path. planninq
  * already declares that policy for phpstan (`- '#unknown class
  * OCA\\OpenRegister\\#'` in phpstan.neon) and for psalm (the documented
  * "OpenRegister cross-app classes (loaded dynamically)" `referencedClass`
  * block in psalm.xml); those mechanisms silence the analyzer. This stub is
  * strictly better: it supplies the REAL signatures instead, so the analyzers
- * still type-check every call planix makes into the engine.
+ * still type-check every call planninq makes into the engine.
  *
  * Every signature below is mirrored verbatim from
  * openregister/lib/AppHost/{Controller,Settings,Listener}/Generic*.php.
@@ -220,7 +220,7 @@ use OCP\Settings\IIconSection;
 /**
  * Analysis-only stub: the admin settings panel base class.
  *
- * planix's lib/Settings/AdminSettings.php extends this, which is what lets
+ * planninq's lib/Settings/AdminSettings.php extends this, which is what lets
  * `#[AuthorizedAdminSetting(settings: AdminSettings::class)]` satisfy its
  * `class-string<IDelegatedSettings>` parameter type.
  */

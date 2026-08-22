@@ -12,7 +12,7 @@
 ## 3. Wire the gate into the pipeline
 
 - [x] 3.1 Add `"check:l10n": "node tests/l10n/check-l10n-parity.js"` to `package.json` `scripts`
-- [x] 3.2 Add a step running `npm run check:l10n` to the planix CI workflow (new `l10n-parity` job in `.github/workflows/code-quality.yml`, node-20 container, runs `npm run check:l10n`) so a future missing/empty translation fails the pipeline. NOTE: the frontend lint/test run via the shared reusable `quality.yml` (not editable in-repo), so the gate is added as a planix-owned sibling job in the same workflow file.
+- [x] 3.2 Add a step running `npm run check:l10n` to the planninq CI workflow (new `l10n-parity` job in `.github/workflows/code-quality.yml`, node-20 container, runs `npm run check:l10n`) so a future missing/empty translation fails the pipeline. NOTE: the frontend lint/test run via the shared reusable `quality.yml` (not editable in-repo), so the gate is added as a planninq-owned sibling job in the same workflow file.
 - [x] 3.3 Confirm `npm run check:l10n` exits 0 locally after step 2 is complete
 
 ## 4. Verify

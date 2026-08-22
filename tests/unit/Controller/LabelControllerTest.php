@@ -8,7 +8,7 @@
  * tasksUpdated), and the error mapping for an unavailable OpenRegister.
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Controller
+ * @package  OCA\Planninq\Tests\Unit\Controller
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -23,11 +23,11 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Controller;
+namespace OCA\Planninq\Tests\Unit\Controller;
 
-use OCA\Planix\Controller\LabelController;
-use OCA\Planix\Service\LabelService;
-use OCA\Planix\Service\SettingsService;
+use OCA\Planninq\Controller\LabelController;
+use OCA\Planninq\Service\LabelService;
+use OCA\Planninq\Service\SettingsService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;

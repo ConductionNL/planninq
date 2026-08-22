@@ -14,7 +14,7 @@ updates:
 
   # Composer has no native equivalent to npm's `min-release-age`, so the
   # Composer side of the supply chain is hardened here instead (gate-93 /
-  # ADR-093). Without this block planix had a cooldown on npm only, while
+  # ADR-093). Without this block planninq had a cooldown on npm only, while
   # every PHP dependency updated with no delay at all.
   #
   # Our own packages are excluded on purpose: a cooldown protects against a

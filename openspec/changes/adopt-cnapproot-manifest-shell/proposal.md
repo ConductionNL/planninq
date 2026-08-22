@@ -2,11 +2,11 @@
 kind: code
 ---
 
-# Proposal: Planix Adopts the Shared `CnAppRoot` Shell + Manifest-v2 UI
+# Proposal: Planninq Adopts the Shared `CnAppRoot` Shell + Manifest-v2 UI
 
 ## Why
 
-Planix already adopted the OpenRegister AppHost for its backend (observability,
+Planninq already adopted the OpenRegister AppHost for its backend (observability,
 settings, repair — `openspec/changes/adopt-apphost/`), but its **frontend shell
 is 100% bespoke** and does not consume any part of the `@conduction/nextcloud-vue`
 manifest-driven UI that the rest of the fleet has standardised on (ADR-024,
@@ -31,8 +31,8 @@ Verified against HEAD:
   deep-link manifest** (ADR-040) — it carries `observability` and `deepLinks`
   blocks only. It has no `pages[]`, `widgets[]`, or `menu` block, so
   `gate-manifest-validates` (ADR-036) and gate-22 (manifest validation,
-  ADR-024) have nothing to check; planix is invisible to both gates today.
-- `find src/manifest.d` — no such directory. Planix has not adopted the
+  ADR-024) have nothing to check; planninq is invisible to both gates today.
+- `find src/manifest.d` — no such directory. Planninq has not adopted the
   ADR-037 fragment pipeline, which ADR-044 names as the **hard prerequisite**
   for `buildManifest()` / the settings-foldout / cards-collapse pattern.
 
@@ -41,7 +41,7 @@ app consumes the shared shell rather than hand-rolling router / sidebar /
 dependency-check" (ADR-022 §"Related"). ADR-036 records five apps already
 running manifest-v2 in production (decidesk, pipelinq, procest,
 zaakafhandelapp, softwarecatalog) and ADR-044 records 9+ apps on the shared
-`buildManifest` pipeline. Planix is the outlier: the smallest, youngest app in
+`buildManifest` pipeline. Planninq is the outlier: the smallest, youngest app in
 the fleet is also the only one carrying a full parallel implementation of the
 shell OR already provides generically — the exact anti-pattern ADR-022
 identifies ("Duplicate sidebar tab systems... An app registering its own
@@ -50,7 +50,7 @@ object-sidebar tabs outside the integration registry").
 This is not a hypothetical: it means every future shell improvement shipped to
 `@conduction/nextcloud-vue` (dependency-check phase, first-time-setup phase
 per ADR-042, dynamic per-tenant menus, named-view sidebar) has to be
-hand-ported into planix instead of being inherited for free.
+hand-ported into planninq instead of being inherited for free.
 
 ## What Changes
 
@@ -69,7 +69,7 @@ hand-ported into planix instead of being inherited for free.
   `CnAdminSettingsShell`, keeping the existing register/schema settings
   fields as a `config-fields` section driven by the schema already returned
   by `SettingsController::index()`.
-- Register planix's five existing views (`Dashboard`, `ProjectList`,
+- Register planninq's five existing views (`Dashboard`, `ProjectList`,
   `ProjectBoard`, `ProjectBacklog`, `TaskDetail`) in the `registry` prop with
   `kind: "page"` (escape hatch, per ADR-036 Decision 3) as an interim step;
   follow-up specs may decompose `ProjectBoard`/`ProjectBacklog` into typed
@@ -87,7 +87,7 @@ hand-ported into planix instead of being inherited for free.
   wiring in `src/main.js`.
 - Unchanged: all URLs (`/`, `/projects`, `/projects/:id`, etc.), all backend
   routes/controllers, `ProjectController`/`LabelController`/
-  `DependencyController`, `lib/Settings/planix_register.json`.
+  `DependencyController`, `lib/Settings/planninq_register.json`.
 - Enables (not required by this change): ADR-044's five-menu navigation
   layout (see the companion change `adopt-five-menu-navigation-ia`, which
   depends on this one) and, later, ADR-042's first-time-setup wizard.

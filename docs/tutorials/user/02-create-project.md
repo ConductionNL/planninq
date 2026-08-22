@@ -1,26 +1,26 @@
 ---
 sidebar_position: 2
 title: Create your first project
-description: Create a project, set its title, colour, and icon — and watch Planix seed the four default kanban columns automatically.
+description: Create a project, set its title, colour, and icon — and watch Planninq seed the four default kanban columns automatically.
 ---
 
 # Create your first project
 
-Create a project in Planix and let it scaffold the kanban board with the four default columns (*To Do*, *In Progress*, *Review*, *Done*). The project is the top-level container; tasks live inside it, on the kanban board or in the backlog.
+Create a project in Planninq and let it scaffold the kanban board with the four default columns (*To Do*, *In Progress*, *Review*, *Done*). The project is the top-level container; tasks live inside it, on the kanban board or in the backlog.
 
 ## Goal
 
-By the end you will have a project in Planix with title, description, colour, and icon set, and an empty kanban board with the four default columns ready to receive tasks.
+By the end you will have a project in Planninq with title, description, colour, and icon set, and an empty kanban board with the four default columns ready to receive tasks.
 
 ## Prerequisites
 
-- Planix open and the OpenRegister back end connected (see [Open Planix for the first time](01-first-launch.md)).
-- The Planix register initialised (an admin's one-off step — see [Manage Planix settings](../admin/03-admin-settings.md)).
+- Planninq open and the OpenRegister back end connected (see [Open Planninq for the first time](01-first-launch.md)).
+- The Planninq register initialised (an admin's one-off step — see [Manage Planninq settings](../admin/03-admin-settings.md)).
 - Optional: the default-column set configured by an admin if your team uses different columns than the defaults (see [Configure default project columns](../admin/01-configure-default-columns.md)).
 
 ## Steps
 
-1. Open **Projects** from the Planix navigation. The project list opens. Click **Create project**.
+1. Open **Projects** from the Planninq navigation. The project list opens. Click **Create project**.
 
    ![Project list with Create project button](/screenshots/tutorials/user/02-create-project-01.png)
 
@@ -34,7 +34,7 @@ By the end you will have a project in Planix with title, description, colour, an
 
    ![Create project dialog filled in](/screenshots/tutorials/user/02-create-project-02.png)
 
-3. Planix creates the project, seeds the four default columns (*To Do*, *In Progress*, *Review*, *Done*) with their colours, and navigates you to the project's board view. The board is empty; the column headers each show a count of `0` and any WIP limit the admin configured.
+3. Planninq creates the project, seeds the four default columns (*To Do*, *In Progress*, *Review*, *Done*) with their colours, and navigates you to the project's board view. The board is empty; the column headers each show a count of `0` and any WIP limit the admin configured.
 
    ![Empty kanban board, four default columns](/screenshots/tutorials/user/02-create-project-03.png)
 
@@ -57,9 +57,9 @@ The project appears in the **Projects** list with its title, colour, and icon. T
 
 | Symptom | Fix |
 |---|---|
-| **Create project** dialog doesn't open | The Planix schema isn't imported — an admin re-runs **Initialize register** in **Settings → Administration → Planix** (see [Manage Planix settings](../admin/03-admin-settings.md)). |
-| New project has different default columns than expected | Default columns are configurable per Planix instance — see [Configure default project columns](../admin/01-configure-default-columns.md). |
-| Member can't see the project after being added | They need to reload Planix; the project list filter is membership-scoped at load time. |
+| **Create project** dialog doesn't open | The Planninq schema isn't imported — an admin re-runs **Initialize register** in **Settings → Administration → Planninq** (see [Manage Planninq settings](../admin/03-admin-settings.md)). |
+| New project has different default columns than expected | Default columns are configurable per Planninq instance — see [Configure default project columns](../admin/01-configure-default-columns.md). |
+| Member can't see the project after being added | They need to reload Planninq; the project list filter is membership-scoped at load time. |
 | Cannot delete a project | Deletion cascades to columns, tasks, and time entries — the confirmation dialog displays the task count. If the project is archived, unarchive first; if you're not the owner, ask the owner. |
 | Screenshots may be missing | App not yet installed in the test environment; rerun `npm run test:e2e:docs` once it is. |
 
