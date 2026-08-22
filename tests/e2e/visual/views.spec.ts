@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
- * Visual-regression baselines for every planix page view (gate-26).
+ * Visual-regression baselines for every planninq page view (gate-26).
  *
  * One spec per component under src/views/, driven through the app's own
  * navigation — never a hand-built deep link. nav.ts records why: the router is
- * `createWebHistory` mounted at `generateUrl('/apps/planix')`, so a `#/…`
- * fragment or an `/index.php/apps/planix/<subroute>` URL matches no route and
+ * `createWebHistory` mounted at `generateUrl('/apps/planninq')`, so a `#/…`
+ * fragment or an `/index.php/apps/planninq/<subroute>` URL matches no route and
  * the catch-all silently renders the Dashboard. A visual baseline captured that
  * way would be a screenshot of the wrong screen that passes forever.
  *
@@ -22,7 +22,7 @@
 
 import { expect, test, type Page } from '@playwright/test'
 import { FIXTURE } from '../fixtures/seed'
-import { PLANIX_ROOT, openFixtureProjectBoard } from '../nav'
+import { PLANNINQ_ROOT, openFixtureProjectBoard } from '../nav'
 
 /**
  * Elements whose content is time-dependent and would churn every run.
@@ -47,7 +47,7 @@ function masks(page: Page) {
  * that fails for reasons unrelated to the code under test.
  *
  * What runs everywhere is the structural assertion: the route resolved and the
- * view painted a content surface. Set `PLANIX_VISUAL_BASELINE=1` to also
+ * view painted a content surface. Set `PLANNINQ_VISUAL_BASELINE=1` to also
  * compare screenshots locally (generate them first with --update-snapshots).
  *
  * @param page the Playwright page
@@ -62,7 +62,7 @@ async function shoot(page: Page, name: string): Promise<void> {
 	// NOT waitForLoadState('networkidle'): Nextcloud long-polls for
 	// notifications, so the network is never idle and every capture timed out
 	// at 30 s.
-	if (process.env.PLANIX_VISUAL_BASELINE !== '1') {
+	if (process.env.PLANNINQ_VISUAL_BASELINE !== '1') {
 		return
 	}
 	await expect(content).toHaveScreenshot(name, {
@@ -80,14 +80,14 @@ async function shoot(page: Page, name: string): Promise<void> {
  * @return void
  */
 async function navigateTo(page: Page, title: string): Promise<void> {
-	await page.goto(PLANIX_ROOT)
+	await page.goto(PLANNINQ_ROOT)
 	await page.locator(`#app-navigation-vue a[title="${title}"]`).click()
 }
 
-test.describe('visual baselines — planix views', () => {
+test.describe('visual baselines — planninq views', () => {
 	test('Dashboard renders its landing view @visual', async ({ page }) => {
-		await page.goto(PLANIX_ROOT)
-		await expect(page).toHaveURL(/\/apps\/planix\/?$/)
+		await page.goto(PLANNINQ_ROOT)
+		await expect(page).toHaveURL(/\/apps\/planninq\/?$/)
 		await shoot(page, 'dashboard.png')
 	})
 

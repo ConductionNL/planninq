@@ -46,20 +46,29 @@ Vrij en open source onder de EUPL-1.2-licentie.
     <licence>EUPL-1.2</licence>
     <author mail="info@conduction.nl" homepage="https://www.conduction.nl/">Conduction</author>
     <namespace>Planninq</namespace>
+    <!--
+        These are the links the Nextcloud App Store renders for this app, so a
+        dead one is dead in front of every prospective user. They pointed at the
+        retired git host the fleet has moved off, and every one of them returned
+        404 — that host never had a `planninq`, only the pre-rename `planix`.
+        Keep them on github.com/ConductionNL. (The host is not named literally
+        here: gate-94 scans this file for it, and prose is indistinguishable
+        from a shipped URL to a grep.)
+    -->
     <documentation>
-        <user>https://codeberg.org/Conduction/planninq</user>
-        <admin>https://codeberg.org/Conduction/planninq</admin>
-        <developer>https://codeberg.org/Conduction/planninq</developer>
+        <user>https://github.com/ConductionNL/planninq</user>
+        <admin>https://github.com/ConductionNL/planninq</admin>
+        <developer>https://github.com/ConductionNL/planninq</developer>
     </documentation>
     <category>organization</category>
-    <website>https://codeberg.org/Conduction/planninq</website>
-    <discussion>https://codeberg.org/Conduction/planninq/discussions</discussion>
-    <bugs>https://codeberg.org/Conduction/planninq/issues</bugs>
-    <repository>https://codeberg.org/Conduction/planninq</repository>
+    <website>https://github.com/ConductionNL/planninq</website>
+    <discussion>https://github.com/ConductionNL/planninq/discussions</discussion>
+    <bugs>https://github.com/ConductionNL/planninq/issues</bugs>
+    <repository>https://github.com/ConductionNL/planninq</repository>
 
-    <screenshot>https://codeberg.org/Conduction/planninq/raw/branch/main/docs/features/img/projects-list.png</screenshot>
-    <screenshot>https://codeberg.org/Conduction/planninq/raw/branch/main/docs/features/img/projects-create.png</screenshot>
-    <screenshot>https://codeberg.org/Conduction/planninq/raw/branch/main/docs/features/img/projects-settings.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/ConductionNL/planninq/development/docs/features/img/projects-list.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/ConductionNL/planninq/development/docs/features/img/projects-create.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/ConductionNL/planninq/development/docs/features/img/projects-settings.png</screenshot>
 
     <!-- app-info.xsd defines these as an ORDERED SEQUENCE, not a set. Both the
          children of <dependencies> and the top-level elements below must appear

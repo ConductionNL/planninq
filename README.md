@@ -9,16 +9,16 @@
 </p>
 
 <p align="center">
-  <a href="https://codeberg.org/Conduction/planninq/releases"><img src="https://img.shields.io/gitea/v/release/Conduction/planninq?gitea_url=https%3A%2F%2Fcodeberg.org" alt="Latest release"></a>
-  <a href="https://codeberg.org/Conduction/planninq/src/branch/main/LICENSE"><img src="https://img.shields.io/badge/license-EUPL--1.2-blue" alt="License"></a>
-  <a href="https://ci.codeberg.org/repos/Conduction/planninq"><img src="https://ci.codeberg.org/api/badges/Conduction/planninq/status.svg" alt="Code quality"></a>
+  <a href="https://github.com/ConductionNL/planninq/releases"><img src="https://img.shields.io/github/v/release/ConductionNL/planninq" alt="Latest release"></a>
+  <a href="https://github.com/ConductionNL/planninq/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-EUPL--1.2-blue" alt="License"></a>
+  <a href="https://github.com/ConductionNL/planninq/actions"><img src="https://img.shields.io/github/actions/workflow/status/ConductionNL/planninq/code-quality.yml?label=quality" alt="Code quality"></a>
 </p>
 
 ---
 
 Planninq is a Kanban-based project and task management app for Nextcloud, built as a thin client on OpenRegister. It manages projects, tasks, kanban boards with WIP limits, backlogs, and time entries — giving internal dev and IT teams a focused workflow tool built directly into their Nextcloud environment. Unlike Nextcloud Deck (which lacks backlog management, time tracking, and WIP limits), Planninq closes the gap between Deck's simplicity and Jira's complexity.
 
-> **Pre-wired for [OpenRegister](https://codeberg.org/Conduction/openregister)** — all data is stored as OpenRegister objects. If your app needs OpenRegister, install it first. If not, remove the dependency from `appinfo/info.xml` and `openspec/app-config.json`.
+> **Pre-wired for [OpenRegister](https://github.com/ConductionNL/openregister)** — all data is stored as OpenRegister objects. If your app needs OpenRegister, install it first. If not, remove the dependency from `appinfo/info.xml` and `openspec/app-config.json`.
 
 ## Screenshots
 
@@ -114,7 +114,7 @@ planninq/
 | Nextcloud | 31 – 33 |
 | PHP | 8.3+ |
 | Node.js | 20+ |
-| [OpenRegister](https://codeberg.org/Conduction/openregister) | latest |
+| [OpenRegister](https://github.com/ConductionNL/openregister) | latest |
 
 ## Installation
 
@@ -130,7 +130,7 @@ planninq/
 
 ```bash
 cd /var/www/html/custom_apps
-git clone https://codeberg.org/Conduction/planninq.git planninq
+git clone https://github.com/ConductionNL/planninq.git planninq
 cd planninq
 npm install && npm run build
 php occ app:enable planninq
@@ -216,7 +216,7 @@ docker exec nextcloud php occ app:enable planninq
 
 ## Related Apps
 
-- **[OpenRegister](https://codeberg.org/Conduction/openregister)** — Object storage layer (required dependency)
+- **[OpenRegister](https://github.com/ConductionNL/openregister)** — Object storage layer (required dependency)
 
 _Add related apps here as integrations are built._
 

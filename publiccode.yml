@@ -1,7 +1,7 @@
 publiccodeYmlVersion: "0.4"
 
 name: Planninq
-url: "https://codeberg.org/Conduction/planninq"
+url: "https://github.com/ConductionNL/planninq"
 softwareVersion: "0.2.1"
 releaseDate: "2026-05-26"
 developmentStatus: beta
