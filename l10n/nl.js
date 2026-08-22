@@ -1,5 +1,6 @@
-{
-    "translations": {
+OC.L10N.register(
+    "planninq",
+    {
         "Move task to another column": "Taak naar een andere kolom verplaatsen",
         "Dependencies": "Afhankelijkheden",
         "Blocked": "Geblokkeerd",
@@ -209,6 +210,5 @@
         "No tasks": "Geen taken",
         "Could not move the task. Please try again.": "De taak kon niet worden verplaatst. Probeer het opnieuw."
     },
-    "plurals": {},
-    "pluralForm": "nplurals=2; plural=(n != 1);"
-}
+    "nplurals=2; plural=(n != 1);"
+)

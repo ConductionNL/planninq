@@ -15,6 +15,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "check:l10n": "node tests/l10n/check-l10n-parity.js",
+    "l10n:build": "node scripts/build-l10n-js.js",
+    "check:l10n-js": "node scripts/build-l10n-js.js --check",
     "test:e2e": "playwright test",
     "test:e2e:docs": "playwright test --project docs-capture",
     "test:e2e:install": "playwright install chromium",

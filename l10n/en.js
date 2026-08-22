@@ -1,5 +1,6 @@
-{
-    "translations": {
+OC.L10N.register(
+    "planninq",
+    {
         "Move task to another column": "Move task to another column",
         "Dependencies": "Dependencies",
         "Blocked": "Blocked",
@@ -201,6 +202,5 @@
         "No tasks": "No tasks",
         "Could not move the task. Please try again.": "Could not move the task. Please try again."
     },
-    "plurals": {},
-    "pluralForm": "nplurals=2; plural=(n != 1);"
-}
+    "nplurals=2; plural=(n != 1);"
+)
