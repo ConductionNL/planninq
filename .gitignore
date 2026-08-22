@@ -107,3 +107,8 @@ openspec/test-site-results/**/*.jpeg
 openspec/test-site-results/**/*.gif
 openspec/test-site-results/**/*.webp
 composer.phar
+
+# Playwright visual baselines are renderer-specific: a PNG generated on a
+# developer's machine fails CI on font/rasterisation differences alone. Capture
+# them locally with PLANIX_VISUAL_BASELINE=1 --update-snapshots; do not commit.
+tests/e2e/**/*-snapshots/
