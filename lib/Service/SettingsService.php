@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Planix Settings Service
+ * Planninq Settings Service
  *
- * Service for managing Planix application configuration and settings.
+ * Service for managing Planninq application configuration and settings.
  *
  * @category Service
- * @package  OCA\Planix\Service
+ * @package  OCA\Planninq\Service
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -25,9 +25,9 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Service;
+namespace OCA\Planninq\Service;
 
-use OCA\Planix\AppInfo\Application;
+use OCA\Planninq\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -37,7 +37,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Service for managing Planix application configuration and settings.
+ * Service for managing Planninq application configuration and settings.
  *
  * @spec openspec/specs/admin-user-settings.md
  */
@@ -248,7 +248,7 @@ class SettingsService {
 				$validated = $this->validateDefaultColumns(raw: $value);
 				if ($validated === null) {
 					$this->logger->warning(
-						'Planix: invalid default_columns value rejected',
+						'Planninq: invalid default_columns value rejected',
 						['raw' => $value]
 					);
 					continue;
@@ -261,7 +261,7 @@ class SettingsService {
 				$validated = $this->validateLeadHours(raw: $value);
 				if ($validated === null) {
 					$this->logger->warning(
-						'Planix: invalid due_reminder_lead_hours value rejected',
+						'Planninq: invalid due_reminder_lead_hours value rejected',
 						['raw' => $value]
 					);
 					continue;
@@ -478,7 +478,7 @@ class SettingsService {
 		try {
 			return $this->container->get('OCA\OpenRegister\Service\Notification\NotificationPreferenceService');
 		} catch (\Throwable $e) {
-			$this->logger->info('Planix: NotificationPreferenceService unavailable', ['exception' => $e->getMessage()]);
+			$this->logger->info('Planninq: NotificationPreferenceService unavailable', ['exception' => $e->getMessage()]);
 			return null;
 		}
 
@@ -499,7 +499,7 @@ class SettingsService {
 		$preferenceService = $this->getNotificationPreferenceService();
 		if ($preferenceService === null) {
 			$this->logger->info(
-				'Planix: OpenRegister unavailable, notify_due_reminder override skipped',
+				'Planninq: OpenRegister unavailable, notify_due_reminder override skipped',
 				['user' => $userId]
 			);
 			return false;
@@ -515,7 +515,7 @@ class SettingsService {
 			return true;
 		} catch (\Throwable $e) {
 			$this->logger->warning(
-				'Planix: failed to write notify_due_reminder OR override',
+				'Planninq: failed to write notify_due_reminder OR override',
 				['user' => $userId, 'exception' => $e->getMessage()]
 			);
 			return false;

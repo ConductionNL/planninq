@@ -1,21 +1,21 @@
 <?php
 
 /**
- * Planix TaskActivityListener.
+ * Planninq TaskActivityListener.
  *
- * Listens for OpenRegister object events and publishes planix task lifecycle
+ * Listens for OpenRegister object events and publishes Planninq task lifecycle
  * events (created / status changed / assigned / due date changed / deleted)
  * into the Nextcloud Activity stream for the task's project members.
  *
  * This is an activity-stream record — NOT a notification (ADR-031 / gate-18).
  * It never calls the notification engine; it only renders history into the
  * Activity app via {@see \OCP\Activity\IManager}. The listener is scoped to the
- * planix register's `task` schema and is defensively wrapped so a malformed
+ * Planninq register's `task` schema and is defensively wrapped so a malformed
  * event or unavailable dependency can never break OpenRegister's event
  * dispatch.
  *
  * @category Listener
- * @package  OCA\Planix\Listener
+ * @package  OCA\Planninq\Listener
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -30,11 +30,12 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Listener;
+namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectCreatedEvent;
 use OCA\OpenRegister\Event\ObjectDeletedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
+use OCA\Planninq\AppInfo\Application;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -42,7 +43,7 @@ use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
- * Publishes planix task activity from OpenRegister object events.
+ * Publishes Planninq task activity from OpenRegister object events.
  *
  * @implements IEventListener<Event>
  *
@@ -50,11 +51,14 @@ use Psr\Log\LoggerInterface;
  */
 class TaskActivityListener implements IEventListener {
 	/**
-	 * The activity app type planix publishes under.
+	 * The activity app type this app publishes under.
+	 *
+	 * Renamed with the app id, in lockstep with Activity\Filter::ACTIVITY_TYPE
+	 * and the `app` column stamped in publish() below — see the note there.
 	 *
 	 * @var string
 	 */
-	private const ACTIVITY_TYPE = 'planix_task';
+	private const ACTIVITY_TYPE = 'planninq_task';
 
 	/**
 	 * Constructor.
@@ -106,16 +110,16 @@ class TaskActivityListener implements IEventListener {
 				$this->onChange(object: $event->getObject(), old: null, deleted: true);
 			}
 		} catch (\Throwable $e) {
-			// OR's dispatch must never break because planix activity failed.
+			// OR's dispatch must never break because Planninq activity failed.
 			$this->logger->warning(
-				'Planix: task activity listener skipped an event',
+				'Planninq: task activity listener skipped an event',
 				['exception' => $e->getMessage()]
 			);
 		}//end try
 	}//end handle()
 
 	/**
-	 * Process one object change: scope to the planix task schema, pick the
+	 * Process one object change: scope to the Planninq task schema, pick the
 	 * subject, resolve the audience and publish.
 	 *
 	 * @param object $object The (new) object entity.
@@ -127,7 +131,7 @@ class TaskActivityListener implements IEventListener {
 	private function onChange(object $object, ?array $old, bool $deleted): void {
 		$registerId = (string)($object->getRegister() ?? '');
 		$schemaId = (string)($object->getSchema() ?? '');
-		if ($this->scopeResolver->isPlanixTask(registerId: $registerId, schemaId: $schemaId) === false) {
+		if ($this->scopeResolver->isPlanninqTask(registerId: $registerId, schemaId: $schemaId) === false) {
 			return;
 		}
 
@@ -259,7 +263,12 @@ class TaskActivityListener implements IEventListener {
 	): void {
 		try {
 			$event = $this->activityManager->generateEvent();
-			$event->setApp('planix')
+			// The app id was a hardcoded literal here before the planninq
+			// rename, which is exactly how it could have drifted from
+			// Application::APP_ID unnoticed — Activity\Filter::allowedApps()
+			// narrows the stream on APP_ID, so a mismatch silently empties the
+			// filter. It now reads the constant so the two cannot diverge.
+			$event->setApp(Application::APP_ID)
 				->setType(self::ACTIVITY_TYPE)
 				->setAuthor($actor)
 				->setTimestamp(time())
@@ -269,7 +278,7 @@ class TaskActivityListener implements IEventListener {
 
 			$this->activityManager->publish($event);
 		} catch (\Throwable $e) {
-			$this->logger->warning('Planix: failed to publish task activity', ['exception' => $e->getMessage()]);
+			$this->logger->warning('Planninq: failed to publish task activity', ['exception' => $e->getMessage()]);
 		}
 	}//end publish()
 

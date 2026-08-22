@@ -1,8 +1,8 @@
 # Feature Specs
 
-Feature specs define what Planix should do — they are the input for OpenSpec changes when you are ready to build.
+Feature specs define what Planninq should do — they are the input for OpenSpec changes when you are ready to build.
 
-Specs are created and refined during `/opsx:app-explore planix` sessions.
+Specs are created and refined during `/opsx:app-explore planninq` sessions.
 
 ## Feature Lifecycle
 

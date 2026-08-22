@@ -40,20 +40,25 @@ phpqa_output.log
 *.xls
 *.xlsx
 
-# Files with unusual extensions or no extensions that could be mistakes
+# Files with unusual extensions or no extensions that could be mistakes.
+#
+# These patterns exist to catch junk a shell redirect leaves behind, so they
+# are deliberately limited to shapes a source file never has: a space in the
+# name, or an exact extensionless name. Substring globs were removed after
+# `**/*references*` silently swallowed `lib/Repair/MigrateUserPreferences.php`
+# and its test — "Preferences" contains "references". `git add` skips an
+# ignored file without a word, so the class stayed missing while info.xml
+# went on registering it, which fatals on install rather than failing a gate.
+# The same trap was waiting in `**/*Analysis*` (any AnalysisService),
+# `**/setup*` (setupWizard), `**/clearCache*`, `**/*encoding*` and
+# `**/update*Settings*`. If a junk file slips through now, ignore it by its
+# exact path rather than reintroducing a substring glob.
 **/PR *
 **/adds *
 **/implements *
 **/ALL *
 **/endpoints *
-**/*Analysis*
-**/*references*
-**/*encoding*
 **/ter
-**/clearCache*
-**/update*Settings*
-**/rebase*
-**/setup*
 
 # Temporary test files that shouldn't be committed
 simple-solr-test.php
@@ -85,7 +90,7 @@ docker/dolphin/models/
 # ⚠️ Do NOT copy the opencatalogi reference and add `/playwright-report/` and
 # `/test-results/` at the app root. That repo moved its CI config's outputDir to
 # the app root because the shared workflow uploads
-# `server/apps/<app>/{playwright-report,test-results}/`. In planix the app-root
+# `server/apps/<app>/{playwright-report,test-results}/`. In planninq the app-root
 # `test-results/` directory is TRACKED — it holds the persona test reports the
 # rules just below deliberately keep in git — so pointing Playwright at it would
 # drop trace folders into a documentation directory and `/test-results/` here

@@ -6,7 +6,7 @@ description: Drag cards across columns, configure WIP limits, switch between boa
 
 # Work with the kanban board
 
-The kanban board is Planix's primary view of a project's work. Tasks live as cards in columns; you drag cards between columns to update their status. Each column can carry a WIP limit (work-in-progress) — a soft cap that flags when a column is overloaded so the team can pull rather than push.
+The kanban board is Planninq's primary view of a project's work. Tasks live as cards in columns; you drag cards between columns to update their status. Each column can carry a WIP limit (work-in-progress) — a soft cap that flags when a column is overloaded so the team can pull rather than push.
 
 ## Goal
 
@@ -14,7 +14,7 @@ By the end you will have a populated kanban board, dragged a card between column
 
 ## Prerequisites
 
-- A project in Planix with at least one task (see [Add and manage tasks](04-manage-tasks.md) if you need to add some first).
+- A project in Planninq with at least one task (see [Add and manage tasks](04-manage-tasks.md) if you need to add some first).
 - Member of the project — only members can see the board.
 
 ## Steps

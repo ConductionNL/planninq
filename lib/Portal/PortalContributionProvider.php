@@ -1,30 +1,30 @@
 <?php
 
 /**
- * Planix Portal Contribution Provider
+ * Planninq Portal Contribution Provider
  *
- * Planix's contribution to the shared Portaliq external portal (hydra ADR-046 +
+ * Planninq's contribution to the shared Portaliq external portal (hydra ADR-046 +
  * contribution contract v2.1). Portaliq — the ONE shared portal for people
  * WITHOUT Nextcloud accounts — discovers this class by convention FQCN
  * (`OCA\{Namespace}\Portal\PortalContributionProvider`) and duck-types it via
  * method_exists(), never instanceof. This class is therefore deliberately
  * PLAIN: no portaliq imports, no `implements` clause, no info.xml dependency,
  * no constructor dependencies. Without portaliq installed it is inert and
- * planix behaves exactly as before.
+ * Planninq behaves exactly as before.
  *
  * It declares — for the single `external-employee` (contractor) audience — the
  * OpenRegister collections a portal subject may read and the whitelisted
  * create-action they may perform. Scoping uses the UUID domain-ref properties
  * added by the portal-identity change (`task.contractorRef`,
  * `timeEntry.contractorRef`, `project.contractorRefs`) — NEVER the Nextcloud
- * user ids planix uses internally (`task.assignedTo`, `timeEntry.user`,
+ * user ids Planninq uses internally (`task.assignedTo`, `timeEntry.user`,
  * `project.members`), because external contractors have no Nextcloud account by
  * premise (ADR-046 amendment A4). Rows whose contractorRef is unset are
  * invisible to the portal (fail-closed); see
  * openspec/changes/portal-contribution/design.md.
  *
  * @category Portal
- * @package  OCA\Planix\Portal
+ * @package  OCA\Planninq\Portal
  *
  * @author    Conduction Development Team <info@conduction.nl>
  * @copyright 2026 Conduction B.V.
@@ -42,10 +42,10 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Portal;
+namespace OCA\Planninq\Portal;
 
 /**
- * Declares what an external portal subject may see and do in planix.
+ * Declares what an external portal subject may see and do in Planninq.
  *
  * The contribution is a declarative manifest (pure data — no I/O, no
  * callbacks). All subject identity (subjectRef, audience, organisation, trust)
@@ -72,6 +72,10 @@ class PortalContributionProvider {
 	/**
 	 * The OpenRegister register slug every collection below lives in.
 	 *
+	 * Deliberately still the PRE-RENAME `planix`. The app id became `planninq`,
+	 * but the register holding the live data is still slugged `planix` and this
+	 * release ships no register-slug migration.
+	 *
 	 * @var string
 	 */
 	private const REGISTER = 'planix';
@@ -79,9 +83,9 @@ class PortalContributionProvider {
 	/**
 	 * The audiences this provider contributes to (contract v2, preferred).
 	 *
-	 * The registry probes for this method first. Planix serves external
+	 * The registry probes for this method first. Planninq serves external
 	 * contractors (`external-employee`) only — the client project-view is
-	 * deliberately out of scope (no client reference exists in the planix
+	 * deliberately out of scope (no client reference exists in the Planninq
 	 * data model).
 	 *
 	 * @return array<int, string> The audience identifiers.
@@ -111,7 +115,7 @@ class PortalContributionProvider {
 	 *
 	 * The subject array is server-derived by portaliq (subjectRef UUID,
 	 * audience, organisation, trust level low|substantial|high). Returns null
-	 * for any audience planix does not serve (fail-closed; the registry already
+	 * for any audience Planninq does not serve (fail-closed; the registry already
 	 * filters by audience, but a provider must not rely on that). No `minTrust`
 	 * threshold is declared, so every collection defaults to low trust — a
 	 * contractor bearing a resolved `contractorRef` claim is sufficient.
@@ -152,7 +156,7 @@ class PortalContributionProvider {
 	 */
 	private function externalEmployeeContribution(): array {
 		return [
-			'label' => 'Planix',
+			'label' => 'Planninq',
 			'collections' => [
 				[
 					'id' => 'contractorTasks',

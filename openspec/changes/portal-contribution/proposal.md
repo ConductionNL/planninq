@@ -6,17 +6,17 @@ depends_on:
 
 # Proposal: portal-contribution
 
-**Tracking:** Conduction/planix#19 (Wave-3 portaliq contribution — leave open).
+**Tracking:** Conduction/planninq#19 (Wave-3 portaliq contribution — leave open).
 
 ## Summary
 
-Ship planix's ADR-046 portal contribution: one plain, dependency-free class
+Ship planninq's ADR-046 portal contribution: one plain, dependency-free class
 (`lib/Portal/PortalContributionProvider.php`) that declares what an external
-**contractor** (`external-employee` audience) may see and do in planix — read
+**contractor** (`external-employee` audience) may see and do in planninq — read
 their own tasks, their own time entries and the projects they are attached to,
 and log time — all scoped by the UUID domain refs the `portal-identity` change
 added. No portaliq import, no `implements`, no `info.xml` dependency: the class
-is inert unless portaliq is installed. This is the **code** link of the planix
+is inert unless portaliq is installed. This is the **code** link of the planninq
 portal chain and `depends_on` `portal-identity`.
 
 ## Motivation
@@ -24,7 +24,7 @@ portal chain and `depends_on` `portal-identity`.
 ADR-046 establishes portaliq as the single external portal for people without
 Nextcloud accounts; its contribution contract (v2.1) has domain apps contribute
 one duck-typed class discovered by FQCN — no build- or install-time coupling, so
-portal support is always optional (amendment A1). Planix is a low-medium-priority
+portal support is always optional (amendment A1). Planninq is a low-medium-priority
 portal target with exactly one honest external audience: the external contractor
 who needs to see the work assigned to them and log time against it. This change
 delivers that audience and nothing speculative — the `portal-identity` change
@@ -32,13 +32,13 @@ made the scoping possible; this one makes it real.
 
 ## Affected Projects
 
-- [x] Project: `planix` — new `lib/Portal/PortalContributionProvider.php`, new `tests/unit/Portal/PortalContributionProviderTest.php`. Reads the `contractorRef`/`contractorRefs` properties added by `portal-identity`. No routes, controllers, services, frontend, or info.xml changes.
+- [x] Project: `planninq` — new `lib/Portal/PortalContributionProvider.php`, new `tests/unit/Portal/PortalContributionProviderTest.php`. Reads the `contractorRef`/`contractorRefs` properties added by `portal-identity`. No routes, controllers, services, frontend, or info.xml changes.
 
 ## Scope
 
 ### In Scope
 
-- A plain `OCA\Planix\Portal\PortalContributionProvider` class exposing
+- A plain `OCA\Planninq\Portal\PortalContributionProvider` class exposing
   `getAudiences(): array` → `['external-employee']`, `getAudience(): string` →
   `'external-employee'`, and `getContribution(array $subject): ?array`.
 - A declarative `external-employee` manifest, all scoped by the `contractorRef`
@@ -60,12 +60,12 @@ made the scoping possible; this one makes it real.
 ### Out of Scope
 
 - Any portal UI, auth edge, inbox, or rendering — portaliq owns the entire
-  external surface (ADR-046); planix ships zero portal frontend.
+  external surface (ADR-046); planninq ships zero portal frontend.
 - The register scoping properties themselves — delivered by `portal-identity`
   (this change `depends_on` it).
-- A **client** project-view audience — no client reference exists in the planix
+- A **client** project-view audience — no client reference exists in the planninq
   data model, so none is invented (scope note).
-- An inbox surface — planix task notifications are Nextcloud `IManager`
+- An inbox surface — planninq task notifications are Nextcloud `IManager`
   notifications keyed by the NC uid `assignedTo`, not a per-subject OR collection
   scoped by `contractorRef`; there is nothing resolvable to declare as
   `kind: 'inbox'` (documented in design).
@@ -74,8 +74,8 @@ made the scoping possible; this one makes it real.
 ## Approach
 
 Duck-typed discovery per amendment A1: portaliq's registry resolves
-`OCA\Planix\Portal\PortalContributionProvider` by FQCN (`ucfirst('planix')` →
-`Planix`, matching the composer PSR-4 namespace) and probes it with
+`OCA\Planninq\Portal\PortalContributionProvider` by FQCN (`ucfirst('planninq')` →
+`Planninq`, matching the composer PSR-4 namespace) and probes it with
 `method_exists`. The provider is a plain class with the three contract methods
 and nothing else; the contribution is a pure-data manifest. Scoping follows
 amendment A4: reads match `contractorRef` (the contractor contact UUID), never a
@@ -123,6 +123,6 @@ drift-pin asserts every projected field is a real schema property.
 ## Rollback Strategy
 
 Delete `lib/Portal/` and `tests/unit/Portal/`. Without the provider class,
-portaliq discovery finds nothing and the portal shows no planix section — the
+portaliq discovery finds nothing and the portal shows no planninq section — the
 app itself is unaffected. The `portal-identity` properties are additive and can
 stay or be reverted independently.

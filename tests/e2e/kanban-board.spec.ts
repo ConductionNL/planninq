@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
  * E2E (UI-only) coverage for the kanban board due-date warning badge.
@@ -20,7 +20,7 @@
  * The board surface is seeded by `tests/e2e/global-setup.ts` (via
  * `fixtures/seed.ts`): one project the admin is a member of, its default
  * columns, and a due-date spread of tasks (one approaching, one overdue, one
- * far-future). Only the legitimate "planix not installed" skip remains — once
+ * far-future). Only the legitimate "planninq not installed" skip remains — once
  * the app answers, the board and its cards MUST be present, so those former
  * skip guards are now hard `expect(...)` assertions.
  */
@@ -31,7 +31,7 @@ import { openFixtureProjectBoard } from './nav'
 // Open the kanban board of the first reachable project.
 //
 // The previous implementation loaded the app root and clicked
-// `a[href*="/projects/"]`, guarded by `if (count > 0)`. Planix renders project
+// `a[href*="/projects/"]`, guarded by `if (count > 0)`. Planninq renders project
 // rows as `<li class="project-list-item">` with a router-push click handler and
 // has no project anchors at all, so that locator matched nothing, the guard
 // swallowed it, and the test asserted the board while still sitting on the

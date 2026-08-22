@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Planix Timeline Controller
+ * Planninq Timeline Controller
  *
  * Read-only HTTP surface for the per-project Gantt / timeline view. Returns a
  * project's tasks laid out for a time axis — each with its `startDate`,
@@ -17,7 +17,7 @@
  * `task` schema and the archived `task-dependencies` capability already store.
  *
  * @category Controller
- * @package  OCA\Planix\Controller
+ * @package  OCA\Planninq\Controller
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -32,9 +32,9 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Controller;
+namespace OCA\Planninq\Controller;
 
-use OCA\Planix\AppInfo\Application;
+use OCA\Planninq\AppInfo\Application;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -59,14 +59,18 @@ use Psr\Log\LoggerInterface;
 class TimelineController extends Controller {
 
 	/**
-	 * OpenRegister register slug owning the planix schemas.
+	 * OpenRegister register slug owning the Planninq schemas.
+	 *
+	 * Deliberately still the PRE-RENAME `planix`. The app id became `planninq`,
+	 * but the register holding the live data is still slugged `planix` and this
+	 * release ships no register-slug migration.
 	 *
 	 * @var string
 	 */
 	private const REGISTER = 'planix';
 
 	/**
-	 * OpenRegister ObjectService FQCN, resolved at runtime so planix carries no
+	 * OpenRegister ObjectService FQCN, resolved at runtime so planninq carries no
 	 * compile-time dependency on the openregister package (ADR-022).
 	 *
 	 * @var string
@@ -123,7 +127,7 @@ class TimelineController extends Controller {
 		try {
 			$objectService = $this->container->get(self::OR_OBJECT_SERVICE);
 		} catch (\Throwable $e) {
-			$this->logger->error('Planix: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
+			$this->logger->error('Planninq: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
 			return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
 		}
 

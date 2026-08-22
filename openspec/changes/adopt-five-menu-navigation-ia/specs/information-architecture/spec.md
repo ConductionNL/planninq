@@ -21,7 +21,7 @@ risk-register as follow-ups).
 
 ### Requirement: Five Top-Level Menus, No Functionality Loss
 
-Planix SHALL present exactly five top-level navigation menus — Mijn werk,
+Planninq SHALL present exactly five top-level navigation menus — Mijn werk,
 Borden, Projecten, Portfolio, Beheer — and every route reachable before this
 change SHALL remain reachable after it (ADR-044 hard rule).
 
@@ -31,7 +31,7 @@ change SHALL remain reachable after it (ADR-044 hard rule).
 - **WHEN** the app shell renders
 - **THEN** the sidebar MUST show Mijn werk, Borden, Projecten, Portfolio (and
   Beheer only if the role check in the next requirement allows it)
-- @e2e planix/tests/e2e/navigation-ia.spec.ts
+- @e2e planninq/tests/e2e/navigation-ia.spec.ts
 
 #### Scenario: No route is lost in the relabel
 
@@ -39,7 +39,7 @@ change SHALL remain reachable after it (ADR-044 hard rule).
   `/projects/:id/backlog`, `/projects/:id/tasks/:taskId`
 - **WHEN** the five-menu navigation is live
 - **THEN** every one of those URLs MUST still resolve to its original view
-- @e2e planix/tests/e2e/navigation-ia.spec.ts
+- @e2e planninq/tests/e2e/navigation-ia.spec.ts
 
 ### Requirement: Beheer Visibility Is Role-Graded
 
@@ -53,7 +53,7 @@ Nextcloud admins.
   project lead
 - **WHEN** the sidebar renders
 - **THEN** the Beheer menu item MUST NOT be shown
-- @e2e planix/tests/e2e/navigation-ia.spec.ts
+- @e2e planninq/tests/e2e/navigation-ia.spec.ts
 
 #### Scenario: Admin sees an editable Beheer
 
@@ -61,7 +61,7 @@ Nextcloud admins.
 - **WHEN** the admin opens Beheer
 - **THEN** the settings fields MUST be editable, matching the existing admin
   settings behaviour
-- @e2e planix/tests/e2e/navigation-ia.spec.ts
+- @e2e planninq/tests/e2e/navigation-ia.spec.ts
 
 ### Requirement: Borden Lists Only the User's Projects
 
@@ -74,7 +74,7 @@ board component.
 - **GIVEN** a user who is a member of 2 of the 5 projects on the instance
 - **WHEN** the user opens Borden
 - **THEN** exactly 2 cards MUST render, each linking to `/projects/:id`
-- @e2e planix/tests/e2e/boards-index.spec.ts
+- @e2e planninq/tests/e2e/boards-index.spec.ts
 
 ### Requirement: Portfolio Landing Shows Capacity MVP
 
@@ -87,4 +87,4 @@ existing `project`/`task` OR objects, with no bespoke aggregation service.
 - **GIVEN** a project with 3 members, 10 open tasks, 2 overdue
 - **WHEN** the user opens Portfolio
 - **THEN** the project's card MUST show member count 3, open 10, overdue 2
-- @e2e planix/tests/e2e/portfolio-mvp.spec.ts
+- @e2e planninq/tests/e2e/portfolio-mvp.spec.ts

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Planix Label Controller
+ * Planninq Label Controller
  *
  * Admin-only endpoints for the two label operations that need server logic
  * beyond OpenRegister object CRUD (ADR-022 / gate-17):
@@ -15,7 +15,7 @@
  * isCurrentUserAdmin() body check provides defence-in-depth.
  *
  * @category Controller
- * @package  OCA\Planix\Controller
+ * @package  OCA\Planninq\Controller
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -30,12 +30,12 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Controller;
+namespace OCA\Planninq\Controller;
 
-use OCA\Planix\AppInfo\Application;
-use OCA\Planix\Service\LabelService;
-use OCA\Planix\Service\SettingsService;
-use OCA\Planix\Settings\AdminSettings;
+use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\LabelService;
+use OCA\Planninq\Service\SettingsService;
+use OCA\Planninq\Settings\AdminSettings;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;

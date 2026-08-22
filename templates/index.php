@@ -2,7 +2,7 @@
 
 use OCP\Util;
 
-$appId = OCA\Planix\AppInfo\Application::APP_ID;
+$appId = OCA\Planninq\AppInfo\Application::APP_ID;
 Util::addScript($appId, $appId . '-main');
 
 // Host element for the Vue 3 SPA. Deliberately NOT `id="content"`: that id
@@ -11,4 +11,4 @@ Util::addScript($appId, $appId . '-main');
 // mount() renders INSIDE it, which would nest the whole app inside core's
 // #content and break the NcContent layout. See src/main.js.
 ?>
-<div id="planix-app"></div>
+<div id="planninq-app"></div>

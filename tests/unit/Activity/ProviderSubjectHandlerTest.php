@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Unit tests for the planix Activity ProviderSubjectHandler.
+ * Unit tests for the Planninq Activity ProviderSubjectHandler.
  *
  * Verifies that every handled subject (created / status changed / assigned /
  * due date changed / deleted) is rendered with both a parsed subject and a rich
@@ -9,7 +9,7 @@
  * the IL10N translator — without leaking unsubstituted placeholders.
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Activity
+ * @package  OCA\Planninq\Tests\Unit\Activity
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -24,9 +24,9 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Activity;
+namespace OCA\Planninq\Tests\Unit\Activity;
 
-use OCA\Planix\Activity\ProviderSubjectHandler;
+use OCA\Planninq\Activity\ProviderSubjectHandler;
 use OCP\Activity\IEvent;
 use OCP\IL10N;
 use PHPUnit\Framework\TestCase;

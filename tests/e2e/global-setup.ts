@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
  * Playwright globalSetup — logs into Nextcloud once and persists the
@@ -30,12 +30,12 @@ import { seedFixtures } from './fixtures/seed'
 const AUTH_DIR = path.resolve(__dirname, '.auth')
 const STORAGE_STATE = path.join(AUTH_DIR, 'admin.json')
 const APP_ROOT = path.resolve(__dirname, '..', '..')
-const BUNDLE_PATH = path.join(APP_ROOT, 'js', 'planix-main.js')
+const BUNDLE_PATH = path.join(APP_ROOT, 'js', 'planninq-main.js')
 
 /**
- * Ensure the webpack bundle exists before specs hit `/apps/planix/`.
+ * Ensure the webpack bundle exists before specs hit `/apps/planninq/`.
  *
- * Without `js/planix-main.js` the rendered page loads a 404 script tag,
+ * Without `js/planninq-main.js` the rendered page loads a 404 script tag,
  * the Vue app never mounts, and every selector wait times out with a
  * misleading "element not found".
  *
@@ -180,7 +180,7 @@ export default async function globalSetup(config: FullConfig): Promise<void> {
 	// Seed the fixture project/columns/tasks/label the board, collaboration,
 	// label and reminder specs assert against — so their tightened
 	// `expect(...).not.toHaveCount(0)` guards resolve on a fresh container
-	// instead of self-skipping. Idempotent; a false return means planix isn't
+	// instead of self-skipping. Idempotent; a false return means planninq isn't
 	// installed here and specs take their legitimate "app not installed" skip.
 	try {
 		await seedFixtures(baseURL, { username, password })

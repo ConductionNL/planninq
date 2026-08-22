@@ -5,7 +5,7 @@
  *
  * WHY THIS EXISTS
  * ---------------
- * Planix resolves OpenRegister's `ObjectService` from the container by FQCN
+ * Planninq resolves OpenRegister's `ObjectService` from the container by FQCN
  * string so it carries no compile-time dependency on the openregister package.
  * That means the unit tests cannot `createMock(ObjectService::class)` — the
  * class is not on the classpath — and they used
@@ -31,11 +31,11 @@
  * whole point of the duck-typed container lookup.
  *
  * Keep the PARAMETER NAMES in sync with OpenRegister. They are the contract
- * planix depends on; a rename upstream is exactly the breakage this double now
+ * planninq depends on; a rename upstream is exactly the breakage this double now
  * catches instead of hiding.
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Support
+ * @package  OCA\Planninq\Tests\Unit\Support
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2026 Conduction B.V.
@@ -48,7 +48,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Support;
+namespace OCA\Planninq\Tests\Unit\Support;
 
 /**
  * Signature-faithful stand-in for \OCA\OpenRegister\Service\ObjectService.

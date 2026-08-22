@@ -6,11 +6,11 @@
 **Feature tier**: MVP
 
 **OpenSpec changes:**
-- [register-schemas](../changes/register-schemas/) — defines the Task schema in planix_register.json
+- [register-schemas](../changes/register-schemas/) — defines the Task schema in planninq_register.json
 
 ## Purpose
 
-Tasks are the core unit of work in Planix. A task represents a discrete piece of work with a title, description, assignee, due date, priority, and status. Tasks belong to a project and may be placed in a kanban column or held in the backlog. Users create tasks to track and coordinate work across a dev or IT team.
+Tasks are the core unit of work in Planninq. A task represents a discrete piece of work with a title, description, assignee, due date, priority, and status. Tasks belong to a project and may be placed in a kanban column or held in the backlog. Users create tasks to track and coordinate work across a dev or IT team.
 
 ## Data Model
 

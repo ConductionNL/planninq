@@ -2,7 +2,7 @@
 	<div class="timesheet">
 		<div class="timesheet__header">
 			<h2 class="timesheet__title">
-				{{ t('planix', 'Timesheet') }}
+				{{ t('planninq', 'Timesheet') }}
 			</h2>
 			<div class="timesheet__filter">
 				<!-- `@input` is dead on @nextcloud/vue@9's NcSelect: it wraps
@@ -14,7 +14,7 @@
 					v-model="preset"
 					:options="presetOptions"
 					:clearable="false"
-					:input-label="t('planix', 'Date range')"
+					:input-label="t('planninq', 'Date range')"
 					label="label"
 					@update:modelValue="onPresetChange" />
 				<template v-if="preset && preset.id === 'custom'">
@@ -22,17 +22,17 @@
 						v-model="customFrom"
 						type="date"
 						class="timesheet__date"
-						:aria-label="t('planix', 'From date')"
+						:aria-label="t('planninq', 'From date')"
 						@change="applyCustomRange">
 					<input
 						v-model="customTo"
 						type="date"
 						class="timesheet__date"
-						:aria-label="t('planix', 'To date')"
+						:aria-label="t('planninq', 'To date')"
 						@change="applyCustomRange">
 				</template>
 				<span class="timesheet__range-total">
-					{{ t('planix', 'Total: {total}', { total: formatMinutes(rangeTotal) }) }}
+					{{ t('planninq', 'Total: {total}', { total: formatMinutes(rangeTotal) }) }}
 				</span>
 			</div>
 		</div>
@@ -43,8 +43,8 @@
 
 		<NcEmptyContent
 			v-else-if="groups.length === 0"
-			:name="t('planix', 'No time logged')"
-			:description="t('planix', 'Log time on a task to see it here.')">
+			:name="t('planninq', 'No time logged')"
+			:description="t('planninq', 'Log time on a task to see it here.')">
 			<template #icon>
 				<ClockOutline :size="20" />
 			</template>
@@ -138,10 +138,10 @@ export default {
 		 */
 		presetOptions() {
 			return [
-				{ id: 'this-week', label: this.t('planix', 'This week') },
-				{ id: 'last-week', label: this.t('planix', 'Last week') },
-				{ id: 'all', label: this.t('planix', 'All time') },
-				{ id: 'custom', label: this.t('planix', 'Custom range') },
+				{ id: 'this-week', label: this.t('planninq', 'This week') },
+				{ id: 'last-week', label: this.t('planninq', 'Last week') },
+				{ id: 'all', label: this.t('planninq', 'All time') },
+				{ id: 'custom', label: this.t('planninq', 'Custom range') },
 			]
 		},
 
@@ -236,6 +236,10 @@ export default {
 		 */
 		async resolveTasks() {
 			const objectStore = useObjectStore()
+			// The third argument is the OpenRegister register SLUG, not the app
+			// id: the app id became `planninq` but the register holding the live
+			// data is still slugged `planix` and this release ships no
+			// register-slug migration.
 			if (!objectStore.objectTypeRegistry?.task) {
 				objectStore.registerObjectType('task', 'task', 'planix')
 			}

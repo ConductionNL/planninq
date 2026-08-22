@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Planix Project Controller
+ * Planninq Project Controller
  *
  * Controller for project creation with server-side policy enforcement,
  * and project leave with RBAC bypass for non-owner members.
  *
  * @category Controller
- * @package  OCA\Planix\Controller
+ * @package  OCA\Planninq\Controller
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -22,10 +22,10 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Controller;
+namespace OCA\Planninq\Controller;
 
-use OCA\Planix\AppInfo\Application;
-use OCA\Planix\Service\SettingsService;
+use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\SettingsService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -39,7 +39,11 @@ use Psr\Log\LoggerInterface;
  *
  * ## C1 — Project creation proxy
  * The SPA posts new projects to this endpoint instead of OR's generic
- * `/api/objects/planix/project` write path. Server-side policy check runs
+ * `/api/objects/planix/project` write path. That path segment, and the
+ * `register: 'planix'` arguments below, are the OpenRegister register SLUG,
+ * not the app id: the app id became `planninq` but the register holding the
+ * live data is still slugged `planix` and this release ships no register-slug
+ * migration. Server-side policy check runs
  * BEFORE any object is persisted, closing the TOCTOU gap where a motivated
  * user could bypass `allow_project_creation` by calling OR directly.
  * The saveObject call uses `_rbac: false` so that OR's schema-level
@@ -129,7 +133,7 @@ class ProjectController extends Controller {
 
 		if ($class === self::OR_NOT_AUTHORIZED_EXCEPTION) {
 			$this->logger->warning(
-				"Planix: {$context} permission denied",
+				"Planninq: {$context} permission denied",
 				array_merge($logCtx, ['exception' => $e->getMessage()])
 			);
 			return new JSONResponse(
@@ -140,7 +144,7 @@ class ProjectController extends Controller {
 
 		if ($class === self::OR_VALIDATION_EXCEPTION || $class === self::OR_CUSTOM_VALIDATION_EXCEPTION) {
 			$this->logger->warning(
-				"Planix: {$context} validation failed",
+				"Planninq: {$context} validation failed",
 				array_merge($logCtx, ['exception' => $e->getMessage()])
 			);
 			return new JSONResponse(
@@ -151,7 +155,7 @@ class ProjectController extends Controller {
 
 		if ($class === self::OR_PROVIDER_UNAVAILABLE_EXCEPTION) {
 			$this->logger->error(
-				"Planix: {$context} upstream unavailable",
+				"Planninq: {$context} upstream unavailable",
 				array_merge($logCtx, ['exception' => $e->getMessage()])
 			);
 			return new JSONResponse(
@@ -161,7 +165,7 @@ class ProjectController extends Controller {
 		}
 
 		$this->logger->error(
-			"Planix: {$context} unexpected error",
+			"Planninq: {$context} unexpected error",
 			array_merge($logCtx, ['exception' => $e->getMessage(), 'class' => $class])
 		);
 		return new JSONResponse(
@@ -229,7 +233,7 @@ class ProjectController extends Controller {
 		try {
 			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 		} catch (\Throwable $e) {
-			$this->logger->error('Planix: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
+			$this->logger->error('Planninq: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
 			return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
 		}
 
@@ -259,7 +263,7 @@ class ProjectController extends Controller {
 				_rbac: false
 			);
 
-			$this->logger->info('Planix: project created', ['uid' => $uid]);
+			$this->logger->info('Planninq: project created', ['uid' => $uid]);
 
 			return new JSONResponse($saved->jsonSerialize(), Http::STATUS_CREATED);
 		} catch (\Throwable $e) {
@@ -311,7 +315,7 @@ class ProjectController extends Controller {
 		try {
 			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 		} catch (\Throwable $e) {
-			$this->logger->error('Planix: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
+			$this->logger->error('Planninq: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
 			return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
 		}
 
@@ -358,7 +362,7 @@ class ProjectController extends Controller {
 			$newOwner = $candidateMembers[0];
 			$updated['owner'] = $newOwner;
 			$this->logger->info(
-				'Planix: ownership transferred on owner leave',
+				'Planninq: ownership transferred on owner leave',
 				['fromUid' => $uid, 'toUid' => $newOwner, 'projectId' => $projectId]
 			);
 		}
@@ -375,7 +379,7 @@ class ProjectController extends Controller {
 			);
 
 			$this->logger->info(
-				'Planix: user left project',
+				'Planninq: user left project',
 				['uid' => $uid, 'projectId' => $projectId]
 			);
 

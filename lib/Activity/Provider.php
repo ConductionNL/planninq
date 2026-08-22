@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Planix Activity Provider.
+ * Planninq Activity Provider.
  *
- * Renders planix task lifecycle events (created / status changed / assigned /
+ * Renders Planninq task lifecycle events (created / status changed / assigned /
  * due date changed / deleted) into human-readable subjects for the Nextcloud
  * Activity app, in the user's language.
  *
  * @category Activity
- * @package  OCA\Planix\Activity
+ * @package  OCA\Planninq\Activity
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -23,9 +23,9 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Activity;
+namespace OCA\Planninq\Activity;
 
-use OCA\Planix\AppInfo\Application;
+use OCA\Planninq\AppInfo\Application;
 use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
@@ -33,7 +33,7 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 
 /**
- * Activity provider for parsing planix task events.
+ * Activity provider for parsing Planninq task events.
  *
  * @spec openspec/specs/task-collaboration/spec.md
  */
@@ -74,14 +74,14 @@ class Provider implements IProvider {
 	 *
 	 * @return IEvent The parsed event.
 	 *
-	 * @throws UnknownActivityException When the event is not a planix task event.
+	 * @throws UnknownActivityException When the event is not a Planninq task event.
 	 *
 	 * @spec openspec/specs/task-collaboration/spec.md
 	 *
 	 * @SuppressWarnings(PHPMD.UnusedFormalParameter) $previousEvent is mandated
 	 *                   by OCP\Activity\IProvider::parse(). It exists so a
 	 *                   provider can COLLAPSE consecutive related entries into
-	 *                   one; planix renders every task event as its own entry,
+	 *                   one; Planninq renders every task event as its own entry,
 	 *                   so the parameter is genuinely unread — it cannot be
 	 *                   dropped without breaking the interface contract.
 	 */

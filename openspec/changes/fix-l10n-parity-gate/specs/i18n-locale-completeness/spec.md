@@ -11,7 +11,7 @@ Every key present in `l10n/en.json` MUST have a non-empty, real translation in
 every locale file listed as "required" by `tests/l10n/check-l10n-parity.js`
 (the official language of every EU country plus Russian and Turkish — 33
 locales beyond English/Dutch). The parity check MUST run as part of the
-planix CI pipeline (via an `npm run check:l10n` script), not merely exist as
+planninq CI pipeline (via an `npm run check:l10n` script), not merely exist as
 an unwired local script, so a newly-added English string that is not
 back-filled into the required locales fails the pipeline instead of shipping
 silently.
@@ -20,7 +20,7 @@ silently.
 
 #### Scenario: New English key is added without a translation
 
-- GIVEN a developer adds a new `t('planix', '…')` call introducing a key not
+- GIVEN a developer adds a new `t('planninq', '…')` call introducing a key not
   yet present in any locale file
 - WHEN `npm run check:l10n` runs in CI
 - THEN the pipeline MUST fail, naming the missing key and every required

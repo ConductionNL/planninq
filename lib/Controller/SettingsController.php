@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Planix Settings Controller
+ * Planninq Settings Controller
  *
- * Controller for managing Planix application settings.
+ * Controller for managing Planninq application settings.
  *
  * @category Controller
- * @package  OCA\Planix\Controller
+ * @package  OCA\Planninq\Controller
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -22,11 +22,11 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Controller;
+namespace OCA\Planninq\Controller;
 
-use OCA\Planix\AppInfo\Application;
-use OCA\Planix\Service\RegisterImportService;
-use OCA\Planix\Service\SettingsService;
+use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\RegisterImportService;
+use OCA\Planninq\Service\SettingsService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -34,7 +34,7 @@ use OCP\IRequest;
 use OCP\IUserSession;
 
 /**
- * Controller for managing Planix application settings.
+ * Controller for managing Planninq application settings.
  *
  * @spec openspec/specs/admin-user-settings.md
  */
@@ -113,7 +113,7 @@ class SettingsController extends Controller {
 	 * Update app settings (PUT /api/settings).
 	 *
 	 * The canonical AppHost route table declares BOTH `settings#create` (POST)
-	 * and `settings#update` (PUT) against /api/settings, and planix implemented
+	 * and `settings#update` (PUT) against /api/settings, and planninq implemented
 	 * only the POST. `PUT /api/settings` therefore resolved to a method that
 	 * does not exist — a DECLARED route with no target, which is exactly what
 	 * gate-14's `method-not-found-on-target-controller` finding names, and what
@@ -162,7 +162,7 @@ class SettingsController extends Controller {
 	}//end updateUser()
 
 	/**
-	 * Re-import the configuration from planix_register.json.
+	 * Re-import the configuration from planninq_register.json.
 	 *
 	 * Forces a fresh import regardless of version, auto-configuring
 	 * all schema and register IDs from the import result.

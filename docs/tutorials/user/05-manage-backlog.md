@@ -6,7 +6,7 @@ description: Capture work in the backlog without a column, prioritise the list, 
 
 # Manage the backlog
 
-The backlog is where work goes that isn't on the board yet — captured ideas, future tickets, anything not actively being worked on. A task in Planix lives in the backlog when it has no column assignment. The board is the pull view; the backlog is the *yet-to-pull* view. Bringing a task from backlog to board is the same drag-and-drop action used to move cards across columns.
+The backlog is where work goes that isn't on the board yet — captured ideas, future tickets, anything not actively being worked on. A task in Planninq lives in the backlog when it has no column assignment. The board is the pull view; the backlog is the *yet-to-pull* view. Bringing a task from backlog to board is the same drag-and-drop action used to move cards across columns.
 
 ## Goal
 
@@ -14,12 +14,12 @@ By the end you will have added a task to the backlog, reordered the backlog so t
 
 ## Prerequisites
 
-- A project in Planix you are a member of (see [Create your first project](02-create-project.md)).
+- A project in Planninq you are a member of (see [Create your first project](02-create-project.md)).
 - At least one column on the project's board (the default four are fine).
 
 ## Steps
 
-1. From the project board, click **View Backlog** in the header. The backlog list opens — every task in this project that has no column assignment, ordered by **backlog position** (a Planix-managed integer index).
+1. From the project board, click **View Backlog** in the header. The backlog list opens — every task in this project that has no column assignment, ordered by **backlog position** (a Planninq-managed integer index).
 
    ![Project backlog view](/screenshots/tutorials/user/05-manage-backlog-01.png)
 
@@ -27,7 +27,7 @@ By the end you will have added a task to the backlog, reordered the backlog so t
 
    ![Adding a task to the backlog](/screenshots/tutorials/user/05-manage-backlog-02.png)
 
-3. Reorder the backlog. Drag the task you just added to the top — Planix updates its backlog-position. The convention: the top of the list is the next thing to pull onto the board. Treat the backlog as an ordered intake, not a bag.
+3. Reorder the backlog. Drag the task you just added to the top — Planninq updates its backlog-position. The convention: the top of the list is the next thing to pull onto the board. Treat the backlog as an ordered intake, not a bag.
 
    ![Backlog after reorder](/screenshots/tutorials/user/05-manage-backlog-03.png)
 

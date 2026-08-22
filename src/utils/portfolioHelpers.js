@@ -4,7 +4,7 @@
  * Kept free of Vue/DOM so the counting logic can be unit-tested in a bare node
  * environment (tests/vitest/portfolio.spec.js).
  *
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
  * @spec openspec/specs/capacity-planning-resource.md

@@ -9,7 +9,7 @@ status: proposed
 Closes the gap between `openspec/specs/time-tracking.md` (a fully-specified
 MVP with 5 requirements, written and never implemented) and the shipped
 product. The data model (`timeEntry` schema, `estimatedDuration` on `task`)
-already exists in `lib/Settings/planix_register.json`; this change adds the
+already exists in `lib/Settings/planninq_register.json`; this change adds the
 missing frontend. Requirement names below mirror the main spec exactly so
 `opsx-sync` folds this delta back cleanly.
 
@@ -30,14 +30,14 @@ validation error without saving.
 - **WHEN** the user enters an estimate (e.g. "2h 30m")
 - **THEN** the system MUST store `estimatedDuration` in minutes on the task
 - **AND** the task card on the kanban board MUST display the estimate
-- @e2e planix/tests/e2e/time-tracking.spec.ts
+- @e2e planninq/tests/e2e/time-tracking.spec.ts
 
 #### Scenario: Estimate input rejects invalid values
 
 - **GIVEN** a user is entering a time estimate
 - **WHEN** the user types an unparseable value (e.g. "lots", "-5", "0")
 - **THEN** the system MUST show an inline validation error and MUST NOT save
-- @e2e planix/tests/e2e/time-tracking.spec.ts
+- @e2e planninq/tests/e2e/time-tracking.spec.ts
 
 #### Scenario: Logged vs estimated progress
 
@@ -47,7 +47,7 @@ validation error without saving.
 - **THEN** the system MUST display a progress indicator showing "1h 30m / 3h"
 - **AND** if logged time exceeds the estimate, the indicator MUST turn red
   and show the overage
-- @e2e planix/tests/e2e/time-tracking.spec.ts
+- @e2e planninq/tests/e2e/time-tracking.spec.ts
 
 ### Requirement: Log Time
 
@@ -64,7 +64,7 @@ user to edit or delete another user's entry.
 - **THEN** the system MUST create a TimeEntry linked to the task
 - **AND** the task MUST display the total logged time
 - **AND** the entry MUST appear in the user's timesheet
-- @e2e planix/tests/e2e/time-tracking.spec.ts
+- @e2e planninq/tests/e2e/time-tracking.spec.ts
 
 #### Scenario: User cannot edit or delete another user's time entry
 
@@ -73,7 +73,7 @@ user to edit or delete another user's entry.
 - **THEN** UserB MUST NOT see edit or delete controls on UserA's entry
 - **AND** a direct API call from UserB to edit UserA's entry MUST return 403
   (enforced by the existing `timeEntry` schema RBAC rule, not a new service)
-- @e2e planix/tests/e2e/time-tracking.spec.ts
+- @e2e planninq/tests/e2e/time-tracking.spec.ts
 
 ### Requirement: Personal Timesheet
 
@@ -90,7 +90,7 @@ position and filter state on return.
   with task title, project, duration, description per row
 - **AND** a daily total per date group and a weekly total for the current
   view MUST be shown
-- @e2e planix/tests/e2e/timesheet.spec.ts
+- @e2e planninq/tests/e2e/timesheet.spec.ts
 
 #### Scenario: Filter timesheet by date range
 
@@ -98,7 +98,7 @@ position and filter state on return.
 - **WHEN** the user selects a date range (e.g. "This week" or a custom range)
 - **THEN** the system MUST filter entries to the selected range and display
   the range total
-- @e2e planix/tests/e2e/timesheet.spec.ts
+- @e2e planninq/tests/e2e/timesheet.spec.ts
 
 #### Scenario: Navigate to task from timesheet
 
@@ -107,4 +107,4 @@ position and filter state on return.
 - **THEN** the system MUST navigate to the task detail view
 - **AND** the browser back button MUST return to the timesheet at the same
   scroll position and date filter
-- @e2e planix/tests/e2e/timesheet.spec.ts
+- @e2e planninq/tests/e2e/timesheet.spec.ts

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Planix Initialize Settings Repair Step
+ * Planninq Initialize Settings Repair Step
  *
- * Repair step that initializes Planix register and schemas on install/upgrade.
+ * Repair step that initializes Planninq register and schemas on install/upgrade.
  *
  * @category Repair
- * @package  OCA\Planix\Repair
+ * @package  OCA\Planninq\Repair
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -21,16 +21,16 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Repair;
+namespace OCA\Planninq\Repair;
 
-use OCA\Planix\Service\RegisterImportService;
-use OCA\Planix\Service\SettingsService;
+use OCA\Planninq\Service\RegisterImportService;
+use OCA\Planninq\Service\SettingsService;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use Psr\Log\LoggerInterface;
 
 /**
- * Repair step that initializes Planix configuration via SettingsService.
+ * Repair step that initializes Planninq configuration via SettingsService.
  *
  * @spec openspec/specs/register-schemas/spec.md
  */
@@ -59,11 +59,11 @@ class InitializeSettings implements IRepairStep {
 	 * @spec openspec/specs/register-schemas/spec.md
 	 */
 	public function getName(): string {
-		return 'Initialize Planix register and schemas via ConfigurationService';
+		return 'Initialize Planninq register and schemas via ConfigurationService';
 	}//end getName()
 
 	/**
-	 * Run the repair step to initialize Planix configuration.
+	 * Run the repair step to initialize Planninq configuration.
 	 *
 	 * @param IOutput $output The output interface for progress reporting
 	 *
@@ -72,14 +72,14 @@ class InitializeSettings implements IRepairStep {
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-1
 	 */
 	public function run(IOutput $output): void {
-		$output->info('Initializing Planix configuration...');
+		$output->info('Initializing Planninq configuration...');
 
 		if ($this->settingsService->isOpenRegisterAvailable() === false) {
 			$output->warning(
 				'OpenRegister is not installed or enabled. Skipping auto-configuration.'
 			);
 			$this->logger->warning(
-				'Planix: OpenRegister not available, skipping register initialization'
+				'Planninq: OpenRegister not available, skipping register initialization'
 			);
 			return;
 		}
@@ -90,19 +90,19 @@ class InitializeSettings implements IRepairStep {
 			if ($result['success'] === true) {
 				$version = ($result['version'] ?? 'unknown');
 				$output->info(
-					'Planix configuration imported successfully (version: ' . $version . ')'
+					'Planninq configuration imported successfully (version: ' . $version . ')'
 				);
 				return;
 			}
 
 			$message = ($result['message'] ?? 'unknown error');
 			$output->warning(
-				'Planix configuration import issue: ' . $message
+				'Planninq configuration import issue: ' . $message
 			);
 		} catch (\Throwable $e) {
-			$output->warning('Could not auto-configure Planix: ' . $e->getMessage());
+			$output->warning('Could not auto-configure Planninq: ' . $e->getMessage());
 			$this->logger->error(
-				'Planix initialization failed',
+				'Planninq initialization failed',
 				['exception' => $e->getMessage()]
 			);
 		}//end try

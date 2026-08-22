@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Planix Label Service
+ * Planninq Label Service
  *
  * Server-side logic for app-wide label management: the two operations that need
  * real logic beyond OpenRegister object CRUD (ADR-022 / gate-17):
@@ -15,7 +15,7 @@
  * they are deliberately NOT mirrored here (a wrapper would be gate-17 redundant).
  *
  * @category Service
- * @package  OCA\Planix\Service
+ * @package  OCA\Planninq\Service
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -30,7 +30,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Service;
+namespace OCA\Planninq\Service;
 
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -48,7 +48,11 @@ use RuntimeException;
 class LabelService {
 
 	/**
-	 * OpenRegister register slug owning the planix schemas.
+	 * OpenRegister register slug owning the Planninq schemas.
+	 *
+	 * Deliberately still the PRE-RENAME `planix`. The app id became `planninq`,
+	 * but the register holding the live data is still slugged `planix` and this
+	 * release ships no register-slug migration.
 	 *
 	 * @var string
 	 */
@@ -85,7 +89,7 @@ class LabelService {
 
 	/**
 	 * Resolve the OpenRegister ObjectService from the container by FQCN string,
-	 * so planix carries no compile-time dependency on the openregister package.
+	 * so planninq carries no compile-time dependency on the openregister package.
 	 *
 	 * @return object|null The OR ObjectService, or null when OpenRegister is unavailable.
 	 */
@@ -93,7 +97,7 @@ class LabelService {
 		try {
 			return $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 		} catch (\Throwable $e) {
-			$this->logger->error('Planix: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
+			$this->logger->error('Planninq: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
 			return null;
 		}
 
@@ -234,13 +238,13 @@ class LabelService {
 			// Idempotent: a re-run after the label is already gone still completes
 			// any remaining sweep above and then no-ops the delete.
 			$this->logger->info(
-				'Planix: label already deleted or delete failed (cascade idempotent)',
+				'Planninq: label already deleted or delete failed (cascade idempotent)',
 				['label' => $labelId, 'exception' => $e->getMessage()]
 			);
 		}
 
 		$this->logger->info(
-			'Planix: label deleted with cascade',
+			'Planninq: label deleted with cascade',
 			['label' => $labelId, 'tasksUpdated' => $tasksUpdated]
 		);
 
@@ -264,7 +268,7 @@ class LabelService {
 		// left on the service by the setters — it logs
 		// `[MagicMapper] searchObjects() called without register/schema context`
 		// and matches nothing. This method is the ONLY read path behind
-		// `GET /apps/planix/api/labels`, so the admin "Label management" section
+		// `GET /apps/planninq/api/labels`, so the admin "Label management" section
 		// rendered "No labels yet." on every instance, however many labels
 		// existed, with no error anywhere in the UI. The e2e suite caught it as
 		// four failing label-management specs on a fresh CI instance that had a
@@ -325,7 +329,7 @@ class LabelService {
 			// helper returned '' for every entity.
 			//
 			// Consequences, all silent: every label in
-			// `GET /apps/planix/api/labels` came back with `"id": ""`, so the
+			// `GET /apps/planninq/api/labels` came back with `"id": ""`, so the
 			// admin dialog's `isEdit` (`!!label.id`) was false and the Edit
 			// button opened a CREATE dialog — editing a label would have
 			// duplicated it — while Delete cascaded on an empty id, and

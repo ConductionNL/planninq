@@ -10,7 +10,7 @@
 - **spec_ref**: `openspec/changes/portal-contribution/specs/portal-contribution/spec.md#requirement-provider-is-a-plain-dependency-free-class-req-pc-001`
 - **files**: `lib/Portal/PortalContributionProvider.php`
 - **acceptance_criteria**:
-  - GIVEN the new class WHEN inspected THEN it is namespace `OCA\Planix\Portal`, has NO `use` of any portaliq symbol, NO `implements` clause, NO parent, NO constructor, and carries the repo-standard EUPL-1.2/SPDX docblock header plus `@spec` tags
+  - GIVEN the new class WHEN inspected THEN it is namespace `OCA\Planninq\Portal`, has NO `use` of any portaliq symbol, NO `implements` clause, NO parent, NO constructor, and carries the repo-standard EUPL-1.2/SPDX docblock header plus `@spec` tags
   - GIVEN portaliq is absent WHEN the app runs THEN nothing references the class (no DI registration, no route) — it is inert
   - GIVEN `getAudiences()` / `getAudience()` WHEN called THEN they return `['external-employee']` / `'external-employee'`
 - [x] Implement
@@ -22,7 +22,7 @@
 - **files**: `lib/Portal/PortalContributionProvider.php`
 - **acceptance_criteria**:
   - GIVEN any subject whose `audience` is not `external-employee` (incl. absent) WHEN `getContribution()` is called THEN it returns `null`
-  - GIVEN an `external-employee` subject WHEN `getContribution()` is called THEN the manifest is labelled `Planix` with collections `contractorTasks` (task, scopeField `contractorRef`), `contractorTimeEntries` (timeEntry, scopeField `contractorRef`) and `contractorProjects` (project, scopeField `contractorRefs`), all `scopeClaim` `contractorRef`, listable, no `minTrust`
+  - GIVEN an `external-employee` subject WHEN `getContribution()` is called THEN the manifest is labelled `Planninq` with collections `contractorTasks` (task, scopeField `contractorRef`), `contractorTimeEntries` (timeEntry, scopeField `contractorRef`) and `contractorProjects` (project, scopeField `contractorRefs`), all `scopeClaim` `contractorRef`, listable, no `minTrust`
   - GIVEN each collection WHEN inspected THEN its `fields` projection excludes every NC-uid field (`assignedTo`/`user`/`owner`/`members`/`defaultAssignee`) and all internal/estimate/private columns enumerated in design.md
 - [x] Implement
 - [x] Test
@@ -45,7 +45,7 @@
 - **acceptance_criteria**:
   - GIVEN the test class WHEN it constructs the provider THEN it does so directly (`new`, no mocks/container) following existing `tests/unit/` conventions
   - GIVEN the suite WHEN run (php 8.3 container) THEN it asserts audiences, null for other audiences, the full manifest shape, `scopeClaim: contractorRef`, the exact create whitelist, and NO `minTrust`
-  - GIVEN the drift-pin WHEN run THEN it loads `planix_register.json` and asserts `task`/`timeEntry` carry `contractorRef` (uuid, optional) and `project` carries `contractorRefs` (uuid[], optional), every scopeField/projected field is a real property, and no NC-uid field is projected — and passes
+  - GIVEN the drift-pin WHEN run THEN it loads `planninq_register.json` and asserts `task`/`timeEntry` carry `contractorRef` (uuid, optional) and `project` carries `contractorRefs` (uuid[], optional), every scopeField/projected field is a real property, and no NC-uid field is projected — and passes
 - [x] Implement
 - [x] Test
 
@@ -54,5 +54,5 @@
 - All provider logic covered by PHPUnit unit tests (`tests/unit/Portal/`)
 - No new API endpoints → no Newman collection; no UI change → no Playwright (portal renders in portaliq)
 - All tests pass (`vendor/bin/phpunit` in the php 8.3 container)
-- No user-facing strings added inside planix (manifest labels are portal-side data; English source per i18n policy)
+- No user-facing strings added inside planninq (manifest labels are portal-side data; English source per i18n policy)
 - `openspec validate portal-contribution` passes

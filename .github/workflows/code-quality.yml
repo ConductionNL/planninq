@@ -17,7 +17,7 @@ jobs:
     # PHPUnit, and no red test to show for it.
     uses: ConductionNL/.github/.github/workflows/quality.yml@main
     with:
-      app-name: planix
+      app-name: planninq
       php-version: "8.3"
       php-test-versions: '["8.3", "8.4"]'
       # appinfo/info.xml declares <nextcloud min-version="32" max-version="34"/>
@@ -31,7 +31,7 @@ jobs:
       enable-eslint: true
       enable-phpunit: true
       # `ref` moved from `main` to `development`. The E2E job needs the AppHost
-      # plumbing planix's own appinfo/routes.php already depends on
+      # plumbing planninq's own appinfo/routes.php already depends on
       # (`\OCA\OpenRegister\AppHost\Routes::standard()`), and `development` is
       # where that lands first. Pinning the foundation to `main` while this app
       # tracks `development` is what makes a CI instance behave unlike any
@@ -44,14 +44,14 @@ jobs:
       # from run 30692400428; both are now addressed, so the reasons are kept
       # (not deleted) next to what changed:
       #
-      #  1. "`occ app:enable planix` cannot import the register on a fresh CI
+      #  1. "`occ app:enable planninq` cannot import the register on a fresh CI
       #     instance: User 'Anonymous' does not have permission to 'create'
       #     objects in schema 'Label'." Still true, and it always will be — an
       #     IRepairStep runs with no user session, and InitializeSettings::run()
       #     swallows the resulting exception as a warning so `occ app:enable`
       #     still exits 0. FIXED by not relying on it: `ci-seed.sh` performs the
       #     import explicitly over the admin HTTP API
-      #     (POST /apps/planix/api/settings/load → loadConfiguration(force:true))
+      #     (POST /apps/planninq/api/settings/load → loadConfiguration(force:true))
       #     and then VERIFIES the register + schema slugs, so a bad provision is
       #     one loud step failure instead of a dozen misleading spec failures.
       #
@@ -76,10 +76,10 @@ jobs:
       # `docs-capture` and re-shoot every documentation screenshot on every PR.
       playwright-test-path: tests/e2e
       # cwd for this step is the Nextcloud server root.
-      playwright-seed-command: 'bash apps/planix/tests/e2e/ci-seed.sh'
+      playwright-seed-command: 'bash apps/planninq/tests/e2e/ci-seed.sh'
 
       # ── Integration tests ────────────────────────────────────────────────
-      # Was explicitly `false`. tests/integration/planix.postman_collection.json
+      # Was explicitly `false`. tests/integration/planninq.postman_collection.json
       # had never executed in CI. It sits at the default
       # `newman-collection-path` (tests/integration), which is both the
       # directory the validator counts collections in and the directory the run
@@ -87,7 +87,7 @@ jobs:
       enable-newman: true
 
       # The Newman job needs the SAME OpenRegister provisioning the Playwright
-      # job gets. Without it, planix has no register and no schemas, and every
+      # job gets. Without it, planninq has no register and no schemas, and every
       # write returns **412 Precondition failed** — which is exactly what 14 of
       # this collection's assertions were reporting ("expected 201 but got 412",
       # "expected 422 but got 412", and so on). They were not 14 test bugs; they
@@ -97,7 +97,7 @@ jobs:
       # Playwright. The `api` argument reuses it verbatim and only skips the
       # closing SPA-bundle gate, which would `exit 1` here because the Newman
       # job has no frontend build step and therefore no bundle to serve.
-      newman-seed-command: 'bash apps/planix/tests/e2e/ci-seed.sh api'
+      newman-seed-command: 'bash apps/planninq/tests/e2e/ci-seed.sh api'
 
       # ── Frontend Check legs ──────────────────────────────────────────────
       # `frontend-checks` defaults to `[]`, and an empty list means the shared
@@ -108,7 +108,7 @@ jobs:
       # same check twice with nothing extra to show for it.
       # Measured on this tree before enabling: `check:manifest` FAILS —
       # `top-level: menu (array) is required` and `pages (array) is required`,
-      # i.e. planix's src/manifest.json does not carry the fleet manifest shape
+      # i.e. planninq's src/manifest.json does not carry the fleet manifest shape
       # at all. A real pre-existing defect; the gate is what makes it visible.
       # `test` is NOT listed: "Frontend Tests (unit)" already runs it.
       frontend-checks: '["check:manifest"]'

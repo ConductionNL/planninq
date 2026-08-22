@@ -2,11 +2,11 @@
 	<NcAppSettingsDialog
 		:open="open"
 		:show-navigation="false"
-		:name="t('planix', 'Planix settings')"
+		:name="t('planninq', 'Planninq settings')"
 		@update:open="$emit('update:open', $event)">
 		<NcAppSettingsSection
 			id="notifications"
-			:name="t('planix', 'Notifications')">
+			:name="t('planninq', 'Notifications')">
 			<template #icon>
 				<BellIcon :size="20" />
 			</template>
@@ -18,7 +18,7 @@
 				:model-value="notifyDueReminder"
 				type="switch"
 				@update:modelValue="onToggleDueReminder">
-				{{ t('planix', 'Notify me 1 day before a task\'s due date') }}
+				{{ t('planninq', 'Notify me 1 day before a task\'s due date') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 	</NcAppSettingsDialog>

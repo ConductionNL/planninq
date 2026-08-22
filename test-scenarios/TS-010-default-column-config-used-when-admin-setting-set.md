@@ -22,7 +22,7 @@ spec-refs:
 ## Preconditions
 
 - User is a Nextcloud admin
-- Admin has configured `default_columns` in Planix admin settings with a custom column set (e.g., Backlog, Active Sprint, Done)
+- Admin has configured `default_columns` in Planninq admin settings with a custom column set (e.g., Backlog, Active Sprint, Done)
 
 ## Scenario
 
@@ -33,7 +33,7 @@ spec-refs:
 
 ## Test Data
 
-_(configure `default_columns` in Planix admin settings before test)_
+_(configure `default_columns` in Planninq admin settings before test)_
 
 ## Acceptance Criteria
 

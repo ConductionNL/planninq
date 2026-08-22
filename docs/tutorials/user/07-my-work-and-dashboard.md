@@ -14,12 +14,12 @@ By the end you will have read your dashboard, drilled from a KPI card into the m
 
 ## Prerequisites
 
-- Planix open and the OpenRegister back end connected (see [Open Planix for the first time](01-first-launch.md)).
+- Planninq open and the OpenRegister back end connected (see [Open Planninq for the first time](01-first-launch.md)).
 - At least one task assigned to you in any project — the dashboard / My Work are personal aggregations, so they're empty without assigned work.
 
 ## Steps
 
-1. Open the Planix **Dashboard** (it's the landing page; click the Planix app in the menu, or **Dashboard** in the navigation). Read the four KPI cards — **Open** (open or in_progress), **Overdue**, **In Progress**, **Completed today**. Below: **Recent projects** (the five most active you're in) and **Due this week** (tasks assigned to you due in the next seven days).
+1. Open the Planninq **Dashboard** (it's the landing page; click the Planninq app in the menu, or **Dashboard** in the navigation). Read the four KPI cards — **Open** (open or in_progress), **Overdue**, **In Progress**, **Completed today**. Below: **Recent projects** (the five most active you're in) and **Due this week** (tasks assigned to you due in the next seven days).
 
    ![Dashboard with KPIs and widgets](/screenshots/tutorials/user/07-my-work-and-dashboard-01.png)
 
@@ -40,7 +40,7 @@ By the end you will have read your dashboard, drilled from a KPI card into the m
 
    ![Inline status change on My Work](/screenshots/tutorials/user/07-my-work-and-dashboard-04.png)
 
-5. Open the **user settings dialog** (gear icon in the Planix navigation). Set notification preferences:
+5. Open the **user settings dialog** (gear icon in the Planninq navigation). Set notification preferences:
    - **Notify when a task is assigned to me** — Nextcloud notification on assignment (default on)
    - **Remind me 1 day before a task's due date** — due-date reminder (default on)
    - **Default view when opening a project** — *My Work* / *Kanban* / *Backlog* (default *My Work*)
@@ -59,7 +59,7 @@ The dashboard KPI counts match what you see on My Work after drilling in. My Wor
 |---|---|
 | KPI cards all show `0` even though you have tasks | The tasks aren't assigned to you — check the **Assignee** field on a couple of tasks; My Work / KPIs are personal. |
 | Overdue task isn't red on its card | The card is on a project board; the red border applies there too. Reload the board if the task moved to overdue while the page was open. |
-| Notifications don't arrive | Nextcloud notification settings have the Planix channel disabled — check **Settings → Personal → Notifications**, find the Planix rows, enable them. |
+| Notifications don't arrive | Nextcloud notification settings have the Planninq channel disabled — check **Settings → Personal → Notifications**, find the Planninq rows, enable them. |
 | Default view setting ignored | The setting is read on each project navigation; if you switched mid-session, refresh the project page. |
 | Today's *Due this week* is empty but you have due-today tasks | Their status is *done* or *cancelled* — done tasks don't surface on My Work even on the due date. |
 | Screenshots may be missing | App not yet installed in the test environment; rerun `npm run test:e2e:docs` once it is. |

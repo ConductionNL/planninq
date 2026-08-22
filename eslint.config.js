@@ -18,7 +18,7 @@ const {
 // rules while `vue/no-v-model-argument` and `vue/no-v-for-template-key` were
 // both at severity 2. So Vue 2 idioms survive a migration silently:
 // `beforeDestroy` is the dangerous case, because Vue 3 never calls that hook,
-// and planix cleaned up live-update subscriptions, a debounce timer and an
+// and planninq cleaned up live-update subscriptions, a debounce timer and an
 // AbortController there — four real leaks with zero console output.
 //
 // `conductionVue3Fixes` is an ARRAY of three flat-config objects (language

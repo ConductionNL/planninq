@@ -13,7 +13,7 @@
 			"then": { "required": ["menu"] }
 		},
 		{
-			"$comment": "Observability-only profile: a manifest with no pages MUST carry an observability block. ADR-040 Tier-0 adopters (e.g. nldesign, planix) ship src/manifest.json solely as AppHost engine config — the app renders no manifest-driven UI, so forcing menu/pages on them produced permanently-failing gate-22 manifests (2026-07-06 fleet audit, item 3b).",
+			"$comment": "Observability-only profile: a manifest with no pages MUST carry an observability block. ADR-040 Tier-0 adopters (e.g. nldesign, planninq) ship src/manifest.json solely as AppHost engine config — the app renders no manifest-driven UI, so forcing menu/pages on them produced permanently-failing gate-22 manifests (2026-07-06 fleet audit, item 3b).",
 			"if": { "not": { "required": ["pages"] } },
 			"then": { "required": ["observability"] }
 		}

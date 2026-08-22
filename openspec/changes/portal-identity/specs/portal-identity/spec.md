@@ -1,14 +1,14 @@
 # portal-identity Specification
 
 **Status**: in-progress
-**Scope**: planix
+**Scope**: planninq
 **OpenSpec changes**:
 - `openspec/changes/portal-identity/`
 
 ## Purpose
 
-Planix contributes a scoping identity for external portal subjects (hydra
-ADR-046 + contribution contract v2.1). Because planix scopes all internal work
+Planninq contributes a scoping identity for external portal subjects (hydra
+ADR-046 + contribution contract v2.1). Because planninq scopes all internal work
 by Nextcloud user id — which an external contractor never has (amendment A4) —
 this capability adds a distinct UUID domain-object reference ALONGSIDE each
 NC-uid field, so portaliq can scope an external contractor's reads without
@@ -19,7 +19,7 @@ disturbing internal teams. It is the config precondition for the
 
 ### Requirement: Portal scoping uses domain-object UUID references (REQ-PID-001)
 
-The `task` and `timeEntry` schemas in `lib/Settings/planix_register.json` MUST
+The `task` and `timeEntry` schemas in `lib/Settings/planninq_register.json` MUST
 each carry a `contractorRef` property (`type: string`, `format: uuid`, titled
 "Contractor"), and the `project` schema MUST carry a `contractorRefs` property
 (`type: array`, items `type: string` `format: uuid`, titled "Contractors").
@@ -31,7 +31,7 @@ amendment A4).
 
 #### Scenario: Schemas expose the contractor scoping properties
 
-- GIVEN the shipped `planix_register.json`
+- GIVEN the shipped `planninq_register.json`
 - WHEN the register configuration is parsed
 - THEN `task.contractorRef` and `timeEntry.contractorRef` are defined with `type` `string` and `format` `uuid`
 - AND `project.contractorRefs` is defined as an array of `format: uuid` strings
@@ -65,9 +65,9 @@ re-applies schema changes only on a version increase. Untouched schemas
 
 ## Acceptance Criteria
 
-- `planix_register.json` is valid JSON with the three additive properties and
+- `planninq_register.json` is valid JSON with the three additive properties and
   all version bumps present.
-- The six-schema drift test (`PlanixRegisterSchemaTest`) still passes — no
+- The six-schema drift test (`PlanninqRegisterSchemaTest`) still passes — no
   schema added or removed.
 - `openspec validate portal-identity` passes.
 

@@ -3,7 +3,7 @@
 /**
  * Unit tests for the Portaliq portal contribution provider.
  *
- * Pins planix's ADR-046 contract-v2.1 contribution: the dependency-free
+ * Pins planninq's ADR-046 contract-v2.1 contribution: the dependency-free
  * duck-typed shape (inert without portaliq), the v2 getAudiences() + v1
  * getAudience() pair for the single `external-employee` audience, the
  * fail-closed null for every other audience, the contractor-scoped read
@@ -12,7 +12,7 @@
  * (default low).
  *
  * It also pins the scoping map + projection whitelists against
- * planix_register.json at HEAD so a schema drift fails HERE instead of silently
+ * planninq_register.json at HEAD so a schema drift fails HERE instead of silently
  * scoping portal reads to nothing: every scopeField must exist on its schema,
  * every projected `fields` entry must be a real property, and the internal
  * Nextcloud-uid identity fields (assignedTo / user / owner / members /
@@ -23,7 +23,7 @@
  * is a plain dependency-free class by contract (amendment A1).
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Portal
+ * @package  OCA\Planninq\Tests\Unit\Portal
  *
  * @author    Conduction Development Team <info@conduction.nl>
  * @copyright 2026 Conduction B.V.
@@ -41,9 +41,9 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Portal;
+namespace OCA\Planninq\Tests\Unit\Portal;
 
-use OCA\Planix\Portal\PortalContributionProvider;
+use OCA\Planninq\Portal\PortalContributionProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
@@ -87,7 +87,7 @@ final class PortalContributionProviderTest extends TestCase {
 	private PortalContributionProvider $provider;
 
 	/**
-	 * Decoded planix_register.json, for the drift-pin assertions.
+	 * Decoded planninq_register.json, for the drift-pin assertions.
 	 *
 	 * @var array<string, mixed>
 	 */
@@ -102,7 +102,7 @@ final class PortalContributionProviderTest extends TestCase {
 		parent::setUp();
 		$this->provider = new PortalContributionProvider();
 
-		$path = __DIR__ . '/../../../lib/Settings/planix_register.json';
+		$path = __DIR__ . '/../../../lib/Settings/planninq_register.json';
 		$this->register = json_decode((string)file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
 
 	}//end setUp()
@@ -118,7 +118,7 @@ final class PortalContributionProviderTest extends TestCase {
 		$reflection = new ReflectionClass(PortalContributionProvider::class);
 
 		$this->assertSame(
-			'OCA\\Planix\\Portal\\PortalContributionProvider',
+			'OCA\\Planninq\\Portal\\PortalContributionProvider',
 			$reflection->getName(),
 			'Provider must live at the convention FQCN portaliq probes for'
 		);
@@ -186,10 +186,10 @@ final class PortalContributionProviderTest extends TestCase {
 		$manifest = $this->provider->getContribution(self::CONTRACTOR_SUBJECT);
 
 		$this->assertIsArray($manifest);
-		$this->assertSame('Planix', $manifest['label']);
+		$this->assertSame('Planninq', $manifest['label']);
 		$this->assertArrayHasKey('collections', $manifest);
 		$this->assertArrayHasKey('actions', $manifest);
-		$this->assertSame([], $manifest['notifications'], 'no per-subject inbox collection exists in planix');
+		$this->assertSame([], $manifest['notifications'], 'no per-subject inbox collection exists in planninq');
 
 	}//end testContractorSubjectReceivesManifest()
 
@@ -331,7 +331,7 @@ final class PortalContributionProviderTest extends TestCase {
 	/**
 	 * The register slug every portal collection reads from.
 	 *
-	 * @return string The planix register slug.
+	 * @return string The OpenRegister register slug (still the pre-rename `planix`).
 	 */
 	private static function REGISTER_EXPECTATION(): string {
 		return 'planix';

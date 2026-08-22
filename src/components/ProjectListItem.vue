@@ -14,7 +14,7 @@
 		<span
 			class="project-list-item__swatch"
 			:style="{ backgroundColor: project.color || 'var(--color-primary)' }"
-			:aria-label="t('planix', 'Project color: {color}', { color: project.color || 'default' })" />
+			:aria-label="t('planninq', 'Project color: {color}', { color: project.color || 'default' })" />
 
 		<!-- Icon / emoji -->
 		<span class="project-list-item__icon" aria-hidden="true">
@@ -32,8 +32,8 @@
 		<!-- Member count -->
 		<span
 			class="project-list-item__badge"
-			:aria-label="t('planix', '{count} members', { count: memberCount })">
-			{{ memberCount }} {{ t('planix', 'members') }}
+			:aria-label="t('planninq', '{count} members', { count: memberCount })">
+			{{ memberCount }} {{ t('planninq', 'members') }}
 		</span>
 
 		<!-- Status chip -->
@@ -76,11 +76,11 @@ export default {
 		 */
 		statusLabel() {
 			const map = {
-				active: this.t('planix', 'Active'),
-				archived: this.t('planix', 'Archived'),
-				completed: this.t('planix', 'Completed'),
+				active: this.t('planninq', 'Active'),
+				archived: this.t('planninq', 'Archived'),
+				completed: this.t('planninq', 'Completed'),
 			}
-			return map[this.project.status] || this.project.status || this.t('planix', 'Active')
+			return map[this.project.status] || this.project.status || this.t('planninq', 'Active')
 		},
 
 		/**

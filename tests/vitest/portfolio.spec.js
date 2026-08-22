@@ -1,7 +1,7 @@
 /**
  * Unit tests for the portfolio capacity-summary helper.
  *
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
  * @spec openspec/specs/capacity-planning-resource.md

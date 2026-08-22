@@ -1,15 +1,15 @@
 <template>
 	<NcDialog
-		:name="t('planix', 'Delete project')"
+		:name="t('planninq', 'Delete project')"
 		@closing="$emit('close')">
 		<template #default>
 			<div class="project-delete-dialog__body">
 				<NcLoadingIcon v-if="countLoading" :size="24" />
 				<div v-else-if="!canDelete" class="project-delete-dialog__forbidden" role="alert">
-					<p>{{ t('planix', 'Only the project owner or an administrator can delete this project.') }}</p>
+					<p>{{ t('planninq', 'Only the project owner or an administrator can delete this project.') }}</p>
 				</div>
 				<p v-else>
-					{{ t('planix', 'This will permanently delete {count} tasks and all their time entries. This cannot be undone.', { count: taskCount }) }}
+					{{ t('planninq', 'This will permanently delete {count} tasks and all their time entries. This cannot be undone.', { count: taskCount }) }}
 				</p>
 			</div>
 		</template>
@@ -22,10 +22,10 @@
 				<template v-if="loading" #icon>
 					<NcLoadingIcon :size="16" />
 				</template>
-				{{ t('planix', 'Delete project') }}
+				{{ t('planninq', 'Delete project') }}
 			</NcButton>
 			<NcButton :disabled="loading" @click="$emit('close')">
-				{{ t('planix', 'Cancel') }}
+				{{ t('planninq', 'Cancel') }}
 			</NcButton>
 		</template>
 	</NcDialog>
@@ -114,11 +114,11 @@ export default {
 				const store = useProjectsStore()
 				const ok = await store.deleteProject(this.project.id)
 				if (ok) {
-					showSuccess(this.t('planix', 'Project deleted'))
+					showSuccess(this.t('planninq', 'Project deleted'))
 					this.$emit('deleted')
 				}
 			} catch {
-				showError(this.t('planix', 'Could not delete project'))
+				showError(this.t('planninq', 'Could not delete project'))
 			} finally {
 				this.loading = false
 			}

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Planix Register Import Service
+ * Planninq Register Import Service
  *
- * Owns one concern: importing `lib/Settings/planix_register.json` into
+ * Owns one concern: importing `lib/Settings/planninq_register.json` into
  * OpenRegister. Split out of SettingsService, which had accumulated both the
  * app/user settings plane AND the register bootstrap plane and tripped PHPMD's
  * ExcessiveClassComplexity threshold — the rule was correctly naming a real
@@ -13,7 +13,7 @@
  * reload() is the forced import the admin "Load configuration" button runs.
  *
  * @category Service
- * @package  OCA\Planix\Service
+ * @package  OCA\Planninq\Service
  *
  * @author    Conduction Development Team <dev@conduction.nl>
  * @copyright 2026 Conduction B.V.
@@ -29,14 +29,14 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Service;
+namespace OCA\Planninq\Service;
 
-use OCA\Planix\AppInfo\Application;
+use OCA\Planninq\AppInfo\Application;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Imports the Planix register definition into OpenRegister.
+ * Imports the Planninq register definition into OpenRegister.
  *
  * @spec openspec/specs/register-schemas/spec.md
  */
@@ -58,7 +58,7 @@ class RegisterImportService {
 	}//end __construct()
 
 	/**
-	 * Import planix_register.json via OpenRegister if it is not already applied.
+	 * Import planninq_register.json via OpenRegister if it is not already applied.
 	 *
 	 * OpenRegister skips the import when the register is already at the declared
 	 * version. Use reload() to force a re-import over an existing register.
@@ -74,7 +74,7 @@ class RegisterImportService {
 	}//end load()
 
 	/**
-	 * Force a re-import of planix_register.json via OpenRegister.
+	 * Force a re-import of planninq_register.json via OpenRegister.
 	 *
 	 * Same as load() but re-applies the register even when it is already at the
 	 * declared version — the behaviour the admin "Load configuration" button
@@ -92,7 +92,7 @@ class RegisterImportService {
 	}//end reload()
 
 	/**
-	 * Read, validate and parse planix_register.json.
+	 * Read, validate and parse planninq_register.json.
 	 *
 	 * @return array{ok:true,data:array<string,mixed>}|array{ok:false,message:string}
 	 *                                                                                The decoded register definition, or the reason it is unusable.
@@ -100,21 +100,21 @@ class RegisterImportService {
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
 	 */
 	private function readRegisterDefinition(): array {
-		$configPath = __DIR__ . '/../Settings/planix_register.json';
+		$configPath = __DIR__ . '/../Settings/planninq_register.json';
 		if (file_exists($configPath) === false) {
-			$this->logger->error('Planix: planix_register.json not found at ' . $configPath);
-			return ['ok' => false, 'message' => 'Configuration file planix_register.json not found.'];
+			$this->logger->error('Planninq: planninq_register.json not found at ' . $configPath);
+			return ['ok' => false, 'message' => 'Configuration file planninq_register.json not found.'];
 		}
 
 		$configContent = file_get_contents($configPath);
 		if ($configContent === false) {
-			$this->logger->error('Planix: failed to read planix_register.json');
+			$this->logger->error('Planninq: failed to read planninq_register.json');
 			return ['ok' => false, 'message' => 'Failed to read configuration file.'];
 		}
 
 		$configData = json_decode($configContent, true);
 		if (json_last_error() !== JSON_ERROR_NONE) {
-			$this->logger->error('Planix: failed to parse planix_register.json: ' . json_last_error_msg());
+			$this->logger->error('Planninq: failed to parse planninq_register.json: ' . json_last_error_msg());
 			return ['ok' => false, 'message' => 'Failed to parse configuration file: ' . json_last_error_msg()];
 		}
 
@@ -123,7 +123,7 @@ class RegisterImportService {
 		$declaredApp = ($configData['x-openregister']['app'] ?? '');
 		if ($declaredApp !== Application::APP_ID) {
 			$this->logger->error(
-				'Planix: register JSON x-openregister.app mismatch',
+				'Planninq: register JSON x-openregister.app mismatch',
 				['expected' => Application::APP_ID, 'got' => $declaredApp]
 			);
 			return [
@@ -152,7 +152,7 @@ class RegisterImportService {
 	 */
 	private function import(bool $force): array {
 		if ($this->settingsService->isOpenRegisterAvailable() === false) {
-			$this->logger->warning('Planix: OpenRegister not available, skipping register initialization');
+			$this->logger->warning('Planninq: OpenRegister not available, skipping register initialization');
 			return [
 				'success' => false,
 				'message' => 'OpenRegister is not installed or enabled.',
@@ -177,7 +177,7 @@ class RegisterImportService {
 			);
 
 			if (empty($result) === false) {
-				$this->logger->info('Planix: register configuration imported successfully');
+				$this->logger->info('Planninq: register configuration imported successfully');
 				return [
 					'success' => true,
 					'message' => 'Configuration imported successfully.',
@@ -191,7 +191,7 @@ class RegisterImportService {
 			];
 		} catch (\Throwable $e) {
 			$this->logger->error(
-				'Planix: configuration import failed',
+				'Planninq: configuration import failed',
 				['exception' => $e->getMessage()]
 			);
 			return [

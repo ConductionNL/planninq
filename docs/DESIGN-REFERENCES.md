@@ -1,4 +1,4 @@
-# Planix — Design References & Wireframes
+# Planninq — Design References & Wireframes
 
 ## 1. Design Inspiration Sources
 
@@ -86,7 +86,7 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│  PLANIX                                          [Search] [+ Task] │
+│  PLANNINQ                                          [Search] [+ Task] │
 ├──────────┬───────────┬──────────┬──────────┬───────────────────────┤
 │ Dashboard│ Projects  │ My Work  │ Timesheet│                       │
 ├──────────┴───────────┴──────────┴──────────┘                       │
@@ -102,7 +102,7 @@
 │  ── Recent Projects ───────────────────────────────────────────── │
 │                                                                    │
 │  ● API Gateway Refactor        ████████████░░░  8/12 tasks  ↗    │
-│  ● Nextcloud App — Planix      ██░░░░░░░░░░░░   3/22 tasks  ↗    │
+│  ● Nextcloud App — Planninq      ██░░░░░░░░░░░░   3/22 tasks  ↗    │
 │  ● Security Audit Q1           ████████████████ 12/12 done  ✓    │
 │  ● Infra Migration             █████░░░░░░░░░░  5/14 tasks  ↗    │
 │                                                                    │
@@ -120,7 +120,7 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│  PLANIX › Projects                                    [+ Project] │
+│  PLANNINQ › Projects                                    [+ Project] │
 ├────────────────────────────────────────────────────────────────────┤
 │  🔍 Search projects...          [Active ▾]   [My projects only □] │
 ├────────────────────────────────────────────────────────────────────┤
@@ -129,7 +129,7 @@
 │    Backend infra · 3 members · 8/12 tasks             ██████░░░░  │
 │    Last activity: 2h ago · 1 overdue                             │
 │                                                                    │
-│  ● Nextcloud App — Planix             [Case: 2024-001] [Board] [⋯]│
+│  ● Nextcloud App — Planninq             [Case: 2024-001] [Board] [⋯]│
 │    Frontend · 2 members · 3/22 tasks                  █░░░░░░░░░  │
 │    Last activity: 1d ago · 0 overdue                             │
 │                                                                    │
@@ -147,7 +147,7 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│  PLANIX › API Gateway Refactor       [Board] [Backlog] [Settings] │
+│  PLANNINQ › API Gateway Refactor       [Board] [Backlog] [Settings] │
 ├──────────────────────────────────────────────────────────────────── │
 │  Filter: [All assignees ▾] [All labels ▾] [Priority ▾]  [+ Task] │
 ├──────────────────────────────────────────────────────────────────── │
@@ -238,7 +238,7 @@ CnDetailPage (title="Fix auth token expiry bug", back-route=board)
 │   │   └─ estimate/logged progress bar + TimeEntry list + [Log time]
 │   └─ CnDetailCard (title="Sub-tasks") [V1]
 │       └─ sub-task checklist
-└─ CnObjectSidebar (object-type="planix_task", object-id=uuid)
+└─ CnObjectSidebar (object-type="planix-task", object-id=uuid)
     ├─ Tab: Files    — upload, list, open (via OpenRegister → NC Files)
     ├─ Tab: Notes    — add, list, delete (via OpenRegister → NC Comments)
     ├─ Tab: Tags     — add, remove, list (via OpenRegister → NC Tags)
@@ -249,7 +249,7 @@ CnDetailPage (title="Fix auth token expiry bug", back-route=board)
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│  PLANIX › API Gateway Refactor       [Board] [Backlog] [Settings] │
+│  PLANNINQ › API Gateway Refactor       [Board] [Backlog] [Settings] │
 ├────────────────────────────────────────────────────────────────────┤
 │  Backlog (8 tasks)  🔍 Search...   [Priority ▾] [Assignee ▾] [+] │
 ├────────────────────────────────────────────────────────────────────┤
@@ -272,7 +272,7 @@ CnDetailPage (title="Fix auth token expiry bug", back-route=board)
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│  PLANIX › My Work                                                  │
+│  PLANNINQ › My Work                                                  │
 ├────────────────────────────────────────────────────────────────────┤
 │  Showing tasks assigned to you across all projects                │
 ├────────────────────────────────────────────────────────────────────┤
@@ -310,11 +310,11 @@ CnDetailPage (title="Fix auth token expiry bug", back-route=board)
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│  Administration › Planix                                           │
+│  Administration › Planninq                                           │
 ├────────────────────────────────────────────────────────────────────┤
 │                                                                    │
 │  ┌─ CnVersionInfoCard ──────────────────────────────────────────┐ │
-│  │  Planix  v0.1.0                         [Check for updates]  │ │
+│  │  Planninq  v0.1.0                         [Check for updates]  │ │
 │  │  Installed · OpenRegister: ✓ connected                       │ │
 │  └──────────────────────────────────────────────────────────────┘ │
 │                                                                    │
@@ -350,7 +350,7 @@ CnDetailPage (title="Fix auth token expiry bug", back-route=board)
 
 **Component hierarchy**:
 ```
-CnVersionInfoCard (app-name="Planix", app-version="0.1.0", show-update-button)
+CnVersionInfoCard (app-name="Planninq", app-version="0.1.0", show-update-button)
 CnSettingsSection (name="Default Project Configuration", doc-url="...")
   └─ editable ordered column list + [Save changes]
 CnSettingsSection (name="Label Management", ...)
@@ -363,7 +363,7 @@ CnSettingsSection (name="OpenRegister Setup", ...)
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│  Planix Settings                                              [✕]  │
+│  Planninq Settings                                              [✕]  │
 ├────────────────────────────────────────────────────────────────────┤
 │                                                                    │
 │  ┌─ NcAppSettingsSection: Notifications ───────────────────────┐  │
@@ -377,7 +377,7 @@ CnSettingsSection (name="OpenRegister Setup", ...)
 │  └──────────────────────────────────────────────────────────────┘  │
 │                                                                    │
 │  ┌─ NcAppSettingsSection: Display ─────────────────────────────┐  │
-│  │  Customize how Planix looks and behaves for you.             │  │
+│  │  Customize how Planninq looks and behaves for you.             │  │
 │  │                                                              │  │
 │  │  Default view when opening a project:                        │  │
 │  │  (●) My Work    ( ) Kanban board    ( ) Backlog              │  │
@@ -387,13 +387,13 @@ CnSettingsSection (name="OpenRegister Setup", ...)
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-**Note**: Uses `NcAppSettingsDialog` (NOT `NcDialog`). Triggered from the `?` / gear icon in the Planix top navigation bar. See `openspec/specs/nextcloud-app/spec.md` for the authoritative pattern.
+**Note**: Uses `NcAppSettingsDialog` (NOT `NcDialog`). Triggered from the `?` / gear icon in the Planninq top navigation bar. See `openspec/specs/nextcloud-app/spec.md` for the authoritative pattern.
 
 ### 3.9 Timesheet View
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│  PLANIX › My Timesheet                                             │
+│  PLANNINQ › My Timesheet                                             │
 ├────────────────────────────────────────────────────────────────────┤
 │  [This week ▾]  Mar 24 – Mar 30, 2026           Total: 14h 30m    │
 ├────────────────────────────────────────────────────────────────────┤

@@ -5,11 +5,11 @@
 
 ## Purpose
 
-Defines the dispatch of task notifications that fire on object events rather than direct user action. The MVP capability is the `task_due_soon` reminder: a schema-rule declared on the planix `task` schema in the canonical `x-openregister-notifications` dialect and evaluated by the OpenRegister scheduled notification engine. Closes the gap where the `notify_due_reminder` user toggle (admin-user-settings spec) existed without any sender. Planix MUST NOT dispatch this notification imperatively from app code (gate-18 `notification-dialect`). The companion `task_assigned` notification is tracked under the `tasks` capability.
+Defines the dispatch of task notifications that fire on object events rather than direct user action. The MVP capability is the `task_due_soon` reminder: a schema-rule declared on the Planninq `task` schema in the canonical `x-openregister-notifications` dialect and evaluated by the OpenRegister scheduled notification engine. Closes the gap where the `notify_due_reminder` user toggle (admin-user-settings spec) existed without any sender. Planninq MUST NOT dispatch this notification imperatively from app code (gate-18 `notification-dialect`). The companion `task_assigned` notification is tracked under the `tasks` capability.
 
 ## Requirements
 ### Requirement: Declarative taskDueSoon rule on the task schema [MVP]
-The `task` schema in `lib/Settings/planix_register.json` MUST declare a `taskDueSoon` notification rule under the top-level `x-openregister-notifications` key, using the canonical dialect:
+The `task` schema in `lib/Settings/planninq_register.json` MUST declare a `taskDueSoon` notification rule under the top-level `x-openregister-notifications` key, using the canonical dialect:
 
 - `trigger`: type `scheduled` with `intervalSec: 3600` and a filter matching tasks whose `dueDate` falls within the configured lead window AND whose `status` is not `done`
 - `enabled`: `true` (schema default; users opt out via the engine's override-only preference)
@@ -17,26 +17,26 @@ The `task` schema in `lib/Settings/planix_register.json` MUST declare a `taskDue
 - `recipients`: `[{"kind": "field", "field": "assignedTo"}]` (the task schema's assignee property is named `assignedTo`)
 - `subject`: English and Dutch templates interpolating the task `{{title}}` (English source strings as i18n keys)
 
-Planix MUST NOT contain a BackgroundJob, event listener, or `INotificationManager` dispatch path for `task_due_soon` (gate-18 `notification-dialect`).
+Planninq MUST NOT contain a BackgroundJob, event listener, or `INotificationManager` dispatch path for `task_due_soon` (gate-18 `notification-dialect`).
 
 #### Scenario: Rule present in the register definition
-@e2e exclude static register-definition assertion, covered by PHPUnit against planix_register.json
-- GIVEN the planix register definition `lib/Settings/planix_register.json`
+@e2e exclude static register-definition assertion, covered by PHPUnit against planninq_register.json
+- GIVEN the Planninq register definition `lib/Settings/planninq_register.json`
 - WHEN the `task` schema is inspected
 - THEN it MUST contain `x-openregister-notifications.taskDueSoon` with a `scheduled` trigger, `nc-notification` channel, `assignedTo` field recipient, and en + nl subjects
 
 #### Scenario: Rule installed on register import
 @e2e exclude backend install path, covered by Newman against the OR schema API
-- GIVEN a fresh planix install with OpenRegister available
+- GIVEN a fresh planninq install with OpenRegister available
 - WHEN the register import runs (repair step / admin "Initialize register")
 - THEN the live `task` schema in OpenRegister MUST carry the `taskDueSoon` rule
 - AND re-running the import MUST NOT duplicate or reset the rule (idempotent)
 
-#### Scenario: No imperative dispatch in planix code
+#### Scenario: No imperative dispatch in planninq code
 @e2e exclude static code-shape gate, enforced by hydra gate-18 notification-dialect
-- GIVEN the planix `lib/` source tree
+- GIVEN the planninq `lib/` source tree
 - WHEN scanned for object-notification dispatch
-- THEN no planix class may send `task_due_soon` via `INotificationManager` or a planix background job
+- THEN no planninq class may send `task_due_soon` via `INotificationManager` or a planninq background job
 
 ### Requirement: Due-soon detection window [MVP]
 A task MUST be detected as due-soon when ALL of the following hold at evaluation time:
@@ -80,12 +80,12 @@ The reminder lead time MUST be configurable by a Nextcloud admin via the `IAppCo
 
 #### Scenario: Default lead time is 24 hours
 @e2e exclude config-default assertion, covered by PHPUnit on SettingsService
-- GIVEN a fresh planix install where the admin has never changed the setting
+- GIVEN a fresh planninq install where the admin has never changed the setting
 - WHEN the effective lead time is resolved
 - THEN it MUST be 24 hours
 
 #### Scenario: Admin changes the lead time
-- GIVEN a Nextcloud admin opens Administration → Planix
+- GIVEN a Nextcloud admin opens Administration → Planninq
 - WHEN the admin sets the due-date reminder lead time to 48 hours and saves
 - THEN `due_reminder_lead_hours = 48` MUST be stored via IAppConfig
 - AND the live `taskDueSoon` rule's window MUST be updated to 48 hours

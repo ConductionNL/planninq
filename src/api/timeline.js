@@ -2,7 +2,7 @@
  * Timeline API — stateless read functions for the project Gantt view.
  *
  * Deliberately NOT a Pinia store: the timeline is a read-only surface, so it
- * needs no shared reactive state. Each call hits the planix read-only endpoint
+ * needs no shared reactive state. Each call hits the Planninq read-only endpoint
  * `GET /api/projects/{projectId}/timeline`, which returns the project's tasks
  * (scheduled + unscheduled) and its existing dependency links, RBAC-scoped by
  * OpenRegister server-side. Nothing here creates or mutates an object.
@@ -32,7 +32,7 @@ export async function fetchProjectTimeline(projectId, from = null, to = null) {
 		params.to = to
 	}
 
-	const url = generateUrl(`/apps/planix/api/projects/${projectId}/timeline`)
+	const url = generateUrl(`/apps/planninq/api/projects/${projectId}/timeline`)
 	const response = await axios.get(url, { params })
 	const data = response.data || {}
 

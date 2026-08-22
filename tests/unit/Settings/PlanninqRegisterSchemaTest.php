@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Unit tests for planix_register.json schema definitions.
+ * Unit tests for planninq_register.json schema definitions.
  *
  * Verifies that the register JSON contains the authorization blocks
  * and owner field required to prevent cross-tenant IDOR (issues #257 and #258)
  * and that the register explicitly disables public read/write (issue #259).
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Settings
+ * @package  OCA\Planninq\Tests\Unit\Settings
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -21,14 +21,14 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Settings;
+namespace OCA\Planninq\Tests\Unit\Settings;
 
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for planix_register.json schema authorization and security configuration.
+ * Tests for planninq_register.json schema authorization and security configuration.
  */
-class PlanixRegisterSchemaTest extends TestCase {
+class PlanninqRegisterSchemaTest extends TestCase {
 
 	/**
 	 * Decoded register JSON data.
@@ -45,12 +45,12 @@ class PlanixRegisterSchemaTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$path = __DIR__ . '/../../../lib/Settings/planix_register.json';
-		self::assertFileExists(filename: $path, message: 'planix_register.json must exist');
+		$path = __DIR__ . '/../../../lib/Settings/planninq_register.json';
+		self::assertFileExists(filename: $path, message: 'planninq_register.json must exist');
 
 		$contents = (string)file_get_contents($path);
 		$decoded = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
-		self::assertIsArray(actual: $decoded, message: 'planix_register.json must be valid JSON');
+		self::assertIsArray(actual: $decoded, message: 'planninq_register.json must be valid JSON');
 
 		$this->register = $decoded;
 

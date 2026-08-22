@@ -23,7 +23,7 @@ import './assets/app.css'
 registerIcons(appIcons)
 
 /**
- * Bootstrap the Planix SPA.
+ * Bootstrap the Planninq SPA.
  *
  * @return {void}
  */
@@ -35,7 +35,7 @@ function mountApp() {
 	app.use(pinia)
 	app.use(router)
 
-	// ⚠️ The host element is `#planix-app`, NOT `#content`.
+	// ⚠️ The host element is `#planninq-app`, NOT `#content`.
 	//
 	// Vue 2's `$mount()` REPLACED the matched element; Vue 3's `mount()`
 	// renders INSIDE it. The old `<div id="content">` in templates/index.php
@@ -44,7 +44,7 @@ function mountApp() {
 	// Vue 3 the app would render *inside* core's `#content` and the NcContent
 	// layout breaks. Renaming the host element sidesteps the question of which
 	// div wins entirely.
-	app.mount('#planix-app')
+	app.mount('#planninq-app')
 
 	// Initialize stores after mount.
 	initializeStores()
@@ -58,8 +58,8 @@ function mountApp() {
 // and the callback never runs. Mounting inside the callback therefore leaves a
 // permanently blank page for those users, with only a network 404 to show for
 // it. `.finally()` runs the mount exactly once on both paths.
-loadTranslations('planix')
+loadTranslations('planninq')
 	.catch((error) => {
-		console.warn('[planix] translations could not be loaded; falling back to source strings', error)
+		console.warn('[planninq] translations could not be loaded; falling back to source strings', error)
 	})
 	.finally(mountApp)

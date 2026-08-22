@@ -11,7 +11,7 @@
  * the label object last, and is idempotent on a re-run after a partial sweep.
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Service
+ * @package  OCA\Planninq\Tests\Unit\Service
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -26,9 +26,9 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Service;
+namespace OCA\Planninq\Tests\Unit\Service;
 
-use OCA\Planix\Service\LabelService;
+use OCA\Planninq\Service\LabelService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;

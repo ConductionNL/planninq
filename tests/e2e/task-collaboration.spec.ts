@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
  * E2E (UI-only) coverage for the task collaboration sidebar.
@@ -14,7 +14,7 @@
  *  - "Field change appears in the audit trail"
  *  - "Audit trail is read-only"
  *  - "Status change appears in a member's activity stream"
- *  - "Planix filter in the Activity app"
+ *  - "Planninq filter in the Activity app"
  *
  * API / contract assertions ("Comments respect task access", "No app-local
  * comment storage", "Attachment is a real Nextcloud file", listener scoping, and
@@ -24,7 +24,7 @@
  *
  * The task detail surface is seeded by `tests/e2e/global-setup.ts` (via
  * `fixtures/seed.ts`) and reachable through the kanban board (see the
- * kanban-task-detail-keyboard-navigation change). Only the "planix not
+ * kanban-task-detail-keyboard-navigation change). Only the "planninq not
  * installed" and the genuinely-optional "Activity app not available" skips
  * remain; the former per-tab presence guards are now hard assertions.
  */
@@ -120,7 +120,7 @@ test.describe('Task collaboration sidebar', () => {
 		// The Files tab renders an upload affordance and a (possibly empty) list.
 		//
 		// ⚠️ There is no button here, and that is a real accessibility defect —
-		// in `@conduction/nextcloud-vue`, not in planix. `CnFilesTab` renders the
+		// in `@conduction/nextcloud-vue`, not in planninq. `CnFilesTab` renders the
 		// upload affordance as
 		//
 		//     <div class="cn-sidebar-tab__dropzone" @click="triggerFileInput">
@@ -157,13 +157,13 @@ test.describe('Task collaboration sidebar', () => {
 		}
 	})
 
-	test('Planix filter is available in the Activity app', async ({ page }) => {
+	test('Planninq filter is available in the Activity app', async ({ page }) => {
 		const res = await page.goto(ACTIVITY_URL)
 		test.skip(res === null || res.status() >= 400, 'Activity app not available in this environment')
 
-		// Seeded task creation emits planix activity, so the filter MUST appear
+		// Seeded task creation emits planninq activity, so the filter MUST appear
 		// once the (optional) Activity app is present.
-		const planixFilter = page.getByRole('link', { name: /Planix/i }).or(page.getByText(/Planix/i))
-		await expect(planixFilter.first()).toBeVisible()
+		const planninqFilter = page.getByRole('link', { name: /Planninq/i }).or(page.getByText(/Planninq/i))
+		await expect(planninqFilter.first()).toBeVisible()
 	})
 })

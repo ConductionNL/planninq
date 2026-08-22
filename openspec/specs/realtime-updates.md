@@ -9,7 +9,7 @@
 
 ## Purpose
 
-Planix views that render OpenRegister-backed objects stay fresh without manual refresh. The shared `@conduction/nextcloud-vue` object store (>= 1.0.0-beta.212) installs `liveUpdatesPlugin` default-on in `createObjectStore`, exposing `subscribe(type, id?)` / `unsubscribe(handle)` backed by `@nextcloud/notify_push` with a visibility-gated polling fallback. OpenRegister pushes `or-collection-{register-slug}-{schema-slug}` events for collection changes and `or-object-{uuid}` events for per-object changes; events are refetch hints only — the plugin re-runs the last fetch through the same store, and thin bridge watchers copy the fresh data into Planix's own Pinia state.
+Planninq views that render OpenRegister-backed objects stay fresh without manual refresh. The shared `@conduction/nextcloud-vue` object store (>= 1.0.0-beta.212) installs `liveUpdatesPlugin` default-on in `createObjectStore`, exposing `subscribe(type, id?)` / `unsubscribe(handle)` backed by `@nextcloud/notify_push` with a visibility-gated polling fallback. OpenRegister pushes `or-collection-{register-slug}-{schema-slug}` events for collection changes and `or-object-{uuid}` events for per-object changes; events are refetch hints only — the plugin re-runs the last fetch through the same store, and thin bridge watchers copy the fresh data into Planninq's own Pinia state.
 
 ## Requirements
 
@@ -19,7 +19,7 @@ WHEN the project list view (`ProjectList.vue`) is mounted, the app SHALL subscri
 
 #### Scenario: project created elsewhere appears in the list
 
-- **GIVEN** a user has the Planix project list open
+- **GIVEN** a user has the Planninq project list open
 - **WHEN** another session creates a project that includes the user as member
 - **THEN** the project appears in the list without a manual refresh
 

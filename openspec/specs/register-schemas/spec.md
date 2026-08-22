@@ -11,7 +11,7 @@
 
 <!-- @e2e exclude pure-backend spec: all scenarios concern PHP file content inspection, OpenRegister API validation (HTTP responses), install-time repair steps, and version-skip logic — no browser UI surface exists for any scenario -->
 
-This spec defines the requirements for the Planix OpenRegister schema definitions. The register file declares the data model that all Planix features are built upon. Correct schema definitions, seed data, and import behaviour are prerequisites for every other Planix capability.
+This spec defines the requirements for the Planninq OpenRegister schema definitions. The register file declares the data model that all Planninq features are built upon. Correct schema definitions, seed data, and import behaviour are prerequisites for every other Planninq capability.
 
 ---
 ## Requirements
@@ -23,7 +23,7 @@ The register file MUST declare exactly the schemas `task`, `project`, `column`, 
 
 #### Scenario: Register file contains required schemas
 
-- GIVEN the file `lib/Settings/planix_register.json` is loaded
+- GIVEN the file `lib/Settings/planninq_register.json` is loaded
 - WHEN its `components.schemas` keys are enumerated
 - THEN the keys MUST include `task`, `project`, `column`, `timeEntry`, `label`, and `dependency`
 - AND the key `example` MUST NOT be present
@@ -98,11 +98,11 @@ OpenRegister MUST enforce `required` constraints declared in each schema when ob
 
 ### Requirement: Seed data loaded on install [MVP]
 
-On a fresh Planix install, the seed objects defined in the register file MUST be created in OpenRegister automatically.
+On a fresh Planninq install, the seed objects defined in the register file MUST be created in OpenRegister automatically.
 
 #### Scenario: Seed objects present after fresh install
 
-- GIVEN Planix is installed for the first time on a Nextcloud instance
+- GIVEN Planninq is installed for the first time on a Nextcloud instance
 - WHEN the app is first activated (triggering `SettingsService` import)
 - THEN at least 3 Label objects MUST exist in the `planix` register
 - AND at least 3 Project objects MUST exist
@@ -131,7 +131,7 @@ Re-importing the register file MUST NOT create duplicate schema definitions or d
 
 #### Scenario: Re-import does not duplicate schemas
 
-- GIVEN Planix has been installed and the register has been imported once
+- GIVEN Planninq has been installed and the register has been imported once
 - WHEN the app is reloaded and `SettingsService` runs the import again (same version)
 - THEN the number of schemas in the `planix` register MUST remain exactly 5
 - AND no additional schema versions MUST be created
@@ -152,7 +152,7 @@ The import MUST be skipped when the stored register version matches the file ver
 #### Scenario: Import skipped when version unchanged
 
 - GIVEN the `planix` register is already stored in OpenRegister with version `0.2.0`
-- AND the file `lib/Settings/planix_register.json` declares version `0.2.0`
+- AND the file `lib/Settings/planninq_register.json` declares version `0.2.0`
 - WHEN `SettingsService` checks whether to import
 - THEN the import MUST be skipped
 - AND no API calls to OpenRegister MUST be made
@@ -160,7 +160,7 @@ The import MUST be skipped when the stored register version matches the file ver
 #### Scenario: Import triggered when version bumped
 
 - GIVEN the `planix` register is stored with version `0.1.0`
-- AND the file `lib/Settings/planix_register.json` declares version `0.2.0`
+- AND the file `lib/Settings/planninq_register.json` declares version `0.2.0`
 - WHEN `SettingsService` checks whether to import
 - THEN the import MUST be executed
 - AND all 5 schemas MUST be upserted in OpenRegister
@@ -170,7 +170,7 @@ The import MUST be skipped when the stored register version matches the file ver
 
 ## Acceptance Criteria
 
-- [ ] `lib/Settings/planix_register.json` contains schemas `task`, `project`, `column`, `timeEntry`, `label` and no `example` schema
+- [ ] `lib/Settings/planninq_register.json` contains schemas `task`, `project`, `column`, `timeEntry`, `label` and no `example` schema
 - [ ] Each schema has the correct `required` array and property definitions as specified in design.md
 - [ ] Register file version is `0.2.0`
 - [ ] `SettingsService` bumps trigger an import when `0.1.0` is stored and `0.2.0` is in the file

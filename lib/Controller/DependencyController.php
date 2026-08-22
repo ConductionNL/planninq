@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Planix Dependency Controller
+ * Planninq Dependency Controller
  *
  * HTTP surface for creating and deleting task dependency edges. The only
- * writes that route through planix (reads go straight to OpenRegister per
+ * writes that route through Planninq (reads go straight to OpenRegister per
  * ADR-022) because edge creation needs server-side graph validation
  * (self/duplicate/cross-project/cycle) that ObjectService cannot perform.
  *
  * @category Controller
- * @package  OCA\Planix\Controller
+ * @package  OCA\Planninq\Controller
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -24,11 +24,11 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Controller;
+namespace OCA\Planninq\Controller;
 
-use OCA\Planix\AppInfo\Application;
-use OCA\Planix\Exception\DependencyValidationException;
-use OCA\Planix\Service\DependencyService;
+use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Exception\DependencyValidationException;
+use OCA\Planninq\Service\DependencyService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -114,7 +114,7 @@ class DependencyController extends Controller {
 
 			return $this->toResponse(e: $e);
 		} catch (\Throwable $e) {
-			$this->logger->error('Planix: dependency create failed', ['exception' => $e->getMessage()]);
+			$this->logger->error('Planninq: dependency create failed', ['exception' => $e->getMessage()]);
 			return new JSONResponse(['error' => 'Failed to create dependency.'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -143,7 +143,7 @@ class DependencyController extends Controller {
 
 			return $this->toResponse(e: $e);
 		} catch (\Throwable $e) {
-			$this->logger->error('Planix: dependency delete failed', ['exception' => $e->getMessage(), 'id' => $id]);
+			$this->logger->error('Planninq: dependency delete failed', ['exception' => $e->getMessage(), 'id' => $id]);
 			return new JSONResponse(['error' => 'Failed to delete dependency.'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 

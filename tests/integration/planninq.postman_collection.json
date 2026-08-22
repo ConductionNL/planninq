@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "planix-collection",
-		"name": "Planix Integration Tests",
-		"description": "Integration test collection for the planix Nextcloud app.\nReplace this with your actual API tests.",
+		"_postman_id": "planninq-collection",
+		"name": "Planninq Integration Tests",
+		"description": "Integration test collection for the planninq Nextcloud app.\nReplace this with your actual API tests.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"auth": {
@@ -40,7 +40,7 @@
 			"key": "project_id",
 			"value": "00000000-0000-4000-a000-000000000001",
 			"type": "string",
-			"description": "Seeded project 'Client Portal v2' from lib/Settings/planix_register.json. This variable was REFERENCED by every task-creation request but never defined anywhere, so Postman passed the literal string '{{project_id}}' through and the schema rejected it on format:uuid with a 400."
+			"description": "Seeded project 'Client Portal v2' from lib/Settings/planninq_register.json. This variable was REFERENCED by every task-creation request but never defined anywhere, so Postman passed the literal string '{{project_id}}' through and the schema rejected it on format:uuid with a 400."
 		}
 	],
 	"item": [
@@ -81,7 +81,7 @@
 		},
 		{
 			"name": "Task Dependencies",
-			"description": "Server-side dependency-edge validation: create/delete, self-edge 422, duplicate 422, transitive cycle 422 (path named). Requires the planix app and its register installed; project_id must be a project the admin belongs to. spec: openspec/changes/task-dependencies/specs/task-dependencies/spec.md",
+			"description": "Server-side dependency-edge validation: create/delete, self-edge 422, duplicate 422, transitive cycle 422 (path named). Requires the planninq app and its register installed; project_id must be a project the admin belongs to. spec: openspec/changes/task-dependencies/specs/task-dependencies/spec.md",
 			"item": [
 				{
 					"name": "Create blocker task A",
@@ -214,7 +214,7 @@
 							"mode": "raw",
 							"raw": "{\"blocker\":\"{{task_a}}\",\"blocked\":\"{{task_b}}\"}"
 						},
-						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+						"url": "{{base_url}}/index.php/apps/planninq/api/dependencies"
 					},
 					"event": [
 						{
@@ -251,7 +251,7 @@
 							"mode": "raw",
 							"raw": "{\"blocker\":\"{{task_a}}\",\"blocked\":\"{{task_a}}\"}"
 						},
-						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+						"url": "{{base_url}}/index.php/apps/planninq/api/dependencies"
 					},
 					"event": [
 						{
@@ -284,7 +284,7 @@
 							"mode": "raw",
 							"raw": "{\"blocker\":\"{{task_a}}\",\"blocked\":\"{{task_b}}\"}"
 						},
-						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+						"url": "{{base_url}}/index.php/apps/planninq/api/dependencies"
 					},
 					"event": [
 						{
@@ -317,7 +317,7 @@
 							"mode": "raw",
 							"raw": "{\"blocker\":\"{{task_b}}\",\"blocked\":\"{{task_c}}\"}"
 						},
-						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+						"url": "{{base_url}}/index.php/apps/planninq/api/dependencies"
 					},
 					"event": [
 						{
@@ -350,7 +350,7 @@
 							"mode": "raw",
 							"raw": "{\"blocker\":\"{{task_c}}\",\"blocked\":\"{{task_a}}\"}"
 						},
-						"url": "{{base_url}}/index.php/apps/planix/api/dependencies"
+						"url": "{{base_url}}/index.php/apps/planninq/api/dependencies"
 					},
 					"event": [
 						{
@@ -371,7 +371,7 @@
 					"name": "Delete edge A blocks B",
 					"request": {
 						"method": "DELETE",
-						"url": "{{base_url}}/index.php/apps/planix/api/dependencies/{{edge_ab}}",
+						"url": "{{base_url}}/index.php/apps/planninq/api/dependencies/{{edge_ab}}",
 						"header": [
 							{
 								"key": "OCS-APIRequest",
@@ -396,7 +396,7 @@
 		},
 		{
 			"name": "Label Management",
-			"description": "Admin label management: create via OR, usage count 0→1, invalid colour 4xx, admin-only listing/cascade endpoints, cascade delete sweeps task.labels. Requires the planix app + register installed; admin auth. spec: openspec/changes/label-management-admin/specs/admin-user-settings/spec.md",
+			"description": "Admin label management: create via OR, usage count 0→1, invalid colour 4xx, admin-only listing/cascade endpoints, cascade delete sweeps task.labels. Requires the planninq app + register installed; admin auth. spec: openspec/changes/label-management-admin/specs/admin-user-settings/spec.md",
 			"item": [
 				{
 					"name": "Create label via OR API",
@@ -451,7 +451,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/planix/api/labels",
+						"url": "{{base_url}}/index.php/apps/planninq/api/labels",
 						"description": "Admin usage listing; the new label appears with usageCount 0."
 					},
 					"event": [
@@ -525,7 +525,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/planix/api/labels",
+						"url": "{{base_url}}/index.php/apps/planninq/api/labels",
 						"description": "After attaching to a task the usage count reflects 1."
 					},
 					"event": [
@@ -596,7 +596,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/planix/api/labels/{{label_id}}",
+						"url": "{{base_url}}/index.php/apps/planninq/api/labels/{{label_id}}",
 						"description": "Admin cascade delete: removes the UUID from referencing tasks then deletes the label; reports tasksUpdated."
 					},
 					"event": [
@@ -655,7 +655,7 @@
 		},
 		{
 			"name": "Task Collaboration",
-			"description": "Comments (OR notes, ICommentsManager-backed) and audit trail on a task, via OpenRegister per-object APIs (ADR-022; no planix pass-through). Covers notes CRUD on a seeded task (create -> list shows author+message -> edit own -> delete own), an RBAC-negative read for an inaccessible task, and the audit trail carrying the status-change entry after an update. spec: openspec/specs/task-collaboration.md",
+			"description": "Comments (OR notes, ICommentsManager-backed) and audit trail on a task, via OpenRegister per-object APIs (ADR-022; no planninq pass-through). Covers notes CRUD on a seeded task (create -> list shows author+message -> edit own -> delete own), an RBAC-negative read for an inaccessible task, and the audit trail carrying the status-change entry after an update. spec: openspec/specs/task-collaboration.md",
 			"item": [
 				{
 					"name": "Seed task for collaboration",
@@ -896,7 +896,7 @@
 							}
 						],
 						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/00000000-0000-0000-0000-000000000000/notes",
-						"description": "A request for the notes of a task the caller cannot read returns no comments (404/403/empty) — enforcement lives in OpenRegister, not planix."
+						"description": "A request for the notes of a task the caller cannot read returns no comments (404/403/empty) — enforcement lives in OpenRegister, not planninq."
 					},
 					"event": [
 						{

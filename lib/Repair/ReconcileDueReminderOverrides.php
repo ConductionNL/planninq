@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Planix Reconcile Due-Reminder Overrides Repair Step
+ * Planninq Reconcile Due-Reminder Overrides Repair Step
  *
  * One-shot repair step that seeds OpenRegister notification overrides for users
  * who opted out of due-date reminders (notify_due_reminder = false) before the
  * declarative dispatch existed.
  *
  * @category Repair
- * @package  OCA\Planix\Repair
+ * @package  OCA\Planninq\Repair
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -23,10 +23,10 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Repair;
+namespace OCA\Planninq\Repair;
 
-use OCA\Planix\AppInfo\Application;
-use OCA\Planix\Service\SettingsService;
+use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\SettingsService;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -62,7 +62,7 @@ class ReconcileDueReminderOverrides implements IRepairStep {
 	 * @spec openspec/specs/task-notifications.md
 	 */
 	public function getName(): string {
-		return 'Reconcile Planix due-date reminder opt-outs to OpenRegister overrides';
+		return 'Reconcile Planninq due-date reminder opt-outs to OpenRegister overrides';
 	}//end getName()
 
 	/**
@@ -106,7 +106,7 @@ class ReconcileDueReminderOverrides implements IRepairStep {
 				}
 			} catch (\Throwable $e) {
 				$this->logger->warning(
-					'Planix: failed to reconcile due-reminder override',
+					'Planninq: failed to reconcile due-reminder override',
 					['user' => $userId, 'exception' => $e->getMessage()]
 				);
 			}//end try

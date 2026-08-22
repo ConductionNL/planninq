@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Planix Deep-Link Registration Listener
+ * Planninq Deep-Link Registration Listener
  *
  * One-line AppHost leaf class. `IRegistrationContext::registerEventListener()`
  * is typed `class-string<IEventListener<Event>>`, a contract only a real class
@@ -19,7 +19,7 @@
  * OpenRegister absent this class is never resolved at all.
  *
  * @category Listener
- * @package  OCA\Planix\Listener
+ * @package  OCA\Planninq\Listener
  *
  * @author    Conduction Development Team <dev@conduction.nl>
  * @copyright 2026 Conduction B.V.
@@ -35,12 +35,14 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Listener;
+namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\AppHost\Listener\GenericDeepLinkRegistrationListener;
 
 /**
- * AppHost-backed deep-link registration listener for Planix (ADR-040).
+ * AppHost-backed deep-link registration listener for Planninq (ADR-040).
+ *
+ * @spec openspec/specs/app-metadata/spec.md
  */
 class DeepLinkRegistrationListener extends GenericDeepLinkRegistrationListener {
 }//end class

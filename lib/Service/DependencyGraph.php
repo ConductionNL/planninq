@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Planix Dependency Graph
+ * Planninq Dependency Graph
  *
  * The pure, I/O-free half of task dependencies: cycle detection over the
  * blocker→blocked edge list and the blocked-task derivation mirrored by the
@@ -16,7 +16,7 @@
  * instead of reaching for static access (PHPMD StaticAccess).
  *
  * @category Service
- * @package  OCA\Planix\Service
+ * @package  OCA\Planninq\Service
  *
  * @author    Conduction Development Team <dev@conduction.nl>
  * @copyright 2026 Conduction B.V.
@@ -32,7 +32,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Service;
+namespace OCA\Planninq\Service;
 
 /**
  * Pure graph algorithms over the task-dependency edge list.
