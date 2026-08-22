@@ -29,6 +29,58 @@ const TASK_SCHEMA = 'task'
 const TIME_ENTRY_SCHEMA = 'timeEntry'
 
 /**
+ * Largest page OpenRegister will return. Asking for more is silently capped.
+ *
+ * The underscore prefix is required: OpenRegister reads an unprefixed `limit`
+ * as a property filter, which matches nothing and returns an empty collection.
+ */
+const MAX_PAGE = 1000
+
+/**
+ * Read an ENTIRE collection, following pages until it is exhausted.
+ *
+ * OpenRegister pages at 20 by default and caps a page at 1000, and this store
+ * reads whole collections for three purposes that are all wrong when truncated:
+ * rendering a board, COUNTING, and cascade-DELETING. A 21-task project rendered
+ * 20 tasks and reported "20" as its total; worse, deleting it removed one page
+ * of tasks and left the rest as orphans, while every call reported success.
+ *
+ * Raising the page size alone does not fix it — the largest project on our own
+ * instance holds 2,015 tasks, so a single `_limit=1000` read still silently
+ * dropped half of it. Only following `_page` to exhaustion is correct.
+ *
+ * @param {object} objectStore the shared OpenRegister object store
+ * @param {string} schema      schema slug to read
+ * @param {object} filters     property filters (no control params)
+ * @return {Promise<Array>} every row in the collection
+ */
+async function fetchEvery(objectStore, schema, filters = {}) {
+	const out = []
+	const seen = new Set()
+	for (let page = 1; ; page++) {
+		const batch = await objectStore.fetchCollection(schema, { ...filters, _limit: MAX_PAGE, _page: page })
+		const rows = Array.isArray(batch) ? batch : []
+
+		// Keep only rows we have not already collected. This is also the
+		// termination guard: a server that ignored `_page` would hand back the
+		// same full batch forever, and a `rows.length < MAX_PAGE` check alone
+		// would loop until the tab died. Zero NEW rows means there is no more
+		// collection to read, whatever the server thinks it is doing.
+		let added = 0
+		for (const row of rows) {
+			const id = row?.id ?? row?.uuid ?? row?.['@self']?.id
+			if (id !== undefined && seen.has(id)) continue
+			if (id !== undefined) seen.add(id)
+			out.push(row)
+			added++
+		}
+
+		if (added === 0 || rows.length < MAX_PAGE) break
+	}
+	return out
+}
+
+/**
  * Default columns created for every new project.
  *
  * @return {Array} Column definitions
@@ -112,9 +164,19 @@ export const useProjectsStore = defineStore('projects', {
 				// Fetch all projects; client-side filter below keeps only member projects.
 				// Note: server-side `members[]` array filter uses PostgreSQL jsonb syntax
 				// which is incompatible with MariaDB — do not pass it as a query param.
-				const params = { ...filters }
-
-				const results = await objectStore.fetchCollection(PROJECT_SCHEMA, params)
+				//
+				// `_limit` is what makes "fetch all" true. OpenRegister pages at 20 by
+				// default, and filtering for membership CLIENT-SIDE over a SERVER-PAGED
+				// result is only correct when the page holds everything: on an instance
+				// with 31 projects the user's own board simply stopped appearing in the
+				// list, with no error and no empty state — it was on page two, and page
+				// two was never requested. The bug scales with the instance, so it shows
+				// up first for whoever has the most data.
+				//
+				// The underscore is not cosmetic: OpenRegister treats an unprefixed
+				// `limit` as a PROPERTY filter, which matches nothing and returns an
+				// empty collection — the same silent disappearance, one layer down.
+				const results = await fetchEvery(objectStore, PROJECT_SCHEMA, filters)
 
 				// Client-side guard: ensure only member projects are shown.
 				this.projects = uid
@@ -459,14 +521,14 @@ export const useProjectsStore = defineStore('projects', {
 				const objectStore = this._objectStore()
 
 				// 1. Fetch tasks for this project.
-				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, { project: id })
+				const tasks = await fetchEvery(objectStore, TASK_SCHEMA, { project: id })
 
 				// 2. Fetch and delete time entries for each task.
 				// NOTE: deletion is sequential and non-transactional. A mid-flight failure
 				// (network drop, server error) will leave orphaned objects. The error messages
 				// below prompt the user to retry, which will pick up where deletion failed.
 				for (const task of tasks) {
-					const entries = await objectStore.fetchCollection(TIME_ENTRY_SCHEMA, { task: task.id })
+					const entries = await fetchEvery(objectStore, TIME_ENTRY_SCHEMA, { task: task.id })
 					for (const entry of entries) {
 						const ok = await objectStore.deleteObject(TIME_ENTRY_SCHEMA, entry.id)
 						if (!ok) {
@@ -486,7 +548,7 @@ export const useProjectsStore = defineStore('projects', {
 				}
 
 				// 4. Fetch and delete columns.
-				const columns = await objectStore.fetchCollection(COLUMN_SCHEMA, { project: id })
+				const columns = await fetchEvery(objectStore, COLUMN_SCHEMA, { project: id })
 				for (const col of columns) {
 					const ok = await objectStore.deleteObject(COLUMN_SCHEMA, col.id)
 					if (!ok) {
@@ -558,7 +620,7 @@ export const useProjectsStore = defineStore('projects', {
 		async getMemberTaskCount(projectId, userUid) {
 			try {
 				const objectStore = this._objectStore()
-				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, {
+				const tasks = await fetchEvery(objectStore, TASK_SCHEMA, {
 					project: projectId,
 					assignedTo: userUid,
 				})
@@ -670,7 +732,7 @@ export const useProjectsStore = defineStore('projects', {
 		async getTaskCount(projectId) {
 			try {
 				const objectStore = this._objectStore()
-				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, { project: projectId })
+				const tasks = await fetchEvery(objectStore, TASK_SCHEMA, { project: projectId })
 				return tasks.length
 			} catch {
 				return 0
@@ -696,7 +758,7 @@ export const useProjectsStore = defineStore('projects', {
 		async fetchTasks(projectId) {
 			try {
 				const objectStore = this._objectStore()
-				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, { project: projectId })
+				const tasks = await fetchEvery(objectStore, TASK_SCHEMA, { project: projectId })
 				return Array.isArray(tasks) ? tasks : []
 			} catch (err) {
 				console.error('fetchTasks error:', err)

@@ -24,7 +24,6 @@ jobs:
       # and `nextcloud/ocp` is now `^34.0` — the stubs the analysers resolve
       # against. Both sides name the same server, so the test matrix names it
       # too.
-      nextcloud-test-refs: '["stable34"]'
       enable-psalm: true
       enable-phpstan: true
       enable-phpmetrics: true

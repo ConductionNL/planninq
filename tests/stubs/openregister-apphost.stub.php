@@ -381,3 +381,28 @@ class GenericDeepLinkRegistrationListener implements IEventListener {
 	public function handle(Event $event): void {
 	}//end handle()
 }//end class
+
+namespace OCA\OpenRegister\Exception;
+
+/*
+ * OpenRegister's exception classes, declared here for the same reason as the
+ * AppHost engine above: openregister is a sibling Nextcloud app, not a composer
+ * dependency, so its classes are absent from the analysis path.
+ *
+ * Without them PHPStan types `get_class($e)` as a class-string it cannot match
+ * against these names and reports every comparison in
+ * ProjectController::classifyObjectServiceException() as "will always evaluate
+ * to false" — five findings about code that is correct and load-bearing at
+ * runtime. Stubbing the real names keeps those comparisons type-checked instead
+ * of silenced in a baseline.
+ *
+ * Analysis-only: never autoloaded or executed.
+ */
+
+class NotAuthorizedException extends \Exception {}
+
+class ValidationException extends \Exception {}
+
+class CustomValidationException extends \Exception {}
+
+class ProviderUnavailableException extends \Exception {}
