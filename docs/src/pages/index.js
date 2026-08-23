@@ -409,7 +409,7 @@ export default function Home() {
           secondaryCta={{ label: 'Read the docs', href: '/docs/intro' }}
           tertiaryCta={{
             label: 'View on GitHub',
-            href: 'https://codeberg.org/Conduction/planninq',
+            href: 'https://github.com/ConductionNL/planninq',
           }}
           iconColor="var(--c-orange-knvb)"
           icon={PLANNINQ_ICON}
