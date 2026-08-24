@@ -28,4 +28,4 @@ A task represents a piece of work within a project. Tasks carry a title, descrip
 
 ## Spec
 
-- [tasks spec](https://codeberg.org/Conduction/planninq/src/branch/development/openspec/specs/tasks.md)
+- [tasks spec](https://github.com/ConductionNL/planninq/blob/development/openspec/specs/tasks.md)
