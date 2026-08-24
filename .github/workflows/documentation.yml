@@ -2,9 +2,9 @@ name: Documentation
 
 on:
   push:
-    branches: [documentation]
+    branches: [development]
   pull_request:
-    branches: [documentation]
+    branches: [development]
 
 jobs:
   deploy:
@@ -12,4 +12,24 @@ jobs:
     # Docusaurus site now lives there (migrated from `docusaurus/`).
     uses: ConductionNL/.github/.github/workflows/documentation.yml@main
     with:
+      # FROZEN on the old host: docs/docusaurus.config.js `url:` and
+      # docs/static/CNAME both still say `planix.conduction.nl`. This moves to
+      # `planninq.conduction.nl` together with those two, not before — the
+      # callee's live-site check fetches this host.
       cname: planix.conduction.nl
+
+      # EVERY host this site answers on, in FULL. This was MISSING, and that
+      # was not a cosmetic gap: `docs-hosts` defaults to `cname` alone, and
+      # wrangler reconciles the worker's triggers against what it is given —
+      # so the first successful deploy would have REMOVED
+      # `planninq.conduction.nl` from the worker and taken the new host down.
+      # Both were attached as custom domains on 2026-08-23 and both serve 200.
+      docs-hosts: planix.conduction.nl,planninq.conduction.nl
+
+      # The worker that holds both custom domains. It happens to match what
+      # the callee would derive from `cname` today, which is exactly why it is
+      # pinned here: the moment `cname` moves to `planninq.conduction.nl` the
+      # derived name silently becomes `planninq-docs`, a worker that does not
+      # exist, and the deploy forks off a second worker while both custom
+      # domains keep routing to this one — green, and reaching nobody.
+      worker-name: planix-docs
