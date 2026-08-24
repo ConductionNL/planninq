@@ -5,7 +5,7 @@
  * future date (>2 days), approaching date (today / 1 / 2 days out), overdue
  * (past), and date-only comparison (time component ignored). Mirrors the
  * scenarios in the task-due-date-warning change (originally authored on PR #1,
- * adapted to planix's vitest harness with an injected clock for determinism).
+ * adapted to planninq's vitest harness with an injected clock for determinism).
  *
  * @spec openspec/specs/kanban-board.md
  */

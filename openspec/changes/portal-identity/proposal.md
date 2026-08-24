@@ -4,17 +4,17 @@ kind: config
 
 # Proposal: portal-identity
 
-**Tracking:** Conduction/planix#19 (Wave-3 portaliq contribution — leave open).
+**Tracking:** Conduction/planninq#19 (Wave-3 portaliq contribution — leave open).
 
 ## Summary
 
-Add the portal-subject scoping identity that planix currently lacks: a UUID
+Add the portal-subject scoping identity that planninq currently lacks: a UUID
 domain-ref property on the three schemas an external contractor needs to read
 or write. `task` and `timeEntry` each gain a `contractorRef` (`format: uuid`)
 alongside their existing Nextcloud-uid fields (`assignedTo`, `user`); `project`
 gains a `contractorRefs` (`uuid[]`) alongside `members`. Nothing is removed —
 the NC-uid fields stay exactly as they are for internal dev/IT teams. This is
-the **config** link of the planix ADR-046 portal chain; the **code** link
+the **config** link of the planninq ADR-046 portal chain; the **code** link
 (`portal-contribution`) ships the provider that scopes portal reads by these
 new refs and depends on this change.
 
@@ -23,16 +23,16 @@ new refs and depends on this change.
 ADR-046 makes portaliq the ONE external portal for people WITHOUT Nextcloud
 accounts, and its contribution contract (v2.1) amendment A4 is categorical:
 portal scoping MUST use UUID *domain-object* references, never Nextcloud user
-ids — because an external subject has no NC account by premise. Planix scopes
+ids — because an external subject has no NC account by premise. Planninq scopes
 all work by NC uid today: `task.assignedTo`, `timeEntry.user` and
 `project.members` are all NC user ids (verified at HEAD). There is therefore no
 property portaliq can scope an external contractor's reads by. Adding one — a
 distinct UUID ref that lives *alongside* the NC-uid field — is the minimum,
-non-destructive precondition for any planix portal surface.
+non-destructive precondition for any planninq portal surface.
 
 ## Affected Projects
 
-- [x] Project: `planix` — additive `contractorRef` (`task`, `timeEntry`) and `contractorRefs` (`project`) properties in `lib/Settings/planix_register.json`; register + touched-schema + `appinfo/info.xml` version bumps. No code, no routes, no UI.
+- [x] Project: `planninq` — additive `contractorRef` (`task`, `timeEntry`) and `contractorRefs` (`project`) properties in `lib/Settings/planninq_register.json`; register + touched-schema + `appinfo/info.xml` version bumps. No code, no routes, no UI.
 
 ## Scope
 
@@ -56,7 +56,7 @@ non-destructive precondition for any planix portal surface.
 - Removing, renaming or repurposing any NC-uid field — explicitly forbidden;
   internal teams keep `assignedTo` / `user` / `members`.
 - Backfilling `contractorRef` onto existing objects, and any client
-  project-view (no client reference exists in the planix model — not invented).
+  project-view (no client reference exists in the planninq model — not invented).
 - Changing OpenRegister authorization blocks — portaliq performs the scoped
   read server-side; the register's NC-internal RBAC is untouched.
 
@@ -77,7 +77,7 @@ This is link 1 of 2:
 1. **portal-identity** (this change, `kind: config`) — adds the UUID scoping
    properties to the register.
 2. **portal-contribution** (`kind: code`, `depends_on: [portal-identity]`) —
-   ships `OCA\Planix\Portal\PortalContributionProvider`, which reads
+   ships `OCA\Planninq\Portal\PortalContributionProvider`, which reads
    `contractorRef` / `contractorRefs`. It is meaningless until these properties
    exist, hence the dependency.
 
@@ -87,7 +87,7 @@ None. This is a JSON-only, additive schema change.
 
 ## Impact
 
-- `lib/Settings/planix_register.json` — three additive properties + version
+- `lib/Settings/planninq_register.json` — three additive properties + version
   bumps. Existing objects and seeds stay valid (`contractorRef` absent = valid).
 - `appinfo/info.xml` — version bump so the repair-step import re-runs.
 - No routes, controllers, services, frontend, or tests owned by this change
@@ -119,5 +119,5 @@ to nothing.
 Revert the register JSON and the `info.xml` bump. The properties are additive
 and optional, so no object data is lost — existing rows simply keep no
 `contractorRef`. Portaliq, finding the provider reading a now-absent property,
-scopes every contractor read to nothing (fail-closed); planix itself is
+scopes every contractor read to nothing (fail-closed); planninq itself is
 unaffected.

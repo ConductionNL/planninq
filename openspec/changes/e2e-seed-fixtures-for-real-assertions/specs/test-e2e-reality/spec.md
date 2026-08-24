@@ -6,13 +6,13 @@
 
 ### Requirement: e2e specs execute real assertions on a fresh environment
 
-Playwright specs under `tests/e2e/` that depend on planix application data (projects, tasks, labels, admin settings) MUST NOT rely on that data having
+Playwright specs under `tests/e2e/` that depend on planninq application data (projects, tasks, labels, admin settings) MUST NOT rely on that data having
 been created manually or by a prior, unrelated test run. `global-setup.ts`
 MUST seed the minimum fixture data (one project with the admin as a member
 and its default columns, at least two tasks spanning due-date states, at
 least one label attached to a task, admin due-date-reminder defaults
 confirmed) idempotently before any spec runs, so that a fresh CI environment
-(a Nextcloud instance with planix newly installed and nothing else) produces
+(a Nextcloud instance with planninq newly installed and nothing else) produces
 the same assertions as a long-lived dev container.
 
 A `test.skip()` guard on one of these specs MUST be reserved for a genuine
@@ -25,7 +25,7 @@ regression and MUST fail the test, not skip it.
 
 #### Scenario: Fresh CI environment exercises the kanban board badge scenarios
 
-- GIVEN a Nextcloud instance with planix newly installed and no manually
+- GIVEN a Nextcloud instance with planninq newly installed and no manually
   created data
 - WHEN `tests/e2e/kanban-board.spec.ts` runs
 - THEN `global-setup.ts` MUST have seeded a project with tasks in

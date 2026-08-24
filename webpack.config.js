@@ -14,7 +14,7 @@ webpackConfig.stats = {
 	modules: false,
 }
 
-const appId = 'planix'
+const appId = 'planninq'
 webpackConfig.entry = {
 	main: {
 		import: path.join(__dirname, 'src', 'main.js'),
@@ -38,7 +38,7 @@ webpackConfig.entry = {
 // app against Vue 2 library sources: the build succeeds and the first symptom
 // is a runtime failure that looks like a migration bug. The shared
 // `apps-extra/nextcloud-vue` checkout is regularly parked on a `beta.*` branch,
-// and `apps-extra/planix` sits right next to it — so this is the normal case,
+// and `apps-extra/planninq` sits right next to it — so this is the normal case,
 // not a hypothetical. Refuse a MAJOR mismatch loudly instead.
 const localLib = path.resolve(__dirname, '../nextcloud-vue/src')
 
@@ -62,7 +62,7 @@ function resolveUseLocalLib() {
 	const localMajor = localVersion ? String(localVersion).split('.')[0] : null
 	if (localMajor !== null && localMajor !== wantedMajor) {
 		throw new Error(
-			`[planix] Refusing to build against ../nextcloud-vue@${localVersion}: this app `
+			`[planninq] Refusing to build against ../nextcloud-vue@${localVersion}: this app `
 			+ `depends on @conduction/nextcloud-vue@${wanted} (major ${wantedMajor}). Aliasing a `
 			+ `major-${localMajor} checkout in would silently build Vue 2 library sources into a `
 			+ 'Vue 3 app. Check out the matching nc-vue branch, or set USE_LOCAL_LIB=false to '
@@ -150,7 +150,7 @@ webpackConfig.resolve.fallback = {
 // the apps path whose URL is `/apps`. The standard Docker image registers a
 // SECOND apps path — `/var/www/html/custom_apps` served at `/custom_apps` —
 // which is where a `docker cp`-deployed app lands, and the previous hardcoded
-// `/custom_apps/planix/js/` is in turn wrong for a `/apps`-served install.
+// `/custom_apps/planninq/js/` is in turn wrong for a `/apps`-served install.
 //
 // The entry bundle is unaffected (Nextcloud generates that script tag itself),
 // so the failure only shows on LAZY-LOADED chunks: the wrong path does NOT

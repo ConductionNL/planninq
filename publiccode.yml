@@ -1,7 +1,7 @@
 publiccodeYmlVersion: "0.4"
 
-name: Planix
-url: "https://codeberg.org/Conduction/planix"
+name: Planninq
+url: "https://github.com/ConductionNL/planninq"
 softwareVersion: "0.2.1"
 releaseDate: "2026-05-26"
 developmentStatus: beta
@@ -19,7 +19,7 @@ description:
     shortDescription: >
       Kanban-based project and task management for Nextcloud.
     longDescription: >
-      Planix is a kanban-based project and task management application for Nextcloud.
+      Planninq is a kanban-based project and task management application for Nextcloud.
       It enables teams to visualise workflows, track progress on tasks and projects,
       and collaborate effectively. Built on Open Register, it integrates with the
       Nextcloud ecosystem and supports agile and lean work methodologies suitable
@@ -34,7 +34,7 @@ description:
     shortDescription: >
       Kanban-gebaseerd project- en taakbeheer voor Nextcloud.
     longDescription: >
-      Planix is een kanban-gebaseerde project- en taakbeheertoepassing voor Nextcloud.
+      Planninq is een kanban-gebaseerde project- en taakbeheertoepassing voor Nextcloud.
       Het stelt teams in staat om workflows te visualiseren, voortgang bij te houden
       op taken en projecten en effectief samen te werken. Gebouwd op Open Register
       integreert het met het Nextcloud-ecosysteem en ondersteunt agile en lean

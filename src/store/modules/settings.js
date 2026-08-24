@@ -1,7 +1,7 @@
 /**
  * Settings Pinia store.
  *
- * Bootstraps the admin settings UI by fetching/saving the planix settings
+ * Bootstraps the admin settings UI by fetching/saving the Planninq settings
  * payload (admin config + openregisters flag + isAdmin flag).
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
@@ -33,7 +33,7 @@ export const useSettingsStore = defineStore('settings', {
 		async fetchSettings() {
 			this.loading = true
 			try {
-				const response = await fetch(generateUrl('/apps/planix/api/settings'), {
+				const response = await fetch(generateUrl('/apps/planninq/api/settings'), {
 					headers: { requesttoken: OC.requestToken },
 				})
 				if (response.ok) {
@@ -62,7 +62,7 @@ export const useSettingsStore = defineStore('settings', {
 		async saveSettings(settings) {
 			this.loading = true
 			try {
-				const response = await fetch(generateUrl('/apps/planix/api/settings'), {
+				const response = await fetch(generateUrl('/apps/planninq/api/settings'), {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ export const useSettingsStore = defineStore('settings', {
 		async saveUserSettings(settings) {
 			this.loading = true
 			try {
-				const response = await fetch(generateUrl('/apps/planix/api/settings/user'), {
+				const response = await fetch(generateUrl('/apps/planninq/api/settings/user'), {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',

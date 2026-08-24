@@ -1,10 +1,10 @@
 # Dashboard & My Work
 
-The personal landing page of Planix — an overview of your work state and tasks assigned to you across all projects.
+The personal landing page of Planninq — an overview of your work state and tasks assigned to you across all projects.
 
 ## Overview
 
-When you open Planix, you land on the Dashboard. It shows KPI cards for your task counts, the five most recently active projects you are a member of, and tasks due within the next seven days. The My Work view provides a prioritized list of all tasks assigned to you, grouped by urgency.
+When you open Planninq, you land on the Dashboard. It shows KPI cards for your task counts, the five most recently active projects you are a member of, and tasks due within the next seven days. The My Work view provides a prioritized list of all tasks assigned to you, grouped by urgency.
 
 ## Dashboard
 
@@ -35,4 +35,4 @@ From My Work you can update a task's status via an inline dropdown, or click the
 
 ## Spec
 
-- [dashboard-my-work spec](https://codeberg.org/Conduction/planix/src/branch/development/openspec/specs/dashboard-my-work.md)
+- [dashboard-my-work spec](https://codeberg.org/Conduction/planninq/src/branch/development/openspec/specs/dashboard-my-work.md)

@@ -3,14 +3,14 @@
 		<!-- Access denied state (403 or non-member) -->
 		<NcEmptyContent
 			v-if="accessDenied"
-			:name="t('planix', 'You do not have access to this project')"
-			:description="t('planix', 'You are not a member of this project.')">
+			:name="t('planninq', 'You do not have access to this project')"
+			:description="t('planninq', 'You are not a member of this project.')">
 			<template #icon>
 				<LockOutline :size="20" />
 			</template>
 			<template #action>
 				<NcButton variant="primary" @click="$router.push({ name: 'Projects' })">
-					{{ t('planix', 'Back to projects') }}
+					{{ t('planninq', 'Back to projects') }}
 				</NcButton>
 			</template>
 		</NcEmptyContent>
@@ -41,19 +41,19 @@
 
 				<div class="project-board__header-actions">
 					<NcButton
-						:aria-label="t('planix', 'View backlog')"
+						:aria-label="t('planninq', 'View backlog')"
 						variant="tertiary"
 						@click="$router.push({ name: 'ProjectBacklog', params: { id: project.id } })">
-						{{ t('planix', 'Backlog') }}
+						{{ t('planninq', 'Backlog') }}
 					</NcButton>
 					<NcButton
-						:aria-label="t('planix', 'View timeline')"
+						:aria-label="t('planninq', 'View timeline')"
 						variant="tertiary"
 						@click="$router.push({ name: 'ProjectTimeline', params: { id: project.id } })">
-						{{ t('planix', 'Timeline') }}
+						{{ t('planninq', 'Timeline') }}
 					</NcButton>
 					<NcButton
-						:aria-label="t('planix', 'Project settings')"
+						:aria-label="t('planninq', 'Project settings')"
 						variant="tertiary"
 						@click="openSettings">
 						<template #icon>
@@ -119,7 +119,7 @@
 								@keydown.space.stop
 								@dragstart.stop>
 								<NcActions
-									:aria-label="t('planix', 'Move task to another column')"
+									:aria-label="t('planninq', 'Move task to another column')"
 									:force-menu="true">
 									<NcActionButton
 										v-for="target in otherColumns(column.status)"
@@ -137,7 +137,7 @@
 
 						<!-- Empty column placeholder -->
 						<p v-if="tasksByStatus[column.status].length === 0" class="kanban-column__empty">
-							{{ t('planix', 'No tasks') }}
+							{{ t('planninq', 'No tasks') }}
 						</p>
 					</div>
 				</section>
@@ -240,11 +240,11 @@ export default {
 		 */
 		columns() {
 			const labels = {
-				open: this.t('planix', 'Open'),
-				in_progress: this.t('planix', 'In Progress'),
-				blocked: this.t('planix', 'Blocked'),
-				done: this.t('planix', 'Done'),
-				cancelled: this.t('planix', 'Cancelled'),
+				open: this.t('planninq', 'Open'),
+				in_progress: this.t('planninq', 'In Progress'),
+				blocked: this.t('planninq', 'Blocked'),
+				done: this.t('planninq', 'Done'),
+				cancelled: this.t('planninq', 'Cancelled'),
 			}
 			return BOARD_STATUSES.map((status) => ({ status, label: labels[status] }))
 		},
@@ -456,7 +456,7 @@ export default {
 				this.tasks = this.tasks.map((existing) =>
 					existing.id === task.id ? { ...existing, status: previousStatus } : existing,
 				)
-				showError(this.t('planix', 'Could not move the task. Please try again.'))
+				showError(this.t('planninq', 'Could not move the task. Please try again.'))
 			}
 		},
 
@@ -614,6 +614,15 @@ export default {
 .kanban-column__card:hover .kanban-column__card-actions,
 .kanban-column__card:focus-within .kanban-column__card-actions {
 	opacity: 1;
+}
+
+/* Honour a reduced-motion preference: the fade is decorative, so drop the
+   transition rather than the visibility change — the actions must still
+   appear on hover and focus. */
+@media (prefers-reduced-motion: reduce) {
+	.kanban-column__card-actions {
+		transition: none;
+	}
 }
 
 .kanban-column__card--highlight {

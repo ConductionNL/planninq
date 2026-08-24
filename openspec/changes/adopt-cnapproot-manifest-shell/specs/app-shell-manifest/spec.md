@@ -2,11 +2,11 @@
 status: proposed
 ---
 
-# Planix App Shell Manifest Adoption
+# Planninq App Shell Manifest Adoption
 
 ## Purpose
 
-Planix's frontend shell (navigation, router, admin settings chrome) runs on
+Planninq's frontend shell (navigation, router, admin settings chrome) runs on
 the shared `@conduction/nextcloud-vue` `CnAppRoot` + manifest-v2 contract
 (ADR-024/036/044) instead of a bespoke `App.vue` + `MainMenu.vue` +
 `router/index.js` stack, so shell improvements shipped to the shared library
@@ -22,13 +22,13 @@ architecture).
 
 ### Requirement: Manifest-Derived Navigation
 
-Planix SHALL derive its top-level navigation from `src/manifest.json`
+Planninq SHALL derive its top-level navigation from `src/manifest.json`
 `pages[]`/`menu[]` rendered by `CnAppRoot`, not from a hand-written
 `NcAppNavigation` component.
 
 #### Scenario: Navigation renders from the manifest
 
-- **GIVEN** a logged-in user with planix enabled
+- **GIVEN** a logged-in user with planninq enabled
 - **WHEN** the app shell mounts
 - **THEN** the sidebar MUST show exactly the items declared in
   `manifest.json` `menu[]` (Dashboard, Projects, Documentation), in the
@@ -38,7 +38,7 @@ Planix SHALL derive its top-level navigation from `src/manifest.json`
 
 ### Requirement: Manifest-Derived Routing
 
-Planix SHALL derive its Vue Router routes from the manifest `pages[]` array
+Planninq SHALL derive its Vue Router routes from the manifest `pages[]` array
 via `CnAppRoot`, not from a hand-written `router/index.js`.
 
 #### Scenario: All five routes remain reachable
@@ -49,7 +49,7 @@ via `CnAppRoot`, not from a hand-written `router/index.js`.
   `/projects/:id/backlog`, or `/projects/:id/tasks/:taskId`
 - **THEN** each URL MUST resolve to the same view component as before the
   adoption (no functionality loss, ADR-044 hard rule)
-- @e2e planix/tests/e2e/navigation.spec.ts
+- @e2e planninq/tests/e2e/navigation.spec.ts
 
 #### Scenario: Unknown route falls back to Dashboard
 
@@ -57,19 +57,19 @@ via `CnAppRoot`, not from a hand-written `router/index.js`.
 - **WHEN** the manifest-derived router resolves the URL
 - **THEN** the app MUST redirect to `/` exactly as the pre-adoption catch-all
   route did
-- @e2e planix/tests/e2e/navigation.spec.ts
+- @e2e planninq/tests/e2e/navigation.spec.ts
 
 ### Requirement: Shared Admin Settings Shell
 
-Planix SHALL render its admin settings page through `CnAdminSettingsShell`
+Planninq SHALL render its admin settings page through `CnAdminSettingsShell`
 instead of a bespoke `AdminRoot.vue`, with the register/schema configuration
 fields sourced from the same `SettingsController::index()` schema as before.
 
 #### Scenario: Admin settings render and save through the shared shell
 
 - **GIVEN** an admin user on the Nextcloud admin settings page
-- **WHEN** the admin opens the Planix settings section and changes
+- **WHEN** the admin opens the Planninq settings section and changes
   `allow_project_creation`
 - **THEN** the change MUST persist via the existing
-  `POST /apps/planix/api/settings` endpoint, unchanged in shape
-- @e2e planix/tests/e2e/admin-settings.spec.ts
+  `POST /apps/planninq/api/settings` endpoint, unchanged in shape
+- @e2e planninq/tests/e2e/admin-settings.spec.ts

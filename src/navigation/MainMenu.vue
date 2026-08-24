@@ -2,7 +2,7 @@
 	<NcAppNavigation>
 		<template #list>
 			<NcAppNavigationItem
-				:name="t('planix', 'Dashboard')"
+				:name="t('planninq', 'Dashboard')"
 				:to="{ name: 'Dashboard' }"
 				:exact="true">
 				<template #icon>
@@ -10,35 +10,35 @@
 				</template>
 			</NcAppNavigationItem>
 			<NcAppNavigationItem
-				:name="t('planix', 'Boards')"
+				:name="t('planninq', 'Boards')"
 				:to="{ name: 'Boards' }">
 				<template #icon>
 					<ViewDashboardOutline :size="20" />
 				</template>
 			</NcAppNavigationItem>
 			<NcAppNavigationItem
-				:name="t('planix', 'Projects')"
+				:name="t('planninq', 'Projects')"
 				:to="{ name: 'Projects' }">
 				<template #icon>
 					<FolderOutline :size="20" />
 				</template>
 			</NcAppNavigationItem>
 			<NcAppNavigationItem
-				:name="t('planix', 'Portfolio')"
+				:name="t('planninq', 'Portfolio')"
 				:to="{ name: 'Portfolio' }">
 				<template #icon>
 					<ChartBarIcon :size="20" />
 				</template>
 			</NcAppNavigationItem>
 			<NcAppNavigationItem
-				:name="t('planix', 'Timesheet')"
+				:name="t('planninq', 'Timesheet')"
 				:to="{ name: 'Timesheet' }">
 				<template #icon>
 					<ClockOutline :size="20" />
 				</template>
 			</NcAppNavigationItem>
 			<NcAppNavigationItem
-				:name="t('planix', 'Documentation')"
+				:name="t('planninq', 'Documentation')"
 				@click="openLink('https://planix.conduction.nl', '_blank')">
 				<template #icon>
 					<BookOpenVariantOutline :size="20" />
@@ -48,7 +48,7 @@
 		<template #footer>
 			<NcAppNavigationSettings>
 				<NcAppNavigationItem
-					:name="t('planix', 'Settings')"
+					:name="t('planninq', 'Settings')"
 					@click="$emit('open-settings')">
 					<template #icon>
 						<CogIcon :size="20" />

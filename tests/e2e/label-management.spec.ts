@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
  * E2E (UI-only) coverage for the label-management admin surfaces.
@@ -20,14 +20,14 @@
  * A fixture label ("E2E Bug") is seeded by `tests/e2e/global-setup.ts` (via
  * `fixtures/seed.ts`) and attached to a seeded task, so the admin Label
  * management section renders its list and controls unconditionally. Only the
- * legitimate "planix not installed" skip remains; the former "section not
+ * legitimate "planninq not installed" skip remains; the former "section not
  * present" guards are now hard `expect(...)` assertions.
  */
 
 import { test, expect, type Page } from '@playwright/test'
 import { BASE_URL as NC } from './base-url'
 
-const SETTINGS_URL = `${NC}/index.php/settings/admin/planix`
+const SETTINGS_URL = `${NC}/index.php/settings/admin/planninq`
 
 /**
  * The open label dialog (NcDialog renders `role="dialog"`).
@@ -50,7 +50,7 @@ function dialog(page: Page) {
 test.describe('Label management — admin settings', () => {
 	test('View labels with usage counts', async ({ page }) => {
 		const res = await page.goto(SETTINGS_URL)
-		test.skip(res === null || res.status() >= 400, 'Planix not installed in this environment')
+		test.skip(res === null || res.status() >= 400, 'Planninq not installed in this environment')
 
 		const section = page.getByText(/Label management/i)
 		await expect(section.first()).toBeVisible()
@@ -62,7 +62,7 @@ test.describe('Label management — admin settings', () => {
 
 	test('Create a label with a custom color', async ({ page }) => {
 		const res = await page.goto(SETTINGS_URL)
-		test.skip(res === null || res.status() >= 400, 'Planix not installed in this environment')
+		test.skip(res === null || res.status() >= 400, 'Planninq not installed in this environment')
 
 		const createBtn = page.getByRole('button', { name: /Create label/i }).first()
 		await expect(createBtn).toBeVisible()
@@ -89,7 +89,7 @@ test.describe('Label management — admin settings', () => {
 
 	test('Invalid color is rejected in the dialog', async ({ page }) => {
 		const res = await page.goto(SETTINGS_URL)
-		test.skip(res === null || res.status() >= 400, 'Planix not installed in this environment')
+		test.skip(res === null || res.status() >= 400, 'Planninq not installed in this environment')
 
 		const createBtn = page.getByRole('button', { name: /Create label/i }).first()
 		await expect(createBtn).toBeVisible()
@@ -103,7 +103,7 @@ test.describe('Label management — admin settings', () => {
 
 	test('Rename and recolor propagate to task chips by reference', async ({ page }) => {
 		const res = await page.goto(SETTINGS_URL)
-		test.skip(res === null || res.status() >= 400, 'Planix not installed in this environment')
+		test.skip(res === null || res.status() >= 400, 'Planninq not installed in this environment')
 
 		const editBtn = page.getByRole('button', { name: /Edit label/i }).first()
 		await expect(editBtn).toBeVisible()
@@ -127,7 +127,7 @@ test.describe('Label management — admin settings', () => {
 
 	test('Delete a used label via the usage-warning dialog', async ({ page }) => {
 		const res = await page.goto(SETTINGS_URL)
-		test.skip(res === null || res.status() >= 400, 'Planix not installed in this environment')
+		test.skip(res === null || res.status() >= 400, 'Planninq not installed in this environment')
 
 		const deleteBtn = page.getByRole('button', { name: /Delete label/i }).first()
 		await expect(deleteBtn).toBeVisible()

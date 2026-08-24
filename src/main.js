@@ -1,8 +1,10 @@
+import { registerIcons } from '@conduction/nextcloud-vue'
 import { createApp } from 'vue'
 import { translate as t, translatePlural as n, loadTranslations } from '@nextcloud/l10n'
 import pinia from './pinia.js'
 import router from './router/index.js'
 import App from './App.vue'
+import appIcons from './icons.js'
 import { initializeStores } from './store/store.js'
 
 // Library CSS — must be explicit import (webpack tree-shakes side-effect imports from aliased packages)
@@ -11,8 +13,17 @@ import '@conduction/nextcloud-vue/css/index.css'
 // Global (unscoped) app styles
 import './assets/app.css'
 
+// ADR-077 rule 3. The shared components resolve an `icon` by PascalCase name
+// through this registry, and an unregistered name renders NO icon rather than a
+// fallback — so a missing registerIcons() call is invisible in code review and
+// shows up only as silently icon-less navigation.
+//
+// Called at module scope, before mountApp(), so the registry is populated
+// before any component renders.
+registerIcons(appIcons)
+
 /**
- * Bootstrap the Planix SPA.
+ * Bootstrap the Planninq SPA.
  *
  * @return {void}
  */
@@ -24,7 +35,7 @@ function mountApp() {
 	app.use(pinia)
 	app.use(router)
 
-	// ⚠️ The host element is `#planix-app`, NOT `#content`.
+	// ⚠️ The host element is `#planninq-app`, NOT `#content`.
 	//
 	// Vue 2's `$mount()` REPLACED the matched element; Vue 3's `mount()`
 	// renders INSIDE it. The old `<div id="content">` in templates/index.php
@@ -33,7 +44,7 @@ function mountApp() {
 	// Vue 3 the app would render *inside* core's `#content` and the NcContent
 	// layout breaks. Renaming the host element sidesteps the question of which
 	// div wins entirely.
-	app.mount('#planix-app')
+	app.mount('#planninq-app')
 
 	// Initialize stores after mount.
 	initializeStores()
@@ -47,8 +58,8 @@ function mountApp() {
 // and the callback never runs. Mounting inside the callback therefore leaves a
 // permanently blank page for those users, with only a network 404 to show for
 // it. `.finally()` runs the mount exactly once on both paths.
-loadTranslations('planix')
+loadTranslations('planninq')
 	.catch((error) => {
-		console.warn('[planix] translations could not be loaded; falling back to source strings', error)
+		console.warn('[planninq] translations could not be loaded; falling back to source strings', error)
 	})
 	.finally(mountApp)

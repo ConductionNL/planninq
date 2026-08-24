@@ -4,7 +4,7 @@ import pinia from './pinia.js'
 import AdminRoot from './views/settings/AdminRoot.vue'
 
 /**
- * Bootstrap the Planix admin-settings panel.
+ * Bootstrap the Planninq admin-settings panel.
  *
  * @return {void}
  */
@@ -15,17 +15,17 @@ function mountAdminSettings() {
 	app.mixin({ methods: { t, n } })
 	app.use(pinia)
 
-	// `#planix-settings` is this panel's own host element (templates/settings/
+	// `#planninq-settings` is this panel's own host element (templates/settings/
 	// admin.php), not a Nextcloud-owned wrapper, so `mount()` rendering INSIDE
 	// it rather than replacing it is correct here.
-	app.mount('#planix-settings')
+	app.mount('#planninq-settings')
 }
 
 // See src/main.js: `loadTranslations` never invokes its callback when the
 // locale bundle 404s, so mounting inside the callback renders a blank admin
 // panel for exactly those users. Mount on both paths.
-loadTranslations('planix')
+loadTranslations('planninq')
 	.catch((error) => {
-		console.warn('[planix] translations could not be loaded; falling back to source strings', error)
+		console.warn('[planninq] translations could not be loaded; falling back to source strings', error)
 	})
 	.finally(mountAdminSettings)

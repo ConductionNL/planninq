@@ -1,8 +1,8 @@
 {
-  "$schema": "https://codeberg.org/Conduction/nextcloud-vue/raw/branch/main/src/schemas/app-manifest-v2.schema.json",
+  "$schema": "https://raw.githubusercontent.com/ConductionNL/nextcloud-vue/main/src/schemas/app-manifest-v2.schema.json",
   "version": "0.1.0",
   "observability": {
-    "_note": "AppHost manifest (ADR-040). The observability block reproduces the output of the now-deleted hand-written HealthController + MetricsController; /api/health and /api/metrics are aliased to AppHost\\Controller\\GenericHealth#index / GenericMetrics#index in appinfo/routes.php. The deepLinks block replaces the hand-written DeepLinkRegistrationListener, read at event time by the generic listener. Parity: the database health check and implicit planix_info/planix_up metrics match the pre-adoption contract; the task/project object counts are a documented intentional improvement (object-count observability the bespoke MetricsController never emitted). This is an observability-only manifest (schema v2.13.0 profile): planix renders no manifest-driven UI, so there is deliberately no menu/pages — the former top-level appId/name keys were removed 2026-07-06 (not part of the v2 contract; the app id comes from the runtime).",
+    "_note": "AppHost manifest (ADR-040). The observability block reproduces the output of the now-deleted hand-written HealthController + MetricsController; /api/health and /api/metrics are aliased to AppHost\\Controller\\GenericHealth#index / GenericMetrics#index in appinfo/routes.php. The deepLinks block replaces the hand-written DeepLinkRegistrationListener, read at event time by the generic listener. Parity: the database health check and the implicit {appId}_info/{appId}_up metrics match the pre-adoption contract — those two are derived from the runtime app id, so they read planninq_info/planninq_up after the planix -> planninq rename; the task/project object counts are a documented intentional improvement (object-count observability the bespoke MetricsController never emitted). The `register` and `registerSlug` values below are still `planix` on purpose: they are the OpenRegister register slug, not the app id, and this release ships no register-slug migration. This is an observability-only manifest (schema v2.13.0 profile): planninq renders no manifest-driven UI, so there is deliberately no menu/pages — the former top-level appId/name keys were removed 2026-07-06 (not part of the v2 contract; the app id comes from the runtime).",
     "health": {
       "statusCodePolicy": "adr006",
       "checks": [
@@ -38,31 +38,31 @@
     {
       "registerSlug": "planix",
       "schemaSlug": "task",
-      "urlTemplate": "/apps/planix/projects/{project}?task={uuid}",
+      "urlTemplate": "/apps/planninq/projects/{project}?task={uuid}",
       "displayName": "Task"
     },
     {
       "registerSlug": "planix",
       "schemaSlug": "project",
-      "urlTemplate": "/apps/planix/projects/{uuid}",
+      "urlTemplate": "/apps/planninq/projects/{uuid}",
       "displayName": "Project"
     },
     {
       "registerSlug": "planix",
       "schemaSlug": "column",
-      "urlTemplate": "/apps/planix/projects/{project}",
+      "urlTemplate": "/apps/planninq/projects/{project}",
       "displayName": "Column"
     },
     {
       "registerSlug": "planix",
       "schemaSlug": "label",
-      "urlTemplate": "/apps/planix/projects",
+      "urlTemplate": "/apps/planninq/projects",
       "displayName": "Label"
     },
     {
       "registerSlug": "planix",
       "schemaSlug": "timeEntry",
-      "urlTemplate": "/apps/planix/projects/{project}?task={task}",
+      "urlTemplate": "/apps/planninq/projects/{project}?task={task}",
       "displayName": "Time entry"
     }
   ]

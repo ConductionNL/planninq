@@ -32,7 +32,7 @@ spec-refs:
 - GIVEN the app is installed and user is logged in as admin
 - WHEN the user navigates to the relevant page
 - THEN 
-Shows whether the Planix register is initialized (green check / warning)- AND If not initialized, shows "Initialize register" button- AND Button triggers register initialization (calls backend endpoint)- AND Shows loading state during initialization- AND Shows success or error result after completion
+Shows whether the Planninq register is initialized (green check / warning)- AND If not initialized, shows "Initialize register" button- AND Button triggers register initialization (calls backend endpoint)- AND Shows loading state during initialization- AND Shows success or error result after completion
 
 ## Test Data
 
@@ -40,7 +40,7 @@ _(use default dev environment — admin/admin on localhost:8080)_
 
 ## Acceptance Criteria
 
-- [ ] Shows whether the Planix register is initialized (green check / warning)
+- [ ] Shows whether the Planninq register is initialized (green check / warning)
 - [ ] If not initialized, shows "Initialize register" button
 - [ ] Button triggers register initialization (calls backend endpoint)
 - [ ] Shows loading state during initialization

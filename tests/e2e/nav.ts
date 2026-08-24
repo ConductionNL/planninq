@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
- * Shared navigation helpers for the planix e2e suite.
+ * Shared navigation helpers for the planninq e2e suite.
  *
  * Why these exist — three navigation bugs the specs all shared, each of which
  * produced a failure (or a skip) that looked like missing UI:
  *
- *  1. `a[href*="/projects/"]` matched NOTHING. Planix renders project rows as
+ *  1. `a[href*="/projects/"]` matched NOTHING. Planninq renders project rows as
  *     `<li class="project-list-item" role="option">` with a click handler that
  *     calls `router.push()`; there is not a single project anchor in the app.
  *     Every spec that "clicked the first project link" therefore stayed on the
@@ -19,8 +19,8 @@
  *     hash history, so a `#/…` fragment is never a route — the app just renders
  *     the Dashboard.
  *
- *  3. `/index.php/apps/planix/<subroute>`. The router base comes from
- *     `generateUrl('/apps/planix')`, which on this instance is `/apps/planix`
+ *  3. `/index.php/apps/planninq/<subroute>`. The router base comes from
+ *     `generateUrl('/apps/planninq')`, which on this instance is `/apps/planninq`
  *     — WITHOUT `index.php`. A deep link carrying `/index.php` does not start
  *     with the base, matches no route, and the catch-all redirects to the
  *     Dashboard. (The bare app root happens to survive this, which is why only
@@ -34,8 +34,8 @@ import { expect, type Page } from '@playwright/test'
 import { BASE_URL } from './base-url'
 import { FIXTURE } from './fixtures/seed'
 
-/** The planix SPA entry point. Safe with or without `index.php`. */
-export const PLANIX_ROOT = `${BASE_URL}/index.php/apps/planix/`
+/** The planninq SPA entry point. Safe with or without `index.php`. */
+export const PLANNINQ_ROOT = `${BASE_URL}/index.php/apps/planninq/`
 
 /**
  * Open the project list and click the SEEDED fixture project, landing on its
@@ -51,7 +51,7 @@ export const PLANIX_ROOT = `${BASE_URL}/index.php/apps/planix/`
  * @return the project UUID taken from the resulting URL
  */
 export async function openFixtureProjectBoard(page: Page): Promise<string> {
-	await page.goto(PLANIX_ROOT)
+	await page.goto(PLANNINQ_ROOT)
 
 	// Use the app's own navigation entry rather than a hand-built URL.
 	await page.locator('#app-navigation-vue a[title="Projects"]').click()
@@ -69,17 +69,17 @@ export async function openFixtureProjectBoard(page: Page): Promise<string> {
 }
 
 /**
- * Open the planix user-settings dialog from the app navigation.
+ * Open the planninq user-settings dialog from the app navigation.
  *
  * The old `getByRole('button', { name: /settings/i }).first()` matched
  * Nextcloud's own header button (`aria-label="Settings menu"`), which comes
  * first in the DOM — so the specs opened the user menu and then waited forever
- * for a planix toggle that was never going to render.
+ * for a planninq toggle that was never going to render.
  *
  * @param page the Playwright page
  * @return void
  */
-export async function openPlanixSettingsDialog(page: Page): Promise<void> {
+export async function openPlanninqSettingsDialog(page: Page): Promise<void> {
 	const nav = page.locator('#app-navigation-vue')
 	const item = nav.locator('a[title="Settings"]')
 

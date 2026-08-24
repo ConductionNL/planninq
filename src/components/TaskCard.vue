@@ -45,7 +45,7 @@
 
 		<!-- Assignee (optional) -->
 		<div v-if="task.assignedTo" class="task-card__assignee">
-			{{ t('planix', 'Assigned to: {user}', { user: task.assignedTo }) }}
+			{{ t('planninq', 'Assigned to: {user}', { user: task.assignedTo }) }}
 		</div>
 	</div>
 </template>
@@ -100,8 +100,8 @@ export default {
 		 */
 		dueDateBadgeText() {
 			const map = {
-				approaching: this.t('planix', 'Due soon'),
-				overdue: this.t('planix', 'Overdue'),
+				approaching: this.t('planninq', 'Due soon'),
+				overdue: this.t('planninq', 'Overdue'),
 			}
 			return map[this.dueDateBadgeStatus] || ''
 		},
@@ -127,13 +127,13 @@ export default {
 		 */
 		statusLabel() {
 			const map = {
-				open: this.t('planix', 'Open'),
-				in_progress: this.t('planix', 'In Progress'),
-				blocked: this.t('planix', 'Blocked'),
-				done: this.t('planix', 'Done'),
-				cancelled: this.t('planix', 'Cancelled'),
+				open: this.t('planninq', 'Open'),
+				in_progress: this.t('planninq', 'In Progress'),
+				blocked: this.t('planninq', 'Blocked'),
+				done: this.t('planninq', 'Done'),
+				cancelled: this.t('planninq', 'Cancelled'),
 			}
-			return map[this.task.status] || this.task.status || this.t('planix', 'Open')
+			return map[this.task.status] || this.task.status || this.t('planninq', 'Open')
 		},
 
 		/**
@@ -155,10 +155,10 @@ export default {
 		 */
 		priorityLabel() {
 			const map = {
-				low: this.t('planix', 'Low'),
-				normal: this.t('planix', 'Normal'),
-				high: this.t('planix', 'High'),
-				urgent: this.t('planix', 'Urgent'),
+				low: this.t('planninq', 'Low'),
+				normal: this.t('planninq', 'Normal'),
+				high: this.t('planninq', 'High'),
+				urgent: this.t('planninq', 'Urgent'),
 			}
 			return map[this.task.priority] || this.task.priority || ''
 		},

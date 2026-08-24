@@ -1,10 +1,10 @@
 <template>
-	<NcContent app-name="planix">
+	<NcContent app-name="planninq">
 		<template v-if="storesReady && !hasOpenRegisters">
 			<NcAppContent class="open-register-missing">
 				<NcEmptyContent
-					:name="t('planix', 'OpenRegister is required')"
-					:description="t('planix', 'This app needs OpenRegister to store and manage data. Please install OpenRegister from the app store to get started.')">
+					:name="t('planninq', 'OpenRegister is required')"
+					:description="t('planninq', 'This app needs OpenRegister to store and manage data. Please install OpenRegister from the app store to get started.')">
 					<template #icon>
 						<img :src="appIcon"
 							alt=""
@@ -16,7 +16,7 @@
 							v-if="isAdmin"
 							variant="primary"
 							:href="appStoreUrl">
-							{{ t('planix', 'Install OpenRegister') }}
+							{{ t('planninq', 'Install OpenRegister') }}
 						</NcButton>
 					</template>
 				</NcEmptyContent>
@@ -122,7 +122,7 @@ export default {
 		 * @spec exclude Trivial asset-path getter — resolves the app-dark.svg image path.
 		 */
 		appIcon() {
-			return imagePath('planix', 'app-dark.svg')
+			return imagePath('planninq', 'app-dark.svg')
 		},
 		/**
 		 * @spec exclude Trivial URL getter — builds the OpenRegister app-store link.

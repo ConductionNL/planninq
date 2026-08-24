@@ -3,7 +3,7 @@
 		<!-- Breadcrumb back to the board -->
 		<div class="project-timeline__breadcrumb">
 			<NcButton variant="tertiary"
-				:aria-label="t('planix', 'Back to board')"
+				:aria-label="t('planninq', 'Back to board')"
 				@click="$router.push({ name: 'ProjectBoard', params: { id: projectId } })">
 				<template #icon>
 					<ArrowLeft :size="18" />
@@ -11,19 +11,19 @@
 				{{ projectTitle }}
 			</NcButton>
 			<span class="project-timeline__crumb-sep" aria-hidden="true">/</span>
-			<span>{{ t('planix', 'Timeline') }}</span>
+			<span>{{ t('planninq', 'Timeline') }}</span>
 		</div>
 
 		<!-- Header + zoom control -->
 		<div class="project-timeline__header">
 			<h2 class="project-timeline__title">
-				{{ t('planix', 'Timeline') }}
+				{{ t('planninq', 'Timeline') }}
 			</h2>
 			<div class="project-timeline__zoom">
 				<NcSelect v-model="zoom"
 					:options="zoomOptions"
-					:input-label="t('planix', 'Zoom')"
-					:aria-label-combobox="t('planix', 'Zoom level')"
+					:input-label="t('planninq', 'Zoom')"
+					:aria-label-combobox="t('planninq', 'Zoom level')"
 					:clearable="false"
 					label="label"
 					track-by="value" />
@@ -37,7 +37,7 @@
 
 		<!-- Error -->
 		<NcEmptyContent v-else-if="error"
-			:name="t('planix', 'Could not load the timeline')"
+			:name="t('planninq', 'Could not load the timeline')"
 			:description="error">
 			<template #icon>
 				<AlertCircleOutline :size="20" />
@@ -65,7 +65,7 @@
 						<div v-if="todayX !== null"
 							class="project-timeline__today"
 							:style="{ left: todayX + 'px' }"
-							:title="t('planix', 'Today')"
+							:title="t('planninq', 'Today')"
 							aria-hidden="true" />
 
 						<!-- Dependency arrows -->
@@ -74,7 +74,7 @@
 							:height="barsHeight"
 							aria-hidden="true">
 							<defs>
-								<marker id="planix-timeline-arrow"
+								<marker id="planninq-timeline-arrow"
 									markerWidth="6"
 									markerHeight="6"
 									refX="5"
@@ -91,7 +91,7 @@
 								:y2="edge.y2"
 								stroke="var(--color-text-maxcontrast)"
 								stroke-width="1.5"
-								marker-end="url(#planix-timeline-arrow)" />
+								marker-end="url(#planninq-timeline-arrow)" />
 						</svg>
 
 						<!-- Task bars -->
@@ -108,8 +108,8 @@
 
 			<!-- No scheduled tasks -->
 			<NcEmptyContent v-else
-				:name="t('planix', 'No scheduled tasks')"
-				:description="t('planix', 'Tasks with a start or due date appear on the timeline. Add dates to see them here.')">
+				:name="t('planninq', 'No scheduled tasks')"
+				:description="t('planninq', 'Tasks with a start or due date appear on the timeline. Add dates to see them here.')">
 				<template #icon>
 					<ChartTimeline :size="20" />
 				</template>
@@ -118,7 +118,7 @@
 			<!-- Unscheduled rail -->
 			<div v-if="unscheduled.length" class="project-timeline__unscheduled">
 				<h3 class="project-timeline__unscheduled-title">
-					{{ t('planix', 'Unscheduled') }} ({{ unscheduled.length }})
+					{{ t('planninq', 'Unscheduled') }} ({{ unscheduled.length }})
 				</h3>
 				<ul class="project-timeline__unscheduled-list">
 					<li v-for="task in unscheduled"
@@ -127,7 +127,7 @@
 						<span class="project-timeline__unscheduled-dot"
 							:style="{ backgroundColor: statusColor(task.status) }"
 							aria-hidden="true" />
-						{{ task.title || t('planix', 'Untitled task') }}
+						{{ task.title || t('planninq', 'Untitled task') }}
 					</li>
 				</ul>
 			</div>
@@ -183,11 +183,11 @@ export default {
 			tasks: [],
 			unscheduled: [],
 			dependencies: [],
-			zoom: { value: 'day', label: t('planix', 'Day') },
+			zoom: { value: 'day', label: t('planninq', 'Day') },
 			zoomOptions: [
-				{ value: 'day', label: t('planix', 'Day') },
-				{ value: 'week', label: t('planix', 'Week') },
-				{ value: 'month', label: t('planix', 'Month') },
+				{ value: 'day', label: t('planninq', 'Day') },
+				{ value: 'week', label: t('planninq', 'Week') },
+				{ value: 'month', label: t('planninq', 'Month') },
 			],
 		}
 	},
@@ -271,7 +271,7 @@ export default {
 			})
 			return this.layout.bars.map((bar) => ({
 				...bar,
-				title: bar.title || t('planix', 'Untitled task'),
+				title: bar.title || t('planninq', 'Untitled task'),
 				tooltip: tooltips[bar.id] || bar.title,
 			}))
 		},
@@ -359,8 +359,8 @@ export default {
 				this.dependencies = payload.dependencies
 			} catch (err) {
 				this.error = err?.response?.status === 403
-					? t('planix', 'You do not have access to this project.')
-					: t('planix', 'An unexpected error occurred.')
+					? t('planninq', 'You do not have access to this project.')
+					: t('planninq', 'An unexpected error occurred.')
 				this.tasks = []
 				this.unscheduled = []
 				this.dependencies = []
@@ -406,12 +406,12 @@ export default {
 		 * @spec exclude Presentational — bar hover tooltip text.
 		 */
 		barTooltip(task) {
-			const parts = [task.title || t('planix', 'Untitled task')]
+			const parts = [task.title || t('planninq', 'Untitled task')]
 			if (task.startDate) {
-				parts.push(t('planix', 'Start: {date}', { date: task.startDate }))
+				parts.push(t('planninq', 'Start: {date}', { date: task.startDate }))
 			}
 			if (task.dueDate) {
-				parts.push(t('planix', 'Due: {date}', { date: task.dueDate }))
+				parts.push(t('planninq', 'Due: {date}', { date: task.dueDate }))
 			}
 			return parts.join(' · ')
 		},

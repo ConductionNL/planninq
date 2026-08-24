@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
-    <id>planix</id>
-    <name lang="en">Planix</name>
-    <name lang="nl">Planix</name>
+    <id>planninq</id>
+    <name lang="en">Planninq</name>
+    <name lang="nl">Planninq</name>
     <summary lang="en">Flow-based kanban project and task management for Nextcloud dev and IT teams</summary>
     <summary lang="nl">Flow-gebaseerd kanban project- en taakbeheer voor Nextcloud dev- en IT-teams</summary>
-    <description lang="en"><![CDATA[Planix is a Kanban-based project and task management app for Nextcloud, built as a thin client on OpenRegister. It manages projects, tasks, kanban boards with WIP limits, backlogs, and time entries — giving internal dev and IT teams a focused workflow tool built directly into their Nextcloud environment. Unlike Nextcloud Deck (which lacks backlog management, time tracking, and WIP limits), Planix closes the gap between Deck's simplicity and Jira's complexity.
+    <description lang="en"><![CDATA[Planninq is a Kanban-based project and task management app for Nextcloud, built as a thin client on OpenRegister. It manages projects, tasks, kanban boards with WIP limits, backlogs, and time entries — giving internal dev and IT teams a focused workflow tool built directly into their Nextcloud environment. Unlike Nextcloud Deck (which lacks backlog management, time tracking, and WIP limits), Planninq closes the gap between Deck's simplicity and Jira's complexity.
 
 **Key Features**
 
@@ -14,7 +14,7 @@
 - **Backlog management** — Unscheduled tasks live in a sortable, filterable backlog until they're dragged onto the board
 - **Time tracking** — Per-task time estimates, manual time log entries, and a personal timesheet grouped by date
 - **Task dependencies** — Mark tasks as blocked-by another, with server-side self/duplicate/cycle validation and a blocked badge on the card
-- **Procest integration** — Optional case reference fields bridge Planix projects and tasks to Procest cases
+- **Procest integration** — Optional case reference fields bridge Planninq projects and tasks to Procest cases
 - **OpenRegister integration** — Projects, tasks, columns, labels, and time entries stored as typed, queryable registers
 - **NL Design System ready** — CSS variables, WCAG AA, government theming
 
@@ -24,7 +24,7 @@ Free and open source under the EUPL-1.2 license.
 
 **Support:** For support, contact support@conduction.nl.
     ]]></description>
-    <description lang="nl"><![CDATA[Planix is een Kanban-gebaseerde project- en taakbeheer app voor Nextcloud, gebouwd als thin client op OpenRegister. Het beheert projecten, taken, kanbanborden met WIP-limieten, backlogs en tijdregistraties voor interne dev- en IT-teams.
+    <description lang="nl"><![CDATA[Planninq is een Kanban-gebaseerde project- en taakbeheer app voor Nextcloud, gebouwd als thin client op OpenRegister. Het beheert projecten, taken, kanbanborden met WIP-limieten, backlogs en tijdregistraties voor interne dev- en IT-teams.
 
 **Belangrijkste functies**
 
@@ -32,7 +32,7 @@ Free and open source under the EUPL-1.2 license.
 - **Backlogbeheer** — Niet-ingeplande taken staan in een sorteerbare, filterbare backlog totdat ze naar het bord worden gesleept
 - **Tijdregistratie** — Tijdsinschattingen per taak, handmatige tijdregistraties en een persoonlijk urenoverzicht gegroepeerd op datum
 - **Afhankelijkheden tussen taken** — Markeer taken als geblokkeerd door een andere, met server-side zelf-/duplicaat-/cyclusvalidatie en een geblokkeerd-badge op de kaart
-- **Procest-integratie** — Optionele zaakreferentievelden koppelen Planix-projecten en -taken aan Procest-zaken
+- **Procest-integratie** — Optionele zaakreferentievelden koppelen Planninq-projecten en -taken aan Procest-zaken
 - **OpenRegister-integratie** — Projecten, taken, kolommen, labels en tijdregistraties opgeslagen als typed, bevraagbare registers
 - **NL Design System klaar** — CSS-variabelen, WCAG AA, overheidsthema
 
@@ -42,63 +42,121 @@ Vrij en open source onder de EUPL-1.2-licentie.
 
 **Ondersteuning:** Voor ondersteuning, neem contact op via support@conduction.nl.
     ]]></description>
-    <version>0.2.11</version>
+    <version>0.2.12</version>
     <licence>EUPL-1.2</licence>
     <author mail="info@conduction.nl" homepage="https://www.conduction.nl/">Conduction</author>
-    <namespace>Planix</namespace>
+    <namespace>Planninq</namespace>
+    <!--
+        These are the links the Nextcloud App Store renders for this app, so a
+        dead one is dead in front of every prospective user. They pointed at the
+        retired git host the fleet has moved off, and every one of them returned
+        404 — that host never had a `planninq`, only the pre-rename `planix`.
+        Keep them on github.com/ConductionNL. (The host is not named literally
+        here: gate-94 scans this file for it, and prose is indistinguishable
+        from a shipped URL to a grep.)
+    -->
     <documentation>
-        <user>https://codeberg.org/Conduction/planix</user>
-        <admin>https://codeberg.org/Conduction/planix</admin>
-        <developer>https://codeberg.org/Conduction/planix</developer>
+        <user>https://github.com/ConductionNL/planninq</user>
+        <admin>https://github.com/ConductionNL/planninq</admin>
+        <developer>https://github.com/ConductionNL/planninq</developer>
     </documentation>
     <category>organization</category>
-    <website>https://codeberg.org/Conduction/planix</website>
-    <discussion>https://codeberg.org/Conduction/planix/discussions</discussion>
-    <bugs>https://codeberg.org/Conduction/planix/issues</bugs>
-    <repository>https://codeberg.org/Conduction/planix</repository>
+    <website>https://github.com/ConductionNL/planninq</website>
+    <discussion>https://github.com/ConductionNL/planninq/discussions</discussion>
+    <bugs>https://github.com/ConductionNL/planninq/issues</bugs>
+    <repository>https://github.com/ConductionNL/planninq</repository>
 
-    <screenshot>https://codeberg.org/Conduction/planix/raw/branch/main/docs/features/img/projects-list.png</screenshot>
-    <screenshot>https://codeberg.org/Conduction/planix/raw/branch/main/docs/features/img/projects-create.png</screenshot>
-    <screenshot>https://codeberg.org/Conduction/planix/raw/branch/main/docs/features/img/projects-settings.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/ConductionNL/planninq/development/docs/features/img/projects-list.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/ConductionNL/planninq/development/docs/features/img/projects-create.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/ConductionNL/planninq/development/docs/features/img/projects-settings.png</screenshot>
 
+    <!-- app-info.xsd defines these as an ORDERED SEQUENCE, not a set. Both the
+         children of <dependencies> and the top-level elements below must appear
+         in schema order or the file fails validation outright — which is what
+         `info.xml lint` was reporting. `<php>` precedes `<nextcloud>`, and the
+         top-level order is dependencies, repair-steps, settings, activity,
+         navigations (matching openregister and docudesk, which validate). -->
     <dependencies>
-        <nextcloud min-version="31" max-version="34"/>
         <php min-version="8.3"/>
+        <nextcloud min-version="32" max-version="34"/>
         <!-- App dependency (not expressible in app-info.xsd): OpenRegister
              (data layer for the task/project/column/timeEntry/label/dependency
-             schemas; see lib/Settings/planix_register.json). -->
+             schemas; see lib/Settings/planninq_register.json). -->
     </dependencies>
+
+    <!-- Schema order inside <repair-steps> is post-migration before install,
+         which reads backwards but is what app-info.xsd declares. Order here is
+         XML sequence only — it does not change when Nextcloud runs each hook. -->
+    <!--
+        planix -> planninq ORDERING (applies to BOTH blocks below):
+        MigrateAppConfigKeys MUST be listed before InitializeSettings.
+
+        Changing <id> from `planix` to `planninq` does not upgrade this app in
+        place — Nextcloud has no notion of an app-id rename, so it simply
+        discovers a DIFFERENT app. On a real deployment the old `planix` app is
+        removed and `planninq` is installed fresh, which means <install> (not
+        just <post-migration>) is the hook this actually runs through; the step
+        is registered under both so neither path can miss it.
+
+        Ordering matters because InitializeSettings imports
+        lib/Settings/planninq_register.json and calls SettingsService, which
+        reads and writes this app's IAppConfig values (register/schema ids, the
+        default column config, due-reminder settings). Those values currently
+        live in the `planix` app-config namespace. If InitializeSettings ran
+        first it would see an unconfigured app, re-import from scratch and
+        write fresh `planninq.*` values; MigrateAppConfigKeys never overwrites
+        an already-set destination key, so the migrated ones would then be
+        silently discarded and the install would point at newly created,
+        empty registers instead of the existing data-carrying ones. Copying the
+        old namespace across FIRST lets InitializeSettings see the real,
+        pre-rename configuration and reconcile against it.
+
+        MigrateAppConfigKeys is idempotent and copy-only (it never deletes a
+        `planix.*` row), so it is a safe no-op on a genuinely fresh instance
+        that never had `planix` installed.
+
+        MigrateUserPreferences MUST run before ReconcileDueReminderOverrides.
+        That step asks `getUsersForUserValue(APP_ID, 'notify_due_reminder',
+        'false')` for the users who opted out, and APP_ID is now `planninq` —
+        so until the preferences have been copied across the rename it sees an
+        empty set and reconciles nothing. Ordering it after the copy is what
+        makes the two agree about who opted out.
+    -->
+    <repair-steps>
+        <post-migration>
+            <step>OCA\Planninq\Repair\MigrateAppConfigKeys</step>
+            <step>OCA\Planninq\Repair\MigrateUserPreferences</step>
+            <step>OCA\Planninq\Repair\InitializeSettings</step>
+            <step>OCA\Planninq\Repair\ReconcileDueReminderOverrides</step>
+        </post-migration>
+        <install>
+            <step>OCA\Planninq\Repair\MigrateAppConfigKeys</step>
+            <step>OCA\Planninq\Repair\MigrateUserPreferences</step>
+            <step>OCA\Planninq\Repair\InitializeSettings</step>
+        </install>
+    </repair-steps>
+
+    <settings>
+        <admin>OCA\Planninq\Settings\AdminSettings</admin>
+        <admin-section>OCA\Planninq\Sections\SettingsSection</admin-section>
+    </settings>
+
+    <!-- Schema order inside <activity> is settings, filters, providers. -->
+    <activity>
+        <filters>
+            <filter>OCA\Planninq\Activity\Filter</filter>
+        </filters>
+        <providers>
+            <provider>OCA\Planninq\Activity\Provider</provider>
+        </providers>
+    </activity>
 
     <navigations>
         <navigation>
-            <id>planix</id>
-            <name>Planix</name>
-            <route>planix.dashboard.page</route>
+            <id>planninq</id>
+            <name>Planninq</name>
+            <route>planninq.dashboard.page</route>
             <icon>app.svg</icon>
         </navigation>
     </navigations>
-
-    <settings>
-        <admin>OCA\Planix\Settings\AdminSettings</admin>
-        <admin-section>OCA\Planix\Sections\SettingsSection</admin-section>
-    </settings>
-
-    <activity>
-        <providers>
-            <provider>OCA\Planix\Activity\Provider</provider>
-        </providers>
-        <filters>
-            <filter>OCA\Planix\Activity\Filter</filter>
-        </filters>
-    </activity>
-
-    <repair-steps>
-        <install>
-            <step>OCA\Planix\Repair\InitializeSettings</step>
-        </install>
-        <post-migration>
-            <step>OCA\Planix\Repair\InitializeSettings</step>
-            <step>OCA\Planix\Repair\ReconcileDueReminderOverrides</step>
-        </post-migration>
-    </repair-steps>
 </info>

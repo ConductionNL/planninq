@@ -24,7 +24,7 @@ retrofit-2026-05-31-retrofit-2026-05-26-planix-display-capabilities
 ```
 
 No `time-tracking` slug, active or archived. The backend data model IS fully
-built and even seeded — `lib/Settings/planix_register.json:345-360` declares
+built and even seeded — `lib/Settings/planninq_register.json:345-360` declares
 the `timeEntry` schema, `line 146` declares `estimatedDuration` on the task
 schema, and seed fixtures at lines 672/697/701/709/717 create sample
 `TimeEntry` objects. But the frontend never surfaces any of it:
@@ -38,7 +38,7 @@ src/store/projects.js   # only a passing reference, no TimeEntry CRUD
 
 There is no "Log time" button, no estimate input, no progress indicator, and
 no Timesheet view anywhere in `src/views/` or `src/components/`. Per ADR-001
-(planix's own accepted information architecture), Timesheet/time-tracking is
+(planninq's own accepted information architecture), Timesheet/time-tracking is
 supposed to live at "Mijn werk > Tijdregistratie" — that placement doesn't
 exist either; "Mijn werk" itself isn't a menu yet (see the companion change
 `adopt-five-menu-navigation-ia`).
@@ -66,7 +66,7 @@ the product a user actually touches.
 - **New store module** (`src/store/timeEntries.js`, following the existing
   `createObjectStore` pattern used by `src/store/projects.js`) for TimeEntry
   CRUD against the `timeEntry` schema. The per-owner guard already exists at
-  the schema level — `planix_register.json:361-381` scopes `update`/`delete`
+  the schema level — `planninq_register.json:361-381` scopes `update`/`delete`
   to `match: { user: "$userId" }` OR `admin` — so a direct API call from a
   non-owner is already rejected by OR RBAC (ADR-022: consumed, not
   reimplemented). The frontend work is to also hide edit/delete controls in

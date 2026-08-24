@@ -17,10 +17,13 @@ jobs:
     # PHPUnit, and no red test to show for it.
     uses: ConductionNL/.github/.github/workflows/quality.yml@main
     with:
-      app-name: planix
+      app-name: planninq
       php-version: "8.3"
       php-test-versions: '["8.3", "8.4"]'
-      nextcloud-test-refs: '["stable31", "stable32", "stable33"]'
+      # appinfo/info.xml declares <nextcloud min-version="32" max-version="34"/>
+      # and `nextcloud/ocp` is now `^34.0` — the stubs the analysers resolve
+      # against. Both sides name the same server, so the test matrix names it
+      # too.
       enable-psalm: true
       enable-phpstan: true
       enable-phpmetrics: true
@@ -28,7 +31,7 @@ jobs:
       enable-eslint: true
       enable-phpunit: true
       # `ref` moved from `main` to `development`. The E2E job needs the AppHost
-      # plumbing planix's own appinfo/routes.php already depends on
+      # plumbing planninq's own appinfo/routes.php already depends on
       # (`\OCA\OpenRegister\AppHost\Routes::standard()`), and `development` is
       # where that lands first. Pinning the foundation to `main` while this app
       # tracks `development` is what makes a CI instance behave unlike any
@@ -41,14 +44,14 @@ jobs:
       # from run 30692400428; both are now addressed, so the reasons are kept
       # (not deleted) next to what changed:
       #
-      #  1. "`occ app:enable planix` cannot import the register on a fresh CI
+      #  1. "`occ app:enable planninq` cannot import the register on a fresh CI
       #     instance: User 'Anonymous' does not have permission to 'create'
       #     objects in schema 'Label'." Still true, and it always will be — an
       #     IRepairStep runs with no user session, and InitializeSettings::run()
       #     swallows the resulting exception as a warning so `occ app:enable`
       #     still exits 0. FIXED by not relying on it: `ci-seed.sh` performs the
       #     import explicitly over the admin HTTP API
-      #     (POST /apps/planix/api/settings/load → loadConfiguration(force:true))
+      #     (POST /apps/planninq/api/settings/load → loadConfiguration(force:true))
       #     and then VERIFIES the register + schema slugs, so a bad provision is
       #     one loud step failure instead of a dozen misleading spec failures.
       #
@@ -73,15 +76,28 @@ jobs:
       # `docs-capture` and re-shoot every documentation screenshot on every PR.
       playwright-test-path: tests/e2e
       # cwd for this step is the Nextcloud server root.
-      playwright-seed-command: 'bash apps/planix/tests/e2e/ci-seed.sh'
+      playwright-seed-command: 'bash apps/planninq/tests/e2e/ci-seed.sh'
 
       # ── Integration tests ────────────────────────────────────────────────
-      # Was explicitly `false`. tests/integration/planix.postman_collection.json
+      # Was explicitly `false`. tests/integration/planninq.postman_collection.json
       # had never executed in CI. It sits at the default
       # `newman-collection-path` (tests/integration), which is both the
       # directory the validator counts collections in and the directory the run
       # step globs `*.postman_collection.json` in — flat, not recursively.
       enable-newman: true
+
+      # The Newman job needs the SAME OpenRegister provisioning the Playwright
+      # job gets. Without it, planninq has no register and no schemas, and every
+      # write returns **412 Precondition failed** — which is exactly what 14 of
+      # this collection's assertions were reporting ("expected 201 but got 412",
+      # "expected 422 but got 412", and so on). They were not 14 test bugs; they
+      # were one missing seed, reported fourteen times.
+      #
+      # `ci-seed.sh` already performs and documents that provisioning for
+      # Playwright. The `api` argument reuses it verbatim and only skips the
+      # closing SPA-bundle gate, which would `exit 1` here because the Newman
+      # job has no frontend build step and therefore no bundle to serve.
+      newman-seed-command: 'bash apps/planninq/tests/e2e/ci-seed.sh api'
 
       # ── Frontend Check legs ──────────────────────────────────────────────
       # `frontend-checks` defaults to `[]`, and an empty list means the shared
@@ -92,10 +108,20 @@ jobs:
       # same check twice with nothing extra to show for it.
       # Measured on this tree before enabling: `check:manifest` FAILS —
       # `top-level: menu (array) is required` and `pages (array) is required`,
-      # i.e. planix's src/manifest.json does not carry the fleet manifest shape
+      # i.e. planninq's src/manifest.json does not carry the fleet manifest shape
       # at all. A real pre-existing defect; the gate is what makes it visible.
       # `test` is NOT listed: "Frontend Tests (unit)" already runs it.
-      frontend-checks: '["check:manifest"]'
+      # `check:l10n-js` regenerates l10n/<locale>.js from the JSON catalogue and
+      # fails when the committed file is stale. Nextcloud serves ONLY the JS half
+      # to a browser — raw JSON out of an app directory is a 404 — so a catalogue
+      # that exists only as JSON renders English in the entire UI while every
+      # server-rendered string is translated, with no error anywhere.
+      # `check:schema-l10n` is a RATCHET, not a gate. Every string inside a form
+      # comes from the schema and is a key in THIS app's catalogue; an absent key
+      # renders the English source inside an otherwise translated form, silently.
+      # The fleet had 30,459 such strings, so this records the current count and
+      # fails only when it GROWS — burning it down stays an ordinary PR.
+      frontend-checks: '["check:manifest", "check:l10n-js", "check:schema-l10n"]'
 
       # ── Coverage ratchet ─────────────────────────────────────────────────
       # `enable-coverage-guard` defaults to FALSE, which is why both
@@ -110,39 +136,21 @@ jobs:
       # ── Hydra mechanical gates ───────────────────────────────────────────
       # `enable-hydra-gates` defaults to FALSE, so this tier has never executed
       # here — the job reported `skipped`, which the Quality Report renders
-      # identically to a pass. Pinned to v1.0.1 so a change to the gate package
-      # cannot move this repo's verdict without a commit here.
+      # identically to a pass.
       # `enable-axe` deliberately NOT set: a vanilla Nextcloud 34 already carries
       # serious/critical violations from core's own UI.
       #
-      # v1.0.1 -> v1.3.0 (ConductionNL/.github#159). Two defects, one bump.
-      #
-      # 1. STALE. v1.0.1 is `f4d9756` (2026-08-03) and predates three gate
-      #    fixes, so every Hydra Gates run this repo has ever made executed a
-      #    script in which 16 gates reported PASS when their helper never ran
-      #    (#147), gate-33 had no axe report to read and never said so (#148),
-      #    and gates 6 and 7 reported PASS on an EMPTY scope (#149). A gate
-      #    that reports PASS without running emits a tick identical to a real
-      #    one, which is why nothing in this repo's history shows it.
-      #
-      # 2. RED. quality.yml is referenced `@main` while this package is
-      #    PINNED, so the two can desync — and on 2026-08-05 they did. #164
-      #    flipped `hydra-gates-require-full-coverage` to default TRUE, but
-      #    the accounting that makes that flag survivable (NOT APPLICABLE, as
-      #    distinct from a structural or a wiring gap) ships in the PACKAGE.
-      #    So every pin older than `f7eaf2a` now fails the coverage assertion
-      #    for gates it has no subject matter for. Measured diff-scoped,
-      #    exactly as CI scopes it:
-      #      v1.0.1  exit 98  FAIL — "GATES THAT DID NOT RUN: 24 33"
-      #      v1.3.0  exit 0   PASS — those gates named NOT APPLICABLE
-      #    The old pin was not merely stale, it was failing this repo's CI for
-      #    a reason that had nothing to do with this repo.
-      #
-      # v1.3.0 is `f7eaf2a` = .github@main, tagged so the ref stays
-      # reproducible and a later gate change cannot move this repo's verdict
-      # without a commit here.
+      # No `hydra-gates-ref` here on purpose. The shared workflow defaults it
+      # to @main, and this workflow is itself consumed at @main, so the two
+      # sides move together and a gate fix reaches this repo without a commit
+      # in this repo. A pin is a silent expiry date: 22 repos sat on v1.0.1 and
+      # 16 gates were dead fleet-wide while every one reported PASS (.github#159),
+      # and a default flipped at @main later reached those old runners and made
+      # them red on gates they had no subject matter for (.github#173).
+      # To hold this repo still for a specific reason, set the input explicitly
+      # and say why — it is still honoured. To roll back for everyone, revert on
+      # ConductionNL/.github main.
       enable-hydra-gates: true
-      hydra-gates-ref: v1.3.0
 
   # Translation-completeness gate: every required European locale must carry a
   # real translation for every key in l10n/en.json. Dependency-free pure Node
@@ -155,6 +163,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          # Matches package.json engines (node ^22.14 || ^24 || >=26). Node 20
+          # ships npm 10, which does not implement `min-release-age` at all —
+          # so running this job on 20 while the repo declares npm ^11 would
+          # leave the .npmrc cooldown inert here regardless of its value.
+          node-version: "22"
       - name: Check required-locale translation parity
         run: npm run check:l10n

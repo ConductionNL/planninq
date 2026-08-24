@@ -1,11 +1,11 @@
 # task-dependencies Specification
 
 ## Purpose
-Defines directed dependencies between tasks of the same project: a `dependency` edge (`blocker → blocked`) stored in OpenRegister, managed from the task detail, kept acyclic by server-side validation in planix (self/duplicate/cross-project/cycle), and surfaced as a derived "Blocked" indicator that never writes `status` and never hard-blocks a move. Completes the flow-management story reserved in `tasks.md` Notes ("Task dependencies (V1) will be a separate `dependency` entity") and `kanban-board.md` ("Blocked task indicators").
+Defines directed dependencies between tasks of the same project: a `dependency` edge (`blocker → blocked`) stored in OpenRegister, managed from the task detail, kept acyclic by server-side validation in planninq (self/duplicate/cross-project/cycle), and surfaced as a derived "Blocked" indicator that never writes `status` and never hard-blocks a move. Completes the flow-management story reserved in `tasks.md` Notes ("Task dependencies (V1) will be a separate `dependency` entity") and `kanban-board.md` ("Blocked task indicators").
 
 ## Requirements
 ### Requirement: Dependency edges between tasks [V1]
-The system MUST allow project members to link two tasks of the same project with a directed dependency (blocker → blocked) and to remove such links. The task detail MUST show both directions — "Blocked by" (incoming) and "Blocks" (outgoing) — with each linked task's title and status, and provide a picker limited to tasks of the same project. Reads use the OpenRegister API directly; create and delete go through planix endpoints that perform validation (ADR-022 — validation is domain logic, not pass-through).
+The system MUST allow project members to link two tasks of the same project with a directed dependency (blocker → blocked) and to remove such links. The task detail MUST show both directions — "Blocked by" (incoming) and "Blocks" (outgoing) — with each linked task's title and status, and provide a picker limited to tasks of the same project. Reads use the OpenRegister API directly; create and delete go through planninq endpoints that perform validation (ADR-022 — validation is domain logic, not pass-through).
 
 #### Scenario: Add a blocked-by dependency
 @e2e exclude task-detail render layer not yet built (tasks#REQ-Task-CRUD); store + TaskDependencies.vue covered by Vitest, write path by Newman

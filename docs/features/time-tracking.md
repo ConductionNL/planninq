@@ -4,7 +4,7 @@ Estimate task effort and log actual time spent — then review your work in a pe
 
 ## Overview
 
-Time tracking in Planix operates at the task level. Each task carries an optional time estimate (how long it should take). Actual time is logged as separate time entries — one per work session — linked to the task. A personal timesheet shows all your logged entries grouped by date, with daily and weekly totals.
+Time tracking in Planninq operates at the task level. Each task carries an optional time estimate (how long it should take). Actual time is logged as separate time entries — one per work session — linked to the task. A personal timesheet shows all your logged entries grouped by date, with daily and weekly totals.
 
 ## Key Capabilities
 
@@ -44,4 +44,4 @@ Time tracking in Planix operates at the task level. Each task carries an optiona
 
 ## Spec
 
-- [time-tracking spec](https://codeberg.org/Conduction/planix/src/branch/development/openspec/specs/time-tracking.md)
+- [time-tracking spec](https://codeberg.org/Conduction/planninq/src/branch/development/openspec/specs/time-tracking.md)
