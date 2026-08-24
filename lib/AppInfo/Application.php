@@ -57,8 +57,21 @@ class Application extends App implements IBootstrap {
 	 * @param IRegistrationContext $context The registration context
 	 *
 	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.StaticAccess) OpenRegisterAutoloader::register()
+	 * is static because it runs at the composition root, before any container
+	 * exists to resolve an instance from — the same reason it cannot be
+	 * injected here.
 	 */
 	public function register(IRegistrationContext $context): void {
+		// LOAD-ORDER HAZARD: an app's register() runs before the PSR-4 prefix of
+		// every alphabetically-LATER app exists, so the class_exists() probes
+		// below answer TRUE today only because `planninq` sorts after
+		// `openregister` — a property of the NAME, not of this app. See
+		// OpenRegisterAutoloader for the full reasoning; it never throws, and a
+		// false return means the degraded path below is the correct one.
+		OpenRegisterAutoloader::register();
+
 		// AppHost adoption (ADR-040): alias the mechanical plumbing classes
 		// (dashboard SPA serving, observability controllers, admin settings
 		// panel, settings section, deep-link listener) to OpenRegister's
