@@ -38,14 +38,16 @@ class TaskScopeResolver {
 	/**
 	 * OpenRegister register slug owning the Planninq schemas.
 	 *
-	 * Deliberately still the PRE-RENAME `planix`. The app id became `planninq`,
-	 * but the register holding the live data is still slugged `planix` and this
-	 * release ships no register-slug migration. Application::boot() repeats this
-	 * value as a literal at subscription time and must stay in step with it.
+	 * Moved from `planix` to `planninq` together with the MigrateRegisterSlug
+	 * repair step, which renames the register ROW. This literal only resolves
+	 * because that step runs first: OpenRegister looks a register up by slug and
+	 * by nothing else, so a renamed slug here without the row rename would find
+	 * no register at all. Application::boot() repeats this value as a literal at
+	 * subscription time and must stay in step with it.
 	 *
 	 * @var string
 	 */
-	public const REGISTER_SLUG = 'planix';
+	public const REGISTER_SLUG = 'planninq';
 
 	/**
 	 * OpenRegister schema slug for tasks.

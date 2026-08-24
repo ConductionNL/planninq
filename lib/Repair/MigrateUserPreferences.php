@@ -86,7 +86,7 @@ class MigrateUserPreferences implements IRepairStep {
 	/**
 	 * Constructor.
 	 *
-	 * @param IConfig         $config The user-value store to read and write.
+	 * @param IConfig $config The user-value store to read and write.
 	 * @param LoggerInterface $logger Logger for preferences that fail to copy.
 	 *
 	 * @spec openspec/specs/app-metadata/spec.md

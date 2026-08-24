@@ -19,10 +19,11 @@ import { generateUrl } from '@nextcloud/router'
 import { showError, showWarning } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 
-// The OpenRegister register SLUG, not the app id: the app id became
-// `planninq` but the register holding the live data is still slugged `planix`
-// and this release ships no register-slug migration.
-const REGISTER = 'planix'
+// The OpenRegister register SLUG, not the app id. It moved from `planix` to
+// `planninq` together with the MigrateRegisterSlug repair step, which renames
+// the register ROW: OR resolves a register by slug and by nothing else, so the
+// literal and the row move in the same release or neither resolves.
+const REGISTER = 'planninq'
 const PROJECT_SCHEMA = 'project'
 const COLUMN_SCHEMA = 'column'
 const TASK_SCHEMA = 'task'
@@ -405,12 +406,14 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} id Project ID
 		 * @param {object} partial Only the fields to change
 		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/specs/projects.md
 		 */
 		async patchProject(id, partial) {
 			this.loading = true
 			this.error = null
 			try {
-				const url = generateUrl(`/apps/openregister/api/objects/planix/project/${id}`)
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/project/${id}`)
 				const response = await fetch(url, {
 					method: 'PATCH',
 					headers: buildHeaders(),
@@ -786,7 +789,7 @@ export const useProjectsStore = defineStore('projects', {
 		 */
 		async updateTaskStatus(taskId, status) {
 			try {
-				const url = generateUrl(`/apps/openregister/api/objects/planix/task/${taskId}`)
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/task/${taskId}`)
 				const response = await fetch(url, {
 					method: 'PATCH',
 					headers: buildHeaders(),
@@ -822,7 +825,7 @@ export const useProjectsStore = defineStore('projects', {
 		 */
 		async updateTask(taskId, patch) {
 			try {
-				const url = generateUrl(`/apps/openregister/api/objects/planix/task/${taskId}`)
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/task/${taskId}`)
 				const response = await fetch(url, {
 					method: 'PATCH',
 					headers: buildHeaders(),

@@ -237,14 +237,15 @@ export default {
 		async resolveTasks() {
 			const objectStore = useObjectStore()
 			// The third argument is the OpenRegister register SLUG, not the app
-			// id: the app id became `planninq` but the register holding the live
-			// data is still slugged `planix` and this release ships no
-			// register-slug migration.
+			// id. It moved from `planix` to `planninq` together with the
+			// MigrateRegisterSlug repair step, which renames the register ROW:
+			// OR resolves a register by slug and by nothing else, so the literal
+			// and the row move in the same release or neither resolves.
 			if (!objectStore.objectTypeRegistry?.task) {
-				objectStore.registerObjectType('task', 'task', 'planix')
+				objectStore.registerObjectType('task', 'task', 'planninq')
 			}
 			if (!objectStore.objectTypeRegistry?.project) {
-				objectStore.registerObjectType('project', 'project', 'planix')
+				objectStore.registerObjectType('project', 'project', 'planninq')
 			}
 			const ids = [...new Set(this.timeEntriesStore.entries.map((e) => e.task).filter(Boolean))]
 			const info = {}

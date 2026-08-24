@@ -15,13 +15,14 @@ export const RESOLVED_BLOCKER_STATUSES = ['done', 'cancelled']
 /**
  * OpenRegister register slug owning the Planninq schemas.
  *
- * The VALUE is deliberately still the pre-rename `planix`. The app id became
- * `planninq`, but the register holding the live data is still slugged `planix`
- * and this release ships no register-slug migration.
+ * The VALUE moved from `planix` to `planninq` together with the
+ * MigrateRegisterSlug repair step, which renames the register ROW. OpenRegister
+ * resolves a register by slug and by nothing else, so the literal and the row
+ * move in the same release or neither resolves.
  *
  * @type {string}
  */
-export const PLANNINQ_REGISTER = 'planix'
+export const PLANNINQ_REGISTER = 'planninq'
 
 /**
  * Generic CnObjectSidebar tabs that must stay hidden on the task detail
@@ -51,9 +52,9 @@ export function taskCollaborationSidebarConfig(task) {
 		objectId: (task && task.id) ? String(task.id) : '',
 		register: PLANNINQ_REGISTER,
 		schema: 'task',
-		// `{registerSlug}-{schemaSlug}`, so it tracks the register slug above
-		// and stays `planix-task` until the register itself is re-slugged.
-		objectType: 'planix-task',
+		// `{registerSlug}-{schemaSlug}`, so it tracks the register slug above:
+		// it becomes `planninq-task` now that the register itself is re-slugged.
+		objectType: 'planninq-task',
 		useRegistry: false,
 		hiddenTabs: TASK_SIDEBAR_HIDDEN_TABS,
 	}

@@ -42,7 +42,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
 
 **Ondersteuning:** Voor ondersteuning, neem contact op via support@conduction.nl.
     ]]></description>
-    <version>0.2.12</version>
+    <version>0.2.13</version>
     <licence>EUPL-1.2</licence>
     <author mail="info@conduction.nl" homepage="https://www.conduction.nl/">Conduction</author>
     <namespace>Planninq</namespace>
@@ -121,17 +121,63 @@ Vrij en open source onder de EUPL-1.2-licentie.
         so until the preferences have been copied across the rename it sees an
         empty set and reconciles nothing. Ordering it after the copy is what
         makes the two agree about who opted out.
+
+        MigrateRegisterSlug MUST run after the two app-id steps and before
+        InitializeSettings, in BOTH blocks.
+
+        It carries a DIFFERENT rename on a different store: the OpenRegister
+        register slug `planix` -> `planninq`, which the app-id rename
+        deliberately left behind. OpenRegister's ImportHandler resolves a
+        register by SLUG and by nothing else, and its DoesNotExistException
+        branch is not an error path — it is the "create a new one" path. So the
+        renamed slug in lib/Settings/planninq_register.json renames nothing on
+        its own: InitializeSettings triggers the import, the import finds no
+        `planninq` register, CREATES A SECOND, EMPTY one, and every stored
+        project, task, column, timeEntry, label and dependency stays behind on
+        the old row addressed by nothing. Nothing errors — the app just looks
+        new. Renaming the row FIRST makes the import recognise it and UPDATE it.
+
+        It moves no data. An object is bound to its register by NUMERIC id: the
+        `_register` column holds the id and the shard tables are named
+        `oc_openregister_table_<registerId>_<schemaId>`. The slug appears
+        nowhere in the physical layout, so this is a one-column UPDATE on one
+        row and every object, table, schema link and folder follows it
+        untouched.
+
+        AFTER MigrateAppConfigKeys for a second reason: that step copies the
+        whole `planix` app-config namespace across VERBATIM, so a stored
+        `register` value naming the old slug arrives under `planninq` intact.
+        MigrateRegisterSlug re-points it — guarded on the VALUE, so the numeric
+        register id this app normally stores there is never touched.
+
+        Idempotent, non-destructive, and it never throws: under <install> an
+        escaping exception aborts the install and the app never enables at all.
+        It refuses rather than merges when both slugs already exist, because
+        OpenRegister caps a slug lookup at one row ordered by id and the lower
+        id would silently win.
     -->
     <repair-steps>
         <post-migration>
             <step>OCA\Planninq\Repair\MigrateAppConfigKeys</step>
             <step>OCA\Planninq\Repair\MigrateUserPreferences</step>
+            <step>OCA\Planninq\Repair\MigrateRegisterSlug</step>
             <step>OCA\Planninq\Repair\InitializeSettings</step>
             <step>OCA\Planninq\Repair\ReconcileDueReminderOverrides</step>
         </post-migration>
         <install>
             <step>OCA\Planninq\Repair\MigrateAppConfigKeys</step>
             <step>OCA\Planninq\Repair\MigrateUserPreferences</step>
+            <!--
+                THE BLOCK THAT ACTUALLY RUNS. Nextcloud discovers `planninq` as
+                a DIFFERENT app from `planix`, so enabling it IS a fresh install
+                with an empty `installed_version` —
+                `Installer::installAppLastSteps()` guards both the pre- and
+                post-migration blocks with `if ($previousVersion !== '')`, and
+                only `repair-steps/install` executes. The register row created
+                by the previous app id is still there, so the rename has to
+                happen here or the import below forks a second, empty register.
+            -->
+            <step>OCA\Planninq\Repair\MigrateRegisterSlug</step>
             <step>OCA\Planninq\Repair\InitializeSettings</step>
         </install>
     </repair-steps>

@@ -180,7 +180,7 @@ fi
 # An import reporting success is not the same as the register existing. Verify
 # against OpenRegister directly, using the same slugs the e2e fixtures resolve
 # by (tests/e2e/fixtures/seed.ts builds its object URLs as
-# /apps/openregister/api/objects/planix/<schema>).
+# /apps/openregister/api/objects/planninq/<schema>).
 #
 # The HTTP status is captured and checked separately from the payload on
 # purpose: an endpoint that 404s or redirects to the login form yields an empty
@@ -192,7 +192,7 @@ verify() {
 import json, sys
 path, kind, code = sys.argv[1], sys.argv[2], sys.argv[3]
 required = {
-    'registers': ['planix'],
+    'registers': ['planninq'],
     'schemas': ['task', 'project', 'column', 'label', 'timeEntry', 'dependency'],
 }[kind]
 with open(path) as fh:
@@ -239,8 +239,8 @@ verify "$SCH_BODY" schemas "$SCH_CODE"
 # a name.
 OBJ_CODE="$(curl -sS -o /dev/null -w '%{http_code}' \
 	-u "${USER_NAME}:${USER_PASS}" -H 'OCS-APIRequest: true' \
-	"${BASE}/index.php/apps/openregister/api/objects/planix/project?_limit=1" || echo 000)"
-echo "[ci-seed] objects/planix/project probe -> ${OBJ_CODE}"
+	"${BASE}/index.php/apps/openregister/api/objects/planninq/project?_limit=1" || echo 000)"
+echo "[ci-seed] objects/planninq/project probe -> ${OBJ_CODE}"
 if [ "$OBJ_CODE" -ge 400 ] 2>/dev/null; then
 	echo "::error::The Planninq project collection is not readable (HTTP ${OBJ_CODE})."
 	echo "::error::tests/e2e/fixtures/seed.ts treats this as 'app not installed' and seeds nothing."

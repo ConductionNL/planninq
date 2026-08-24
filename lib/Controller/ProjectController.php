@@ -39,11 +39,12 @@ use Psr\Log\LoggerInterface;
  *
  * ## C1 — Project creation proxy
  * The SPA posts new projects to this endpoint instead of OR's generic
- * `/api/objects/planix/project` write path. That path segment, and the
- * `register: 'planix'` arguments below, are the OpenRegister register SLUG,
- * not the app id: the app id became `planninq` but the register holding the
- * live data is still slugged `planix` and this release ships no register-slug
- * migration. Server-side policy check runs
+ * `/api/objects/planninq/project` write path. That path segment, and the
+ * `register: 'planninq'` arguments below, are the OpenRegister register SLUG,
+ * not the app id. They moved from `planix` to `planninq` together with the
+ * MigrateRegisterSlug repair step, which renames the register ROW — OR resolves
+ * a register by slug and by nothing else, so the literal and the row have to
+ * move in the same release or neither resolves. Server-side policy check runs
  * BEFORE any object is persisted, closing the TOCTOU gap where a motivated
  * user could bypass `allow_project_creation` by calling OR directly.
  * The saveObject call uses `_rbac: false` so that OR's schema-level
@@ -258,7 +259,7 @@ class ProjectController extends Controller {
 			// allow_project_creation setting.
 			$saved = $objectService->saveObject(
 				object: $body,
-				register: 'planix',
+				register: 'planninq',
 				schema: 'project',
 				_rbac: false
 			);
@@ -319,7 +320,7 @@ class ProjectController extends Controller {
 			return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
 		}
 
-		$objectService->setRegister('planix');
+		$objectService->setRegister('planninq');
 		$objectService->setSchema('project');
 
 		// Fetch with _rbac=true so the visibility check still applies;
@@ -372,7 +373,7 @@ class ProjectController extends Controller {
 			// We've already validated membership above; the write is intentional and scoped.
 			$saved = $objectService->saveObject(
 				object: $updated,
-				register: 'planix',
+				register: 'planninq',
 				schema: 'project',
 				uuid: $projectId,
 				_rbac: false

@@ -104,7 +104,7 @@ On a fresh Planninq install, the seed objects defined in the register file MUST 
 
 - GIVEN Planninq is installed for the first time on a Nextcloud instance
 - WHEN the app is first activated (triggering `SettingsService` import)
-- THEN at least 3 Label objects MUST exist in the `planix` register
+- THEN at least 3 Label objects MUST exist in the `planninq` register
 - AND at least 3 Project objects MUST exist
 - AND at least 4 Column objects MUST exist
 - AND at least 5 Task objects MUST exist
@@ -133,7 +133,7 @@ Re-importing the register file MUST NOT create duplicate schema definitions or d
 
 - GIVEN Planninq has been installed and the register has been imported once
 - WHEN the app is reloaded and `SettingsService` runs the import again (same version)
-- THEN the number of schemas in the `planix` register MUST remain exactly 5
+- THEN the number of schemas in the `planninq` register MUST remain exactly 5
 - AND no additional schema versions MUST be created
 
 #### Scenario: Re-import does not duplicate seed objects
@@ -151,7 +151,7 @@ The import MUST be skipped when the stored register version matches the file ver
 
 #### Scenario: Import skipped when version unchanged
 
-- GIVEN the `planix` register is already stored in OpenRegister with version `0.2.0`
+- GIVEN the `planninq` register is already stored in OpenRegister with version `0.2.0`
 - AND the file `lib/Settings/planninq_register.json` declares version `0.2.0`
 - WHEN `SettingsService` checks whether to import
 - THEN the import MUST be skipped
@@ -159,7 +159,7 @@ The import MUST be skipped when the stored register version matches the file ver
 
 #### Scenario: Import triggered when version bumped
 
-- GIVEN the `planix` register is stored with version `0.1.0`
+- GIVEN the `planninq` register is stored with version `0.1.0`
 - AND the file `lib/Settings/planninq_register.json` declares version `0.2.0`
 - WHEN `SettingsService` checks whether to import
 - THEN the import MUST be executed

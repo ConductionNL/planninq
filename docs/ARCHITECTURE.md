@@ -389,7 +389,7 @@ $calendarManager = \OCP\Server::get(\OCP\Calendar\IManager::class);
 | Field | Value |
 |-------|-------|
 | Name | `Planninq` |
-| Slug | `planix` (deliberately still the pre-rename slug — the app id became `planninq` but the register was not re-slugged, so existing objects stay reachable) |
+| Slug | `planninq` (moved from `planix` by the `MigrateRegisterSlug` repair step, which renames the register row before the import resolves it; the register's `tablePrefix` and `folder` stay `planix`, because those name physical things that already exist) |
 | Description | Project and task management register |
 
 ### Schema Definitions

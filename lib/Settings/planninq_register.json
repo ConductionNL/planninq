@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.3.0"
+    "version": "0.4.0"
   },
   "x-openregister": {
     "type": "application",
@@ -14,11 +14,11 @@
   "paths": {},
   "components": {
     "registers": {
-      "planix": {
+      "planninq": {
         "title": "Planninq",
         "description": "Planninq application data register — tasks, projects, columns, time entries, and labels.",
-        "slug": "planix",
-        "version": "0.3.0",
+        "slug": "planninq",
+        "version": "0.4.0",
         "schemas": [
           "task",
           "project",
@@ -27,6 +27,7 @@
           "label",
           "dependency"
         ],
+        "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
         "folder": "planix",
         "publicRead": false,
@@ -907,7 +908,7 @@
     "objects": [
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "label",
           "slug": "bug",
           "id": "00000000-0000-4000-c000-000000000001"
@@ -918,7 +919,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "label",
           "slug": "feature",
           "id": "00000000-0000-4000-c000-000000000002"
@@ -929,7 +930,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "label",
           "slug": "docs",
           "id": "00000000-0000-4000-c000-000000000003"
@@ -940,7 +941,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "label",
           "slug": "design",
           "id": "00000000-0000-4000-c000-000000000004"
@@ -951,7 +952,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "label",
           "slug": "infrastructure",
           "id": "00000000-0000-4000-c000-000000000005"
@@ -962,7 +963,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "project",
           "slug": "client-portal-v2",
           "id": "00000000-0000-4000-a000-000000000001"
@@ -982,7 +983,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "project",
           "slug": "infrastructure-migration",
           "id": "00000000-0000-4000-a000-000000000002"
@@ -1001,7 +1002,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "project",
           "slug": "onboarding-automation",
           "id": "00000000-0000-4000-a000-000000000003"
@@ -1022,7 +1023,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "column",
           "slug": "portal-todo",
           "id": "00000000-0000-4000-b000-000000000001"
@@ -1035,7 +1036,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "column",
           "slug": "portal-in-progress",
           "id": "00000000-0000-4000-b000-000000000002"
@@ -1048,7 +1049,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "column",
           "slug": "portal-review",
           "id": "00000000-0000-4000-b000-000000000003"
@@ -1061,7 +1062,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "column",
           "slug": "portal-done",
           "id": "00000000-0000-4000-b000-000000000004"
@@ -1074,7 +1075,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "column",
           "slug": "infra-todo",
           "id": "00000000-0000-4000-b000-000000000005"
@@ -1087,7 +1088,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "column",
           "slug": "infra-in-progress",
           "id": "00000000-0000-4000-b000-000000000006"
@@ -1100,7 +1101,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "column",
           "slug": "infra-review",
           "id": "00000000-0000-4000-b000-000000000007"
@@ -1113,7 +1114,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "column",
           "slug": "infra-done",
           "id": "00000000-0000-4000-b000-000000000008"
@@ -1126,7 +1127,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "column",
           "slug": "onboard-todo",
           "id": "00000000-0000-4000-b000-000000000009"
@@ -1139,7 +1140,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "column",
           "slug": "onboard-in-progress",
           "id": "00000000-0000-4000-b000-000000000010"
@@ -1152,7 +1153,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "column",
           "slug": "onboard-review",
           "id": "00000000-0000-4000-b000-000000000011"
@@ -1165,7 +1166,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "column",
           "slug": "onboard-done",
           "id": "00000000-0000-4000-b000-000000000012"
@@ -1178,7 +1179,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "task",
           "slug": "fix-login-redirect",
           "id": "00000000-0000-4000-d000-000000000001"
@@ -1199,7 +1200,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "task",
           "slug": "design-dashboard-widgets",
           "id": "00000000-0000-4000-d000-000000000002"
@@ -1219,7 +1220,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "task",
           "slug": "write-api-docs",
           "id": "00000000-0000-4000-d000-000000000003"
@@ -1239,7 +1240,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "task",
           "slug": "k8s-namespace-setup",
           "id": "00000000-0000-4000-d000-000000000004"
@@ -1259,7 +1260,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "task",
           "slug": "onboarding-n8n-workflow",
           "id": "00000000-0000-4000-d000-000000000005"
@@ -1279,7 +1280,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "timeEntry",
           "slug": "te-fix-login-2026-04-01"
         },
@@ -1291,7 +1292,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "timeEntry",
           "slug": "te-fix-login-2026-04-02"
         },
@@ -1303,7 +1304,7 @@
       },
       {
         "@self": {
-          "register": "planix",
+          "register": "planninq",
           "schema": "timeEntry",
           "slug": "te-k8s-2026-04-01"
         },

@@ -7,7 +7,7 @@
 ## 1. Manifest observability block (minimal)
 
 - [ ] 1.1 Create `src/manifest.json` (planninq is Tier 0 — no manifest exists yet) with an `observability` block: `health.checks: [{"type": "database"}]`, `metrics: []` (implicit `planninq_info`/`planninq_up` come from the engine)
-- [ ] 1.2 (Optional, recipe-documentation value) add the worked-example metric `planninq_projects_total` → `{"kind": "objectCount", "register": "planix", "schema": "project"}`; and/or the optional `{"type": "orAvailable", "severity": "degraded"}` health check — both intentional non-parity additions, document if added
+- [ ] 1.2 (Optional, recipe-documentation value) add the worked-example metric `planninq_projects_total` → `{"kind": "objectCount", "register": "planninq", "schema": "project"}`; and/or the optional `{"type": "orAvailable", "severity": "degraded"}` health check — both intentional non-parity additions, document if added
 - [ ] 1.3 Validate via ManifestService diagnostics (no errors)
 
 ## 2. Bootstrap/Routes wiring + deletions

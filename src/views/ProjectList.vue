@@ -155,7 +155,7 @@ export default {
 		return {
 			showCreationDialog: false,
 			activeStatus: null,
-			// Live-updates handle for the or-collection-planix-project
+			// Live-updates handle for the or-collection-planninq-project
 			// subscription. livePendingType marks an in-flight subscribe so a
 			// concurrent call doesn't double-subscribe; liveEpoch invalidates
 			// in-flight resolutions after a release (destroy). liveUnwatch
@@ -270,7 +270,7 @@ export default {
 	methods: {
 		/**
 		 * Subscribe to live updates for the Planninq project collection
-		 * (or-collection-planix-project). Events are refetch hints only: the
+		 * (or-collection-planninq-project). Events are refetch hints only: the
 		 * liveUpdatesPlugin re-runs fetchCollection('project') with the
 		 * last-used params; the bridge watcher installed here re-applies the
 		 * member filter into projectsStore.projects so this view re-renders.
