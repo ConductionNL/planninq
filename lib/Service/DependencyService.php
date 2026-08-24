@@ -53,13 +53,15 @@ class DependencyService {
 	/**
 	 * OpenRegister register slug owning the Planninq schemas.
 	 *
-	 * Deliberately still the PRE-RENAME `planix`. The app id became `planninq`,
-	 * but the register holding the live data is still slugged `planix` and this
-	 * release ships no register-slug migration.
+	 * Moved from `planix` to `planninq` together with the MigrateRegisterSlug
+	 * repair step, which renames the register ROW. This literal only resolves
+	 * because that step runs first: OpenRegister looks a register up by slug and
+	 * by nothing else, so a renamed slug here without the row rename would find
+	 * no register at all.
 	 *
 	 * @var string
 	 */
-	private const REGISTER = 'planix';
+	private const REGISTER = 'planninq';
 
 	/**
 	 * OpenRegister schema slug for dependency edges.

@@ -102,7 +102,7 @@
 							"mode": "raw",
 							"raw": "{\"title\":\"Dep test A\",\"status\":\"open\",\"project\":\"{{project_id}}\"}"
 						},
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task",
 						"description": "Seed task A directly via the OpenRegister object API (fixture setup)."
 					},
 					"event": [
@@ -140,7 +140,7 @@
 							"mode": "raw",
 							"raw": "{\"title\":\"Dep test B\",\"status\":\"open\",\"project\":\"{{project_id}}\"}"
 						},
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task"
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task"
 					},
 					"event": [
 						{
@@ -177,7 +177,7 @@
 							"mode": "raw",
 							"raw": "{\"title\":\"Dep test C\",\"status\":\"open\",\"project\":\"{{project_id}}\"}"
 						},
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task"
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task"
 					},
 					"event": [
 						{
@@ -413,7 +413,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/label",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/label",
 						"body": {
 							"mode": "raw",
 							"raw": "{\"title\":\"Newman label\",\"color\":\"#33AA55\",\"description\":\"integration\"}"
@@ -487,7 +487,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task",
 						"body": {
 							"mode": "raw",
 							"raw": "{\"title\":\"Newman label task\",\"status\":\"open\",\"project\":\"{{project_id}}\",\"labels\":[\"{{label_id}}\"]}"
@@ -560,7 +560,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/label",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/label",
 						"body": {
 							"mode": "raw",
 							"raw": "{\"title\":\"Bad colour\",\"color\":\"not-a-hex\"}"
@@ -631,7 +631,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{label_task}}",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{label_task}}",
 						"description": "The swept task must not retain a dangling label reference."
 					},
 					"event": [
@@ -672,7 +672,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task",
 						"body": {
 							"mode": "raw",
 							"raw": "{\"title\":\"Collaboration task\",\"status\":\"open\"}"
@@ -710,7 +710,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{collab_task}}/notes",
 						"body": {
 							"mode": "raw",
 							"raw": "{\"message\":\"Waiting on the API contract\"}"
@@ -750,7 +750,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{collab_task}}/notes",
 						"description": "The comment must list back with its message and author."
 					},
 					"event": [
@@ -788,7 +788,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes/{{note_id}}",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{collab_task}}/notes/{{note_id}}",
 						"body": {
 							"mode": "raw",
 							"raw": "{\"message\":\"Waiting on the API contract (updated)\"}"
@@ -824,7 +824,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{collab_task}}",
 						"body": {
 							"mode": "raw",
 							"raw": "{\"title\":\"Collaboration task\",\"status\":\"in_progress\"}"
@@ -860,7 +860,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/audit-trails",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{collab_task}}/audit-trails",
 						"description": "Read-only OR audit trail; after the update it must carry an entry."
 					},
 					"event": [
@@ -895,7 +895,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/00000000-0000-0000-0000-000000000000/notes",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/00000000-0000-0000-0000-000000000000/notes",
 						"description": "A request for the notes of a task the caller cannot read returns no comments (404/403/empty) — enforcement lives in OpenRegister, not planninq."
 					},
 					"event": [
@@ -932,7 +932,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planix/task/{{collab_task}}/notes/{{note_id}}",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{collab_task}}/notes/{{note_id}}",
 						"description": "ICommentsManager allows the author to delete their own comment."
 					},
 					"event": [

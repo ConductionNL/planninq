@@ -238,7 +238,7 @@ CnDetailPage (title="Fix auth token expiry bug", back-route=board)
 │   │   └─ estimate/logged progress bar + TimeEntry list + [Log time]
 │   └─ CnDetailCard (title="Sub-tasks") [V1]
 │       └─ sub-task checklist
-└─ CnObjectSidebar (object-type="planix-task", object-id=uuid)
+└─ CnObjectSidebar (object-type="planninq-task", object-id=uuid)
     ├─ Tab: Files    — upload, list, open (via OpenRegister → NC Files)
     ├─ Tab: Notes    — add, list, delete (via OpenRegister → NC Comments)
     ├─ Tab: Tags     — add, remove, list (via OpenRegister → NC Tags)
@@ -340,7 +340,7 @@ CnDetailPage (title="Fix auth token expiry bug", back-route=board)
 │  └──────────────────────────────────────────────────────────────┘ │
 │                                                                    │
 │  ┌─ CnSettingsSection: OpenRegister Setup ─────────────────────┐ │
-│  │  Register: planix · Status: ✓ Initialized                    │ │
+│  │  Register: planninq · Status: ✓ Initialized                  │ │
 │  │  Schemas: task, project, column, timeEntry, label            │ │
 │  │                             [Re-initialize (repair step)]    │ │
 │  └──────────────────────────────────────────────────────────────┘ │

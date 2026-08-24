@@ -17,16 +17,18 @@ import {
 } from '../../src/utils/taskHelpers.js'
 
 describe('taskCollaborationSidebarConfig', () => {
-	// The register slug is still the pre-rename `planix`: the app id became
-	// `planninq` but the register holding the live data was not re-slugged, and
-	// these literals pin exactly that.
+	// The register slug moved from `planix` to `planninq` together with the
+	// MigrateRegisterSlug repair step that renames the register ROW. These
+	// literals pin the NEW slug on purpose: asserting via PLANNINQ_REGISTER
+	// alone would pass whatever the constant happens to say, so the raw string
+	// is what actually catches a half-done rename.
 	it('passes the Planninq register, task schema and the task UUID', () => {
 		const config = taskCollaborationSidebarConfig({ id: 'task-uuid-123' })
 		expect(config.register).toBe(PLANNINQ_REGISTER)
-		expect(config.register).toBe('planix')
+		expect(config.register).toBe('planninq')
 		expect(config.schema).toBe('task')
 		expect(config.objectId).toBe('task-uuid-123')
-		expect(config.objectType).toBe('planix-task')
+		expect(config.objectType).toBe('planninq-task')
 	})
 
 	it('hides the generic tags and tasks tabs', () => {

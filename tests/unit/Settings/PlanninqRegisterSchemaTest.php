@@ -65,7 +65,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertArrayHasKey(key: 'components', array: $this->register);
 		self::assertArrayHasKey(key: 'registers', array: $this->register['components']);
 		self::assertArrayHasKey(key: 'schemas', array: $this->register['components']);
-		self::assertArrayHasKey(key: 'planix', array: $this->register['components']['registers']);
+		self::assertArrayHasKey(key: 'planninq', array: $this->register['components']['registers']);
 
 	}//end testRegisterJsonIsValidAndHasRequiredStructure()
 
@@ -79,25 +79,25 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testRegisterBlockExplicitlyDisablesPublicAccess(): void {
-		$planix = $this->register['components']['registers']['planix'];
+		$planninq = $this->register['components']['registers']['planninq'];
 
 		self::assertArrayHasKey(
 			key: 'publicRead',
-			array: $planix,
+			array: $planninq,
 			message: 'Register block must explicitly declare publicRead (issue #259)'
 		);
 		self::assertArrayHasKey(
 			key: 'publicWrite',
-			array: $planix,
+			array: $planninq,
 			message: 'Register block must explicitly declare publicWrite (issue #259)'
 		);
 		self::assertFalse(
-			condition: $planix['publicRead'],
-			message: 'publicRead must be false — planix is not a public register'
+			condition: $planninq['publicRead'],
+			message: 'publicRead must be false — planninq is not a public register'
 		);
 		self::assertFalse(
-			condition: $planix['publicWrite'],
-			message: 'publicWrite must be false — planix is not a public register'
+			condition: $planninq['publicWrite'],
+			message: 'publicWrite must be false — planninq is not a public register'
 		);
 
 	}//end testRegisterBlockExplicitlyDisablesPublicAccess()
@@ -369,7 +369,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	public function testRegisterDeclaresExactlySixSchemas(): void {
 		$expected = ['task', 'project', 'column', 'timeEntry', 'label', 'dependency'];
 
-		$listed = $this->register['components']['registers']['planix']['schemas'];
+		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
 		$sortedExpected = $expected;
 		sort($sortedExpected);

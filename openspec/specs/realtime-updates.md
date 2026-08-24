@@ -15,7 +15,7 @@ Planninq views that render OpenRegister-backed objects stay fresh without manual
 
 ### REQ-Live-Project-List
 
-WHEN the project list view (`ProjectList.vue`) is mounted, the app SHALL subscribe to the `or-collection-planix-project` event via `objectStore.subscribe('project')`, and on each event the refetched collection SHALL be re-filtered through the same member filter `fetchProjects` applies and rendered without user interaction.
+WHEN the project list view (`ProjectList.vue`) is mounted, the app SHALL subscribe to the `or-collection-planninq-project` event via `objectStore.subscribe('project')`, and on each event the refetched collection SHALL be re-filtered through the same member filter `fetchProjects` applies and rendered without user interaction.
 
 #### Scenario: project created elsewhere appears in the list
 

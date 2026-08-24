@@ -55,7 +55,6 @@ class OpenRegisterAutoloaderTest extends TestCase {
 
 	}//end testRegisterNeverThrows()
 
-
 	/**
 	 * Calling the prelude twice must be free and must agree with itself.
 	 *

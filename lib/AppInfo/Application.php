@@ -62,6 +62,8 @@ class Application extends App implements IBootstrap {
 	 * is static because it runs at the composition root, before any container
 	 * exists to resolve an instance from — the same reason it cannot be
 	 * injected here.
+	 *
+	 * @spec openspec/specs/app-shell-and-data-store.md
 	 */
 	public function register(IRegistrationContext $context): void {
 		// LOAD-ORDER HAZARD: an app's register() runs before the PSR-4 prefix of
@@ -410,7 +412,7 @@ class Application extends App implements IBootstrap {
 		// Publish task lifecycle events to the Nextcloud Activity stream.
 		//
 		// The listener's own scope check (TaskScopeResolver::isPlanninqTask,
-		// REGISTER_SLUG `planix` + TASK_SCHEMA_SLUG `task` — spelled out as
+		// REGISTER_SLUG `planninq` + TASK_SCHEMA_SLUG `task` — spelled out as
 		// literals here so Application does not import the resolver and push
 		// its already-over-threshold PHPMD coupling count up by one) is now
 		// also declared at SUBSCRIPTION time, so an unrelated app's write no longer
@@ -418,18 +420,19 @@ class Application extends App implements IBootstrap {
 		// scope resolver needs to reject it. The in-listener guard stays in
 		// place as defence in depth.
 		//
-		// The register slug below is still the PRE-RENAME `planix`, deliberately.
-		// The app id became `planninq`, but the OpenRegister register that holds
-		// the live data is still slugged `planix` on every existing install, and
-		// this release ships no register-slug migration. Changing the literal
-		// here without one would point the app at a register that does not
-		// exist yet and silently orphan every stored task.
+		// The register slug below moved from `planix` to `planninq` together with
+		// the MigrateRegisterSlug repair step, which renames the register ROW
+		// before InitializeSettings triggers the import. Moving the literal
+		// WITHOUT that step is what would have pointed the app at a register
+		// that does not exist and silently orphaned every stored task; moving
+		// them together is what makes it resolve. It must stay in step with
+		// TaskScopeResolver::REGISTER_SLUG, which the listener re-checks.
 		foreach ([ObjectCreatedEvent::class, ObjectUpdatedEvent::class, ObjectDeletedEvent::class] as $event) {
 			$this->registerFilteredObjectListener(
 				dispatcher: $dispatcher,
 				event: $event,
 				listener: TaskActivityListener::class,
-				registers: ['planix'],
+				registers: ['planninq'],
 				schemas: ['task']
 			);
 		}
@@ -452,7 +455,7 @@ class Application extends App implements IBootstrap {
 			dispatcher: $dispatcher,
 			event: 'OCA\\OpenRegister\\Event\\ObjectDeletingEvent',
 			listener: 'OCA\\Planninq\\Listener\\TaskDependencyCleanupListener',
-			registers: ['planix'],
+			registers: ['planninq'],
 			schemas: ['task']
 		);
 	}//end boot()

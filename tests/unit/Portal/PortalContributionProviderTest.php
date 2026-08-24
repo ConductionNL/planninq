@@ -331,10 +331,10 @@ final class PortalContributionProviderTest extends TestCase {
 	/**
 	 * The register slug every portal collection reads from.
 	 *
-	 * @return string The OpenRegister register slug (still the pre-rename `planix`).
+	 * @return string The OpenRegister register slug (post-rename `planninq`).
 	 */
 	private static function REGISTER_EXPECTATION(): string {
-		return 'planix';
+		return 'planninq';
 	}//end REGISTER_EXPECTATION()
 
 }//end class

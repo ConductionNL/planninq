@@ -66,7 +66,7 @@ class TaskActivityListenerTest extends TestCase {
 	private function makeListener(
 		string $actor = 'alice',
 		array $project = ['members' => ['alice', 'bob'], 'owner' => 'alice'],
-		string $registerSlug = 'planix',
+		string $registerSlug = 'planninq',
 		string $schemaSlug = 'task',
 	): TaskActivityListener {
 		$this->published = [];
@@ -186,7 +186,7 @@ class TaskActivityListenerTest extends TestCase {
 	 * Build a mock ObjectEntity for a Planninq task.
 	 *
 	 * @param array $data The object data.
-	 * @param string $register The register id (default '1' = planix).
+	 * @param string $register The register id (default '1' = planninq).
 	 * @param string $schema The schema id (default '2' = task).
 	 *
 	 * @return ObjectEntity The mock entity.
@@ -385,7 +385,7 @@ class TaskActivityListenerTest extends TestCase {
 
 		$registerEntity = new class {
 			public function getSlug(): string {
-				return 'planix';
+				return 'planninq';
 			}
 		};
 		$schemaEntity = new class {
@@ -394,14 +394,18 @@ class TaskActivityListenerTest extends TestCase {
 			}
 		};
 		$registerMapper = new class($registerEntity) {
-			public function __construct(private object $e) {
+			public function __construct(
+				private object $e,
+			) {
 			}
 			public function find($id): object {
 				return $this->e;
 			}
 		};
 		$schemaMapper = new class($schemaEntity) {
-			public function __construct(private object $e) {
+			public function __construct(
+				private object $e,
+			) {
 			}
 			public function find($id): object {
 				return $this->e;

@@ -16,7 +16,7 @@
  *
  * instead. PHPUnit generates those added methods with **no declared
  * parameters**, so every named argument in the production code —
- * `find(id: $projectId)`, `saveObject(object: $body, register: 'planix', …)` —
+ * `find(id: $projectId)`, `saveObject(object: $body, register: 'planninq', …)` —
  * raised `Error: Unknown named parameter $id` / `$object`. That produced 4
  * errors and 1 failure in `ProjectControllerTest` on all six PHPUnit legs.
  *

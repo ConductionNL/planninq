@@ -399,10 +399,14 @@ namespace OCA\OpenRegister\Exception;
  * Analysis-only: never autoloaded or executed.
  */
 
-class NotAuthorizedException extends \Exception {}
+class NotAuthorizedException extends \Exception {
+}
 
-class ValidationException extends \Exception {}
+class ValidationException extends \Exception {
+}
 
-class CustomValidationException extends \Exception {}
+class CustomValidationException extends \Exception {
+}
 
-class ProviderUnavailableException extends \Exception {}
+class ProviderUnavailableException extends \Exception {
+}
