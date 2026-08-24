@@ -142,12 +142,42 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 		const objectsUrl = (schema: string) =>
 			`/index.php/apps/openregister/api/objects/${REGISTER}/${schema}`
 
-		// Probe: if the Planninq register/schema is absent, OR answers 4xx/5xx and
-		// we bail so specs take the honest "app not installed" skip.
+		// Probe the register — and tell "not installed" apart from "installed and
+		// broken", because those must NOT produce the same outcome.
+		//
+		// This used to `return false` on any 4xx/5xx, so every spec then took its
+		// "app not installed" skip path and the suite reported SKIPPED. That is
+		// the phantom green this file exists to prevent, one layer up: gate-19
+		// sees real `@e2e` references, the run is not red, and nothing ran.
+		//
+		// Observed 2026-08-24: `/apps/planninq/api/settings` answered 200 — the
+		// app installed, migrated and healthy — while
+		// `/apps/openregister/api/objects/planix/project` answered
+		// `404 {"message":"Register not found: 'planix'"}` for a register whose
+		// row and magic tables both exist (openregister#2820). The entire suite
+		// silently skipped against a working app.
+		//
+		// `settingsReset` above is the discriminator: it hits the app's OWN route,
+		// so a 404 there means the app is genuinely absent and skipping is honest.
+		// Anything else means the app is there and its data layer is not, which is
+		// a failure and has to be loud.
+		//
+		// NOTE: REGISTER is the OpenRegister register SLUG, which is frozen at
+		// `planix` by fleet policy and does NOT follow the planix -> planninq app
+		// rename. A 404 here is not a stale-slug bug; do not "fix" it by renaming.
+		const appIsInstalled = settingsReset.status() !== 404
 		const probe = await ctx.get(objectsUrl('project'), { failOnStatusCode: false })
 		if (probe.status() >= 400) {
+			if (appIsInstalled) {
+				throw new Error(
+					`[seed] Planninq is installed (settings route answered ${settingsReset.status()}) `
+					+ `but its OpenRegister register is unreachable: GET ${objectsUrl('project')} `
+					+ `returned ${probe.status()}. Refusing to skip — skipping here would report the `
+					+ 'whole suite as passing-by-omission against a working app. See openregister#2820.',
+				)
+			}
 			// eslint-disable-next-line no-console
-			console.log(`[seed] Planninq register not reachable (status ${probe.status()}); skipping fixture seed`)
+			console.log('[seed] Planninq not installed (settings route 404); skipping fixture seed')
 			return false
 		}
 
