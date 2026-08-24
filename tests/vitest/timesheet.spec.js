@@ -1,7 +1,7 @@
 /**
  * Unit tests for the timesheet grouping/totals/range helpers.
  *
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
  * @spec openspec/specs/time-tracking.md

@@ -1,16 +1,16 @@
 <template>
-	<div class="planix-admin">
+	<div class="planninq-admin">
 		<CnVersionInfoCard
-			:app-name="'Planix'"
+			:app-name="'Planninq'"
 			:app-version="appVersion"
 			:is-up-to-date="true"
 			:show-update-button="true"
-			:title="t('planix', 'Version information')"
-			:description="t('planix', 'Information about the current Planix installation')">
+			:title="t('planninq', 'Version information')"
+			:description="t('planninq', 'Information about the current Planninq installation')">
 			<template #footer>
 				<div class="cn-support-info">
-					<h4>{{ t('planix', 'Support') }}</h4>
-					<p>{{ t('planix', 'For support, contact us at') }} <a href="mailto:support@conduction.nl">support@conduction.nl</a></p>
+					<h4>{{ t('planninq', 'Support') }}</h4>
+					<p>{{ t('planninq', 'For support, contact us at') }} <a href="mailto:support@conduction.nl">support@conduction.nl</a></p>
 				</div>
 			</template>
 		</CnVersionInfoCard>
@@ -42,7 +42,7 @@ export default {
 	data() {
 		return {
 			storesReady: false,
-			appVersion: loadState('planix', 'version', 'Unknown'),
+			appVersion: loadState('planninq', 'version', 'Unknown'),
 		}
 	},
 	/**
@@ -56,7 +56,7 @@ export default {
 </script>
 
 <style scoped>
-.planix-admin {
+.planninq-admin {
 	max-width: 900px;
 }
 </style>

@@ -34,27 +34,25 @@ use OCP\EventDispatcher\Event;
 /**
  * Test-only stub of the object-deleted event.
  */
-class ObjectDeletedEvent extends Event
-{
-    /**
-     * Constructor.
-     *
-     * @param ObjectEntity $object The deleted object.
-     */
-    public function __construct(private ObjectEntity $object)
-    {
-        parent::__construct();
+class ObjectDeletedEvent extends Event {
+	/**
+	 * Constructor.
+	 *
+	 * @param ObjectEntity $object The deleted object.
+	 */
+	public function __construct(
+		private ObjectEntity $object,
+	) {
+		parent::__construct();
 
-    }//end __construct()
+	}//end __construct()
 
-    /**
-     * Return the deleted object.
-     *
-     * @return ObjectEntity The deleted object.
-     */
-    public function getObject(): ObjectEntity
-    {
-        return $this->object;
-
-    }//end getObject()
+	/**
+	 * Return the deleted object.
+	 *
+	 * @return ObjectEntity The deleted object.
+	 */
+	public function getObject(): ObjectEntity {
+		return $this->object;
+	}//end getObject()
 }//end class

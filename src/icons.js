@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 // Copyright (C) 2026 Conduction B.V.
 //
-// Icon registry for planix (ADR-077 semantic icon vocabulary).
+// Icon registry for planninq (ADR-077 semantic icon vocabulary).
 //
 // CnAppNav, CnIcon and the CnIndexPage / CnDetailPage headers and empty states
 // resolve an `icon` by PascalCase name through the registry `registerIcons()`
@@ -10,7 +10,7 @@
 // Keep it in sync when a menu entry or schema icon is added.
 //
 // Every name below is verified to exist in vue-material-design-icons 5.3.x.
-// Three of these previously sat in lib/Settings/planix_register.json as emoji
+// Three of these previously sat in lib/Settings/planninq_register.json as emoji
 // ("🌐", "☁️", "🤝"), which resolve to nothing at all: the registry looks up a
 // component by name, so an emoji is simply a name that is not registered.
 

@@ -9,7 +9,7 @@
  *
  * Mirrored from openregister/lib/Event/ObjectDeletingEvent.php.
  *
- * ⚠️ The FULL surface is mirrored deliberately, not just the one method planix
+ * ⚠️ The FULL surface is mirrored deliberately, not just the one method planninq
  * calls. A stub narrower than the real class makes an incompatible usage legal
  * here and fatal in CI, and `StoppableEventInterface` is load-bearing: this is
  * a PRE-event, so stopping propagation VETOES the delete. A stub that silently
@@ -42,119 +42,108 @@ use Psr\EventDispatcher\StoppableEventInterface;
 /**
  * Dispatched before an object is deleted.
  */
-class ObjectDeletingEvent extends Event implements StoppableEventInterface
-{
+class ObjectDeletingEvent extends Event implements StoppableEventInterface {
 
-    /**
-     * Whether propagation has been stopped.
-     *
-     * @var boolean
-     */
-    private bool $propagationStopped = false;
+	/**
+	 * Whether propagation has been stopped.
+	 *
+	 * @var boolean
+	 */
+	private bool $propagationStopped = false;
 
-    /**
-     * Validation errors contributed by listeners.
-     *
-     * @var array<int|string,mixed>
-     */
-    private array $errors = [];
+	/**
+	 * Validation errors contributed by listeners.
+	 *
+	 * @var array<int|string,mixed>
+	 */
+	private array $errors = [];
 
-    /**
-     * Data modified by listeners.
-     *
-     * @var array<string,mixed>
-     */
-    private array $modifiedData = [];
+	/**
+	 * Data modified by listeners.
+	 *
+	 * @var array<string,mixed>
+	 */
+	private array $modifiedData = [];
 
-    /**
-     * Constructor.
-     *
-     * @param ObjectEntity $object The object being deleted.
-     */
-    public function __construct(private ObjectEntity $object)
-    {
-        parent::__construct();
+	/**
+	 * Constructor.
+	 *
+	 * @param ObjectEntity $object The object being deleted.
+	 */
+	public function __construct(
+		private ObjectEntity $object,
+	) {
+		parent::__construct();
 
-    }//end __construct()
+	}//end __construct()
 
-    /**
-     * Return the object being deleted.
-     *
-     * @return ObjectEntity The object being deleted.
-     */
-    public function getObject(): ObjectEntity
-    {
-        return $this->object;
+	/**
+	 * Return the object being deleted.
+	 *
+	 * @return ObjectEntity The object being deleted.
+	 */
+	public function getObject(): ObjectEntity {
+		return $this->object;
+	}//end getObject()
 
-    }//end getObject()
+	/**
+	 * Whether propagation has been stopped.
+	 *
+	 * @return boolean True when stopped.
+	 */
+	public function isPropagationStopped(): bool {
+		return $this->propagationStopped;
+	}//end isPropagationStopped()
 
-    /**
-     * Whether propagation has been stopped.
-     *
-     * @return boolean True when stopped.
-     */
-    public function isPropagationStopped(): bool
-    {
-        return $this->propagationStopped;
+	/**
+	 * Stop propagation, vetoing the delete.
+	 *
+	 * @return void
+	 */
+	public function stopPropagation(): void {
+		$this->propagationStopped = true;
 
-    }//end isPropagationStopped()
+	}//end stopPropagation()
 
-    /**
-     * Stop propagation, vetoing the delete.
-     *
-     * @return void
-     */
-    public function stopPropagation(): void
-    {
-        $this->propagationStopped = true;
+	/**
+	 * Record validation errors.
+	 *
+	 * @param array<int|string,mixed> $errors The errors.
+	 *
+	 * @return void
+	 */
+	public function setErrors(array $errors): void {
+		$this->errors = $errors;
 
-    }//end stopPropagation()
+	}//end setErrors()
 
-    /**
-     * Record validation errors.
-     *
-     * @param array<int|string,mixed> $errors The errors.
-     *
-     * @return void
-     */
-    public function setErrors(array $errors): void
-    {
-        $this->errors = $errors;
+	/**
+	 * Return recorded validation errors.
+	 *
+	 * @return array<int|string,mixed> The errors.
+	 */
+	public function getErrors(): array {
+		return $this->errors;
+	}//end getErrors()
 
-    }//end setErrors()
+	/**
+	 * Record data modified by a listener.
+	 *
+	 * @param array<string,mixed> $data The modified data.
+	 *
+	 * @return void
+	 */
+	public function setModifiedData(array $data): void {
+		$this->modifiedData = $data;
 
-    /**
-     * Return recorded validation errors.
-     *
-     * @return array<int|string,mixed> The errors.
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
+	}//end setModifiedData()
 
-    }//end getErrors()
-
-    /**
-     * Record data modified by a listener.
-     *
-     * @param array<string,mixed> $data The modified data.
-     *
-     * @return void
-     */
-    public function setModifiedData(array $data): void
-    {
-        $this->modifiedData = $data;
-
-    }//end setModifiedData()
-
-    /**
-     * Return data modified by listeners.
-     *
-     * @return array<string,mixed> The modified data.
-     */
-    public function getModifiedData(): array
-    {
-        return $this->modifiedData;
-
-    }//end getModifiedData()
+	/**
+	 * Return data modified by listeners.
+	 *
+	 * @return array<string,mixed> The modified data.
+	 */
+	public function getModifiedData(): array {
+		return $this->modifiedData;
+	}//end getModifiedData()
 }//end class

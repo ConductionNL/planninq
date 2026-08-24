@@ -3,7 +3,7 @@
 		<!-- Header with actions -->
 		<div class="project-list__header">
 			<h2 class="project-list__title">
-				{{ t('planix', 'Projects') }}
+				{{ t('planninq', 'Projects') }}
 			</h2>
 			<div class="project-list__actions">
 				<!-- Status filter chips (NcChip per spec) -->
@@ -23,7 +23,7 @@
 					<template #icon>
 						<PlusIcon :size="20" />
 					</template>
-					{{ t('planix', 'New project') }}
+					{{ t('planninq', 'New project') }}
 				</NcButton>
 			</div>
 		</div>
@@ -32,8 +32,8 @@
 		<div class="project-list__search">
 			<NcTextField
 				:model-value="listView.searchTerm.value"
-				:label="t('planix', 'Search projects')"
-				:placeholder="t('planix', 'Search by title or description\u2026')"
+				:label="t('planninq', 'Search projects')"
+				:placeholder="t('planninq', 'Search by title or description\u2026')"
 				@update:modelValue="listView.onSearchInput($event)" />
 		</div>
 
@@ -45,14 +45,14 @@
 		<!-- Error state -->
 		<NcEmptyContent
 			v-else-if="error"
-			:name="t('planix', 'Could not load projects')"
+			:name="t('planninq', 'Could not load projects')"
 			:description="error">
 			<template #icon>
 				<AlertCircleOutline :size="20" />
 			</template>
 			<template #action>
 				<NcButton variant="primary" @click="projectsStore.fetchProjects()">
-					{{ t('planix', 'Retry') }}
+					{{ t('planninq', 'Retry') }}
 				</NcButton>
 			</template>
 		</NcEmptyContent>
@@ -60,14 +60,14 @@
 		<!-- Empty state — no projects at all -->
 		<NcEmptyContent
 			v-else-if="projects.length === 0"
-			:name="t('planix', 'No projects yet')"
-			:description="canCreateProject ? t('planix', 'Create your first project to get started.') : t('planix', 'No projects are available to you yet. Ask an administrator to create one.')">
+			:name="t('planninq', 'No projects yet')"
+			:description="canCreateProject ? t('planninq', 'Create your first project to get started.') : t('planninq', 'No projects are available to you yet. Ask an administrator to create one.')">
 			<template #icon>
 				<FolderOutline :size="20" />
 			</template>
 			<template v-if="canCreateProject" #action>
 				<NcButton variant="primary" @click="showCreationDialog = true">
-					{{ t('planix', 'Create your first project') }}
+					{{ t('planninq', 'Create your first project') }}
 				</NcButton>
 			</template>
 		</NcEmptyContent>
@@ -75,8 +75,8 @@
 		<!-- Empty state — search/filter has no results -->
 		<NcEmptyContent
 			v-else-if="filteredProjects.length === 0"
-			:name="t('planix', 'No projects match your search')"
-			:description="t('planix', 'Try different search terms or clear the filter.')">
+			:name="t('planninq', 'No projects match your search')"
+			:description="t('planninq', 'Try different search terms or clear the filter.')">
 			<template #icon>
 				<Magnify :size="20" />
 			</template>
@@ -217,10 +217,10 @@ export default {
 		 */
 		statusChips() {
 			return [
-				{ value: null, label: this.t('planix', 'All') },
-				{ value: 'active', label: this.t('planix', 'Active') },
-				{ value: 'archived', label: this.t('planix', 'Archived') },
-				{ value: 'completed', label: this.t('planix', 'Completed') },
+				{ value: null, label: this.t('planninq', 'All') },
+				{ value: 'active', label: this.t('planninq', 'Active') },
+				{ value: 'archived', label: this.t('planninq', 'Archived') },
+				{ value: 'completed', label: this.t('planninq', 'Completed') },
 			]
 		},
 
@@ -269,7 +269,7 @@ export default {
 
 	methods: {
 		/**
-		 * Subscribe to live updates for the planix project collection
+		 * Subscribe to live updates for the Planninq project collection
 		 * (or-collection-planix-project). Events are refetch hints only: the
 		 * liveUpdatesPlugin re-runs fetchCollection('project') with the
 		 * last-used params; the bridge watcher installed here re-applies the

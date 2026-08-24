@@ -18,7 +18,7 @@ spec-refs:
 
 # TS-011: OpenRegister gate renders error when OpenRegister is absent
 
-**Goal**: Verify that Planix gracefully handles a missing OpenRegister dependency by showing a clear error state.
+**Goal**: Verify that Planninq gracefully handles a missing OpenRegister dependency by showing a clear error state.
 
 ## Preconditions
 
@@ -27,10 +27,10 @@ spec-refs:
 
 ## Scenario
 
-- GIVEN Planix is installed but OpenRegister is not enabled
-- WHEN any user navigates to `/apps/planix`
+- GIVEN Planninq is installed but OpenRegister is not enabled
+- WHEN any user navigates to `/apps/planninq`
 - THEN the entire app renders `NcEmptyContent` with title "OpenRegister is required"
-- AND the description explains that Planix requires OpenRegister
+- AND the description explains that Planninq requires OpenRegister
 - AND no sidebar, navigation items, or project data is rendered
 - AND admin users see an "Install OpenRegister" action button
 

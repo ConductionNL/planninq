@@ -15,7 +15,7 @@
 			</template>
 			<template #action>
 				<NcButton variant="primary" @click="goBack">
-					{{ t('planix', 'Back to board') }}
+					{{ t('planninq', 'Back to board') }}
 				</NcButton>
 			</template>
 		</NcEmptyContent>
@@ -28,7 +28,7 @@
 						<template #icon>
 							<ArrowLeft :size="20" />
 						</template>
-						{{ t('planix', 'Back to board') }}
+						{{ t('planninq', 'Back to board') }}
 					</NcButton>
 					<h2 class="task-detail__title">
 						{{ taskTitle }}
@@ -53,22 +53,22 @@
 				<!-- Time tracking -->
 				<section class="task-detail__time" aria-labelledby="task-detail-time-heading">
 					<h3 id="task-detail-time-heading" class="task-detail__section-title">
-						{{ t('planix', 'Time tracking') }}
+						{{ t('planninq', 'Time tracking') }}
 					</h3>
 
 					<!-- Estimate input -->
 					<div class="task-detail__estimate">
 						<NcTextField
 							v-model="estimateInput"
-							:label="t('planix', 'Estimate')"
+							:label="t('planninq', 'Estimate')"
 							:error="!!estimateError"
-							:helper-text="estimateError || t('planix', 'e.g. 2h 30m, 90m, 1.5h')"
+							:helper-text="estimateError || t('planninq', 'e.g. 2h 30m, 90m, 1.5h')"
 							data-testid="estimate-input" />
 						<NcButton
 							variant="secondary"
 							:disabled="savingEstimate || !!estimateError || estimateInput.trim() === ''"
 							@click="saveEstimate">
-							{{ t('planix', 'Save estimate') }}
+							{{ t('planninq', 'Save estimate') }}
 						</NcButton>
 					</div>
 
@@ -80,11 +80,11 @@
 						data-testid="time-progress">
 						{{ progressText }}
 						<span v-if="isOverEstimate" class="task-detail__overage">
-							({{ t('planix', 'over by {amount}', { amount: overageText }) }})
+							({{ t('planninq', 'over by {amount}', { amount: overageText }) }})
 						</span>
 					</p>
 					<p v-else class="task-detail__progress" data-testid="time-progress">
-						{{ t('planix', 'Logged: {logged}', { logged: loggedText }) }}
+						{{ t('planninq', 'Logged: {logged}', { logged: loggedText }) }}
 					</p>
 
 					<!-- Log time -->
@@ -92,7 +92,7 @@
 						<template #icon>
 							<ClockPlusOutline :size="20" />
 						</template>
-						{{ t('planix', 'Log time') }}
+						{{ t('planninq', 'Log time') }}
 					</NcButton>
 
 					<!-- Entries -->
@@ -107,13 +107,13 @@
 									<template #icon>
 										<PencilIcon :size="20" />
 									</template>
-									{{ t('planix', 'Edit') }}
+									{{ t('planninq', 'Edit') }}
 								</NcActionButton>
 								<NcActionButton :close-after-click="true" @click="deleteEntry(entry)">
 									<template #icon>
 										<DeleteIcon :size="20" />
 									</template>
-									{{ t('planix', 'Delete') }}
+									{{ t('planninq', 'Delete') }}
 								</NcActionButton>
 							</NcActions>
 						</li>
@@ -125,15 +125,15 @@
 			     Legacy hardcoded-tabs mode (use-registry=false) so the three
 			     built-in tabs render without requiring the integration registry;
 			     generic tags/tasks tabs are hidden. All data comes from
-			     OpenRegister per-object endpoints (ADR-022) — no planix PHP. -->
+			     OpenRegister per-object endpoints (ADR-022) — no Planninq PHP. -->
 			<CnObjectSidebar
 				:open="true"
 				v-bind="sidebarConfig"
 				:title="taskTitle"
-				:subtitle="t('planix', 'Task')"
-				:files-label="t('planix', 'Attachments')"
-				:notes-label="t('planix', 'Comments')"
-				:audit-trail-label="t('planix', 'Activity')"
+				:subtitle="t('planninq', 'Task')"
+				:files-label="t('planninq', 'Attachments')"
+				:notes-label="t('planninq', 'Comments')"
+				:audit-trail-label="t('planninq', 'Activity')"
 				@update:open="onSidebarToggle" />
 		</div>
 
@@ -251,7 +251,7 @@ export default {
 		 * @spec openspec/specs/task-collaboration.md
 		 */
 		taskTitle() {
-			return this.task?.title || this.t('planix', 'Untitled task')
+			return this.task?.title || this.t('planninq', 'Untitled task')
 		},
 
 		/**
@@ -262,11 +262,11 @@ export default {
 		fields() {
 			const t = this.task || {}
 			return [
-				{ key: 'status', label: this.t('planix', 'Status'), value: t.status },
-				{ key: 'priority', label: this.t('planix', 'Priority'), value: t.priority },
-				{ key: 'assignedTo', label: this.t('planix', 'Assigned to'), value: t.assignedTo },
-				{ key: 'dueDate', label: this.t('planix', 'Due date'), value: t.dueDate },
-				{ key: 'description', label: this.t('planix', 'Description'), value: t.description },
+				{ key: 'status', label: this.t('planninq', 'Status'), value: t.status },
+				{ key: 'priority', label: this.t('planninq', 'Priority'), value: t.priority },
+				{ key: 'assignedTo', label: this.t('planninq', 'Assigned to'), value: t.assignedTo },
+				{ key: 'dueDate', label: this.t('planninq', 'Due date'), value: t.dueDate },
+				{ key: 'description', label: this.t('planninq', 'Description'), value: t.description },
 			]
 		},
 
@@ -308,7 +308,7 @@ export default {
 				return ''
 			}
 			return parseDuration(this.estimateInput) === null
-				? this.t('planix', 'Enter a valid estimate (e.g. 2h 30m, 90m, 1.5h)')
+				? this.t('planninq', 'Enter a valid estimate (e.g. 2h 30m, 90m, 1.5h)')
 				: ''
 		},
 
@@ -355,8 +355,8 @@ export default {
 		 */
 		errorTitle() {
 			return this.error === 'forbidden'
-				? this.t('planix', 'You do not have access to this task')
-				: this.t('planix', 'Task not found')
+				? this.t('planninq', 'You do not have access to this task')
+				: this.t('planninq', 'Task not found')
 		},
 
 		/**
@@ -366,8 +366,8 @@ export default {
 		 */
 		errorDescription() {
 			return this.error === 'forbidden'
-				? this.t('planix', 'You are not a member of this task\'s project.')
-				: this.t('planix', 'The task may have been deleted.')
+				? this.t('planninq', 'You are not a member of this task\'s project.')
+				: this.t('planninq', 'The task may have been deleted.')
 		},
 	},
 

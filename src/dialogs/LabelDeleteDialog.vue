@@ -1,25 +1,25 @@
 <template>
 	<NcDialog
-		:name="t('planix', 'Delete label')"
+		:name="t('planninq', 'Delete label')"
 		@closing="$emit('close')">
 		<template #default>
 			<div class="label-delete-dialog__body">
 				<p>
-					{{ n('planix',
+					{{ n('planninq',
 						'Delete label "{title}"? It will be removed from {count} task.',
 						'Delete label "{title}"? It will be removed from {count} tasks.',
 						usageCount,
 						{ title: label.title, count: usageCount }) }}
 				</p>
 				<p class="label-delete-dialog__warning">
-					{{ t('planix', 'This cannot be undone.') }}
+					{{ t('planninq', 'This cannot be undone.') }}
 				</p>
 			</div>
 		</template>
 
 		<template #actions>
 			<NcButton :disabled="loading" @click="$emit('close')">
-				{{ t('planix', 'Cancel') }}
+				{{ t('planninq', 'Cancel') }}
 			</NcButton>
 			<NcButton
 				variant="error"
@@ -28,7 +28,7 @@
 				<template v-if="loading" #icon>
 					<NcLoadingIcon :size="16" />
 				</template>
-				{{ t('planix', 'Delete label') }}
+				{{ t('planninq', 'Delete label') }}
 			</NcButton>
 		</template>
 	</NcDialog>
@@ -39,7 +39,7 @@
  * LabelDeleteDialog.
  *
  * Confirms deletion of an app-wide label, warning how many tasks reference it.
- * On confirm it calls the planix cascade endpoint (via the labels store), which
+ * On confirm it calls the Planninq cascade endpoint (via the labels store), which
  * removes the label's UUID from every referencing task before deleting the label
  * object, then surfaces the swept-task count in a success toast.
  *
@@ -92,7 +92,7 @@ export default {
 			try {
 				const tasksUpdated = await store.deleteLabel(this.label.id)
 				showSuccess(
-					this.n('planix',
+					this.n('planninq',
 						'Label deleted and removed from {count} task',
 						'Label deleted and removed from {count} tasks',
 						tasksUpdated,
@@ -100,7 +100,7 @@ export default {
 				)
 				this.$emit('deleted')
 			} catch {
-				showError(store.error || this.t('planix', 'Could not delete label'))
+				showError(store.error || this.t('planninq', 'Could not delete label'))
 			} finally {
 				this.loading = false
 			}

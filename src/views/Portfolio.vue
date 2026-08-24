@@ -2,10 +2,10 @@
 	<div class="portfolio">
 		<div class="portfolio__header">
 			<h2 class="portfolio__title">
-				{{ t('planix', 'Portfolio') }}
+				{{ t('planninq', 'Portfolio') }}
 			</h2>
 			<p class="portfolio__subtitle">
-				{{ t('planix', 'Capacity across your projects') }}
+				{{ t('planninq', 'Capacity across your projects') }}
 			</p>
 		</div>
 
@@ -15,8 +15,8 @@
 
 		<NcEmptyContent
 			v-else-if="rows.length === 0"
-			:name="t('planix', 'No projects yet')"
-			:description="t('planix', 'Create a project to see capacity here.')">
+			:name="t('planninq', 'No projects yet')"
+			:description="t('planninq', 'Create a project to see capacity here.')">
 			<template #icon>
 				<ChartBarIcon :size="20" />
 			</template>
@@ -30,19 +30,19 @@
 				<thead>
 					<tr>
 						<th scope="col">
-							{{ t('planix', 'Project') }}
+							{{ t('planninq', 'Project') }}
 						</th>
 						<th scope="col">
-							{{ t('planix', 'Members') }}
+							{{ t('planninq', 'Members') }}
 						</th>
 						<th scope="col">
-							{{ t('planix', 'Open') }}
+							{{ t('planninq', 'Open') }}
 						</th>
 						<th scope="col">
-							{{ t('planix', 'Overdue') }}
+							{{ t('planninq', 'Overdue') }}
 						</th>
 						<th scope="col" class="portfolio__bar-col">
-							{{ t('planix', 'Open work') }}
+							{{ t('planninq', 'Open work') }}
 						</th>
 					</tr>
 				</thead>
@@ -61,7 +61,7 @@
 								<div
 									class="portfolio__bar"
 									:style="{ width: barWidth(row.open) }"
-									:aria-label="t('planix', '{count} open tasks', { count: row.open })" />
+									:aria-label="t('planninq', '{count} open tasks', { count: row.open })" />
 							</div>
 						</td>
 					</tr>

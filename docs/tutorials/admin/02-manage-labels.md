@@ -6,7 +6,7 @@ description: Maintain the instance-wide label catalogue — colour-coded tags th
 
 # Manage labels
 
-Labels in Planix are **app-wide**, not per-project. Every label lives in the same catalogue, available across every project. The intent: cross-project categorisation — *bug*, *feature*, *security*, *tech-debt*, *blocked-by-vendor* — uses the same vocabulary everywhere so dashboards and reports compose cleanly.
+Labels in Planninq are **app-wide**, not per-project. Every label lives in the same catalogue, available across every project. The intent: cross-project categorisation — *bug*, *feature*, *security*, *tech-debt*, *blocked-by-vendor* — uses the same vocabulary everywhere so dashboards and reports compose cleanly.
 
 ## Goal
 
@@ -15,12 +15,12 @@ By the end the instance will have a label catalogue tailored to how the team cat
 ## Prerequisites
 
 - Admin on the Nextcloud instance.
-- The **Planix** app installed and enabled with the Planix register initialised (see [Manage Planix settings](03-admin-settings.md)).
+- The **Planninq** app installed and enabled with the Planninq register initialised (see [Manage Planninq settings](03-admin-settings.md)).
 - A view on the team's category vocabulary — what kinds of work do you actually want to tag?
 
 ## Steps
 
-1. Open **Settings → Administration → Planix** and scroll to the **Label Management** section.
+1. Open **Settings → Administration → Planninq** and scroll to the **Label Management** section.
 
    ![Label Management section](/screenshots/tutorials/admin/02-manage-labels-01.png)
 
@@ -48,7 +48,7 @@ The **Label Management** section lists the labels you added. Creating a task (se
 
 | Symptom | Fix |
 |---|---|
-| Label picker on a task is still empty after adding labels here | Browser cache; reload the Planix app. Labels are read on app load through the labels store. |
+| Label picker on a task is still empty after adding labels here | Browser cache; reload the Planninq app. Labels are read on app load through the labels store. |
 | Colour picker doesn't apply | Brand-token CSS isn't loaded — graceful-restart Apache or hard-reload. |
 | Delete shows `0 tasks affected` but the label is still on cards | Wait a tick — the task count is computed server-side; the next render reflects the actual state. |
 | Want per-project labels | Not supported — labels are intentionally app-wide so dashboards across projects compose. Use a label prefix (*proj-A-frontend*, *proj-B-frontend*) if you need project-scoping. |

@@ -1,7 +1,7 @@
 <template>
 	<NcDialog
 		v-model:open="open"
-		:name="t('planix', 'New project')"
+		:name="t('planninq', 'New project')"
 		:can-close="!loading"
 		@close="$emit('close')">
 		<template #default>
@@ -14,8 +14,8 @@
 					<NcTextField
 						ref="titleField"
 						v-model="form.title"
-						:label="t('planix', 'Project title')"
-						:placeholder="t('planix', 'Enter project title…')"
+						:label="t('planninq', 'Project title')"
+						:placeholder="t('planninq', 'Enter project title…')"
 						:error="titleTouched && !form.title.trim()"
 						required
 						@focusout="titleTouched = true" />
@@ -23,7 +23,7 @@
 						v-if="titleTouched && !form.title.trim()"
 						class="project-creation-dialog__error"
 						role="alert">
-						{{ t('planix', 'Title is required') }}
+						{{ t('planninq', 'Title is required') }}
 					</span>
 				</div>
 
@@ -31,30 +31,30 @@
 				<div class="project-creation-dialog__field">
 					<NcTextArea
 						v-model="form.description"
-						:label="t('planix', 'Description')"
-						:placeholder="t('planix', 'Optional description…')"
+						:label="t('planninq', 'Description')"
+						:placeholder="t('planninq', 'Optional description…')"
 						rows="3" />
 				</div>
 
 				<!-- Color (optional) -->
 				<div class="project-creation-dialog__field">
 					<label class="project-creation-dialog__label" for="project-color">
-						{{ t('planix', 'Color') }}
+						{{ t('planninq', 'Color') }}
 					</label>
 					<input
 						id="project-color"
 						v-model="form.color"
 						type="color"
 						class="project-creation-dialog__color-input"
-						:aria-label="t('planix', 'Project color picker')">
+						:aria-label="t('planninq', 'Project color picker')">
 				</div>
 
 				<!-- Icon / emoji (optional) -->
 				<div class="project-creation-dialog__field">
 					<NcTextField
 						v-model="form.icon"
-						:label="t('planix', 'Icon (emoji)')"
-						:placeholder="t('planix', 'e.g. 📁 🚀 ✅')" />
+						:label="t('planninq', 'Icon (emoji)')"
+						:placeholder="t('planninq', 'e.g. 📁 🚀 ✅')" />
 				</div>
 			</form>
 		</template>
@@ -68,10 +68,10 @@
 				<template v-if="loading" #icon>
 					<NcLoadingIcon :size="20" />
 				</template>
-				{{ loading ? t('planix', 'Creating…') : t('planix', 'Create project') }}
+				{{ loading ? t('planninq', 'Creating…') : t('planninq', 'Create project') }}
 			</NcButton>
 			<NcButton :disabled="loading" @click="$emit('close')">
-				{{ t('planix', 'Cancel') }}
+				{{ t('planninq', 'Cancel') }}
 			</NcButton>
 		</template>
 	</NcDialog>
@@ -147,7 +147,7 @@ export default {
 		/**
 		 * Validate the form and create the project.
 		 *
-		 * Posts to the Planix server-side project proxy (ProjectController::create)
+		 * Posts to the Planninq server-side project proxy (ProjectController::create)
 		 * which enforces the allow_project_creation policy before writing to OR.
 		 * A 403 response means creation is restricted to administrators.
 		 *
@@ -165,15 +165,15 @@ export default {
 					icon: this.form.icon.trim() || undefined,
 				})
 
-				showSuccess(this.t('planix', 'Project created'))
+				showSuccess(this.t('planninq', 'Project created'))
 				this.$emit('created', project)
 
 				// Warn if column creation had partial failures.
 				// (Warnings are already shown inside createDefaultColumns via toast)
 			} catch (err) {
 				const message = err?.message?.includes('restricted to administrators')
-					? this.t('planix', 'Project creation is restricted to administrators.')
-					: this.t('planix', 'Could not create project. Please try again.')
+					? this.t('planninq', 'Project creation is restricted to administrators.')
+					: this.t('planninq', 'Could not create project. Please try again.')
 				showError(message)
 				// Keep dialog open and preserve form values.
 			}

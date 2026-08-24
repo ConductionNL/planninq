@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
- * Documentation screenshot capture suite — planix.
+ * Documentation screenshot capture suite — planninq.
  *
- * This spec is *not* a regression test — it drives the Planix UI
+ * This spec is *not* a regression test — it drives the Planninq UI
  * through every flow documented under `docs/tutorials/{user,admin}/*.md`
  * and writes a fresh PNG into `docs/static/screenshots/tutorials/<track>/`
  * for each step the markdown references.
@@ -23,7 +23,7 @@
  * Nextcloud login → storage state) and `use.storageState`, so the
  * `page` fixture here arrives already signed in.
  *
- * Data dependency: Planix is not yet installed in the dev container at
+ * Data dependency: Planninq is not yet installed in the dev container at
  * the time of writing — these tests are scaffolded for a future capture
  * run. Selector misses are the expected first-run failure mode (UI markup
  * drifts faster than docs); failures land per-test in `test-results/`
@@ -38,7 +38,7 @@ import * as path from 'path'
 import * as fs from 'fs'
 
 const SHOT_ROOT = path.resolve(__dirname, '..', '..', 'docs', 'static', 'screenshots', 'tutorials')
-const APP = '/apps/planix'
+const APP = '/apps/planninq'
 
 /**
  * Save a viewport screenshot under
@@ -78,11 +78,11 @@ async function dismissOverlays(page: Page): Promise<void> {
 }
 
 /**
- * Navigate to an app route (relative paths join /apps/planix) or to
+ * Navigate to an app route (relative paths join /apps/planninq) or to
  * an absolute Nextcloud route (paths starting with `/apps/` or
  * `/settings` are passed through). Settles network + dismisses overlays.
  *
- * Planix uses history-mode routing rooted at /apps/planix.
+ * Planninq uses history-mode routing rooted at /apps/planninq.
  */
 async function go(page: Page, route: string): Promise<void> {
 	const url = (route.startsWith('/apps/') || route.startsWith('/settings'))
@@ -141,7 +141,7 @@ test.describe('docs: user track', () => {
 		await shoot(page, 'user', '01-first-launch-02.png')
 		await shoot(page, 'user', '01-first-launch-03.png')
 		await shoot(page, 'user', '01-first-launch-04.png')
-		expect(page.url()).toContain('/apps/planix')
+		expect(page.url()).toContain('/apps/planninq')
 	})
 
 	test('UN create-project', async ({ page }) => {
@@ -234,7 +234,7 @@ test.describe('docs: admin track', () => {
 	test('AN configure-default-columns', async ({ page }) => {
 		// docs/tutorials/admin/01-configure-default-columns.md — settings
 		// page under the Nextcloud administration panel.
-		await go(page, '/settings/admin/planix')
+		await go(page, '/settings/admin/planninq')
 		await shoot(page, 'admin', '01-configure-default-columns-01.png')
 		await shoot(page, 'admin', '01-configure-default-columns-02.png')
 		await shoot(page, 'admin', '01-configure-default-columns-03.png')
@@ -245,7 +245,7 @@ test.describe('docs: admin track', () => {
 
 	test('AN manage-labels', async ({ page }) => {
 		// docs/tutorials/admin/02-manage-labels.md
-		await go(page, '/settings/admin/planix')
+		await go(page, '/settings/admin/planninq')
 		await shoot(page, 'admin', '02-manage-labels-01.png')
 		await shoot(page, 'admin', '02-manage-labels-02.png')
 		await shoot(page, 'admin', '02-manage-labels-03.png')
@@ -254,9 +254,9 @@ test.describe('docs: admin track', () => {
 	})
 
 	test('AN admin-settings', async ({ page }) => {
-		// docs/tutorials/admin/03-admin-settings.md — Planix's admin
+		// docs/tutorials/admin/03-admin-settings.md — Planninq's admin
 		// settings page in the Nextcloud administration panel.
-		await go(page, '/settings/admin/planix')
+		await go(page, '/settings/admin/planninq')
 		await shoot(page, 'admin', '03-admin-settings-01.png')
 		await page.evaluate(() => window.scrollTo(0, 0))
 		await page.waitForTimeout(300)

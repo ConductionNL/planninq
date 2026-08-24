@@ -4,12 +4,12 @@
  * CRUD for the `timeEntry` schema against OpenRegister via the shared
  * Conduction nextcloud-vue objectStore (ADR-022 — consumed, not
  * reimplemented). The per-owner authorization guard already exists on the
- * schema (`planix_register.json`: update/delete scoped to
+ * schema (`planninq_register.json`: update/delete scoped to
  * `match: { user: "$userId" }` OR admin), so a direct non-owner write is
  * rejected server-side; this store only adds the read/write plumbing and an
  * `canModify` helper the UI uses to hide edit/delete controls to match.
  *
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
  * @spec openspec/specs/time-tracking.md
@@ -18,6 +18,9 @@ import { defineStore } from 'pinia'
 import { useObjectStore } from './objectStore.js'
 import { getCurrentUser } from '@nextcloud/auth'
 
+// The OpenRegister register SLUG, not the app id: the app id became
+// `planninq` but the register holding the live data is still slugged `planix`
+// and this release ships no register-slug migration.
 const REGISTER = 'planix'
 const TIME_ENTRY_SCHEMA = 'timeEntry'
 

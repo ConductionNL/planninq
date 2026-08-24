@@ -32,7 +32,7 @@ spec-refs:
 - GIVEN the app is installed and user is logged in as admin
 - WHEN the user navigates to the relevant page
 - THEN 
-`getAdminSettings()` reads all planix admin keys from IAppConfig with defaults- AND `setAdminSettings(array $settings)` validates and stores each key- AND Default values match the spec: `default_columns = ["To Do","In Progress","Review","Done"]`- AND Unknown keys are silently ignored (no error, no storage)
+`getAdminSettings()` reads all planninq admin keys from IAppConfig with defaults- AND `setAdminSettings(array $settings)` validates and stores each key- AND Default values match the spec: `default_columns = ["To Do","In Progress","Review","Done"]`- AND Unknown keys are silently ignored (no error, no storage)
 
 ## Test Data
 
@@ -40,7 +40,7 @@ _(use default dev environment — admin/admin on localhost:8080)_
 
 ## Acceptance Criteria
 
-- [ ] `getAdminSettings()` reads all planix admin keys from IAppConfig with defaults
+- [ ] `getAdminSettings()` reads all planninq admin keys from IAppConfig with defaults
 - [ ] `setAdminSettings(array $settings)` validates and stores each key
 - [ ] Default values match the spec: `default_columns = ["To Do","In Progress","Review","Done"]`
 - [ ] Unknown keys are silently ignored (no error, no storage)

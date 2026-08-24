@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Planix Admin Settings
+ * Planninq Admin Settings
  *
  * One-line AppHost leaf class. Nextcloud instantiates the admin-settings panel
  * by the class name in info.xml `<settings><admin>`, and the
@@ -18,7 +18,7 @@
  * at Nextcloud bootstrap — the lazy-by-construction invariant of ADR-040.
  *
  * @category Settings
- * @package  OCA\Planix\Settings
+ * @package  OCA\Planninq\Settings
  *
  * @author    Conduction Development Team <dev@conduction.nl>
  * @copyright 2026 Conduction B.V.
@@ -34,15 +34,14 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Settings;
+namespace OCA\Planninq\Settings;
 
 use OCA\OpenRegister\AppHost\Settings\GenericAdminSettings;
 
 /**
- * AppHost-backed admin settings panel for Planix (ADR-040).
+ * AppHost-backed admin settings panel for Planninq (ADR-040).
  *
  * @spec openspec/specs/admin-user-settings.md
  */
-class AdminSettings extends GenericAdminSettings
-{
+class AdminSettings extends GenericAdminSettings {
 }//end class

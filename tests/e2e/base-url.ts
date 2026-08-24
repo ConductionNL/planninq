@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
  * ONE place that decides which Nextcloud the e2e suite talks to.
@@ -62,14 +62,14 @@ export function resolveBaseURL(): string {
 	if (process.env.CI) {
 		// eslint-disable-next-line no-console
 		console.warn(
-			'[planix e2e] no PLAYWRIGHT_BASE_URL / NEXTCLOUD_URL set; using the CI-local '
+			'[planninq e2e] no PLAYWRIGHT_BASE_URL / NEXTCLOUD_URL set; using the CI-local '
 			+ `default ${CI_DEFAULT_BASE_URL}.`,
 		)
 		return CI_DEFAULT_BASE_URL
 	}
 
 	throw new Error(
-		'[planix e2e] No target Nextcloud configured. Set PLAYWRIGHT_BASE_URL (preferred), '
+		'[planninq e2e] No target Nextcloud configured. Set PLAYWRIGHT_BASE_URL (preferred), '
 		+ 'NEXTCLOUD_URL or BASE_URL to the instance you want to test, e.g.\n\n'
 		+ '    PLAYWRIGHT_BASE_URL=http://localhost:8095 npx playwright test\n\n'
 		+ 'There is deliberately no default: the historic one was http://localhost:8080, '

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Planix Task Dependency Cleanup Listener
+ * Planninq Task Dependency Cleanup Listener
  *
  * Removes every dependency edge a task participates in, at the moment that task
  * is deleted.
@@ -28,7 +28,7 @@
  * not eventually — so this is the sanctioned shape and needs no job queue.
  *
  * @category Listener
- * @package  OCA\Planix\Listener
+ * @package  OCA\Planninq\Listener
  *
  * @author    Conduction Development Team <dev@conduction.nl>
  * @copyright 2026 Conduction B.V.
@@ -44,82 +44,80 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Listener;
+namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
-use OCA\Planix\Service\DependencyService;
+use OCA\Planninq\Service\DependencyService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
 
 /**
- * Cascade-remove dependency edges when a planix task is deleted.
+ * Cascade-remove dependency edges when a Planninq task is deleted.
  *
  * @template-implements IEventListener<Event>
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
  */
-class TaskDependencyCleanupListener implements IEventListener
-{
-    /**
-     * Constructor.
-     *
-     * @param DependencyService $dependencyService Dependency edge writes.
-     * @param TaskScopeResolver $scopeResolver     Resolves whether an object is a planix task.
-     * @param LoggerInterface   $logger            The logger.
-     *
-     * @return void
-     */
-    public function __construct(
-        private DependencyService $dependencyService,
-        private TaskScopeResolver $scopeResolver,
-        private LoggerInterface $logger,
-    ) {
-    }//end __construct()
+class TaskDependencyCleanupListener implements IEventListener {
+	/**
+	 * Constructor.
+	 *
+	 * @param DependencyService $dependencyService Dependency edge writes.
+	 * @param TaskScopeResolver $scopeResolver Resolves whether an object is a Planninq task.
+	 * @param LoggerInterface $logger The logger.
+	 *
+	 * @return void
+	 */
+	public function __construct(
+		private DependencyService $dependencyService,
+		private TaskScopeResolver $scopeResolver,
+		private LoggerInterface $logger,
+	) {
+	}//end __construct()
 
-    /**
-     * Handle a pre-delete event.
-     *
-     * @param Event $event The dispatched event.
-     *
-     * @return void
-     *
-     * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
-     */
-    public function handle(Event $event): void
-    {
-        if ($event instanceof ObjectDeletingEvent === false) {
-            return;
-        }
+	/**
+	 * Handle a pre-delete event.
+	 *
+	 * @param Event $event The dispatched event.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
+	 */
+	public function handle(Event $event): void {
+		if ($event instanceof ObjectDeletingEvent === false) {
+			return;
+		}
 
-        try {
-            $object     = $event->getObject();
-            $registerId = (string) ($object->getRegister() ?? '');
-            $schemaId   = (string) ($object->getSchema() ?? '');
-            if ($this->scopeResolver->isPlanixTask(registerId: $registerId, schemaId: $schemaId) === false) {
-                return;
-            }
+		try {
+			$object = $event->getObject();
+			$registerId = (string)($object->getRegister() ?? '');
+			$schemaId = (string)($object->getSchema() ?? '');
+			if ($this->scopeResolver->isPlanninqTask(registerId: $registerId, schemaId: $schemaId) === false) {
+				return;
+			}
 
-            $taskId = (string) ($object->getUuid() ?? '');
-            if ($taskId === '') {
-                return;
-            }
+			$taskId = (string)($object->getUuid() ?? '');
+			if ($taskId === '') {
+				return;
+			}
 
-            $removed = $this->dependencyService->removeEdgesForTask($taskId);
-            if ($removed > 0) {
-                $this->logger->info(
-                    'Planix: removed dependency edges for deleted task',
-                    ['task' => $taskId, 'edges' => $removed]
-                );
-            }
-        } catch (\Throwable $e) {
-            // Do NOT stop propagation. A cleanup failure must not block the
-            // user's delete — the task still goes, and the residue is logged at
-            // error level so it is visible rather than silently tolerated.
-            $this->logger->error(
-                'Planix: dependency cleanup failed for a deleted task; edges may be orphaned',
-                ['exception' => $e->getMessage()]
-            );
-        }//end try
-    }//end handle()
+			$removed = $this->dependencyService->removeEdgesForTask($taskId);
+			if ($removed > 0) {
+				$this->logger->info(
+					'Planninq: removed dependency edges for deleted task',
+					['task' => $taskId, 'edges' => $removed]
+				);
+			}
+		} catch (\Throwable $e) {
+			// Do NOT stop propagation. A cleanup failure must not block the
+			// user's delete — the task still goes, and the residue is logged at
+			// error level so it is visible rather than silently tolerated.
+			$this->logger->error(
+				'Planninq: dependency cleanup failed for a deleted task; edges may be orphaned',
+				['exception' => $e->getMessage()]
+			);
+		}//end try
+	}//end handle()
 }//end class

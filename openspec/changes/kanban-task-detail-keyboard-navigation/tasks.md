@@ -17,7 +17,7 @@
 
 ## 4. Verify
 
-- [~] 4.1 Tab to a card, Enter/Space opens `TaskDetail` — NEEDS LIVE INSTANCE (no isolated planix+OR container; no deploy to shared dev). Static proof: build + eslint clean; handler pushes the `TaskDetail` route.
+- [~] 4.1 Tab to a card, Enter/Space opens `TaskDetail` — NEEDS LIVE INSTANCE (no isolated planninq+OR container; no deploy to shared dev). Static proof: build + eslint clean; handler pushes the `TaskDetail` route.
 - [~] 4.2 "Move to…" changes status identically to drag — NEEDS LIVE INSTANCE. Code proof: both paths call the single `applyStatusMove` → `updateTaskStatus`.
 - [~] 4.3 Drag-and-drop still works unchanged — NEEDS LIVE INSTANCE. Code proof: `onDrop` refactored to delegate to `applyStatusMove` with identical semantics; drag bindings untouched.
 - [~] 4.4 `openspec validate kanban-task-detail-keyboard-navigation --strict` — DEFERRED: openspec CLI not installed in this worktree.

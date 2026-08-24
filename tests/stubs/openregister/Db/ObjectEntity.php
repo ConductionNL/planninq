@@ -7,9 +7,9 @@
  * `tests/bootstrap-unit.php` APPENDS to the PHPUnit process's autoloader, and
  * only when no Nextcloud server tree was bootstrapped. It is deliberately NOT
  * declared in composer.json's `autoload` (or `autoload-dev`) block: a PSR-4
- * entry for `OCA\OpenRegister\` in planix's generated
+ * entry for `OCA\OpenRegister\` in planninq's generated
  * vendor/composer/autoload_psr4.php would shadow the real OpenRegister app's
- * classes for every request that touches planix's autoloader.
+ * classes for every request that touches planninq's autoloader.
  *
  * Because the prefix is APPENDED rather than prepended, a real
  * OCA\OpenRegister\Db\ObjectEntity always wins when one is on the path.
@@ -42,34 +42,29 @@ use OCP\AppFramework\Db\Entity;
 /**
  * Test-only stub of the OpenRegister object entity.
  */
-class ObjectEntity extends Entity implements JsonSerializable
-{
-    /**
-     * The decoded object payload.
-     *
-     * @var array<string, mixed>
-     */
-    protected $object = [];
+class ObjectEntity extends Entity implements JsonSerializable {
+	/**
+	 * The decoded object payload.
+	 *
+	 * @var array<string, mixed>
+	 */
+	protected $object = [];
 
-    /**
-     * Return the decoded object payload.
-     *
-     * @return array<string, mixed> The object data.
-     */
-    public function getObject(): array
-    {
-        return $this->object;
+	/**
+	 * Return the decoded object payload.
+	 *
+	 * @return array<string, mixed> The object data.
+	 */
+	public function getObject(): array {
+		return $this->object;
+	}//end getObject()
 
-    }//end getObject()
-
-    /**
-     * Serialise the entity.
-     *
-     * @return array<string, mixed> The serialised entity.
-     */
-    public function jsonSerialize(): array
-    {
-        return $this->object;
-
-    }//end jsonSerialize()
+	/**
+	 * Serialise the entity.
+	 *
+	 * @return array<string, mixed> The serialised entity.
+	 */
+	public function jsonSerialize(): array {
+		return $this->object;
+	}//end jsonSerialize()
 }//end class

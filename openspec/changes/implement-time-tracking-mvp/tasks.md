@@ -55,7 +55,7 @@
 ## 6. Verification
 
 - [~] 6.1 e2e (set estimate, log/edit/delete entries, timesheet, filter,
-      navigate + back) — NEEDS LIVE INSTANCE (no isolated planix+OR container;
+      navigate + back) — NEEDS LIVE INSTANCE (no isolated planninq+OR container;
       no deploy to shared dev). Component/store/util logic unit-tested; build green.
 - [~] 6.2 e2e non-owner cannot edit/delete + direct API 403 — NEEDS LIVE
       INSTANCE. UI side proven: `canModify` gates the controls (owner/admin);

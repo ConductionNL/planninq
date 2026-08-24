@@ -6,7 +6,7 @@ export default createRouter({
 	// vue-router 4 replaces `mode: 'history'` + `base` with a history object
 	// that carries the base itself. The router is installed per app instance
 	// (`app.use(router)` in main.js), so there is no `Vue.use(Router)` any more.
-	history: createWebHistory(generateUrl('/apps/planix')),
+	history: createWebHistory(generateUrl('/apps/planninq')),
 	routes: [
 		{ path: '/', name: 'Dashboard', component: Dashboard },
 		// Settings is a modal dialog (UserSettings.vue), not a route — see ADR-004

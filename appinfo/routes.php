@@ -5,10 +5,10 @@ declare(strict_types=1);
 // AppHost canonical route table (ADR-040): dashboard#page + #catchAll, the
 // settings#index/create/load API, the per-user preferences#* endpoints, and the
 // observability metrics#index / health#index routes are all provided by
-// \OCA\OpenRegister\AppHost\Routes::standard(). Planix's domain routes are
+// \OCA\OpenRegister\AppHost\Routes::standard(). Planninq's domain routes are
 // appended as $extra (inserted before the SPA catch-all so they keep priority).
 return \OCA\OpenRegister\AppHost\Routes::standard([
-    // Per-user notification settings — planix-specific, NOT in the canonical set.
+    // Per-user notification settings — planninq-specific, NOT in the canonical set.
     ['name' => 'settings#updateUser', 'url' => '/api/settings/user', 'verb' => 'POST'],
 
     // Project creation policy check — enforces allow_project_creation server-side.

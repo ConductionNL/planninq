@@ -6,7 +6,7 @@ kind: code
 
 ## Why
 
-Planix carries its own translation-completeness gate,
+Planninq carries its own translation-completeness gate,
 `tests/l10n/check-l10n-parity.js`, which asserts that every one of 33 required
 European-language locale files under `l10n/*.json` translates every key
 present in the English source (`l10n/en.json`) — a bar stricter than ADR-007's
@@ -14,7 +14,7 @@ company-wide minimum (English + Dutch only). Running it against `HEAD` today:
 
 ```
 $ node tests/l10n/check-l10n-parity.js; echo "EXIT=$?"
-l10n-parity [planix]: 36 required locales; checked 1 translation set(s)
+l10n-parity [planninq]: 36 required locales; checked 1 translation set(s)
 l10n-parity: FAIL — required language support is incomplete:
   • backend (.json) de: 13 missing key(s), 0 empty value(s) of 199
       missing: "Open"
@@ -53,7 +53,7 @@ $ grep -rn "check-l10n-parity" .github/workflows/*.yml package.json Makefile
 Confirmed against `HEAD`:
 - No `package.json` script invokes it (`grep -n '"scripts"' -A20 package.json`
   has no `l10n`/`check:l10n` entry).
-- No planix workflow under `.github/workflows/` runs it.
+- No planninq workflow under `.github/workflows/` runs it.
 - `composer check:strict` / `npm run lint` (the gates that DO run in CI) never
   touch `l10n/*.json`.
 
@@ -75,7 +75,7 @@ change any key names or add new user-facing strings.
   real translations in every target language).
 - Add an `npm run check:l10n` script to `package.json` that runs
   `node tests/l10n/check-l10n-parity.js`.
-- Wire `npm run check:l10n` into the planix CI workflow (same job that runs
+- Wire `npm run check:l10n` into the planninq CI workflow (same job that runs
   `npm run lint` / `npm test`) so a future missing-key regression fails the
   pipeline instead of shipping silently.
 - No source code changes — `src/components/TaskCard.vue` keys are unchanged;

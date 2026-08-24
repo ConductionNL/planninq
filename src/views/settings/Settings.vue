@@ -2,8 +2,8 @@
 	<div>
 		<!-- Default project configuration -->
 		<CnSettingsSection
-			:name="t('planix', 'Default project configuration')"
-			:description="t('planix', 'Configure the default column set for new projects')">
+			:name="t('planninq', 'Default project configuration')"
+			:description="t('planninq', 'Configure the default column set for new projects')">
 			<form @submit.prevent="saveColumns">
 				<div class="columns-editor">
 					<div
@@ -20,25 +20,25 @@
 							v-model="columnList[index]"
 							type="text"
 							class="column-input"
-							:aria-label="t('planix', 'Column {number} name', { number: index + 1 })"
-							:placeholder="t('planix', 'Column name')">
+							:aria-label="t('planninq', 'Column {number} name', { number: index + 1 })"
+							:placeholder="t('planninq', 'Column name')">
 						<NcButton
 							variant="tertiary"
-							:aria-label="t('planix', 'Move up')"
+							:aria-label="t('planninq', 'Move up')"
 							:disabled="index === 0"
 							@click="moveColumn(index, -1)">
 							▲
 						</NcButton>
 						<NcButton
 							variant="tertiary"
-							:aria-label="t('planix', 'Move down')"
+							:aria-label="t('planninq', 'Move down')"
 							:disabled="index === columnList.length - 1"
 							@click="moveColumn(index, 1)">
 							▼
 						</NcButton>
 						<NcButton
 							variant="tertiary"
-							:aria-label="t('planix', 'Remove column')"
+							:aria-label="t('planninq', 'Remove column')"
 							@click="removeColumn(index)">
 							✕
 						</NcButton>
@@ -46,7 +46,7 @@
 					<NcButton
 						variant="secondary"
 						@click="addColumn">
-						+ {{ t('planix', 'Add column') }}
+						+ {{ t('planninq', 'Add column') }}
 					</NcButton>
 				</div>
 
@@ -61,27 +61,27 @@
 					variant="primary"
 					type="submit"
 					:disabled="savingColumns">
-					{{ savingColumns ? t('planix', 'Saving...') : t('planix', 'Save') }}
+					{{ savingColumns ? t('planninq', 'Saving...') : t('planninq', 'Save') }}
 				</NcButton>
 			</form>
 		</CnSettingsSection>
 
 		<!-- Project creation policy -->
 		<CnSettingsSection
-			:name="t('planix', 'Project creation')"
-			:description="t('planix', 'Control who may create new projects')">
+			:name="t('planninq', 'Project creation')"
+			:description="t('planninq', 'Control who may create new projects')">
 			<form @submit.prevent="saveCreationPolicy">
 				<div class="form-group">
-					<label for="allow-project-creation">{{ t('planix', 'Allow project creation') }}</label>
+					<label for="allow-project-creation">{{ t('planninq', 'Allow project creation') }}</label>
 					<select
 						id="allow-project-creation"
 						v-model="creationPolicy"
 						class="column-input">
 						<option value="all">
-							{{ t('planix', 'All authenticated users') }}
+							{{ t('planninq', 'All authenticated users') }}
 						</option>
 						<option value="admins">
-							{{ t('planix', 'Administrators only') }}
+							{{ t('planninq', 'Administrators only') }}
 						</option>
 					</select>
 				</div>
@@ -95,15 +95,15 @@
 					variant="primary"
 					type="submit"
 					:disabled="savingCreationPolicy">
-					{{ savingCreationPolicy ? t('planix', 'Saving...') : t('planix', 'Save') }}
+					{{ savingCreationPolicy ? t('planninq', 'Saving...') : t('planninq', 'Save') }}
 				</NcButton>
 			</form>
 		</CnSettingsSection>
 
 		<!-- Notification settings -->
 		<CnSettingsSection
-			:name="t('planix', 'Notification settings')"
-			:description="t('planix', 'Configure when due-date reminders are sent')">
+			:name="t('planninq', 'Notification settings')"
+			:description="t('planninq', 'Configure when due-date reminders are sent')">
 			<!--
 				`novalidate` is load-bearing, not tidy-up.
 
@@ -114,7 +114,7 @@
 				out-of-range value Chrome cancels the submit event entirely, so
 				`saveLeadHours()` never ran and the app's own message could not
 				appear. The user got a browser-locale tooltip instead of the
-				translated planix string, and the spec scenario "Invalid lead
+				translated Planninq string, and the spec scenario "Invalid lead
 				time rejected in the UI" failed on an assertion that was correct.
 
 				The attributes stay: they still give the number input its spinner
@@ -124,7 +124,7 @@
 			-->
 			<form novalidate @submit.prevent="saveLeadHours">
 				<div class="form-group">
-					<label for="due-reminder-lead-hours">{{ t('planix', 'Due-date reminder lead time (hours)') }}</label>
+					<label for="due-reminder-lead-hours">{{ t('planninq', 'Due-date reminder lead time (hours)') }}</label>
 					<input
 						id="due-reminder-lead-hours"
 						v-model="leadHours"
@@ -143,15 +143,15 @@
 					variant="primary"
 					type="submit"
 					:disabled="savingLeadHours">
-					{{ savingLeadHours ? t('planix', 'Saving...') : t('planix', 'Save') }}
+					{{ savingLeadHours ? t('planninq', 'Saving...') : t('planninq', 'Save') }}
 				</NcButton>
 			</form>
 		</CnSettingsSection>
 
 		<!-- Label management -->
 		<CnSettingsSection
-			:name="t('planix', 'Label management')"
-			:description="t('planix', 'Create, edit, and delete the app-wide labels that tasks reference')">
+			:name="t('planninq', 'Label management')"
+			:description="t('planninq', 'Create, edit, and delete the app-wide labels that tasks reference')">
 			<div class="label-mgmt">
 				<NcLoadingIcon v-if="labelsLoading" :size="24" />
 				<div v-else-if="labelsError" class="error-message" role="alert">
@@ -159,7 +159,7 @@
 				</div>
 				<template v-else>
 					<p v-if="labels.length === 0" class="label-mgmt__empty">
-						{{ t('planix', 'No labels yet.') }}
+						{{ t('planninq', 'No labels yet.') }}
 					</p>
 					<ul v-else class="label-mgmt__list">
 						<li
@@ -172,26 +172,26 @@
 							<span class="label-mgmt__title">{{ label.title }}</span>
 							<span v-if="label.description" class="label-mgmt__desc">{{ label.description }}</span>
 							<span class="label-mgmt__usage">
-								{{ n('planix', 'used by {count} task', 'used by {count} tasks', label.usageCount || 0, { count: label.usageCount || 0 }) }}
+								{{ n('planninq', 'used by {count} task', 'used by {count} tasks', label.usageCount || 0, { count: label.usageCount || 0 }) }}
 							</span>
 							<NcButton
 								variant="tertiary"
-								:aria-label="t('planix', 'Edit label')"
+								:aria-label="t('planninq', 'Edit label')"
 								@click="openEdit(label)">
-								{{ t('planix', 'Edit') }}
+								{{ t('planninq', 'Edit') }}
 							</NcButton>
 							<NcButton
 								variant="tertiary"
-								:aria-label="t('planix', 'Delete label')"
+								:aria-label="t('planninq', 'Delete label')"
 								@click="openDelete(label)">
-								{{ t('planix', 'Delete') }}
+								{{ t('planninq', 'Delete') }}
 							</NcButton>
 						</li>
 					</ul>
 					<NcButton
 						variant="secondary"
 						@click="openCreate">
-						+ {{ t('planix', 'Create label') }}
+						+ {{ t('planninq', 'Create label') }}
 					</NcButton>
 				</template>
 			</div>
@@ -199,14 +199,14 @@
 
 		<!-- Register setup -->
 		<CnSettingsSection
-			:name="t('planix', 'Register setup')"
-			:description="t('planix', 'OpenRegister schema and register initialization for Planix')">
+			:name="t('planninq', 'Register setup')"
+			:description="t('planninq', 'OpenRegister schema and register initialization for Planninq')">
 			<div class="register-status">
 				<span v-if="settings.openregisters" class="status-indicator status-ok">
-					✓ {{ t('planix', 'OpenRegister is available') }}
+					✓ {{ t('planninq', 'OpenRegister is available') }}
 				</span>
 				<span v-else class="status-indicator status-warn">
-					⚠ {{ t('planix', 'OpenRegister is not installed or enabled') }}
+					⚠ {{ t('planninq', 'OpenRegister is not installed or enabled') }}
 				</span>
 			</div>
 
@@ -221,23 +221,23 @@
 					variant="secondary"
 					:disabled="initializing"
 					@click="initializeRegister">
-					{{ initializing ? t('planix', 'Initializing...') : t('planix', 'Initialize register') }}
+					{{ initializing ? t('planninq', 'Initializing...') : t('planninq', 'Initialize register') }}
 				</NcButton>
 			</div>
 		</CnSettingsSection>
 
 		<!-- Legacy register ID section -->
 		<CnSettingsSection
-			:name="t('planix', 'Configuration')"
-			:description="t('planix', 'Configure the app settings')">
+			:name="t('planninq', 'Configuration')"
+			:description="t('planninq', 'Configure the app settings')">
 			<form @submit.prevent="save">
 				<div class="form-group">
-					<label for="register">{{ t('planix', 'Register') }}</label>
+					<label for="register">{{ t('planninq', 'Register') }}</label>
 					<input
 						id="register"
 						v-model="form.register"
 						type="text"
-						:placeholder="t('planix', 'OpenRegister register ID')">
+						:placeholder="t('planninq', 'OpenRegister register ID')">
 				</div>
 
 				<div v-if="successMessage" class="success-message">
@@ -248,7 +248,7 @@
 					variant="primary"
 					type="submit"
 					:disabled="saving">
-					{{ saving ? t('planix', 'Saving...') : t('planix', 'Save') }}
+					{{ saving ? t('planninq', 'Saving...') : t('planninq', 'Save') }}
 				</NcButton>
 			</form>
 		</CnSettingsSection>
@@ -478,9 +478,9 @@ export default {
 				default_columns: JSON.stringify(this.columnList.filter(c => c.trim() !== '')),
 			})
 			if (result) {
-				this.columnsSuccess = this.t('planix', 'Default columns saved successfully')
+				this.columnsSuccess = this.t('planninq', 'Default columns saved successfully')
 			} else {
-				this.columnsError = this.t('planix', 'Failed to save default columns')
+				this.columnsError = this.t('planninq', 'Failed to save default columns')
 			}
 			this.savingColumns = false
 		},
@@ -498,9 +498,9 @@ export default {
 				allow_project_creation: this.creationPolicy,
 			})
 			if (result) {
-				this.creationPolicySuccess = this.t('planix', 'Creation policy saved successfully')
+				this.creationPolicySuccess = this.t('planninq', 'Creation policy saved successfully')
 			} else {
-				this.creationPolicyError = this.t('planix', 'Failed to save creation policy')
+				this.creationPolicyError = this.t('planninq', 'Failed to save creation policy')
 			}
 			this.savingCreationPolicy = false
 		},
@@ -516,7 +516,7 @@ export default {
 			this.leadHoursError = ''
 			const hours = parseInt(this.leadHours, 10)
 			if (Number.isNaN(hours) || hours < 1 || hours > 336) {
-				this.leadHoursError = this.t('planix', 'Lead time must be between 1 and 336 hours')
+				this.leadHoursError = this.t('planninq', 'Lead time must be between 1 and 336 hours')
 				return
 			}
 			this.savingLeadHours = true
@@ -525,14 +525,14 @@ export default {
 				due_reminder_lead_hours: String(hours),
 			})
 			if (result) {
-				this.leadHoursSuccess = this.t('planix', 'Reminder lead time saved successfully')
+				this.leadHoursSuccess = this.t('planninq', 'Reminder lead time saved successfully')
 			} else {
-				this.leadHoursError = this.t('planix', 'Failed to save reminder lead time')
+				this.leadHoursError = this.t('planninq', 'Failed to save reminder lead time')
 			}
 			this.savingLeadHours = false
 		},
 		/**
-		 * Trigger SettingsController::load to re-import the planix register.
+		 * Trigger SettingsController::load to re-import the Planninq register.
 		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
 		 */
@@ -541,18 +541,18 @@ export default {
 			this.initSuccess = ''
 			this.initError = ''
 			try {
-				const response = await fetch(generateUrl('/apps/planix/api/settings/load'), {
+				const response = await fetch(generateUrl('/apps/planninq/api/settings/load'), {
 					method: 'POST',
 					headers: { requesttoken: OC.requestToken },
 				})
 				const data = await response.json()
 				if (data.success) {
-					this.initSuccess = this.t('planix', 'Register initialized successfully')
+					this.initSuccess = this.t('planninq', 'Register initialized successfully')
 				} else {
-					this.initError = data.message || this.t('planix', 'Initialization failed')
+					this.initError = data.message || this.t('planninq', 'Initialization failed')
 				}
 			} catch (e) {
-				this.initError = this.t('planix', 'Initialization failed')
+				this.initError = this.t('planninq', 'Initialization failed')
 			}
 			this.initializing = false
 		},
@@ -567,7 +567,7 @@ export default {
 			const settingsStore = useSettingsStore()
 			const result = await settingsStore.saveSettings(this.form)
 			if (result) {
-				this.successMessage = this.t('planix', 'Settings saved successfully')
+				this.successMessage = this.t('planninq', 'Settings saved successfully')
 			}
 			this.saving = false
 		},

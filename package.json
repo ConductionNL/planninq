@@ -1,5 +1,5 @@
 {
-  "name": "planix",
+  "name": "planninq",
   "version": "0.1.0",
   "license": "EUPL-1.2",
   "engines": {
@@ -14,11 +14,14 @@
     "lint-fix": "npm run lint -- --fix",
     "test": "vitest run",
     "test:watch": "vitest",
+    "check:schema-l10n": "node scripts/check-schema-l10n.js",
     "check:l10n": "node tests/l10n/check-l10n-parity.js",
+    "l10n:build": "node scripts/build-l10n-js.js",
+    "check:l10n-js": "node scripts/build-l10n-js.js --check",
     "test:e2e": "playwright test",
     "test:e2e:docs": "playwright test --project docs-capture",
     "test:e2e:install": "playwright install chromium",
-    "stylelint": "stylelint src/**/*.vue src/**/*.scss src/**/*.css",
+    "stylelint": "stylelint \"src/**/*.{vue,scss,css}\"",
     "stylelint-fix": "stylelint src/**/*.vue src/**/*.scss src/**/*.css --fix",
     "check:manifest": "node tests/validate-manifest.js"
   },

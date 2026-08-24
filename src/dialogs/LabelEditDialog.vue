@@ -1,41 +1,41 @@
 <template>
 	<NcDialog
-		:name="isEdit ? t('planix', 'Edit label') : t('planix', 'Create label')"
+		:name="isEdit ? t('planninq', 'Edit label') : t('planninq', 'Create label')"
 		@closing="$emit('close')">
 		<template #default>
 			<div class="label-edit-dialog__body">
 				<div class="label-edit-dialog__field">
 					<NcTextField
 						v-model="title"
-						:label="t('planix', 'Title')"
+						:label="t('planninq', 'Title')"
 						:error="!!titleError"
 						:helper-text="titleError"
 						required />
 				</div>
 
 				<div class="label-edit-dialog__field">
-					<label class="label-edit-dialog__label" for="label-color">{{ t('planix', 'Color') }}</label>
+					<label class="label-edit-dialog__label" for="label-color">{{ t('planninq', 'Color') }}</label>
 					<div class="label-edit-dialog__color-row">
 						<input
 							id="label-color-swatch"
 							type="color"
 							class="label-edit-dialog__swatch"
-							:aria-label="t('planix', 'Pick a color')"
+							:aria-label="t('planninq', 'Pick a color')"
 							:value="normalisedColor"
 							@input="onSwatchInput">
 						<NcTextField
 							id="label-color"
 							v-model="color"
-							:label="t('planix', 'Hex color')"
+							:label="t('planninq', 'Hex color')"
 							:error="!!colorError"
-							:helper-text="colorError || t('planix', 'Six-digit hex code, e.g. #4376FC')" />
+							:helper-text="colorError || t('planninq', 'Six-digit hex code, e.g. #4376FC')" />
 					</div>
 				</div>
 
 				<div class="label-edit-dialog__field">
 					<NcTextField
 						v-model="description"
-						:label="t('planix', 'Description (optional)')" />
+						:label="t('planninq', 'Description (optional)')" />
 				</div>
 
 				<div v-if="submitError" class="label-edit-dialog__error" role="alert">
@@ -46,7 +46,7 @@
 
 		<template #actions>
 			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planix', 'Cancel') }}
+				{{ t('planninq', 'Cancel') }}
 			</NcButton>
 			<NcButton
 				variant="primary"
@@ -55,7 +55,7 @@
 				<template v-if="saving" #icon>
 					<NcLoadingIcon :size="16" />
 				</template>
-				{{ isEdit ? t('planix', 'Save') : t('planix', 'Create') }}
+				{{ isEdit ? t('planninq', 'Save') : t('planninq', 'Create') }}
 			</NcButton>
 		</template>
 	</NcDialog>
@@ -68,7 +68,7 @@
  * Create or edit an app-wide label. Title is required; the colour must match the
  * schema's 6-digit hex pattern (validated client-side here and authoritatively by
  * the OpenRegister `label` schema). Create/edit go directly to the OR object API
- * via the labels store (ADR-022 — no planix wrapper).
+ * via the labels store (ADR-022 — no Planninq wrapper).
  *
  * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
  */
@@ -122,7 +122,7 @@ export default {
 		 */
 		titleError() {
 			if (!isValidLabelTitle(this.title)) {
-				return this.t('planix', 'Title is required')
+				return this.t('planninq', 'Title is required')
 			}
 			return ''
 		},
@@ -134,7 +134,7 @@ export default {
 		 */
 		colorError() {
 			if (!isValidHexColor(this.color)) {
-				return this.t('planix', 'Color must be a 6-digit hex code (e.g. #4376FC)')
+				return this.t('planninq', 'Color must be a 6-digit hex code (e.g. #4376FC)')
 			}
 			return ''
 		},
@@ -195,7 +195,7 @@ export default {
 				}
 				this.$emit('saved')
 			} catch (err) {
-				this.submitError = store.error || this.t('planix', 'Failed to save label')
+				this.submitError = store.error || this.t('planninq', 'Failed to save label')
 				showError(this.submitError)
 			} finally {
 				this.saving = false

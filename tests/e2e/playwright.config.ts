@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
  * CI regression config for the shared `E2E Tests (Playwright)` job.
@@ -46,7 +46,7 @@
  * ARTIFACT PATHS
  * --------------
  * Unlike the opencatalogi reference this config does NOT move the report and
- * output directories to the app root. Planix has a TRACKED `test-results/`
+ * output directories to the app root. Planninq has a TRACKED `test-results/`
  * directory at the repo root (12 markdown persona-test reports, kept in git on
  * purpose — see the `test-results/**\/*.png` rules in .gitignore), and pointing
  * Playwright's `outputDir` at it would drop trace/screenshot folders into a

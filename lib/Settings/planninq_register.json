@@ -1,13 +1,13 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Planix Register",
-    "description": "Register containing all schemas for the Planix application.",
-    "version": "0.2.6"
+    "title": "Planninq Register",
+    "description": "Register containing all schemas for the Planninq application.",
+    "version": "0.3.0"
   },
   "x-openregister": {
     "type": "application",
-    "app": "planix",
+    "app": "planninq",
     "openregister": "^v0.2.10",
     "description": "Flow-based kanban project and task management for Nextcloud dev and IT teams"
   },
@@ -15,10 +15,10 @@
   "components": {
     "registers": {
       "planix": {
-        "title": "Planix",
-        "description": "Planix application data register — tasks, projects, columns, time entries, and labels.",
+        "title": "Planninq",
+        "description": "Planninq application data register — tasks, projects, columns, time entries, and labels.",
         "slug": "planix",
-        "version": "0.2.6",
+        "version": "0.3.0",
         "schemas": [
           "task",
           "project",
@@ -37,7 +37,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedCircleOutline",
-        "version": "0.1.4",
+        "version": "0.2.0",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
@@ -304,13 +304,79 @@
             "description": "ISO 8601 datetime when the task was completed",
             "format": "date-time",
             "nullable": true
+          },
+          "issueType": {
+            "title": "Issue Type",
+            "type": "string",
+            "description": "Work-item type (e.g. task, story, bug, epic, subtask, incident). Free string so imported vocabularies survive.",
+            "default": "task"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string",
+            "description": "Human-readable unique work-item key (e.g. PLX-123). Preserved from the source system on import so historical references stay resolvable.",
+            "nullable": true
+          },
+          "reporter": {
+            "title": "Reporter",
+            "type": "string",
+            "description": "Nextcloud user UID (or imported identity) of the person who reported or created the work item",
+            "nullable": true
+          },
+          "resolution": {
+            "title": "Resolution",
+            "type": "string",
+            "description": "Resolution label recorded when the task is closed (e.g. done, wont-do, duplicate)",
+            "nullable": true
+          },
+          "resolvedAt": {
+            "title": "Resolved At",
+            "type": "string",
+            "description": "ISO 8601 datetime when the task was resolved",
+            "format": "date-time",
+            "nullable": true
+          },
+          "storyPoints": {
+            "title": "Story Points",
+            "type": "number",
+            "description": "Story-point estimate",
+            "nullable": true
+          },
+          "remainingEstimate": {
+            "title": "Remaining Estimate",
+            "type": "integer",
+            "description": "Remaining effort in minutes (complements estimatedDuration)",
+            "nullable": true
+          },
+          "watchers": {
+            "title": "Watchers",
+            "type": "array",
+            "description": "Nextcloud user UIDs watching this task for notifications",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "epic": {
+            "title": "Epic",
+            "type": "string",
+            "description": "UUID of the epic-level Task this task belongs to (epic hierarchy; distinct from parent, which models sub-tasks)",
+            "format": "uuid",
+            "nullable": true,
+            "$ref": "task"
+          },
+          "metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "description": "Declared catch-all for source-system fields: imported custom fields and provenance keys (e.g. jiraKey, jiraId, migratedAt). Declared explicitly so magic-table storage persists it.",
+            "default": {}
           }
         }
       },
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.1.3",
+        "version": "0.2.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -437,6 +503,18 @@
               "format": "uuid"
             },
             "default": []
+          },
+          "key": {
+            "title": "Key",
+            "type": "string",
+            "description": "Short unique project key used as the prefix of task keys (e.g. PLX). Preserved from the source system on import.",
+            "nullable": true
+          },
+          "metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "description": "Declared catch-all for source-system fields and provenance keys (e.g. jiraProjectId, migratedAt). Declared explicitly so magic-table storage persists it.",
+            "default": {}
           }
         }
       },
@@ -766,7 +844,7 @@
       "dependency": {
         "slug": "dependency",
         "icon": "VectorPolyline",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "title": "Dependency",
         "description": "A directed dependency edge between two tasks of the same project (blocker → blocked). One row per directed edge. Maps to schema:Action.",
         "x-schema-org": "schema:Action",
@@ -808,6 +886,20 @@
             "description": "UUID of the task that is blocked (waits on the blocker)",
             "format": "uuid",
             "$ref": "task"
+          },
+          "type": {
+            "title": "Link Type",
+            "type": "string",
+            "description": "Kind of relation the edge expresses. blocks keeps the original blocker/blocked semantics; other values model non-blocking links between work items.",
+            "enum": [
+              "blocks",
+              "relates",
+              "duplicates",
+              "clones",
+              "splits",
+              "causes"
+            ],
+            "default": "blocks"
           }
         }
       }
@@ -1173,7 +1265,7 @@
           "id": "00000000-0000-4000-d000-000000000005"
         },
         "title": "Build n8n onboarding workflow",
-        "description": "Create the automated onboarding flow: create NC account, add to groups, send welcome email, generate Planix project.",
+        "description": "Create the automated onboarding flow: create NC account, add to groups, send welcome email, generate Planninq project.",
         "status": "open",
         "priority": "normal",
         "project": "00000000-0000-4000-a000-000000000003",
