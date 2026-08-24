@@ -1,23 +1,24 @@
 <template>
 	<div class="member-search">
 		<NcTextField
-			:value="query"
-			:label="t('planix', 'Add member')"
-			:placeholder="t('planix', 'Search for a user…')"
+			:model-value="query"
+			:label="t('planninq', 'Add member')"
+			:placeholder="t('planninq', 'Search for a user…')"
 			:disabled="loading"
-			@update:value="onInput" />
+			@update:modelValue="onInput" />
 
 		<!-- Dropdown results -->
 		<ul
 			v-if="results.length > 0"
 			class="member-search__dropdown"
 			role="listbox"
-			:aria-label="t('planix', 'User search results')">
+			:aria-label="t('planninq', 'User search results')">
 			<li
 				v-for="user in results"
 				:key="user.id"
 				class="member-search__result"
 				role="option"
+				tabindex="0"
 				:aria-selected="false"
 				@click="selectUser(user)"
 				@keydown.enter="selectUser(user)">
@@ -28,12 +29,19 @@
 
 		<!-- Empty results notice -->
 		<p v-else-if="query.length >= 2 && !loading && searched" class="member-search__empty">
-			{{ t('planix', 'No users found for "{query}"', { query }) }}
+			{{ t('planninq', 'No users found for "{query}"', { query }) }}
 		</p>
 	</div>
 </template>
 
 <script>
+/**
+ * MemberSearch component.
+ *
+ * Debounced OCS /cloud/users search for adding project members.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+ */
 import { NcAvatar, NcTextField } from '@nextcloud/vue'
 import { generateUrl } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
@@ -64,18 +72,27 @@ export default {
 			loading: false,
 			searched: false,
 			debounceTimer: null,
+			/** @type {AbortController|null} */
+			abortController: null,
 		}
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		clearTimeout(this.debounceTimer)
+		this.abortController?.abort()
 	},
 
 	methods: {
+		/**
+		 * @spec exclude Event-wiring glue — debounces input and delegates to searchUsers (covered by task-10).
+		 * @param {string} value The current search input value.
+		 */
 		onInput(value) {
 			this.query = value
 			this.searched = false
 			clearTimeout(this.debounceTimer)
+			// Cancel any in-flight request from the previous keystroke.
+			this.abortController?.abort()
 			if (value.length < 2) {
 				this.results = []
 				return
@@ -83,17 +100,30 @@ export default {
 			this.debounceTimer = setTimeout(() => this.searchUsers(value), 300)
 		},
 
+		/**
+		 * Search Nextcloud users via OCS endpoint with 300ms debounce.
+		 * Cancels in-flight requests via AbortController to avoid stale results.
+		 * Surfaces errors to the user via showError toast instead of swallowing them.
+		 *
+		 * @param {string} term Search term
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 */
 		async searchUsers(term) {
+			this.abortController = new AbortController()
 			this.loading = true
 			try {
 				const url = generateUrl('/ocs/v2.php/cloud/users')
 				const resp = await fetch(`${url}?search=${encodeURIComponent(term)}&limit=10`, {
+					signal: this.abortController.signal,
 					headers: {
 						requesttoken: OC.requestToken,
 						'OCS-APIRequest': 'true',
 					},
 				})
-				if (!resp.ok) throw new Error(resp.statusText)
+				if (!resp.ok) {
+					throw new Error(`${resp.status} ${resp.statusText}`)
+				}
 				const data = await resp.json()
 				const users = data.ocs?.data?.users || data.ocs?.data || []
 				// Normalise to { id, displayName }
@@ -101,13 +131,24 @@ export default {
 					typeof u === 'string' ? { id: u, displayName: u } : u,
 				).filter((u) => !this.existingMembers.includes(u.id))
 			} catch (err) {
+				// Ignore abort errors — they occur when a newer keystroke cancels this request.
+				if (err.name === 'AbortError') return
 				console.error('User search failed:', err)
+				showError(this.t('planninq', 'Could not search for users. Please try again.'))
+				this.results = []
 			} finally {
 				this.loading = false
 				this.searched = true
 			}
 		},
 
+		/**
+		 * Add the selected user as a project member.
+		 *
+		 * @param {object} user User object with id and displayName
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 */
 		async selectUser(user) {
 			if (this.existingMembers.includes(user.id)) return
 			try {
@@ -117,7 +158,7 @@ export default {
 				this.results = []
 				this.$emit('added', user)
 			} catch {
-				showError(this.t('planix', 'Could not add member'))
+				showError(this.t('planninq', 'Could not add member'))
 			}
 		},
 	},

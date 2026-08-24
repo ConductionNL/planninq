@@ -1,10 +1,10 @@
 # Register Schemas
 
-Defines and registers the complete Planix data model in OpenRegister.
+Defines and registers the complete Planninq data model in OpenRegister.
 
 ## Overview
 
-Planix uses OpenRegister to store its data model. The `planix_register.json` file defines 5 schemas and seed data that are automatically imported when the app is installed or upgraded.
+Planninq uses OpenRegister to store its data model. The `planninq_register.json` file defines 6 schemas and seed data that are automatically imported when the app is installed or upgraded.
 
 ## Schemas
 
@@ -13,6 +13,7 @@ Planix uses OpenRegister to store its data model. The `planix_register.json` fil
 - **column** — A kanban board column with WIP limits and ordering
 - **timeEntry** — A time tracking record linked to a task
 - **label** — A categorization tag with color coding
+- **dependency** — A directed blocker → blocked edge between two tasks in the same project
 
 ## Seed Data
 
@@ -25,7 +26,7 @@ Fresh installs include demo data:
 
 ## Technical Details
 
-- Schemas are defined in `lib/Settings/planix_register.json`
+- Schemas are defined in `lib/Settings/planninq_register.json`
 - Import is triggered by the `InitializeSettings` repair step (declared in `appinfo/info.xml`)
 - `SettingsService::loadConfiguration()` reads the JSON, parses it, and calls `ConfigurationService::importFromApp()`
 - Import is idempotent — re-running does not create duplicates
@@ -33,4 +34,4 @@ Fresh installs include demo data:
 
 ## Specs
 
-- [register-schemas spec](https://github.com/ConductionNL/planix/blob/development/openspec/specs/register-schemas/spec.md)
+- [register-schemas spec](https://codeberg.org/Conduction/planninq/src/branch/development/openspec/specs/register-schemas/spec.md)

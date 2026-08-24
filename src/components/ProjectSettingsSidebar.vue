@@ -1,13 +1,13 @@
 <template>
 	<NcAppSidebar
-		:name="project ? project.title : t('planix', 'Project settings')"
-		:open.sync="internalOpen"
-		:active.sync="activeTab"
+		v-model:open="internalOpen"
+		v-model:active="activeTab"
+		:name="project ? project.title : t('planninq', 'Project settings')"
 		@close="$emit('close')">
 		<!-- Details tab -->
 		<NcAppSidebarTab
 			id="details"
-			:name="t('planix', 'Details')"
+			:name="t('planninq', 'Details')"
 			:order="1">
 			<template #icon>
 				<PencilIcon :size="20" />
@@ -16,53 +16,50 @@
 			<div v-if="project" class="project-settings-sidebar__section">
 				<!-- Title -->
 				<NcTextField
-					:value="form.title"
-					:label="t('planix', 'Title')"
-					@update:value="form.title = $event" />
+					v-model="form.title"
+					:label="t('planninq', 'Title')" />
 
 				<!-- Description -->
 				<NcTextArea
-					:value="form.description"
-					:label="t('planix', 'Description')"
-					rows="3"
-					@update:value="form.description = $event" />
+					v-model="form.description"
+					:label="t('planninq', 'Description')"
+					rows="3" />
 
 				<!-- Color -->
 				<div class="project-settings-sidebar__field">
 					<label class="project-settings-sidebar__label" for="sidebar-color">
-						{{ t('planix', 'Color') }}
+						{{ t('planninq', 'Color') }}
 					</label>
 					<input
 						id="sidebar-color"
 						v-model="form.color"
 						type="color"
 						class="project-settings-sidebar__color"
-						:aria-label="t('planix', 'Project color')">
+						:aria-label="t('planninq', 'Project color')">
 				</div>
 
 				<!-- Icon -->
 				<NcTextField
-					:value="form.icon"
-					:label="t('planix', 'Icon (emoji)')"
-					:placeholder="t('planix', 'e.g. 📁 🚀')"
-					@update:value="form.icon = $event" />
+					v-model="form.icon"
+					:label="t('planninq', 'Icon (emoji)')"
+					:placeholder="t('planninq', 'e.g. 📁 🚀')" />
 
 				<!-- Case reference (read-only) -->
 				<div v-if="project.caseReference" class="project-settings-sidebar__field">
 					<label class="project-settings-sidebar__label">
-						{{ t('planix', 'Case reference') }}
+						{{ t('planninq', 'Case reference') }}
 					</label>
 					<span class="project-settings-sidebar__readonly">{{ project.caseReference }}</span>
 				</div>
 
 				<NcButton
-					type="primary"
+					variant="primary"
 					:disabled="saving"
 					@click="saveDetails">
 					<template v-if="saving" #icon>
 						<NcLoadingIcon :size="16" />
 					</template>
-					{{ saving ? t('planix', 'Saving…') : t('planix', 'Save') }}
+					{{ saving ? t('planninq', 'Saving…') : t('planninq', 'Save') }}
 				</NcButton>
 			</div>
 		</NcAppSidebarTab>
@@ -70,7 +67,7 @@
 		<!-- Members tab -->
 		<NcAppSidebarTab
 			id="members"
-			:name="t('planix', 'Members')"
+			:name="t('planninq', 'Members')"
 			:order="2">
 			<template #icon>
 				<AccountGroupOutline :size="20" />
@@ -97,16 +94,16 @@
 							<!-- Leave project (current user) -->
 							<NcButton
 								v-if="uid === currentUid"
-								type="tertiary"
-								:aria-label="t('planix', 'Leave project')"
+								variant="tertiary"
+								:aria-label="t('planninq', 'Leave project')"
 								@click="showLeaveDialog = true">
-								{{ t('planix', 'Leave project') }}
+								{{ t('planninq', 'Leave project') }}
 							</NcButton>
 							<!-- Remove member (other users) -->
 							<NcButton
 								v-else
-								type="tertiary-no-background"
-								:aria-label="t('planix', 'Remove {name}', { name: uid })"
+								variant="tertiary-no-background"
+								:aria-label="t('planninq', 'Remove {name}', { name: uid })"
 								@click="confirmRemoveMember(uid)">
 								<template #icon>
 									<CloseIcon :size="16" />
@@ -119,11 +116,11 @@
 				<!-- Assigned task warning before removal -->
 				<div v-if="removalWarning" class="project-settings-sidebar__warning" role="alert">
 					{{ removalWarning }}
-					<NcButton type="error" @click="executeRemoval">
-						{{ t('planix', 'Remove anyway') }}
+					<NcButton variant="error" @click="executeRemoval">
+						{{ t('planninq', 'Remove anyway') }}
 					</NcButton>
 					<NcButton @click="cancelRemoval">
-						{{ t('planix', 'Cancel') }}
+						{{ t('planninq', 'Cancel') }}
 					</NcButton>
 				</div>
 			</div>
@@ -132,7 +129,7 @@
 		<!-- Danger zone tab -->
 		<NcAppSidebarTab
 			id="danger"
-			:name="t('planix', 'Danger zone')"
+			:name="t('planninq', 'Danger zone')"
 			:order="3">
 			<template #icon>
 				<AlertCircleOutline :size="20" />
@@ -140,28 +137,28 @@
 
 			<div class="project-settings-sidebar__section">
 				<div class="project-settings-sidebar__danger-item">
-					<p>{{ t('planix', 'Archive this project. It will no longer appear in the active list.') }}</p>
+					<p>{{ t('planninq', 'Archive this project. It will no longer appear in the active list.') }}</p>
 					<NcButton
 						v-if="!confirmArchive"
-						type="warning"
+						variant="warning"
 						@click="confirmArchive = true">
-						{{ t('planix', 'Archive project') }}
+						{{ t('planninq', 'Archive project') }}
 					</NcButton>
 					<div v-else class="project-settings-sidebar__confirm-row">
-						<span>{{ t('planix', 'Are you sure?') }}</span>
-						<NcButton type="warning" @click="doArchive">
-							{{ t('planix', 'Yes, archive') }}
+						<span>{{ t('planninq', 'Are you sure?') }}</span>
+						<NcButton variant="warning" @click="doArchive">
+							{{ t('planninq', 'Yes, archive') }}
 						</NcButton>
 						<NcButton @click="confirmArchive = false">
-							{{ t('planix', 'Cancel') }}
+							{{ t('planninq', 'Cancel') }}
 						</NcButton>
 					</div>
 				</div>
 
 				<div class="project-settings-sidebar__danger-item">
-					<p>{{ t('planix', 'Permanently delete this project and all its tasks.') }}</p>
-					<NcButton type="error" @click="showDeleteDialog = true">
-						{{ t('planix', 'Delete project') }}
+					<p>{{ t('planninq', 'Permanently delete this project and all its tasks.') }}</p>
+					<NcButton variant="error" @click="showDeleteDialog = true">
+						{{ t('planninq', 'Delete project') }}
 					</NcButton>
 				</div>
 			</div>
@@ -183,6 +180,18 @@
 </template>
 
 <script>
+/**
+ * ProjectSettingsSidebar.
+ *
+ * NcAppSidebar with Details/Members/Danger tabs for editing a project,
+ * managing members, and archive/delete actions. Renders the read-only
+ * caseReference field in the Details tab for procest-integration.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-13
+ */
 import {
 	NcAppSidebar,
 	NcAppSidebarTab,
@@ -201,8 +210,8 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import { useProjectsStore } from '../store/projects.js'
 import MemberSearch from './MemberSearch.vue'
-import ProjectLeaveDialog from './dialogs/ProjectLeaveDialog.vue'
-import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog.vue'
+import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
+import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
 
 export default {
 	name: 'ProjectSettingsSidebar',
@@ -253,15 +262,25 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * @spec exclude Store passthrough — returns the projects Pinia store.
+		 */
 		projectsStore() {
 			return useProjectsStore()
 		},
+		/**
+		 * @spec exclude Auth passthrough — returns the current user's UID.
+		 */
 		currentUid() {
 			return getCurrentUser()?.uid || ''
 		},
 	},
 
 	watch: {
+		/**
+		 * @spec exclude Framework glue — syncs the project prop into the edit form on change.
+		 * @param {object} newVal The updated project object.
+		 */
 		project(newVal) {
 			if (newVal) {
 				this.form.title = newVal.title || ''
@@ -273,6 +292,11 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Persist title/description/color/icon edits via updateProject.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
+		 */
 		async saveDetails() {
 			this.saving = true
 			try {
@@ -281,37 +305,55 @@ export default {
 					description: this.form.description.trim() || undefined,
 					color: this.form.color,
 					icon: this.form.icon.trim() || undefined,
-					// Always include existing members so a PATCH/PUT does not wipe them
+					// Always include existing members and owner so a PATCH/PUT does not wipe them
 					members: Array.isArray(this.project.members) ? this.project.members : [],
+					owner: this.project.owner || undefined,
 				})
-				showSuccess(this.t('planix', 'Project saved'))
+				showSuccess(this.t('planninq', 'Project saved'))
 			} catch {
-				showError(this.t('planix', 'Could not save project'))
+				showError(this.t('planninq', 'Could not save project'))
 			} finally {
 				this.saving = false
 			}
 		},
 
+		/**
+		 * @spec exclude Event-wiring glue — refreshes the project after a member is added.
+		 */
 		onMemberAdded() {
 			this.projectsStore.fetchProject(this.project.id)
 		},
 
+		/**
+		 * Show assigned-task warning before removing a member.
+		 * Queries the task count first (read-only); only removes if count is zero.
+		 *
+		 * @param {string} uid Nextcloud UID to remove
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 */
 		async confirmRemoveMember(uid) {
-			const count = await this.projectsStore.removeMember(this.project.id, uid)
-			// If member had assigned tasks, show warning first and re-add them.
+			const count = await this.projectsStore.getMemberTaskCount(this.project.id, uid)
 			if (count > 0) {
-				// Re-add (removal already happened) — we need to prevent this.
-				// Actually removeMember returns the count AND removes. Undo by re-adding.
-				await this.projectsStore.addMember(this.project.id, uid)
+				// Show warning — do NOT remove yet.
 				this.pendingRemoveUid = uid
-				this.removalWarning = this.t('planix', '{name} has {count} assigned tasks in this project', {
+				this.removalWarning = this.t('planninq', '{name} has {count} assigned tasks in this project', {
 					name: uid,
 					count,
 				})
+			} else {
+				// No assigned tasks — remove immediately.
+				await this.projectsStore.removeMember(this.project.id, uid)
+				await this.projectsStore.fetchProject(this.project.id)
 			}
-			await this.projectsStore.fetchProject(this.project.id)
 		},
 
+		/**
+		 * Confirm a pending member removal after the assigned-task warning —
+		 * removes the member and refreshes the project.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 */
 		async executeRemoval() {
 			if (this.pendingRemoveUid) {
 				await this.projectsStore.removeMember(this.project.id, this.pendingRemoveUid)
@@ -320,11 +362,19 @@ export default {
 			this.cancelRemoval()
 		},
 
+		/**
+		 * @spec exclude State-reset glue — clears the pending member-removal warning.
+		 */
 		cancelRemoval() {
 			this.removalWarning = null
 			this.pendingRemoveUid = null
 		},
 
+		/**
+		 * Archive the project from the danger-zone tab.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+		 */
 		async doArchive() {
 			const result = await this.projectsStore.archiveProject(this.project.id)
 			if (result) {
@@ -334,12 +384,18 @@ export default {
 			this.confirmArchive = false
 		},
 
+		/**
+		 * @spec exclude Event-wiring glue — closes the sidebar and routes to Projects after leaving.
+		 */
 		onLeft() {
 			this.showLeaveDialog = false
 			this.$emit('close')
 			this.$router.push({ name: 'Projects' })
 		},
 
+		/**
+		 * @spec exclude Event-wiring glue — re-emits deleted/close after a project delete.
+		 */
 		onDeleted() {
 			this.showDeleteDialog = false
 			this.$emit('deleted')

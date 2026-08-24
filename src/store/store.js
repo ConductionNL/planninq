@@ -1,8 +1,16 @@
 import { generateUrl } from '@nextcloud/router'
 import { useObjectStore } from './modules/object.js'
-import { useObjectStore as useConductionObjectStore } from '@conduction/nextcloud-vue'
+import { useObjectStore as useConductionObjectStore } from './objectStore.js'
 import { useSettingsStore } from './modules/settings.js'
 
+/**
+ * Boot routine that configures both OpenRegister object stores against the
+ * OpenRegister endpoints and primes settings before the UI renders.
+ *
+ * @return {Promise<{settingsStore: object, objectStore: object}>}
+ *
+ * @spec openspec/changes/retrofit-2026-05-25-app-shell-and-data-store/tasks.md#task-3
+ */
 export async function initializeStores() {
 	const settingsStore = useSettingsStore()
 	const objectStore = useObjectStore()
@@ -23,4 +31,4 @@ export async function initializeStores() {
 	return { settingsStore, objectStore }
 }
 
-export { useObjectStore, useSettingsStore }
+export { useSettingsStore }

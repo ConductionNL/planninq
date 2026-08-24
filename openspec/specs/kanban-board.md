@@ -11,7 +11,7 @@
 
 ## Purpose
 
-The kanban board is the primary visual interface for a project in Planix. It shows tasks as cards organized into configurable columns (stages). Users drag and drop cards between columns to update task status. WIP limits on columns enforce flow discipline. Boards are filtered by assignee, label, or priority to focus attention. Each project has exactly one kanban board; columns are managed as part of the project.
+The kanban board is the primary visual interface for a project in Planninq. It shows tasks as cards organized into configurable columns (stages). Users drag and drop cards between columns to update task status. WIP limits on columns enforce flow discipline. Boards are filtered by assignee, label, or priority to focus attention. Each project has exactly one kanban board; columns are managed as part of the project.
 
 ## Data Model
 
@@ -113,6 +113,24 @@ The system MUST allow users to switch between kanban (card) view and list (table
 - THEN the system MUST navigate to the task detail view (CnDetailPage)
 - AND the browser back button MUST return to list view (not kanban view)
 
+### Requirement: Blocked task indicator on cards [V1]
+Task cards on the kanban board MUST show a compact "Blocked" indicator when the task's derived blocked state (per the `task-dependencies` capability: at least one blocker not `done`/`cancelled`) is true. The indicator MUST be visually consistent with the card's other status chips (priority, due-date badge), MUST not require opening the task to be understood, and MUST never prevent dragging the card (soft signal, same philosophy as the WIP limit). Board filters and the list-view toggle MUST render the indicator identically.
+
+#### Scenario: Blocked badge shown on the card
+- GIVEN a task on the board is blocked by an open task
+- WHEN the board renders
+- THEN the task's card MUST show a "Blocked" badge alongside its existing chips
+
+#### Scenario: Badge visible in list view too
+- GIVEN the same blocked task
+- WHEN the user toggles the board to list view
+- THEN the row MUST show the same blocked indication
+
+#### Scenario: Dragging a blocked card is not prevented
+- GIVEN a card shows the Blocked badge
+- WHEN the user drags it to another column
+- THEN the drop MUST succeed and the badge MUST remain while blockers stay open
+
 ## User Stories
 
 - As a developer, I want to see all project tasks as cards on a board so that I understand the current state of work at a glance
@@ -134,7 +152,7 @@ The system MUST allow users to switch between kanban (card) view and list (table
 - [ ] Filter state is reflected in the URL hash (shareable)
 - [ ] Columns can be created, renamed, reordered, and deleted via project settings
 - [ ] Deleting a column with tasks prompts the user to move tasks to backlog or another column before deleting
-- [ ] Board is keyboard-navigable (WCAG AA)
+- [x] Board is keyboard-navigable (WCAG AA)
 - [ ] Empty columns show a CnEmptyState with a "+ Add task" button; clicking pre-selects that column in the task form
 - [ ] A board with no columns shows a CnEmptyState with an "Add column" button (visible to creator/admin)
 - [ ] View toggle (kanban ↔ list) is available in the project toolbar; selected view persists in the URL hash
@@ -144,7 +162,7 @@ The system MUST allow users to switch between kanban (card) view and list (table
 
 ## Notes
 
-- The kanban board is a custom Planix Vue component (drag-and-drop via SortableJS/vue-draggable), not from the `@conduction/nextcloud-vue` library. It uses `useObjectStore` for data operations and `CnStatusBadge` for card status indicators.
+- The kanban board is a custom Planninq Vue component (drag-and-drop via SortableJS/vue-draggable), not from the `@conduction/nextcloud-vue` library. It uses `useObjectStore` for data operations and `CnStatusBadge` for card status indicators.
 - Swimlanes (V1): group cards horizontally by assignee or priority within each column
 - Card quick-edit (V1): inline editing of title, due date, assignee on hover without opening detail
 - Collapsed columns (V1): columns can be collapsed to save horizontal space

@@ -1,5 +1,5 @@
 /**
- * Planix landing page.
+ * Planninq landing page.
  *
  * Composes the brand <DetailHero> + <WidgetShelf> from
  * @conduction/docusaurus-preset/components, mirroring the OpenRegister
@@ -13,7 +13,7 @@
  * across files in this Docusaurus 3 + this preset combination.
  * Authoring the page in JSX keeps the same component composition.
  *
- * Planix isn't a registered <AppMock> variant yet, so the hero
+ * Planninq isn't a registered <AppMock> variant yet, so the hero
  * illustration is a small inline three-column Kanban mock built from
  * brand tokens — same level of abstraction as the AppMock variants.
  */
@@ -25,11 +25,11 @@ import {
   WidgetShelf,
 } from '@conduction/docusaurus-preset/components';
 
-/* 3-column Kanban glyph — same shape as planix/img/app.svg (Material
+/* 3-column Kanban glyph — same shape as planninq/img/app.svg (Material
    Design Icons "view-column" read as a Kanban board), redrawn as a
    stroke line-icon because the preset's `.titleIcon svg` rule forces
    `fill: none; stroke: currentColor`. */
-const PLANIX_ICON = (
+const PLANNINQ_ICON = (
   <svg viewBox="0 0 24 24">
     <rect x="3" y="4" width="5" height="16" rx="1" />
     <rect x="9.5" y="4" width="5" height="16" rx="1" />
@@ -42,7 +42,7 @@ const PLANIX_ICON = (
 
 const TAGLINE = (
   <>
-    Planix runs the board: projects, tasks, Kanban columns with WIP
+    Planninq runs the board: projects, tasks, Kanban columns with WIP
     limits, a real backlog, and per-task time entries — a focused
     workflow tool for dev and IT teams, built straight into Nextcloud
     on top of OpenRegister.
@@ -390,36 +390,36 @@ const WIDGETS = [
 export default function Home() {
   return (
     <Layout
-      title="Planix, kanban project management for Nextcloud teams"
+      title="Planninq, kanban project management for Nextcloud teams"
       description="Kanban project management for Nextcloud dev and IT teams. Projects, tasks, WIP-limited columns, a real backlog, and per-task time tracking."
     >
       <main className="marketing-page">
         <DetailHero
           background="cobalt"
-          appId="planix"
+          appId="planninq"
           /* status + version dropped — preset 2.10+ auto-derives from appinfo/info.xml */
           locales="EN"
-          title="Planix"
+          title="Planninq"
           tagline={TAGLINE}
           primaryCta={{
             label: 'Install from app store',
-            href: 'https://apps.nextcloud.com/apps/planix',
+            href: 'https://apps.nextcloud.com/apps/planninq',
             tone: 'orange',
           }}
           secondaryCta={{ label: 'Read the docs', href: '/docs/intro' }}
           tertiaryCta={{
             label: 'View on GitHub',
-            href: 'https://github.com/ConductionNL/planix',
+            href: 'https://github.com/ConductionNL/planninq',
           }}
           iconColor="var(--c-orange-knvb)"
-          icon={PLANIX_ICON}
+          icon={PLANNINQ_ICON}
           illustration={<KanbanMock />}
         />
 
         <WidgetShelf
           eyebrow="Widgets we ship"
           title="The board follows you to the dashboard."
-          lede="Install Planix and the home screen surfaces your active boards, the tasks due against you, and the backlog still waiting to be pulled into flow."
+          lede="Install Planninq and the home screen surfaces your active boards, the tasks due against you, and the backlog still waiting to be pulled into flow."
           widgets={WIDGETS}
         />
       </main>

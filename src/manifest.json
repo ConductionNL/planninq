@@ -1,0 +1,69 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ConductionNL/nextcloud-vue/main/src/schemas/app-manifest-v2.schema.json",
+  "version": "0.1.0",
+  "observability": {
+    "_note": "AppHost manifest (ADR-040). The observability block reproduces the output of the now-deleted hand-written HealthController + MetricsController; /api/health and /api/metrics are aliased to AppHost\\Controller\\GenericHealth#index / GenericMetrics#index in appinfo/routes.php. The deepLinks block replaces the hand-written DeepLinkRegistrationListener, read at event time by the generic listener. Parity: the database health check and the implicit {appId}_info/{appId}_up metrics match the pre-adoption contract — those two are derived from the runtime app id, so they read planninq_info/planninq_up after the planix -> planninq rename; the task/project object counts are a documented intentional improvement (object-count observability the bespoke MetricsController never emitted). The `register` and `registerSlug` values below are still `planix` on purpose: they are the OpenRegister register slug, not the app id, and this release ships no register-slug migration. This is an observability-only manifest (schema v2.13.0 profile): planninq renders no manifest-driven UI, so there is deliberately no menu/pages — the former top-level appId/name keys were removed 2026-07-06 (not part of the v2 contract; the app id comes from the runtime).",
+    "health": {
+      "statusCodePolicy": "adr006",
+      "checks": [
+        { "id": "database", "type": "database", "severity": "critical" }
+      ]
+    },
+    "metrics": [
+      {
+        "name": "tasks_total",
+        "type": "gauge",
+        "help": "Total tasks by status",
+        "source": {
+          "kind": "objectCount",
+          "register": "planix",
+          "schema": "task",
+          "groupBy": ["status"]
+        }
+      },
+      {
+        "name": "projects_total",
+        "type": "gauge",
+        "help": "Total projects by status",
+        "source": {
+          "kind": "objectCount",
+          "register": "planix",
+          "schema": "project",
+          "groupBy": ["status"]
+        }
+      }
+    ]
+  },
+  "deepLinks": [
+    {
+      "registerSlug": "planix",
+      "schemaSlug": "task",
+      "urlTemplate": "/apps/planninq/projects/{project}?task={uuid}",
+      "displayName": "Task"
+    },
+    {
+      "registerSlug": "planix",
+      "schemaSlug": "project",
+      "urlTemplate": "/apps/planninq/projects/{uuid}",
+      "displayName": "Project"
+    },
+    {
+      "registerSlug": "planix",
+      "schemaSlug": "column",
+      "urlTemplate": "/apps/planninq/projects/{project}",
+      "displayName": "Column"
+    },
+    {
+      "registerSlug": "planix",
+      "schemaSlug": "label",
+      "urlTemplate": "/apps/planninq/projects",
+      "displayName": "Label"
+    },
+    {
+      "registerSlug": "planix",
+      "schemaSlug": "timeEntry",
+      "urlTemplate": "/apps/planninq/projects/{project}?task={task}",
+      "displayName": "Time entry"
+    }
+  ]
+}

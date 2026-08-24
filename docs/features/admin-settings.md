@@ -1,10 +1,10 @@
 # Admin & User Settings
 
-Configure Planix at the app level (admin) or customize personal preferences (user).
+Configure Planninq at the app level (admin) or customize personal preferences (user).
 
 ## Admin Settings
 
-Accessible to Nextcloud administrators at **Administration → Planix**.
+Accessible to Nextcloud administrators at **Administration → Planninq**.
 
 ### Sections
 
@@ -14,7 +14,7 @@ Accessible to Nextcloud administrators at **Administration → Planix**.
 
 **Label Management** — create, edit, and delete app-wide labels that are available across all projects. Each label has a title and a hex color.
 
-**OpenRegister Setup** — shows whether the Planix register and schemas are initialized in OpenRegister. An "Initialize register" button triggers the import if the register is not yet set up.
+**OpenRegister Setup** — shows whether the Planninq register and schemas are initialized in OpenRegister. An "Initialize register" button triggers the import if the register is not yet set up.
 
 ### Access Control
 
@@ -22,7 +22,7 @@ Only Nextcloud administrators can access the admin settings page. Non-admin user
 
 ## User Settings
 
-Accessible from the gear icon in the Planix navigation bar, the user settings dialog (`NcAppSettingsDialog`) lets each user configure their own preferences.
+Accessible from the gear icon in the Planninq navigation bar, the user settings dialog (`NcAppSettingsDialog`) lets each user configure their own preferences.
 
 ### Notification Preferences
 
@@ -48,4 +48,4 @@ All settings persist across browser sessions.
 
 ## Spec
 
-- [admin-user-settings spec](https://github.com/ConductionNL/planix/blob/development/openspec/specs/admin-user-settings.md)
+- [admin-user-settings spec](https://codeberg.org/Conduction/planninq/src/branch/development/openspec/specs/admin-user-settings.md)

@@ -1,16 +1,16 @@
 <template>
-	<div class="planix-admin">
+	<div class="planninq-admin">
 		<CnVersionInfoCard
-			:app-name="'Planix'"
+			:app-name="'Planninq'"
 			:app-version="appVersion"
 			:is-up-to-date="true"
 			:show-update-button="true"
-			:title="t('planix', 'Version information')"
-			:description="t('planix', 'Information about the current Planix installation')">
+			:title="t('planninq', 'Version information')"
+			:description="t('planninq', 'Information about the current Planninq installation')">
 			<template #footer>
 				<div class="cn-support-info">
-					<h4>{{ t('planix', 'Support') }}</h4>
-					<p>{{ t('planix', 'For support, contact us at') }} <a href="mailto:support@conduction.nl">support@conduction.nl</a></p>
+					<h4>{{ t('planninq', 'Support') }}</h4>
+					<p>{{ t('planninq', 'For support, contact us at') }} <a href="mailto:support@conduction.nl">support@conduction.nl</a></p>
 				</div>
 			</template>
 		</CnVersionInfoCard>
@@ -20,6 +20,15 @@
 </template>
 
 <script>
+/**
+ * AdminRoot view.
+ *
+ * Admin settings root mounted by settings.js bootstrap; renders the
+ * version info card and the Settings form.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+ */
+import { loadState } from '@nextcloud/initial-state'
 import { CnVersionInfoCard } from '@conduction/nextcloud-vue'
 import Settings from './Settings.vue'
 import { initializeStores } from '../../store/store.js'
@@ -33,9 +42,12 @@ export default {
 	data() {
 		return {
 			storesReady: false,
-			appVersion: document.getElementById('planix-settings')?.dataset?.version || 'Unknown',
+			appVersion: loadState('planninq', 'version', 'Unknown'),
 		}
 	},
+	/**
+	 * @spec exclude Lifecycle bootstrap — awaits initializeStores() then flips storesReady; store wiring is spec'd in app-shell-and-data-store.
+	 */
 	async created() {
 		await initializeStores()
 		this.storesReady = true
@@ -44,7 +56,7 @@ export default {
 </script>
 
 <style scoped>
-.planix-admin {
+.planninq-admin {
 	max-width: 900px;
 }
 </style>

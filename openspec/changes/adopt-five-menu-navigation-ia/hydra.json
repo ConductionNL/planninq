@@ -1,0 +1,10 @@
+{
+  "spec_slug": "adopt-five-menu-navigation-ia",
+  "title": "Adopt the five-menu navigation IA (ADR-001)",
+  "app": "planninq",
+  "repo": "https://codeberg.org/Conduction/planninq",
+  "depends_on": [
+    "adopt-cnapproot-manifest-shell"
+  ],
+  "issue": null
+}

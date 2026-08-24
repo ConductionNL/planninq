@@ -1,10 +1,10 @@
 # Projects
 
-Full project management surface for Planix — create, browse, configure, and delete projects.
+Full project management surface for Planninq — create, browse, configure, and delete projects.
 
 ## Overview
 
-Projects are the top-level container in Planix. Each project groups a set of tasks on a kanban board, has a defined team (members), and optionally links to a Procest case. The `projects` change implements the complete project management UI on top of the OpenRegister data layer established by `register-schemas`.
+Projects are the top-level container in Planninq. Each project groups a set of tasks on a kanban board, has a defined team (members), and optionally links to a Procest case. The `projects` change implements the complete project management UI on top of the OpenRegister data layer established by `register-schemas`.
 
 ## Screenshots
 

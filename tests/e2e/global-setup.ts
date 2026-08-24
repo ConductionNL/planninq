@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2026 Planix Contributors
+ * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
  * Playwright globalSetup — logs into Nextcloud once and persists the
@@ -16,7 +16,7 @@
  * across NC 28 / 29 / 30.
  *
  * Pattern reference: ADR-030 (hydra/openspec/architecture/), mirrored
- * from mydash's journeydoc setup (the longest-running journeydoc
+ * from launchpad's journeydoc setup (the longest-running journeydoc
  * adopter).
  */
 
@@ -24,32 +24,53 @@ import { chromium, request, type FullConfig } from '@playwright/test'
 import { execSync } from 'child_process'
 import * as path from 'path'
 import * as fs from 'fs'
+import { BASE_URL } from './base-url'
+import { seedFixtures } from './fixtures/seed'
 
 const AUTH_DIR = path.resolve(__dirname, '.auth')
 const STORAGE_STATE = path.join(AUTH_DIR, 'admin.json')
 const APP_ROOT = path.resolve(__dirname, '..', '..')
-const BUNDLE_PATH = path.join(APP_ROOT, 'js', 'planix-main.js')
+const BUNDLE_PATH = path.join(APP_ROOT, 'js', 'planninq-main.js')
 
 /**
- * Ensure the webpack bundle exists before specs hit `/apps/planix/`.
+ * Ensure the webpack bundle exists before specs hit `/apps/planninq/`.
  *
- * The shared `ConductionNL/.github/quality.yml` Playwright job runs
- * `npm ci` + `npx playwright install` before the spec run, but never
- * `npm run build`. On a fresh CI VM the `js/planix-main.js` artefact
- * doesn't exist, so the rendered page loads a 404 script tag and the
- * Vue app never mounts — every selector wait then times out.
+ * Without `js/planninq-main.js` the rendered page loads a 404 script tag,
+ * the Vue app never mounts, and every selector wait times out with a
+ * misleading "element not found".
  *
- * Skipping the build entirely on CI would require a cross-repo PR to
- * `ConductionNL/.github` adding a `npm run build` step to the shared
- * workflow; doing it here keeps the fix self-contained.
- *
- * Note: locally, the app running in the dev container is usually
- * mounted from a separate checkout, so this build only helps CI / a
- * checkout that serves its own `js/`.
+ * Correction to the comment this replaces: it asserted that the shared
+ * `Conduction/.github` quality.yml Playwright job "never runs
+ * `npm run build`". It does — the job log carries a
+ * "Building app frontend with 'npm run build'…" step immediately before
+ * `npx playwright test`. So this guard is a local convenience for a
+ * checkout that has never been built, not a CI workaround.
  */
 function ensureBundleBuilt(): void {
 	if (fs.existsSync(BUNDLE_PATH)) {
 		return
+	}
+	// On CI this is a hard error, not something to repair.
+	//
+	// The shared workflow has already run its own "Build app frontend" step by
+	// the time we get here, so a missing bundle means that step did not produce
+	// one — and silently rebuilding turns a broken build into a green run with
+	// nothing to show for it. It also makes the bundle genuinely untestable: a
+	// positive control that removes the bundle to prove the specs depend on it
+	// gets healed right back before the first spec runs, and the suite passes.
+	// (Observed on opencatalogi: run 30791459241 passed 82/82 with the bundle
+	// DELETED, because this function rebuilt it — the control proved nothing
+	// until it was changed to truncate the file instead, which `fs.existsSync`
+	// cannot detect.)
+	//
+	// Locally the rebuild stays, because there it is a genuine convenience: a
+	// fresh checkout has no `js/` and nothing else is going to build it.
+	if (process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true') {
+		throw new Error(
+			`[playwright globalSetup] bundle missing at ${BUNDLE_PATH} on CI. `
+			+ 'The workflow\'s "Build app frontend" step should already have produced it — '
+			+ 'check that step rather than rebuilding here, because a rebuild would hide it.',
+		)
 	}
 	// eslint-disable-next-line no-console
 	console.log(`[playwright globalSetup] bundle missing at ${BUNDLE_PATH}; running 'npm run build' once…`)
@@ -77,16 +98,59 @@ async function ensureNextcloudReachable(baseURL: string): Promise<void> {
 	}
 }
 
+/**
+ * Permanently dismiss Nextcloud's first-run wizard for the test account.
+ *
+ * The wizard renders as a modal `<dialog>` over the whole viewport and eats
+ * pointer events. It lands on whichever spec happens to run first, so a
+ * best-effort "click Skip if it's there" helper cannot win the race — the
+ * regression suite failed 13/15 on a fresh container purely because of it,
+ * with failures that look like missing UI ("expected 1, received 0" on the
+ * board) rather than an overlay.
+ *
+ * `DELETE /apps/firstrunwizard/wizard` (Wizard#disable) sets the per-user
+ * `firstrunwizard.show` setting, which is durable for the whole run. HTTP Basic
+ * bypasses the session CSRF check, so no `requesttoken` is needed. Best-effort:
+ * the app is optional and absent on some instances.
+ *
+ * @param baseURL  the target Nextcloud
+ * @param username admin user
+ * @param password admin password
+ * @return void
+ */
+async function dismissFirstRunWizard(baseURL: string, username: string, password: string): Promise<void> {
+	const ctx = await request.newContext({
+		baseURL,
+		httpCredentials: { username, password, send: 'always' },
+		extraHTTPHeaders: { 'OCS-APIRequest': 'true' },
+	})
+	try {
+		const res = await ctx.delete('/index.php/apps/firstrunwizard/wizard', { failOnStatusCode: false })
+		// eslint-disable-next-line no-console
+		console.log(`[playwright globalSetup] first-run wizard dismissal returned ${res.status()}`)
+	} catch (err) {
+		// eslint-disable-next-line no-console
+		console.warn(`[playwright globalSetup] could not dismiss the first-run wizard: ${(err as Error).message}`)
+	} finally {
+		await ctx.dispose()
+	}
+}
+
 export default async function globalSetup(config: FullConfig): Promise<void> {
-	const baseURL = (config.projects[0]?.use?.baseURL as string | undefined)
-		?? process.env.NEXTCLOUD_URL
-		?? process.env.NC_BASE_URL
-		?? 'http://localhost:8080'
-	const username = process.env.NC_ADMIN_USER ?? 'admin'
-	const password = process.env.NC_ADMIN_PASS ?? 'admin'
+	// One resolver for the whole suite — see tests/e2e/base-url.ts. The old
+	// chain re-derived the target here and ended in a silent
+	// `?? 'http://localhost:8080'`, i.e. the SHARED dev container.
+	const baseURL = (config.projects[0]?.use?.baseURL as string | undefined) ?? BASE_URL
+	// ADMIN_USER / ADMIN_PASSWORD are what the shared Conduction/.github quality
+	// workflow exports; NC_ADMIN_* is the local convention.
+	const username = process.env.NC_ADMIN_USER ?? process.env.ADMIN_USER ?? 'admin'
+	const password = process.env.NC_ADMIN_PASS ?? process.env.ADMIN_PASSWORD ?? 'admin'
 
 	ensureBundleBuilt()
 	await ensureNextcloudReachable(baseURL)
+	// Before the browser opens, so the storage state below is captured on a
+	// session that will never see the wizard.
+	await dismissFirstRunWizard(baseURL, username, password)
 	fs.mkdirSync(AUTH_DIR, { recursive: true })
 
 	const browser = await chromium.launch()
@@ -111,6 +175,20 @@ export default async function globalSetup(config: FullConfig): Promise<void> {
 			`Login appears to have failed — still on ${currentUrl}. ` +
 			`Check NC_ADMIN_USER / NC_ADMIN_PASS (defaults admin/admin).`,
 		)
+	}
+
+	// Seed the fixture project/columns/tasks/label the board, collaboration,
+	// label and reminder specs assert against — so their tightened
+	// `expect(...).not.toHaveCount(0)` guards resolve on a fresh container
+	// instead of self-skipping. Idempotent; a false return means planninq isn't
+	// installed here and specs take their legitimate "app not installed" skip.
+	try {
+		await seedFixtures(baseURL, { username, password })
+	} catch (err) {
+		// Never let a seeding hiccup abort the whole suite — specs still guard
+		// on the environment-absence path.
+		// eslint-disable-next-line no-console
+		console.warn(`[playwright globalSetup] fixture seeding failed: ${(err as Error).message}`)
 	}
 
 	// Persist the storage state so individual specs reuse the session.

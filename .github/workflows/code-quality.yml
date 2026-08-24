@@ -9,18 +9,164 @@ on:
 
 jobs:
   quality:
+    # ConductionNL, NOT Conduction. Commit 5f4069ac ("org rename", 2026-06-01)
+    # pointed every reusable-workflow call in this repo at `Conduction/.github`,
+    # an org that does not exist. Actions cannot resolve it, so from that date
+    # every Code Quality run produced ZERO jobs and failed instantly — no
+    # ESLint, PHPCS, PHPMD, PHPStan, Psalm, licence scan, security scan or
+    # PHPUnit, and no red test to show for it.
     uses: ConductionNL/.github/.github/workflows/quality.yml@main
     with:
-      app-name: planix
+      app-name: planninq
       php-version: "8.3"
       php-test-versions: '["8.3", "8.4"]'
-      nextcloud-test-refs: '["stable31", "stable32", "stable33"]'
+      # appinfo/info.xml declares <nextcloud min-version="32" max-version="34"/>
+      # and `nextcloud/ocp` is now `^34.0` — the stubs the analysers resolve
+      # against. Both sides name the same server, so the test matrix names it
+      # too.
       enable-psalm: true
       enable-phpstan: true
       enable-phpmetrics: true
       enable-frontend: true
       enable-eslint: true
       enable-phpunit: true
-      enable-newman: false
-      additional-apps: '[{"repo":"ConductionNL/openregister","app":"openregister","ref":"main"}]'
+      # `ref` moved from `main` to `development`. The E2E job needs the AppHost
+      # plumbing planninq's own appinfo/routes.php already depends on
+      # (`\OCA\OpenRegister\AppHost\Routes::standard()`), and `development` is
+      # where that lands first. Pinning the foundation to `main` while this app
+      # tracks `development` is what makes a CI instance behave unlike any
+      # environment the app is actually developed against.
+      additional-apps: '[{"repo":"ConductionNL/openregister","app":"openregister","ref":"development"}]'
       enable-sbom: true
+
+      # ── E2E browser tests ────────────────────────────────────────────────
+      # Previously LEFT OFF. The comment that lived here recorded two blockers
+      # from run 30692400428; both are now addressed, so the reasons are kept
+      # (not deleted) next to what changed:
+      #
+      #  1. "`occ app:enable planninq` cannot import the register on a fresh CI
+      #     instance: User 'Anonymous' does not have permission to 'create'
+      #     objects in schema 'Label'." Still true, and it always will be — an
+      #     IRepairStep runs with no user session, and InitializeSettings::run()
+      #     swallows the resulting exception as a warning so `occ app:enable`
+      #     still exits 0. FIXED by not relying on it: `ci-seed.sh` performs the
+      #     import explicitly over the admin HTTP API
+      #     (POST /apps/planninq/api/settings/load → loadConfiguration(force:true))
+      #     and then VERIFIES the register + schema slugs, so a bad provision is
+      #     one loud step failure instead of a dozen misleading spec failures.
+      #
+      #  2. "globalSetup times out on input[name=\"user\"] at /index.php/login …
+      #     php -S is single-threaded." FIXED upstream: the shared workflow now
+      #     starts the built-in server with PHP_CLI_SERVER_WORKERS=8, so page
+      #     loads no longer serialise their sub-resource requests behind each
+      #     other. ci-seed.sh additionally warms the app page and pulls the
+      #     webpack bundle before the first spec runs.
+      #
+      # The old "never recorded a single success anywhere in the fleet" control
+      # no longer holds either: opencatalogi's job is green as of PR #787/#790,
+      # which is the reference this repo's setup is modelled on.
+      enable-playwright: true
+      # Double duty in the shared workflow: it is both the directory the
+      # "Validate Playwright tests exist" step counts *.spec.ts in, AND the
+      # FIRST place the run step looks for a config
+      # (`${playwright-test-path}/playwright.config.ts`), falling back to the
+      # repo root only if that file is absent. We ship
+      # tests/e2e/playwright.config.ts precisely so that lookup hits it: the run
+      # step passes no `--project`, so the ROOT config would also run
+      # `docs-capture` and re-shoot every documentation screenshot on every PR.
+      playwright-test-path: tests/e2e
+      # cwd for this step is the Nextcloud server root.
+      playwright-seed-command: 'bash apps/planninq/tests/e2e/ci-seed.sh'
+
+      # ── Integration tests ────────────────────────────────────────────────
+      # Was explicitly `false`. tests/integration/planninq.postman_collection.json
+      # had never executed in CI. It sits at the default
+      # `newman-collection-path` (tests/integration), which is both the
+      # directory the validator counts collections in and the directory the run
+      # step globs `*.postman_collection.json` in — flat, not recursively.
+      enable-newman: true
+
+      # The Newman job needs the SAME OpenRegister provisioning the Playwright
+      # job gets. Without it, planninq has no register and no schemas, and every
+      # write returns **412 Precondition failed** — which is exactly what 14 of
+      # this collection's assertions were reporting ("expected 201 but got 412",
+      # "expected 422 but got 412", and so on). They were not 14 test bugs; they
+      # were one missing seed, reported fourteen times.
+      #
+      # `ci-seed.sh` already performs and documents that provisioning for
+      # Playwright. The `api` argument reuses it verbatim and only skips the
+      # closing SPA-bundle gate, which would `exit 1` here because the Newman
+      # job has no frontend build step and therefore no bundle to serve.
+      newman-seed-command: 'bash apps/planninq/tests/e2e/ci-seed.sh api'
+
+      # ── Frontend Check legs ──────────────────────────────────────────────
+      # `frontend-checks` defaults to `[]`, and an empty list means the shared
+      # workflow emits NO "Frontend Check" job at all — so `check:manifest` ran
+      # nowhere while the run still looked complete.
+      # `check:l10n` is deliberately NOT listed here: the dedicated
+      # `l10n-parity` job below already runs it, and a second copy would be the
+      # same check twice with nothing extra to show for it.
+      # Measured on this tree before enabling: `check:manifest` FAILS —
+      # `top-level: menu (array) is required` and `pages (array) is required`,
+      # i.e. planninq's src/manifest.json does not carry the fleet manifest shape
+      # at all. A real pre-existing defect; the gate is what makes it visible.
+      # `test` is NOT listed: "Frontend Tests (unit)" already runs it.
+      # `check:l10n-js` regenerates l10n/<locale>.js from the JSON catalogue and
+      # fails when the committed file is stale. Nextcloud serves ONLY the JS half
+      # to a browser — raw JSON out of an app directory is a 404 — so a catalogue
+      # that exists only as JSON renders English in the entire UI while every
+      # server-rendered string is translated, with no error anywhere.
+      # `check:schema-l10n` is a RATCHET, not a gate. Every string inside a form
+      # comes from the schema and is a key in THIS app's catalogue; an absent key
+      # renders the English source inside an otherwise translated form, silently.
+      # The fleet had 30,459 such strings, so this records the current count and
+      # fails only when it GROWS — burning it down stays an ordinary PR.
+      frontend-checks: '["check:manifest", "check:l10n-js", "check:schema-l10n"]'
+
+      # ── Coverage ratchet ─────────────────────────────────────────────────
+      # `enable-coverage-guard` defaults to FALSE, which is why both
+      # "Coverage Baseline Protection" and "Coverage Baseline Check" have only
+      # ever reported `skipped`. It needs two inputs this repo did not have,
+      # both added in this commit: `scripts/coverage-guard.php` (byte-identical
+      # to openregister's) and `.coverage-baseline` = 69.15, this repo's own
+      # measured coverage (872 of 1261 statements) read from clover.xml in the
+      # `coverage-report` artifact of run 30911196345.
+      enable-coverage-guard: true
+
+      # ── Hydra mechanical gates ───────────────────────────────────────────
+      # `enable-hydra-gates` defaults to FALSE, so this tier has never executed
+      # here — the job reported `skipped`, which the Quality Report renders
+      # identically to a pass.
+      # `enable-axe` deliberately NOT set: a vanilla Nextcloud 34 already carries
+      # serious/critical violations from core's own UI.
+      #
+      # No `hydra-gates-ref` here on purpose. The shared workflow defaults it
+      # to @main, and this workflow is itself consumed at @main, so the two
+      # sides move together and a gate fix reaches this repo without a commit
+      # in this repo. A pin is a silent expiry date: 22 repos sat on v1.0.1 and
+      # 16 gates were dead fleet-wide while every one reported PASS (.github#159),
+      # and a default flipped at @main later reached those old runners and made
+      # them red on gates they had no subject matter for (.github#173).
+      # To hold this repo still for a specific reason, set the input explicitly
+      # and say why — it is still honoured. To roll back for everyone, revert on
+      # ConductionNL/.github main.
+      enable-hydra-gates: true
+
+  # Translation-completeness gate: every required European locale must carry a
+  # real translation for every key in l10n/en.json. Dependency-free pure Node
+  # so it runs in a bare node container without an npm install.
+  l10n-parity:
+    runs-on: ubuntu-latest
+    # Observed over 17 runs: median 0.2 min, max 0.7 min.
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          # Matches package.json engines (node ^22.14 || ^24 || >=26). Node 20
+          # ships npm 10, which does not implement `min-release-age` at all —
+          # so running this job on 20 while the repo declares npm ^11 would
+          # leave the .npmrc cooldown inert here regardless of its value.
+          node-version: "22"
+      - name: Check required-locale translation parity
+        run: npm run check:l10n

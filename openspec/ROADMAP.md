@@ -1,6 +1,6 @@
 # Roadmap
 
-This document tracks the planned development of Planix.
+This document tracks the planned development of Planninq.
 
 Features are defined in [`openspec/specs/`](specs/). When a feature reaches `planned` status during an `/opsx:app-explore` session, it is listed here and an OpenSpec change is created with `/opsx:ff`.
 
@@ -8,7 +8,7 @@ Features are defined in [`openspec/specs/`](specs/). When a feature reaches `pla
 
 | Feature | Status | Priority | OpenSpec Change |
 |---------|--------|----------|----------------|
-| _(no features defined yet — use `/opsx:app-explore planix` to start)_ | — | — | — |
+| _(no features defined yet — use `/opsx:app-explore planninq` to start)_ | — | — | — |
 
 ## Phases
 
@@ -28,7 +28,7 @@ _Performance, accessibility improvements, full localization, and hardening for p
 
 ## How This Works
 
-1. Run `/opsx:app-explore planix` to define features in `openspec/specs/`
+1. Run `/opsx:app-explore planninq` to define features in `openspec/specs/`
 2. When a feature is `planned`, add it to the table above
 3. Run `/opsx:ff {feature-name}` to create the implementation spec
 4. Update the **OpenSpec Change** column with a link to the change directory

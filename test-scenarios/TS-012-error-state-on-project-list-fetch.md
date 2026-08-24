@@ -26,7 +26,7 @@ spec-refs:
 ## Scenario
 
 - GIVEN the OpenRegister API returns an error when fetching projects
-- WHEN the user navigates to `/apps/planix/projects`
+- WHEN the user navigates to `/apps/planninq/projects`
 - THEN `NcEmptyContent` is shown with an error message and a "Retry" button
 - AND the error is logged to the browser console (not swallowed silently)
 - AND clicking "Retry" re-triggers the fetch

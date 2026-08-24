@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Planix Settings Service
+ * Planninq Settings Service
  *
- * Service for managing Planix application configuration and settings.
+ * Service for managing Planninq application configuration and settings.
  *
  * @category Service
- * @package  OCA\Planix\Service
+ * @package  OCA\Planninq\Service
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -15,281 +15,511 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-1
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-3
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-5
  */
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Service;
+namespace OCA\Planninq\Service;
 
-use OCA\Planix\AppInfo\Application;
+use OCA\Planninq\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Service for managing Planix application configuration and settings.
+ * Service for managing Planninq application configuration and settings.
+ *
+ * @spec openspec/specs/admin-user-settings.md
  */
-class SettingsService
-{
+class SettingsService {
 
-    /**
-     * Legacy configuration keys (register setup keys).
-     *
-     * @var array<string>
-     */
-    private const CONFIG_KEYS = [
-        'register',
-    ];
+	/**
+	 * Legacy configuration keys (register setup keys).
+	 *
+	 * @var array<string>
+	 */
+	private const CONFIG_KEYS = [
+		'register',
+	];
 
-    /**
-     * Admin configuration keys with their default values.
-     *
-     * @var array<string,string>
-     */
-    private const ADMIN_CONFIG_DEFAULTS = [
-        'default_columns'        => '["To Do","In Progress","Review","Done"]',
-        'allow_project_creation' => 'all',
-    ];
+	/**
+	 * Admin configuration keys with their default values.
+	 *
+	 * @var array<string,string>
+	 */
+	private const ADMIN_CONFIG_DEFAULTS = [
+		'default_columns' => '["To Do","In Progress","Review","Done"]',
+		'allow_project_creation' => 'all',
+		'due_reminder_lead_hours' => '24',
+	];
 
-    /**
-     * Constructor for the SettingsService.
-     *
-     * @param IAppConfig         $appConfig    The app config interface
-     * @param IAppManager        $appManager   The app manager
-     * @param ContainerInterface $container    The container
-     * @param IGroupManager      $groupManager The group manager
-     * @param IUserSession       $userSession  The user session
-     * @param LoggerInterface    $logger       The logger
-     *
-     * @return void
-     */
-    public function __construct(
-        private IAppConfig $appConfig,
-        private IAppManager $appManager,
-        private ContainerInterface $container,
-        private IGroupManager $groupManager,
-        private IUserSession $userSession,
-        private LoggerInterface $logger,
-    ) {
-    }//end __construct()
+	/**
+	 * Slug of the OpenRegister schema carrying the due-soon reminder rule.
+	 *
+	 * @var string
+	 */
+	public const TASK_SCHEMA_SLUG = 'task';
 
-    /**
-     * Check whether OpenRegister is installed and available.
-     *
-     * @return bool
-     */
-    public function isOpenRegisterAvailable(): bool
-    {
-        return $this->appManager->isInstalled('openregister');
-    }//end isOpenRegisterAvailable()
+	/**
+	 * Notification rule key for the due-date reminder (paired with the
+	 * `task_due_soon` subject key referenced by the user-settings spec).
+	 *
+	 * @var string
+	 */
+	public const DUE_REMINDER_RULE_KEY = 'taskDueSoon';
 
-    /**
-     * Check whether the current user has Nextcloud admin privileges.
-     *
-     * @return bool
-     */
-    public function isCurrentUserAdmin(): bool
-    {
-        $user = $this->userSession->getUser();
-        return ($user !== null && $this->groupManager->isAdmin($user->getUID()));
-    }//end isCurrentUserAdmin()
+	/**
+	 * Lower bound (inclusive) for the due-reminder lead time, in hours.
+	 *
+	 * @var int
+	 */
+	public const LEAD_HOURS_MIN = 1;
 
-    /**
-     * Retrieve all admin settings with defaults applied.
-     *
-     * Reads each key in ADMIN_CONFIG_DEFAULTS from IAppConfig, falling back to
-     * the defined default when no value has been stored yet.
-     *
-     * @return array<string,string>
-     */
-    public function getAdminSettings(): array
-    {
-        $settings = [];
-        foreach (self::ADMIN_CONFIG_DEFAULTS as $key => $default) {
-            $settings[$key] = $this->appConfig->getValueString(Application::APP_ID, $key, $default);
-        }
+	/**
+	 * Upper bound (inclusive) for the due-reminder lead time, in hours (2 weeks).
+	 *
+	 * @var int
+	 */
+	public const LEAD_HOURS_MAX = 336;
 
-        return $settings;
-    }//end getAdminSettings()
+	/**
+	 * Constructor for the SettingsService.
+	 *
+	 * @param IAppConfig $appConfig The app config interface
+	 * @param IConfig $config The user config interface
+	 * @param IAppManager $appManager The app manager
+	 * @param ContainerInterface $container The container
+	 * @param IGroupManager $groupManager The group manager
+	 * @param IUserSession $userSession The user session
+	 * @param LoggerInterface $logger The logger
+	 * @param DueReminderWindowService $dueReminderWindow The live-schema due-reminder window patcher
+	 *
+	 * @return void
+	 */
+	public function __construct(
+		private IAppConfig $appConfig,
+		private IConfig $config,
+		private IAppManager $appManager,
+		private ContainerInterface $container,
+		private IGroupManager $groupManager,
+		private IUserSession $userSession,
+		private LoggerInterface $logger,
+		private DueReminderWindowService $dueReminderWindow,
+	) {
+	}//end __construct()
 
-    /**
-     * Store admin settings. Unknown keys are silently ignored.
-     *
-     * Internal use only — callers outside this class must go through updateSettings(),
-     * which enforces the admin authorization check at the controller layer.
-     *
-     * @param array<string,mixed> $settings Settings to persist
-     *
-     * @return array<string,string> The full admin settings after update
-     */
-    private function setAdminSettings(array $settings): array
-    {
-        foreach (array_keys(self::ADMIN_CONFIG_DEFAULTS) as $key) {
-            if (array_key_exists($key, $settings) === true) {
-                $this->appConfig->setValueString(Application::APP_ID, $key, (string) $settings[$key]);
-            }
-        }
+	/**
+	 * Check whether OpenRegister is installed and available.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-5
+	 */
+	public function isOpenRegisterAvailable(): bool {
+		return $this->appManager->isInstalled('openregister');
+	}//end isOpenRegisterAvailable()
 
-        return $this->getAdminSettings();
-    }//end setAdminSettings()
+	/**
+	 * Check whether the current user has Nextcloud admin privileges.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 */
+	public function isCurrentUserAdmin(): bool {
+		$user = $this->userSession->getUser();
+		return ($user !== null && $this->groupManager->isAdmin($user->getUID()));
+	}//end isCurrentUserAdmin()
 
-    /**
-     * Retrieve all current settings (admin + metadata).
-     *
-     * Returns a flat array containing all app config values plus metadata
-     * fields (openregisters, isAdmin) consumed by the frontend.
-     *
-     * @return array<string,mixed>
-     */
-    public function getSettings(): array
-    {
-        $settings = [];
-        foreach (self::CONFIG_KEYS as $key) {
-            $settings[$key] = $this->appConfig->getValueString(Application::APP_ID, $key, '');
-        }
+	/**
+	 * Check whether the current user is allowed to create a project.
+	 *
+	 * Enforces the `allow_project_creation` admin setting server-side.
+	 * 'all' (default) — any authenticated user may create a project.
+	 * 'admins' — only Nextcloud admins may create a project.
+	 *
+	 * This is the server-side enforcement for the client-side `canCreateProject`
+	 * computed property in ProjectList.vue (closes #H2).
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 */
+	public function canCurrentUserCreateProject(): bool {
+		$policy = $this->appConfig->getValueString(
+			Application::APP_ID,
+			'allow_project_creation',
+			'all'
+		);
 
-        return array_merge(
-            $settings,
-            $this->getAdminSettings(),
-            [
-                'openregisters' => $this->isOpenRegisterAvailable(),
-                'isAdmin'       => $this->isCurrentUserAdmin(),
-            ]
-        );
-    }//end getSettings()
+		if ($policy === 'admins') {
+			return $this->isCurrentUserAdmin();
+		}
 
-    /**
-     * Update settings with the provided data.
-     *
-     * @param array<string,mixed> $data The data to update
-     *
-     * @return array<string,mixed> The updated settings
-     */
-    public function updateSettings(array $data): array
-    {
-        foreach (self::CONFIG_KEYS as $key) {
-            if (isset($data[$key]) === true) {
-                $this->appConfig->setValueString(Application::APP_ID, $key, (string) $data[$key]);
-            }
-        }
+		// Default ('all'): any authenticated user may create.
+		return $this->userSession->getUser() !== null;
+	}//end canCurrentUserCreateProject()
 
-        $this->setAdminSettings(settings: $data);
+	/**
+	 * Retrieve all admin settings with defaults applied.
+	 *
+	 * Reads each key in ADMIN_CONFIG_DEFAULTS from IAppConfig, falling back to
+	 * the defined default when no value has been stored yet.
+	 *
+	 * @return array<string,string>
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 */
+	public function getAdminSettings(): array {
+		$settings = [];
+		foreach (self::ADMIN_CONFIG_DEFAULTS as $key => $default) {
+			$settings[$key] = $this->appConfig->getValueString(Application::APP_ID, $key, $default);
+		}
 
-        return $this->getSettings();
-    }//end updateSettings()
+		return $settings;
+	}//end getAdminSettings()
 
-    /**
-     * Load configuration from planix_register.json via OpenRegister.
-     *
-     * @param bool $force Force re-import even if already configured.
-     *
-     * @return array<string,mixed> Result with success flag, message, and version.
-     */
-    public function loadConfiguration(bool $force=false): array
-    {
-        if ($this->isOpenRegisterAvailable() === false) {
-            $this->logger->warning('Planix: OpenRegister not available, skipping register initialization');
-            return [
-                'success' => false,
-                'message' => 'OpenRegister is not installed or enabled.',
-            ];
-        }
+	/**
+	 * Validate the default_columns value before persisting.
+	 *
+	 * Must be a non-empty JSON array of non-empty strings. Returns a normalised
+	 * JSON string on success or null when validation fails (caller should reject).
+	 *
+	 * @param string $raw Raw value submitted by the client
+	 *
+	 * @return string|null Normalised JSON string, or null on validation failure
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 */
+	public function validateDefaultColumns(string $raw): ?string {
+		$decoded = json_decode($raw, true);
+		if (json_last_error() !== JSON_ERROR_NONE) {
+			return null;
+		}
 
-        try {
-            $configPath = __DIR__.'/../Settings/planix_register.json';
-            if (file_exists($configPath) === false) {
-                $this->logger->error('Planix: planix_register.json not found at '.$configPath);
-                return [
-                    'success' => false,
-                    'message' => 'Configuration file planix_register.json not found.',
-                ];
-            }
+		if (is_array($decoded) === false || count($decoded) === 0) {
+			return null;
+		}
 
-            $configContent = file_get_contents($configPath);
-            if ($configContent === false) {
-                $this->logger->error('Planix: failed to read planix_register.json');
-                return [
-                    'success' => false,
-                    'message' => 'Failed to read configuration file.',
-                ];
-            }
+		$normalised = [];
+		foreach ($decoded as $item) {
+			if (is_string($item) === false || trim($item) === '') {
+				return null;
+			}
 
-            $configData = json_decode($configContent, true);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                $this->logger->error('Planix: failed to parse planix_register.json: '.json_last_error_msg());
-                return [
-                    'success' => false,
-                    'message' => 'Failed to parse configuration file: '.json_last_error_msg(),
-                ];
-            }
+			$normalised[] = trim($item);
+		}
 
-            $configVersion = ($configData['info']['version'] ?? '0.0.0');
+		return json_encode($normalised);
+	}//end validateDefaultColumns()
 
-            $configurationService = $this->container->get('OCA\OpenRegister\Service\ConfigurationService');
-            $result = $configurationService->importFromApp(appId: Application::APP_ID, data: $configData, version: $configVersion, force: $force);
+	/**
+	 * Store admin settings. Unknown keys are silently ignored.
+	 * Validates default_columns JSON shape before persisting; rejects malformed values.
+	 *
+	 * Internal use only — callers outside this class must go through updateSettings(),
+	 * which enforces the admin authorization check at the controller layer.
+	 *
+	 * @param array<string,mixed> $settings Settings to persist
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 */
+	private function setAdminSettings(array $settings): void {
+		foreach (array_keys(self::ADMIN_CONFIG_DEFAULTS) as $key) {
+			if (array_key_exists($key, $settings) === false) {
+				continue;
+			}
 
-            if (empty($result) === false) {
-                $this->logger->info('Planix: register configuration imported successfully');
-                $this->ensureRegisterPublicAccess();
-                return [
-                    'success' => true,
-                    'message' => 'Configuration imported successfully.',
-                    'version' => ($result['version'] ?? 'unknown'),
-                ];
-            }
+			$value = (string)$settings[$key];
 
-            // ImportFromApp may return empty even when the register already existed
-            // and was updated. Apply the public-access patch unconditionally.
-            $this->ensureRegisterPublicAccess();
+			if ($key === 'default_columns') {
+				$validated = $this->validateDefaultColumns(raw: $value);
+				if ($validated === null) {
+					$this->logger->warning(
+						'Planninq: invalid default_columns value rejected',
+						['raw' => $value]
+					);
+					continue;
+				}
 
-            return [
-                'success' => false,
-                'message' => 'Import returned an empty result.',
-            ];
-        } catch (\Throwable $e) {
-            $this->logger->error(
-                'Planix: configuration import failed',
-                ['exception' => $e->getMessage()]
-            );
-            return [
-                'success' => false,
-                'message' => $e->getMessage(),
-            ];
-        }//end try
+				$value = $validated;
+			}
 
-    }//end loadConfiguration()
+			if ($key === 'due_reminder_lead_hours') {
+				$validated = $this->validateLeadHours(raw: $value);
+				if ($validated === null) {
+					$this->logger->warning(
+						'Planninq: invalid due_reminder_lead_hours value rejected',
+						['raw' => $value]
+					);
+					continue;
+				}
 
-    /**
-     * Directly update the planix register's public access flags in the DB.
-     *
-     * Called after importFromApp to ensure publicWrite/publicRead are set to 0
-     * (private) even if OpenRegister's ConfigurationService did not update an
-     * existing record. Keeps the register accessible only to authenticated
-     * Nextcloud users; never grants anonymous access.
-     * Fails silently — any exception is logged as a warning only.
-     *
-     * @return void
-     */
-    private function ensureRegisterPublicAccess(): void
-    {
-        try {
-            $db = $this->container->get(\OCP\IDBConnection::class);
-            $qb = $db->getQueryBuilder();
-            $qb->update('openregister_registers')
-                ->set('public_write', $qb->createNamedParameter(0, \OCP\DB\QueryBuilder\IQueryBuilder::PARAM_INT))
-                ->set('public_read', $qb->createNamedParameter(0, \OCP\DB\QueryBuilder\IQueryBuilder::PARAM_INT))
-                ->where($qb->expr()->eq('slug', $qb->createNamedParameter('planix')));
-            $qb->executeStatement();
-            $this->logger->info('Planix: register publicWrite/publicRead set to private (0) in DB');
-        } catch (\Throwable $e) {
-            $this->logger->warning(
-                'Planix: could not directly update register public access in DB',
-                ['error' => $e->getMessage()]
-            );
-        }//end try
+				$this->appConfig->setValueString(Application::APP_ID, $key, (string)$validated);
+				// Reflect the new lead window on the live task schema rule.
+				$this->dueReminderWindow->patch(hours: $validated);
+				continue;
+			}
 
-    }//end ensureRegisterPublicAccess()
+			$this->appConfig->setValueString(Application::APP_ID, $key, $value);
+		}//end foreach
+
+	}//end setAdminSettings()
+
+	/**
+	 * Validate the due_reminder_lead_hours value before persisting.
+	 *
+	 * Must be a numeric integer string within the accepted range
+	 * (LEAD_HOURS_MIN..LEAD_HOURS_MAX). Returns the validated integer on
+	 * success or null when validation fails (caller should reject).
+	 *
+	 * @param string $raw Raw value submitted by the client
+	 *
+	 * @return int|null Validated lead hours, or null on validation failure
+	 *
+	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#3
+	 */
+	public function validateLeadHours(string $raw): ?int {
+		$trimmed = trim($raw);
+		if ($trimmed === '' || preg_match('/^\d+$/', $trimmed) !== 1) {
+			return null;
+		}
+
+		$hours = (int)$trimmed;
+		if ($hours < self::LEAD_HOURS_MIN || $hours > self::LEAD_HOURS_MAX) {
+			return null;
+		}
+
+		return $hours;
+	}//end validateLeadHours()
+
+	/**
+	 * Resolve the effective due-reminder lead time in hours.
+	 *
+	 * @return int The configured lead time, or the default (24) when unset.
+	 *
+	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#3
+	 */
+	public function getDueReminderLeadHours(): int {
+		$stored = $this->appConfig->getValueString(
+			Application::APP_ID,
+			'due_reminder_lead_hours',
+			self::ADMIN_CONFIG_DEFAULTS['due_reminder_lead_hours']
+		);
+
+		$validated = $this->validateLeadHours(raw: $stored);
+		if ($validated === null) {
+			return (int)self::ADMIN_CONFIG_DEFAULTS['due_reminder_lead_hours'];
+		}
+
+		return $validated;
+	}//end getDueReminderLeadHours()
+
+	/**
+	 * Retrieve all current settings (admin + metadata).
+	 *
+	 * Returns a flat array containing all app config values plus metadata
+	 * fields (openregisters, isAdmin) consumed by the frontend.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 */
+	public function getSettings(): array {
+		$settings = [];
+		foreach (self::CONFIG_KEYS as $key) {
+			$settings[$key] = $this->appConfig->getValueString(Application::APP_ID, $key, '');
+		}
+
+		$user = $this->userSession->getUser();
+		$userSettings = [];
+		if ($user !== null) {
+			$userSettings['notify_due_reminder'] = $this->isNotifyDueReminderEnabled(userId: $user->getUID());
+		}
+
+		return array_merge(
+			$settings,
+			$this->getAdminSettings(),
+			$userSettings,
+			[
+				'openregisters' => $this->isOpenRegisterAvailable(),
+				'isAdmin' => $this->isCurrentUserAdmin(),
+			]
+		);
+	}//end getSettings()
+
+	/**
+	 * Update the current user's personal settings (notification toggles).
+	 *
+	 * Distinct from updateSettings() (admin-only IAppConfig). This path is
+	 * available to any authenticated user for their own per-user preferences.
+	 *
+	 * @param string $userId The user UID.
+	 * @param array<string,mixed> $data The data to update.
+	 *
+	 * @return array<string,mixed> The updated settings.
+	 *
+	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+	 */
+	public function updateUserSettings(string $userId, array $data): array {
+		if (array_key_exists('notify_due_reminder', $data) === true) {
+			$enabled = filter_var($data['notify_due_reminder'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+			$this->setNotifyDueReminder(userId: $userId, enabled: ($enabled !== false));
+		}
+
+		return $this->getSettings();
+	}//end updateUserSettings()
+
+	/**
+	 * Update settings with the provided data.
+	 *
+	 * @param array<string,mixed> $data The data to update
+	 *
+	 * @return array<string,mixed> The updated settings
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 */
+	public function updateSettings(array $data): array {
+		foreach (self::CONFIG_KEYS as $key) {
+			if (isset($data[$key]) === true) {
+				$this->appConfig->setValueString(Application::APP_ID, $key, (string)$data[$key]);
+			}
+		}
+
+		$this->setAdminSettings(settings: $data);
+
+		return $this->getSettings();
+	}//end updateSettings()
+
+	/**
+	 * Read the current user's notify_due_reminder preference.
+	 *
+	 * Backed by OCP\IConfig per-user value; defaults to enabled.
+	 *
+	 * @param string $userId The user UID.
+	 *
+	 * @return bool True when the user wants due-date reminders (default), false when opted out.
+	 *
+	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+	 */
+	public function isNotifyDueReminderEnabled(string $userId): bool {
+		$value = $this->config->getUserValue($userId, Application::APP_ID, 'notify_due_reminder', 'true');
+		return ($value !== 'false');
+	}//end isNotifyDueReminderEnabled()
+
+	/**
+	 * Persist a user's notify_due_reminder preference and write it through to
+	 * the OpenRegister notification engine's override-only per-(schema, rule)
+	 * user preference for (task, taskDueSoon).
+	 *
+	 * Toggling OFF stores `false` AND writes the OR override `{"enabled": false}`.
+	 * Toggling ON stores `true` AND clears the OR override (null) so the user
+	 * falls through to the schema default rather than pinning a stale value.
+	 *
+	 * The OR override write is best-effort: when OpenRegister is unavailable the
+	 * IConfig value is still stored, the failure is logged, and the override is
+	 * skipped (reconciled later by the repair step / next toggle).
+	 *
+	 * @param string $userId The user UID.
+	 * @param bool $enabled Whether due-date reminders are enabled for this user.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+	 */
+	public function setNotifyDueReminder(string $userId, bool $enabled): void {
+		$storedValue = 'false';
+		if ($enabled === true) {
+			$storedValue = 'true';
+		}
+
+		$this->config->setUserValue(
+			$userId,
+			Application::APP_ID,
+			'notify_due_reminder',
+			$storedValue
+		);
+
+		// ON clears the override (null → schema default); OFF writes {"enabled": false}.
+		$override = ['enabled' => false];
+		if ($enabled === true) {
+			$override = null;
+		}
+
+		$this->writeDueReminderOverride(userId: $userId, override: $override);
+
+	}//end setNotifyDueReminder()
+
+	/**
+	 * Resolve the OpenRegister NotificationPreferenceService from the container,
+	 * or null when OpenRegister is unavailable / the class cannot be resolved.
+	 *
+	 * @return object|null The OR preference service, or null.
+	 *
+	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+	 */
+	public function getNotificationPreferenceService(): ?object {
+		if ($this->isOpenRegisterAvailable() === false) {
+			return null;
+		}
+
+		try {
+			return $this->container->get('OCA\OpenRegister\Service\Notification\NotificationPreferenceService');
+		} catch (\Throwable $e) {
+			$this->logger->info('Planninq: NotificationPreferenceService unavailable', ['exception' => $e->getMessage()]);
+			return null;
+		}
+
+	}//end getNotificationPreferenceService()
+
+	/**
+	 * Write (or clear) the OpenRegister per-user notification override for
+	 * (task, taskDueSoon). Guarded gracefully when OpenRegister is unavailable.
+	 *
+	 * @param string $userId The user UID.
+	 * @param array<string, mixed>|null $override Override body, or null to clear.
+	 *
+	 * @return bool True when the override was written/cleared, false when skipped.
+	 *
+	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+	 */
+	public function writeDueReminderOverride(string $userId, ?array $override): bool {
+		$preferenceService = $this->getNotificationPreferenceService();
+		if ($preferenceService === null) {
+			$this->logger->info(
+				'Planninq: OpenRegister unavailable, notify_due_reminder override skipped',
+				['user' => $userId]
+			);
+			return false;
+		}
+
+		try {
+			$preferenceService->setOverride(
+				userId: $userId,
+				schemaSlug: self::TASK_SCHEMA_SLUG,
+				notificationKey: self::DUE_REMINDER_RULE_KEY,
+				override: $override
+			);
+			return true;
+		} catch (\Throwable $e) {
+			$this->logger->warning(
+				'Planninq: failed to write notify_due_reminder OR override',
+				['user' => $userId, 'exception' => $e->getMessage()]
+			);
+			return false;
+		}//end try
+
+	}//end writeDueReminderOverride()
 }//end class
