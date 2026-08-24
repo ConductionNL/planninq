@@ -34,4 +34,4 @@ Fresh installs include demo data:
 
 ## Specs
 
-- [register-schemas spec](https://codeberg.org/Conduction/planninq/src/branch/development/openspec/specs/register-schemas/spec.md)
+- [register-schemas spec](https://github.com/ConductionNL/planninq/blob/development/openspec/specs/register-schemas/spec.md)

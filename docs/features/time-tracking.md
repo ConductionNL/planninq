@@ -44,4 +44,4 @@ Time tracking in Planninq operates at the task level. Each task carries an optio
 
 ## Spec
 
-- [time-tracking spec](https://codeberg.org/Conduction/planninq/src/branch/development/openspec/specs/time-tracking.md)
+- [time-tracking spec](https://github.com/ConductionNL/planninq/blob/development/openspec/specs/time-tracking.md)
