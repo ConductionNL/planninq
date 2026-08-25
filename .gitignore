@@ -117,3 +117,10 @@ composer.phar
 # developer's machine fails CI on font/rasterisation differences alone. Capture
 # them locally with PLANIX_VISUAL_BASELINE=1 --update-snapshots; do not commit.
 tests/e2e/**/*-snapshots/
+
+# Agent/test scratch and tool caches — generated, never source.
+# Added by the 2026-08-25 fleet hygiene sweep (ADR-100 Decision 2).
+.stale/
+/.e2e-state/
+test-results/
+playwright-report/
