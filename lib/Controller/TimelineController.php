@@ -131,6 +131,27 @@ class TimelineController extends Controller {
 			return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
 		}
 
+		// Drop anything an earlier caller left on the SHARED ObjectService.
+		//
+		// Without this the endpoint answers 500 with a schema name it never
+		// asked for:
+		//
+		//   Schema slug "application" is not carried by register "planix" (id 19)
+		//
+		// `setRegister()` re-resolves whatever `currentSchemaRef` is pending
+		// inside the register it is given, and that ref belongs to whichever
+		// caller ran before us in this request — here, a leaked "application".
+		// The timeline then rendered "Could not load the timeline" while the
+		// server blamed a schema no part of planninq references.
+		//
+		// This is openregister#2820's leak reaching a LEAF app: fixing it in
+		// OpenRegister's own controllers (#2858/#2860) does not protect an app
+		// that holds the service itself. Reported upstream; this line is the
+		// local guard, and it is one call in front of every read below.
+		if (method_exists($objectService, 'clearCurrents') === true) {
+			$objectService->clearCurrents();
+		}
+
 		// RBAC gate: read the project through ObjectService with RBAC on. A
 		// caller who cannot see the project gets null here → 403 with no tasks,
 		// satisfying "a caller MUST NOT see tasks of a project they cannot access".

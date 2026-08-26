@@ -136,6 +136,50 @@ async function dismissFirstRunWizard(baseURL: string, username: string, password
 	}
 }
 
+/**
+ * Set the acting user's language to English for the duration of the run.
+ *
+ * Uses the OCS provisioning API rather than `occ`, because the e2e runs against
+ * a URL and may not share a filesystem with the instance.
+ *
+ * A failure here is logged, not thrown: it makes English-string assertions
+ * unreliable, but it is not itself the thing under test, and a suite that
+ * refuses to start because a preference could not be set is worse than one that
+ * runs and reports honestly.
+ *
+ * @param baseURL  the instance under test
+ * @param username admin user
+ * @param password admin password
+ * @return void
+ */
+async function pinUserLanguageToEnglish(
+	baseURL: string,
+	username: string,
+	password: string,
+): Promise<void> {
+	const ctx = await request.newContext({
+		baseURL,
+		httpCredentials: { username, password, send: 'always' },
+		extraHTTPHeaders: { 'OCS-APIRequest': 'true', Accept: 'application/json' },
+	})
+	try {
+		const res = await ctx.put(
+			`/ocs/v2.php/cloud/users/${encodeURIComponent(username)}`,
+			{ form: { key: 'language', value: 'en' }, failOnStatusCode: false },
+		)
+		if (!res.ok()) {
+			// eslint-disable-next-line no-console
+			console.log(`[setup] could not pin language to en (status ${res.status()}) — `
+				+ 'specs asserting English strings may fail on a non-English instance')
+		}
+	} catch (err) {
+		// eslint-disable-next-line no-console
+		console.log(`[setup] could not pin language to en: ${(err as Error).message}`)
+	} finally {
+		await ctx.dispose()
+	}
+}
+
 export default async function globalSetup(config: FullConfig): Promise<void> {
 	// One resolver for the whole suite — see tests/e2e/base-url.ts. The old
 	// chain re-derived the target here and ended in a silent
@@ -176,6 +220,27 @@ export default async function globalSetup(config: FullConfig): Promise<void> {
 			`Check NC_ADMIN_USER / NC_ADMIN_PASS (defaults admin/admin).`,
 		)
 	}
+
+	// Pin the acting user's language to English BEFORE anything asserts on a
+	// visible string.
+	//
+	// Almost every spec selects on English text — `a[title="Projects"]`,
+	// `getByRole('button', { name: /Create label/i })`, `getByText(/Label
+	// management/i)`. On a fresh CI container the admin defaults to English and
+	// they all match, so CI is green and stays green. On this development
+	// instance `admin` has `core lang = nl`, the navigation renders "Projecten"
+	// / "Instellingen" / "Documentatie", and 24 of 37 specs failed on a
+	// selector that could never match — every one of them reported as a click
+	// timeout, which reads like a broken app.
+	//
+	// The suite was therefore ENVIRONMENT-DEPENDENT in a way CI structurally
+	// cannot catch: the one place it runs is the one place it passes. Pinning
+	// the language here makes a local run and a CI run assert the same strings.
+	//
+	// Not a substitute for locale-independent selectors — an href or a
+	// data-testid would be better and is worth doing — but this fixes every
+	// affected spec at once instead of chasing them one string at a time.
+	await pinUserLanguageToEnglish(baseURL, username, password)
 
 	// Seed the fixture project/columns/tasks/label the board, collaboration,
 	// label and reminder specs assert against — so their tightened
