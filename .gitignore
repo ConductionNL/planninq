@@ -117,3 +117,17 @@ composer.phar
 # developer's machine fails CI on font/rasterisation differences alone. Capture
 # them locally with PLANIX_VISUAL_BASELINE=1 --update-snapshots; do not commit.
 tests/e2e/**/*-snapshots/
+
+# Agent/test scratch and tool caches — generated, never source.
+# Added by the 2026-08-25 fleet hygiene sweep (ADR-100 Decision 2).
+.stale/
+/.e2e-state/
+playwright-report/
+
+# Playwright's output dir, per playwright.config.ts (outputDir +
+# the junit reporter). Scoped rather than a bare `test-results/`:
+# the ROOT test-results/ holds hand-written UX, security, API and
+# accessibility reports from April 2026 — authored documents that
+# happen to share the name. A blanket rule would have quietly
+# swept twelve of them out of view.
+tests/e2e/test-results/
