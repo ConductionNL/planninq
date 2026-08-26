@@ -145,6 +145,57 @@ class TimelineControllerTest extends TestCase {
 	 *
 	 * @return void
 	 */
+	/**
+	 * Leaked resolution context is cleared BEFORE the register is named.
+	 *
+	 * `ObjectService` is shared within a request. `setRegister()` re-resolves
+	 * whatever `currentSchemaRef` is still pending, and that ref belongs to
+	 * whichever caller ran before this one — so naming the register first makes
+	 * the endpoint fail on a schema this app never mentions:
+	 *
+	 *   Schema slug "application" is not carried by register "planix" (id 19)
+	 *
+	 * That was a real 500 on the live instance, and the UI showed "Could not
+	 * load the timeline" while the server blamed a schema no part of planninq
+	 * references. openregister#2820's leak reaching a leaf app.
+	 *
+	 * The ORDER is the whole assertion. Clearing after `setRegister()` would
+	 * satisfy a "does it call clearCurrents" check and fix nothing.
+	 *
+	 * @return void
+	 */
+	public function testLeakedResolutionContextIsClearedBeforeNamingTheRegister(): void {
+		$this->setUser('alice');
+		$objectService = $this->makeObjectService(
+			projectsById: ['p1' => ['members' => ['alice']]],
+			projectTasks: [],
+			edges: []
+		);
+		$this->container->method('get')->willReturn($objectService);
+
+		$this->controller()->forProject(projectId: 'p1');
+
+		self::assertContains(
+			'clearCurrents',
+			$objectService->calls,
+			'the shared ObjectService was never cleared — a schema ref left by an '
+			. 'earlier caller will be re-resolved inside this register'
+		);
+		self::assertSame(
+			'clearCurrents',
+			$objectService->calls[0] ?? null,
+			'clearCurrents() must come FIRST; clearing after setRegister() is too late'
+		);
+		self::assertLessThan(
+			array_search('setRegister', $objectService->calls, true),
+			array_search('clearCurrents', $objectService->calls, true),
+			'clearCurrents() must precede setRegister()'
+		);
+	}//end testLeakedResolutionContextIsClearedBeforeNamingTheRegister()
+
+	/**
+	 * @return void
+	 */
 	public function testInaccessibleProjectReturns403(): void {
 		$this->setUser('mallory');
 		// project find → null (RBAC denied); tasks never fetched.
@@ -300,6 +351,18 @@ class TimelineControllerTest extends TestCase {
 			private string $schema = '';
 
 			/**
+			 * Ordered record of the resolution calls the controller made.
+			 *
+			 * The ORDER is the assertion: `clearCurrents()` has to happen before
+			 * `setRegister()`, because `setRegister()` re-resolves whatever
+			 * schema ref is still pending from an earlier caller on this shared
+			 * service. Clearing afterwards would be useless.
+			 *
+			 * @var array<int,string>
+			 */
+			public array $calls = [];
+
+			/**
 			 * @param array<string,array<string,mixed>> $projectsById Project fixtures.
 			 * @param array<int,array<string,mixed>> $projectTasks Task fixtures.
 			 * @param array<int,array<string,mixed>> $edges Edge fixtures.
@@ -311,11 +374,21 @@ class TimelineControllerTest extends TestCase {
 			}
 
 			/**
+			 * Drop any register/schema left by a previous caller.
+			 *
+			 * @return void
+			 */
+			public function clearCurrents(): void {
+				$this->calls[] = 'clearCurrents';
+			}
+
+			/**
 			 * @param string $register Register slug (ignored).
 			 *
 			 * @return void
 			 */
 			public function setRegister(string $register): void {
+				$this->calls[] = 'setRegister';
 			}
 
 			/**
