@@ -77,6 +77,13 @@ export default {
 		}
 	},
 
+	/**
+	 * @spec exclude Teardown glue — cancels the pending debounce timer and
+	 *   aborts the in-flight request so neither can resolve against a
+	 *   destroyed component. Both paths it tears down are the ones onInput
+	 *   and searchUsers set up, and those are covered by task-10; this hook
+	 *   adds no behaviour of its own for a scenario to describe.
+	 */
 	beforeUnmount() {
 		clearTimeout(this.debounceTimer)
 		this.abortController?.abort()
