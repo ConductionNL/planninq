@@ -6,7 +6,7 @@ description: Set a task estimate, log time across multiple sessions, and review 
 
 # Log time on a task
 
-Planix tracks time at the task level. Each task carries an optional **estimate** (how long it should take). Actual time is **logged** as one or more time entries — typed in by hand at the end of a session, or whenever you remember. The **Timesheet** view rolls up all your time entries by date so you can see where the week went.
+Planninq tracks time at the task level. Each task carries an optional **estimate** (how long it should take). Actual time is **logged** as one or more time entries — typed in by hand at the end of a session, or whenever you remember. The **Timesheet** view rolls up all your time entries by date so you can see where the week went.
 
 ## Goal
 
@@ -14,12 +14,12 @@ By the end you will have set an estimate on a task, logged at least one time ent
 
 ## Prerequisites
 
-- A task in Planix you have access to — yours, or one you can edit (see [Add and manage tasks](04-manage-tasks.md)).
-- Planix open and the OpenRegister back end connected.
+- A task in Planninq you have access to — yours, or one you can edit (see [Add and manage tasks](04-manage-tasks.md)).
+- Planninq open and the OpenRegister back end connected.
 
 ## Steps
 
-1. Open the task detail. Find the **Estimate** field on the *Time tracking* panel. Type an estimate — Planix accepts `2h 30m`, `150m`, `1.5h`, `90` (interpreted as minutes), `2h`. It stores the value as an integer minute count and renders it back in human form (`1h 30m`).
+1. Open the task detail. Find the **Estimate** field on the *Time tracking* panel. Type an estimate — Planninq accepts `2h 30m`, `150m`, `1.5h`, `90` (interpreted as minutes), `2h`. It stores the value as an integer minute count and renders it back in human form (`1h 30m`).
 
    ![Setting an estimate on a task](/screenshots/tutorials/user/06-log-time-01.png)
 
@@ -35,7 +35,7 @@ By the end you will have set an estimate on a task, logged at least one time ent
 
    ![Time entries on a task — over-run case](/screenshots/tutorials/user/06-log-time-04.png)
 
-5. Open **Timesheet** from the Planix navigation. Your time entries roll up by date — newest first — with daily totals, weekly totals, and a date-range filter (*This week*, *Last week*, or a custom range). Each row links back to the task; the **back** button on the task returns to the timesheet at the same scroll position and same filter.
+5. Open **Timesheet** from the Planninq navigation. Your time entries roll up by date — newest first — with daily totals, weekly totals, and a date-range filter (*This week*, *Last week*, or a custom range). Each row links back to the task; the **back** button on the task returns to the timesheet at the same scroll position and same filter.
 
    ![Timesheet view, weekly roll-up](/screenshots/tutorials/user/06-log-time-05.png)
 

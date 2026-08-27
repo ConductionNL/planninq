@@ -11,18 +11,75 @@
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  */
 import { defineStore } from 'pinia'
-import { useObjectStore, buildHeaders } from '@conduction/nextcloud-vue'
+import { buildHeaders } from '@conduction/nextcloud-vue'
+import { useObjectStore } from './objectStore.js'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showWarning } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 
-const REGISTER = 'planix'
+// The OpenRegister register SLUG, not the app id. It moved from `planix` to
+// `planninq` together with the MigrateRegisterSlug repair step, which renames
+// the register ROW: OR resolves a register by slug and by nothing else, so the
+// literal and the row move in the same release or neither resolves.
+const REGISTER = 'planninq'
 const PROJECT_SCHEMA = 'project'
 const COLUMN_SCHEMA = 'column'
 const TASK_SCHEMA = 'task'
 const TIME_ENTRY_SCHEMA = 'timeEntry'
+
+/**
+ * Largest page OpenRegister will return. Asking for more is silently capped.
+ *
+ * The underscore prefix is required: OpenRegister reads an unprefixed `limit`
+ * as a property filter, which matches nothing and returns an empty collection.
+ */
+const MAX_PAGE = 1000
+
+/**
+ * Read an ENTIRE collection, following pages until it is exhausted.
+ *
+ * OpenRegister pages at 20 by default and caps a page at 1000, and this store
+ * reads whole collections for three purposes that are all wrong when truncated:
+ * rendering a board, COUNTING, and cascade-DELETING. A 21-task project rendered
+ * 20 tasks and reported "20" as its total; worse, deleting it removed one page
+ * of tasks and left the rest as orphans, while every call reported success.
+ *
+ * Raising the page size alone does not fix it — the largest project on our own
+ * instance holds 2,015 tasks, so a single `_limit=1000` read still silently
+ * dropped half of it. Only following `_page` to exhaustion is correct.
+ *
+ * @param {object} objectStore the shared OpenRegister object store
+ * @param {string} schema      schema slug to read
+ * @param {object} filters     property filters (no control params)
+ * @return {Promise<Array>} every row in the collection
+ */
+async function fetchEvery(objectStore, schema, filters = {}) {
+	const out = []
+	const seen = new Set()
+	for (let page = 1; ; page++) {
+		const batch = await objectStore.fetchCollection(schema, { ...filters, _limit: MAX_PAGE, _page: page })
+		const rows = Array.isArray(batch) ? batch : []
+
+		// Keep only rows we have not already collected. This is also the
+		// termination guard: a server that ignored `_page` would hand back the
+		// same full batch forever, and a `rows.length < MAX_PAGE` check alone
+		// would loop until the tab died. Zero NEW rows means there is no more
+		// collection to read, whatever the server thinks it is doing.
+		let added = 0
+		for (const row of rows) {
+			const id = row?.id ?? row?.uuid ?? row?.['@self']?.id
+			if (id !== undefined && seen.has(id)) continue
+			if (id !== undefined) seen.add(id)
+			out.push(row)
+			added++
+		}
+
+		if (added === 0 || rows.length < MAX_PAGE) break
+	}
+	return out
+}
 
 /**
  * Default columns created for every new project.
@@ -31,7 +88,7 @@ const TIME_ENTRY_SCHEMA = 'timeEntry'
  */
 function getDefaultColumns() {
 	try {
-		const state = loadState('planix', 'default_columns', null)
+		const state = loadState('planninq', 'default_columns', null)
 		if (Array.isArray(state) && state.length > 0) return state
 	} catch {
 		// fall through to hardcoded defaults
@@ -57,22 +114,26 @@ export const useProjectsStore = defineStore('projects', {
 		// ── Internal helpers ──────────────────────────────────────────────
 
 		/**
-		 * @spec exclude Internal helper — lazily registers Planix schemas on the shared object store and returns it.
+		 * @spec exclude Internal helper — lazily registers Planninq schemas on the shared object store and returns it.
 		 */
 		_objectStore() {
 			const store = useObjectStore()
-			// Register types if not yet registered.
+			// Register types if not yet registered. The schema constants ARE the
+			// canonical OR slugs (lib/Settings/planninq_register.json), so they are
+			// passed as slug hints too — liveUpdatesPlugin then derives the
+			// or-collection-{registerSlug}-{schemaSlug} event key without a lazy
+			// register/schema fetch on first subscribe().
 			if (!store.objectTypeRegistry?.[PROJECT_SCHEMA]) {
-				store.registerObjectType(PROJECT_SCHEMA, PROJECT_SCHEMA, REGISTER)
+				store.registerObjectType(PROJECT_SCHEMA, PROJECT_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: PROJECT_SCHEMA })
 			}
 			if (!store.objectTypeRegistry?.[COLUMN_SCHEMA]) {
-				store.registerObjectType(COLUMN_SCHEMA, COLUMN_SCHEMA, REGISTER)
+				store.registerObjectType(COLUMN_SCHEMA, COLUMN_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: COLUMN_SCHEMA })
 			}
 			if (!store.objectTypeRegistry?.[TASK_SCHEMA]) {
-				store.registerObjectType(TASK_SCHEMA, TASK_SCHEMA, REGISTER)
+				store.registerObjectType(TASK_SCHEMA, TASK_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: TASK_SCHEMA })
 			}
 			if (!store.objectTypeRegistry?.[TIME_ENTRY_SCHEMA]) {
-				store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER)
+				store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: TIME_ENTRY_SCHEMA })
 			}
 			return store
 		},
@@ -104,9 +165,19 @@ export const useProjectsStore = defineStore('projects', {
 				// Fetch all projects; client-side filter below keeps only member projects.
 				// Note: server-side `members[]` array filter uses PostgreSQL jsonb syntax
 				// which is incompatible with MariaDB — do not pass it as a query param.
-				const params = { ...filters }
-
-				const results = await objectStore.fetchCollection(PROJECT_SCHEMA, params)
+				//
+				// `_limit` is what makes "fetch all" true. OpenRegister pages at 20 by
+				// default, and filtering for membership CLIENT-SIDE over a SERVER-PAGED
+				// result is only correct when the page holds everything: on an instance
+				// with 31 projects the user's own board simply stopped appearing in the
+				// list, with no error and no empty state — it was on page two, and page
+				// two was never requested. The bug scales with the instance, so it shows
+				// up first for whoever has the most data.
+				//
+				// The underscore is not cosmetic: OpenRegister treats an unprefixed
+				// `limit` as a PROPERTY filter, which matches nothing and returns an
+				// empty collection — the same silent disappearance, one layer down.
+				const results = await fetchEvery(objectStore, PROJECT_SCHEMA, filters)
 
 				// Client-side guard: ensure only member projects are shown.
 				this.projects = uid
@@ -123,6 +194,26 @@ export const useProjectsStore = defineStore('projects', {
 			} finally {
 				this.loading = false
 			}
+		},
+
+		/**
+		 * Apply a live-refetched project collection to store state, re-applying
+		 * the same member filter `fetchProjects` uses. Called by the ProjectList
+		 * live-update bridge when liveUpdatesPlugin refreshes the 'project'
+		 * collection after an or-collection event.
+		 *
+		 * @param {Array} results Fresh collection results from the object store
+		 * @return {Array} The filtered project list now in state
+		 *
+		 * @spec openspec/specs/realtime-updates.md
+		 */
+		applyLiveProjects(results) {
+			const uid = this._currentUid()
+			const list = Array.isArray(results) ? results : []
+			this.projects = uid
+				? list.filter((p) => Array.isArray(p.members) && p.members.includes(uid))
+				: list
+			return this.projects
 		},
 
 		// ── 2.3 fetchProject ──────────────────────────────────────────────
@@ -172,7 +263,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * Used by the task detail view (TaskDetail.vue) to render the task and
 		 * mount the collaboration sidebar (comments / files / audit trail). Reads
 		 * directly from OpenRegister via the shared object store (ADR-022) — no
-		 * planix pass-through controller.
+		 * Planninq pass-through controller.
 		 *
 		 * @param {string} id Task UUID
 		 * @return {Promise<object|null>} The task, or null on error / not found.
@@ -207,7 +298,7 @@ export const useProjectsStore = defineStore('projects', {
 		// ── 2.4 createProject ─────────────────────────────────────────────
 
 		/**
-		 * Create a new project via the Planix server-side proxy endpoint.
+		 * Create a new project via the Planninq server-side proxy endpoint.
 		 *
 		 * Posts to `/api/projects` (ProjectController::create) which enforces
 		 * the `allow_project_creation` policy server-side BEFORE writing to OR,
@@ -226,7 +317,7 @@ export const useProjectsStore = defineStore('projects', {
 			this.loading = true
 			this.error = null
 			try {
-				const url = generateUrl('/apps/planix/api/projects')
+				const url = generateUrl('/apps/planninq/api/projects')
 				const response = await fetch(url, {
 					method: 'POST',
 					headers: buildHeaders(),
@@ -315,12 +406,14 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} id Project ID
 		 * @param {object} partial Only the fields to change
 		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/specs/projects.md
 		 */
 		async patchProject(id, partial) {
 			this.loading = true
 			this.error = null
 			try {
-				const url = generateUrl(`/apps/openregister/api/objects/planix/project/${id}`)
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/project/${id}`)
 				const response = await fetch(url, {
 					method: 'PATCH',
 					headers: buildHeaders(),
@@ -381,7 +474,7 @@ export const useProjectsStore = defineStore('projects', {
 
 			if (failedTitles.length > 0) {
 				showWarning(
-					t('planix', 'Some columns could not be created: {columns}', {
+					t('planninq', 'Some columns could not be created: {columns}', {
 						columns: failedTitles.join(', '),
 					}),
 				)
@@ -431,18 +524,18 @@ export const useProjectsStore = defineStore('projects', {
 				const objectStore = this._objectStore()
 
 				// 1. Fetch tasks for this project.
-				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, { project: id })
+				const tasks = await fetchEvery(objectStore, TASK_SCHEMA, { project: id })
 
 				// 2. Fetch and delete time entries for each task.
 				// NOTE: deletion is sequential and non-transactional. A mid-flight failure
 				// (network drop, server error) will leave orphaned objects. The error messages
 				// below prompt the user to retry, which will pick up where deletion failed.
 				for (const task of tasks) {
-					const entries = await objectStore.fetchCollection(TIME_ENTRY_SCHEMA, { task: task.id })
+					const entries = await fetchEvery(objectStore, TIME_ENTRY_SCHEMA, { task: task.id })
 					for (const entry of entries) {
 						const ok = await objectStore.deleteObject(TIME_ENTRY_SCHEMA, entry.id)
 						if (!ok) {
-							showError(t('planix', 'Failed to delete a time entry. Some data may remain — please retry deleting the project.'))
+							showError(t('planninq', 'Failed to delete a time entry. Some data may remain — please retry deleting the project.'))
 							return false
 						}
 					}
@@ -452,17 +545,17 @@ export const useProjectsStore = defineStore('projects', {
 				for (const task of tasks) {
 					const ok = await objectStore.deleteObject(TASK_SCHEMA, task.id)
 					if (!ok) {
-						showError(t('planix', 'Failed to delete a task. Some data may remain — please retry deleting the project.'))
+						showError(t('planninq', 'Failed to delete a task. Some data may remain — please retry deleting the project.'))
 						return false
 					}
 				}
 
 				// 4. Fetch and delete columns.
-				const columns = await objectStore.fetchCollection(COLUMN_SCHEMA, { project: id })
+				const columns = await fetchEvery(objectStore, COLUMN_SCHEMA, { project: id })
 				for (const col of columns) {
 					const ok = await objectStore.deleteObject(COLUMN_SCHEMA, col.id)
 					if (!ok) {
-						showError(t('planix', 'Failed to delete a column. Some data may remain — please retry deleting the project.'))
+						showError(t('planninq', 'Failed to delete a column. Some data may remain — please retry deleting the project.'))
 						return false
 					}
 				}
@@ -470,7 +563,7 @@ export const useProjectsStore = defineStore('projects', {
 				// 5. Delete the project itself.
 				const ok = await objectStore.deleteObject(PROJECT_SCHEMA, id)
 				if (!ok) {
-					showError(t('planix', 'Failed to delete project. Please retry.'))
+					showError(t('planninq', 'Failed to delete project. Please retry.'))
 					return false
 				}
 
@@ -482,7 +575,7 @@ export const useProjectsStore = defineStore('projects', {
 				return true
 			} catch (err) {
 				this.error = err.message || 'delete-error'
-				showError(t('planix', 'An error occurred during project deletion'))
+				showError(t('planninq', 'An error occurred during project deletion'))
 				return false
 			} finally {
 				this.loading = false
@@ -530,7 +623,7 @@ export const useProjectsStore = defineStore('projects', {
 		async getMemberTaskCount(projectId, userUid) {
 			try {
 				const objectStore = this._objectStore()
-				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, {
+				const tasks = await fetchEvery(objectStore, TASK_SCHEMA, {
 					project: projectId,
 					assignedTo: userUid,
 				})
@@ -582,7 +675,7 @@ export const useProjectsStore = defineStore('projects', {
 		// ── 2.12 leaveProject ────────────────────────────────────────────
 
 		/**
-		 * Current user leaves a project via the Planix server-side proxy (C3 fix).
+		 * Current user leaves a project via the Planninq server-side proxy (C3 fix).
 		 *
 		 * Non-owner members cannot update a project through OR's normal write
 		 * path because OR RBAC requires `match: { owner: "$userId" }` for updates.
@@ -602,7 +695,7 @@ export const useProjectsStore = defineStore('projects', {
 			this.loading = true
 			this.error = null
 			try {
-				const url = generateUrl(`/apps/planix/api/projects/${projectId}/leave`)
+				const url = generateUrl(`/apps/planninq/api/projects/${projectId}/leave`)
 				const response = await fetch(url, {
 					method: 'POST',
 					headers: buildHeaders(),
@@ -642,7 +735,7 @@ export const useProjectsStore = defineStore('projects', {
 		async getTaskCount(projectId) {
 			try {
 				const objectStore = this._objectStore()
-				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, { project: projectId })
+				const tasks = await fetchEvery(objectStore, TASK_SCHEMA, { project: projectId })
 				return tasks.length
 			} catch {
 				return 0
@@ -655,7 +748,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * Fetch all tasks of a project for the kanban board.
 		 *
 		 * Reads directly from OpenRegister via the shared object store (ADR-022) —
-		 * there is no planix pass-through controller. OpenRegister scopes the read
+		 * there is no Planninq pass-through controller. OpenRegister scopes the read
 		 * to objects the current user may see, so the board only ever shows tasks
 		 * of a project the user is a member of (the board view additionally guards
 		 * non-member access via `accessDenied`).
@@ -668,7 +761,7 @@ export const useProjectsStore = defineStore('projects', {
 		async fetchTasks(projectId) {
 			try {
 				const objectStore = this._objectStore()
-				const tasks = await objectStore.fetchCollection(TASK_SCHEMA, { project: projectId })
+				const tasks = await fetchEvery(objectStore, TASK_SCHEMA, { project: projectId })
 				return Array.isArray(tasks) ? tasks : []
 			} catch (err) {
 				console.error('fetchTasks error:', err)
@@ -696,7 +789,7 @@ export const useProjectsStore = defineStore('projects', {
 		 */
 		async updateTaskStatus(taskId, status) {
 			try {
-				const url = generateUrl(`/apps/openregister/api/objects/planix/task/${taskId}`)
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/task/${taskId}`)
 				const response = await fetch(url, {
 					method: 'PATCH',
 					headers: buildHeaders(),
@@ -711,6 +804,42 @@ export const useProjectsStore = defineStore('projects', {
 			} catch (err) {
 				this.error = err.message || 'task-status-error'
 				console.error('updateTaskStatus error:', err)
+				return null
+			}
+		},
+
+		// ── 2.15 updateTask ────────────────────────────────────────────────
+
+		/**
+		 * Patch arbitrary task fields (e.g. `estimatedDuration`).
+		 *
+		 * Uses PATCH (not PUT) for the same reason as `updateTaskStatus`:
+		 * OpenRegister's PUT nulls every unsupplied schema property, wiping
+		 * required fields. OR enforces per-object RBAC on the write.
+		 *
+		 * @param {string} taskId Task UUID
+		 * @param {object} patch  Fields to change
+		 * @return {Promise<object|null>} The updated task, or null on failure
+		 *
+		 * @spec openspec/specs/time-tracking.md
+		 */
+		async updateTask(taskId, patch) {
+			try {
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/task/${taskId}`)
+				const response = await fetch(url, {
+					method: 'PATCH',
+					headers: buildHeaders(),
+					body: JSON.stringify(patch),
+				})
+				if (!response.ok) {
+					const errorData = await response.json().catch(() => ({}))
+					this.error = errorData?.message || 'task-update-error'
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				this.error = err.message || 'task-update-error'
+				console.error('updateTask error:', err)
 				return null
 			}
 		},

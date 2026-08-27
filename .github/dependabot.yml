@@ -2,6 +2,7 @@ version: 2
 updates:
   - package-ecosystem: "npm"
     directory: "/"
+    target-branch: "development"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
@@ -11,3 +12,24 @@ updates:
         - "*"
       exclude:
         - "@conduction/*"
+
+  # Composer has no native equivalent to npm's `min-release-age`, so the
+  # Composer side of the supply chain is hardened here instead (gate-93 /
+  # ADR-093). Without this block planninq had a cooldown on npm only, while
+  # every PHP dependency updated with no delay at all.
+  #
+  # Our own packages are excluded on purpose: a cooldown protects against a
+  # compromised upstream release, and delaying first-party releases only
+  # resolves them backwards.
+  - package-ecosystem: "composer"
+    directory: "/"
+    target-branch: "development"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    cooldown:
+      default-days: 2
+      include:
+        - "*"
+      exclude:
+        - "conduction/*"

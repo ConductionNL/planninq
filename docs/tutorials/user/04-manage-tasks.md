@@ -6,7 +6,7 @@ description: Create a task, set its priority and due date, assign it, apply labe
 
 # Add and manage tasks
 
-A task in Planix is a single piece of work — a bug, a feature ticket, a deploy step. It carries title, description, status, priority, assignee, due date, labels, and an optional time estimate. Tasks live on the kanban board (assigned to a column) or in the backlog (no column).
+A task in Planninq is a single piece of work — a bug, a feature ticket, a deploy step. It carries title, description, status, priority, assignee, due date, labels, and an optional time estimate. Tasks live on the kanban board (assigned to a column) or in the backlog (no column).
 
 ## Goal
 
@@ -14,7 +14,7 @@ By the end you will have created a task, set its priority and due date, assigned
 
 ## Prerequisites
 
-- A project in Planix you are a member of (see [Create your first project](02-create-project.md)).
+- A project in Planninq you are a member of (see [Create your first project](02-create-project.md)).
 - At least one **label** defined in the system if you want to apply one (admins manage labels — see [Manage labels](../admin/02-manage-labels.md)).
 - At least one **column** to place the task into. New projects ship with four; otherwise the task lands in the backlog until you give it a column.
 
@@ -49,7 +49,7 @@ The task shows in the column you added it to, with the priority dot, assignee av
 | Symptom | Fix |
 |---|---|
 | **+ Add task** missing | You're not a member of the project — ask a project owner to add you on the **Members** tab. |
-| Label picker is empty | No labels are defined on the instance yet — an admin adds them under **Settings → Administration → Planix → Labels** (see [Manage labels](../admin/02-manage-labels.md)). |
+| Label picker is empty | No labels are defined on the instance yet — an admin adds them under **Settings → Administration → Planninq → Labels** (see [Manage labels](../admin/02-manage-labels.md)). |
 | Assignee dropdown empty | The Nextcloud user search returns no matches; try a different query, or check the Nextcloud user directory. |
 | Due date in the past saves without a warning | Allowed — overdue tasks get the red border on the card and surface in **My Work → Overdue**. |
 | Task created but doesn't appear on the board | The task has no column — it's in the backlog. Open the **View Backlog** link from the board (see [Manage the backlog](05-manage-backlog.md)). |

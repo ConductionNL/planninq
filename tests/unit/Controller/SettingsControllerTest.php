@@ -4,7 +4,7 @@
  * Unit tests for SettingsController.
  *
  * @category Test
- * @package  OCA\Planix\Tests\Unit\Controller
+ * @package  OCA\Planninq\Tests\Unit\Controller
  *
  * @author    Conduction Development Team <dev@conductio.nl>
  * @copyright 2024 Conduction B.V.
@@ -17,10 +17,11 @@
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Tests\Unit\Controller;
+namespace OCA\Planninq\Tests\Unit\Controller;
 
-use OCA\Planix\Controller\SettingsController;
-use OCA\Planix\Service\SettingsService;
+use OCA\Planninq\Controller\SettingsController;
+use OCA\Planninq\Service\RegisterImportService;
+use OCA\Planninq\Service\SettingsService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
@@ -32,231 +33,287 @@ use PHPUnit\Framework\TestCase;
 /**
  * Tests for SettingsController.
  */
-class SettingsControllerTest extends TestCase
-{
+class SettingsControllerTest extends TestCase {
 
-    /**
-     * The controller under test.
-     *
-     * @var SettingsController
-     */
-    private SettingsController $controller;
+	/**
+	 * The controller under test.
+	 *
+	 * @var SettingsController
+	 */
+	private SettingsController $controller;
 
-    /**
-     * Mock IRequest.
-     *
-     * @var IRequest&MockObject
-     */
-    private IRequest&MockObject $request;
+	/**
+	 * Mock IRequest.
+	 *
+	 * @var IRequest&MockObject
+	 */
+	private IRequest&MockObject $request;
 
-    /**
-     * Mock SettingsService.
-     *
-     * @var SettingsService&MockObject
-     */
-    private SettingsService&MockObject $settingsService;
+	/**
+	 * Mock SettingsService.
+	 *
+	 * @var SettingsService&MockObject
+	 */
+	private SettingsService&MockObject $settingsService;
 
-    /**
-     * Mock IUserSession.
-     *
-     * @var IUserSession&MockObject
-     */
-    private IUserSession&MockObject $userSession;
+	/**
+	 * The mocked register import service.
+	 *
+	 * @var RegisterImportService&MockObject
+	 */
+	private RegisterImportService&MockObject $registerImport;
 
-    /**
-     * Set up test fixtures.
-     *
-     * @return void
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
+	/**
+	 * Mock IUserSession.
+	 *
+	 * @var IUserSession&MockObject
+	 */
+	private IUserSession&MockObject $userSession;
 
-        $this->request         = $this->createMock(originalClassName: IRequest::class);
-        $this->settingsService = $this->createMock(originalClassName: SettingsService::class);
-        $this->userSession     = $this->createMock(originalClassName: IUserSession::class);
+	/**
+	 * Set up test fixtures.
+	 *
+	 * @return void
+	 */
+	protected function setUp(): void {
+		parent::setUp();
 
-        $this->controller = new SettingsController(
-            request: $this->request,
-            settingsService: $this->settingsService,
-            userSession: $this->userSession,
-        );
+		$this->request = $this->createMock(originalClassName: IRequest::class);
+		$this->settingsService = $this->createMock(originalClassName: SettingsService::class);
+		$this->registerImport = $this->createMock(originalClassName: RegisterImportService::class);
+		$this->userSession = $this->createMock(originalClassName: IUserSession::class);
 
-    }//end setUp()
+		$this->controller = new SettingsController(
+			request: $this->request,
+			settingsService: $this->settingsService,
+			registerImport: $this->registerImport,
+			userSession: $this->userSession,
+		);
 
-    /**
-     * Test that updateUser() rejects an unauthenticated request.
-     *
-     * @return void
-     */
-    public function testUpdateUserRequiresAuthentication(): void
-    {
-        $this->userSession->method('getUser')->willReturn(null);
+	}//end setUp()
 
-        $response = $this->controller->updateUser();
+	/**
+	 * Test that updateUser() rejects an unauthenticated request.
+	 *
+	 * @return void
+	 */
+	public function testUpdateUserRequiresAuthentication(): void {
+		$this->userSession->method('getUser')->willReturn(null);
 
-        self::assertInstanceOf(expected: JSONResponse::class, actual: $response);
-        self::assertSame(expected: Http::STATUS_UNAUTHORIZED, actual: $response->getStatus());
+		$response = $this->controller->updateUser();
 
-    }//end testUpdateUserRequiresAuthentication()
+		self::assertInstanceOf(expected: JSONResponse::class, actual: $response);
+		self::assertSame(expected: Http::STATUS_UNAUTHORIZED, actual: $response->getStatus());
 
-    /**
-     * Test that updateUser() delegates to updateUserSettings for an authed user.
-     *
-     * @return void
-     */
-    public function testUpdateUserDelegatesToService(): void
-    {
-        $user = $this->createMock(originalClassName: IUser::class);
-        $user->method('getUID')->willReturn('alice');
-        $this->userSession->method('getUser')->willReturn($user);
+	}//end testUpdateUserRequiresAuthentication()
 
-        $this->request->method('getParams')->willReturn(['notify_due_reminder' => false]);
+	/**
+	 * Test that updateUser() delegates to updateUserSettings for an authed user.
+	 *
+	 * @return void
+	 */
+	public function testUpdateUserDelegatesToService(): void {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
 
-        $this->settingsService->expects($this->once())
-            ->method('updateUserSettings')
-            ->with('alice', ['notify_due_reminder' => false])
-            ->willReturn(['notify_due_reminder' => false]);
+		$this->request->method('getParams')->willReturn(['notify_due_reminder' => false]);
 
-        $response = $this->controller->updateUser();
+		$this->settingsService->expects($this->once())
+			->method('updateUserSettings')
+			->with('alice', ['notify_due_reminder' => false])
+			->willReturn(['notify_due_reminder' => false]);
 
-        self::assertInstanceOf(expected: JSONResponse::class, actual: $response);
-        self::assertSame(expected: Http::STATUS_OK, actual: $response->getStatus());
+		$response = $this->controller->updateUser();
 
-    }//end testUpdateUserDelegatesToService()
+		self::assertInstanceOf(expected: JSONResponse::class, actual: $response);
+		self::assertSame(expected: Http::STATUS_OK, actual: $response->getStatus());
 
-    /**
-     * Test that index() returns a JSONResponse containing the settings from the service.
-     *
-     * @return void
-     */
-    public function testIndexReturnsJsonResponseWithSettings(): void
-    {
-        $settings = [
-            'register'               => 'some-uuid',
-            'default_columns'        => '["To Do","In Progress","Review","Done"]',
-            'allow_project_creation' => 'all',
-            'openregisters'          => true,
-            'isAdmin'                => false,
-        ];
+	}//end testUpdateUserDelegatesToService()
 
-        $user = $this->createMock(originalClassName: IUser::class);
-        $user->method('getUID')->willReturn('alice');
-        $this->userSession->method('getUser')->willReturn($user);
+	/**
+	 * Test that index() returns a JSONResponse containing the settings from the service.
+	 *
+	 * @return void
+	 */
+	public function testIndexReturnsJsonResponseWithSettings(): void {
+		$settings = [
+			'register' => 'some-uuid',
+			'default_columns' => '["To Do","In Progress","Review","Done"]',
+			'allow_project_creation' => 'all',
+			'openregisters' => true,
+			'isAdmin' => false,
+		];
 
-        $this->settingsService->expects($this->once())
-            ->method('getSettings')
-            ->willReturn($settings);
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
 
-        $result = $this->controller->index();
+		$this->settingsService->expects($this->once())
+			->method('getSettings')
+			->willReturn($settings);
 
-        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
-        self::assertSame(expected: $settings, actual: $result->getData());
+		$result = $this->controller->index();
 
-    }//end testIndexReturnsJsonResponseWithSettings()
+		self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+		self::assertSame(expected: $settings, actual: $result->getData());
 
-    /**
-     * Test that create() returns 403 when the current user is not an admin.
-     *
-     * @return void
-     */
-    public function testCreateReturnsForbiddenForNonAdmin(): void
-    {
-        $this->settingsService->expects($this->once())
-            ->method('isCurrentUserAdmin')
-            ->willReturn(false);
+	}//end testIndexReturnsJsonResponseWithSettings()
 
-        $this->settingsService->expects($this->never())
-            ->method('updateSettings');
+	/**
+	 * Test that create() returns 403 when the current user is not an admin.
+	 *
+	 * @return void
+	 */
+	public function testCreateReturnsForbiddenForNonAdmin(): void {
+		$this->settingsService->expects($this->once())
+			->method('isCurrentUserAdmin')
+			->willReturn(false);
 
-        $result = $this->controller->create();
+		$this->settingsService->expects($this->never())
+			->method('updateSettings');
 
-        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
-        self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
-        self::assertArrayHasKey(key: 'error', array: $result->getData());
+		$result = $this->controller->create();
 
-    }//end testCreateReturnsForbiddenForNonAdmin()
+		self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+		self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
+		self::assertArrayHasKey(key: 'error', array: $result->getData());
 
-    /**
-     * Test that create() calls updateSettings with request params and returns success for admins.
-     *
-     * @return void
-     */
-    public function testCreateCallsUpdateSettingsAndReturnsSuccess(): void
-    {
-        $params  = ['register' => 'new-uuid', 'default_columns' => '["Backlog","Doing","Done"]'];
-        $updated = array_merge($params, ['openregisters' => true, 'isAdmin' => true]);
+	}//end testCreateReturnsForbiddenForNonAdmin()
 
-        $this->settingsService->expects($this->once())
-            ->method('isCurrentUserAdmin')
-            ->willReturn(true);
+	/**
+	 * update() is the PUT face of the same write, and carries the same guard.
+	 *
+	 * `Routes::standard()` declares settings#create (POST) and settings#update
+	 * (PUT) against the same URL, and planninq implemented only the POST — so PUT
+	 * resolved to nothing. Asserting the admin gate here is the point: a
+	 * delegating method that quietly lost the guard would be a worse bug than
+	 * the missing method it replaced.
+	 *
+	 * @return void
+	 */
+	public function testUpdateReturnsForbiddenForNonAdmin(): void {
+		$this->settingsService->expects($this->once())
+			->method('isCurrentUserAdmin')
+			->willReturn(false);
 
-        $this->request->expects($this->once())
-            ->method('getParams')
-            ->willReturn($params);
+		$this->settingsService->expects($this->never())
+			->method('updateSettings');
 
-        $this->settingsService->expects($this->once())
-            ->method('updateSettings')
-            ->with($params)
-            ->willReturn($updated);
+		$result = $this->controller->update();
 
-        $result = $this->controller->create();
+		self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+		self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
 
-        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
-        self::assertSame(expected: 200, actual: $result->getStatus());
-        self::assertTrue(condition: $result->getData()['success']);
-        self::assertArrayHasKey(key: 'config', array: $result->getData());
+	}//end testUpdateReturnsForbiddenForNonAdmin()
 
-    }//end testCreateCallsUpdateSettingsAndReturnsSuccess()
+	/**
+	 * update() performs the same write as create() for an admin.
+	 *
+	 * @return void
+	 */
+	public function testUpdateCallsUpdateSettingsForAdmin(): void {
+		$params = ['register' => 'put-uuid'];
 
-    /**
-     * Test that load() returns 403 when the current user is not an admin.
-     *
-     * @return void
-     */
-    public function testLoadReturnsForbiddenForNonAdmin(): void
-    {
-        $this->settingsService->expects($this->once())
-            ->method('isCurrentUserAdmin')
-            ->willReturn(false);
+		$this->settingsService->expects($this->once())
+			->method('isCurrentUserAdmin')
+			->willReturn(true);
 
-        $this->settingsService->expects($this->never())
-            ->method('loadConfiguration');
+		$this->request->expects($this->once())
+			->method('getParams')
+			->willReturn($params);
 
-        $result = $this->controller->load();
+		$this->settingsService->expects($this->once())
+			->method('updateSettings')
+			->with($params)
+			->willReturn($params);
 
-        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
-        self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
-        self::assertArrayHasKey(key: 'error', array: $result->getData());
+		$result = $this->controller->update();
 
-    }//end testLoadReturnsForbiddenForNonAdmin()
+		self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+		self::assertTrue(condition: $result->getData()['success']);
 
-    /**
-     * Test that load() returns the result of loadConfiguration for admins.
-     *
-     * @return void
-     */
-    public function testLoadReturnsConfigurationResult(): void
-    {
-        $loadResult = [
-            'success' => true,
-            'message' => 'Configuration imported successfully.',
-            'version' => '0.1.0',
-        ];
+	}//end testUpdateCallsUpdateSettingsForAdmin()
 
-        $this->settingsService->expects($this->once())
-            ->method('isCurrentUserAdmin')
-            ->willReturn(true);
+	/**
+	 * Test that create() calls updateSettings with request params and returns success for admins.
+	 *
+	 * @return void
+	 */
+	public function testCreateCallsUpdateSettingsAndReturnsSuccess(): void {
+		$params = ['register' => 'new-uuid', 'default_columns' => '["Backlog","Doing","Done"]'];
+		$updated = array_merge($params, ['openregisters' => true, 'isAdmin' => true]);
 
-        $this->settingsService->expects($this->once())
-            ->method('loadConfiguration')
-            ->with(force: true)
-            ->willReturn($loadResult);
+		$this->settingsService->expects($this->once())
+			->method('isCurrentUserAdmin')
+			->willReturn(true);
 
-        $result = $this->controller->load();
+		$this->request->expects($this->once())
+			->method('getParams')
+			->willReturn($params);
 
-        self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
-        self::assertTrue(condition: $result->getData()['success']);
+		$this->settingsService->expects($this->once())
+			->method('updateSettings')
+			->with($params)
+			->willReturn($updated);
 
-    }//end testLoadReturnsConfigurationResult()
+		$result = $this->controller->create();
+
+		self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+		self::assertSame(expected: 200, actual: $result->getStatus());
+		self::assertTrue(condition: $result->getData()['success']);
+		self::assertArrayHasKey(key: 'config', array: $result->getData());
+
+	}//end testCreateCallsUpdateSettingsAndReturnsSuccess()
+
+	/**
+	 * Test that load() returns 403 when the current user is not an admin.
+	 *
+	 * @return void
+	 */
+	public function testLoadReturnsForbiddenForNonAdmin(): void {
+		$this->settingsService->expects($this->once())
+			->method('isCurrentUserAdmin')
+			->willReturn(false);
+
+		$this->registerImport->expects($this->never())
+			->method('reload');
+
+		$result = $this->controller->load();
+
+		self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+		self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $result->getStatus());
+		self::assertArrayHasKey(key: 'error', array: $result->getData());
+
+	}//end testLoadReturnsForbiddenForNonAdmin()
+
+	/**
+	 * Test that load() returns the result of reloadConfiguration for admins.
+	 *
+	 * @return void
+	 */
+	public function testLoadReturnsConfigurationResult(): void {
+		$loadResult = [
+			'success' => true,
+			'message' => 'Configuration imported successfully.',
+			'version' => '0.1.0',
+		];
+
+		$this->settingsService->expects($this->once())
+			->method('isCurrentUserAdmin')
+			->willReturn(true);
+
+		// RegisterImportService::reload() IS the forced import — the former
+		// SettingsService::loadConfiguration(force: true). The force intent now
+		// lives in the method name, so there are no arguments left to assert.
+		$this->registerImport->expects($this->once())
+			->method('reload')
+			->willReturn($loadResult);
+
+		$result = $this->controller->load();
+
+		self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
+		self::assertTrue(condition: $result->getData()['success']);
+
+	}//end testLoadReturnsConfigurationResult()
 }//end class

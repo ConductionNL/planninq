@@ -1,56 +1,63 @@
 <template>
-	<div class="planix-dashboard">
-		<header class="planix-dashboard__header">
-			<h2>{{ t('planix', 'Dashboard') }}</h2>
+	<div class="planninq-dashboard">
+		<header class="planninq-dashboard__header">
+			<h2>{{ t('planninq', 'Dashboard') }}</h2>
 		</header>
 
 		<CnKpiGrid :columns="3">
 			<CnStatsBlock
-				:title="t('planix', 'Active projects')"
+				:title="t('planninq', 'Active projects')"
 				:count="activeProjectCount"
 				:icon="FolderOutline"
 				variant="primary"
 				horizontal />
 			<CnStatsBlock
-				:title="t('planix', 'Projects I am in')"
+				:title="t('planninq', 'Projects I am in')"
 				:count="memberProjectCount"
 				:icon="AccountGroupOutline"
 				variant="success"
 				horizontal />
 			<CnStatsBlock
-				:title="t('planix', 'Archived projects')"
+				:title="t('planninq', 'Archived projects')"
 				:count="archivedProjectCount"
 				:icon="ArchiveOutline"
 				variant="default"
 				horizontal />
 		</CnKpiGrid>
 
-		<div class="planix-dashboard__columns">
-			<CnConfigurationCard :title="t('planix', 'My projects')">
+		<div class="planninq-dashboard__columns">
+			<CnConfigurationCard :title="t('planninq', 'My projects')">
 				<NcLoadingIcon v-if="loading" :size="24" />
-				<ul v-else-if="recentProjects.length > 0" class="planix-dashboard__project-list">
+				<ul v-else-if="recentProjects.length > 0" class="planninq-dashboard__project-list">
+					<!-- A bare @click on an <li> is mouse-only: the element is
+					     not focusable and fires nothing on Enter or Space, so
+					     this list was unreachable by keyboard entirely. -->
 					<li
 						v-for="project in recentProjects"
 						:key="project.id"
-						class="planix-dashboard__project-item"
-						@click="navigateToProject(project)">
+						class="planninq-dashboard__project-item"
+						role="button"
+						tabindex="0"
+						@click="navigateToProject(project)"
+						@keydown.enter="navigateToProject(project)"
+						@keydown.space.prevent="navigateToProject(project)">
 						<span
 							v-if="project.icon"
-							class="planix-dashboard__project-icon">{{ project.icon }}</span>
+							class="planninq-dashboard__project-icon">{{ project.icon }}</span>
 						<span>{{ project.title }}</span>
 					</li>
 				</ul>
-				<p v-else class="planix-dashboard__hint">
-					{{ t('planix', 'You are not a member of any projects yet.') }}
+				<p v-else class="planninq-dashboard__hint">
+					{{ t('planninq', 'You are not a member of any projects yet.') }}
 				</p>
 			</CnConfigurationCard>
 
-			<CnConfigurationCard :title="t('planix', 'Quick actions')">
-				<p class="planix-dashboard__hint">
-					{{ t('planix', 'Use the Projects page to create and manage your projects and tasks.') }}
+			<CnConfigurationCard :title="t('planninq', 'Quick actions')">
+				<p class="planninq-dashboard__hint">
+					{{ t('planninq', 'Use the Projects page to create and manage your projects and tasks.') }}
 				</p>
-				<NcButton type="primary" @click="$router.push({ name: 'Projects' })">
-					{{ t('planix', 'Go to projects') }}
+				<NcButton variant="primary" @click="$router.push({ name: 'Projects' })">
+					{{ t('planninq', 'Go to projects') }}
 				</NcButton>
 			</CnConfigurationCard>
 		</div>
@@ -158,22 +165,22 @@ export default {
 </script>
 
 <style scoped>
-.planix-dashboard {
+.planninq-dashboard {
 	padding: 8px 4px 24px;
 	max-width: 1200px;
 }
 
-.planix-dashboard__header {
+.planninq-dashboard__header {
 	margin-bottom: 20px;
 }
 
-.planix-dashboard__header h2 {
+.planninq-dashboard__header h2 {
 	margin: 0 0 8px;
 	font-size: 22px;
 	font-weight: 600;
 }
 
-.planix-dashboard__columns {
+.planninq-dashboard__columns {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 16px;
@@ -181,12 +188,12 @@ export default {
 }
 
 @media (max-width: 900px) {
-	.planix-dashboard__columns {
+	.planninq-dashboard__columns {
 		grid-template-columns: 1fr;
 	}
 }
 
-.planix-dashboard__project-list {
+.planninq-dashboard__project-list {
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -195,7 +202,7 @@ export default {
 	gap: 6px;
 }
 
-.planix-dashboard__project-item {
+.planninq-dashboard__project-item {
 	display: flex;
 	align-items: center;
 	gap: 8px;
@@ -205,15 +212,15 @@ export default {
 	font-size: 14px;
 }
 
-.planix-dashboard__project-item:hover {
+.planninq-dashboard__project-item:hover {
 	background: var(--color-background-hover);
 }
 
-.planix-dashboard__project-icon {
+.planninq-dashboard__project-icon {
 	font-size: 16px;
 }
 
-.planix-dashboard__hint {
+.planninq-dashboard__hint {
 	margin: 0 0 12px;
 	line-height: 1.5;
 	color: var(--color-text-maxcontrast);

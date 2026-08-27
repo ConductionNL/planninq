@@ -1,7 +1,11 @@
+# planix — Conduction PHPStan config.
+#
+# The shared base is the single source of truth. Everything below is either this
+# app's own tracked debt or an ignore naming a symbol no other fleet app has;
+# anything another app would also need belongs in the base, not here.
 includes:
-    # Per-app tracked lint debt lives here (auto-generated via `phpstan --generate-baseline`).
-    # Apps without debt ship an empty baseline file; canonical includes are otherwise byte-identical
-    # across the fleet.
+    - vendor/conduction/hydra-gates/quality-config/phpstan-base.neon
+    # Per-app tracked lint debt (auto-generated via `phpstan --generate-baseline`).
     - phpstan-baseline.neon
 
 parameters:
@@ -17,6 +21,14 @@ parameters:
         - lib/Resources/template
     scanDirectories:
         - vendor/nextcloud/ocp
+    scanFiles:
+        # OpenRegister AppHost engine stubs (ADR-040). openregister is a sibling
+        # Nextcloud app, not a composer dependency, so its classes are genuinely
+        # absent from the analysis path. Rather than lean on the blanket
+        # `#unknown class OCA\\OpenRegister\\#` ignore below, this stub supplies
+        # the REAL signatures so calls into the engine are still type-checked.
+        # Analysis-only: never autoloaded or executed at runtime.
+        - tests/stubs/openregister-apphost.stub.php
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         # Nextcloud server internals (\OC, OC_App, OC\) not stubbed in nextcloud/ocp

@@ -1,10 +1,10 @@
-# Planix — Feature Analysis & Product Strategy
+# Planninq — Feature Analysis & Product Strategy
 
 ## Executive Summary
 
-Nextcloud Deck is the only native Nextcloud kanban app — and it is fundamentally limited: no backlog management, no time tracking, no GitHub integration, no WIP limits, and severe performance issues at scale. Meanwhile, leading tools like Jira are expensive and complex, while Plane and Linear are SaaS-first and lack Nextcloud integration. Planix fills the gap as a **developer-first kanban app built natively on Nextcloud** — delivering a focused feature set between Deck's simplicity and Jira's complexity, with time tracking and backlog management that most kanban tools miss.
+Nextcloud Deck is the only native Nextcloud kanban app — and it is fundamentally limited: no backlog management, no time tracking, no GitHub integration, no WIP limits, and severe performance issues at scale. Meanwhile, leading tools like Jira are expensive and complex, while Plane and Linear are SaaS-first and lack Nextcloud integration. Planninq fills the gap as a **developer-first kanban app built natively on Nextcloud** — delivering a focused feature set between Deck's simplicity and Jira's complexity, with time tracking and backlog management that most kanban tools miss.
 
-**Key insight**: Dev and IT teams on Nextcloud are stuck using either the underpowered Deck or an external SaaS tool. Planix gives them flow-based task management, time tracking, and backlog management — all in the sovereign, integrated environment they already use for files, chat, and calendar.
+**Key insight**: Dev and IT teams on Nextcloud are stuck using either the underpowered Deck or an external SaaS tool. Planninq gives them flow-based task management, time tracking, and backlog management — all in the sovereign, integrated environment they already use for files, chat, and calendar.
 
 ## 1. Competitive Landscape
 
@@ -43,7 +43,7 @@ Nextcloud Deck is the only native Nextcloud kanban app — and it is fundamental
 
 ### Dutch Government
 
-No dedicated Dutch government task management tools were identified. OpenProject sees EU public sector adoption for its compliance features. Tasks in Dutch government workflows are modeled as `InterneTaak` within the VNG Klantinteracties standard, making a Procest bridge (case tasks → Planix) the relevant Dutch government integration.
+No dedicated Dutch government task management tools were identified. OpenProject sees EU public sector adoption for its compliance features. Tasks in Dutch government workflows are modeled as `InterneTaak` within the VNG Klantinteracties standard, making a Procest bridge (case tasks → Planninq) the relevant Dutch government integration.
 
 ## 2. Feature Matrix
 
@@ -269,12 +269,12 @@ No dedicated Dutch government task management tools were identified. OpenProject
 
 ### What They Lack
 
-| Gap | Opportunity for Planix |
+| Gap | Opportunity for Planninq |
 |-----|------------------------|
-| Nextcloud integration | None of the competitors integrate with NC Files, Calendar, Talk, Contacts — Planix is native |
+| Nextcloud integration | None of the competitors integrate with NC Files, Calendar, Talk, Contacts — Planninq is native |
 | Time tracking in kanban tools | Deck, WeKan, Kanboard, Linear, Plane — no native time tracking |
 | Backlog in simple tools | Deck, WeKan, Trello, Kanboard — no structured backlog |
-| Privacy-first for EU gov | Most SaaS options require US data residency; Planix is fully self-hosted |
+| Privacy-first for EU gov | Most SaaS options require US data residency; Planninq is fully self-hosted |
 | Procest/ZGW bridge | No competitor supports Dutch government case-to-task integration |
 | NL Design System | No competitor implements Dutch government accessibility standards |
 | OpenRegister data model | No competitor exposes tasks as queryable linked data via OpenRegister |
@@ -293,15 +293,15 @@ No dedicated Dutch government task management tools were identified. OpenProject
 
 ## 5. Strategic Positioning
 
-**Positioning Statement**: Planix is the developer-first kanban app for Nextcloud — delivering time tracking, backlog management, and flow-based project management without Jira's complexity or Deck's limitations.
+**Positioning Statement**: Planninq is the developer-first kanban app for Nextcloud — delivering time tracking, backlog management, and flow-based project management without Jira's complexity or Deck's limitations.
 
 ### Differentiation Strategy
 
-1. **Platform leverage**: Planix orchestrates Nextcloud's native capabilities (Files, Calendar, Talk, Activity, Notifications) rather than rebuilding them. The result is seamless integration that external tools cannot replicate.
+1. **Platform leverage**: Planninq orchestrates Nextcloud's native capabilities (Files, Calendar, Talk, Activity, Notifications) rather than rebuilding them. The result is seamless integration that external tools cannot replicate.
 
-2. **Dev-team first**: Time tracking and backlog management close the two biggest gaps Deck leaves open. GitHub/GitLab sync (V1 via OpenConnector) makes Planix the missing link between Nextcloud and developer workflows.
+2. **Dev-team first**: Time tracking and backlog management close the two biggest gaps Deck leaves open. GitHub/GitLab sync (V1 via OpenConnector) makes Planninq the missing link between Nextcloud and developer workflows.
 
-3. **Data platform**: All tasks are stored in OpenRegister as queryable JSON objects with Schema.org type annotations. Other Conduction apps (Procest, Pipelinq) can query, reference, and relate to Planix tasks — enabling cross-app dashboards and automation without custom integrations.
+3. **Data platform**: All tasks are stored in OpenRegister as queryable JSON objects with Schema.org type annotations. Other Conduction apps (Procest, Pipelinq) can query, reference, and relate to Planninq tasks — enabling cross-app dashboards and automation without custom integrations.
 
 ### Risks
 
@@ -310,7 +310,7 @@ No dedicated Dutch government task management tools were identified. OpenProject
 | Nextcloud Deck owns the kanban mindshare in the NC ecosystem | High | Differentiate on time tracking + backlog + dev integration — Deck explicitly excludes these |
 | Plane (40k+ ★) moves faster than we can | Medium | Focus on Nextcloud-native features that Plane will never build; don't compete on Plane's turf |
 | Small initial team → scope creep | Medium | MVP is strictly kanban + backlog + time tracking; defer everything else |
-| Drag-and-drop kanban is UX-complex in Vue 2 | Medium | Use a proven drag library (vue-draggable/SortableJS); budget time for polish |
+| Drag-and-drop kanban is UX-complex in Vue 3 | Medium | Use a proven drag library (vue-draggable/SortableJS); budget time for polish |
 | OpenRegister performance at scale (many tasks) | Medium | Lean on OpenRegister's pagination and indexing; document pagination patterns early |
 
 ## 6. Recommended Feature Set Summary

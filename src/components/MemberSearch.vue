@@ -1,23 +1,24 @@
 <template>
 	<div class="member-search">
 		<NcTextField
-			:value="query"
-			:label="t('planix', 'Add member')"
-			:placeholder="t('planix', 'Search for a user…')"
+			:model-value="query"
+			:label="t('planninq', 'Add member')"
+			:placeholder="t('planninq', 'Search for a user…')"
 			:disabled="loading"
-			@update:value="onInput" />
+			@update:modelValue="onInput" />
 
 		<!-- Dropdown results -->
 		<ul
 			v-if="results.length > 0"
 			class="member-search__dropdown"
 			role="listbox"
-			:aria-label="t('planix', 'User search results')">
+			:aria-label="t('planninq', 'User search results')">
 			<li
 				v-for="user in results"
 				:key="user.id"
 				class="member-search__result"
 				role="option"
+				tabindex="0"
 				:aria-selected="false"
 				@click="selectUser(user)"
 				@keydown.enter="selectUser(user)">
@@ -28,7 +29,7 @@
 
 		<!-- Empty results notice -->
 		<p v-else-if="query.length >= 2 && !loading && searched" class="member-search__empty">
-			{{ t('planix', 'No users found for "{query}"', { query }) }}
+			{{ t('planninq', 'No users found for "{query}"', { query }) }}
 		</p>
 	</div>
 </template>
@@ -76,7 +77,14 @@ export default {
 		}
 	},
 
-	beforeDestroy() {
+	/**
+	 * @spec exclude Teardown glue — cancels the pending debounce timer and
+	 *   aborts the in-flight request so neither can resolve against a
+	 *   destroyed component. Both paths it tears down are the ones onInput
+	 *   and searchUsers set up, and those are covered by task-10; this hook
+	 *   adds no behaviour of its own for a scenario to describe.
+	 */
+	beforeUnmount() {
 		clearTimeout(this.debounceTimer)
 		this.abortController?.abort()
 	},
@@ -133,7 +141,7 @@ export default {
 				// Ignore abort errors — they occur when a newer keystroke cancels this request.
 				if (err.name === 'AbortError') return
 				console.error('User search failed:', err)
-				showError(this.t('planix', 'Could not search for users. Please try again.'))
+				showError(this.t('planninq', 'Could not search for users. Please try again.'))
 				this.results = []
 			} finally {
 				this.loading = false
@@ -157,7 +165,7 @@ export default {
 				this.results = []
 				this.$emit('added', user)
 			} catch {
-				showError(this.t('planix', 'Could not add member'))
+				showError(this.t('planninq', 'Could not add member'))
 			}
 		},
 	},

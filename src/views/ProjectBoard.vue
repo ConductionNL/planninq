@@ -3,14 +3,14 @@
 		<!-- Access denied state (403 or non-member) -->
 		<NcEmptyContent
 			v-if="accessDenied"
-			:name="t('planix', 'You do not have access to this project')"
-			:description="t('planix', 'You are not a member of this project.')">
+			:name="t('planninq', 'You do not have access to this project')"
+			:description="t('planninq', 'You are not a member of this project.')">
 			<template #icon>
 				<LockOutline :size="20" />
 			</template>
 			<template #action>
-				<NcButton type="primary" @click="$router.push({ name: 'Projects' })">
-					{{ t('planix', 'Back to projects') }}
+				<NcButton variant="primary" @click="$router.push({ name: 'Projects' })">
+					{{ t('planninq', 'Back to projects') }}
 				</NcButton>
 			</template>
 		</NcEmptyContent>
@@ -41,14 +41,20 @@
 
 				<div class="project-board__header-actions">
 					<NcButton
-						:aria-label="t('planix', 'View backlog')"
-						type="tertiary"
+						:aria-label="t('planninq', 'View backlog')"
+						variant="tertiary"
 						@click="$router.push({ name: 'ProjectBacklog', params: { id: project.id } })">
-						{{ t('planix', 'Backlog') }}
+						{{ t('planninq', 'Backlog') }}
 					</NcButton>
 					<NcButton
-						:aria-label="t('planix', 'Project settings')"
-						type="tertiary"
+						:aria-label="t('planninq', 'View timeline')"
+						variant="tertiary"
+						@click="$router.push({ name: 'ProjectTimeline', params: { id: project.id } })">
+						{{ t('planninq', 'Timeline') }}
+					</NcButton>
+					<NcButton
+						:aria-label="t('planninq', 'Project settings')"
+						variant="tertiary"
 						@click="openSettings">
 						<template #icon>
 							<CogIcon :size="20" />
@@ -90,15 +96,48 @@
 							:key="task.id"
 							class="kanban-column__card"
 							:class="{ 'kanban-column__card--highlight': isHighlighted(task) }"
+							role="button"
+							tabindex="0"
+							:aria-label="task.title"
+							data-testid="task-card"
 							draggable="true"
+							@click="navigateToTask(task)"
+							@keydown.enter="navigateToTask(task)"
+							@keydown.space.prevent="navigateToTask(task)"
 							@dragstart="onDragStart(task)"
 							@dragend="onDragEnd">
 							<TaskCard :task="task" />
+
+							<!-- Keyboard-operable status change: accessible equivalent
+							     of drag-and-drop. Not itself draggable, and stops click
+							     propagation so activating it never navigates to detail. -->
+							<div
+								class="kanban-column__card-actions"
+								draggable="false"
+								@click.stop
+								@keydown.enter.stop
+								@keydown.space.stop
+								@dragstart.stop>
+								<NcActions
+									:aria-label="t('planninq', 'Move task to another column')"
+									:force-menu="true">
+									<NcActionButton
+										v-for="target in otherColumns(column.status)"
+										:key="target.status"
+										:close-after-click="true"
+										@click="moveTask(task, target.status)">
+										<template #icon>
+											<ArrowRightIcon :size="20" />
+										</template>
+										{{ target.label }}
+									</NcActionButton>
+								</NcActions>
+							</div>
 						</div>
 
 						<!-- Empty column placeholder -->
 						<p v-if="tasksByStatus[column.status].length === 0" class="kanban-column__empty">
-							{{ t('planix', 'No tasks') }}
+							{{ t('planninq', 'No tasks') }}
 						</p>
 					</div>
 				</section>
@@ -123,7 +162,8 @@
  *
  * @spec openspec/specs/kanban-board.md
  */
-import { NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
+import { NcActions, NcActionButton, NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
+import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
 
@@ -138,9 +178,12 @@ export default {
 	name: 'ProjectBoard',
 
 	components: {
+		NcActions,
+		NcActionButton,
 		NcButton,
 		NcEmptyContent,
 		NcLoadingIcon,
+		ArrowRightIcon,
 		CogIcon,
 		LockOutline,
 		TaskCard,
@@ -197,11 +240,11 @@ export default {
 		 */
 		columns() {
 			const labels = {
-				open: this.t('planix', 'Open'),
-				in_progress: this.t('planix', 'In Progress'),
-				blocked: this.t('planix', 'Blocked'),
-				done: this.t('planix', 'Done'),
-				cancelled: this.t('planix', 'Cancelled'),
+				open: this.t('planninq', 'Open'),
+				in_progress: this.t('planninq', 'In Progress'),
+				blocked: this.t('planninq', 'Blocked'),
+				done: this.t('planninq', 'Done'),
+				cancelled: this.t('planninq', 'Cancelled'),
 			}
 			return BOARD_STATUSES.map((status) => ({ status, label: labels[status] }))
 		},
@@ -210,7 +253,7 @@ export default {
 		 * empty columns render gracefully; a task with an unknown status falls
 		 * back to the "open" lane.
 		 *
-		 * @return {Object<string, Array>}
+		 * @return {{[status: string]: Array}}
 		 *
 		 * @spec openspec/specs/kanban-board.md
 		 */
@@ -254,7 +297,7 @@ export default {
 		await this.loadTasks(id)
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		this.closeSidebar?.()
 	},
 
@@ -337,6 +380,67 @@ export default {
 			const task = this.draggingTask
 			this.dropTargetStatus = null
 			this.draggingTask = null
+			await this.applyStatusMove(task, newStatus)
+		},
+
+		/**
+		 * Navigate to a task's detail page. The click/keyboard-activated
+		 * equivalent of the (URL-only) TaskDetail route — mirrors
+		 * `ProjectList.navigateToProject`.
+		 *
+		 * @param {object} task The task to open
+		 *
+		 * @spec openspec/specs/kanban-board.md
+		 */
+		navigateToTask(task) {
+			if (!task) return
+			this.$router.push({
+				name: 'TaskDetail',
+				params: { id: this.project?.id ?? this.$route.params.id, taskId: task.id },
+			})
+		},
+
+		/**
+		 * The board columns other than `currentStatus` — the valid keyboard
+		 * "Move to…" targets for a card in that column.
+		 *
+		 * @param {string} currentStatus The card's current status
+		 * @return {Array<{status: string, label: string}>}
+		 *
+		 * @spec exclude Display helper — filters the column list for the move menu.
+		 */
+		otherColumns(currentStatus) {
+			return this.columns.filter((column) => column.status !== currentStatus)
+		},
+
+		/**
+		 * Keyboard-operable status change: the accessible equivalent of a
+		 * drag-and-drop move. Delegates to the exact same optimistic-update +
+		 * rollback path the drag handler uses, so behaviour and RBAC are
+		 * identical between the two.
+		 *
+		 * @param {object} task      The task to move
+		 * @param {string} newStatus The target column's status
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/specs/kanban-board.md
+		 */
+		async moveTask(task, newStatus) {
+			await this.applyStatusMove(task, newStatus)
+		},
+
+		/**
+		 * Optimistically move a task to `newStatus` and persist it via the
+		 * RBAC-scoped store action; revert + toast on a failed write. Shared by
+		 * both the drag-and-drop drop handler and the keyboard "Move to…" menu.
+		 *
+		 * @param {object} task      The task to move (no-op when null/same status)
+		 * @param {string} newStatus The target column's status
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/specs/kanban-board.md
+		 */
+		async applyStatusMove(task, newStatus) {
 			if (!task || task.status === newStatus) return
 
 			const previousStatus = task.status
@@ -352,7 +456,7 @@ export default {
 				this.tasks = this.tasks.map((existing) =>
 					existing.id === task.id ? { ...existing, status: previousStatus } : existing,
 				)
-				showError(this.t('planix', 'Could not move the task. Please try again.'))
+				showError(this.t('planninq', 'Could not move the task. Please try again.'))
 			}
 		},
 
@@ -481,11 +585,44 @@ export default {
 }
 
 .kanban-column__card {
+	position: relative;
 	cursor: grab;
+	border-radius: 8px;
 }
 
 .kanban-column__card:active {
 	cursor: grabbing;
+}
+
+/* Perceivable keyboard focus (WCAG 2.4.7) — the card is role="button". */
+.kanban-column__card:focus-visible {
+	outline: 2px solid var(--color-primary-element);
+	outline-offset: 2px;
+}
+
+/* Keyboard "Move to…" affordance, top-right of the card. Revealed on
+   hover/focus-within so it does not clutter the card at rest, but is always
+   reachable by keyboard. */
+.kanban-column__card-actions {
+	position: absolute;
+	top: 6px;
+	inset-inline-end: 6px;
+	opacity: 0;
+	transition: opacity 0.1s ease-in-out;
+}
+
+.kanban-column__card:hover .kanban-column__card-actions,
+.kanban-column__card:focus-within .kanban-column__card-actions {
+	opacity: 1;
+}
+
+/* Honour a reduced-motion preference: the fade is decorative, so drop the
+   transition rather than the visibility change — the actions must still
+   appear on hover and focus. */
+@media (prefers-reduced-motion: reduce) {
+	.kanban-column__card-actions {
+		transition: none;
+	}
 }
 
 .kanban-column__card--highlight {

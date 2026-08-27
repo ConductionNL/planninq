@@ -3,7 +3,7 @@
 		<!-- Header with actions -->
 		<div class="project-list__header">
 			<h2 class="project-list__title">
-				{{ t('planix', 'Projects') }}
+				{{ t('planninq', 'Projects') }}
 			</h2>
 			<div class="project-list__actions">
 				<!-- Status filter chips (NcChip per spec) -->
@@ -11,19 +11,19 @@
 					v-for="chip in statusChips"
 					:key="String(chip.value)"
 					:text="chip.label"
-					:type="activeStatus === chip.value ? 'primary' : 'secondary'"
+					:variant="activeStatus === chip.value ? 'primary' : 'secondary'"
 					:no-close="true"
 					:aria-pressed="activeStatus === chip.value"
 					@click="setStatusFilter(chip.value)" />
 				<!-- New project button — hidden when creation is restricted to admins -->
 				<NcButton
 					v-if="canCreateProject"
-					type="primary"
+					variant="primary"
 					@click="showCreationDialog = true">
 					<template #icon>
 						<PlusIcon :size="20" />
 					</template>
-					{{ t('planix', 'New project') }}
+					{{ t('planninq', 'New project') }}
 				</NcButton>
 			</div>
 		</div>
@@ -31,10 +31,10 @@
 		<!-- Search bar -->
 		<div class="project-list__search">
 			<NcTextField
-				:value="listView.searchTerm.value"
-				:label="t('planix', 'Search projects')"
-				:placeholder="t('planix', 'Search by title or description\u2026')"
-				@update:value="listView.onSearchInput($event)" />
+				:model-value="listView.searchTerm.value"
+				:label="t('planninq', 'Search projects')"
+				:placeholder="t('planninq', 'Search by title or description\u2026')"
+				@update:modelValue="listView.onSearchInput($event)" />
 		</div>
 
 		<!-- Loading state -->
@@ -45,14 +45,14 @@
 		<!-- Error state -->
 		<NcEmptyContent
 			v-else-if="error"
-			:name="t('planix', 'Could not load projects')"
+			:name="t('planninq', 'Could not load projects')"
 			:description="error">
 			<template #icon>
 				<AlertCircleOutline :size="20" />
 			</template>
 			<template #action>
-				<NcButton type="primary" @click="projectsStore.fetchProjects()">
-					{{ t('planix', 'Retry') }}
+				<NcButton variant="primary" @click="projectsStore.fetchProjects()">
+					{{ t('planninq', 'Retry') }}
 				</NcButton>
 			</template>
 		</NcEmptyContent>
@@ -60,14 +60,14 @@
 		<!-- Empty state — no projects at all -->
 		<NcEmptyContent
 			v-else-if="projects.length === 0"
-			:name="t('planix', 'No projects yet')"
-			:description="canCreateProject ? t('planix', 'Create your first project to get started.') : t('planix', 'No projects are available to you yet. Ask an administrator to create one.')">
+			:name="t('planninq', 'No projects yet')"
+			:description="canCreateProject ? t('planninq', 'Create your first project to get started.') : t('planninq', 'No projects are available to you yet. Ask an administrator to create one.')">
 			<template #icon>
 				<FolderOutline :size="20" />
 			</template>
 			<template v-if="canCreateProject" #action>
-				<NcButton type="primary" @click="showCreationDialog = true">
-					{{ t('planix', 'Create your first project') }}
+				<NcButton variant="primary" @click="showCreationDialog = true">
+					{{ t('planninq', 'Create your first project') }}
 				</NcButton>
 			</template>
 		</NcEmptyContent>
@@ -75,8 +75,8 @@
 		<!-- Empty state — search/filter has no results -->
 		<NcEmptyContent
 			v-else-if="filteredProjects.length === 0"
-			:name="t('planix', 'No projects match your search')"
-			:description="t('planix', 'Try different search terms or clear the filter.')">
+			:name="t('planninq', 'No projects match your search')"
+			:description="t('planninq', 'Try different search terms or clear the filter.')">
 			<template #icon>
 				<Magnify :size="20" />
 			</template>
@@ -108,8 +108,9 @@
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-11
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
  */
-import { NcButton, NcTextField, NcLoadingIcon, NcEmptyContent } from '@nextcloud/vue'
-import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
+// @nextcloud/vue@9 removed the `dist/Components/*.js` layout, so NcChip comes
+// from the root barrel like every other component here.
+import { NcButton, NcChip, NcTextField, NcLoadingIcon, NcEmptyContent } from '@nextcloud/vue'
 import { useListView } from '@conduction/nextcloud-vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
@@ -117,9 +118,10 @@ import Magnify from 'vue-material-design-icons/Magnify.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
 import { useProjectsStore } from '../store/projects.js'
+import { useObjectStore } from '../store/objectStore.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import ProjectListItem from '../components/ProjectListItem.vue'
-import ProjectCreationDialog from '../components/dialogs/ProjectCreationDialog.vue'
+import ProjectCreationDialog from '../dialogs/ProjectCreationDialog.vue'
 
 export default {
 	name: 'ProjectList',
@@ -153,6 +155,15 @@ export default {
 		return {
 			showCreationDialog: false,
 			activeStatus: null,
+			// Live-updates handle for the or-collection-planninq-project
+			// subscription. livePendingType marks an in-flight subscribe so a
+			// concurrent call doesn't double-subscribe; liveEpoch invalidates
+			// in-flight resolutions after a release (destroy). liveUnwatch
+			// tears down the collection→projectsStore bridge watcher.
+			liveHandle: null,
+			livePendingType: '',
+			liveEpoch: 0,
+			liveUnwatch: null,
 		}
 	},
 
@@ -206,10 +217,10 @@ export default {
 		 */
 		statusChips() {
 			return [
-				{ value: null, label: this.t('planix', 'All') },
-				{ value: 'active', label: this.t('planix', 'Active') },
-				{ value: 'archived', label: this.t('planix', 'Archived') },
-				{ value: 'completed', label: this.t('planix', 'Completed') },
+				{ value: null, label: this.t('planninq', 'All') },
+				{ value: 'active', label: this.t('planninq', 'Active') },
+				{ value: 'archived', label: this.t('planninq', 'Archived') },
+				{ value: 'completed', label: this.t('planninq', 'Completed') },
 			]
 		},
 
@@ -239,11 +250,99 @@ export default {
 		},
 	},
 
+	/**
+	 * @spec exclude list-view lifecycle — loads the project list, then attaches the live collection subscription.
+	 */
 	async mounted() {
 		await this.projectsStore.fetchProjects()
+		this.syncLiveSubscription()
+	},
+
+	/**
+	 * Lifecycle hook: release the live collection subscription on unmount.
+	 *
+	 * @spec openspec/specs/realtime-updates.md
+	 */
+	beforeUnmount() {
+		this.releaseLiveSubscription()
 	},
 
 	methods: {
+		/**
+		 * Subscribe to live updates for the Planninq project collection
+		 * (or-collection-planninq-project). Events are refetch hints only: the
+		 * liveUpdatesPlugin re-runs fetchCollection('project') with the
+		 * last-used params; the bridge watcher installed here re-applies the
+		 * member filter into projectsStore.projects so this view re-renders.
+		 * Uses notify_push when available, visibility-gated polling otherwise.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/specs/realtime-updates.md
+		 */
+		async syncLiveSubscription() {
+			const objectStore = useObjectStore()
+			if (typeof objectStore.subscribe !== 'function') {
+				return
+			}
+			const type = 'project'
+			if (this.liveHandle || this.livePendingType === type) {
+				// Already subscribed, or a subscribe is in flight —
+				// re-subscribing would leak the first handle.
+				return
+			}
+			try {
+				// Ensure the 'project' type is registered (with slug hints).
+				this.projectsStore._objectStore()
+				const epoch = this.liveEpoch
+				this.livePendingType = type
+				const handle = await objectStore.subscribe(type)
+				this.livePendingType = ''
+				if (this.liveEpoch !== epoch) {
+					// Released while awaiting (component destroyed) — drop the
+					// now-stale subscription instead of leaking it.
+					objectStore.unsubscribe(handle)
+					return
+				}
+				this.liveHandle = handle
+				// Bridge: event → plugin refetch → collections.project →
+				// projectsStore.projects (which this template renders).
+				this.liveUnwatch = this.$watch(
+					() => objectStore.collections[type],
+					(fresh) => {
+						if (this.liveHandle) {
+							this.projectsStore.applyLiveProjects(fresh)
+						}
+					},
+				)
+			} catch (e) {
+				this.livePendingType = ''
+				this.liveHandle = null
+				console.warn('[ProjectList] live subscription failed:', e?.message ?? e)
+			}
+		},
+
+		/**
+		 * Release the live collection subscription and its bridge watcher, and
+		 * invalidate any in-flight subscribe (its resolution unsubscribes
+		 * itself via the epoch check).
+		 *
+		 * @spec openspec/specs/realtime-updates.md
+		 */
+		releaseLiveSubscription() {
+			this.liveEpoch += 1
+			this.livePendingType = ''
+			if (this.liveUnwatch) {
+				this.liveUnwatch()
+				this.liveUnwatch = null
+			}
+			const objectStore = useObjectStore()
+			if (this.liveHandle && typeof objectStore.unsubscribe === 'function') {
+				objectStore.unsubscribe(this.liveHandle)
+			}
+			this.liveHandle = null
+		},
+
 		/**
 		 * Filter projects by status.
 		 *

@@ -14,7 +14,7 @@ retrofit: true
 
 ## Purpose
 
-This capability describes the Planix application shell — the backend controller
+This capability describes the Planninq application shell — the backend controller
 that serves the single-page application (including Vue history-mode deep links)
 and the generic frontend OpenRegister object store that the shell boots. It is
 the foundational layer that every feature spec (`projects`, `dashboard-my-work`,
@@ -31,16 +31,16 @@ registered type.
 
 ### Requirement: SPA Page Serving [MVP]
 
-The system MUST serve the Planix single-page application from a backend
+The system MUST serve the Planninq single-page application from a backend
 controller, both for the root page and for Vue history-mode deep links, so a
 bookmarked or refreshed in-app URL resolves to the same SPA shell.
 
 #### Scenario: Render the dashboard page
 
 - GIVEN an authenticated Nextcloud user
-- WHEN they request the Planix root page route
+- WHEN they request the Planninq root page route
 - THEN `DashboardController::page()` MUST return a `TemplateResponse` for the
-  `index` template of the `planix` app
+  `index` template of the `planninq` app
 - AND the route MUST be annotated `@NoAdminRequired` and `@NoCSRFRequired` so
   any authenticated user can load the shell
 
@@ -103,7 +103,7 @@ configured data layer.
 
 #### Scenario: Initialize stores on app boot
 
-- GIVEN the Planix app (or admin settings root) is mounting
+- GIVEN the Planninq app (or admin settings root) is mounting
 - WHEN `initializeStores()` runs
 - THEN it MUST `configure()` the local object store with the OpenRegister
   objects and schemas base URLs

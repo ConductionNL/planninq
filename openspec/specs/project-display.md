@@ -7,7 +7,7 @@
 
 ## Purpose
 
-Defines how Planix presents a project's status and membership in the project
+Defines how Planninq presents a project's status and membership in the project
 list. These behaviors encode product meaning — the set of known statuses, their
 human-readable labels, their chip semantics, the available status filters, and
 the per-project member count — and are therefore specified rather than treated

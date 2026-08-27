@@ -10,7 +10,7 @@
 
 ## Purpose
 
-Time tracking in Planix allows team members to estimate task effort and log actual time spent. This enables project capacity planning, billing, and retrospective analysis. Each task carries an estimate (minutes); actual time is logged as separate TimeEntry objects — multiple per task, one per work session. Users view their logged time in a personal timesheet. Project leads view aggregated time reports (V1). Time tracking is intentionally simple in MVP: manual entry only (no live timer).
+Time tracking in Planninq allows team members to estimate task effort and log actual time spent. This enables project capacity planning, billing, and retrospective analysis. Each task carries an estimate (minutes); actual time is logged as separate TimeEntry objects — multiple per task, one per work session. Users view their logged time in a personal timesheet. Project leads view aggregated time reports (V1). Time tracking is intentionally simple in MVP: manual entry only (no live timer).
 
 ## Data Model
 

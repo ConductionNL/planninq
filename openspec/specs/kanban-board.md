@@ -11,7 +11,7 @@
 
 ## Purpose
 
-The kanban board is the primary visual interface for a project in Planix. It shows tasks as cards organized into configurable columns (stages). Users drag and drop cards between columns to update task status. WIP limits on columns enforce flow discipline. Boards are filtered by assignee, label, or priority to focus attention. Each project has exactly one kanban board; columns are managed as part of the project.
+The kanban board is the primary visual interface for a project in Planninq. It shows tasks as cards organized into configurable columns (stages). Users drag and drop cards between columns to update task status. WIP limits on columns enforce flow discipline. Boards are filtered by assignee, label, or priority to focus attention. Each project has exactly one kanban board; columns are managed as part of the project.
 
 ## Data Model
 
@@ -152,7 +152,7 @@ Task cards on the kanban board MUST show a compact "Blocked" indicator when the 
 - [ ] Filter state is reflected in the URL hash (shareable)
 - [ ] Columns can be created, renamed, reordered, and deleted via project settings
 - [ ] Deleting a column with tasks prompts the user to move tasks to backlog or another column before deleting
-- [ ] Board is keyboard-navigable (WCAG AA)
+- [x] Board is keyboard-navigable (WCAG AA)
 - [ ] Empty columns show a CnEmptyState with a "+ Add task" button; clicking pre-selects that column in the task form
 - [ ] A board with no columns shows a CnEmptyState with an "Add column" button (visible to creator/admin)
 - [ ] View toggle (kanban ↔ list) is available in the project toolbar; selected view persists in the URL hash
@@ -162,7 +162,7 @@ Task cards on the kanban board MUST show a compact "Blocked" indicator when the 
 
 ## Notes
 
-- The kanban board is a custom Planix Vue component (drag-and-drop via SortableJS/vue-draggable), not from the `@conduction/nextcloud-vue` library. It uses `useObjectStore` for data operations and `CnStatusBadge` for card status indicators.
+- The kanban board is a custom Planninq Vue component (drag-and-drop via SortableJS/vue-draggable), not from the `@conduction/nextcloud-vue` library. It uses `useObjectStore` for data operations and `CnStatusBadge` for card status indicators.
 - Swimlanes (V1): group cards horizontally by assignee or priority within each column
 - Card quick-edit (V1): inline editing of title, due date, assignee on hover without opening detail
 - Collapsed columns (V1): columns can be collapsed to save horizontal space

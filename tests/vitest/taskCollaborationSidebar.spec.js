@@ -2,7 +2,7 @@
  * Vitest unit tests for the task detail collaboration sidebar config helper.
  *
  * Covers the CnObjectSidebar wiring asserted by the task-collaboration spec:
- * the correct planix register + `task` schema + task UUID are passed, the
+ * the correct Planninq register + `task` schema + task UUID are passed, the
  * generic `tags` / `tasks` tabs are hidden, and the legacy hardcoded-tabs mode
  * (use-registry=false) is selected so the built-in Comments / Files / Audit
  * Trail tabs render.
@@ -13,17 +13,22 @@ import { describe, it, expect } from 'vitest'
 import {
 	taskCollaborationSidebarConfig,
 	TASK_SIDEBAR_HIDDEN_TABS,
-	PLANIX_REGISTER,
+	PLANNINQ_REGISTER,
 } from '../../src/utils/taskHelpers.js'
 
 describe('taskCollaborationSidebarConfig', () => {
-	it('passes the planix register, task schema and the task UUID', () => {
+	// The register slug moved from `planix` to `planninq` together with the
+	// MigrateRegisterSlug repair step that renames the register ROW. These
+	// literals pin the NEW slug on purpose: asserting via PLANNINQ_REGISTER
+	// alone would pass whatever the constant happens to say, so the raw string
+	// is what actually catches a half-done rename.
+	it('passes the Planninq register, task schema and the task UUID', () => {
 		const config = taskCollaborationSidebarConfig({ id: 'task-uuid-123' })
-		expect(config.register).toBe(PLANIX_REGISTER)
-		expect(config.register).toBe('planix')
+		expect(config.register).toBe(PLANNINQ_REGISTER)
+		expect(config.register).toBe('planninq')
 		expect(config.schema).toBe('task')
 		expect(config.objectId).toBe('task-uuid-123')
-		expect(config.objectType).toBe('planix-task')
+		expect(config.objectType).toBe('planninq-task')
 	})
 
 	it('hides the generic tags and tasks tabs', () => {

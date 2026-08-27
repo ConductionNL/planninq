@@ -13,15 +13,20 @@
 export const RESOLVED_BLOCKER_STATUSES = ['done', 'cancelled']
 
 /**
- * OpenRegister register slug owning the planix schemas.
+ * OpenRegister register slug owning the Planninq schemas.
+ *
+ * The VALUE moved from `planix` to `planninq` together with the
+ * MigrateRegisterSlug repair step, which renames the register ROW. OpenRegister
+ * resolves a register by slug and by nothing else, so the literal and the row
+ * move in the same release or neither resolves.
  *
  * @type {string}
  */
-export const PLANIX_REGISTER = 'planix'
+export const PLANNINQ_REGISTER = 'planninq'
 
 /**
  * Generic CnObjectSidebar tabs that must stay hidden on the task detail
- * collaboration sidebar — planix has its own label and sub-task concepts, so
+ * collaboration sidebar — Planninq has its own label and sub-task concepts, so
  * the library's generic `tags` / `tasks` tabs would confuse.
  *
  * @type {string[]}
@@ -35,7 +40,7 @@ export const TASK_SIDEBAR_HIDDEN_TABS = ['tags', 'tasks']
  * generic tabs, legacy hardcoded-tabs mode) can be unit-tested without mounting
  * the component. The sidebar surfaces the built-in Comments (notes), Files, and
  * Audit Trail tabs over OpenRegister per-object APIs (ADR-022) — there is no
- * planix pass-through controller.
+ * Planninq pass-through controller.
  *
  * @param {object} task A task object carrying at least an `id` (UUID).
  * @return {object} Props to spread onto CnObjectSidebar.
@@ -45,9 +50,11 @@ export const TASK_SIDEBAR_HIDDEN_TABS = ['tags', 'tasks']
 export function taskCollaborationSidebarConfig(task) {
 	return {
 		objectId: (task && task.id) ? String(task.id) : '',
-		register: PLANIX_REGISTER,
+		register: PLANNINQ_REGISTER,
 		schema: 'task',
-		objectType: 'planix-task',
+		// `{registerSlug}-{schemaSlug}`, so it tracks the register slug above:
+		// it becomes `planninq-task` now that the register itself is re-slugged.
+		objectType: 'planninq-task',
 		useRegistry: false,
 		hiddenTabs: TASK_SIDEBAR_HIDDEN_TABS,
 	}
@@ -60,7 +67,7 @@ export function taskCollaborationSidebarConfig(task) {
  * (`{ '@self': { id }, status }`); the first resolvable id wins.
  *
  * @param {Array<object>} tasks The loaded task collection.
- * @return {Object<string,string>} Map of task UUID → status string.
+ * @return {{[uuid: string]: string}} Map of task UUID → status string.
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
  */
@@ -90,7 +97,7 @@ export function statusMapFromTasks(tasks = []) {
  *
  * @param {string} taskId             UUID of the task to test.
  * @param {Array<object>} edges       Dependency edges (`{ blocker, blocked }`).
- * @param {Object<string,string>} statusById Map of task UUID → status.
+ * @param {{[uuid: string]: string}} statusById Map of task UUID → status.
  * @return {boolean} True when the task has at least one open blocker.
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
@@ -119,7 +126,7 @@ export function isBlocked(taskId, edges = [], statusById = {}) {
  * Derive the set of blocked task UUIDs for a whole board in one pass.
  *
  * @param {Array<object>} edges       Dependency edges.
- * @param {Object<string,string>} statusById Map of task UUID → status.
+ * @param {{[uuid: string]: string}} statusById Map of task UUID → status.
  * @return {string[]} Sorted, de-duplicated UUIDs of blocked tasks.
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
@@ -145,7 +152,7 @@ export function deriveBlockedTaskIds(edges = [], statusById = {}) {
  *
  * @param {string} taskId             UUID of the blocked task.
  * @param {Array<object>} edges       Dependency edges.
- * @param {Object<string,string>} statusById Map of task UUID → status.
+ * @param {{[uuid: string]: string}} statusById Map of task UUID → status.
  * @return {string[]} UUIDs of the blockers that are still open.
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
@@ -254,7 +261,7 @@ export const BOARD_STATUSES = ['open', 'in_progress', 'blocked', 'done', 'cancel
  *
  * @param {Array<object>} tasks        The project's tasks.
  * @param {string[]} [statuses]        Ordered status column keys.
- * @return {Object<string, Array<object>>} Map of status → tasks in that column.
+ * @return {{[status: string]: Array<object>}} Map of status → tasks in that column.
  *
  * @spec openspec/specs/kanban-board.md
  */

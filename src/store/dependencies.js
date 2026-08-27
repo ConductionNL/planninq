@@ -2,7 +2,7 @@
  * Dependencies Pinia store.
  *
  * Reads dependency edges straight from the OpenRegister object API (ADR-022),
- * and routes create/delete through the planix endpoints so the server-side
+ * and routes create/delete through the Planninq endpoints so the server-side
  * cycle/self/duplicate/cross-project validation runs. The blocked-state
  * derivation itself lives in the pure helpers in utils/taskHelpers.js.
  *
@@ -12,7 +12,11 @@ import { defineStore } from 'pinia'
 import { buildHeaders } from '@conduction/nextcloud-vue'
 import { generateUrl } from '@nextcloud/router'
 
-const REGISTER = 'planix'
+// The OpenRegister register SLUG, not the app id. It moved from `planix` to
+// `planninq` together with the MigrateRegisterSlug repair step, which renames
+// the register ROW: OR resolves a register by slug and by nothing else, so the
+// literal and the row move in the same release or neither resolves.
+const REGISTER = 'planninq'
 const DEPENDENCY_SCHEMA = 'dependency'
 
 export const useDependenciesStore = defineStore('dependencies', {
@@ -62,7 +66,7 @@ export const useDependenciesStore = defineStore('dependencies', {
 		},
 
 		/**
-		 * Create a dependency edge through the planix validation endpoint.
+		 * Create a dependency edge through the Planninq validation endpoint.
 		 *
 		 * On a 4xx the server's explanatory message (cycle path, duplicate,
 		 * cross-project, self) is stored in `error` and re-thrown so the caller
@@ -76,7 +80,7 @@ export const useDependenciesStore = defineStore('dependencies', {
 		 */
 		async createEdge(blocker, blocked) {
 			this.error = null
-			const url = generateUrl('/apps/planix/api/dependencies')
+			const url = generateUrl('/apps/planninq/api/dependencies')
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: buildHeaders(),
@@ -98,7 +102,7 @@ export const useDependenciesStore = defineStore('dependencies', {
 		},
 
 		/**
-		 * Delete a dependency edge through the planix endpoint.
+		 * Delete a dependency edge through the Planninq endpoint.
 		 *
 		 * @param {string} id UUID of the edge to remove.
 		 * @return {Promise<void>}
@@ -107,7 +111,7 @@ export const useDependenciesStore = defineStore('dependencies', {
 		 */
 		async deleteEdge(id) {
 			this.error = null
-			const url = generateUrl(`/apps/planix/api/dependencies/${id}`)
+			const url = generateUrl(`/apps/planninq/api/dependencies/${id}`)
 			const response = await fetch(url, {
 				method: 'DELETE',
 				headers: buildHeaders(),

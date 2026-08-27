@@ -1,6 +1,6 @@
 import { generateUrl } from '@nextcloud/router'
 import { useObjectStore } from './modules/object.js'
-import { useObjectStore as useConductionObjectStore } from '@conduction/nextcloud-vue'
+import { useObjectStore as useConductionObjectStore } from './objectStore.js'
 import { useSettingsStore } from './modules/settings.js'
 
 /**

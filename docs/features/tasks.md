@@ -1,6 +1,6 @@
 # Tasks
 
-The core unit of work in Planix — create, assign, prioritize, and track tasks across projects.
+The core unit of work in Planninq — create, assign, prioritize, and track tasks across projects.
 
 ## Overview
 
@@ -17,6 +17,7 @@ A task represents a piece of work within a project. Tasks carry a title, descrip
 - **Task detail view** — `CnDetailPage` with a core info card, time tracking panel, and `CnObjectSidebar` (Files, Notes, Tags, Audit Trail tabs)
 - **Kanban placement** — assign a task to a board column to move it from the backlog onto the board
 - **Procest link** — optional `zaakUuid` field links a task to a Procest case (see [Procest Integration](procest-integration.md))
+- **Task dependencies** — mark a task as blocked by another task in the same project; a blocked badge shows on the card and in task detail; the server rejects self, duplicate, and cyclic dependency edges
 - **Notifications** — task assignment and due-date reminders sent via Nextcloud Notifications (configurable in user settings)
 
 ## Standards
@@ -27,4 +28,4 @@ A task represents a piece of work within a project. Tasks carry a title, descrip
 
 ## Spec
 
-- [tasks spec](https://codeberg.org/Conduction/planix/src/branch/development/openspec/specs/tasks.md)
+- [tasks spec](https://github.com/ConductionNL/planninq/blob/development/openspec/specs/tasks.md)

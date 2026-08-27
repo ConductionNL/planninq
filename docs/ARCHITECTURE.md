@@ -1,14 +1,14 @@
-# Planix — Architecture & Data Model
+# Planninq — Architecture & Data Model
 
 ## 1. Overview
 
-Planix is a Kanban-based project and task management app for Nextcloud, built as a thin client on OpenRegister. It manages projects, tasks, kanban boards, and time entries for internal dev and IT teams. Tasks flow through configurable kanban columns in a continuous-flow (non-sprint) model with WIP limits, backlog management, and time tracking.
+Planninq is a Kanban-based project and task management app for Nextcloud, built as a thin client on OpenRegister. It manages projects, tasks, kanban boards, and time entries for internal dev and IT teams. Tasks flow through configurable kanban columns in a continuous-flow (non-sprint) model with WIP limits, backlog management, and time tracking.
 
 ### Architecture Pattern
 
 ```
 ┌─────────────────────────────────────────────────┐
-│  Planix Frontend (Vue 2 + Pinia)                │
+│  Planninq Frontend (Vue 3 + Pinia)                │
 │  - Dashboard (My Work, recent projects)         │
 │  - Project list / detail views                  │
 │  - Kanban board view (drag-and-drop)            │
@@ -32,7 +32,7 @@ Planix is a Kanban-based project and task management app for Nextcloud, built as
 └─────────────────────────────────────────────────┘
 ```
 
-Planix owns **no database tables**. All data is stored as OpenRegister objects, defined by schemas in a dedicated register.
+Planninq owns **no database tables**. All data is stored as OpenRegister objects, defined by schemas in a dedicated register.
 
 ## 2. Standards Research
 
@@ -59,7 +59,7 @@ Before defining our data model, we evaluated multiple standards across three cat
 This means:
 - Objects in OpenRegister are modeled after **iCalendar VTODO and Schema.org** conventions
 - When exposing a ZGW-compatible API, we **map** our international objects to Zaak/Taak field names
-- This makes Planix usable in any organization while remaining interoperable with Dutch systems
+- This makes Planninq usable in any organization while remaining interoperable with Dutch systems
 
 ### 2.3 Key Findings
 
@@ -71,9 +71,9 @@ This means:
 
 4. **Kanban methodology** is standards-agnostic. WIP limits, column-based flow, and cumulative flow diagrams are practices, not data schema. We store `wipLimit` on columns and derive flow metrics from task state history.
 
-5. **Nextcloud Tasks app** (CalDAV/VTODO) is the existing native task implementation. Planix augments it with project organization, kanban boards, and time tracking — features the Tasks app explicitly excludes. We store a `calendarEventUid` reference to allow optional two-way sync.
+5. **Nextcloud Tasks app** (CalDAV/VTODO) is the existing native task implementation. Planninq augments it with project organization, kanban boards, and time tracking — features the Tasks app explicitly excludes. We store a `calendarEventUid` reference to allow optional two-way sync.
 
-6. **VNG InterneTaak** (Klantinteracties) defines tasks within customer interactions. Tasks from Procest cases can be managed in Planix via the cross-app task bridge. The `zaakUuid` field on a Planix task links back to the originating case.
+6. **VNG InterneTaak** (Klantinteracties) defines tasks within customer interactions. Tasks from Procest cases can be managed in Planninq via the cross-app task bridge. The `zaakUuid` field on a Planninq task links back to the originating case.
 
 7. **GitHub Issues** proves that labels, milestones, assignees, and states are sufficient for dev-team task management. Complex metadata (story points, velocity) can be derived from these primitives plus time data.
 
@@ -93,7 +93,7 @@ This means:
 
 #### Task (Taak)
 
-A task is the core unit of work in Planix. Tasks belong to a project, can be placed in a kanban column, and carry time estimates and time log entries.
+A task is the core unit of work in Planninq. Tasks belong to a project, can be placed in a kanban column, and carry time estimates and time log entries.
 
 | Aspect | Decision | Rationale |
 |--------|----------|-----------|
@@ -237,7 +237,7 @@ Labels are cross-project tags that can be applied to tasks and projects. Stored 
 ### 3.3 Cross-App Relationships
 
 ```
-Planix (Task Management)              Procest (Case Management)
+Planninq (Task Management)              Procest (Case Management)
 ┌──────────────────────┐              ┌─────────────────────┐
 │  Project             │              │                     │
 │  Column              │              │   Case              │
@@ -253,7 +253,7 @@ Planix (Task Management)              Procest (Case Management)
 └──────────────────────┘
 ```
 
-**Procest integration**: A Procest case can create tasks in Planix via the cross-app link. The `caseReference` on a Planix Project (or `zaakUuid` on an individual Task) maintains the bridge. Task completion status is mirrored back to the case status where configured.
+**Procest integration**: A Procest case can create tasks in Planninq via the cross-app link. The `caseReference` on a Planninq Project (or `zaakUuid` on an individual Task) maintains the bridge. Task completion status is mirrored back to the case status where configured.
 
 ### 3.4 My Work (Werkvoorraad)
 
@@ -276,7 +276,7 @@ A personal workload view showing all tasks assigned to the current user, across 
 
 ### 3.5 @conduction/nextcloud-vue Library
 
-All Planix UI MUST use the shared `@conduction/nextcloud-vue` library.
+All Planninq UI MUST use the shared `@conduction/nextcloud-vue` library.
 
 | Layer | What to Use | Purpose |
 |-------|-------------|---------|
@@ -291,7 +291,7 @@ All Planix UI MUST use the shared `@conduction/nextcloud-vue` library.
 | **Store** | `useObjectStore` with plugins | All OpenRegister data operations |
 | **Composables** | `useListView`, `useDetailView`, `useSubResource` | Page state management |
 
-**Kanban board**: custom Planix component (drag-and-drop card grid), built on top of library base components. Uses `useObjectStore` for task data, `CnStatusBadge` for status indicators on cards.
+**Kanban board**: custom Planninq component (drag-and-drop card grid), built on top of library base components. Uses `useObjectStore` for task data, `CnStatusBadge` for status indicators on cards.
 
 ```json
 "@conduction/nextcloud-vue": "^0.1.0-beta.1"
@@ -338,12 +338,12 @@ All navigation uses Vue Router (hash mode). Route table:
 | **Users / Assignees** | `OCP\IUserManager` | User identity, display name, avatar | Reference by user UID; resolve display name via `IUserManager::get()` |
 | **Files** | `OCP\Files\IRootFolder` | Task attachments, project documents | Reference by Nextcloud file ID; resolve via `IRootFolder->getById()` |
 | **Activity** | `OCP\Activity\IManager` | Task created/updated/completed events | Publish to activity stream; implement `IProvider` for rendering |
-| **Comments** | `OCP\Comments\ICommentsManager` | Notes on tasks and projects | Attach using objectType `planix_task` + objectId |
+| **Comments** | `OCP\Comments\ICommentsManager` | Notes on tasks and projects | Attach using objectType `planninq_task` + objectId |
 | **System Tags** | `OCP\SystemTag\ISystemTagObjectMapper` | Cross-reference labels and categories | Tag task objects with label IDs |
 | **Calendar** | `OCP\Calendar\IManager` | Task due dates synced to NC Calendar | Optional VTODO export via CalDAV; `calendarEventUid` back-reference |
 | **Notifications** | `OCP\Notification\IManager` | Assignment, due date, status notifications | Publish structured notifications for in-app and push delivery |
 
-#### BUILD in OpenRegister (Planix-specific)
+#### BUILD in OpenRegister (Planninq-specific)
 
 | What | Why Not Reuse |
 |------|---------------|
@@ -364,13 +364,13 @@ $displayName = $user?->getDisplayName() ?? $userUid;
 // Activity - publish task events
 $activityManager = \OCP\Server::get(\OCP\Activity\IManager::class);
 $event = $activityManager->generateEvent();
-$event->setApp('planix')->setType('task_update')->setSubject('task_assigned', ['task' => $title]);
+$event->setApp('planninq')->setType('task_update')->setSubject('task_assigned', ['task' => $title]);
 $activityManager->publish($event);
 
 // Notifications - task assignment
 $notificationManager = \OCP\Server::get(\OCP\Notification\IManager::class);
 $notification = $notificationManager->createNotification();
-$notification->setApp('planix')->setUser($assignedTo)->setSubject('task_assigned');
+$notification->setApp('planninq')->setUser($assignedTo)->setSubject('task_assigned');
 $notificationManager->notify($notification);
 
 // Files - resolve attachment
@@ -388,13 +388,13 @@ $calendarManager = \OCP\Server::get(\OCP\Calendar\IManager::class);
 
 | Field | Value |
 |-------|-------|
-| Name | `planix` |
-| Slug | `planix` |
+| Name | `Planninq` |
+| Slug | `planninq` (moved from `planix` by the `MigrateRegisterSlug` repair step, which renames the register row before the import resolves it; the register's `tablePrefix` and `folder` stay `planix`, because those name physical things that already exist) |
 | Description | Project and task management register |
 
 ### Schema Definitions
 
-Schemas MUST be defined in `lib/Settings/planix_register.json` using OpenAPI 3.0.0 format, following the pattern used by Pipelinq and Procest.
+Schemas MUST be defined in `lib/Settings/planninq_register.json` using OpenAPI 3.0.0 format, following the pattern used by Pipelinq and Procest.
 
 **Schemas**:
 - `task` — Work item (schema:Action / schema:PlanAction)
@@ -407,17 +407,17 @@ The configuration is imported via `ConfigurationService::importFromApp()` in the
 
 ## 5. Resolved Research Questions
 
-All research questions below have been resolved. Decisions are recorded in the app-specific ADRs under [`openspec/architecture/`](https://codeberg.org/Conduction/planix/src/branch/development/openspec/architecture).
+All research questions below have been resolved. Decisions are recorded in the app-specific ADRs under [`openspec/architecture/`](https://github.com/ConductionNL/planninq/tree/development/openspec/architecture).
 
-1. **CalDAV VTODO sync** — **One-way export to Nextcloud Tasks app in V1.** The `calendarEventUid` field on Task stores the VTODO UID. Planix writes tasks to CalDAV; changes made in the Tasks app are not synced back. Two-way sync was rejected due to data model mismatch (Tasks app has no concept of projects, columns, or WIP limits).
+1. **CalDAV VTODO sync** — **One-way export to Nextcloud Tasks app in V1.** The `calendarEventUid` field on Task stores the VTODO UID. Planninq writes tasks to CalDAV; changes made in the Tasks app are not synced back. Two-way sync was rejected due to data model mismatch (Tasks app has no concept of projects, columns, or WIP limits).
 
 2. **Sub-task depth** — **One level only (task → sub-task), all tiers.** Projects serve the "epic" grouping role. No formal Epic entity. This matches Linear and Plane (1 level + containers) and avoids Jira's 3-level complexity.
 
-3. **Procest task bridge** — **Configurable — Procest UI decides.** Procest's UI presents a project picker when creating tasks for a case. It may create a new project (with `caseReference`) or add tasks to an existing project (with `zaakUuid` on each task). Planix has no routing mechanism — it reads whatever Procest wrote to OpenRegister. See ADR-003.
+3. **Procest task bridge** — **Configurable — Procest UI decides.** Procest's UI presents a project picker when creating tasks for a case. It may create a new project (with `caseReference`) or add tasks to an existing project (with `zaakUuid` on each task). Planninq has no routing mechanism — it reads whatever Procest wrote to OpenRegister. See ADR-003.
 
 4. **Time tracking scope** — **Per-task only, forever.** `TimeEntry.task` is always required. Overhead work (meetings, planning) is tracked as tasks — not as project-level time entries. This keeps the data model simple and queryable. No special cases needed. See ADR-004.
 
-5. **GitHub/GitLab sync** — **Via OpenConnector in V1.** Planix owns no GitHub/GitLab API code. OpenConnector handles the external API mapping (GitHub Issues ↔ Planix tasks). This avoids duplicating integration logic across Conduction apps.
+5. **GitHub/GitLab sync** — **Via OpenConnector in V1.** Planninq owns no GitHub/GitLab API code. OpenConnector handles the external API mapping (GitHub Issues ↔ Planninq tasks). This avoids duplicating integration logic across Conduction apps.
 
 6. **WIP limit enforcement** — **Soft limits with visual warning.** Column header turns orange/red when over the WIP limit; counter shows e.g. `4/3`. Drag is never blocked. Industry consensus: hard limits cause friction and workarounds (Jira, Kanboard both use soft limits).
 
