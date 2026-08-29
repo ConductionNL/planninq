@@ -9,6 +9,9 @@ declare(strict_types=1);
 // appended as $extra (inserted before the SPA catch-all so they keep priority).
 return \OCA\OpenRegister\AppHost\Routes::standard([
     // Per-user notification settings — planninq-specific, NOT in the canonical set.
+    // First-time setup wizard (ADR-042) - the standard CnSetupWizard contract.
+    ['name' => 'setup#status',    'url' => '/api/setup/status',            'verb' => 'GET'],
+    ['name' => 'setup#runAction', 'url' => '/api/setup/action/{actionId}', 'verb' => 'POST', 'requirements' => ['actionId' => '[a-z0-9\\-]+']],
     ['name' => 'settings#updateUser', 'url' => '/api/settings/user', 'verb' => 'POST'],
 
     // Project creation policy check — enforces allow_project_creation server-side.
