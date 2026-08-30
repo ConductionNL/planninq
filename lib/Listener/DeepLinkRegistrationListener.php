@@ -1,61 +1,48 @@
 <?php
 
 /**
- * Planix DeepLinkRegistrationListener
+ * Planninq Deep-Link Registration Listener
  *
- * Registers Planix's deep link URL patterns with OpenRegister's search provider.
+ * One-line AppHost leaf class. `IRegistrationContext::registerEventListener()`
+ * is typed `class-string<IEventListener<Event>>`, a contract only a real class
+ * can satisfy — so unlike the other AppHost leaf names (which stay plain DI
+ * service-id strings in Application::registerAppHost()), this one physically
+ * exists.
+ *
+ * It carries no behaviour of its own: answering OpenRegister's
+ * DeepLinkRegistrationEvent from the app's src/manifest.json `deepLinks` block
+ * lives entirely in the engine base class.
+ * Application::registerAppHostDeepLinks() constructs it inside a lazy factory
+ * closure, so the OpenRegister parent is still never autoloaded at Nextcloud
+ * bootstrap — the lazy-by-construction invariant of ADR-040. The event it
+ * listens for is only ever dispatched by OpenRegister itself, so with
+ * OpenRegister absent this class is never resolved at all.
  *
  * @category Listener
- * @package  OCA\Planix\Listener
+ * @package  OCA\Planninq\Listener
  *
- * @author    Conduction Development Team <dev@conductio.nl>
- * @copyright 2024 Conduction B.V.
+ * @author    Conduction Development Team <dev@conduction.nl>
+ * @copyright 2026 Conduction B.V.
  * @license   EUPL-1.2 https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  *
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Listener;
+namespace OCA\Planninq\Listener;
 
-use OCA\OpenRegister\Event\DeepLinkRegistrationEvent;
-use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\IEventListener;
+use OCA\OpenRegister\AppHost\Listener\GenericDeepLinkRegistrationListener;
 
 /**
- * Registers Planix's deep link URL patterns with OpenRegister's search provider.
+ * AppHost-backed deep-link registration listener for Planninq (ADR-040).
  *
- * When a user searches in Nextcloud's unified search, results for Planix schemas
- * will link directly to the relevant detail views in the app.
- *
- * @implements IEventListener<Event>
+ * @spec openspec/specs/app-metadata/spec.md
  */
-class DeepLinkRegistrationListener implements IEventListener
-{
-    /**
-     * Handle the deep link registration event.
-     *
-     * @param Event $event The event to handle
-     *
-     * @return void
-     */
-    public function handle(Event $event): void
-    {
-        if ($event instanceof DeepLinkRegistrationEvent === false) {
-            return;
-        }
-
-        // Register example object deep links.
-        // Update the register slug, schema slug, and URL template to match your app's actual schemas.
-        $event->register(
-            appId: 'planix',
-            registerSlug: 'planix',
-            schemaSlug: 'example',
-            urlTemplate: '/apps/planix/#/examples/{uuid}'
-        );
-
-    }//end handle()
+class DeepLinkRegistrationListener extends GenericDeepLinkRegistrationListener {
 }//end class

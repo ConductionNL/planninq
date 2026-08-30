@@ -1,13 +1,13 @@
 schema: conduction
 
 context: |
-  Project: Planix
-  Repo: ConductionNL/planix
-  Type: Nextcloud App (PHP backend + Vue 2 frontend)
+  Project: Planninq
+  Repo: ConductionNL/planninq
+  Type: Nextcloud App (PHP backend + Vue 3 frontend)
   Description: Flow-based kanban project and task management for Nextcloud — manages projects, tasks, kanban boards, and time entries for dev and IT teams
   Key components: Projects (kanban containers), Tasks (work items), Columns (kanban stages), TimeEntries (time logs), Labels (cross-project tags)
   Database: PostgreSQL (via OpenRegister's ObjectService)
-  Mount path: /var/www/html/custom_apps/planix
+  Mount path: /var/www/html/custom_apps/planninq
 
   Standards:
     Primary: iCalendar VTODO (RFC 5545) for task field reference
@@ -16,9 +16,9 @@ context: |
     Pattern: OpenProject Work Package model, GitHub Issues (proven dev-team task model)
 
   Architecture:
-    Pattern: Thin client — Planix owns no database tables
+    Pattern: Thin client — Planninq owns no database tables
     Data layer: OpenRegister (JSON object storage with schema validation)
-    Frontend: Vue 2.7 + Pinia stores querying OpenRegister API directly
+    Frontend: Vue 3.5 + Pinia stores querying OpenRegister API directly
     Backend: Minimal — SettingsController + ConfigurationService for register setup; NotificationService for task events
     Shared library: @conduction/nextcloud-vue (components, stores, composables, NL Design CSS)
     Nextcloud reuse: Users (IUserManager), Files (IRootFolder), Activity (IManager),
@@ -45,7 +45,7 @@ rules:
     - Reference FEATURES.md tier for each requirement (MVP/V1/Enterprise)
   design:
     - Uses OpenRegister API directly from frontend (no own backend CRUD)
-    - Register config in lib/Settings/planix_register.json (OpenAPI 3.0.0 format)
+    - Register config in lib/Settings/planninq_register.json (OpenAPI 3.0.0 format)
     - Imported via ConfigurationService::importFromApp() in repair step
     - Reference Nextcloud OCP interfaces for all platform integrations
     - MUST use @conduction/nextcloud-vue components (CnDataTable, CnListViewLayout, CnDetailPage, CnObjectSidebar, etc.)
@@ -56,8 +56,8 @@ rules:
     - MUST use NL Design System double-fallback CSS pattern (cn- prefix)
     - MUST use Vue Router (hash mode) for all navigation — src/router/index.js, registered in main.js, <router-view /> in App.vue
     - MainMenu navigation via :to prop on NcAppNavigationItem (NOT @click + $router.push())
-    - Detail views use route props functions: props: route => ({ taskId: route.params.id })
-    - Kanban board is a custom Planix component (drag-and-drop) built on @conduction/nextcloud-vue base components
+    - "Detail views use route props functions: props: route => ({ taskId: route.params.id })"
+    - Kanban board is a custom Planninq component (drag-and-drop) built on @conduction/nextcloud-vue base components
     - Check OpenRegister dependency and show NcEmptyContent when not installed
   tasks:
     - Tag tasks with feature tier (MVP/V1/Enterprise)

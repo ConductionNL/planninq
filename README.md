@@ -1,22 +1,22 @@
 <p align="center">
-  <img src="img/app-store.svg" alt="Planix logo" width="80" height="80">
+  <img src="img/app-store.svg" alt="Planninq logo" width="80" height="80">
 </p>
 
-<h1 align="center">Planix</h1>
+<h1 align="center">Planninq</h1>
 
 <p align="center">
   <strong>Flow-based kanban project and task management for Nextcloud dev and IT teams</strong>
 </p>
 
 <p align="center">
-  <a href="https://github.com/ConductionNL/planix/releases"><img src="https://img.shields.io/github/v/release/ConductionNL/planix" alt="Latest release"></a>
-  <a href="https://github.com/ConductionNL/planix/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-EUPL--1.2-blue" alt="License"></a>
-  <a href="https://github.com/ConductionNL/planix/actions"><img src="https://img.shields.io/github/actions/workflow/status/ConductionNL/planix/code-quality.yml?label=quality" alt="Code quality"></a>
+  <a href="https://github.com/ConductionNL/planninq/releases"><img src="https://img.shields.io/github/v/release/ConductionNL/planninq" alt="Latest release"></a>
+  <a href="https://github.com/ConductionNL/planninq/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-EUPL--1.2-blue" alt="License"></a>
+  <a href="https://github.com/ConductionNL/planninq/actions"><img src="https://img.shields.io/github/actions/workflow/status/ConductionNL/planninq/code-quality.yml?label=quality" alt="Code quality"></a>
 </p>
 
 ---
 
-Planix is a Kanban-based project and task management app for Nextcloud, built as a thin client on OpenRegister. It manages projects, tasks, kanban boards with WIP limits, backlogs, and time entries for internal dev and IT teams.
+Planninq is a Kanban-based project and task management app for Nextcloud, built as a thin client on OpenRegister. It manages projects, tasks, kanban boards with WIP limits, backlogs, and time entries — giving internal dev and IT teams a focused workflow tool built directly into their Nextcloud environment. Unlike Nextcloud Deck (which lacks backlog management, time tracking, and WIP limits), Planninq closes the gap between Deck's simplicity and Jira's complexity.
 
 > **Pre-wired for [OpenRegister](https://github.com/ConductionNL/openregister)** — all data is stored as OpenRegister objects. If your app needs OpenRegister, install it first. If not, remove the dependency from `appinfo/info.xml` and `openspec/app-config.json`.
 
@@ -26,40 +26,57 @@ _Add screenshots here once the app has a UI._
 
 ## Features
 
-Features are defined in [`openspec/specs/`](openspec/specs/). See the [roadmap](openspec/ROADMAP.md) for planned work.
+Features are defined in [`openspec/specs/`](openspec/specs/). See the [roadmap](openspec/ROADMAP.md) for planned work. Full feature documentation is in [`docs/features/`](docs/features/).
 
-### Core
-- **Dashboard** — Personal overview page with key information at a glance
-- **Admin Settings** — Configurable settings panel for administrators
+### Task & Project Management
+- **Projects** — Create and manage project containers with team members, colors, and kanban boards
+- **Tasks** — Full task lifecycle with priorities, labels, assignees, due dates, and status tracking (open → in progress → done)
+- **Backlog** — Task queue for unscheduled work with sorting and filtering; tasks promote to the board via drag-and-drop
+- **Kanban Board** — Visual board per project with configurable columns, drag-and-drop cards, and WIP limits
+
+### Personal Productivity
+- **Dashboard & My Work** — Personal landing page with KPI cards (open, overdue, in progress, done today), recent projects, and tasks due this week; My Work groups all assigned tasks by urgency
+- **Time Tracking** — Estimate effort per task, log multiple time entries (duration + date + description), and review logged time in a personal timesheet view
+
+### Integration
+- **Procest Integration** — Link tasks and projects to Procest cases via `caseReference` (project) and `zaakUuid` (task) fields; case badges appear in the project list and task detail
+
+### Admin & Configuration
+- **Admin Settings** — Configurable admin panel for default columns, label management, and OpenRegister initialization; uses `CnVersionInfoCard` and `CnSettingsSection` components
+- **User Settings** — Per-user notification preferences and default view selection via `NcAppSettingsDialog`
 
 ### Supporting
-- **OpenRegister Integration** — Pre-wired data layer using OpenRegister objects
+- **OpenRegister Integration** — All data stored as OpenRegister objects; no custom database tables
 - **Quality Pipeline** — PHPCS, PHPMD, Psalm, PHPStan, ESLint, Stylelint
 
 ## Architecture
 
 ```mermaid
 graph TD
-    A[Vue 2 Frontend] -->|REST API| B[OpenRegister API]
+    A[Vue 3 Frontend] -->|REST API| B[OpenRegister API]
     B --> C[(PostgreSQL JSON store)]
     A --> D[Nextcloud Activity]
     A --> E[Nextcloud Search]
 ```
 
-_Update this diagram during `/app-explore` sessions as the architecture evolves._
+See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full architecture breakdown.
 
 ### Data Model
 
-| Object | Description |
-|--------|-------------|
-| _(define your data objects here)_ | — |
+| Object | Schema.org Type | Description |
+|--------|----------------|-------------|
+| Task | `schema:Action` / `schema:PlanAction` | Core unit of work — title, description, assignee, due date, priority, status, estimates |
+| Project | `schema:CreativeWork` | Container for tasks and kanban board — teams, members, metadata |
+| Column | `schema:DefinedTerm` | Kanban board column — configurable stages with WIP limits |
+| TimeEntry | `schema:QuantitativeValue` | Effort log — task, user, duration (minutes), date, description |
+| Label | `schema:DefinedTerm` | Cross-project tag — name, color, description |
 
-_Data model is defined using OpenRegister schemas. See [`openspec/specs/`](openspec/specs/) for feature-level design decisions and [`openspec/architecture/`](openspec/architecture/) for architectural decisions._
+Data model is defined using OpenRegister schemas. See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for full entity definitions and standards mapping, [`openspec/specs/`](openspec/specs/) for feature-level requirements, and [`openspec/architecture/`](openspec/architecture/) for architectural decisions.
 
 ### Directory Structure
 
 ```
-planix/
+planninq/
 ├── appinfo/                    # Nextcloud app manifest, routes, navigation
 ├── lib/                        # PHP backend
 │   ├── AppInfo/Application.php
@@ -67,9 +84,9 @@ planix/
 │   ├── Service/SettingsService.php
 │   ├── Listener/DeepLinkRegistrationListener.php
 │   ├── Repair/InitializeSettings.php
-│   └── Settings/               # AdminSettings, planix_register.json
+│   └── Settings/               # AdminSettings, planninq_register.json
 ├── templates/                  # PHP templates (SPA shells)
-├── src/                        # Vue 2 frontend
+├── src/                        # Vue 3 frontend
 │   ├── main.js                 # App entry point
 │   ├── App.vue                 # Root component
 │   ├── navigation/MainMenu.vue # App navigation sidebar
@@ -94,8 +111,8 @@ planix/
 
 | Dependency | Version |
 |-----------|---------|
-| Nextcloud | 28 – 33 |
-| PHP | 8.1+ |
+| Nextcloud | 31 – 33 |
+| PHP | 8.3+ |
 | Node.js | 20+ |
 | [OpenRegister](https://github.com/ConductionNL/openregister) | latest |
 
@@ -104,7 +121,7 @@ planix/
 ### From the Nextcloud App Store
 
 1. Go to **Apps** in your Nextcloud instance
-2. Search for **Planix**
+2. Search for **Planninq**
 3. Click **Download and enable**
 
 > OpenRegister must be installed first. [Install OpenRegister →](https://apps.nextcloud.com/apps/openregister)
@@ -113,10 +130,10 @@ planix/
 
 ```bash
 cd /var/www/html/custom_apps
-git clone https://github.com/ConductionNL/planix.git planix
-cd planix
+git clone https://github.com/ConductionNL/planninq.git planninq
+cd planninq
 npm install && npm run build
-php occ app:enable planix
+php occ app:enable planninq
 ```
 
 ## Development
@@ -151,21 +168,21 @@ npm run stylelint       # CSS linting
 
 ### Enable locally
 
-Nextcloud requires the app directory name to match the `<id>` in `appinfo/info.xml` (`planix`).
+Nextcloud requires the app directory name to match the `<id>` in `appinfo/info.xml` (`planninq`).
 
 > **Note:** The `js/` build output is not committed. You must build the frontend before enabling the app, or the UI will be blank.
 
 ```bash
 make dev-link
 npm install && npm run build
-docker exec nextcloud php occ app:enable planix
+docker exec nextcloud php occ app:enable planninq
 ```
 
 ## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | Vue 2.7, Pinia, @nextcloud/vue |
+| Frontend | Vue 3.5, Pinia, @nextcloud/vue 9 |
 | Build | Webpack 5, @nextcloud/webpack-vue-config |
 | Backend | PHP 8.1+, Nextcloud App Framework |
 | Data | OpenRegister (PostgreSQL JSON objects) |
@@ -213,18 +230,18 @@ The `js/` build output is not committed to the repo. Run the frontend build befo
 npm install && npm run build
 ```
 
-### "Could not download app planix" when running `occ app:enable`
+### "Could not download app planninq" when running `occ app:enable`
 
-Nextcloud requires the app directory name to exactly match the `<id>` in `appinfo/info.xml`. Make sure the directory is named `planix`:
+Nextcloud requires the app directory name to exactly match the `<id>` in `appinfo/info.xml`. Make sure the directory is named `planninq`:
 
 ```bash
-make dev-link   # creates apps-extra/planix -> planix
+make dev-link   # creates apps-extra/planninq -> planninq
 ```
 
 Then enable the app again:
 
 ```bash
-docker exec nextcloud php occ app:enable planix
+docker exec nextcloud php occ app:enable planninq
 ```
 
 ## Support

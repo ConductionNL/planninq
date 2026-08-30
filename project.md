@@ -1,14 +1,14 @@
-# Planix — Flow-based kanban project and task management for Nextcloud dev and IT teams
+# Planninq — Flow-based kanban project and task management for Nextcloud dev and IT teams
 
 ## Overview
 
-Planix is a Kanban-based project and task management app for Nextcloud, built as a thin client on OpenRegister. It manages projects, tasks, kanban boards with WIP limits, backlogs, and time entries for internal dev and IT teams.
+Planninq is a Kanban-based project and task management app for Nextcloud, built as a thin client on OpenRegister. It manages projects, tasks, kanban boards with WIP limits, backlogs, and time entries for internal dev and IT teams.
 
 ## Architecture
 
-- **Type**: Nextcloud App (PHP backend + Vue 2 frontend)
+- **Type**: Nextcloud App (PHP backend + Vue 3 frontend)
 - **Data layer**: OpenRegister (all data stored as register objects)
-- **Pattern**: Thin client — Planix provides UI/UX, OpenRegister handles persistence
+- **Pattern**: Thin client — Planninq provides UI/UX, OpenRegister handles persistence
 - **License**: EUPL-1.2
 
 ## Tech Stack
@@ -16,7 +16,7 @@ Planix is a Kanban-based project and task management app for Nextcloud, built as
 | Layer | Technology |
 |-------|------------|
 | Backend | PHP 8.1+, Nextcloud AppFramework |
-| Frontend | Vue 2.7, Pinia, @nextcloud/vue |
+| Frontend | Vue 3.5, Pinia, @nextcloud/vue 9 |
 | Data | OpenRegister (JSON object store) |
 | Testing | PHPUnit (unit + integration), Newman (API) |
 | Quality | PHPCS, PHPMD, Psalm, PHPStan, ESLint, Stylelint |
@@ -30,7 +30,7 @@ Planix is a Kanban-based project and task management app for Nextcloud, built as
 | `lib/Service/SettingsService.php` | Settings business logic, OpenRegister integration |
 | `lib/Listener/DeepLinkRegistrationListener.php` | Registers deep link patterns with OpenRegister search |
 | `lib/Repair/InitializeSettings.php` | Import register on install/upgrade |
-| `lib/Settings/planix_register.json` | OpenAPI 3.0 register schema definition |
+| `lib/Settings/planninq_register.json` | OpenAPI 3.0 register schema definition |
 | `src/App.vue` | App shell (navigation + routing) |
 | `src/navigation/MainMenu.vue` | App navigation sidebar |
 | `src/views/settings/UserSettings.vue` | User settings dialog |
@@ -45,4 +45,4 @@ See the workspace-level `.claude/docs/` for:
 
 ## Standards
 
-This app follows all [Conduction app standards](../.claude/openspec/architecture/).
+This app follows all Conduction app standards (16 company-wide ADRs covering OpenRegister, REST API, NL Design, i18n, security, testing, and documentation).

@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "portal-contribution",
+    "title": "Portal Contribution",
+    "summary": "Planninq's ADR-046 portal contribution: one plain, dependency-free provider class (OCA\\Planninq\\Portal\\PortalContributionProvider) that declares, for the single external-employee (contractor) audience, the contractor-scoped OpenRegister reads (tasks, time entries, projects.",
+    "status": "beta",
+    "docsUrl": "openspec/specs/portal-contribution/spec.md"
+  },
+  {
+    "slug": "portal-identity",
+    "title": "Portal Identity",
+    "summary": "Planninq's portal scoping identity for external subjects (hydra ADR-046 + contribution contract v2.1, amendment A4).",
+    "status": "beta",
+    "docsUrl": "openspec/specs/portal-identity/spec.md"
+  }
+]
