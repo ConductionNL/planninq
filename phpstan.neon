@@ -16,9 +16,17 @@ parameters:
         - phpstan-bootstrap.php
     excludePaths:
         - vendor
-        - vendor-bin
-        # Apps that ship a verbatim template snapshot under lib/Resources/template/ (e.g. openbuild).
-        - lib/Resources/template
+        # `(?)` marks a path OPTIONAL. Without it PHPStan refuses to run at
+        # all — "Path ... is neither a directory, nor a file path, nor a
+        # fnmatch pattern" — and exits 1 before analysing a single file, which
+        # is why `PHP Quality (phpstan)` was red on development while the code
+        # itself was fine. planninq has neither path: `vendor-bin` is not
+        # committed here, and the template snapshot belongs to the apps that
+        # actually ship one (buildiq, hermiq, portaliq). The entries are kept
+        # rather than deleted so the exclusion still applies if either appears.
+        - vendor-bin (?)
+        # Apps that ship a verbatim template snapshot under lib/Resources/template/ (e.g. buildiq).
+        - lib/Resources/template (?)
     scanDirectories:
         - vendor/nextcloud/ocp
     scanFiles:
