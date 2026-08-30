@@ -671,7 +671,7 @@ export default {
 }
 
 .label-mgmt__usage {
-	margin-left: auto;
+	margin-inline-start: auto;
 	color: var(--color-text-maxcontrast);
 	white-space: nowrap;
 }

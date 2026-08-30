@@ -484,7 +484,7 @@ export default {
 	top: 0;
 	height: 100%;
 	box-sizing: border-box;
-	border-left: 1px solid var(--color-border-dark, var(--color-border));
+	border-inline-start: 1px solid var(--color-border-dark, var(--color-border));
 	font-size: 11px;
 	color: var(--color-text-maxcontrast);
 	text-align: center;
@@ -516,7 +516,7 @@ export default {
 .project-timeline__edges {
 	position: absolute;
 	top: 0;
-	left: 0;
+	inset-inline-start: 0;
 	pointer-events: none;
 	z-index: 1;
 }
