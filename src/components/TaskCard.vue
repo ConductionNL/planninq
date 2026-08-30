@@ -203,7 +203,7 @@ export default {
 	font-size: 12px;
 	line-height: 1.4;
 	color: var(--color-text-maxcontrast);
-	word-wrap: break-word;
+	overflow-wrap: break-word;
 }
 
 .task-card__meta {
