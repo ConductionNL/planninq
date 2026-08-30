@@ -181,8 +181,7 @@ export default {
 	position: absolute;
 	z-index: 100;
 	top: 100%;
-	left: 0;
-	right: 0;
+	inset-inline: 0;
 	background: var(--color-main-background);
 	border: 1px solid var(--color-border);
 	border-radius: var(--border-radius);
