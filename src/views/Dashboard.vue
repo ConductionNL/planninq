@@ -1,67 +1,85 @@
 <template>
-	<div class="planix-dashboard">
-		<header class="planix-dashboard__header">
-			<h2>{{ t('planix', 'Dashboard') }}</h2>
-			<p class="planix-dashboard__lead">
-				{{ t('planix', 'Starter overview with sample KPIs and activity placeholders. Replace this view with your own data.') }}
-			</p>
+	<div class="planninq-dashboard">
+		<header class="planninq-dashboard__header">
+			<h2>{{ t('planninq', 'Dashboard') }}</h2>
 		</header>
 
-		<CnKpiGrid :columns="4">
+		<CnKpiGrid :columns="3">
 			<CnStatsBlock
-				:title="t('planix', 'Open items')"
-				:count="12"
-				:count-label="t('planix', 'sample')"
+				:title="t('planninq', 'Active projects')"
+				:count="activeProjectCount"
 				:icon="FolderOutline"
 				variant="primary"
 				horizontal />
 			<CnStatsBlock
-				:title="t('planix', 'Due this week')"
-				:count="5"
-				:count-label="t('planix', 'sample')"
-				:icon="CalendarClock"
-				variant="warning"
-				horizontal />
-			<CnStatsBlock
-				:title="t('planix', 'Completed')"
-				:count="48"
-				:count-label="t('planix', 'sample')"
-				:icon="CheckCircleOutline"
+				:title="t('planninq', 'Projects I am in')"
+				:count="memberProjectCount"
+				:icon="AccountGroupOutline"
 				variant="success"
 				horizontal />
 			<CnStatsBlock
-				:title="t('planix', 'Team members')"
-				:count="7"
-				:count-label="t('planix', 'sample')"
-				:icon="AccountGroupOutline"
+				:title="t('planninq', 'Archived projects')"
+				:count="archivedProjectCount"
+				:icon="ArchiveOutline"
 				variant="default"
 				horizontal />
 		</CnKpiGrid>
 
-		<div class="planix-dashboard__columns">
-			<CnConfigurationCard :title="t('planix', 'Recent activity')">
-				<ul class="planix-dashboard__placeholder-list">
-					<li>{{ t('planix', 'Placeholder: user opened a record') }}</li>
-					<li>{{ t('planix', 'Placeholder: status changed to Review') }}</li>
-					<li>{{ t('planix', 'Placeholder: comment added') }}</li>
+		<div class="planninq-dashboard__columns">
+			<CnConfigurationCard :title="t('planninq', 'My projects')">
+				<NcLoadingIcon v-if="loading" :size="24" />
+				<ul v-else-if="recentProjects.length > 0" class="planninq-dashboard__project-list">
+					<!-- A bare @click on an <li> is mouse-only: the element is
+					     not focusable and fires nothing on Enter or Space, so
+					     this list was unreachable by keyboard entirely. -->
+					<li
+						v-for="project in recentProjects"
+						:key="project.id"
+						class="planninq-dashboard__project-item"
+						role="button"
+						tabindex="0"
+						@click="navigateToProject(project)"
+						@keydown.enter="navigateToProject(project)"
+						@keydown.space.prevent="navigateToProject(project)">
+						<span
+							v-if="project.icon"
+							class="planninq-dashboard__project-icon">{{ project.icon }}</span>
+						<span>{{ project.title }}</span>
+					</li>
 				</ul>
+				<p v-else class="planninq-dashboard__hint">
+					{{ t('planninq', 'You are not a member of any projects yet.') }}
+				</p>
 			</CnConfigurationCard>
 
-			<CnConfigurationCard :title="t('planix', 'Quick actions')">
-				<p class="planix-dashboard__hint">
-					{{ t('planix', 'Wire buttons here to create records, open lists, or deep links. Use the sidebar for Settings and Documentation.') }}
+			<CnConfigurationCard :title="t('planninq', 'Quick actions')">
+				<p class="planninq-dashboard__hint">
+					{{ t('planninq', 'Use the Projects page to create and manage your projects and tasks.') }}
 				</p>
+				<NcButton variant="primary" @click="$router.push({ name: 'Projects' })">
+					{{ t('planninq', 'Go to projects') }}
+				</NcButton>
 			</CnConfigurationCard>
 		</div>
 	</div>
 </template>
 
 <script>
+/**
+ * Dashboard view.
+ *
+ * Shows real KPI counts derived from the projects store instead of
+ * hardcoded placeholder values.
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-11
+ */
 import { CnConfigurationCard, CnKpiGrid, CnStatsBlock } from '@conduction/nextcloud-vue'
+import { NcButton, NcLoadingIcon } from '@nextcloud/vue'
 import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
-import CalendarClock from 'vue-material-design-icons/CalendarClock.vue'
-import CheckCircleOutline from 'vue-material-design-icons/CheckCircleOutline.vue'
+import ArchiveOutline from 'vue-material-design-icons/ArchiveOutline.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
+
+import { useProjectsStore } from '../store/projects.js'
 
 export default {
 	name: 'Dashboard',
@@ -69,60 +87,141 @@ export default {
 		CnConfigurationCard,
 		CnKpiGrid,
 		CnStatsBlock,
+		NcButton,
+		NcLoadingIcon,
 	},
 	data() {
 		return {
 			FolderOutline,
-			CalendarClock,
-			CheckCircleOutline,
 			AccountGroupOutline,
+			ArchiveOutline,
 		}
+	},
+
+	computed: {
+		/**
+		 * @spec exclude Store passthrough — returns the projects Pinia store.
+		 */
+		projectsStore() {
+			return useProjectsStore()
+		},
+		/**
+		 * @spec exclude Store passthrough — proxies projectsStore.loading.
+		 */
+		loading() {
+			return this.projectsStore.loading
+		},
+		/**
+		 * Number of active projects the user is a member of.
+		 *
+		 * @return {number}
+		 */
+		activeProjectCount() {
+			return this.projectsStore.projects.filter((p) => p.status === 'active').length
+		},
+		/**
+		 * Number of archived projects the user is a member of.
+		 *
+		 * @return {number}
+		 */
+		archivedProjectCount() {
+			return this.projectsStore.projects.filter((p) => p.status === 'archived').length
+		},
+		/**
+		 * Total number of projects the user is a member of (all statuses).
+		 *
+		 * @return {number}
+		 */
+		memberProjectCount() {
+			return this.projectsStore.projects.length
+		},
+		/**
+		 * Up to 5 most recent active projects, sorted by title for now.
+		 *
+		 * @return {Array}
+		 */
+		recentProjects() {
+			return this.projectsStore.projects
+				.filter((p) => p.status === 'active')
+				.slice(0, 5)
+		},
+	},
+
+	async mounted() {
+		await this.projectsStore.fetchProjects()
+	},
+
+	methods: {
+		/**
+		 * Navigate to a project's board.
+		 *
+		 * @param {object} project Project to navigate to
+		 */
+		navigateToProject(project) {
+			this.$router.push({ name: 'ProjectBoard', params: { id: project.id } })
+		},
 	},
 }
 </script>
 
 <style scoped>
-.planix-dashboard {
+.planninq-dashboard {
 	padding: 8px 4px 24px;
 	max-width: 1200px;
 }
 
-.planix-dashboard__header {
+.planninq-dashboard__header {
 	margin-bottom: 20px;
 }
 
-.planix-dashboard__header h2 {
+.planninq-dashboard__header h2 {
 	margin: 0 0 8px;
 	font-size: 22px;
 	font-weight: 600;
 }
 
-.planix-dashboard__lead {
-	margin: 0;
-	color: var(--color-text-maxcontrast);
-	line-height: 1.5;
-}
-
-.planix-dashboard__columns {
+.planninq-dashboard__columns {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 16px;
+	margin-top: 16px;
 }
 
 @media (max-width: 900px) {
-	.planix-dashboard__columns {
+	.planninq-dashboard__columns {
 		grid-template-columns: 1fr;
 	}
 }
 
-.planix-dashboard__placeholder-list {
+.planninq-dashboard__project-list {
 	margin: 0;
-	padding-left: 1.2em;
-	line-height: 1.6;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
 }
 
-.planix-dashboard__hint {
-	margin: 0;
+.planninq-dashboard__project-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 8px;
+	border-radius: var(--border-radius);
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.planninq-dashboard__project-item:hover {
+	background: var(--color-background-hover);
+}
+
+.planninq-dashboard__project-icon {
+	font-size: 16px;
+}
+
+.planninq-dashboard__hint {
+	margin: 0 0 12px;
 	line-height: 1.5;
 	color: var(--color-text-maxcontrast);
 }

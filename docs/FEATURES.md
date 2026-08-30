@@ -1,10 +1,10 @@
-# Planix — Feature Analysis & Product Strategy
+# Planninq — Feature Analysis & Product Strategy
 
 ## Executive Summary
 
-Nextcloud Deck is the only native Nextcloud kanban app — and it is fundamentally limited: no backlog management, no time tracking, no GitHub integration, no WIP limits, and severe performance issues at scale. Meanwhile, leading tools like Jira are expensive and complex, while Plane and Linear are SaaS-first and lack Nextcloud integration. Planix fills the gap as a **developer-first kanban app built natively on Nextcloud** — delivering a focused feature set between Deck's simplicity and Jira's complexity, with time tracking and backlog management that most kanban tools miss.
+Nextcloud Deck is the only native Nextcloud kanban app — and it is fundamentally limited: no backlog management, no time tracking, no GitHub integration, no WIP limits, and severe performance issues at scale. Meanwhile, leading tools like Jira are expensive and complex, while Plane and Linear are SaaS-first and lack Nextcloud integration. Planninq fills the gap as a **developer-first kanban app built natively on Nextcloud** — delivering a focused feature set between Deck's simplicity and Jira's complexity, with time tracking and backlog management that most kanban tools miss.
 
-**Key insight**: Dev and IT teams on Nextcloud are stuck using either the underpowered Deck or an external SaaS tool. Planix gives them flow-based task management, time tracking, and backlog management — all in the sovereign, integrated environment they already use for files, chat, and calendar.
+**Key insight**: Dev and IT teams on Nextcloud are stuck using either the underpowered Deck or an external SaaS tool. Planninq gives them flow-based task management, time tracking, and backlog management — all in the sovereign, integrated environment they already use for files, chat, and calendar.
 
 ## 1. Competitive Landscape
 
@@ -12,7 +12,7 @@ Nextcloud Deck is the only native Nextcloud kanban app — and it is fundamental
 
 | Name | Status | Key Features | Gaps |
 |------|--------|-------------|------|
-| **Nextcloud Deck** | Bundled, active (v1.17, Feb 2026) | Kanban boards, cards, labels, file attachment, mobile apps, Circles sharing | No backlog, no time tracking, no GitHub sync, no WIP limits, 6500+ DB queries per board, no multi-view |
+| **Nextcloud Deck** | Bundled, active | Kanban boards, cards, labels, file attachment, mobile apps, Circles sharing | No backlog, no time tracking, no GitHub sync, no WIP limits, 6500+ DB queries per board, no multi-view |
 | **Nextcloud Tasks** | Bundled, active | CalDAV/VTODO task sync, due dates, priorities, sub-tasks | No project grouping, no kanban board, no time tracking, no team collaboration |
 | **Nextcloud Deck Extended** | Community, low activity | Minor Deck extensions | Unmaintained, Deck fork approach |
 
@@ -22,9 +22,9 @@ Nextcloud Deck is the only native Nextcloud kanban app — and it is fundamental
 
 | Name | GitHub ★ | Positioning | Key Features | Weaknesses |
 |------|----------|------------|-------------|------------|
-| **Plane** | 38.6k | Linear alternative, GitHub-native | Kanban, list, calendar views; cycles (sprints); GitHub/GitLab sync; modules/epics; issue templates | No time tracking, no Gantt, no backlog management, SaaS-first |
+| **Plane** | 40k+ | Linear alternative, GitHub-native | Kanban, list, calendar views; cycles (sprints); GitHub/GitLab sync; epics (archivable); project subscribers; workspace-level kanban/calendar; Plane AI (web search, chart generation); Slack routing; Jira import | No time tracking, no Gantt, SaaS-first |
 | **Taiga** | ~10k | Agile teams, Scrum+Kanban | Scrum boards, backlog, burndown charts, epics, user stories, wiki, swimlanes, WIP limits | No GitHub PR integration, complex UI, no time tracking |
-| **Vikunja** | 3.6k | Self-hosted flexible | Kanban, list, Gantt, table views; recurring tasks; email notifications | No sprint/cycle, no GitHub integration, no time tracking, smaller community |
+| **Vikunja** | 5k+ (1.0 stable Jan 2026) | Self-hosted flexible | Kanban, list, Gantt (overhauled v2.2), table views; recurring tasks; task duplication; email notifications | No sprint/cycle, no GitHub integration, no time tracking |
 | **WeKan** | 14.6k | Trello alternative | Kanban boards, automation rules, swimlanes, 70+ languages, Trello import | Kanban-only, no agile features, no time tracking, Meteor stack |
 | **Kanboard** | 9.5k | Minimalist kanban | WIP limits, query language, LDAP, GitHub webhooks | Kanban-only, minimal by design, no time tracking, no backlog |
 | **Leantime** | — | Goal-driven PM | Kanban, Gantt, time tracking, time blocking, whiteboard, sprints, neuro-inclusive | Limited GitHub integration, smaller community, complex for small teams |
@@ -43,7 +43,7 @@ Nextcloud Deck is the only native Nextcloud kanban app — and it is fundamental
 
 ### Dutch Government
 
-No dedicated Dutch government task management tools were identified. OpenProject sees EU public sector adoption for its compliance features. Tasks in Dutch government workflows are modeled as `InterneTaak` within the VNG Klantinteracties standard, making a Procest bridge (case tasks → Planix) the relevant Dutch government integration.
+No dedicated Dutch government task management tools were identified. OpenProject sees EU public sector adoption for its compliance features. Tasks in Dutch government workflows are modeled as `InterneTaak` within the VNG Klantinteracties standard, making a Procest bridge (case tasks → Planninq) the relevant Dutch government integration.
 
 ## 2. Feature Matrix
 
@@ -60,7 +60,7 @@ No dedicated Dutch government task management tools were identified. OpenProject
 | Task status lifecycle (open → in_progress → done) | **MVP** | Core workflow |
 | Task labels / tags | **MVP** | Cross-project categorization |
 | Sub-tasks (one level deep) | **V1** | Breakdown complex work |
-| Task dependencies (blocks / is-blocked-by) | **V1** | Flow management |
+| Task dependencies (blocks / is-blocked-by) | **V1 — implemented** | Flow management (server-side cycle detection) |
 | Recurring tasks | **V1** | Regular work patterns |
 | Task templates | **Enterprise** | Standardized workflows |
 | Custom task fields | **Enterprise** | Domain-specific metadata |
@@ -89,8 +89,12 @@ No dedicated Dutch government task management tools were identified. OpenProject
 | Column color coding | **MVP** | Visual workflow clarity |
 | Swimlanes (group cards by assignee or priority) | **V1** | Workload visibility |
 | Board filter (by assignee, label, priority) | **MVP** | Focus on relevant work |
+| View toggle on board (kanban ↔ list) | **MVP** | Users need a dense list view alongside kanban for large projects (Linear, Plane, Jira pattern) |
+| Task card hover quick-actions (assign, set due date, change status) | **MVP** | Assign/update without opening detail — Jira, Asana, Trello pattern |
+| Task count per column (shown in column header) | **MVP** | Instant awareness of column load; present in every kanban tool |
+| Overdue task highlight (red border/badge on card) | **MVP** | Urgency signal visible without opening task — Jira, Linear, Asana pattern |
 | Collapsed columns | **V1** | Space management |
-| Blocked task indicators | **V1** | Dependency visibility |
+| Blocked task indicators | **V1 — implemented** | Dependency visibility (derived blocked badge) |
 | Card quick-edit (inline title/status change) | **V1** | Speed of use |
 
 ### Backlog Management
@@ -141,7 +145,7 @@ No dedicated Dutch government task management tools were identified. OpenProject
 | OpenRegister setup (register + schemas) | **MVP** | App initialization |
 | App version info (CnVersionInfoCard) | **MVP** | Standard NC admin pattern |
 | Default column set (configure global template) | **MVP** | Project consistency |
-| Label management (create, edit, delete app-wide labels) | **MVP** | Shared vocabulary |
+| Label management (create, edit, delete app-wide labels) ✅ | **MVP** | Shared vocabulary — implemented (label-management-admin: Label Management settings section, usage counts, cascade delete) |
 | User settings — manage which users can create projects | **V1** | Access control |
 | Procest integration toggle (enable/disable bridge) | **V1** | Cross-app integration |
 
@@ -162,7 +166,7 @@ No dedicated Dutch government task management tools were identified. OpenProject
 | Feature | Tier | Justification |
 |---------|------|---------------|
 | Notification: task assigned | **MVP** | Immediate assignment feedback |
-| Notification: task due date approaching (1 day before) | **MVP** | Deadline reminder |
+| Notification: task due date approaching (configurable lead time, default 1 day) | **MVP — implemented** | Deadline reminder. Declarative `taskDueSoon` rule on the `task` schema (`x-openregister-notifications`, ADR-031), dispatched by the OpenRegister scheduled notification engine; per-user opt-out via the `notify_due_reminder` toggle; admin-configurable lead time (`due_reminder_lead_hours`, 1–336 h). See `openspec/specs/task-notifications.md`. |
 | Notification: task overdue | **V1** | Urgency escalation |
 | Notification: task commented | **V1** | Collaboration |
 | Notification: task status changed | **V1** | Status tracking |
@@ -173,10 +177,10 @@ No dedicated Dutch government task management tools were identified. OpenProject
 
 | Feature | Tier | Justification |
 |---------|------|---------------|
-| Notes/comments on tasks (ICommentsManager) | **MVP** | Collaboration basics |
-| File attachments on tasks (CnObjectSidebar Files tab) | **MVP** | Document management |
+| Notes/comments on tasks (ICommentsManager) | **MVP** | Collaboration basics — ✅ built (task detail Comments tab via OR notes API; `task-collaboration-sidebar`) |
+| File attachments on tasks (CnObjectSidebar Files tab) | **MVP** | Document management — ✅ built (task detail Attachments tab via OR object-files API; `task-collaboration-sidebar`) |
 | @mention users in comments | **V1** | Direct collaboration |
-| Activity stream on task (CnObjectSidebar Audit Trail tab) | **MVP** | Change visibility |
+| Activity stream on task (CnObjectSidebar Audit Trail tab) | **MVP** | Change visibility — ✅ built (task detail Activity/Audit Trail tab + NC Activity provider/filter for task events; `task-collaboration-sidebar`) |
 | Shared project access (multi-user) | **MVP** | Team collaboration |
 | Talk integration (per-task conversation) | **V1** | Real-time discussion |
 
@@ -265,12 +269,12 @@ No dedicated Dutch government task management tools were identified. OpenProject
 
 ### What They Lack
 
-| Gap | Opportunity for Planix |
+| Gap | Opportunity for Planninq |
 |-----|------------------------|
-| Nextcloud integration | None of the competitors integrate with NC Files, Calendar, Talk, Contacts — Planix is native |
+| Nextcloud integration | None of the competitors integrate with NC Files, Calendar, Talk, Contacts — Planninq is native |
 | Time tracking in kanban tools | Deck, WeKan, Kanboard, Linear, Plane — no native time tracking |
 | Backlog in simple tools | Deck, WeKan, Trello, Kanboard — no structured backlog |
-| Privacy-first for EU gov | Most SaaS options require US data residency; Planix is fully self-hosted |
+| Privacy-first for EU gov | Most SaaS options require US data residency; Planninq is fully self-hosted |
 | Procest/ZGW bridge | No competitor supports Dutch government case-to-task integration |
 | NL Design System | No competitor implements Dutch government accessibility standards |
 | OpenRegister data model | No competitor exposes tasks as queryable linked data via OpenRegister |
@@ -289,29 +293,29 @@ No dedicated Dutch government task management tools were identified. OpenProject
 
 ## 5. Strategic Positioning
 
-**Positioning Statement**: Planix is the developer-first kanban app for Nextcloud — delivering time tracking, backlog management, and flow-based project management without Jira's complexity or Deck's limitations.
+**Positioning Statement**: Planninq is the developer-first kanban app for Nextcloud — delivering time tracking, backlog management, and flow-based project management without Jira's complexity or Deck's limitations.
 
 ### Differentiation Strategy
 
-1. **Platform leverage**: Planix orchestrates Nextcloud's native capabilities (Files, Calendar, Talk, Activity, Notifications) rather than rebuilding them. The result is seamless integration that external tools cannot replicate.
+1. **Platform leverage**: Planninq orchestrates Nextcloud's native capabilities (Files, Calendar, Talk, Activity, Notifications) rather than rebuilding them. The result is seamless integration that external tools cannot replicate.
 
-2. **Dev-team first**: Time tracking and backlog management close the two biggest gaps Deck leaves open. GitHub/GitLab sync (V1 via OpenConnector) makes Planix the missing link between Nextcloud and developer workflows.
+2. **Dev-team first**: Time tracking and backlog management close the two biggest gaps Deck leaves open. GitHub/GitLab sync (V1 via OpenConnector) makes Planninq the missing link between Nextcloud and developer workflows.
 
-3. **Data platform**: All tasks are stored in OpenRegister as queryable JSON objects with Schema.org type annotations. Other Conduction apps (Procest, Pipelinq) can query, reference, and relate to Planix tasks — enabling cross-app dashboards and automation without custom integrations.
+3. **Data platform**: All tasks are stored in OpenRegister as queryable JSON objects with Schema.org type annotations. Other Conduction apps (Procest, Pipelinq) can query, reference, and relate to Planninq tasks — enabling cross-app dashboards and automation without custom integrations.
 
 ### Risks
 
 | Risk | Severity | Mitigation |
 |------|---------|------------|
 | Nextcloud Deck owns the kanban mindshare in the NC ecosystem | High | Differentiate on time tracking + backlog + dev integration — Deck explicitly excludes these |
-| Plane (38.6k ★) moves faster than we can | Medium | Focus on Nextcloud-native features that Plane will never build; don't compete on Plane's turf |
+| Plane (40k+ ★) moves faster than we can | Medium | Focus on Nextcloud-native features that Plane will never build; don't compete on Plane's turf |
 | Small initial team → scope creep | Medium | MVP is strictly kanban + backlog + time tracking; defer everything else |
-| Drag-and-drop kanban is UX-complex in Vue 2 | Medium | Use a proven drag library (vue-draggable/SortableJS); budget time for polish |
+| Drag-and-drop kanban is UX-complex in Vue 3 | Medium | Use a proven drag library (vue-draggable/SortableJS); budget time for polish |
 | OpenRegister performance at scale (many tasks) | Medium | Lean on OpenRegister's pagination and indexing; document pagination patterns early |
 
 ## 6. Recommended Feature Set Summary
 
-### MVP (40 features)
+### MVP (44 features)
 Flow-based kanban with backlog and time tracking for dev/IT teams on Nextcloud. Covers the gap left by Nextcloud Deck.
 
 1. Task CRUD (title, description, status, priority)
@@ -338,64 +342,68 @@ Flow-based kanban with backlog and time tracking for dev/IT teams on Nextcloud. 
 22. Task card anatomy (title, assignee, due date, labels, priority)
 23. Column color coding
 24. Board filter (by assignee, label, priority)
-25. Backlog view (tasks without a column)
-26. Drag task from backlog to board column
-27. Backlog sorting (by priority, due date, created date)
-28. Backlog search and filter
-29. Personal dashboard (landing page with KPI cards)
-30. My Work view (tasks assigned to me, across all projects)
-31. Overdue task list
-32. Tasks due this week
-33. Recently updated tasks
-34. Notes/comments on tasks (ICommentsManager)
-35. File attachments on tasks (CnObjectSidebar)
-36. Activity stream on task (Audit Trail tab)
-37. Shared project access (multi-user)
-38. Project progress (tasks done / total)
-39. Procest bridge (case → project/task)
-40. NcAppSettingsDialog (notify_assigned, notify_due_reminder, default_view)
+25. View toggle on board (kanban ↔ list)
+26. Task card hover quick-actions (assign, due date, status)
+27. Task count in column header
+28. Overdue task highlight (red border) on card
+29. Backlog view (tasks without a column)
+30. Drag task from backlog to board column
+31. Backlog sorting (by priority, due date, created date)
+32. Backlog search and filter
+33. Personal dashboard (landing page with KPI cards)
+34. My Work view (tasks assigned to me, across all projects)
+35. Overdue task list
+36. Tasks due this week
+37. Recently updated tasks
+38. Notes/comments on tasks (ICommentsManager)
+39. File attachments on tasks (CnObjectSidebar)
+40. Activity stream on task (Audit Trail tab)
+41. Shared project access (multi-user)
+42. Project progress (tasks done / total)
+43. Procest bridge (case → project/task)
+44. NcAppSettingsDialog (notify_assigned, notify_due_reminder, default_view)
 
-### V1 (25 additional features, continuing from 40)
+### V1 (25 additional features, continuing from 44)
 
 More collaboration, reporting, dev integrations, and advanced kanban.
 
-41. Sub-tasks (one level deep)
-42. Task dependencies (blocks / is-blocked-by)
-43. Recurring tasks
-44. Project milestones
-45. Project templates
-46. Swimlanes (group by assignee or priority)
-47. Collapsed columns
-48. Blocked task indicators
-49. Card quick-edit (inline title/status change)
-50. Bulk select and move tasks from backlog
-51. Backlog item ordering (manual drag-and-drop rank)
-52. Backlog statistics (count, overdue, unassigned)
-53. Project time report (estimated vs logged)
-54. Team timesheet (admin, all users, export CSV)
-55. Timer (start/stop, auto-log)
-56. Time tracking export (CSV)
-57. Cumulative flow diagram
-58. Team workload report (tasks per user)
-59. Throughput chart (tasks/week)
-60. @mention users in comments
-61. Talk integration (per-task conversation)
-62. Activity feed on dashboard
-63. CalDAV/VTODO export (sync to Nextcloud Tasks)
-64. GitHub/GitLab sync (via OpenConnector)
-65. Import from Nextcloud Deck
+45. Sub-tasks (one level deep)
+46. Task dependencies (blocks / is-blocked-by)
+47. Recurring tasks
+48. Project milestones
+49. Project templates
+50. Swimlanes (group by assignee or priority)
+51. Collapsed columns
+52. Blocked task indicators
+53. Card quick-edit (inline title/status change)
+54. Bulk select and move tasks from backlog
+55. Backlog item ordering (manual drag-and-drop rank)
+56. Backlog statistics (count, overdue, unassigned)
+57. Project time report (estimated vs logged)
+58. Team timesheet (admin, all users, export CSV)
+59. Timer (start/stop, auto-log)
+60. Time tracking export (CSV)
+61. Cumulative flow diagram
+62. Team workload report (tasks per user)
+63. Throughput chart (tasks/week)
+64. @mention users in comments
+65. Talk integration (per-task conversation)
+66. Activity feed on dashboard
+67. CalDAV/VTODO export (sync to Nextcloud Tasks)
+68. GitHub/GitLab sync (via OpenConnector)
+69. Import from Nextcloud Deck
 
-### Enterprise (10 additional features, continuing from 65)
+### Enterprise (10 additional features, continuing from 69)
 
 Governance, advanced analytics, and custom workflows.
 
-66. Task templates
-67. Custom task fields
-68. Project portfolios (cross-project grouping)
-69. Role-based project permissions (viewer/editor/admin)
-70. Cycle time tracking (column entry to exit)
-71. Overtime / budget alerts
-72. Task completion gamification
-73. Webhook outgoing (on task events)
-74. Import from CSV
-75. Advanced admin controls (max projects per user, role restrictions)
+70. Task templates
+71. Custom task fields
+72. Project portfolios (cross-project grouping)
+73. Role-based project permissions (viewer/editor/admin)
+74. Cycle time tracking (column entry to exit)
+75. Overtime / budget alerts
+76. Task completion gamification
+77. Webhook outgoing (on task events)
+78. Import from CSV
+79. Advanced admin controls (max projects per user, role restrictions)

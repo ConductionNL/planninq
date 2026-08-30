@@ -1,79 +1,47 @@
 <?php
 
 /**
- * Planix Admin Settings
+ * Planninq Admin Settings
  *
- * Provides the admin settings form for the Planix application.
+ * One-line AppHost leaf class. Nextcloud instantiates the admin-settings panel
+ * by the class name in info.xml `<settings><admin>`, and the
+ * `#[AuthorizedAdminSetting(settings: AdminSettings::class)]` attribute on
+ * LabelController is typed `class-string<IDelegatedSettings>` — a contract only
+ * a real class can satisfy. So unlike the other AppHost leaf names (which stay
+ * plain DI service-id strings in Application::registerAppHost()), this one
+ * physically exists.
+ *
+ * It carries no behaviour of its own: form rendering, the version initial-state
+ * and the IDelegatedSettings (#299) fail-closed admin gating all live in the
+ * engine base class. Application::registerAppHostSettings() constructs it inside
+ * a lazy factory closure, so the OpenRegister parent is still never autoloaded
+ * at Nextcloud bootstrap — the lazy-by-construction invariant of ADR-040.
  *
  * @category Settings
- * @package  OCA\Planix\Settings
+ * @package  OCA\Planninq\Settings
  *
- * @author    Conduction Development Team <dev@conductio.nl>
- * @copyright 2024 Conduction B.V.
+ * @author    Conduction Development Team <dev@conduction.nl>
+ * @copyright 2026 Conduction B.V.
  * @license   EUPL-1.2 https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  *
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
-namespace OCA\Planix\Settings;
+namespace OCA\Planninq\Settings;
 
-use OCA\Planix\AppInfo\Application;
-use OCP\App\IAppManager;
-use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Settings\ISettings;
+use OCA\OpenRegister\AppHost\Settings\GenericAdminSettings;
 
 /**
- * Provides the admin settings form for the Planix application.
+ * AppHost-backed admin settings panel for Planninq (ADR-040).
+ *
+ * @spec openspec/specs/admin-user-settings.md
  */
-class AdminSettings implements ISettings
-{
-    /**
-     * Constructor.
-     *
-     * @param IAppManager $appManager The app manager.
-     */
-    public function __construct(
-        private IAppManager $appManager,
-    ) {
-    }//end __construct()
-
-    /**
-     * Get the settings form template.
-     *
-     * @return TemplateResponse
-     */
-    public function getForm(): TemplateResponse
-    {
-        $version = $this->appManager->getAppVersion(appId: Application::APP_ID);
-
-        return new TemplateResponse(
-            Application::APP_ID,
-            'settings/admin',
-            ['version' => $version]
-        );
-    }//end getForm()
-
-    /**
-     * Get the section ID this settings page belongs to.
-     *
-     * @return string
-     */
-    public function getSection(): string
-    {
-        return 'planix';
-    }//end getSection()
-
-    /**
-     * Get the priority for ordering within the section.
-     *
-     * @return int
-     */
-    public function getPriority(): int
-    {
-        return 10;
-    }//end getPriority()
+class AdminSettings extends GenericAdminSettings {
 }//end class
