@@ -53,8 +53,8 @@
   },
   "overrides": {
     "libxmljs2": "^0.37.0",
-    "@nextcloud/axios": "~2.5.2",
-    "@nextcloud/l10n": "3.4.1",
+    "@nextcloud/axios": "$@nextcloud/axios",
+    "@nextcloud/l10n": "$@nextcloud/l10n",
     "eslint-plugin-import-x": "4.13.1"
   },
   "devDependencies": {
