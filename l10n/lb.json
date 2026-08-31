@@ -199,7 +199,16 @@
         "Could not delete label": "Could not delete label",
         "Delete label \"{title}\"? It will be removed from {count} task.": "Delete label \"{title}\"? It will be removed from {count} task.",
         "Label deleted and removed from {count} task": "Label deleted and removed from {count} task",
-        "used by {count} task": "used by {count} task"
+        "used by {count} task": "used by {count} task",
+        "Active projects": "Aktiv Projeten",
+        "Archived projects": "Archivéiert Projeten",
+        "Boards": "Boards",
+        "My projects": "Meng Projeten",
+        "Portfolio": "Portfolio",
+        "Project board": "Projet-Board",
+        "Projects I am in": "Projeten un deenen ech bedeelegt sinn",
+        "Timeline": "Zäitleescht",
+        "Timesheet": "Zäiterfassung"
     },
     "plurals": null
 }

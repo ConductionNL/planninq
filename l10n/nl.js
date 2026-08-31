@@ -213,7 +213,16 @@ OC.L10N.register(
         "Overdue": "Verlopen",
         "Assigned to: {user}": "Toegewezen aan: {user}",
         "No tasks": "Geen taken",
-        "Could not move the task. Please try again.": "De taak kon niet worden verplaatst. Probeer het opnieuw."
+        "Could not move the task. Please try again.": "De taak kon niet worden verplaatst. Probeer het opnieuw.",
+        "Active projects": "Actieve projecten",
+        "Archived projects": "Gearchiveerde projecten",
+        "Boards": "Borden",
+        "My projects": "Mijn projecten",
+        "Portfolio": "Portfolio",
+        "Project board": "Projectbord",
+        "Projects I am in": "Projecten waarin ik deelneem",
+        "Timeline": "Tijdlijn",
+        "Timesheet": "Urenregistratie"
     },
     "nplurals=2; plural=(n != 1);"
 )
