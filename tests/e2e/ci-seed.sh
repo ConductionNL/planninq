@@ -249,6 +249,39 @@ fi
 
 echo "[ci-seed] Planninq register + schemas provisioned."
 
+# ── 2b. Make the admin a returning user ─────────────────────────
+# 🔴 OR THE SUPPORT DIALOG SWALLOWS EVERY CLICK.
+#
+# nc-vue opens the support dialog on first visit and records that the user has
+# seen it in a per-user preference. Playwright starts from a fresh browser
+# profile, but this preference lives on the SERVER, so writing it once here
+# makes every context a returning user.
+#
+# Without it the dialog mounts as a full modal mask over the app.
+# due-date-reminder-settings.spec.ts failed exactly this way: the call log
+# reads "element is visible, enabled and stable" for the Settings button and
+# then names a role=dialog with data-testid-modal="cn-support-dialog" as the
+# subtree intercepting pointer events. The element was found; the click never
+# landed, and the test timed out accusing the settings dialog.
+#
+# buildiq's seed does the same thing for the same reason.
+set_pref() {
+	# $1 = preference key, $2 = value
+	code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 120 \
+		-u "${USER_NAME}:${USER_PASS}" \
+		-X PUT \
+		-H 'Content-Type: application/json' \
+		-H 'OCS-APIRequest: true' \
+		--data "{\"value\":\"$2\"}" \
+		"${BASE}/index.php/apps/planninq/api/preferences/$1" || echo 000)"
+	echo "[ci-seed] preference $1=$2 -> HTTP ${code}"
+	if [ "$code" != "200" ]; then
+		echo "::warning::Could not set the '$1' preference (HTTP ${code}) — the first-visit overlay will re-open in every test and swallow clicks."
+	fi
+}
+
+set_pref 'support-dialog-seen' '1'
+
 # ── 3. Warm the SPA so the first spec doesn't pay the cold start ─────────────
 # The shared workflow serves Nextcloud with `php -S 0.0.0.0:8080`. It now sets
 # PHP_CLI_SERVER_WORKERS=8, but the first hit still pays a cold opcache and the
