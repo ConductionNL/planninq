@@ -1,7 +1,7 @@
 <template>
 	<NcAppSettingsDialog
 		:open="open"
-		:show-navigation="false"
+		:showNavigation="false"
 		:name="t('planninq', 'Planninq settings')"
 		@update:open="$emit('update:open', $event)">
 		<NcAppSettingsSection
@@ -15,7 +15,7 @@
 			     The old spelling neither reads nor writes — the switch renders
 			     permanently off and the handler never fires, silently. -->
 			<NcCheckboxRadioSwitch
-				:model-value="notifyDueReminder"
+				:modelValue="notifyDueReminder"
 				type="switch"
 				@update:modelValue="onToggleDueReminder">
 				{{ t('planninq', 'Notify me 1 day before a task\'s due date') }}
@@ -37,6 +37,7 @@ export default {
 		NcCheckboxRadioSwitch,
 		BellIcon,
 	},
+
 	props: {
 		open: {
 			type: Boolean,
@@ -62,12 +63,14 @@ export default {
 			return value !== false && value !== 'false'
 		},
 	},
+
 	/**
 	 * @spec exclude Lifecycle glue — fetches settings so the toggle reflects the stored value.
 	 */
 	created() {
 		useSettingsStore().fetchSettings()
 	},
+
 	methods: {
 		/**
 		 * Persist the due-date reminder toggle through saveUserSettings, which

@@ -1,15 +1,14 @@
 import { registerIcons } from '@conduction/nextcloud-vue'
+import { loadTranslations, translatePlural as n, translate as t } from '@nextcloud/l10n'
 import { createApp } from 'vue'
-import { translate as t, translatePlural as n, loadTranslations } from '@nextcloud/l10n'
-import pinia from './pinia.js'
-import router from './router/index.js'
 import App from './App.vue'
 import appIcons from './icons.js'
+import pinia from './pinia.js'
+import router from './router/index.js'
 import { initializeStores } from './store/store.js'
 
 // Library CSS — must be explicit import (webpack tree-shakes side-effect imports from aliased packages)
 import '@conduction/nextcloud-vue/css/index.css'
-
 // Global (unscoped) app styles
 import './assets/app.css'
 

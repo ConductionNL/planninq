@@ -3,8 +3,7 @@
 		<template #list>
 			<NcAppNavigationItem
 				:name="t('planninq', 'Dashboard')"
-				:to="{ name: 'Dashboard' }"
-				:exact="true">
+				:to="{ name: 'Dashboard' }">
 				<template #icon>
 					<HomeIcon :size="20" />
 				</template>
@@ -49,7 +48,7 @@
 			<NcAppNavigationSettings>
 				<NcAppNavigationItem
 					:name="t('planninq', 'Settings')"
-					@click="$emit('open-settings')">
+					@click="$emit('openSettings')">
 					<template #icon>
 						<CogIcon :size="20" />
 					</template>
@@ -87,7 +86,7 @@ export default {
 	// Vue 3 warns about "extraneous non-emits event listeners" for any event a
 	// component emits without declaring it, and lets undeclared listeners fall
 	// through onto the root element as native handlers.
-	emits: ['open-settings'],
+	emits: ['openSettings'],
 
 	methods: {
 		/**

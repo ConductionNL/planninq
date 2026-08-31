@@ -41,7 +41,7 @@
 			class="project-list-item__status"
 			:text="statusLabel"
 			:variant="statusVariant"
-			:no-close="true" />
+			:noClose="true" />
 	</li>
 </template>
 

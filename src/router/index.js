@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
 import { generateUrl } from '@nextcloud/router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Dashboard from '../views/Dashboard.vue'
 
 export default createRouter({
