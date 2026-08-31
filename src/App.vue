@@ -1,5 +1,5 @@
 <template>
-	<NcContent app-name="planninq">
+	<NcContent appName="planninq">
 		<template v-if="storesReady && !hasOpenRegisters">
 			<NcAppContent class="open-register-missing">
 				<NcEmptyContent
@@ -23,7 +23,7 @@
 			</NcAppContent>
 		</template>
 		<template v-else-if="storesReady && hasOpenRegisters">
-			<MainMenu @open-settings="settingsOpen = true" />
+			<MainMenu @openSettings="settingsOpen = true" />
 			<UserSettings :open="settingsOpen" @update:open="settingsOpen = $event" />
 			<NcAppContent>
 				<router-view />
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import { generateUrl, imagePath } from '@nextcloud/router'
+import { NcAppContent, NcButton, NcContent, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
 /**
  * App root component.
  *
@@ -54,12 +56,10 @@
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-5
  */
 import { markRaw } from 'vue'
-import { NcButton, NcContent, NcAppContent, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
-import { generateUrl, imagePath } from '@nextcloud/router'
-import { initializeStores } from './store/store.js'
-import { useSettingsStore } from './store/modules/settings.js'
 import MainMenu from './navigation/MainMenu.vue'
 import UserSettings from './views/settings/UserSettings.vue'
+import { useSettingsStore } from './store/modules/settings.js'
+import { initializeStores } from './store/store.js'
 
 export default {
 	name: 'App',
@@ -88,6 +88,7 @@ export default {
 			setSidebar: (component) => {
 				this.activeSidebar = component ? markRaw(component) : null
 			},
+
 			closeSidebar: () => {
 				this.activeSidebar = null
 			},
@@ -111,6 +112,7 @@ export default {
 			const settingsStore = useSettingsStore()
 			return settingsStore.hasOpenRegisters
 		},
+
 		/**
 		 * @spec exclude Store passthrough — proxies settingsStore.getIsAdmin.
 		 */
@@ -118,12 +120,14 @@ export default {
 			const settingsStore = useSettingsStore()
 			return settingsStore.getIsAdmin
 		},
+
 		/**
 		 * @spec exclude Trivial asset-path getter — resolves the app-dark.svg image path.
 		 */
 		appIcon() {
 			return imagePath('planninq', 'app-dark.svg')
 		},
+
 		/**
 		 * @spec exclude Trivial URL getter — builds the OpenRegister app-store link.
 		 */

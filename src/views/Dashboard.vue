@@ -78,7 +78,6 @@ import { NcButton, NcLoadingIcon } from '@nextcloud/vue'
 import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
 import ArchiveOutline from 'vue-material-design-icons/ArchiveOutline.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
-
 import { useProjectsStore } from '../store/projects.js'
 
 export default {
@@ -90,6 +89,7 @@ export default {
 		NcButton,
 		NcLoadingIcon,
 	},
+
 	data() {
 		return {
 			FolderOutline,
@@ -105,12 +105,14 @@ export default {
 		projectsStore() {
 			return useProjectsStore()
 		},
+
 		/**
 		 * @spec exclude Store passthrough — proxies projectsStore.loading.
 		 */
 		loading() {
 			return this.projectsStore.loading
 		},
+
 		/**
 		 * Number of active projects the user is a member of.
 		 *
@@ -119,6 +121,7 @@ export default {
 		activeProjectCount() {
 			return this.projectsStore.projects.filter((p) => p.status === 'active').length
 		},
+
 		/**
 		 * Number of archived projects the user is a member of.
 		 *
@@ -127,6 +130,7 @@ export default {
 		archivedProjectCount() {
 			return this.projectsStore.projects.filter((p) => p.status === 'archived').length
 		},
+
 		/**
 		 * Total number of projects the user is a member of (all statuses).
 		 *
@@ -135,6 +139,7 @@ export default {
 		memberProjectCount() {
 			return this.projectsStore.projects.length
 		},
+
 		/**
 		 * Up to 5 most recent active projects, sorted by title for now.
 		 *
