@@ -28,7 +28,7 @@
   "version": "0.1.0",
   "dependencies": ["openregister"],
   "menu": [
-    { "id": "Dashboard", "label": "Dashboard", "icon": "Home", "route": "Dashboard", "order": 10 },
+    { "id": "Dashboard", "label": "Dashboard", "icon": "ViewDashboardOutline", "route": "Dashboard", "order": 10 },
     { "id": "Boards", "label": "Boards", "icon": "ViewDashboardOutline", "route": "Boards", "order": 20 },
     { "id": "Projects", "label": "Projects", "icon": "FolderOutline", "route": "Projects", "order": 30 },
     { "id": "Portfolio", "label": "Portfolio", "icon": "ChartBar", "route": "Portfolio", "order": 40 },

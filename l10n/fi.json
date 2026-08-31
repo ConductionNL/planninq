@@ -199,7 +199,16 @@
         "Could not delete label": "Could not delete label",
         "Delete label \"{title}\"? It will be removed from {count} task.": "Delete label \"{title}\"? It will be removed from {count} task.",
         "Label deleted and removed from {count} task": "Label deleted and removed from {count} task",
-        "used by {count} task": "used by {count} task"
+        "used by {count} task": "used by {count} task",
+        "Active projects": "Aktiiviset projektit",
+        "Archived projects": "Arkistoidut projektit",
+        "Boards": "Taulut",
+        "My projects": "Omat projektit",
+        "Portfolio": "Portfolio",
+        "Project board": "Projektitaulu",
+        "Projects I am in": "Projektit joissa olen mukana",
+        "Timeline": "Aikajana",
+        "Timesheet": "Tuntikirjaus"
     },
     "plurals": null
 }

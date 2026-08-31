@@ -199,7 +199,16 @@
         "Could not delete label": "Could not delete label",
         "Delete label \"{title}\"? It will be removed from {count} task.": "Delete label \"{title}\"? It will be removed from {count} task.",
         "Label deleted and removed from {count} task": "Label deleted and removed from {count} task",
-        "used by {count} task": "used by {count} task"
+        "used by {count} task": "used by {count} task",
+        "Active projects": "Ενεργά έργα",
+        "Archived projects": "Αρχειοθετημένα έργα",
+        "Boards": "Πίνακες",
+        "My projects": "Τα έργα μου",
+        "Portfolio": "Χαρτοφυλάκιο",
+        "Project board": "Πίνακας έργου",
+        "Projects I am in": "Έργα στα οποία συμμετέχω",
+        "Timeline": "Χρονολόγιο",
+        "Timesheet": "Φύλλο χρόνου"
     },
     "plurals": null
 }

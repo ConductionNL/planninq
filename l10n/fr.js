@@ -200,7 +200,16 @@ OC.L10N.register(
         "Could not delete label": "Impossible de supprimer l'étiquette",
         "Delete label \"{title}\"? It will be removed from {count} task.": "Supprimer l'étiquette « {title} » ? Elle sera retirée de {count} tâche.",
         "Label deleted and removed from {count} task": "Étiquette supprimée et retirée de {count} tâche",
-        "used by {count} task": "utilisée par {count} tâche"
+        "used by {count} task": "utilisée par {count} tâche",
+        "Active projects": "Projets actifs",
+        "Archived projects": "Projets archivés",
+        "Boards": "Tableaux",
+        "My projects": "Mes projets",
+        "Portfolio": "Portefeuille",
+        "Project board": "Tableau du projet",
+        "Projects I am in": "Projets auxquels je participe",
+        "Timeline": "Chronologie",
+        "Timesheet": "Feuille de temps"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -199,7 +199,16 @@
         "Could not delete label": "Could not delete label",
         "Delete label \"{title}\"? It will be removed from {count} task.": "Delete label \"{title}\"? It will be removed from {count} task.",
         "Label deleted and removed from {count} task": "Label deleted and removed from {count} task",
-        "used by {count} task": "used by {count} task"
+        "used by {count} task": "used by {count} task",
+        "Active projects": "Tionscadail ghníomhacha",
+        "Archived projects": "Tionscadail chartlainne",
+        "Boards": "Cláir",
+        "My projects": "Mo thionscadail",
+        "Portfolio": "Punann",
+        "Project board": "Clár an tionscadail",
+        "Projects I am in": "Tionscadail a bhfuil baint agam leo",
+        "Timeline": "Amlíne",
+        "Timesheet": "Bileog ama"
     },
     "plurals": null
 }

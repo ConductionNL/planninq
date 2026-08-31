@@ -199,7 +199,16 @@
         "Overdue": "Overdue",
         "Assigned to: {user}": "Assigned to: {user}",
         "No tasks": "No tasks",
-        "Could not move the task. Please try again.": "Could not move the task. Please try again."
+        "Could not move the task. Please try again.": "Could not move the task. Please try again.",
+        "Active projects": "Active projects",
+        "Archived projects": "Archived projects",
+        "Boards": "Boards",
+        "My projects": "My projects",
+        "Portfolio": "Portfolio",
+        "Project board": "Project board",
+        "Projects I am in": "Projects I am in",
+        "Timeline": "Timeline",
+        "Timesheet": "Timesheet"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

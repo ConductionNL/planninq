@@ -200,7 +200,16 @@ OC.L10N.register(
         "Could not delete label": "Could not delete label",
         "Delete label \"{title}\"? It will be removed from {count} task.": "Delete label \"{title}\"? It will be removed from {count} task.",
         "Label deleted and removed from {count} task": "Label deleted and removed from {count} task",
-        "used by {count} task": "used by {count} task"
+        "used by {count} task": "used by {count} task",
+        "Active projects": "Projectes actius",
+        "Archived projects": "Projectes arxivats",
+        "Boards": "Taulers",
+        "My projects": "Els meus projectes",
+        "Portfolio": "Cartera",
+        "Project board": "Tauler del projecte",
+        "Projects I am in": "Projectes en què participo",
+        "Timeline": "Cronologia",
+        "Timesheet": "Full d'hores"
     },
     "nplurals=2; plural=(n != 1);"
 )
