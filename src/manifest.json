@@ -31,7 +31,7 @@
     { "id": "Dashboard", "label": "Dashboard", "icon": "ViewDashboardOutline", "route": "Dashboard", "order": 10 },
     { "id": "Boards", "label": "Boards", "icon": "ViewDashboardOutline", "route": "Boards", "order": 20 },
     { "id": "Projects", "label": "Projects", "icon": "FolderOutline", "route": "Projects", "order": 30 },
-    { "id": "Portfolio", "label": "Portfolio", "icon": "ChartBar", "route": "Portfolio", "order": 40 },
+    { "id": "Portfolio", "label": "Portfolio", "icon": "BriefcaseOutline", "route": "Portfolio", "order": 40 },
     { "id": "Timesheet", "label": "Timesheet", "icon": "ClockOutline", "route": "Timesheet", "order": 50 },
     { "id": "Documentation", "label": "Documentation", "icon": "BookOpenVariantOutline", "href": "https://planix.conduction.nl", "section": "footer", "order": 90 }
   ],
