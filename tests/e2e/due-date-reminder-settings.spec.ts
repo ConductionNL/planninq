@@ -23,14 +23,19 @@
  * `expect(...)` assertions.
  */
 
-import { test, expect } from '@playwright/test'
-import { BASE_URL as NC } from './base-url'
-import { PLANNINQ_ROOT, openPlanninqSettingsDialog } from './nav'
+import { expect, test } from '@playwright/test'
+import { BASE_URL as NC } from './base-url.ts'
+import { openPlanninqSettingsDialog, PLANNINQ_ROOT } from './nav.ts'
 
 test.describe('Due-date reminder — user settings dialog', () => {
-	test('Toggle due-date reminders off and back on persists', async ({ page }) => {
+	test('Toggle due-date reminders off and back on persists', async ({
+		page,
+	}) => {
 		const res = await page.goto(PLANNINQ_ROOT)
-		test.skip(res === null || res.status() >= 400, 'Planninq not installed in this environment')
+		test.skip(
+			res === null || res.status() >= 400,
+			'Planninq not installed in this environment',
+		)
 
 		// Open the planninq user-settings dialog.
 		//
@@ -54,7 +59,9 @@ test.describe('Due-date reminder — user settings dialog', () => {
 		await expect(page.locator('input[type="checkbox"]').first()).not.toBeChecked()
 
 		// Toggle back on.
-		await page.getByText(/Notify me 1 day before a task's due date/i).click()
+		await page
+			.getByText(/Notify me 1 day before a task's due date/i)
+			.click()
 		await page.reload()
 		await openPlanninqSettingsDialog(page)
 		await expect(page.locator('input[type="checkbox"]').first()).toBeChecked()
@@ -62,9 +69,14 @@ test.describe('Due-date reminder — user settings dialog', () => {
 })
 
 test.describe('Due-date reminder — admin lead time', () => {
-	test('Lead-time field default 24, save 48 persists, 0 shows a validation error', async ({ page }) => {
+	test('Lead-time field default 24, save 48 persists, 0 shows a validation error', async ({
+		page,
+	}) => {
 		const res = await page.goto(`${NC}/index.php/settings/admin/planninq`)
-		test.skip(res === null || res.status() >= 400, 'Planninq admin settings not reachable')
+		test.skip(
+			res === null || res.status() >= 400,
+			'Planninq admin settings not reachable',
+		)
 
 		const field = page.locator('#due-reminder-lead-hours')
 		await expect(field).toHaveCount(1)

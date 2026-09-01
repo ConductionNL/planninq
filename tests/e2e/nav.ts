@@ -30,9 +30,11 @@
  * user does. In-app navigation always produces URLs the router accepts.
  */
 
-import { expect, type Page } from '@playwright/test'
-import { BASE_URL } from './base-url'
-import { FIXTURE } from './fixtures/seed'
+import type { Page } from '@playwright/test'
+
+import { expect } from '@playwright/test'
+import { BASE_URL } from './base-url.ts'
+import { FIXTURE } from './fixtures/seed.ts'
 
 /** The planninq SPA entry point. Safe with or without `index.php`. */
 export const PLANNINQ_ROOT = `${BASE_URL}/index.php/apps/planninq/`
@@ -56,7 +58,9 @@ export async function openFixtureProjectBoard(page: Page): Promise<string> {
 	// Use the app's own navigation entry rather than a hand-built URL.
 	await page.locator('#app-navigation-vue a[title="Projects"]').click()
 
-	const row = page.locator('.project-list-item', { hasText: FIXTURE.projectTitle })
+	const row = page.locator('.project-list-item', {
+		hasText: FIXTURE.projectTitle,
+	})
 	await expect(row).toHaveCount(1)
 	await row.click()
 

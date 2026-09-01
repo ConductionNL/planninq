@@ -7,13 +7,13 @@
  *
  * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
  */
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import {
 	DEFAULT_LABEL_COLOR,
 	isValidHexColor,
 	isValidLabelTitle,
-	validateLabelDraft,
 	normaliseLabelPayload,
+	validateLabelDraft,
 } from '../../src/utils/labelHelpers.js'
 
 describe('isValidHexColor', () => {
@@ -66,8 +66,11 @@ describe('validateLabelDraft', () => {
 
 describe('normaliseLabelPayload', () => {
 	it('trims title and description and keeps the colour', () => {
-		expect(normaliseLabelPayload({ title: '  Bug  ', color: '#E74C3C', description: '  x ' }))
-			.toEqual({ title: 'Bug', color: '#E74C3C', description: 'x' })
+		expect(normaliseLabelPayload({
+			title: '  Bug  ',
+			color: '#E74C3C',
+			description: '  x ',
+		})).toEqual({ title: 'Bug', color: '#E74C3C', description: 'x' })
 	})
 
 	it('defaults a blank colour to the schema default', () => {
@@ -75,6 +78,10 @@ describe('normaliseLabelPayload', () => {
 	})
 
 	it('handles a null draft without throwing', () => {
-		expect(normaliseLabelPayload(null)).toEqual({ title: '', color: DEFAULT_LABEL_COLOR, description: '' })
+		expect(normaliseLabelPayload(null)).toEqual({
+			title: '',
+			color: DEFAULT_LABEL_COLOR,
+			description: '',
+		})
 	})
 })
