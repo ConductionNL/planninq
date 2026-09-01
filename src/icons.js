@@ -17,6 +17,7 @@
 import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
 import AccountMultiplePlus from 'vue-material-design-icons/AccountMultiplePlus.vue'
 import BookOpenVariantOutline from 'vue-material-design-icons/BookOpenVariantOutline.vue'
+import BriefcaseOutline from 'vue-material-design-icons/BriefcaseOutline.vue'
 import ChartBar from 'vue-material-design-icons/ChartBar.vue'
 import CheckboxMarkedCircleOutline from 'vue-material-design-icons/CheckboxMarkedCircleOutline.vue'
 import ClockOutline from 'vue-material-design-icons/ClockOutline.vue'
@@ -35,6 +36,7 @@ export default {
 	AccountGroup,
 	AccountMultiplePlus,
 	BookOpenVariantOutline,
+	BriefcaseOutline,
 	ChartBar,
 	CheckboxMarkedCircleOutline,
 	ClockOutline,
