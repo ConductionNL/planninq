@@ -20,9 +20,11 @@
  * `data-visual-mask` are masked so a baseline does not churn on wall-clock text.
  */
 
-import { expect, test, type Page } from '@playwright/test'
-import { FIXTURE } from '../fixtures/seed'
-import { PLANNINQ_ROOT, openFixtureProjectBoard } from '../nav'
+import type { Page } from '@playwright/test'
+
+import { expect, test } from '@playwright/test'
+import { FIXTURE } from '../fixtures/seed.ts'
+import { openFixtureProjectBoard, PLANNINQ_ROOT } from '../nav.ts'
 
 /**
  * Elements whose content is time-dependent and would churn every run.
@@ -57,7 +59,9 @@ function masks(page: Page) {
 async function shoot(page: Page, name: string): Promise<void> {
 	// The SPA renders into #content-vue; screenshotting the whole page would
 	// bake Nextcloud's header/clock into every baseline.
-	const content = page.locator('#content-vue, #app-content-vue, #content').first()
+	const content = page
+		.locator('#content-vue, #app-content-vue, #content')
+		.first()
 	await expect(content).toBeVisible()
 	// NOT waitForLoadState('networkidle'): Nextcloud long-polls for
 	// notifications, so the network is never idle and every capture timed out
@@ -110,22 +114,32 @@ test.describe('visual baselines — planninq views', () => {
 	// Same trap nav.ts records for project rows.
 	test('ProjectBacklog renders the backlog @visual', async ({ page }) => {
 		const id = await openFixtureProjectBoard(page)
-		await page.getByRole('button', { name: /backlog/i }).first().click()
+		await page
+			.getByRole('button', { name: /backlog/i })
+			.first()
+			.click()
 		await expect(page).toHaveURL(new RegExp(`/projects/${id}/backlog$`))
 		await shoot(page, 'project-backlog.png')
 	})
 
 	test('ProjectTimeline renders the gantt @visual', async ({ page }) => {
 		const id = await openFixtureProjectBoard(page)
-		await page.getByRole('button', { name: /timeline/i }).first().click()
+		await page
+			.getByRole('button', { name: /timeline/i })
+			.first()
+			.click()
 		await expect(page).toHaveURL(new RegExp(`/projects/${id}/timeline$`))
 		await shoot(page, 'project-timeline.png')
 	})
 
 	test('TaskDetail renders a task @visual', async ({ page }) => {
 		const id = await openFixtureProjectBoard(page)
-		await page.locator('.task-card, [data-testid="task-card"]', { hasText: FIXTURE.tasks.normal })
-			.first().click()
+		await page
+			.locator('.task-card, [data-testid="task-card"]', {
+				hasText: FIXTURE.tasks.normal,
+			})
+			.first()
+			.click()
 		await expect(page).toHaveURL(new RegExp(`/projects/${id}/tasks/[^/?#]+$`))
 		await shoot(page, 'task-detail.png')
 	})

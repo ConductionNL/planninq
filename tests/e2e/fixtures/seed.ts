@@ -26,7 +26,9 @@
  * fixture projects, columns, tasks or labels.
  */
 
-import { request, type APIRequestContext } from '@playwright/test'
+import type { APIRequestContext } from '@playwright/test'
+
+import { request } from '@playwright/test'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
 // `planninq` together with the MigrateRegisterSlug repair step, which renames
@@ -93,11 +95,22 @@ function isoDate(days: number): string {
  *         installed in this environment (specs then take their legitimate
  *         "app not installed" skip path).
  */
-export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Promise<boolean> {
+export async function seedFixtures(
+	baseURL: string,
+	opts: SeedOptions = {},
+): Promise<boolean> {
 	// ADMIN_USER / ADMIN_PASSWORD are what the shared Conduction/.github quality
 	// workflow exports; NC_ADMIN_* is the local convention.
-	const username = opts.username ?? process.env.NC_ADMIN_USER ?? process.env.ADMIN_USER ?? 'admin'
-	const password = opts.password ?? process.env.NC_ADMIN_PASS ?? process.env.ADMIN_PASSWORD ?? 'admin'
+	const username
+		= opts.username
+			?? process.env.NC_ADMIN_USER
+			?? process.env.ADMIN_USER
+			?? 'admin'
+	const password
+		= opts.password
+			?? process.env.NC_ADMIN_PASS
+			?? process.env.ADMIN_PASSWORD
+			?? 'admin'
 
 	const ctx: APIRequestContext = await request.newContext({
 		baseURL,
@@ -131,17 +144,18 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 		// failed on its own leftovers ("expected 24, received 48"), so the test
 		// passed exactly once per container. Preconditions belong to the
 		// harness, not to whichever spec ran last.
-		const settingsReset = await ctx.post('/index.php/apps/planninq/api/settings', {
-			data: { due_reminder_lead_hours: '24' },
-			failOnStatusCode: false,
-		})
+		const settingsReset = await ctx.post(
+			'/index.php/apps/planninq/api/settings',
+			{
+				data: { due_reminder_lead_hours: '24' },
+				failOnStatusCode: false,
+			},
+		)
 		if (!settingsReset.ok()) {
-			// eslint-disable-next-line no-console
 			console.log(`[seed] could not reset admin settings (status ${settingsReset.status()})`)
 		}
 
-		const objectsUrl = (schema: string) =>
-			`/index.php/apps/openregister/api/objects/${REGISTER}/${schema}`
+		const objectsUrl = (schema: string) => `/index.php/apps/openregister/api/objects/${REGISTER}/${schema}`
 
 		// Probe the register — and tell "not installed" apart from "installed and
 		// broken", because those must NOT produce the same outcome.
@@ -167,17 +181,17 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 		// `planix` by fleet policy and does NOT follow the planix -> planninq app
 		// rename. A 404 here is not a stale-slug bug; do not "fix" it by renaming.
 		const appIsInstalled = settingsReset.status() !== 404
-		const probe = await ctx.get(objectsUrl('project'), { failOnStatusCode: false })
+		const probe = await ctx.get(objectsUrl('project'), {
+			failOnStatusCode: false,
+		})
 		if (probe.status() >= 400) {
 			if (appIsInstalled) {
-				throw new Error(
-					`[seed] Planninq is installed (settings route answered ${settingsReset.status()}) `
+				throw new Error(`[seed] Planninq is installed (settings route answered ${settingsReset.status()}) `
 					+ `but its OpenRegister register is unreachable: GET ${objectsUrl('project')} `
 					+ `returned ${probe.status()}. Refusing to skip — skipping here would report the `
-					+ 'whole suite as passing-by-omission against a working app. See openregister#2820.',
-				)
+					+ 'whole suite as passing-by-omission against a working app. See openregister#2820.')
 			}
-			// eslint-disable-next-line no-console
+
 			console.log('[seed] Planninq not installed (settings route 404); skipping fixture seed')
 			return false
 		}
@@ -189,7 +203,10 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 		 * @param query  optional query string (e.g. ?project=...)
 		 * @return the collection rows
 		 */
-		const list = async (schema: string, query = ''): Promise<OrObject[]> => {
+		const list = async (
+			schema: string,
+			query = '',
+		): Promise<OrObject[]> => {
 			// `_limit` is load-bearing, and the underscore is too.
 			//
 			// OpenRegister pages at 20 by default, and every "does the fixture
@@ -205,12 +222,17 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 			// nothing and returns an empty page — the same "absent" answer, with
 			// no error to notice.
 			const sep = query.includes('?') ? '&' : '?'
-			const res = await ctx.get(`${objectsUrl(schema)}${query}${sep}_limit=500`, { failOnStatusCode: false })
+			const res = await ctx.get(
+				`${objectsUrl(schema)}${query}${sep}_limit=500`,
+				{ failOnStatusCode: false },
+			)
 			if (!res.ok()) {
 				return []
 			}
 			const body = await res.json().catch(() => ({}))
-			const rows = Array.isArray(body) ? body : (body.results ?? body.data ?? [])
+			const rows = Array.isArray(body)
+				? body
+				: (body.results ?? body.data ?? [])
 			return Array.isArray(rows) ? rows : []
 		}
 
@@ -221,23 +243,28 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 		 * @param title exact title to match
 		 * @return the matching object, or undefined
 		 */
-		const findByTitle = (rows: OrObject[], title: string): OrObject | undefined =>
-			rows.find((r) => r.title === title)
+		const findByTitle = (
+			rows: OrObject[],
+			title: string,
+		): OrObject | undefined => rows.find((r) => r.title === title)
 
 		// ── Project (via the Planninq policy-enforcing create proxy) ────────
 		let project = findByTitle(await list('project'), FIXTURE.projectTitle)
 		if (!project) {
-			const res = await ctx.post('/index.php/apps/planninq/api/projects', {
-				data: {
-					title: FIXTURE.projectTitle,
-					description: 'Seeded by Playwright global-setup for real e2e assertions.',
-					color: '#4376FC',
-					icon: '🧪',
+			const res = await ctx.post(
+				'/index.php/apps/planninq/api/projects',
+				{
+					data: {
+						title: FIXTURE.projectTitle,
+						description:
+							'Seeded by Playwright global-setup for real e2e assertions.',
+						color: '#4376FC',
+						icon: '🧪',
+					},
+					failOnStatusCode: false,
 				},
-				failOnStatusCode: false,
-			})
+			)
 			if (!res.ok()) {
-				// eslint-disable-next-line no-console
 				console.log(`[seed] project create failed (status ${res.status()}); skipping fixture seed`)
 				return false
 			}
@@ -245,7 +272,6 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 		}
 		const projectId = objId(project)
 		if (!projectId) {
-			// eslint-disable-next-line no-console
 			console.log('[seed] could not resolve seeded project id; skipping remaining fixtures')
 			return false
 		}
@@ -257,7 +283,10 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 			{ title: 'Review', order: 2, wipLimit: 2, type: 'active' },
 			{ title: 'Done', order: 3, wipLimit: null, type: 'done' },
 		]
-		const existingColumns = await list('column', `?project=${encodeURIComponent(projectId)}`)
+		const existingColumns = await list(
+			'column',
+			`?project=${encodeURIComponent(projectId)}`,
+		)
 		const columnIdByTitle: Record<string, string> = {}
 		for (const col of wantedColumns) {
 			let existing = findByTitle(existingColumns, col.title)
@@ -280,7 +309,11 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 		let label = findByTitle(await list('label'), FIXTURE.labelTitle)
 		if (!label) {
 			const res = await ctx.post(objectsUrl('label'), {
-				data: { title: FIXTURE.labelTitle, color: '#E4572E', description: 'Seeded label' },
+				data: {
+					title: FIXTURE.labelTitle,
+					color: '#E4572E',
+					description: 'Seeded label',
+				},
 				failOnStatusCode: false,
 			})
 			if (res.ok()) {
@@ -290,7 +323,10 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 		const labelId = objId(label)
 
 		// ── Tasks (assignee + priority + due-date spread) ───────────────────
-		const existingTasks = await list('task', `?project=${encodeURIComponent(projectId)}`)
+		const existingTasks = await list(
+			'task',
+			`?project=${encodeURIComponent(projectId)}`,
+		)
 		const ensureTask = async (
 			title: string,
 			extra: Record<string, unknown>,
@@ -334,7 +370,6 @@ export async function seedFixtures(baseURL: string, opts: SeedOptions = {}): Pro
 			columnOrder: 2,
 		})
 
-		// eslint-disable-next-line no-console
 		console.log(`[seed] fixtures ready: project ${projectId}, ${Object.keys(columnIdByTitle).length} columns, label=${labelId ?? 'n/a'}`)
 		return true
 	} finally {

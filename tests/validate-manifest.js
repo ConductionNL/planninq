@@ -36,8 +36,23 @@ const MANIFEST_PATH = path.join(REPO_ROOT, 'src', 'manifest.json')
 const SCHEMA_CANDIDATES = [
 	process.env.APP_MANIFEST_SCHEMA,
 	path.join(REPO_ROOT, 'tests', 'schemas', 'app-manifest-v2.schema.json'),
-	path.join(REPO_ROOT, 'node_modules', '@conduction', 'nextcloud-vue', 'src', 'schemas', 'app-manifest-v2.schema.json'),
-	path.join(REPO_ROOT, '..', 'nextcloud-vue', 'src', 'schemas', 'app-manifest-v2.schema.json'),
+	path.join(
+		REPO_ROOT,
+		'node_modules',
+		'@conduction',
+		'nextcloud-vue',
+		'src',
+		'schemas',
+		'app-manifest-v2.schema.json',
+	),
+	path.join(
+		REPO_ROOT,
+		'..',
+		'nextcloud-vue',
+		'src',
+		'schemas',
+		'app-manifest-v2.schema.json',
+	),
 ].filter(Boolean)
 
 function findSchemaPath() {
@@ -65,10 +80,18 @@ function loadAjv() {
 	// entry point. Prefer Ajv 8 (`ajv/dist/2020`) when available; otherwise
 	// fall back to whichever ajv resolves first.
 	let Ajv2020 = null
-	let addFormats = null
+	let addFormats
 	const ajvCandidates = [
 		'ajv/dist/2020',
-		path.join(REPO_ROOT, 'node_modules', 'ajv-formats', 'node_modules', 'ajv', 'dist', '2020.js'),
+		path.join(
+			REPO_ROOT,
+			'node_modules',
+			'ajv-formats',
+			'node_modules',
+			'ajv',
+			'dist',
+			'2020.js',
+		),
 		'ajv',
 	]
 	for (const candidate of ajvCandidates) {
@@ -100,9 +123,22 @@ function structuralLint(manifest) {
 	if (!manifest.version || typeof manifest.version !== 'string') {
 		errors.push('top-level: version (string) is required')
 	}
-	if (!Array.isArray(manifest.menu)) errors.push('top-level: menu (array) is required')
-	if (!Array.isArray(manifest.pages)) errors.push('top-level: pages (array) is required')
-	const allowedTypes = new Set(['index', 'detail', 'dashboard', 'logs', 'settings', 'chat', 'files', 'custom'])
+	if (!Array.isArray(manifest.menu)) {
+		errors.push('top-level: menu (array) is required')
+	}
+	if (!Array.isArray(manifest.pages)) {
+		errors.push('top-level: pages (array) is required')
+	}
+	const allowedTypes = new Set([
+		'index',
+		'detail',
+		'dashboard',
+		'logs',
+		'settings',
+		'chat',
+		'files',
+		'custom',
+	])
 	const seenIds = new Set()
 	for (let i = 0; i < (manifest.pages || []).length; i++) {
 		const page = manifest.pages[i]
@@ -119,7 +155,9 @@ function structuralLint(manifest) {
 			errors.push(`pages[${i}].type: "${page.type}" not in v1.2 enum`)
 		}
 		if (page.id) {
-			if (seenIds.has(page.id)) errors.push(`pages[${i}].id: duplicate "${page.id}"`)
+			if (seenIds.has(page.id)) {
+				errors.push(`pages[${i}].id: duplicate "${page.id}"`)
+			}
 			seenIds.add(page.id)
 		}
 		if (page.type === 'custom' && !page.component) {
@@ -149,7 +187,9 @@ function main() {
 			process.exit(0)
 		}
 		console.error('[validate-manifest] structural lint: FAIL')
-		for (const err of errors) console.error(`  - ${err}`)
+		for (const err of errors) {
+			console.error(`  - ${err}`)
+		}
 		process.exit(1)
 	}
 	console.log(`[validate-manifest] schema: ${schemaPath}`)
@@ -164,7 +204,9 @@ function main() {
 			process.exit(0)
 		}
 		console.error('[validate-manifest] structural lint (no Ajv): FAIL')
-		for (const err of errors) console.error(`  - ${err}`)
+		for (const err of errors) {
+			console.error(`  - ${err}`)
+		}
 		process.exit(1)
 	}
 

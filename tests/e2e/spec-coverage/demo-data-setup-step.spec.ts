@@ -1,3 +1,5 @@
+import type { Page } from '@playwright/test'
+
 /*
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  * SPDX-License-Identifier: EUPL-1.2
@@ -34,7 +36,7 @@
  *
  * @spec exclude ADR-042/ADR-111 setup contract; no per-app behavioural spec.
  */
-import { test, expect, type Page } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import * as path from 'path'
 
 const STORAGE_STATE = path.resolve(__dirname, '../.auth/admin.json')
@@ -46,19 +48,19 @@ async function api(
 	page: Page,
 	method: string,
 	apiPath: string,
-): Promise<{ status: number; json: any }> {
+): Promise<{ status: number, json: any }> {
 	return await page.evaluate(
 		async ({ method, apiPath }) => {
 			const res = await fetch(apiPath, {
 				method,
 				headers: {
 					'Content-Type': 'application/json',
-					// eslint-disable-next-line no-undef
+
 					requesttoken: (window as any).OC?.requestToken || '',
 					'OCS-APIREQUEST': 'true',
 				},
 			})
-			let json: any = null
+			let json: any
 			try {
 				json = await res.json()
 			} catch {
@@ -80,9 +82,13 @@ test.describe('ADR-111 demo data', () => {
 
 	test.beforeEach(async ({ page }) => {
 		await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' })
-		await page.waitForFunction(() => (window as any).OC?.requestToken, null, {
-			timeout: 15000,
-		})
+		await page.waitForFunction(
+			() => (window as any).OC?.requestToken,
+			null,
+			{
+				timeout: 15000,
+			},
+		)
 	})
 
 	test('setup status reports the demo-data step, so the wizard can offer it', async ({
@@ -90,9 +96,10 @@ test.describe('ADR-111 demo data', () => {
 	}) => {
 		const res = await api(page, 'GET', `${BASE}/api/setup/status`)
 
-		expect(res.status, 'setup/status must answer an authenticated admin').toBe(
-			200,
-		)
+		expect(
+			res.status,
+			'setup/status must answer an authenticated admin',
+		).toBe(200)
 
 		// A step the endpoint never MENTIONS resolves to `done: false` forever —
 		// no operator action can clear it, and CnAppRoot then covers the app with
