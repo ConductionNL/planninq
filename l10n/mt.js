@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Bord tal-proġett",
         "Projects I am in": "Proġetti li nieħu sehem fihom",
         "Timeline": "Linja taż-żmien",
-        "Timesheet": "Reġistru tal-ħin"
+        "Timesheet": "Reġistru tal-ħin",
+        "Features & roadmap": "Funzjonijiet u pjan direzzjonali",
+        "Flow": "Fluss",
+        "Flows": "Flussi"
     },
     "nplurals=2; plural=(n != 1);"
 )

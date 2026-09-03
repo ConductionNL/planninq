@@ -208,7 +208,10 @@
         "Project board": "Дошка праекта",
         "Projects I am in": "Праекты, у якіх я ўдзельнічаю",
         "Timeline": "Часовая шкала",
-        "Timesheet": "Улік часу"
+        "Timesheet": "Улік часу",
+        "Features & roadmap": "Функцыі і дарожная карта",
+        "Flow": "Паток",
+        "Flows": "Патокі"
     },
     "plurals": {}
 }

@@ -208,7 +208,10 @@
         "Project board": "Projekti tahvel",
         "Projects I am in": "Projektid, milles osalen",
         "Timeline": "Ajajoon",
-        "Timesheet": "Tööajaleht"
+        "Timesheet": "Tööajaleht",
+        "Features & roadmap": "Funktsioonid ja teekaart",
+        "Flow": "Voog",
+        "Flows": "Vood"
     },
     "plurals": null
 }

@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Projekta tāfele",
         "Projects I am in": "Projekti, kuros piedalos",
         "Timeline": "Laika josla",
-        "Timesheet": "Darba laika uzskaite"
+        "Timesheet": "Darba laika uzskaite",
+        "Features & roadmap": "Funkcijas un ceļvedis",
+        "Flow": "Plūsma",
+        "Flows": "Plūsmas"
     },
     "nplurals=2; plural=(n != 1);"
 )

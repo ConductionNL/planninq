@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Projekt-Board",
         "Projects I am in": "Projekte, an denen ich beteiligt bin",
         "Timeline": "Zeitleiste",
-        "Timesheet": "Zeiterfassung"
+        "Timesheet": "Zeiterfassung",
+        "Features & roadmap": "Funktionen und Roadmap",
+        "Flow": "Ablauf",
+        "Flows": "Abläufe"
     },
     "nplurals=2; plural=(n != 1);"
 )

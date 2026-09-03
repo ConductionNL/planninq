@@ -208,7 +208,10 @@
         "Project board": "Projekttavle",
         "Projects I am in": "Projekter jeg er med i",
         "Timeline": "Tidslinje",
-        "Timesheet": "Timeseddel"
+        "Timesheet": "Timeseddel",
+        "Features & roadmap": "Funktioner og køreplan",
+        "Flow": "Flow",
+        "Flows": "Flows"
     },
     "plurals": null
 }

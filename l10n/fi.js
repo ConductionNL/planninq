@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Projektitaulu",
         "Projects I am in": "Projektit joissa olen mukana",
         "Timeline": "Aikajana",
-        "Timesheet": "Tuntikirjaus"
+        "Timesheet": "Tuntikirjaus",
+        "Features & roadmap": "Ominaisuudet ja tiekartta",
+        "Flow": "Kulku",
+        "Flows": "Kulut"
     },
     "nplurals=2; plural=(n != 1);"
 )

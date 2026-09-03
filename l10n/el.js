@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Πίνακας έργου",
         "Projects I am in": "Έργα στα οποία συμμετέχω",
         "Timeline": "Χρονολόγιο",
-        "Timesheet": "Φύλλο χρόνου"
+        "Timesheet": "Φύλλο χρόνου",
+        "Features & roadmap": "Λειτουργίες και οδικός χάρτης",
+        "Flow": "Ροή",
+        "Flows": "Ροές"
     },
     "nplurals=2; plural=(n != 1);"
 )

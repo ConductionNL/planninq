@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Proje panosu",
         "Projects I am in": "Katıldığım projeler",
         "Timeline": "Zaman çizelgesi",
-        "Timesheet": "Zaman çizelgesi kaydı"
+        "Timesheet": "Zaman çizelgesi kaydı",
+        "Features & roadmap": "Özellikler ve yol haritası",
+        "Flow": "Akış",
+        "Flows": "Akışlar"
     },
     "nplurals=2; plural=(n != 1);"
 )
