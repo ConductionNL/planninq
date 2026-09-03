@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Projekttavle",
         "Projects I am in": "Projekter jeg er med i",
         "Timeline": "Tidslinje",
-        "Timesheet": "Timeseddel"
+        "Timesheet": "Timeseddel",
+        "Features & roadmap": "Funktioner og køreplan",
+        "Flow": "Flow",
+        "Flows": "Flows"
     },
     "nplurals=2; plural=(n != 1);"
 )

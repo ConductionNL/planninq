@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Projekto lenta",
         "Projects I am in": "Projektai, kuriuose dalyvauju",
         "Timeline": "Laiko juosta",
-        "Timesheet": "Darbo laiko apskaita"
+        "Timesheet": "Darbo laiko apskaita",
+        "Features & roadmap": "Funkcijos ir planas",
+        "Flow": "Srautas",
+        "Flows": "Srautai"
     },
     "nplurals=2; plural=(n != 1);"
 )

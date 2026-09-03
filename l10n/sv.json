@@ -208,7 +208,10 @@
         "Project board": "Projekttavla",
         "Projects I am in": "Projekt jag deltar i",
         "Timeline": "Tidslinje",
-        "Timesheet": "Tidrapport"
+        "Timesheet": "Tidrapport",
+        "Features & roadmap": "Funktioner och färdplan",
+        "Flow": "Flöde",
+        "Flows": "Flöden"
     },
     "plurals": null
 }

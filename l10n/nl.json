@@ -221,7 +221,10 @@
         "Project board": "Projectbord",
         "Projects I am in": "Projecten waarin ik deelneem",
         "Timeline": "Tijdlijn",
-        "Timesheet": "Urenregistratie"
+        "Timesheet": "Urenregistratie",
+        "Features & roadmap": "Functies en roadmap",
+        "Flow": "Flow",
+        "Flows": "Flows"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

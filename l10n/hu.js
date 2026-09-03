@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Projekttábla",
         "Projects I am in": "Projektek, amelyekben részt veszek",
         "Timeline": "Idővonal",
-        "Timesheet": "Munkaidő-nyilvántartás"
+        "Timesheet": "Munkaidő-nyilvántartás",
+        "Features & roadmap": "Funkciók és ütemterv",
+        "Flow": "Folyamat",
+        "Flows": "Folyamatok"
     },
     "nplurals=2; plural=(n != 1);"
 )

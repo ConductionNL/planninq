@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Табло на проекта",
         "Projects I am in": "Проекти, в които участвам",
         "Timeline": "Времева линия",
-        "Timesheet": "Отчет за времето"
+        "Timesheet": "Отчет за времето",
+        "Features & roadmap": "Функции и пътна карта",
+        "Flow": "Поток",
+        "Flows": "Потоци"
     },
     "nplurals=2; plural=(n != 1);"
 )

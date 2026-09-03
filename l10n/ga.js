@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Clár an tionscadail",
         "Projects I am in": "Tionscadail a bhfuil baint agam leo",
         "Timeline": "Amlíne",
-        "Timesheet": "Bileog ama"
+        "Timesheet": "Bileog ama",
+        "Features & roadmap": "Gnéithe agus treochlár",
+        "Flow": "Sruth",
+        "Flows": "Sruthanna"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -208,7 +208,10 @@
         "Project board": "Nástěnka projektu",
         "Projects I am in": "Projekty, kterých se účastním",
         "Timeline": "Časová osa",
-        "Timesheet": "Výkaz práce"
+        "Timesheet": "Výkaz práce",
+        "Features & roadmap": "Funkce a plán vývoje",
+        "Flow": "Tok",
+        "Flows": "Toky"
     },
     "plurals": null
 }

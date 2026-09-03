@@ -118,7 +118,25 @@ function loadAjv() {
 	return { Ajv: Ajv2020, addFormats }
 }
 
-function structuralLint(manifest) {
+/**
+ * Page types the structural fallback will accept.
+ *
+ * Read from the SCHEMA when one was loaded, so this path cannot drift from the
+ * contract the Ajv path enforces. It had: the hardcoded set below stopped at
+ * `files` while the vendored schema was already at `roadmap`, `flow` and
+ * `reports`, so a legitimate page type failed here and only here. A fallback
+ * that disagrees with the schema is worse than no fallback, because it fails a
+ * manifest that is correct.
+ *
+ * @param {object|null} schema The loaded manifest schema, if any.
+ * @return {Set<string>|null} The allowed page types, or null to skip the check.
+ */
+function pageTypesFrom(schema) {
+	const e = schema?.$defs?.page?.properties?.type?.enum
+	return Array.isArray(e) && e.length > 0 ? new Set(e) : null
+}
+
+function structuralLint(manifest, schema = null) {
 	const errors = []
 	if (!manifest.version || typeof manifest.version !== 'string') {
 		errors.push('top-level: version (string) is required')
@@ -129,16 +147,9 @@ function structuralLint(manifest) {
 	if (!Array.isArray(manifest.pages)) {
 		errors.push('top-level: pages (array) is required')
 	}
-	const allowedTypes = new Set([
-		'index',
-		'detail',
-		'dashboard',
-		'logs',
-		'settings',
-		'chat',
-		'files',
-		'custom',
-	])
+	// null when no schema was loadable: the type check is then SKIPPED rather
+	// than run against a guess, so this path never invents a rule of its own.
+	const allowedTypes = pageTypesFrom(schema)
 	const seenIds = new Set()
 	for (let i = 0; i < (manifest.pages || []).length; i++) {
 		const page = manifest.pages[i]
@@ -151,8 +162,8 @@ function structuralLint(manifest) {
 				errors.push(`pages[${i}]: missing required string field "${required}"`)
 			}
 		}
-		if (page.type && !allowedTypes.has(page.type)) {
-			errors.push(`pages[${i}].type: "${page.type}" not in v1.2 enum`)
+		if (page.type && allowedTypes && !allowedTypes.has(page.type)) {
+			errors.push(`pages[${i}].type: "${page.type}" is not in the schema's page-type enum`)
 		}
 		if (page.id) {
 			if (seenIds.has(page.id)) {
@@ -198,7 +209,7 @@ function main() {
 
 	const { Ajv, addFormats } = loadAjv()
 	if (!Ajv) {
-		const errors = structuralLint(manifest)
+		const errors = structuralLint(manifest, schema)
 		if (errors.length === 0) {
 			console.log('[validate-manifest] structural lint (no Ajv): PASS (0 issues)')
 			process.exit(0)

@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Verkefnatafla",
         "Projects I am in": "Verkefni sem ég tek þátt í",
         "Timeline": "Tímalína",
-        "Timesheet": "Tímaskráning"
+        "Timesheet": "Tímaskráning",
+        "Features & roadmap": "Eiginleikar og vegvísir",
+        "Flow": "Ferli",
+        "Flows": "Ferli"
     },
     "nplurals=2; plural=(n != 1);"
 )

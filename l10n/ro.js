@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Panoul proiectului",
         "Projects I am in": "Proiecte la care particip",
         "Timeline": "Cronologie",
-        "Timesheet": "Fișă de pontaj"
+        "Timesheet": "Fișă de pontaj",
+        "Features & roadmap": "Funcții și foaie de parcurs",
+        "Flow": "Flux",
+        "Flows": "Fluxuri"
     },
     "nplurals=2; plural=(n != 1);"
 )

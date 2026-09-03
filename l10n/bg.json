@@ -208,7 +208,10 @@
         "Project board": "Табло на проекта",
         "Projects I am in": "Проекти, в които участвам",
         "Timeline": "Времева линия",
-        "Timesheet": "Отчет за времето"
+        "Timesheet": "Отчет за времето",
+        "Features & roadmap": "Функции и пътна карта",
+        "Flow": "Поток",
+        "Flows": "Потоци"
     },
     "plurals": null
 }

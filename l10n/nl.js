@@ -222,7 +222,10 @@ OC.L10N.register(
         "Project board": "Projectbord",
         "Projects I am in": "Projecten waarin ik deelneem",
         "Timeline": "Tijdlijn",
-        "Timesheet": "Urenregistratie"
+        "Timesheet": "Urenregistratie",
+        "Features & roadmap": "Functies en roadmap",
+        "Flow": "Flow",
+        "Flows": "Flows"
     },
     "nplurals=2; plural=(n != 1);"
 )

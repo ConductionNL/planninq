@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Tavla dal project",
         "Projects I am in": "Projects en ils quals jau sun involvà",
         "Timeline": "Lingia dal temp",
-        "Timesheet": "Register da temp"
+        "Timesheet": "Register da temp",
+        "Features & roadmap": "Funcziuns e plan da svilup",
+        "Flow": "Flux",
+        "Flows": "Fluxs"
     },
     "nplurals=2; plural=(n != 1);"
 )

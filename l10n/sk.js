@@ -209,7 +209,10 @@ OC.L10N.register(
         "Project board": "Nástenka projektu",
         "Projects I am in": "Projekty, na ktorých sa podieľam",
         "Timeline": "Časová os",
-        "Timesheet": "Výkaz práce"
+        "Timesheet": "Výkaz práce",
+        "Features & roadmap": "Funkcie a plán vývoja",
+        "Flow": "Tok",
+        "Flows": "Toky"
     },
     "nplurals=2; plural=(n != 1);"
 )
