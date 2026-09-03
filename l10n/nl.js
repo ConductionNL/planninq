@@ -1,9 +1,6 @@
 OC.L10N.register(
     "planninq",
     {
-        "Flows": "Flows",
-        "Flow": "Flow",
-        "Features & roadmap": "Functies en roadmap",
         "Welcome": "Welkom",
         "A short setup to get this app ready. Nothing here is required; you can close it and come back later.": "Een korte installatie om deze app klaar te zetten. Niets hiervan is verplicht; je kunt dit sluiten en later terugkomen.",
         "Demo data (optional)": "Demovoorbeelddata (optioneel)",
@@ -225,7 +222,10 @@ OC.L10N.register(
         "Project board": "Projectbord",
         "Projects I am in": "Projecten waarin ik deelneem",
         "Timeline": "Tijdlijn",
-        "Timesheet": "Urenregistratie"
+        "Timesheet": "Urenregistratie",
+        "Features & roadmap": "Functies en roadmap",
+        "Flow": "Flow",
+        "Flows": "Flows"
     },
     "nplurals=2; plural=(n != 1);"
 )
