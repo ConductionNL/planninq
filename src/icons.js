@@ -19,6 +19,7 @@ import AccountMultiplePlus from 'vue-material-design-icons/AccountMultiplePlus.v
 import BookOpenVariantOutline from 'vue-material-design-icons/BookOpenVariantOutline.vue'
 import BriefcaseOutline from 'vue-material-design-icons/BriefcaseOutline.vue'
 import ChartBar from 'vue-material-design-icons/ChartBar.vue'
+import ChartBoxOutline from 'vue-material-design-icons/ChartBoxOutline.vue'
 import CheckboxMarkedCircleOutline from 'vue-material-design-icons/CheckboxMarkedCircleOutline.vue'
 import ClockOutline from 'vue-material-design-icons/ClockOutline.vue'
 import CloudUpload from 'vue-material-design-icons/CloudUpload.vue'
@@ -40,6 +41,7 @@ export default {
 	BookOpenVariantOutline,
 	BriefcaseOutline,
 	ChartBar,
+	ChartBoxOutline,
 	CheckboxMarkedCircleOutline,
 	ClockOutline,
 	CloudUpload,
