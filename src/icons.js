@@ -25,6 +25,8 @@ import CloudUpload from 'vue-material-design-icons/CloudUpload.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
 import History from 'vue-material-design-icons/History.vue'
 import Home from 'vue-material-design-icons/Home.vue'
+import MapMarkerPath from 'vue-material-design-icons/MapMarkerPath.vue'
+import SitemapOutline from 'vue-material-design-icons/SitemapOutline.vue'
 import TagOutline from 'vue-material-design-icons/TagOutline.vue'
 import TimerOutline from 'vue-material-design-icons/TimerOutline.vue'
 import VectorPolyline from 'vue-material-design-icons/VectorPolyline.vue'
@@ -44,6 +46,8 @@ export default {
 	FolderOutline,
 	History,
 	Home,
+	MapMarkerPath,
+	SitemapOutline,
 	TagOutline,
 	TimerOutline,
 	VectorPolyline,
