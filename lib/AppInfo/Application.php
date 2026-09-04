@@ -239,7 +239,48 @@ class Application extends App implements IBootstrap {
 		$this->registerAppHostObservability(context: $context);
 		$this->registerAppHostSettings(context: $context);
 		$this->registerAppHostDeepLinks(context: $context);
+		$this->registerAppHostStore(context: $context);
 	}//end registerAppHost()
+
+	/**
+	 * Bind the store controller the adopted route table already declares.
+	 *
+	 * 🔴 THIS ROUTE ARRIVES WHETHER THE APP WANTS IT OR NOT.
+	 *
+	 * `Routes::standard()`, which appinfo/routes.php adopts, declares
+	 * `/api/store/items`. The binding normally comes from
+	 * `Bootstrap::register()`, and planninq does not call that: it aliases the
+	 * plumbing classes it wants, one at a time, and keeps its own settings and
+	 * kanban controllers. The store controller was simply never on that list.
+	 *
+	 * So the route matched a controller class that does not exist, and every
+	 * request to it returned HTTP 500 rather than 404. Measured on a running
+	 * instance 2026-09-03, alongside decidiq and filinq.
+	 *
+	 * The engine owns the constructor argument list, which is why this calls
+	 * the shared helper rather than adding a ninth hand-written factory here:
+	 * the argument list gained a parameter the same day this defect was found,
+	 * and a hand-written copy would have broken instead of adapting.
+	 *
+	 * @param IRegistrationContext $context The registration context.
+	 *
+	 * @return void
+	 */
+	private function registerAppHostStore(IRegistrationContext $context): void {
+		$bootstrap = 'OCA\\OpenRegister\\AppHost\\Bootstrap';
+		if (class_exists($bootstrap) === false || method_exists($bootstrap, 'aliasStoreController') === false) {
+			// OpenRegister absent, or older than the helper. The route is no
+			// worse off than it is today, and nothing else here depends on it.
+			return;
+		}
+
+		$bootstrap::aliasStoreController(
+			context: $context,
+			appId: self::APP_ID,
+			controllerNs: 'OCA\\Planninq\\Controller'
+		);
+
+	}//end registerAppHostStore()
 
 	/**
 	 * Alias the dashboard SPA and per-user preferences controllers.
