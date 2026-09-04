@@ -27,9 +27,31 @@
  * ⚠️ SETTINGS ENTRIES ARE ATTACHED, NOT VISIBLE, inside a collapsed foldout.
  */
 
+import type { Page } from '@playwright/test'
+
 import { expect, test } from '@playwright/test'
 
 const APP_BASE = '/apps/planninq'
+
+/**
+ * Dismiss the first-run setup wizard if it is open.
+ *
+ * ⚠️ On a FRESH instance CnSetupWizard opens over the app and its modal
+ * intercepts pointer events, so every nav click resolves its locator and then
+ * times out after 30s — a failure that reads like the navigation is broken.
+ * Tests that navigate by URL pass, which is what makes this so easy to miss:
+ * only the click-through tests fail, and only on a clean install.
+ *
+ * @param page The page.
+ */
+async function dismissSetupWizard(page: Page): Promise<void> {
+	const modal = page.locator('[data-testid="cn-modal"]')
+	if ((await modal.count()) === 0) {
+		return
+	}
+	await modal.first().getByRole('button', { name: 'Close' }).click()
+	await expect(modal).toHaveCount(0, { timeout: 15_000 })
+}
 
 test.describe('app chrome (ADR-114)', () => {
 	test.beforeEach(async ({ page }) => {
@@ -37,6 +59,7 @@ test.describe('app chrome (ADR-114)', () => {
 		await expect(page.locator('[data-testid="cn-nav"]')).toBeVisible({
 			timeout: 30_000,
 		})
+		await dismissSetupWizard(page)
 	})
 
 	test('the footer reads Documentation, Reports, Features & roadmap, each with a glyph', async ({
@@ -76,7 +99,14 @@ test.describe('app chrome (ADR-114)', () => {
 		// rather than an entry. It sat in the main nav at order 40.
 		await expect(nav.locator('[data-testid="cn-nav-entry-Portfolio"]')).toHaveCount(0)
 
-		await nav.locator('[data-testid="cn-nav-entry-ReportsMenu"]').click()
+		// ⚠️ The testid is on the <li> WRAPPER. The clickable element is the
+		// <a class="app-navigation-entry-link"> inside it: clicking the li
+		// resolves the locator and then never becomes actionable, so the test
+		// dies with a 30s timeout that reads like the app is broken.
+		await nav
+			.locator('[data-testid="cn-nav-entry-ReportsMenu"] a')
+			.first()
+			.click()
 		await expect(page).toHaveURL(/\/apps\/planninq\/reports(\?|$)/, {
 			timeout: 15_000,
 		})
@@ -108,10 +138,13 @@ test.describe('app chrome (ADR-114)', () => {
 			timeout: 30_000,
 		})
 
-		const open = page.getByText('Open', { exact: false }).first()
-		await expect(open).toBeVisible({ timeout: 30_000 })
-
 		const body = page.locator('main, .app-content').first()
+
+		// ⚠️ NOT a bare getByText('Open'): that matched the SVG
+		// <title>Opens in a new tab</title> on an external-link icon —
+		// attached, hidden, and nothing to do with this report. Scope to the
+		// body and match a string only the report can supply.
+		await expect(body.getByText('In progress', { exact: false }).first()).toBeVisible({ timeout: 30_000 })
 		await expect(body).toContainText(/\d/, { timeout: 30_000 })
 	})
 
@@ -134,9 +167,11 @@ test.describe('app chrome (ADR-114)', () => {
 		await expect(nav.locator('[data-testid="cn-nav-personal-settings"]')).toBeAttached()
 		await expect(nav.locator('[data-testid="cn-nav-entry-FlowsMenu"]')).toBeAttached()
 
+		// Same wrapper trap: href lives on the <a>, not the <li>, so asserting
+		// it on the testid element yields null.
 		const admin = nav.locator('[data-testid="cn-nav-admin-settings"]')
 		await expect(admin).toBeAttached()
-		await expect(admin).toHaveAttribute(
+		await expect(admin.locator('a').first()).toHaveAttribute(
 			'href',
 			/\/settings\/admin\/planninq$/,
 		)
