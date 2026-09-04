@@ -185,6 +185,8 @@ export default {
 		 * A count and budget headline only make sense for a list.
 		 *
 		 * @return {boolean} Whether to render the figure block.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
 		 */
 		showTotals() {
 			return this.isSingleEntity === false
@@ -194,6 +196,8 @@ export default {
 		 * A "New project" button only makes sense where a client is in scope.
 		 *
 		 * @return {boolean} Whether creating from here would know its client.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
 		 */
 		canCreate() {
 			return this.isHostScoped
@@ -206,6 +210,8 @@ export default {
 		 * not read" is the defect this whole leaf exists to remove.
 		 *
 		 * @return {string|number} The count, or '—'.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
 		 */
 		displayCount() {
 			if (this.error !== '') {
@@ -214,12 +220,20 @@ export default {
 			return this.total
 		},
 
-		/** @return {string} The noun the count is counting. */
+		/**
+		 * @return {string} The noun the count is counting.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
+		 */
 		countLabel() {
 			return t('planninq', 'Projects')
 		},
 
-		/** @return {string} The empty state, phrased for the surface. */
+		/**
+		 * @return {string} The empty state, phrased for the surface.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
+		 */
 		emptyLabel() {
 			if (this.isSingleEntity) {
 				return t('planninq', 'This project could not be found')
@@ -230,22 +244,38 @@ export default {
 			return t('planninq', 'No projects yet')
 		},
 
-		/** @return {number} Summed budget of the projects in view. */
+		/**
+		 * @return {number} Summed budget of the projects in view.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
+		 */
 		budgetTotal() {
 			return budgetOf(this.projects)
 		},
 
-		/** @return {Array} At most `limit` projects. */
+		/**
+		 * @return {Array} At most `limit` projects.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
+		 */
 		visibleProjects() {
 			return this.projects.slice(0, this.limit)
 		},
 
-		/** @return {boolean} Whether more projects exist than are listed. */
+		/**
+		 * @return {boolean} Whether more projects exist than are listed.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
+		 */
 		truncated() {
 			return this.total > this.visibleProjects.length
 		},
 
-		/** @return {string} The "and N more" line. */
+		/**
+		 * @return {string} The "and N more" line.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
+		 */
 		moreLabel() {
 			const rest = this.total - this.visibleProjects.length
 			return t('planninq', 'and {count} more', { count: rest })
@@ -268,6 +298,8 @@ export default {
 		 * Read the projects this surface is asking about from OpenRegister.
 		 *
 		 * @return {Promise<void>} Resolves when the list has settled.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
 		 */
 		async load() {
 			this.loading = true
@@ -313,6 +345,8 @@ export default {
 		 *
 		 * @param {object} project The project row.
 		 * @return {string} The url of its board.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
 		 */
 		projectUrl(project) {
 			return generateUrl('/apps/planninq/projects/{id}', {
@@ -324,6 +358,8 @@ export default {
 		 * Open planninq's project list.
 		 *
 		 * @return {void}
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
 		 */
 		openProjects() {
 			window.open(generateUrl('/apps/planninq/projects'), '_self')
@@ -333,6 +369,8 @@ export default {
 		 * Open planninq's project list with this client pre-selected.
 		 *
 		 * @return {void}
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
 		 */
 		openNewProject() {
 			const url = generateUrl(
@@ -349,6 +387,8 @@ export default {
 		 *
 		 * @param {string} status The stored enum value.
 		 * @return {string} The label.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
 		 */
 		statusLabel(status) {
 			const labels = {
@@ -365,6 +405,8 @@ export default {
 		 *
 		 * @param {number} value The amount.
 		 * @return {string} The formatted amount.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
 		 */
 		formatAmount(value) {
 			const n = Number(value) || 0
