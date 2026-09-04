@@ -236,7 +236,15 @@ OC.L10N.register(
         "Nothing logged yet": "Dar nieko neužregistruota",
         "What is open, what is blocked, and what is overdue.": "Kas atidaryta, kas užblokuota ir kas vėluoja.",
         "How allocation is spread across the people working on projects.": "Kaip krūvis pasiskirsto tarp žmonių, dirbančių prie projektų.",
-        "Hours logged, and the projects they went to.": "Užregistruotos valandos ir projektai, kuriems jos skirtos."
+        "Hours logged, and the projects they went to.": "Užregistruotos valandos ir projektai, kuriems jos skirtos.",
+        "Billable": "Apmokestinama",
+        "Budget: {amount}": "Biudžetas: {amount}",
+        "Loading projects": "Įkeliami projektai",
+        "No projects for this client yet": "Šiam klientui projektų dar nėra",
+        "Open in Planninq": "Atidaryti Planninq",
+        "This project could not be found": "Šis projektas nerastas",
+        "Untitled project": "Projektas be pavadinimo",
+        "and {count} more": "ir dar {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

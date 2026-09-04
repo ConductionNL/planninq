@@ -236,7 +236,15 @@ OC.L10N.register(
         "Nothing logged yet": "Aún no hay registros",
         "What is open, what is blocked, and what is overdue.": "Qué está abierto, qué está bloqueado y qué está vencido.",
         "How allocation is spread across the people working on projects.": "Cómo se reparte la asignación entre quienes trabajan en proyectos.",
-        "Hours logged, and the projects they went to.": "Las horas registradas y los proyectos a los que fueron."
+        "Hours logged, and the projects they went to.": "Las horas registradas y los proyectos a los que fueron.",
+        "Billable": "Facturable",
+        "Budget: {amount}": "Presupuesto: {amount}",
+        "Loading projects": "Cargando proyectos",
+        "No projects for this client yet": "Aún no hay proyectos para este cliente",
+        "Open in Planninq": "Abrir en Planninq",
+        "This project could not be found": "No se ha encontrado este proyecto",
+        "Untitled project": "Proyecto sin título",
+        "and {count} more": "y {count} más"
     },
     "nplurals=2; plural=(n != 1);"
 )

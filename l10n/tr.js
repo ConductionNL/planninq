@@ -236,7 +236,15 @@ OC.L10N.register(
         "Nothing logged yet": "Henüz kayıt yok",
         "What is open, what is blocked, and what is overdue.": "Ne açık, ne engellenmiş ve ne gecikmiş.",
         "How allocation is spread across the people working on projects.": "Projelerde çalışan kişiler arasında yükün nasıl dağıldığı.",
-        "Hours logged, and the projects they went to.": "Kaydedilen saatler ve gittikleri projeler."
+        "Hours logged, and the projects they went to.": "Kaydedilen saatler ve gittikleri projeler.",
+        "Billable": "Faturalandırılabilir",
+        "Budget: {amount}": "Bütçe: {amount}",
+        "Loading projects": "Projeler yükleniyor",
+        "No projects for this client yet": "Bu müşteri için henüz proje yok",
+        "Open in Planninq": "Planninq'te aç",
+        "This project could not be found": "Bu proje bulunamadı",
+        "Untitled project": "Adsız proje",
+        "and {count} more": "ve {count} tane daha"
     },
     "nplurals=2; plural=(n != 1);"
 )

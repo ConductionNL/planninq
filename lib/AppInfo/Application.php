@@ -26,6 +26,7 @@ use OCA\OpenRegister\Event\ObjectCreatedEvent;
 use OCA\OpenRegister\Event\ObjectDeletedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
 use OCA\Planninq\Listener\DeepLinkRegistrationListener;
+use OCA\Planninq\Listener\RegisterProjectsLeafListener;
 use OCA\Planninq\Listener\TaskActivityListener;
 use OCA\Planninq\Settings\AdminSettings;
 use OCP\AppFramework\App;
@@ -92,6 +93,10 @@ class Application extends App implements IBootstrap {
 		// with per-user due-reminder logic, Repair\InitializeSettings register
 		// import, the kanban Project/Dependency/Label controllers) are kept.
 		$this->registerAppHost(context: $context);
+
+		// Publish the projects leaf on OpenRegister's integration registry, so
+		// sibling apps render planninq's projects instead of querying for them.
+		$this->registerProjectsLeaf(context: $context);
 
 		// NOTE: the task-lifecycle Activity listener is subscribed from boot(),
 		// not here — see registerFilteredObjectListener().
@@ -166,6 +171,13 @@ class Application extends App implements IBootstrap {
 	 * @var string
 	 */
 	private const OR_DEEPLINK_REGISTRATION_EVENT = 'OCA\\OpenRegister\\Event\\DeepLinkRegistrationEvent';
+
+	/**
+	 * OpenRegister's leaf-provider collect-event name (ADR-066).
+	 *
+	 * @var string
+	 */
+	private const OR_LEAF_REGISTRATION_EVENT = 'OCA\\OpenRegister\\Event\\RegisterLeafProvidersEvent';
 
 	/**
 	 * Leaf DI service id for the AppHost dashboard SPA controller.
@@ -456,6 +468,40 @@ class Application extends App implements IBootstrap {
 			listener: DeepLinkRegistrationListener::class
 		);
 	}//end registerAppHostDeepLinks()
+
+	/**
+	 * Subscribe the `planninq-projects` leaf to OpenRegister's collect-event.
+	 *
+	 * Planninq owns the project entity, so sibling apps render it through this
+	 * leaf rather than reading planninq's register from their own manifests.
+	 * Pipelinq did the latter and, on an install without the owning app, showed
+	 * an empty table that looked exactly like a client with no projects.
+	 *
+	 * The event NAME is a plain string for the same reason every OpenRegister
+	 * FQCN in this class is: IEventDispatcher keys on the string, so nothing
+	 * here needs OpenRegister to be autoloadable at bootstrap. The listener
+	 * class itself is only constructed when OpenRegister dispatches, which it
+	 * can only do when it is installed.
+	 *
+	 * @param IRegistrationContext $context The registration context.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/project-delivery/spec.md#requirement-both-halves-of-the-projects-leaf-agree
+	 */
+	private function registerProjectsLeaf(IRegistrationContext $context): void {
+		$context->registerService(
+			RegisterProjectsLeafListener::class,
+			static fn (ContainerInterface $c): RegisterProjectsLeafListener => new RegisterProjectsLeafListener(
+				l10n: $c->get('OCP\\IL10N'),
+				logger: $c->get('Psr\\Log\\LoggerInterface')
+			)
+		);
+		$context->registerEventListener(
+			event: self::OR_LEAF_REGISTRATION_EVENT,
+			listener: RegisterProjectsLeafListener::class
+		);
+	}//end registerProjectsLeaf()
 
 	/**
 	 * Boot the application.

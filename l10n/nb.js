@@ -236,7 +236,15 @@ OC.L10N.register(
         "Nothing logged yet": "Ingenting registrert ennå",
         "What is open, what is blocked, and what is overdue.": "Hva som er åpent, hva som er blokkert, og hva som er forsinket.",
         "How allocation is spread across the people working on projects.": "Hvordan belastningen fordeler seg på dem som jobber med prosjekter.",
-        "Hours logged, and the projects they went to.": "Registrerte timer og prosjektene de gikk til."
+        "Hours logged, and the projects they went to.": "Registrerte timer og prosjektene de gikk til.",
+        "Billable": "Fakturerbar",
+        "Budget: {amount}": "Budsjett: {amount}",
+        "Loading projects": "Laster prosjekter",
+        "No projects for this client yet": "Ingen prosjekter for denne kunden ennå",
+        "Open in Planninq": "Åpne i Planninq",
+        "This project could not be found": "Dette prosjektet ble ikke funnet",
+        "Untitled project": "Prosjekt uten tittel",
+        "and {count} more": "og {count} til"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -235,7 +235,15 @@
         "Nothing logged yet": "Ekkert skráð enn",
         "What is open, what is blocked, and what is overdue.": "Hvað er opið, hvað er lokað og hvað er of seint.",
         "How allocation is spread across the people working on projects.": "Hvernig álagið dreifist á fólkið sem vinnur að verkefnum.",
-        "Hours logged, and the projects they went to.": "Skráðar klukkustundir og verkefnin sem þær fóru í."
+        "Hours logged, and the projects they went to.": "Skráðar klukkustundir og verkefnin sem þær fóru í.",
+        "Billable": "Reikningsfært",
+        "Budget: {amount}": "Fjárhagsáætlun: {amount}",
+        "Loading projects": "Hleð verkefnum",
+        "No projects for this client yet": "Engin verkefni fyrir þennan viðskiptavin enn",
+        "Open in Planninq": "Opna í Planninq",
+        "This project could not be found": "Þetta verkefni fannst ekki",
+        "Untitled project": "Ónefnt verkefni",
+        "and {count} more": "og {count} til viðbótar"
     },
     "plurals": {}
 }

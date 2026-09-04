@@ -235,7 +235,15 @@
         "Nothing logged yet": "Пока ничего не записано",
         "What is open, what is blocked, and what is overdue.": "Что открыто, что заблокировано и что просрочено.",
         "How allocation is spread across the people working on projects.": "Как распределена нагрузка между людьми, работающими над проектами.",
-        "Hours logged, and the projects they went to.": "Записанные часы и проекты, на которые они ушли."
+        "Hours logged, and the projects they went to.": "Записанные часы и проекты, на которые они ушли.",
+        "Billable": "Оплачиваемое",
+        "Budget: {amount}": "Бюджет: {amount}",
+        "Loading projects": "Загрузка проектов",
+        "No projects for this client yet": "Для этого клиента пока нет проектов",
+        "Open in Planninq": "Открыть в Planninq",
+        "This project could not be found": "Этот проект не найден",
+        "Untitled project": "Проект без названия",
+        "and {count} more": "и ещё {count}"
     },
     "plurals": {}
 }

@@ -236,7 +236,15 @@ OC.L10N.register(
         "Nothing logged yet": "Δεν έχει καταγραφεί τίποτα ακόμη",
         "What is open, what is blocked, and what is overdue.": "Τι είναι ανοιχτό, τι μπλοκαρισμένο και τι εκπρόθεσμο.",
         "How allocation is spread across the people working on projects.": "Πώς κατανέμεται ο φόρτος στα άτομα που εργάζονται σε έργα.",
-        "Hours logged, and the projects they went to.": "Οι καταγεγραμμένες ώρες και τα έργα στα οποία πήγαν."
+        "Hours logged, and the projects they went to.": "Οι καταγεγραμμένες ώρες και τα έργα στα οποία πήγαν.",
+        "Billable": "Χρεώσιμο",
+        "Budget: {amount}": "Προϋπολογισμός: {amount}",
+        "Loading projects": "Φόρτωση έργων",
+        "No projects for this client yet": "Δεν υπάρχουν ακόμη έργα για αυτόν τον πελάτη",
+        "Open in Planninq": "Άνοιγμα στο Planninq",
+        "This project could not be found": "Αυτό το έργο δεν βρέθηκε",
+        "Untitled project": "Έργο χωρίς τίτλο",
+        "and {count} more": "και {count} ακόμη"
     },
     "nplurals=2; plural=(n != 1);"
 )

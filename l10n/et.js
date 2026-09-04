@@ -236,7 +236,15 @@ OC.L10N.register(
         "Nothing logged yet": "Midagi pole veel kirjendatud",
         "What is open, what is blocked, and what is overdue.": "Mis on avatud, mis blokeeritud ja mis hilinenud.",
         "How allocation is spread across the people working on projects.": "Kuidas koormus jaguneb projektidega tegelevate inimeste vahel.",
-        "Hours logged, and the projects they went to.": "Kirjendatud tunnid ja projektid, kuhu need läksid."
+        "Hours logged, and the projects they went to.": "Kirjendatud tunnid ja projektid, kuhu need läksid.",
+        "Billable": "Arveldatav",
+        "Budget: {amount}": "Eelarve: {amount}",
+        "Loading projects": "Projektide laadimine",
+        "No projects for this client yet": "Sellel kliendil pole veel projekte",
+        "Open in Planninq": "Ava Planninqis",
+        "This project could not be found": "Seda projekti ei leitud",
+        "Untitled project": "Nimeta projekt",
+        "and {count} more": "ja veel {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )
