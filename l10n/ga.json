@@ -243,7 +243,9 @@
         "Open in Planninq": "Oscail i Planninq",
         "This project could not be found": "Níorbh fhéidir an tionscadal seo a aimsiú",
         "Untitled project": "Tionscadal gan teideal",
-        "and {count} more": "agus {count} eile"
+        "and {count} more": "agus {count} eile",
+        "Store": "Siopa",
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Suiteáil cláir, scéimeanna agus sruthanna a d'fhoilsigh eagraíochtaí eile."
     },
     "plurals": null
 }

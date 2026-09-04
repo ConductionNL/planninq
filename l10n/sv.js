@@ -244,7 +244,9 @@ OC.L10N.register(
         "Open in Planninq": "Öppna i Planninq",
         "This project could not be found": "Det här projektet hittades inte",
         "Untitled project": "Namnlöst projekt",
-        "and {count} more": "och {count} till"
+        "and {count} more": "och {count} till",
+        "Store": "Butik",
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Installera register, scheman och flöden som andra organisationer har publicerat."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -244,7 +244,9 @@ OC.L10N.register(
         "Open in Planninq": "Atidaryti Planninq",
         "This project could not be found": "Šis projektas nerastas",
         "Untitled project": "Projektas be pavadinimo",
-        "and {count} more": "ir dar {count}"
+        "and {count} more": "ir dar {count}",
+        "Store": "Parduotuvė",
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Įdiekite registrus, schemas ir srautus, kuriuos paskelbė kitos organizacijos."
     },
     "nplurals=2; plural=(n != 1);"
 )

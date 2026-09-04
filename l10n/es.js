@@ -244,7 +244,9 @@ OC.L10N.register(
         "Open in Planninq": "Abrir en Planninq",
         "This project could not be found": "No se ha encontrado este proyecto",
         "Untitled project": "Proyecto sin título",
-        "and {count} more": "y {count} más"
+        "and {count} more": "y {count} más",
+        "Store": "Tienda",
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Instale registros, esquemas y flujos publicados por otras organizaciones."
     },
     "nplurals=2; plural=(n != 1);"
 )

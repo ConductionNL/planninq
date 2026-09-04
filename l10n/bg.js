@@ -244,7 +244,9 @@ OC.L10N.register(
         "Open in Planninq": "Отваряне в Planninq",
         "This project could not be found": "Този проект не беше намерен",
         "Untitled project": "Проект без име",
-        "and {count} more": "и още {count}"
+        "and {count} more": "и още {count}",
+        "Store": "Магазин",
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Инсталирайте регистри, схеми и потоци, публикувани от други организации."
     },
     "nplurals=2; plural=(n != 1);"
 )

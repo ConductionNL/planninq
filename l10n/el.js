@@ -244,7 +244,9 @@ OC.L10N.register(
         "Open in Planninq": "Άνοιγμα στο Planninq",
         "This project could not be found": "Αυτό το έργο δεν βρέθηκε",
         "Untitled project": "Έργο χωρίς τίτλο",
-        "and {count} more": "και {count} ακόμη"
+        "and {count} more": "και {count} ακόμη",
+        "Store": "Κατάστημα",
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Εγκαταστήστε μητρώα, σχήματα και ροές που έχουν δημοσιεύσει άλλοι οργανισμοί."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -244,7 +244,9 @@ OC.L10N.register(
         "Open in Planninq": "Megnyitás a Planninqben",
         "This project could not be found": "Ez a projekt nem található",
         "Untitled project": "Névtelen projekt",
-        "and {count} more": "és még {count}"
+        "and {count} more": "és még {count}",
+        "Store": "Áruház",
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Telepítsen más szervezetek által közzétett nyilvántartásokat, sémákat és folyamatokat."
     },
     "nplurals=2; plural=(n != 1);"
 )
