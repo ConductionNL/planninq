@@ -411,32 +411,22 @@ class CustomValidationException extends \Exception {
 class ProviderUnavailableException extends \Exception {
 }
 
-namespace OCA\OpenRegister\AppHost;
-
-use OCP\AppFramework\Bootstrap\IRegistrationContext;
-
-/**
- * The AppHost composition-root entry point (ADR-040).
+/*
+ * `OCA\OpenRegister\AppHost\Bootstrap` USED TO BE DECLARED HERE.
  *
- * Mirrored from openregister/lib/AppHost/Bootstrap.php.
+ * It moved to the shared package, which now ships it as
+ * vendor/conduction/hydra-gates/hydra-gates/stubs/openregister-apphost-bootstrap.stub.php
+ * (ConductionNL/.github#686). psalm.xml and phpstan.neon name that file.
  *
- * WHY IT HAD TO BE STUBBED. `Application::registerAppHostStore()` guards its
- * call with `class_exists(Bootstrap::class)`. With no stub, psalm could not see
- * the class at all, concluded the guarded block was unreachable, and reported
- * `UnusedParam - Param context is never referenced in this method` — a finding
- * about a parameter that is passed on the very next line. The call is correct
- * and load-bearing at runtime; it was the analyzer that could not see it.
+ * Not a tidy-up. decidiq and filinq adopted the same AppHost route table and
+ * write the same guarded `Bootstrap::aliasStoreController()` call, and both
+ * were red on psalm with the `UnusedParam` finding this stub answers. planninq
+ * was green only because it had already paid for a copy. Three copies of one
+ * stub is three chances to drift from the engine, so the copy left this tree.
  *
- * Analysis-only: never autoloaded or executed.
+ * Do NOT re-declare the class below: two stubs declaring it would be a
+ * duplicate class declaration, not a fallback.
  */
-class Bootstrap {
-	public static function register(IRegistrationContext $context, string $appId, array $options = []): void {
-	}//end register()
-
-	public static function aliasStoreController(IRegistrationContext $context, string $appId, string $controllerNs): void {
-	}//end aliasStoreController()
-}//end class
-
 
 namespace OCA\OpenRegister\Service\Integration;
 
