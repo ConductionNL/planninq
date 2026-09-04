@@ -212,7 +212,15 @@ OC.L10N.register(
         "Timesheet": "Timesheet",
         "Features & roadmap": "Features & roadmap",
         "Flow": "Flow",
-        "Flows": "Flows"
+        "Flows": "Flows",
+        "Billable": "Billable",
+        "Budget: {amount}": "Budget: {amount}",
+        "Loading projects": "Loading projects",
+        "No projects for this client yet": "No projects for this client yet",
+        "Open in Planninq": "Open in Planninq",
+        "This project could not be found": "This project could not be found",
+        "Untitled project": "Untitled project",
+        "and {count} more": "and {count} more"
     },
     "nplurals=2; plural=(n != 1);"
 )

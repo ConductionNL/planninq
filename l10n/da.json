@@ -235,7 +235,15 @@
         "Nothing logged yet": "Intet registreret endnu",
         "What is open, what is blocked, and what is overdue.": "Hvad er åbent, hvad er blokeret, og hvad er forsinket.",
         "How allocation is spread across the people working on projects.": "Hvordan belastningen er fordelt mellem dem, der arbejder på projekter.",
-        "Hours logged, and the projects they went to.": "Registrerede timer og de projekter, de gik til."
+        "Hours logged, and the projects they went to.": "Registrerede timer og de projekter, de gik til.",
+        "Billable": "Fakturerbar",
+        "Budget: {amount}": "Budget: {amount}",
+        "Loading projects": "Indlæser projekter",
+        "No projects for this client yet": "Ingen projekter for denne kunde endnu",
+        "Open in Planninq": "Åbn i Planninq",
+        "This project could not be found": "Dette projekt blev ikke fundet",
+        "Untitled project": "Projekt uden titel",
+        "and {count} more": "og {count} mere"
     },
     "plurals": null
 }

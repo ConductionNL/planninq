@@ -14,6 +14,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import DashboardPanels from './components/DashboardPanels.vue'
 import appIcons from './icons.js'
+import { registerProjectsLeaf } from './integrations/registerProjectsLeaf.js'
 import bundledManifest from './manifest.json'
 import pinia from './pinia.js'
 import registry from './registry.js'
@@ -46,6 +47,18 @@ registerIcons(appIcons)
 // the registry empty, so the dashboard's `stat` tiles render "Widget not
 // available". This exported no-op forces the registration module to evaluate.
 registerBuiltinDashboardWidgets()
+
+// Publish the `planninq-projects` leaf on OpenRegister's integration registry.
+//
+// Planninq owns projects, so every other app reads them through this rather
+// than querying planninq's register from its own manifest. At module scope on
+// purpose: a consuming page may mount the leaf before planninq's own app has
+// mounted, and the registry stub in registerProjectsLeaf.js queues the entry
+// when OpenRegister's bundle has not loaded yet.
+//
+// Its server half is lib/Listener/RegisterProjectsLeafListener.php. The two are
+// bound by the shared id, and gate-24 compares them field by field.
+registerProjectsLeaf()
 
 // The dashboard's "My projects" / "Quick actions" panels.
 //

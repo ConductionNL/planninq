@@ -235,7 +235,15 @@
         "Nothing logged yet": "Zatiaľ nič nezaznamenané",
         "What is open, what is blocked, and what is overdue.": "Čo je otvorené, čo blokované a čo po termíne.",
         "How allocation is spread across the people working on projects.": "Ako je vyťaženie rozložené medzi ľudí pracujúcich na projektoch.",
-        "Hours logged, and the projects they went to.": "Zaznamenané hodiny a projekty, do ktorých šli."
+        "Hours logged, and the projects they went to.": "Zaznamenané hodiny a projekty, do ktorých šli.",
+        "Billable": "Fakturovateľné",
+        "Budget: {amount}": "Rozpočet: {amount}",
+        "Loading projects": "Načítavajú sa projekty",
+        "No projects for this client yet": "Pre tohto klienta zatiaľ nie sú žiadne projekty",
+        "Open in Planninq": "Otvoriť v Planninq",
+        "This project could not be found": "Tento projekt sa nenašiel",
+        "Untitled project": "Projekt bez názvu",
+        "and {count} more": "a ďalšie {count}"
     },
     "plurals": null
 }

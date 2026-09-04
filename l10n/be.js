@@ -236,7 +236,15 @@ OC.L10N.register(
         "Nothing logged yet": "Яшчэ нічога не запісана",
         "What is open, what is blocked, and what is overdue.": "Што адкрыта, што заблакіравана і што пратэрмінавана.",
         "How allocation is spread across the people working on projects.": "Як размеркавана нагрузка паміж людзьмі, што працуюць над праектамі.",
-        "Hours logged, and the projects they went to.": "Запісаныя гадзіны і праекты, на якія яны пайшлі."
+        "Hours logged, and the projects they went to.": "Запісаныя гадзіны і праекты, на якія яны пайшлі.",
+        "Billable": "Аплатна",
+        "Budget: {amount}": "Бюджэт: {amount}",
+        "Loading projects": "Загрузка праектаў",
+        "No projects for this client yet": "Для гэтага кліента яшчэ няма праектаў",
+        "Open in Planninq": "Адкрыць у Planninq",
+        "This project could not be found": "Не ўдалося знайсці гэты праект",
+        "Untitled project": "Праект без назвы",
+        "and {count} more": "і яшчэ {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

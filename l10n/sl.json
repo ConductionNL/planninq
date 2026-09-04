@@ -235,7 +235,15 @@
         "Nothing logged yet": "Še ni nič zabeleženo",
         "What is open, what is blocked, and what is overdue.": "Kaj je odprto, kaj blokirano in kaj zamuja.",
         "How allocation is spread across the people working on projects.": "Kako je obremenitev razporejena med ljudi, ki delajo na projektih.",
-        "Hours logged, and the projects they went to.": "Zabeležene ure in projekti, na katere so šle."
+        "Hours logged, and the projects they went to.": "Zabeležene ure in projekti, na katere so šle.",
+        "Billable": "Zaračunljivo",
+        "Budget: {amount}": "Proračun: {amount}",
+        "Loading projects": "Nalaganje projektov",
+        "No projects for this client yet": "Za to stranko še ni projektov",
+        "Open in Planninq": "Odpri v Planninq",
+        "This project could not be found": "Tega projekta ni bilo mogoče najti",
+        "Untitled project": "Projekt brez naslova",
+        "and {count} more": "in še {count}"
     },
     "plurals": null
 }
