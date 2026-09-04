@@ -235,7 +235,15 @@
         "Nothing logged yet": "Nach näischt erfaasst",
         "What is open, what is blocked, and what is overdue.": "Wat op ass, wat blockéiert ass a wat iwwerfälleg ass.",
         "How allocation is spread across the people working on projects.": "Wéi d'Belaaschtung op d'Leit verdeelt ass, déi u Projete schaffen.",
-        "Hours logged, and the projects they went to.": "Erfaasste Stonnen an d'Projeten, an déi se gaange sinn."
+        "Hours logged, and the projects they went to.": "Erfaasste Stonnen an d'Projeten, an déi se gaange sinn.",
+        "Billable": "Verrechenbar",
+        "Budget: {amount}": "Budget: {amount}",
+        "Loading projects": "Projete gi gelueden",
+        "No projects for this client yet": "Nach keng Projete fir dëse Client",
+        "Open in Planninq": "A Planninq opmaachen",
+        "This project could not be found": "Dëse Projet gouf net fonnt",
+        "Untitled project": "Onbenannte Projet",
+        "and {count} more": "an {count} weiderer"
     },
     "plurals": null
 }

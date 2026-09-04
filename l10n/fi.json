@@ -235,7 +235,15 @@
         "Nothing logged yet": "Mitään ei ole vielä kirjattu",
         "What is open, what is blocked, and what is overdue.": "Mikä on avoinna, mikä estetty ja mikä myöhässä.",
         "How allocation is spread across the people working on projects.": "Miten kuormitus jakautuu projekteissa työskentelevien kesken.",
-        "Hours logged, and the projects they went to.": "Kirjatut tunnit ja projektit, joihin ne menivät."
+        "Hours logged, and the projects they went to.": "Kirjatut tunnit ja projektit, joihin ne menivät.",
+        "Billable": "Laskutettava",
+        "Budget: {amount}": "Budjetti: {amount}",
+        "Loading projects": "Ladataan projekteja",
+        "No projects for this client yet": "Tälle asiakkaalle ei ole vielä projekteja",
+        "Open in Planninq": "Avaa Planninqissa",
+        "This project could not be found": "Tätä projektia ei löytynyt",
+        "Untitled project": "Nimetön projekti",
+        "and {count} more": "ja {count} muuta"
     },
     "plurals": null
 }

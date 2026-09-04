@@ -236,7 +236,15 @@ OC.L10N.register(
         "Nothing logged yet": "Xejn ma ġie rreġistrat s'issa",
         "What is open, what is blocked, and what is overdue.": "X'inhu miftuħ, x'inhu mblukkat, u x'inhu tard.",
         "How allocation is spread across the people working on projects.": "Kif it-tqassim huwa mifrux fost in-nies li jaħdmu fuq proġetti.",
-        "Hours logged, and the projects they went to.": "Is-sigħat irreġistrati u l-proġetti li marru fihom."
+        "Hours logged, and the projects they went to.": "Is-sigħat irreġistrati u l-proġetti li marru fihom.",
+        "Billable": "Fatturabbli",
+        "Budget: {amount}": "Baġit: {amount}",
+        "Loading projects": "Qed jitgħabbew il-proġetti",
+        "No projects for this client yet": "Għad m'hemmx proġetti għal dan il-klijent",
+        "Open in Planninq": "Iftaħ fi Planninq",
+        "This project could not be found": "Dan il-proġett ma nstabx",
+        "Untitled project": "Proġett bla titlu",
+        "and {count} more": "u {count} oħra"
     },
     "nplurals=2; plural=(n != 1);"
 )

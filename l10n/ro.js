@@ -236,7 +236,15 @@ OC.L10N.register(
         "Nothing logged yet": "Încă nu s-a înregistrat nimic",
         "What is open, what is blocked, and what is overdue.": "Ce este deschis, ce este blocat și ce a depășit termenul.",
         "How allocation is spread across the people working on projects.": "Cum este distribuită alocarea între persoanele care lucrează la proiecte.",
-        "Hours logged, and the projects they went to.": "Orele înregistrate și proiectele către care au mers."
+        "Hours logged, and the projects they went to.": "Orele înregistrate și proiectele către care au mers.",
+        "Billable": "Facturabil",
+        "Budget: {amount}": "Buget: {amount}",
+        "Loading projects": "Se încarcă proiectele",
+        "No projects for this client yet": "Încă nu există proiecte pentru acest client",
+        "Open in Planninq": "Deschide în Planninq",
+        "This project could not be found": "Acest proiect nu a fost găsit",
+        "Untitled project": "Proiect fără titlu",
+        "and {count} more": "și încă {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

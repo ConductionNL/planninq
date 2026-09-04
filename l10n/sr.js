@@ -236,7 +236,15 @@ OC.L10N.register(
         "Nothing logged yet": "Још ништа није забележено",
         "What is open, what is blocked, and what is overdue.": "Шта је отворено, шта блокирано и шта касни.",
         "How allocation is spread across the people working on projects.": "Како је оптерећење распоређено међу људима на пројектима.",
-        "Hours logged, and the projects they went to.": "Забележени сати и пројекти на које су отишли."
+        "Hours logged, and the projects they went to.": "Забележени сати и пројекти на које су отишли.",
+        "Billable": "Naplativo",
+        "Budget: {amount}": "Budžet: {amount}",
+        "Loading projects": "Učitavanje projekata",
+        "No projects for this client yet": "Još nema projekata za ovog klijenta",
+        "Open in Planninq": "Otvori u Planninq",
+        "This project could not be found": "Ovaj projekat nije pronađen",
+        "Untitled project": "Projekat bez naziva",
+        "and {count} more": "i još {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -21,10 +21,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\AppInfo;
 
-use OCA\OpenRegister\Event\ObjectCreatedEvent;
-use OCA\OpenRegister\Event\ObjectDeletedEvent;
-use OCA\OpenRegister\Event\ObjectUpdatedEvent;
 use OCA\Planninq\Listener\DeepLinkRegistrationListener;
+use OCA\Planninq\Listener\RegisterProjectsLeafListener;
 use OCA\Planninq\Listener\TaskActivityListener;
 use OCA\Planninq\Settings\AdminSettings;
 use OCP\AppFramework\App;
@@ -86,6 +84,10 @@ class Application extends App implements IBootstrap {
 		// with per-user due-reminder logic, Repair\InitializeSettings register
 		// import, the kanban Project/Dependency/Label controllers) are kept.
 		$this->registerAppHost(context: $context);
+
+		// Publish the projects leaf on OpenRegister's integration registry, so
+		// sibling apps render planninq's projects instead of querying for them.
+		$this->registerProjectsLeaf(context: $context);
 
 		// NOTE: the task-lifecycle Activity listener is subscribed from boot(),
 		// not here — see registerFilteredObjectListener().
@@ -160,6 +162,31 @@ class Application extends App implements IBootstrap {
 	 * @var string
 	 */
 	private const OR_DEEPLINK_REGISTRATION_EVENT = 'OCA\\OpenRegister\\Event\\DeepLinkRegistrationEvent';
+
+	/**
+	 * OpenRegister's leaf-provider collect-event name (ADR-066).
+	 *
+	 * @var string
+	 */
+	private const OR_LEAF_REGISTRATION_EVENT = 'OCA\\OpenRegister\\Event\\RegisterLeafProvidersEvent';
+
+	/**
+	 * The three OpenRegister object-lifecycle events the Activity listener wants.
+	 *
+	 * Names, not imported `::class` constants, for the reason the deep-link
+	 * event above already is: IEventDispatcher keys on the string, so nothing
+	 * here needs OpenRegister to be autoloadable at bootstrap. Spelling three of
+	 * these as imports and the fourth as a literal was an inconsistency, and it
+	 * cost real coupling — this class sits at PHPMD's CouplingBetweenObjects
+	 * ceiling, so every avoidable import is a change somebody else cannot make.
+	 *
+	 * @var string[]
+	 */
+	private const OR_OBJECT_LIFECYCLE_EVENTS = [
+		'OCA\\OpenRegister\\Event\\ObjectCreatedEvent',
+		'OCA\\OpenRegister\\Event\\ObjectUpdatedEvent',
+		'OCA\\OpenRegister\\Event\\ObjectDeletedEvent',
+	];
 
 	/**
 	 * Leaf DI service id for the AppHost dashboard SPA controller.
@@ -398,6 +425,40 @@ class Application extends App implements IBootstrap {
 	}//end registerAppHostDeepLinks()
 
 	/**
+	 * Subscribe the `planninq-projects` leaf to OpenRegister's collect-event.
+	 *
+	 * Planninq owns the project entity, so sibling apps render it through this
+	 * leaf rather than reading planninq's register from their own manifests.
+	 * Pipelinq did the latter and, on an install without the owning app, showed
+	 * an empty table that looked exactly like a client with no projects.
+	 *
+	 * The event NAME is a plain string for the same reason every OpenRegister
+	 * FQCN in this class is: IEventDispatcher keys on the string, so nothing
+	 * here needs OpenRegister to be autoloadable at bootstrap. The listener
+	 * class itself is only constructed when OpenRegister dispatches, which it
+	 * can only do when it is installed.
+	 *
+	 * @param IRegistrationContext $context The registration context.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/project-delivery/spec.md#requirement-both-halves-of-the-projects-leaf-agree
+	 */
+	private function registerProjectsLeaf(IRegistrationContext $context): void {
+		$context->registerService(
+			RegisterProjectsLeafListener::class,
+			static fn (ContainerInterface $c): RegisterProjectsLeafListener => new RegisterProjectsLeafListener(
+				l10n: $c->get('OCP\\IL10N'),
+				logger: $c->get('Psr\\Log\\LoggerInterface')
+			)
+		);
+		$context->registerEventListener(
+			event: self::OR_LEAF_REGISTRATION_EVENT,
+			listener: RegisterProjectsLeafListener::class
+		);
+	}//end registerProjectsLeaf()
+
+	/**
 	 * Boot the application.
 	 *
 	 * @param IBootContext $context The boot context
@@ -427,7 +488,7 @@ class Application extends App implements IBootstrap {
 		// that does not exist and silently orphaned every stored task; moving
 		// them together is what makes it resolve. It must stay in step with
 		// TaskScopeResolver::REGISTER_SLUG, which the listener re-checks.
-		foreach ([ObjectCreatedEvent::class, ObjectUpdatedEvent::class, ObjectDeletedEvent::class] as $event) {
+		foreach (self::OR_OBJECT_LIFECYCLE_EVENTS as $event) {
 			$this->registerFilteredObjectListener(
 				dispatcher: $dispatcher,
 				event: $event,

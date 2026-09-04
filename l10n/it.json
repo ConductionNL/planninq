@@ -235,7 +235,15 @@
         "Nothing logged yet": "Ancora nulla registrato",
         "What is open, what is blocked, and what is overdue.": "Cosa è aperto, cosa è bloccato e cosa è in ritardo.",
         "How allocation is spread across the people working on projects.": "Come il carico è distribuito tra chi lavora sui progetti.",
-        "Hours logged, and the projects they went to.": "Le ore registrate e i progetti a cui sono andate."
+        "Hours logged, and the projects they went to.": "Le ore registrate e i progetti a cui sono andate.",
+        "Billable": "Fatturabile",
+        "Budget: {amount}": "Budget: {amount}",
+        "Loading projects": "Caricamento progetti",
+        "No projects for this client yet": "Nessun progetto per questo cliente",
+        "Open in Planninq": "Apri in Planninq",
+        "This project could not be found": "Questo progetto non è stato trovato",
+        "Untitled project": "Progetto senza titolo",
+        "and {count} more": "e altri {count}"
     },
     "plurals": null
 }

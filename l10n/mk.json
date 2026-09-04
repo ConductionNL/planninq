@@ -235,7 +235,15 @@
         "Nothing logged yet": "Сè уште ништо не е запишано",
         "What is open, what is blocked, and what is overdue.": "Што е отворено, што е блокирано и што доцни.",
         "How allocation is spread across the people working on projects.": "Како е распоредено оптоварувањето меѓу луѓето на проекти.",
-        "Hours logged, and the projects they went to.": "Запишаните часови и проектите на кои отишле."
+        "Hours logged, and the projects they went to.": "Запишаните часови и проектите на кои отишле.",
+        "Billable": "Наплатливо",
+        "Budget: {amount}": "Буџет: {amount}",
+        "Loading projects": "Се вчитуваат проекти",
+        "No projects for this client yet": "Сè уште нема проекти за овој клиент",
+        "Open in Planninq": "Отвори во Planninq",
+        "This project could not be found": "Овој проект не е пронајден",
+        "Untitled project": "Проект без наслов",
+        "and {count} more": "и уште {count}"
     },
     "plurals": null
 }

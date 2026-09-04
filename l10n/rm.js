@@ -236,7 +236,15 @@ OC.L10N.register(
         "Nothing logged yet": "Anc nagut registrà",
         "What is open, what is blocked, and what is overdue.": "Tge ch'è avert, tge ch'è bloccà e tge ch'è memia tard.",
         "How allocation is spread across the people working on projects.": "Co che la chargia è repartida tranter las persunas che lavuran a projects.",
-        "Hours logged, and the projects they went to.": "Las uras registradas ed ils projects vi dals quals ellas èn ìdas."
+        "Hours logged, and the projects they went to.": "Las uras registradas ed ils projects vi dals quals ellas èn ìdas.",
+        "Billable": "Facturabel",
+        "Budget: {amount}": "Budget: {amount}",
+        "Loading projects": "Chargiar ils projects",
+        "No projects for this client yet": "Anc nagins projects per quest client",
+        "Open in Planninq": "Avrir en Planninq",
+        "This project could not be found": "Quest project n'è betg vegnì chattà",
+        "Untitled project": "Project senza titel",
+        "and {count} more": "e {count} dapli"
     },
     "nplurals=2; plural=(n != 1);"
 )
