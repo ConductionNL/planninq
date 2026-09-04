@@ -114,15 +114,31 @@ class RegisterProjectsLeafListener implements IEventListener {
 	public const GROUP = 'workflow';
 
 	/**
-	 * AD-18 marker: a schema property carrying `referenceType: 'project'`
-	 * renders this leaf's single-entity surface instead of a plain value.
+	 * AD-18 marker: a schema property carrying this `referenceType` renders
+	 * this leaf's single-entity surface instead of a plain value. It is what
+	 * turns shillinq's `ProjectAssignment.projectId` from a bare uuid into the
+	 * project itself.
 	 *
-	 * This is what turns shillinq's `ProjectBudget.projectId` and
-	 * `ProjectAssignment.projectId` from a bare uuid into the project itself.
+	 * IT IS THE INTEGRATION ID, not a loose semantic word like 'project'.
+	 * `PropertyReferenceTypeValidator::validate()` resolves the marker through
+	 * `IntegrationRegistry::isValidIntegrationId()`, which is a lookup in the
+	 * provider map keyed by leaf id, and THROWS on a miss. Nothing calls that
+	 * validator today — it is registered as a service and wired into no import
+	 * path — so a bare word is currently inert rather than fatal, which is
+	 * exactly the shape of thing that is fine until the day it is wired.
+	 * humaniq's leaf carries the same latent problem with 'hours'.
+	 *
+	 * Using the id also makes the render-layer match unambiguous: the property
+	 * and the descriptor that claims it spell the same string.
+	 *
+	 * Written as a LITERAL equal to LEAF_ID rather than as `self::LEAF_ID`:
+	 * scripts/check-integration-parity.js reads this constant with a regex over
+	 * the source, so a constant expression reads as an EMPTY value and the gate
+	 * reports the half as unreadable.
 	 *
 	 * @var string
 	 */
-	public const REFERENCE_TYPE = 'project';
+	public const REFERENCE_TYPE = 'planninq-projects';
 
 	/**
 	 * The render surfaces this leaf targets — the SAME set, in the same order,

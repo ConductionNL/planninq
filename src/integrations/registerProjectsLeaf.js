@@ -101,9 +101,13 @@ export const projectsLeafDescriptor = {
 	order: 30,
 	group: 'workflow',
 	surfaces: SURFACES,
-	// AD-18: a schema property carrying referenceType:'project' renders this
-	// leaf's single-entity surface instead of a plain value.
-	referenceType: 'project',
+	// AD-18: a schema property carrying this referenceType renders this leaf's
+	// single-entity surface instead of a plain value. It is the INTEGRATION ID,
+	// not a loose word like 'project': OpenRegister's
+	// PropertyReferenceTypeValidator resolves the marker through
+	// IntegrationRegistry.isValidIntegrationId() and throws on a miss. Kept
+	// byte-identical to the PHP half's REFERENCE_TYPE, which gate-24 compares.
+	referenceType: 'planninq-projects',
 	renderMode: 'mount',
 	mount,
 	unmount,

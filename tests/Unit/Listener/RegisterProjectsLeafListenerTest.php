@@ -100,13 +100,20 @@ class RegisterProjectsLeafListenerTest extends TestCase {
 	/**
 	 * AD-18: this marker is what turns shillinq's `projectId` from a bare uuid
 	 * into the project itself.
+	 *
+	 * It MUST be the integration id. PropertyReferenceTypeValidator resolves a
+	 * property's marker through IntegrationRegistry::isValidIntegrationId() and
+	 * throws on a miss, so a loose semantic word like 'project' is a schema that
+	 * fails to import the day that validator is wired into the import path.
 	 */
-	public function testTheDescriptorDeclaresTheProjectReferenceType(): void {
+	public function testTheReferenceTypeIsTheIntegrationId(): void {
 		$event = new RegisterLeafProvidersEvent();
 
 		$this->listener()->handle($event);
 
-		$this->assertSame('project', $event->getLeaves()[0]['descriptor']->getReferenceType());
+		$descriptor = $event->getLeaves()[0]['descriptor'];
+		$this->assertSame('planninq-projects', $descriptor->getReferenceType());
+		$this->assertSame($descriptor->getId(), $descriptor->getReferenceType());
 	}
 
 	/**

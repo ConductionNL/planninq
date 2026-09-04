@@ -94,8 +94,10 @@
  * THREE SURFACES, THREE QUESTIONS. The host tells us which one it mounted:
  *
  *   - `single-entity` — the host property IS a project uuid (the AD-18
- *     `referenceType: 'project'` marker, which is how shillinq's
- *     `ProjectBudget.projectId` renders). We show that one project.
+ *     `referenceType: 'planninq-projects'` marker, which is how shillinq's
+ *     `ProjectAssignment.projectId` renders). We show that one project.
+ *     NOT `ProjectBudget.projectId`, which $refs shillinq's own
+ *     AnalyticalDimension and is a cost-accounting dimension, not this.
  *   - `detail-page` — the host object is something projects hang off, so far
  *     always a client. We show the projects whose `client` is that object.
  *   - the dashboards — there is no host object. We show active projects.
@@ -104,8 +106,8 @@
  * and IGNORES `_filters[client]` / `filter[client]` — measured against the live
  * API 2026-09-02, where the bracketed form returned every row while looking
  * exactly like a filtered read. The symptom is always "too much data", never an
- * error, which is why `applyClientSideGuard()` re-checks every row and the count
- * comes from what survived it rather than from the server's own total.
+ * error, which is why `guardRows()` re-checks every row and the count comes from
+ * what survived it rather than from the server's own total.
  */
 import axios from '@nextcloud/axios'
 import { translate as t } from '@nextcloud/l10n'
