@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\AppInfo;
 
+use OCA\OpenRegister\AppHost\Bootstrap;
 use OCA\OpenRegister\Event\ObjectCreatedEvent;
 use OCA\OpenRegister\Event\ObjectDeletedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
@@ -38,6 +39,11 @@ use Psr\Container\ContainerInterface;
  * Main application class for the Planninq Nextcloud app.
  *
  * @spec openspec/specs/app-metadata/spec.md
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) This IS the composition
+ * root: its job is to name every class the app wires together, so the count
+ * measures the size of the app rather than a design fault. The wiring is
+ * already split into per-concern register* methods one layer down.
  */
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'planninq';
@@ -239,7 +245,61 @@ class Application extends App implements IBootstrap {
 		$this->registerAppHostObservability(context: $context);
 		$this->registerAppHostSettings(context: $context);
 		$this->registerAppHostDeepLinks(context: $context);
+		$this->registerAppHostStore(context: $context);
 	}//end registerAppHost()
+
+	/**
+	 * Bind the store controller the adopted route table already declares.
+	 *
+	 * 🔴 THIS ROUTE ARRIVES WHETHER THE APP WANTS IT OR NOT.
+	 *
+	 * `Routes::standard()`, which appinfo/routes.php adopts, declares
+	 * `/api/store/items`. The binding normally comes from
+	 * `Bootstrap::register()`, and planninq does not call that: it aliases the
+	 * plumbing classes it wants, one at a time, and keeps its own settings and
+	 * kanban controllers. The store controller was never on that list.
+	 *
+	 * So the route matched a controller class that does not exist, and every
+	 * request to it returned HTTP 500 rather than 404. Measured on a running
+	 * instance 2026-09-03, alongside decidiq and filinq.
+	 *
+	 * The engine owns the controller's constructor argument list, which is why
+	 * this calls the shared helper rather than adding a ninth hand-written
+	 * factory beside the others: that argument list gained a parameter the
+	 * same day this defect was found, and a hand-written copy would have
+	 * broken instead of adapting.
+	 *
+	 * @param IRegistrationContext $context The registration context.
+	 *
+	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.StaticAccess) OCA\OpenRegister\AppHost\Bootstrap
+	 * is a cross-app static entry point in a SIBLING app that may be absent or
+	 * unloadable here — the call is guarded by class_exists() and wrapped in a
+	 * catch(\Throwable) for exactly that reason. It cannot be injected: this
+	 * runs at the composition root, so there is no container to resolve an
+	 * adapter from.
+	 */
+	private function registerAppHostStore(IRegistrationContext $context): void {
+		// The class_exists() guard MUST stay in this method: it is also the
+		// assertion psalm relies on to accept the Bootstrap call below, and
+		// psalm does not carry that narrowing across a call. register() has
+		// already run OpenRegisterAutoloader::register() above.
+		if (class_exists(Bootstrap::class) === true) {
+			try {
+				Bootstrap::aliasStoreController(
+					context: $context,
+					appId: self::APP_ID,
+					controllerNs: 'OCA\\Planninq\\Controller'
+				);
+			} catch (\Throwable) {
+				// An OpenRegister older than the helper, or present but
+				// unloadable. The store route is then no worse off than it is
+				// today, and every registration around this one still runs.
+			}
+		}
+
+	}//end registerAppHostStore()
 
 	/**
 	 * Alias the dashboard SPA and per-user preferences controllers.
