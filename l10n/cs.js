@@ -244,7 +244,9 @@ OC.L10N.register(
         "Open in Planninq": "Otevřít v Planninq",
         "This project could not be found": "Tento projekt nebyl nalezen",
         "Untitled project": "Projekt bez názvu",
-        "and {count} more": "a další {count}"
+        "and {count} more": "a další {count}",
+        "Store": "Obchod",
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Nainstalujte registry, schémata a toky zveřejněné jinými organizacemi."
     },
     "nplurals=2; plural=(n != 1);"
 )

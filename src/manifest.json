@@ -27,17 +27,38 @@
     },
   "version": "0.1.0",
   "dependencies": ["openregister"],
+  "store": {
+    "_note": "Configuration exchange, not rows. There is deliberately NO `installable` allowlist: a set exists to introduce schemas the instance does not have YET, so listing schemas planninq already owns would refuse exactly the sets worth installing. \u26a0\ufe0f An EMPTY `installable` means install NOTHING, not install anything.",
+    "types": [
+      "openregister.configset",
+      "openregister.flows"
+    ],
+    "localRegister": "planninq"
+  },
   "menu": [
     { "id": "Dashboard", "label": "Dashboard", "icon": "ViewDashboardOutline", "route": "Dashboard", "order": 10 },
     { "id": "Boards", "label": "Boards", "icon": "ViewDashboardOutline", "route": "Boards", "order": 20 },
     { "id": "Projects", "label": "Projects", "icon": "FolderOutline", "route": "Projects", "order": 30 },
     { "id": "Timesheet", "label": "Timesheet", "icon": "ClockOutline", "route": "Timesheet", "order": 50 },
     { "id": "Documentation", "label": "Documentation", "icon": "BookOpenVariantOutline", "href": "https://planix.conduction.nl", "section": "footer", "order": 90 },
+    { "id": "StoreMenu", "label": "Store", "icon": "StoreOutline", "route": "Store", "section": "footer", "order": 92 },
     { "id": "ReportsMenu", "label": "Reports", "icon": "ChartBoxOutline", "route": "Reports", "section": "footer", "order": 95 },
     { "id": "FeaturesRoadmapMenu", "label": "Features & roadmap", "icon": "MapMarkerPath", "route": "FeaturesRoadmap", "section": "footer", "order": 100 },
     { "id": "FlowsMenu", "label": "Flows", "icon": "SitemapOutline", "route": "Flows", "section": "settings", "order": 96 }
   ],
   "pages": [
+    {
+      "id": "Store",
+      "route": "/store",
+      "type": "store",
+      "title": "Store",
+      "config": {
+        "app": "planninq",
+        "title": "Store",
+        "description": "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them."
+      },
+      "_note": "ADR-114 Decision 4 / ADR-080. Declarative: openregister hosts the store plane, so this app writes NO store controller. With no registry configured the page renders the app's built-in items and makes NO network call."
+    },
     {
       "id": "Dashboard",
       "route": "/",
