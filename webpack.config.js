@@ -24,6 +24,22 @@ webpackConfig.entry = {
 		import: path.join(__dirname, 'src', 'settings.js'),
 		filename: appId + '-settings.js',
 	},
+	// The CLIENT half of this app's OpenRegister leaves, as its own entry.
+	//
+	// OpenRegister's LeafScriptListener enqueues `planninq-leaves` on the pages
+	// of OTHER apps that consume OpenRegister, so a pipelinq client page can
+	// render planninq's projects. It must therefore stay SMALL and carry no
+	// router, no store and no app shell: `main` is ~13 MiB and putting that on
+	// another app's page would trade a feature for a performance regression.
+	//
+	// The entry name matters. The listener looks for `js/planninq-leaves.js`
+	// and SKIPS the app when it is absent — silently, because enqueuing a
+	// script that does not exist is a 404 in the consuming page. Renaming this
+	// therefore turns the leaf off everywhere with nothing reported.
+	leaves: {
+		import: path.join(__dirname, 'src', 'leaves.js'),
+		filename: appId + '-leaves.js',
+	},
 }
 
 // Use local source when available (monorepo dev), otherwise fall back to the

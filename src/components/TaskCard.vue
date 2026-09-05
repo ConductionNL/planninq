@@ -17,14 +17,14 @@
 				v-if="dueDateBadgeStatus"
 				:text="dueDateBadgeText"
 				:variant="dueDateBadgeVariant"
-				:no-close="true"
+				:noClose="true"
 				class="task-card__due-date-badge" />
 
 			<!-- Status -->
 			<NcChip
 				:text="statusLabel"
 				:variant="statusVariant"
-				:no-close="true"
+				:noClose="true"
 				class="task-card__status-badge" />
 
 			<!-- Priority -->
@@ -32,14 +32,14 @@
 				v-if="task.priority"
 				:text="priorityLabel"
 				:variant="priorityVariant"
-				:no-close="true"
+				:noClose="true"
 				class="task-card__priority-badge" />
 
 			<!-- Estimate (time-tracking) -->
 			<NcChip
 				v-if="estimateLabel"
 				:text="estimateLabel"
-				:no-close="true"
+				:noClose="true"
 				class="task-card__estimate-badge" />
 		</div>
 
@@ -54,8 +54,8 @@
 // @nextcloud/vue@9 removed the `dist/Components/*.js` layout; the package now
 // publishes only an `exports` map (root barrel + `./components/<Name>`).
 import { NcChip } from '@nextcloud/vue'
-import { dueDateStatus } from '../utils/taskHelpers.js'
 import { formatDuration } from '../utils/durationParser.js'
+import { dueDateStatus } from '../utils/taskHelpers.js'
 
 /**
  * Kanban board task card.

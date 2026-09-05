@@ -120,11 +120,11 @@
 								@dragstart.stop>
 								<NcActions
 									:aria-label="t('planninq', 'Move task to another column')"
-									:force-menu="true">
+									:forceMenu="true">
 									<NcActionButton
 										v-for="target in otherColumns(column.status)"
 										:key="target.status"
-										:close-after-click="true"
+										:closeAfterClick="true"
 										@click="moveTask(task, target.status)">
 										<template #icon>
 											<ArrowRightIcon :size="20" />
@@ -149,6 +149,8 @@
 </template>
 
 <script>
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
 /**
  * ProjectBoard view — the Kanban board.
  *
@@ -162,17 +164,14 @@
  *
  * @spec openspec/specs/kanban-board.md
  */
-import { NcActions, NcActionButton, NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
-
-import { getCurrentUser } from '@nextcloud/auth'
-import { showError } from '@nextcloud/dialogs'
-import { useProjectsStore } from '../store/projects.js'
-import { groupTasksByStatus, BOARD_STATUSES } from '../utils/taskHelpers.js'
 import ProjectSettingsSidebar from '../components/ProjectSettingsSidebar.vue'
 import TaskCard from '../components/TaskCard.vue'
+import { useProjectsStore } from '../store/projects.js'
+import { BOARD_STATUSES, groupTasksByStatus } from '../utils/taskHelpers.js'
 
 export default {
 	name: 'ProjectBoard',
@@ -218,18 +217,21 @@ export default {
 		projectsStore() {
 			return useProjectsStore()
 		},
+
 		/**
 		 * @spec exclude Store passthrough — proxies projectsStore.activeProject.
 		 */
 		project() {
 			return this.projectsStore.activeProject
 		},
+
 		/**
 		 * @spec exclude Store passthrough — proxies projectsStore.loading.
 		 */
 		loading() {
 			return this.projectsStore.loading
 		},
+
 		/**
 		 * The board's columns, in display order. One column per task status —
 		 * the status enum is the single source of truth for the board lanes.
@@ -248,6 +250,7 @@ export default {
 			}
 			return BOARD_STATUSES.map((status) => ({ status, label: labels[status] }))
 		},
+
 		/**
 		 * Tasks grouped by their status. Every column key is always present so
 		 * empty columns render gracefully; a task with an unknown status falls
@@ -260,6 +263,7 @@ export default {
 		tasksByStatus() {
 			return groupTasksByStatus(this.tasks, BOARD_STATUSES)
 		},
+
 		/**
 		 * Whether the current user is denied access to the project — true on a
 		 * stored 403 (`forbidden`) or when the loaded project's members array
@@ -271,7 +275,9 @@ export default {
 		 */
 		accessDenied() {
 			const store = this.projectsStore
-			if (store.error === 'forbidden') return true
+			if (store.error === 'forbidden') {
+				return true
+			}
 			if (!store.loading && store.activeProject) {
 				const uid = getCurrentUser()?.uid
 				return !!uid && !store.activeProject.members?.includes(uid)
@@ -311,7 +317,9 @@ export default {
 		 * @spec openspec/specs/kanban-board.md
 		 */
 		async loadTasks(projectId) {
-			if (!projectId || this.accessDenied) return
+			if (!projectId || this.accessDenied) {
+				return
+			}
 			this.tasksLoading = true
 			try {
 				this.tasks = await this.projectsStore.fetchTasks(projectId)
@@ -393,7 +401,9 @@ export default {
 		 * @spec openspec/specs/kanban-board.md
 		 */
 		navigateToTask(task) {
-			if (!task) return
+			if (!task) {
+				return
+			}
 			this.$router.push({
 				name: 'TaskDetail',
 				params: { id: this.project?.id ?? this.$route.params.id, taskId: task.id },
@@ -441,21 +451,19 @@ export default {
 		 * @spec openspec/specs/kanban-board.md
 		 */
 		async applyStatusMove(task, newStatus) {
-			if (!task || task.status === newStatus) return
+			if (!task || task.status === newStatus) {
+				return
+			}
 
 			const previousStatus = task.status
 
 			// Optimistic update.
-			this.tasks = this.tasks.map((existing) =>
-				existing.id === task.id ? { ...existing, status: newStatus } : existing,
-			)
+			this.tasks = this.tasks.map((existing) => existing.id === task.id ? { ...existing, status: newStatus } : existing)
 
 			const updated = await this.projectsStore.updateTaskStatus(task.id, newStatus)
 			if (!updated) {
 				// Revert on failure.
-				this.tasks = this.tasks.map((existing) =>
-					existing.id === task.id ? { ...existing, status: previousStatus } : existing,
-				)
+				this.tasks = this.tasks.map((existing) => existing.id === task.id ? { ...existing, status: previousStatus } : existing)
 				showError(this.t('planninq', 'Could not move the task. Please try again.'))
 			}
 		},
@@ -466,7 +474,9 @@ export default {
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
 		 */
 		openSettings() {
-			if (!this.setSidebar) return
+			if (!this.setSidebar) {
+				return
+			}
 			this.setSidebar({
 				...ProjectSettingsSidebar,
 				propsData: { project: this.project },

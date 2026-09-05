@@ -49,33 +49,29 @@ const CI_DEFAULT_BASE_URL = 'http://localhost:8080'
  * @throws when no target is configured outside CI
  */
 export function resolveBaseURL(): string {
-	const explicit = process.env.PLAYWRIGHT_BASE_URL
-		?? process.env.NEXTCLOUD_URL
-		?? process.env.NC_BASE_URL
+	const explicit
+		= process.env.PLAYWRIGHT_BASE_URL
+			?? process.env.NEXTCLOUD_URL
+			?? process.env.NC_BASE_URL
 		// Exported by the shared Conduction/.github quality workflow.
-		?? process.env.BASE_URL
+			?? process.env.BASE_URL
 
 	if (explicit) {
 		return explicit.replace(/\/+$/, '')
 	}
 
 	if (process.env.CI) {
-		// eslint-disable-next-line no-console
-		console.warn(
-			'[planninq e2e] no PLAYWRIGHT_BASE_URL / NEXTCLOUD_URL set; using the CI-local '
-			+ `default ${CI_DEFAULT_BASE_URL}.`,
-		)
+		console.warn('[planninq e2e] no PLAYWRIGHT_BASE_URL / NEXTCLOUD_URL set; using the CI-local '
+			+ `default ${CI_DEFAULT_BASE_URL}.`)
 		return CI_DEFAULT_BASE_URL
 	}
 
-	throw new Error(
-		'[planninq e2e] No target Nextcloud configured. Set PLAYWRIGHT_BASE_URL (preferred), '
+	throw new Error('[planninq e2e] No target Nextcloud configured. Set PLAYWRIGHT_BASE_URL (preferred), '
 		+ 'NEXTCLOUD_URL or BASE_URL to the instance you want to test, e.g.\n\n'
 		+ '    PLAYWRIGHT_BASE_URL=http://localhost:8095 npx playwright test\n\n'
 		+ 'There is deliberately no default: the historic one was http://localhost:8080, '
 		+ 'the SHARED development container, and writing fixtures into it corrupts other '
-		+ "people's environments.",
-	)
+		+ "people's environments.")
 }
 
 /** The resolved base URL for this run. */

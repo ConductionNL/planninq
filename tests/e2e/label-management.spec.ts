@@ -24,8 +24,10 @@
  * present" guards are now hard `expect(...)` assertions.
  */
 
-import { test, expect, type Page } from '@playwright/test'
-import { BASE_URL as NC } from './base-url'
+import type { Page } from '@playwright/test'
+
+import { expect, test } from '@playwright/test'
+import { BASE_URL as NC } from './base-url.ts'
 
 const SETTINGS_URL = `${NC}/index.php/settings/admin/planninq`
 
@@ -50,7 +52,10 @@ function dialog(page: Page) {
 test.describe('Label management — admin settings', () => {
 	test('View labels with usage counts', async ({ page }) => {
 		const res = await page.goto(SETTINGS_URL)
-		test.skip(res === null || res.status() >= 400, 'Planninq not installed in this environment')
+		test.skip(
+			res === null || res.status() >= 400,
+			'Planninq not installed in this environment',
+		)
 
 		const section = page.getByText(/Label management/i)
 		await expect(section.first()).toBeVisible()
@@ -62,9 +67,14 @@ test.describe('Label management — admin settings', () => {
 
 	test('Create a label with a custom color', async ({ page }) => {
 		const res = await page.goto(SETTINGS_URL)
-		test.skip(res === null || res.status() >= 400, 'Planninq not installed in this environment')
+		test.skip(
+			res === null || res.status() >= 400,
+			'Planninq not installed in this environment',
+		)
 
-		const createBtn = page.getByRole('button', { name: /Create label/i }).first()
+		const createBtn = page
+			.getByRole('button', { name: /Create label/i })
+			.first()
 		await expect(createBtn).toBeVisible()
 		await createBtn.click()
 
@@ -82,16 +92,23 @@ test.describe('Label management — admin settings', () => {
 		// Scoped to the dialog for the same reason as the Save/Delete clicks
 		// below — the list's own trigger is "+ Create label", which does not
 		// collide today, but the page behind the dialog stays mounted.
-		await dialog(page).getByRole('button', { name: /^Create$/i }).click()
+		await dialog(page)
+			.getByRole('button', { name: /^Create$/i })
+			.click()
 
 		await expect(page.getByText(title)).toBeVisible()
 	})
 
 	test('Invalid color is rejected in the dialog', async ({ page }) => {
 		const res = await page.goto(SETTINGS_URL)
-		test.skip(res === null || res.status() >= 400, 'Planninq not installed in this environment')
+		test.skip(
+			res === null || res.status() >= 400,
+			'Planninq not installed in this environment',
+		)
 
-		const createBtn = page.getByRole('button', { name: /Create label/i }).first()
+		const createBtn = page
+			.getByRole('button', { name: /Create label/i })
+			.first()
 		await expect(createBtn).toBeVisible()
 		await createBtn.click()
 
@@ -101,11 +118,18 @@ test.describe('Label management — admin settings', () => {
 		await expect(page.getByText(/6-digit hex code/i)).toBeVisible()
 	})
 
-	test('Rename and recolor propagate to task chips by reference', async ({ page }) => {
+	test('Rename and recolor propagate to task chips by reference', async ({
+		page,
+	}) => {
 		const res = await page.goto(SETTINGS_URL)
-		test.skip(res === null || res.status() >= 400, 'Planninq not installed in this environment')
+		test.skip(
+			res === null || res.status() >= 400,
+			'Planninq not installed in this environment',
+		)
 
-		const editBtn = page.getByRole('button', { name: /Edit label/i }).first()
+		const editBtn = page
+			.getByRole('button', { name: /Edit label/i })
+			.first()
 		await expect(editBtn).toBeVisible()
 		await editBtn.click()
 
@@ -119,17 +143,26 @@ test.describe('Label management — admin settings', () => {
 		// configuration. A page-wide `getByRole('button', { name: /^Save$/i })`
 		// therefore resolves to five elements and Playwright's strict mode
 		// aborts the test before it clicks anything.
-		await dialog(page).getByRole('button', { name: /^Save$/i }).click()
+		await dialog(page)
+			.getByRole('button', { name: /^Save$/i })
+			.click()
 
 		// Re-render reflects the new title on the board chip (no task write).
 		await expect(page.getByText(/Defect/i).first()).toBeVisible()
 	})
 
-	test('Delete a used label via the usage-warning dialog', async ({ page }) => {
+	test('Delete a used label via the usage-warning dialog', async ({
+		page,
+	}) => {
 		const res = await page.goto(SETTINGS_URL)
-		test.skip(res === null || res.status() >= 400, 'Planninq not installed in this environment')
+		test.skip(
+			res === null || res.status() >= 400,
+			'Planninq not installed in this environment',
+		)
 
-		const deleteBtn = page.getByRole('button', { name: /Delete label/i }).first()
+		const deleteBtn = page
+			.getByRole('button', { name: /Delete label/i })
+			.first()
 		await expect(deleteBtn).toBeVisible()
 		await deleteBtn.click()
 
@@ -144,6 +177,8 @@ test.describe('Label management — admin settings', () => {
 		// aborts. (This never surfaced before because the list was always
 		// empty: see LabelService::fetchAll(), which searched with no
 		// register/schema context and returned nothing on every instance.)
-		await dialog(page).getByRole('button', { name: /^Delete label$/i }).click()
+		await dialog(page)
+			.getByRole('button', { name: /^Delete label$/i })
+			.click()
 	})
 })

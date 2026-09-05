@@ -1,3 +1,9 @@
+import { buildHeaders } from '@conduction/nextcloud-vue'
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError, showWarning } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { translate as t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
 /**
  * Projects Pinia store.
  *
@@ -11,13 +17,7 @@
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  */
 import { defineStore } from 'pinia'
-import { buildHeaders } from '@conduction/nextcloud-vue'
 import { useObjectStore } from './objectStore.js'
-import { getCurrentUser } from '@nextcloud/auth'
-import { loadState } from '@nextcloud/initial-state'
-import { generateUrl } from '@nextcloud/router'
-import { showError, showWarning } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
 // `planninq` together with the MigrateRegisterSlug repair step, which renames
@@ -27,7 +27,7 @@ const REGISTER = 'planninq'
 const PROJECT_SCHEMA = 'project'
 const COLUMN_SCHEMA = 'column'
 const TASK_SCHEMA = 'task'
-const TIME_ENTRY_SCHEMA = 'timeEntry'
+const TIME_ENTRY_SCHEMA = 'plannedTimeEntry'
 
 /**
  * Largest page OpenRegister will return. Asking for more is silently capped.
@@ -70,13 +70,19 @@ async function fetchEvery(objectStore, schema, filters = {}) {
 		let added = 0
 		for (const row of rows) {
 			const id = row?.id ?? row?.uuid ?? row?.['@self']?.id
-			if (id !== undefined && seen.has(id)) continue
-			if (id !== undefined) seen.add(id)
+			if (id !== undefined && seen.has(id)) {
+				continue
+			}
+			if (id !== undefined) {
+				seen.add(id)
+			}
 			out.push(row)
 			added++
 		}
 
-		if (added === 0 || rows.length < MAX_PAGE) break
+		if (added === 0 || rows.length < MAX_PAGE) {
+			break
+		}
 	}
 	return out
 }
@@ -89,7 +95,9 @@ async function fetchEvery(objectStore, schema, filters = {}) {
 function getDefaultColumns() {
 	try {
 		const state = loadState('planninq', 'default_columns', null)
-		if (Array.isArray(state) && state.length > 0) return state
+		if (Array.isArray(state) && state.length > 0) {
+			return state
+		}
 	} catch {
 		// fall through to hardcoded defaults
 	}
@@ -473,11 +481,9 @@ export const useProjectsStore = defineStore('projects', {
 			}
 
 			if (failedTitles.length > 0) {
-				showWarning(
-					t('planninq', 'Some columns could not be created: {columns}', {
-						columns: failedTitles.join(', '),
-					}),
-				)
+				showWarning(t('planninq', 'Some columns could not be created: {columns}', {
+					columns: failedTitles.join(', '),
+				}))
 			}
 
 			return { created, failed: failedTitles.length }
@@ -599,10 +605,14 @@ export const useProjectsStore = defineStore('projects', {
 		 */
 		async addMember(projectId, userUid) {
 			const project = await this.fetchProject(projectId)
-			if (!project) return null
+			if (!project) {
+				return null
+			}
 
 			const members = Array.isArray(project.members) ? [...project.members] : []
-			if (members.includes(userUid)) return project // Guard against duplicates.
+			if (members.includes(userUid)) { // Guard against duplicates.
+				return project
+			}
 
 			members.push(userUid)
 			return this.patchProject(projectId, { members })
@@ -657,11 +667,11 @@ export const useProjectsStore = defineStore('projects', {
 		 */
 		async removeMember(projectId, userUid) {
 			const project = await this.fetchProject(projectId)
-			if (!project) return null
+			if (!project) {
+				return null
+			}
 
-			const members = (Array.isArray(project.members) ? project.members : []).filter(
-				(uid) => uid !== userUid,
-			)
+			const members = (Array.isArray(project.members) ? project.members : []).filter((uid) => uid !== userUid)
 
 			// Refuse to leave a project with no remaining members — an orphaned
 			// project is inaccessible and unrecoverable without admin intervention.
