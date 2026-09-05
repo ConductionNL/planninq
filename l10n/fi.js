@@ -246,7 +246,9 @@ OC.L10N.register(
         "Untitled project": "Nimetön projekti",
         "and {count} more": "ja {count} muuta",
         "Store": "Kauppa",
-        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Asenna muiden organisaatioiden julkaisemia rekistereitä, skeemoja ja vuokaavioita."
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Asenna muiden organisaatioiden julkaisemia rekistereitä, skeemoja ja vuokaavioita.",
+        "Work Date": "Työpäivä",
+        "Zaak UUID": "Zaak-UUID"
     },
     "nplurals=2; plural=(n != 1);"
 )

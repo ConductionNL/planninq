@@ -246,7 +246,9 @@ OC.L10N.register(
         "Untitled project": "Projecte sense títol",
         "and {count} more": "i {count} més",
         "Store": "Botiga",
-        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Instal·leu registres, esquemes i fluxos publicats per altres organitzacions."
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Instal·leu registres, esquemes i fluxos publicats per altres organitzacions.",
+        "Work Date": "Data de treball",
+        "Zaak UUID": "UUID de Zaak"
     },
     "nplurals=2; plural=(n != 1);"
 )

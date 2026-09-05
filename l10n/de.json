@@ -245,7 +245,9 @@
         "Untitled project": "Unbenanntes Projekt",
         "and {count} more": "und {count} weitere",
         "Store": "Store",
-        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Installieren Sie Register, Schemata und Flows, die andere Organisationen veröffentlicht haben."
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Installieren Sie Register, Schemata und Flows, die andere Organisationen veröffentlicht haben.",
+        "Work Date": "Arbeitsdatum",
+        "Zaak UUID": "Zaak-UUID"
     },
     "plurals": null
 }
