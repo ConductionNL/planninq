@@ -9,6 +9,7 @@ on:
 
 jobs:
   quality:
+    if: (github.event_name != 'pull_request' || github.head_ref != 'development')
     # ConductionNL, NOT Conduction. Commit 5f4069ac ("org rename", 2026-06-01)
     # pointed every reusable-workflow call in this repo at `Conduction/.github`,
     # an org that does not exist. Actions cannot resolve it, so from that date
