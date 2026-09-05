@@ -245,7 +245,9 @@
         "Untitled project": "Projekt bez názvu",
         "and {count} more": "a další {count}",
         "Store": "Obchod",
-        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Nainstalujte registry, schémata a toky zveřejněné jinými organizacemi."
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Nainstalujte registry, schémata a toky zveřejněné jinými organizacemi.",
+        "Work Date": "Datum práce",
+        "Zaak UUID": "Zaak UUID"
     },
     "plurals": null
 }

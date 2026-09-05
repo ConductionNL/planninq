@@ -245,7 +245,9 @@
         "Untitled project": "Проект без названия",
         "and {count} more": "и ещё {count}",
         "Store": "Магазин",
-        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Установите реестры, схемы и потоки, опубликованные другими организациями."
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Установите реестры, схемы и потоки, опубликованные другими организациями.",
+        "Work Date": "Дата работы",
+        "Zaak UUID": "Zaak UUID"
     },
     "plurals": {}
 }

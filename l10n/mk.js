@@ -246,7 +246,9 @@ OC.L10N.register(
         "Untitled project": "Проект без наслов",
         "and {count} more": "и уште {count}",
         "Store": "Продавница",
-        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Инсталирајте регистри, шеми и текови објавени од други организации."
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Инсталирајте регистри, шеми и текови објавени од други организации.",
+        "Work Date": "Датум на работа",
+        "Zaak UUID": "Zaak UUID"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -220,7 +220,9 @@ OC.L10N.register(
         "Open in Planninq": "Open in Planninq",
         "This project could not be found": "This project could not be found",
         "Untitled project": "Untitled project",
-        "and {count} more": "and {count} more"
+        "and {count} more": "and {count} more",
+        "Work Date": "Work Date",
+        "Zaak UUID": "Zaak UUID"
     },
     "nplurals=2; plural=(n != 1);"
 )

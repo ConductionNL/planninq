@@ -246,7 +246,9 @@ OC.L10N.register(
         "Untitled project": "Adsız proje",
         "and {count} more": "ve {count} tane daha",
         "Store": "Mağaza",
-        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Diğer kuruluşların yayımladığı kayıtları, şemaları ve akışları yükleyin."
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Diğer kuruluşların yayımladığı kayıtları, şemaları ve akışları yükleyin.",
+        "Work Date": "Çalışma tarihi",
+        "Zaak UUID": "Zaak UUID"
     },
     "nplurals=2; plural=(n != 1);"
 )

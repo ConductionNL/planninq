@@ -246,7 +246,9 @@ OC.L10N.register(
         "Untitled project": "Projektas be pavadinimo",
         "and {count} more": "ir dar {count}",
         "Store": "Parduotuvė",
-        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Įdiekite registrus, schemas ir srautus, kuriuos paskelbė kitos organizacijos."
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Įdiekite registrus, schemas ir srautus, kuriuos paskelbė kitos organizacijos.",
+        "Work Date": "Darbo data",
+        "Zaak UUID": "Zaak UUID"
     },
     "nplurals=2; plural=(n != 1);"
 )

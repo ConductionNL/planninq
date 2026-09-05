@@ -246,7 +246,9 @@ OC.L10N.register(
         "Untitled project": "Nimeta projekt",
         "and {count} more": "ja veel {count}",
         "Store": "Pood",
-        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Paigalda registrid, skeemid ja voog, mille teised organisatsioonid on avaldanud."
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Paigalda registrid, skeemid ja voog, mille teised organisatsioonid on avaldanud.",
+        "Work Date": "Töö kuupäev",
+        "Zaak UUID": "Zaak UUID"
     },
     "nplurals=2; plural=(n != 1);"
 )

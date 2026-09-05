@@ -246,7 +246,9 @@ OC.L10N.register(
         "Untitled project": "Tionscadal gan teideal",
         "and {count} more": "agus {count} eile",
         "Store": "Siopa",
-        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Suiteáil cláir, scéimeanna agus sruthanna a d'fhoilsigh eagraíochtaí eile."
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Suiteáil cláir, scéimeanna agus sruthanna a d'fhoilsigh eagraíochtaí eile.",
+        "Work Date": "Dáta oibre",
+        "Zaak UUID": "UUID Zaak"
     },
     "nplurals=2; plural=(n != 1);"
 )

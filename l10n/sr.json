@@ -245,7 +245,9 @@
         "Untitled project": "Projekat bez naziva",
         "and {count} more": "i još {count}",
         "Store": "Продавница",
-        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Инсталирајте регистре, шеме и токове које су објавиле друге организације."
+        "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Инсталирајте регистре, шеме и токове које су објавиле друге организације.",
+        "Work Date": "Датум рада",
+        "Zaak UUID": "Zaak UUID"
     },
     "plurals": null
 }
