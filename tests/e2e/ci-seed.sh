@@ -193,7 +193,12 @@ import json, sys
 path, kind, code = sys.argv[1], sys.argv[2], sys.argv[3]
 required = {
     'registers': ['planninq'],
-    'schemas': ['task', 'project', 'column', 'label', 'timeEntry', 'dependency'],
+    # `plannedTimeEntry`, not `timeEntry`: #575 renamed the slug because three
+    # apps declared one and a schema slug is global per organisation. This
+    # list is the ninth hiding place a slug rename has, and the one that
+    # kills the whole suite: the seed exits before Playwright starts, so
+    # every spec is reported as not run rather than as failing.
+    'schemas': ['task', 'project', 'column', 'label', 'plannedTimeEntry', 'dependency'],
 }[kind]
 with open(path) as fh:
     raw = fh.read()
