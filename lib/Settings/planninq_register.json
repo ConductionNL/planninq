@@ -24,7 +24,7 @@
           "project",
           "projectPhase",
           "column",
-          "timeEntry",
+          "plannedTimeEntry",
           "label",
           "dependency"
         ],
@@ -901,8 +901,8 @@
           }
         }
       },
-      "timeEntry": {
-        "slug": "timeEntry",
+      "plannedTimeEntry": {
+        "slug": "plannedTimeEntry",
         "icon": "TimerOutline",
         "version": "0.2.0",
         "title": "Time Entry",
@@ -990,6 +990,15 @@
           ]
         },
         "properties": {
+          "timeEntry": {
+            "title": "Urenboeking",
+            "title:en": "Time entry",
+            "type": "string",
+            "description": "De humaniq `TimeEntry` waarop deze uren geboekt zijn. Een platte uuid en geen `$ref`: humaniq's register is een ander register, en ADR-062 regel 7 geeft een doel buiten dit register geen `$ref`.",
+            "description:en": "The humaniq `TimeEntry` these hours are booked on. A plain uuid and not a `$ref`: humaniq's register is a different register, and ADR-062 rule 7 gives a cross-register target no `$ref`.",
+            "format": "uuid",
+            "facetable": true
+          },
           "task": {
             "title": "Task",
             "type": "string",
@@ -1533,7 +1542,7 @@
       {
         "@self": {
           "register": "planninq",
-          "schema": "timeEntry",
+          "schema": "plannedTimeEntry",
           "slug": "te-fix-login-2026-04-01"
         },
         "task": "00000000-0000-4000-d000-000000000001",
@@ -1545,7 +1554,7 @@
       {
         "@self": {
           "register": "planninq",
-          "schema": "timeEntry",
+          "schema": "plannedTimeEntry",
           "slug": "te-fix-login-2026-04-02"
         },
         "task": "00000000-0000-4000-d000-000000000001",
@@ -1557,7 +1566,7 @@
       {
         "@self": {
           "register": "planninq",
-          "schema": "timeEntry",
+          "schema": "plannedTimeEntry",
           "slug": "te-k8s-2026-04-01"
         },
         "task": "00000000-0000-4000-d000-000000000004",

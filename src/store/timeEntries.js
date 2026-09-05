@@ -23,7 +23,7 @@ import { useObjectStore } from './objectStore.js'
 // the register ROW: OR resolves a register by slug and by nothing else, so the
 // literal and the row move in the same release or neither resolves.
 const REGISTER = 'planninq'
-const TIME_ENTRY_SCHEMA = 'timeEntry'
+const TIME_ENTRY_SCHEMA = 'plannedTimeEntry'
 
 export const useTimeEntriesStore = defineStore('timeEntries', {
 	state: () => ({

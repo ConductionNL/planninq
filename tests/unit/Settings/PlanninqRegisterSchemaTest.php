@@ -140,7 +140,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testAllDataSchemasHaveAuthorizationBlocks(): void {
-		$schemasRequiringAuth = ['project', 'task', 'column', 'timeEntry'];
+		$schemasRequiringAuth = ['project', 'task', 'column', 'plannedTimeEntry'];
 
 		foreach ($schemasRequiringAuth as $schemaSlug) {
 			self::assertArrayHasKey(
@@ -260,7 +260,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testTimeEntryAuthorizationRestrictsWriteToOwningUser(): void {
-		$auth = $this->register['components']['schemas']['timeEntry']['authorization'];
+		$auth = $this->register['components']['schemas']['plannedTimeEntry']['authorization'];
 
 		foreach (['update', 'delete'] as $action) {
 			$hasUserRule = false;
@@ -368,7 +368,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @spec openspec/changes/task-dependencies/specs/register-schemas/spec.md
 	 */
 	public function testRegisterDeclaresExactlySevenSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'timeEntry', 'label', 'dependency'];
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);

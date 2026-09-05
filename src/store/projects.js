@@ -27,7 +27,7 @@ const REGISTER = 'planninq'
 const PROJECT_SCHEMA = 'project'
 const COLUMN_SCHEMA = 'column'
 const TASK_SCHEMA = 'task'
-const TIME_ENTRY_SCHEMA = 'timeEntry'
+const TIME_ENTRY_SCHEMA = 'plannedTimeEntry'
 
 /**
  * Largest page OpenRegister will return. Asking for more is silently capped.

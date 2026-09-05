@@ -324,7 +324,7 @@
       {
         "@self": {
           "register": "planninq",
-          "schema": "timeEntry",
+          "schema": "plannedTimeEntry",
           "slug": "timeentry-timeentry-1-1"
         },
         "task": "00000000-0000-4000-8000-000000000000",
@@ -337,7 +337,7 @@
       {
         "@self": {
           "register": "planninq",
-          "schema": "timeEntry",
+          "schema": "plannedTimeEntry",
           "slug": "timeentry-timeentry-2-2"
         },
         "task": "00000000-0000-4000-8000-000000000001",
@@ -350,7 +350,7 @@
       {
         "@self": {
           "register": "planninq",
-          "schema": "timeEntry",
+          "schema": "plannedTimeEntry",
           "slug": "timeentry-timeentry-3-3"
         },
         "task": "00000000-0000-4000-8000-000000000002",
