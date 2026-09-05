@@ -198,10 +198,10 @@
       "title": "Time spent",
       "config": {
         "widgets": [
-          { "id": "time-entries", "title": "Entries", "type": "stat", "content": { "label": "Entries", "icon": "ClockOutline", "route": { "name": "Timesheet" }, "format": { "style": "decimal", "decimals": 0 }, "source": { "register": "planninq", "schema": "timeEntry", "metric": "count" } } },
-          { "id": "time-minutes", "title": "Minutes logged", "type": "stat", "content": { "label": "Minutes logged", "icon": "TimerOutline", "route": { "name": "Timesheet" }, "format": { "style": "decimal", "decimals": 0 }, "source": { "register": "planninq", "schema": "timeEntry", "metric": "sum", "field": "duration" } } },
-          { "id": "time-by-user", "title": "Per person", "type": "chart", "content": { "chartKind": "bar", "legendPosition": "bottom", "emptyLabel": "Nothing logged yet", "dataSource": { "register": "planninq", "schema": "timeEntry", "aggregate": { "groupBy": "user", "metric": "sum", "sumField": "duration", "topN": 10, "otherBucket": true } } } },
-          { "id": "time-recent", "title": "Most recent", "type": "object-table", "content": { "register": "planninq", "schema": "timeEntry", "filter": {}, "sort": { "field": "date", "dir": "desc" }, "limit": 8, "hideHeader": true, "emptyText": "Nothing logged yet", "viewAllRoute": { "name": "Timesheet" }, "viewAllLabel": "Open the timesheet", "columns": [ { "key": "date", "label": "Date" }, { "key": "user", "label": "Who" }, { "key": "duration", "label": "Minutes" }, { "key": "description", "label": "What" } ] } }
+          { "id": "time-entries", "title": "Entries", "type": "stat", "content": { "label": "Entries", "icon": "ClockOutline", "route": { "name": "Timesheet" }, "format": { "style": "decimal", "decimals": 0 }, "source": { "register": "planninq", "schema": "plannedTimeEntry", "metric": "count" } } },
+          { "id": "time-minutes", "title": "Minutes logged", "type": "stat", "content": { "label": "Minutes logged", "icon": "TimerOutline", "route": { "name": "Timesheet" }, "format": { "style": "decimal", "decimals": 0 }, "source": { "register": "planninq", "schema": "plannedTimeEntry", "metric": "sum", "field": "duration" } } },
+          { "id": "time-by-user", "title": "Per person", "type": "chart", "content": { "chartKind": "bar", "legendPosition": "bottom", "emptyLabel": "Nothing logged yet", "dataSource": { "register": "planninq", "schema": "plannedTimeEntry", "aggregate": { "groupBy": "user", "metric": "sum", "sumField": "duration", "topN": 10, "otherBucket": true } } } },
+          { "id": "time-recent", "title": "Most recent", "type": "object-table", "content": { "register": "planninq", "schema": "plannedTimeEntry", "filter": {}, "sort": { "field": "date", "dir": "desc" }, "limit": 8, "hideHeader": true, "emptyText": "Nothing logged yet", "viewAllRoute": { "name": "Timesheet" }, "viewAllLabel": "Open the timesheet", "columns": [ { "key": "date", "label": "Date" }, { "key": "user", "label": "Who" }, { "key": "duration", "label": "Minutes" }, { "key": "description", "label": "What" } ] } }
         ],
         "layout": [
           { "id": "1", "widgetId": "time-entries", "gridX": 0, "gridY": 0, "gridWidth": 6, "gridHeight": 2, "showTitle": false },
@@ -296,7 +296,7 @@
     },
     {
       "registerSlug": "planninq",
-      "schemaSlug": "timeEntry",
+      "schemaSlug": "plannedTimeEntry",
       "urlTemplate": "/apps/planninq/projects/{project}?task={task}",
       "displayName": "Time entry"
     }
