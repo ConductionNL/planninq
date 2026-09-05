@@ -88,6 +88,41 @@ async function navigateTo(page: Page, title: string): Promise<void> {
 	await page.locator(`#app-navigation-vue a[title="${title}"]`).click()
 }
 
+/**
+ * Open a report through its card on the Reports page.
+ *
+ * 🔴 THE CARD IS THE ONLY ENTRY POINT. ADR-112 says a report is a card OR a
+ * menu entry, never both, so a report that moved onto the Reports page has no
+ * nav entry left to click — `navigateTo()` waits out its timeout on a locator
+ * that can never resolve, which reads as a broken page.
+ *
+ * Addressed by the card's own testid and its title span, NOT by the link's
+ * accessible name: CnReportsPage wraps title, description and category in one
+ * anchor, so the name is all three concatenated and an exact match on the
+ * label finds nothing.
+ *
+ * @param page  the Playwright page
+ * @param label the card's title, as the Reports page renders it
+ * @return void
+ */
+async function openReportCard(page: Page, label: string): Promise<void> {
+	await page.goto(`${PLANNINQ_ROOT}/reports`, {
+		waitUntil: 'domcontentloaded',
+	})
+
+	const cards = page.locator('[data-testid="cn-report-card"]')
+	// LIVENESS CONTROL: the grid rendered, so a card that does not match below
+	// is a missing card rather than a page that never mounted.
+	await expect(cards.first()).toBeVisible({ timeout: 30_000 })
+
+	await cards
+		.filter({
+			has: page.locator(`.cn-reports-page__card-title:text-is("${label}")`),
+		})
+		.first()
+		.click()
+}
+
 test.describe('visual baselines — planninq views', () => {
 	test('Dashboard renders its landing view @visual', async ({ page }) => {
 		await page.goto(PLANNINQ_ROOT)
@@ -151,7 +186,9 @@ test.describe('visual baselines — planninq views', () => {
 	})
 
 	test('Portfolio renders capacity @visual', async ({ page }) => {
-		await navigateTo(page, 'Portfolio')
+		// Reached by its card, labelled "Capacity" on the Reports page. The
+		// nav entry this used to click was retired when the report was carded.
+		await openReportCard(page, 'Capacity')
 		await expect(page).toHaveURL(/\/portfolio$/)
 		await shoot(page, 'portfolio.png')
 	})
