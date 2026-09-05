@@ -106,7 +106,12 @@ async function navigateTo(page: Page, title: string): Promise<void> {
  * @return void
  */
 async function openReportCard(page: Page, label: string): Promise<void> {
-	await page.goto(`${PLANNINQ_ROOT}/reports`, {
+	// 🔴 ONE SLASH. `PLANNINQ_ROOT` already ends in one, so `${ROOT}/reports`
+	// builds `…/apps/planninq//reports` — which does not route, and the failure
+	// arrives as "no cn-report-card found" rather than as a bad URL. Every
+	// other caller passes the root alone, so the trailing slash had never
+	// mattered before.
+	await page.goto(new URL('reports', PLANNINQ_ROOT).toString(), {
 		waitUntil: 'domcontentloaded',
 	})
 
