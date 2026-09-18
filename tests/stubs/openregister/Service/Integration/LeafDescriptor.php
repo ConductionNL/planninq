@@ -55,6 +55,15 @@ class LeafDescriptor {
 	 *
 	 * @var string
 	 */
+	/**
+	 * Load strategies, mirroring openregister#3956.
+	 */
+	public const LOADS_VIA_SHARED_ENTRY = 'shared-entry';
+
+	public const LOADS_VIA_OWN_SCRIPT = 'own-script';
+
+	public const LOADS_ALREADY_PRESENT = 'already-present';
+
 	public const RENDER_MODE_COMPONENT = 'component';
 
 	/**
@@ -89,6 +98,11 @@ class LeafDescriptor {
 		private ?string $referenceType = null,
 		private ?string $requiresPermission = null,
 		private string $renderMode = self::RENDER_MODE_COMPONENT,
+		// Mirrors the real descriptor, which gained this in openregister#3956.
+		// A stub that drifts from the real class can only pass: without it the
+		// named argument in RegisterProjectsLeafListener would be a TypeError in
+		// the suite and fine in production, or the reverse.
+		private ?string $loadStrategy = null,
 	) {
 	}//end __construct()
 
