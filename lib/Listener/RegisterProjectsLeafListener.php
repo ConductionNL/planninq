@@ -250,6 +250,8 @@ class RegisterProjectsLeafListener implements IEventListener {
 	 * a stub or a partial backport can carry one without the other.
 	 *
 	 * @return bool Whether the descriptor accepts a load strategy.
+	 *
+	 * @spec openspec/specs/project-delivery/spec.md#requirement-both-halves-of-the-projects-leaf-agree
 	 */
 	protected function descriptorSupportsLoadStrategy(): bool {
 		if (defined(LeafDescriptor::class.'::LOADS_VIA_SHARED_ENTRY') === false) {
