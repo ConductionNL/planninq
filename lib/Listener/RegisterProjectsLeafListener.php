@@ -64,6 +64,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
+use ReflectionClass;
 use Throwable;
 
 /**
@@ -184,21 +185,24 @@ class RegisterProjectsLeafListener implements IEventListener {
 		}
 
 		try {
-			$descriptor = new LeafDescriptor(
-				id: self::LEAF_ID,
-				label: $this->l10n->t(self::LABEL_SOURCE),
-				icon: self::ICON,
-				kinds: [LeafDescriptor::KIND_RENDER_SURFACE],
-				requiredApp: Application::APP_ID,
-				group: self::GROUP,
-				surfaces: self::SURFACES,
-				referenceType: self::REFERENCE_TYPE,
+			$arguments = [
+				'id' => self::LEAF_ID,
+				'label' => $this->l10n->t(self::LABEL_SOURCE),
+				'icon' => self::ICON,
+				'kinds' => [LeafDescriptor::KIND_RENDER_SURFACE],
+				'requiredApp' => Application::APP_ID,
+				'group' => self::GROUP,
+				'surfaces' => self::SURFACES,
+				'referenceType' => self::REFERENCE_TYPE,
 				// Planninq is Vue 3 and a consuming host may still be Vue 2.7,
 				// so the JS half renders through a mount/unmount DOM hand-off.
 				// The server descriptor MUST declare the same render mode under
 				// the shared id or the surface blanks.
-				renderMode: LeafDescriptor::RENDER_MODE_MOUNT,
-				// planninq builds `js/planninq-leaves.js` from a dedicated
+				'renderMode' => LeafDescriptor::RENDER_MODE_MOUNT,
+			];
+
+			if ($this->descriptorSupportsLoadStrategy() === true) {
+				// Planninq builds `js/planninq-leaves.js` from a dedicated
 				// `leaves` webpack entry, and OpenRegister's
 				// `LeafScriptListener` puts it on the consuming pages. That is
 				// the one convention the platform can VERIFY, so declaring it
@@ -206,8 +210,10 @@ class RegisterProjectsLeafListener implements IEventListener {
 				// leaf that claims the shared entry and ships no bundle, which
 				// turns a missing build into a loud refusal instead of a surface
 				// that renders nothing while every check reports success.
-				loadStrategy: LeafDescriptor::LOADS_VIA_SHARED_ENTRY,
-			);
+				$arguments['loadStrategy'] = LeafDescriptor::LOADS_VIA_SHARED_ENTRY;
+			}
+
+			$descriptor = new LeafDescriptor(...$arguments);
 
 			// Render-only leaf: no IntegrationProvider. The widget reads projects
 			// through OpenRegister's object API in the browser, so there is no
@@ -222,4 +228,46 @@ class RegisterProjectsLeafListener implements IEventListener {
 		}//end try
 
 	}//end handle()
+
+	/**
+	 * Whether the OpenRegister beside us understands the `loadStrategy` argument.
+	 *
+	 * 🔴 A DECLARATION ABOUT HOW A LEAF LOADS MUST NEVER BE WHY IT DOES NOT LOAD.
+	 *
+	 * `loadStrategy` and the `LOADS_*` constants arrived together in
+	 * openregister#3956. Planninq cannot choose which OpenRegister an admin runs
+	 * it beside, and passing a named argument a constructor does not declare is
+	 * an `Error`. The catch in `handle()` would then swallow it and the leaf
+	 * would simply be absent, with nothing anywhere saying so.
+	 *
+	 * That is not hypothetical: it turned all six PHPUnit cells red on
+	 * development for planninq#625 while the summary blamed seven assertions,
+	 * and the same shape in production is a projects surface that renders
+	 * nothing on an instance whose OpenRegister predates the feature.
+	 *
+	 * Both halves are checked rather than one standing in for the other: the
+	 * constant is what this listener reads, the parameter is what it passes, and
+	 * a stub or a partial backport can carry one without the other.
+	 *
+	 * @return bool Whether the descriptor accepts a load strategy.
+	 */
+	protected function descriptorSupportsLoadStrategy(): bool {
+		if (defined(LeafDescriptor::class.'::LOADS_VIA_SHARED_ENTRY') === false) {
+			return false;
+		}
+
+		$constructor = (new ReflectionClass(LeafDescriptor::class))->getConstructor();
+		if ($constructor === null) {
+			return false;
+		}
+
+		foreach ($constructor->getParameters() as $parameter) {
+			if ($parameter->getName() === 'loadStrategy') {
+				return true;
+			}
+		}
+
+		return false;
+
+	}//end descriptorSupportsLoadStrategy()
 }//end class

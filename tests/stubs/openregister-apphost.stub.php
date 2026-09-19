@@ -449,7 +449,13 @@ interface IntegrationProvider {
  * constants matter most: `RegisterProjectsLeafListener` names
  * `KIND_RENDER_SURFACE` and `RENDER_MODE_MOUNT`, and both halves of the leaf
  * must agree on the render mode or the surface silently blanks. A stub keeps
- * those two constant reads checked; the psalm suppress list would not.
+ * those constant reads checked; the psalm suppress list would not.
+ *
+ * The load strategy is mirrored here for the same reason. It was added to the
+ * listener in planninq#625 and NOT to this stub, so phpstan and psalm both read
+ * the call as an undefined constant and an unknown parameter, and `PHP Quality`
+ * was red on development on three legs for a call that is correct. A stub that
+ * lags the class it mirrors reports the mirror, not the code.
  *
  * Analysis-only: never autoloaded or executed.
  */
@@ -464,6 +470,12 @@ class LeafDescriptor {
 
 	public const RENDER_MODE_MOUNT = 'mount';
 
+	public const LOADS_VIA_SHARED_ENTRY = 'shared-entry';
+
+	public const LOADS_VIA_OWN_SCRIPT = 'own-script';
+
+	public const LOADS_ALREADY_PRESENT = 'already-present';
+
 	public function __construct(
 		string $id,
 		string $label,
@@ -475,6 +487,7 @@ class LeafDescriptor {
 		?string $referenceType = null,
 		?string $requiresPermission = null,
 		string $renderMode = self::RENDER_MODE_COMPONENT,
+		?string $loadStrategy = null,
 	) {
 	}//end __construct()
 
@@ -489,6 +502,9 @@ class LeafDescriptor {
 
 	public function getRenderMode(): string {
 	}//end getRenderMode()
+
+	public function getLoadStrategy(): ?string {
+	}//end getLoadStrategy()
 }//end class
 
 namespace OCA\OpenRegister\Event;
