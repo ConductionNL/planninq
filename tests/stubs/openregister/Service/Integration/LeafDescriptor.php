@@ -195,4 +195,13 @@ class LeafDescriptor {
 	public function getRenderMode(): string {
 		return $this->renderMode;
 	}//end getRenderMode()
+
+	/**
+	 * How the render bundle reaches the page, or null when the leaf has not said.
+	 *
+	 * @return string|null The load strategy.
+	 */
+	public function getLoadStrategy(): ?string {
+		return $this->loadStrategy;
+	}//end getLoadStrategy()
 }//end class
