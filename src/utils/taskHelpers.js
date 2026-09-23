@@ -2,6 +2,7 @@
  * Pure helpers for task derived UI state.
  *
  * @spec openspec/changes/task-due-date-warning/specs/tasks/spec.md
+ * @spec openspec/changes/blocked-task-reason-and-filter/specs/kanban-board/spec.md
  */
 
 /**
@@ -279,4 +280,79 @@ export function groupTasksByStatus(tasks = [], statuses = BOARD_STATUSES) {
 		grouped[status].push(task)
 	}
 	return grouped
+}
+
+/**
+ * Whether a task is blocked by its own `status` — the manual, person-set
+ * blocked state, NOT the dependency-derived one.
+ *
+ * `isBlocked()` above answers a different question: whether a task has an
+ * unfinished blocker edge. A task can be `status: 'blocked'` with no edges at
+ * all, or have open edges while sitting in `in_progress`. The board's blocked
+ * mark, the reason line and the blocked filter all follow the status, so the
+ * two signals stay separate and neither is inferred from the other.
+ *
+ * @param {object} task The task to test.
+ * @return {boolean} True only when the task's status is exactly `blocked`.
+ *
+ * @spec openspec/changes/blocked-task-reason-and-filter/specs/kanban-board/spec.md
+ */
+export function isTaskBlocked(task) {
+	return task?.status === 'blocked'
+}
+
+/**
+ * Longest blocked reason the card's reason line renders before truncating.
+ *
+ * @type {number}
+ */
+export const BLOCKED_REASON_MAX_LENGTH = 80
+
+/**
+ * Prepare a blocked reason for the card's reason line.
+ *
+ * Returns the reason unchanged when it fits the line, and a shortened line plus
+ * the full text when it does not. The card renders `text` and exposes `full` as
+ * the element's title, so a truncated line is never the only copy of the reason
+ * (WCAG 1.4.1: the text carries the meaning, not the clipping).
+ *
+ * @param {string|null|undefined} reason The task's `blockedReason`.
+ * @param {number} [maxLength]           Line length before truncation.
+ * @return {{text: string, full: string, truncated: boolean}}
+ *         `text` is the line to render, `full` the untruncated reason, and
+ *         `truncated` says whether the two differ.
+ *
+ * @spec openspec/changes/blocked-task-reason-and-filter/specs/kanban-board/spec.md
+ */
+export function truncateBlockedReason(reason, maxLength = BLOCKED_REASON_MAX_LENGTH) {
+	const full = typeof reason === 'string' ? reason.trim() : ''
+	if (full === '') {
+		return { text: '', full: '', truncated: false }
+	}
+	if (full.length <= maxLength) {
+		return { text: full, full, truncated: false }
+	}
+	return { text: `${full.slice(0, maxLength).trimEnd()}…`, full, truncated: true }
+}
+
+/**
+ * Apply the board's blocked filter to a task collection.
+ *
+ * A falsy flag means "show everything" and returns the collection unchanged, so
+ * the caller needs no branch of its own for the unfiltered board — the same
+ * contract `filterTasksByLabel` has. Composing the two is a plain chained call:
+ * `filterTasksByBlocked(filterTasksByLabel(tasks, labelId), blockedOnly)`.
+ *
+ * @param {Array<object>} tasks       The tasks to filter.
+ * @param {boolean}       blockedOnly Whether to keep only blocked tasks.
+ * @return {Array<object>} The tasks the filter keeps.
+ *
+ * @spec openspec/changes/blocked-task-reason-and-filter/specs/kanban-board/spec.md
+ */
+export function filterTasksByBlocked(tasks, blockedOnly) {
+	const list = Array.isArray(tasks) ? tasks : []
+	if (!blockedOnly) {
+		return list
+	}
+	return list.filter((task) => isTaskBlocked(task))
 }
