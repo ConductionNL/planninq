@@ -61,6 +61,19 @@
 			</NcChip>
 		</div>
 
+		<!-- Blocked reason. Shown only while the task's own status is
+		     `blocked` and a reason was entered, so the card says what is
+		     holding the task up without the task being opened. A reason
+		     longer than the line is clipped visually but carried in full on
+		     the element's title, so the clipping never hides information. -->
+		<p
+			v-if="blockedReasonLine"
+			class="task-card__blocked-reason"
+			data-testid="task-blocked-reason"
+			:title="blockedReasonLine.full">
+			{{ blockedReasonLine.text }}
+		</p>
+
 		<!-- Assignee (optional) -->
 		<div v-if="task.assignedTo" class="task-card__assignee">
 			{{ t('planninq', 'Assigned to: {user}', { user: task.assignedTo }) }}
@@ -74,7 +87,7 @@
 import { NcChip } from '@nextcloud/vue'
 import { formatDuration } from '../utils/durationParser.js'
 import { labelId } from '../utils/labelHelpers.js'
-import { dueDateStatus } from '../utils/taskHelpers.js'
+import { dueDateStatus, isTaskBlocked, truncateBlockedReason } from '../utils/taskHelpers.js'
 
 /**
  * Kanban board task card.
@@ -82,13 +95,16 @@ import { dueDateStatus } from '../utils/taskHelpers.js'
  * Renders a single task as a draggable card inside a board column: title,
  * optional description, a due-date warning badge (yellow "Due soon" /
  * red "Overdue"), the status + priority chips, one chip per label the task
- * carries, and the assignee. The badge is driven by the pure `dueDateStatus`
- * helper (date-only comparison) so colour is never the sole signal — a text
- * label is always present (WCAG 1.4.1), and the label chip follows the same
- * rule: the swatch shows the label's colour, the chip text shows its name.
+ * carries, the blocked reason line, and the assignee. The badge is driven by
+ * the pure `dueDateStatus` helper (date-only comparison) so colour is never the
+ * sole signal — a text label is always present (WCAG 1.4.1), and the label chip
+ * follows the same rule: the swatch shows the label's colour, the chip text
+ * shows its name. The blocked reason line follows it too: the status chip says
+ * "Blocked", the line says why.
  *
  * @spec openspec/specs/kanban-board.md
  * @spec openspec/specs/admin-user-settings.md
+ * @spec openspec/changes/blocked-task-reason-and-filter/specs/kanban-board/spec.md
  */
 export default {
 	name: 'TaskCard',
@@ -128,6 +144,26 @@ export default {
 		estimateLabel() {
 			const minutes = Number(this.task.estimatedDuration) || 0
 			return minutes > 0 ? formatDuration(minutes) : ''
+		},
+
+		/**
+		 * The blocked reason line, or null when the card should not show one.
+		 *
+		 * Null in three cases, all of which must render nothing: the task's
+		 * status is not `blocked` (a leftover reason on an unblocked task is
+		 * stale data, not a signal), no reason was entered (the reason is
+		 * optional), and the reason is blank after trimming.
+		 *
+		 * @return {null|{text: string, full: string, truncated: boolean}}
+		 *
+		 * @spec openspec/changes/blocked-task-reason-and-filter/specs/kanban-board/spec.md
+		 */
+		blockedReasonLine() {
+			if (!isTaskBlocked(this.task)) {
+				return null
+			}
+			const line = truncateBlockedReason(this.task.blockedReason)
+			return line.text === '' ? null : line
 		},
 
 		/**
@@ -286,6 +322,21 @@ export default {
 	border-radius: 50%;
 	border: 1px solid var(--color-border);
 	background: var(--color-background-dark);
+}
+
+/* The reason line is text, not a chip: it is the one thing on the card that
+   can be arbitrarily long, so it wraps to at most two lines and clips the
+   rest. The full reason stays on the element's title attribute. */
+.task-card__blocked-reason {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.4;
+	color: var(--color-text-maxcontrast);
+	overflow-wrap: break-word;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
 
 .task-card__assignee {
