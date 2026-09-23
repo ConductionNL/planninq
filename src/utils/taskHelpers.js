@@ -3,6 +3,8 @@
  *
  * @spec openspec/changes/task-due-date-warning/specs/tasks/spec.md
  */
+import { currentWeekRange } from './timesheetHelpers.js'
+import { MS_PER_DAY, parseDay } from './timelineHelpers.js'
 
 /**
  * Task statuses that count as "resolved" — a blocker in one of these states
@@ -279,4 +281,94 @@ export function groupTasksByStatus(tasks = [], statuses = BOARD_STATUSES) {
 		grouped[status].push(task)
 	}
 	return grouped
+}
+
+/**
+ * The seven Monday…Sunday day keys of the week containing `weekStart`, as
+ * YYYY-MM-DD strings in display order.
+ *
+ * The week bounds come from `currentWeekRange()` (the same Monday-to-Sunday
+ * rule the timesheet uses) and the day arithmetic from `parseDay()` /
+ * `MS_PER_DAY`, so the board and the timesheet can never disagree about which
+ * week "this week" is.
+ *
+ * @param {Date} weekStart Any date inside the week to render.
+ * @return {string[]} Seven YYYY-MM-DD keys, Monday first.
+ *
+ * @spec openspec/changes/add-week-view-to-planning-board/specs/kanban-board/spec.md
+ */
+export function weekDayKeys(weekStart) {
+	const monday = parseDay(currentWeekRange(weekStart).from)
+	if (monday === null) {
+		return []
+	}
+	const keys = []
+	for (let offset = 0; offset < 7; offset++) {
+		keys.push(dayKeyFromIndex(monday + offset))
+	}
+	return keys
+}
+
+/**
+ * Format a whole-day index (days since the UNIX epoch, as produced by
+ * `parseDay()`) back to a YYYY-MM-DD key.
+ *
+ * @param {number} dayIndex Whole-day index.
+ * @return {string} YYYY-MM-DD key.
+ *
+ * @spec exclude Pure day-index formatting, the inverse of parseDay().
+ */
+function dayKeyFromIndex(dayIndex) {
+	return new Date(dayIndex * MS_PER_DAY).toISOString().slice(0, 10)
+}
+
+/**
+ * Group a project's tasks into the week view's day columns.
+ *
+ * Returns one bucket per day of the week containing `weekStart`, Monday first,
+ * plus an `unscheduled` bucket. A task lands in the bucket of its `dueDate`
+ * day; a task with no due date (or an unparseable one) lands in `unscheduled`
+ * so it is never silently omitted from the week view; a task whose due date
+ * falls outside the rendered week is in no bucket at all, because the week view
+ * shows one week.
+ *
+ * Pure: the week start is an argument and nothing here reads the clock, so the
+ * grouping is unit-testable without freezing time.
+ *
+ * @param {Array<object>} tasks     The project's tasks.
+ * @param {Date} weekStart          Any date inside the week to render.
+ * @return {{days: Array<{date: string, tasks: Array<object>}>, unscheduled: Array<object>}}
+ *
+ * @spec openspec/changes/add-week-view-to-planning-board/specs/kanban-board/spec.md
+ */
+export function groupTasksByDay(tasks = [], weekStart) {
+	const days = weekDayKeys(weekStart).map((date) => ({ date, tasks: [] }))
+	const byDate = {}
+	for (const day of days) {
+		byDate[day.date] = day
+	}
+
+	const unscheduled = []
+	for (const task of tasks || []) {
+		if (!task) {
+			continue
+		}
+		const raw = task.dueDate
+		if (raw === null || raw === undefined || raw === '') {
+			unscheduled.push(task)
+			continue
+		}
+		const dayIndex = parseDay(raw)
+		if (dayIndex === null) {
+			unscheduled.push(task)
+			continue
+		}
+		const key = dayKeyFromIndex(dayIndex)
+		if (Object.hasOwn(byDate, key)) {
+			byDate[key].tasks.push(task)
+		}
+		// Outside the rendered week: shown in no day column.
+	}
+
+	return { days, unscheduled }
 }
