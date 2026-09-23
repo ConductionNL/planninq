@@ -131,7 +131,7 @@ Task cards on the kanban board MUST show a compact "Blocked" indicator when the 
 
 - **Given** a task on the board has `status: "blocked"`
 - **When** the board renders
-- **THEN** the task's card MUST show a "Blocked" badge alongside its existing chips
+- **Then** the task's card MUST show a "Blocked" badge alongside its existing chips
 
 #### Scenario: Badge visible in list view too
 
