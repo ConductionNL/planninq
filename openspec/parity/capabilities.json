@@ -32,7 +32,8 @@
       "vendor": "OpenProject GmbH",
       "readOn": "2026-09-12",
       "columnAddedOn": "2026-09-26",
-      "evidenceGrade": "driven"
+      "evidenceGrade": "driven",
+      "unknownReason": "Graded driven at the round-4 drive of 2026-09-12 on 16.6.10, which produced the M1 column and the code census. The code was read from a second tree, the 18.0-dev head 27a58131, so cells are rated for what a buyer can install today, the released 17.x line up to v17.8.0: every yes or partial cell citing that head had its paths checked present at v17.8.0; features shipped in 17.x after the drive (the Jira migrator in 17.2, the schedule and availability page) say so in the evidence; backlog work package filters (17.9.0, due 2026-09-30) do not count; the mobile app is a beta and partial."
     },
     {
       "key": "plane",
@@ -174,7 +175,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Add board' ; source: lib/Db/Board.php:33-51 a board has title, owner, colour, settings; no short key and no description field",
         "kanboard": "corpus: kanboard/round4/journeys.md 1 'createProject Vergunningen with identifier VERG' ; source: app/Model/ProjectModel.php:129 getByIdentifier, project description on the Edit project form",
-        "openproject": "corpus: openproject/round4/menu-tree.md 'Projects' global module and 'Project settings > Information'; corpus: openproject/round4/M1-column.md 11.23 project attributes; docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md (name, identifier, description)",
+        "openproject": "corpus: openproject/round4/menu-tree.md 'Projects' global module and 'Project settings > Information'; corpus: openproject/round4/M1-column.md 11.23 project attributes; docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md (name, identifier, description) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/adminjiraserver/creating-a-project-938846813.html 'you must provide: a name ... a key ... and designate a project lead', description added after creation; corpus: jira-data-center/round4/M1-column.md 2.1 'Jira issue keys ... are of the format <project key>-<issue number>'"
       },
       "built": {
@@ -321,7 +322,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'All boards ... (with Archived boards ...)' ; source: lib/Controller/BoardController.php:54 update(..., bool archived)",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'Close this project' ; source: app/Template/project_list/project_icons.php:20 is_active 0 shown as closed, reopen from the same menu",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md:42 'More actions menu ... make it public, set it as a template, archive it, or delete it'; project-lists README:127 'Archived projects - returns all projects that are not active'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md:42 'More actions menu ... make it public, set it as a template, archive it, or delete it'; project-lists README:127 'Archived projects - returns all projects that are not active' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/open-core.md 'archiving of issues and projects, with restore' citing Archiving a project (2025-12-11); Data Center only"
       },
       "built": {
@@ -382,7 +383,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'All boards ... (with Archived boards and Shared under each)' ; source: src/components/navigation/AppNavigation.vue:28 route /board/archived",
         "kanboard": "source: app/Filter/ProjectStatusFilter.php status filter on the project list, app/Template/project_list/sort_menu.php:11 sort by Status ; corpus: kanboard/round4/menu-tree.md 'Projects management'",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-lists/README.md:117-135 filters 'Active projects', 'Archived projects', 'Project status - On track / Off track / At risk'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-lists/README.md:117-135 filters 'Active projects', 'Archived projects', 'Project status - On track / Off track / At risk' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html 'A Jira project can only belong to one category'; 'An archived project will no longer appear in Jira' (archived projects page); no project status field to filter on"
       },
       "built": {
@@ -411,7 +412,7 @@
       "evidence": {
         "nextcloud-deck": "source: lib/Service/BoardService.php:188-217 create() inserts default labels only and no stacks; lib/Service/DefaultBoardService.php stacks are for the welcome board alone ; corpus: nextcloud-deck/round4/journeys.md 1 four lists added by hand",
         "kanboard": "source: app/Template/config/project.php:11 'Default columns for new projects (Comma-separated)', app/Model/BoardModel.php:34 board_columns ; corpus: kanboard/round4/menu-tree.md Settings 'Project settings'",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:61 'In an Action board each list represents a value of an attribute ... the Status board includes a list for the status New and a list for the status In Progress' (columns generated from statuses); Boards free (corpus: openproject/round4/menu-tree.md global 'Boards', not EE)",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:61 'In an Action board each list represents a value of an attribute ... the Status board includes a list for the status New and a list for the status In Progress' (columns generated from statuses); Boards free (corpus: openproject/round4/menu-tree.md global 'Boards', not EE) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-columns-938845277.html 'By default on Scrum boards, this Done column maps to Resolved, Closed statuses, while Simplified Workflow boards map it to Done'; project templates ship preconfigured workflows (Creating a project: 'Jira comes with several default project types with preconfigured workflows and issue types')"
       },
       "built": {
@@ -444,7 +445,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md empty greps 'payment', 'timesheet|hours|duration' in Db/ return 0",
         "kanboard": "corpus: kanboard/round4/code-census.md greps 'payment|stripe|ideal' 26 hits 'none is a payment', 'currencies is a rate table for the task score' ; no budget or billing field on a project",
-        "openproject": "corpus: openproject/round4/menu-tree.md project 'Budgets'; docs: opf/openproject HEAD 27a58131 docs/user-guide/budgets/README.md:11 'create and manage a project budget ... planned unit costs as well as labor costs'; no fixed-price or hourly billing term field (project attributes could hold it, corpus: openproject/round4/M1-column.md 11.23)",
+        "openproject": "corpus: openproject/round4/menu-tree.md project 'Budgets'; docs: opf/openproject HEAD 27a58131 docs/user-guide/budgets/README.md:11 'create and manage a project budget ... planned unit costs as well as labor costs'; no fixed-price or hourly billing term field (project attributes could hold it, corpus: openproject/round4/M1-column.md 11.23) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 12.12 'the integrations page lists test management, source control and collaboration tools and nothing financial'; no budget or billing term on a project; only a custom field on issues (corpus: jira-data-center/round4/M1-column.md 2.2)"
       },
       "built": {
@@ -505,7 +506,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md empty greps 'template beyond the import config schema' ; nearest is Clone board (prj-copy)",
         "kanboard": "source: app/Template/project_creation/create.php:23 'Create from another project' with components chosen, app/Model/ProjectDuplicationModel.php:43-55 swimlanes, board columns, categories, roles, actions, tags, filters, tasks ; corpus: kanboard/round4/menu-tree.md 'Duplicate'",
-        "openproject": "corpus: openproject/round4/menu-tree.md Administration 'Projects > Project templates'; corpus: openproject/round4/M1-column.md 3.10 'applying a project template (app/models/project.rb:110)'; docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-templates (copies work packages, boards, wiki, members); no labels object exists (categories copy)",
+        "openproject": "corpus: openproject/round4/menu-tree.md Administration 'Projects > Project templates'; corpus: openproject/round4/M1-column.md 3.10 'applying a project template (app/models/project.rb:110)'; docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-templates (copies work packages, boards, wiki, members); no labels object exists (categories copy) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/adminjiraserver/creating-a-project-938846813.html 'Jira comes with several default project types with preconfigured workflows and issue types'; docs: https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html 'You can select Create with shared configuration to select an existing project and to use that project's schemes' (schemes only, no tasks or labels copied)"
       },
       "built": {
@@ -589,7 +590,7 @@
       "evidence": {
         "nextcloud-deck": "source: lib/Db/Board.php has no parent field ; corpus: nextcloud-deck/round4/menu-tree.md a flat list of boards",
         "kanboard": "source: grep -niE 'parent' app/Model/ProjectModel.php returns 0 hits; corpus: kanboard/round4/menu-tree.md flat project list",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md:42 'add a subproject'; subprojects free, portfolio and program workspace types Enterprise gated (corpus: openproject/round4/open-core.md portfolio_management; code-census #19 'Creating a project whose workspace_type is portfolio or program is rejected')",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md:42 'add a subproject'; subprojects free, portfolio and program workspace types Enterprise gated (corpus: openproject/round4/open-core.md portfolio_management; code-census #19 'Creating a project whose workspace_type is portfolio or program is rejected') (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html 'a project category is not part of a project hierarchy'; corpus: jira-data-center/round4/M1-column.md 11.21 Advanced Roadmaps hierarchy 'Standard issue types are placed above the epic level (commonly Initiative ...)' groups issues, not projects"
       },
       "built": {
@@ -702,7 +703,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'There is no portal and no public page; every reader is an account' ; M1-column.md 1.1 no PublicPage on a card route",
         "kanboard": "corpus: kanboard/round4/journeys.md 6 'Enable public access ... the read-only board ... answered 200 without a session' ; menu-tree.md Public",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md:105 'Make a project public'; corpus: openproject/round4/M1-column.md 4.21 'a public project, which exposes the whole project to anonymous users' (read-only follows the Anonymous role's permissions)",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md:105 'Make a project public'; corpus: openproject/round4/M1-column.md 4.21 'a public project, which exposes the whole project to anonymous users' (read-only follows the Anonymous role's permissions) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 4.21 'you need to allow anonymous users to browse, search, and create issues in that project' (Allowing anonymous access to your project); browse without create is the read-only variant"
       },
       "built": {
@@ -730,7 +731,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/usability.md 'Deck is a kanban board inside Nextcloud: boards with columns, cards' ; menu-tree.md 'The board, as it opens'",
         "kanboard": "corpus: kanboard/round4/usability.md 'Kanboard is a Kanban board with a task behind every card' ; menu-tree.md 'Overview · Board · List'",
-        "openproject": "corpus: openproject/round4/menu-tree.md global 'Boards' and project 'Work packages list, plus Gantt, board and calendar views'; boards_view is not among the 32 Enterprise symbols (corpus: openproject/round4/open-core.md); docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:11 'OpenProject Agile boards ... Boards consist of lists (columns) and cards (work packages)'",
+        "openproject": "corpus: openproject/round4/menu-tree.md global 'Boards' and project 'Work packages list, plus Gantt, board and calendar views'; boards_view is not among the 32 Enterprise symbols (corpus: openproject/round4/open-core.md); docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:11 'OpenProject Agile boards ... Boards consist of lists (columns) and cards (work packages)' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/creating-a-board-938845220.html 'A board displays issues from one or more projects'; 'Click Create a Kanban board'"
       },
       "built": {
@@ -759,7 +760,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'a stack is a column you drag a card into' (open-core.md 2.7 row) ; M1-column.md 2.6 'one card at a time is dragged'",
         "kanboard": "corpus: kanboard/round4/usability.md 'the board, its columns and swimlanes' ; journeys.md 1 moveTaskPosition (the API behind the drag)",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:152 'Move cards with drag and drop within a list or to a new list. Remember: Moving cards to another list in an Action board will update their attributes, e.g. status'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:152 'Move cards with drag and drop within a list or to a new list. Remember: Moving cards to another list in an Action board will update their attributes, e.g. status' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-columns-938845277.html constraints section (cards moved between columns); corpus: jira-data-center/round4/M1-column.md 3.18 'you can drag and drop them'; board drag is the documented move"
       },
       "built": {
@@ -848,7 +849,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Add list ... each with Add card and an Actions menu (rename, reorder, mark as done column, delete)'",
         "kanboard": "corpus: kanboard/round4/menu-tree.md Configure this project 'Columns'",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:118 'Click + add list to add lists to your board', lists named freely on Basic boards (:122), removed via 'delete lists' (OpenProject-Boards_delete-lists image), reordered by drag",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:118 'Click + add list to add lists to your board', lists named freely on Basic boards (:122), removed via 'delete lists' (OpenProject-Boards_delete-lists image), reordered by drag (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-columns-938845277.html 'Adding: Click the Add Column button', 'Renaming: Click the column name area', 'Moving: ... drag it left or right', 'Deleting: Select Delete from the column header'"
       },
       "built": {
@@ -906,7 +907,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md filter 'title: description: list: tag: assigned: date:' ; a card has no priority (open-core.md 'a card is title, description, date, labels, assignees')",
         "kanboard": "corpus: kanboard/round4/usability.md 'one query language with twenty-five attributes runs the board' ; source: app/Filter/TaskPriorityFilter.php, assignee and tag filters in app/Filter/",
-        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): frontend/src/app/features/boards/board/board-filter/board-filter.component.html '<op-filter-container />' with board-filters.service.ts building ApiV3 filters (assignee, type, priority, any work package filter corpus: openproject/round4/M1-column.md 9.2)",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): frontend/src/app/features/boards/board/board-filter/board-filter.component.html '<op-filter-container />' with board-filters.service.ts building ApiV3 filters (assignee, type, priority, any work package filter corpus: openproject/round4/M1-column.md 9.2) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-quick-filters-938845301.html 'Quick Filters allow you (or anyone else using this board) to further filter the collection of issues appearing on a Scrum board or Kanban board'; default 'Only My Issues' and 'Recently Updated', each a JQL (assignee, labels, priority)"
       },
       "built": {
@@ -964,7 +965,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'A card in the column shows its title, labels, the due badge, assignee avatars' ; source: src/components/cards/CardBadges.vue has no dependency or blocked badge",
         "kanboard": "source: app/Template/board/task_footer.php:24-28 tags, :62-74 due date, :135 priority, app/Template/board/task_private.php:29 assignee; blocked shows only as a link count icon (:89-90) with a tooltip ; corpus: kanboard/round4/menu-tree.md board screenshot",
-        "openproject": "Cards show type, subject, assignee avatar and dates, with highlighting by priority or type (source: opf/openproject HEAD 27a58131 (18.0.0-dev): frontend/.../highlighting-mode.const.ts:31 CardHighlightingMode 'priority'|'type'|'none'|'inline'); labels do not exist (corpus: openproject/round4/M1-column.md 2.8) and there is no blocked marker on a card",
+        "openproject": "Cards show type, subject, assignee avatar and dates, with highlighting by priority or type (source: opf/openproject HEAD 27a58131 (18.0.0-dev): frontend/.../highlighting-mode.const.ts:31 CardHighlightingMode 'priority'|'type'|'none'|'inline'); labels do not exist (corpus: openproject/round4/M1-column.md 2.8) and there is no blocked marker on a card (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/customizing-cards-938845307.html 'You can add up to three additional fields to cards', 'Days in column shows dots on each card'; assignee avatar, flags and labels as a card field; blocked shown by the flag or a query colour ('One color per JQL query')"
       },
       "built": {
@@ -992,7 +993,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md Card and Stack carry an order ; source: appinfo/routes.php card#reorder",
         "kanboard": "corpus: kanboard/round4/journeys.md 1 moveTaskPosition with a position ; source: app/Controller/TaskMovePositionController.php",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:152 'Move cards with drag and drop within a list'; Basic board lists 'order your work packages within' (:55)",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:152 'Move cards with drag and drop within a list'; Basic board lists 'order your work packages within' (:55) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 3.18 ranking by drag; Jira Software boards and backlog order by Rank (drag cards within a column)"
       },
       "built": {
@@ -1023,7 +1024,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'each with Add card'",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'Add a new task' ; source: app/Template/board/table_column.php add task per column",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:139 'Click + under the lists title to add a card: create a new card or choose an existing work package'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:139 'Click + under the lists title to add a card: create a new card or choose an existing work package' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: inline create is documented on the backlog, not per board column; board cards come from the Create dialog (corpus: jira-data-center/round4/M1-column.md 1.2 'Select Create at the top of the screen'); not verified in a running instance"
       },
       "built": {
@@ -1168,7 +1169,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'A card in the column shows its title, labels' ; M1-column.md 2.8 'labels per board with a colour' : labels are coloured chips, the card itself is not coloured by category",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'Categories · Tags' ; source: app/Action/TaskAssignColorCategory.php and task color_id; tags coloured in app/Template/board/task_footer.php:28",
-        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): highlighting-mode.const.ts:31 CardHighlightingMode 'priority'|'type'; board configuration modal highlighting-tab.component (openproject-boards.module.ts:38); attribute highlighting is not among the 32 Enterprise symbols (corpus: openproject/round4/open-core.md)",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): highlighting-mode.const.ts:31 CardHighlightingMode 'priority'|'type'; board configuration modal highlighting-tab.component (openproject-boards.module.ts:38); attribute highlighting is not among the 32 Enterprise symbols (corpus: openproject/round4/open-core.md) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/customizing-cards-938845307.html 'One color per issue type', 'One color per priority', 'One color per assignee', 'One color per JQL query'"
       },
       "built": {
@@ -1196,7 +1197,7 @@
       "evidence": {
         "nextcloud-deck": "source: lib/Service/CardService.php:454-460 entering the done column marks the card done and leaving it clears done; no other action ; corpus: nextcloud-deck/round4/M1-column.md 3.9 'no'",
         "kanboard": "corpus: kanboard/round4/usability.md 'fifty event-to-action classes, bound per project' ; journeys.md 2 'A rule fires on a move'",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:61 'Moving work packages (cards) between two lists will update them automatically' (status, assignee, version boards set that attribute); arbitrary actions on entry need custom actions, which are button-triggered and Enterprise gated (corpus: openproject/round4/M1-column.md 3.9)",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:61 'Moving work packages (cards) between two lists will update them automatically' (status, assignee, version boards set that attribute); arbitrary actions on entry need custom actions, which are button-triggered and Enterprise gated (corpus: openproject/round4/M1-column.md 3.9) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 3.9 automation on 'issue transitioned' whose actions are 'editing issues, sending notifications, creating sub-tasks' and workflow post functions such as 'Assign to Current User' (3.8); a column maps to statuses (docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-columns-938845277.html)"
       },
       "built": {
@@ -1224,7 +1225,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Upcoming cards  cards assigned to me across boards, by due date' is a list, not a board",
         "kanboard": "corpus: kanboard/round4/menu-tree.md a board belongs to one project; Dashboard lists tasks across projects but no shared board",
-        "openproject": "Action boards include a subproject board (docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards, create-subproject-board image) and boards are per project; no board over unrelated projects documented",
+        "openproject": "Action boards include a subproject board (docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards, create-subproject-board image) and boards are per project; no board over unrelated projects documented (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/creating-a-board-938845220.html 'A board displays issues from one or more projects' and 'base your board on an existing Saved Filter'"
       },
       "built": {
@@ -1681,7 +1682,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 3.3 'a markdown task list in the description renders as checkboxes with a progress badge on the card ... Verified live: card 22'",
         "kanboard": "corpus: kanboard/round4/M1-column.md 3.3 'subtasks are a checklist on a task' ; source: app/Template/board/task_footer.php:98-99 completion percentage on the card",
-        "openproject": "corpus: openproject/round4/M1-column.md 3.3 'ls app/models | grep -i checklist returns nothing. Nearest is a child work package per item'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): the bundled CKEditor (frontend/src/vendor/ckeditor/ckeditor.js) carries todoList and todoListChecked, so a description can hold ticked checkboxes as text",
+        "openproject": "corpus: openproject/round4/M1-column.md 3.3 'ls app/models | grep -i checklist returns nothing. Nearest is a child work package per item'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): the bundled CKEditor (frontend/src/vendor/ckeditor/ckeditor.js) carries todoList and todoListChecked, so a description can hold ticked checkboxes as text (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 3.3 'no checklist object ... JRASERVER-47605 (To-do lists (checkbox) for description field on tickets), Gathering Interest, 1028 votes'; checklists are Marketplace apps"
       },
       "built": {
@@ -1737,7 +1738,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/usability.md 'cards with a title, a markdown description' ; menu-tree.md 'the markdown description with checkboxes'",
         "kanboard": "source: app/Helper/TextHelper.php:5,43 Markdown transformation of descriptions and comments ; corpus: kanboard/round4/M1-column.md 6.1 'comments in markdown'",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/wysiwyg/README.md:27 'The CKEditor5 build in OpenProject supports basic text styles, such as bold and italic formatting, headings' and :63 Markdown '#, ##, ###' (GFM tables :50)",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/wysiwyg/README.md:27 'The CKEditor5 build in OpenProject supports basic text styles, such as bold and italic formatting, headings' and :63 Markdown '#, ##, ###' (GFM tables :50) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/visual-editing-939938940.html Visual mode 'gives you a What You See Is What You Get (WYSIWYG) experience' and 'you can still enter wiki markup syntax'"
       },
       "built": {
@@ -1765,7 +1766,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Comments (the platform's comments with mentions)' ; code-census.md notification kinds 'card-comment-mentioned'",
         "kanboard": "corpus: kanboard/round4/M1-column.md 6.1 'a mention that notifies (comment.user.mention, UserMentionJob)'",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/notifications/README.md:22 'you will be notified about important changes ... new comments that mention you'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/notifications/README.md:22 'you will be notified about important changes ... new comments that mention you' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/push-notifications-993923359.html notification types include 'mentions'; @mention in comments generates an email to the mentioned user (Configuring email notifications, corpus: jira-data-center/round4/M1-column.md 6.8)"
       },
       "built": {
@@ -1797,7 +1798,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 2.13 'card#reorder moves a card to another stack or board; the UI offers Move card'",
         "kanboard": "corpus: kanboard/round4/menu-tree.md task actions 'Move to project' ; 'Duplicate to project'",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/work-packages/duplicate-move-delete/README.md:5 'How to duplicate, move to another project or delete a work package'; corpus: openproject/round4/M1-column.md 2.6 bulk move",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/work-packages/duplicate-move-delete/README.md:5 'How to duplicate, move to another project or delete a work package'; corpus: openproject/round4/M1-column.md 2.6 bulk move (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 2.13 'The Move issue wizard allows you to choose any other project in your Jira instance to move your selected issue to'"
       },
       "built": {
@@ -1886,7 +1887,7 @@
       "evidence": {
         "nextcloud-deck": "no backlog apart from the board: corpus: nextcloud-deck/round4/menu-tree.md 'a kanban has one thing to navigate, the board' ; source: grep -rniF 'backlog' lib returns 0 hits",
         "kanboard": "source: app/Model/BoardModel.php:23 default columns 'Backlog', 'Ready', 'Work in progress', 'Done' : the backlog is the first column on the board, not a separate list ; corpus: kanboard/round4/journeys.md 5 column restriction 'Backlog'",
-        "openproject": "corpus: openproject/round4/menu-tree.md 'Inside a project > Backlogs  sprints and story points'; docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:14 'record and prioritize work packages in sprints and the backlog'",
+        "openproject": "corpus: openproject/round4/menu-tree.md 'Inside a project > Backlogs  sprints and story points'; docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:14 'record and prioritize work packages in sprints and the backlog' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/using-your-kanban-backlog-938845378.html 'The Kanban backlog shows issues in both Backlog and Selected for Development sections' and team members can 'focus on your work-in-progress on the Kanban board, without the distraction of items in planning'"
       },
       "built": {
@@ -1914,7 +1915,7 @@
       "evidence": {
         "nextcloud-deck": "no backlog apart from the board: corpus: nextcloud-deck/round4/menu-tree.md 'a kanban has one thing to navigate, the board'",
         "kanboard": "moving a task out of the Backlog column is a column move (corpus: kanboard/round4/journeys.md 1 moveTaskPosition); no separate backlog to plan from",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:234 'Your sprint is set in motion by clicking the Start sprint button ... it will open the sprint board'; basic boards add an existing work package as a card (agile-boards README:139)",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:234 'Your sprint is set in motion by clicking the Start sprint button ... it will open the sprint board'; basic boards add an existing work package as a card (agile-boards README:139) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/using-your-kanban-backlog-938845378.html 'This makes it easy for you to move issues from the backlog to selected for development. Issues selected for development will then appear in your Kanban board'"
       },
       "built": {
@@ -1935,14 +1936,14 @@
       "origin": "own-code",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "yes",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "partial",
       "jira": "yes",
       "evidence": {
         "nextcloud-deck": "no backlog apart from the board: corpus: nextcloud-deck/round4/menu-tree.md 'a kanban has one thing to navigate, the board' ; the board filter (menu-tree.md) filters columns, there is no backlog list",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'List' view with the filter dropdown and query language (usability.md 'runs the board, the list, the saved filters'), sortable; not a backlog of its own",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:49 'The work package count and story points shown for each container are adjusted to reflect the currently visible work packages' (backlog filters); release notes 17-9-0 'introduces filters for Backlogs' (after the round-4 drive on 16.6.10, where ordering by drag was the sort)",
+        "openproject": "docs: opf/openproject v17.8.0 docs/user-guide/backlogs-scrum/README.md:103 'The all backlog buckets button is a multi-select dropdown that allows you to filter for buckets within your backlog' and :239 all sprints filter, so released 17.8 filters containers, not the work packages in them; work package filters for backlogs arrive in 17.9.0 (docs/release-notes/17-9-0 release_date 2026-09-30, not yet released on 2026-09-26, present only in the 18.0-dev tree); ordering is by drag (round-4 drive on 16.6.10)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-quick-filters-938845301.html quick filters apply on 'a Scrum board or Kanban board' including its backlog; order is Rank (docs: https://confluence.atlassian.com/jirasoftwareserver/using-your-kanban-backlog-938845378.html 'the issues you're creating and ranking for your team')"
       },
       "built": {
@@ -1970,7 +1971,7 @@
       "evidence": {
         "nextcloud-deck": "no backlog apart from the board: corpus: nextcloud-deck/round4/menu-tree.md 'a kanban has one thing to navigate, the board'",
         "kanboard": "tasks are ordered by drag within the Backlog column (corpus: kanboard/round4/journeys.md 1 moveTaskPosition with a position); no ranked backlog list",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:170 'You can prioritize work packages within the Inbox backlog, a backlog bucket, or a sprint by dragging and dropping them'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:170 'You can prioritize work packages within the Inbox backlog, a backlog bucket, or a sprint by dragging and dropping them' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/using-your-kanban-backlog-938845378.html 'an optimized list view of the issues you're creating and ranking for your team'"
       },
       "built": {
@@ -1998,7 +1999,7 @@
       "evidence": {
         "nextcloud-deck": "source: grep -rniF 'sprint' lib returns 0 hits ; corpus: nextcloud-deck/round4/usability.md no iteration object",
         "kanboard": "source: grep -rniF 'sprint' app --include=*.php outside Locale returns no sprint model ; corpus: kanboard/round4/code-census.md objects table has no iteration",
-        "openproject": "corpus: openproject/round4/menu-tree.md 'Backlogs  sprints and story points'; docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:59 'Each sprint is displayed in a dedicated container showing ... start and end dates'; multiple active sprints are Enterprise gated (open-core.md multiple_active_sprints)",
+        "openproject": "corpus: openproject/round4/menu-tree.md 'Backlogs  sprints and story points'; docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:59 'Each sprint is displayed in a dedicated container showing ... start and end dates'; multiple active sprints are Enterprise gated (open-core.md multiple_active_sprints) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/estimate-in-story-points-938845204.html 'Velocity is then worked out based on how many points the team can complete in each sprint'; docs: https://confluence.atlassian.com/jirasoftwareserver/reporting-939938675.html 'Sprint Report'"
       },
       "built": {
@@ -2026,8 +2027,8 @@
       "evidence": {
         "nextcloud-deck": "no sprints (bkl-sprints)",
         "kanboard": "no sprints (bkl-sprints)",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:265 'Sprint board' among the sprint menu items; :234 'Clicking it will open the sprint board'",
-        "jira": "docs: Jira Software Scrum board 'Active sprints' view shows the current sprint only; docs: https://confluence.atlassian.com/jirasoftwareserver/reporting-939938675.html 'Burndown Chart: Tracks the total work remaining' per sprint"
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:265 'Sprint board' among the sprint menu items; :234 'Clicking it will open the sprint board' (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/customizing-cards-938845307.html 'You can add up to three additional fields to cards in your Backlog and Active sprints' (the Active sprints board is the current sprint); docs: https://confluence.atlassian.com/jirasoftwareserver/reporting-939938675.html 'Burndown Chart: Tracks the total work remaining' per sprint"
       },
       "built": {
         "state": "none",
@@ -2082,7 +2083,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 10.4 'no' process analytics ; no chart in the app (menu-tree.md)",
         "kanboard": "corpus: kanboard/round4/menu-tree.md Analytics 'Burndown chart' : a project burndown over the complexity score by date range, not bound to a sprint",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:266 'Burndown chart'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/backlogs/app/models/burndown.rb",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:266 'Burndown chart'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/backlogs/app/models/burndown.rb (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/reporting-939938675.html 'Burndown Chart', 'Burnup Chart', 'Release Burndown', 'Epic Burndown'"
       },
       "built": {
@@ -2110,7 +2111,7 @@
       "evidence": {
         "nextcloud-deck": "source: grep -rniE 'milestone|release|version' lib/Db returns no version object ; corpus: nextcloud-deck/round4/M1-column.md 8.8 'no' milestones",
         "kanboard": "corpus: kanboard/round4/M1-column.md 2.10 link pair 'targets milestone / is a milestone of' : a task can be linked to a milestone task; no version or release object",
-        "openproject": "corpus: openproject/round4/menu-tree.md 'Project settings ... Versions'; corpus: openproject/round4/M1-column.md 9.1 and 11.10 version custom field; docs: opf/openproject HEAD 27a58131 docs/user-guide/roadmap/README.md 'Product roadmap release planning'",
+        "openproject": "corpus: openproject/round4/menu-tree.md 'Project settings ... Versions'; corpus: openproject/round4/M1-column.md 9.1 and 11.10 version custom field; docs: opf/openproject HEAD 27a58131 docs/user-guide/roadmap/README.md 'Product roadmap release planning' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/reporting-939938675.html 'Version Report', 'Release Burndown'; docs: https://confluence.atlassian.com/jirasoftwareserver/releases-in-advanced-roadmaps-1044784195.html 'a release can start Relative to previous release date' (corpus 8.8)"
       },
       "built": {
@@ -2138,7 +2139,7 @@
       "evidence": {
         "nextcloud-deck": "no epics or versions over time ; corpus: nextcloud-deck/round4/menu-tree.md five navigation entries, none a roadmap",
         "kanboard": "corpus: kanboard/round4/menu-tree.md project menu has no roadmap or timeline; the Gantt is not in core (code-census.md objects table)",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/roadmap/README.md 'Find out about the Product Roadmap and Release planning in OpenProject'; corpus: openproject/round4/menu-tree.md global 'Gantt charts'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/roadmap/README.md 'Find out about the Product Roadmap and Release planning in OpenProject'; corpus: openproject/round4/menu-tree.md global 'Gantt charts' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 8.8 Releases in Advanced Roadmaps and 3.14 'Modify a view in Advanced Roadmaps'; https://confluence.atlassian.com/jirasoftwareserver/dependencies-in-advanced-roadmaps-1044784190.html 'dependent issues will have numbered badges at either end of the schedule bar' (timeline of epics and releases, Advanced Roadmaps bundled in the Jira Software DC documentation set)"
       },
       "built": {
@@ -2228,7 +2229,7 @@
       "evidence": {
         "nextcloud-deck": "source: lib/Db/CardMapper.php:674 addDependency skips a duplicate (hasDependency); lib/Service/CardService.php:688-707 checks permissions and archive state only, so a self or circular dependency is not refused",
         "kanboard": "source: app/Validator/TaskLinkValidator.php:29 'A task cannot be linked to itself'; no duplicate or cycle check in the validator ; corpus: kanboard/round4/journeys.md 4",
-        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): config/locales/en.yml:555 'circular_dependency: This relation would create a circular dependency.' and :851 'The relationship creates a circle of relationships'; corpus: openproject/round4/M1-column.md 2.10 relations normalised by 'before_validation :reverse_if_needed'",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): config/locales/en.yml:555 'circular_dependency: This relation would create a circular dependency.' and :851 'The relationship creates a circle of relationships'; corpus: openproject/round4/M1-column.md 2.10 relations normalised by 'before_validation :reverse_if_needed' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://jira.atlassian.com/browse/JRA-10068 'Posibility of creation circular references', Closed, Won't Fix: 'It is posible to create circular dependancies or duplicates on issues'; Advanced Roadmaps only flags the conflict (docs: https://confluence.atlassian.com/jirasoftwareserver/dependencies-in-advanced-roadmaps-1044784190.html 'The badges on either end will turn red if there are conflicting dates')"
       },
       "built": {
@@ -2293,7 +2294,7 @@
       "evidence": {
         "nextcloud-deck": "source: src/components/board/GanttView.vue:297-325 cardToGanttTask passes id, name, start, end, progress and no dependencies to frappe-gantt, so dependent cards are not drawn",
         "kanboard": "no timeline in core (pln-gantt)",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/gantt-chart/scheduling/README.md:15 'To add dependencies between work packages, you can set them as predecessor or successor in the Gantt chart'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/gantt-chart/scheduling/README.md:15 'To add dependencies between work packages, you can set them as predecessor or successor in the Gantt chart' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/dependencies-in-advanced-roadmaps-1044784190.html 'dependent issues will have numbered badges at either end of the schedule bar based on dependency type'"
       },
       "built": {
@@ -2383,7 +2384,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'the notify-due choice per user' ; code-census.md 'notify-due per user per board' (lib/Notification/NotificationHelper.php:66)",
         "kanboard": "source: app/Template/user_view/notifications.php:9 notification_types checkboxes per user, with the assignee/creator filter (promoted-rows-batch7.md 13.18 'by the user's own filter')",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/notifications/README.md in-app and email notification settings per user; the automatic due alerts to opt out of are Enterprise gated (corpus: openproject/round4/M1-column.md 8.6), so on the free build there is nothing automatic to turn off",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/notifications/README.md in-app and email notification settings per user; the automatic due alerts to opt out of are Enterprise gated (corpus: openproject/round4/M1-column.md 8.6), so on the free build there is nothing automatic to turn off (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 8.6 filter subscriptions are created 'for yourself and/or other users'; a rule-sent reminder has no per-user opt-out documented"
       },
       "built": {
@@ -2412,7 +2413,7 @@
       "evidence": {
         "nextcloud-deck": "source: src/components/board/GanttView.vue:275 dragging a bar calls updateTaskDate, :373-377 dispatches updateCardDates with the new startdate and duedate ; not in the round-4 drive (menu-tree.md)",
         "kanboard": "no timeline in core (pln-gantt)",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/gantt-chart/README.md (gantt-chart.gif, create-new-element-gantt-chart.gif) drag bars to change dates; corpus: openproject/round4/journeys.md duration derivation on edit",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/gantt-chart/README.md (gantt-chart.gif, create-new-element-gantt-chart.gif) drag bars to change dates; corpus: openproject/round4/journeys.md duration derivation on edit (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/dependencies-in-advanced-roadmaps-1044784190.html 'adjust the dates by clicking and dragging the ends of the schedule bar'"
       },
       "built": {
@@ -2441,7 +2442,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/_round4/compare/pending-rows-batch6.md 3.21 'a dependent card is a link; nothing moves a date'",
         "kanboard": "corpus: kanboard/round4/_round4/compare/pending-rows-batch7.md 3.21 'a link moves no date: TaskLinkModel writes two rows and fires an event'",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/gantt-chart/scheduling/README.md:15 'there is an automatic scheduling mode and a manual scheduling mode (default) (new in release 15.4) ... determine how work packages behave when the dates of related work packages change'; corpus: openproject/round4/M1-column.md 8.9 set_schedule_service.rb",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/gantt-chart/scheduling/README.md:15 'there is an automatic scheduling mode and a manual scheduling mode (default) (new in release 15.4) ... determine how work packages behave when the dates of related work packages change'; corpus: openproject/round4/M1-column.md 8.9 set_schedule_service.rb (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/auto-schedule-issues-in-advanced-roadmaps-1044784172.html 'The Auto-scheduler constructs a plan using issue details based on your plan settings', considering dependencies, capacity and estimates"
       },
       "built": {
@@ -2582,7 +2583,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Calendar. With the bridge on, every board is a CalDAV calendar ... so the Calendar app and a phone show the deadlines. Verified live' : the calendar view is the platform Calendar app, not inside Deck",
         "kanboard": "corpus: kanboard/round4/usability.md 'no calendar' ; menu-tree.md 'Overview · Board · List' (the calendar view is a plugin)",
-        "openproject": "corpus: openproject/round4/menu-tree.md project 'Calendars'; docs: opf/openproject HEAD 27a58131 docs/user-guide/calendar/README.md 'How to create, use and subscribe to a calendar'",
+        "openproject": "corpus: openproject/round4/menu-tree.md project 'Calendars'; docs: opf/openproject HEAD 27a58131 docs/user-guide/calendar/README.md 'How to create, use and subscribe to a calendar' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 12.13 'the Marketplace calendars (Event Calendar for Jira ...) display, they do not book': a calendar view is a Marketplace app; Team Calendars is a Confluence product"
       },
       "built": {
@@ -2610,7 +2611,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'every card with a due date a VTODO in it ... Verified live with a REPORT on the board's calendar' ; open-core.md caveat: API-set time zones republished as UTC",
         "kanboard": "corpus: kanboard/round4/journeys.md 6 'the iCal feed (text/calendar, one VEVENT per dated task)' behind a public token ; source: app/Template/user_view/share.php:9 per-user iCal feed : read-only subscription, not CalDAV",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/calendar/README.md 'Subscribe to a calendar: OpenProject allows you to subscribe to and access any of your calendars using an external client that supports the iCalendar format'; corpus: openproject/round4/menu-tree.md admin 'Calendar subscriptions' (iCal feed, read-only, counts as the generic capability)",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/calendar/README.md 'Subscribe to a calendar: OpenProject allows you to subscribe to and access any of your calendars using an external client that supports the iCalendar format'; corpus: openproject/round4/menu-tree.md admin 'Calendar subscriptions' (iCal feed, read-only, counts as the generic capability) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 12.13 dates on an issue are due dates; no iCal or CalDAV feed in the 983 pages the corpus read (1.9 integrations page covers Confluence only)"
       },
       "built": {
@@ -2638,7 +2639,7 @@
       "evidence": {
         "nextcloud-deck": "source: src/components/board/Board.vue:49 the Gantt view is per board; nothing combines boards on one timeline (the platform Calendar shows several board calendars, menu-tree.md Calendar, which is not a timeline)",
         "kanboard": "no timeline in core (pln-gantt)",
-        "openproject": "corpus: openproject/round4/menu-tree.md global module 'Gantt charts' across projects; docs: opf/openproject HEAD 27a58131 docs/user-guide/gantt-chart OpenProject-overarching-project-planning.png",
+        "openproject": "corpus: openproject/round4/menu-tree.md global module 'Gantt charts' across projects; docs: opf/openproject HEAD 27a58131 docs/user-guide/gantt-chart OpenProject-overarching-project-planning.png (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/creating-a-board-938845220.html 'A board displays issues from one or more projects'; Advanced Roadmaps plans take several projects and boards as sources (corpus: jira-data-center/round4/M1-column.md 8.8 plan releases across a plan)"
       },
       "built": {
@@ -2667,7 +2668,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
         "kanboard": "corpus: _round4/compare/promoted-rows-batch7.md 10.11 (Kanboard) 'tasks.time_estimated and time_spent, subtask time tracking with a start/stop timer ... a per-user timesheet (getUserTimesheet). Verified live' ; menu-tree.md Analytics 'Estimated vs actual time'",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/progress-tracking/README.md:6 'estimated time, remaining time, work'; corpus: openproject/round4/M1-column.md 3.15 derived progress values",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/progress-tracking/README.md:6 'estimated time, remaining time, work'; corpus: openproject/round4/M1-column.md 3.15 derived progress values (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html 'When work is first logged against the issue, the Time Spent is subtracted from the Original Estimate'"
       },
       "built": {
@@ -2695,7 +2696,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
         "kanboard": "corpus: _round4/compare/promoted-rows-batch7.md 10.11 (Kanboard) 'tasks.time_estimated and time_spent, subtask time tracking with a start/stop timer ... a per-user timesheet (getUserTimesheet). Verified live' ; source: app/Model/TaskCreationModel.php:67 time_spent on the task form, app/Model/SubtaskTimeTrackingModel.php:245 updateSubtaskTimeSpent",
-        "openproject": "corpus: openproject/round4/menu-tree.md project 'Time and costs'; docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/time-tracking/README.md 'Log time'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/models/time_entry.rb",
+        "openproject": "corpus: openproject/round4/menu-tree.md project 'Time and costs'; docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/time-tracking/README.md 'Log time'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/models/time_entry.rb (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html work logs with 'Edit Own Work Logs' and 'Delete Own Work Logs' permissions"
       },
       "built": {
@@ -2723,7 +2724,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
         "kanboard": "source: time fields are decimal hours rendered as '%sh spent' (app/Template/subtask/timer.php:3,9); no parsing of '1h 30m' found (grep -rniE '[0-9]h ?[0-9]+m' app/Core/DateParser.php returns nothing)",
-        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): app/services/duration_converter.rb:147 'ChronicDuration.parse(duration_string' and modules/costs/app/helpers/costs/number_helper.rb:79 falls back to DurationConverter.parse for hours strings, so '1h 30m' parses",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): app/services/duration_converter.rb:147 'ChronicDuration.parse(duration_string' and modules/costs/app/helpers/costs/number_helper.rb:79 falls back to DurationConverter.parse for hours strings, so '1h 30m' parses (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html 'You can specify additional time units after a time value X, such as Xw, Xd, Xh, or Xm'"
       },
       "built": {
@@ -2751,7 +2752,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
         "kanboard": "corpus: _round4/compare/promoted-rows-batch7.md 10.11 (Kanboard) 'tasks.time_estimated and time_spent, subtask time tracking with a start/stop timer ... a per-user timesheet (getUserTimesheet). Verified live' ; source: app/Template/user_view/timesheet.php:5-23 'Subtask timesheet' per user with Start, End and Time spent, sortable by start, not grouped by date",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/my-time-tracking/README.md 'The My time tracking module offers a clear overview of your personal time entries' in 'a calendar or list view'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/config/routes.rb:59 '/time-tracking/(:mode-:view_mode)(/:date)'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/my-time-tracking/README.md 'The My time tracking module offers a clear overview of your personal time entries' in 'a calendar or list view'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/config/routes.rb:59 '/time-tracking/(:mode-:view_mode)(/:date)' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://jira.atlassian.com/browse/JRASERVER-6137 'Generate worklog report', Closed, Won't Fix, 124 votes: 'It would be great to add a worklog report by user and/or by project'; timesheets are the Marketplace apps Tempo Timesheets and Timesheet Reports and Gadgets, not the product"
       },
       "built": {
@@ -2780,7 +2781,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
         "kanboard": "corpus: kanboard/round4/menu-tree.md Analytics 'Estimated vs actual time · Estimated vs actual time per column' ; source: app/Template/subtask/timer.php:2-9 spent/estimated on the subtask",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/progress-tracking/README.md work and remaining work; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/models/work_packages/scopes/include_spent_time.rb (spent time beside work on the work package)",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/progress-tracking/README.md work and remaining work; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/models/work_packages/scopes/include_spent_time.rb (spent time beside work on the work package) Note: include_spent_time.rb is in the 18.0-dev tree only; the progress-tracking docs cited are present at v17.8.0, and spent time beside work predates the drive.",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html Time Spent against Original Estimate and Remaining Estimate; docs: https://confluence.atlassian.com/jirasoftwareserver/reporting-939938675.html Time Tracking Report shows 'Original Estimate, Estimated Time Remaining, Time Spent, and Accuracy'"
       },
       "built": {
@@ -2809,7 +2810,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
         "kanboard": "source: app/Template/task/time_tracking_details.php:5 'editable' => false : timer entries cannot be edited or removed; only the task and subtask time_spent totals are editable in their forms",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/time-tracking/README.md:22-23 'Edit logged time', 'Delete time entries'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/time-tracking/README.md:22-23 'Edit logged time', 'Delete time entries' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html 'You can edit your own work log entries if you have been granted the Edit Own Work Logs permission' and 'delete your own work log entries'"
       },
       "built": {
@@ -2838,7 +2839,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
         "kanboard": "corpus: kanboard/round4/menu-tree.md Analytics 'Estimated vs actual time' per project and the per-user 'Time tracking' page (app/Template/user_view/sidebar.php:19); no report of time per person across projects",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/reporting/README.md time and cost reports grouped by user, project and more (corpus: openproject/round4/M1-column.md 10.4 'the reporting module is a real pivot engine over cost and time')",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/reporting/README.md time and cost reports grouped by user, project and more (corpus: openproject/round4/M1-column.md 10.4 'the reporting module is a real pivot engine over cost and time') (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/reporting-939938675.html 'Time Tracking Report' per version and 'User Workload Report: Shows how much work a user has been allocated'; docs: https://jira.atlassian.com/browse/JRASERVER-6137 'Generate worklog report', Closed, Won't Fix, 124 votes: 'It would be great to add a worklog report by user and/or by project'"
       },
       "built": {
@@ -2870,8 +2871,8 @@
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps ; the row is specific to the fleet's HR app",
         "kanboard": "the row is specific to the fleet's HR app; Kanboard stores time in its own subtask_time_tracking table only (corpus: kanboard/round4/code-census.md objects table)",
-        "openproject": "no HR app integration; time entries live in the costs module only (source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/models/time_entry.rb); corpus: openproject/round4/M1-column.md 12.x integrations list no HR system",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 12.x integrations list test management, source control and collaboration tools; no HR or payroll hand-off"
+        "openproject": "no HR app integration; time entries live in the costs module only (source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/models/time_entry.rb); corpus: openproject/round4/M1-column.md section 12 (Integrations) lists no HR system",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 12.5 and 12.12 integrations list test management, source control and collaboration tools; no HR or payroll hand-off"
       },
       "built": {
         "state": "specified",
@@ -2899,7 +2900,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
         "kanboard": "corpus: _round4/compare/promoted-rows-batch7.md 10.11 (Kanboard) 'tasks.time_estimated and time_spent, subtask time tracking with a start/stop timer ... a per-user timesheet (getUserTimesheet). Verified live' ; menu-tree.md task sidebar 'Time tracking' ; source: app/Model/SubtaskTimeTrackingModel.php:143 toggleTimer",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/time-tracking/README.md:54 'Starting with OpenProject 13.0, you can also track time in real time using the start/stop time tracking button'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/controllers/my/timer_controller.rb",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/time-tracking/README.md:54 'Starting with OpenProject 13.0, you can also track time in real time using the start/stop time tracking button'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/controllers/my/timer_controller.rb (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html documents logging entered durations only; timers are Marketplace apps"
       },
       "built": {
@@ -2955,7 +2956,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'Exports' ; source: app/Export/SubtaskExport.php:57-64 CSV with 'Time estimated', 'Time spent' per subtask; no export of individual time entries",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/reporting/README.md:93 'To export reports for time and costs to Excel you can open or create a report in the Time and costs module'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/reporting/README.md:93 'To export reports for time and costs to Excel you can open or create a report in the Time and costs module' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/working-with-search-results-939938808.html 'Export > CSV (All fields)' carries the issue's time spent fields (corpus: jira-data-center/round4/M1-column.md 10.3), not individual work logs; docs: https://jira.atlassian.com/browse/JRASERVER-6137 'Generate worklog report', Closed, Won't Fix, 124 votes: 'It would be great to add a worklog report by user and/or by project'"
       },
       "built": {
@@ -3005,13 +3006,15 @@
       "origin": "own-code",
       "planninq": "partial",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "no hours, capacity or availability on a card or user (corpus: nextcloud-deck/round4/code-census.md empty greps 'timesheet|hours|duration' in Db/)",
-        "kanboard": "corpus: kanboard/round4/menu-tree.md Analytics 'User repartition' (tasks per assignee per project) ; source: app/Controller/ProjectUserOverviewController.php manager view of users across projects : counts, not allocation"
+        "kanboard": "corpus: kanboard/round4/menu-tree.md Analytics 'User repartition' (tasks per assignee per project) ; source: app/Controller/ProjectUserOverviewController.php manager view of users across projects : counts, not allocation",
+        "openproject": "corpus: openproject/round4/open-core.md resource_management and team_planner_view Enterprise gated; corpus: openproject/round4/code-census.md #22 'absent, 403 on every controller in the module, except the planners index'; docs: opf/openproject HEAD 27a58131 docs/user-guide/resource-management/README.md 'allocate work to users and monitor team capacity'. Free build: assignee grouping in work package queries only (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/reporting-939938675.html 'User Workload Report: Shows how much work a user has been allocated, and how long it should take'; docs: https://confluence.atlassian.com/display/JIRASOFTWARESERVER/Capacity+and+velocity+in+Advanced+Roadmaps team capacity per sprint in hours or story points"
       },
       "built": {
         "state": "built",
@@ -3035,13 +3038,15 @@
       "origin": "own-code",
       "planninq": "partial",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "no hours, capacity or availability on a card or user (corpus: nextcloud-deck/round4/code-census.md empty greps 'timesheet|hours|duration' in Db/)",
-        "kanboard": "corpus: kanboard/round4/menu-tree.md Analytics 'Task distribution · User repartition' per project : task counts per column and per user, no capacity"
+        "kanboard": "corpus: kanboard/round4/menu-tree.md Analytics 'Task distribution · User repartition' per project : task counts per column and per user, no capacity",
+        "openproject": "project capacity is the resource planner (Enterprise gated, corpus: openproject/round4/code-census.md #22); free build shows work and remaining work totals per project query (corpus: openproject/round4/M1-column.md 3.15 progress values)",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/reporting-939938675.html 'Version Workload Report'; docs: https://confluence.atlassian.com/display/JIRASOFTWARESERVER/Capacity+and+velocity+in+Advanced+Roadmaps 'If you set the capacity at 40 hours, the sprint's capacity will be 80 hours' (per team, not per project)"
       },
       "built": {
         "state": "built",
@@ -3062,13 +3067,15 @@
       "origin": "own-code",
       "planninq": "partial",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'All boards' is a navigation list with no state or progress",
-        "kanboard": "corpus: kanboard/round4/menu-tree.md header 'Projects management' ; source: app/Template/project_user_overview/ manager overview of projects, users and open tasks; no portfolio health view"
+        "kanboard": "corpus: kanboard/round4/menu-tree.md header 'Projects management' ; source: app/Template/project_user_overview/ manager overview of projects, users and open tasks; no portfolio health view",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-lists/README.md:44 'create a multi-project status dashboard if you include your own project attributes or project life cycle phases' and project status filters (:129); portfolio and program workspaces are Enterprise gated (corpus: openproject/round4/open-core.md portfolio_management) (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/plans-1044784166.html issue sources 'determine which projects, boards, and filters you want to import', a plan holds up to 100 projects (Advanced Roadmaps, bundled)"
       },
       "built": {
         "state": "built",
@@ -3089,13 +3096,15 @@
       "origin": "own-code",
       "planninq": "partial",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Dashboard. Three widgets, Upcoming cards, Today and Tomorrow' ; 'Upcoming cards  cards assigned to me across boards'",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 10.2 'the dashboard is fixed: projects, my tasks, my subtasks, calendar, activity (DashboardController)'"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 10.2 'the dashboard is fixed: projects, my tasks, my subtasks, calendar, activity (DashboardController)'",
+        "openproject": "corpus: openproject/round4/menu-tree.md 'My page  personal dashboard, grid of widgets'; corpus: openproject/round4/M1-column.md 10.2 'modules/my_page/, the same grid machinery per user'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 10.2 'you can create a personal dashboard and add gadgets to keep track of assignments and issues you're working on'"
       },
       "built": {
         "state": "built",
@@ -3119,13 +3128,15 @@
       "origin": "own-code",
       "planninq": "no",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 3.5 'Upcoming cards (/upcoming/) lists cards assigned to me across boards'",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 3.5 'the dashboard shows \"My tasks\" and \"My subtasks\"'"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 3.5 'the dashboard shows \"My tasks\" and \"My subtasks\"'",
+        "openproject": "corpus: openproject/round4/M1-column.md 3.5 'default queries ship and modules/my_page/ renders personal ones'; global 'Work packages' module across projects (corpus: openproject/round4/menu-tree.md)",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 3.5 'predefined system filters for common queries, such as My Open Issues'"
       },
       "built": {
         "state": "specified",
@@ -3146,13 +3157,15 @@
       "origin": "own-code",
       "planninq": "partial",
       "nextcloud-deck": "partial",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/journeys.md 4 'The date:overdue filter listed the card' ; M1-column.md 10.1 'no dashboards of counts' : a filter, not a report; no blocked state",
-        "kanboard": "corpus: kanboard/round4/menu-tree.md board filter 'due today, due tomorrow, due yesterday, closed, open' and Analytics 'Task distribution' ; no blocked count"
+        "kanboard": "corpus: kanboard/round4/menu-tree.md board filter 'due today, due tomorrow, due yesterday, closed, open' and Analytics 'Task distribution' ; no blocked count",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): app/models/queries/work_packages/filter/blocked_filter.rb (relation 'blocked by'), due_date_filter.rb, status open/closed filters; saved as a query and shown in a widget (corpus: openproject/round4/M1-column.md 10.10) (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 8.2 'Find all overdue issues: duedate < now() and resolution is empty' and gadgets over filters (10.10); blocked is not a state or a documented JQL field in DC, only a link on each issue"
       },
       "built": {
         "state": "built",
@@ -3176,13 +3189,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "no hours, capacity or availability on a card or user (corpus: nextcloud-deck/round4/code-census.md empty greps 'timesheet|hours|duration' in Db/)",
-        "kanboard": "no availability or capacity object (corpus: kanboard/round4/code-census.md objects table; empty grep 'working.?day|business.?day|holiday') ; time estimates exist per task (promoted-rows-batch7.md 10.11) but nothing sets them against availability"
+        "kanboard": "no availability or capacity object (corpus: kanboard/round4/code-census.md objects table; empty grep 'working.?day|business.?day|holiday') ; time estimates exist per task (promoted-rows-batch7.md 10.11) but nothing sets them against availability",
+        "openproject": "user working hours and time off are recorded (docs: opf/openproject HEAD 27a58131 docs/user-guide/account-settings/schedule-and-availability/README.md:11 'define your working schedule, plan future schedule changes, and manage your time off'), but the planner that sets workload against them is resource management, Enterprise gated (corpus: openproject/round4/code-census.md #22) Shipped in 17.x, after the 16.6.10 drive; the cited files are present at v17.8.0 (absent at v16.6.10).",
+        "jira": "docs: https://confluence.atlassian.com/display/JIRASOFTWARESERVER/Capacity+and+velocity+in+Advanced+Roadmaps capacity is set per team per sprint in hours ('If you set the capacity at 40 hours'); per-person hours against availability are not in the 11.3 page"
       },
       "built": {
         "state": "decided-no",
@@ -3203,13 +3218,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "no hours, capacity or availability on a card or user (corpus: nextcloud-deck/round4/code-census.md empty greps 'timesheet|hours|duration' in Db/)",
-        "kanboard": "no availability or capacity object (corpus: kanboard/round4/code-census.md objects table; empty grep 'working.?day|business.?day|holiday')"
+        "kanboard": "no availability or capacity object (corpus: kanboard/round4/code-census.md objects table; empty grep 'working.?day|business.?day|holiday')",
+        "openproject": "only inside the Enterprise resource planner (corpus: openproject/round4/code-census.md #22); nothing on the free build warns about an over-planned person",
+        "jira": "docs: docs: https://confluence.atlassian.com/display/JIRASOFTWARESERVER/Capacity+and+velocity+in+Advanced+Roadmaps and https://confluence.atlassian.com/jirasoftwareserver/auto-schedule-issues-in-advanced-roadmaps-1044784172.html 'the Auto-scheduler will assign tasks to sprints based on the size of an issue, team capacity, and sprint length': capacity per team and sprint, no per-person warning documented"
       },
       "built": {
         "state": "none",
@@ -3229,13 +3246,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "no",
       "jira": "unknown",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/_round4/compare/promoted-rows-batch6.md 13.17 'no out of office; the platform's user_status shows a status and follows nobody'",
-        "kanboard": "corpus: kanboard/round4/_round4/compare/promoted-rows-batch7.md 13.17 'grep out.?of.?office|substitut|delegat|absence returns 0'"
+        "kanboard": "corpus: kanboard/round4/_round4/compare/promoted-rows-batch7.md 13.17 'grep out.?of.?office|substitut|delegat|absence returns 0'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/account-settings/schedule-and-availability/README.md time off and individual working hours per user (free); instance working days drive scheduling (corpus: openproject/round4/M1-column.md section 8); using personal time off in planning is resource management, Enterprise gated Shipped in 17.x, after the 16.6.10 drive; the cited files are present at v17.8.0 (absent at v16.6.10).",
+        "jira": "not checked: absences appear in the old standalone Advanced Roadmaps 3.29 docs (Configuring the availability of team members) but not in the Jira Software 11.3 Advanced Roadmaps pages read (Teams, Capacity and velocity, Auto-schedule)"
       },
       "built": {
         "state": "decided-no",
@@ -3256,13 +3275,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md empty greps 'payment', 'timesheet|hours|duration'",
-        "kanboard": "corpus: kanboard/round4/code-census.md 'payment|stripe|ideal returns 26 hits and none is a payment' ; no budget field on a project"
+        "kanboard": "corpus: kanboard/round4/code-census.md 'payment|stripe|ideal returns 26 hits and none is a payment' ; no budget field on a project",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/budgets/README.md:15 'If you log time or costs to this work package the costs will booked to this budget and show the percentage spent for a project budget' (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 12.12 'nothing financial'; no budget object in Jira Software"
       },
       "built": {
         "state": "none",
@@ -3283,13 +3304,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "no",
       "jira": "unknown",
       "evidence": {
         "nextcloud-deck": "source: lib/Db/Assignment.php:17-20 assignee types user, group, team, remote; no placeholder role",
-        "kanboard": "source: a task has one owner_id, a user (app/Model/TaskCreationModel.php:67); no placeholder role"
+        "kanboard": "source: a task has one owner_id, a user (app/Model/TaskCreationModel.php:67); no placeholder role",
+        "openproject": "corpus: openproject/round4/open-core.md placeholder_users Enterprise gated; corpus: openproject/round4/code-census.md #18 'absent from the UI and refused server side, for creation only'",
+        "jira": "not checked: https://confluence.atlassian.com/jirasoftwareserver/teams-in-advanced-roadmaps-1044784181.html does not address members who are not Jira users; virtual members existed in the standalone Portfolio product and were not confirmed for DC 11"
       },
       "built": {
         "state": "none",
@@ -3309,13 +3332,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "no",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 10.4 'no analytics'",
-        "kanboard": "corpus: kanboard/round4/menu-tree.md Analytics 'Cumulative flow diagram' ; M1-column.md 10.4 'from project_daily_column_stats'"
+        "kanboard": "corpus: kanboard/round4/menu-tree.md Analytics 'Cumulative flow diagram' ; M1-column.md 10.4 'from project_daily_column_stats'",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): grep -rniIl 'cumulative.flow|cycle.time|lead.time' over app, modules and frontend/src returns nothing",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 10.4 'the Cumulative Flow Diagram is an area chart that shows the various statuses of work items'"
       },
       "built": {
         "state": "none",
@@ -3335,13 +3360,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "no",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 10.4 'no duration is stored beyond createdAt, lastModified and done'",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 10.4 'lead and cycle time per task and averaged (TaskAnalyticModel::getLeadTime, getCycleTime)'"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 10.4 'lead and cycle time per task and averaged (TaskAnalyticModel::getLeadTime, getCycleTime)'",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): same grep, no cycle or lead time report; corpus: openproject/round4/M1-column.md 10.4 'There is no cycle time, no heatmap and no phase duration analysis'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 10.4 'The Control Chart shows the cycle time and lead time for your product, version, or sprint'"
       },
       "built": {
         "state": "none",
@@ -3362,13 +3389,15 @@
       "origin": "competitor-derived",
       "planninq": "partial",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "source: src/components/navigation/BoardExportModal.vue:12-18 'Export as JSON' and 'Export as CSV' on a board (tag v1.18.4) ; corpus: nextcloud-deck/round4/M1-column.md 10.3 said 'no CSV or XLSX; occ deck:export writes JSON', which the UI export contradicts",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 10.3 'Exports on the project menu: tasks, subtasks, transitions and daily summaries as CSV with a date range'"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 10.3 'Exports on the project menu: tasks, subtasks, transitions and daily summaries as CSV with a date range'",
+        "openproject": "corpus: openproject/round4/M1-column.md 10.3 'CSV and PDF registered at config/initializers/export_formats.rb:33-34, XLS added by modules/xls_export'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 10.3 'Export > CSV (All fields)'; other formats 'XML, Word and Printable', no XLSX or PDF"
       },
       "built": {
         "state": "built",
@@ -3389,13 +3418,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 9.3 and 9.4 'no' saved searches ; 10.1 'no'",
-        "kanboard": "corpus: kanboard/round4/journeys.md 5 shared custom filter saved ; code-census.md 'saved searches custom_filters.is_shared' : a saved query, no report builder"
+        "kanboard": "corpus: kanboard/round4/journeys.md 5 shared custom filter saved ; code-census.md 'saved searches custom_filters.is_shared' : a saved query, no report builder",
+        "openproject": "corpus: openproject/round4/M1-column.md 9.3 personal saved queries, 10.1 widgets, 10.4 cost report pivot engine",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 9.3 saved filters, 10.1 gadgets 'Issue Statistics', 'Pie Chart', 10.10 'Filter Results'"
       },
       "built": {
         "state": "none",
@@ -3415,13 +3446,15 @@
       "origin": "competitor-derived",
       "planninq": "partial",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Dashboard. Three widgets, Upcoming cards, Today and Tomorrow (lib/Dashboard/), on the Nextcloud dashboard'",
-        "kanboard": "not a Nextcloud app; corpus: kanboard/round4/code-census.md empty grep 'widget' ; M1-column.md 9.12 'no' platform integration"
+        "kanboard": "not a Nextcloud app; corpus: kanboard/round4/code-census.md empty grep 'widget' ; M1-column.md 9.12 'no' platform integration",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/file-management/nextcloud-integration/README.md:22 'View OpenProject notifications via the Nextcloud dashboard' (OpenProject Integration app for Nextcloud); notifications, not a task list (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "not a Nextcloud product and no Nextcloud app from Atlassian; its own dashboard is prt-dashboard (corpus: jira-data-center/round4/M1-column.md 10.2); corpus: jira-data-center/round4/M1-column.md 1.9 integrations page covers Confluence only"
       },
       "built": {
         "state": "built",
@@ -3442,13 +3475,15 @@
       "origin": "own-code",
       "planninq": "partial",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md card 'Activity (the platform's stream filtered to the card)' ; code-census.md 'activity subjects 39' ; M1-column.md 10.9 'Verified live on card 6'",
-        "kanboard": "not a Nextcloud app; its own project activity stream (corpus: kanboard/round4/menu-tree.md project 'Activity', task 'Activity stream' ; code-census.md 'event log project_activities')"
+        "kanboard": "not a Nextcloud app; its own project activity stream (corpus: kanboard/round4/menu-tree.md project 'Activity', task 'Activity stream' ; code-census.md 'event log project_activities')",
+        "openproject": "own activity module per project (docs: opf/openproject HEAD 27a58131 docs/user-guide/activity; corpus: openproject/round4/M1-column.md 10.5 'the activity view aggregates them per project'); the Nextcloud integration offers dashboard, search and link preview (docs: opf/openproject HEAD 27a58131 docs/user-guide/file-management/nextcloud-integration/README.md:22-25), no Nextcloud activity stream entries (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 5.4 'Your user profile also displays recent work in the Activity Stream' (own activity stream, not a host platform's)"
       },
       "built": {
         "state": "built",
@@ -3469,13 +3504,15 @@
       "origin": "own-code",
       "planninq": "partial",
       "nextcloud-deck": "partial",
-      "openproject": "unknown",
+      "openproject": "no",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 2.20 'push board changes to open clients when the notify_push app is installed ... without it the client polls. Not driven'",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 2.20 'the board polls: BoardAjaxController::check ... every board_private_refresh_interval seconds (10 by default) ... the task page does not refresh'"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 2.20 'the board polls: BoardAjaxController::check ... every board_private_refresh_interval seconds (10 by default) ... the task page does not refresh'",
+        "openproject": "corpus: openproject/round4/M1-column.md 2.20 'The work package page does not update when someone else edits it'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 2.20 'JSWSERVER-4452 (Agile board should refresh automatically whenever someone moves a card ...), Gathering Interest, 246 votes'"
       },
       "built": {
         "state": "built",
@@ -3496,13 +3533,15 @@
       "origin": "competitor-derived",
       "planninq": "partial",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md notification kinds 'card-assigned' ; M1-column.md 6.8 'four notifications reached jdevries ... two assignments'",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 6.8 web notifications with the assignee filter ; source: app/Subscriber/NotificationSubscriber.php task events to app/Notification/ (web, mail)"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 6.8 web notifications with the assignee filter ; source: app/Subscriber/NotificationSubscriber.php task events to app/Notification/ (web, mail)",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/notifications/notification-settings/README.md:18 'Be notified of activities on some or all of the work packages in which you are participating (as assignee, responsible or watcher)' (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/configuring-email-notifications-938847633.html 'Jira can send email notifications to users when significant events occur' (corpus: jira-data-center/round4/M1-column.md 8.6); Issue Assigned is a notification scheme event"
       },
       "built": {
         "state": "built",
@@ -3523,13 +3562,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "source: lib/Activity/SettingComment.php:20-28 'A comment was created on a card' activity setting, delivered by the platform's stream, mail or push per user ; corpus: nextcloud-deck/round4/code-census.md 'card-comment-mentioned' notification for mentions",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 6.1 'a mention that notifies' and 6.8 notifications to assignee or creator ; source: app/Subscriber/NotificationSubscriber.php:31 CommentModel::EVENT_CREATE => handleEvent, app/Template/notification/comment_create.php"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 6.1 'a mention that notifies' and 6.8 notifications to assignee or creator ; source: app/Subscriber/NotificationSubscriber.php:31 CommentModel::EVENT_CREATE => handleEvent, app/Template/notification/comment_create.php",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/notifications/notification-settings/README.md:27-29 participants are notified of all activities by default; docs: opf/openproject HEAD 27a58131 docs/user-guide/notifications/README.md:22 'new comments that mention you' (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/configuring-email-notifications-938847633.html events 'when an issue is created or completed, or when any issue fields are updated' (corpus: jira-data-center/round4/M1-column.md 8.6), comments included; push notifications for watched issues and mentions (Push notifications page)"
       },
       "built": {
         "state": "none",
@@ -3550,13 +3591,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 8.6 'platform: the notification (8.4) is mailed when the user's notification settings say so; Deck sends no mail itself' ; source: lib/Activity/SettingBase.php activity mail choices",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 8.6 'the overdue command sends e-mail' ; code-census.md notifications 'app/Notification/ (web, mail, webhook, activity stream)'"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 8.6 'the overdue command sends e-mail' ; code-census.md notifications 'app/Notification/ (web, mail, webhook, activity stream)'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/account-settings/notification-and-email/README.md:23-25 'Email reminders ... configure the email reminders which you receive' (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/configuring-email-notifications-938847633.html 'Jira can send email notifications to users when significant events occur'"
       },
       "built": {
         "state": "none",
@@ -3577,13 +3620,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "no",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md 'live presence: Session per user per board, events for notify_push' ; corpus: _round4/compare/findings-batch6.md '2.31 ... Deck yes by its sessions'",
-        "kanboard": "corpus: kanboard/round4/_round4/compare/pending-rows-batch7.md 2.31 'no' (does the product show who else has the case open right now)"
+        "kanboard": "corpus: kanboard/round4/_round4/compare/pending-rows-batch7.md 2.31 'no' (does the product show who else has the case open right now)",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): grep -rliE 'presence|currently viewing|also editing' over app, lib and frontend/src/app matches only Ruby presence checks in services (user_preferences/update_service.rb, journals/create_service.rb); no viewer indicator",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 2.20 the issue pages 'say nothing about refresh', and no presence indicator appears in the issue or board documentation read"
       },
       "built": {
         "state": "none",
@@ -3603,13 +3648,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "partial",
-      "openproject": "unknown",
+      "openproject": "no",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 6.12 'the smart picker (lib/Reference/CreateCardReferenceProvider.php) creates a card from inside Talk and pastes its link ... not driven' ; open-core.md 'It does not reach ... Talk's inbox' : no conversation per card",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 6.12 'no chat ... Slack and Mattermost are directory plugins'"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 6.12 'no chat ... Slack and Mattermost are directory plugins'",
+        "openproject": "no chat integration (corpus: openproject/round4/M1-column.md 6.12 'no chat integration'); the Nextcloud app gives Talk only a link preview (col-link-preview)",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 6.12 'no chat capture ... Jira Server for Slack is a Marketplace plugin, not the product'"
       },
       "built": {
         "state": "none",
@@ -3630,13 +3677,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "source: lib/AppInfo/Application.php:144-146 CardReferenceProvider, BoardReferenceProvider, CommentReferenceProvider render rich previews of pasted links in Talk and Text ; corpus: nextcloud-deck/round4/code-census.md 'reference (4)'",
-        "kanboard": "source: grep -rniE 'oembed|og:|unfurl' app/Template/layout.php returns nothing; no preview of a task link elsewhere ; corpus: kanboard/round4/code-census.md empty grep 'widget'"
+        "kanboard": "source: grep -rniE 'oembed|og:|unfurl' app/Template/layout.php returns nothing; no preview of a task link elsewhere ; corpus: kanboard/round4/code-census.md empty grep 'widget'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/file-management/nextcloud-integration/README.md:220-222 'Starting with OpenProject Nextcloud Integration App 2.4 a work package link preview will be shown if you use Nextcloud Talk or Text apps' (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 9.12 'Gadgets You can embed a Confluence activity stream ... in Jira's dashboard' and application links to Confluence (1.9): previews live in Confluence, a separate product; no chat unfurl in the product"
       },
       "built": {
         "state": "none",
@@ -3657,13 +3706,15 @@
       "origin": "competitor-derived",
       "planninq": "yes",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Unified search. Cards and boards under search-deck-card-board, comments under search-deck-comment ... Verified live' ; M1-column.md 9.12 'yes'",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 9.12 'no platform search to join' ; 9.1 'the header search box ... across every project the user can see' : its own global search finds tasks, not projects"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 9.12 'no platform search to join' ; 9.1 'the header search box ... across every project the user can see' : its own global search finds tasks, not projects",
+        "openproject": "corpus: openproject/round4/M1-column.md 9.1 global quick search over eight searchables including work packages and projects; docs: opf/openproject HEAD 27a58131 docs/user-guide/file-management/nextcloud-integration/README.md:214 'Enable unified search for tickets allows you to search OpenProject work packages via the universal search bar in Nextcloud' (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 9.1 'The Search box is located at the top right of your screen ... start typing to search through all your issues and projects'"
       },
       "built": {
         "state": "built",
@@ -3684,13 +3735,15 @@
       "origin": "own-code",
       "planninq": "partial",
       "nextcloud-deck": "partial",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "generic only: lib/AppInfo/Application.php:212-213 registers Nextcloud collaboration ResourceProvider and ResourceProviderCard, so a board or card can be linked to other resources; nothing specific to the fleet's case management app",
-        "kanboard": "generic only: corpus: kanboard/round4/journeys.md 4 'createExternalTaskLink to a web link' ; menu-tree.md 'Add external link' ; journeys.md 1 a task 'reference' of Z-2026-0001"
+        "kanboard": "generic only: corpus: kanboard/round4/journeys.md 4 'createExternalTaskLink to a web link' ; menu-tree.md 'Add external link' ; journeys.md 1 a task 'reference' of Z-2026-0001",
+        "openproject": "no case management integration; a generic 'link' custom field format exists (source: opf/openproject HEAD 27a58131 (18.0.0-dev): config/initializers/custom_field_format.rb:41 formats.register('link')), so a URL to an external record can be stored per work package or project (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/linking-issues-939938934.html 'Issue linking allows you to create an association between two existing issues on either the same or different Jira servers' (corpus: jira-data-center/round4/M1-column.md 2.10); web links and a 'URL field' (corpus: jira-data-center/round4/M1-column.md 5.13) hold an external reference, no case app integration"
       },
       "built": {
         "state": "built",
@@ -3711,13 +3764,15 @@
       "origin": "own-code",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "no",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "fleet-specific; Deck creates a card from Talk or Text (CreateCardReferenceProvider) but no board from another app's record (corpus: nextcloud-deck/round4/M1-column.md 1.9)",
-        "kanboard": "fleet-specific; no create-from-record integration (corpus: kanboard/round4/M1-column.md 1.3 'no')"
+        "kanboard": "fleet-specific; no create-from-record integration (corpus: kanboard/round4/M1-column.md 1.3 'no')",
+        "openproject": "no case object or case app connector (corpus: openproject/round4/M1-column.md section 12 all Dutch case APIs 'no'); projects are created from templates only",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 12.1 'No ZGW'; no case system integration to start a project from"
       },
       "built": {
         "state": "specified",
@@ -3738,13 +3793,15 @@
       "origin": "own-code",
       "planninq": "partial",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "no",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "fleet-specific; corpus: nextcloud-deck/round4/M1-column.md 5.4 'no' contact 360 and open-core.md 'Contacts has no link from a card'",
-        "kanboard": "fleet-specific; corpus: kanboard/round4/M1-column.md 5.2 'no' contact registry"
+        "kanboard": "fleet-specific; corpus: kanboard/round4/M1-column.md 5.2 'no' contact registry",
+        "openproject": "no CRM integration; corpus: openproject/round4/M1-column.md 5.2 'no contact record'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 5.2 'Customers and organizations are JSM DC records'; no CRM client page integration"
       },
       "built": {
         "state": "built",
@@ -3768,13 +3825,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "partial",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "source: lib/AppInfo/Application.php:189 DeckTeamResourceProvider lists a team's boards on the Team page, :144-145 board and card reference widgets in Text and Talk ; corpus: nextcloud-deck/round4/code-census.md 'team resource'",
-        "kanboard": "standalone application with no embed surface ; corpus: kanboard/round4/code-census.md empty grep 'widget'"
+        "kanboard": "standalone application with no embed surface ; corpus: kanboard/round4/code-census.md empty grep 'widget'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/file-management/nextcloud-integration/README.md:161 'In the Details side panel, click on the OpenProject tab. This tab lets you link work packages in OpenProject to the current file, and will list all linked work packages' (work packages on a Nextcloud file, not projects on a record) (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 9.12 Confluence and Jira embed each other's content through application links ('You can embed a Confluence activity stream or a Confluence page in Jira's dashboard'); another Atlassian product, not an arbitrary app's record page"
       },
       "built": {
         "state": "built",
@@ -3795,13 +3854,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 1.7 'a REST API at /index.php/apps/deck/api/v1.0 and v1.1 (84 routes ...) plus 24 OCS routes. Verified live'",
-        "kanboard": "corpus: kanboard/round4/code-census.md 'JSON-RPC procedure classes / methods 26 / 161' ; journeys.md 1 and 4 all over the API (JSON-RPC 2.0, not REST: M1-column.md 12.18)"
+        "kanboard": "corpus: kanboard/round4/code-census.md 'JSON-RPC procedure classes / methods 26 / 161' ; journeys.md 1 and 4 all over the API (JSON-RPC 2.0, not REST: M1-column.md 12.18)",
+        "openproject": "corpus: openproject/round4/M1-column.md 1.7 'API v3 is a Grape API rooted at lib/api/v3/root.rb'; 12.18 OpenAPI description",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 1.7 'POST /api/2/issue Create an issue or sub-task from json'; 12.18 OpenAPI 3.0.1, 432 operations"
       },
       "built": {
         "state": "built",
@@ -3822,13 +3883,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/open-core.md 'The Flow engine acts on files and knows no card event'",
-        "kanboard": "corpus: kanboard/round4/usability.md 'fifty event-to-action classes, bound per project' ; journeys.md 2 'A rule fires on a move'"
+        "kanboard": "corpus: kanboard/round4/usability.md 'fifty event-to-action classes, bound per project' ; journeys.md 2 'A rule fires on a move'",
+        "openproject": "corpus: openproject/round4/M1-column.md 3.9 CustomAction 'is fired by a button a user presses, not by a transition' and authoring is Enterprise gated; webhooks are outbound only (6.11); no event-driven rules on the free build",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 3.9 automation 'You can choose from many triggers including issue transitioned, scheduled trigger, or issue created' (bundled in Data Center)"
       },
       "built": {
         "state": "built",
@@ -3849,13 +3912,15 @@
       "origin": "competitor-derived",
       "planninq": "partial",
       "nextcloud-deck": "partial",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "source: lib/Event/ACardEvent.php:17 'abstract class ACardEvent extends Event implements IWebhookCompatibleEvent' (CardCreatedEvent, CardUpdatedEvent, CardDeletedEvent), so the platform's webhook_listeners can post card events once an admin registers a listener over OCS. corpus: nextcloud-deck/round4/M1-column.md 6.11 said 'registers no events with webhook_listeners'; the tag's source contradicts it; not driven",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 6.11 'one webhook URL per instance with a token ... posted with event_name, event_data and event_author on every project event'"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 6.11 'one webhook URL per instance with a token ... posted with event_name, event_data and event_author on every project event'",
+        "openproject": "corpus: openproject/round4/M1-column.md 6.11 'modules/webhooks/app/models/webhooks/webhook.rb with an event.rb selection model and a log.rb'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 6.11 'Webhooks are user-defined HTTP POST callbacks ... signed on request (HMAC)'"
       },
       "built": {
         "state": "built",
@@ -3876,13 +3941,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "no",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Import board  Deck JSON, Trello JSON, Trello API' ; M1-column.md 11.2 'occ deck:export and occ deck:import ... Verified live'",
-        "kanboard": "source: app/Import/ holds TaskImport.php and UserImport.php (CSV) only; no Deck importer"
+        "kanboard": "source: app/Import/ holds TaskImport.php and UserImport.php (CSV) only; no Deck importer",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): importers are app/services/import/jira* only (grep -rniIl 'deck' app/services/import returns nothing); CSV work package import is marked 'available on our Dev branch' (docs/user-guide/work-packages/importing/README.md)",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/importing-data-from-csv-938847533.html names CSV, JSON and importers for TFS, Rally, VersionOne, YouTrack, Axosoft, BaseCamp and Excel; no Nextcloud Deck importer"
       },
       "built": {
         "state": "none",
@@ -3903,13 +3970,15 @@
       "origin": "competitor-derived",
       "planninq": "partial",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Import board  Deck JSON, Trello JSON, Trello API' ; code-census.md 'lib/Service/Importer/Systems/'",
-        "kanboard": "corpus: kanboard/round4/menu-tree.md 'Import tasks' ; source: app/Import/TaskImport.php CSV tasks into an existing project; no Jira or Trello importer in core"
+        "kanboard": "corpus: kanboard/round4/menu-tree.md 'Import tasks' ; source: app/Import/TaskImport.php CSV tasks into an existing project; no Jira or Trello importer in core",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/installation-and-operations/jira-migration/README.md 'Step-by-step guide for migrating from Jira Data Center to OpenProject using the Jira Migrator'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): app/services/import/jiras/create_service.rb. Note: the migrator arrived behind a feature flag in 17.2 (release-notes/17-2-0:129-134), after the round-4 drive on 16.6.10; CSV import is dev-branch only Shipped in 17.x, after the 16.6.10 drive; the cited files are present at v17.8.0 (absent at v16.6.10).",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/importing-data-from-csv-938847533.html 'The Jira Importers plugin, which is bundled with Jira, allows you to import your data from a comma-separated value (CSV) file'"
       },
       "built": {
         "state": "built",
@@ -3930,13 +3999,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "source: grep -rniE 'github|gitlab|commit' lib returns only migration comments; no forge integration ; corpus: nextcloud-deck/round4/open-core.md host surfaces list",
-        "kanboard": "source: grep -rniE 'github|gitlab|gogs|bitbucket' app/Action app/Controller returns 0 files; forge hooks are plugins (corpus: kanboard/round4/open-core.md 'a directory of 163 third-party plugins')"
+        "kanboard": "source: grep -rniE 'github|gitlab|gogs|bitbucket' app/Action app/Controller returns 0 files; forge hooks are plugins (corpus: kanboard/round4/open-core.md 'a directory of 163 third-party plugins')",
+        "openproject": "corpus: openproject/round4/M1-column.md 12.22 'the GitHub and GitLab modules receive inbound events (modules/github_integration/, modules/gitlab_integration/)'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 3.9 'workflow triggers from development tools' ('Fisheye/Crucible, Bitbucket and GitHub', 8.9); 12.5 'Jira's Subversion integration lets you see Subversion commit information relevant to each issue'"
       },
       "built": {
         "state": "none",
@@ -3957,13 +4028,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "source: README.md:24-27 'Nextcloud Deck app for Android' (F-Droid, Google Play) and 'Nextcloud Deck app for iOS' (App Store), third-party clients on the REST API ; not in the round-4 drive",
-        "kanboard": "source: app/Template/layout.php:5 viewport meta and ChangeLog:1028 'Improve layout on mobile/tablet devices' : a responsive web UI, no mobile app in the project"
+        "kanboard": "source: app/Template/layout.php:5 viewport meta and ChangeLog:1028 'Improve layout on mobile/tablet devices' : a responsive web UI, no mobile app in the project",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/mobile-app-guide/README.md 'The OpenProject Mobile app (Beta) is available for iOS and Android. It is designed as a companion app'; beta, not in the round-4 drive The docs file is present at v17.8.0 (absent at v16.6.10); beta, so partial.",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/push-notifications-993923359.html push notifications 'on iOS and Android devices' for the Jira Data Center mobile app (corpus: jira-data-center/round4/M1-column.md 6.8 'the mobile app has one')"
       },
       "built": {
         "state": "none",
@@ -3984,13 +4057,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/journeys.md 3 'the file appeared as /Deck/bijlage-r4b6.txt ... in the uploader's Files' : one /Deck folder per uploader, not a shared folder per board",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 4.23 'no' ; journeys.md 4 files stored under tasks/3/ in Kanboard's own store"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 4.23 'no' ; journeys.md 4 files stored under tasks/3/ in Kanboard's own store",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/file-management/nextcloud-integration/README.md:27 'It is also possible to automatically create dedicated project folders'; corpus: openproject/round4/M1-column.md 4.23 'an automatically managed project folder (last_project_folder.rb)'; Nextcloud storage is free (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 4.23 'not hosted in a platform with a file manager'; attachments sit in the home directory or S3"
       },
       "built": {
         "state": "none",
@@ -4011,13 +4086,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/journeys.md 5 'pjanssen found nothing until added to the group' ; install.md 'a stranger reads the board -> HTTP 403'",
-        "kanboard": "corpus: kanboard/round4/journeys.md 5 'carol, not a member, was refused on the project and on the task (403)' ; install.md refusal probe"
+        "kanboard": "corpus: kanboard/round4/journeys.md 5 'carol, not a member, was refused on the project and on the task (403)' ; install.md refusal probe",
+        "openproject": "corpus: openproject/round4/M1-column.md 9.7 'search is scoped through the project permission system (app/services/authorization/user_allowed_query.rb)'; 13.1 project roles",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 9.7 'Browse projects Permission to browse projects, use the Issue Navigator, and view individual issues'"
       },
       "built": {
         "state": "built",
@@ -4041,13 +4118,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "partial",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Deck settings  default board on start · calendar bridge · group limit for board creation (admin)' and 'There is almost none' ; source: no lib/Settings admin page in the tag",
-        "kanboard": "corpus: kanboard/round4/menu-tree.md Settings 'About · Application settings · Email settings · Project settings · Board settings ...' ; M1-column.md 11.24 'yes'"
+        "kanboard": "corpus: kanboard/round4/menu-tree.md Settings 'About · Application settings · Email settings · Project settings · Board settings ...' ; M1-column.md 11.24 'yes'",
+        "openproject": "corpus: openproject/round4/menu-tree.md 'Administration' tree; corpus: openproject/round4/M1-column.md 11.24 'a large administration area over several hundred setting definitions'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 11.24 instance configuration (CORS, banner, email templates); 11.15 'Configuring Jira application options'"
       },
       "built": {
         "state": "built",
@@ -4067,13 +4146,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/install.md setup is occ app:install and occ config:app:set ; the app opens on a welcome board, no guided setup",
-        "kanboard": "source: app/Schema/Sqlite.php:1564 seeds user admin with password admin; no setup wizard (corpus: kanboard/round4/install.md 'the first page rendered the moment the container was healthy')"
+        "kanboard": "source: app/Schema/Sqlite.php:1564 seeds user admin with password admin; no setup wizard (corpus: kanboard/round4/install.md 'the first page rendered the moment the container was healthy')",
+        "openproject": "corpus: openproject/round4/install.md 'It self-migrates and self-seeds against an empty database, so there is no setup wizard'; a first-login onboarding tour exists (source: opf/openproject HEAD 27a58131 (18.0.0-dev): frontend/src/app/core/setup/globals/onboarding/onboarding_tour.ts, tours/gantt_tour.ts) (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/running-the-setup-wizard-938846872.html 'The Jira application setup wizard will only display the first time after you install' (database, administrator, email, language, licence)"
       },
       "built": {
         "state": "built",
@@ -4094,13 +4175,15 @@
       "origin": "own-code",
       "planninq": "partial",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'All boards  Vergunningen r4b6 · Welcome to Nextcloud Deck!' ; source: lib/Service/DefaultBoardService.php and lib/Service/fixtures/default-board.json create a sample board per user",
-        "kanboard": "no demo or sample data in core ; source: app/Schema/Sqlite.php seeds settings and the admin user only ; corpus: kanboard/round4/install.md"
+        "kanboard": "no demo or sample data in core ; source: app/Schema/Sqlite.php seeds settings and the admin user only ; corpus: kanboard/round4/install.md",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): app/seeders/demo_data_seeder.rb with demo_data/projects_seeder.rb, project_seeder.rb, global_query_seeder.rb; corpus: openproject/round4/install.md 'It self-migrates and self-seeds against an empty database' (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/creating-a-board-938845220.html 'you can also choose to Create a Scrum board with sample data ... This will base your board on a new project pre-populated with sample data'"
       },
       "built": {
         "state": "built",
@@ -4126,13 +4209,15 @@
       "origin": "own-code",
       "planninq": "partial",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md 'translations in l10n/ 93' (nl among them: l10n/nl.js, nl.json)",
-        "kanboard": "corpus: kanboard/round4/code-census.md 'locales, app/Locale/ 38, nl_NL among them'"
+        "kanboard": "corpus: kanboard/round4/code-census.md 'locales, app/Locale/ 38, nl_NL among them'",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): config/locales/crowdin/nl.yml, js-nl.yml, nl.seeders.yml; corpus: openproject/round4/M1-column.md 11.13 'translations come from Crowdin' (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/translating-jira-938847004.html 'Jira ships with a number of translations in the most commonly-requested languages'; Dutch is not listed there, product strings come as language packs ('update these via the Universal Plugin Manager', corpus: jira-data-center/round4/M1-column.md 11.13)"
       },
       "built": {
         "state": "built",
@@ -4156,13 +4241,15 @@
       "origin": "own-code",
       "planninq": "unknown",
       "nextcloud-deck": "partial",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "source: src/components/KeyboardShortcuts.vue arrow-key card focus and N, F, X, Q shortcuts, src/components/cards/CardItem.vue:263-290 per-card keys, aria-labels on controls; not audited against WCAG AA in the round-4 drive (usability.md)",
-        "kanboard": "source: app/Template/config/keyboard_shortcuts.php shortcut list, app/Template/board/table_column.php:114 'ui-helper-hidden-accessible' screen-reader text; board cards have no keyboard move (brd-keyboard-move); not audited against WCAG AA in the round-4 drive"
+        "kanboard": "source: app/Template/config/keyboard_shortcuts.php shortcut list, app/Template/board/table_column.php:114 'ui-helper-hidden-accessible' screen-reader text; board cards have no keyboard move (brd-keyboard-move); not audited against WCAG AA in the round-4 drive",
+        "openproject": "corpus: openproject/round4/usability.md 'Every page carries a Jump to content skip link, headings are structured ... form fields carry proper labels'; docs: opf/openproject HEAD 27a58131 docs/release-notes/17-2-0/README.md:85 widgets 'follow WCAG 2.1 AA guidelines for focus management' (partial scope); cards move by drag only (brd-keyboard-move) (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/accessibility-improvements-in-jira-993923419.html Jira applications 'audited ... to make sure they're compliant with Section 508 and WCAG 2.0 AA' (an older level, vendor statement, not driven)"
       },
       "built": {
         "state": "built",
@@ -4183,13 +4270,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "partial",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 11.14 'platform: theming (enabled) sets logo, colours and name for the whole instance' ; the Vue client styles with platform CSS variables (e.g. var(--color-border) in src/components/board/GanttView.vue), so a token theme on the host would reach it; NL Design System tokens themselves are not shipped, not driven",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 11.14 'partial: application_stylesheet takes custom CSS ... the logo and name are fixed' ; source: assets/css/light.min.css styles through CSS custom properties (179 var(--...) uses, e.g. --color-primary), so custom CSS could map tokens onto them; no NL Design System tokens shipped, not driven"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 11.14 'partial: application_stylesheet takes custom CSS ... the logo and name are fixed' ; source: assets/css/light.min.css styles through CSS custom properties (179 var(--...) uses, e.g. --color-primary), so custom CSS could map tokens onto them; no NL Design System tokens shipped, not driven",
+        "openproject": "corpus: openproject/round4/M1-column.md 11.14 'app/controllers/custom_styles_controller.rb:49 is the design and branding screen, Enterprise gated (define_custom_style). The free build sets a logo and nothing else'; no NL Design System tokens",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 11.14 'How to change your logo ... How to change Jira application colors'; colours and logo, no design-token theming or NL Design System support"
       },
       "built": {
         "state": "built",
@@ -4210,13 +4299,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/install.md 'occ app:install deck -> deck 1.18.4 installed' on a throwaway Nextcloud",
-        "kanboard": "corpus: kanboard/round4/install.md 'Kanboard ships one official image ... needs nothing beside it'"
+        "kanboard": "corpus: kanboard/round4/install.md 'Kanboard ships one official image ... needs nothing beside it'",
+        "openproject": "corpus: openproject/round4/install.md 'openproject/openproject:16 from Docker Hub ... against an external PostgreSQL'",
+        "jira": "corpus: jira-data-center/round4/open-core.md 'On 30 March 2026 Atlassian stopped selling Data Center licences to new customers; on 28 March 2029 every Data Center product reaches end of life and turns read-only'; self-hosted for existing licence holders only"
       },
       "built": {
         "state": "built",
@@ -4237,13 +4328,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/open-core.md 'Deck gates nothing and sells nothing. appinfo/info.xml says agpl'",
-        "kanboard": "corpus: kanboard/round4/open-core.md 'Kanboard is not open core. One MIT licence covers the product'"
+        "kanboard": "corpus: kanboard/round4/open-core.md 'Kanboard is not open core. One MIT licence covers the product'",
+        "openproject": "corpus: openproject/round4/open-core.md 'the core is GPL-3.0 ... and 32 named features are withheld behind a paid token'",
+        "jira": "corpus: jira-data-center/round4/open-core.md 'Jira Software Data Center is closed source with one edition, priced by user tier'"
       },
       "built": {
         "state": "built",
@@ -4263,13 +4356,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "partial",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 13.9 'platform: admin_audit is shipped and disabled ... the Activity stream logs writes' ; code-census.md descriptionPrev before and after can be dropped (ActivityManager.php:414)",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 10.9 activity stream and transitions with author and time, 13.9 'project_activities records writes only' ; no tamper protection on the table"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 10.9 activity stream and transitions with author and time, 13.9 'project_activities records writes only' ; no tamper protection on the table",
+        "openproject": "corpus: openproject/round4/M1-column.md section 13 closing finding 'Setting, Role, Member, Workflow, CustomAction and EnterpriseToken changes are recorded nowhere ... What is recorded is destroys only, and it is purged after 60 days'; work package journals are thorough (10.9)",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 10.5 audit log with filters and CSV export, 10.9 issue History tab; corpus: jira-data-center/round4/open-core.md audit log 'limited by the retention period and the default cap of 10 million records'; 13.9 reads not recorded"
       },
       "built": {
         "state": "built",
@@ -4290,13 +4385,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "partial",
-      "openproject": "unknown",
+      "openproject": "partial",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 12.7 'platform: user_ldap shipped and disabled ... SAML and OIDC as store apps (user_saml, user_oidc), not shipped with this image'",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 12.7 'LDAP ... and reverse-proxy header authentication in the core; grep saml|oidc|openid returns 0'"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 12.7 'LDAP ... and reverse-proxy header authentication in the core; grep saml|oidc|openid returns 0'",
+        "openproject": "corpus: openproject/round4/M1-column.md 12.7 'both exist and both are Enterprise gated: modules/openid_connect/ and modules/auth_saml/ on the sso_auth_providers symbol'; free build has LDAP authentication",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 12.7 'Atlassian provides the SSO for Atlassian Data Center app ... Bundled with the Data Center licence, no extra subscription'"
       },
       "built": {
         "state": "built",
@@ -4317,13 +4414,15 @@
       "origin": "competitor-derived",
       "planninq": "partial",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/journeys.md 6 'occ deck:export admin wrote both boards as JSON with stacks, cards, labels and ACL' ; source: src/components/navigation/BoardExportModal.vue JSON and CSV export, lib/AppInfo/Application.php:191 registerUserMigrator(DeckMigrator)",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 10.3 CSV exports of tasks, subtasks, transitions and summaries ; 11.2 'the database can be downloaded whole'"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 10.3 CSV exports of tasks, subtasks, transitions and summaries ; 11.2 'the database can be downloaded whole'",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): app/controllers/admin/backups_controller.rb and config/routes.rb:1082 'resource :backups' (database and attachments backup from the admin UI); corpus: openproject/round4/M1-column.md 10.3 CSV, PDF, XLS exports (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 11.2 'the whole-instance XML backup or a project import'; 10.3 CSV export; corpus: jira-data-center/round4/open-core.md data pipeline 'Data will be exported in CSV format'"
       },
       "built": {
         "state": "built",
@@ -4344,13 +4443,15 @@
       "origin": "competitor-derived",
       "planninq": "partial",
       "nextcloud-deck": "partial",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 13.3 per-board ACL and code-census.md 'remote ACL type 6' federation : an account shared on one board sees only that board, but a guest account needs the store Guests app, not shipped",
-        "kanboard": "corpus: kanboard/round4/journeys.md 5 'addProjectUser(bob, project-viewer): bob read the task (200) and was refused on updateTask' ; carol with no membership 403 ; journeys.md 6 public read-only board"
+        "kanboard": "corpus: kanboard/round4/journeys.md 5 'addProjectUser(bob, project-viewer): bob read the task (200) and was refused on updateTask' ; carol with no membership 403 ; journeys.md 6 public read-only board",
+        "openproject": "corpus: openproject/round4/M1-column.md 13.1 membership per project with a role; the free build has no user seat limit (corpus: openproject/round4/open-core.md gates are features, not seats); per-work-package sharing is Enterprise gated (3.19)",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 3.19 'a partner needs an account and a licence' and is 'scoped per project by a role'; every guest takes a licensed seat"
       },
       "built": {
         "state": "built",
@@ -4471,7 +4572,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/_round4/compare/promoted-rows-batch6.md 13.18 'partial. no watcher on a card. Notifications go to assignees or to the owner and creator by the notify-due setting'",
         "kanboard": "corpus: kanboard/round4/_round4/compare/promoted-rows-batch7.md 13.18 'no watcher ... grep watch|subscri|follow app/Model returns 0'",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/work-packages/edit-work-package/README.md:263 '## Watchers'; corpus: openproject/round4/M1-column.md 5.1 'watchers (app/models/work_package.rb ... :140)'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/work-packages/edit-work-package/README.md:263 '## Watchers'; corpus: openproject/round4/M1-column.md 5.1 'watchers (app/models/work_package.rb ... :140)' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 5.1 'an issue carries a Reporter, an Assignee, watchers and voters'; 11.15 'Allow users to vote ... the same for watching'"
       },
       "built": {
@@ -4500,7 +4601,7 @@
       "evidence": {
         "nextcloud-deck": "source: lib/Db/Card.php has no estimate or points field ; corpus: nextcloud-deck/round4/open-core.md 'there is no schema'",
         "kanboard": "source: task 'score' shown as 'Complexity' (app/Template/task_list/task_icons.php:14-15), set on the task form ; corpus: kanboard/round4/code-census.md greps 'currencies is a rate table for the task score'",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:300-308 '### Story points ... In a sprint, you can directly document necessary effort as story points'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/backlogs-scrum/README.md:300-308 '### Story points ... In a sprint, you can directly document necessary effort as story points' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/estimate-in-story-points-938845204.html 'Story points are a commonly used measure for estimating the size of an issue in scrum teams'"
       },
       "built": {
@@ -4529,7 +4630,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/_round4/compare/promoted-rows-batch6.md 2.26 'one typed link, card dependencies ... No declared types beyond it'",
         "kanboard": "corpus: kanboard/round4/M1-column.md 2.10 links 'is a child of / is a parent of' ; a parent task can group children, there is no epic type",
-        "openproject": "Epic is a seeded type (source: opf/openproject HEAD 27a58131 (18.0.0-dev): app/seeders/standard.yml:609 ':default_type_epic') and parent-child hierarchy groups tasks under it (corpus: openproject/round4/M1-column.md 2.10 WorkPackageHierarchy)",
+        "openproject": "Epic is a seeded type (source: opf/openproject HEAD 27a58131 (18.0.0-dev): app/seeders/standard.yml:609 ':default_type_epic') and parent-child hierarchy groups tasks under it (corpus: openproject/round4/M1-column.md 2.10 WorkPackageHierarchy) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/reporting-939938675.html 'Epic Report', 'Epic Burndown'; corpus: jira-data-center/round4/M1-column.md 2.10 'epics are the third level in Jira Software'"
       },
       "built": {
@@ -4590,7 +4691,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
         "kanboard": "corpus: kanboard/round4/code-census.md greps 'currencies is a rate table for the task score' : Settings 'Currency rates' converts currencies, no hourly rate per user or entry (grep -rliE 'hourly' app/Model returns 0)",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/time-tracking/README.md:142 'You can define an hourly rate to track labor costs per user'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/models/hourly_rate.rb, default_hourly_rate.rb",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/time-tracking/README.md:142 'You can define an hourly rate to track labor costs per user'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/models/hourly_rate.rb, default_hourly_rate.rb (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 12.12 'nothing financial'; work logs hold duration only (docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html)"
       },
       "built": {
@@ -4615,13 +4716,15 @@
       "origin": "own-code",
       "planninq": "partial",
       "nextcloud-deck": "yes",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'the notify-due choice per user' ; source: lib/Activity/SettingChanges.php, SettingComment.php, SettingDescription.php register per-user activity choices in the platform's notification settings",
-        "kanboard": "corpus: kanboard/round4/M1-column.md 6.8 'a per-user filter of which events and which projects (UserNotificationFilterModel: none, assignee, creator, both)' ; source: app/Template/user_view/notifications.php:9 notification_types"
+        "kanboard": "corpus: kanboard/round4/M1-column.md 6.8 'a per-user filter of which events and which projects (UserNotificationFilterModel: none, assignee, creator, both)' ; source: app/Template/user_view/notifications.php:9 notification_types",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/notifications/notification-settings/README.md:29 'you can choose to change these settings for work packages for which you are an assignee or accountable by checking or unchecking these options'; per project settings in app/models/notification_setting.rb (corpus: openproject/round4/M1-column.md 6.8) (cited source paths checked present at the released v17.8.0 tag.)",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/configuring-email-notifications-938847633.html 'Users can receive batched notifications for multiple issue updates or separate notifications for each update' (corpus: jira-data-center/round4/M1-column.md 6.8); which events notify is the project notification scheme an admin sets, not a per-user choice"
       },
       "built": {
         "state": "built",
