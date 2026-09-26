@@ -163,900 +163,1578 @@
       "area": "projects",
       "name": "Create a project with a name, a short key and a description.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/dialogs/ProjectCreationDialog.vue:113-118 (form: title, description, color, icon; no key field) -> src/store/projects.js:328 createProject() -> lib/Controller/ProjectController.php:221 create()",
+        "reachedOn": "ProjectList page, New project dialog",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/dialogs/ProjectCreationDialog.vue:113-118 no field for the schema's `key` property"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high",
+      "note": "title and description work end to end. lib/Settings/planninq_register.json declares a project `key` property (\"short unique project key\") but no form anywhere exposes it, so a user cannot set a short key at create time."
     },
     {
       "id": "prj-create-policy",
       "area": "projects",
       "name": "Restrict who may create projects to admins or chosen groups.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/ProjectList.vue:207-215 canCreateProject() -> lib/Service/SettingsService.php:158 canCurrentUserCreateProject() reads app config 'allow_project_creation' (default 'all', line 62) -> lib/Controller/ProjectController.php:191 checkCreatePolicy()",
+        "reachedOn": "ProjectList page (button visibility) + server-enforced in ProjectController::create()",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high",
+      "note": "only two policy values exist: 'all' or 'admins' (lib/Service/SettingsService.php:158-169). There is no group-based restriction anywhere in the code, so \"admins or chosen groups\" is only half true."
     },
     {
       "id": "prj-members",
       "area": "projects",
       "name": "Add and remove project members from the organisation's user list.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/components/ProjectSettingsSidebar.vue:77-113 (Members tab) -> src/components/MemberSearch.vue:120-151 (OCS /ocs/v2.php/cloud/users search) + :160-173 selectUser -> src/store/projects.js:610 addMember() / :672 removeMember()",
+        "reachedOn": "ProjectBoard page, Project settings sidebar, Members tab",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high"
     },
     {
       "id": "prj-member-roles",
       "area": "projects",
       "name": "Give project members different roles, such as owner and member, with different rights.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "lib/Settings/planninq_register.json project schema has only `owner` (string, set once at creation) and `members` (flat array of UIDs, no per-member role). src/components/ProjectSettingsSidebar.vue:83-113 renders the member list with only a Leave/Remove action, no role picker.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high",
+      "note": "owner vs member is an implicit two-tier RBAC baked into schema authorization rules (update/delete require owner), not something a user assigns, and it cannot be changed except by leaving (ownership handoff in ProjectController.php:290-300). There is no UI or API to give a member elevated rights while staying a member."
     },
     {
       "id": "prj-leave",
       "area": "projects",
       "name": "Leave a project you are a member of without asking the owner.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/components/ProjectSettingsSidebar.vue:99 (Leave project button) -> src/dialogs/ProjectLeaveDialog.vue -> src/store/projects.js:708 leaveProject() -> lib/Controller/ProjectController.php:308 leaveProject()",
+        "reachedOn": "ProjectBoard page, Project settings sidebar, Members tab",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high",
+      "note": "server bypasses OR's owner-only RBAC with _rbac:false after validating membership, and hands ownership to the alphabetically-first remaining member if the owner leaves."
     },
     {
       "id": "prj-archive",
       "area": "projects",
       "name": "Archive a finished project and restore it later.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/components/ProjectSettingsSidebar.vue:149 (Archive project button, Danger zone tab) -> src/store/projects.js:506 archiveProject() (PATCH status='archived')",
+        "reachedOn": "ProjectBoard page, Project settings sidebar, Danger zone tab",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/components/ProjectSettingsSidebar.vue: Danger zone tab has no restore/unarchive action for an already-archived project"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high",
+      "note": "archiving works and removes the project from the active list. There is no restore/unarchive action anywhere in src/ (no button, no store action) -- an archived project can only be reopened by filtering the list to Archived and there is nothing there to bring it back to active from the UI."
     },
     {
       "id": "prj-delete",
       "area": "projects",
       "name": "Delete a project together with its tasks.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/components/ProjectSettingsSidebar.vue:160 (Delete project button) -> src/dialogs/ProjectDeleteDialog.vue -> src/store/projects.js:530 deleteProject() (cascades time entries -> tasks -> columns -> project)",
+        "reachedOn": "ProjectBoard page, Project settings sidebar, Danger zone tab",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high",
+      "note": "works end to end for owner/admin (ProjectDeleteDialog.vue:84-90 canDelete). Deletion is sequential and non-transactional per its own comment (src/store/projects.js:540-542): a mid-flight failure can orphan objects, surfaced only as a retry prompt."
     },
     {
       "id": "prj-status-filter",
       "area": "projects",
       "name": "Filter the project list by status, such as active or archived.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/ProjectList.vue:10-17 (NcChip status chips) + :220-227 statusChips() + :238-249 filteredProjects()",
+        "reachedOn": "Projects page",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high",
+      "note": "client-side filter over the full member-project list (fetchProjects() with no filter fetches every status via fetchEvery pagination), so it is not truncated."
     },
     {
       "id": "prj-default-columns",
       "area": "projects",
       "name": "Start a new project with a ready-made set of board columns.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
-    },
-    {
-      "id": "prj-phases",
-      "area": "projects",
-      "name": "Break a project into phases with their own start and end dates.",
-      "origin": "own-code",
-      "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/store/projects.js:328/354 createProject() -> createDefaultColumns() (line 469) writes 4 `column` objects (title/order/wipLimit/type) via saveObject(COLUMN_SCHEMA,...). But src/views/ProjectBoard.vue:283-291 builds its columns purely from the hardcoded BOARD_STATUSES status enum (src/utils/taskHelpers.js:252) and never fetches or reads the `column` schema (confirmed: no COLUMN_SCHEMA reference outside src/store/projects.js:28,138-139,476,564,566, which only write/delete it, never read it back for display).",
+        "reachedOn": "nothing renders the created columns; the board a user actually sees is always the same 5 fixed status lanes (Open/In Progress/Blocked/Done/Cancelled) regardless of what was created",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/views/ProjectBoard.vue:283-291 columns() ignores the `column` schema entirely and hardcodes BOARD_STATUSES",
+          "src/store/projects.js:96-111 getDefaultColumns() also has a dead admin-override path: it calls loadState('planninq','default_columns', null) but no PHP code anywhere calls provideInitialState for that key (confirmed: zero matches for provideInitialState in lib/), so the admin's configured column titles in src/views/settings/Settings.vue:430-495 never reach the frontend and the hardcoded 4-column fallback is always used"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high",
+      "note": "a new project does get a ready-made set of `column` OpenRegister objects written, but they are dead data: the kanban board the user opens is a hardcoded 5-status board, not driven by those column records at all, so the capability the row describes (a board that starts with a ready-made set of columns) does not actually reach the user."
     },
     {
       "id": "prj-delivery-terms",
       "area": "projects",
       "name": "Record a project's delivery and billing terms, such as budget and fixed price or hourly billing.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json declares billable/budgetHours/budgetAmount/hourlyRate on the project schema. They are read-only displayed in src/components/ProjectListItem.vue:41,127,138 and src/integrations/CnProjectsWidget.vue:45-52 (badges), but neither src/dialogs/ProjectCreationDialog.vue nor src/components/ProjectSettingsSidebar.vue (Details tab, lines 16-64) exposes any field to set them.",
+        "reachedOn": "display only (ProjectListItem badge, CnProjectsWidget); no screen lets a user record or edit these terms",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/components/ProjectSettingsSidebar.vue:16-64 Details tab has no fields for billable/budgetHours/budgetAmount/hourlyRate"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high",
+      "note": "the fields exist and are shown when already set (presumably via import/direct API), but the app itself provides no way to record them, which is the capability the row asks about."
     },
     {
       "id": "prj-contractor-portal",
       "area": "projects",
       "name": "Let an external contractor see the projects they work on in a portal.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "lib/Portal/PortalContributionProvider.php:97,159-234 declares the 'external-employee' audience with a contractorProjects collection scoped by project.contractorRefs (register/schema project fields present at lib/Settings/planninq_register.json:492), field-projected to title/description/status/color/icon/labels only",
+        "reachedOn": "portaliq's external portal (not a page in this repo)",
+        "owner": "ConductionNL/portaliq"
+      },
+      "provider": "portaliq",
+      "providerHow": "read-from-code",
+      "feature": "portfolio",
+      "featureConfidence": "high",
+      "note": "planninq's own code is a complete, duck-typed declaration (discovered by portaliq via convention FQCN, per its docblock); I could not read portaliq's own registry/discovery code from this checkout, so whether it actually calls this class at runtime is not verified here."
     },
     {
       "id": "prj-templates",
       "area": "projects",
       "name": "Create a new project from a template that copies its columns, labels and tasks.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "grep across src/ and lib/ for template/duplicate/clone/copy-project finds nothing that creates a project pre-populated from an existing one's columns/labels/tasks. The manifest's 'Store' page (src/manifest.json 'Store' entry) installs shared configsets/flows from other organisations, which is a different mechanism (marketplace install), not \"new project from a template\".",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "medium"
     },
     {
       "id": "prj-copy",
       "area": "projects",
       "name": "Copy an existing project with its structure.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "no copy/duplicate-project action anywhere in src/ or lib/ (same grep as prj-templates).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high"
     },
     {
       "id": "prj-custom-fields",
       "area": "projects",
       "name": "Add your own fields to projects.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "the project schema's only catch-all is `metadata` (lib/Settings/planninq_register.json, described as \"Declared catch-all for source-system fields and provenance keys (e.g. jiraProjectId, migratedAt)\"), which is for import provenance, not a user-facing custom-fields feature; no UI exposes it for editing.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high"
     },
     {
       "id": "prj-hierarchy",
       "area": "projects",
       "name": "Nest projects as subprojects under a parent project or programme.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "the project schema (lib/Settings/planninq_register.json) has no parent/programme reference property; grep for parentProject/programme in src/ and lib/ finds nothing.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high"
     },
     {
       "id": "prj-overview-page",
       "area": "projects",
       "name": "Open a project overview page showing its description, members and progress.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue:26-64 (title/icon/color header) opens src/components/ProjectSettingsSidebar.vue:16-127 (Details tab shows description; Members tab lists members). No progress indicator anywhere: task.percentComplete (schema property) is never read in src/ (grep confirmed zero matches).",
+        "reachedOn": "ProjectBoard page + its settings sidebar (Details/Members tabs), not a single dedicated overview page",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high",
+      "note": "description and members are both reachable, but only by opening the settings sidebar from the board, not on one overview screen, and there is no progress indicator anywhere in the app."
     },
     {
       "id": "prj-wiki",
       "area": "projects",
       "name": "Keep wiki or documentation pages next to a project's tasks.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "grep -i wiki across src/ and lib/ returns nothing.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high"
     },
     {
       "id": "prj-group-share",
       "area": "projects",
       "name": "Share a project with a whole group or team at once instead of person by person.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "projects only carry a flat `members` array of individual Nextcloud UIDs (lib/Settings/planninq_register.json); adding a member is one-by-one via src/components/MemberSearch.vue. No group-sharing code found anywhere in src/ or lib/.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high"
     },
     {
       "id": "prj-public-share",
       "area": "projects",
       "name": "Share a read-only view of a project with people who have no account.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "no public-link/anonymous-share code anywhere in src/ or lib/. The only external-facing surface is the contractor portal (prj-contractor-portal), which is scoped to named contractor references, not an anonymous public link.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high"
     },
     {
       "id": "brd-kanban",
       "area": "boards",
       "name": "Work a project's tasks on a kanban board.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue:102-175 (kanban columns) -> src/store/projects.js:775 fetchTasks()",
+        "reachedOn": "ProjectBoard page /projects/:id",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high",
+      "note": "columns are the fixed task-status enum (open/in_progress/blocked/done/cancelled, src/utils/taskHelpers.js:252), not the project's own configurable `column` records -- see prj-default-columns/brd-columns-edit."
     },
     {
       "id": "brd-drag-drop",
       "area": "boards",
       "name": "Move a card to another column by dragging it.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue:134-139 (draggable card, @dragstart/@dragend) + :111-113 (@dragover/@drop on column) -> :510-524 onDrop() -> :566-584 applyStatusMove() -> src/store/projects.js:835 updateTaskStatus()",
+        "reachedOn": "ProjectBoard page",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high",
+      "note": "optimistic update with revert-on-failure toast."
     },
     {
       "id": "brd-keyboard-move",
       "area": "boards",
       "name": "Move a card between columns with the keyboard alone.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue:152-165 (NcActions 'Move task to another column' menu, keyboard-operable NcActionButton per otherColumns()) -> :555-561 moveTask() -> same applyStatusMove() path as drag-and-drop",
+        "reachedOn": "ProjectBoard page, per-card action menu",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high"
     },
     {
       "id": "brd-wip-limits",
       "area": "boards",
       "name": "Set a work in progress limit per column and see when a column goes over it.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "`wipLimit` is written on `column` objects at project creation (src/store/projects.js:106-110 getDefaultColumns, e.g. 3/2), but src/views/ProjectBoard.vue never fetches the `column` schema at all (only COLUMN_SCHEMA writes/deletes exist in src/store/projects.js:28,138-139,476,564,566) and there is no wipLimit reference anywhere in src/ (grep confirmed zero matches outside the store's own write path).",
+        "reachedOn": "nothing reaches it -- the board has no per-column WIP badge",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/views/ProjectBoard.vue: no WIP-limit badge or read of the `column` schema's wipLimit field"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high",
+      "note": "same root cause as prj-default-columns: the `column` schema (which carries wipLimit) is write-only, never read back by the board."
     },
     {
       "id": "brd-columns-edit",
       "area": "boards",
       "name": "Add, rename, reorder and remove a board's columns.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "src/views/ProjectBoard.vue:283-291 columns() is a hardcoded map over BOARD_STATUSES (src/utils/taskHelpers.js:252); there is no add/rename/reorder/remove-column UI anywhere in src/, and the `column` OpenRegister schema is never fetched by the frontend (see brd-wip-limits evidence).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high",
+      "note": "a board's columns are fixed by the task status enum and cannot be added, renamed, reordered or removed from any screen."
     },
     {
       "id": "brd-done-column",
       "area": "boards",
       "name": "Mark a column as the done column so tasks in it count as finished.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "the `column` schema declares a `type` enum ('active'/'done', src/store/projects.js:96-111 getDefaultColumns) but columns are never rendered or editable (see brd-columns-edit), so there is no user action to mark any column as the done column. The 'Done' status lane is simply hardcoded in BOARD_STATUSES (src/utils/taskHelpers.js:252).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high",
+      "note": "tasks with status 'done' do count as finished, but that is a hardcoded status value, not something a user marks on a column they configured."
     },
     {
       "id": "brd-filter",
       "area": "boards",
       "name": "Filter the board by assignee, label or priority.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue:69-95 (label filter chips) -> :318-326 labelFilterChips() -> :356-358 setLabelFilter() -> :313-317 visibleTasks()/filterTasksByLabel()",
+        "reachedOn": "ProjectBoard page",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high",
+      "note": "only label filtering exists. Grep for assignee/priority filter UI on the board found nothing -- task.assignedTo and task.priority are displayed on the card (TaskCard.vue) but not filterable."
     },
     {
       "id": "brd-list-toggle",
       "area": "boards",
       "name": "Switch between the board and a list of the same tasks.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "building",
+        "evidence": "src/views/ProjectBacklog.vue:24-30 renders NcEmptyContent 'Backlog view coming soon' / 'Task management will be available in a future update.' -- an explicit placeholder, not a working list view.",
+        "reachedOn": "ProjectBacklog page /projects/:id/backlog (placeholder only)",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high",
+      "note": "the Backlog button on the board (src/views/ProjectBoard.vue:43-48) navigates to a page that is explicitly a stub; there is no working list rendering of the board's tasks anywhere."
     },
     {
       "id": "brd-card-badges",
       "area": "boards",
       "name": "See due date, blocked state, labels and assignee on a card without opening it.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/components/TaskCard.vue:16-67 renders due-date badge (dueDateBadgeStatus), status chip (covers blocked), priority chip, label chips, and assignee line",
+        "reachedOn": "ProjectBoard page, card face",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high"
     },
     {
       "id": "brd-card-order",
       "area": "boards",
       "name": "Reorder cards within a column to show which comes first.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "the task schema declares `columnOrder` (\"Sort order within the column\") but grep across src/ finds zero references to columnOrder anywhere in the frontend; src/views/ProjectBoard.vue groups tasks by status (groupTasksByStatus, src/utils/taskHelpers.js:268) with no sort by columnOrder and no drag-to-reorder-within-column handler (onDrop only changes status, src/views/ProjectBoard.vue:510-515).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "schema field task.columnOrder is declared but never read or written anywhere in src/"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high"
     },
     {
       "id": "brd-quick-add",
       "area": "boards",
       "name": "Add a card straight into a column from the board.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "no add-card/add-task control exists on src/views/ProjectBoard.vue. Wider check: there is no task-creation code path anywhere in the app -- no createTask action in src/store/projects.js (only fetchTasks/updateTaskStatus/updateTask), no POST to the task schema anywhere in src/, and src/views/ProjectBacklog.vue:24-30 is an explicit placeholder pending future task CRUD.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "no task-creation UI or store action anywhere in src/ (checked src/store/projects.js, src/views/ProjectBoard.vue, src/views/ProjectBacklog.vue)"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high",
+      "note": "this is broader than the board: the whole app currently has no way to create a task at all, so tasks on the board can only exist via import/migration or direct OpenRegister API use."
     },
     {
       "id": "brd-all-boards",
       "area": "boards",
       "name": "See all boards of the projects you are in on one page.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/Boards.vue:22-40 (card grid) -> :89-91 mounted() fetchProjects({status:'active'}) -> :110 openBoard() routes to ProjectBoard",
+        "reachedOn": "Boards page /boards",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high",
+      "note": "fetches only active projects (status filter), so an archived project's board will not appear here even though the user remains a member."
     },
     {
       "id": "brd-wip-enforce",
       "area": "boards",
       "name": "Be stopped from moving a card into a column that is already at its limit.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "src/views/ProjectBoard.vue:566-584 applyStatusMove() performs the status change unconditionally with no column-count/limit check before calling updateTaskStatus(); wipLimit is never read anywhere (see brd-wip-limits).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high"
     },
     {
       "id": "brd-swimlanes",
       "area": "boards",
       "name": "Split the board into swimlanes by assignee, priority or epic.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "src/views/ProjectBoard.vue has a single grid of column sections (:102-175), no swimlane grouping dimension; task.epic exists as a schema property but is never read in src/ (grep confirmed).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high"
     },
     {
       "id": "brd-saved-filters",
       "area": "boards",
       "name": "Save a board filter to reuse it or share it with the team.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "src/views/ProjectBoard.vue's label filter is local component state (`activeLabelId`, data() default null, :356-358 setLabelFilter) with no persistence or sharing mechanism.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high"
     },
     {
       "id": "brd-card-colours",
       "area": "boards",
       "name": "Colour cards by label, type or category.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "src/components/TaskCard.vue:229-237 the card background is a fixed `var(--color-surface)`; labels only render as a small circular swatch inside a chip (:56-59, 12px), not as the card's own colour, and there is no colour-by-type or colour-by-category option anywhere.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high"
     },
     {
       "id": "brd-column-automation",
       "area": "boards",
       "name": "Have an action run automatically when a card enters a column, such as assigning it or closing it.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "src/store/projects.js:835 updateTaskStatus() only PATCHes `status`; no listener or automation runs on a status/column change anywhere in lib/Listener or src/.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high"
     },
     {
       "id": "brd-cross-project-board",
       "area": "boards",
       "name": "Work tasks from several projects on one shared board.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "src/views/ProjectBoard.vue is mounted per project (route /projects/:id, fetchTasks(projectId) at src/store/projects.js:775, filtered to one `project` id); there is no board that aggregates tasks across multiple projects.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-create-edit",
       "area": "tasks",
       "name": "Create, edit and delete a task with a title, description and status.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "No task create or edit form exists anywhere in src/ (dialogs/ holds only LabelEditDialog, LabelDeleteDialog, ProjectCreationDialog, ProjectDeleteDialog, ProjectLeaveDialog, TimeEntryDialog; registry.js has no task dialog/component). Status changes via drag/keyboard move only: src/views/ProjectBoard.vue:562-593 (applyStatusMove) and :152-165 (move menu). Estimate is the only editable field: src/views/TaskDetail.vue:557-570 (saveEstimate). Delete only happens as a project-delete cascade: src/store/projects.js:554-561 (deleteObject(TASK_SCHEMA, task.id) inside deleteProject), with no standalone delete-a-task action anywhere.",
+        "reachedOn": "ProjectBoard page for status move; TaskDetail page for estimate edit; nothing reaches create or standalone delete",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high",
+      "note": "creating a task, editing its title/description, and deleting a single task have no UI path at all; only the status (drag/move) and the time estimate are editable, so only part of the sentence is true."
     },
     {
       "id": "tsk-assign",
       "area": "tasks",
       "name": "Assign a task to a person.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "task.assignedTo is a plain string schema property (lib/Settings/planninq_register.json). It is only ever read for display: src/components/TaskCard.vue:65-66 and src/views/TaskDetail.vue:267 (fields()). No component, dialog or store action writes assignedTo anywhere in src/ (only read as a query filter in src/store/projects.js:642 getMemberTaskCount).",
+        "reachedOn": "nothing reaches it (display only)",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-multi-assign",
       "area": "tasks",
       "name": "Assign one task to several people.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "assignedTo is declared type: string (single value), not an array (lib/Settings/planninq_register.json properties.assignedTo), and as tsk-assign shows there is no assignment UI at all.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-priority",
       "area": "tasks",
       "name": "Give a task a priority.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "priority is only displayed, never set: src/components/TaskCard.vue:32-36 (chip) and :189-211 (priorityLabel/priorityVariant), src/views/TaskDetail.vue:266 (fields()). No form or control anywhere writes task.priority.",
+        "reachedOn": "nothing reaches it (display only)",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-due-date",
       "area": "tasks",
       "name": "Set a due date on a task and see when it is overdue.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "Seeing overdue works: src/utils/taskHelpers.js:215-236 (dueDateStatus, date-only comparison, 'overdue'/'approaching') feeds src/components/TaskCard.vue:17-19,121-141 (due-date badge). Setting a due date has no UI anywhere: dueDate only appears as a read value (src/views/TaskDetail.vue:268) and as timeline positioning input (src/views/ProjectTimeline.vue:429-430, src/utils/timelineHelpers.js:79).",
+        "reachedOn": "ProjectBoard page (badge) for seeing overdue; nothing reaches setting a due date",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high",
+      "note": "the seeing-overdue half of the sentence is well built; the setting half has no control anywhere."
     },
     {
       "id": "tsk-start-date",
       "area": "tasks",
       "name": "Set a start date on a task.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "startDate is only read, for timeline bar positioning: src/views/ProjectTimeline.vue:426-427, src/utils/timelineHelpers.js:78-79. No form or input anywhere sets task.startDate.",
+        "reachedOn": "nothing reaches setting it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-labels",
       "area": "tasks",
       "name": "Tag tasks with coloured labels.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "Labels are app-wide objects tasks reference by UUID array (task.labels), rendered and filterable on the board: src/views/ProjectBoard.vue:69-95 (filter chips), :439-441 (labelsForTask), src/components/TaskCard.vue:44-58 (label chips). But no UI anywhere lets a user add/remove a label ON a given task: the library's generic per-object tag tab is deliberately hidden, src/utils/taskHelpers.js:34 TASK_SIDEBAR_HIDDEN_TABS = ['tags', 'tasks'] applied at :59, and Planninq built no replacement tagging control on TaskDetail.",
+        "reachedOn": "ProjectBoard page (view/filter only); nothing reaches attaching a label to a task",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/utils/taskHelpers.js:34 hides the generic CnTagsTab with a comment claiming Planninq has its own label concept, but no per-task label-attach UI exists to replace it"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "labels",
+      "featureConfidence": "high",
+      "note": "a task can display and be filtered by labels, but there is no way for a user to actually tag a task with one."
     },
     {
       "id": "tsk-label-admin",
       "area": "tasks",
       "name": "Manage the shared set of labels, removing a deleted label from every task that used it.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/settings/Settings.vue:151-194 (label management list, create/edit/delete buttons) -> src/dialogs/LabelEditDialog.vue and src/dialogs/LabelDeleteDialog.vue -> src/store/labels.js (createLabel/updateLabel/deleteLabel) -> lib/Controller/LabelController.php:106-135 destroy(), which calls LabelService::deleteWithCascade to remove the label's UUID from every referencing task before deleting the label object.",
+        "reachedOn": "Nextcloud admin settings page /settings/admin/planninq (src/views/settings/AdminRoot.vue:18 mounts Settings.vue)",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "labels",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-detail-page",
       "area": "tasks",
       "name": "Open a task on its own page with a link you can share.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "Route /projects/:id/tasks/:taskId declared in src/manifest.json (TaskDetail page), rendered by src/views/TaskDetail.vue, reached by clicking a card: src/views/ProjectBoard.vue:527-535 (navigateToTask -> $router.push). The route is a normal URL, so it is shareable.",
+        "reachedOn": "ProjectBoard page, click/Enter/Space on a task card",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-search",
       "area": "tasks",
       "name": "Find a task by searching its text.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "No task text search exists in src/. The only search-like UI found is src/components/MemberSearch.vue (searches Nextcloud users) and the project title search in src/views/ProjectList.vue; neither searches task text.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-bulk",
       "area": "tasks",
       "name": "Change the status, assignee or labels of several tasks at once.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "No multi-select or bulk-action UI exists anywhere in src/ (ProjectBoard.vue has only single-card drag/move; ProjectBacklog.vue is a placeholder, src/views/ProjectBacklog.vue:20-26).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-comments",
       "area": "tasks",
       "name": "Comment on a task.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue:129-137 mounts CnObjectSidebar with notesLabel='Comments', which renders CnNotesTab (nextcloud-vue/src/components/CnObjectSidebar/CnObjectSidebar.vue:83-101, tab id 'notes', not in Planninq's hiddenTabs list). Backed by OpenRegister per-object notes API per ADR-022.",
+        "reachedOn": "TaskDetail page, Comments tab of the sidebar",
+        "owner": "ConductionNL/nextcloud-vue"
+      },
+      "provider": "nextcloud-vue",
+      "providerHow": "read-from-code",
+      "feature": "task-collaboration",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-attachments",
       "area": "tasks",
       "name": "Attach files from the organisation's file store to a task.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue:129-137 mounts CnObjectSidebar with filesLabel='Attachments', rendering CnFilesTab (nextcloud-vue/src/components/CnObjectSidebar/CnObjectSidebar.vue:65-81, tab id 'files'). CnFilesTab's props (browserRootLabel, showInFilesLabel, 'Show in Files') confirm it browses the organisation's real Nextcloud file store, not a bespoke upload store.",
+        "reachedOn": "TaskDetail page, Attachments tab of the sidebar",
+        "owner": "ConductionNL/nextcloud-vue"
+      },
+      "provider": "nextcloud-vue",
+      "providerHow": "read-from-code",
+      "feature": "task-collaboration",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-history",
       "area": "tasks",
       "name": "See the change history of a task: who changed what and when.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue:129-137 mounts CnObjectSidebar with auditTrailLabel='Activity', rendering CnAuditTrailTab (nextcloud-vue/src/components/CnObjectSidebar/CnObjectSidebar.vue:145-163, tab id 'auditTrail', not in Planninq's hiddenTabs list).",
+        "reachedOn": "TaskDetail page, Activity tab of the sidebar",
+        "owner": "ConductionNL/nextcloud-vue"
+      },
+      "provider": "nextcloud-vue",
+      "providerHow": "read-from-code",
+      "feature": "task-collaboration",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-subtasks",
       "area": "tasks",
       "name": "Break a task into subtasks.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "task.parent is declared for sub-task support (lib/Settings/planninq_register.json properties.parent) but is never read or written anywhere in src/ (no match for 'parent' as a task field in any .vue/.js). The library's generic linked-task tab that could serve this, CnTasksTab, is explicitly hidden: src/utils/taskHelpers.js:34 TASK_SIDEBAR_HIDDEN_TABS includes 'tasks', applied at src/views/TaskDetail.vue via taskCollaborationSidebarConfig:59. No Planninq replacement exists.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/utils/taskHelpers.js:34 hides CnTasksTab (nextcloud-vue's generic linked-task/subtask tab) with no Planninq-built substitute, so task.parent (lib/Settings/planninq_register.json) is unreachable"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-checklist",
       "area": "tasks",
       "name": "Keep a checklist inside a task.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
-    },
-    {
-      "id": "tsk-types",
-      "area": "tasks",
-      "name": "Tell task types apart, such as bug, feature and epic.",
-      "origin": "competitor-derived",
-      "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
-      "jira": "unknown"
-    },
-    {
-      "id": "tsk-custom-fields",
-      "area": "tasks",
-      "name": "Add your own fields to tasks.",
-      "origin": "competitor-derived",
-      "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "No checklist concept exists in the task schema or in src/. The library's generic CnTasksTab (a linked-item/checklist-style tab, nextcloud-vue/src/components/CnObjectSidebar/CnObjectSidebar.vue:124-142) is deliberately hidden by src/utils/taskHelpers.js:34, and Planninq built no checklist UI of its own.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-recurring",
       "area": "tasks",
       "name": "Make a task repeat on a schedule.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "No recurrence field exists in the task schema (lib/Settings/planninq_register.json task properties list has no repeat/recurrence/schedule key) and no scheduling job or UI for repeating tasks exists in lib/ or src/.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-rich-text",
       "area": "tasks",
       "name": "Write a task description in rich text or Markdown with headings, lists and links.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "task.description is rendered as plain text interpolation everywhere it appears: src/components/TaskCard.vue:9 ({{ task.description }}) and src/views/TaskDetail.vue:48/269 ({{ field.value }}). No markdown/rich-text renderer or editor is used, and (per tsk-create-edit) there is no description edit form at all.",
+        "reachedOn": "displayed as plain text on ProjectBoard cards and TaskDetail; nothing renders or edits it as rich text",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-mentions",
       "area": "tasks",
       "name": "Mention a colleague in a comment so they are notified.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
-    },
-    {
-      "id": "tsk-watchers",
-      "area": "tasks",
-      "name": "Follow a task to hear about its changes without being assigned to it.",
-      "origin": "competitor-derived",
-      "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "CnNotesTab parses and renders @mentions and emits a 'mention' event on save (nextcloud-vue/src/components/CnObjectSidebar/CnNotesTab.vue:60-63 rendering, :173/:311-321 emitMentionEvent). But src/views/TaskDetail.vue:129-137 mounts CnObjectSidebar with no '@mention' listener, so the notification hook the library exposes specifically for this (its own doc comment: 'apps mounting the full sidebar receive the mentioned user ids and dispatch NC notifications from their own backend') is never wired up in Planninq. The register's only notification rule is x-openregister-notifications for taskDueSoon (lib/Settings/planninq_register.json:145), not comment mentions.",
+        "reachedOn": "TaskDetail page, Comments tab (mention text/autocomplete works; the mentioned user is not notified)",
+        "owner": "ConductionNL/nextcloud-vue",
+        "defects": [
+          "src/views/TaskDetail.vue:129-137 does not bind @mention on CnObjectSidebar, so nextcloud-vue's mention notification hook (CnNotesTab.vue:311-321) is dead for Planninq"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-collaboration",
+      "featureConfidence": "high",
+      "note": "the comment text supports @mention entry and rendering, but Planninq never listens for the library's mention event, so the colleague is not notified."
     },
     {
       "id": "tsk-move-project",
       "area": "tasks",
       "name": "Move a task to another project.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "No UI or store action reassigns an existing task's project field. Searched src/ for any 'move to project' control or a store action writing task.project on an existing task; none exists (task.project is only ever set at creation time via the generic object API, which itself has no UI per tsk-create-edit).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-related-links",
       "area": "tasks",
       "name": "Link related tasks to each other without one blocking the other.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "The dependency schema declares a non-blocking 'type' enum (blocks/relates/duplicates/clones/splits/causes, lib/Settings/planninq_register.json dependency.properties.type), but src/store/dependencies.js:81-100 createEdge() only ever POSTs {blocker, blocked} with no type, so the server always defaults to 'blocks'. Worse, the only component that could create any edge, src/components/TaskDependencies.vue, is never imported by any other file in src/ (grep across src/ finds it only in its own file) -- it is not mounted on TaskDetail or anywhere else, so even blocking dependencies have no reachable UI.",
+        "reachedOn": "nothing reaches it (TaskDependencies.vue is an orphan component)",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/components/TaskDependencies.vue is never imported/mounted by any view or component in src/ -- a full dependency-editing UI with no caller",
+          "src/components/BlockedBadge.vue is likewise never imported/mounted anywhere in src/",
+          "src/store/dependencies.js:81 createEdge() has no `type` parameter, so even if wired up it could never create the non-blocking 'relates'/'duplicates'/etc edges the schema declares"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "dependencies",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-email-create",
       "area": "tasks",
       "name": "Create a task by sending an email.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "No mail-related controller, listener or service exists anywhere in lib/ (no IMailer usage, no inbound-mail handling); grepped lib/Controller, lib/Service, lib/Listener for mail/email with no hits.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "bkl-backlog",
       "area": "backlog",
       "name": "Keep tasks that are not yet planned in a backlog apart from the board.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "specified",
+        "evidence": "src/views/ProjectBacklog.vue:20-26 is a literal placeholder: NcEmptyContent with name 'Backlog view coming soon' and description 'Task management will be available in a future update.' Component-level comment confirms: 'Stays a placeholder until tasks#REQ-Task-CRUD lands.'",
+        "reachedOn": "route /projects/:id/backlog exists and is reachable (ProjectBoard.vue:46-48 'Backlog' button) but renders only the placeholder",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high"
     },
     {
       "id": "bkl-to-board",
       "area": "backlog",
       "name": "Move a task from the backlog onto the board.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "specified",
+        "evidence": "Same placeholder page, src/views/ProjectBacklog.vue:20-26; no task list, no move-to-board action exists at all.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high"
     },
     {
       "id": "bkl-sort-filter",
       "area": "backlog",
       "name": "Sort and filter the backlog.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "specified",
+        "evidence": "Same placeholder page, src/views/ProjectBacklog.vue:20-26; no sort or filter controls exist.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high"
     },
     {
       "id": "bkl-rank",
       "area": "backlog",
       "name": "Rank the backlog by dragging items up and down.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "No backlog list exists to rank (src/views/ProjectBacklog.vue:20-26 placeholder) and no ordering field/drag UI for a backlog exists anywhere.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high"
     },
     {
       "id": "bkl-sprints",
       "area": "backlog",
       "name": "Plan work in sprints with a start and end date.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "No sprint concept exists anywhere: grepped lib/ and src/ for 'sprint' case-insensitively, only hit was the unrelated PHP function sprintf().",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high"
     },
     {
       "id": "bkl-sprint-board",
       "area": "backlog",
       "name": "See a board of the current sprint only.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
-    },
-    {
-      "id": "bkl-story-points",
-      "area": "backlog",
-      "name": "Estimate tasks in story points.",
-      "origin": "competitor-derived",
-      "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "No sprint concept exists at all (see bkl-sprints), so there is no sprint-scoped board either. The only board is the whole-project Kanban board (src/views/ProjectBoard.vue).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high"
     },
     {
       "id": "bkl-velocity",
       "area": "backlog",
       "name": "See the team's velocity over past sprints.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "No velocity concept or reporting exists anywhere; the only reports are TaskStatusReport and TimeSpentReport (src/manifest.json Reports pages), neither about sprint velocity, and there are no sprints to measure velocity over (see bkl-sprints).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high"
     },
     {
       "id": "bkl-burndown",
       "area": "backlog",
       "name": "Follow a sprint on a burndown or burnup chart.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
-    },
-    {
-      "id": "bkl-epics",
-      "area": "backlog",
-      "name": "Group tasks under an epic.",
-      "origin": "competitor-derived",
-      "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "No burndown/burnup chart exists anywhere; grepped lib/ and src/ for 'burndown' with no hits, and there is no sprint concept to chart against (see bkl-sprints).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high"
     },
     {
       "id": "bkl-releases",
       "area": "backlog",
       "name": "Plan tasks against a version or release.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "No release/version field or planning concept exists in the task, project or any other schema (lib/Settings/planninq_register.json has no release/version property), and no UI references one.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high"
     },
     {
       "id": "bkl-roadmap",
       "area": "backlog",
       "name": "Show a roadmap of epics or versions over time.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "The only 'roadmap' page in the app, FeaturesRoadmap (src/manifest.json, route /features-roadmap, type 'roadmap'), is the app's OWN development roadmap: its _note says it is 'Rendered by the shared CnFeaturesAndRoadmapView, which reads the committed docs/features.json and OpenRegister's GitHub proxy' -- it shows Planninq's own GitHub feature/issue roadmap, not a roadmap of the user's epics, projects or releases.",
+        "reachedOn": "FeaturesRoadmap page /features-roadmap, but it is the product's own roadmap, not a user-data roadmap",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high"
     },
     {
       "id": "pln-gantt",
@@ -2344,6 +3022,144 @@
     }
   ],
   "pending": [
+    {
+      "id": "prj-phases",
+      "area": "projects",
+      "name": "Break a project into phases with their own start and end dates.",
+      "origin": "own-code",
+      "planninq": "no",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown",
+      "built": {
+        "state": "specified",
+        "evidence": "lib/Settings/planninq_register.json declares a full `projectPhase` schema (with start/end dates) and the `task` schema has a `phase` reference property, but grep across src/ and lib/ finds zero code reading or writing `projectPhase` anywhere outside the register JSON files (lib/Settings/planninq_register.json, lib/Settings/planninq_mock_register.json).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "medium",
+      "note": "a schema exists with no screen, no store, no controller at all -- not even a display. Kept pending per the reading method."
+    },
+    {
+      "id": "tsk-types",
+      "area": "tasks",
+      "name": "Tell task types apart, such as bug, feature and epic.",
+      "origin": "competitor-derived",
+      "planninq": "no",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "task.issueType is declared in the schema (lib/Settings/planninq_register.json properties.issueType, default 'task', enum-like description listing task/story/bug/epic/subtask/incident) but has zero references anywhere in src/ (not displayed, not settable, not filterable).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high",
+      "note": "rests solely on an unused schema property with no screen at all, per the pending rule."
+    },
+    {
+      "id": "tsk-custom-fields",
+      "area": "tasks",
+      "name": "Add your own fields to tasks.",
+      "origin": "competitor-derived",
+      "planninq": "no",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "task.metadata is declared as a catch-all object field (lib/Settings/planninq_register.json properties.metadata, 'Declared catch-all for source-system fields') but no UI in src/ reads or writes it, and there is no generic custom-field builder anywhere.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high",
+      "note": "rests solely on an unused schema property with no screen at all, per the pending rule."
+    },
+    {
+      "id": "tsk-watchers",
+      "area": "tasks",
+      "name": "Follow a task to hear about its changes without being assigned to it.",
+      "origin": "competitor-derived",
+      "planninq": "no",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "task.watchers is declared as an array of user UIDs (lib/Settings/planninq_register.json properties.watchers) but has zero references anywhere in src/: no follow/unfollow button, no display of who is watching.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high",
+      "note": "rests solely on an unused schema property with no screen at all, per the pending rule."
+    },
+    {
+      "id": "bkl-story-points",
+      "area": "backlog",
+      "name": "Estimate tasks in story points.",
+      "origin": "competitor-derived",
+      "planninq": "no",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "task.storyPoints is declared (lib/Settings/planninq_register.json properties.storyPoints, type number) but has zero references anywhere in src/ (not displayed on cards, not estimable through any UI).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high",
+      "note": "rests solely on an unused schema property with no screen at all, per the pending rule."
+    },
+    {
+      "id": "bkl-epics",
+      "area": "backlog",
+      "name": "Group tasks under an epic.",
+      "origin": "competitor-derived",
+      "planninq": "no",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "task.epic is declared as a self-referential UUID field ('UUID of the epic-level Task this task belongs to', lib/Settings/planninq_register.json properties.epic) but has zero references anywhere in src/: no epic picker, no epic grouping view, no display of a task's epic.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high",
+      "note": "rests solely on an unused schema property with no screen at all, per the pending rule."
+    },
     {
       "id": "tim-billable",
       "area": "time",
