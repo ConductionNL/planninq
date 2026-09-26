@@ -67,7 +67,11 @@
         "commit": "2aa64468aee7575318a588040075415a09f33642",
         "readOn": "2026-09-26"
       },
-      "readHow": "Driven at 1.18.4 on Nextcloud 34 in round 4 (2026-09-13); source read at v1.19.0 (2aa6446, min-version 35, the line matching the workspace server 35.0.1) on 2026-09-26 across all rows, with path:line beside the drive evidence. The grade stays driven with the note: source read at v1.19.0, driven at 1.18.4 on NC 34."
+      "readHow": "Driven at 1.18.4 on Nextcloud 34 in round 4 (2026-09-13); source read at v1.19.0 (2aa6446, min-version 35, the line matching the workspace server 35.0.1) on 2026-09-26 across all rows, with path:line beside the drive evidence. The grade stays driven with the note: source read at v1.19.0, driven at 1.18.4 on NC 34.",
+      "readVersion": {
+        "tag": "v1.19.0",
+        "commit": "2aa64468aee7575318a588040075415a09f33642"
+      }
     },
     {
       "key": "openproject",
@@ -119,7 +123,11 @@
         "readOn": "2026-09-26"
       },
       "readHow": "Driven at 16.6.10 in round 4 (2026-09-12); source read at v17.8.0 (2d1ae9c, the latest release) on 2026-09-26 across all rows, with path:line beside the drive evidence. The grade stays driven with the note: source read at v17.8.0, driven at 16.6.10.",
-      "roadmapNote": "Not ratings. https://www.openproject.org/roadmap/ (read 2026-09-26) lists by quarter, not by version: 2026 Q3 search bar and filters within the backlog and sprints view (in test, bkl-sort-filter), timeline widget with milestones and sprints (in development); 2026 Q4 labels for work packages (in development, tsk-labels), cumulative flow diagram (in specification, prt-cumulative-flow), velocity charts (specified, bkl-velocity), burndown chart (in development) and burnup charts (specified, bkl-burndown), recurring tasks (new, tsk-recurring), trash bin for deleted work packages. Date alerts were not found as a roadmap item on that page. Each of these would move a current no or partial cell once released; they stay at today's rating until a release tag ships them."
+      "roadmapNote": "Not ratings. https://www.openproject.org/roadmap/ (read 2026-09-26) lists by quarter, not by version: 2026 Q3 search bar and filters within the backlog and sprints view (in test, bkl-sort-filter), timeline widget with milestones and sprints (in development); 2026 Q4 labels for work packages (in development, tsk-labels), cumulative flow diagram (in specification, prt-cumulative-flow), velocity charts (specified, bkl-velocity), burndown chart (in development) and burnup charts (specified, bkl-burndown), recurring tasks (new, tsk-recurring), trash bin for deleted work packages. Date alerts were not found as a roadmap item on that page. Each of these would move a current no or partial cell once released; they stay at today's rating until a release tag ships them.",
+      "readVersion": {
+        "tag": "v17.8.0",
+        "commit": "2d1ae9c1f2de49d363e0ec2cea7d7f2991ed405a"
+      }
     },
     {
       "key": "plane",
@@ -172,7 +180,11 @@
         "readOn": "2026-09-26"
       },
       "readHow": "Driven at v1.4.2 in round 4 (2026-09-12); source read at the same tag v1.4.2 on 2026-09-26 across all rows: source read at v1.4.2, driven at v1.4.2, so the grade stays driven. The round-4 code census was read at 2f895b8, not at the driven tag, so every cite was re-derived in the tag tree. Plane carries stubs that always return disabled (filter exclusion hardcoded off, a bulk-operation route the API does not define, a bulk-delete modal nothing opens, milestones as an orphan string); none of them is credited.",
-      "unknownReason": "Graded driven at the round-4 drive of 2026-09-12 on v1.4.2, and every row read from source at the same tag on 2026-09-26. Three ratings moved where the code contradicts the drive (tsk-checklist, int-mobile, plt-guest-access)."
+      "unknownReason": "Graded driven at the round-4 drive of 2026-09-12 on v1.4.2, and every row read from source at the same tag on 2026-09-26. Three ratings moved where the code contradicts the drive (tsk-checklist, int-mobile, plt-guest-access).",
+      "readVersion": {
+        "tag": "v1.4.2",
+        "commit": "5f7d92784c403f76284f0f16718f320221dc7fec"
+      }
     },
     {
       "key": "kanboard",
@@ -229,7 +241,11 @@
         "commit": "9ce6a5edc5b646ef15780cb445bc6d2c39d9898f",
         "readOn": "2026-09-26"
       },
-      "readHow": "Driven at v1.2.54 in round 4 (2026-09-13); source read at the same tag v1.2.54 on 2026-09-26 across all rows, with path:line beside the drive evidence: source read at v1.2.54, driven at 1.2.54, so the grade stays driven."
+      "readHow": "Driven at v1.2.54 in round 4 (2026-09-13); source read at the same tag v1.2.54 on 2026-09-26 across all rows, with path:line beside the drive evidence: source read at v1.2.54, driven at 1.2.54, so the grade stays driven.",
+      "readVersion": {
+        "tag": "v1.2.54",
+        "commit": "9ce6a5edc5b646ef15780cb445bc6d2c39d9898f"
+      }
     },
     {
       "key": "jira",
@@ -2623,13 +2639,13 @@
         "state": "built",
         "evidence": "lib/Settings/planninq_register.json:145 x-openregister-notifications.taskDueSoon (scheduled trigger, withinNext PT24H) executed by openregister's registered TimedJob lib/BackgroundJob/ScheduledNotificationJob.php (registered in openregister appinfo/info.xml:148), which dispatches via AnnotationNotificationDispatcher",
         "reachedOn": "background job, no page; the resulting nc-notification appears in Nextcloud's own notification panel",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/openregister"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
       "feature": "notifications",
       "featureConfidence": "high",
-      "note": "not just a bare declaration: openregister's ScheduledNotificationJob is a real registered background job (confirmed in openregister/appinfo/info.xml) with its own dispatcher, so this is executed behaviour, not only a schema declaration. planninq owns the rule/schema and the admin+user settings around it; openregister owns the dispatch engine."
+      "note": "not just a bare declaration: openregister's ScheduledNotificationJob is a real registered background job (confirmed in openregister/appinfo/info.xml) with its own dispatcher, so this is executed behaviour, not only a schema declaration. planninq owns the rule/schema and the admin+user settings around it; openregister owns the dispatch engine. built.owner was ConductionNL/planninq until corrections round 5 (2026-09-27); the provider is openregister, whose code runs this row."
     },
     {
       "id": "pln-reminder-lead-time",
@@ -3490,7 +3506,7 @@
         "state": "built",
         "evidence": "src/manifest.json:162 (Reports card) -> src/manifest.json:168-192 TaskStatusReport dashboard: open/in_progress/blocked stat widgets (:176-178), by-status and by-priority donuts, 'Due soonest' table (:181) over OpenRegister aggregation",
         "reachedOn": "Reports /reports, 'Task status' card -> /reports/tasks",
-        "owner": "ConductionNL/planninq",
+        "owner": "ConductionNL/openregister",
         "defects": [
           "src/manifest.json:162 card promises 'what is overdue' but the Task status report (:168-192) has no overdue widget (code reading, planninq#645)"
         ],
@@ -3500,7 +3516,7 @@
       "providerHow": "read-from-code",
       "feature": "reporting",
       "featureConfidence": "high",
-      "note": "Open and blocked are counted. The Task status report has no overdue widget: 'Due soonest' lists open tasks by due date, it does not count or flag the ones past due. Overdue is computed elsewhere, per project: src/views/Portfolio.vue:143-145 reduces each project's tasks through summariseProjectTasks (src/utils/portfolioHelpers.js) and :42,56-57 shows an Overdue column on the Portfolio page, so the correction of 2026-09-26 (planninq#645) narrows the earlier 'nothing computes overdue' to the report. The widgets are rendered by the nextcloud-vue dashboard page over OpenRegister's aggregation; this clone has no node_modules so the renderer was not read."
+      "note": "Open and blocked are counted. The Task status report has no overdue widget: 'Due soonest' lists open tasks by due date, it does not count or flag the ones past due. Overdue is computed elsewhere, per project: src/views/Portfolio.vue:143-145 reduces each project's tasks through summariseProjectTasks (src/utils/portfolioHelpers.js) and :42,56-57 shows an Overdue column on the Portfolio page, so the correction of 2026-09-26 (planninq#645) narrows the earlier 'nothing computes overdue' to the report. The widgets are rendered by the nextcloud-vue dashboard page over OpenRegister's aggregation; this clone has no node_modules so the renderer was not read. built.owner was ConductionNL/planninq until corrections round 5 (2026-09-27); the provider is openregister, whose code runs this row."
     },
     {
       "id": "prt-workload",
