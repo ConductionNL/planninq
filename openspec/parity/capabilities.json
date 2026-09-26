@@ -235,9 +235,43 @@
       "key": "jira",
       "name": "Jira Software Data Center 11",
       "vendor": "Atlassian",
-      "readOn": "2026-09-13",
+      "readOn": "2026-09-26",
       "columnAddedOn": "2026-09-26",
-      "evidenceGrade": "docs-only"
+      "evidenceGrade": "docs-only",
+      "sources": {
+        "docs": "https://confluence.atlassian.com/jirasoftwareserver/",
+        "sourceRepo": null,
+        "featurePage": "https://www.atlassian.com/enterprise/data-center/jira",
+        "featureRequests": "https://jira.atlassian.com/browse/JSWSERVER",
+        "issueTracker": {
+          "url": "https://jira.atlassian.com/browse/JRASERVER",
+          "featureLabel": "issuetype = Suggestion"
+        },
+        "roadmap": "https://www.atlassian.com/roadmap/data-center",
+        "changelog": "https://confluence.atlassian.com/jirasoftware/jira-software-release-notes-776821069.html",
+        "apiReference": "https://developer.atlassian.com/server/jira/platform/rest/v11000/intro",
+        "marketplace": "https://marketplace.atlassian.com/addons/app/jira?hosting=datacenter",
+        "pricing": "https://www.atlassian.com/licensing/data-center",
+        "accessibilityStatement": "https://confluence.atlassian.com/jirasoftwareserver/accessibility-improvements-in-jira-993923419.html",
+        "securityDocs": "https://confluence.atlassian.com/security",
+        "demoInstance": null,
+        "community": "https://community.atlassian.com/",
+        "reviews": "https://www.peerspot.com/products/jira-reviews",
+        "videos": "https://www.youtube.com/@Atlassian",
+        "caseStudies": "https://www.atlassian.com/customers",
+        "partnerDirectory": "https://partnerdirectory.atlassian.com/",
+        "trainingCurriculum": "https://community.atlassian.com/learning",
+        "jobPostings": "https://www.atlassian.com/company/careers/all-jobs",
+        "tenders": [
+          "112 tenders across eight sources name Jira or Atlassian (intelligence database, searched name and description on 2026-09-26); the Dutch product tenders: TenderNed 358912 and 371447 (Universiteit van Amsterdam, Jira and Confluence cloud migration), 388283 and 413726 (Nederlands Instituut Publieke Veiligheid, Atlassian licences), 393539 (Luchtverkeersleiding Nederland, Atlassian and GitLab management), 411960 and 426139 (Universiteit Maastricht, Atlassian licences); https://www.tenderned.nl/aankondigingen/overzicht/358912"
+        ],
+        "nullReasons": {
+          "sourceRepo": "closed source: Jira Software Data Center source is not published",
+          "demoInstance": "no public demo; https://www.atlassian.com/migration says new customers can no longer buy or quote Data Center since 30 March 2026, and the Data Center trial URL https://www.atlassian.com/software/jira/data-center/trial returns 404"
+        }
+      },
+      "readHow": "Docs-only: re-read on 2026-09-26 from public Atlassian documentation, release notes, the Atlassian roadmap and the public tracker jira.atlassian.com (JRASERVER, JSWSERVER), no trial account and no login; the first docs reading was 2026-09-13. Plugin rule, as everywhere in wave 5: a capability that needs a named Marketplace app rates partial with the app and its Jira 11 Data Center build cited, never yes. The 13 Sep reading used no for the same cases, so pln-calendar-view, tsk-checklist, tim-timesheet and tim-approval moved no to partial under this rule, not because Jira itself changed.",
+      "unknownReason": "Docs-only reading of Jira Software Data Center 11 on 2026-09-26; a cell stays unknown where the public documentation neither states the capability nor its absence, with the pages searched on the cell."
     }
   ],
   "areas": [
@@ -3419,7 +3453,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 3.5 'Upcoming cards (/upcoming/) lists cards assigned to me across boards' ; source read at v1.19.0: src/router.js:36-38 /upcoming; src/components/overview/Overview.vue:111 'Upcoming cards', :57-83 due-date columns; lib/Controller/OverviewApiController.php:29 upcomingCards, lib/Service/OverviewService.php:26-41 cards assigned to me or unassigned across all my boards",
         "kanboard": "corpus: kanboard/round4/M1-column.md 3.5 'the dashboard shows \"My tasks\" and \"My subtasks\"' ; source read at v1.2.54: app/Template/dashboard/sidebar.php:10 'My tasks', :13 'My subtasks'; app/Controller/DashboardController.php:35-41 tasks via getDashboardPaginator for the user across projects; app/Template/dashboard/tasks.php:2",
         "openproject": "corpus: openproject/round4/M1-column.md 3.5 'default queries ship and modules/my_page/ renders personal ones'; global 'Work packages' module across projects (corpus: openproject/round4/menu-tree.md) ; source read at v17.8.0: app/services/work_packages/default_query_generator_service.rb:41 'assigned_to_me' among the default queries, built at :115; app/menus/work_packages/menu.rb:40-50 lists them in the global Work packages menu across all projects; modules/my_page/lib/my_page/grid_registration.rb:72 'work_packages_assigned' widget",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 3.5 'predefined system filters for common queries, such as My Open Issues'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 3.5 'predefined system filters for common queries, such as My Open Issues' ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/searching-for-issues-939938681.html 'predefined system filters for common queries, such as My Open Issues, Reported by Me, Recently Viewed, and All Issues' (read 2026-09-26)",
         "plane": "corpus: plane/round4/menu-tree.md workspace 'Your work' ; M1-column.md 5.4 'a workspace member's profile page aggregates their assigned and created work items' ; source: filter.ts profile_issues list and kanban grouped by project ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(projects)/profile/[userId]/[profileViewId]/page.tsx assigned, created and subscribed tabs; packages/constants/src/issue/filter.ts:113-131 profile_issues list and kanban grouped by project; apps/api/plane/app/urls/workspace.py:153 user-issues route, apps/api/plane/app/views/workspace/user.py:98 WorkspaceUserProfileIssuesEndpoint"
       },
       "built": {
@@ -3449,7 +3483,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/journeys.md 4 'The date:overdue filter listed the card' ; M1-column.md 10.1 'no dashboards of counts' : a filter, not a report; no blocked state ; source read at v1.19.0: src/components/overview/Overview.vue:59 'Overdue' column and lib/Service/OverviewService.php:50-52 overdue bucket for my cards; src/components/Controls.vue:172-225 'Filter by due date' with 'Overdue' on a board; no counts and no blocked state, searched src/ for 'blocked': none",
         "kanboard": "corpus: kanboard/round4/menu-tree.md board filter 'due today, due tomorrow, due yesterday, closed, open' and Analytics 'Task distribution' ; no blocked count ; source read at v1.2.54: app/Template/app/filters_helper.php:8-12 'Tasks due today', 'Tasks due yesterday', 'Closed tasks', 'Open tasks' as filters; app/Template/analytic/sidebar.php:4 'Task distribution' per column; no blocked count and no single status report",
         "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): app/models/queries/work_packages/filter/blocked_filter.rb (relation 'blocked by'), due_date_filter.rb, status open/closed filters; saved as a query and shown in a widget (corpus: openproject/round4/M1-column.md 10.10) (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: app/services/work_packages/default_query_generator_service.rb:38 'overdue' default query; app/models/queries/work_packages/filter/blocked_filter.rb:33, due_date_filter.rb and status_filter.rb filters, saved as queries and shown as widgets or in app/menus/work_packages/menu.rb:40",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 8.2 'Find all overdue issues: duedate < now() and resolution is empty' and gadgets over filters (10.10); blocked is not a state or a documented JQL field in DC, only a link on each issue",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 8.2 'Find all overdue issues: duedate < now() and resolution is empty' and gadgets over filters (10.10); blocked is not a state or a documented JQL field in DC, only a link on each issue ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/advanced-searching-functions-reference-939938746.html 'Find issues that are overdue: duedate < now() and status not in (closed, resolved)': overdue and open are filters and gadgets, blocked is not a documented state (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §10 analytics chart 'x_axis (default PRIORITY) and an optional group_by' counts by state; M1-column.md 8.2 'The server holds no overdue state', and blocked is not a groupable dimension ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(projects)/profile/[userId]/page.tsx profile overview; apps/api/plane/app/views/workspace/user.py:409 state_distribution and :468 pending_issues_count; apps/api/plane/app/views/analytic/advance.py:289-308 counts by x_axis. Searched apps/api/plane/app/views/workspace/user.py and apps/api/plane/app/views/analytic for 'overdue', 'target_date__lt': none, blocked is no dimension"
       },
       "built": {
@@ -3483,7 +3517,7 @@
         "nextcloud-deck": "no hours, capacity or availability on a card or user (corpus: nextcloud-deck/round4/code-census.md empty greps 'timesheet|hours|duration' in Db/) ; source read at v1.19.0: searched lib/ and src/ for 'capacity', 'availability', 'workload': none; lib/Db/Card.php:73-96 and lib/Db/User.php carry no hours",
         "kanboard": "no availability or capacity object (corpus: kanboard/round4/code-census.md objects table; empty grep 'working.?day|business.?day|holiday') ; time estimates exist per task (promoted-rows-batch7.md 10.11) but nothing sets them against availability ; source read at v1.2.54: searched app/ (outside Locale) for 'availability', 'capacity', 'vacation', 'absence', 'out of office': only a password reset comment; estimates exist per task, app/Helper/TaskHelper.php:208, but nothing sets a person's available hours",
         "openproject": "user working hours and time off are recorded (docs: opf/openproject HEAD 27a58131 docs/user-guide/account-settings/schedule-and-availability/README.md:11 'define your working schedule, plan future schedule changes, and manage your time off'), but the planner that sets workload against them is resource management, Enterprise gated (corpus: openproject/round4/code-census.md #22) Shipped in 17.x, after the 16.6.10 drive; the cited files are present at v17.8.0 (absent at v16.6.10). ; source read at v17.8.0: config/routes.rb:1120-1121 per user working hours and non working times, free, with config/initializers/menus.rb:277-279 'Schedule and availability'; modules/resource_management/app/services/resource_allocations/availability.rb:111 hours against availability only in the resource planner, gated at modules/resource_management/app/controllers/resource_management/base_controller.rb:41-43",
-        "jira": "docs: https://confluence.atlassian.com/display/JIRASOFTWARESERVER/Capacity+and+velocity+in+Advanced+Roadmaps capacity is set per team per sprint in hours ('If you set the capacity at 40 hours'); per-person hours against availability are not in the 11.3 page",
+        "jira": "docs: https://confluence.atlassian.com/display/JIRASOFTWARESERVER/Capacity+and+velocity+in+Advanced+Roadmaps capacity is set per team per sprint in hours ('If you set the capacity at 40 hours'); per-person hours against availability are not in the 11.3 page ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/capacity-and-velocity-in-advanced-roadmaps-1044784184.html 'The number of story points or hours your team can complete in one iteration is referred to as its capacity': team level per iteration; https://jira.atlassian.com/browse/JSWSERVER-25072 'Individual capacity planning is not available in the new experience', Not Being Considered (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §10 no hours logged and no availability model ; source read at v1.4.2: no hours or availability: searched apps/api/plane/db/models --include=*.py for 'capacity', 'availability', 'leave', 'out.?of.?office': none; apps/api/plane/db/models/project.py:98 time tracking flag inert"
       },
       "built": {
@@ -3513,7 +3547,7 @@
         "nextcloud-deck": "no hours, capacity or availability on a card or user (corpus: nextcloud-deck/round4/code-census.md empty greps 'timesheet|hours|duration' in Db/) ; source read at v1.19.0: searched lib/ and src/ for 'capacity', 'availability', 'workload': none; lib/Db/Card.php:73-96 and lib/Db/User.php carry no hours, so nothing to warn against",
         "kanboard": "no availability or capacity object (corpus: kanboard/round4/code-census.md objects table; empty grep 'working.?day|business.?day|holiday') ; source read at v1.2.54: searched app/ (outside Locale) for 'capacity', 'availability': no capacity object to exceed; app/Controller/ProjectUserOverviewController.php:104 counts open tasks only",
         "openproject": "only inside the Enterprise resource planner (corpus: openproject/round4/code-census.md #22); nothing on the free build warns about an over-planned person ; source read at v17.8.0: modules/resource_management/app/services/resource_allocations/availability.rb:52-53 overbooked?; modules/resource_management/config/locales/en.yml:237 'This user is over-allocated in the selected period.'; modules/resource_management/app/controllers/resource_management/work_package_timeline/events_controller.rb:41 marks overbooked allocations, all behind the resource_management token",
-        "jira": "docs: docs: https://confluence.atlassian.com/display/JIRASOFTWARESERVER/Capacity+and+velocity+in+Advanced+Roadmaps and https://confluence.atlassian.com/jirasoftwareserver/auto-schedule-issues-in-advanced-roadmaps-1044784172.html 'the Auto-scheduler will assign tasks to sprints based on the size of an issue, team capacity, and sprint length': capacity per team and sprint, no per-person warning documented",
+        "jira": "docs: docs: https://confluence.atlassian.com/display/JIRASOFTWARESERVER/Capacity+and+velocity+in+Advanced+Roadmaps and https://confluence.atlassian.com/jirasoftwareserver/auto-schedule-issues-in-advanced-roadmaps-1044784172.html 'the Auto-scheduler will assign tasks to sprints based on the size of an issue, team capacity, and sprint length': capacity per team and sprint, no per-person warning documented ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/troubleshoot-warnings-in-advanced-roadmaps-1044784205.html warnings flag sprint scope changes, 'a heads up that sprint capacity will be affected': team and sprint capacity, not per person (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §10 no capacity data to warn on ; source read at v1.4.2: no capacity data: searched apps/api/plane/db/models --include=*.py for 'capacity', 'allocation': none; apps/api/plane/celery.py:44-88 has no workload check"
       },
       "built": {
@@ -3537,12 +3571,12 @@
       "openproject": "partial",
       "plane": "no",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/_round4/compare/promoted-rows-batch6.md 13.17 'no out of office; the platform's user_status shows a status and follows nobody' ; source read at v1.19.0: searched lib/ and src/ for 'absence', 'out of office', 'user_status', 'working hours': none; 'leave' is only leaving a board, lib/Controller/BoardController.php:69",
         "kanboard": "corpus: kanboard/round4/_round4/compare/promoted-rows-batch7.md 13.17 'grep out.?of.?office|substitut|delegat|absence returns 0' ; source read at v1.2.54: searched app/ (outside Locale) for 'out of office', 'absence', 'vacation', 'holiday', 'working day': none",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/account-settings/schedule-and-availability/README.md time off and individual working hours per user (free); instance working days drive scheduling (corpus: openproject/round4/M1-column.md section 8); using personal time off in planning is resource management, Enterprise gated Shipped in 17.x, after the 16.6.10 drive; the cited files are present at v17.8.0 (absent at v16.6.10). ; source read at v17.8.0: config/routes.rb:1121 user non working times (time off) and :1120 working hours, free; modules/resource_management/app/services/resource_allocations/working_time_calendar.rb:17-18 and :81 subtract UserNonWorkingTime and holidays from capacity, only inside the Enterprise resource planner; free scheduling uses app/services/work_packages/shared/days.rb:38 instance working days",
-        "jira": "not checked: absences appear in the old standalone Advanced Roadmaps 3.29 docs (Configuring the availability of team members) but not in the Jira Software 11.3 Advanced Roadmaps pages read (Teams, Capacity and velocity, Auto-schedule)",
+        "jira": "not checked: absences appear in the old standalone Advanced Roadmaps 3.29 docs (Configuring the availability of team members) but not in the Jira Software 11.3 Advanced Roadmaps pages read (Teams, Capacity and velocity, Auto-schedule) ; docs read 2026-09-26: https://jira.atlassian.com/browse/JSWSERVER-25072 'Individual capacity planning is not available in the new experience ... including team member availability', Not Being Considered, 104 votes; JSWSERVER-1333 per-assignee non-working days, Gathering Interest, 203 votes; https://confluence.atlassian.com/jirasoftwareserver/teams-in-advanced-roadmaps-1044784181.html has no absences (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §8 no working-day calendar ('holiday|working_day' 0 hits); M1-column.md 13.12 'out.of.office' grep returns nothing ; source read at v1.4.2: searched apps/api/plane/db/models --include=*.py for 'leave', 'out.?of.?office', 'vacation', 'holiday': only a code comment at apps/api/plane/db/models/base.py:37"
       },
       "built": {
@@ -3572,7 +3606,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md empty greps 'payment', 'timesheet|hours|duration' ; source read at v1.19.0: searched lib/ and src/ for 'budget', 'cost': none; lib/Db/Board.php holds title, owner, colour, archive and settings, no money field",
         "kanboard": "corpus: kanboard/round4/code-census.md 'payment|stripe|ideal returns 26 hits and none is a payment' ; no budget field on a project ; source read at v1.2.54: searched app/Model and app/Schema/Sqlite.php for 'budget', 'cost': none; app/Schema/Sqlite.php:1526-1530 projects table carries no money field",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/budgets/README.md:15 'If you log time or costs to this work package the costs will booked to this budget and show the percentage spent for a project budget' (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: modules/budgets/config/routes.rb:31-37 budgets; modules/budgets/app/models/budget.rb:120-123 budget_ratio and :150-151 spent from material and labor; modules/budgets/app/views/budgets/show.html.erb:47-48 spent ratio bar and :79 'Spent'",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 12.12 'nothing financial'; no budget object in Jira Software",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 12.12 'nothing financial'; no budget object in Jira Software ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html project details carry no budget or cost; https://confluence.atlassian.com/adminjiraserver/integrating-with-other-tools-938846907.html lists no financial integration (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §2 fixed fields and no custom fields; no budget or cost model in db/models ; source read at v1.4.2: searched apps/api/plane/db/models --include=*.py for 'budget', 'cost': none; Project fields at apps/api/plane/db/models/project.py:68-117 carry no money"
       },
       "built": {
@@ -3597,12 +3631,12 @@
       "openproject": "partial",
       "plane": "no",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "source: lib/Db/Assignment.php:17-20 assignee types user, group, team, remote; no placeholder role ; source read at v1.19.0: lib/Db/Assignment.php:17-20 assignee types are user, group, circle and remote, each a real account or team; searched lib/ and src/ for 'placeholder role', 'role': no unnamed role assignee",
         "kanboard": "source: a task has one owner_id, a user (app/Model/TaskCreationModel.php:67); no placeholder role ; source read at v1.2.54: app/Helper/TaskHelper.php:126-127 the assignee select lists users only; app/Schema/Sqlite.php:1553 tasks.owner_id is a user id; searched app/Model for 'placeholder' roles on tasks: none",
         "openproject": "corpus: openproject/round4/open-core.md placeholder_users Enterprise gated; corpus: openproject/round4/code-census.md #18 'absent from the UI and refused server side, for creation only' ; source read at v17.8.0: config/initializers/menus.rb:324-325 admin 'Placeholder users'; config/initializers/permissions.rb:106 placeholder_users actions; app/contracts/placeholder_users/create_contract.rb:34 creating one needs the :placeholder_users Enterprise token",
-        "jira": "not checked: https://confluence.atlassian.com/jirasoftwareserver/teams-in-advanced-roadmaps-1044784181.html does not address members who are not Jira users; virtual members existed in the standalone Portfolio product and were not confirmed for DC 11",
+        "jira": "not checked: https://confluence.atlassian.com/jirasoftwareserver/teams-in-advanced-roadmaps-1044784181.html does not address members who are not Jira users; virtual members existed in the standalone Portfolio product and were not confirmed for DC 11 ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/teams-in-advanced-roadmaps-1044784181.html 'Teams in Advanced Roadmaps act as a label to designate which team will eventually pick up the work ... then assign them to individuals'; 'Private teams only exist within your plan': a team stands in before a person, no placeholder role or virtual member is documented (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §5 'Every actor in Plane is a User row with a login'; assignees are users only ; source read at v1.4.2: apps/api/plane/db/models/issue.py:149-152 assignees is a ManyToMany to AUTH_USER_MODEL, so only real users can be assigned; searched apps/api/plane/db/models for 'placeholder', 'role_slot': none"
       },
       "built": {
@@ -3631,7 +3665,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 10.4 'no analytics' ; source read at v1.19.0: searched lib/ and src/ for 'cumulative', 'flow diagram', 'chart': none; lib/Db/Stack.php:28-35 keeps no history of card counts per list",
         "kanboard": "corpus: kanboard/round4/menu-tree.md Analytics 'Cumulative flow diagram' ; M1-column.md 10.4 'from project_daily_column_stats' ; source read at v1.2.54: app/Template/analytic/sidebar.php:10 'Cumulative flow diagram'; app/Controller/AnalyticController.php:119 cfd; assets/js/components/chart-project-cumulative-flow.js renders it",
         "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): grep -rniIl 'cumulative.flow|cycle.time|lead.time' over app, modules and frontend/src returns nothing ; source read at v17.8.0: searched app, lib, modules and frontend/src (rb, ts, yml, erb) for 'cumulative flow', 'cycle time', 'lead time', 'cycle_time', 'lead_time': none; modules/backlogs/app/components/backlogs/sprint_reports/widgets holds burndown and goal only",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 10.4 'the Cumulative Flow Diagram is an area chart that shows the various statuses of work items'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 10.4 'the Cumulative Flow Diagram is an area chart that shows the various statuses of work items' ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/cumulative-flow-diagram-938845656.html 'A Cumulative Flow Diagram (CFD) is an area chart that shows the various statuses of work items' (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §10 analytics are two-dimensional counts; source: grep -rliE 'cumulative' in packages/i18n/src/locales/en returns nothing ; source read at v1.4.2: searched packages/i18n/src/locales/en and apps/web/core for 'cumulative': only the swimlane prop isSubGroupCumulative at apps/web/core/components/issues/issue-layouts/kanban/swimlanes.tsx:41, no flow chart; apps/api/plane/app/views/analytic/advance.py:289-308 is a two-dimensional count"
       },
       "built": {
@@ -3660,7 +3694,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 10.4 'no duration is stored beyond createdAt, lastModified and done' ; source read at v1.19.0: lib/Db/Card.php:81 createdAt and :89 done timestamps exist, but searched lib/ and src/ for 'cycle time', 'lead time', 'cycleTime', 'leadTime': no report computes them",
         "kanboard": "corpus: kanboard/round4/M1-column.md 10.4 'lead and cycle time per task and averaged (TaskAnalyticModel::getLeadTime, getCycleTime)' ; source read at v1.2.54: app/Template/analytic/sidebar.php:19 'Lead and cycle time', app/Template/analytic/lead_cycle_time.php:3 averages; app/Controller/AnalyticController.php:21 leadAndCycleTime; app/Template/task/analytics.php:14-15 per task; app/Model/TaskAnalyticModel.php:22 getLeadTime, :34 getCycleTime",
         "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): same grep, no cycle or lead time report; corpus: openproject/round4/M1-column.md 10.4 'There is no cycle time, no heatmap and no phase duration analysis' ; source read at v17.8.0: same search as prt-cumulative-flow, app, lib, modules and frontend/src for 'cycle_time', 'lead_time', 'cycle time', 'lead time': none; modules/reporting/app/models/cost_query/group_by holds time and cost groupings, no duration of work",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 10.4 'The Control Chart shows the cycle time and lead time for your product, version, or sprint'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 10.4 'The Control Chart shows the cycle time and lead time for your product, version, or sprint' ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/control-chart-938845628.html 'The Control Chart shows the cycle time and lead time for your product, version, or sprint' (read 2026-09-26)",
         "plane": "corpus: plane/round4/M1-column.md 10.4 'no duration recorded anywhere'; completed_at exists (issue.py:236-249) but no lead or cycle time report ; source read at v1.4.2: apps/api/plane/db/models/issue.py:159 completed_at is stored but searched apps/api/plane --include=*.py for 'lead.?time', 'cycle.?time': none, no report computes it"
       },
       "built": {
@@ -3690,7 +3724,7 @@
         "nextcloud-deck": "source: src/components/navigation/BoardExportModal.vue:12-18 'Export as JSON' and 'Export as CSV' on a board (tag v1.18.4) ; corpus: nextcloud-deck/round4/M1-column.md 10.3 said 'no CSV or XLSX; occ deck:export writes JSON', which the UI export contradicts ; source read at v1.19.0: src/components/navigation/AppNavigationBoard.vue:76 'Export board' opens src/components/navigation/BoardExportModal.vue:12 'Export as JSON', :18 'Export as CSV'; src/services/BoardApi.js:239-243 writes a .csv file of the cards; lib/Controller/BoardController.php:140 export, lib/Service/BoardService.php:716; no PDF",
         "kanboard": "corpus: kanboard/round4/M1-column.md 10.3 'Exports on the project menu: tasks, subtasks, transitions and daily summaries as CSV with a date range' ; source read at v1.2.54: app/Template/project_header/dropdown.php:63 'Exports'; app/Template/export/header.php:5-14 Tasks, Subtasks, Task transitions, Daily project summary; app/Controller/ExportController.php:34-35 CSV download; searched app/Controller and app/Export for 'pdf': none",
         "openproject": "corpus: openproject/round4/M1-column.md 10.3 'CSV and PDF registered at config/initializers/export_formats.rb:33-34, XLS added by modules/xls_export' ; source read at v17.8.0: config/initializers/export_formats.rb:34 CSV and :35 PDF list exports, :37 single work package PDF; modules/xls_export/lib/open_project/xls_export/engine.rb:15-18 adds XLS; config/routes.rb:1007 work package export dialog on the list",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 10.3 'Export > CSV (All fields)'; other formats 'XML, Word and Printable', no XLSX or PDF",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 10.3 'Export > CSV (All fields)'; other formats 'XML, Word and Printable', no XLSX or PDF ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/working-with-search-results-939938808.html 'Click Export > CSV (All fields) or Export > CSV (Current fields)'; 'Click Export > XML'; Word and Printable views, no PDF or XLSX (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §10 'ExporterHistory: provider in json / csv / xlsx' ; M1-column.md 10.3 yes. CSV and spreadsheet yes; PDF export exists only for pages (code-census.md §4), not tasks ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(settings)/settings/(workspace)/exports/page.tsx and apps/web/core/components/exporter/export-modal.tsx:91 CSV, Excel, JSON; apps/api/plane/app/urls/exporter.py:12 export-issues, apps/api/plane/app/views/exporter/base.py:23 post; apps/api/plane/db/models/exporter.py:36 providers json, csv, xlsx. PDF only for pages, apps/web/core/components/pages/modals/export-page-modal.tsx"
       },
       "built": {
@@ -3720,7 +3754,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 9.3 and 9.4 'no' saved searches ; 10.1 'no' ; source read at v1.19.0: searched lib/ and src/ for 'savedQuery', 'saved search', 'report': none; src/components/Controls.vue:172-229 the board filter is not saved; lib/Search/FilterStringParser.php parses one-off search filters only",
         "kanboard": "corpus: kanboard/round4/journeys.md 5 shared custom filter saved ; code-census.md 'saved searches custom_filters.is_shared' : a saved query, no report builder ; source read at v1.2.54: app/Template/custom_filter/create.php:14 a saved and shareable query; app/Controller/CustomFilterController.php:57 save; the eight fixed charts in app/Template/analytic/sidebar.php:4-25; no report builder",
         "openproject": "corpus: openproject/round4/M1-column.md 9.3 personal saved queries, 10.1 widgets, 10.4 cost report pivot engine ; source read at v17.8.0: config/locales/js-en.yml:591 'Save as' a work package view; app/contracts/queries/base_contract.rb:38 sums and :53 group_by saved on a query; modules/reporting/config/routes.rb:49-52 cost report save_as; modules/reporting/app/controllers/cost_reports_controller.rb:146 create",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 9.3 saved filters, 10.1 gadgets 'Issue Statistics', 'Pie Chart', 10.10 'Filter Results'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 9.3 saved filters, 10.1 gadgets 'Issue Statistics', 'Pie Chart', 10.10 'Filter Results' ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/gadgets-for-jira-applications-939939037.html 'Filter Results Shows the results of a selected issue filter'; 'Issue Statistics Shows issue statistics returned from a selected project or saved filter' (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §9 saved IssueView with filters, display_filters and display_properties (a saved query); §10 'Custom Reports (BUSINESS) are absent' and analytics is a two-dimensional count ; source read at v1.4.2: apps/web/core/components/views/form.tsx:98 saved view form; apps/api/plane/db/models/view.py:58-64 IssueView stores filters and display_properties, a saved query; apps/api/plane/app/views/analytic/advance.py:289-308 analytics is a fixed x_axis by group_by count, no report builder"
       },
       "built": {
@@ -3749,7 +3783,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Dashboard. Three widgets, Upcoming cards, Today and Tomorrow (lib/Dashboard/), on the Nextcloud dashboard' ; source read at v1.19.0: lib/AppInfo/Application.php:138-140 registers three platform dashboard widgets; lib/Dashboard/DeckWidgetUpcoming.php:53 'Upcoming cards', lib/Dashboard/DeckWidgetToday.php:38 'Cards due today', lib/Dashboard/DeckWidgetTomorrow.php:38 'Cards due tomorrow'; src/views/DashboardUpcoming.vue renders them",
         "kanboard": "not a Nextcloud app; corpus: kanboard/round4/code-census.md empty grep 'widget' ; M1-column.md 9.12 'no' platform integration ; source read at v1.2.54: a standalone PHP application, not a Nextcloud app; searched app/ (outside Locale) for 'widget', 'nextcloud': none",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/file-management/nextcloud-integration/README.md:22 'View OpenProject notifications via the Nextcloud dashboard' (OpenProject Integration app for Nextcloud); notifications, not a task list (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: docs/user-guide/file-management/nextcloud-integration/README.md:22 'View OpenProject notifications via the Nextcloud dashboard', served by the separate Nextcloud app from lib/api/v3/notifications/notification_collection_representer.rb; notifications, not a task list; the widget code is not in this repository",
-        "jira": "not a Nextcloud product and no Nextcloud app from Atlassian; its own dashboard is prt-dashboard (corpus: jira-data-center/round4/M1-column.md 10.2); corpus: jira-data-center/round4/M1-column.md 1.9 integrations page covers Confluence only",
+        "jira": "not a Nextcloud product and no Nextcloud app from Atlassian; its own dashboard is prt-dashboard (corpus: jira-data-center/round4/M1-column.md 10.2); corpus: jira-data-center/round4/M1-column.md 1.9 integrations page covers Confluence only ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/configuring-dashboards-939939002.html Jira has its own dashboards; https://confluence.atlassian.com/adminjiraserver/integrating-with-collaboration-tools-938846920.html names Confluence and chat tools, no Nextcloud integration (read 2026-09-26)",
         "plane": "corpus: plane/round4/M1-column.md 9.12 'Plane is not hosted in a platform'; no Nextcloud dashboard widget ; source read at v1.4.2: Plane is a standalone Django and React app with no Nextcloud dashboard widget: searched apps and packages for 'nextcloud', 'OCP', 'IWidget': none; the only home widgets are Plane's own, apps/web/core/components/home/home-dashboard-widgets.tsx:34-52"
       },
       "built": {
@@ -3779,7 +3813,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md card 'Activity (the platform's stream filtered to the card)' ; code-census.md 'activity subjects 39' ; M1-column.md 10.9 'Verified live on card 6' ; source read at v1.19.0: appinfo/info.xml:67-79 registers activity settings, filter and provider; lib/Activity/ActivityManager.php:53-94 board, list, card, label, attachment and comment subjects; src/components/card/CardSidebarTabActivity.vue:7-12 and src/components/board/BoardSidebar.vue:42 'Activity' tabs (platform activity)",
         "kanboard": "not a Nextcloud app; its own project activity stream (corpus: kanboard/round4/menu-tree.md project 'Activity', task 'Activity stream' ; code-census.md 'event log project_activities') ; source read at v1.2.54: not a Nextcloud app, so no Nextcloud activity stream; its own stream: app/Template/project_header/dropdown.php:38 'Activity', app/Controller/ActivityController.php:34 project, :50 task; app/ServiceProvider/NotificationProvider.php:39 ActivityStreamNotification",
         "openproject": "own activity module per project (docs: opf/openproject HEAD 27a58131 docs/user-guide/activity; corpus: openproject/round4/M1-column.md 10.5 'the activity view aggregates them per project'); the Nextcloud integration offers dashboard, search and link preview (docs: opf/openproject HEAD 27a58131 docs/user-guide/file-management/nextcloud-integration/README.md:22-25), no Nextcloud activity stream entries (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: config/routes.rb:555 OpenProject's own per project Activity page; config/initializers/menus.rb:702-705 project 'Activity' menu; searched modules/storages/app (rb) for 'activity': no event pushed into the Nextcloud activity stream, the Nextcloud side is a separate app",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 5.4 'Your user profile also displays recent work in the Activity Stream' (own activity stream, not a host platform's)",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 5.4 'Your user profile also displays recent work in the Activity Stream' (own activity stream, not a host platform's) ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/managing-your-user-profile-939938953.html 'Your user profile also displays recent work in the Activity Stream': Jira's own stream, no feed into a host platform's activity app (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §6 'IssueActivity ... ACTIVITY_MAPPER with 28 entries, all issue-scoped'; a per work item feed inside Plane, no workspace activity stream and no Nextcloud activity integration; project settings changes are not recorded (§13) ; source read at v1.4.2: apps/web/core/components/issues/issue-detail/main-content.tsx:184 per work item activity feed; apps/web/app/(all)/[workspaceSlug]/(projects)/profile/[userId]/activity/page.tsx per user activity; apps/api/plane/bgtasks/issue_activities_task.py:1540 ACTIVITY_MAPPER is issue scoped. No Nextcloud activity integration: searched apps and packages for 'nextcloud': none"
       },
       "built": {
@@ -3809,7 +3843,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 2.20 'push board changes to open clients when the notify_push app is installed ... without it the client polls. Not driven' ; source read at v1.19.0: src/sessions.js:40-60 listens for deck_board_update and deck_card_update from the notify_push app and reloads the open board; lib/NotifyPushEvents.php:13-14; without notify_push nothing refreshes: searched src/ for 'setInterval', 'polling': only session keep-alive at src/sessions.js:125 and a clock at src/main.js:65",
         "kanboard": "corpus: kanboard/round4/M1-column.md 2.20 'the board polls: BoardAjaxController::check ... every board_private_refresh_interval seconds (10 by default) ... the task page does not refresh' ; source read at v1.2.54: assets/js/src/BoardPolling.js:1-15 the board polls on an interval; app/Template/board/table_container.php:13 data-check-interval from board_private_refresh_interval; app/Controller/BoardAjaxController.php:65 check; no push and no refresh on the task page",
         "openproject": "corpus: openproject/round4/M1-column.md 2.20 'The work package page does not update when someone else edits it' ; source read at v17.8.0, contradicts the drive: the drive recorded that the work package page does not update when someone else edits it; the code polls the activity tab and refreshes the open work package's fields when another user changed it, while boards and lists still need a reload frontend/src/stimulus/controllers/dynamic/work-packages/activities-tab/polling.controller.ts:45 polls every 10 s by default, :135 setInterval, :243-256 when the latest change is from another user it refreshes the work package fields or warns of a conflict; app/components/work_packages/activities_tab/lazy_index_component.rb:127-128 interval setting; boards and lists have no such polling",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 2.20 'JSWSERVER-4452 (Agile board should refresh automatically whenever someone moves a card ...), Gathering Interest, 246 votes'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 2.20 'JSWSERVER-4452 (Agile board should refresh automatically whenever someone moves a card ...), Gathering Interest, 246 votes' ; docs read 2026-09-26: https://jira.atlassian.com/browse/JSWSERVER-4452 'Agile board should refresh automatically whenever someone moves a card or makes another change', Suggestion, Gathering Interest, 246 votes (tracker REST API, read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §12 'apps/live/src/types/index.ts:26 export type TDocumentTypes = \"project_page\"; ... pages collaborate live; issue descriptions and comments do not' ; M1-column.md 2.20 partial ; source read at v1.4.2: apps/live/src/types/index.ts:26 TDocumentTypes is only 'project_page'; packages/editor/src/core/extensions/extensions.ts:7,62 HocuspocusProvider for the page editor. Searched apps/web/core/store for 'socket', 'websocket', 'EventSource': none, so work item lists and boards refresh only on fetch"
       },
       "built": {
@@ -3839,7 +3873,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md notification kinds 'card-assigned' ; M1-column.md 6.8 'four notifications reached jdevries ... two assignments' ; source read at v1.19.0: lib/Service/AssignmentService.php:77-78 assigning another user calls lib/Notification/NotificationHelper.php:107-121 sendCardAssigned with subject 'card-assigned', rendered by lib/Notification/Notifier.php; UI trigger src/components/card/AssignmentSelector.vue:17",
         "kanboard": "corpus: kanboard/round4/M1-column.md 6.8 web notifications with the assignee filter ; source: app/Subscriber/NotificationSubscriber.php task events to app/Notification/ (web, mail) ; source read at v1.2.54: app/Subscriber/NotificationSubscriber.php:27 TaskModel::EVENT_ASSIGNEE_CHANGE handled; app/Template/notification/task_assignee_change.php:9 'Assigned to %s'; app/Template/header/user_notifications.php:3 bell with unread notifications",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/notifications/notification-settings/README.md:18 'Be notified of activities on some or all of the work packages in which you are participating (as assignee, responsible or watcher)' (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: app/models/notification.rb:34 reason 'assigned'; app/models/notification_setting.rb:33 ASSIGNEE setting; app/services/notifications/create_from_model_service/work_package_strategy.rb derives the recipients; config/initializers/menus.rb:301-303 'Notifications and email' settings page",
-        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/configuring-email-notifications-938847633.html 'Jira can send email notifications to users when significant events occur' (corpus: jira-data-center/round4/M1-column.md 8.6); Issue Assigned is a notification scheme event",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/configuring-email-notifications-938847633.html 'Jira can send email notifications to users when significant events occur' (corpus: jira-data-center/round4/M1-column.md 8.6); Issue Assigned is a notification scheme event ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/configuring-email-notifications-938847633.html 'Jira can send email notifications to users when significant events occur'; https://confluence.atlassian.com/jirasoftwareserver/push-notifications-993923359.html mobile push for 'Issues you're assigned to ... New assignee' (read 2026-09-26)",
         "plane": "corpus: plane/round4/M1-column.md 6.8 'Notification with read_at, snoozed_till, archived_at' ; source: apps/api/plane/bgtasks/issue_activities_task.py:396-408 a new assignee is added as IssueSubscriber, and bgtasks/notification_task.py:303-315 sends them 'in_app:issue_activities:assigned' ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(projects)/notifications/page.tsx:12,31 NotificationsRoot inbox; apps/api/plane/bgtasks/issue_activities_task.py:357-371 track_assignees and :395-398 adds the new assignee as IssueSubscriber; apps/api/plane/bgtasks/notification_task.py:280-311 notifies subscribers"
       },
       "built": {
@@ -3869,7 +3903,7 @@
         "nextcloud-deck": "source: lib/Activity/SettingComment.php:20-28 'A comment was created on a card' activity setting, delivered by the platform's stream, mail or push per user ; corpus: nextcloud-deck/round4/code-census.md 'card-comment-mentioned' notification for mentions ; source read at v1.19.0: lib/Listeners/CommentEventListener.php:41-44 and :56-59 a new comment triggers the card_comment_create activity; lib/Activity/SettingComment.php:28 'A comment was created on a card' setting delivered by the platform stream or mail; direct notification only for mentions, lib/Notification/NotificationHelper.php:178",
         "kanboard": "corpus: kanboard/round4/M1-column.md 6.1 'a mention that notifies' and 6.8 notifications to assignee or creator ; source: app/Subscriber/NotificationSubscriber.php:31 CommentModel::EVENT_CREATE => handleEvent, app/Template/notification/comment_create.php ; source read at v1.2.54: app/Subscriber/NotificationSubscriber.php:31 CommentModel::EVENT_CREATE handled; app/Template/notification/comment_create.php:3 mail body; app/Template/user_view/notifications.php:13 limit to tasks assigned to or created by me",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/notifications/notification-settings/README.md:27-29 participants are notified of all activities by default; docs: opf/openproject HEAD 27a58131 docs/user-guide/notifications/README.md:22 'new comments that mention you' (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: app/models/notification.rb:37 reason 'commented' and :33 'mentioned'; app/models/notification_setting.rb:41 WORK_PACKAGE_COMMENTED; app/services/notifications/create_from_model_service.rb:33 mention parsing",
-        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/configuring-email-notifications-938847633.html events 'when an issue is created or completed, or when any issue fields are updated' (corpus: jira-data-center/round4/M1-column.md 8.6), comments included; push notifications for watched issues and mentions (Push notifications page)",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/configuring-email-notifications-938847633.html events 'when an issue is created or completed, or when any issue fields are updated' (corpus: jira-data-center/round4/M1-column.md 8.6), comments included; push notifications for watched issues and mentions (Push notifications page) ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/configuring-email-notifications-938847633.html batched updates include 'Changes to any of the issue fields ... Comments Work logs Attachments Mentions' (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §6 UserNotificationPreference 'comment' boolean ; source: bgtasks/notification_task.py:267 comment mentions and subscribers notified ; source read at v1.4.2: apps/web/core/components/settings/profile/content/pages/notifications/email-notification-form.tsx:131 'comment' preference; apps/api/plane/bgtasks/notification_task.py:133-150 comment mentions and :280-311 subscribers notified; apps/api/plane/db/models/notification.py:106 comment preference"
       },
       "built": {
@@ -3899,7 +3933,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 8.6 'platform: the notification (8.4) is mailed when the user's notification settings say so; Deck sends no mail itself' ; source: lib/Activity/SettingBase.php activity mail choices ; source read at v1.19.0: lib/Activity/SettingBase.php:79-89 each Deck activity type can be mailed by the platform, off by default; appinfo/info.xml:69-71 SettingChanges, SettingDescription, SettingComment; searched lib/ for 'IMailer': none, Deck sends no mail itself (platform)",
         "kanboard": "corpus: kanboard/round4/M1-column.md 8.6 'the overdue command sends e-mail' ; code-census.md notifications 'app/Notification/ (web, mail, webhook, activity stream)' ; source read at v1.2.54: app/ServiceProvider/NotificationProvider.php:31 'Email' notification type; app/Notification/MailNotification.php:31 notifyUser; app/Template/user_view/notifications.php:9 user picks methods",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/account-settings/notification-and-email/README.md:23-25 'Email reminders ... configure the email reminders which you receive' (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: app/services/notifications/mail_service.rb:44 sends mail per notification strategy; app/components/my/reminders/show_page_component.html.erb:33 immediate reminders and :45 daily email reminders; config/routes.rb:1138-1140 update_reminders and update_email_alerts",
-        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/configuring-email-notifications-938847633.html 'Jira can send email notifications to users when significant events occur'",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/configuring-email-notifications-938847633.html 'Jira can send email notifications to users when significant events occur' ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/configuring-email-notifications-938847633.html 'Jira can send email notifications to users when significant events occur. For example, when an issue is created or completed' (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §6 'Email delivery is batched by bgtasks/email_notification_task.py, scheduled every five minutes', needs SMTP (menu-tree.md god-mode 'Email SMTP') ; source read at v1.4.2: apps/web/core/components/settings/profile/content/pages/notifications/email-notification-form.tsx:69,89,131,151 email toggles; apps/api/plane/bgtasks/email_notification_task.py:47 stack_email_notification and :153 send_email_notification; apps/api/plane/celery.py:47 scheduled batching. Needs SMTP set by the instance admin"
       },
       "built": {
@@ -3929,7 +3963,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md 'live presence: Session per user per board, events for notify_push' ; corpus: _round4/compare/findings-batch6.md '2.31 ... Deck yes by its sessions' ; source read at v1.19.0, contradicts the drive: the drive credited presence from the session model; the code shows it only when the separate notify_push app is installed, the same condition that holds col-live-updates at partial src/components/Controls.vue:32-33 SessionList 'Currently present people' shows only when isNotifyPushEnabled; src/sessions.js:76-82 createSession returns a dummy without notify_push; appinfo/routes.php:183-185 session create, sync, close",
         "kanboard": "corpus: kanboard/round4/_round4/compare/pending-rows-batch7.md 2.31 'no' (does the product show who else has the case open right now) ; source read at v1.2.54: searched app/Controller and app/Template for 'presence', 'viewing', 'online': none; assets/js/src/BoardPolling.js:15 polls for changes, not for viewers",
         "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): grep -rliE 'presence|currently viewing|also editing' over app, lib and frontend/src/app matches only Ruby presence checks in services (user_preferences/update_service.rb, journals/create_service.rb); no viewer indicator ; source read at v17.8.0: searched app, lib and frontend/src/app (rb, ts, erb, html) for 'currently viewing', 'also editing', 'viewers': only BIM viewer code and lib/open_project/text_formatting/filters/mention_filter.rb; real-time collaboration exists only in the Documents module (modules/documents/app/views/documents/show.html.erb), not on tasks or boards",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 2.20 the issue pages 'say nothing about refresh', and no presence indicator appears in the issue or board documentation read",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 2.20 the issue pages 'say nothing about refresh', and no presence indicator appears in the issue or board documentation read ; docs read 2026-09-26: https://jira.atlassian.com/browse/JRASERVER-69810 'Show who is Viewing the JIRA ticket Real Time', Suggestion, Gathering Interest, 8 votes (tracker REST API, read 2026-09-26)",
         "plane": "source: grep -rlniE 'cursor|presence|collaborators|users.?online' packages/editor/src/core/extensions packages/editor/src/core/hooks and grep awareness in packages/editor/src return nothing; corpus silent ; source read at v1.4.2: searched packages/editor/src, apps/live/src and apps/web/core for 'awareness', 'CollaborationCursor', 'connected.?users', 'active.?users', 'viewers': none; apps/live/src/types/index.ts:26 live sync covers pages only and shows no presence"
       },
       "built": {
@@ -3958,7 +3992,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 6.12 'the smart picker (lib/Reference/CreateCardReferenceProvider.php) creates a card from inside Talk and pastes its link ... not driven' ; open-core.md 'It does not reach ... Talk's inbox' : no conversation per card ; source read at v1.19.0: src/init-talk.js:24-25 registers a Talk message action 'Create a card' from a chat message, loaded in Talk by lib/Listeners/BeforeTemplateRenderedListener.php:45-46; lib/Reference/CreateCardReferenceProvider.php:36 'Create a new deck card' smart picker; searched lib/ and src/ for a per-card conversation: none",
         "kanboard": "corpus: kanboard/round4/M1-column.md 6.12 'no chat ... Slack and Mattermost are directory plugins' ; source read at v1.2.54: searched app/ (outside Locale) for 'slack', 'mattermost', 'rocket', 'chat': none; app/Schema/Sqlite.php:548-550 the old HipChat settings are deleted by migration; chat is the third-party Slack and Mattermost plugins",
         "openproject": "no chat integration (corpus: openproject/round4/M1-column.md 6.12 'no chat integration'); the Nextcloud app gives Talk only a link preview (col-link-preview) ; source read at v17.8.0: searched modules/storages, app and lib (rb) for 'spreed', 'nextcloud talk', 'talk': only a code comment in app/services/oauth_clients/connection_manager.rb:63; no Talk room per work package; docs/user-guide/file-management/nextcloud-integration/README.md:220-222 Talk only renders a link preview",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 6.12 'no chat capture ... Jira Server for Slack is a Marketplace plugin, not the product'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 6.12 'no chat capture ... Jira Server for Slack is a Marketplace plugin, not the product' ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/integrating-with-collaboration-tools-938846920.html covers Confluence and the retired Hipchat integration; a Marketplace REST search for 'nextcloud' among Data Center Jira apps returns 0 (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §12 SlackProjectSync is an 'unreachable dead table'; no chat integration of any kind, and Talk is Nextcloud-specific ; source read at v1.4.2: apps/api/plane/db/models/integration/slack.py:14 SlackProjectSync is a model with no route: searched apps/api/plane/app/urls for 'slack', 'talk', 'mattermost', 'teams': none"
       },
       "built": {
@@ -3988,7 +4022,7 @@
         "nextcloud-deck": "source: lib/AppInfo/Application.php:144-146 CardReferenceProvider, BoardReferenceProvider, CommentReferenceProvider render rich previews of pasted links in Talk and Text ; corpus: nextcloud-deck/round4/code-census.md 'reference (4)' ; source read at v1.19.0: lib/AppInfo/Application.php:145-147 registers CardReferenceProvider, BoardReferenceProvider and CommentReferenceProvider; src/views/CardReferenceWidget.vue and src/views/BoardReferenceWidget.vue render the previews in Talk and Text (platform reference API)",
         "kanboard": "source: grep -rniE 'oembed|og:|unfurl' app/Template/layout.php returns nothing; no preview of a task link elsewhere ; corpus: kanboard/round4/code-census.md empty grep 'widget' ; source read at v1.2.54: searched app/Template for 'oembed', 'og:', 'twitter:card', 'unfurl': none; no endpoint that serves a task preview to another app",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/file-management/nextcloud-integration/README.md:220-222 'Starting with OpenProject Nextcloud Integration App 2.4 a work package link preview will be shown if you use Nextcloud Talk or Text apps' (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: docs/user-guide/file-management/nextcloud-integration/README.md:220-224 work package link preview in Nextcloud Talk and Text via the integration app, which reads lib/api/v3/work_packages/work_package_representer.rb:302 previewMarkup; inside OpenProject config/routes.rb:1010 work package hover_card preview",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 9.12 'Gadgets You can embed a Confluence activity stream ... in Jira's dashboard' and application links to Confluence (1.9): previews live in Confluence, a separate product; no chat unfurl in the product",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 9.12 'Gadgets You can embed a Confluence activity stream ... in Jira's dashboard' and application links to Confluence (1.9): previews live in Confluence, a separate product; no chat unfurl in the product ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/using-jira-applications-with-confluence-939938870.html 'Any Jira search result can be embedded in a Confluence page using the Jira Issues macro': previews live in Confluence, not in a general chat or document tool (read 2026-09-26)",
         "plane": "source: apps/web/app/root.tsx:88-95 static og:title APP_TITLE and og:url https://app.plane.so/ for every page, so a pasted work item link previews as the generic app; no per-item unfurl. Corpus silent ; source read at v1.4.2: apps/web/app/root.tsx:102-107 static og:title APP_TITLE and og:url https://app.plane.so/ for every page, so a pasted work item link previews as the generic app; searched apps for 'oembed': none. apps/api/plane/tests/unit/bg_tasks/test_ssrf_advisories.py:26 unfurling is the other direction, links pasted into Plane"
       },
       "built": {
@@ -4018,7 +4052,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Unified search. Cards and boards under search-deck-card-board, comments under search-deck-comment ... Verified live' ; M1-column.md 9.12 'yes' ; source read at v1.19.0: lib/AppInfo/Application.php:136-137 registers DeckProvider and CardCommentProvider; lib/Search/DeckProvider.php:31 'search-deck-card-board', :42-50 boards and cards; lib/Search/CardCommentProvider.php:35 'search-deck-comment' (platform unified search)",
         "kanboard": "corpus: kanboard/round4/M1-column.md 9.12 'no platform search to join' ; 9.1 'the header search box ... across every project the user can see' : its own global search finds tasks, not projects ; source read at v1.2.54: not a Nextcloud app, no platform search to join; its own search: app/Controller/SearchController.php:16-34 finds tasks across the user's projects with TaskProjectsFilter; projects are found only by name on app/Controller/ProjectListController.php:27-31",
         "openproject": "corpus: openproject/round4/M1-column.md 9.1 global quick search over eight searchables including work packages and projects; docs: opf/openproject HEAD 27a58131 docs/user-guide/file-management/nextcloud-integration/README.md:214 'Enable unified search for tickets allows you to search OpenProject work packages via the universal search bar in Nextcloud' (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: config/routes.rb:326 OpenProject's own global search; app/controllers/search_controller.rb:141 search types include work packages and projects; docs/user-guide/file-management/nextcloud-integration/README.md:214 'Enable unified search for tickets' in Nextcloud through the integration app",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 9.1 'The Search box is located at the top right of your screen ... start typing to search through all your issues and projects'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 9.1 'The Search box is located at the top right of your screen ... start typing to search through all your issues and projects' ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/quick-searching-939938728.html 'The Search box is located at the top right of your screen, in the Jira header bar': Jira's own global search, it is its own platform (read 2026-09-26)",
         "plane": "corpus: plane/round4/M1-column.md 9.1 'app/views/search/base.py with per-entity filter methods for workspaces, projects, issues, cycles, modules, pages, views and intakes'; the product's own global search, titles only (code-census.md §9) ; source read at v1.4.2: apps/web/core/components/power-k/ui/modal/search-menu.tsx:51 searchWorkspace from the command palette; apps/api/plane/app/urls/search.py:13 route, apps/api/plane/app/views/search/base.py:46 GlobalSearchEndpoint over projects and work items, titles and keys only, :83-94"
       },
       "built": {
@@ -4048,7 +4082,7 @@
         "nextcloud-deck": "generic only: lib/AppInfo/Application.php:212-213 registers Nextcloud collaboration ResourceProvider and ResourceProviderCard, so a board or card can be linked to other resources; nothing specific to the fleet's case management app ; source read at v1.19.0: generic only: lib/AppInfo/Application.php:213-214 registers collaboration ResourceProvider and ResourceProviderCard, shown by src/components/card/CardSidebarTabDetails.vue:34-38 NcCollectionList when the platform projects feature is on; searched lib/ and src/ for 'procest', 'dossiq', 'zaak': none",
         "kanboard": "generic only: corpus: kanboard/round4/journeys.md 4 'createExternalTaskLink to a web link' ; menu-tree.md 'Add external link' ; journeys.md 1 a task 'reference' of Z-2026-0001 ; source read at v1.2.54: generic only: app/Template/task/sidebar.php:51 'Add external link', app/ExternalLink/WebLinkProvider.php; app/Helper/TaskHelper.php:198-199 free text 'Reference' field, :250 rendered as a link when it is a URL; no case app integration",
         "openproject": "no case management integration; a generic 'link' custom field format exists (source: opf/openproject HEAD 27a58131 (18.0.0-dev): config/initializers/custom_field_format.rb:41 formats.register('link')), so a URL to an external record can be stored per work package or project (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: config/initializers/custom_field_format.rb:39-40 a 'link' (URL) custom field format usable on work packages and projects, so a case URL can be stored; searched app/models and modules/*/app/models for 'zaak', 'case management': no case connector",
-        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/linking-issues-939938934.html 'Issue linking allows you to create an association between two existing issues on either the same or different Jira servers' (corpus: jira-data-center/round4/M1-column.md 2.10); web links and a 'URL field' (corpus: jira-data-center/round4/M1-column.md 5.13) hold an external reference, no case app integration",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/linking-issues-939938934.html 'Issue linking allows you to create an association between two existing issues on either the same or different Jira servers' (corpus: jira-data-center/round4/M1-column.md 2.10); web links and a 'URL field' (corpus: jira-data-center/round4/M1-column.md 5.13) hold an external reference, no case app integration ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/linking-issues-939938934.html 'Link an issue to any other web page' and links between issues 'on either the same or different Jira servers': a plain web link, no case system integration (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §2 'IssueLink is a URL plus metadata JSON'; a generic external link can point at a case, no case integration ; source read at v1.4.2: apps/web/core/components/issues/issue-detail/links/root.tsx:17,37 createLink with a URL and title; apps/api/plane/app/urls/issue.py:110 issue-links route; apps/api/plane/db/models/issue.py:371 IssueLink. A generic URL can point at a case, no case integration"
       },
       "built": {
@@ -4078,7 +4112,7 @@
         "nextcloud-deck": "fleet-specific; Deck creates a card from Talk or Text (CreateCardReferenceProvider) but no board from another app's record (corpus: nextcloud-deck/round4/M1-column.md 1.9) ; source read at v1.19.0: searched lib/ and src/ for 'procest', 'dossiq', 'zaak': none; a card, not a board, can be made from Talk or Text, lib/Reference/CreateCardReferenceProvider.php:36 and src/init-talk.js:24",
         "kanboard": "fleet-specific; no create-from-record integration (corpus: kanboard/round4/M1-column.md 1.3 'no') ; source read at v1.2.54: fleet specific; app/Controller/ProjectCreationController.php:56 save takes a form only, searched app/ for a create-from-record hook: none",
         "openproject": "no case object or case app connector (corpus: openproject/round4/M1-column.md section 12 all Dutch case APIs 'no'); projects are created from templates only ; source read at v17.8.0: searched app/models and modules/*/app/models for 'zaak', 'case': no case object or connector; app/components/projects/template_select_component.html.erb:39 projects start blank or from a template only",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 12.1 'No ZGW'; no case system integration to start a project from",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 12.1 'No ZGW'; no case system integration to start a project from ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/integrating-with-other-tools-938846907.html names no case management integration; project creation is an admin action (https://confluence.atlassian.com/adminjiraserver/creating-a-project-938846813.html) (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §12 no connectors reachable; §5 no case or contact entity ; source read at v1.4.2: searched apps/api/plane/db/models/__init__.py for 'customer', 'contact', 'organisation', 'organization', 'case': none; the only create path is the project form, apps/api/plane/app/views/project/base.py:257-258"
       },
       "built": {
@@ -4108,7 +4142,7 @@
         "nextcloud-deck": "fleet-specific; corpus: nextcloud-deck/round4/M1-column.md 5.4 'no' contact 360 and open-core.md 'Contacts has no link from a card' ; source read at v1.19.0: searched lib/ and src/ for 'pipelinq', 'crm', 'contact': no client link; lib/Db/Board.php:35-54 a board has no client or contact field",
         "kanboard": "fleet-specific; corpus: kanboard/round4/M1-column.md 5.2 'no' contact registry ; source read at v1.2.54: fleet specific; searched app/Template and app/Controller for 'client', 'customer', 'contact' registry: only mail hits; no embed surface for another app",
         "openproject": "no CRM integration; corpus: openproject/round4/M1-column.md 5.2 'no contact record' ; source read at v17.8.0: searched app/models (rb) for 'crm', 'contact': no client or contact record and no CRM connector; the nearest is a project attribute, app/models/project_custom_field.rb:58",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 5.2 'Customers and organizations are JSM DC records'; no CRM client page integration",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 5.2 'Customers and organizations are JSM DC records'; no CRM client page integration ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/licensing-and-application-access-938846887.html customer records belong to Jira Service Management, a separate application; https://confluence.atlassian.com/adminjiraserver/integrating-with-other-tools-938846907.html lists no CRM integration (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §5 'Contact, organisation or customer object: absent' ; source read at v1.4.2: searched apps/api/plane/db/models/__init__.py for 'customer', 'contact', 'client': none; Project has no client field, apps/api/plane/db/models/project.py:68-117"
       },
       "built": {
@@ -4141,7 +4175,7 @@
         "nextcloud-deck": "source: lib/AppInfo/Application.php:189 DeckTeamResourceProvider lists a team's boards on the Team page, :144-145 board and card reference widgets in Text and Talk ; corpus: nextcloud-deck/round4/code-census.md 'team resource' ; source read at v1.19.0: lib/AppInfo/Application.php:191 DeckTeamResourceProvider lists a team's boards on the platform Team page; :145-146 card and board reference widgets, src/views/BoardReferenceWidget.vue, embed a board or card in Text and Talk; no widget for another app's record",
         "kanboard": "standalone application with no embed surface ; corpus: kanboard/round4/code-census.md empty grep 'widget' ; source read at v1.2.54: standalone application; searched app/ (outside Locale) for 'widget', 'embed' surfaces for another app: none; the nearest outward views are the token feeds, app/Controller/ICalendarController.php:62 and the public board",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/file-management/nextcloud-integration/README.md:161 'In the Details side panel, click on the OpenProject tab. This tab lets you link work packages in OpenProject to the current file, and will list all linked work packages' (work packages on a Nextcloud file, not projects on a record) (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: docs/user-guide/file-management/nextcloud-integration/README.md:161 the Nextcloud Files sidebar 'OpenProject' tab lists the work packages linked to a file, built by the separate Nextcloud app on modules/storages/lib/api/v3/file_links/create_endpoint.rb and modules/storages/lib/api/v3/file_links/file_link_representer.rb:144; work packages on a file, not a record's projects in another app",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 9.12 Confluence and Jira embed each other's content through application links ('You can embed a Confluence activity stream or a Confluence page in Jira's dashboard'); another Atlassian product, not an arbitrary app's record page",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 9.12 Confluence and Jira embed each other's content through application links ('You can embed a Confluence activity stream or a Confluence page in Jira's dashboard'); another Atlassian product, not an arbitrary app's record page ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/using-jira-applications-with-confluence-939938870.html 'Any Jira search result can be embedded in a Confluence page using the Jira Issues macro': embedding works inside Atlassian products over application links, not in any other app's page (read 2026-09-26)",
         "plane": "corpus: plane/round4/M1-column.md 12.17 'there is no plugin API'; no embeddable widget in apps/web ; source read at v1.4.2: searched apps/web/app for 'iframe', 'embed': none; the only outside view is the read-only public board, apps/api/plane/db/models/deploy_board.py:19-32, which shows one published entity, not a record's projects"
       },
       "built": {
@@ -4171,7 +4205,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 1.7 'a REST API at /index.php/apps/deck/api/v1.0 and v1.1 (84 routes ...) plus 24 OCS routes. Verified live' ; source read at v1.19.0: appinfo/routes.php:102-114 card_api routes under /api/v{apiVersion}/boards/.../cards, :139-141 OCS routes; lib/Controller/CardApiController.php and lib/Controller/BoardApiController.php; docs/API.md:7-53 the documented REST API",
         "kanboard": "corpus: kanboard/round4/code-census.md 'JSON-RPC procedure classes / methods 26 / 161' ; journeys.md 1 and 4 all over the API (JSON-RPC 2.0, not REST: M1-column.md 12.18) ; source read at v1.2.54: jsonrpc.php:5 JSON-RPC 2.0 endpoint, not REST; app/Api/Procedure holds 26 procedure classes, app/Api/Procedure/ProjectProcedure.php:109 createProject, app/Api/Procedure/TaskProcedure.php:101 createTask; app/Template/config/api.php:7-11 token and endpoint shown to the admin",
         "openproject": "corpus: openproject/round4/M1-column.md 1.7 'API v3 is a Grape API rooted at lib/api/v3/root.rb'; 12.18 OpenAPI description ; source read at v17.8.0: lib/api/v3/root.rb:35 API v3 root mounting every resource from :46; lib/api/v3/work_packages/work_packages_api.rb:99 work package endpoints; docs/api/apiv3/openapi-spec.yml the published OpenAPI description",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 1.7 'POST /api/2/issue Create an issue or sub-task from json'; 12.18 OpenAPI 3.0.1, 432 operations",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 1.7 'POST /api/2/issue Create an issue or sub-task from json'; 12.18 OpenAPI 3.0.1, 432 operations ; docs read 2026-09-26: https://developer.atlassian.com/server/jira/platform/rest/v11000/api-group-issue embedded OpenAPI 3.0.1 'Jira Software Data Center REST API Reference' 11.0.1, 432 operations, including 'POST /api/2/issue Create an issue or sub-task from json' and 'POST /api/2/project Create a new project' (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §12 'The public REST API lives at apps/api/plane/api/ with views for ... issue, member, module, project, state', X-Api-Key auth ; M1-column.md 1.7 yes ; source read at v1.4.2: apps/web/core/components/settings/profile/content/pages/api-tokens.tsx and apps/web/core/components/api-token/modal/create-token-modal.tsx issue a token; apps/api/plane/app/urls/api.py:11 api-tokens; apps/api/plane/api/middleware/api_authentication.py:17-24 X-Api-Key; apps/api/plane/api/urls/work_item.py:36-41 project issues CRUD"
       },
       "built": {
@@ -4201,7 +4235,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/open-core.md 'The Flow engine acts on files and knows no card event' ; source read at v1.19.0: searched lib/ for 'WorkflowEngine', 'IEntity', 'IOperation': none, so Deck registers no flow entity or check; card events reach only webhooks, lib/Event/ACardEvent.php:16",
         "kanboard": "corpus: kanboard/round4/usability.md 'fifty event-to-action classes, bound per project' ; journeys.md 2 'A rule fires on a move' ; source read at v1.2.54: app/Template/action/index.php:5 'Add a new action'; app/Controller/ActionCreationController.php:36 pick an event, :59 params, :102 save; app/ServiceProvider/ActionProvider.php:75 action manager with some fifty registered actions; app/Core/Action/ActionManager.php:126 attachEvents",
         "openproject": "corpus: openproject/round4/M1-column.md 3.9 CustomAction 'is fired by a button a user presses, not by a transition' and authoring is Enterprise gated; webhooks are outbound only (6.11); no event-driven rules on the free build ; source read at v17.8.0: app/controllers/custom_actions_controller.rb:34 custom actions (multi-field changes on a button) are Enterprise gated to author; modules/webhooks/lib/open_project/webhooks/event_resources/work_package.rb:54 outbound created or updated events only; searched for event-driven rules on the free build: none",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 3.9 automation 'You can choose from many triggers including issue transitioned, scheduled trigger, or issue created' (bundled in Data Center)",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 3.9 automation 'You can choose from many triggers including issue transitioned, scheduled trigger, or issue created' (bundled in Data Center) ; docs read 2026-09-26: https://confluence.atlassian.com/automation/jira-automation-triggers-993924804.html 'You can use the following triggers: General triggers Field value changed Incoming webhook Issue archived Issue assigned Issue commented Issue created' (Automation for Jira, bundled in Data Center) (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §3 'no rule, no trigger, no condition and no action model'; 'Trigger And Action' (Pro) and 'Automation Flows' (Enterprise) are absent from Community (open-core.md) ; source read at v1.4.2: apps/web/core/components/workflow/use-workflow-drag-n-drop.ts:10-23 is a no-op shim; the only automation is apps/api/plane/db/models/project.py:110-111 archive_in and close_in; searched apps/api/plane/db/models for a Trigger, Rule or Automation class: none"
       },
       "built": {
@@ -4231,7 +4265,7 @@
         "nextcloud-deck": "source: lib/Event/ACardEvent.php:17 'abstract class ACardEvent extends Event implements IWebhookCompatibleEvent' (CardCreatedEvent, CardUpdatedEvent, CardDeletedEvent), so the platform's webhook_listeners can post card events once an admin registers a listener over OCS. corpus: nextcloud-deck/round4/M1-column.md 6.11 said 'registers no events with webhook_listeners'; the tag's source contradicts it; not driven ; source read at v1.19.0: lib/Event/ACardEvent.php:16 card events implement the platform IWebhookCompatibleEvent, as do ACL events in lib/Event/AAclEvent.php:14, so the platform webhook_listeners app can post them once an admin registers a listener through its API; no webhook screen in Deck, searched src/ for 'webhook': none",
         "kanboard": "corpus: kanboard/round4/M1-column.md 6.11 'one webhook URL per instance with a token ... posted with event_name, event_data and event_author on every project event' ; source read at v1.2.54: app/Template/config/webhook.php:7-8 'Webhook URL', :20 token; app/ServiceProvider/NotificationProvider.php:38 webhook project notification; app/Notification/WebhookNotification.php:36 notifyProject, :59 postJson",
         "openproject": "corpus: openproject/round4/M1-column.md 6.11 'modules/webhooks/app/models/webhooks/webhook.rb with an event.rb selection model and a log.rb' ; source read at v17.8.0: modules/webhooks/config/routes.rb:30-38 admin outgoing webhooks; modules/webhooks/app/models/webhooks/webhook.rb:8 events per webhook and :24 all_projects; modules/webhooks/lib/open_project/webhooks/event_resources/work_package.rb:54 work package created or updated; modules/webhooks/app/models/webhooks/log.rb delivery log",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 6.11 'Webhooks are user-defined HTTP POST callbacks ... signed on request (HMAC)'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 6.11 'Webhooks are user-defined HTTP POST callbacks ... signed on request (HMAC)' ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/managing-webhooks-938846912.html 'Webhooks are user-defined HTTP POST callbacks. They provide a lightweight mechanism for letting remote applications receive push notifications from Jira' (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §11 'Webhook ... Event subscription is five booleans: project, issue, module, cycle, issue_comment', HMAC secret, WebhookLog with retry_count ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(settings)/settings/(workspace)/webhooks/page.tsx; apps/api/plane/db/models/webhook.py:39-43 event switches project, issue, module, cycle, issue_comment; apps/api/plane/bgtasks/webhook_task.py:101-114 delivery with retry_count"
       },
       "built": {
@@ -4261,7 +4295,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Import board  Deck JSON, Trello JSON, Trello API' ; M1-column.md 11.2 'occ deck:export and occ deck:import ... Verified live' ; source read at v1.19.0: src/components/navigation/AppNavigationImportBoard.vue:7 'Import board', :10 accepts a JSON file, :45 importBoard; lib/Controller/BoardController.php:147 import, :183 system DeckJson; lib/Command/BoardImport.php:33 occ deck:import",
         "kanboard": "source: app/Import/ holds TaskImport.php and UserImport.php (CSV) only; no Deck importer ; source read at v1.2.54: app/Import holds only TaskImport.php and UserImport.php for CSV; searched app/ (outside Locale) for 'deck', 'trello', 'jira' importers: none",
         "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): importers are app/services/import/jira* only (grep -rniIl 'deck' app/services/import returns nothing); CSV work package import is marked 'available on our Dev branch' (docs/user-guide/work-packages/importing/README.md) ; source read at v17.8.0: searched app/services/import and app/models for 'deck', 'trello': none; config/initializers/menus.rb:694-697 the only importer is 'Jira import'; docs/user-guide/work-packages has no CSV import at the tag",
-        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/importing-data-from-csv-938847533.html names CSV, JSON and importers for TFS, Rally, VersionOne, YouTrack, Axosoft, BaseCamp and Excel; no Nextcloud Deck importer",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/importing-data-from-csv-938847533.html names CSV, JSON and importers for TFS, Rally, VersionOne, YouTrack, Axosoft, BaseCamp and Excel; no Nextcloud Deck importer ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/migrating-from-other-issue-trackers-938847532.html 'As of Jira 8.4, we no longer support built-in importers that are dedicated to some applications ... you can still import data to Jira in CSV or JSON format': no Nextcloud Deck importer (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §12 'Importers: same. Importer is exported ... but no importer view or URL exists' ; source read at v1.4.2: apps/api/plane/db/models/importer.py:13 Importer model has no view; apps/api/plane/app/urls/external.py:17,22 the routes named 'importer' point at GPT endpoints; searched apps/web/core --include=*.tsx for 'deck': none"
       },
       "built": {
@@ -4291,7 +4325,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Import board  Deck JSON, Trello JSON, Trello API' ; code-census.md 'lib/Service/Importer/Systems/' ; source read at v1.19.0, contradicts the drive: the drive credited Trello import from the menu; at v1.19.0 the Import board menu sends every file as DeckJson, so Trello comes in only through occ or the API and Jira and spreadsheets not at all Trello only, and outside the UI: lib/Service/Importer/Systems/TrelloJsonService.php and TrelloApiService.php reachable through lib/Command/BoardImport.php:33-40 occ deck:import --system and appinfo/routes.php:91-93 import API; the UI import is Deck JSON only, lib/Controller/BoardController.php:183; searched lib/Service/Importer for 'jira', 'csv': none",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'Import tasks' ; source: app/Import/TaskImport.php CSV tasks into an existing project; no Jira or Trello importer in core ; source read at v1.2.54: app/Template/project_header/dropdown.php:69 'Import tasks'; app/Template/task_import/show.php:2-8 CSV with a delimiter; app/Controller/TaskImportController.php:40 save, :70 template; app/Template/project/sidebar.php:55 'Import tasks from another project'; no Jira or Trello importer in core",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/installation-and-operations/jira-migration/README.md 'Step-by-step guide for migrating from Jira Data Center to OpenProject using the Jira Migrator'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): app/services/import/jiras/create_service.rb. Note: the migrator arrived behind a feature flag in 17.2 (release-notes/17-2-0:129-134), after the round-4 drive on 16.6.10; CSV import is dev-branch only Shipped in 17.x, after the 16.6.10 drive; the cited files are present at v17.8.0 (absent at v16.6.10). ; source read at v17.8.0: config/initializers/menus.rb:694-697 admin 'Jira import'; config/routes.rb:908-918 admin import jira instances and runs; app/services/import/jira_client.rb and app/services/import/jiras do the import; no Trello or spreadsheet importer, Jira only",
-        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/importing-data-from-csv-938847533.html 'The Jira Importers plugin, which is bundled with Jira, allows you to import your data from a comma-separated value (CSV) file'",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/importing-data-from-csv-938847533.html 'The Jira Importers plugin, which is bundled with Jira, allows you to import your data from a comma-separated value (CSV) file' ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/importing-data-from-csv-938847533.html 'The Jira Importers plugin, which is bundled with Jira, allows you to import your data from a comma-separated value (CSV) file'; https://confluence.atlassian.com/adminjiraserver/importing-and-exporting-data-938847531.html import 'another Jira instance'; no Trello importer is listed (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §12 'no importer view or URL exists'; source: grep -rniE 'import.?csv|jira|trello' apps/web/core --include=*.tsx finds no importer UI ; source read at v1.4.2: apps/api/plane/db/models/importer.py:13 Importer is unrouted; searched apps/api/plane/app for 'jira', 'trello': none; apps/web/core/components/workspace/billing/comparison/plans.tsx:940-941 'Import your work items and members from Jira' is a paid plan line, not an importer"
       },
       "built": {
@@ -4321,7 +4355,7 @@
         "nextcloud-deck": "source: grep -rniE 'github|gitlab|commit' lib returns only migration comments; no forge integration ; corpus: nextcloud-deck/round4/open-core.md host surfaces list ; source read at v1.19.0: searched lib/ and src/ for 'github', 'gitlab', 'forge', 'commit': only a comment URL at lib/Service/SessionService.php:77 and a Vuex commit at src/components/Controls.vue:450; no forge integration",
         "kanboard": "source: grep -rniE 'github|gitlab|gogs|bitbucket' app/Action app/Controller returns 0 files; forge hooks are plugins (corpus: kanboard/round4/open-core.md 'a directory of 163 third-party plugins') ; source read at v1.2.54: searched app/Action and app/Controller for 'github', 'gitlab', 'gogs', 'bitbucket': no files; forge webhooks are third-party plugins",
         "openproject": "corpus: openproject/round4/M1-column.md 12.22 'the GitHub and GitLab modules receive inbound events (modules/github_integration/, modules/gitlab_integration/)' ; source read at v17.8.0: modules/github_integration/lib/open_project/github_integration/engine.rb:94-96 registers the inbound 'github' hook and :82 a GitHub tab on the work package; modules/github_integration/app/models/github_pull_request.rb; modules/gitlab_integration/app/models/gitlab_merge_request.rb and modules/gitlab_integration/lib/open_project/gitlab_integration/engine.rb:73 GitLab tab",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 3.9 'workflow triggers from development tools' ('Fisheye/Crucible, Bitbucket and GitHub', 8.9); 12.5 'Jira's Subversion integration lets you see Subversion commit information relevant to each issue'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 3.9 'workflow triggers from development tools' ('Fisheye/Crucible, Bitbucket and GitHub', 8.9); 12.5 'Jira's Subversion integration lets you see Subversion commit information relevant to each issue' ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/processing-issues-with-smart-commits-938845602.html 'If you use Bitbucket or GitHub ... you can process your Jira Software issues using special commands, called Smart Commits'; https://confluence.atlassian.com/adminjiraserver/configuring-workflow-triggers-938847513.html triggers from 'Fisheye/Crucible, Bitbucket and GitHub' (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §12 'The GitHub and Slack integrations are unreachable dead tables in CE'; 'Popular integrations' is a Pro string. Only 'Copy branch name' exists in the web app ; source read at v1.4.2: apps/api/plane/db/models/integration/github.py:14,54 GithubRepository and GithubIssueSync have no route: searched apps/api/plane/app/urls for 'github', 'gitlab': none; packages/i18n/src/locales/en/common.json:610 'Copy branch name' is the only forge touch"
       },
       "built": {
@@ -4351,7 +4385,7 @@
         "nextcloud-deck": "source: README.md:24-27 'Nextcloud Deck app for Android' (F-Droid, Google Play) and 'Nextcloud Deck app for iOS' (App Store), third-party clients on the REST API ; not in the round-4 drive ; source read at v1.19.0: README.md:24-27 'Nextcloud Deck app for Android' (F-Droid, Google Play) and 'Nextcloud Deck app for iOS' (App Store), third-party clients built on the REST API at appinfo/routes.php:102-114; not Deck's own code",
         "kanboard": "source: app/Template/layout.php:5 viewport meta and ChangeLog:1028 'Improve layout on mobile/tablet devices' : a responsive web UI, no mobile app in the project ; source read at v1.2.54: app/Template/layout.php:5 viewport meta; ChangeLog:1028 'Improve layout on mobile/tablet devices', ChangeLog:242 apple-mobile-web-app-capable meta tag: a responsive web UI, no mobile app in the tree",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/mobile-app-guide/README.md 'The OpenProject Mobile app (Beta) is available for iOS and Android. It is designed as a companion app'; beta, not in the round-4 drive The docs file is present at v17.8.0 (absent at v16.6.10); beta, so partial. ; source read at v17.8.0: docs/mobile-app-guide/README.md:2 'Mobile app guide (Beta)' and :10 a companion app for iOS and Android, a separate repository; docs/release-notes/17-0-0/README.md:279 built-in OAuth application for clients such as the mobile app; beta, so partial",
-        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/push-notifications-993923359.html push notifications 'on iOS and Android devices' for the Jira Data Center mobile app (corpus: jira-data-center/round4/M1-column.md 6.8 'the mobile app has one')",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/push-notifications-993923359.html push notifications 'on iOS and Android devices' for the Jira Data Center mobile app (corpus: jira-data-center/round4/M1-column.md 6.8 'the mobile app has one') ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/push-notifications-993923359.html push for the 'Jira Data Center mobile app'; https://confluence.atlassian.com/jirasoftware/jira-software-11-2-x-release-notes-1653834634.html 'we're removing the Jira Mobile plugin in favor of the Jira Data Center mobile app for iOS and Android' (read 2026-09-26)",
         "plane": "not checked: the web repo at 2f895b82 holds no mobile client (grep for play.google, apps.apple, 'mobile app' in apps/web, apps/space and en locales returns nothing) and round 4 did not test whether Plane's separate mobile apps connect to a Community self-hosted instance ; source read at v1.4.2, contradicts the drive: The drive left this unknown; the tree ships no mobile client and the vendor's mobile page says the app does not support the Community edition, so it is no for v1.4.2 Community. no mobile client in the v1.4.2 tree: searched apps/web, apps/space, packages/i18n/src/locales/en and README.md for 'play.google', 'apps.apple', 'testflight', 'mobile app': none; the open mobile repo makeplane/plane-mobile is archived since 2024-07-02; https://plane.so/mobile states 'At the moment Plane Mobile app doesn't support Community edition'"
       },
       "built": {
@@ -4381,7 +4415,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/journeys.md 3 'the file appeared as /Deck/bijlage-r4b6.txt ... in the uploader's Files' : one /Deck folder per uploader, not a shared folder per board ; source read at v1.19.0: lib/Sharing/DeckShareProvider.php:50 DECK_FOLDER '/Deck' and lib/Service/ConfigService.php:244 attachment_folder '/Deck' per user: attachments land in each uploader's own /Deck folder and are shared to the board, no folder is made per board",
         "kanboard": "corpus: kanboard/round4/M1-column.md 4.23 'no' ; journeys.md 4 files stored under tasks/3/ in Kanboard's own store ; source read at v1.2.54: app/Model/TaskFileModel.php:59-61 files sit in Kanboard's own object store under 'tasks'; app/Template/project_overview/attachments.php:6 project attachments in the same store; searched app/ for an outside file store link: none",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/file-management/nextcloud-integration/README.md:27 'It is also possible to automatically create dedicated project folders'; corpus: openproject/round4/M1-column.md 4.23 'an automatically managed project folder (last_project_folder.rb)'; Nextcloud storage is free (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: modules/storages/app/models/storages/project_storage.rb:46-52 project_folder_mode with 'automatic'; modules/storages/app/services/storages/nextcloud_managed_folder_create_service.rb:32-42 creates the managed project folder in Nextcloud; modules/storages/app/models/storages/last_project_folder.rb; modules/storages/config/locales/en.yml:21-22 'Project folder', 'Project folder mode'",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 4.23 'not hosted in a platform with a file manager'; attachments sit in the home directory or S3",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 4.23 'not hosted in a platform with a file manager'; attachments sit in the home directory or S3 ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/configuring-file-attachments-938847851.html 'Jira stores user avatars and attachments, such as files and images, in the home directory in the data sub-directory': per issue attachments, no project folder in a file store (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §4 'Folders: absent. No folder or directory model'; M1-column.md 4.23 no file manager ; source read at v1.4.2: searched apps/api/plane/db/models/__init__.py for 'folder', 'directory': none; files are per work item attachments, apps/api/plane/db/models/asset.py:36-37"
       },
       "built": {
@@ -4411,7 +4445,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/journeys.md 5 'pjanssen found nothing until added to the group' ; install.md 'a stranger reads the board -> HTTP 403' ; source read at v1.19.0: lib/Service/PermissionService.php:171-199 every read and write checks the board ACL and throws 'Permission denied'; lib/Db/Acl.php:31-39 read, edit, share, manage for user, group, remote, team; src/components/board/SharingTabSidebar.vue:39-52 'Can edit', 'Can share', 'Can manage'",
         "kanboard": "corpus: kanboard/round4/journeys.md 5 'carol, not a member, was refused on the project and on the task (403)' ; install.md refusal probe ; source read at v1.2.54: app/Middleware/ProjectAuthorizationMiddleware.php:29,34 checkProjectAccess on every task and project request, :47-50 throws AccessForbiddenException; app/Model/ProjectPermissionModel.php:121 isUserAllowed; app/Controller/ProjectListController.php:20-23 non admins see only their project ids",
         "openproject": "corpus: openproject/round4/M1-column.md 9.7 'search is scoped through the project permission system (app/services/authorization/user_allowed_query.rb)'; 13.1 project roles ; source read at v17.8.0: app/models/work_package.rb:87 visible scope is allowed_to view_work_packages and :231-232 visible?; app/models/work_packages/scopes/allowed_to.rb:39 permission-based scope; app/services/authorization/user_allowed_query.rb:31; config/initializers/permissions.rb:306 view_work_packages per project role",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 9.7 'Browse projects Permission to browse projects, use the Issue Navigator, and view individual issues'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 9.7 'Browse projects Permission to browse projects, use the Issue Navigator, and view individual issues' ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/managing-project-permissions-938847145.html 'Browse projects Permission to browse projects, use the Issue Navigator, and view individual issues' granted per project through permission schemes (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §13 'Project visibility adds network secret (0) or public-to-workspace (2)', allow_permission resolves ProjectMember role ; source read at v1.4.2: apps/api/plane/app/views/issue/base.py:84 work item list behind allow_permission at project level; apps/api/plane/app/permissions/base.py:19 allow_permission checks a ProjectMember row with an allowed role; apps/api/plane/db/models/project.py:69-74 network Secret or Public; apps/web/core/components/project/join-project-modal.tsx for non-members"
       },
       "built": {
@@ -4444,7 +4478,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Deck settings  default board on start · calendar bridge · group limit for board creation (admin)' and 'There is almost none' ; source: no lib/Settings admin page in the tag ; source read at v1.19.0: src/components/DeckAppSettings.vue:27 'Admin settings' shown to admins inside the app settings dialog, :32 'Limit board creation to some groups', :41 'Enable federation'; no platform admin settings page, appinfo/info.xml:67-72 declares only activity settings",
         "kanboard": "corpus: kanboard/round4/menu-tree.md Settings 'About · Application settings · Email settings · Project settings · Board settings ...' ; M1-column.md 11.24 'yes' ; source read at v1.2.54: app/Template/config/sidebar.php:4-34 About, Application, Email, Project, Board settings, Tags, Link labels, Currency rates, Integrations, Webhooks, API; app/ServiceProvider/AuthenticationProvider.php:160 ConfigController admin only",
         "openproject": "corpus: openproject/round4/menu-tree.md 'Administration' tree; corpus: openproject/round4/M1-column.md 11.24 'a large administration area over several hundred setting definitions' ; source read at v17.8.0: config/initializers/menus.rb:307 the Administration menu; config/routes.rb:740 admin settings namespace; config/routes.rb:885 working days and :890 iCalendar settings among the setting pages",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 11.24 instance configuration (CORS, banner, email templates); 11.15 'Configuring Jira application options'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 11.24 instance configuration (CORS, banner, email templates); 11.15 'Configuring Jira application options' ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/configuring-jira-application-options-938847824.html 'These options can be accessed and edited on Jira's General Configuration page ... select Administration > System' (read 2026-09-26)",
         "plane": "corpus: plane/round4/menu-tree.md 'Instance administration, at /god-mode: General, Email, Authentication, Workspaces, Artificial intelligence, Images' plus project Settings ; source read at v1.4.2: apps/admin/app/(all)/(dashboard)/general/page.tsx, email, authentication, ai, image and workspace pages; apps/api/plane/license/models/instance.py:72 InstanceConfiguration key value store; project settings at apps/web/app/(all)/[workspaceSlug]/(settings)/settings/projects/[projectId]/features/cycles/page.tsx"
       },
       "built": {
@@ -4473,7 +4507,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/install.md setup is occ app:install and occ config:app:set ; the app opens on a welcome board, no guided setup ; source read at v1.19.0: lib/Middleware/DefaultBoardMiddleware.php:29 and lib/Service/DefaultBoardService.php:37-46 on first run create a sample board, nothing more; searched lib/ and src/ for 'wizard', 'onboarding': none",
         "kanboard": "source: app/Schema/Sqlite.php:1564 seeds user admin with password admin; no setup wizard (corpus: kanboard/round4/install.md 'the first page rendered the moment the container was healthy') ; source read at v1.2.54: app/Schema/Sqlite.php:1563-1564 seeds user admin with password admin; searched app/Template and app/Controller for 'wizard', 'onboard', 'first run', 'welcome': none",
         "openproject": "corpus: openproject/round4/install.md 'It self-migrates and self-seeds against an empty database, so there is no setup wizard'; a first-login onboarding tour exists (source: opf/openproject HEAD 27a58131 (18.0.0-dev): frontend/src/app/core/setup/globals/onboarding/onboarding_tour.ts, tours/gantt_tour.ts) (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: app/helpers/homescreen_helper.rb:52-53 onboarding modal for a first time user; app/views/layouts/base.html.erb:136-139 renders it; frontend/src/app/core/setup/globals/onboarding/onboarding_tour.ts guided tour; searched app (rb) for 'setup wizard', 'first run', 'installation wizard': none, the instance seeds itself",
-        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/running-the-setup-wizard-938846872.html 'The Jira application setup wizard will only display the first time after you install' (database, administrator, email, language, licence)",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/running-the-setup-wizard-938846872.html 'The Jira application setup wizard will only display the first time after you install' (database, administrator, email, language, licence) ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/running-the-setup-wizard-938846872.html 'The Jira setup wizard allows you to set up your Jira application' after install (read 2026-09-26)",
         "plane": "corpus: plane/round4/usability.md 'The instance setup form'; install.md first run ; source: apps/web/core/components/onboarding/ profile-setup, create-workspace, invite-members steps ; source read at v1.4.2: apps/admin/components/instance/setup-form.tsx first admin setup, apps/api/plane/license/models/instance.py:38 is_setup_done; apps/web/app/(all)/onboarding/page.tsx:12,53 OnboardingRoot with profile, workspace and invite steps under apps/web/core/components/onboarding/"
       },
       "built": {
@@ -4503,7 +4537,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'All boards  Vergunningen r4b6 · Welcome to Nextcloud Deck!' ; source: lib/Service/DefaultBoardService.php and lib/Service/fixtures/default-board.json create a sample board per user ; source read at v1.19.0: lib/Middleware/DefaultBoardMiddleware.php:29-30 on a user's first visit creates 'Welcome to Nextcloud Deck!' from lib/Service/DefaultBoardService.php:66 createDefaultBoard and lib/Service/fixtures/default-board.json:5-16 sample lists and cards, translated at lib/Service/DefaultBoardService.php:78-83; one sample per user, not an admin loader",
         "kanboard": "no demo or sample data in core ; source: app/Schema/Sqlite.php seeds settings and the admin user only ; corpus: kanboard/round4/install.md ; source read at v1.2.54: searched app/Schema and app/Console for 'demo', 'sample data', 'fixture': none; app/Schema/Sqlite.php:1563-1564 the install seeds only the admin user",
         "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): app/seeders/demo_data_seeder.rb with demo_data/projects_seeder.rb, project_seeder.rb, global_query_seeder.rb; corpus: openproject/round4/install.md 'It self-migrates and self-seeds against an empty database' (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: app/seeders/demo_data_seeder.rb:29-30 DemoDataSeeder with its data seeder classes; app/seeders/demo_data/global_query_seeder.rb and overview_seeder.rb seed demo projects, queries and overviews on a fresh instance",
-        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/creating-a-board-938845220.html 'you can also choose to Create a Scrum board with sample data ... This will base your board on a new project pre-populated with sample data'",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/creating-a-board-938845220.html 'you can also choose to Create a Scrum board with sample data ... This will base your board on a new project pre-populated with sample data' ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/creating-a-board-938845220.html 'you can also choose to Create a Scrum board with sample data ... This will base your board on a new project pre-populated with sample data' (read 2026-09-26)",
         "plane": "source: apps/api/plane/app/views/workspace/base.py:137 workspace_seed.delay on workspace creation, seeds from apps/api/plane/seeds/data (projects, issues, cycles, modules, pages, views, labels, states); corpus: plane/round4/code-census.md §5 cites the seeded dummy data (workspace_seed_task.py:160,163). Automatic, not opt-in ; source read at v1.4.2: apps/api/plane/app/views/workspace/base.py:48,139 workspace create queues workspace_seed; apps/api/plane/bgtasks/workspace_seed_task.py:505 seeds from apps/api/plane/seeds/data/projects.json with issues, cycles, modules, pages, views, labels and states files beside it. Runs on every new workspace, not an opt-in button"
       },
       "built": {
@@ -4533,12 +4567,12 @@
       "openproject": "yes",
       "plane": "partial",
       "kanboard": "yes",
-      "jira": "partial",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md 'translations in l10n/ 93' (nl among them: l10n/nl.js, nl.json) ; source read at v1.19.0: l10n/nl.json holds 441 translated strings against 445 in l10n/en_GB.json; 93 languages in l10n/; strings go through t('deck', ...) in src/, e.g. src/components/DeckAppSettings.vue:7, and l10n->t in lib/, e.g. lib/Dashboard/DeckWidgetUpcoming.php:53",
         "kanboard": "corpus: kanboard/round4/code-census.md 'locales, app/Locale/ 38, nl_NL among them' ; source read at v1.2.54: app/Locale holds 38 locales; app/Locale/nl_NL/translations.php:372 'Board settings' => 'Bord-instellingen', 1468 translated keys and no commented out ones; app/Template/config/application.php:12 application language, app/Template/user_modification/show.php:28-29 per user language",
         "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): config/locales/crowdin/nl.yml, js-nl.yml, nl.seeders.yml; corpus: openproject/round4/M1-column.md 11.13 'translations come from Crowdin' (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: config/locales/crowdin/nl.yml:1 Dutch server strings, with js-nl.yml and nl.seeders.yml beside it; config/locales/en.yml:3391 English source strings; the language is chosen per user in account settings",
-        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/translating-jira-938847004.html 'Jira ships with a number of translations in the most commonly-requested languages'; Dutch is not listed there, product strings come as language packs ('update these via the Universal Plugin Manager', corpus: jira-data-center/round4/M1-column.md 11.13)",
+        "jira": "docs: https://confluence.atlassian.com/adminjiraserver/translating-jira-938847004.html 'Jira ships with a number of translations in the most commonly-requested languages'; Dutch is not listed there, product strings come as language packs ('update these via the Universal Plugin Manager', corpus: jira-data-center/round4/M1-column.md 11.13) ; docs read 2026-09-26, contradicts the drive: 2026-09-13 said Dutch is not listed on the translating page; the choosing a default language page lists Dutch and English among the default languages Jira ships with https://confluence.atlassian.com/adminjiraserver/choosing-a-default-language-938847001.html 'When Jira is first installed, you can select from the default languages: Chinese Czech Danish Dutch English (UK or US) ...'; users 'choose your preferred language in the user profile' (translating page) (read 2026-09-26)",
         "plane": "source: packages/i18n/src/locales has 20 locales (cs, de, en, es, fr, id, it, ja, ka-ge, ko, pl, pt-BR, ro, ru, sk, tr-TR, ua, vi-VN, zh-CN, zh-TW) and no nl; English yes, Dutch no. Corpus: plane/round4/M1-column.md 11.13 'translations are static catalogues in packages/i18n' ; source read at v1.4.2: packages/i18n/src/constants/language.ts:11-30 SUPPORTED_LANGUAGES has 19 entries with en and no nl; apps/web/core/components/settings/profile/content/pages/preferences/language-and-timezone-list.tsx:50 language switch; server strings stay English. English yes, Dutch no"
       },
       "built": {
@@ -4571,7 +4605,7 @@
         "nextcloud-deck": "source: src/components/KeyboardShortcuts.vue arrow-key card focus and N, F, X, Q shortcuts, src/components/cards/CardItem.vue:263-290 per-card keys, aria-labels on controls; not audited against WCAG AA in the round-4 drive (usability.md) ; source read at v1.19.0: src/components/KeyboardShortcuts.vue:106-118 N, F, X, Q and arrow-key card navigation, listed in src/components/DeckAppSettings.vue:46-55; src/components/cards/CardItem.vue:12 tabindex and :30 aria-label; src/components/card/TagSelector.vue:15 aria labels on selects; not audited against WCAG AA, and the Gantt is a frappe-gantt SVG, src/components/board/GanttView.vue:63",
         "kanboard": "source: app/Template/config/keyboard_shortcuts.php shortcut list, app/Template/board/table_column.php:114 'ui-helper-hidden-accessible' screen-reader text; board cards have no keyboard move (brd-keyboard-move); not audited against WCAG AA in the round-4 drive ; source read at v1.2.54: app/Template/config/keyboard_shortcuts.php:5-31 keyboard shortcuts; app/Template/board/table_column.php:12 'ui-helper-hidden-accessible' screen reader text; app/Template/column/index.php:29 aria-label on the drag handle; cards cannot be moved by keyboard on the board, see brd-keyboard-move; no accessibility statement or audit in the tree",
         "openproject": "corpus: openproject/round4/usability.md 'Every page carries a Jump to content skip link, headings are structured ... form fields carry proper labels'; docs: opf/openproject HEAD 27a58131 docs/release-notes/17-2-0/README.md:85 widgets 'follow WCAG 2.1 AA guidelines for focus management' (partial scope); cards move by drag only (brd-keyboard-move) (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: app/views/layouts/base.html.erb:71-72 skip-navigation link to content; docs/release-notes/17-2-0/README.md:85 overview widgets keyboard operable and 'follow WCAG 2.1 AA guidelines for focus management', a partial scope; brd-keyboard-move shows cards still move by drag only",
-        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/accessibility-improvements-in-jira-993923419.html Jira applications 'audited ... to make sure they're compliant with Section 508 and WCAG 2.0 AA' (an older level, vendor statement, not driven)",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/accessibility-improvements-in-jira-993923419.html Jira applications 'audited ... to make sure they're compliant with Section 508 and WCAG 2.0 AA' (an older level, vendor statement, not driven) ; docs read 2026-09-26: https://confluence.atlassian.com/jirasoftwareserver/accessibility-improvements-in-jira-993923419.html 'We've audited the Jira applications to make sure they're compliant with Section 508 and WCAG 2.0 AA. The result of this audit is the Jira Server and Data Center VPAT report': WCAG 2.0 vendor statement, not 2.1 or 2.2 AA (read 2026-09-26)",
         "plane": "corpus: plane/round4/usability.md 'The accessibility tree is usable but noisy. Navigating it surfaced the entire sidebar twice on every page'; no WCAG AA claim checked ; source read at v1.4.2: packages/i18n/src/locales/en/accessibility.json:2 aria_labels catalogue, used at apps/web/core/components/account/auth-forms/password.tsx:193; 45 aria-label attributes across apps/web/core/components; searched apps, packages and docs for 'wcag' conformance claims: only colour luminance helpers at packages/utils/src/color.ts:153"
       },
       "built": {
@@ -4601,7 +4635,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 11.14 'platform: theming (enabled) sets logo, colours and name for the whole instance' ; the Vue client styles with platform CSS variables (e.g. var(--color-border) in src/components/board/GanttView.vue), so a token theme on the host would reach it; NL Design System tokens themselves are not shipped, not driven ; source read at v1.19.0: Deck styles with the platform CSS variables, e.g. src/components/board/GanttView.vue:530-546 var(--color-background-hover), var(--color-primary-element), so platform theming carries through; searched lib/ and src/ for 'nldesign', 'theming': no own token support, and board and label colours are fixed hex values, lib/Service/BoardService.php:242",
         "kanboard": "corpus: kanboard/round4/M1-column.md 11.14 'partial: application_stylesheet takes custom CSS ... the logo and name are fixed' ; source: assets/css/light.min.css styles through CSS custom properties (179 var(--...) uses, e.g. --color-primary), so custom CSS could map tokens onto them; no NL Design System tokens shipped, not driven ; source read at v1.2.54: app/Template/config/application.php:35-36 'Custom Stylesheet'; app/Helper/AssetHelper.php:52-53 injects it on every page; assets/css/src/themes/dark.css:2-5 theme colours are CSS custom properties, 179 var() uses in assets/css/light.min.css; no NL Design System token mapping",
         "openproject": "corpus: openproject/round4/M1-column.md 11.14 'app/controllers/custom_styles_controller.rb:49 is the design and branding screen, Enterprise gated (define_custom_style). The free build sets a logo and nothing else'; no NL Design System tokens ; source read at v17.8.0: app/controllers/custom_styles_controller.rb:49 design and colour customisation needs the :define_custom_style token, only logo downloads (:38-39) are unguarded; searched app and frontend/src (rb, scss, ts) for 'nldesign', 'nl-design', 'design token': none",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 11.14 'How to change your logo ... How to change Jira application colors'; colours and logo, no design-token theming or NL Design System support",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 11.14 'How to change your logo ... How to change Jira application colors'; colours and logo, no design-token theming or NL Design System support ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/configuring-the-look-and-feel-of-your-jira-applications-938846975.html 'How to change your logo ... How to change Jira application colors': logo and colours, no design tokens or NL Design System (read 2026-09-26)",
         "plane": "corpus: plane/round4/M1-column.md 11.14 'WorkspaceTheme and per-user theme ... No stylesheet or component theming'; no design token import ; source read at v1.4.2: apps/api/plane/db/models/workspace.py:286 WorkspaceTheme stores colours only; searched apps and packages in *.ts, *.tsx, *.css for 'nl.?design', 'design.?tokens': only a Storybook file, packages/propel/src/toast/toast.stories.tsx"
       },
       "built": {
@@ -4631,7 +4665,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/install.md 'occ app:install deck -> deck 1.18.4 installed' on a throwaway Nextcloud ; source read at v1.19.0: appinfo/info.xml:41-45 a Nextcloud app on pgsql, sqlite or mysql, installed on the customer's own server; searched lib/ for outgoing vendor calls: only the optional Trello importer, lib/Service/Importer/Systems/TrelloApiService.php:10-22; note v1.19.0 requires Nextcloud 35 exactly, appinfo/info.xml:45",
         "kanboard": "corpus: kanboard/round4/install.md 'Kanboard ships one official image ... needs nothing beside it' ; source read at v1.2.54: Dockerfile line 1 FROM alpine and line 13 EXPOSE 80 443, one self-contained image with its own nginx, docker/etc/nginx/nginx.conf:75; config.default.php:67 DB_DRIVER sqlite by default; no vendor cloud service is called",
         "openproject": "corpus: openproject/round4/install.md 'openproject/openproject:16 from Docker Hub ... against an external PostgreSQL' ; source read at v17.8.0: docker/prod/Dockerfile (line 6) builds the production image from this tree; docs/installation-and-operations/installation/docker/README.md:119-124 'docker run ... openproject/openproject:17' on your own host; publiccode.yml:55 GPL-3.0-or-later, no vendor cloud needed",
-        "jira": "corpus: jira-data-center/round4/open-core.md 'On 30 March 2026 Atlassian stopped selling Data Center licences to new customers; on 28 March 2029 every Data Center product reaches end of life and turns read-only'; self-hosted for existing licence holders only",
+        "jira": "corpus: jira-data-center/round4/open-core.md 'On 30 March 2026 Atlassian stopped selling Data Center licences to new customers; on 28 March 2029 every Data Center product reaches end of life and turns read-only'; self-hosted for existing licence holders only ; docs read 2026-09-26: https://www.atlassian.com/migration 'Mar 30, 2026 End of license sales to new customers ... New customers will no longer be able to purchase'; 'Data Center end of life will take place on March 28, 2029': self-hosted for existing licence holders only, until then (read 2026-09-26)",
         "plane": "corpus: plane/round4/install.md 'makeplane/plane-aio-community:v1.4.2' run on localhost:8096 with postgres, valkey, rabbitmq, minio ; usability.md notes an offline instance works apart from Unsplash covers ; source read at v1.4.2: deployments/aio/community/Dockerfile all-in-one community image, plus deployments/kubernetes and deployments/swarm; apps/api/plane/license/models/instance.py:29 edition defaults to PLANE_COMMUNITY; apps/web/core/components/license/modal/upgrade-modal.tsx:37 isSelfHosted = true"
       },
       "built": {
@@ -4661,7 +4695,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/open-core.md 'Deck gates nothing and sells nothing. appinfo/info.xml says agpl' ; source read at v1.19.0: appinfo/info.xml:24 licence agpl; LICENSE; searched lib/ and src/ for 'subscription', 'enterprise', 'license key': no feature gate",
         "kanboard": "corpus: kanboard/round4/open-core.md 'Kanboard is not open core. One MIT licence covers the product' ; source read at v1.2.54: composer.json:5 license MIT, LICENSE line 1 'The MIT License (MIT)'; searched app/ (outside Locale) for 'license key', 'premium', 'enterprise' gating: none, every feature in the tree ships under the one licence",
         "openproject": "corpus: openproject/round4/open-core.md 'the core is GPL-3.0 ... and 32 named features are withheld behind a paid token' ; source read at v17.8.0: publiccode.yml:55 GPL-3.0-or-later core; app/models/enterprise_token.rb:56 allows_to? gates about 30 named features found in app, lib and modules, e.g. app/models/timestamp.rb:109 baseline_comparison, app/contracts/placeholder_users/create_contract.rb:34 placeholder_users, modules/resource_management/app/controllers/resource_management/base_controller.rb:43 resource_management",
-        "jira": "corpus: jira-data-center/round4/open-core.md 'Jira Software Data Center is closed source with one edition, priced by user tier'",
+        "jira": "corpus: jira-data-center/round4/open-core.md 'Jira Software Data Center is closed source with one edition, priced by user tier' ; docs read 2026-09-26: https://www.atlassian.com/licensing/data-center Data Center is sold as a subscription by user tier ('The renewal cost is the same cost as a new license purchase for the user tier'); the source is not published under an open licence (read 2026-09-26)",
         "plane": "corpus: plane/round4/open-core.md 'LICENSE.txt is the verbatim GNU AGPL v3' and 'this repository is the Community edition and nothing else. The paid features are not gated here. They are not here at all' (Pro, Business, Enterprise, One lists) ; source read at v1.4.2: LICENSE.txt:1-2 GNU AGPL v3; packages/constants/src/subscription.ts:7-30 enterprise, business and pro feature lists such as 'Project Templates', 'Workflows + Approvals', 'Full Time Tracking + Bulk Ops', 'Teamspaces' are absent from this tree, held back in paid builds"
       },
       "built": {
@@ -4690,7 +4724,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 13.9 'platform: admin_audit is shipped and disabled ... the Activity stream logs writes' ; code-census.md descriptionPrev before and after can be dropped (ActivityManager.php:414) ; source read at v1.19.0: lib/Activity/ActivityManager.php:53-94 every board, list, card and comment change is written to the platform activity table, which users cannot edit; :409-418 description before and after are dropped when the entry exceeds 4000 characters; searched lib/ for 'admin_audit', 'IAuditLogger': Deck feeds no audit log itself (platform)",
         "kanboard": "corpus: kanboard/round4/M1-column.md 10.9 activity stream and transitions with author and time, 13.9 'project_activities records writes only' ; no tamper protection on the table ; source read at v1.2.54: app/Controller/ActivityController.php:50 task activity and app/Controller/TaskViewController.php:133 transitions with author and time; app/Console/ProjectActivityArchiveCommand.php:14,19 'projects:archive-activities' deletes entries older than a year, app/Model/ProjectActivityModel.php:75-77 cleanup: no tamper protection or retention lock",
         "openproject": "corpus: openproject/round4/M1-column.md section 13 closing finding 'Setting, Role, Member, Workflow, CustomAction and EnterpriseToken changes are recorded nowhere ... What is recorded is destroys only, and it is purged after 60 days'; work package journals are thorough (10.9) ; source read at v17.8.0: app/services/journals/create_service.rb:45 journals on every work package save, but app/models/work_package.rb:398-405 comments stay editable by their author or editors; app/models/work_package.rb:182 and app/models/project.rb:176 has_paper_trail keeps destroys that app/workers/paper_trail_audits/cleanup_job.rb:33-36 purges after 60 days; settings and role changes have no trail",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 10.5 audit log with filters and CSV export, 10.9 issue History tab; corpus: jira-data-center/round4/open-core.md audit log 'limited by the retention period and the default cap of 10 million records'; 13.9 reads not recorded",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 10.5 audit log with filters and CSV export, 10.9 issue History tab; corpus: jira-data-center/round4/open-core.md audit log 'limited by the retention period and the default cap of 10 million records'; 13.9 reads not recorded ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/auditing-in-jira-938847740.html 'The database retention is limited by the retention period and the default cap of 10 million records': an admin-managed log that ages out, and issue views are not recorded (JRASERVER-43578, Gathering Interest) (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §13 'IssueActivity is an issue-scoped change log, not an audit log' and 'Settings changes are not logged'; 'API-enabled Audit Logs' is a paid string ; source read at v1.4.2: apps/web/core/components/issues/issue-detail/main-content.tsx:184 activity feed; apps/api/plane/db/models/issue.py:415 IssueActivity written only by apps/api/plane/bgtasks/issue_activities_task.py:1540 ACTIVITY_MAPPER, issue scoped; searched apps/api/plane --include=*.py for 'audit.?log', 'AuditLog': none; apps/api/plane/db/models/api.py:51 APIActivityLog is purged nightly"
       },
       "built": {
@@ -4720,7 +4754,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 12.7 'platform: user_ldap shipped and disabled ... SAML and OIDC as store apps (user_saml, user_oidc), not shipped with this image' ; source read at v1.19.0: searched lib/ and src/ for 'saml', 'oidc', 'ldap', 'sso': none; sign-in is the platform's, Deck runs behind its session, lib/Service/PermissionService.php:171 checks the logged-in user; SSO depends on store apps user_saml or user_oidc (platform)",
         "kanboard": "corpus: kanboard/round4/M1-column.md 12.7 'LDAP ... and reverse-proxy header authentication in the core; grep saml|oidc|openid returns 0' ; source read at v1.2.54: app/Auth/LdapAuth.php and app/Auth/ReverseProxyAuth.php in core, config.default.php:103 LDAP_AUTH, :206 REVERSE_PROXY_AUTH; app/Controller/OAuthController.php:13 only a hook for provider plugins; searched app/ for 'saml', 'oidc', 'openid': none, OAuth2 and SAML are third-party plugins",
         "openproject": "corpus: openproject/round4/M1-column.md 12.7 'both exist and both are Enterprise gated: modules/openid_connect/ and modules/auth_saml/ on the sso_auth_providers symbol'; free build has LDAP authentication ; source read at v17.8.0: modules/openid_connect/lib/open_project/openid_connect/engine.rb:50 and modules/auth_saml/lib/open_project/auth_saml/engine.rb:32 OIDC and SAML need the sso_auth_providers token; modules/auth_plugins/lib/open_project/plugins/auth_plugin.rb:94 same gate; config/routes.rb:716 LDAP authentication is free",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 12.7 'Atlassian provides the SSO for Atlassian Data Center app ... Bundled with the Data Center licence, no extra subscription'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 12.7 'Atlassian provides the SSO for Atlassian Data Center app ... Bundled with the Data Center licence, no extra subscription' ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/saml-sso-for-jira-data-center-applications-938847031.html 'SAML single sign-on should work with any identity provider implementing the SAML 2.0 Web Browser SSO Profile'; https://confluence.atlassian.com/jirasoftware/jira-software-11-1-x-release-notes-1627193784.html adds 'Sign SAML authentication requests' (read 2026-09-26)",
         "plane": "corpus: plane/round4/menu-tree.md 'Unique codes, Passwords, Google, GitHub, GitLab, Gitea' and 'No SAML, no OIDC, no LDAP'; open-core.md 'OIDC + SAML for SSO' (One) and 'LDAP support' (Enterprise). OAuth sign-in only ; source read at v1.4.2: apps/admin/app/(all)/(dashboard)/authentication/page.tsx with google, github, gitlab and gitea sub pages; apps/api/plane/authentication/provider/oauth/google.py:1 and github.py, gitlab.py, gitea.py beside it; searched apps/api/plane --include=*.py for 'saml', 'oidc', 'ldap': none"
       },
       "built": {
@@ -4750,7 +4784,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/journeys.md 6 'occ deck:export admin wrote both boards as JSON with stacks, cards, labels and ACL' ; source: src/components/navigation/BoardExportModal.vue JSON and CSV export, lib/AppInfo/Application.php:191 registerUserMigrator(DeckMigrator) ; source read at v1.19.0: src/components/navigation/BoardExportModal.vue:12-18 JSON and CSV per board; lib/Command/UserExport.php:39 occ deck:export for all of a user's boards; lib/AppInfo/Application.php:193 registers lib/UserMigration/DeckMigrator.php:71 export for the platform user migration",
         "kanboard": "corpus: kanboard/round4/M1-column.md 10.3 CSV exports of tasks, subtasks, transitions and summaries ; 11.2 'the database can be downloaded whole' ; source read at v1.2.54: app/Template/export/header.php:5-14 CSV exports of tasks, subtasks, transitions, daily summary; app/Template/config/about.php:72-73 'Download the database' as a gzip compressed SQLite file, app/Controller/ConfigController.php:190 downloadDb; app/Api/Procedure has read calls for every object",
         "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): app/controllers/admin/backups_controller.rb and config/routes.rb:1082 'resource :backups' (database and attachments backup from the admin UI); corpus: openproject/round4/M1-column.md 10.3 CSV, PDF, XLS exports (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: config/initializers/menus.rb:661-662 admin 'Backups'; config/routes.rb:959 backups; app/controllers/admin/backups_controller.rb:64 request_backup of database and attachments; config/initializers/export_formats.rb:34-35 CSV and PDF, config/initializers/permissions.rb:163 export_projects",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 11.2 'the whole-instance XML backup or a project import'; 10.3 CSV export; corpus: jira-data-center/round4/open-core.md data pipeline 'Data will be exported in CSV format'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 11.2 'the whole-instance XML backup or a project import'; 10.3 CSV export; corpus: jira-data-center/round4/open-core.md data pipeline 'Data will be exported in CSV format' ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/data-pipeline-1027142324.html 'You can trigger a data export in your application's admin console or through the REST API. Data will be exported in CSV format'; https://confluence.atlassian.com/jirasoftwareserver/working-with-search-results-939938808.html CSV and XML export (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §13 'Data export. Per-workspace issue export to json / csv / xlsx ... There is no full-account or per-subject export'; pages export to PDF only one at a time (§4) ; source read at v1.4.2: apps/web/core/components/exporter/export-modal.tsx:91 CSV, Excel, JSON of work items; apps/api/plane/app/views/exporter/base.py:22-35 export of chosen or all member projects; apps/web/core/components/pages/modals/export-page-modal.tsx:30,49 pages one at a time as pdf or markdown. No full-account export with cycles, modules, comments and files together"
       },
       "built": {
@@ -4780,7 +4814,7 @@
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 13.3 per-board ACL and code-census.md 'remote ACL type 6' federation : an account shared on one board sees only that board, but a guest account needs the store Guests app, not shipped ; source read at v1.19.0: src/components/board/SharingTabSidebar.vue:90-94 share a single board with a user, group, team or remote account, :32 '(remote)'; lib/Federation/DeckFederationProvider.php:25-42 federated board shares; lib/Service/PermissionService.php:171-199 an account sees only boards shared with it; a guest account needs the store Guests app, searched lib/ and src/ for 'guest': only a docblock at lib/Collaboration/Resources/ResourceProvider.php:72, no guest flow",
         "kanboard": "corpus: kanboard/round4/journeys.md 5 'addProjectUser(bob, project-viewer): bob read the task (200) and was refused on updateTask' ; carol with no membership 403 ; journeys.md 6 public read-only board ; source read at v1.2.54: app/Template/user_list/listing.php:8 'Invite people', app/Controller/UserInviteController.php:27 save; app/Core/Security/Role.php:20,48 'Project Viewer' role; app/Template/project_permission/users.php:36-54 add that user to one project; app/Middleware/ProjectAuthorizationMiddleware.php:47-50 refuses all other projects",
         "openproject": "corpus: openproject/round4/M1-column.md 13.1 membership per project with a role; the free build has no user seat limit (corpus: openproject/round4/open-core.md gates are features, not seats); per-work-package sharing is Enterprise gated (3.19) ; source read at v17.8.0: config/initializers/permissions.rb:218 invite_members_by_email lets a project admin invite an outside person as a member of that one project; app/models/member.rb:40 membership is per project with a role; app/models/work_package.rb:87 visibility follows membership; per work package sharing is gated, app/models/sharing_strategies/work_package_strategy.rb:109",
-        "jira": "corpus: jira-data-center/round4/M1-column.md 3.19 'a partner needs an account and a licence' and is 'scoped per project by a role'; every guest takes a licensed seat",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 3.19 'a partner needs an account and a licence' and is 'scoped per project by a role'; every guest takes a licensed seat ; docs read 2026-09-26: https://confluence.atlassian.com/adminjiraserver/licensing-and-application-access-938846887.html 'If a user has access to an application, they will count as a licensed user'; a guest is scoped to one project by role (https://confluence.atlassian.com/adminjiraserver/managing-project-roles-938847166.html) but takes a seat (read 2026-09-26)",
         "plane": "corpus: plane/round4/code-census.md §5 'Guest is role 5 ... when false a guest sees only items they own or are assigned'; a guest must be a workspace member with a login and is then added per project. Whether a workspace guest sees public-to-workspace projects was not driven ; source read at v1.4.2, contradicts the drive: The drive left open whether a workspace guest sees public-to-workspace projects; the code filters a guest's project list to projects they are a member of and bars self-join, so a guest reaches one project only. apps/web/core/components/workspace/invite-modal/fields.tsx:94-99 invite with role Guest; apps/api/plane/app/views/project/base.py:101-114 a workspace guest only lists projects they are a member of; apps/api/plane/app/views/project/invite.py:131 guests cannot self-join; apps/api/plane/db/models/project.py:100 guest_view_all_features narrows items further"
       },
       "built": {
@@ -4807,17 +4841,17 @@
       "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
       "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 4003, 4004, 64441 (risk table scored on likelihood and impact, format adjustable per portfolio). Also asked for by openproject: https://community.openproject.org/wp/49051 (featureRequest).",
       "evidence": {
-        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "nextcloud-deck": "source read at v1.19.0: searched lib/ and src/ (php, js, vue) for 'likelihood', 'risk_register', 'riskregister': none; a board holds cards only",
         "openproject": "source read at v17.8.0: searched app and modules (rb) for 'risk_register', 'risk_log', 'class Risk': none; config/locales/en.yml:257 'At risk' is only a project status; open Feature request since 2023-07-10",
-        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "source read at v1.4.2: searched apps/api/plane and apps/web (py, ts, tsx) for 'likelihood', 'risk_register', 'riskregister': none",
+        "kanboard": "source read at v1.2.54: searched app/ (php) for 'likelihood', 'risk_register', 'riskregister': none",
         "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
       },
       "planninq": "unknown",
-      "nextcloud-deck": "unknown",
+      "nextcloud-deck": "no",
       "openproject": "no",
-      "plane": "unknown",
-      "kanboard": "unknown",
+      "plane": "no",
+      "kanboard": "no",
       "jira": "unknown"
     },
     {
@@ -4828,17 +4862,17 @@
       "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
       "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirement 4012 (logboeken voor acties, issues, leerpunten, bijeenkomsten), 64437.",
       "evidence": {
-        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "nextcloud-deck": "source read at v1.19.0: searched lib/ and src/ for 'lesson', 'meeting', 'log' registers: none; only cards on stacks, which can stand in for actions but carry no log type",
+        "openproject": "source read at v17.8.0: modules/meeting/config/routes.rb:62 project meetings with agenda and outcomes; app/controllers/work_package_types/types_controller.rb:69 admins add types such as issue or action; searched config/locales/en.yml and modules/*/config/locales/en.yml for 'lessons': none, so no lessons learned log",
+        "plane": "source read at v1.4.2: apps/api/plane/app/urls/page.py:22 project pages hold free form logs; work items cover actions and issues; searched apps/web/core for 'lesson', 'meeting' logs: none, so no structured meeting or lessons log",
+        "kanboard": "source read at v1.2.54: searched app/Model and app/Controller for 'lesson', 'meeting', 'issue log': none; tasks only",
         "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
       },
       "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
+      "nextcloud-deck": "no",
+      "openproject": "partial",
+      "plane": "partial",
+      "kanboard": "no",
       "jira": "unknown"
     },
     {
@@ -4849,17 +4883,17 @@
       "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
       "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 3998, 3999, 4000 (financial tables per cost category and phase, totals at portfolio level).",
       "evidence": {
-        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "nextcloud-deck": "source read at v1.19.0: searched lib/ and src/ for 'budget', 'cost', 'portfolio': none",
+        "openproject": "source read at v17.8.0: modules/overviews/app/components/overviews/workspaces/portfolio_overview_grid_component.html.erb:38 BudgetTotals on the portfolio overview; modules/budgets/app/models/budgets/aggregated_budgets_with_spend.rb:41-46 budget and spend totals; app/contracts/projects/create_contract.rb:42 portfolios need the :portfolio_management Enterprise token; no commitments or forecast",
+        "plane": "source read at v1.4.2: searched apps/api/plane/db/models and apps/web/core for 'budget', 'cost', 'spend': none",
+        "kanboard": "source read at v1.2.54: searched app/ for 'budget', 'cost', 'portfolio': none (budget is a third party plugin, not core)",
         "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
       },
       "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
+      "nextcloud-deck": "no",
+      "openproject": "partial",
+      "plane": "no",
+      "kanboard": "no",
       "jira": "unknown"
     },
     {
@@ -4870,17 +4904,17 @@
       "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
       "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 4001, 4023, 4127 (automated link with the financial system, project number as key).",
       "evidence": {
-        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "nextcloud-deck": "source read at v1.19.0: searched lib/ and appinfo/routes.php for 'finance', 'cost', 'import': no cost model to import into",
+        "openproject": "source read at v17.8.0: modules/costs/lib/api/v3/cost_entries/cost_entries_api.rb:49 the cost entries API is read only (get); searched modules/costs and modules/budgets config/routes.rb for 'import': none; no finance system connector",
+        "plane": "source read at v1.4.2: searched apps/api/plane for 'budget', 'cost', 'finance': no spend model",
+        "kanboard": "source read at v1.2.54: searched app/Model and app/Api/Procedure for 'cost', 'budget', 'finance': none",
         "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
       },
       "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
+      "nextcloud-deck": "no",
+      "openproject": "no",
+      "plane": "no",
+      "kanboard": "no",
       "jira": "unknown"
     },
     {
@@ -4891,17 +4925,17 @@
       "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
       "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 4008, 4009, 64440 (weekly timesheets with non-project activities, sickness and leave).",
       "evidence": {
-        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "nextcloud-deck": "source read at v1.19.0: searched lib/ and src/ for 'timesheet', 'time spent', 'worklog': no time logging",
+        "openproject": "source read at v17.8.0: modules/costs/app/models/time_entry.rb:50 every time entry needs a project and entity; app/models/user_non_working_time.rb:31 and config/routes.rb:1241 personal non working time records leave, but outside the timesheet; sickness or training need a stand in project",
+        "plane": "source read at v1.4.2: apps/api/plane/db/models/project.py:98 is_time_tracking_enabled flag only; searched apps/web for 'worklog', 'timesheet': only apps/web/core/components/common/activity/helper.tsx, no time entry screen in this edition",
+        "kanboard": "source read at v1.2.54: searched app/Model for 'timesheet', 'absence', 'leave': time is tracked only on subtasks inside a project",
         "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
       },
       "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
+      "nextcloud-deck": "no",
+      "openproject": "partial",
+      "plane": "no",
+      "kanboard": "no",
       "jira": "unknown"
     },
     {
@@ -4912,17 +4946,17 @@
       "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
       "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirement 4130, wish (faseafsluiting afhankelijk van het uploaden van een fasedocument).",
       "evidence": {
-        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "nextcloud-deck": "source read at v1.19.0: searched lib/ and src/ for 'phase', 'gate': none",
+        "openproject": "source read at v17.8.0: app/models/project/phase_definition.rb:44-45 phases carry start and finish gates, but a gate is only a date, app/models/project/phase.rb:57-58; searched app/models/project and app/contracts/project_phases for 'attachment', 'document': none; phase definitions need an Enterprise token, app/controllers/admin/settings/project_phase_definitions_controller.rb:39",
+        "plane": "source read at v1.4.2: searched apps/api/plane/db/models for 'phase', 'gate': none",
+        "kanboard": "source read at v1.2.54: searched app/Model and app/Action for 'phase', 'gate': none; no action blocks a column move on an attachment",
         "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
       },
       "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
+      "nextcloud-deck": "no",
+      "openproject": "partial",
+      "plane": "no",
+      "kanboard": "no",
       "jira": "unknown"
     },
     {
@@ -4933,17 +4967,17 @@
       "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
       "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirement 4132, wish (GANTT-diagrammen van aannemers vanuit MS-project importeren).",
       "evidence": {
-        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "nextcloud-deck": "source read at v1.19.0: lib/Service/Importer/Systems/TrelloJsonService.php:28 and lib/Service/Importer/Systems/TrelloApiService.php:19 plus a Deck JSON importer are the only systems; searched lib/ and src/ for 'msproject', 'mpp', 'mspdi': none",
+        "openproject": "source read at v17.8.0: config/routes.rb:909-911 the admin import namespace offers Jira only; searched app, lib, modules and frontend/src for 'mpp', 'mspdi', 'ms project' importers: none",
+        "plane": "source read at v1.4.2: searched apps/api/plane and apps/web/core for 'mpp', 'mspdi', 'ms project': none; importers appear only on the billing comparison, apps/web/core/components/workspace/billing/comparison/plans.tsx",
+        "kanboard": "source read at v1.2.54: app/Controller/TaskImportController.php:40 imports tasks from CSV only, no dependencies or Gantt; searched app/ for 'mpp', 'mspdi', 'msproject': none",
         "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
       },
       "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
+      "nextcloud-deck": "no",
+      "openproject": "no",
+      "plane": "no",
+      "kanboard": "no",
       "jira": "unknown"
     },
     {
@@ -4954,17 +4988,17 @@
       "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
       "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 4054, 4126 (bestanden en metadata voor dossiervorming ongewijzigd overzetten naar het zaaksysteem).",
       "evidence": {
-        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "nextcloud-deck": "source read at v1.19.0: searched lib/ for 'zaak', 'case', 'archive export' with metadata: none; board archiving only hides the board",
+        "openproject": "source read at v17.8.0: searched app, lib and modules/storages for 'zaak', 'dms', 'records management', 'case system': none; file storages link Nextcloud or OneDrive folders but hand nothing over to a case system",
+        "plane": "source read at v1.4.2: searched apps/api/plane for 'zaak', 'records', 'case management': none",
+        "kanboard": "source read at v1.2.54: searched app/ and app/Api/Procedure for 'zaak', 'records', 'case management': none",
         "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
       },
       "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
+      "nextcloud-deck": "no",
+      "openproject": "no",
+      "plane": "no",
+      "kanboard": "no",
       "jira": "unknown"
     },
     {
@@ -4975,17 +5009,17 @@
       "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
       "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 4059 to 4063 (vernietigingslijsten, vernietiging en bewijs van vernietiging).",
       "evidence": {
-        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "nextcloud-deck": "source read at v1.19.0: searched lib/ for 'retention', 'destruction', 'vernietig': none",
+        "openproject": "source read at v17.8.0: searched app, lib and modules (rb) for 'retention', 'destruction', 'vernietig': none",
+        "plane": "source read at v1.4.2: searched apps/api/plane for 'retention', 'destruction': none; archive_in and close_in on apps/api/plane/db/models/project.py:110-111 auto archive, they do not destroy with proof",
+        "kanboard": "source read at v1.2.54: searched app/ for 'retention', 'destruction', 'vernietig': none",
         "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
       },
       "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
+      "nextcloud-deck": "no",
+      "openproject": "no",
+      "plane": "no",
+      "kanboard": "no",
       "jira": "unknown"
     },
     {
@@ -4996,17 +5030,17 @@
       "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
       "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 4020, 4129, 24322, 64437 (GROTIK status per project, aggregated per portfolio).",
       "evidence": {
-        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "nextcloud-deck": "source read at v1.19.0: searched lib/Db/Board.php and src/ for a board status: none",
+        "openproject": "source read at v17.8.0: app/models/project.rb:218-221 one status per project, on track, at risk, off track; app/models/project_queries/static.rb:119 project list filtered by status; the six GROTIK aspects only through project attributes; no per aspect roll up to a portfolio",
+        "plane": "source read at v1.4.2: searched apps/api/plane/db/models/project.py for a status or health field: none; project states are not in this edition",
+        "kanboard": "source read at v1.2.54: searched app/Model/ProjectModel.php and app/Template/project_overview for a status or health field: none",
         "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
       },
       "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
+      "nextcloud-deck": "no",
+      "openproject": "partial",
+      "plane": "no",
+      "kanboard": "no",
       "jira": "unknown"
     },
     {
@@ -5018,16 +5052,16 @@
       "note": "Demand row mined from nextcloud-deck (featureRequest) on 2026-09-26.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: lib/DAV/CalendarObject.php:58-59 put throws Forbidden 'This calendar-object is read-only'; lib/Db/Card.php:152 FIXME for write support; the request has 70 reactions",
-        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "source read at v17.8.0: modules/calendar/config/routes.rb:17 calendar/ical#show is a read only iCal feed; searched app and modules for 'caldav': none",
+        "plane": "source read at v1.4.2: searched apps/api/plane for 'caldav', 'icalendar', '.ics': none",
+        "kanboard": "source read at v1.2.54: app/Controller/ICalendarController.php:22 and :62 serve read only iCal feeds; searched app/ for 'caldav': none",
         "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
       },
       "planninq": "unknown",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
+      "openproject": "no",
+      "plane": "no",
+      "kanboard": "no",
       "jira": "unknown"
     },
     {
@@ -5039,16 +5073,16 @@
       "note": "Demand row mined from nextcloud-deck (featureRequest) on 2026-09-26.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: src/components/navigation/AppNavigation.vue:19 fixed entries All, Archived and Shared boards; lib/Db/Board.php:35-54 no folder or category field; the request has 31 reactions",
-        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "source read at v17.8.0: config/locales/en.yml:3696 'Add subproject'; app/models/projects/hierarchy.rb:104 nested set; frontend/src/app/shared/components/searchable-project-list/project-data.ts:38 children render as a tree in the project picker",
+        "plane": "source read at v1.4.2: apps/web/core/components/workspace/sidebar/favorites/new-fav-folder.tsx:60 favourite folders; apps/api/plane/db/models/favorite.py:23-25 is_folder and parent; apps/web/core/components/workspace/sidebar/projects-list-item.tsx:383 add a project to favourites; folders are per user, the project list itself stays flat",
+        "kanboard": "source read at v1.2.54: searched app/Model/ProjectModel.php and app/Template/project_list for 'group', 'folder', 'category': none; app/Model/CategoryModel.php is for tasks inside one project",
         "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
       },
       "planninq": "unknown",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
+      "openproject": "yes",
+      "plane": "partial",
+      "kanboard": "no",
       "jira": "unknown"
     },
     {
@@ -5372,20 +5406,20 @@
       "name": "Be warned or stopped when a colleague is editing the same task at the same time.",
       "origin": "featureRequest",
       "originUrl": "https://github.com/orgs/kanboard/discussions/5691",
-      "note": "Demand row mined from kanboard (featureRequest) on 2026-09-26.",
+      "note": "Demand row mined from kanboard (featureRequest) on 2026-09-26. Also asked for by jira: https://jira.atlassian.com/browse/JRASERVER-6146 (featureRequest).",
       "evidence": {
         "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "kanboard": "source read at v1.2.54: searched app/Model/TaskModificationModel.php and app/Controller for 'lock', 'locked_by', 'editing': none; the last save wins",
-        "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
+        "jira": "JRASERVER-6146 'Implement issue locking', Suggestion, Gathering Interest, 505 votes (tracker REST API, read 2026-09-26)"
       },
       "planninq": "unknown",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown"
+      "jira": "no"
     },
     {
       "id": "int-automation-edit",
@@ -5659,6 +5693,195 @@
       "plane": "yes",
       "kanboard": "unknown",
       "jira": "unknown"
+    },
+    {
+      "id": "tsk-estimate-rollup",
+      "area": "time",
+      "name": "See the estimates of all subtasks added up on the parent task.",
+      "origin": "featureRequest",
+      "originUrl": "https://jira.atlassian.com/browse/JSWSERVER-9167",
+      "note": "Demand row mined from jira (featureRequest) on 2026-09-26.",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "JSWSERVER-9167 'Provide ability to automatically sum estimates from sub-tasks in user stories', Future Consideration, 1993 votes; https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html 'Choosing to include sub-tasks displays the aggregated time': hours roll up, story points do not (read 2026-09-26)"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "partial"
+    },
+    {
+      "id": "col-threaded-comments",
+      "area": "collaboration",
+      "name": "Reply to a specific comment so a discussion stays threaded.",
+      "origin": "featureRequest",
+      "originUrl": "https://jira.atlassian.com/browse/JRASERVER-3406",
+      "note": "Demand row mined from jira (featureRequest) on 2026-09-26.",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "JRASERVER-3406 'Threaded Comments', Suggestion, Future Consideration, 1017 votes (tracker REST API, read 2026-09-26)"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "no"
+    },
+    {
+      "id": "tsk-clone-tree",
+      "area": "tasks",
+      "name": "Copy a task together with its subtasks and the child tasks under it.",
+      "origin": "featureRequest",
+      "originUrl": "https://jira.atlassian.com/browse/JSWSERVER-7721",
+      "note": "Demand row mined from jira (featureRequest) on 2026-09-26.",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "JSWSERVER-7721 'When cloning an Epic, add the option to clone the linked Stories as well', Future Consideration, 1295 votes; https://confluence.atlassian.com/jirasoftwareserver/creating-issues-and-sub-tasks-939938925.html 'Clone sub-tasks to copy existing sub-tasks' (read 2026-09-26)"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "partial"
+    },
+    {
+      "id": "col-group-mention",
+      "area": "collaboration",
+      "name": "Mention a whole team or group in a comment so every member is notified.",
+      "origin": "featureRequest",
+      "originUrl": "https://jira.atlassian.com/browse/JRASERVER-28225",
+      "note": "Demand row mined from jira (featureRequest) on 2026-09-26.",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "JRASERVER-28225 'Mentions of groups', Suggestion, Future Consideration, 910 votes (tracker REST API, read 2026-09-26)"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "no"
+    },
+    {
+      "id": "tim-work-type",
+      "area": "time",
+      "name": "Record what kind of work logged time was, such as a meeting or development.",
+      "origin": "featureRequest",
+      "originUrl": "https://jira.atlassian.com/browse/JRASERVER-1780",
+      "note": "Demand row mined from jira (featureRequest) on 2026-09-26.",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "JRASERVER-1780 'Add type of work in Log work', Suggestion, Not Being Considered, 773 votes (tracker REST API, read 2026-09-26)"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "no"
+    },
+    {
+      "id": "tsk-merge",
+      "area": "tasks",
+      "name": "Merge two duplicate tasks into one, keeping comments and history.",
+      "origin": "featureRequest",
+      "originUrl": "https://jira.atlassian.com/browse/JRASERVER-3592",
+      "note": "Demand row mined from jira (featureRequest) on 2026-09-26.",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "JRASERVER-3592 'Merging of issues', Suggestion, Future Consideration, 533 votes (tracker REST API, read 2026-09-26)"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "no"
+    },
+    {
+      "id": "tsk-duplicate-warning",
+      "area": "tasks",
+      "name": "Be warned about similar existing tasks while creating a new one.",
+      "origin": "featureRequest",
+      "originUrl": "https://jira.atlassian.com/browse/JRASERVER-1633",
+      "note": "Demand row mined from jira (featureRequest) on 2026-09-26.",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "JRASERVER-1633 'find similar feature to prevent creating duplicate issue', Suggestion, Gathering Interest, 175 votes (tracker REST API, read 2026-09-26)"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "no"
+    },
+    {
+      "id": "int-automation-guard",
+      "area": "integration",
+      "name": "Restrict who may build automations that use powerful actions.",
+      "origin": "changelog",
+      "originUrl": "https://confluence.atlassian.com/jirasoftware/jira-software-11-3-x-release-notes-1689288832.html",
+      "note": "Demand row mined from jira (changelog) on 2026-09-26.",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "11.3 release notes 'Starting from Jira 11.3.3, you can use automation restrictions to decide who can create, edit, enable, or disable automation rules that use specific components'; 11.3.3 released 5 March 2026 (read 2026-09-26)"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "yes"
+    },
+    {
+      "id": "plt-security-insights",
+      "area": "platform",
+      "name": "See an admin overview of security risks in the installation with suggested fixes.",
+      "origin": "roadmap",
+      "originUrl": "https://www.atlassian.com/roadmap/data-center",
+      "note": "Demand row mined from jira (roadmap) on 2026-09-26.",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "roadmap 'Security insights Get centralised, instance-level security insights for your Confluence and Jira Data Center in Admin Hub ... Released Q3 2026': it runs through the cloud Admin Hub, so a buyer without a cloud connection does not get it (read 2026-09-26)"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "partial"
     }
   ],
   "pending": [
