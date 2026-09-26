@@ -1063,372 +1063,672 @@
       "area": "planning",
       "name": "See a project's tasks on a Gantt timeline.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/ProjectTimeline.vue:47-107 (bars/axis render) -> src/api/timeline.js:35 (fetchProjectTimeline) -> GET /apps/planninq/api/projects/{id}/timeline",
+        "reachedOn": "ProjectTimeline page /projects/:id/timeline, opened from the project board breadcrumb",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "timeline",
+      "featureConfidence": "high",
+      "note": "read-only Gantt: day/week/month zoom, today marker, unscheduled rail."
     },
     {
       "id": "pln-dependencies",
       "area": "planning",
       "name": "Mark a task as blocked by another task.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/components/TaskDependencies.vue (full picker/add/remove UI) -> src/store/dependencies.js:81 createEdge -> lib/Service/DependencyService.php:112 create(); but src/views/TaskDetail.vue never imports or mounts TaskDependencies (grep of src/ finds no importer)",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/components/TaskDependencies.vue: complete component (picker, blocked banner, remove buttons) with no importer anywhere in src/",
+          "src/views/TaskDetail.vue: has no Dependencies section and does not import TaskDependencies.vue"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "dependencies",
+      "featureConfidence": "high",
+      "note": "the UI component and backend are fully built, but the component is never wired into any page, so a user has no way to mark a dependency."
     },
     {
       "id": "pln-dep-validation",
       "area": "planning",
       "name": "Be stopped from creating a circular, duplicate or self dependency.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "lib/Service/DependencyService.php:112-236 assertDistinctTasks/assertEdgeIsValid/DependencyGraph::cyclePath fully implement self/duplicate/cross-project/cycle checks, surfaced by src/components/TaskDependencies.vue:73 (errorMessage)",
+        "reachedOn": "nothing reaches it (same dead component as pln-dependencies)",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/components/TaskDependencies.vue: the only caller of dependencies.js createEdge/deleteEdge, and it is never imported (see pln-dependencies)"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "dependencies",
+      "featureConfidence": "high",
+      "note": "server-side validation is real and thorough, but since the only UI that calls createEdge is never mounted, no user can trigger it."
     },
     {
       "id": "pln-blocked-badge",
       "area": "planning",
       "name": "See at a glance which tasks are blocked by unfinished work.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/components/BlockedBadge.vue (renders isBlocked() result) and src/utils/taskHelpers.js:105 isBlocked() / :135 blockedTaskIds() exist, but grep across src/ finds no importer of BlockedBadge.vue and no caller of isBlocked()/blockedTaskIds() anywhere",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/components/BlockedBadge.vue: defined, never imported by any view or component",
+          "src/utils/taskHelpers.js:105 isBlocked() and :135 blockedTaskIds(): exported, never called outside their own file"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "dependencies",
+      "featureConfidence": "high",
+      "note": "ProjectBoard.vue and TaskCard.vue import taskHelpers.js for other things (groupTasksByStatus, dueDateStatus) but never isBlocked/blockedTaskIds, so no card or list anywhere shows a blocked badge."
     },
     {
       "id": "pln-deps-on-timeline",
       "area": "planning",
       "name": "See dependency links drawn on the timeline.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/ProjectTimeline.vue:71-95 (edgeLines svg) <- src/utils/timelineHelpers.js buildLayout() consumes payload.dependencies from src/api/timeline.js:35",
+        "reachedOn": "ProjectTimeline page /projects/:id/timeline",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/components/TaskDependencies.vue: not mounted anywhere, so no real edge ever reaches the timeline outside seeded demo data"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "timeline",
+      "featureConfidence": "high",
+      "note": "the timeline correctly draws arrows for whatever dependency edges exist, but the only UI that creates edges (TaskDependencies.vue) is dead code (see pln-dependencies), so in practice a user cannot produce a dependency for the timeline to show."
     },
     {
       "id": "pln-due-reminder",
       "area": "planning",
       "name": "Get a reminder before a task falls due.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json:145 x-openregister-notifications.taskDueSoon (scheduled trigger, withinNext PT24H) executed by openregister's registered TimedJob lib/BackgroundJob/ScheduledNotificationJob.php (registered in openregister appinfo/info.xml:148), which dispatches via AnnotationNotificationDispatcher",
+        "reachedOn": "background job, no page; the resulting nc-notification appears in Nextcloud's own notification panel",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "openregister",
+      "providerHow": "read-from-code",
+      "feature": "notifications",
+      "featureConfidence": "high",
+      "note": "not just a bare declaration: openregister's ScheduledNotificationJob is a real registered background job (confirmed in openregister/appinfo/info.xml) with its own dispatcher, so this is executed behaviour, not only a schema declaration. planninq owns the rule/schema and the admin+user settings around it; openregister owns the dispatch engine."
     },
     {
       "id": "pln-reminder-lead-time",
       "area": "planning",
       "name": "Let an admin set how many days ahead of the due date the reminder goes out.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/settings/Settings.vue:127-129 (due-reminder lead-hours field) -> src/store/modules/settings.js -> lib/Controller/SettingsController.php -> lib/Service/SettingsService.php:260-272 (validates 1-336h) -> lib/Service/DueReminderWindowService.php:112-135 patches the live schema's x-openregister-notifications.taskDueSoon.trigger.filter.dueDate window",
+        "reachedOn": "AdminRoot admin-settings panel (src/views/settings/AdminRoot.vue mounts Settings.vue), Nextcloud admin settings section",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "notifications",
+      "featureConfidence": "high",
+      "note": "admin can set 1-336 hours; the value is actually written into the live schema's trigger filter, not just stored as a preference."
     },
     {
       "id": "pln-reminder-optout",
       "area": "planning",
       "name": "Turn due reminders off for yourself.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/settings/UserSettings.vue:13-76 (toggle) -> useSettingsStore().saveUserSettings -> lib/Service/SettingsService.php:442-463 setNotifyDueReminder() -> :498-524 writeDueReminderOverride() calls OpenRegister's real NotificationPreferenceService::setOverride() for (task, taskDueSoon)",
+        "reachedOn": "Personal settings dialog (src/App.vue:56 mounts UserSettings inside NcAppSettingsDialog)",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "notifications",
+      "featureConfidence": "high",
+      "note": "toggling off writes a real per-user override into openregister's NotificationPreferenceService (verified that class exists in the openregister checkout), not just a local flag."
     },
     {
       "id": "pln-gantt-edit",
       "area": "planning",
       "name": "Reschedule a task by dragging its bar on the timeline.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "src/views/ProjectTimeline.vue:140-150 doc comment states 'It is strictly read-only: it fetches once ... and never creates or mutates an object'; no drag handlers on .project-timeline__bar",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "timeline",
+      "featureConfidence": "high",
+      "note": "the timeline is explicitly read-only by design; bars have no drag/mouse handlers at all."
     },
     {
       "id": "pln-auto-schedule",
       "area": "planning",
       "name": "Have dependent tasks move automatically when the task before them slips.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "no code searched (rescheduling, cascade, slip) in src/ or lib/; ProjectTimeline.vue is read-only and dependency edges are display-only",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "timeline",
+      "featureConfidence": "high"
     },
     {
       "id": "pln-critical-path",
       "area": "planning",
       "name": "See a project's critical path.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "ProjectTimeline.vue has no critical-path computation; DependencyGraph.php only implements cycle detection, not longest-path/critical-path",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "timeline",
+      "featureConfidence": "high"
     },
     {
       "id": "pln-milestones",
       "area": "planning",
       "name": "Put milestones on a project's timeline.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "no milestone concept in lib/Settings/planninq_register.json schemas (task, project, projectPhase, column, plannedTimeEntry, label, dependency) or src/views/ProjectTimeline.vue",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "timeline",
+      "featureConfidence": "high"
     },
     {
       "id": "pln-baseline",
       "area": "planning",
       "name": "Compare the current plan against a saved baseline.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "no snapshot/baseline schema or comparison logic found in lib/ or src/",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "timeline",
+      "featureConfidence": "high"
     },
     {
       "id": "pln-working-days",
       "area": "planning",
       "name": "Plan against working days and public holidays rather than calendar days.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "src/views/ProjectTimeline.vue:56 only visually shades weekend columns (project-timeline__tick--weekend); there is no scheduling logic at all (the timeline is read-only) and no holiday calendar concept anywhere",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "timeline",
+      "featureConfidence": "high",
+      "note": "weekend shading is cosmetic only, not used in any scheduling calculation."
     },
     {
       "id": "pln-calendar-view",
       "area": "planning",
       "name": "See tasks with due dates in a calendar view.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "no calendar-view component found; grep for 'calendar' across src/ and lib/ returns only icon names",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "timeline",
+      "featureConfidence": "high"
     },
     {
       "id": "pln-caldav",
       "area": "planning",
       "name": "See task due dates in the Nextcloud Calendar or another CalDAV client.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "grep for 'caldav' across src/ and lib/ returns nothing",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "integrations",
+      "featureConfidence": "high"
     },
     {
       "id": "pln-multi-project-timeline",
       "area": "planning",
       "name": "See several projects on one timeline.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "src/views/ProjectTimeline.vue is scoped to one :id (route /projects/:id/timeline); src/views/Portfolio.vue (route /portfolio) is a per-project capacity bar chart of open-task counts, not a shared Gantt/timeline",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "timeline",
+      "featureConfidence": "high",
+      "note": "Portfolio is the closest cross-project view and it is a bar chart, not a timeline."
     },
     {
       "id": "tim-estimate",
       "area": "time",
       "name": "Record a time estimate on a task.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue:60-72 (estimate input + Save estimate button) -> :557-566 saveEstimate() -> projectsStore.updateTask(taskId, { estimatedDuration: minutes })",
+        "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high"
     },
     {
       "id": "tim-log",
       "area": "time",
       "name": "Log time spent on a task by hand.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue:91 (Log time button) -> src/dialogs/TimeEntryDialog.vue:152-179 save() -> src/store/timeEntries.js:149 create()",
+        "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high"
     },
     {
       "id": "tim-duration-input",
       "area": "time",
       "name": "Type a duration in a natural form, such as 1h 30m.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/utils/durationParser.js:31-66 parseDuration() accepts '2h 30m', '1.5h', '90m', bare numbers; used by src/dialogs/TimeEntryDialog.vue:119 and src/views/TaskDetail.vue estimate input",
+        "reachedOn": "TaskDetail page and the TimeEntryDialog it opens",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high"
     },
     {
       "id": "tim-timesheet",
       "area": "time",
       "name": "See your own logged time as a timesheet grouped by date.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/Timesheet.vue:162-164 groups() -> src/utils/timesheetHelpers.js groupEntriesByDate() over src/store/timeEntries.js:121 fetchForCurrentUser() (owner-filtered)",
+        "reachedOn": "Timesheet page /timesheet, menu item 'Timesheet'",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high",
+      "note": "grouped by date with per-day and range totals, date-range presets (this week/last week/all/custom)."
     },
     {
       "id": "tim-vs-estimate",
       "area": "time",
       "name": "See logged time against the estimate on a task.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue:287-288 estimateMinutes(), :325-330 progressText, :339 isOverEstimate (logged vs estimatedDuration)",
+        "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high",
+      "note": "shows 'logged / estimate' text and flags overage in red."
     },
     {
       "id": "tim-edit-delete",
       "area": "time",
       "name": "Correct or delete a time entry you logged.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
-    },
-    {
-      "id": "tim-billable",
-      "area": "time",
-      "name": "Mark a time entry as billable or not.",
-      "origin": "own-code",
-      "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
-      "jira": "unknown"
-    },
-    {
-      "id": "tim-rates",
-      "area": "time",
-      "name": "Record an hourly rate so a time entry carries a value.",
-      "origin": "own-code",
-      "planninq": "unknown",
-      "nextcloud-deck": "unknown",
-      "openproject": "unknown",
-      "plane": "unknown",
-      "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue:105-118 (edit/delete actions gated by canModify) -> :548-549 canModify() -> src/store/timeEntries.js:80-84 canModify (owner or admin); :609 deleteEntry() -> store.delete()",
+        "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId (entries list under 'Time tracking'); not exposed on the Timesheet page itself",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high",
+      "note": "only reachable from the task detail entries list, not from the Timesheet page, which has no edit/delete controls."
     },
     {
       "id": "tim-report",
       "area": "time",
       "name": "See time spent per person and per project in a report.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "src/manifest.json TimeSpentReport page (/reports/time): 'time-by-user' chart groups plannedTimeEntry by user (per person), but no widget groups or filters by project; the 'Most recent' object-table also has no project column",
+        "reachedOn": "Reports page /reports -> Time spent card -> /reports/time",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/manifest.json TimeSpentReport config.widgets: no per-project groupBy/chart and no project column on the recent-entries table"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "reporting",
+      "featureConfidence": "high",
+      "note": "per-person breakdown exists; per-project breakdown does not, so only half the row's sentence is true."
     },
     {
       "id": "tim-hours-once",
       "area": "time",
       "name": "Have logged hours stored once in the HR app so projects and payroll read the same hours.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "specified",
+        "evidence": "openspec/changes/plannedtimeentry-reads-humaniqs-hours/proposal.md: explicitly says 'Not started. No code has moved'; today lib/Settings/planninq_register.json:912-919 plannedTimeEntry.timeEntry (uuid ref to humaniq's TimeEntry) is declared but no code in src/ or lib/ ever sets it (grep for 'timeEntry:' finds nothing outside the schema-slug constant)",
+        "reachedOn": "nothing reaches it; planninq stores its own independent duration today",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high",
+      "note": "the openspec change documents the design and says explicitly the migration has not started; hours are currently stored once in planninq's own plannedTimeEntry.duration, not read from or synced with humaniq."
     },
     {
       "id": "tim-timer",
       "area": "time",
       "name": "Start and stop a timer on a task.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "src/dialogs/TimeEntryDialog.vue only accepts a typed duration (durationInput); no start/stop/running-timer state anywhere in src/",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high"
     },
     {
       "id": "tim-approval",
       "area": "time",
       "name": "Submit a timesheet and have it approved.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "grep for 'approv' across src/ and lib/ returns only unrelated comments (ProjectController.php:372, PortalContributionProvider.php:153); no submission/approval workflow or status field on plannedTimeEntry",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high"
     },
     {
       "id": "tim-export",
       "area": "time",
       "name": "Export time entries to a spreadsheet.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "no CSV/spreadsheet export code found for time entries in src/ or lib/ (grep for 'export' matches only JS module syntax)",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high"
     },
     {
       "id": "tim-to-invoice",
       "area": "time",
       "name": "Hand billable time to invoicing.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "unknown",
       "openproject": "unknown",
       "plane": "unknown",
       "kanboard": "unknown",
-      "jira": "unknown"
+      "jira": "unknown",
+      "built": {
+        "state": "none",
+        "evidence": "grep for 'invoice' across src/ and lib/ returns nothing",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high",
+      "note": "no invoicing app integration exists; billable/hourlyRate fields are themselves unreachable (see tim-billable/tim-rates), so there is nothing to hand off."
     },
     {
       "id": "prt-capacity",
@@ -2043,5 +2343,58 @@
       "jira": "unknown"
     }
   ],
-  "pending": []
+  "pending": [
+    {
+      "id": "tim-billable",
+      "area": "time",
+      "name": "Mark a time entry as billable or not.",
+      "origin": "own-code",
+      "planninq": "yes",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json:1043-1048 plannedTimeEntry.billable (boolean) declared, but src/dialogs/TimeEntryDialog.vue (the only create/edit form) has no billable field and src/store/timeEntries.js create()/update() never set it",
+        "reachedOn": "nothing reaches it (schema property with no form/screen)",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/dialogs/TimeEntryDialog.vue: no billable toggle, so plannedTimeEntry.billable can never be set by a user"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high",
+      "note": "schema property only, per the rule for a property with no form/screen; kept in pending."
+    },
+    {
+      "id": "tim-rates",
+      "area": "time",
+      "name": "Record an hourly rate so a time entry carries a value.",
+      "origin": "own-code",
+      "planninq": "yes",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown",
+      "built": {
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json:1049-1053 plannedTimeEntry.hourlyRate (number, default 0) declared, but src/dialogs/TimeEntryDialog.vue has no rate field and no code sets hourlyRate on create/update",
+        "reachedOn": "nothing reaches it (schema property with no form/screen)",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/dialogs/TimeEntryDialog.vue: no hourly-rate field, so plannedTimeEntry.hourlyRate stays at its default 0 for every entry ever created through the product"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high",
+      "note": "same as tim-billable: schema-only, pending."
+    }
+  ]
 }
