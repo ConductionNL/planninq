@@ -2660,13 +2660,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
-        "kanboard": "corpus: _round4/compare/promoted-rows-batch7.md 10.11 (Kanboard) 'tasks.time_estimated and time_spent, subtask time tracking with a start/stop timer ... a per-user timesheet (getUserTimesheet). Verified live' ; menu-tree.md Analytics 'Estimated vs actual time'"
+        "kanboard": "corpus: _round4/compare/promoted-rows-batch7.md 10.11 (Kanboard) 'tasks.time_estimated and time_spent, subtask time tracking with a start/stop timer ... a per-user timesheet (getUserTimesheet). Verified live' ; menu-tree.md Analytics 'Estimated vs actual time'",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/progress-tracking/README.md:6 'estimated time, remaining time, work'; corpus: openproject/round4/M1-column.md 3.15 derived progress values",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html 'When work is first logged against the issue, the Time Spent is subtracted from the Original Estimate'"
       },
       "built": {
         "state": "built",
@@ -2686,13 +2688,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
-        "kanboard": "corpus: _round4/compare/promoted-rows-batch7.md 10.11 (Kanboard) 'tasks.time_estimated and time_spent, subtask time tracking with a start/stop timer ... a per-user timesheet (getUserTimesheet). Verified live' ; source: app/Model/TaskCreationModel.php:67 time_spent on the task form, app/Model/SubtaskTimeTrackingModel.php:245 updateSubtaskTimeSpent"
+        "kanboard": "corpus: _round4/compare/promoted-rows-batch7.md 10.11 (Kanboard) 'tasks.time_estimated and time_spent, subtask time tracking with a start/stop timer ... a per-user timesheet (getUserTimesheet). Verified live' ; source: app/Model/TaskCreationModel.php:67 time_spent on the task form, app/Model/SubtaskTimeTrackingModel.php:245 updateSubtaskTimeSpent",
+        "openproject": "corpus: openproject/round4/menu-tree.md project 'Time and costs'; docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/time-tracking/README.md 'Log time'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/models/time_entry.rb",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html work logs with 'Edit Own Work Logs' and 'Delete Own Work Logs' permissions"
       },
       "built": {
         "state": "built",
@@ -2712,13 +2716,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
-        "kanboard": "source: time fields are decimal hours rendered as '%sh spent' (app/Template/subtask/timer.php:3,9); no parsing of '1h 30m' found (grep -rniE '[0-9]h ?[0-9]+m' app/Core/DateParser.php returns nothing)"
+        "kanboard": "source: time fields are decimal hours rendered as '%sh spent' (app/Template/subtask/timer.php:3,9); no parsing of '1h 30m' found (grep -rniE '[0-9]h ?[0-9]+m' app/Core/DateParser.php returns nothing)",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): app/services/duration_converter.rb:147 'ChronicDuration.parse(duration_string' and modules/costs/app/helpers/costs/number_helper.rb:79 falls back to DurationConverter.parse for hours strings, so '1h 30m' parses",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html 'You can specify additional time units after a time value X, such as Xw, Xd, Xh, or Xm'"
       },
       "built": {
         "state": "built",
@@ -2738,13 +2744,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
-        "kanboard": "corpus: _round4/compare/promoted-rows-batch7.md 10.11 (Kanboard) 'tasks.time_estimated and time_spent, subtask time tracking with a start/stop timer ... a per-user timesheet (getUserTimesheet). Verified live' ; source: app/Template/user_view/timesheet.php:5-23 'Subtask timesheet' per user with Start, End and Time spent, sortable by start, not grouped by date"
+        "kanboard": "corpus: _round4/compare/promoted-rows-batch7.md 10.11 (Kanboard) 'tasks.time_estimated and time_spent, subtask time tracking with a start/stop timer ... a per-user timesheet (getUserTimesheet). Verified live' ; source: app/Template/user_view/timesheet.php:5-23 'Subtask timesheet' per user with Start, End and Time spent, sortable by start, not grouped by date",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/my-time-tracking/README.md 'The My time tracking module offers a clear overview of your personal time entries' in 'a calendar or list view'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/config/routes.rb:59 '/time-tracking/(:mode-:view_mode)(/:date)'",
+        "jira": "docs: https://jira.atlassian.com/browse/JRASERVER-6137 'Generate worklog report', Closed, Won't Fix, 124 votes: 'It would be great to add a worklog report by user and/or by project'; timesheets are the Marketplace apps Tempo Timesheets and Timesheet Reports and Gadgets, not the product"
       },
       "built": {
         "state": "built",
@@ -2765,13 +2773,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
-        "kanboard": "corpus: kanboard/round4/menu-tree.md Analytics 'Estimated vs actual time · Estimated vs actual time per column' ; source: app/Template/subtask/timer.php:2-9 spent/estimated on the subtask"
+        "kanboard": "corpus: kanboard/round4/menu-tree.md Analytics 'Estimated vs actual time · Estimated vs actual time per column' ; source: app/Template/subtask/timer.php:2-9 spent/estimated on the subtask",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/progress-tracking/README.md work and remaining work; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/models/work_packages/scopes/include_spent_time.rb (spent time beside work on the work package)",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html Time Spent against Original Estimate and Remaining Estimate; docs: https://confluence.atlassian.com/jirasoftwareserver/reporting-939938675.html Time Tracking Report shows 'Original Estimate, Estimated Time Remaining, Time Spent, and Accuracy'"
       },
       "built": {
         "state": "built",
@@ -2792,13 +2802,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "yes",
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
-        "kanboard": "source: app/Template/task/time_tracking_details.php:5 'editable' => false : timer entries cannot be edited or removed; only the task and subtask time_spent totals are editable in their forms"
+        "kanboard": "source: app/Template/task/time_tracking_details.php:5 'editable' => false : timer entries cannot be edited or removed; only the task and subtask time_spent totals are editable in their forms",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/time-tracking/README.md:22-23 'Edit logged time', 'Delete time entries'",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html 'You can edit your own work log entries if you have been granted the Edit Own Work Logs permission' and 'delete your own work log entries'"
       },
       "built": {
         "state": "built",
@@ -2819,13 +2831,15 @@
       "origin": "own-code",
       "planninq": "partial",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
-        "kanboard": "corpus: kanboard/round4/menu-tree.md Analytics 'Estimated vs actual time' per project and the per-user 'Time tracking' page (app/Template/user_view/sidebar.php:19); no report of time per person across projects"
+        "kanboard": "corpus: kanboard/round4/menu-tree.md Analytics 'Estimated vs actual time' per project and the per-user 'Time tracking' page (app/Template/user_view/sidebar.php:19); no report of time per person across projects",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/reporting/README.md time and cost reports grouped by user, project and more (corpus: openproject/round4/M1-column.md 10.4 'the reporting module is a real pivot engine over cost and time')",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/reporting-939938675.html 'Time Tracking Report' per version and 'User Workload Report: Shows how much work a user has been allocated'; docs: https://jira.atlassian.com/browse/JRASERVER-6137 'Generate worklog report', Closed, Won't Fix, 124 votes: 'It would be great to add a worklog report by user and/or by project'"
       },
       "built": {
         "state": "built",
@@ -2849,13 +2863,15 @@
       "origin": "own-code",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "no",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps ; the row is specific to the fleet's HR app",
-        "kanboard": "the row is specific to the fleet's HR app; Kanboard stores time in its own subtask_time_tracking table only (corpus: kanboard/round4/code-census.md objects table)"
+        "kanboard": "the row is specific to the fleet's HR app; Kanboard stores time in its own subtask_time_tracking table only (corpus: kanboard/round4/code-census.md objects table)",
+        "openproject": "no HR app integration; time entries live in the costs module only (source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/models/time_entry.rb); corpus: openproject/round4/M1-column.md 12.x integrations list no HR system",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 12.x integrations list test management, source control and collaboration tools; no HR or payroll hand-off"
       },
       "built": {
         "state": "specified",
@@ -2876,13 +2892,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "yes",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
-        "kanboard": "corpus: _round4/compare/promoted-rows-batch7.md 10.11 (Kanboard) 'tasks.time_estimated and time_spent, subtask time tracking with a start/stop timer ... a per-user timesheet (getUserTimesheet). Verified live' ; menu-tree.md task sidebar 'Time tracking' ; source: app/Model/SubtaskTimeTrackingModel.php:143 toggleTimer"
+        "kanboard": "corpus: _round4/compare/promoted-rows-batch7.md 10.11 (Kanboard) 'tasks.time_estimated and time_spent, subtask time tracking with a start/stop timer ... a per-user timesheet (getUserTimesheet). Verified live' ; menu-tree.md task sidebar 'Time tracking' ; source: app/Model/SubtaskTimeTrackingModel.php:143 toggleTimer",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/time-tracking/README.md:54 'Starting with OpenProject 13.0, you can also track time in real time using the start/stop time tracking button'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/controllers/my/timer_controller.rb",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html documents logging entered durations only; timers are Marketplace apps"
       },
       "built": {
         "state": "none",
@@ -2902,13 +2920,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "no",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
-        "kanboard": "source: grep -rniE 'approv' app/Model returns no timesheet approval ; corpus: kanboard/round4/code-census.md objects table"
+        "kanboard": "source: grep -rniE 'approv' app/Model returns no timesheet approval ; corpus: kanboard/round4/code-census.md objects table",
+        "openproject": "corpus: openproject/round4/M1-column.md 3.13 'grep -rliI approval|approve app/models modules/*/app/models returns nothing'",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 3.13 'the approval step is JSM DC'; no timesheet object to approve (tim-timesheet)"
       },
       "built": {
         "state": "none",
@@ -2928,13 +2948,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "partial",
-      "jira": "unknown",
+      "jira": "partial",
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
-        "kanboard": "corpus: kanboard/round4/menu-tree.md 'Exports' ; source: app/Export/SubtaskExport.php:57-64 CSV with 'Time estimated', 'Time spent' per subtask; no export of individual time entries"
+        "kanboard": "corpus: kanboard/round4/menu-tree.md 'Exports' ; source: app/Export/SubtaskExport.php:57-64 CSV with 'Time estimated', 'Time spent' per subtask; no export of individual time entries",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/reporting/README.md:93 'To export reports for time and costs to Excel you can open or create a report in the Time and costs module'",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/working-with-search-results-939938808.html 'Export > CSV (All fields)' carries the issue's time spent fields (corpus: jira-data-center/round4/M1-column.md 10.3), not individual work logs; docs: https://jira.atlassian.com/browse/JRASERVER-6137 'Generate worklog report', Closed, Won't Fix, 124 votes: 'It would be great to add a worklog report by user and/or by project'"
       },
       "built": {
         "state": "none",
@@ -2954,13 +2976,15 @@
       "origin": "competitor-derived",
       "planninq": "no",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "no",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
-        "kanboard": "corpus: kanboard/round4/code-census.md greps 'payment|stripe|ideal returns 26 hits and none is a payment' ; no invoicing hand-off"
+        "kanboard": "corpus: kanboard/round4/code-census.md greps 'payment|stripe|ideal returns 26 hits and none is a payment' ; no invoicing hand-off",
+        "openproject": "cost reports compute cash value from rates (docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/reporting/README.md 'Labor, Cash value'), but no invoice object or accounting hand-off exists (corpus: openproject/round4/M1-column.md 12.12 'no payment integration')",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 12.12 'no payment provider ... nothing financial'"
       },
       "built": {
         "state": "none",
@@ -4264,7 +4288,7 @@
       "area": "platform",
       "name": "Sign in with the organisation's single sign-on.",
       "origin": "own-code",
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "unknown",
       "plane": "unknown",
@@ -4273,14 +4297,25 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 12.7 'platform: user_ldap shipped and disabled ... SAML and OIDC as store apps (user_saml, user_oidc), not shipped with this image'",
         "kanboard": "corpus: kanboard/round4/M1-column.md 12.7 'LDAP ... and reverse-proxy header authentication in the core; grep saml|oidc|openid returns 0'"
-      }
+      },
+      "built": {
+        "state": "built",
+        "evidence": "planninq has no login of its own: every controller runs in the Nextcloud session (lib/Controller/SettingsController.php:148 userSession->getUser()) and the SPA uses the session request token (src/store/modules/settings.js:103)",
+        "reachedOn": "Nextcloud login, whichever backend the instance uses (SAML/OIDC apps)",
+        "owner": "nextcloud/server"
+      },
+      "provider": "nextcloud",
+      "providerHow": "read-from-code",
+      "feature": "platform",
+      "featureConfidence": "high",
+      "note": "SSO is whatever the Nextcloud instance is configured with; planninq inherits it."
     },
     {
       "id": "plt-data-export",
       "area": "platform",
       "name": "Export all project data in an open format to leave the product.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "yes",
       "openproject": "unknown",
       "plane": "unknown",
@@ -4289,14 +4324,25 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/journeys.md 6 'occ deck:export admin wrote both boards as JSON with stacks, cards, labels and ACL' ; source: src/components/navigation/BoardExportModal.vue JSON and CSV export, lib/AppInfo/Application.php:191 registerUserMigrator(DeckMigrator)",
         "kanboard": "corpus: kanboard/round4/M1-column.md 10.3 CSV exports of tasks, subtasks, transitions and summaries ; 11.2 'the database can be downloaded whole'"
-      }
+      },
+      "built": {
+        "state": "built",
+        "evidence": "no export in planninq; OpenRegister's register export (openregister/src/modals/register/ExportRegister.vue) writes an OpenAPI-style JSON including components.objects (openregister/lib/Service/Configuration/ExportHandler.php:315), and objects#export (openregister/appinfo/routes.php:1172) gives CSV/Excel per schema",
+        "reachedOn": "OpenRegister app, admin only; not a planninq page",
+        "owner": "ConductionNL/openregister"
+      },
+      "provider": "openregister",
+      "providerHow": "read-from-code",
+      "feature": "platform",
+      "featureConfidence": "medium",
+      "note": "An admin can take the whole register out as JSON; a project owner cannot export their own project, and whether attached task files travel with the export was not checked."
     },
     {
       "id": "plt-guest-access",
       "area": "platform",
       "name": "Give an outside guest access to one project only.",
       "origin": "competitor-derived",
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "partial",
       "openproject": "unknown",
       "plane": "unknown",
@@ -4305,7 +4351,22 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 13.3 per-board ACL and code-census.md 'remote ACL type 6' federation : an account shared on one board sees only that board, but a guest account needs the store Guests app, not shipped",
         "kanboard": "corpus: kanboard/round4/journeys.md 5 'addProjectUser(bob, project-viewer): bob read the task (200) and was refused on updateTask' ; carol with no membership 403 ; journeys.md 6 public read-only board"
-      }
+      },
+      "built": {
+        "state": "built",
+        "evidence": "project visibility is by membership (lib/Settings/planninq_register.json:404, task scope :51), so any Nextcloud account, including a Guests-app account, added to one project sees only that project; members are added in src/components/ProjectSettingsSidebar.vue via src/components/MemberSearch.vue:124-126 -> src/store/projects.js:610 addMember",
+        "reachedOn": "ProjectBoard /projects/:id, project settings sidebar, add member",
+        "owner": "nextcloud/server",
+        "defects": [
+          "src/components/MemberSearch.vue:124 searches /ocs/v2.php/cloud/users, whose provisioning getUsers returns an empty list to users who are neither admin nor subadmin (server apps/provisioning_api/lib/Controller/UsersController.php:118-136), so a non-admin project owner finds nobody to add (code reading, needs a live check)",
+          "src/components/MemberSearch.vue:124 builds an OCS path with generateUrl, which prefixes /index.php on instances without pretty URLs; generateOcsUrl is the helper for OCS (code reading)"
+        ]
+      },
+      "provider": "nextcloud",
+      "providerHow": "read-from-code",
+      "feature": "platform",
+      "featureConfidence": "medium",
+      "note": "There is no invite-a-guest flow; the guest must already exist as a Nextcloud user (Guests app). Labels (:1072) and dependency edges (:1118) stay readable to every authenticated user, guests included. The member picker only returns users to admins and subadmins (see defect), so an ordinary project owner may not be able to add anyone."
     }
   ],
   "pending": [
@@ -4490,13 +4551,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "no",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
-        "kanboard": "source: subtask_time_tracking has user, subtask, start, end, time_spent and no billable flag (app/Model/SubtaskTimeTrackingModel.php) ; corpus: kanboard/round4/code-census.md no billing object"
+        "kanboard": "source: subtask_time_tracking has user, subtask, start, end, time_spent and no billable flag (app/Model/SubtaskTimeTrackingModel.php) ; corpus: kanboard/round4/code-census.md no billing object",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): grep -rniI 'billable' over modules, app and config/locales/en.yml returns nothing; time entries carry an activity, not a billable flag",
+        "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html a work log is time spent with a comment; corpus: jira-data-center/round4/M1-column.md 12.12 nothing financial in the product"
       },
       "built": {
         "state": "built",
@@ -4520,13 +4583,15 @@
       "origin": "own-code",
       "planninq": "yes",
       "nextcloud-deck": "no",
-      "openproject": "unknown",
+      "openproject": "yes",
       "plane": "unknown",
       "kanboard": "no",
-      "jira": "unknown",
+      "jira": "no",
       "evidence": {
         "nextcloud-deck": "corpus: _round4/compare/promoted-rows-batch6.md 10.11 (Deck) 'no time on a card; grep -rniE timesheet|hours|duration lib/Db returns 0 hits' ; nextcloud-deck/round4/code-census.md empty greps",
-        "kanboard": "corpus: kanboard/round4/code-census.md greps 'currencies is a rate table for the task score' : Settings 'Currency rates' converts currencies, no hourly rate per user or entry (grep -rliE 'hourly' app/Model returns 0)"
+        "kanboard": "corpus: kanboard/round4/code-census.md greps 'currencies is a rate table for the task score' : Settings 'Currency rates' converts currencies, no hourly rate per user or entry (grep -rliE 'hourly' app/Model returns 0)",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/time-and-costs/time-tracking/README.md:142 'You can define an hourly rate to track labor costs per user'; source: opf/openproject HEAD 27a58131 (18.0.0-dev): modules/costs/app/models/hourly_rate.rb, default_hourly_rate.rb",
+        "jira": "corpus: jira-data-center/round4/M1-column.md 12.12 'nothing financial'; work logs hold duration only (docs: https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html)"
       },
       "built": {
         "state": "built",
