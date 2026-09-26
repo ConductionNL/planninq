@@ -175,7 +175,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Add board' ; source: lib/Db/Board.php:33-51 a board has title, owner, colour, settings; no short key and no description field ; source read at v1.19.0: lib/Db/Board.php:34-53 a board has title, owner, teamId, colour, archived, settings and no key or description; src/components/navigation/AppNavigationAddBoard.vue:19 'Board name' is the only input; lib/Service/BoardService.php:188 create(title, userId, color); searched lib/Db/Board.php for 'description', 'key', 'identifier': none",
         "kanboard": "corpus: kanboard/round4/journeys.md 1 'createProject Vergunningen with identifier VERG' ; source: app/Model/ProjectModel.php:129 getByIdentifier, project description on the Edit project form",
-        "openproject": "corpus: openproject/round4/menu-tree.md 'Projects' global module and 'Project settings > Information'; corpus: openproject/round4/M1-column.md 11.23 project attributes; docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md (name, identifier, description) (cited source paths checked present at the released v17.8.0 tag.)",
+        "openproject": "corpus: openproject/round4/menu-tree.md 'Projects' global module and 'Project settings > Information'; corpus: openproject/round4/M1-column.md 11.23 project attributes; docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md (name, identifier, description) (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: app/components/projects/new_component.html.erb:32 project create form; app/forms/projects/settings/editable_identifier_form.rb:36 'identifier' field (the short key); app/forms/projects/settings/description_form.rb:35 description field; app/controllers/projects_controller.rb:113 create; app/contracts/projects/base_contract.rb:36-38 name, identifier, description attributes",
         "jira": "docs: https://confluence.atlassian.com/adminjiraserver/creating-a-project-938846813.html 'you must provide: a name ... a key ... and designate a project lead', description added after creation; corpus: jira-data-center/round4/M1-column.md 2.1 'Jira issue keys ... are of the format <project key>-<issue number>'",
         "plane": "corpus: plane/round4/journeys.md 'Create a workspace, create a project, create a work item' ; code-census.md §2 'project.py:76 identifier = models.CharField(max_length=12)', unique per workspace via ProjectIdentifier ; source: apps/web/core/components/project/card.tsx:285 renders project.description"
       },
@@ -208,7 +208,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Deck settings ... group limit for board creation (admin)' ; source: lib/Service/PermissionService.php:345-363 canCreate reads groupLimit ; source read at v1.19.0: src/components/DeckAppSettings.vue:26-37 admin section 'Limit board creation to some groups' (multi-select of groups); lib/Service/ConfigService.php:209 stores groupLimit; lib/Service/PermissionService.php:368-383 canCreate allows only members of the listed groups",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'New project · New personal project' ; source: app/ServiceProvider/AuthenticationProvider.php:168 ProjectCreationController create needs Role::APP_MANAGER; app/Controller/ProjectCreationController.php:145 disable_private_project switch",
-        "openproject": "corpus: openproject/round4/menu-tree.md Administration 'Roles and permissions' with global roles; corpus: openproject/round4/M1-column.md 13.1 'nine subtypes ... spanning project roles, global roles (app/models/global_role.rb)'; add_project is a global permission (corpus: openproject/round4/M1-column.md 13.8 'the select_project_custom_fields and add_project permissions')",
+        "openproject": "corpus: openproject/round4/menu-tree.md Administration 'Roles and permissions' with global roles; corpus: openproject/round4/M1-column.md 13.1 'nine subtypes ... spanning project roles, global roles (app/models/global_role.rb)'; add_project is a global permission (corpus: openproject/round4/M1-column.md 13.8 'the select_project_custom_fields and add_project permissions') ; source read at v17.8.0: config/initializers/permissions.rb:34-39 add_project is a global permission; app/contracts/projects/create_contract.rb:67 create checks user.allowed_globally?(:add_project); app/models/global_role.rb:31 global roles; app/controllers/groups_controller.rb:184 a group has a 'global_roles' tab, so a chosen group can hold the right",
         "jira": "docs: https://confluence.atlassian.com/adminjiraserver/creating-a-project-938846813.html 'Creating and configuring a project is done by an administrator'; restricted to admins, but no documented grant to a chosen non-admin group",
         "plane": "source: apps/api/plane/app/views/project/base.py:257 create is @allow_permission([ROLE.ADMIN, ROLE.MEMBER], level=\"WORKSPACE\"), so guests are excluded, but there is no setting to restrict creation to admins or chosen groups (corpus: plane/round4/code-census.md §5 three fixed roles 20/15/5, no groups)"
       },
@@ -238,7 +238,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'sharing with users, groups, teams and remote users, each with edit, share and manage' ; journeys.md 1 ACL for jdevries ; source read at v1.19.0: src/components/board/SharingTabSidebar.vue:7 NcSelectUsers picker to add a user, group, team or remote user, :64 'Delete' removes the share; lib/Service/BoardService.php:419 addAcl and :541 deleteAcl, routes appinfo/routes.php:28-30",
         "kanboard": "corpus: kanboard/round4/journeys.md 5 'addProjectUser(bob, project-viewer)' ; menu-tree.md 'Permissions'",
-        "openproject": "corpus: openproject/round4/menu-tree.md 'Inside a project > Members'; corpus: openproject/round4/M1-column.md 11.19 'memberships in app/models/member.rb'",
+        "openproject": "corpus: openproject/round4/menu-tree.md 'Inside a project > Members'; corpus: openproject/round4/M1-column.md 11.19 'memberships in app/models/member.rb' ; source read at v17.8.0: config/initializers/permissions.rb:208-216 manage_members covers members index, create, destroy and autocomplete_for_member; app/controllers/members_controller.rb:42 create, :87 destroy_by_principal",
         "jira": "corpus: jira-data-center/round4/M1-column.md 13.1 'Project roles are a flexible way to associate users and/or groups with particular projects' (Managing project roles, 2022-10-07); corpus: jira-data-center/round4/M1-column.md 13.4 Managing project role membership",
         "plane": "corpus: plane/round4/menu-tree.md 'Settings: General, Members, ...' ; code-census.md §5 'ProjectMember.role', ProjectMemberInvite (project.py:192)"
       },
@@ -269,7 +269,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md 'Acl: participant of type user, group, remote or team, with edit, share, manage' lib/Db/Acl.php:27-35 ; journeys.md 5 edit-only collaborator refused 403 on ACL change ; source read at v1.19.0: src/components/board/SharingTabSidebar.vue:39-58 per share 'Can edit', 'Can share', 'Can manage', 'Owner' (transfer); lib/Db/Acl.php:31-34 PERMISSION_READ, EDIT, SHARE, MANAGE; lib/Service/PermissionService.php:131-132 owner or ACL grants manage and share",
         "kanboard": "corpus: kanboard/round4/usability.md 'three project roles and custom ones with column restrictions' ; journeys.md 5 custom role Toetser",
-        "openproject": "corpus: openproject/round4/M1-column.md 13.1 'app/models/role.rb:31 with nine subtypes ... Permissions are rows ... against a catalogue declared in code'; corpus: openproject/round4/M1-column.md 13.16 roles and permissions matrix",
+        "openproject": "corpus: openproject/round4/M1-column.md 13.1 'app/models/role.rb:31 with nine subtypes ... Permissions are rows ... against a catalogue declared in code'; corpus: openproject/round4/M1-column.md 13.16 roles and permissions matrix ; source read at v17.8.0: app/models/role.rb:31-41 Role with builtin kinds; config/routes.rb:709 admin roles resources; config/initializers/permissions.rb:208 permissions are declared per role in code; app/controllers/members_controller.rb:71 update a member's roles",
         "jira": "corpus: jira-data-center/round4/M1-column.md 13.1 global permissions and project roles; corpus: jira-data-center/round4/M1-column.md 2.4 'Assign issues Permission ... Assignable user Permission' (Managing project permissions)",
         "plane": "corpus: plane/round4/code-census.md §5 'ROLE_CHOICES = ((20, \"Admin\"), (15, \"Member\"), (5, \"Guest\"))' project.py:21 ; three fixed roles, no custom role"
       },
@@ -299,7 +299,7 @@
       "evidence": {
         "nextcloud-deck": "source: appinfo/routes.php:26 board#leave, lib/Service/BoardService.php:515 leave() ('Board owner cannot leave board'), src/components/navigation/AppNavigationBoard.vue:157 'Leave board' menu entry ; source read at v1.19.0: src/components/navigation/AppNavigationBoard.vue:151-157 'Leave board' action; appinfo/routes.php:26 board#leave; lib/Service/BoardService.php:569-571 leave() refuses only the owner ('Board owner cannot leave board')",
         "kanboard": "source: grep -rniE 'leave' app/Controller returns 0 hits; membership is removed by a project manager under Permissions (corpus: kanboard/round4/menu-tree.md 'Permissions')",
-        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): grep -rniI 'leave_project' finds only app/components/header/projects/node_component.html.erb:37, an 'x-circle' button that links to home_path (navigates away from the current project); removing a member needs manage_members; corpus: openproject/round4/M1-column.md 11.19 memberships administered, no self-removal found",
+        "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): grep -rniI 'leave_project' finds only app/components/header/projects/node_component.html.erb:37, an 'x-circle' button that links to home_path (navigates away from the current project); removing a member needs manage_members; corpus: openproject/round4/M1-column.md 11.19 memberships administered, no self-removal found ; source read at v17.8.0: config/locales/en.yml:2890 'Leave project' is only app/components/header/projects/node_component.html.erb:33-37, an x-circle linking to home_path (navigates away); app/contracts/members/delete_from_project_contract.rb:32 removing any member needs manage_members; searched app/contracts/members for a self-removal exception: none",
         "jira": "corpus: jira-data-center/round4/M1-column.md 13.4 'project roles have specific members for each project' edited on the Managing project role membership page by a project or Jira admin; no self-leave documented",
         "plane": "source: apps/api/plane/app/urls/project.py:88-89 'projects/<project_id>/members/leave/' ProjectMemberViewSet leave ; corpus silent on leaving"
       },
@@ -329,7 +329,7 @@
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'All boards ... (with Archived boards ...)' ; source: lib/Controller/BoardController.php:54 update(..., bool archived) ; source read at v1.19.0: src/components/navigation/AppNavigationBoard.vue:62-68 'Archive board' and :54-60 'Unarchive board' actions calling archiveBoard/unarchiveBoard (:364-370); lib/Controller/BoardController.php:54 update(id, title, color, archived)",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'Close this project' ; source: app/Template/project_list/project_icons.php:20 is_active 0 shown as closed, reopen from the same menu",
-        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md:42 'More actions menu ... make it public, set it as a template, archive it, or delete it'; project-lists README:127 'Archived projects - returns all projects that are not active' (cited source paths checked present at the released v17.8.0 tag.)",
+        "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md:42 'More actions menu ... make it public, set it as a template, archive it, or delete it'; project-lists README:127 'Archived projects - returns all projects that are not active' (cited source paths checked present at the released v17.8.0 tag.) ; source read at v17.8.0: app/components/projects/row_actions_component.rb:141-148 'Archive' item needs archive_project; :153-161 'Unarchive' item (admin only); app/controllers/projects/archive_controller.rb:38-43 create archives, destroy unarchives; config/routes.rb:447",
         "jira": "corpus: jira-data-center/round4/open-core.md 'archiving of issues and projects, with restore' citing Archiving a project (2025-12-11); Data Center only",
         "plane": "corpus: plane/round4/menu-tree.md workspace 'Archives' ; source: apps/api/plane/db/models/project.py:114 archived_at, apps/api/plane/app/urls/project.py:123-125 ProjectArchiveUnarchiveEndpoint (archive and unarchive)"
       },
@@ -546,7 +546,7 @@
       "kanboard": "yes",
       "jira": "partial",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 2.9 'card#clone and board#clone (appinfo/routes.php:31)' ; source: src/components/navigation/BoardCloneModal.vue options with cards, assignments, labels, due dates",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 2.9 'card#clone and board#clone (appinfo/routes.php:31)' ; source: src/components/navigation/BoardCloneModal.vue options with cards, assignments, labels, due dates ; source read at v1.19.0: src/components/navigation/AppNavigationBoard.vue:52 'Clone board' opens src/components/navigation/BoardCloneModal.vue:9-32 'Clone cards', 'Clone assignments', 'Clone labels', 'Clone due dates', 'Move all cards to the first list'; lib/Service/BoardService.php:607 clone() and :767 cloneCards; appinfo/routes.php:31 board#clone",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'Duplicate' ; source: app/Model/ProjectDuplicationModel.php:90 duplicate()",
         "openproject": "corpus: openproject/round4/menu-tree.md 'Project settings > Copy project'; corpus: openproject/round4/M1-column.md 2.9 copy service carries watchers, attachments",
         "jira": "docs: https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html 'Create with shared configuration ... use that project's schemes' is the only reuse; corpus: jira-data-center/round4/M1-column.md 11.2 issues move only with the whole-instance XML backup or a project import",
@@ -575,7 +575,7 @@
       "kanboard": "partial",
       "jira": "no",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/open-core.md 'typed fields ... there is no schema' ; source: lib/Db/Board.php fields",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/open-core.md 'typed fields ... there is no schema' ; source: lib/Db/Board.php fields ; source read at v1.19.0: lib/Db/Board.php:34-53 fixed columns only; searched lib/ and src/ for 'custom field', 'customField', 'custom_field': none",
         "kanboard": "corpus: kanboard/round4/code-census.md 'metadata without a screen: project_has_metadata' ; open-core.md 'MetaMagik for typed custom fields' is a third-party plugin",
         "openproject": "corpus: openproject/round4/menu-tree.md Administration 'Projects > Project attributes'; corpus: openproject/round4/M1-column.md 5.6 'app/models/project_custom_field.rb:59-68 ... admin-only fields'",
         "jira": "corpus: jira-data-center/round4/M1-column.md 11.23 projects have categories only; custom field contexts are 'a combination of projects and issue types where that field can be used' (2.2): fields live on issues, not projects",
@@ -604,7 +604,7 @@
       "kanboard": "no",
       "jira": "partial",
       "evidence": {
-        "nextcloud-deck": "source: lib/Db/Board.php has no parent field ; corpus: nextcloud-deck/round4/menu-tree.md a flat list of boards",
+        "nextcloud-deck": "source: lib/Db/Board.php has no parent field ; corpus: nextcloud-deck/round4/menu-tree.md a flat list of boards ; source read at v1.19.0: lib/Db/Board.php:34-53 no parent field; searched lib/Db and src/ for 'parentId', 'parent_id', 'subboard': only a comment reply parentId in src/services/CommentApi.js:27",
         "kanboard": "source: grep -niE 'parent' app/Model/ProjectModel.php returns 0 hits; corpus: kanboard/round4/menu-tree.md flat project list",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md:42 'add a subproject'; subprojects free, portfolio and program workspace types Enterprise gated (corpus: openproject/round4/open-core.md portfolio_management; code-census #19 'Creating a project whose workspace_type is portfolio or program is rejected') (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html 'a project category is not part of a project hierarchy'; corpus: jira-data-center/round4/M1-column.md 11.21 Advanced Roadmaps hierarchy 'Standard issue types are placed above the epic level (commonly Initiative ...)' groups issues, not projects",
@@ -633,7 +633,7 @@
       "kanboard": "yes",
       "jira": "partial",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Open details for the board's sidebar with sharing, tags, deleted items and the activity stream' ; no description or progress on a board (lib/Db/Board.php)",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Open details for the board's sidebar with sharing, tags, deleted items and the activity stream' ; no description or progress on a board (lib/Db/Board.php) ; source read at v1.19.0: src/components/board/BoardSidebar.vue:11-42 the board details sidebar has tabs 'Sharing' (members), 'Tags', 'Deleted items', 'Activity' and no description or progress; lib/Db/Board.php:34-53 no description field; src/router.js:94 /board/:id/details",
         "kanboard": "corpus: kanboard/round4/menu-tree.md project 'Overview' and 'Summary' ; source: app/Controller/ProjectOverviewController.php shows description, members, column counts and activity",
         "openproject": "corpus: openproject/round4/menu-tree.md 'Inside a project > Overview  grid of widgets, per project'; corpus: openproject/round4/M1-column.md 10.1 modules/overviews",
         "jira": "docs: project 'Summary' / project page is not in the corpus; corpus: jira-data-center/round4/M1-column.md 10.2 dashboards with gadgets can be built per project ('multiple dashboards for different projects'); no built-in overview with members and progress documented",
@@ -663,7 +663,7 @@
       "kanboard": "no",
       "jira": "no",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/promoted row 11.26 in _round4/compare/promoted-rows-batch6.md 'no knowledge base; the platform's Collectives is a store app'",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/promoted row 11.26 in _round4/compare/promoted-rows-batch6.md 'no knowledge base; the platform's Collectives is a store app' ; source read at v1.19.0: searched lib/ and src/ for 'wiki', 'collectives', 'page': no knowledge pages; nearest is file attachments on a card and the related resources panel in src/components/board/SharingTabSidebar.vue:82 NcRelatedResourcesPanel",
         "kanboard": "corpus: kanboard/round4/_round4/compare/promoted-rows-batch7.md 11.26 'grep knowledge|faq|wiki returns 0. The nearest thing is a project file'",
         "openproject": "corpus: openproject/round4/menu-tree.md 'Inside a project > Wiki'; corpus: openproject/round4/M1-column.md 9.1 wiki pages searchable (wiki_page.rb:52)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 1.9 'Integrating with Confluence Give your team the ability to share, discuss and work with Jira application issues in Confluence': wiki is a separate product (Confluence)",
@@ -692,7 +692,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/journeys.md 1 'then the group vergunningen with edit' ; code-census.md Acl participant type group or team",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/journeys.md 1 'then the group vergunningen with edit' ; code-census.md Acl participant type group or team ; source read at v1.19.0: src/components/board/SharingTabSidebar.vue:30-31 shares shown as '(Group)' and '(Team)'; lib/Db/Acl.php:37 PERMISSION_TYPE_GROUP and :39 PERMISSION_TYPE_CIRCLE; lib/Service/BoardService.php:419 addAcl(boardId, type, participant, ...)",
         "kanboard": "corpus: kanboard/round4/journeys.md 5 'createGroup Bouwtoezicht, addGroupMember carol, addProjectGroup(project-member): carol read the task'",
         "openproject": "corpus: openproject/round4/M1-column.md 13.6 'a Group can be given a membership, so group-based visibility works'",
         "jira": "corpus: jira-data-center/round4/M1-column.md 13.1 'Project roles are a flexible way to associate users and/or groups with particular projects'",
@@ -721,7 +721,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'There is no portal and no public page; every reader is an account' ; M1-column.md 1.1 no PublicPage on a card route",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'There is no portal and no public page; every reader is an account' ; M1-column.md 1.1 no PublicPage on a card route ; source read at v1.19.0: searched src/router.js and appinfo/routes.php for a public board or link share route: none; lib/Controller/BoardOcsController.php:37-38 PublicPage read serves federated remote boards, see lib/Db/Acl.php:38 PERMISSION_TYPE_REMOTE, which requires an account on another server",
         "kanboard": "corpus: kanboard/round4/journeys.md 6 'Enable public access ... the read-only board ... answered 200 without a session' ; menu-tree.md Public",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md:105 'Make a project public'; corpus: openproject/round4/M1-column.md 4.21 'a public project, which exposes the whole project to anonymous users' (read-only follows the Anonymous role's permissions) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 4.21 'you need to allow anonymous users to browse, search, and create issues in that project' (Allowing anonymous access to your project); browse without create is the read-only variant",
@@ -750,7 +750,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/usability.md 'Deck is a kanban board inside Nextcloud: boards with columns, cards' ; menu-tree.md 'The board, as it opens'",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/usability.md 'Deck is a kanban board inside Nextcloud: boards with columns, cards' ; menu-tree.md 'The board, as it opens' ; source read at v1.19.0: src/components/board/Board.vue:61-75 stacks rendered as draggable columns, src/components/board/Stack.vue:104-122 cards inside each stack; lib/Db/Stack.php:28-35 a stack has title, board, order and isDoneColumn; appinfo/routes.php:37-43 stack routes",
         "kanboard": "corpus: kanboard/round4/usability.md 'Kanboard is a Kanban board with a task behind every card' ; menu-tree.md 'Overview · Board · List'",
         "openproject": "corpus: openproject/round4/menu-tree.md global 'Boards' and project 'Work packages list, plus Gantt, board and calendar views'; boards_view is not among the 32 Enterprise symbols (corpus: openproject/round4/open-core.md); docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:11 'OpenProject Agile boards ... Boards consist of lists (columns) and cards (work packages)' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/creating-a-board-938845220.html 'A board displays issues from one or more projects'; 'Click Create a Kanban board'",
@@ -780,7 +780,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'a stack is a column you drag a card into' (open-core.md 2.7 row) ; M1-column.md 2.6 'one card at a time is dragged'",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'a stack is a column you drag a card into' (open-core.md 2.7 row) ; M1-column.md 2.6 'one card at a time is dragged' ; source read at v1.19.0: src/components/board/Stack.vue:104-114 vue-smooth-dnd Container with @drop onDropCard (:277); appinfo/routes.php:52 card#reorder moves a card to another stack and order",
         "kanboard": "corpus: kanboard/round4/usability.md 'the board, its columns and swimlanes' ; journeys.md 1 moveTaskPosition (the API behind the drag)",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:152 'Move cards with drag and drop within a list or to a new list. Remember: Moving cards to another list in an Action board will update their attributes, e.g. status' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-columns-938845277.html constraints section (cards moved between columns); corpus: jira-data-center/round4/M1-column.md 3.18 'you can drag and drop them'; board drag is the documented move",
@@ -810,7 +810,7 @@
       "kanboard": "partial",
       "jira": "unknown",
       "evidence": {
-        "nextcloud-deck": "source: src/components/KeyboardShortcuts.vue:113-123 arrow keys move focus between cards, src/components/cards/CardItem.vue:283 'KeyM' opens the card menu with Move card (corpus: nextcloud-deck/round4/menu-tree.md 'The action menu: Mark as done, Move card')",
+        "nextcloud-deck": "source: src/components/KeyboardShortcuts.vue:113-123 arrow keys move focus between cards, src/components/cards/CardItem.vue:283 'KeyM' opens the card menu with Move card (corpus: nextcloud-deck/round4/menu-tree.md 'The action menu: Mark as done, Move card') ; source read at v1.19.0: src/components/KeyboardShortcuts.vue:118-129 arrow keys move focus between cards; src/components/cards/CardItem.vue:306-307 'KeyM' opens the card menu; src/components/cards/CardMenuEntries.vue:53-57 'Move/copy card' opens src/CardMoveDialog.vue:6-18 'Select a board', 'Select a list'",
         "kanboard": "source: app/Template/task/sidebar.php:86 'Move position' dialog on the task page is a keyboard-usable form; app/Template/config/keyboard_shortcuts.php lists no card focus or move key on the board",
         "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): grep -rniE 'keydown|keyboard|hotkey' frontend/src/app/features/boards returns only board-list-container.component.html:46 '(keydown.enter)=addList(board)'; cards move through WorkPackageCardDragAndDropService (drag only). The card's status can be changed from the card itself (agile-boards README:156 'update a work package's status directly in the card'), which is keyboard reachable on a Status board only",
         "jira": "not checked: https://confluence.atlassian.com/jirasoftwareserver/using-keyboard-shortcuts-939938977.html only says app-specific shortcuts appear in the in-product dialog (Shift + /); the board shortcut list is not in the documentation and no instance was available",
@@ -839,7 +839,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "source: lib/Db/Stack.php carries title, order, isDoneColumn and no limit; corpus: nextcloud-deck/round4/code-census.md 'Stack with order and isDoneColumn'",
+        "nextcloud-deck": "source: lib/Db/Stack.php carries title, order, isDoneColumn and no limit; corpus: nextcloud-deck/round4/code-census.md 'Stack with order and isDoneColumn' ; source read at v1.19.0: lib/Db/Stack.php:28-35 title, boardId, order, isDoneColumn and no limit; searched lib/ and src/ for 'wip', 'limit' on stacks, 'max_cards': none. 1.19.0 only shows a card count beside the list title, CHANGELOG.md:10 and src/components/board/Stack.vue:18",
         "kanboard": "corpus: kanboard/round4/code-census.md 'phases, WIP: columns with task_limit' ; source: app/Template/board/table_column.php:113-114 count/limit in the header ; _round4/compare/promoted-rows-batch7.md 9.14 'task_limit, which colours the column header when exceeded'",
         "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): grep -rniI 'wip.limit|work.in.progress|max_cards|card_limit' over app, modules and frontend/src hits only GitLab merge-request 'work in progress' handling (modules/gitlab_integration/...upsert_merge_request.rb); agile-boards README documents no list limit",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-columns-938845277.html 'Column colored red: Maximum number of issues exceeded' and 'Column colored yellow: Minimum number of issues not met' (column constraints)",
@@ -872,7 +872,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Add list ... each with Add card and an Actions menu (rename, reorder, mark as done column, delete)'",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Add list ... each with Add card and an Actions menu (rename, reorder, mark as done column, delete)' ; source read at v1.19.0: src/components/Controls.vue:39-56 'Add list', src/components/board/Stack.vue:43 'Edit list title', :69 'Delete list'; src/components/board/Board.vue:61-67 lists are draggable with @drop onDropStack; appinfo/routes.php:38-41 stack create, update, reorder, delete",
         "kanboard": "corpus: kanboard/round4/menu-tree.md Configure this project 'Columns'",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:118 'Click + add list to add lists to your board', lists named freely on Basic boards (:122), removed via 'delete lists' (OpenProject-Boards_delete-lists image), reordered by drag (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-columns-938845277.html 'Adding: Click the Add Column button', 'Renaming: Click the column name area', 'Moving: ... drag it left or right', 'Deleting: Select Delete from the column header'",
@@ -902,7 +902,7 @@
       "kanboard": "partial",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'mark as done column' ; source: lib/Service/CardService.php:454-455 a card moved into the done column gets setDone",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'mark as done column' ; source: lib/Service/CardService.php:454-455 a card moved into the done column gets setDone ; source read at v1.19.0: src/components/board/Stack.vue:66 list menu 'Set cards as \"done\"'; lib/Db/Stack.php:35 isDoneColumn; lib/Service/CardService.php:454-462 a card moved into the done list gets setDone, leaving it clears done; appinfo/routes.php:158 stack_ocs#setDoneStack",
         "kanboard": "corpus: kanboard/round4/journeys.md 2 'createAction(project 1, task.move.column, TaskCloseColumn, column_id 4) ... is_active 0' : done is an automatic action per project, not a column flag",
         "openproject": "Status board columns are statuses and a status carries is_closed (corpus: openproject/round4/M1-column.md 2.7 'app/models/status.rb:31 ... is_closed (used at work_package.rb:105)'); the column itself is not marked done, closure comes from the status it maps to, and Basic board columns change nothing (agile-boards README:55)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-columns-938845277.html 'The rightmost column is always green and represents items in a successful state ... this Done column maps to Resolved, Closed statuses'",
@@ -932,7 +932,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md filter 'title: description: list: tag: assigned: date:' ; a card has no priority (open-core.md 'a card is title, description, date, labels, assignees')",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md filter 'title: description: list: tag: assigned: date:' ; a card has no priority (open-core.md 'a card is title, description, date, labels, assignees') ; source read at v1.19.0: src/components/Controls.vue:104 'Filter by tag', :115 'Filter by assigned user', :139 'Filter by status', :172 'Filter by due date', :65-74 board filter text field; lib/Db/Card.php has no priority field, searched lib/Db and src/ for 'priority': none, so assignee and label yes, priority no",
         "kanboard": "corpus: kanboard/round4/usability.md 'one query language with twenty-five attributes runs the board' ; source: app/Filter/TaskPriorityFilter.php, assignee and tag filters in app/Filter/",
         "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): frontend/src/app/features/boards/board/board-filter/board-filter.component.html '<op-filter-container />' with board-filters.service.ts building ApiV3 filters (assignee, type, priority, any work package filter corpus: openproject/round4/M1-column.md 9.2) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-quick-filters-938845301.html 'Quick Filters allow you (or anyone else using this board) to further filter the collection of issues appearing on a Scrum board or Kanban board'; default 'Only My Issues' and 'Recently Updated', each a JQL (assignee, labels, priority)",
@@ -962,7 +962,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "source: src/components/Controls.vue view modes are 'Kanban view' and 'Gantt view' only (viewMode values kanban, gantt), plus 'Toggle compact mode'; corpus: nextcloud-deck/round4/menu-tree.md says 'the view modes (board and list)', which the tag's source does not bear out; the nearest list is 'Upcoming cards' across boards (menu-tree.md)",
+        "nextcloud-deck": "source: src/components/Controls.vue view modes are 'Kanban view' and 'Gantt view' only (viewMode values kanban, gantt), plus 'Toggle compact mode'; corpus: nextcloud-deck/round4/menu-tree.md says 'the view modes (board and list)', which the tag's source does not bear out; the nearest list is 'Upcoming cards' across boards (menu-tree.md) ; source read at v1.19.0: src/components/Controls.vue:235-249 view modes 'Kanban view' and 'Gantt view', :261 'Toggle compact mode'; src/components/board/Board.vue:52 GanttView when viewMode is gantt; searched src/ for a list or table view mode: none",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'Overview · Board · List'",
         "openproject": "corpus: openproject/round4/menu-tree.md 'Work packages  list, plus Gantt, board and calendar views' over the same work packages",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/creating-a-board-938845220.html 'base your board on an existing Saved Filter'; the same filter opens as a list in the issue navigator (corpus: jira-data-center/round4/M1-column.md 9.3, 9.5 column chooser)",
@@ -992,7 +992,7 @@
       "kanboard": "partial",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'A card in the column shows its title, labels, the due badge, assignee avatars' ; source: src/components/cards/CardBadges.vue has no dependency or blocked badge",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'A card in the column shows its title, labels, the due badge, assignee avatars' ; source: src/components/cards/CardBadges.vue has no dependency or blocked badge ; source read at v1.19.0: src/components/cards/CardItem.vue:50-54 labels on the card, src/components/cards/CardBadges.vue:9 due date badge, :24 checklist, :33 attachments, :40 assignee avatars; searched CardBadges.vue for 'depend', 'blocked': none, so no blocked state",
         "kanboard": "source: app/Template/board/task_footer.php:24-28 tags, :62-74 due date, :135 priority, app/Template/board/task_private.php:29 assignee; blocked shows only as a link count icon (:89-90) with a tooltip ; corpus: kanboard/round4/menu-tree.md board screenshot",
         "openproject": "Cards show type, subject, assignee avatar and dates, with highlighting by priority or type (source: opf/openproject HEAD 27a58131 (18.0.0-dev): frontend/.../highlighting-mode.const.ts:31 CardHighlightingMode 'priority'|'type'|'none'|'inline'); labels do not exist (corpus: openproject/round4/M1-column.md 2.8) and there is no blocked marker on a card (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/customizing-cards-938845307.html 'You can add up to three additional fields to cards', 'Days in column shows dots on each card'; assignee avatar, flags and labels as a card field; blocked shown by the flag or a query colour ('One color per JQL query')",
@@ -1021,7 +1021,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md Card and Stack carry an order ; source: appinfo/routes.php card#reorder",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md Card and Stack carry an order ; source: appinfo/routes.php card#reorder ; source read at v1.19.0: src/components/board/Stack.vue:104-114 drag within a list calls onDropCard; lib/Service/CardService.php:436 reorder(id, stackId, order); appinfo/routes.php:52 card#reorder",
         "kanboard": "corpus: kanboard/round4/journeys.md 1 moveTaskPosition with a position ; source: app/Controller/TaskMovePositionController.php",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:152 'Move cards with drag and drop within a list'; Basic board lists 'order your work packages within' (:55) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 3.18 ranking by drag; Jira Software boards and backlog order by Rank (drag cards within a column)",
@@ -1053,7 +1053,7 @@
       "kanboard": "yes",
       "jira": "partial",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'each with Add card'",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'each with Add card' ; source read at v1.19.0: src/components/board/Stack.vue:74 'Add card' in each list, :128-135 inline 'Card name' input; src/components/KeyboardShortcuts.vue:106-107 'KeyN' new card; appinfo/routes.php:47 card#create",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'Add a new task' ; source: app/Template/board/table_column.php add task per column",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:139 'Click + under the lists title to add a card: create a new card or choose an existing work package' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: inline create is documented on the backlog, not per board column; board cards come from the Create dialog (corpus: jira-data-center/round4/M1-column.md 1.2 'Select Create at the top of the screen'); not verified in a running instance",
@@ -1086,7 +1086,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'All boards  Vergunningen r4b6 · Welcome to Nextcloud Deck!'",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'All boards  Vergunningen r4b6 · Welcome to Nextcloud Deck!' ; source read at v1.19.0: src/router.js:55-60 /board route renders Boards with the ALL filter; src/components/boards/Boards.vue:9 'Search boards', :16-23 a table of every board with 'Board name' and 'Members'; src/components/navigation/AppNavigation.vue:19 'All boards'; appinfo/routes.php:20 board#index",
         "kanboard": "corpus: kanboard/round4/menu-tree.md header 'Dashboard' ; source: app/Template/config/keyboard_shortcuts.php 'Open board switcher'",
         "openproject": "corpus: openproject/round4/menu-tree.md global module 'Boards' in the top-left grid lists boards across projects",
         "jira": "docs: Jira Software 'View all boards' from the Boards menu; docs: https://confluence.atlassian.com/jirasoftwareserver/creating-a-board-938845220.html boards span 'one or more projects'",
@@ -1116,7 +1116,7 @@
       "kanboard": "no",
       "jira": "no",
       "evidence": {
-        "nextcloud-deck": "no WIP limit to enforce (brd-wip-limits) ; source: lib/Db/Stack.php",
+        "nextcloud-deck": "no WIP limit to enforce (brd-wip-limits) ; source: lib/Db/Stack.php ; source read at v1.19.0: no limit to enforce: lib/Db/Stack.php:28-35 has no limit field; lib/Service/CardService.php:436 reorder checks permission and archive state, searched it for 'limit', 'max': none",
         "kanboard": "corpus: kanboard/round4/_round4/compare/promoted-rows-batch7.md 9.14 'task_limit ... and, verified live, does not refuse the move'",
         "openproject": "no WIP limit exists (see brd-wip-limits grep), so nothing blocks a move",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-columns-938845277.html constraints are informational: violations only colour the column red or yellow and do not prevent issues being moved into it",
@@ -1145,7 +1145,7 @@
       "kanboard": "partial",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md the board is lists as columns only ; source: grep -rniF 'swimlane' lib returns 0 hits",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md the board is lists as columns only ; source: grep -rniF 'swimlane' lib returns 0 hits ; source read at v1.19.0: searched lib/ and src/ for 'swimlane', 'lane', 'groupBy': none; src/components/board/Board.vue:61-75 renders stacks as a single row of columns",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'Swimlanes' ; code-census.md 'swimlanes SwimlaneModel' : swimlanes are named lanes a user places tasks in, not grouped automatically by assignee, priority or epic",
         "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): grep -rniIl 'swimlane' over the tree returns nothing; agile-boards README documents Basic and Action boards only",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-quick-filters-938845294.html (redirects to Configuring swimlanes) 'In the Base Swimlanes on drop-down, select either Queries, Stories, Assignees, or No Swimlanes'; epics via a query swimlane",
@@ -1174,7 +1174,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 9.3 and 9.4 'no' (personal and shared saved searches)",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/M1-column.md 9.3 and 9.4 'no' (personal and shared saved searches) ; source read at v1.19.0: searched lib/ and src/ for 'savedFilter', 'saveFilter', 'saved filter': none; src/components/Controls.vue:104-229 filter state lives in the page only, with 'Clear filter' at :229",
         "kanboard": "corpus: kanboard/round4/journeys.md 5 'a custom filter Deze week te doen was saved as shared' ; code-census.md 'custom_filters.is_shared'",
         "openproject": "A board is itself a saved query and work package queries can be saved and shared (corpus: openproject/round4/M1-column.md 9.3, 9.4 'a query is public or private'); board filter state is saved with the board, no separate named filter set per board",
         "jira": "corpus: jira-data-center/round4/M1-column.md 9.4 'Filters ... can be shared with other users, user groups, projects, and project roles'; docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-quick-filters-938845301.html quick filters are saved per board for 'anyone else using this board'",
@@ -1203,7 +1203,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'A card in the column shows its title, labels' ; M1-column.md 2.8 'labels per board with a colour' : labels are coloured chips, the card itself is not coloured by category",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'A card in the column shows its title, labels' ; M1-column.md 2.8 'labels per board with a colour' : labels are coloured chips, the card itself is not coloured by category ; source read at v1.19.0: per-card colour exists, which the drive evidence missed: src/components/cards/CardMenuEntries.vue:7-13 'Change card color' picker, src/components/cards/CardItem.vue:203 renders it, lib/Db/Card.php:75 color, lib/Service/CardService.php:292-294; the colour is set by hand, not derived from a label, type or category, so partial stands",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'Categories · Tags' ; source: app/Action/TaskAssignColorCategory.php and task color_id; tags coloured in app/Template/board/task_footer.php:28",
         "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): highlighting-mode.const.ts:31 CardHighlightingMode 'priority'|'type'; board configuration modal highlighting-tab.component (openproject-boards.module.ts:38); attribute highlighting is not among the 32 Enterprise symbols (corpus: openproject/round4/open-core.md) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/customizing-cards-938845307.html 'One color per issue type', 'One color per priority', 'One color per assignee', 'One color per JQL query'",
@@ -1232,7 +1232,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "source: lib/Service/CardService.php:454-460 entering the done column marks the card done and leaving it clears done; no other action ; corpus: nextcloud-deck/round4/M1-column.md 3.9 'no'",
+        "nextcloud-deck": "source: lib/Service/CardService.php:454-460 entering the done column marks the card done and leaving it clears done; no other action ; corpus: nextcloud-deck/round4/M1-column.md 3.9 'no' ; source read at v1.19.0: lib/Service/CardService.php:454-462 entering a done list marks the card done and leaving it clears done, set from src/components/board/Stack.vue:66; searched lib/ for other stack-entry side effects, 'rule', 'automation': none",
         "kanboard": "corpus: kanboard/round4/usability.md 'fifty event-to-action classes, bound per project' ; journeys.md 2 'A rule fires on a move'",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:61 'Moving work packages (cards) between two lists will update them automatically' (status, assignee, version boards set that attribute); arbitrary actions on entry need custom actions, which are button-triggered and Enterprise gated (corpus: openproject/round4/M1-column.md 3.9) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 3.9 automation on 'issue transitioned' whose actions are 'editing issues, sending notifications, creating sub-tasks' and workflow post functions such as 'Assign to Current User' (3.8); a column maps to statuses (docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-columns-938845277.html)",
