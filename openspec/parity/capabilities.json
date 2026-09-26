@@ -173,7 +173,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Add board' ; source: lib/Db/Board.php:33-51 a board has title, owner, colour, settings; no short key and no description field",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Add board' ; source: lib/Db/Board.php:33-51 a board has title, owner, colour, settings; no short key and no description field ; source read at v1.19.0: lib/Db/Board.php:34-53 a board has title, owner, teamId, colour, archived, settings and no key or description; src/components/navigation/AppNavigationAddBoard.vue:19 'Board name' is the only input; lib/Service/BoardService.php:188 create(title, userId, color); searched lib/Db/Board.php for 'description', 'key', 'identifier': none",
         "kanboard": "corpus: kanboard/round4/journeys.md 1 'createProject Vergunningen with identifier VERG' ; source: app/Model/ProjectModel.php:129 getByIdentifier, project description on the Edit project form",
         "openproject": "corpus: openproject/round4/menu-tree.md 'Projects' global module and 'Project settings > Information'; corpus: openproject/round4/M1-column.md 11.23 project attributes; docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md (name, identifier, description) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/adminjiraserver/creating-a-project-938846813.html 'you must provide: a name ... a key ... and designate a project lead', description added after creation; corpus: jira-data-center/round4/M1-column.md 2.1 'Jira issue keys ... are of the format <project key>-<issue number>'",
@@ -206,7 +206,7 @@
       "kanboard": "yes",
       "jira": "partial",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Deck settings ... group limit for board creation (admin)' ; source: lib/Service/PermissionService.php:345-363 canCreate reads groupLimit",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'Deck settings ... group limit for board creation (admin)' ; source: lib/Service/PermissionService.php:345-363 canCreate reads groupLimit ; source read at v1.19.0: src/components/DeckAppSettings.vue:26-37 admin section 'Limit board creation to some groups' (multi-select of groups); lib/Service/ConfigService.php:209 stores groupLimit; lib/Service/PermissionService.php:368-383 canCreate allows only members of the listed groups",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'New project · New personal project' ; source: app/ServiceProvider/AuthenticationProvider.php:168 ProjectCreationController create needs Role::APP_MANAGER; app/Controller/ProjectCreationController.php:145 disable_private_project switch",
         "openproject": "corpus: openproject/round4/menu-tree.md Administration 'Roles and permissions' with global roles; corpus: openproject/round4/M1-column.md 13.1 'nine subtypes ... spanning project roles, global roles (app/models/global_role.rb)'; add_project is a global permission (corpus: openproject/round4/M1-column.md 13.8 'the select_project_custom_fields and add_project permissions')",
         "jira": "docs: https://confluence.atlassian.com/adminjiraserver/creating-a-project-938846813.html 'Creating and configuring a project is done by an administrator'; restricted to admins, but no documented grant to a chosen non-admin group",
@@ -236,7 +236,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'sharing with users, groups, teams and remote users, each with edit, share and manage' ; journeys.md 1 ACL for jdevries",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'sharing with users, groups, teams and remote users, each with edit, share and manage' ; journeys.md 1 ACL for jdevries ; source read at v1.19.0: src/components/board/SharingTabSidebar.vue:7 NcSelectUsers picker to add a user, group, team or remote user, :64 'Delete' removes the share; lib/Service/BoardService.php:419 addAcl and :541 deleteAcl, routes appinfo/routes.php:28-30",
         "kanboard": "corpus: kanboard/round4/journeys.md 5 'addProjectUser(bob, project-viewer)' ; menu-tree.md 'Permissions'",
         "openproject": "corpus: openproject/round4/menu-tree.md 'Inside a project > Members'; corpus: openproject/round4/M1-column.md 11.19 'memberships in app/models/member.rb'",
         "jira": "corpus: jira-data-center/round4/M1-column.md 13.1 'Project roles are a flexible way to associate users and/or groups with particular projects' (Managing project roles, 2022-10-07); corpus: jira-data-center/round4/M1-column.md 13.4 Managing project role membership",
@@ -267,7 +267,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md 'Acl: participant of type user, group, remote or team, with edit, share, manage' lib/Db/Acl.php:27-35 ; journeys.md 5 edit-only collaborator refused 403 on ACL change",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md 'Acl: participant of type user, group, remote or team, with edit, share, manage' lib/Db/Acl.php:27-35 ; journeys.md 5 edit-only collaborator refused 403 on ACL change ; source read at v1.19.0: src/components/board/SharingTabSidebar.vue:39-58 per share 'Can edit', 'Can share', 'Can manage', 'Owner' (transfer); lib/Db/Acl.php:31-34 PERMISSION_READ, EDIT, SHARE, MANAGE; lib/Service/PermissionService.php:131-132 owner or ACL grants manage and share",
         "kanboard": "corpus: kanboard/round4/usability.md 'three project roles and custom ones with column restrictions' ; journeys.md 5 custom role Toetser",
         "openproject": "corpus: openproject/round4/M1-column.md 13.1 'app/models/role.rb:31 with nine subtypes ... Permissions are rows ... against a catalogue declared in code'; corpus: openproject/round4/M1-column.md 13.16 roles and permissions matrix",
         "jira": "corpus: jira-data-center/round4/M1-column.md 13.1 global permissions and project roles; corpus: jira-data-center/round4/M1-column.md 2.4 'Assign issues Permission ... Assignable user Permission' (Managing project permissions)",
@@ -297,7 +297,7 @@
       "kanboard": "no",
       "jira": "no",
       "evidence": {
-        "nextcloud-deck": "source: appinfo/routes.php:26 board#leave, lib/Service/BoardService.php:515 leave() ('Board owner cannot leave board'), src/components/navigation/AppNavigationBoard.vue:157 'Leave board' menu entry",
+        "nextcloud-deck": "source: appinfo/routes.php:26 board#leave, lib/Service/BoardService.php:515 leave() ('Board owner cannot leave board'), src/components/navigation/AppNavigationBoard.vue:157 'Leave board' menu entry ; source read at v1.19.0: src/components/navigation/AppNavigationBoard.vue:151-157 'Leave board' action; appinfo/routes.php:26 board#leave; lib/Service/BoardService.php:569-571 leave() refuses only the owner ('Board owner cannot leave board')",
         "kanboard": "source: grep -rniE 'leave' app/Controller returns 0 hits; membership is removed by a project manager under Permissions (corpus: kanboard/round4/menu-tree.md 'Permissions')",
         "openproject": "source: opf/openproject HEAD 27a58131 (18.0.0-dev): grep -rniI 'leave_project' finds only app/components/header/projects/node_component.html.erb:37, an 'x-circle' button that links to home_path (navigates away from the current project); removing a member needs manage_members; corpus: openproject/round4/M1-column.md 11.19 memberships administered, no self-removal found",
         "jira": "corpus: jira-data-center/round4/M1-column.md 13.4 'project roles have specific members for each project' edited on the Managing project role membership page by a project or Jira admin; no self-leave documented",
@@ -327,7 +327,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'All boards ... (with Archived boards ...)' ; source: lib/Controller/BoardController.php:54 update(..., bool archived)",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'All boards ... (with Archived boards ...)' ; source: lib/Controller/BoardController.php:54 update(..., bool archived) ; source read at v1.19.0: src/components/navigation/AppNavigationBoard.vue:62-68 'Archive board' and :54-60 'Unarchive board' actions calling archiveBoard/unarchiveBoard (:364-370); lib/Controller/BoardController.php:54 update(id, title, color, archived)",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'Close this project' ; source: app/Template/project_list/project_icons.php:20 is_active 0 shown as closed, reopen from the same menu",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-settings/project-information/README.md:42 'More actions menu ... make it public, set it as a template, archive it, or delete it'; project-lists README:127 'Archived projects - returns all projects that are not active' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/open-core.md 'archiving of issues and projects, with restore' citing Archiving a project (2025-12-11); Data Center only",
@@ -360,7 +360,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md 'deletedAt on cards, stacks, boards and attachments; trashRetentionHours' ; journeys.md 6 trash purge",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md 'deletedAt on cards, stacks, boards and attachments; trashRetentionHours' ; journeys.md 6 trash purge ; source read at v1.19.0: src/components/navigation/AppNavigationBoard.vue:144-148 'Delete board' with an undo (:8-15); lib/Service/BoardService.php:288-296 delete() sets deletedAt (manage permission), :318 deleteUndo; lib/Cron/DeleteCron.php:63-69 purges after the trash retention; lib/Db/BoardMapper.php:519-531 deleting a board deletes its ACL, stacks and their cards",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'Remove' under Configure this project",
         "openproject": "corpus: openproject/round4/menu-tree.md 'Project settings ... Copy project, Delete project'",
         "jira": "docs: https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html 'Once the project's been deleted, it can only be recovered by reinstating a backup or an XML copy'",
@@ -390,7 +390,7 @@
       "kanboard": "yes",
       "jira": "partial",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'All boards ... (with Archived boards and Shared under each)' ; source: src/components/navigation/AppNavigation.vue:28 route /board/archived",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'All boards ... (with Archived boards and Shared under each)' ; source: src/components/navigation/AppNavigation.vue:28 route /board/archived ; source read at v1.19.0: src/components/navigation/AppNavigation.vue:19 'All boards', :28-31 'Archived boards' (/board/archived), :37-40 'Shared with you'; src/router.js:63-72 boards.archived and boards.shared routes; lib/Controller/BoardController.php:54 archived flag on the board",
         "kanboard": "source: app/Filter/ProjectStatusFilter.php status filter on the project list, app/Template/project_list/sort_menu.php:11 sort by Status ; corpus: kanboard/round4/menu-tree.md 'Projects management'",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-lists/README.md:117-135 filters 'Active projects', 'Archived projects', 'Project status - On track / Off track / At risk' (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html 'A Jira project can only belong to one category'; 'An archived project will no longer appear in Jira' (archived projects page); no project status field to filter on",
@@ -420,7 +420,7 @@
       "kanboard": "yes",
       "jira": "yes",
       "evidence": {
-        "nextcloud-deck": "source: lib/Service/BoardService.php:188-217 create() inserts default labels only and no stacks; lib/Service/DefaultBoardService.php stacks are for the welcome board alone ; corpus: nextcloud-deck/round4/journeys.md 1 four lists added by hand",
+        "nextcloud-deck": "source: lib/Service/BoardService.php:188-217 create() inserts default labels only and no stacks; lib/Service/DefaultBoardService.php stacks are for the welcome board alone ; corpus: nextcloud-deck/round4/journeys.md 1 four lists added by hand ; source read at v1.19.0: lib/Service/BoardService.php:188-217 create() inserts four default labels ('Finished', 'To review', 'Action needed', 'Later') and no stacks; lib/Service/DefaultBoardService.php stacks are for the welcome board only; searched BoardService create for 'Stack', 'stackMapper->insert': none",
         "kanboard": "source: app/Template/config/project.php:11 'Default columns for new projects (Comma-separated)', app/Model/BoardModel.php:34 board_columns ; corpus: kanboard/round4/menu-tree.md Settings 'Project settings'",
         "openproject": "docs: opf/openproject HEAD 27a58131 docs/user-guide/agile-boards/README.md:61 'In an Action board each list represents a value of an attribute ... the Status board includes a list for the status New and a list for the status In Progress' (columns generated from statuses); Boards free (corpus: openproject/round4/menu-tree.md global 'Boards', not EE) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/jirasoftwareserver/configuring-columns-938845277.html 'By default on Scrum boards, this Done column maps to Resolved, Closed statuses, while Simplified Workflow boards map it to Done'; project templates ship preconfigured workflows (Creating a project: 'Jira comes with several default project types with preconfigured workflows and issue types')",
@@ -454,7 +454,7 @@
       "kanboard": "no",
       "jira": "no",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md empty greps 'payment', 'timesheet|hours|duration' in Db/ return 0",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md empty greps 'payment', 'timesheet|hours|duration' in Db/ return 0 ; source read at v1.19.0: searched lib/ and src/ for 'budget', 'billing', 'hourly', 'fixed price': none; lib/Db/Board.php:34-53 holds no commercial field",
         "kanboard": "corpus: kanboard/round4/code-census.md greps 'payment|stripe|ideal' 26 hits 'none is a payment', 'currencies is a rate table for the task score' ; no budget or billing field on a project",
         "openproject": "corpus: openproject/round4/menu-tree.md project 'Budgets'; docs: opf/openproject HEAD 27a58131 docs/user-guide/budgets/README.md:11 'create and manage a project budget ... planned unit costs as well as labor costs'; no fixed-price or hourly billing term field (project attributes could hold it, corpus: openproject/round4/M1-column.md 11.23) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 12.12 'the integrations page lists test management, source control and collaboration tools and nothing financial'; no budget or billing term on a project; only a custom field on issues (corpus: jira-data-center/round4/M1-column.md 2.2)",
@@ -487,7 +487,7 @@
       "kanboard": "no",
       "jira": "no",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'There is no portal and no public page; every reader is an account' (nearest: remote ACL type 6, code-census.md federation row)",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/menu-tree.md 'There is no portal and no public page; every reader is an account' (nearest: remote ACL type 6, code-census.md federation row) ; source read at v1.19.0: the only non-account readers are federated users: lib/Db/Acl.php:38 PERMISSION_TYPE_REMOTE and lib/Controller/BoardOcsController.php:37-38 PublicPage read serves a federation token, not a portal; searched src/router.js for 'public', 'portal', 'share/': none",
         "kanboard": "corpus: kanboard/round4/menu-tree.md 'There is no customer or citizen interface' (nearest: a project-viewer account or the public read-only board)",
         "openproject": "corpus: openproject/round4/M1-column.md 6.7 'there is no citizen portal'; nearest is per-item sharing, Enterprise gated (corpus: openproject/round4/M1-column.md 3.19 work_package_sharing)",
         "jira": "corpus: jira-data-center/round4/M1-column.md 6.7 'The customer portal is JSM DC, a separate licence'; 3.19 'a partner needs an account and a licence'",
@@ -517,7 +517,7 @@
       "kanboard": "yes",
       "jira": "partial",
       "evidence": {
-        "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md empty greps 'template beyond the import config schema' ; nearest is Clone board (prj-copy)",
+        "nextcloud-deck": "corpus: nextcloud-deck/round4/code-census.md empty greps 'template beyond the import config schema' ; nearest is Clone board (prj-copy) ; source read at v1.19.0: searched lib/ and src/ for 'template' as a board feature: only psalm @template tags and lib/Provider/DeckProvider.php:94 SearchTemplate; nearest is clone board clone at appinfo/routes.php:31 and import at appinfo/routes.php:34",
         "kanboard": "source: app/Template/project_creation/create.php:23 'Create from another project' with components chosen, app/Model/ProjectDuplicationModel.php:43-55 swimlanes, board columns, categories, roles, actions, tags, filters, tasks ; corpus: kanboard/round4/menu-tree.md 'Duplicate'",
         "openproject": "corpus: openproject/round4/menu-tree.md Administration 'Projects > Project templates'; corpus: openproject/round4/M1-column.md 3.10 'applying a project template (app/models/project.rb:110)'; docs: opf/openproject HEAD 27a58131 docs/user-guide/projects/project-templates (copies work packages, boards, wiki, members); no labels object exists (categories copy) (cited source paths checked present at the released v17.8.0 tag.)",
         "jira": "docs: https://confluence.atlassian.com/adminjiraserver/creating-a-project-938846813.html 'Jira comes with several default project types with preconfigured workflows and issue types'; docs: https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html 'You can select Create with shared configuration to select an existing project and to use that project's schemes' (schemes only, no tasks or labels copied)",
@@ -4619,6 +4619,216 @@
       "feature": "platform",
       "featureConfidence": "medium",
       "note": "There is no invite-a-guest flow; the guest must already exist as a Nextcloud user (Guests app). Labels (:1072) and dependency edges (:1118) stay readable to every authenticated user, guests included. The member picker only returns users to admins and subadmins (see defect), so an ordinary project owner may not be able to add anyone."
+    },
+    {
+      "id": "prj-risk-register",
+      "area": "projects",
+      "name": "Keep a risk register per project that scores each risk on likelihood and impact and records its countermeasures.",
+      "origin": "tender",
+      "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
+      "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 4003, 4004, 64441 (risk table scored on likelihood and impact, format adjustable per portfolio).",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown"
+    },
+    {
+      "id": "prj-project-logs",
+      "area": "projects",
+      "name": "Keep logs per project for actions, issues, lessons learned and meetings.",
+      "origin": "tender",
+      "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
+      "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirement 4012 (logboeken voor acties, issues, leerpunten, bijeenkomsten), 64437.",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown"
+    },
+    {
+      "id": "prt-portfolio-finance",
+      "area": "portfolio",
+      "name": "See budget, spend, commitments and forecast totalled across all projects of a portfolio.",
+      "origin": "tender",
+      "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
+      "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 3998, 3999, 4000 (financial tables per cost category and phase, totals at portfolio level).",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown"
+    },
+    {
+      "id": "int-finance-import",
+      "area": "integration",
+      "name": "Import actual spend and commitments from the finance system into each project by its project number.",
+      "origin": "tender",
+      "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
+      "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 4001, 4023, 4127 (automated link with the financial system, project number as key).",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown"
+    },
+    {
+      "id": "tim-non-project",
+      "area": "time",
+      "name": "Log time on non-project activities, such as training, leave and sickness, next to project work in the same timesheet.",
+      "origin": "tender",
+      "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
+      "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 4008, 4009, 64440 (weekly timesheets with non-project activities, sickness and leave).",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown"
+    },
+    {
+      "id": "pln-phase-gate-document",
+      "area": "planning",
+      "name": "Close a project phase only once the document that concludes it has been uploaded.",
+      "origin": "tender",
+      "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
+      "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirement 4130, wish (faseafsluiting afhankelijk van het uploaden van een fasedocument).",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown"
+    },
+    {
+      "id": "int-import-msproject",
+      "area": "integration",
+      "name": "Import a Gantt plan made in Microsoft Project.",
+      "origin": "tender",
+      "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
+      "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirement 4132, wish (GANTT-diagrammen van aannemers vanuit MS-project importeren).",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown"
+    },
+    {
+      "id": "int-archive-to-case",
+      "area": "integration",
+      "name": "Hand a project's documents and metadata over unchanged to the case management system for the record.",
+      "origin": "tender",
+      "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
+      "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 4054, 4126 (bestanden en metadata voor dossiervorming ongewijzigd overzetten naar het zaaksysteem).",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown"
+    },
+    {
+      "id": "plt-destruction-list",
+      "area": "platform",
+      "name": "Generate a destruction list from a retention period, destroy the listed records and keep proof of the destruction.",
+      "origin": "tender",
+      "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
+      "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 4059 to 4063 (vernietigingslijsten, vernietiging en bewijs van vernietiging).",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown"
+    },
+    {
+      "id": "prt-status-grotik",
+      "area": "portfolio",
+      "name": "Report each project's status on money, organisation, time, information, quality and risk, and roll it up to the portfolio.",
+      "origin": "tender",
+      "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
+      "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 4020, 4129, 24322, 64437 (GROTIK status per project, aggregated per portfolio).",
+      "evidence": {
+        "nextcloud-deck": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
+        "jira": "not checked: row added 2026-09-26 from a demand signal, back-fill pending"
+      },
+      "planninq": "unknown",
+      "nextcloud-deck": "unknown",
+      "openproject": "unknown",
+      "plane": "unknown",
+      "kanboard": "unknown",
+      "jira": "unknown"
     }
   ],
   "pending": [
