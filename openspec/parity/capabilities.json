@@ -346,7 +346,7 @@
       "providerHow": "read-from-code",
       "feature": "projects",
       "featureConfidence": "high",
-      "note": "archiving works and removes the project from the active list. There is no restore/unarchive action anywhere in src/ (no button, no store action) -- an archived project can only be reopened by filtering the list to Archived and there is nothing there to bring it back to active from the UI."
+      "note": "archiving works and removes the project from the active list. There is no restore/unarchive action anywhere in src/ (no button, no store action), an archived project can only be reopened by filtering the list to Archived and there is nothing there to bring it back to active from the UI."
     },
     {
       "id": "prj-delete",
@@ -766,7 +766,7 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "columns are the fixed task-status enum (open/in_progress/blocked/done/cancelled, src/utils/taskHelpers.js:252), not the project's own configurable `column` records -- see prj-default-columns/brd-columns-edit."
+      "note": "columns are the fixed task-status enum (open/in_progress/blocked/done/cancelled, src/utils/taskHelpers.js:252), not the project's own configurable `column` records, see prj-default-columns/brd-columns-edit."
     },
     {
       "id": "brd-drag-drop",
@@ -848,7 +848,7 @@
       "built": {
         "state": "built",
         "evidence": "`wipLimit` is written on `column` objects at project creation (src/store/projects.js:106-110 getDefaultColumns, e.g. 3/2), but src/views/ProjectBoard.vue never fetches the `column` schema at all (only COLUMN_SCHEMA writes/deletes exist in src/store/projects.js:28,138-139,476,564,566) and there is no wipLimit reference anywhere in src/ (grep confirmed zero matches outside the store's own write path).",
-        "reachedOn": "nothing reaches it -- the board has no per-column WIP badge",
+        "reachedOn": "nothing reaches it, the board has no per-column WIP badge",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/views/ProjectBoard.vue: no WIP-limit badge or read of the `column` schema's wipLimit field"
@@ -948,7 +948,7 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "only label filtering exists. Grep for assignee/priority filter UI on the board found nothing -- task.assignedTo and task.priority are displayed on the card (TaskCard.vue) but not filterable."
+      "note": "only label filtering exists. Grep for assignee/priority filter UI on the board found nothing, task.assignedTo and task.priority are displayed on the card (TaskCard.vue) but not filterable."
     },
     {
       "id": "brd-list-toggle",
@@ -970,7 +970,7 @@
       },
       "built": {
         "state": "building",
-        "evidence": "src/views/ProjectBacklog.vue:24-30 renders NcEmptyContent 'Backlog view coming soon' / 'Task management will be available in a future update.' -- an explicit placeholder, not a working list view.",
+        "evidence": "src/views/ProjectBacklog.vue:24-30 renders NcEmptyContent 'Backlog view coming soon' / 'Task management will be available in a future update.', an explicit placeholder, not a working list view.",
         "reachedOn": "ProjectBacklog page /projects/:id/backlog (placeholder only)",
         "owner": "ConductionNL/planninq"
       },
@@ -1061,7 +1061,7 @@
       },
       "built": {
         "state": "none",
-        "evidence": "no add-card/add-task control exists on src/views/ProjectBoard.vue. Wider check: there is no task-creation code path anywhere in the app -- no createTask action in src/store/projects.js (only fetchTasks/updateTaskStatus/updateTask), no POST to the task schema anywhere in src/, and src/views/ProjectBacklog.vue:24-30 is an explicit placeholder pending future task CRUD.",
+        "evidence": "no add-card/add-task control exists on src/views/ProjectBoard.vue. Wider check: there is no task-creation code path anywhere in the app, no createTask action in src/store/projects.js (only fetchTasks/updateTaskStatus/updateTask), no POST to the task schema anywhere in src/, and src/views/ProjectBacklog.vue:24-30 is an explicit placeholder pending future task CRUD.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
         "defects": [
@@ -1891,11 +1891,11 @@
       },
       "built": {
         "state": "built",
-        "evidence": "The dependency schema declares a non-blocking 'type' enum (blocks/relates/duplicates/clones/splits/causes, lib/Settings/planninq_register.json dependency.properties.type), but src/store/dependencies.js:81-100 createEdge() only ever POSTs {blocker, blocked} with no type, so the server always defaults to 'blocks'. Worse, the only component that could create any edge, src/components/TaskDependencies.vue, is never imported by any other file in src/ (grep across src/ finds it only in its own file) -- it is not mounted on TaskDetail or anywhere else, so even blocking dependencies have no reachable UI.",
+        "evidence": "The dependency schema declares a non-blocking 'type' enum (blocks/relates/duplicates/clones/splits/causes, lib/Settings/planninq_register.json dependency.properties.type), but src/store/dependencies.js:81-100 createEdge() only ever POSTs {blocker, blocked} with no type, so the server always defaults to 'blocks'. Worse, the only component that could create any edge, src/components/TaskDependencies.vue, is never imported by any other file in src/ (grep across src/ finds it only in its own file), it is not mounted on TaskDetail or anywhere else, so even blocking dependencies have no reachable UI.",
         "reachedOn": "nothing reaches it (TaskDependencies.vue is an orphan component)",
         "owner": "ConductionNL/planninq",
         "defects": [
-          "src/components/TaskDependencies.vue is never imported/mounted by any view or component in src/ -- a full dependency-editing UI with no caller",
+          "src/components/TaskDependencies.vue is never imported/mounted by any view or component in src/, a full dependency-editing UI with no caller",
           "src/components/BlockedBadge.vue is likewise never imported/mounted anywhere in src/",
           "src/store/dependencies.js:81 createEdge() has no `type` parameter, so even if wired up it could never create the non-blocking 'relates'/'duplicates'/etc edges the schema declares"
         ]
@@ -2215,7 +2215,7 @@
       },
       "built": {
         "state": "built",
-        "evidence": "The only 'roadmap' page in the app, FeaturesRoadmap (src/manifest.json, route /features-roadmap, type 'roadmap'), is the app's OWN development roadmap: its _note says it is 'Rendered by the shared CnFeaturesAndRoadmapView, which reads the committed docs/features.json and OpenRegister's GitHub proxy' -- it shows Planninq's own GitHub feature/issue roadmap, not a roadmap of the user's epics, projects or releases.",
+        "evidence": "The only 'roadmap' page in the app, FeaturesRoadmap (src/manifest.json, route /features-roadmap, type 'roadmap'), is the app's OWN development roadmap: its _note says it is 'Rendered by the shared CnFeaturesAndRoadmapView, which reads the committed docs/features.json and OpenRegister's GitHub proxy', it shows Planninq's own GitHub feature/issue roadmap, not a roadmap of the user's epics, projects or releases.",
         "reachedOn": "FeaturesRoadmap page /features-roadmap, but it is the product's own roadmap, not a user-data roadmap",
         "owner": "ConductionNL/planninq"
       },
@@ -4650,7 +4650,7 @@
       "providerHow": "read-from-code",
       "feature": "projects",
       "featureConfidence": "medium",
-      "note": "a schema exists with no screen, no store, no controller at all -- not even a display. Kept pending per the reading method."
+      "note": "a schema exists with no screen, no store, no controller at all, not even a display. Kept pending per the reading method."
     },
     {
       "id": "tsk-types",
