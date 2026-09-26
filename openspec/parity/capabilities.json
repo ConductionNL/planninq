@@ -4847,12 +4847,22 @@
         "kanboard": "source read at v1.2.54: searched app/ (php) for 'likelihood', 'risk_register', 'riskregister': none",
         "jira": "https://marketplace.atlassian.com/apps/1213146/risk-register paid app 'Risk Register', build 8.1.1 compatible to Jira 11.3.11: 'record risks, assess their magnitude ... collaborate with others on their treatment'; Jira itself has no risk object (Marketplace REST API, read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "searched src/ lib/ and lib/Settings/planninq_register.json for risk, likelihood, impact, countermeasure: none. No risk schema, no risk page in src/manifest.json pages, no risk component in src/registry.js:42-51.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high"
     },
     {
       "id": "prj-project-logs",
@@ -4868,12 +4878,22 @@
         "kanboard": "source read at v1.2.54: searched app/Model and app/Controller for 'lesson', 'meeting', 'issue log': none; tasks only",
         "jira": "https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html 'Jira enables you to keep track of different types of things ... by using different issue types': an admin can add action, issue, lesson or meeting log issue types per project; there is no built-in project log (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "partial",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "No project-scoped log of actions, issues, lessons learned or meetings. The only logs are per task: CnObjectSidebar Comments (notes) and Activity (audit trail) tabs on src/views/TaskDetail.vue:129-137. The project settings sidebar has Details, Members and Danger zone tabs only (src/components/ProjectSettingsSidebar.vue:8-165).",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high"
     },
     {
       "id": "prt-portfolio-finance",
@@ -4889,12 +4909,23 @@
         "kanboard": "source read at v1.2.54: searched app/ for 'budget', 'cost', 'portfolio': none (budget is a third party plugin, not core)",
         "jira": "https://marketplace.atlassian.com/apps/1211259/budgets-jira-project-budget-management-tempo paid app Tempo Budgets, build 19.6.2-jira-11 compatible to Jira 11.3.11: 'Budget and track projects, and portfolios ... Forecast costs, revenues, and profitability'; Jira has no budget object (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "no",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "Budget is schema plus display only: lib/Settings/planninq_register.json:544-561 budgetHours/budgetAmount/hourlyRate, shown on src/components/ProjectListItem.vue:44-49 and totalled in src/integrations/CnProjectsWidget.vue:254-256 (a leaf rendered on OTHER apps' pages). No planninq page sets a budget, and spend, commitments and forecast have no property at all. The Portfolio page (src/views/Portfolio.vue:29-69) carries no money column.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq",
+        "nearCredit": "the budget total in CnProjectsWidget reads like a portfolio figure but is budget only, is set nowhere in planninq and renders on other apps' pages"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "portfolio",
+      "featureConfidence": "high"
     },
     {
       "id": "int-finance-import",
@@ -4910,12 +4941,22 @@
         "kanboard": "source read at v1.2.54: searched app/Model and app/Api/Procedure for 'cost', 'budget', 'finance': none",
         "jira": "https://confluence.atlassian.com/adminjiraserver/integrating-with-other-tools-938846907.html lists no finance system integration, and projects carry no budget or spend fields (https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html) to import into (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "none",
+        "evidence": "No finance import and no project number to match on: project.key is declared at lib/Settings/planninq_register.json:524 and unused in src/ and lib/. lib/Service/RegisterImportService.php loads planninq's own register JSON (schemas and seed objects), not external spend. Spend and commitments have no schema property to land in.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "integrations",
+      "featureConfidence": "high"
     },
     {
       "id": "tim-non-project",
@@ -4931,12 +4972,23 @@
         "kanboard": "source read at v1.2.54: searched app/Model for 'timesheet', 'absence', 'leave': time is tracked only on subtasks inside a project",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html work is logged against an issue only ('Make sure you have the Work on Issues ... project permissions'), so leave or training needs an internal project with placeholder issues; no separate non-project category (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "no",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "Logging requires a task: src/views/TaskDetail.vue:91 opens src/dialogs/TimeEntryDialog.vue, which writes task: this.taskId (:160) through src/store/timeEntries.js:149 create. src/views/Timesheet.vue:53-80 only lists the user's entries (src/store/timeEntries.js:121 fetchForCurrentUser). humaniq declares LeaveRequest and SickLeaveCase schemas (hrmq/lib/Settings/humaniq_register.json), but planninq never reads them, so leave does not appear in the planninq timesheet.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq",
+        "consumesSibling": "humaniq has leave and sick-leave schemas; planninq does not consume them"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high"
     },
     {
       "id": "pln-phase-gate-document",
@@ -4952,12 +5004,22 @@
         "kanboard": "source read at v1.2.54: searched app/Model and app/Action for 'phase', 'gate': none; no action blocks a column move on an attachment",
         "jira": "https://confluence.atlassian.com/adminjiraserver/using-validators-with-custom-fields-938847524.html 'Use the Fields Required workflow validator that is packaged in the Jira Suite Utilities'; https://marketplace.atlassian.com/apps/5048/jsu-automation-suite-for-jira-workflows paid app, build 4.1.3 compatible to Jira 11.3.11; phases are workflow statuses, not project phases (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "no",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "Schema only: lib/Settings/planninq_register.json:584-760 declares projectPhase (title, status open/in_progress/completed/cancelled, order, budget). grep for 'projectPhase' and 'phase' across src/ finds nothing but an unrelated comment in src/App.vue:122. No page lists phases and no guard checks for a concluding document.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "timeline",
+      "featureConfidence": "medium"
     },
     {
       "id": "int-import-msproject",
@@ -4973,12 +5035,22 @@
         "kanboard": "source read at v1.2.54: app/Controller/TaskImportController.php:40 imports tasks from CSV only, no dependencies or Gantt; searched app/ for 'mpp', 'mspdi', 'msproject': none",
         "jira": "https://marketplace.atlassian.com/apps/1211768/wbs-gantt-chart-for-jira-enterprise-project-management paid app WBS Gantt-Chart for Jira, build 9.20.0.1067 compatible to Jira 11.3.11, lists 'Microsoft Project import/export'; https://confluence.atlassian.com/adminjiraserver/migrating-from-other-issue-trackers-938847532.html core import is CSV or JSON only (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "No Microsoft Project import in src/ or lib/. lib/Service/RegisterImportService.php imports the app's own configuration. The nearest path is OpenRegister's generic register import (the int-import-other row), which takes tabular rows and would not rebuild a Gantt plan with dependencies.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "integrations",
+      "featureConfidence": "high"
     },
     {
       "id": "int-archive-to-case",
@@ -4994,12 +5066,23 @@
         "kanboard": "source read at v1.2.54: searched app/ and app/Api/Procedure for 'zaak', 'records', 'case management': none",
         "jira": "https://confluence.atlassian.com/adminjiraserver/integrating-with-other-tools-938846907.html names no records or case management integration; https://confluence.atlassian.com/adminjiraserver/archiving-a-project-938847621.html archiving keeps data inside Jira, 'All the project data remains in the database' (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "none",
+        "evidence": "src/components/ProjectSettingsSidebar.vue:47-53 displays caseReference when set; no action exports a project's attachments or metadata to dossiq/procest or a ZGW DRC. grep for 'zaakUuid', 'caseReference', 'drc', 'archive' in lib/ finds only the portal field exclusion list in lib/Portal/PortalContributionProvider.php:64.",
+        "reachedOn": "ProjectBoard /projects/:id, project settings sidebar shows the case reference only",
+        "owner": "ConductionNL/planninq",
+        "consumesSibling": "dossiq/procest owns cases; planninq only stores a reference to one"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "integrations",
+      "featureConfidence": "high"
     },
     {
       "id": "plt-destruction-list",
@@ -5015,12 +5098,24 @@
         "kanboard": "source read at v1.2.54: searched app/ for 'retention', 'destruction', 'vernietig': none",
         "jira": "https://jira.atlassian.com/browse/JRASERVER-78250 'Retention rules for Jira', Suggestion, Gathering Interest; JRASERVER-70162 'Ability to auto-delete Archived issues', Gathering Interest, 17 votes (tracker REST API, read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "built",
+        "evidence": "OpenRegister builds destruction lists from object retention metadata (openregister lib/BackgroundJob/DestructionCheckJob.php calls RetentionService findEligibleForDestruction, approval routes archival#approveDestructionList in openregister appinfo/routes.php on development 7367d6d). planninq sets no retention period on any project, task or time entry, so on a code reading none of its records would ever be put on a list.",
+        "reachedOn": "OpenRegister archival settings and destruction lists; no planninq page",
+        "owner": "ConductionNL/openregister",
+        "consumesSibling": "no: planninq objects carry no retention metadata",
+        "liveCheck": "confirm whether OpenRegister applies a register-wide default retention that would pick up planninq objects"
+      },
+      "provider": "openregister",
+      "providerHow": "read-from-code",
+      "feature": "platform",
+      "featureConfidence": "medium"
     },
     {
       "id": "prt-status-grotik",
@@ -5036,12 +5131,22 @@
         "kanboard": "source read at v1.2.54: searched app/Model/ProjectModel.php and app/Template/project_overview for a status or health field: none",
         "jira": "https://marketplace.atlassian.com/apps/1228554/pmo-assessment-and-reports-for-jira paid app, build 1.2 compatible to Jira 11.3.11: 'insights into project time, costs, quality and inefficiencies'; it covers time, money and quality, not organisation, information and risk, and Jira has no project status report (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "no",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "The only per-project roll-up is src/views/Portfolio.vue:29-69 (members, open, overdue, open-work bar) fed by src/store/projects.js:170 fetchProjects. No per-aspect status property on the project schema (lib/Settings/planninq_register.json:450-580) and no portfolio roll-up of such statuses.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "portfolio",
+      "featureConfidence": "high"
     },
     {
       "id": "pln-calendar-writeback",
@@ -5057,12 +5162,22 @@
         "kanboard": "source read at v1.2.54: app/Controller/ICalendarController.php:22 and :62 serve read only iCal feeds; searched app/ for 'caldav': none",
         "jira": "https://jira.atlassian.com/browse/JRASERVER-2971 'iCalendar support', Gathering Interest, 22 votes: no feed in the product; https://marketplace.atlassian.com/apps/1214714/calendar-sync-for-jira (build 3.0.0, Jira 11.3.11) publishes calendar 'feeds' configured by JQL, a one-way export with no write-back documented (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "none",
+        "evidence": "Schema only: lib/Settings/planninq_register.json:311-316 calendarEventUid. grep for calendarEventUid, caldav, vtodo in src/ and lib/ finds only the portal exclusion comment lib/Portal/PortalContributionProvider.php:64. Nothing publishes tasks to a calendar, so nothing can be written back.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "timeline",
+      "featureConfidence": "medium"
     },
     {
       "id": "prj-grouping",
@@ -5078,12 +5193,22 @@
         "kanboard": "source read at v1.2.54: searched app/Model/ProjectModel.php and app/Template/project_list for 'group', 'folder', 'category': none; app/Model/CategoryModel.php is for tasks inside one project",
         "jira": "https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html project categories are created 'via Administration > Projects > Project Categories', and Jira 'can display projects sorted by the project category' (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "partial",
       "kanboard": "no",
-      "jira": "yes"
+      "jira": "yes",
+      "built": {
+        "state": "none",
+        "evidence": "Projects are a flat list on src/views/ProjectList.vue:86-92 with status chips :10-17 and free text search :33-37. The project schema has no category, folder or group property, and the menu src/manifest.json:48-58 lists pages, not projects.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high"
     },
     {
       "id": "col-comment-images",
@@ -5099,12 +5224,22 @@
         "kanboard": "source read at v1.2.54: assets/js/components/screenshot.js:9-10 pasting from the clipboard works but app/Controller/TaskFileController.php:18 screenshot stores it as an attachment; the description editor, app/Helper/FormHelper.php:228, takes Markdown image links only",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/attaching-files-and-screenshots-to-issues-939938913.html 'copy a file from your computer and paste it directly in the Create Issue dialog. Make sure that you paste the image outside the Description box': a pasted image becomes an attachment; https://confluence.atlassian.com/jirasoftwareserver/visual-editing-939938940.html warns 'Pasting content may not work as expected' (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "yes",
       "kanboard": "partial",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "built",
+        "evidence": "Comments: src/views/TaskDetail.vue:129-137 mounts CnObjectSidebar (notesLabel 'Comments'); nextcloud-vue src/components/CnObjectSidebar/CnNotesTab.vue renders each note as text plus mention spans and has no paste or drop handler for images. Description: display only at src/views/TaskDetail.vue:269, no edit form anywhere [tsk-create-edit].",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/nextcloud-vue"
+      },
+      "provider": "nextcloud-vue",
+      "providerHow": "read-from-code",
+      "feature": "task-collaboration",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-templates",
@@ -5120,12 +5255,22 @@
         "kanboard": "source read at v1.2.54: app/Template/project_predefined_content/show.php:5 'Add predefined task description'; app/Helper/TaskHelper.php:68 offers them in the task form; app/Model/PredefinedTaskDescriptionModel.php stores them; description only, no subtasks or tags",
         "jira": "https://jira.atlassian.com/browse/JRASERVER-7731 'Template issue', Suggestion, Future Consideration, 440 votes; https://marketplace.atlassian.com/apps/1211044/issue-templates-for-jira paid app Issue Templates for Jira, build 8.7.7 compatible to Jira 11.3.11 (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "partial",
       "openproject": "partial",
       "plane": "no",
       "kanboard": "partial",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "No task template and no task create path to apply one to: src/store/projects.js has fetchTask, fetchTasks, updateTaskStatus :835 and updateTask :871, no createTask. The Store page (src/manifest.json:61-71) installs configsets and flows, not task templates.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "brd-move-column",
@@ -5141,12 +5286,22 @@
         "kanboard": "source read at v1.2.54: app/Template/board/table_column.php:31-41 the column menu offers hide, bulk create and close all; app/Controller/TaskBulkMoveColumnController.php:21 moves within the same project; a task moves to another project one at a time",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/editing-multiple-issues-at-the-same-time-939938937.html bulk change moves the tasks ('the Move issue and Bulk change permissions to perform the Bulk move operation'); a column is a status mapping on one board (https://confluence.atlassian.com/jirasoftwareserver/configuring-columns-938845277.html), so the column itself is not moved or copied (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "Columns are the five task statuses, hard-coded at src/utils/taskHelpers.js:252 and mapped at src/views/ProjectBoard.vue:283-291. The per-project column objects written by src/store/projects.js:469 createDefaultColumns are never read back, so there is nothing to move or copy to another project.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-all-day-due",
@@ -5162,12 +5317,23 @@
         "kanboard": "source read at v1.2.54: app/Core/DateParser.php:160-161 a date without time is accepted, but app/Helper/TaskHelper.php:235 renders a datetime field and app/Helper/DateHelper.php:57 always shows a time, midnight for a date only value",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/advanced-searching-fields-reference-939938743.html 'Note that the due date relates to the date only (not to the time)' (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "yes",
       "kanboard": "partial",
-      "jira": "yes"
+      "jira": "yes",
+      "built": {
+        "state": "none",
+        "evidence": "The data model already stores a whole-day due date [lib/Settings/planninq_register.json:268-272], and src/components/TaskCard.vue:16-21 shows the badge from it, but a user cannot set or change one anywhere [tsk-due-date]. A schema that fits the row is not a screen that delivers it.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq",
+        "nearCredit": "the date-only dueDate format reads like whole-day due dates, but nothing lets a user set one"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "brd-column-count",
@@ -5183,12 +5349,25 @@
         "kanboard": "source read at v1.2.54: app/Template/board/table_column.php:11-12 'Task count' in the column header; app/Formatter/BoardColumnFormatter.php:103 nb_tasks",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/configuring-columns-938845277.html 'In the Column Constraint drop-down, select either Issue Count or Issue Count, excluding sub-tasks. Note, enabling column constraints will show the issue count in each column' (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "partial",
       "plane": "yes",
       "kanboard": "yes",
-      "jira": "yes"
+      "jira": "yes",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue:118-120 {{ tasksByStatus[column.status].length }} -> :303-305 groupTasksByStatus over :320-322 visibleTasks -> src/store/projects.js:775-784 fetchTasks -> OpenRegister /apps/openregister/api/objects/planninq/task filtered by project",
+        "reachedOn": "ProjectBoard /projects/:id, every column header",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "src/views/ProjectBoard.vue:118 the count span is aria-hidden and the column section's aria-label [:109] is the column name only, so a screen-reader user never hears the count"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high"
     },
     {
       "id": "prj-team-owner",
@@ -5204,12 +5383,23 @@
         "kanboard": "source read at v1.2.54: app/Template/project_permission/index.php:13 group permissions; app/Controller/ProjectPermissionController.php:154 addGroup; app/Model/UserModel.php:423-432 removing a user deletes only private projects, team projects stay",
         "jira": "https://confluence.atlassian.com/adminjiraserver/managing-project-roles-938847166.html roles take groups, so rights stay with a team; but 'Every project has a project lead', one user, and https://confluence.atlassian.com/adminjiraserver/anonymizing-users-992677655.html 'Some items owned by a user, like Project Lead ... You'll need to select a new owner' (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "partial",
       "openproject": "yes",
       "plane": "partial",
       "kanboard": "yes",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "Owner and members are user ids [lib/Settings/planninq_register.json:478-490]. No group, team or circle can own or join a project [prj-group-share]. When the owner leaves through the leave dialog, ownership passes to the alphabetically first remaining member (lib/Controller/ProjectController.php:288-290), but a deleted account leaves the project with an owner nobody holds.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq",
+        "liveCheck": "what happens to a project whose owner account is deleted in Nextcloud rather than leaving through the dialog"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high"
     },
     {
       "id": "col-federated-share",
@@ -5225,12 +5415,22 @@
         "kanboard": "source read at v1.2.54: searched app/ for 'federat', 'remote share': none",
         "jira": "https://confluence.atlassian.com/adminjiraserver/licensing-and-application-access-938846887.html access needs a user in this instance ('If a user has access to an application, they will count as a licensed user') or anonymous access; https://confluence.atlassian.com/jirasoftwareserver/linking-issues-939938934.html other Jira servers are reached only as remote issue links over an application link (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "yes",
       "openproject": "no",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "none",
+        "evidence": "Project sharing is the members array of local uids [lib/Settings/planninq_register.json:483], filled by src/components/MemberSearch.vue:112-145 from the local users endpoint. No federated cloud id can be added and nothing talks to another server.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high"
     },
     {
       "id": "int-ai-connector",
@@ -5246,12 +5446,24 @@
         "kanboard": "source read at v1.2.54: searched app/ for 'mcp', 'model context protocol': none; app/Api/Procedure JSON-RPC is the only machine interface",
         "jira": "https://confluence.atlassian.com/jirasoftware/jira-software-11-3-x-release-notes-1689288832.html 'cloud connectors ... Now, you can set up and manage Rovo and Portfolio Insights connectors in one place': Atlassian's AI assistant Rovo reaches Data Center data through the cloud Admin Hub; no self-hosted standard connector and no write path documented (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "no",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue:587 applyStatusMove -> src/store/projects.js:835-869 updateTaskStatus -> OpenRegister objects API for planninq/task. The MCP objects tool [openregister lib/Mcp/BuiltIn/ObjectsToolProvider.php getTools, listObjects, updateObject; openregister lib/Controller/McpServerController.php] addresses the same objects generically. planninq consumes it only by storing its data in OpenRegister: no planninq-specific tools, and dependency edges written through the tool skip lib/Service/DependencyService.php cycle checks.",
+        "reachedOn": "OpenRegister MCP endpoint /apps/openregister/api/mcp; no planninq page",
+        "owner": "ConductionNL/openregister",
+        "consumesSibling": "indirectly: the tasks live in OpenRegister, planninq adds no tools",
+        "liveCheck": "confirm an MCP client can list and update planninq task objects and that the task schema's authorization rules apply to MCP calls"
+      },
+      "provider": "openregister",
+      "providerHow": "read-from-code",
+      "feature": "integrations",
+      "featureConfidence": "medium"
     },
     {
       "id": "col-live-docs",
@@ -5267,12 +5479,24 @@
         "kanboard": "source read at v1.2.54: searched app/ and assets/js for 'collaborat', 'websocket', 'yjs': none",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/using-jira-applications-with-confluence-939938870.html 'Confluence is a content creation and collaboration platform': shared documents are a separate product and licence; Jira has issue fields, not live documents (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "partial",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue:129-137 CnObjectSidebar with filesLabel 'Attachments' -> src/utils/taskHelpers.js:50-60 taskCollaborationSidebarConfig -> OpenRegister per-object files API; nextcloud-vue src/components/CnObjectSidebar/CnFilesTab.vue opens a file in the Viewer or links 'Show in Files'. Real-time cursors come from Nextcloud Text or Nextcloud Office when installed, not from planninq.",
+        "reachedOn": "TaskDetail /projects/:id/tasks/:taskId, Attachments tab, then Nextcloud Text or Office outside planninq",
+        "owner": "nextcloud/server",
+        "consumesSibling": "through the attachments tab only",
+        "liveCheck": "open an attached .md or .docx from the Attachments tab and confirm it lands in a collaborative editor"
+      },
+      "provider": "nextcloud",
+      "providerHow": "read-from-code",
+      "feature": "task-collaboration",
+      "featureConfidence": "low"
     },
     {
       "id": "col-meeting-actions",
@@ -5288,12 +5512,22 @@
         "kanboard": "source read at v1.2.54: searched app/ for 'meeting', 'agenda': none",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/using-jira-applications-with-confluence-939938870.html meeting notes and pages live in Confluence, which can turn text into issues ('Specs to issues'); Jira Software has no meeting or agenda object in the docs read (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "none",
+        "evidence": "No meeting or agenda object in lib/Settings/planninq_register.json and no page for one in src/manifest.json pages. decidiq owns meetings in the fleet, but planninq neither links to it nor creates tasks from its agenda items.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-collaboration",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-readable-key",
@@ -5309,12 +5543,23 @@
         "kanboard": "source read at v1.2.54: app/Template/board/task_private.php:26 cards show a global '#id'; the project identifier exists, app/Model/ProjectModel.php:123, but no per project task number; the request has the most votes of the Ideas category (6)",
         "jira": "https://confluence.atlassian.com/adminjiraserver/creating-a-project-938846813.html 'The project key becomes the first part of that project's issue keys, e.g. DDT-1, DDT-2' (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "yes",
       "kanboard": "no",
-      "jira": "yes"
+      "jira": "yes",
+      "built": {
+        "state": "none",
+        "evidence": "Schema only: key on task and project, both described as import-preserved values. No key generation, no key on src/components/TaskCard.vue:1-68 or src/views/TaskDetail.vue:262-270, no key field on project create.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq",
+        "nearCredit": "the schema descriptions promise ABC-123 keys; no code produces or shows them"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "bkl-sprint-goal",
@@ -5330,12 +5575,23 @@
         "kanboard": "source read at v1.2.54: searched app/Model and app/Template for 'sprint', 'iteration', 'goal': none",
         "jira": "https://confluence.atlassian.com/adminjiraserver/managing-project-permissions-938847145.html sprint actions include 'Add sprint goals'; https://confluence.atlassian.com/adminjiraserver/upgrade-matrix-966063322.html 'Sprint goals: add goals to your sprints to let your team know what you want to achieve' (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "partial",
       "kanboard": "no",
-      "jira": "yes"
+      "jira": "yes",
+      "built": {
+        "state": "none",
+        "evidence": "The backlog page is an empty state [src/views/ProjectBacklog.vue:24-30], although its manifest note [src/manifest.json:146] describes an ordered task list. No sprint schema exists, so there is nothing to set a goal on.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq",
+        "nearCredit": "the manifest _note describes a working backlog; the page is a placeholder"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high"
     },
     {
       "id": "prj-request-approval",
@@ -5351,12 +5607,22 @@
         "kanboard": "source read at v1.2.54: searched app/Controller/ProjectCreationController.php and app/Model for 'request', 'approv': none; a project is created directly",
         "jira": "https://confluence.atlassian.com/adminjiraserver/creating-a-project-938846813.html 'creating and configuring a project is done by an administrator': no request form or review step before a project exists; request forms are Jira Service Management, a separate licence (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "none",
+        "evidence": "Create path: src/dialogs/ProjectCreationDialog.vue:65-75 submit -> src/store/projects.js:328 createProject -> POST /apps/planninq/api/projects -> lib/Controller/ProjectController.php create, which stores the project immediately. No request status, no reviewer and no guided intake form. The creation policy [prj-create-policy] restricts WHO may create, it does not route a request to someone.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high"
     },
     {
       "id": "bkl-planning-poker",
@@ -5372,12 +5638,22 @@
         "kanboard": "source read at v1.2.54: searched app/ for 'poker': none",
         "jira": "https://marketplace.atlassian.com/apps/700473/agile-poker-for-jira-planning-estimation paid app Agile Poker for Jira, build 6.1.0-jira-11 compatible to Jira 11.3.11: 'Run Planning Poker-style or async Wideband Delphi sessions'; Jira itself only stores the estimate (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "No estimation session and no story point field on any screen. The only estimate a user can enter is the per-task time estimate on src/views/TaskDetail.vue:60-72, entered alone.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-review-approval",
@@ -5393,12 +5669,23 @@
         "kanboard": "source read at v1.2.54: searched app/ for 'approv', 'reviewer': none in core; column move restrictions per role, app/Controller/ColumnMoveRestrictionController.php, limit who moves a task but name no reviewer",
         "jira": "https://confluence.atlassian.com/adminjiraserver/advanced-workflow-configuration-938847443.html 'Conditions, check that a transition should be performed by the user', so a close transition can be limited to a reviewer role; https://jira.atlassian.com/browse/JRASERVER-62053 'ability to add approval feature project workflow', Closed, Won't Do; multi-person approval needs https://marketplace.atlassian.com/apps/1223591/workflowwise-parallel-approval-and-workflow-extension (build 2.12.5, Jira 11.3.11) (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "Status changes are unguarded moves between the five statuses [src/utils/taskHelpers.js:252]. No reviewer property on the task schema, no approval state, no rule blocking done until someone approves. The 'Review' default column [src/store/projects.js:104-110] is written on project create and never rendered.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq",
+        "nearCredit": "a 'Review' default column exists in the store, but columns are never shown and nothing gates closing"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "col-edit-conflict",
@@ -5414,12 +5701,23 @@
         "kanboard": "source read at v1.2.54: searched app/Model/TaskModificationModel.php and app/Controller for 'lock', 'locked_by', 'editing': none; the last save wins",
         "jira": "https://jira.atlassian.com/browse/JRASERVER-6146 JRASERVER-6146 'Implement issue locking', Suggestion, Gathering Interest, 505 votes (tracker REST API, read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "built",
+        "evidence": "OpenRegister: POST /api/objects/{register}/{schema}/{id}/lock and unlock [openregister appinfo/routes.php, development 7367d6d]. planninq: src/views/TaskDetail.vue:420-476 syncLiveSubscription swaps in the fresh task when it changes elsewhere, which is live refresh, not a conflict warning; saveEstimate at :557 writes without a version check.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/openregister",
+        "consumesSibling": "no: planninq never takes a lock"
+      },
+      "provider": "openregister",
+      "providerHow": "read-from-code",
+      "feature": "task-collaboration",
+      "featureConfidence": "high"
     },
     {
       "id": "int-automation-edit",
@@ -5435,12 +5733,23 @@
         "kanboard": "source read at v1.2.54: app/Controller/ActionController.php:18 index, :46 confirm, :65 remove are the only actions on an existing rule; app/Controller/ActionCreationController.php:102 creates new ones",
         "jira": "https://confluence.atlassian.com/jirasoftware/jira-software-11-3-x-release-notes-1689288832.html 'decide who can create, edit, enable, or disable automation rules': rules are edited in place (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "partial",
       "kanboard": "no",
-      "jira": "yes"
+      "jira": "yes",
+      "built": {
+        "state": "built",
+        "evidence": "src/manifest.json:57 menu 'Flows' -> src/manifest.json:223-229 Flows index [rowRoute FlowDetail] -> src/manifest.json:231-236 FlowDetail type flow -> nextcloud-vue src/composables/useFlowStore.js:1772 axios.put /apps/openregister/api/flows/{id} -> openregister appinfo/routes.php:863 flow#update [development 7367d6d]; drafts and versions at openregister appinfo/routes.php:852-858.",
+        "reachedOn": "Flows /flows [settings menu] -> FlowDetail /flows/:id",
+        "owner": "ConductionNL/openregister",
+        "consumesSibling": "yes: planninq mounts the library flow pages from its manifest"
+      },
+      "provider": "openregister",
+      "providerHow": "read-from-code",
+      "feature": "integrations",
+      "featureConfidence": "medium"
     },
     {
       "id": "prt-dashboard-order",
@@ -5456,12 +5765,22 @@
         "kanboard": "source read at v1.2.54: app/Template/project_list/sort_menu.php:5-17 sort by id, name, status, start or end date; searched app/Model for a per user project position: none",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/configuring-dashboards-939939002.html gadgets on a dashboard 'can be reordered and switched between the left and right columns'; the Projects gadget 'Shows information on various issue filters from a selected project', one project per gadget, so ordering projects means ordering gadgets (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "yes",
       "kanboard": "partial",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "src/components/DashboardPanels.vue:18-44 renders recentProjects [:102-106, a filter and slice of src/store/projects.js:170 fetchProjects]. No stored per-user order, no drag handle, no favourite or pin.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "dashboard",
+      "featureConfidence": "high"
     },
     {
       "id": "plt-rtl",
@@ -5477,12 +5796,27 @@
         "kanboard": "source read at v1.2.54: ChangeLog:112 'add basic support for right-to-left (RTL) languages' in 1.2.48 (October 2025); app/Template/layout.php:2 dir rtl; app/Model/LanguageModel.php:205 isRtlLanguage",
         "jira": "https://jira.atlassian.com/browse/JRASERVER-15355 'Add Support for Right to Left Languages', Suggestion, Gathering Interest, 111 votes; https://confluence.atlassian.com/adminjiraserver/choosing-a-default-language-938847001.html default languages list no Arabic or Hebrew (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "partial",
       "openproject": "partial",
       "plane": "no",
       "kanboard": "yes",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "built",
+        "evidence": "Layout: logical CSS throughout, e.g. src/components/TaskCard.vue:285, src/views/ProjectTimeline.vue:503 and :535, and no physical margin or padding in src/. Strings: every UI string goes through t('planninq', ...) installed at src/main.js:178, with catalogues in l10n/ for 37 languages, none of them right-to-left. Timeline: src/views/ProjectTimeline.vue:57, :67 and :101 position ticks, today marker and bars with style left.",
+        "reachedOn": "every page, mirrored by Nextcloud when the user's language is RTL, with English strings",
+        "owner": "ConductionNL/planninq",
+        "defects": [
+          "l10n/ has no ar, he or fa catalogue, so no RTL language is translated",
+          "src/views/ProjectTimeline.vue:101 bars use a physical left offset, so the Gantt does not mirror"
+        ],
+        "liveCheck": "switch a user to Arabic and look at the board and the timeline"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "platform",
+      "featureConfidence": "medium"
     },
     {
       "id": "plt-outbound-guard",
@@ -5498,12 +5832,23 @@
         "kanboard": "source read at v1.2.54: ChangeLog:67 SSRF protection for webhooks in 1.2.51, :95 private network block for external links in 1.2.49; app/Notification/WebhookNotification.php:42 refuses private URLs; app/constants.php:190,193 opt-in overrides",
         "jira": "https://confluence.atlassian.com/adminjiraserver/configuring-the-allowlist-1014667309.html 'Jira admins can allow incoming and outgoing connections and content from specified sources by adding URLs to the allowlist'; the page names gadgets and application links, not webhooks, and no rule against internal addresses (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "yes",
       "plane": "yes",
       "kanboard": "yes",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue:587 applyStatusMove -> src/store/projects.js:835 updateTaskStatus -> OpenRegister object update -> OpenRegister WebhookEventListener -> openregister lib/Service/WebhookService.php initializeHttpClient, where assertSafeWebhookUri gates the URL and the on_redirect callback re-checks every hop [development 7367d6d]. planninq's lib/ holds no HTTP client, so it opens no second path.",
+        "reachedOn": "OpenRegister webhook delivery for planninq objects; planninq itself sends nothing out",
+        "owner": "ConductionNL/openregister",
+        "consumesSibling": "yes, by storing its objects in OpenRegister"
+      },
+      "provider": "openregister",
+      "providerHow": "read-from-code",
+      "feature": "platform",
+      "featureConfidence": "medium"
     },
     {
       "id": "tsk-diagrams",
@@ -5519,12 +5864,22 @@
         "kanboard": "source read at v1.2.54: searched app/ and assets/js for 'mermaid', 'plantuml', 'drawio': none in core",
         "jira": "https://marketplace.atlassian.com/apps/1211413/draw-io-diagrams-for-jira paid app draw.io Diagrams for Jira, build 11.1.3 compatible to Jira 11.3.11: 'create a wide variety of helpful diagrams and attach them to your Jira issues'; no diagram editor in the product (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "No diagram editor or renderer, no rich description editor [tsk-rich-text], no wiki [prj-wiki].",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "plt-ai-assist",
@@ -5540,12 +5895,24 @@
         "kanboard": "source read at v1.2.54: searched app/ for 'assistant', 'llm', 'openai': none",
         "jira": "https://marketplace.atlassian.com/apps/1230009/issue-ai-analytics-for-jira-cloud-private-ai paid app, build 11.1.11 compatible to Jira 11.3.11: 'You can also integrate your Private AI with Private AI mode'; Atlassian's own Rovo reaches Data Center only through cloud connectors (11.3 release notes) (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "partial",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue:129-137 CnObjectSidebar -> src/utils/taskHelpers.js:50-60 taskCollaborationSidebarConfig -> nextcloud-vue CnNotesTab NcRichContenteditable with the default '/' smart picker. The AI comes from the Nextcloud Assistant app and whatever model the admin configures; planninq adds no AI action on tasks.",
+        "reachedOn": "TaskDetail /projects/:id/tasks/:taskId, Comments tab, '/' picker, only when Nextcloud Assistant is installed",
+        "owner": "nextcloud/server",
+        "consumesSibling": "only through the library comment composer",
+        "liveCheck": "with Assistant installed, type '/' in a task comment and confirm the text generation picker appears"
+      },
+      "provider": "nextcloud",
+      "providerHow": "read-from-code",
+      "feature": "platform",
+      "featureConfidence": "low"
     },
     {
       "id": "int-pages-api",
@@ -5561,12 +5928,22 @@
         "kanboard": "source read at v1.2.54: searched app/Api/Procedure for 'page', 'wiki', 'document': none; core has no documentation pages",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/using-jira-applications-with-confluence-939938870.html documentation pages are Confluence, a separate product; https://developer.atlassian.com/server/jira/platform/rest/v11000/intro the Jira REST API (432 operations) covers issues, projects and boards, no pages (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "none",
+        "evidence": "No page or wiki schema in lib/Settings/planninq_register.json, so neither planninq's routes [appinfo/routes.php:10-38] nor OpenRegister's objects API carry documentation pages for it.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "integrations",
+      "featureConfidence": "high"
     },
     {
       "id": "prj-wiki-tree",
@@ -5582,12 +5959,22 @@
         "kanboard": "source read at v1.2.54: searched app/ for 'wiki', 'subpage': none in core; a wiki is a third party plugin",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/using-jira-applications-with-confluence-939938870.html 'Confluence spaces are great for creating and organizing' pages: page trees are Confluence, a separate product and licence, not Jira (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "none",
+        "evidence": "src/manifest.json:53 Documentation menu entry is an href to the product docs site. No in-app page model.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "high"
     },
     {
       "id": "plt-2fa",
@@ -5603,12 +5990,23 @@
         "kanboard": "source read at v1.2.54: app/Auth/TotpAuth.php:17 time based one time codes in core, app/Template/user_view/sidebar.php:63-64 two factor page; searched app/ for 'webauthn', 'fido', 'passkey': none, which is what the request asks for",
         "jira": "https://confluence.atlassian.com/jirasoftware/jira-software-10-2-x-release-notes-1455425728.html 'You can now set up two-step verification and verify your identity with an authentication app when you log in'; enforcing it for everyone is open request JRASERVER-78553 (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "yes",
       "plane": "no",
       "kanboard": "partial",
-      "jira": "yes"
+      "jira": "yes",
+      "built": {
+        "state": "built",
+        "evidence": "src/App.vue:21-27 CnAppRoot inside the logged-in Nextcloud page -> src/store/modules/settings.js:37 requesttoken header -> lib/Controller/SettingsController.php:148 userSession->getUser(). A second factor such as TOTP is enforced by Nextcloud's two-factor providers before any app page loads.",
+        "reachedOn": "Nextcloud login, with a two-factor provider enabled by the admin",
+        "owner": "nextcloud/server",
+        "consumesSibling": "yes: planninq relies on the Nextcloud session"
+      },
+      "provider": "nextcloud",
+      "providerHow": "read-from-code",
+      "feature": "platform",
+      "featureConfidence": "high"
     },
     {
       "id": "prj-shared-workflow",
@@ -5624,12 +6022,23 @@
         "kanboard": "source read at v1.2.54: app/Controller/TagController.php:15 global tags, app/Model/TagModel.php:56 project_id 0; app/Template/config/project.php:11 default columns for new projects, used at app/Model/BoardModel.php:34, copied once, not shared afterwards",
         "jira": "https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html 'Sometimes you may wish to share schemes among your projects, so that editing one scheme changes that scheme in several projects at once. You can select Create with shared configuration' (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
       "kanboard": "partial",
-      "jira": "yes"
+      "jira": "yes",
+      "built": {
+        "state": "built",
+        "evidence": "Statuses: src/utils/taskHelpers.js:252 -> src/views/ProjectBoard.vue:283-291 on every board. Labels: src/views/settings/Settings.vue:152-198 -> src/store/labels.js:78-105 createLabel -> OpenRegister planninq/label objects; boards read them at src/views/ProjectBoard.vue:424-429 -> src/store/projects.js:806-833 fetchLabels. Shared by construction, not by choice: the statuses cannot be edited and labels cannot be scoped to some projects.",
+        "reachedOn": "every ProjectBoard /projects/:id; labels managed in the admin settings page",
+        "owner": "ConductionNL/planninq",
+        "gap": "one global set only, statuses not configurable, no estimate scale"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "projects",
+      "featureConfidence": "medium"
     },
     {
       "id": "brd-filter-exclude",
@@ -5645,12 +6054,22 @@
         "kanboard": "source read at v1.2.54: app/Core/Filter/Lexer.php:28-34 no negation token in the search syntax; app/Filter/TaskAssigneeFilter.php:61-67 offers me, nobody and anybody only; app/Filter/TaskIdExclusionFilter.php:24 is an internal filter for task autocomplete, app/Controller/TaskAjaxController.php:39",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/advanced-searching-operators-reference-939938745.html 'The != operator is used to search for issues where the value of a specified field doesn't match'; board quick filters are JQL (https://confluence.atlassian.com/jirasoftwareserver/configuring-quick-filters-938845301.html), e.g. assignee != currentUser() (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "partial",
       "kanboard": "no",
-      "jira": "yes"
+      "jira": "yes",
+      "built": {
+        "state": "none",
+        "evidence": "filterTasksByLabel [src/utils/labelHelpers.js:174-180] returns every task or those WITH the label. No exclusion operator and no other filter dimension on the board.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "kanban-board",
+      "featureConfidence": "high"
     },
     {
       "id": "plt-command-palette",
@@ -5666,12 +6085,22 @@
         "kanboard": "source read at v1.2.54: assets/js/components/keyboard-shortcuts.js:28-63 '?' help, 'b' board switcher, 's' search, 'n' new task; app/Template/config/keyboard_shortcuts.php lists them; no palette that runs arbitrary actions",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/using-keyboard-shortcuts-939938977.html 'Keyboard shortcuts are a great way ... for performing actions without having to take your fingers off the keyboard'; the issue Operations Dialog opens with a dot (named in https://jira.atlassian.com/browse/JRASERVER-23222); no app-wide command palette is documented (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "partial",
       "openproject": "partial",
       "plane": "yes",
       "kanboard": "partial",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "No command palette and no global shortcuts. Nextcloud's unified search is a platform search of objects, not an action runner, and planninq registers no actions in it [col-unified-search].",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "platform",
+      "featureConfidence": "high"
     },
     {
       "id": "bkl-intake-triage",
@@ -5687,12 +6116,22 @@
         "kanboard": "source read at v1.2.54: searched app/ for 'triage', 'intake', 'inbox': none in core",
         "jira": "https://confluence.atlassian.com/adminjiraserver/creating-issues-and-comments-from-email-938847641.html 'Jira can receive emails from licensed users to create issues'; https://confluence.atlassian.com/jirasoftwareserver/using-your-kanban-backlog-938845378.html issues move from Backlog to 'Selected for development': a triage status can be modelled, but there is no request queue with accept or decline; that is Jira Service Management (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "yes",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "No intake schema in lib/Settings/planninq_register.json, no triage page in src/manifest.json pages, and tasks cannot be created in the UI [tsk-create-edit], so nothing can arrive to triage.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "backlog",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-estimate-rollup",
@@ -5708,12 +6147,22 @@
         "kanboard": "source read at v1.2.54: app/Template/task/details.php:98-101 time estimated on the task; app/Model/SubtaskTimeTrackingModel.php:280-287 SUM of subtask time_estimated written to the task, called from app/Model/SubtaskModel.php:219",
         "jira": "JSWSERVER-9167 'Provide ability to automatically sum estimates from sub-tasks in user stories', Future Consideration, 1993 votes; https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html 'Choosing to include sub-tasks displays the aggregated time': hours roll up, story points do not (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
       "kanboard": "yes",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "No parent and child tasks on any screen, and no sum of child estimates. The progress line at src/views/TaskDetail.vue:76-88 compares the task's own logged time with its own estimate.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high"
     },
     {
       "id": "col-threaded-comments",
@@ -5729,12 +6178,22 @@
         "kanboard": "source read at v1.2.54: searched app/Model/CommentModel.php for 'parent', 'reply': none; comments are a flat list",
         "jira": "https://jira.atlassian.com/browse/JRASERVER-3406 JRASERVER-3406 'Threaded Comments', Suggestion, Future Consideration, 1017 votes (tracker REST API, read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "yes",
       "openproject": "partial",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue:129-137 -> src/utils/taskHelpers.js:50-60 -> nextcloud-vue src/components/CnObjectSidebar/CnNotesTab.vue, a single NcListItem per note with no reply or thread. The flat list is built; threading is not.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/nextcloud-vue"
+      },
+      "provider": "nextcloud-vue",
+      "providerHow": "read-from-code",
+      "feature": "task-collaboration",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-clone-tree",
@@ -5750,12 +6209,22 @@
         "kanboard": "source read at v1.2.54: app/Template/task/dropdown.php:48 'Duplicate'; app/Model/TaskDuplicationModel.php:164 copies subtasks and :59 tags; child tasks joined by links are not copied",
         "jira": "JSWSERVER-7721 'When cloning an Epic, add the option to clone the linked Stories as well', Future Consideration, 1295 votes; https://confluence.atlassian.com/jirasoftwareserver/creating-issues-and-sub-tasks-939938925.html 'Clone sub-tasks to copy existing sub-tasks' (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
       "kanboard": "partial",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "none",
+        "evidence": "Neither the board card menu [src/views/ProjectBoard.vue:152-165, move targets only] nor the task detail page offers copy. No hierarchy to copy [tsk-subtasks].",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "col-group-mention",
@@ -5771,12 +6240,25 @@
         "kanboard": "source read at v1.2.54: app/Job/UserMentionJob.php:57-61 resolves @username to single users; searched it for 'group': none",
         "jira": "https://jira.atlassian.com/browse/JRASERVER-28225 JRASERVER-28225 'Mentions of groups', Suggestion, Future Consideration, 910 votes (tracker REST API, read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue:129-137 listens only to update:open [:137]; nextcloud-vue CnNotesTab suggests users, not groups or teams, and emits a mention event nobody handles. No group expansion anywhere.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/nextcloud-vue",
+        "defects": [
+          "src/views/TaskDetail.vue:129-137 has no @mention handler, so mentions never notify [same defect as tsk-mentions]"
+        ]
+      },
+      "provider": "nextcloud-vue",
+      "providerHow": "read-from-code",
+      "feature": "task-collaboration",
+      "featureConfidence": "high"
     },
     {
       "id": "tim-work-type",
@@ -5792,12 +6274,22 @@
         "kanboard": "source read at v1.2.54: app/Model/SubtaskTimeTrackingModel.php:263 tracks hours per subtask with no type; searched app/Model for 'activity type', 'work type': none",
         "jira": "https://jira.atlassian.com/browse/JRASERVER-1780 JRASERVER-1780 'Add type of work in Log work', Suggestion, Not Being Considered, 773 votes (tracker REST API, read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "none",
+        "evidence": "Write path: src/views/TaskDetail.vue:91 -> src/dialogs/TimeEntryDialog.vue:7-32 -> src/store/timeEntries.js:149 create, payload task, duration, date, description. No work type field in dialog or schema.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "time-tracking",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-merge",
@@ -5813,12 +6305,26 @@
         "kanboard": "source read at v1.2.54: app/Schema/Sqlite.php:964-965 'duplicates' and 'is duplicated by' links only; searched app/Controller and app/Model for 'merge' of tasks: none",
         "jira": "https://jira.atlassian.com/browse/JRASERVER-3592 JRASERVER-3592 'Merging of issues', Suggestion, Future Consideration, 533 votes (tracker REST API, read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "none",
+        "evidence": "The 'duplicates' enum value is a declaration, and even the blocks-editor that could set links is unmounted [grep for TaskDependencies across src/ finds only its own file]. No merge in src/ or lib/.",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq",
+        "nearCredit": "a 'duplicates' dependency type in the schema",
+        "defects": [
+          "src/components/TaskDependencies.vue is mounted by no view, so dependency editing is unreachable [already recorded on pln-dependencies]"
+        ]
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "tsk-duplicate-warning",
@@ -5834,12 +6340,22 @@
         "kanboard": "source read at v1.2.54: searched app/Controller/TaskCreationController.php and assets/js for 'similar', 'duplicate' checks: none",
         "jira": "https://jira.atlassian.com/browse/JRASERVER-1633 JRASERVER-1633 'find similar feature to prevent creating duplicate issue', Suggestion, Gathering Interest, 175 votes (tracker REST API, read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "no",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
       "kanboard": "no",
-      "jira": "no"
+      "jira": "no",
+      "built": {
+        "state": "none",
+        "evidence": "Without a create path there is no point at which similar tasks could be suggested [tsk-create-edit].",
+        "reachedOn": "nothing reaches it",
+        "owner": "ConductionNL/planninq"
+      },
+      "provider": "planninq",
+      "providerHow": "read-from-code",
+      "feature": "task-detail",
+      "featureConfidence": "high"
     },
     {
       "id": "int-automation-guard",
@@ -5855,12 +6371,24 @@
         "kanboard": "source read at v1.2.54: app/ServiceProvider/AuthenticationProvider.php:80-82 only project managers may create automatic actions, one gate for every action; no per action restriction on the powerful ones",
         "jira": "https://confluence.atlassian.com/jirasoftware/jira-software-11-3-x-release-notes-1689288832.html 11.3 release notes 'Starting from Jira 11.3.3, you can use automation restrictions to decide who can create, edit, enable, or disable automation rules that use specific components'; 11.3.3 released 5 March 2026 (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "partial",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
       "kanboard": "partial",
-      "jira": "yes"
+      "jira": "yes",
+      "built": {
+        "state": "built",
+        "evidence": "src/manifest.json:57 Flows menu -> src/manifest.json:223-236 Flows index and FlowDetail -> openregister lib/Controller/FlowController.php:167-182 denyUnless on named rights, :192-197 callerIsAdmin fails closed, :256 admins get the full catalog and others the user scope [development 7367d6d]. The docblock at :155-159 says the four rights are seeded @authenticated for an admin to tighten.",
+        "reachedOn": "Flows /flows [settings menu] -> FlowDetail /flows/:id",
+        "owner": "ConductionNL/openregister",
+        "consumesSibling": "yes, through the library flow pages",
+        "liveCheck": "find where an admin tightens the flow rights and confirm a non-admin planninq user sees the reduced node palette"
+      },
+      "provider": "openregister",
+      "providerHow": "read-from-code",
+      "feature": "integrations",
+      "featureConfidence": "medium"
     },
     {
       "id": "plt-security-insights",
@@ -5876,12 +6404,23 @@
         "kanboard": "source read at v1.2.54: searched app/Controller/ConfigController.php and app/Template/config for 'security', 'health', 'check': none",
         "jira": "https://www.atlassian.com/roadmap/data-center roadmap 'Security insights Get centralised, instance-level security insights for your Confluence and Jira Data Center in Admin Hub ... Released Q3 2026': it runs through the cloud Admin Hub, so a buyer without a cloud connection does not get it (read 2026-09-26)"
       },
-      "planninq": "unknown",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "partial",
       "plane": "no",
       "kanboard": "no",
-      "jira": "partial"
+      "jira": "partial",
+      "built": {
+        "state": "built",
+        "evidence": "appinfo/info.xml:202-205 registers lib/Settings/AdminSettings.php in Nextcloud Administration, rendered by src/views/settings/AdminRoot.vue:1-19. The overview of installation risks with suggested fixes is Nextcloud's Administration Overview [Security and setup warnings], a platform page. planninq contributes nothing to it, so a planninq-specific risk such as a register made public would not be listed there.",
+        "reachedOn": "Nextcloud Administration, Overview",
+        "owner": "nextcloud/server",
+        "consumesSibling": "platform page only; planninq registers no setup check"
+      },
+      "provider": "nextcloud",
+      "providerHow": "read-from-code",
+      "feature": "platform",
+      "featureConfidence": "medium"
     }
   ],
   "pending": [
