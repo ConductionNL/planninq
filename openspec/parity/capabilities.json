@@ -5412,7 +5412,7 @@
         "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "kanboard": "source read at v1.2.54: searched app/Model/TaskModificationModel.php and app/Controller for 'lock', 'locked_by', 'editing': none; the last save wins",
-        "jira": "JRASERVER-6146 'Implement issue locking', Suggestion, Gathering Interest, 505 votes (tracker REST API, read 2026-09-26)"
+        "jira": "https://jira.atlassian.com/browse/JRASERVER-6146 JRASERVER-6146 'Implement issue locking', Suggestion, Gathering Interest, 505 votes (tracker REST API, read 2026-09-26)"
       },
       "planninq": "unknown",
       "nextcloud-deck": "unknown",
@@ -5727,7 +5727,7 @@
         "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "jira": "JRASERVER-3406 'Threaded Comments', Suggestion, Future Consideration, 1017 votes (tracker REST API, read 2026-09-26)"
+        "jira": "https://jira.atlassian.com/browse/JRASERVER-3406 JRASERVER-3406 'Threaded Comments', Suggestion, Future Consideration, 1017 votes (tracker REST API, read 2026-09-26)"
       },
       "planninq": "unknown",
       "nextcloud-deck": "unknown",
@@ -5769,7 +5769,7 @@
         "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "jira": "JRASERVER-28225 'Mentions of groups', Suggestion, Future Consideration, 910 votes (tracker REST API, read 2026-09-26)"
+        "jira": "https://jira.atlassian.com/browse/JRASERVER-28225 JRASERVER-28225 'Mentions of groups', Suggestion, Future Consideration, 910 votes (tracker REST API, read 2026-09-26)"
       },
       "planninq": "unknown",
       "nextcloud-deck": "unknown",
@@ -5790,7 +5790,7 @@
         "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "jira": "JRASERVER-1780 'Add type of work in Log work', Suggestion, Not Being Considered, 773 votes (tracker REST API, read 2026-09-26)"
+        "jira": "https://jira.atlassian.com/browse/JRASERVER-1780 JRASERVER-1780 'Add type of work in Log work', Suggestion, Not Being Considered, 773 votes (tracker REST API, read 2026-09-26)"
       },
       "planninq": "unknown",
       "nextcloud-deck": "unknown",
@@ -5811,7 +5811,7 @@
         "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "jira": "JRASERVER-3592 'Merging of issues', Suggestion, Future Consideration, 533 votes (tracker REST API, read 2026-09-26)"
+        "jira": "https://jira.atlassian.com/browse/JRASERVER-3592 JRASERVER-3592 'Merging of issues', Suggestion, Future Consideration, 533 votes (tracker REST API, read 2026-09-26)"
       },
       "planninq": "unknown",
       "nextcloud-deck": "unknown",
@@ -5832,7 +5832,7 @@
         "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "jira": "JRASERVER-1633 'find similar feature to prevent creating duplicate issue', Suggestion, Gathering Interest, 175 votes (tracker REST API, read 2026-09-26)"
+        "jira": "https://jira.atlassian.com/browse/JRASERVER-1633 JRASERVER-1633 'find similar feature to prevent creating duplicate issue', Suggestion, Gathering Interest, 175 votes (tracker REST API, read 2026-09-26)"
       },
       "planninq": "unknown",
       "nextcloud-deck": "unknown",
@@ -5853,7 +5853,7 @@
         "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "jira": "11.3 release notes 'Starting from Jira 11.3.3, you can use automation restrictions to decide who can create, edit, enable, or disable automation rules that use specific components'; 11.3.3 released 5 March 2026 (read 2026-09-26)"
+        "jira": "https://confluence.atlassian.com/jirasoftware/jira-software-11-3-x-release-notes-1689288832.html 11.3 release notes 'Starting from Jira 11.3.3, you can use automation restrictions to decide who can create, edit, enable, or disable automation rules that use specific components'; 11.3.3 released 5 March 2026 (read 2026-09-26)"
       },
       "planninq": "unknown",
       "nextcloud-deck": "unknown",
@@ -5874,7 +5874,7 @@
         "openproject": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "plane": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
         "kanboard": "not checked: row added 2026-09-26 from a demand signal, back-fill pending",
-        "jira": "roadmap 'Security insights Get centralised, instance-level security insights for your Confluence and Jira Data Center in Admin Hub ... Released Q3 2026': it runs through the cloud Admin Hub, so a buyer without a cloud connection does not get it (read 2026-09-26)"
+        "jira": "https://www.atlassian.com/roadmap/data-center roadmap 'Security insights Get centralised, instance-level security insights for your Confluence and Jira Data Center in Admin Hub ... Released Q3 2026': it runs through the cloud Admin Hub, so a buyer without a cloud connection does not get it (read 2026-09-26)"
       },
       "planninq": "unknown",
       "nextcloud-deck": "unknown",
