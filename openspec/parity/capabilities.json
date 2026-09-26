@@ -229,7 +229,7 @@
       "area": "projects",
       "name": "Add and remove project members from the organisation's user list.",
       "origin": "own-code",
-      "planninq": "yes",
+      "planninq": "partial",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -246,12 +246,14 @@
         "state": "built",
         "evidence": "src/components/ProjectSettingsSidebar.vue:77-113 (Members tab) -> src/components/MemberSearch.vue:120-151 (OCS /ocs/v2.php/cloud/users search) + :160-173 selectUser -> src/store/projects.js:610 addMember() / :672 removeMember()",
         "reachedOn": "ProjectBoard page, Project settings sidebar, Members tab",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "readOn": "2026-09-26"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "projects",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Re-rated yes to partial on 2026-09-26 (planninq#645): the yes was read from the admin path. src/components/MemberSearch.vue:123-124 searches through the OCS provisioning endpoint /ocs/v2.php/cloud/users, which answers only admins and group sub-admins, so a regular project owner gets an empty member search and cannot add anyone from the organisation's user list; removing members still works."
     },
     {
       "id": "prj-member-roles",
@@ -3277,14 +3279,15 @@
         "reachedOn": "Reports /reports, 'Task status' card -> /reports/tasks",
         "owner": "ConductionNL/planninq",
         "defects": [
-          "src/manifest.json:162 card promises 'what is overdue' but no widget in :176-181 computes overdue (code reading)"
-        ]
+          "src/manifest.json:162 card promises 'what is overdue' but the Task status report (:168-192) has no overdue widget (code reading, planninq#645)"
+        ],
+        "readOn": "2026-09-26"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
       "feature": "reporting",
       "featureConfidence": "high",
-      "note": "Open and blocked are counted. Overdue is not: 'Due soonest' lists open tasks by due date, it does not count or flag the ones past due. The widgets are rendered by the nextcloud-vue dashboard page over OpenRegister's aggregation; this clone has no node_modules so the renderer was not read."
+      "note": "Open and blocked are counted. The Task status report has no overdue widget: 'Due soonest' lists open tasks by due date, it does not count or flag the ones past due. Overdue is computed elsewhere, per project: src/views/Portfolio.vue:143-145 reduces each project's tasks through summariseProjectTasks (src/utils/portfolioHelpers.js) and :42,56-57 shows an Overdue column on the Portfolio page, so the correction of 2026-09-26 (planninq#645) narrows the earlier 'nothing computes overdue' to the report. The widgets are rendered by the nextcloud-vue dashboard page over OpenRegister's aggregation; this clone has no node_modules so the renderer was not read."
     },
     {
       "id": "prt-workload",
