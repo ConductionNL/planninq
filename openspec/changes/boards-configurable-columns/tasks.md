@@ -12,7 +12,8 @@
 ## 3. Board
 
 - [ ] 3.1 Fetch the project's columns in `src/views/ProjectBoard.vue` and group tasks by `column`, sorted by `columnOrder`. Verify: vitest spec on a new `groupTasksByColumn` helper.
-- [ ] 3.2 Moving a card writes `column`, `columnOrder`, the mapped status and `completedAt` for a done column, with rollback on failure. Verify: vitest spec on the patch builder; Playwright e2e moves a card to Done and reloads.
+- [ ] 3.2 Moving a card writes `column`, `columnOrder` and the mapped status, with rollback on failure. Verify: vitest spec on the patch builder; Playwright e2e moves a card to Done and reloads.
+- [ ] 3.2b `lib/Listener/TaskCompletionListener.php`: stamp `completedAt` when status becomes done and clear it when status leaves done, on create and update, registered in `lib/AppInfo/Application.php`. Verify: PHPUnit tests in `tests/Unit/Listener/` for enter, leave, unrelated update, and a create with status done.
 - [ ] 3.3 WIP count and warning style with text in the lane header. Verify: vitest mount test over and under the limit.
 - [ ] 3.4 Drag within a lane and "Move up" and "Move down" in the card menu. Verify: Playwright e2e reorders two cards and reloads.
 

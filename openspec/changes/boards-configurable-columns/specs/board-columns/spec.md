@@ -45,7 +45,8 @@ Tier: MVP.
 ### Requirement: A done column finishes the task
 
 The system MUST let the owner mark a column as the done column. A card moved into it MUST get
-status `done` and a `completedAt` time; a card moved out MUST lose `completedAt`. A card moved
+status `done`. Whenever a task's status becomes `done`, by any client, the server MUST set its
+`completedAt` in the same save, and MUST clear it when the status leaves `done`. A card moved
 into any other column MUST get that column's mapped status. Tier: MVP.
 
 #### Scenario: Drop a card on Done
@@ -53,6 +54,12 @@ into any other column MUST get that column's mapped status. Tier: MVP.
 - **GIVEN** a task in progress
 - **WHEN** a member drags its card to the Done column
 - **THEN** the task has status `done` and `completedAt` set to the time of the move
+
+#### Scenario: A move through the API is stamped too
+
+- **GIVEN** a flow sets a task's status to `done` through the Open Register objects API
+- **WHEN** the save finishes
+- **THEN** the stored task carries a `completedAt` time from that same save
 
 ### Requirement: Lanes show their WIP limit without blocking
 
