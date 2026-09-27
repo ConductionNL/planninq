@@ -1,0 +1,682 @@
+[
+  {
+    "row": "prj-create",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and four competitors rate it yes (OpenProject, Plane, Kanboard, Jira); it sits in the projects core area.",
+    "change": "tasks-readable-keys",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-default-columns",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: three competitors rate it yes (Plane, Kanboard, Jira); it sits in the projects core area.",
+    "change": "boards-configurable-columns",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "brd-wip-limits",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (Kanboard, Jira); it sits in the boards core area.",
+    "change": "boards-configurable-columns",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "brd-columns-edit",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: five competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard, Jira); it sits in the boards core area.",
+    "change": "boards-configurable-columns",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "brd-done-column",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: three competitors rate it yes (Nextcloud Deck, Plane, Jira); it sits in the boards core area.",
+    "change": "boards-configurable-columns",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "brd-filter",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and four competitors rate it yes (OpenProject, Plane, Kanboard, Jira); it sits in the boards core area.",
+    "change": "boards-filters",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "brd-card-order",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: five competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard, Jira); it sits in the boards core area.",
+    "change": "boards-configurable-columns",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "brd-quick-add",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: four competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard); it sits in the boards core area.",
+    "change": "tasks-create-edit-delete",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "brd-wip-enforce",
+    "matrix": "planninq",
+    "decision": "decided-no",
+    "reason": "Decided no: docs/ARCHITECTURE.md section 5, resolved question 6 records soft WIP limits: the column header warns and a drag is never blocked. No competitor rates yes either.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "brd-swimlanes",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (Plane, Jira); it sits in the boards core area.",
+    "change": "boards-card-display",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "brd-saved-filters",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: three competitors rate it yes (Plane, Kanboard, Jira); it sits in the boards core area.",
+    "change": "boards-filters",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "brd-card-colours",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: three competitors rate it yes (OpenProject, Kanboard, Jira); it sits in the boards core area.",
+    "change": "boards-card-display",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-create-edit",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and five competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard, Jira).",
+    "change": "tasks-create-edit-delete",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-assign",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: six competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard, Jira, Untis,).",
+    "change": "tasks-assignment-priority-labels",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-multi-assign",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (Nextcloud Deck, Plane).",
+    "change": "tasks-assignment-priority-labels",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-priority",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: four competitors rate it yes (OpenProject, Plane, Kanboard, Jira).",
+    "change": "tasks-assignment-priority-labels",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-due-date",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and five competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard, Jira).",
+    "change": "tasks-dates",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-start-date",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: five competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard, Jira).",
+    "change": "tasks-dates",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-labels",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and three competitors rate it yes (Nextcloud Deck, Plane, Kanboard).",
+    "change": "tasks-assignment-priority-labels",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-search",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: four competitors rate it yes (Nextcloud Deck, OpenProject, Kanboard, Jira).",
+    "change": "tasks-search-and-bulk",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-bulk",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: three competitors rate it yes (OpenProject, Kanboard, Jira).",
+    "change": "tasks-search-and-bulk",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-subtasks",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: four competitors rate it yes (OpenProject, Plane, Kanboard, Jira).",
+    "change": "tasks-subtasks-checklist",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-checklist",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (Nextcloud Deck, Kanboard).",
+    "change": "tasks-subtasks-checklist",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-recurring",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: One competitor rates it yes (Kanboard), no demand row, and it sits outside the core areas (projects, boards) in tasks.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-rich-text",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: five competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard, Jira).",
+    "change": "tasks-create-edit-delete",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-move-project",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: four competitors rate it yes (Nextcloud Deck, OpenProject, Kanboard, Jira).",
+    "change": "tasks-move-between-projects",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-related-links",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: four competitors rate it yes (OpenProject, Plane, Kanboard, Jira).",
+    "change": "planning-dependencies-on-task-page",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "bkl-backlog",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (OpenProject, Jira); it was marked specified with no change directory.",
+    "change": "backlog-list",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "bkl-to-board",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: three competitors rate it yes (OpenProject, Plane, Jira); it was marked specified with no change directory.",
+    "change": "backlog-list",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "bkl-sort-filter",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (Plane, Jira); it was marked specified with no change directory.",
+    "change": "backlog-list",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "bkl-rank",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: three competitors rate it yes (OpenProject, Plane, Jira).",
+    "change": "backlog-list",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "bkl-velocity",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: One competitor rates it yes (Jira), no demand row, and it sits outside the core areas (projects, boards) in backlog. Velocity needs sprints first; backlog-sprints specifies sprints and burndown.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "pln-dependencies",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: five competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard, Jira).",
+    "change": "planning-dependencies-on-task-page",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "pln-dep-validation",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: The archived change 2026-06-14-task-dependencies specified the acyclic graph and the self and duplicate checks. Re-read at de35541: lib/Service/DependencyService.php validates, but src/components/TaskDependencies.vue is mounted nowhere, so no user reaches the check. Treated as build to finish the wiring.",
+    "change": "planning-dependencies-on-task-page",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "pln-blocked-badge",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: The archived change 2026-06-14-task-dependencies specified the derived blocked indicator on cards (kanban-board and task-dependencies specs). Re-read at de35541: src/components/BlockedBadge.vue and isBlocked() have no caller, so the change shipped without the capability and the row is treated as build.",
+    "change": "planning-dependencies-on-task-page",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "pln-deps-on-timeline",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and two competitors rate it yes (OpenProject, Jira).",
+    "change": "planning-dependencies-on-task-page",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "pln-critical-path",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: No competitor rates it yes, no demand row, and it sits outside the core areas (projects, boards) in planning.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "pln-milestones",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: One competitor rates it yes (OpenProject), no demand row, and it sits outside the core areas (projects, boards) in planning.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "pln-baseline",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: No competitor rates it yes, no demand row, and it sits outside the core areas (projects, boards) in planning. Only OpenProject is partial.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tim-report",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "partial, built, no demand. One competitor rates it yes (OpenProject), and there is no demand row. The per-person half exists; the per-project half has no demand row.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tim-approval",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: No competitor rates it yes, no demand row, and it sits outside the core areas (projects, boards) in time. Timesheet approval sits with humaniq, which takes over the hours (plannedtimeentry-reads-humaniqs-hours).",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tim-export",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: One competitor rates it yes (OpenProject), no demand row, and it sits outside the core areas (projects, boards) in time.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tim-to-invoice",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: No competitor rates it yes, no demand row, and it sits outside the core areas (projects, boards) in time. Invoicing belongs to shillinq.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prt-project-capacity",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "partial, built, no demand. No competitor rates it yes, and there is no demand row. The portfolio row already shows each project; portfolio-status-overview extends that view.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prt-dashboard",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and four competitors rate it yes (Nextcloud Deck, OpenProject, Kanboard, Jira).",
+    "change": "portfolio-my-work-dashboard",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prt-my-work",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: five competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard, Jira); it was marked specified with no change directory.",
+    "change": "portfolio-my-work-dashboard",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prt-overallocation",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: One competitor rates it yes (Xedule), no demand row, and it sits outside the core areas (projects, boards) in portfolio. Needs an availability model that humaniq owns.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prt-placeholder",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: One competitor rates it yes (Xedule), no demand row, and it sits outside the core areas (projects, boards) in portfolio.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "col-activity",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "partial, built, no demand. One competitor rates it yes (Nextcloud Deck), and there is no demand row. Task events already reach the Activity stream; only project events are missing.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "col-presence",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: No competitor rates it yes, no demand row, and it sits outside the core areas (projects, boards) in collaboration.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "col-talk",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: No competitor rates it yes, no demand row, and it sits outside the core areas (projects, boards) in collaboration. Open Register flows can already post to Talk.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "int-case-ref",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "partial, built, no demand. No competitor rates it yes, and there is no demand row. The case link is set by the flows in integration-case-bridge; a manual edit field waits for demand.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "int-project-from-case",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: it was marked specified with no change directory.",
+    "change": "integration-case-bridge",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "int-projects-on-client",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "partial, built, no demand. No competitor rates it yes, and there is no demand row. The dead New project link on the client page is fixed by integration-case-bridge, which makes ProjectList honour ?new=1.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "int-import-deck",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: One competitor rates it yes (Nextcloud Deck), no demand row, and it sits outside the core areas (projects, boards) in integration.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "plt-i18n",
+    "matrix": "planninq",
+    "decision": "existing",
+    "reason": "Existing change fix-l10n-parity-gate (open) carries the missing half: its first scenario fails the pipeline when a t() string has no catalogue entry. The 67 strings without a Dutch entry mean that scenario is not met yet, so the change stays open.",
+    "change": "fix-l10n-parity-gate",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "plt-guest-access",
+    "matrix": "planninq",
+    "decision": "decided-no",
+    "reason": "Decided no: the row is owed to nextcloud/server, a platform capability outside the fleet (OpenSpec pass addendum rule). Guest accounts come from the Guests app; the member search defect that also affects guests is specified in projects-members-and-roles (row prj-members).",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tim-non-project",
+    "matrix": "planninq",
+    "decision": "decided-no",
+    "reason": "Decided no: docs/ARCHITECTURE.md section 5, resolved question 4 records time tracking as per task only, forever, with overhead work logged as tasks; ADR-001 rule 4 keeps time entry personal-first; leave and sickness live in humaniq (LeaveRequest, SickLeaveCase) and the hours themselves move to humaniq TimeEntry (open change plannedtimeentry-reads-humaniqs-hours). Tender 365739 demand noted for the humaniq lane.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "int-archive-to-case",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: tender demand (https://www.tenderned.nl/aankondigingen/overzicht/365739).",
+    "change": "integration-case-bridge",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "pln-calendar-writeback",
+    "matrix": "planninq",
+    "decision": "decided-no",
+    "reason": "Decided no: docs/ARCHITECTURE.md section 5, resolved question 1 records a one-way export of tasks to the Nextcloud Tasks app and rejects two-way sync because the Tasks app has no projects, columns or WIP limits.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-templates",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: No competitor rates it yes, a featureRequest (https://github.com/nextcloud/deck/issues/1556), which counts only together with a competitor yes, and it sits outside the core areas (projects, boards) in tasks. Four competitors are partial.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "brd-move-column",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: it sits in the boards core area.",
+    "change": "tasks-move-between-projects",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-all-day-due",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: three competitors rate it yes (OpenProject, Plane, Jira); a featureRequest (https://github.com/nextcloud/deck/issues/1157) plus three competitors yes.",
+    "change": "tasks-dates",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "col-federated-share",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: One competitor rates it yes (Nextcloud Deck), the only demand row is a competitor changelog, which is evidence of a competitor shipping it, not demand, and it sits outside the core areas (projects, boards) in collaboration. Deck shipped federated boards in a pull request; no user demand row asks planninq for it.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "col-live-docs",
+    "matrix": "planninq",
+    "decision": "decided-no",
+    "reason": "Decided no: the row is owed to nextcloud/server, a platform capability outside the fleet (OpenSpec pass addendum rule). Real-time co-editing comes from Nextcloud Text or Office through the task attachments tab.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "col-meeting-actions",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: One competitor rates it yes (OpenProject), the only demand row is a competitor changelog, which is evidence of a competitor shipping it, not demand, and it sits outside the core areas (projects, boards) in collaboration. decidiq owns meetings in the fleet; a meeting-to-task hand-off belongs with it first.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-readable-key",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: three competitors rate it yes (OpenProject, Plane, Jira).",
+    "change": "tasks-readable-keys",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "bkl-planning-poker",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: No competitor rates it yes, a featureRequest (https://community.openproject.org/wp/35154), which counts only together with a competitor yes, and it sits outside the core areas (projects, boards) in backlog. Jira is partial.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-review-approval",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: No competitor rates it yes, a featureRequest (https://community.openproject.org/wp/49426), which counts only together with a competitor yes, and it sits outside the core areas (projects, boards) in tasks. Jira is partial.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prt-dashboard-order",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: a featureRequest (https://github.com/orgs/kanboard/discussions/5394) plus one competitor yes (Plane).",
+    "change": "portfolio-my-work-dashboard",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "plt-rtl",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "partial, built, no demand. One competitor rates it yes (Kanboard) and the only demand row is a competitor changelog. Layout is already logical CSS; the missing half is right-to-left catalogues and the timeline offset.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-diagrams",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: No competitor rates it yes, a featureRequest (https://github.com/makeplane/plane/issues/8147), which counts only together with a competitor yes, and it sits outside the core areas (projects, boards) in tasks. Jira is partial.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "plt-ai-assist",
+    "matrix": "planninq",
+    "decision": "decided-no",
+    "reason": "Decided no: the row is owed to nextcloud/server, a platform capability outside the fleet (OpenSpec pass addendum rule). The Nextcloud Assistant provides the AI through the comment composer.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "int-pages-api",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: No competitor rates it yes, a featureRequest (https://github.com/makeplane/plane/issues/8598), which counts only together with a competitor yes, and it sits outside the core areas (projects, boards) in integration. Planninq has no documentation pages yet; projects-wiki specifies them first.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "brd-filter-exclude",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (OpenProject, Jira); a featureRequest (https://github.com/makeplane/plane/issues/8510) plus two competitors yes; it sits in the boards core area.",
+    "change": "boards-filters",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "plt-command-palette",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: One competitor rates it yes (Plane), the only demand row is a competitor changelog, which is evidence of a competitor shipping it, not demand, and it sits outside the core areas (projects, boards) in platform. Nextcloud unified search already finds tasks (row col-unified-search).",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "bkl-intake-triage",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: One competitor rates it yes (Plane), the only demand row is a competitor changelog, which is evidence of a competitor shipping it, not demand, and it sits outside the core areas (projects, boards) in backlog. The Plane release note is a competitor shipping it, not a user asking for it.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-estimate-rollup",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (OpenProject, Kanboard); a featureRequest (https://jira.atlassian.com/browse/JSWSERVER-9167) plus two competitors yes.",
+    "change": "tasks-subtasks-checklist",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-clone-tree",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: a featureRequest (https://jira.atlassian.com/browse/JSWSERVER-7721) plus one competitor yes (OpenProject).",
+    "change": "tasks-subtasks-checklist",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-merge",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: No competitor rates it yes, a featureRequest (https://jira.atlassian.com/browse/JRASERVER-3592), which counts only together with a competitor yes, and it sits outside the core areas (projects, boards) in tasks.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tsk-duplicate-warning",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: No competitor rates it yes, a featureRequest (https://jira.atlassian.com/browse/JRASERVER-1633), which counts only together with a competitor yes, and it sits outside the core areas (projects, boards) in tasks.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "plt-retention-anonymise",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: One competitor rates it yes (Xedule), the only demand row is a competitor changelog, which is evidence of a competitor shipping it, not demand, and it sits outside the core areas (projects, boards) in platform. Retention and anonymisation belong to Open Register (hydra ADR-047); planninq would declare x-openregister-archival once Open Register can anonymise.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "plt-free-text-warning",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: One competitor rates it yes (Xedule), the only demand row is a competitor changelog, which is evidence of a competitor shipping it, not demand, and it sits outside the core areas (projects, boards) in platform.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "col-meeting-slot-finder",
+    "matrix": "planninq",
+    "decision": "decided-no",
+    "reason": "Decided no: the row is owed to nextcloud/server, a platform capability outside the fleet (OpenSpec pass addendum rule). Nextcloud Calendar proposes free times for attendees and rooms.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "plt-time-zones",
+    "matrix": "planninq",
+    "decision": "defer",
+    "reason": "Deferred: One competitor rates it yes (TimeEdit), the only demand row is a competitor changelog, which is evidence of a competitor shipping it, not demand, and it sits outside the core areas (projects, boards) in platform. The row note records that it does not apply: every planninq date is a calendar date.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  }
+]
