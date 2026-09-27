@@ -6,7 +6,7 @@ kind: code
 
 ## Why
 
-A project member cannot make a board do anything on its own. Moving a card only changes that card's position: the board's write is a PATCH of one field (`updateTaskStatus`, `src/store/projects.js:835-859`, called from `applyStatusMove` in `src/views/ProjectBoard.vue:577-595`), and no listener in `lib/Listener/` reacts to a column or status change. The column schema even promises more than the code does: its `type` property says "done columns auto-complete tasks" (`lib/Settings/planninq_register.json:892-900`), and nothing implements it. So a team that wants "whoever pulls a card into Review becomes its reviewer" or "cards in Blocked get high priority" has to remember to do it by hand, every time.
+A project team cannot make a board do anything on its own. Moving a card only changes that card's position: the board's write is a PATCH of one field (`updateTaskStatus`, `src/store/projects.js:835-859`, called from `applyStatusMove` in `src/views/ProjectBoard.vue:577-595`), and no listener in `lib/Listener/` reacts to a column or status change. The column schema even promises more than the code does: its `type` property says "done columns auto-complete tasks" (`lib/Settings/planninq_register.json:892-900`), and nothing implements it. So a team that wants "whoever pulls a card into Review becomes its reviewer" or "cards in Blocked get high priority" has to remember to do it by hand, every time.
 
 Kanboard binds actions to column moves per project (assign a specific user, close the task, and about fifty more). Jira runs automation rules on "issue transitioned", with actions such as assigning the issue or editing its fields.
 
@@ -17,7 +17,7 @@ This change extends the flat spec `openspec/specs/kanban-board.md` through a new
 
 ## What changes
 
-- A project member can add rules to a board column that run when a card enters it: set the status, set the priority, assign a named project member, assign the person who moved the card, remove the assignee, or add a label.
+- A project owner can add rules to a board column that run when a card enters it: set the priority, assign a named project member, assign the person who moved the card, remove the assignee, or add a label. The status a column sets stays the column's own mapping from `boards-configurable-columns`.
 - The rules run on the server whenever a task's column changes, from the board, the API or anywhere else, and they are part of the same save.
 - The column header shows that a column has rules, and the moved card shows what the rules changed.
 
@@ -55,17 +55,17 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 - Schema: `column.automation` (array of rules).
 - Backend: a new `lib/Listener/ColumnAutomationListener.php` on OpenRegister's `ObjectCreatingEvent` and `ObjectUpdatingEvent`, registered in `lib/AppInfo/Application.php`.
 - Views and dialogs: the column header in `src/views/ProjectBoard.vue`, a new `src/dialogs/ColumnRulesDialog.vue`.
-- Depends on: `boards-configurable-columns` (lane A). Today the board's lanes are task statuses (`src/views/ProjectBoard.vue:283-292`), not the project's `column` objects, so there is no column to hang a rule on until that change lands.
+- Depends on: `boards-configurable-columns` (lane A), which moves the board onto `column` objects, gives each column its own `status` mapping and narrows column writes to the project owner. Today the board's lanes are task statuses (`src/views/ProjectBoard.vue:283-292`), not the project's `column` objects, so there is no column to hang a rule on until that change lands.
 
 ## Risks
 
 ### Risk 1: a rule writes a value the schema would refuse
 **Severity**: Medium
-**Mitigation**: fields merged by a pre-save hook are not validated again, so the listener checks each value itself: status and priority against the schema's enums, an assignee against the project's members, a label against existing labels. An invalid rule is skipped and logged, and the rules dialog refuses to save one in the first place.
+**Mitigation**: fields merged by a pre-save hook are not validated again, so the listener checks each value itself: priority against the schema's enum, an assignee against the project's members, a label against existing labels. An invalid rule is skipped and logged, and the rules dialog refuses to save one in the first place.
 
 ### Risk 2: two planninq pre-save listeners overwrite each other's changes
 **Severity**: Low
-**Mitigation**: the listener merges into whatever the event already carries instead of replacing it, and a unit test runs it after another listener that set a field.
+**Mitigation**: the listener merges into whatever the event already carries instead of replacing it, and a unit test runs it after another listener that set a field, such as the `completedAt` stamp that `boards-configurable-columns` adds on the server when a task enters done.
 
 ### Risk 3: members are surprised by changes they did not make
 **Severity**: Low

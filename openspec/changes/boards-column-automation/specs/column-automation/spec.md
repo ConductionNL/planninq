@@ -2,21 +2,28 @@
 
 ## ADDED Requirements
 
-### Requirement: A project member can add rules to a board column
+### Requirement: A project owner can add rules to a board column
 
-A project member MUST be able to add, change and remove rules on a column of their project's board, each rule saying what happens when a card enters that column: set the status, set the priority, assign a named project member, assign the person who moved the card, remove the assignee, or add a label. The rules dialog SHALL offer only valid values: members of this project, existing labels, and the task schema's status and priority values. Tier: V1 (docs/FEATURES.md, kanban board; this change adds the row).
+A project owner MUST be able to add, change and remove rules on a column of their project's board, each rule saying what happens when a card enters that column: set the priority, assign a named project member, assign the person who moved the card, remove the assignee, or add a label. Other project members SHALL NOT be able to change rules. The rules dialog SHALL offer only valid values: members of this project, existing labels, and the task schema's priority values. Tier: V1 (docs/FEATURES.md, kanban board; this change adds the row).
 
-#### Scenario: A member adds an assign rule to Review
+#### Scenario: The owner adds an assign rule to Review
 
-- **GIVEN** a project member on the project board at /projects/:id with the column "Review"
+- **GIVEN** a project owner on the project board at /projects/:id with the column "Review"
 - **WHEN** they open the "Review" column menu, choose "Rules", add "Assign the person who moved the card" and save
 - **THEN** the "Review" column stores that rule
 - **AND** its header shows an icon labelled "1 rule runs when a card enters this column"
 
+#### Scenario: A member who is not the owner cannot change rules
+
+- **GIVEN** a project member who is not the project owner, on the project board
+- **WHEN** they open the "Review" column menu
+- **THEN** it offers no "Rules" entry
+- **AND** a PATCH of the column's `automation` from their client is refused by OpenRegister
+
 #### Scenario: The dialog offers only project members
 
 - **GIVEN** a project with members Anna and Ben, and a user Carl who is not a member
-- **WHEN** a project member adds an "Assign to" rule
+- **WHEN** the project owner adds an "Assign to" rule
 - **THEN** the person picker offers Anna and Ben and not Carl
 
 ### Requirement: Column rules run whenever a task enters the column

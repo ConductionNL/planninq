@@ -4,7 +4,7 @@
 
 ### Requirement: A user can show their assigned tasks in Nextcloud Tasks
 
-The personal settings MUST offer a switch "Show my tasks in Nextcloud Tasks" that is off by default. When a user switches it on, the system SHALL create a task list named "Planninq" in that user's calendar home and export every task assigned to them to it as a VTODO, in the background. When they switch it off, the system SHALL remove the "Planninq" list. Tier: V1 (docs/FEATURES.md, integration: CalDAV/VTODO export).
+The personal settings MUST offer a switch "Show my tasks in Nextcloud Tasks" that is off by default. When a user switches it on, the system SHALL create a task list named "Planninq" in that user's calendar home and export every task assigned to or shared with them to it as a VTODO, in the background. When they switch it off, the system SHALL remove the "Planninq" list. Tier: V1 (docs/FEATURES.md, integration: CalDAV/VTODO export).
 
 #### Scenario: Switching the export on fills the Planninq list
 
@@ -26,7 +26,7 @@ The personal settings MUST offer a switch "Show my tasks in Nextcloud Tasks" tha
 
 ### Requirement: The exported VTODO follows the task, one way
 
-For every user with the export on, the system MUST write a VTODO for each task assigned to them whenever the task is created or changed, MUST remove it from a user's list when the task is reassigned away from them or deleted, and SHALL map title, description, status, priority, start date, due date, percent complete and completion time to the matching VTODO properties. The VTODO MUST carry a link back to the task and the text "Managed by Planninq. Changes made here are replaced by the next change in Planninq.". Changes made to the VTODO outside planninq MUST NOT be read back. A failure to write the VTODO MUST NOT fail the task save. Tier: V1.
+For every user with the export on, the system MUST write a VTODO for each task assigned to or shared with them whenever the task is created or changed, MUST remove it from a user's list when the task is no longer assigned to or shared with them, or is deleted, and SHALL map title, description, status, priority, start date, due date, percent complete and completion time to the matching VTODO properties. The VTODO MUST carry a link back to the task and the text "Managed by Planninq. Changes made here are replaced by the next change in Planninq.". Changes made to the VTODO outside planninq MUST NOT be read back. A failure to write the VTODO MUST NOT fail the task save. Tier: V1.
 
 #### Scenario: A completed task is completed in the Tasks app
 

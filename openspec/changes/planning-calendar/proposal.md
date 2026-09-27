@@ -18,7 +18,7 @@ Decision: build, because five competitors show tasks on a calendar and two publi
 ## What changes
 
 - A project member can open a month or week calendar of a project's tasks by due date, with a list equivalent.
-- Every user gets a "My calendar" of the tasks assigned to them across projects.
+- Every user gets a "My calendar" of the tasks assigned to or shared with them across projects, next to their My tasks list.
 - A user can switch on "Show my tasks in Nextcloud Tasks". Their assigned tasks then appear as VTODOs in a "Planninq" task list in their own Nextcloud calendar home, and stay in step with planninq.
 - Changes made to those VTODOs in the Tasks app or another CalDAV client are not read back. The next change in planninq overwrites them, and the VTODO says so.
 
@@ -69,7 +69,7 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 - Backend: a new `lib/Listener/TaskCalendarExportListener.php` on OpenRegister's object events and a new `lib/Service/TaskCalendarExportService.php` that builds and writes the VTODO through Nextcloud's calendar layer.
 - Settings: a new per-user key `export_tasks_to_caldav` (default off) in `lib/Service/SettingsService.php` and a switch in `src/views/settings/UserSettings.vue`.
 - Schema: none. `calendarEventUid` already exists.
-- Depends on: `portfolio-my-work-dashboard` (lane A) for the Mijn werk surface the personal calendar hangs under; `tasks-assignment-priority-labels` (lane A) if it changes `assignedTo` to hold several people, in which case the export goes to each of them.
+- Depends on: `boards-configurable-columns` (stamps `completedAt` on the server; the VTODO's COMPLETED time is read from it); `portfolio-my-work-dashboard` (lane A) for the Mijn werk surface the personal calendar hangs under; `tasks-assignment-priority-labels` (lane A), whose `sharedWith` list the calendar and the export read next to `assignedTo`.
 
 ## Risks
 

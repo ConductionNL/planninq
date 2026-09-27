@@ -72,7 +72,7 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 - Views: a new `ProjectRoadmap` page (manifest page plus `src/registry.js` entry), a Roadmap button in the `ProjectBoard` header, release, type and epic fields on `TaskDetail`.
 - Dialogs: `src/dialogs/ReleaseEditDialog.vue`, `src/dialogs/ReleaseShipDialog.vue`.
 - Specs and tests: the schema count in `openspec/specs/project-delivery/spec.md:68-72` and `tests/unit/Settings/PlanninqRegisterSchemaTest.php:370` moves up by one.
-- Depends on: `tasks-create-edit-delete` (the editable task detail the release and epic fields sit in). Coordinates with `backlog-sprints`, which also adds a schema.
+- Depends on: `tasks-create-edit-delete` (the editable task detail the release and epic fields sit in). Coordinates with the other changes of this pass that add a schema (for example `boards-cross-project-board`), because each one moves the exact schema count.
 
 ## Risks
 
@@ -86,4 +86,4 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 
 ### Risk 3: schema count assertions break
 **Severity**: Low
-**Mitigation**: updated in the same PR as the schema (task 1.3), and in whichever order this change and `backlog-sprints` land.
+**Mitigation**: updated in the same PR as the schema (task 1.3), and in whichever order this change and the other schema-adding changes land.

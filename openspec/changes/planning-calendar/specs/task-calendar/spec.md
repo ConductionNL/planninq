@@ -21,12 +21,12 @@ Each project MUST have a calendar page at /projects/:id/calendar, reached from t
 
 ### Requirement: Every user has a calendar of the tasks assigned to them
 
-The system MUST offer each user a "My calendar" page at /my-calendar that shows the tasks assigned to them across every project they are a member of, on their due dates, with the project named on each task. It SHALL NOT show tasks assigned to other people. Tier: V1.
+The system MUST offer each user a "My calendar" page at /my-calendar that shows the tasks assigned to them or shared with them across every project they are a member of, on their due dates, with the project named on each task. It SHALL NOT show tasks that are neither assigned to nor shared with them. Tier: V1.
 
 #### Scenario: My calendar shows only my tasks across projects
 
 - **GIVEN** a user assigned to "Export to CSV" in project A and "Review budget" in project B, and a colleague's task "Plan demo" in project A
-- **WHEN** they open "My calendar" from the dashboard
+- **WHEN** they choose "Show as calendar" on their My tasks page
 - **THEN** "Export to CSV" and "Review budget" are shown on their due dates with their project names
 - **AND** "Plan demo" is not shown
 
