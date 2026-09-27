@@ -132,7 +132,7 @@ The system MUST offer a burndown chart per sprint that plots, for every day from
 
 ### Requirement: Moving a task to done records when it finished
 
-Whenever the app changes a task's status to `done` it MUST set `completedAt` to the current date and time in the same write, and whenever it changes a task's status away from `done` it MUST clear `completedAt`. Tier: V1.
+Whenever a task's status changes to `done`, through any client, the system MUST set `completedAt` to the current date and time in the same save, and whenever a task's status changes away from `done` it MUST clear `completedAt`. Tier: V1.
 
 #### Scenario: Dragging a card to done stamps the finish time
 

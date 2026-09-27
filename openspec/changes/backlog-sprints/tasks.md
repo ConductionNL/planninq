@@ -9,7 +9,7 @@
 
 ## 2. Store
 
-- [ ] 2.1 `updateTaskStatus` in `src/store/projects.js` sends `completedAt` (now) on entering `done` and `completedAt: null` on leaving it. Verify: vitest `tests/vitest/sprints.spec.js` "status write stamps and clears completedAt"; Playwright `tests/e2e/sprints.spec.ts` "dragging a card to done stamps the finish time".
+- [ ] 2.1 `lib/Listener/TaskCompletionListener.php` on `ObjectUpdatingEvent` and `ObjectCreatingEvent`, registered in `Application.php`: merges `completedAt` (now) on entering `done` and `completedAt: null` on leaving it. Verify: PHPUnit `TaskCompletionListenerTest::testEnteringDoneStampsCompletedAt`, `testLeavingDoneClearsCompletedAt`, `testOtherChangesLeaveCompletedAt` and `testMergesWithDataFromAnotherListener`; Playwright `tests/e2e/sprints.spec.ts` "dragging a card to done stamps the finish time".
 - [ ] 2.2 Add `fetchSprints(projectId)`, `saveSprint(sprint)`, `startSprint(id)`, `completeSprint(id, target)` and `planTask(taskId, sprintId)`; `saveSprint` rejects an end date before the start date and `startSprint` rejects a second active sprint. Verify: vitest `tests/vitest/sprints.spec.js` "rejects a second active sprint" and "rejects end before start".
 - [ ] 2.3 `completeSprint` moves unfinished tasks to the chosen target and leaves the sprint active when any move fails. Verify: vitest `tests/vitest/sprints.spec.js` "partial failure keeps the sprint active".
 

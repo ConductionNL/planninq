@@ -90,7 +90,8 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 ## Impact
 
 - Schema: new `sprint`; new `task.sprint`; new `project.sprintsEnabled`. The register goes from seven schemas to eight.
-- Store: `src/store/projects.js` gains sprint read and write actions and sets `completedAt` in the status write.
+- Store: `src/store/projects.js` gains sprint read and write actions.
+- Backend: a new pre-save listener `lib/Listener/TaskCompletionListener.php` stamps and clears `completedAt`.
 - Views: `src/views/ProjectBacklog.vue` (sprint planning), `src/views/ProjectBoard.vue` (sprint filter and header), a new `SprintBurndown` component, `src/components/ProjectSettingsSidebar.vue` (the sprints switch).
 - Dialogs: `src/dialogs/SprintEditDialog.vue`, `src/dialogs/SprintCompleteDialog.vue`.
 - Specs and tests: the "exactly seven schemas" scenario in `openspec/specs/project-delivery/spec.md:68-72` and `testRegisterDeclaresExactlySevenSchemas` (`tests/unit/Settings/PlanninqRegisterSchemaTest.php:370`) move to eight.
@@ -103,9 +104,9 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 **Severity**: High
 **Mitigation**: `docs/ARCHITECTURE.md:149` says planninq has no sprints by user decision. This change keeps flow as the default and makes sprints an opt-in per project, so no existing project changes. The open question in design.md asks for explicit confirmation before implementation starts.
 
-### Risk 2: tasks finished outside the board have no finish time
+### Risk 2: older finished tasks have no finish time
 **Severity**: Medium
-**Mitigation**: `completedAt` is written by `updateTaskStatus`, the store action every status write in the app goes through today (`src/views/ProjectBoard.vue:587`); any later status write, such as the task edit form of `tasks-create-edit-delete`, reuses it. A task closed by another path (an import, a flow, the API) without `completedAt` cannot be placed on a day. The chart counts it as finished on the sprint's last day and says under the chart how many tasks it placed that way, so the gap is visible instead of silently flattering the line.
+**Mitigation**: `completedAt` is stamped by a pre-save listener on the server, so every path that saves a task through OpenRegister gets it, not only the board. Tasks finished before this change have no `completedAt`: the chart counts them as finished on the sprint's last day and says under the chart how many it placed that way, so the gap is visible instead of silently flattering the line.
 
 ### Risk 3: schema count assertions break
 **Severity**: Low

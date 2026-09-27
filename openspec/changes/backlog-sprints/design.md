@@ -49,8 +49,8 @@ When the project has sprints on and an `active` sprint, `ProjectBoard` loads tas
 ### Decision 6: the burndown is computed on the client from the sprint's tasks
 `SprintBurndown` (a component opened from the sprint header and from the sprint row on the backlog page) reads the sprint and its tasks and plots, per day from `startDate` to `endDate`, the remaining work: story points when at least one task in the sprint has `storyPoints`, otherwise `estimatedDuration` in hours, otherwise a task count. It draws the ideal straight line from the starting total to zero. A task counts as burned on the date of its `completedAt`. OpenRegister's aggregation endpoint answers scalar-equality counts and sums (`src/manifest.json` `TaskStatusReport` note), not a series over time, so a declarative dashboard widget cannot draw this. The chart has a text equivalent: a table of the same numbers per day, for screen readers and keyboard users (ADR-059).
 
-### Decision 7: `completedAt` is written with the status
-`updateTaskStatus` sends `completedAt: <now, ISO 8601>` when the new status is `done` and `completedAt: null` when a task leaves `done`. One PATCH, so the two cannot disagree. The alternative, a server-side listener that stamps the time after the fact, is a second write on the same object for every move and loops through the same `ObjectUpdatedEvent` listeners (`lib/Listener/TaskActivityListener.php`).
+### Decision 7: `completedAt` is stamped on the server in the same save
+A pre-save listener, `lib/Listener/TaskCompletionListener.php`, listens to OpenRegister's `ObjectUpdatingEvent` and `ObjectCreatingEvent` for planninq tasks. When `status` becomes `done` it merges `completedAt: <now>` into the object with `setModifiedData()`; when `status` leaves `done` it merges `completedAt: null`. OpenRegister merges that data before it stores the object (`lib/Db/MagicMapper.php:7302-7319` in OpenRegister, read at 63ddfd5), so the status and the finish time are one saved version, whichever client moved the task: the board, the API, a flow or an import. The alternative, sending `completedAt` from `updateTaskStatus` in the Vue store, only covers the board; the alternative of a post-save listener writes every move twice. The listener merges with data other planninq pre-save listeners set (see `boards-column-automation`), never replaces it.
 
 ### Decision 8: placement follows ADR-001
 Sprint planning sits on the project's backlog page (Projecten > project > Backlog). The sprint board is the project's board (Borden). The burndown opens from the sprint, not from Portfolio: it is a team view of one project, not a PMO roll-up. No new menu.
@@ -58,7 +58,7 @@ Sprint planning sits on the project's backlog page (Projecten > project > Backlo
 ## Risks / trade-offs
 
 - [The build decision overrides `docs/ARCHITECTURE.md:149`] -> Opt-in per project, off by default; the doc row is rewritten in the same PR; see the open question.
-- [Tasks closed outside `updateTaskStatus` have no `completedAt`] -> The burndown places them on the sprint's last day and says how many it placed that way.
+- [Tasks finished before this change have no `completedAt`] -> The burndown places them on the sprint's last day and says how many it placed that way.
 - [Moving 50 unfinished tasks at sprint completion is 50 PATCHes] -> Sequential with a progress line in the dialog; a failure stops and reports, and the sprint stays active.
 - [Schema count assertions] -> Updated in the same PR (task 1.4).
 
