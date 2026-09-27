@@ -23,6 +23,7 @@ Non-goals:
 
 - Cross-organisation template exchange (open question below).
 - Changing the fixed task `status` lifecycle. Columns are the configurable part; `status` stays the machine-readable state.
+- Labels per project or per workflow. Label scope is app-wide by a recorded decision (`docs/ARCHITECTURE.md:226`).
 
 ## Decisions
 
@@ -51,21 +52,30 @@ This is not a pass-through controller (ADR-022): it enforces the creation policy
 
 Alternative considered: copying in the browser through the object store. It would take one request per object, leave a half copy on a closed tab, and put the id remapping in client code.
 
-### Decision 3: a workflow is a schema that owns columns, labels and an estimate scale
+### Decision 3: a workflow defines columns and an estimate scale; each project keeps its own columns
 
-`workflow` has `title`, `description`, `labels` (label ids on offer) and `estimateScale` (`none`, `hours`, `storyPoints`, `tshirt`) with `estimateValues` (the allowed values, for example 1, 2, 3, 5, 8). Its columns are `column` objects with `workflow` set and `project` empty; `column.required` becomes `['title', 'order']`, and a column has either a `project` or a `workflow`.
+Two recorded decisions bound this design. Labels are app-wide, not per project, so they can be filtered across projects (`docs/ARCHITECTURE.md:226`). One project is one board and its columns belong to the project directly (`docs/ARCHITECTURE.md:148`). So a workflow shares columns and an estimate scale, and it does not scope labels: every project on a workflow still offers every label.
 
-`project.workflow` is an optional reference. When set, the board renders the workflow's columns and the label picker offers the workflow's labels. When empty, the project keeps its own columns and all labels, as today. Admins edit workflows in Beheer; project managers pick one in the project settings.
+`workflow` has `title`, `description`, `columns` (an ordered list of `{key, title, type, wipLimit, color}`), `estimateScale` (`none`, `hours`, `storyPoints`, `tshirt`) and `estimateValues` (the allowed values, for example 1, 2, 3, 5, 8). Admins edit workflows in Beheer; project managers pick one in the project settings.
+
+`project.workflow` is an optional reference. A project that follows a workflow still owns its `column` objects, with `project` required as today. Each carries `workflowKey`, the key of the workflow column it was made from. `WorkflowColumnSyncListener` handles OpenRegister's update events: when a workflow's columns change, it adds, renames, reorders and retypes the matching columns of every project that follows it; when a project's `workflow` changes, it builds that project's columns from the workflow. It writes with `_rbac: false`, because the admin who edits the workflow is usually not on every project.
+
+A workflow column that is removed is removed from each project only when it holds no tasks there; otherwise its tasks move to the first column first, and the sync logs how many moved.
 
 Moving a project onto a workflow maps each task's column by column title, and tasks whose column has no match go to the first column. The dialog shows how many tasks that affects before it saves.
 
-Alternative considered: copy the workflow's columns into each project and sync them on change. That keeps `column.project` required, but a missed sync leaves projects drifting from the scheme they claim to follow, which is the problem shared configuration exists to remove.
+The board hides column editing on a project that follows a workflow and names the workflow instead. A WIP limit still counts the tasks of one project, because each project has its own column objects.
+
+Alternative considered: columns owned by the workflow, with `column.project` optional, so every project on a workflow renders the same column objects. It removes the sync, but it breaks the recorded board model where columns belong to the project, and every query that reads columns by `project` would need a second path.
+
+Alternative considered: a label set per workflow. It contradicts the recorded label scope and would break the cross-project label filter of `boards-filters` (lane A).
 
 ## Risks / trade-offs
 
 - [The board loses its lanes when the workflow is deleted] -> Deleting a workflow that projects follow is refused with the number of projects, until they are moved off it.
 - [A template's dates are meaningless] -> A template stores dates relative to its own `startDate`. The copy shifts them; a template without a `startDate` copies no dates.
-- [Column rules differ between the two column sources] -> One helper resolves the column list for a project, used by the board, the backlog and the copy service.
+- [The sync fails halfway through the projects of a workflow] -> The listener records each project it could not update in the log with the reason, and a repair command `occ planninq:workflow:resync` re-runs it for one workflow.
+- [A copied project keeps its `workflowKey` values] -> The copy keeps `project.workflow` and the keys, so the copy follows the same workflow as its source.
 
 ## Open questions
 

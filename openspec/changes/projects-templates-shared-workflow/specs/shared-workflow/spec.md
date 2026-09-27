@@ -4,7 +4,7 @@
 
 ### Requirement: An admin defines workflows that projects share
 
-An admin MUST be able to define named workflows, each with an ordered set of columns, the labels on offer and an estimate scale. A project that follows a workflow MUST render the workflow's columns on its board and offer only the workflow's labels. A change to a workflow MUST reach every project that follows it without editing those projects. Tier: Enterprise (docs/FEATURES.md, "Custom task fields" and "Default column set"; no dedicated row).
+An admin MUST be able to define named workflows, each with an ordered set of columns and an estimate scale. A project that follows a workflow MUST get its own columns built from the workflow, and a change to the workflow's columns MUST reach every project that follows it without editing those projects one by one. Labels MUST stay app-wide: a workflow does not limit which labels a project offers (docs/ARCHITECTURE.md:226). Tier: Enterprise (docs/FEATURES.md, "Default column set (configure global template)"; no dedicated row).
 
 #### Scenario: One change reaches every project on the workflow
 
@@ -12,13 +12,14 @@ An admin MUST be able to define named workflows, each with an ordered set of col
 - **AND** two projects that follow it
 - **WHEN** the admin adds the column "Bezwaar" after "Besluit" in the workflows section of the planninq admin settings
 - **THEN** both project boards at /projects/:id show "Bezwaar" as their last column
+- **AND** each project has its own "Bezwaar" column object, with `project` set to that project
 
-#### Scenario: The label picker offers the workflow's labels
+#### Scenario: Labels stay app-wide on a workflow
 
-- **GIVEN** a workflow that offers the labels "Spoed" and "Extern"
-- **AND** a project member on a project that follows it
-- **WHEN** the member opens the label picker on a task in TaskDetail
-- **THEN** only "Spoed" and "Extern" are offered
+- **GIVEN** a project that follows the workflow "Vergunningverlening"
+- **AND** the app-wide labels "Spoed", "Extern" and "Intern"
+- **WHEN** a project member opens the label picker on a task in TaskDetail
+- **THEN** all three labels are offered
 
 ### Requirement: A project follows a workflow's estimate scale
 

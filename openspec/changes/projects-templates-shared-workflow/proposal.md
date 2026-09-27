@@ -6,9 +6,9 @@ kind: code
 
 ## Why
 
-Every project starts empty. `ProjectCreationDialog.vue` asks for a title, description, colour and icon, and `createProject` (`src/store/projects.js:328-363`) then adds the admin's default columns (`:469-494`). You cannot start from a template that already holds the columns, labels and tasks a kind of project always needs, and you cannot copy a project you ran last quarter. Nothing in `src/` or `lib/` copies a project.
+Every project starts empty. `ProjectCreationDialog.vue` asks for a title, description, colour and icon, and `createProject` (`src/store/projects.js:328-363`) then adds the admin's default columns (`:469-494`). You cannot start from a template that already holds the columns, phases and tasks a kind of project always needs, and you cannot copy a project you ran last quarter. Nothing in `src/` or `lib/` copies a project.
 
-Every project shares one fixed workflow whether you want that or not. The board draws one lane per task status from a hard-coded list (`src/utils/taskHelpers.js:252`, `src/views/ProjectBoard.vue:283-291`). Labels are one app-wide list (`src/store/labels.js`, schema `label` at `lib/Settings/planninq_register.json:1060`) with no way to offer some labels only to some projects. There is no estimate scale: a task has both `storyPoints` and `estimatedDuration`, and nothing says which one a project uses.
+Every project shares one fixed workflow whether you want that or not. The board draws one lane per task status from a hard-coded list (`src/utils/taskHelpers.js:252`, `src/views/ProjectBoard.vue:283-291`), so an organisation cannot define its own set of stages once and use it on many projects. There is no estimate scale: a task has both `storyPoints` and `estimatedDuration`, and nothing says which one a project uses. Labels are already shared: they are one app-wide list by a recorded decision (`docs/ARCHITECTURE.md:226`), and this change keeps them that way.
 
 OpenProject and Kanboard create a project from a template. Nextcloud Deck, OpenProject, Kanboard and Zermelo copy a project. OpenProject and Jira Data Center share one scheme of statuses and fields across many projects, so one edit changes them all. Plane users ask for the same (https://github.com/makeplane/plane/issues/4706).
 
@@ -18,10 +18,10 @@ Decision: build. Templates and copy are core project features with two and four 
 ## What changes
 
 - A project manager marks a project as a template. Templates are listed apart from working projects.
-- "New project" offers a template picker. The new project gets the template's columns, labels, phases and tasks, with dates shifted to its own start date.
+- "New project" offers a template picker. The new project gets the template's columns, phases and tasks, with their labels and with dates shifted to its own start date.
 - A project manager copies any project and chooses what comes along: columns, tasks, phases, dependencies and people.
-- An admin defines named workflows in Beheer: an ordered set of columns, the labels on offer and an estimate scale.
-- A project follows a workflow. Changing the workflow changes the board of every project that follows it.
+- An admin defines named workflows in Beheer: an ordered set of columns and an estimate scale.
+- A project follows a workflow. Changing the workflow changes the columns of every project that follows it.
 
 ## Evidence from the parity matrix
 
@@ -63,20 +63,21 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 ### In scope
 
 - Templates as flagged projects, the template picker, and copy with options.
-- A `workflow` schema that owns columns, a label set and an estimate scale, and a `workflow` reference on the project.
+- A `workflow` schema that defines a column set and an estimate scale, a `workflow` reference on the project, and a server-side sync that keeps each following project's own columns in step.
 
 ### Out of scope
 
 - Per-project columns: `boards-configurable-columns` (lane A) makes the board render `column` objects. This change builds on it.
 - Publishing templates to other organisations through the Store. The Store page already exchanges configsets (`src/manifest.json:61-71`); whether a template travels that way is an open question in design.md.
 - Custom fields in templates: `projects-grouping-hierarchy-fields`.
+- Labels offered per project or per workflow. Label scope is app-wide by a recorded decision (`docs/ARCHITECTURE.md:226`).
 
 ## Impact
 
-- Schema: `project` gains `isTemplate` and `workflow`; a new `workflow` schema; `column` gains `workflow` and loses `project` from `required`; `label` is unchanged.
+- Schema: `project` gains `isTemplate` and `workflow`; a new `workflow` schema; `column` gains `workflowKey`. `column.project` stays required and `label` is unchanged, following the recorded decisions in `docs/ARCHITECTURE.md:148` and `:226`.
 - Service and controller: a new `ProjectCopyService` behind `POST /apps/planninq/api/projects/{id}/copy`, which checks the creation policy and remaps every reference.
 - Views and dialogs: `ProjectCreationDialog.vue` (template picker), a new `src/dialogs/ProjectCopyDialog.vue`, `ProjectList.vue` (Templates chip), a workflows section on the admin page.
-- Board: the column source becomes the project's own columns or its workflow's columns.
+- Listener: `WorkflowColumnSyncListener` writes the columns of every project that follows a workflow when the workflow or the project's `workflow` changes.
 - Extends the flat specs `openspec/specs/projects.md` and `openspec/specs/kanban-board.md`.
 - Depends on: `boards-configurable-columns` (lane A) for boards that render `column` objects. `projects-lifecycle-policy` for the creation policy the copy endpoint enforces.
 
@@ -87,10 +88,10 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 **Severity**: High
 **Mitigation**: The copy runs on the server in one request. It creates the new project with `metadata.copyState: 'copying'`, which the project list hides, writes columns, phases, tasks and dependencies, then clears the marker. A failure deletes what was written and answers 500 with the step that failed.
 
-### Risk 2: a shared column and per-project WIP limits
+### Risk 2: a synced column edited by hand
 
 **Severity**: Medium
-**Mitigation**: A WIP limit on a workflow column counts the tasks of one project, because the board filters tasks by `project` before it counts.
+**Mitigation**: The board hides column editing on a project that follows a workflow and says which workflow it follows. A column changed through the API anyway is put back on the next sync, and the sync logs it.
 
 ### Risk 3: a new schema changes the schema count
 
