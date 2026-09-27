@@ -8,11 +8,115 @@
     "decidedOn": "2026-09-27"
   },
   {
+    "row": "prj-create-policy",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and three competitors rate it yes (Nextcloud Deck, OpenProject, Kanboard); it sits in the projects core area.",
+    "change": "projects-lifecycle-policy",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-members",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and five competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard, Jira); it sits in the projects core area.",
+    "change": "projects-members-and-roles",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-member-roles",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: five competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard, Jira); it sits in the projects core area.",
+    "change": "projects-members-and-roles",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-archive",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and five competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard, Jira); it sits in the projects core area.",
+    "change": "projects-lifecycle-policy",
+    "decidedOn": "2026-09-27"
+  },
+  {
     "row": "prj-default-columns",
     "matrix": "planninq",
     "decision": "build",
     "reason": "Build: three competitors rate it yes (Plane, Kanboard, Jira); it sits in the projects core area.",
     "change": "boards-configurable-columns",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-delivery-terms",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: it sits in the projects core area.",
+    "change": "portfolio-finance",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-templates",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (OpenProject, Kanboard); it sits in the projects core area.",
+    "change": "projects-templates-shared-workflow",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-copy",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: four competitors rate it yes (Nextcloud Deck, OpenProject, Kanboard, Zermelo); it sits in the projects core area.",
+    "change": "projects-templates-shared-workflow",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-custom-fields",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: it sits in the projects core area.",
+    "change": "projects-grouping-hierarchy-fields",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-hierarchy",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: it sits in the projects core area.",
+    "change": "projects-grouping-hierarchy-fields",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-overview-page",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and two competitors rate it yes (OpenProject, Kanboard); it sits in the projects core area.",
+    "change": "projects-overview-logs-risks",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-wiki",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (OpenProject, Plane); it sits in the projects core area.",
+    "change": "projects-wiki",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-group-share",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: four competitors rate it yes (Nextcloud Deck, OpenProject, Kanboard, Jira); it sits in the projects core area.",
+    "change": "projects-members-and-roles",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-public-share",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: four competitors rate it yes (OpenProject, Plane, Kanboard, Jira); it sits in the projects core area.",
+    "change": "projects-public-share",
     "decidedOn": "2026-09-27"
   },
   {
@@ -248,10 +352,34 @@
     "decidedOn": "2026-09-27"
   },
   {
+    "row": "bkl-sprints",
+    "matrix": "planninq",
+    "decision": "decided-no",
+    "reason": "Decided no: docs/ARCHITECTURE.md:149 records 'No sprints: flow-based, continuous delivery, Kanban-only per user decision' in the project entity decisions. The pass rule checks recorded non-goals before build.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "bkl-sprint-board",
+    "matrix": "planninq",
+    "decision": "decided-no",
+    "reason": "Decided no: docs/ARCHITECTURE.md:149 records 'No sprints: flow-based, continuous delivery, Kanban-only per user decision' in the project entity decisions. The pass rule checks recorded non-goals before build. A sprint board needs sprints.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
     "row": "bkl-velocity",
     "matrix": "planninq",
-    "decision": "defer",
-    "reason": "Deferred: One competitor rates it yes (Jira), no demand row, and it sits outside the core areas (projects, boards) in backlog. Velocity needs sprints first; backlog-sprints specifies sprints and burndown.",
+    "decision": "decided-no",
+    "reason": "Decided no: docs/ARCHITECTURE.md:149 records 'No sprints: flow-based, continuous delivery, Kanban-only per user decision' in the project entity decisions. The pass rule checks recorded non-goals before build. Velocity is measured over past sprints. Corrected from defer (PR #675) in the second PR.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "bkl-burndown",
+    "matrix": "planninq",
+    "decision": "decided-no",
+    "reason": "Decided no: docs/ARCHITECTURE.md:149 records 'No sprints: flow-based, continuous delivery, Kanban-only per user decision' in the project entity decisions. The pass rule checks recorded non-goals before build. The row follows a sprint on a burndown or burnup chart, which needs sprints; flow metrics (cumulative flow, cycle time) are specified in portfolio-flow-reports instead.",
     "change": null,
     "decidedOn": "2026-09-27"
   },
@@ -312,6 +440,14 @@
     "decidedOn": "2026-09-27"
   },
   {
+    "row": "pln-multi-project-timeline",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (OpenProject, Jira).",
+    "change": "portfolio-status-overview",
+    "decidedOn": "2026-09-27"
+  },
+  {
     "row": "tim-report",
     "matrix": "planninq",
     "decision": "defer",
@@ -344,11 +480,27 @@
     "decidedOn": "2026-09-27"
   },
   {
+    "row": "prt-capacity",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and two competitors rate it yes (Jira, Xedule).",
+    "change": "portfolio-people-capacity",
+    "decidedOn": "2026-09-27"
+  },
+  {
     "row": "prt-project-capacity",
     "matrix": "planninq",
     "decision": "defer",
     "reason": "partial, built, no demand. No competitor rates it yes, and there is no demand row. The portfolio row already shows each project; portfolio-status-overview extends that view.",
     "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prt-portfolio",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and two competitors rate it yes (OpenProject, Jira).",
+    "change": "portfolio-status-overview",
     "decidedOn": "2026-09-27"
   },
   {
@@ -376,11 +528,43 @@
     "decidedOn": "2026-09-27"
   },
   {
+    "row": "prt-budget",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: Tender 365739 (requirements 3998, 3999 and 4000, carried on prt-portfolio-finance) asks for financial tables per project, per cost category and per phase, totalled per portfolio. The per-project budget against actual cost is the first half of that demand, so it is specified in the same change.",
+    "change": "portfolio-finance",
+    "decidedOn": "2026-09-27"
+  },
+  {
     "row": "prt-placeholder",
     "matrix": "planninq",
     "decision": "defer",
     "reason": "Deferred: One competitor rates it yes (Xedule), no demand row, and it sits outside the core areas (projects, boards) in portfolio.",
     "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prt-cumulative-flow",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (Kanboard, Jira).",
+    "change": "portfolio-flow-reports",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prt-cycle-time",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (Kanboard, Jira).",
+    "change": "portfolio-flow-reports",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prt-custom-report",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: three competitors rate it yes (OpenProject, Jira, Zermelo).",
+    "change": "portfolio-flow-reports",
     "decidedOn": "2026-09-27"
   },
   {
@@ -456,6 +640,38 @@
     "decidedOn": "2026-09-27"
   },
   {
+    "row": "prj-risk-register",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: tender demand (https://www.tenderned.nl/aankondigingen/overzicht/365739); it sits in the projects core area.",
+    "change": "projects-overview-logs-risks",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-project-logs",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: tender demand (https://www.tenderned.nl/aankondigingen/overzicht/365739); it sits in the projects core area.",
+    "change": "projects-overview-logs-risks",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prt-portfolio-finance",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: tender demand (https://www.tenderned.nl/aankondigingen/overzicht/365739).",
+    "change": "portfolio-finance",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "int-finance-import",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: tender demand (https://www.tenderned.nl/aankondigingen/overzicht/365739).",
+    "change": "portfolio-finance",
+    "decidedOn": "2026-09-27"
+  },
+  {
     "row": "tim-non-project",
     "matrix": "planninq",
     "decision": "decided-no",
@@ -472,11 +688,27 @@
     "decidedOn": "2026-09-27"
   },
   {
+    "row": "prt-status-grotik",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: tender demand (https://www.tenderned.nl/aankondigingen/overzicht/365739).",
+    "change": "portfolio-status-overview",
+    "decidedOn": "2026-09-27"
+  },
+  {
     "row": "pln-calendar-writeback",
     "matrix": "planninq",
     "decision": "decided-no",
     "reason": "Decided no: docs/ARCHITECTURE.md section 5, resolved question 1 records a one-way export of tasks to the Nextcloud Tasks app and rejects two-way sync because the Tasks app has no projects, columns or WIP limits.",
     "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-grouping",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (OpenProject, Jira); a featureRequest (https://github.com/nextcloud/deck/issues/2006) plus two competitors yes; it sits in the projects core area.",
+    "change": "projects-grouping-hierarchy-fields",
     "decidedOn": "2026-09-27"
   },
   {
@@ -501,6 +733,14 @@
     "decision": "build",
     "reason": "Build: three competitors rate it yes (OpenProject, Plane, Jira); a featureRequest (https://github.com/nextcloud/deck/issues/1157) plus three competitors yes.",
     "change": "tasks-dates",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-team-owner",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (OpenProject, Kanboard); it sits in the projects core area.",
+    "change": "projects-members-and-roles",
     "decidedOn": "2026-09-27"
   },
   {
@@ -533,6 +773,22 @@
     "decision": "build",
     "reason": "Build: three competitors rate it yes (OpenProject, Plane, Jira).",
     "change": "tasks-readable-keys",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "bkl-sprint-goal",
+    "matrix": "planninq",
+    "decision": "decided-no",
+    "reason": "Decided no: docs/ARCHITECTURE.md:149 records 'No sprints: flow-based, continuous delivery, Kanban-only per user decision' in the project entity decisions. The pass rule checks recorded non-goals before build. A sprint goal needs sprints.",
+    "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-request-approval",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: it sits in the projects core area.",
+    "change": "projects-lifecycle-policy",
     "decidedOn": "2026-09-27"
   },
   {
@@ -589,6 +845,22 @@
     "decision": "defer",
     "reason": "Deferred: No competitor rates it yes, a featureRequest (https://github.com/makeplane/plane/issues/8598), which counts only together with a competitor yes, and it sits outside the core areas (projects, boards) in integration. Planninq has no documentation pages yet; projects-wiki specifies them first.",
     "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-wiki-tree",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: a featureRequest (https://github.com/makeplane/plane/issues/5620) plus one competitor yes (OpenProject); it sits in the projects core area.",
+    "change": "projects-wiki",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "prj-shared-workflow",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and two competitors rate it yes (OpenProject, Jira); a featureRequest (https://github.com/makeplane/plane/issues/4706) plus two competitors yes; it sits in the projects core area.",
+    "change": "projects-templates-shared-workflow",
     "decidedOn": "2026-09-27"
   },
   {

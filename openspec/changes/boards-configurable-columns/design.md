@@ -33,9 +33,20 @@ Non-goals: hard WIP limits, automation, swimlanes, the backlog page.
 A column gains an optional `status` (one of the task status enum). The board fetches the
 project's columns (`{ project }`, sorted by `order`) and groups tasks by `column`. Moving a card
 PATCHes `column`, `columnOrder` and, when the column has one, `status`. A column of type `done`
-maps to `done` and also sets `completedAt` to now; leaving it clears `completedAt`. Alternative:
+maps to `done`. Alternative:
 keep status lanes and drop the column schema. Rejected: FEATURES.md lists configurable columns as
 MVP and the schema and store already carry them.
+
+### Decision 1b: the server stamps `completedAt`
+
+`completedAt` is set on the server, in the same save as the status change, by a pre-save listener
+`lib/Listener/TaskCompletionListener.php` on Open Register's `ObjectCreatingEvent` and
+`ObjectUpdatingEvent` for planninq tasks: when `status` becomes `done` it merges `completedAt: now`
+into the object, and when `status` leaves `done` it merges `completedAt: null`. It merges with what
+other planninq pre-save listeners set and never replaces it. So the finish time is right whichever
+client moved the task: the board, the API, a flow or an import. Alternative: send `completedAt` from
+the board's PATCH. Rejected: it only covers the board. (Adopted from the lane B design review in the
+OpenSpec pass; flow reports and the dashboard's "completed today" depend on it.)
 
 ### Decision 2: the project owner manages columns
 

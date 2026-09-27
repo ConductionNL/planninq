@@ -114,7 +114,7 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 
 - Reading `column` objects on the board; column management in a lane header menu and a "Columns"
   tab in the project settings sidebar.
-- A `status` mapping on each column, and `completedAt` on entering a done column.
+- A `status` mapping on each column, and `completedAt` stamped on the server whenever a task becomes done.
 - `columnOrder` on drag within a lane and on "Move up" and "Move down" in the card menu.
 - Passing the admin's default columns to project creation.
 - A repair step that assigns a column to every task that has none and is not cancelled.
