@@ -1,45 +1,49 @@
-# Design: work tasks from several projects on one shared board
+# Design: work tasks from several projects in one cross-project view
 
 ## Context
 
 What exists at de35541:
 
-- `ProjectBoard` (`src/views/ProjectBoard.vue`) renders one project's tasks in status lanes: `columns()` maps `BOARD_STATUSES` (`:283-292`, `src/utils/taskHelpers.js:252`), `tasksByStatus()` groups with `groupTasksByStatus` (`:303-305`, `src/utils/taskHelpers.js:268-283`), drag and the per-card "Move task to another column" menu call `applyStatusMove`, which PATCHes `status` through `updateTaskStatus` and reverts on failure (`:577-595`, `src/store/projects.js:835-859`). A label filter row sits above the lanes (`:66-95`). Cards are `TaskCard` (`src/components/TaskCard.vue`).
+- `docs/ARCHITECTURE.md:148`: "Board model: 1 project = 1 kanban board; columns belong to project directly."
+- `ProjectBoard` (`src/views/ProjectBoard.vue`) renders one project's tasks in status lanes: `columns()` maps `BOARD_STATUSES` (`:283-292`, `src/utils/taskHelpers.js:252`), `tasksByStatus()` groups with `groupTasksByStatus` (`:303-305`, `src/utils/taskHelpers.js:268-283`), and drag and the per-card "Move task to another column" menu call `applyStatusMove`, which PATCHes through `updateTaskStatus` and reverts on failure (`:577-595`, `src/store/projects.js:835-859`). A label filter row sits above the lanes (`:66-95`). Cards are `TaskCard` (`src/components/TaskCard.vue`).
 - Tasks of one project are read with `fetchTasks(projectId)` (`src/store/projects.js:775-783`) through `fetchEvery`, which follows every page (`:61-94`).
-- The task schema lets an authenticated user read a task only when it belongs to a project whose `members` contain them (`lib/Settings/planninq_register.json:52-74`).
+- The task schema lets an authenticated user read and update a task only when it belongs to a project whose `members` contain them (`lib/Settings/planninq_register.json:52-120`).
 - The project schema shows how OpenRegister expresses "readable by the people in a list" (`members $contains $userId`, `:404-418`) and "writable by the owner" (`owner: $userId`, `:421-442`).
-- `Boards.vue` lists the user's active member projects as board cards (`:22-40`, `fetchProjects` at `:90`).
+- Merged on development after de35541 and relied on here: `boards-configurable-columns` moves each project board onto its own `column` objects, gives a column an optional `status`, and makes a card move write `column`, `columnOrder` and the column's `status`; `boards-filters` adds a filter model with a pure `matchesFilter` helper in `src/utils/boardFilter.js` and the filter in the query string.
 
-What is missing: an object that says "these projects, on one board", a page for it, and a way to find it.
+What is missing: a way to see and move the tasks of several projects together.
 
 ## Goals / non-goals
 
 Goals:
-- One board across several projects, shareable with a team, with the same drag and keyboard behaviour as a project board.
-- No task visible through the board that its project would not show.
+- One screen across several projects, shareable with a team, with the drag, keyboard and filter behaviour of a project board.
+- No second board per project, and no task visible or movable through the view that its project would not allow.
 
 Non-goals:
-- Custom columns, query-based boards, task creation on the shared board.
+- Columns, WIP limits, card order or rules of the view's own; task creation on the view; query languages.
 
 ## Decisions
 
-### Decision 1: a `board` schema that stores project ids and people, never tasks
-Properties: `title` (required), `owner` (user id, set on create), `members` (user ids the board is shared with, default `[]`), `projects` (array of project uuids, 1 to 20). Authorization: read when `owner` is the user or `members` contains the user, create for any authenticated user, update and delete for the owner and admins. Schema.org `schema:ItemList`. The board holds no copy of task data, so it cannot go stale and cannot leak.
+### Decision 1: a view, not a board
+The architecture rule "1 project = 1 kanban board" stays. The new object is a `boardView`: a saved selection of projects to look at together. It has no columns, no WIP limits, no card order and no rules, and no task ever belongs to it. Everything that places a card (its column, its order, its column's status) stays on the task and on its project's one board. The view only reads, and moves a card through its own project's board model (Decision 4). The alternative, a board object with its own columns spanning projects, would give a task two positions on two boards, which is exactly what the rule forbids.
 
-### Decision 2: tasks are read with the viewer's own rights
-`SharedBoard` reads each listed project's tasks with `fetchTasks(projectId)`, in parallel. The task schema's authorization returns nothing for a project the viewer is not a member of, so a board shared with someone outside a project shows them none of its tasks. The board also reads the listed projects; a project the viewer cannot read is counted, not named: "2 projects on this board are hidden from you." The alternative, a planninq controller that reads tasks as the board owner, would hand the owner's access to everyone the board is shared with.
+### Decision 2: `boardView` stores project ids and people, never tasks
+Properties: `title` (required), `owner` (user id, set on create), `members` (user ids the view is shared with, default `[]`), `projects` (array of project uuids, 1 to 20). Authorization: read when `owner` is the user or `members` contains the user, create for any authenticated user, update and delete for the owner and admins. Schema.org `schema:ItemList`.
 
-### Decision 3: status lanes, the vocabulary every project shares
-The shared board groups by `status` with `groupTasksByStatus`, the same lanes the project board has today. When `boards-configurable-columns` moves project boards onto their own columns, the shared board keeps status lanes: projects may have different columns, but they all share the task status enum. Moving a card changes its status through `updateTaskStatus`, with the same optimistic move and revert. The drag handlers, move menu and label filter are extracted from `ProjectBoard` into a `StatusLanes` component that both pages use, so there is one implementation of the keyboard path.
+### Decision 3: tasks are read with the viewer's own rights
+The view page reads each listed project's tasks with `fetchTasks(projectId)`, in parallel. The task schema returns nothing for a project the viewer is not a member of, so a view shared with someone outside a project shows them none of its tasks. It also reads the listed projects; a project the viewer cannot read is counted, not named: "1 project in this view is hidden from you." A deleted project is counted as "no longer exists". The alternative, a planninq controller that reads as the view's owner, would lend the owner's access to everyone the view is shared with.
 
-### Decision 4: every card names its project
-`TaskCard` gets an optional `project` prop; on a shared board it renders a chip with the project's title and its colour swatch next to the text, so colour is never the only signal. Selecting a card opens the task page in its project, as on a project board.
+### Decision 4: lanes are statuses, and a move goes through the task's own project columns
+Lanes are the task status values, the one vocabulary all projects share (projects may name and order their columns differently). Moving a card to a lane resolves, in the task's own project, the first column by `order` whose `status` is that lane's status, and writes `column`, `columnOrder` (the end of that column) and `status`: the same write a move on the project's board makes, sent with the viewer's rights through the object API. So column rules (`boards-column-automation`) and the server-side `completedAt` stamp (`boards-configurable-columns`) run as they would on the project board. If the project has no column for that status, the card goes back and the view says "Servers has no column for In progress." The lane grouping, drag handlers and move menu are extracted from `ProjectBoard` into a shared `StatusLanes` component so both pages use one keyboard path.
 
-### Decision 5: found on the Borden page
-`Boards.vue` gets a "Shared boards" section above the project boards, listing boards the user owns or that are shared with them, and a "New shared board" button that opens `SharedBoardEditDialog` (in `src/dialogs/`): name, projects (a picker offering only the user's member projects), and people (`MemberSearch`, `src/components/MemberSearch.vue`). The owner edits and deletes from the board page header. Placement is Borden (ADR-001: "alle borden, bord-detail"), not a new menu.
+### Decision 5: every card names its project, filters come from the board filter bar
+`TaskCard` gets an optional `project` prop; on the view it renders a chip with the project's title and its colour swatch next to the text, so colour is never the only signal. The filter bar of `boards-filters` is reused with its `matchesFilter` helper and query-string state; saved filters stay per project, as that change defines them.
+
+### Decision 6: found on the Borden page
+`Boards.vue` gets a "Cross-project views" section above the project boards, listing views the user owns or that are shared with them, and a "New view" button that opens `ProjectsViewEditDialog` (in `src/dialogs/`): name, projects (a picker offering only the user's member projects) and people (`MemberSearch`, `src/components/MemberSearch.vue`). The owner edits and deletes from the view's header. Route `/boards/views/:id`, under Borden (ADR-001: "alle borden"), not a new menu.
 
 ## Risks / trade-offs
 
-- [Leaking tasks] -> The board stores ids only; reads use the viewer's rights (Decision 2).
-- [Many projects] -> Parallel paged reads, progressive rendering, a cap of 20 projects per board.
-- [A project is deleted or archived] -> Its id stays on the board and is skipped with "1 project on this board no longer exists", and the owner can remove it.
+- [Leaking tasks] -> The view stores ids only; reads and writes use the viewer's rights (Decisions 2 and 3).
+- [A move that the project board would place differently] -> Resolved through the project's own columns (Decision 4); refused when no column fits.
+- [Many projects] -> Parallel paged reads, progressive rendering, a cap of 20 projects per view.
