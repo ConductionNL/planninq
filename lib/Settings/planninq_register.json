@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.4.0"
+    "version": "0.5.0"
   },
   "x-openregister": {
     "type": "application",
@@ -18,7 +18,7 @@
         "title": "Planninq",
         "description": "Planninq application data register — tasks, projects, columns, time entries, and labels.",
         "slug": "planninq",
-        "version": "0.4.0",
+        "version": "0.5.0",
         "schemas": [
           "task",
           "project",
@@ -26,7 +26,8 @@
           "column",
           "plannedTimeEntry",
           "label",
-          "dependency"
+          "dependency",
+          "timetableSession"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -1162,6 +1163,130 @@
               "causes"
             ],
             "default": "blocks"
+          }
+        }
+      },
+      "timetableSession": {
+        "slug": "timetableSession",
+        "icon": "ClockOutline",
+        "version": "0.1.0",
+        "title": "Timetable session",
+        "description": "One lesson in a school timetable as the rostering system knows it: when it runs, for which group, with which teacher, in which room and for which subject. Delivered by a rostering import and matched again by source and occurrence id.",
+        "x-schema-org": "schema:Event",
+        "type": "object",
+        "required": [
+          "externalRef",
+          "sourceSystem",
+          "subject",
+          "startsAt",
+          "endsAt"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            "admin"
+          ],
+          "update": [
+            "admin"
+          ],
+          "delete": [
+            "admin"
+          ]
+        },
+        "properties": {
+          "externalRef": {
+            "title": "Source id",
+            "type": "string",
+            "description": "The id the rostering system gives this lesson. A new delivery with the same id and source updates this lesson instead of adding one."
+          },
+          "sourceSystem": {
+            "title": "Source",
+            "type": "string",
+            "description": "The system that delivered this lesson, for example roster-zermelo, or manual for a lesson typed in by hand.",
+            "facetable": true
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string",
+            "description": "The subject as the school names it.",
+            "facetable": true
+          },
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "The name shown for this lesson. Left empty, the subject is shown."
+          },
+          "startsAt": {
+            "title": "Starts at",
+            "type": "string",
+            "description": "When the lesson starts.",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "title": "Ends at",
+            "type": "string",
+            "description": "When the lesson ends.",
+            "format": "date-time"
+          },
+          "groupReference": {
+            "title": "Group code",
+            "type": "string",
+            "description": "The code the school uses for the group or class.",
+            "facetable": true
+          },
+          "cohortId": {
+            "title": "Cohort",
+            "type": "string",
+            "description": "The cohort this lesson is for, when the school code is linked to one."
+          },
+          "teacherReference": {
+            "title": "Teacher code",
+            "type": "string",
+            "description": "The code the school uses for the teacher.",
+            "facetable": true
+          },
+          "teacherUserId": {
+            "title": "Teacher account",
+            "type": "string",
+            "description": "The Nextcloud account of the teacher, when the teacher code is linked to one."
+          },
+          "roomReference": {
+            "title": "Room code",
+            "type": "string",
+            "description": "The code the school uses for the room.",
+            "facetable": true
+          },
+          "roomLabel": {
+            "title": "Room",
+            "type": "string",
+            "description": "The room name shown with the lesson."
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "Whether the lesson goes ahead or is cancelled.",
+            "enum": [
+              "scheduled",
+              "cancelled"
+            ],
+            "default": "scheduled",
+            "x-enum-labels": {
+              "scheduled": "Scheduled",
+              "cancelled": "Cancelled"
+            }
+          },
+          "importedAt": {
+            "title": "Imported at",
+            "type": "string",
+            "description": "When this lesson was last delivered. Set by planninq.",
+            "format": "date-time"
           }
         }
       }

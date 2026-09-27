@@ -357,18 +357,19 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the seven expected schemas.
+	 * The register MUST declare exactly the eight expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
-	 * over the project work breakdown structure pipelinq had built. `example`
-	 * must not be present.
+	 * over the project work breakdown structure pipelinq had built, and
+	 * `timetableSession` when planninq became the school timetable owner
+	 * (school-timetable-target, decision D10). `example` must not be present.
 	 *
 	 * @return void
 	 *
 	 * @spec openspec/changes/task-dependencies/specs/register-schemas/spec.md
 	 */
-	public function testRegisterDeclaresExactlySevenSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency'];
+	public function testRegisterDeclaresExactlyEightSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -377,7 +378,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the seven expected schemas'
+			message: 'register schema list must be exactly the eight expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -385,7 +386,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the seven expected schemas'
+			message: 'components.schemas must define exactly the eight expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -394,7 +395,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlySevenSchemas()
+	}//end testRegisterDeclaresExactlyEightSchemas()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -467,4 +468,87 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		}
 
 	}//end testDependencySchemaHasAuthorizationBlock()
+
+	/**
+	 * The timetableSession schema MUST carry the upsert key and the lesson
+	 * times as required fields, and a two-value status with a default.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-a-timetable-session-schema-carries-the-schools-own-ids-req-001
+	 */
+	public function testTimetableSessionSchemaDeclaresTheSessionShape(): void {
+		$schemas = $this->register['components']['schemas'];
+		self::assertArrayHasKey(key: 'timetableSession', array: $schemas);
+
+		$session = $schemas['timetableSession'];
+		self::assertSame(
+			expected: ['externalRef', 'sourceSystem', 'subject', 'startsAt', 'endsAt'],
+			actual: $session['required']
+		);
+
+		foreach (['title', 'groupReference', 'cohortId', 'teacherReference', 'teacherUserId', 'roomReference', 'roomLabel', 'importedAt'] as $optional) {
+			self::assertArrayHasKey(key: $optional, array: $session['properties'], message: "timetableSession must declare {$optional}");
+		}
+
+		self::assertSame(expected: ['scheduled', 'cancelled'], actual: $session['properties']['status']['enum']);
+		self::assertSame(expected: 'scheduled', actual: $session['properties']['status']['default']);
+		self::assertSame(expected: 'date-time', actual: $session['properties']['startsAt']['format']);
+		self::assertSame(expected: 'date-time', actual: $session['properties']['endsAt']['format']);
+		self::assertContains(needle: 'timetableSession', haystack: $this->register['components']['registers']['planninq']['schemas']);
+
+	}//end testTimetableSessionSchemaDeclaresTheSessionShape()
+
+	/**
+	 * Any signed-in user reads a timetable; only admins write one directly.
+	 * Imports reach the schema through planninq's own service, not through
+	 * a user's write rights.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-a-timetable-session-schema-carries-the-schools-own-ids-req-001
+	 */
+	public function testTimetableSessionAuthorizationReadsForSignedInWritesForAdmins(): void {
+		$auth = $this->register['components']['schemas']['timetableSession']['authorization'];
+
+		$readGroups = array_map(
+			static fn (mixed $rule): string => is_array($rule) === true ? (string)($rule['group'] ?? '') : (string)$rule,
+			$auth['read']
+		);
+		self::assertContains(needle: 'authenticated', haystack: $readGroups);
+
+		foreach (['create', 'update', 'delete'] as $action) {
+			self::assertSame(expected: ['admin'], actual: $auth[$action], message: "timetableSession {$action} must be admin-only");
+		}
+
+	}//end testTimetableSessionAuthorizationReadsForSignedInWritesForAdmins()
+
+	/**
+	 * Demo data MUST cover the timetableSession schema with rows that carry
+	 * every required field (ADR-111 rule 1, gate 101).
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-a-timetable-session-schema-carries-the-schools-own-ids-req-001
+	 */
+	public function testMockRegisterCarriesTimetableSessionDemoRows(): void {
+		$path = __DIR__ . '/../../../lib/Settings/planninq_mock_register.json';
+		$mock = json_decode((string)file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+
+		$rows = array_values(
+			array_filter(
+				$mock['components']['objects'],
+				static fn (array $row): bool => ($row['@self']['schema'] ?? '') === 'timetableSession'
+			)
+		);
+		self::assertGreaterThanOrEqual(expected: 1, actual: count($rows));
+
+		$required = $this->register['components']['schemas']['timetableSession']['required'];
+		foreach ($rows as $row) {
+			foreach ($required as $field) {
+				self::assertNotEmpty(actual: $row[$field] ?? null, message: "demo session {$row['@self']['slug']} lacks {$field}");
+			}
+		}
+
+	}//end testMockRegisterCarriesTimetableSessionDemoRows()
 }//end class
