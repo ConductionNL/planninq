@@ -812,13 +812,14 @@
         "plane": "corpus: plane/round4/journeys.md 'Create a workspace, create a project, create a work item' ; code-census.md §2 'project.py:76 identifier = models.CharField(max_length=12)', unique per workspace via ProjectIdentifier ; source: apps/web/core/components/project/card.tsx:285 renders project.description ; source read at v1.4.2: apps/web/core/components/project/create/common-attributes.tsx:89 identifier field (derived from name, max 10) and :132 description field in the create modal; apps/api/plane/app/views/project/base.py:257-258 create; apps/api/plane/db/models/project.py:70-76 name, description, identifier CharField(max_length=12)"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "src/dialogs/ProjectCreationDialog.vue:113-118 (form: title, description, color, icon; no key field) -> src/store/projects.js:328 createProject() -> lib/Controller/ProjectController.php:221 create()",
         "reachedOn": "ProjectList page, New project dialog",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/dialogs/ProjectCreationDialog.vue:113-118 no field for the schema's `key` property"
-        ]
+        ],
+        "change": "openspec/changes/tasks-readable-keys"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1092,14 +1093,15 @@
         "plane": "corpus: plane/round4/code-census.md §2 'DEFAULT_STATES at state.py:24-62 seeds five plus triage'; states are the board columns ; source read at v1.4.2: apps/api/plane/db/models/state.py:24 DEFAULT_STATES list; apps/api/plane/app/views/project/base.py:293 project create bulk-creates a State per entry of DEFAULT_STATES, so every new project starts with the seeded columns"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "src/store/projects.js:328/354 createProject() -> createDefaultColumns() (line 469) writes 4 `column` objects (title/order/wipLimit/type) via saveObject(COLUMN_SCHEMA,...). But src/views/ProjectBoard.vue:283-291 builds its columns purely from the hardcoded BOARD_STATUSES status enum (src/utils/taskHelpers.js:252) and never fetches or reads the `column` schema (confirmed: no COLUMN_SCHEMA reference outside src/store/projects.js:28,138-139,476,564,566, which only write/delete it, never read it back for display).",
         "reachedOn": "nothing renders the created columns; the board a user actually sees is always the same 5 fixed status lanes (Open/In Progress/Blocked/Done/Cancelled) regardless of what was created",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/views/ProjectBoard.vue:283-291 columns() ignores the `column` schema entirely and hardcodes BOARD_STATUSES",
           "src/store/projects.js:96-111 getDefaultColumns() also has a dead admin-override path: it calls loadState('planninq','default_columns', null) but no PHP code anywhere calls provideInitialState for that key (confirmed: zero matches for provideInitialState in lib/), so the admin's configured column titles in src/views/settings/Settings.vue:430-495 never reach the frontend and the hardcoded 4-column fallback is always used"
-        ]
+        ],
+        "change": "openspec/changes/boards-configurable-columns"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1569,13 +1571,14 @@
         "plane": "source: grep -rniE 'wip|max_issues|column_limit|issue_limit' --include=*.py apps/api returns only an unrelated test comment; corpus: plane/round4/code-census.md §2 State fields are name, description, color, slug, sequence, is_triage, default (no limit) ; source read at v1.4.2: apps/api/plane/db/models/state.py:79 State model; searched it for 'wip', 'max_issues', 'column_limit', 'issue_limit': none; searched apps/web/core/components/issues/issue-layouts/kanban/ likewise: none"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "`wipLimit` is written on `column` objects at project creation (src/store/projects.js:106-110 getDefaultColumns, e.g. 3/2), but src/views/ProjectBoard.vue never fetches the `column` schema at all (only COLUMN_SCHEMA writes/deletes exist in src/store/projects.js:28,138-139,476,564,566) and there is no wipLimit reference anywhere in src/ (grep confirmed zero matches outside the store's own write path).",
         "reachedOn": "nothing reaches it, the board has no per-column WIP badge",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/views/ProjectBoard.vue: no WIP-limit badge or read of the `column` schema's wipLimit field"
-        ]
+        ],
+        "change": "openspec/changes/boards-configurable-columns"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1606,10 +1609,11 @@
         "plane": "corpus: plane/round4/menu-tree.md 'Settings ... States' ; code-census.md §2 State per project with name, color, sequence; 'Groups are not user-definable' (six fixed groups), so columns within groups are free ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(settings)/settings/projects/[projectId]/states route; apps/web/core/components/project-states/root.tsx:30-32 createState, moveStatePosition, updateState and apps/web/core/components/project-states/state-delete-modal.tsx:30,42 deleteState; apps/api/plane/app/views/state/base.py:47 create and :114 destroy"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "src/views/ProjectBoard.vue:283-291 columns() is a hardcoded map over BOARD_STATUSES (src/utils/taskHelpers.js:252); there is no add/rename/reorder/remove-column UI anywhere in src/, and the `column` OpenRegister schema is never fetched by the frontend (see brd-wip-limits evidence).",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/boards-configurable-columns"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1640,10 +1644,11 @@
         "plane": "corpus: plane/round4/code-census.md §2 'A state change to a completed group state sets Issue.completed_at (issue.py:236-249)'; the completed group is fixed rather than chosen, but any state placed in it counts as done ; source read at v1.4.2: apps/web/core/components/project-states/group-list.tsx lists states under fixed groups, a state added to the completed group counts as done; apps/api/plane/db/models/issue.py:240-247 _sync_completed_at sets completed_at when the state group is COMPLETED. The done group is fixed, any state in it is a done column"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "the `column` schema declares a `type` enum ('active'/'done', src/store/projects.js:96-111 getDefaultColumns) but columns are never rendered or editable (see brd-columns-edit), so there is no user action to mark any column as the done column. The 'Done' status lane is simply hardcoded in BOARD_STATUSES (src/utils/taskHelpers.js:252).",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/boards-configurable-columns"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1674,10 +1679,11 @@
         "plane": "corpus: plane/round4/usability.md 'Layouts, filtering, the command palette ... are all good' ; code-census.md §9 IssueView filters; source: packages/constants/src/issue/filter.ts 'issues' page filters include assignees, labels, priority ; source read at v1.4.2: apps/web/core/components/work-item-filters/filters-hoc/project-level.tsx:206 project filter bar with labels, members and priority; apps/api/plane/utils/filters/filterset.py:138-151 assignee_id and label_id filters and :199 priority; apps/api/plane/utils/filters/converters.py:17-20 labels and assignees mapping"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "src/views/ProjectBoard.vue:69-95 (label filter chips) -> :318-326 labelFilterChips() -> :356-358 setLabelFilter() -> :313-317 visibleTasks()/filterTasksByLabel()",
         "reachedOn": "ProjectBoard page",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/boards-filters"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1775,13 +1781,14 @@
         "plane": "corpus: plane/round4/code-census.md §2 'sort_order float (:158)' on Issue ; source: kanban/block.tsx:206 drag within a group reorders by sort_order under manual ordering ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/kanban/block.tsx:206 draggable card; apps/web/core/components/issues/issue-layouts/utils.tsx:491-518 drop computes a new sort_order between neighbours under manual ordering; apps/api/plane/db/models/issue.py:158 sort_order FloatField"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "the task schema declares `columnOrder` (\"Sort order within the column\") but grep across src/ finds zero references to columnOrder anywhere in the frontend; src/views/ProjectBoard.vue groups tasks by status (groupTasksByStatus, src/utils/taskHelpers.js:268) with no sort by columnOrder and no drag-to-reorder-within-column handler (onDrop only changes status, src/views/ProjectBoard.vue:510-515).",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
         "defects": [
           "schema field task.columnOrder is declared but never read or written anywhere in src/"
-        ]
+        ],
+        "change": "openspec/changes/boards-configurable-columns"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1811,13 +1818,14 @@
         "plane": "source: apps/web/core/components/issues/issue-layouts/kanban/kanban-group.tsx:47,333 QuickAddIssueRoot per column ; corpus: plane/round4/menu-tree.md 'New work item' global create ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/kanban/kanban-group.tsx:47,333 QuickAddIssueRoot at the foot of each column; apps/api/plane/app/views/issue/base.py:405 create"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "no add-card/add-task control exists on src/views/ProjectBoard.vue. Wider check: there is no task-creation code path anywhere in the app, no createTask action in src/store/projects.js (only fetchTasks/updateTaskStatus/updateTask), no POST to the task schema anywhere in src/, and src/views/ProjectBacklog.vue:24-30 is an explicit placeholder pending future task CRUD.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
         "defects": [
           "no task-creation UI or store action anywhere in src/ (checked src/store/projects.js, src/views/ProjectBoard.vue, src/views/ProjectBacklog.vue)"
-        ]
+        ],
+        "change": "openspec/changes/tasks-create-edit-delete"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1882,7 +1890,7 @@
         "plane": "no WIP limit exists (see brd-wip-limits); the drop gate is the hollow shim use-workflow-drag-n-drop.ts:10-23 'isWorkflowDropDisabled: false' (corpus: plane/round4/open-core.md shims table) ; source read at v1.4.2: apps/web/core/components/workflow/use-workflow-drag-n-drop.ts:10-23 returns isWorkflowDropDisabled: false and a no-op handleWorkFlowState, so every drop is accepted; no WIP limit exists to enforce (see brd-wip-limits, apps/api/plane/db/models/state.py:79)"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "src/views/ProjectBoard.vue:566-584 applyStatusMove() performs the status change unconditionally with no column-count/limit check before calling updateTaskStatus(); wipLimit is never read anywhere (see brd-wip-limits).",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -1890,7 +1898,8 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Decided no on 2026-09-27 in the OpenSpec pass. docs/ARCHITECTURE.md section 5, resolved question 6 records soft WIP limits: the column header warns and a drag is never blocked. No competitor rates yes either."
     },
     {
       "id": "brd-swimlanes",
@@ -1915,10 +1924,11 @@
         "plane": "source: apps/web/core/components/issues/issue-layouts/kanban/swimlanes.tsx ; packages/constants/src/issue/filter.ts:237 sub_group_by options state, priority, cycle, module, labels, assignees, created_by. No epic swimlane because epics are unreachable (corpus: plane/round4/journeys.md epics 404) ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/kanban/swimlanes.tsx:62 SubGroupSwimlaneHeader; packages/constants/src/issue/filter.ts:237 sub_group_by state, priority, cycle, module, labels, assignees, created_by; apps/api/plane/app/views/issue/base.py:159-162 server groups by sub_group_by. No epic option"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "src/views/ProjectBoard.vue has a single grid of column sections (:102-175), no swimlane grouping dimension; task.epic exists as a schema property but is never read in src/ (grep confirmed).",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/boards-card-display"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1948,10 +1958,11 @@
         "plane": "corpus: plane/round4/code-census.md §9 'a saved view can be shared (access = 1, the default) and it does carry its column set' ; menu-tree.md 'Views  saved views' ; source read at v1.4.2: apps/web/core/components/views/form.tsx:48,98 view form with access default PUBLIC; apps/api/plane/app/urls/views.py:18 project views route, apps/api/plane/app/views/view/base.py:420 create; apps/api/plane/db/models/view.py:58-66 IssueView with access Private or Public"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "src/views/ProjectBoard.vue's label filter is local component state (`activeLabelId`, data() default null, :356-358 setLabelFilter) with no persistence or sharing mechanism.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/boards-filters"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1981,10 +1992,11 @@
         "plane": "corpus: plane/round4/code-census.md §2 labels and states carry color; source: ISSUE_DISPLAY_PROPERTIES shows label and state chips on the card, no setting colours the whole card by label or type (no types exist, journeys.md) ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/properties/labels.tsx:155 a label chip on the card takes the label colour; apps/api/plane/db/models/label.py:21 color; no display option colours the whole card, packages/constants/src/issue/common.ts:142-159 display keys have no card colour)"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "src/components/TaskCard.vue:229-237 the card background is a fixed `var(--color-surface)`; labels only render as a small circular swatch inside a chip (:56-59, 12px), not as the card's own colour, and there is no colour-by-type or colour-by-category option anywhere.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/boards-card-display"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2081,10 +2093,11 @@
         "untis": "docs read 2026-09-27: https://help.untis.at/hc/de/articles/360015023539 WebUntis ticket system (Aufgaben): 'Unter Unterricht | Aufgaben kann durch das Klicken auf <Neu> ein neues Ticket angelegt werden' ; https://help.untis.at/hc/de/articles/360015324359 status can be changed to 'Erledigt' or 'in Bearbeitung'. It is a damage report ticket list for school facilities, not project task management"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "No task create or edit form exists anywhere in src/ (dialogs/ holds only LabelEditDialog, LabelDeleteDialog, ProjectCreationDialog, ProjectDeleteDialog, ProjectLeaveDialog, TimeEntryDialog; registry.js has no task dialog/component). Status changes via drag/keyboard move only: src/views/ProjectBoard.vue:562-593 (applyStatusMove) and :152-165 (move menu). Estimate is the only editable field: src/views/TaskDetail.vue:557-570 (saveEstimate). Delete only happens as a project-delete cascade: src/store/projects.js:554-561 (deleteObject(TASK_SCHEMA, task.id) inside deleteProject), with no standalone delete-a-task action anywhere.",
         "reachedOn": "ProjectBoard page for status move; TaskDetail page for estimate edit; nothing reaches create or standalone delete",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-create-edit-delete"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2116,10 +2129,11 @@
         "untis": "docs read 2026-09-27: https://help.untis.at/hc/de/articles/360015324359 'Die Aufgabe kann nun vom Sachbearbeiter mit einer Bemerkung versehen, einem anderen Benutzer zugewiesen ... werden' and staff can take a ticket for themselves"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "task.assignedTo is a plain string schema property (lib/Settings/planninq_register.json). It is only ever read for display: src/components/TaskCard.vue:65-66 and src/views/TaskDetail.vue:267 (fields()). No component, dialog or store action writes assignedTo anywhere in src/ (only read as a query filter in src/store/projects.js:642 getMemberTaskCount).",
         "reachedOn": "nothing reaches it (display only)",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-assignment-priority-labels"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2149,10 +2163,11 @@
         "plane": "corpus: plane/round4/code-census.md §2 'assignees M2M (:149)'; journeys.md 'assignees' plural set in the driven journey ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/default-properties.tsx:126-139 assignee_ids dropdown with multiple; apps/api/plane/db/models/issue.py:149 assignees ManyToManyField"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "assignedTo is declared type: string (single value), not an array (lib/Settings/planninq_register.json properties.assignedTo), and as tsk-assign shows there is no assignment UI at all.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-assignment-priority-labels"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2182,10 +2197,11 @@
         "plane": "corpus: plane/round4/code-census.md §2 'priority from PRIORITY_CHOICES urgent/high/medium/low/none' ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/default-properties.tsx:109-119 PriorityDropdown; apps/api/plane/db/models/issue.py:107 PRIORITY_CHOICES and :141-143 priority field"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "priority is only displayed, never set: src/components/TaskCard.vue:32-36 (chip) and :189-211 (priorityLabel/priorityVariant), src/views/TaskDetail.vue:266 (fields()). No form or control anywhere writes task.priority.",
         "reachedOn": "nothing reaches it (display only)",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-assignment-priority-labels"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2215,10 +2231,11 @@
         "plane": "corpus: plane/round4/M1-column.md 3.6 'Issue.target_date settable, sortable and filterable' and 8.2 'overdue styling is computed client side from target_date' ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/default-properties.tsx:184-196 target_date picker; apps/web/core/components/issues/issue-layouts/properties/all-properties.tsx:308 due date turns red via shouldHighlightIssueDueDate, packages/utils/src/work-item/base.ts:172; apps/api/plane/db/models/issue.py:148 target_date. Overdue is computed client side only"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "Seeing overdue works: src/utils/taskHelpers.js:215-236 (dueDateStatus, date-only comparison, 'overdue'/'approaching') feeds src/components/TaskCard.vue:17-19,121-141 (due-date badge). Setting a due date has no UI anywhere: dueDate only appears as a read value (src/views/TaskDetail.vue:268) and as timeline positioning input (src/views/ProjectTimeline.vue:429-430, src/utils/timelineHelpers.js:79).",
         "reachedOn": "ProjectBoard page (badge) for seeing overdue; nothing reaches setting a due date",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-dates"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2249,10 +2266,11 @@
         "plane": "corpus: plane/round4/code-census.md §2 'start_date and target_date DateFields (:147-148)' ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/default-properties.tsx:165-177 start_date picker; apps/api/plane/db/models/issue.py:147 start_date DateField; apps/api/plane/app/views/issue/base.py:628 partial_update"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "startDate is only read, for timeline bar positioning: src/views/ProjectTimeline.vue:426-427, src/utils/timelineHelpers.js:78-79. No form or input anywhere sets task.startDate.",
         "reachedOn": "nothing reaches setting it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-dates"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2282,13 +2300,14 @@
         "plane": "corpus: plane/round4/M1-column.md 2.8 'label.py:11 workspace-scoped with an optional project, a self-FK parent, color and sort_order' ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/default-properties.tsx:147-157 label_ids dropdown; apps/web/core/components/issues/issue-layouts/properties/labels.tsx:155 coloured chip; apps/api/plane/db/models/label.py:11-21 Label with parent and color; apps/api/plane/db/models/issue.py:543-545 IssueLabel"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "Labels are app-wide objects tasks reference by UUID array (task.labels), rendered and filterable on the board: src/views/ProjectBoard.vue:69-95 (filter chips), :439-441 (labelsForTask), src/components/TaskCard.vue:44-58 (label chips). But no UI anywhere lets a user add/remove a label ON a given task: the library's generic per-object tag tab is deliberately hidden, src/utils/taskHelpers.js:34 TASK_SIDEBAR_HIDDEN_TABS = ['tags', 'tasks'] applied at :59, and Planninq built no replacement tagging control on TaskDetail.",
         "reachedOn": "ProjectBoard page (view/filter only); nothing reaches attaching a label to a task",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/utils/taskHelpers.js:34 hides the generic CnTagsTab with a comment claiming Planninq has its own label concept, but no per-task label-attach UI exists to replace it"
-        ]
+        ],
+        "change": "openspec/changes/tasks-assignment-priority-labels"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2385,10 +2404,11 @@
         "plane": "corpus: plane/round4/code-census.md §9 'Issues [\"name\", \"sequence_id\", \"project__identifier\"]' and 'Descriptions are not searched ... Nor are comments'; title and key only ; source read at v1.4.2: apps/web/core/components/power-k/ui/modal/search-menu.tsx:51 searchWorkspace from the command palette; apps/api/plane/app/urls/search.py:13 search route; apps/api/plane/app/views/search/base.py:83-94 filter_issues matches name, sequence_id, project__identifier with icontains only, no description or comment text"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "No task text search exists in src/. The only search-like UI found is src/components/MemberSearch.vue (searches Nextcloud users) and the project title search in src/views/ProjectList.vue; neither searches task text.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-search-and-bulk"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2418,10 +2438,11 @@
         "plane": "corpus: plane/round4/open-core.md 'use-bulk-operation-status.ts:7 ... export const useBulkOperationStatus = () => false;' ; M1-column.md 2.6 no. 'Full Time Tracking + Bulk Ops' is a Pro string, absent from Community ; source read at v1.4.2: apps/web/core/hooks/use-bulk-operation-status.ts:7 returns false, read at apps/web/core/components/issues/issue-layouts/spreadsheet/spreadsheet-view.tsx:66; apps/web/core/services/issue/issue.service.ts:340 calls a 'bulk-operation-issues' route that apps/api/plane/app/urls/issue.py does not define; bulk delete modal at apps/web/core/components/modals/work-item-level.tsx:104 has no opener"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "No multi-select or bulk-action UI exists anywhere in src/ (ProjectBoard.vue has only single-card drag/move; ProjectBacklog.vue is a placeholder, src/views/ProjectBacklog.vue:20-26).",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-search-and-bulk"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2553,13 +2574,14 @@
         "plane": "corpus: plane/round4/code-census.md §2 'Issue.parent gives sub-issues; the endpoint is apps/api/plane/app/urls/issue.py:105' ; source read at v1.4.2: apps/web/core/components/issues/issue-detail-widgets/sub-issues/title-actions.tsx:114 add sub-work item button; apps/api/plane/app/urls/issue.py:105 sub-issues route, apps/api/plane/app/views/issue/sub_issue.py:204 post; apps/api/plane/db/models/issue.py:114 parent FK"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "task.parent is declared for sub-task support (lib/Settings/planninq_register.json properties.parent) but is never read or written anywhere in src/ (no match for 'parent' as a task field in any .vue/.js). The library's generic linked-task tab that could serve this, CnTasksTab, is explicitly hidden: src/utils/taskHelpers.js:34 TASK_SIDEBAR_HIDDEN_TABS includes 'tasks', applied at src/views/TaskDetail.vue via taskCollaborationSidebarConfig:59. No Planninq replacement exists.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/utils/taskHelpers.js:34 hides CnTasksTab (nextcloud-vue's generic linked-task/subtask tab) with no Planninq-built substitute, so task.parent (lib/Settings/planninq_register.json) is unreachable"
-        ]
+        ],
+        "change": "openspec/changes/tasks-subtasks-checklist"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2589,10 +2611,11 @@
         "plane": "corpus: plane/round4/code-census.md §3 'No checklist model. Sub-tasks are ordinary issues with parent set' ; source read at v1.4.2, contradicts the drive: The drive recorded no checklist; the description editor ships a to-do list block with tickable items, so a checklist inside a task exists as rich text. packages/editor/src/core/extensions/extensions.ts:95 TaskList and TaskItem in the core editor, offered as 'To-do list' in packages/editor/src/core/extensions/slash-commands/command-items-list.tsx:150; the work item description uses it via apps/web/core/components/issues/issue-modal/components/description-editor.tsx:184 RichTextEditor. Checkboxes in the description text, no checklist object or progress count; searched apps/api/plane/db/models for 'checklist': only apps/api/plane/db/models/workspace.py:211 onboarding"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "No checklist concept exists in the task schema or in src/. The library's generic CnTasksTab (a linked-item/checklist-style tab, nextcloud-vue/src/components/CnObjectSidebar/CnObjectSidebar.vue:124-142) is deliberately hidden by src/utils/taskHelpers.js:34, and Planninq built no checklist UI of its own.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-subtasks-checklist"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2655,10 +2678,11 @@
         "plane": "corpus: plane/round4/code-census.md §2 description_json / description_html; usability.md driven editor ; source: packages/editor rich text editor with markdown copy (i18n 'Copy markdown') ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/description-editor.tsx:23,184 RichTextEditor for the description; packages/editor/src/core/extensions/extensions.ts:65 CoreEditorExtensions with lists and task lists; apps/api/plane/db/models/issue.py:137-138 description_json and description_html"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "task.description is rendered as plain text interpolation everywhere it appears: src/components/TaskCard.vue:9 ({{ task.description }}) and src/views/TaskDetail.vue:48/269 ({{ field.value }}). No markdown/rich-text renderer or editor is used, and (per tsk-create-edit) there is no description edit form at all.",
         "reachedOn": "displayed as plain text on ProjectBoard cards and TaskDetail; nothing renders or edits it as rich text",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-create-edit-delete"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2725,10 +2749,11 @@
         "plane": "source: apps/api/plane/app/serializers/issue.py:100 project_id read_only=True; apps/web/core/components/issues/issue-modal/form.tsx:368 project select disabled={!!data?.id || !!data?.sourceIssueId}; 'move_to_project' exists only for workspace drafts (workspace-draft/draft-issue-block.tsx:83) ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/form.tsx:368 project select disabled for an existing item; apps/api/plane/app/serializers/issue.py:100 project_id read_only; searched apps/api/plane/app/urls/issue.py and apps/web/core/components/issues/issue-layouts/quick-action-dropdowns/helper.tsx for 'move_to_project', 'transfer': none"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "No UI or store action reassigns an existing task's project field. Searched src/ for any 'move to project' control or a store action writing task.project on an existing task; none exists (task.project is only ever set at creation time via the generic object API, which itself has no UI per tsk-create-edit).",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-move-between-projects"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2758,7 +2783,7 @@
         "plane": "corpus: plane/round4/code-census.md §2 IssueRelationChoices 'duplicate, relates_to, blocked_by, ...' ; source read at v1.4.2: apps/web/core/components/issues/issue-detail-widgets/relations/quick-action-button.tsx:38-40 opens the relation modal; apps/web/core/components/relations/index.tsx:13-14 relates_to option; apps/api/plane/app/urls/issue.py:236 issue-relation route; apps/api/plane/db/models/issue.py:272-274 IssueRelationChoices RELATES_TO"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "The dependency schema declares a non-blocking 'type' enum (blocks/relates/duplicates/clones/splits/causes, lib/Settings/planninq_register.json dependency.properties.type), but src/store/dependencies.js:81-100 createEdge() only ever POSTs {blocker, blocked} with no type, so the server always defaults to 'blocks'. Worse, the only component that could create any edge, src/components/TaskDependencies.vue, is never imported by any other file in src/ (grep across src/ finds it only in its own file), it is not mounted on TaskDetail or anywhere else, so even blocking dependencies have no reachable UI.",
         "reachedOn": "nothing reaches it (TaskDependencies.vue is an orphan component)",
         "owner": "ConductionNL/planninq",
@@ -2766,7 +2791,8 @@
           "src/components/TaskDependencies.vue is never imported/mounted by any view or component in src/, a full dependency-editing UI with no caller",
           "src/components/BlockedBadge.vue is likewise never imported/mounted anywhere in src/",
           "src/store/dependencies.js:81 createEdge() has no `type` parameter, so even if wired up it could never create the non-blocking 'relates'/'duplicates'/etc edges the schema declares"
-        ]
+        ],
+        "change": "openspec/changes/planning-dependencies-on-task-page"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2832,7 +2858,8 @@
         "state": "specified",
         "evidence": "src/views/ProjectBacklog.vue:20-26 is a literal placeholder: NcEmptyContent with name 'Backlog view coming soon' and description 'Task management will be available in a future update.' Component-level comment confirms: 'Stays a placeholder until tasks#REQ-Task-CRUD lands.'",
         "reachedOn": "route /projects/:id/backlog exists and is reachable (ProjectBoard.vue:46-48 'Backlog' button) but renders only the placeholder",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/backlog-list"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2865,7 +2892,8 @@
         "state": "specified",
         "evidence": "Same placeholder page, src/views/ProjectBacklog.vue:20-26; no task list, no move-to-board action exists at all.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/backlog-list"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2898,7 +2926,8 @@
         "state": "specified",
         "evidence": "Same placeholder page, src/views/ProjectBacklog.vue:20-26; no sort or filter controls exist.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/backlog-list"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2928,10 +2957,11 @@
         "plane": "corpus: plane/round4/code-census.md §2 Issue 'sort_order float (:158)'; list and board support manual drag ordering (kanban/block.tsx:206 draggable) ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/list/block.tsx:117 draggable rows in the list layout and apps/web/core/components/issues/issue-layouts/kanban/block.tsx:206 on the board; apps/web/core/components/issues/issue-layouts/utils.tsx:491-518 new sort_order between neighbours; apps/api/plane/db/models/issue.py:158 sort_order"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "No backlog list exists to rank (src/views/ProjectBacklog.vue:20-26 placeholder) and no ordering field/drag UI for a backlog exists anywhere.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/backlog-list"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3193,14 +3223,15 @@
         "plane": "corpus: plane/round4/code-census.md §2 IssueRelationChoices includes blocked_by with pair 'blocking' (issue.py:272-290) ; source read at v1.4.2: apps/web/core/components/relations/index.tsx:27 blocked_by option in the relation menu; apps/api/plane/app/urls/issue.py:236 issue-relation route; apps/api/plane/db/models/issue.py:275 BLOCKED_BY and :284 blocked_by paired with blocking"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "src/components/TaskDependencies.vue (full picker/add/remove UI) -> src/store/dependencies.js:81 createEdge -> lib/Service/DependencyService.php:112 create(); but src/views/TaskDetail.vue never imports or mounts TaskDependencies (grep of src/ finds no importer)",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/components/TaskDependencies.vue: complete component (picker, blocked banner, remove buttons) with no importer anywhere in src/",
           "src/views/TaskDetail.vue: has no Dependencies section and does not import TaskDependencies.vue"
-        ]
+        ],
+        "change": "openspec/changes/planning-dependencies-on-task-page"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3231,13 +3262,14 @@
         "plane": "source: apps/api/plane/db/models/issue.py:306-312 UniqueConstraint on (issue, related_issue) blocks duplicates, and apps/api/plane/app/views/issue/relation.py:229-245 bulk_create(ignore_conflicts=True) drops them silently; no self or circular check in relation.py create. Corpus silent ; source read at v1.4.2: apps/api/plane/app/views/search/issue.py:44 the relation picker excludes the item itself and its parent, :47-53 excludes already related items; apps/api/plane/db/models/issue.py:308-311 UniqueConstraint issue and related_issue; apps/api/plane/app/views/issue/relation.py:229-245 bulk_create ignore_conflicts, no check for a circular chain"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "lib/Service/DependencyService.php:112-236 assertDistinctTasks/assertEdgeIsValid/DependencyGraph::cyclePath fully implement self/duplicate/cross-project/cycle checks, surfaced by src/components/TaskDependencies.vue:73 (errorMessage)",
         "reachedOn": "nothing reaches it (same dead component as pln-dependencies)",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/components/TaskDependencies.vue: the only caller of dependencies.js createEdge/deleteEdge, and it is never imported (see pln-dependencies)"
-        ]
+        ],
+        "change": "openspec/changes/planning-dependencies-on-task-page"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3268,14 +3300,15 @@
         "plane": "source: grep -rniE 'blocked|blocking' apps/web/core/components/issues/issue-layouts returns 0 hits; ISSUE_DISPLAY_PROPERTIES (packages/constants/src/issue/common.ts) has no blocked property. Relations show only on the work item page ; source read at v1.4.2: packages/constants/src/issue/common.ts:142-159 card display keys have no blocked entry; searched apps/web/core/components/issues/issue-layouts for 'blocked', 'blocking': none. Relations show only inside the work item, apps/web/core/components/relations/index.tsx:27"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "src/components/BlockedBadge.vue (renders isBlocked() result) and src/utils/taskHelpers.js:105 isBlocked() / :135 blockedTaskIds() exist, but grep across src/ finds no importer of BlockedBadge.vue and no caller of isBlocked()/blockedTaskIds() anywhere",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/components/BlockedBadge.vue: defined, never imported by any view or component",
           "src/utils/taskHelpers.js:105 isBlocked() and :135 blockedTaskIds(): exported, never called outside their own file"
-        ]
+        ],
+        "change": "openspec/changes/planning-dependencies-on-task-page"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3306,13 +3339,14 @@
         "plane": "source: apps/web/core/components/gantt-chart/helpers/draggable.tsx:26 declares enableDependency and the ChartDraggable body (:30-39) never destructures or uses it; no dependency path component in the tree. A hollow shim like those in corpus: plane/round4/open-core.md ; source read at v1.4.2: apps/web/core/components/gantt-chart/helpers/draggable.tsx:26 declares enableDependency and :30-38 ChartDraggable never destructures it; searched apps/web/core/components/gantt-chart for 'dependency.?path', 'DependencyPath', 'relation.?line': none"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "src/views/ProjectTimeline.vue:71-95 (edgeLines svg) <- src/utils/timelineHelpers.js buildLayout() consumes payload.dependencies from src/api/timeline.js:35",
         "reachedOn": "ProjectTimeline page /projects/:id/timeline",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/components/TaskDependencies.vue: not mounted anywhere, so no real edge ever reaches the timeline outside seeded demo data"
-        ]
+        ],
+        "change": "openspec/changes/planning-dependencies-on-task-page"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4273,13 +4307,14 @@
         "untis": "not checked: https://help.untis.at/hc/de/articles/360015023539 and https://help.untis.at/hc/de/articles/360009210060 mention a personal 'Startseite' and 'Heute-Seite' in WebUntis, but no page read describes what it holds in enough detail to settle this"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "src/manifest.json:72-140 (Dashboard page, three project-count stat widgets + project-panels) -> src/components/DashboardPanels.vue:16-44 'My projects' list via src/store/projects.js:170 fetchProjects()",
         "reachedOn": "Dashboard / (menu 'Dashboard')",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/manifest.json:97-110 'Projects I am in' KPI has no member filter; it counts every project the reader can see, which for an admin (project read grants group admin, lib/Settings/planninq_register.json project.authorization) is every project (code reading, needs a live check)"
-        ]
+        ],
+        "change": "openspec/changes/portfolio-my-work-dashboard"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4313,7 +4348,8 @@
         "state": "specified",
         "evidence": "openspec/specs/dashboard-my-work.md (status in-progress) describes a My Work view; no page in src/manifest.json and no component filters tasks by assignedTo == current user",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/portfolio-my-work-dashboard"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5083,7 +5119,8 @@
         "state": "specified",
         "evidence": "openspec/specs/procest-integration.md:13 describes it; no planninq route, dialog or listener creates a project from a case, and procest/src + procest/lib reference planninq only in lib/Repair/MigrateSchemaApplicationId.php",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/integration-case-bridge"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5626,13 +5663,14 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/guides-tutorials/te-preferences-language-support-and-configuration 'TE Preferences currently supports the following languages: English, Swedish, German, French, and Dutch' ; https://www.academy.timeedit.com/product-updates/246698476 Study Guide 'keeps English on later visits even where the default is Dutch' ; npm te-integration-lib@0.0.64 src/i18n/constants.js:3 \"Dutch: 'nl'\""
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "l10n/nl.json (269 keys) and l10n/en.json; UI strings go through t('planninq', ...) e.g. src/views/ProjectTimeline.vue:189, src/components/DashboardPanels.vue:56",
         "reachedOn": "every page, following the user's Nextcloud language",
         "owner": "ConductionNL/planninq",
         "defects": [
           "l10n/nl.json lacks src/components/DashboardPanels.vue:56 'Go to projects' and src/views/ProjectTimeline.vue:189 'Week' (two of 67 untranslated strings found by script; the regex misses multi-line calls, so the true count may differ)"
-        ]
+        ],
+        "change": "openspec/changes/fix-l10n-parity-gate"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5925,7 +5963,7 @@
         "untis": "docs read 2026-09-27: https://help.untis.at/hc/de/articles/18077455725340 timetables marked public 'können ... ohne einen vorherigen Login in WebUntis gesehen werden' ; https://www.untis.at/produkte/webuntis/schuljahreskalender people without WebUntis access can view non-public calendar dates 'mithilfe eines automatisch generierten Einladungscode'. Read-only views, not scoped guest accounts"
       },
       "built": {
-        "state": "built",
+        "state": "decided-no",
         "evidence": "project visibility is by membership (lib/Settings/planninq_register.json:404, task scope :51), so any Nextcloud account, including a Guests-app account, added to one project sees only that project; members are added in src/components/ProjectSettingsSidebar.vue via src/components/MemberSearch.vue:124-126 -> src/store/projects.js:610 addMember",
         "reachedOn": "ProjectBoard /projects/:id, project settings sidebar, add member",
         "owner": "nextcloud/server",
@@ -5938,7 +5976,7 @@
       "providerHow": "read-from-code",
       "feature": "platform",
       "featureConfidence": "medium",
-      "note": "There is no invite-a-guest flow; the guest must already exist as a Nextcloud user (Guests app). Labels (:1072) and dependency edges (:1118) stay readable to every authenticated user, guests included. The member picker only returns users to admins and subadmins (see defect), so an ordinary project owner may not be able to add anyone."
+      "note": "There is no invite-a-guest flow; the guest must already exist as a Nextcloud user (Guests app). Labels (:1072) and dependency edges (:1118) stay readable to every authenticated user, guests included. The member picker only returns users to admins and subadmins (see defect), so an ordinary project owner may not be able to add anyone. Decided no on 2026-09-27 in the OpenSpec pass. the row is owed to nextcloud/server, a platform capability outside the fleet (OpenSpec pass addendum rule). Guest accounts come from the Guests app; the member search defect that also affects guests is specified in projects-members-and-roles (row prj-members)."
     },
     {
       "id": "prj-risk-register",
@@ -6087,7 +6125,7 @@
       "name": "Log time on non-project activities, such as training, leave and sickness, next to project work in the same timesheet.",
       "origin": "tender",
       "originUrl": "https://www.tenderned.nl/aankondigingen/overzicht/365739",
-      "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 4008, 4009, 64440 (weekly timesheets with non-project activities, sickness and leave).",
+      "note": "Demand row from TenderNed 365739, gemeente Sittard-Geleen, Projectmanagementtool (published 2025-01-31, intelligence database tender id 285): requirements 4008, 4009, 64440 (weekly timesheets with non-project activities, sickness and leave). Decided no on 2026-09-27 in the OpenSpec pass. docs/ARCHITECTURE.md section 5, resolved question 4 records time tracking as per task only, forever, with overhead work logged as tasks; ADR-001 rule 4 keeps time entry personal-first; leave and sickness live in humaniq (LeaveRequest, SickLeaveCase) and the hours themselves move to humaniq TimeEntry (open change plannedtimeentry-reads-humaniqs-hours). Tender 365739 demand noted for the humaniq lane.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: searched lib/ and src/ for 'timesheet', 'time spent', 'worklog': no time logging",
         "openproject": "source read at v17.8.0: modules/costs/app/models/time_entry.rb:50 every time entry needs a project and entity; app/models/user_non_working_time.rb:31 and config/routes.rb:1241 personal non working time records leave, but outside the timesheet; sickness or training need a stand in project",
@@ -6106,7 +6144,7 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "Logging requires a task: src/views/TaskDetail.vue:91 opens src/dialogs/TimeEntryDialog.vue, which writes task: this.taskId (:160) through src/store/timeEntries.js:149 create. src/views/Timesheet.vue:53-80 only lists the user's entries (src/store/timeEntries.js:121 fetchForCurrentUser). humaniq declares LeaveRequest and SickLeaveCase schemas (hrmq/lib/Settings/humaniq_register.json), but planninq never reads them, so leave does not appear in the planninq timesheet.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
@@ -6212,11 +6250,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "src/components/ProjectSettingsSidebar.vue:47-53 displays caseReference when set; no action exports a project's attachments or metadata to dossiq/procest or a ZGW DRC. grep for 'zaakUuid', 'caseReference', 'drc', 'archive' in lib/ finds only the portal field exclusion list in lib/Portal/PortalContributionProvider.php:64.",
         "reachedOn": "ProjectBoard /projects/:id, project settings sidebar shows the case reference only",
         "owner": "ConductionNL/planninq",
-        "consumesSibling": "dossiq/procest owns cases; planninq only stores a reference to one"
+        "consumesSibling": "dossiq/procest owns cases; planninq only stores a reference to one",
+        "change": "openspec/changes/integration-case-bridge"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6302,7 +6341,7 @@
       "name": "Change a task's dates or mark it done from a calendar or phone task app and have the change saved back.",
       "origin": "featureRequest",
       "originUrl": "https://github.com/nextcloud/deck/issues/2399",
-      "note": "Demand row mined from nextcloud-deck (featureRequest) on 2026-09-26.",
+      "note": "Demand row mined from nextcloud-deck (featureRequest) on 2026-09-26. Decided no on 2026-09-27 in the OpenSpec pass. docs/ARCHITECTURE.md section 5, resolved question 1 records a one-way export of tasks to the Nextcloud Tasks app and rejects two-way sync because the Tasks app has no projects, columns or WIP limits.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: lib/DAV/CalendarObject.php:58-59 put throws Forbidden 'This calendar-object is read-only'; lib/Db/Card.php:152 FIXME for write support; the request has 70 reactions",
         "openproject": "source read at v17.8.0: modules/calendar/config/routes.rb:17 calendar/ical#show is a read only iCal feed; searched app and modules for 'caldav': none",
@@ -6322,7 +6361,7 @@
       "xedule": "unknown",
       "timeedit": "partial",
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "Schema only: lib/Settings/planninq_register.json:311-316 calendarEventUid. grep for calendarEventUid, caldav, vtodo in src/ and lib/ finds only the portal exclusion comment lib/Portal/PortalContributionProvider.php:64. Nothing publishes tasks to a calendar, so nothing can be written back.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -6462,10 +6501,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "Columns are the five task statuses, hard-coded at src/utils/taskHelpers.js:252 and mapped at src/views/ProjectBoard.vue:283-291. The per-project column objects written by src/store/projects.js:469 createDefaultColumns are never read back, so there is nothing to move or copy to another project.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-move-between-projects"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6497,11 +6537,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "The data model already stores a whole-day due date [lib/Settings/planninq_register.json:268-272], and src/components/TaskCard.vue:16-21 shows the badge from it, but a user cannot set or change one anywhere [tsk-due-date]. A schema that fits the row is not a screen that delivers it.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "nearCredit": "the date-only dueDate format reads like whole-day due dates, but nothing lets a user set one"
+        "nearCredit": "the date-only dueDate format reads like whole-day due dates, but nothing lets a user set one",
+        "change": "openspec/changes/tasks-dates"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6661,7 +6702,7 @@
       "name": "Write a shared document together in real time, seeing each other's cursors.",
       "origin": "changelog",
       "originUrl": "https://www.openproject.org/docs/release-notes/17-0-0/",
-      "note": "Demand row mined from openproject (changelog) on 2026-09-26.",
+      "note": "Demand row mined from openproject (changelog) on 2026-09-26. Decided no on 2026-09-27 in the OpenSpec pass. the row is owed to nextcloud/server, a platform capability outside the fleet (OpenSpec pass addendum rule). Real-time co-editing comes from Nextcloud Text or Office through the task attachments tab.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: src/components/card/Description.vue:208 the Text editor is embedded for one user at a time; appinfo/routes.php:183-185 sessions track board viewers, not shared editing; searched src/ for 'collaborat', 'yjs': none",
         "openproject": "source read at v17.8.0: modules/documents/app/views/documents/show.html.erb:34-35 collaborative documents when real-time collaboration is on, served by the Hocuspocus service in docker/hocuspocus; searched modules/documents for an Enterprise gate: none",
@@ -6680,7 +6721,7 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "built",
+        "state": "decided-no",
         "evidence": "src/views/TaskDetail.vue:129-137 CnObjectSidebar with filesLabel 'Attachments' -> src/utils/taskHelpers.js:50-60 taskCollaborationSidebarConfig -> OpenRegister per-object files API; nextcloud-vue src/components/CnObjectSidebar/CnFilesTab.vue opens a file in the Viewer or links 'Show in Files'. Real-time cursors come from Nextcloud Text or Nextcloud Office when installed, not from planninq.",
         "reachedOn": "TaskDetail /projects/:id/tasks/:taskId, Attachments tab, then Nextcloud Text or Office outside planninq",
         "owner": "nextcloud/server",
@@ -6752,11 +6793,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "Schema only: key on task and project, both described as import-preserved values. No key generation, no key on src/components/TaskCard.vue:1-68 or src/views/TaskDetail.vue:262-270, no key field on project create.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "nearCredit": "the schema descriptions promise ABC-123 keys; no code produces or shows them"
+        "nearCredit": "the schema descriptions promise ABC-123 keys; no code produces or shows them",
+        "change": "openspec/changes/tasks-readable-keys"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7002,10 +7044,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "src/components/DashboardPanels.vue:18-44 renders recentProjects [:102-106, a filter and slice of src/store/projects.js:170 fetchProjects]. No stored per-user order, no drag handle, no favourite or pin.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/portfolio-my-work-dashboard"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7129,7 +7172,7 @@
       "name": "Get AI help writing or summarising task text, using a model the organisation runs itself.",
       "origin": "featureRequest",
       "originUrl": "https://github.com/makeplane/plane/issues/5941",
-      "note": "Demand row mined from plane (featureRequest) on 2026-09-26. Also asked for by openproject: https://community.openproject.org/wp/69622 (roadmap).",
+      "note": "Demand row mined from plane (featureRequest) on 2026-09-26. Also asked for by openproject: https://community.openproject.org/wp/69622 (roadmap). Decided no on 2026-09-27 in the OpenSpec pass. the row is owed to nextcloud/server, a platform capability outside the fleet (OpenSpec pass addendum rule). The Nextcloud Assistant provides the AI through the comment composer.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: searched lib/ and src/ for 'assistant', 'textprocessing', 'llm', 'openai': none",
         "openproject": "source read at v17.8.0: not in v17.8.0: searched app, lib and modules (rb) for 'openai', 'anthropic', 'ai_assist': none; roadmap item for 18.0.0 in development, with 66020 LLM connection settings",
@@ -7149,7 +7192,7 @@
       "xedule": "unknown",
       "timeedit": "partial",
       "built": {
-        "state": "built",
+        "state": "decided-no",
         "evidence": "src/views/TaskDetail.vue:129-137 CnObjectSidebar -> src/utils/taskHelpers.js:50-60 taskCollaborationSidebarConfig -> nextcloud-vue CnNotesTab NcRichContenteditable with the default '/' smart picker. The AI comes from the Nextcloud Assistant app and whatever model the admin configures; planninq adds no AI action on tasks.",
         "reachedOn": "TaskDetail /projects/:id/tasks/:taskId, Comments tab, '/' picker, only when Nextcloud Assistant is installed",
         "owner": "nextcloud/server",
@@ -7332,10 +7375,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "filterTasksByLabel [src/utils/labelHelpers.js:174-180] returns every task or those WITH the label. No exclusion operator and no other filter dimension on the board.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/boards-filters"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7437,10 +7481,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "No parent and child tasks on any screen, and no sum of child estimates. The progress line at src/views/TaskDetail.vue:76-88 compares the task's own logged time with its own estimate.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-subtasks-checklist"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7507,10 +7552,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "Neither the board card menu [src/views/ProjectBoard.vue:152-165, move targets only] nor the task detail page offers copy. No hierarchy to copy [tsk-subtasks].",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-subtasks-checklist"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -11006,7 +11052,7 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/new-release-of-te-viewer-17-academy 'Schedule - Multiple find free times when change object' ; https://www.academy.timeedit.com/product-updates/new-release-of-te-viewer-5-academy 'Find free objects with padding'. Finds free times and rooms; proposing a slot for a set of participants is not described"
       },
       "built": {
-        "state": "built",
+        "state": "decided-no",
         "evidence": "nextcloud/calendar@99cdee9 src/components/Editor/Invitees/InviteesList.vue:40-41 opens 'Find a time'. src/components/Editor/FreeBusy/FreeBusy.vue:9 titles it 'Availability of attendees, resources and rooms', and :188-194 offers the free slots as 'Available time slots', computed by src/services/freeBusySlotService.js getBusySlots (:25) and getFirstFreeSlot (:79). This is the Calendar app, not planninq.",
         "reachedOn": "Nextcloud Calendar, event editor, Attendees, 'Find a time', outside planninq",
         "owner": "nextcloud/server",
@@ -11014,7 +11060,7 @@
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",
-      "note": "Corrected on 2026-09-27: the provider is nextcloud, and it is built. Nextcloud Calendar proposes times when attendees, resources and rooms are free. planninq is rated partial because the platform provides it, not the app. built.owner is nextcloud/server, as on every Nextcloud-provided row in this file; the code lives in nextcloud/calendar. Proposed by the zermelo reader as tt-meeting-slot-finder. planninq column: searched planninq src/, lib/ and appinfo/ at 6480bea for free-busy, freebusy, meeting slot: none."
+      "note": "Corrected on 2026-09-27: the provider is nextcloud, and it is built. Nextcloud Calendar proposes times when attendees, resources and rooms are free. planninq is rated partial because the platform provides it, not the app. built.owner is nextcloud/server, as on every Nextcloud-provided row in this file; the code lives in nextcloud/calendar. Proposed by the zermelo reader as tt-meeting-slot-finder. planninq column: searched planninq src/, lib/ and appinfo/ at 6480bea for free-busy, freebusy, meeting slot: none. Decided no on 2026-09-27 in the OpenSpec pass. the row is owed to nextcloud/server, a platform capability outside the fleet (OpenSpec pass addendum rule). Nextcloud Calendar proposes free times for attendees and rooms."
     },
     {
       "id": "col-read-receipts",
