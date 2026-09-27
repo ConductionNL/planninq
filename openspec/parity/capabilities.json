@@ -850,10 +850,11 @@
         "plane": "source: apps/api/plane/app/views/project/base.py:257 create is @allow_permission([ROLE.ADMIN, ROLE.MEMBER], level=\"WORKSPACE\"), so guests are excluded, but there is no setting to restrict creation to admins or chosen groups (corpus: plane/round4/code-census.md §5 three fixed roles 20/15/5, no groups) ; source read at v1.4.2: apps/api/plane/app/views/project/base.py:257 create allowed for workspace ROLE.ADMIN and ROLE.MEMBER only, so guests cannot create; searched apps/api/plane for 'can_create_project', 'restrict.?project', 'project_creation': none, so no admin or group restriction setting"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "src/views/ProjectList.vue:207-215 canCreateProject() -> lib/Service/SettingsService.php:158 canCurrentUserCreateProject() reads app config 'allow_project_creation' (default 'all', line 62) -> lib/Controller/ProjectController.php:191 checkCreatePolicy()",
         "reachedOn": "ProjectList page (button visibility) + server-enforced in ProjectController::create()",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-lifecycle-policy"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -884,11 +885,12 @@
         "plane": "corpus: plane/round4/menu-tree.md 'Settings: General, Members, ...' ; code-census.md §5 'ProjectMember.role', ProjectMemberInvite (project.py:192) ; source read at v1.4.2: apps/web/core/components/project/member-list.tsx:78,110 'add_member' opens the invite modal, which lists workspace members not yet in the project, apps/web/core/components/project/send-project-invitation-modal.tsx:74; apps/api/plane/app/views/project/member.py:46-47 create and :290-291 destroy (admin only); apps/web/core/components/project/member-list-item.tsx:36 removeMemberFromProject"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "src/components/ProjectSettingsSidebar.vue:77-113 (Members tab) -> src/components/MemberSearch.vue:120-151 (OCS /ocs/v2.php/cloud/users search) + :160-173 selectUser -> src/store/projects.js:610 addMember() / :672 removeMember()",
         "reachedOn": "ProjectBoard page, Project settings sidebar, Members tab",
         "owner": "ConductionNL/planninq",
-        "readOn": "2026-09-26"
+        "readOn": "2026-09-26",
+        "change": "openspec/changes/projects-members-and-roles"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -919,10 +921,11 @@
         "plane": "corpus: plane/round4/code-census.md §5 'ROLE_CHOICES = ((20, \"Admin\"), (15, \"Member\"), (5, \"Guest\"))' project.py:21 ; three fixed roles, no custom role ; source read at v1.4.2: apps/api/plane/db/models/project.py:21 ROLE_CHOICES Admin 20, Member 15, Guest 5 and :219 ProjectMember.role; apps/web/core/components/project/settings/member-columns.tsx:101 updateMemberRole role dropdown; apps/api/plane/app/views/project/member.py:206 partial_update checks workspace role (:210-214). Three fixed roles, no custom role"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "lib/Settings/planninq_register.json project schema has only `owner` (string, set once at creation) and `members` (flat array of UIDs, no per-member role). src/components/ProjectSettingsSidebar.vue:83-113 renders the member list with only a Leave/Remove action, no role picker.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-members-and-roles"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -988,13 +991,14 @@
         "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/archiveren-en-verwijderen-van-een-roosterproject 'Wij raden aan om uw oude roosterproject(en) te archiveren' via Beheer > Roosterprojecten; archiving a timetable project is stated, restoring it is not described on the page"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "src/components/ProjectSettingsSidebar.vue:149 (Archive project button, Danger zone tab) -> src/store/projects.js:506 archiveProject() (PATCH status='archived')",
         "reachedOn": "ProjectBoard page, Project settings sidebar, Danger zone tab",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/components/ProjectSettingsSidebar.vue: Danger zone tab has no restore/unarchive action for an already-archived project"
-        ]
+        ],
+        "change": "openspec/changes/projects-lifecycle-policy"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1132,13 +1136,14 @@
         "plane": "corpus: plane/round4/code-census.md §2 fixed field list and 'no custom fields on any object'; no budget or billing field on Project (project.py:68-117); 'no Time tracking' (menu-tree.md) ; source read at v1.4.2: apps/api/plane/db/models/project.py:68-117 Project fields; searched project.py for 'budget', 'billing', 'fixed_price', 'hourly': none"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "lib/Settings/planninq_register.json declares billable/budgetHours/budgetAmount/hourlyRate on the project schema. They are read-only displayed in src/components/ProjectListItem.vue:41,127,138 and src/integrations/CnProjectsWidget.vue:45-52 (badges), but neither src/dialogs/ProjectCreationDialog.vue nor src/components/ProjectSettingsSidebar.vue (Details tab, lines 16-64) exposes any field to set them.",
         "reachedOn": "display only (ProjectListItem badge, CnProjectsWidget); no screen lets a user record or edit these terms",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/components/ProjectSettingsSidebar.vue:16-64 Details tab has no fields for billable/budgetHours/budgetAmount/hourlyRate"
-        ]
+        ],
+        "change": "openspec/changes/portfolio-finance"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1203,10 +1208,11 @@
         "plane": "corpus: plane/round4/open-core.md 'Project Templates' listed under Business ; code-census.md §1 'Templates: absent from the backend', create-project-modal.tsx:29 templateId threaded to a no-op provider. Paid tier only, absent from Community ; source read at v1.4.2: apps/web/core/components/project/create-project-modal.tsx:29,78 templateId prop passed down, apps/web/core/components/projects/create/root.tsx:33 declares it and never reads it; searched apps/api/plane/db/models/__init__.py for 'template': none, no template model"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "grep across src/ and lib/ for template/duplicate/clone/copy-project finds nothing that creates a project pre-populated from an existing one's columns/labels/tasks. The manifest's 'Store' page (src/manifest.json 'Store' entry) installs shared configsets/flows from other organisations, which is a different mechanism (marketplace install), not \"new project from a template\".",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-templates-shared-workflow"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1237,10 +1243,11 @@
         "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/nieuw-portal-project 'Wanneer u een nieuw project aanmaakt in het portal, kunt u dat doen op basis van een bestaand project. Het portal neemt dan een aantal zaken mee'"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "no copy/duplicate-project action anywhere in src/ or lib/ (same grep as prj-templates).",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-templates-shared-workflow"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1270,10 +1277,11 @@
         "plane": "corpus: plane/round4/code-census.md §2 'the community edition has no custom fields on any object'; menu-tree.md 'no Custom fields or properties anywhere' ; source read at v1.4.2: searched apps/api/plane --include=*.py outside migrations for 'custom_field', 'CustomField', 'customproperty': only docstring examples at apps/api/plane/utils/filters/converters.py:78 and apps/api/plane/utils/filters/filter_backend.py:223, no model or endpoint"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "the project schema's only catch-all is `metadata` (lib/Settings/planninq_register.json, described as \"Declared catch-all for source-system fields and provenance keys (e.g. jiraProjectId, migratedAt)\"), which is for import provenance, not a user-facing custom-fields feature; no UI exposes it for editing.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-grouping-hierarchy-fields"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1303,10 +1311,11 @@
         "plane": "corpus: plane/round4/code-census.md §2 Project model lists no parent; 'teamspace' grep 0 hits (Teamspaces are Pro) ; source: grep -n parent apps/api/plane/db/models/project.py shows no parent project FK ; source read at v1.4.2: searched apps/api/plane/db/models/project.py for 'parent': none, Project has no parent FK (fields at apps/api/plane/db/models/project.py:68-117); searched apps/api/plane --include=*.py for 'teamspace': none"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "the project schema (lib/Settings/planninq_register.json) has no parent/programme reference property; grep for parentProject/programme in src/ and lib/ finds nothing.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-grouping-hierarchy-fields"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1336,10 +1345,11 @@
         "plane": "source: no overview route under apps/web/app/(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/ (archives, cycles, intake, issues, modules, pages, views only); the project card shows description and member count (apps/web/core/components/project/card.tsx:285-292). Project updates are a paid string never emitted (corpus: plane/round4/code-census.md opening section, is_project_updates_enabled 0 hits) ; source read at v1.4.2: project detail routes under apps/web/app/(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/ are archives, cycles, intake, issues, modules, pages, views only, no overview; apps/web/core/components/project/card.tsx:275-285 the project card shows description and member count"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "src/views/ProjectBoard.vue:26-64 (title/icon/color header) opens src/components/ProjectSettingsSidebar.vue:16-127 (Details tab shows description; Members tab lists members). No progress indicator anywhere: task.percentComplete (schema property) is never read in src/ (grep confirmed zero matches).",
         "reachedOn": "ProjectBoard page + its settings sidebar (Details/Members tabs), not a single dedicated overview page",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-overview-logs-risks"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1370,10 +1380,11 @@
         "plane": "corpus: plane/round4/menu-tree.md 'Pages  the only feature toggle that defaults on' ; code-census.md §4 Page with versioning, linked to projects via ProjectPage. 'Wikis' as a distinct object and 'Nested Pages' are paid (open-core.md) ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/pages/(list)/page.tsx and apps/web/core/components/pages/pages-list-main-content.tsx:39,61 createPage; apps/api/plane/app/urls/page.py:23 project pages route, apps/api/plane/app/views/page/base.py:129 create; apps/api/plane/db/models/page.py:135 ProjectPage, apps/api/plane/db/models/project.py:96 page_view default True"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "grep -i wiki across src/ and lib/ returns nothing.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-wiki"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1403,10 +1414,11 @@
         "plane": "corpus: plane/round4/code-census.md §5 membership is per user, 'teamspace' grep 0 hits; M1-column.md 2.5 'assignees are individual users'. Teamspaces are a Pro string (open-core.md) ; source read at v1.4.2: apps/api/plane/db/models/project.py:210-219 ProjectMember is one user per row with a role; searched apps/api/plane/db/models/__init__.py for 'team', 'group' and apps/api/plane for 'teamspace': none, no group entity to share with"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "projects only carry a flat `members` array of individual Nextcloud UIDs (lib/Settings/planninq_register.json); adding a member is one-by-one via src/components/MemberSearch.vue. No group-sharing code found anywhere in src/ or lib/.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-members-and-roles"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1437,10 +1449,11 @@
         "untis": "docs read 2026-09-27: https://help.untis.at/hc/de/articles/18077455725340 'Öffentlichen Link kopieren' for a timetable an admin has marked public, visible without login ; https://www.untis.at/produkte/webuntis/schuljahreskalender public dates can be published on the school website. Applies to timetables and calendars"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "no public-link/anonymous-share code anywhere in src/ or lib/. The only external-facing surface is the contractor portal (prj-contractor-portal), which is scoped to named contractor references, not an anonymous public link.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-public-share"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2991,7 +3004,7 @@
         "plane": "corpus: plane/round4/menu-tree.md 'Cycles  time boxes, off by default' ; code-census.md §3 'Cycle is a time box: start_date and end_date' ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/cycles/(list)/page.tsx; apps/web/core/components/cycles/modal.tsx:43,52 createCycle; apps/api/plane/app/urls/cycle.py:23 route, apps/api/plane/app/views/cycle/base.py:271 create; apps/api/plane/db/models/cycle.py:60-64 Cycle start_date and end_date. Cycles are off by default per project"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "No sprint concept exists anywhere: grepped lib/ and src/ for 'sprint' case-insensitively, only hit was the unrelated PHP function sprintf().",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -2999,7 +3012,8 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "backlog",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Decided no on 2026-09-27 in the OpenSpec pass. docs/ARCHITECTURE.md:149 records 'No sprints: flow-based, continuous delivery, Kanban-only per user decision' in the project entity decisions. The pass rule checks recorded non-goals before build."
     },
     {
       "id": "bkl-sprint-board",
@@ -3024,7 +3038,7 @@
         "plane": "corpus: plane/round4/code-census.md §3 CycleIssue membership ; source: apps/web/core/components/issues/issue-layouts/roots/cycle-layout-root.tsx renders the cycle's items in the same layouts, board included. The cross-project 'Active Cycles' page is an upsell (open-core.md shims table, active-cycles/page.tsx:13) ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/roots/cycle-layout-root.tsx:40-41 KANBAN renders CycleKanBanLayout for one cycle; apps/api/plane/app/urls/cycle.py:40 cycle-issues route, apps/api/plane/app/views/cycle/issue.py:40 CycleIssueViewSet"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "No sprint concept exists at all (see bkl-sprints), so there is no sprint-scoped board either. The only board is the whole-project Kanban board (src/views/ProjectBoard.vue).",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -3032,7 +3046,8 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "backlog",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Decided no on 2026-09-27 in the OpenSpec pass. docs/ARCHITECTURE.md:149 records 'No sprints: flow-based, continuous delivery, Kanban-only per user decision' in the project entity decisions. The pass rule checks recorded non-goals before build. A sprint board needs sprints."
     },
     {
       "id": "bkl-velocity",
@@ -3057,7 +3072,7 @@
         "plane": "source: grep -rli velocity apps/web/core apps/api packages/constants hits only apps/api/plane/settings/openapi.py prose; no velocity chart across cycles. Corpus silent ; source read at v1.4.2: searched apps/web/core, apps/api/plane and packages/i18n/src/locales/en for 'velocity': one hit, prose in apps/api/plane/settings/openapi.py; no chart comparing completed work across cycles"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "No velocity concept or reporting exists anywhere; the only reports are TaskStatusReport and TimeSpentReport (src/manifest.json Reports pages), neither about sprint velocity, and there are no sprints to measure velocity over (see bkl-sprints).",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -3065,7 +3080,8 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "backlog",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Decided no on 2026-09-27 in the OpenSpec pass. docs/ARCHITECTURE.md:149 records 'No sprints: flow-based, continuous delivery, Kanban-only per user decision' in the project entity decisions. The pass rule checks recorded non-goals before build. Velocity is measured over past sprints. Corrected from defer (PR #675) in the second PR."
     },
     {
       "id": "bkl-burndown",
@@ -3090,7 +3106,7 @@
         "plane": "source: apps/web/core/components/cycles/analytics-sidebar/sidebar-chart.tsx:15 ProgressChart and apps/web/core/components/core/sidebar/progress-chart.tsx:23-45 'current' versus 'ideal' series, i18n 'Burndown chart' ; corpus: plane/round4/code-census.md §3 Cycle.progress_snapshot. Burndown comparison across cycles is the Active Cycles upsell ; source read at v1.4.2: apps/web/core/components/cycles/analytics-sidebar/sidebar-chart.tsx:15,26 cycle sidebar chart; apps/web/core/components/core/sidebar/progress-chart.tsx:20-44 'current' versus 'ideal' series; apps/api/plane/app/views/cycle/base.py:932 burndown_plot, apps/api/plane/utils/analytics_plot.py:123"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "No burndown/burnup chart exists anywhere; grepped lib/ and src/ for 'burndown' with no hits, and there is no sprint concept to chart against (see bkl-sprints).",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -3098,7 +3114,8 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "backlog",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Decided no on 2026-09-27 in the OpenSpec pass. docs/ARCHITECTURE.md:149 records 'No sprints: flow-based, continuous delivery, Kanban-only per user decision' in the project entity decisions. The pass rule checks recorded non-goals before build. The row follows a sprint on a burndown or burnup chart, which needs sprints; flow metrics (cumulative flow, cycle time) are specified in portfolio-flow-reports instead."
     },
     {
       "id": "bkl-releases",
@@ -3757,10 +3774,11 @@
         "plane": "source: packages/constants/src/issue/filter.ts my_issues (workspace views) layouts are spreadsheet and list only, no gantt; the gantt is per project. Corpus silent ; source read at v1.4.2: packages/constants/src/issue/filter.ts:170-195 workspace views (my_issues) offer spreadsheet and list layouts, no gantt; the gantt root is mounted per project at apps/web/core/components/issues/issue-layouts/roots/project-layout-root.tsx:36-37"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "src/views/ProjectTimeline.vue is scoped to one :id (route /projects/:id/timeline); src/views/Portfolio.vue (route /portfolio) is a per-project capacity bar chart of open-task counts, not a shared Gantt/timeline",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/portfolio-status-overview"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4201,13 +4219,14 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/workload/workload 'See exactly how planned hours are distributed across teaching, research, and administration ... Individual and bulk views'. Workload suite"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "src/manifest.json:163 (Reports card 'Capacity') -> src/views/Portfolio.vue:134 fetchProjects({status:'active'}) + :137 fetchTasks(project.id) -> src/utils/portfolioHelpers.js:28 summariseProjectTasks(); columns Project/Members/Open/Overdue at src/views/Portfolio.vue:32-45",
         "reachedOn": "Reports page /reports, 'Capacity' card -> Portfolio /portfolio",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/manifest.json:151 page _note and :163 card description claim 'one row per assignee' / 'spread across the people', but src/views/Portfolio.vue:139-147 builds one row per project (code reading, needs a live check)"
-        ]
+        ],
+        "change": "openspec/changes/portfolio-people-capacity"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4272,10 +4291,11 @@
         "plane": "corpus: plane/round4/menu-tree.md workspace 'Projects', 'Analytics'; code-census.md §10 AnalyticsEndpoint and AdvanceAnalyticsChartEndpoint 'a two-dimensional count, not a report builder'. A workspace-level count across projects, no portfolio health view ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(projects)/analytics/[tabId]/page.tsx workspace analytics; apps/web/core/components/analytics/overview/root.tsx:10-19 active projects and project insights, apps/web/core/components/analytics/overview/active-project-item.tsx:37-62 percent complete per project; apps/api/plane/app/urls/analytic.py:61 advance-analytics, apps/api/plane/app/views/analytic/advance.py:43. Counts and completion only, no health or status"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "src/manifest.json:163 -> src/views/Portfolio.vue:134 fetchProjects({status:'active'}) -> src/store/projects.js:170 fetchProjects() (client-side member filter at :195) -> OpenRegister /api/objects/planninq/project",
         "reachedOn": "Reports page /reports, 'Capacity' card -> Portfolio /portfolio",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/portfolio-status-overview"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4530,10 +4550,11 @@
         "plane": "corpus: plane/round4/code-census.md §2 fixed fields and no custom fields; no budget or cost model in db/models ; source read at v1.4.2: searched apps/api/plane/db/models --include=*.py for 'budget', 'cost': none; Project fields at apps/api/plane/db/models/project.py:68-117 carry no money"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "lib/Settings/planninq_register.json:544-561 project.budgetHours/budgetAmount/hourlyRate exist as schema properties; no planninq form sets them (src/dialogs/ProjectCreationDialog.vue, src/components/ProjectSettingsSidebar.vue have no budget field); src/integrations/CnProjectsWidget.vue:17-19,47-51 only DISPLAYS budgetAmount on the leaf in other apps",
         "reachedOn": "nothing compares budget with cost",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/portfolio-finance"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4598,10 +4619,11 @@
         "plane": "corpus: plane/round4/code-census.md §10 analytics are two-dimensional counts; source: grep -rliE 'cumulative' in packages/i18n/src/locales/en returns nothing ; source read at v1.4.2: searched packages/i18n/src/locales/en and apps/web/core for 'cumulative': only the swimlane prop isSubGroupCumulative at apps/web/core/components/issues/issue-layouts/kanban/swimlanes.tsx:41, no flow chart; apps/api/plane/app/views/analytic/advance.py:289-308 is a two-dimensional count"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "no status-history aggregation anywhere; the only charts are the status and priority donuts of the current state in src/manifest.json:179-180",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/portfolio-flow-reports"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4631,10 +4653,11 @@
         "plane": "corpus: plane/round4/M1-column.md 10.4 'no duration recorded anywhere'; completed_at exists (issue.py:236-249) but no lead or cycle time report ; source read at v1.4.2: apps/api/plane/db/models/issue.py:159 completed_at is stored but searched apps/api/plane --include=*.py for 'lead.?time', 'cycle.?time': none, no report computes it"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "task.completedAt and task.resolvedAt exist in lib/Settings/planninq_register.json but nothing in src/, lib/Service or lib/Controller reads or writes them (grep returns no hits)",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/portfolio-flow-reports"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4704,10 +4727,11 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/products/reporting 'Our custom report capabilities will let you create institution specific reports' ; https://timeedit.com/platform/curriculum/curriculum 'Standard and custom report building'. Reporting is its own product"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "the Reports page offers three fixed cards (src/manifest.json:161-165) whose dashboards are declared in the manifest; no report builder, saved query or saved filter anywhere in src/",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/portfolio-flow-reports"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6003,10 +6027,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "searched src/ lib/ and lib/Settings/planninq_register.json for risk, likelihood, impact, countermeasure: none. No risk schema, no risk page in src/manifest.json pages, no risk component in src/registry.js:42-51.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-overview-logs-risks"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6038,10 +6063,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "No project-scoped log of actions, issues, lessons learned or meetings. The only logs are per task: CnObjectSidebar Comments (notes) and Activity (audit trail) tabs on src/views/TaskDetail.vue:129-137. The project settings sidebar has Details, Members and Danger zone tabs only (src/components/ProjectSettingsSidebar.vue:8-165).",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-overview-logs-risks"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6073,11 +6099,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "Budget is schema plus display only: lib/Settings/planninq_register.json:544-561 budgetHours/budgetAmount/hourlyRate, shown on src/components/ProjectListItem.vue:44-49 and totalled in src/integrations/CnProjectsWidget.vue:254-256 (a leaf rendered on OTHER apps' pages). No planninq page sets a budget, and spend, commitments and forecast have no property at all. The Portfolio page (src/views/Portfolio.vue:29-69) carries no money column.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "nearCredit": "the budget total in CnProjectsWidget reads like a portfolio figure but is budget only, is set nowhere in planninq and renders on other apps' pages"
+        "nearCredit": "the budget total in CnProjectsWidget reads like a portfolio figure but is budget only, is set nowhere in planninq and renders on other apps' pages",
+        "change": "openspec/changes/portfolio-finance"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6109,10 +6136,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "No finance import and no project number to match on: project.key is declared at lib/Settings/planninq_register.json:524 and unused in src/ and lib/. lib/Service/RegisterImportService.php loads planninq's own register JSON (schemas and seed objects), not external spend. Spend and commitments have no schema property to land in.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/portfolio-finance"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6325,10 +6353,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "The only per-project roll-up is src/views/Portfolio.vue:29-69 (members, open, overdue, open-work bar) fed by src/store/projects.js:170 fetchProjects. No per-aspect status property on the project schema (lib/Settings/planninq_register.json:450-580) and no portfolio roll-up of such statuses.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/portfolio-status-overview"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6396,10 +6425,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "Projects are a flat list on src/views/ProjectList.vue:86-92 with status chips :10-17 and free text search :33-37. The project schema has no category, folder or group property, and the menu src/manifest.json:48-58 lists pages, not projects.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-grouping-hierarchy-fields"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6612,11 +6642,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "Owner and members are user ids [lib/Settings/planninq_register.json:478-490]. No group, team or circle can own or join a project [prj-group-share]. When the owner leaves through the leave dialog, ownership passes to the alphabetically first remaining member (lib/Controller/ProjectController.php:288-290), but a deleted account leaves the project with an owner nobody holds.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "liveCheck": "what happens to a project whose owner account is deleted in Nextcloud rather than leaving through the dialog"
+        "liveCheck": "what happens to a project whose owner account is deleted in Nextcloud rather than leaving through the dialog",
+        "change": "openspec/changes/projects-members-and-roles"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6811,7 +6842,7 @@
       "name": "Set a goal for each sprint and keep it visible while the sprint runs.",
       "origin": "changelog",
       "originUrl": "https://www.openproject.org/docs/release-notes/17-6-0/",
-      "note": "Demand row mined from openproject (changelog) on 2026-09-26.",
+      "note": "Demand row mined from openproject (changelog) on 2026-09-26. Decided no on 2026-09-27 in the OpenSpec pass. docs/ARCHITECTURE.md:149 records 'No sprints: flow-based, continuous delivery, Kanban-only per user decision' in the project entity decisions. The pass rule checks recorded non-goals before build. A sprint goal needs sprints.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: searched lib/ and src/ for 'sprint', 'iteration', 'goal': none",
         "openproject": "source read at v17.8.0: modules/backlogs/app/models/sprint_goal.rb:31-35 a goal per sprint; modules/backlogs/app/components/backlogs/sprint_component.rb:100 goal_text on the sprint header; modules/backlogs/config/locales/en.yml:41 'Sprint goal'",
@@ -6830,7 +6861,7 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "The backlog page is an empty state [src/views/ProjectBacklog.vue:24-30], although its manifest note [src/manifest.json:146] describes an ordered task list. No sprint schema exists, so there is nothing to set a goal on.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
@@ -6866,10 +6897,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "Create path: src/dialogs/ProjectCreationDialog.vue:65-75 submit -> src/store/projects.js:328 createProject -> POST /apps/planninq/api/projects -> lib/Controller/ProjectController.php create, which stores the project immediately. No request status, no reviewer and no guided intake form. The creation policy [prj-create-policy] restricts WHO may create, it does not route a request to someone.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-lifecycle-policy"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7264,10 +7296,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "src/manifest.json:53 Documentation menu entry is an href to the product docs site. No in-app page model.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/projects-wiki"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7339,11 +7372,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "Statuses: src/utils/taskHelpers.js:252 -> src/views/ProjectBoard.vue:283-291 on every board. Labels: src/views/settings/Settings.vue:152-198 -> src/store/labels.js:78-105 createLabel -> OpenRegister planninq/label objects; boards read them at src/views/ProjectBoard.vue:424-429 -> src/store/projects.js:806-833 fetchLabels. Shared by construction, not by choice: the statuses cannot be edited and labels cannot be scoped to some projects.",
         "reachedOn": "every ProjectBoard /projects/:id; labels managed in the admin settings page",
         "owner": "ConductionNL/planninq",
-        "gap": "one global set only, statuses not configurable, no estimate scale"
+        "gap": "one global set only, statuses not configurable, no estimate scale",
+        "change": "openspec/changes/projects-templates-shared-workflow"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
