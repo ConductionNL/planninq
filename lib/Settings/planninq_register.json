@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.4.0"
+    "version": "0.5.0"
   },
   "x-openregister": {
     "type": "application",
@@ -18,7 +18,7 @@
         "title": "Planninq",
         "description": "Planninq application data register — tasks, projects, columns, time entries, and labels.",
         "slug": "planninq",
-        "version": "0.4.0",
+        "version": "0.5.0",
         "schemas": [
           "task",
           "project",
@@ -39,7 +39,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedCircleOutline",
-        "version": "0.3.0",
+        "version": "0.4.0",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
@@ -53,18 +53,8 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
                 }
               }
             },
@@ -74,22 +64,7 @@
           ],
           "create": [
             {
-              "group": "authenticated",
-              "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+              "group": "authenticated"
             },
             {
               "group": "admin"
@@ -99,18 +74,8 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
                 }
               }
             },
@@ -122,18 +87,8 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
                 }
               }
             },
@@ -216,6 +171,16 @@
             "description": "UUID of the parent Project",
             "format": "uuid",
             "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
           },
           "phase": {
             "title": "Phase",
@@ -584,7 +549,7 @@
       "projectPhase": {
         "slug": "projectPhase",
         "icon": "TimelineOutline",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "title": "Project Phase",
         "description": "A delivery stage within a project, such as discovery, build or hypercare. Phases carry their own budget and billable flag, and tasks hang off them. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -598,18 +563,8 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
                 }
               }
             },
@@ -619,22 +574,7 @@
           ],
           "create": [
             {
-              "group": "authenticated",
-              "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+              "group": "authenticated"
             },
             {
               "group": "admin"
@@ -644,18 +584,8 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
                 }
               }
             },
@@ -667,18 +597,8 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
                 }
               }
             },
@@ -699,6 +619,16 @@
             "description": "UUID of the parent Project",
             "format": "uuid",
             "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
           },
           "description": {
             "title": "Description",
@@ -754,7 +684,7 @@
       "column": {
         "slug": "column",
         "icon": "ViewColumnOutline",
-        "version": "0.1.2",
+        "version": "0.2.0",
         "title": "Column",
         "description": "A kanban column belonging to a project. Maps to schema:DefinedTerm.",
         "x-schema-org": "schema:DefinedTerm",
@@ -769,18 +699,8 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
                 }
               }
             },
@@ -790,22 +710,7 @@
           ],
           "create": [
             {
-              "group": "authenticated",
-              "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+              "group": "authenticated"
             },
             {
               "group": "admin"
@@ -815,18 +720,8 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
                 }
               }
             },
@@ -838,18 +733,8 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
                 }
               }
             },
@@ -870,6 +755,16 @@
             "description": "UUID of the parent Project",
             "format": "uuid",
             "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
           },
           "order": {
             "title": "Display Order",
@@ -904,7 +799,7 @@
       "plannedTimeEntry": {
         "slug": "plannedTimeEntry",
         "icon": "TimerOutline",
-        "version": "0.2.0",
+        "version": "0.3.0",
         "title": "Time Entry",
         "description": "Time logged by a user against a task. Maps to schema:QuantitativeValue.",
         "x-schema-org": "schema:QuantitativeValue",
@@ -926,28 +821,8 @@
             {
               "group": "authenticated",
               "match": {
-                "task": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "task",
-                      "field": "id",
-                      "where": {
-                        "project": {
-                          "$in": {
-                            "$lookup": {
-                              "schema": "project",
-                              "field": "id",
-                              "where": {
-                                "members": {
-                                  "$contains": "$userId"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
                 }
               }
             },
@@ -1042,6 +917,16 @@
             "format": "uuid",
             "nullable": true,
             "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
           },
           "billable": {
             "title": "Billable",

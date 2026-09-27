@@ -90,7 +90,7 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 ### Risk 2: the project-scoped rule this copies may not scope
 
 **Severity**: High
-**Mitigation**: `projectLogEntry` and `risk` copy the project-scoped authorization of `task`, which matches through `$lookup` (`planninq_register.json:51-143`). `projects-members-and-roles` task 1.1 checks that rule live. This change waits for that answer before it copies the rule.
+**Mitigation**: `projectLogEntry` and `risk` copy the project-scoped authorization of `task`, which matches through `$lookup` (`planninq_register.json:51-143`). `projects-members-and-roles` task 1.1 checks that rule live. This change waits for that answer before it copies the rule. planninq#681 gave the answer: copy the denormalised `members` rule, `{"members": {"$contains": "$userId"}}`, never the `$lookup`.
 
 ### Risk 3: a sixth menu by the back door
 

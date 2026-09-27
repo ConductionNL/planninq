@@ -564,5 +564,46 @@ class Application extends App implements IBootstrap {
 			registers: ['planninq'],
 			schemas: ['task']
 		);
+
+		$this->registerMembershipListeners(dispatcher: $dispatcher);
 	}//end boot()
+
+	/**
+	 * Subscribe the listeners that keep project membership on project objects (planninq#681).
+	 *
+	 * `task`, `column`, `projectPhase` and `plannedTimeEntry` are scoped by
+	 * their own `members` list. ProjectMemberAccessListener writes it on every
+	 * create and update, and refuses a create or a move into a project the
+	 * caller is not a member of; it has to be a PRE-event listener to change
+	 * the data and to veto. ProjectMembershipSyncListener copies a project's
+	 * changed membership to its objects after the project is saved.
+	 *
+	 * Class names are literal strings for the reason given in boot(): each
+	 * import adds to this class's PHPMD coupling count.
+	 *
+	 * @param IEventDispatcher $dispatcher The live event dispatcher.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/projects.md
+	 */
+	private function registerMembershipListeners(IEventDispatcher $dispatcher): void {
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\ProjectMemberAccessListener',
+				registers: ['planninq'],
+				schemas: ['task', 'column', 'projectPhase', 'plannedTimeEntry']
+			);
+		}
+
+		$this->registerFilteredObjectListener(
+			dispatcher: $dispatcher,
+			event: 'OCA\\OpenRegister\\Event\\ObjectUpdatedEvent',
+			listener: 'OCA\\Planninq\\Listener\\ProjectMembershipSyncListener',
+			registers: ['planninq'],
+			schemas: ['project']
+		);
+	}//end registerMembershipListeners()
 }//end class

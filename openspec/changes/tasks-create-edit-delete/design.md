@@ -10,6 +10,8 @@ Read at development `de35541`:
   never set by the app; `column` and `columnOrder` exist and are unused by the board.
 - Task authorization in the same file: read, create, update and delete are granted to any
   authenticated member of the task's project (a `$lookup` on `project.members`) and to admins.
+  Since planninq#681 that rule is a denormalised `members` list on the task, matched with
+  `{"members": {"$contains": "$userId"}}`, and a create is checked against the project by `ProjectMemberAccessListener`.
 - Store: `src/store/projects.js` has `fetchTask` (`:285`), `fetchTasks` (`:775`),
   `updateTaskStatus` (`:835`) and `updateTask` (`:871`). Both updates PATCH
   `/apps/openregister/api/objects/planninq/task/{id}` because a PUT nulls every missing

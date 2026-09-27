@@ -467,4 +467,94 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		}
 
 	}//end testDependencySchemaHasAuthorizationBlock()
+
+	/**
+	 * The member rule the four project-scoped schemas match on (planninq#681).
+	 *
+	 * @var array<string,mixed>
+	 */
+	private const MEMBER_RULE = [
+		'group' => 'authenticated',
+		'match' => ['members' => ['$contains' => '$userId']],
+	];
+
+	/**
+	 * Task, column, phase and planned time entry carry a hidden, system-kept members list.
+	 *
+	 * `visible: false` hides it from every form, widget and table, which is the
+	 * intent: planninq writes it, nobody edits it. No `format`, which OpenRegister
+	 * would treat as a breaking change, and not required, so a legacy row still
+	 * validates before the back-fill reaches it.
+	 *
+	 * @return void
+	 */
+	public function testProjectScopedSchemasCarryAHiddenMembersList(): void {
+		foreach (['task', 'column', 'projectPhase', 'plannedTimeEntry'] as $slug) {
+			$schema = $this->register['components']['schemas'][$slug];
+			$members = ($schema['properties']['members'] ?? null);
+
+			self::assertIsArray(actual: $members, message: "{$slug} has a members property");
+			self::assertSame(expected: 'array', actual: $members['type'], message: $slug);
+			self::assertSame(expected: ['type' => 'string'], actual: $members['items'], message: $slug);
+			self::assertFalse(condition: $members['visible'], message: "{$slug}.members is hidden");
+			self::assertArrayNotHasKey(key: 'format', array: $members, message: $slug);
+			self::assertNotContains(needle: 'members', haystack: ($schema['required'] ?? []), message: $slug);
+		}
+
+	}//end testProjectScopedSchemasCarryAHiddenMembersList()
+
+	/**
+	 * Read, update and delete of task, column and phase match the denormalised members list.
+	 *
+	 * The admin rule stays. The former rule matched `project` against a `$lookup`
+	 * OpenRegister never evaluated, so it matched nothing.
+	 *
+	 * @return void
+	 */
+	public function testProjectScopedSchemasMatchTheMembersList(): void {
+		foreach (['task', 'column', 'projectPhase'] as $slug) {
+			$authorization = $this->register['components']['schemas'][$slug]['authorization'];
+
+			foreach (['read', 'update', 'delete'] as $action) {
+				self::assertSame(
+					expected: [self::MEMBER_RULE, ['group' => 'admin']],
+					actual: $authorization[$action],
+					message: "{$slug}.{$action}"
+				);
+			}
+		}
+
+		self::assertSame(
+			expected: [
+				['group' => 'authenticated', 'match' => ['user' => '$userId']],
+				self::MEMBER_RULE,
+				['group' => 'admin'],
+			],
+			actual: $this->register['components']['schemas']['plannedTimeEntry']['authorization']['read'],
+			message: 'plannedTimeEntry: own entries, the project members, and admins'
+		);
+
+	}//end testProjectScopedSchemasMatchTheMembersList()
+
+	/**
+	 * Create on task, column and phase carries no `match`.
+	 *
+	 * OpenRegister checks `create` before the object exists
+	 * (`ObjectService::checkSavePermissions()` passes no object), so any `match`
+	 * on create is evaluated against an empty object and refuses every member.
+	 * ProjectMemberAccessListener checks membership of the target project on
+	 * ObjectCreatingEvent instead.
+	 *
+	 * @return void
+	 */
+	public function testProjectScopedCreateIsGatedByTheListenerNotByAMatch(): void {
+		foreach (['task', 'column', 'projectPhase'] as $slug) {
+			self::assertSame(
+				expected: [['group' => 'authenticated'], ['group' => 'admin']],
+				actual: $this->register['components']['schemas'][$slug]['authorization']['create'],
+				message: "{$slug}.create"
+			);
+		}
+
+	}//end testProjectScopedCreateIsGatedByTheListenerNotByAMatch()
 }//end class
