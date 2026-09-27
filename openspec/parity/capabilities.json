@@ -784,7 +784,7 @@
     },
     {
       "key": "integriq",
-      "name": "Integriq (app id still openconnector)",
+      "name": "Integriq",
       "kind": "app"
     }
   ],
@@ -5773,7 +5773,7 @@
         "plane": "corpus: plane/round4/open-core.md 'LICENSE.txt is the verbatim GNU AGPL v3' and 'this repository is the Community edition and nothing else. The paid features are not gated here. They are not here at all' (Pro, Business, Enterprise, One lists) ; source read at v1.4.2: LICENSE.txt:1-2 GNU AGPL v3; packages/constants/src/subscription.ts:7-30 enterprise, business and pro feature lists such as 'Project Templates', 'Workflows + Approvals', 'Full Time Tracking + Bulk Ops', 'Teamspaces' are absent from this tree, held back in paid builds",
         "zermelo": "docs read 2026-09-27: https://zermelo.nl/software 'Overzicht prijzen Roosteren EUR 7000, Decaan EUR 860, Formatie EUR 2760', paid modules; the vendor GitHub org https://github.com/zermelo-software holds only two archived forks, no product source",
         "untis": "docs read 2026-09-27: https://www.gpuntis.ch/downloads/preisliste.pdf partner price list with one-time and yearly licence fees per module (Basisprogramm, Vertretungsplanung, Kursplanung, WebUntis Klassenbuch and more) ; https://www.untis.at/produkte/untis-die-stundenplanung 'Unsere Module erweitern die Funktionen des Grundpakets'. Proprietary licence with paid modules",
-        "xedule": "docs read 2026-09-27: the row asks for every feature under an open source licence with no paid tier holding features back, and the vendor states paid extra modules: https://support.xedule.nl/hc/nl/articles/33534104874130-Afspraken-Voorbereiding 'De module Afspraken is een extra module. Niet alle beschreven functionaliteit is standaard beschikbaar' ; https://support.xedule.nl/hc/nl/articles/36898315959314-Export-My-Xedule 'De Lichtkrant ... is een extra module'. The no rests on the stated paid modules; no source repository was found on GitHub or npm, which alone would not settle the licence",
+        "xedule": "docs read 2026-09-27: the row asks for every feature under an open source licence with no paid tier holding features back, and the vendor states that features sit in extra modules an institution does or does not take: https://support.xedule.nl/hc/nl/articles/33534104874130-Afspraken-Voorbereiding 'De module Afspraken is een extra module. Niet alle beschreven functionaliteit is standaard beschikbaar' ; https://support.xedule.nl/hc/nl/articles/36898315959314-Export-My-Xedule 'Reserveren/Afspraken is een extra module. Is het tabblad niet beschikbaar, dan neemt de onderwijsinstelling deze module niet af'. The no rests on those stated extra modules (both articles re-read through the public help centre API on 2026-09-27); no source repository was found on GitHub or npm, which alone would not settle the licence",
         "timeedit": "docs read 2026-09-27: https://timeedit.com/terms '1.3 The Customer is not entitled to duplicate, reproduce or in any other way copy the software' ; https://ted.europa.eu/en/notice/-/detail/782107-2024 ULB 'Achat de licences TimeEdit' contract 'Licence-TimeEdit_SACHA.ULB_2024'"
       },
       "built": {
