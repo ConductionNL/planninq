@@ -212,7 +212,7 @@ class ProjectMemberAccessListener implements IEventListener {
 
 		$user = $this->userSession->getUser();
 		if ($user === null || $this->isSystemOperation() === true) {
-			// occ, cron, a repair step or an OpenRegister system import.
+			// No session (occ, cron, a repair step) or an OpenRegister system import.
 			return true;
 		}
 

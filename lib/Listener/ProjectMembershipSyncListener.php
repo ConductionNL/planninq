@@ -65,14 +65,14 @@ class ProjectMembershipSyncListener implements IEventListener {
 	/**
 	 * Copy a changed project membership to the project's objects.
 	 *
+	 * @param Event $event The dispatched event.
+	 *
 	 * @listener-placement inline correctness: the members list IS the access
 	 * rule of every task, column, phase and time entry of the project. Deferred
 	 * to a job, a removed member keeps reading and editing the project's tasks
 	 * until cron runs, and an added member sees an empty board. The spec requires
 	 * access to change immediately. The work is bounded by the size of one
 	 * project and runs only when members or owner actually changed.
-	 *
-	 * @param Event $event The dispatched event.
 	 *
 	 * @return void
 	 *

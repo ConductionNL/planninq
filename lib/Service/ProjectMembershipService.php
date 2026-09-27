@@ -48,6 +48,7 @@ namespace OCA\Planninq\Service;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * Computes and writes the denormalised `members` list of project-scoped objects.
@@ -432,11 +433,11 @@ class ProjectMembershipService {
 	 *
 	 * @return object The service.
 	 *
-	 * @throws \RuntimeException When OpenRegister is not installed.
+	 * @throws RuntimeException When OpenRegister is not installed.
 	 */
 	private function objectService(): object {
 		if ($this->isAvailable() === false) {
-			throw new \RuntimeException('OpenRegister is not installed.');
+			throw new RuntimeException('OpenRegister is not installed.');
 		}
 
 		return $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
