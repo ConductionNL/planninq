@@ -175,6 +175,7 @@
           "members": {
             "title": "Members",
             "type": "array",
+            "description": "Nextcloud user UIDs of project members",
             "items": {
               "type": "string"
             },
@@ -623,6 +624,7 @@
           "members": {
             "title": "Members",
             "type": "array",
+            "description": "Nextcloud user UIDs of project members",
             "items": {
               "type": "string"
             },
@@ -759,6 +761,7 @@
           "members": {
             "title": "Members",
             "type": "array",
+            "description": "Nextcloud user UIDs of project members",
             "items": {
               "type": "string"
             },
@@ -921,6 +924,7 @@
           "members": {
             "title": "Members",
             "type": "array",
+            "description": "Nextcloud user UIDs of project members",
             "items": {
               "type": "string"
             },
