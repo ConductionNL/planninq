@@ -128,7 +128,7 @@ Sessions are sorted by `startsAt` ascending.
 | 503  | OpenRegister is not available. |
 
 ### `POST /apps/planninq/api/timetable/sessions/upsert`
-**Auth**: Nextcloud session, admins only (no `#[NoAdminRequired]`; Nextcloud's security middleware refuses everyone else).
+**Auth**: Nextcloud session, admins only. The method carries `#[AuthorizedAdminSetting]` for planninq's admin settings and no `#[NoAdminRequired]`, so Nextcloud's security middleware refuses ordinary users; an explicit admin check in the method then refuses a delegated settings admin with 403.
 
 **Request:**
 ```json
@@ -141,7 +141,7 @@ Sessions are sorted by `startsAt` ascending.
 | Code | Condition |
 |------|-----------|
 | 400  | `sourceSystem` empty, or `sessions` not a list. |
-| 403  | Caller is not an admin (middleware). |
+| 403  | Caller is not an admin (middleware, or the explicit check for a delegated settings admin). |
 | 503  | OpenRegister is not available. |
 
 ## Error Codes
