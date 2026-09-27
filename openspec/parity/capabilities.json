@@ -2039,10 +2039,11 @@
         "plane": "corpus: plane/round4/code-census.md §3 'The only automation engine in CE is two integer settings and one nightly job' (archive_in, close_in); 'Trigger And Action' (Pro) and 'Workflows + Approvals' (Business) are paid strings absent from Community (open-core.md) ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(settings)/settings/projects/[projectId]/automations/page.tsx holds only apps/web/core/components/automation/auto-archive-automation.tsx:27-50 and auto-close; apps/api/plane/db/models/project.py:110-111 archive_in and close_in; apps/api/plane/bgtasks/issue_automation_task.py:23 nightly job. No on-enter-column trigger"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "src/store/projects.js:835 updateTaskStatus() only PATCHes `status`; no listener or automation runs on a status/column change anywhere in lib/Listener or src/.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/boards-column-automation"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2072,10 +2073,11 @@
         "plane": "source: packages/constants/src/issue/filter.ts my_issues layouts spreadsheet and list only (used by apps/web/core/components/workspace/views/form.tsx:148); profile_issues has kanban grouped by project for one person's items. Cross-project work is list-shaped, not a shared board ; source read at v1.4.2: packages/constants/src/issue/filter.ts:170-195 workspace views (my_issues) offer spreadsheet and list layouts only, no kanban, used at apps/web/core/components/workspace/views/form.tsx:137; packages/constants/src/issue/filter.ts:128-131 profile kanban grouped by project covers one person's items only"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "src/views/ProjectBoard.vue is mounted per project (route /projects/:id, fetchTasks(projectId) at src/store/projects.js:775, filtered to one `project` id); there is no board that aggregates tasks across multiple projects.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/boards-cross-project-board"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2835,10 +2837,11 @@
         "plane": "corpus: plane/round4/code-census.md §1 'Email intake: absent', grep email.?intake|mailbox|imap 0 hits; SourceType has one value IN_APP ; source read at v1.4.2: apps/api/plane/db/models/intake.py:38-39 SourceType has only IN_APP; searched apps/api/plane --include=*.py for 'email.?intake', 'inbound.?email', 'mailbox', 'imap': none"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "No mail-related controller, listener or service exists anywhere in lib/ (no IMailer usage, no inbound-mail handling); grepped lib/Controller, lib/Service, lib/Listener for mail/email with no hits.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/tasks-create-by-email"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3140,10 +3143,11 @@
         "plane": "corpus: plane/round4/code-census.md §3 'Module is a scope grouping: start_date / target_date, status from ModuleStatus ... Membership is ModuleIssue'; no version object as such, a module with a target date stands in for a release ; source read at v1.4.2: apps/web/core/components/modules/modal.tsx:44 createModule; apps/api/plane/app/urls/module.py:20 modules route, apps/api/plane/app/views/module/base.py:295 create; apps/api/plane/db/models/module.py:67-74 Module with target_date and status. A module with a target date stands in for a release"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "No release/version field or planning concept exists in the task, project or any other schema (lib/Settings/planninq_register.json has no release/version property), and no UI references one.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/backlog-releases-roadmap"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3173,10 +3177,11 @@
         "plane": "source: apps/web/core/components/modules/modules-list-view.tsx:52 and modules/gantt-chart/modules-list-layout.tsx draw a project's modules on a timeline; epics are unreachable (corpus: plane/round4/journeys.md) and there is no cross-project roadmap ; source read at v1.4.2: apps/web/core/components/modules/modules-list-view.tsx:17,108 ModulesListGanttChartView draws a project's modules on a timeline; apps/api/plane/db/models/module.py:73 target_date. Per project only, no epics, no cross-project roadmap"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "The only 'roadmap' page in the app, FeaturesRoadmap (src/manifest.json, route /features-roadmap, type 'roadmap'), is the app's OWN development roadmap: its _note says it is 'Rendered by the shared CnFeaturesAndRoadmapView, which reads the committed docs/features.json and OpenRegister's GitHub proxy', it shows Planninq's own GitHub feature/issue roadmap, not a roadmap of the user's epics, projects or releases.",
         "reachedOn": "FeaturesRoadmap page /features-roadmap, but it is the product's own roadmap, not a user-data roadmap",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/backlog-releases-roadmap"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3496,10 +3501,11 @@
         "plane": "source: apps/web/core/components/gantt-chart/helpers/draggable.tsx LeftResizable, RightResizable and onMouseDown handleBlockDrag(e, \"move\"); chart/timeline-drag-helper.tsx ; corpus: plane/round4/menu-tree.md gantt layout ; source read at v1.4.2: apps/web/core/components/gantt-chart/helpers/draggable.tsx:15-16,34 LeftResizable, RightResizable and handleBlockDrag move; apps/web/core/components/gantt-chart/chart/main-content.tsx:40 blockUpdateHandler; apps/api/plane/app/views/issue/base.py:628 partial_update stores start_date and target_date"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "src/views/ProjectTimeline.vue:140-150 doc comment states 'It is strictly read-only: it fetches once ... and never creates or mutates an object'; no drag handlers on .project-timeline__bar",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/planning-timeline-editing"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3530,10 +3536,11 @@
         "plane": "source: gantt-chart/blocks/block.tsx:32 updateBlockDates(IBlockUpdateDependencyData[]) is a seam, but dependency handling is dropped in draggable.tsx (see pln-deps-on-timeline) and relation.py create changes no dates; corpus: plane/round4/code-census.md §8 'No other module computes a date' ; source read at v1.4.2: apps/web/core/components/gantt-chart/blocks/block.tsx:32,45 updateBlockDates is a typed seam, but apps/web/core/components/gantt-chart/helpers/draggable.tsx:30-38 drops enableDependency; apps/api/plane/app/views/issue/relation.py:229-245 creating a relation changes no dates"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "no code searched (rescheduling, cascade, slip) in src/ or lib/; ProjectTimeline.vue is read-only and dependency edges are display-only",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/planning-timeline-editing"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3666,10 +3673,11 @@
         "timeedit": "docs read 2026-09-27: https://developer.timeedit.com/reference/get_holidays 'LIST Holidays ... Region from GET /holidays/regions' ; https://www.academy.timeedit.com/release-notes 'Don't allow bookings on holidays' setting in Preferences"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "src/views/ProjectTimeline.vue:56 only visually shades weekend columns (project-timeline__tick--weekend); there is no scheduling logic at all (the timeline is read-only) and no holiday calendar concept anywhere",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/planning-timeline-editing"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3704,10 +3712,11 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/products/core 'Adjust your scheduling views to represent how you prefer to look at the scheduling, whether by time, day or week' ; https://timeedit.com/platform/scheduling/viewer 'Graphical and list views' (timetable reservations, not tasks)"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "no calendar-view component found; grep for 'calendar' across src/ and lib/ returns only icon names",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/planning-calendar"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3741,10 +3750,11 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/viewer 'Subscribe to schedules via iCal, Google Calendar, and Outlook' ; https://www.academy.timeedit.com/guides-tutorials/microsoft-outlook-integration-configure-a-staff-or-student-outbound-sync 'automatically publishes reservations from TimeEdit to Microsoft 365 calendars'. Read-only iCal and a Microsoft 365 push, CalDAV is not mentioned"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "grep for 'caldav' across src/ and lib/ returns nothing",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/planning-calendar"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4083,10 +4093,11 @@
         "plane": "corpus: plane/round4/code-census.md §10 'no timer' ; source read at v1.4.2: searched apps/api/plane/db and apps/api/plane/app --include=*.py for 'timer', 'start_timer', 'stop_timer': none; apps/api/plane/db/models/project.py:98 time tracking flag is inert"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "src/dialogs/TimeEntryDialog.vue only accepts a typed duration (durationInput); no start/stop/running-timer state anywhere in src/",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/time-timer-and-work-type"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4865,10 +4876,11 @@
         "untis": "docs read 2026-09-27: https://www.untis.at/produkte/webuntis/online-vertretungsplanung 'Die ausgewählte Vertretungslehrkraft wird umgehend mithilfe einer Push-Benachrichtigung am Smartphone via Untis Mobile App bei einer neuen Vertretung benachrichtigt' ; https://help.untis.at/hc/de/articles/360014966620 option 'Benachrichtigung des Aufgaben- und Ticketsystems erhalten' for new tickets"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "lib/Listener/TaskActivityListener.php:182 selectSubject emits task_assigned_activity on an assignee change -> :225 resolveAudience adds the assignee -> :258 publish to the Activity stream",
         "reachedOn": "Nextcloud Activity app only; no notification",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/collaboration-notifications"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4937,10 +4949,11 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/guides-tutorials/te-reserve-how-to-book-request-a-room 'If you decide to reject the requests, it will remove the entry, and send an email back to the booker' ; https://www.academy.timeedit.com/product-updates/230991642 'emails sent from Viewer ... Now, Viewer sends individual emails per recipient ... also applied for Core, Reserve and Plan'"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "the only declared notification channel is 'nc-notification' (lib/Settings/planninq_register.json taskDueSoon.channels); lib/Activity registers a Filter and Provider but no activity Setting, so the Activity app offers no mail option for planninq events",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/collaboration-notifications"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5426,10 +5439,11 @@
         "plane": "corpus: plane/round4/code-census.md §12 'The GitHub and Slack integrations are unreachable dead tables in CE'; 'Popular integrations' is a Pro string. Only 'Copy branch name' exists in the web app ; source read at v1.4.2: apps/api/plane/db/models/integration/github.py:14,54 GithubRepository and GithubIssueSync have no route: searched apps/api/plane/app/urls for 'github', 'gitlab': none; packages/i18n/src/locales/en/common.json:610 'Copy branch name' is the only forge touch"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "no forge, commit or merge-request reference in any schema of lib/Settings/planninq_register.json or in src/ and lib/",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/integration-code-forge-links"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5464,10 +5478,11 @@
         "timeedit": "docs read 2026-09-27: https://apps.apple.com/gb/app/chippo/id6612032321 'Chippo is a modern attendance solution' by TimeEdit Presto Benelux B.V. ; https://timeedit.com/platform/scheduling/viewer 'Mobile-friendly views'. The native app covers attendance only, timetables are mobile web"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "no mobile client, PWA manifest or mobile API in the repo; only three components carry a @media rule (src/views/ProjectBoard.vue, src/components/DashboardPanels.vue, src/components/ProjectListItem.vue)",
         "reachedOn": "nothing reaches it; the web UI in a phone browser is the only path",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/platform-mobile-web"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5644,7 +5659,7 @@
         "untis": "not checked: https://www.untis.at/webuntis-demo is a slideshow and trial access needs a form ; https://developer.untis.com/api-reference/api-overview/ offers a sandbox school 'with synthetic data' for API developers only"
       },
       "built": {
-        "state": "built",
+        "state": "specified",
         "evidence": "setup step 'load-demo-data' -> lib/Controller/SetupController.php runAction -> lib/Service/DemoDataService.php:46,202 imports lib/Settings/planninq_mock_register.json",
         "reachedOn": "setup wizard, 'Load example data?' + 'Load the example data'",
         "owner": "ConductionNL/planninq",
@@ -5652,7 +5667,8 @@
           "lib/Settings/planninq_mock_register.json:135,155,175 demo projects have \"members\": [], so src/store/projects.js:195 filters them out of Projects, Boards and Portfolio for every user (code reading, needs a live check)",
           "lib/Settings/planninq_mock_register.json:123-140 demo objects are placeholder values ('Voorbeeld Title 1', owner 'Voorbeeld Owner 1') and their project/task references are 00000000-0000-4000-8000-00000000000N, which no demo project carries as its id",
           "lib/Settings/planninq_mock_register.json:69-70 demo dependency edges have blocker == blocked, a self-dependency lib/Service/DependencyService.php:113 rejects on the normal path"
-        ]
+        ],
+        "change": "openspec/changes/platform-demo-data"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6208,10 +6224,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "Schema only: lib/Settings/planninq_register.json:584-760 declares projectPhase (title, status open/in_progress/completed/cancelled, order, budget). grep for 'projectPhase' and 'phase' across src/ finds nothing but an unrelated comment in src/App.vue:122. No page lists phases and no guard checks for a concluding document.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/planning-phase-gate-document"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6243,10 +6260,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "No Microsoft Project import in src/ or lib/. lib/Service/RegisterImportService.php imports the app's own configuration. The nearest path is OpenRegister's generic register import (the int-import-other row), which takes tabular rows and would not rebuild a Gantt plan with dependencies.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/integration-msproject-import"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7660,10 +7678,11 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "Write path: src/views/TaskDetail.vue:91 -> src/dialogs/TimeEntryDialog.vue:7-32 -> src/store/timeEntries.js:149 create, payload task, duration, date, description. No work type field in dialog or schema.",
         "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/time-timer-and-work-type"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
