@@ -200,6 +200,22 @@
     "decidedOn": "2026-09-27"
   },
   {
+    "row": "brd-column-automation",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (Kanboard, Jira); it sits in the boards core area.",
+    "change": "boards-column-automation",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "brd-cross-project-board",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: it sits in the boards core area.",
+    "change": "boards-cross-project-board",
+    "decidedOn": "2026-09-27"
+  },
+  {
     "row": "tsk-create-edit",
     "matrix": "planninq",
     "decision": "build",
@@ -320,6 +336,14 @@
     "decidedOn": "2026-09-27"
   },
   {
+    "row": "tsk-email-create",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (OpenProject, Jira).",
+    "change": "tasks-create-by-email",
+    "decidedOn": "2026-09-27"
+  },
+  {
     "row": "bkl-backlog",
     "matrix": "planninq",
     "decision": "build",
@@ -384,6 +408,22 @@
     "decidedOn": "2026-09-27"
   },
   {
+    "row": "bkl-releases",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: three competitors rate it yes (OpenProject, Plane, Jira).",
+    "change": "backlog-releases-roadmap",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "bkl-roadmap",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (OpenProject, Jira).",
+    "change": "backlog-releases-roadmap",
+    "decidedOn": "2026-09-27"
+  },
+  {
     "row": "pln-dependencies",
     "matrix": "planninq",
     "decision": "build",
@@ -416,6 +456,22 @@
     "decidedOn": "2026-09-27"
   },
   {
+    "row": "pln-gantt-edit",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: four competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Jira).",
+    "change": "planning-timeline-editing",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "pln-auto-schedule",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (OpenProject, Jira).",
+    "change": "planning-timeline-editing",
+    "decidedOn": "2026-09-27"
+  },
+  {
     "row": "pln-critical-path",
     "matrix": "planninq",
     "decision": "defer",
@@ -440,6 +496,30 @@
     "decidedOn": "2026-09-27"
   },
   {
+    "row": "pln-working-days",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: five competitors rate it yes (OpenProject, Zermelo, Untis,, Xedule, TimeEdit).",
+    "change": "planning-timeline-editing",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "pln-calendar-view",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: five competitors rate it yes (OpenProject, Plane, Zermelo, Xedule, TimeEdit).",
+    "change": "planning-calendar",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "pln-caldav",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (Nextcloud Deck, OpenProject).",
+    "change": "planning-calendar",
+    "decidedOn": "2026-09-27"
+  },
+  {
     "row": "pln-multi-project-timeline",
     "matrix": "planninq",
     "decision": "build",
@@ -453,6 +533,14 @@
     "decision": "defer",
     "reason": "partial, built, no demand. One competitor rates it yes (OpenProject), and there is no demand row. The per-person half exists; the per-project half has no demand row.",
     "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tim-timer",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (OpenProject, Kanboard).",
+    "change": "time-timer-and-work-type",
     "decidedOn": "2026-09-27"
   },
   {
@@ -576,6 +664,22 @@
     "decidedOn": "2026-09-27"
   },
   {
+    "row": "col-notify-assigned",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and six competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard, Jira, Untis,).",
+    "change": "collaboration-notifications",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "col-email-notify",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: seven competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Kanboard, Jira, Untis,, TimeEdit).",
+    "change": "collaboration-notifications",
+    "decidedOn": "2026-09-27"
+  },
+  {
     "row": "col-presence",
     "matrix": "planninq",
     "decision": "defer",
@@ -621,6 +725,30 @@
     "decision": "defer",
     "reason": "Deferred: One competitor rates it yes (Nextcloud Deck), no demand row, and it sits outside the core areas (projects, boards) in integration.",
     "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "int-git",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: two competitors rate it yes (OpenProject, Jira).",
+    "change": "integration-code-forge-links",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "int-mobile",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: three competitors rate it yes (Nextcloud Deck, Jira, Untis,).",
+    "change": "platform-mobile-web",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "plt-demo-data",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build the missing half: planninq is rated partial and four competitors rate it yes (Nextcloud Deck, OpenProject, Plane, Jira).",
+    "change": "platform-demo-data",
     "decidedOn": "2026-09-27"
   },
   {
@@ -677,6 +805,22 @@
     "decision": "decided-no",
     "reason": "Decided no: docs/ARCHITECTURE.md section 5, resolved question 4 records time tracking as per task only, forever, with overhead work logged as tasks; ADR-001 rule 4 keeps time entry personal-first; leave and sickness live in humaniq (LeaveRequest, SickLeaveCase) and the hours themselves move to humaniq TimeEntry (open change plannedtimeentry-reads-humaniqs-hours). Tender 365739 demand noted for the humaniq lane.",
     "change": null,
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "pln-phase-gate-document",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: tender demand (https://www.tenderned.nl/aankondigingen/overzicht/365739).",
+    "change": "planning-phase-gate-document",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "int-import-msproject",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: tender demand (https://www.tenderned.nl/aankondigingen/overzicht/365739).",
+    "change": "integration-msproject-import",
     "decidedOn": "2026-09-27"
   },
   {
@@ -901,6 +1045,14 @@
     "decision": "build",
     "reason": "Build: a featureRequest (https://jira.atlassian.com/browse/JSWSERVER-7721) plus one competitor yes (OpenProject).",
     "change": "tasks-subtasks-checklist",
+    "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "tim-work-type",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Build: a featureRequest (https://jira.atlassian.com/browse/JRASERVER-1780) plus one competitor yes (OpenProject).",
+    "change": "time-timer-and-work-type",
     "decidedOn": "2026-09-27"
   },
   {
