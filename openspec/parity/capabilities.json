@@ -9145,13 +9145,14 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/225278928 'a new Snake layout pattern for seat allocation' ; https://timeedit.com/platform/scheduling/assessment 'Automated seat allocation based on the specific room layout and your seating logic'"
       },
       "built": {
-        "state": "none",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'seat plan|seating|zitplaats': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "state": "decided-no",
+        "evidence": "learniq openspec/changes/archive/2026-07-16-timetabling-and-substitution/design.md:65 lists 'Literal exam seating charts (only room-level capacity, not per-seat assignment).' under Non-Goals (re-read at learniq development 46346f6); keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'seat plan|seating|zitplaats': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Noted on 2026-09-27: learniq's timetabling design lists 'Literal exam seating charts (only room-level capacity, not per-seat assignment)' as a non-goal (learniq openspec/changes/archive/2026-07-16-timetabling-and-substitution/design.md:65). built.state stays none in this correction. Proposed by the timeedit reader as tt-exam-seat-plan. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Decided no on 2026-09-27: learniq's timetabling design lists 'Literal exam seating charts (only room-level capacity, not per-seat assignment).' as a non-goal (learniq openspec/changes/archive/2026-07-16-timetabling-and-substitution/design.md:65, re-read at learniq development 46346f6), so built.state moved from none to decided-no. Proposed by the timeedit reader as tt-exam-seat-plan. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
     },
     {
       "id": "tt-oral-exams",
