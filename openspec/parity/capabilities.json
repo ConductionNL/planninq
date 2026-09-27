@@ -298,7 +298,7 @@
       "evidenceGrade": "docs-only",
       "readVersion": "no product source is public; vendor org github.com/zermelo-software holds two archived forks only: saml-client@d5cb9243eaa1919c796b2ecaa932a23814ac7675 (Java 7 port of coveo/saml-client, src/main/java/com/coveo/saml/SamlClient.java:61 class SamlClient, :255 fromMetadata) and mailtrain@cbc9b934f9af0e3611301d507a8e4613d09b1c83 (adds passport-ldapauth); product release read: 26.09 (14 September 2026)",
       "readHow": "Read zermelo.nl (home, software with prices, diensten, over, vacancies) and the public Deskpro help centre support.zermelo.nl with curl; guide pages are client-rendered, so each page's content was read from the page JSON embedded in its HTML and printed as text, and the full developer book at docs.zportal.nl/docs/print.html (target of developers.zermelo.nl) was read in full. TenderNed notices were read through the public TenderNed publication API, GitHub repos through the GitHub API, and the third-party .NET client arthurrump/Zermelo.API@8fc029bc was read only as evidence of the older v3 API shape (Zermelo.API/Endpoints/AppointmentsEndpoint.cs:26 endpoint 'appointments'). No trial, no login, no sign-up, no forms; status.zermelo.nl needs JavaScript and developer pages under support.zermelo.nl/guides/developers-api need a login, both recorded and skipped.",
-      "unknownReason": "Zermelo is a secondary-school timetabling, formation and subject-choice suite, so its public manuals say nothing about project, board, backlog, task or time-logging features, and rows not rated were not settled by that material.",
+      "unknownReason": "Docs-only reading on 2026-09-27 of Zermelo's public website, help centre and developer documentation; a cell stays unknown where that material neither states the capability nor its absence, which covers most project, board, task, backlog and time-logging rows of planninq's matrix and the attendance rows that Zermelo leaves to the student administration system.",
       "sources": {
         "docs": "https://support.zermelo.nl/guides",
         "sourceRepo": null,
@@ -503,7 +503,7 @@
       "columnAddedOn": "2026-09-27",
       "evidenceGrade": "docs-only",
       "readVersion": "no vendor repository; third-party connector read: Tools4everBV/HelloID-Conn-Prov-Target-Xedule-employees@8af3955a117d99a6420287a793536592e0598e99. Product release read: 7.4 (acceptance 16 September 2026)",
-      "readHow": "Read xedule.nl module, integration, partner and company pages with curl; read all 339 public help centre articles (support.xedule.nl) through the anonymous Zendesk help centre API because the article HTML pages sit behind a Cloudflare bot check (also in the browser), each cited URL is the html_url of the same article id; listed the public Xedule Connect API catalogue (Azure API Management developer portal, anonymous JSON) and TenderNed publications through the TenderNed API. No trial, no login, no forms, release notes PDF attachments could not be fetched.",
+      "readHow": "Read xedule.nl module, integration, partner and company pages with curl; read all 339 public help centre articles (support.xedule.nl) through the anonymous Zendesk help centre API because the article HTML pages sit behind a Cloudflare bot check (also in the browser), each cited URL is the html_url of the same article id; listed the public Xedule Connect API catalogue (Azure API Management developer portal, anonymous JSON) and TenderNed publications through the TenderNed API. No trial, no login, no forms, release notes PDF attachments could not be fetched. The one integration code read is third-party: Tools4everBV/HelloID-Conn-Prov-Target-Xedule-employees at 8af3955 shows what the Xedule Connect API exposes to that connector (OAuth scope api://xedule-connect/.default, /employee-teams/api/Medewerker), a source read of the API surface only, not of the product; no cell rests on it alone.",
       "unknownReason": "Xedule is a timetabling and education logistics suite, so its public material does not address project, board, task, backlog and time-logging capabilities of planninq's matrix; those rows are omitted rather than rated.",
       "sources": {
         "docs": "https://support.xedule.nl/hc/nl",
@@ -598,7 +598,7 @@
       "columnAddedOn": "2026-09-27",
       "evidenceGrade": "docs-only",
       "readVersion": "no public vendor repository; npm te-integration-lib@0.0.64 (author TimeEdit, published 2021-09-09) read from its bundled source map, e.g. src/Constants/AppNames.constants.js:1-7 (teExam, tePref, tePricing, teReporting, teHootdesk), src/i18n/constants.js:1-9 (da, nl, en, fi, de, nb, sv), src/Redux/Mapping/Mapping.actions.js:240 (/api/v1/organizations/{id}/mandatory-objects)",
-      "readHow": "timeedit.com is a client-rendered single page app, so its 58 sitemap pages were read as rendered text in the assigned browser (browser-3); the TE Academy (www.academy.timeedit.com, 809 English guides, product pages and release notes from its sitemap), the developer hub (readme.io llms.txt and .md pages), the trust center, status page, App Store lookup, TED eForms XML and the TenderNed API were read with curl and each cited line was checked in the fetched text. No trial, no login, no forms; support.timeedit.net is behind a bot check and an authenticated help centre API, so it was not read.",
+      "readHow": "timeedit.com is a client-rendered single page app, so its 58 sitemap pages were read as rendered text in the assigned browser (browser-3); the TE Academy (www.academy.timeedit.com, 809 English guides, product pages and release notes from its sitemap), the developer hub (readme.io llms.txt and .md pages), the trust center, status page, App Store lookup, TED eForms XML and the TenderNed API were read with curl and each cited line was checked in the fetched text. No trial, no login, no forms; support.timeedit.net is behind a bot check and an authenticated help centre API, so it was not read. npm te-integration-lib@0.0.64 is authored by TimeEdit and was read from its bundled source map; it is an integration helper, so it shows the API surface and supported languages, not the product.",
       "unknownReason": "TimeEdit is a higher education scheduling and academic operations platform, so its public material does not address the project, board, task, backlog and personal time tracking rows of planninq's matrix; those rows are omitted rather than rated.",
       "sources": {
         "docs": [
@@ -5726,7 +5726,7 @@
       "zermelo": "no",
       "untis": "partial",
       "xedule": "unknown",
-      "timeedit": "no",
+      "timeedit": "unknown",
       "evidence": {
         "nextcloud-deck": "corpus: nextcloud-deck/round4/install.md 'occ app:install deck -> deck 1.18.4 installed' on a throwaway Nextcloud ; source read at v1.19.0: appinfo/info.xml:41-45 a Nextcloud app on pgsql, sqlite or mysql, installed on the customer's own server; searched lib/ for outgoing vendor calls: only the optional Trello importer, lib/Service/Importer/Systems/TrelloApiService.php:10-22; note v1.19.0 requires Nextcloud 35 exactly, appinfo/info.xml:45",
         "kanboard": "corpus: kanboard/round4/install.md 'Kanboard ships one official image ... needs nothing beside it' ; source read at v1.2.54: Dockerfile line 1 FROM alpine and line 13 EXPOSE 80 443, one self-contained image with its own nginx, docker/etc/nginx/nginx.conf:75; config.default.php:67 DB_DRIVER sqlite by default; no vendor cloud service is called",
@@ -5736,7 +5736,7 @@
         "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/kb/articles/technische-achtergrond 'Het portal en de API worden door Zermelo gehost in de \"cloud\"', 'Het grootste gedeelte van onze infrastructuur draait bij Amazon Web Services (AWS)'; only the Windows desktop client is installed locally",
         "untis": "docs read 2026-09-27: https://www.untis.at/produkte/untis-die-stundenplanung desktop Untis runs locally, and MultiUser keeps data 'in einer Datenbank ... (MS Access, MS SQL oder MySQL)' ; https://www.untis.at/warum-untis/ueber-das-produkt/sicherheit-bei-untis WebUntis runs on 'unsere Hochleistungsserver in Österreich und Deutschland' ; https://help.untis.at/hc/de/articles/25230261841820-Neueste-Highlights 10.06.2026 'Exporte aus Untis sind nur bei bestehender Internet-Verbindung möglich'. The web platform is vendor hosted",
         "xedule": "not checked: lane correction 2026-09-27, the reader rated no, but no page read states that self-hosting is unavailable. https://xedule.nl/ 'Geavanceerde SaaS+ oplossingen' and https://support.xedule.nl/hc/nl/articles/21533658738194-Inloggen-in-Xedule (login at https://[klantnaam].xedule.nl) describe the SaaS offering only; silence on on-premise is not a stated absence",
-        "timeedit": "docs read 2026-09-27: https://timeedit.com/sla 'Availability and support commitments for TimeEdit's SaaS service' ; https://timeedit.com/dpa sub-processor 'Google Cloud Hosting Belgium' ; https://trust.timeedit.com/ 'Hosting: Major Cloud Provider'"
+        "timeedit": "not checked: lane correction 2026-09-27, the reader rated no, but no page read states that self-hosting is unavailable. https://timeedit.com/sla 'Availability and support commitments for TimeEdit's SaaS service' and https://trust.timeedit.com/ 'Hosting: Major Cloud Provider' describe the SaaS offering; a description of the SaaS service is not a stated absence of an on-premise option (same ruling as xedule)"
       },
       "built": {
         "state": "built",
@@ -8286,6 +8286,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: student and guardian WebApp guide https://support.zermelo.nl/guides/leerling-ouder and the scheduler guide 2026-09-27, no self check-in or attendance marking by learners described; attendance administration sits in Somtoday or Magister per https://support.zermelo.nl/guides/roostermaker/leerling-afwezig-melden",
         "timeedit": "docs read 2026-09-27: https://apps.apple.com/gb/app/chippo/id6612032321 'Scan the Chippo in the room to be marked present instantly ... Scan a QR code ... Offline Scanning'. Engagement Suite product"
       },
       "built": {
@@ -8319,6 +8320,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: no absence limit or truancy flag found in the public guides 2026-09-27; student statistics at https://support.zermelo.nl/guides/medewerker/leerlingstatistiek-3 report lessons and education time, not absence limits",
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/engagement 'Flow: Monitor student engagement patterns and act early on at-risk students ... At-risk student alerts'. Engagement Suite"
       },
       "built": {
@@ -8817,7 +8819,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "partial",
       "untis": "unknown",
       "xedule": "unknown",
       "timeedit": "unknown",
@@ -8826,7 +8828,8 @@
         "openproject": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
-        "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it"
+        "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/kb/articles/pakketkeuze-over-meerdere-jaren subject choice forms can depend on 'wat de leerlingen in het voorgaande jaar hebben gekozen' ; docs read 2026-09-27: https://support.zermelo.nl/guides/formatiebeheerder/het-scenariomodel-vo staff planning 'voor de komende 10 jaar' through an export that is 'onderdeel van onze Formatie-licentie'; timetables themselves are built per school-year project (https://support.zermelo.nl/guides/roostermaker/nieuw-portal-project)"
       },
       "built": {
         "state": "none",
@@ -8849,7 +8852,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "yes",
       "untis": "unknown",
       "xedule": "unknown",
       "timeedit": "unknown",
@@ -8859,6 +8862,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/medewerker/mijn-roosterwensen day parts marked 'Voorkeur vrij', 'Sterke voorkeur vrij' or 'Geblokkeerd' ; docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/roosterautomaten-in-zermelo block periods 'op Eis' may never be broken by the automaton while wishes may ; docs read 2026-09-27: https://support.zermelo.nl/guides/formatiebeheerder/roosterwensen-prioriteren 'Geblokkeerde dagen of dagdelen blijven altijd even zwaar meewegen'",
         "xedule": "not checked: docs read 2026-09-27: https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicaties/191698/documenten/5334834/content VISTA college wish 4.3.5 'Aan roosterwensen kan een hoge prioriteit of lage prioriteit worden toegekend. Bij een hoge prioriteit leidt de roosterwens tot een rooster-blokkade'. Xedule docs show per-teacher facility preference 0 to 10 (https://support.xedule.nl/hc/nl/articles/33452968002578-Medewerkers) but do not state a general hard or soft switch"
       },
       "built": {
@@ -9064,7 +9068,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "partial",
       "untis": "unknown",
       "xedule": "unknown",
       "timeedit": "yes",
@@ -9074,6 +9078,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/plaatsen-van-surveillanten invigilators are chosen per test after downloading absences from the portal ('Afwezigheden downloaden') ; docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/verdelen-van-de-surveillance load spread by lesson loss; no collection of invigilator availability forms or confirmation step is described",
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/assessment 'Complete management of invigilators, from availability collection to assiging session and confirmation flows'"
       },
       "built": {
@@ -9110,6 +9115,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: test scheduling guide pages https://support.zermelo.nl/guides/roostermaker/toetsen-roosteren and its sub pages (rooms, invigilators, extra time) read 2026-09-27, no seating plan described",
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/225278928 'a new Snake layout pattern for seat allocation' ; https://timeedit.com/platform/scheduling/assessment 'Automated seat allocation based on the specific room layout and your seating logic'"
       },
       "built": {
@@ -9256,7 +9262,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
-        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/medewerker/een-opmerking-bij-uw-les-zetten 'U kunt uw les een onderwerp geven. Dit onderwerp zien de leerlingen als ze de les in hun rooster bekijken'",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/medewerker/een-opmerking-bij-uw-les-zetten 'U kunt uw les een onderwerp geven. Dit onderwerp zien de leerlingen als ze de les in hun rooster bekijken' ; docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/opmerkingen-en-mededelingen-publiceren 'De geplaatste opmerking is na publicatie van het rooster door de leerlingen en de docent te zien in de WebApp'",
         "untis": "docs read 2026-09-27: https://www.untis.at/produkte/webuntis/online-vertretungsplanung 'Abwesende Lehrkräfte können für jede Unterrichtsstunde eine Notiz für die Vertretungslehrkraft hinterlassen' and the substitute can read the taught material in the class register"
       },
       "built": {
@@ -9491,7 +9497,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "yes",
       "untis": "yes",
       "xedule": "unknown",
       "timeedit": "unknown",
@@ -9501,6 +9507,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/kb/articles/pauzesurveillance-inroosteren 'Met deze functionaliteit kunt u vrij eenvoudig pauzesurveillance inroosteren', example 'We willen altijd 3 docenten per pauze die kunnen surveilleren', placed by the automatons",
         "untis": "docs read 2026-09-27: https://www.untis.at/produkte/untis-die-stundenplanung module Pausenaufsichten: 'Die Einteilung der Lehrkräfte für die Aufsichten erledigt Untis automatisch nach den Vorgaben' and it interacts with substitution planning ; https://help.untis.at/hc/de/articles/25230261841820-Neueste-Highlights 15.07.2026 new conditions 'Maximale Minuten / Tag pro Lehrkraft'. Paid module"
       },
       "built": {
@@ -9537,6 +9544,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: cover pages https://support.zermelo.nl/guides/roostermaker/dagrooster-wijzigingen (VervangSelector) and https://support.zermelo.nl/guides/roostermaker/docent-afwezig-melden-2 read 2026-09-27, cover is assigned by the scheduler; no request-and-accept flow to teachers described",
         "untis": "docs read 2026-09-27: https://help.untis.at/hc/de/articles/360012882299 'Lehrkräfte fragen': selected teachers get a push message and 'Sobald eine Lehrkraft die Anfrage angenommen hat, wird diese automatisch als Lösung publiziert'"
       },
       "built": {
@@ -9573,6 +9581,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: https://support.zermelo.nl/guides/medewerker/uw-afwezigheden-bekijken lets staff view their absences in the WebApp; absence entry is described only for the scheduler in the portal (https://support.zermelo.nl/guides/roostermaker/docent-afwezig-melden-2), 2026-09-27; self reporting neither stated nor ruled out",
         "untis": "docs read 2026-09-27: https://www.untis.at/produkte/webuntis/online-vertretungsplanung 'Je nach Einstellung können sich Lehrkräfte direkt über die Untis Mobile App krank melden ... Die Abwesenheit landet unmittelbar in der Online Vertretungsplanung'. Module Online Vertretungsplanung"
       },
       "built": {
@@ -9601,7 +9610,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "yes",
       "untis": "yes",
       "xedule": "yes",
       "timeedit": "unknown",
@@ -9611,6 +9620,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/medewerker/docentstatistiek per teacher 'Vervangen: de lessen waarbij de docent incidenteel als vervanger is ingezet', 'Meerwerk: ... én formatief meetelt', plus 'Afwezig (verlof)' and 'Uitval'",
         "untis": "docs read 2026-09-27: https://www.untis.at/produkte/webuntis/online-vertretungsplanung 'Vertretungszähler': 'wie viele Entfälle und übernommene Vertretungsstunden eine Lehrkraft in einem bestimmten Zeitraum hatte', counted into the automatic cover proposal",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/35769036683410-Jaarplanning-Analyses-Medewerker-Plan-van-inzet-Ziekte-en-Ziektevervanging 'De vervallen lessen worden als ziekte geregistreerd onderaan het Plan van Inzet ... Onderaan het Plan van Inzet worden de lessen nogmaals weergegeven bij ziektevervanging'"
       },
@@ -9638,7 +9648,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "partial",
       "untis": "yes",
       "xedule": "unknown",
       "timeedit": "unknown",
@@ -9648,6 +9658,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/tijdvakken-en-vakanties-aanmaken periods ('tijdvakken') per project ; docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/rooster-van-tijdvak-1-naar-tijdvak-2 copying 'het rooster van periode 1 (tv1) te kopiëren naar periode 2 (tv2)' with a different lesson table; A and B week timetables are not described",
         "untis": "docs read 2026-09-27: https://www.untis.at/produkte/untis-die-stundenplanung module Mehrwochenstundenplan: irregular lessons 'alle zwei Wochen' and periods where 'der Stundenplan komplett neu gestaltet werden [kann], wobei der bereits erstellte Stundenplan für das vorherige Semester erhalten bleibt' ; https://untisroostersoftware.eu/untishome/ 'weekperiodiciteit van zestien weken'. Paid module"
       },
       "built": {
@@ -9685,6 +9696,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: https://support.zermelo.nl/guides/roostermaker/tijdvakken-en-vakanties-aanmaken and https://support.zermelo.nl/guides/roostermaker/lessen-plannen read 2026-09-27, lessons are planned as hours per group per period; spreading a yearly hour total over available weeks is not described",
         "untis": "docs read 2026-09-27: https://www.untis.at/produkte/untis-die-stundenplanung module Kalender-Jahresplanung: 'Diese Jahresstunden können beliebig über das Schuljahr verteilt werden ... auch automatisch über das Schuljahr verteilen'. Paid module, also the subject of the Austrian tender 'Untis Kalenderjahresplanung' (Bundesbeschaffung, 2024-01-23)"
       },
       "built": {
@@ -9713,7 +9725,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "yes",
       "untis": "yes",
       "xedule": "yes",
       "timeedit": "unknown",
@@ -9723,6 +9735,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/automatisch-roosteren-2 scheduling runs per department ('Roosteren per afdeling') in one project ; docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/lokalen-bewerken rooms get a 'hoofd- en nevenvestiging' ; docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/wisselrandvoorwaarden-docenten conditions 'bij pendelende docenten tussen meerdere locaties'",
         "untis": "docs read 2026-09-27: https://www.untis.at/produkte/untis-die-stundenplanung module Abteilungsstundenplan: 'den Gesamtstundenplan der Schule in einzelne Abteilungsdateien aufzuteilen ... wieder zu einem Gesamtstundenplan zusammengeführt und ... nochmals optimiert'. Paid module",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/33624459152018-Delen-en-claimen-medewerkers 'het delen en claimen van medewerkers tussen verschillende Organisatorische Eenheden (ORE's) beheren'"
       },
@@ -9761,6 +9774,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: no emergency or evacuation feature found in the public guides or feature page https://zermelo.nl/software 2026-09-27",
         "untis": "docs read 2026-09-27: https://www.untis.at/produkte/webuntis/digitales-klassenbuch Notfallhilfe: 'Alle Lehrkräfte werden sofort per Push-Notification über Art und Ort des Notfalls informiert ... alle Schüler*innen mit sämtlichen Anwesenheitsinformationen aus dem digitalen Klassenbuch automatisch angezeigt' ; https://help.untis.at/hc/de/articles/25230261841820-Neueste-Highlights 15.05.2026 the state can be exported 'als Notfallprotokoll'"
       },
       "built": {
@@ -9797,6 +9811,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: user and rights pages https://support.zermelo.nl/guides/applicatiebeheerder/instellingen-voor-eind-gebruikers read 2026-09-27, no handover of rights to adult students described",
         "untis": "docs read 2026-09-27: https://help.untis.at/hc/de/articles/25230261841820-Neueste-Highlights 17.08.2026 'Volljährigkeit': 'Vom Setzen des Volljährigkeitsstatus über die Berechtigungsanpassung bis zur Dokumentation' ; https://www.untis.at/produkte/webuntis/untis-mobile-app adult students decide 'ob ihre Erziehungsberechtigten weiterhin Zugriff auf ihre Daten haben'"
       },
       "built": {
@@ -9833,6 +9848,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: https://support.zermelo.nl/guides/roostermaker/leerling-afwezig-melden removes students from one lesson or activity in the day timetable and release 26.01 adds students to activities (https://support.zermelo.nl/news/posts/release-2601), but no move into a parallel lesson with register data is described, 2026-09-27",
         "untis": "docs read 2026-09-27: https://help.untis.at/hc/de/articles/25230261841820-Neueste-Highlights 19.08.2026 'Schülerzuordnung': students 'für einzelne Unterrichtsstunden flexibel einer zeitgleich stattfindenden Unterrichtsstunde zugeordnet', the assignment 'verändert nicht die grundsätzliche Unterrichtszuordnung' ; https://www.untis.at/produkte/webuntis/digitales-klassenbuch attendance, seating plans and homework sync in real time"
       },
       "built": {
@@ -9866,6 +9882,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: no guardian absence messaging found in the student and guardian guide https://support.zermelo.nl/guides/leerling-ouder 2026-09-27",
         "untis": "docs read 2026-09-27: https://help.untis.at/hc/de/articles/14336930519324 'die Nachricht automatisch an alle in WebUntis hinterlegten Erziehungsberechtigten des Schülers versendet' with a 'Gemeldet' status field. Class register module"
       },
       "built": {
@@ -9902,6 +9919,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: https://support.zermelo.nl/guides/roostermaker/roosters-publiceren-naar-het-portal publishes as 'Dagrooster' or 'Basisrooster', up to 5 weeks at once; no teacher-only review stage described, 2026-09-27",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/36898315959314-Export-My-Xedule 'Klik op de knop Concept publiceren ... Het roosters is hiermee niet zichtbaar voor de student, maar wel voor de docenten'",
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/viewer 'Share draft schedules with teachers and department heads before publishing. Reviewers can see their upcoming timetable, flag concerns, and sign off'"
       },
@@ -9929,7 +9947,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "yes",
       "untis": "unknown",
       "xedule": "yes",
       "timeedit": "unknown",
@@ -9939,6 +9957,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/medewerker/aanmaken-van-een-inschrijfprocedure enrolment rounds in relative weeks, e.g. 'Leerlingen mogen zich een week van te voren inschrijven voor lessen' ; docs read 2026-09-27: https://support.zermelo.nl/guides/medewerker/voorinschrijvingen-in-het-portal the automaton fills enrolments 'in het geval dat leerlingen zelf de kans hebben gehad zich in te schrijven en zichzelf niet of niet voldoende hebben ingeschreven'",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/37415902430738-Beheer-Configuratie-MyX 'Inschrijftermijn opent / sluit ... Om toch deze lessen toe te delen is het mogelijk dit vanuit Xedule te doen via het Toewijzen aan verlopen inschrijflessen'"
       },
       "built": {
@@ -9972,6 +9991,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: meeting and room pages https://support.zermelo.nl/guides/roostermaker/het-afspraaktype-overleg read 2026-09-27, no on-site confirmation or release described",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/33534104874130-Afspraken-Voorbereiding 'Bevestiging verplicht ... Bevestiging op locatie ... kan er alleen worden bevestigd als de organisator van de reservering binnen een straal van 1000 meter van de fysieke locatie aanwezig is' (extra module Afspraken)"
       },
       "built": {
@@ -10000,7 +10020,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "partial",
       "untis": "unknown",
       "xedule": "yes",
       "timeedit": "yes",
@@ -10010,6 +10030,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/het-afspraaktype-overleg for staff meetings the admin grants rights, sets 'tot hoeveel uur van te voren een afspraak ingepland mag worden' and 'welke lokalen beschikbaar zijn voor een overleg'; limits on length, frequency or approval are not described",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/33534104874130-Afspraken-Voorbereiding 'Dagen vooraf te boeken ... Per week aantal minuten reserveren ... Maximale duur van een reservering' per reserveringsprofiel",
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/reserve 'Decide exactly who can book what, when, and for how long ... Set booking time limits. Set booking frequency limits ... Request & Approve'"
       },
@@ -10037,7 +10058,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "yes",
       "untis": "unknown",
       "xedule": "yes",
       "timeedit": "unknown",
@@ -10047,6 +10068,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/kb/articles/opvanguren-inroosteren 'Opvang-, stip- en vervanguren ... In deze tutorial laten we zien hoe u de opvanguren met de roosterautomaten in kunt roosteren', with a 'Vervangerspool'",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/33451954299154-Uitvoeren-Standby-RE-in-de-roosterautomaat-van-Xedule 'Zijn standby RE niet vastgezet ... Dan maakt Xedule automatisch standby lessen aan voor de RE's. Echte lessen hebben in de roosterautomaat altijd voorrang'"
       },
       "built": {
@@ -10078,7 +10100,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "partial",
       "untis": "unknown",
       "xedule": "yes",
       "timeedit": "yes",
@@ -10088,6 +10110,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/randvoorwaarden-onderwijskundig patterns for blocks, day and week spread per subject ; docs read 2026-09-27: https://zermelo.nl/software 'Wilt u keuzelessen en reguliere lessen in een bepaalde volgorde?' is named as supported; a general order and gap rule between arbitrary activities is not described",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/33475055369746-Weekroosters-Leswijziging-Planning-en-mutaties 'Als er bijvoorbeeld een ingestelde tussenruimte van 3 RE tussen twee lessen moet zijn, zal bij het verschuiven van een van de lessen ... de andere les vanzelf meebewegen'",
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/172240137 'sequencing rules on activity series level ... a minimum and maximum time between activities' ; https://www.academy.timeedit.com/product-updates/234679668 'Sequence constraints ... Min or Max padding'"
       },
@@ -10122,6 +10145,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: day timetable pages https://support.zermelo.nl/guides/roostermaker/dagrooster-wijzigingen and https://support.zermelo.nl/guides/roostermaker/wijzigingen-publiceren read 2026-09-27; publishing covers several days, but applying one change to chosen weeks is not described",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/33475055369746-Weekroosters-Leswijziging-Planning-en-mutaties 'Bulkmutaties over meerdere weken uitvoeren ... wijzigingen in de huidige week automatisch ook doorgevoerd in de geselecteerde weken'"
       },
       "built": {
@@ -10158,6 +10182,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: teacher condition pages https://support.zermelo.nl/guides/roostermaker/uitgebreide-randvoorwaarden-docenten read 2026-09-27, no rest period between days described",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/35798195285778-Openstellingen-Instellen-minimale-nachtrust 'Een medewerker die tot 22:00 les geeft niet voor 10:15 mag starten' when 2 RE rest is set"
       },
       "built": {
@@ -10185,7 +10210,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "partial",
       "untis": "unknown",
       "xedule": "yes",
       "timeedit": "unknown",
@@ -10195,6 +10220,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/wisselrandvoorwaarden-docenten conditions limit how often a teacher switches buildings, e.g. 'niet meer dan eenmaal per dag een wissel', but travel time itself is not set",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/33450740135442-Uitvoeren-Week-roosteren-Hoe-gaat-de-roosterautomaat-om-met-verplaatsingen-tussen-locaties 'Voor verplaatsingen tussen locaties zal de roosterautomaat zoveel mogelijk gebruik maken van pauzes ... bij de reistijd tussen de verschillende locaties is aangegeven dat die 1 RE bedraagt'"
       },
       "built": {
@@ -10221,7 +10247,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "yes",
       "untis": "unknown",
       "xedule": "yes",
       "timeedit": "unknown",
@@ -10231,6 +10257,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/medewerker/prognoses-bewerken 'Prognosticeren doet u altijd van een bronproject (huidige schooljaar) naar een doelproject (volgend schooljaar)' ; docs read 2026-09-27: https://support.zermelo.nl/guides/medewerker/procesbewaking progress of prognoses per department",
         "xedule": "docs read 2026-09-27: https://xedule.nl/modules/leerlingroute 'Prognose op leerlingniveau; individuele overgangspercentages per leerling; Vakkenpakketkeuze per leerling' ; https://xedule.nl/modules/formatie 'verwachte leerlingenaantallen voor de aankomende 6 jaar en de effecten op het personeelsbestand'"
       },
       "built": {
@@ -10264,6 +10291,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: no curriculum design or study guide feature found on https://zermelo.nl/software or in the guides 2026-09-27",
         "xedule": "docs read 2026-09-27: https://xedule.nl/modules/sqill 'Stuur automatisch herinneringen wanneer een deadline nadert; Werk gemakkelijk samen met opmerkingen en track-changes ... documentgeneratie zoals een studiegids' (SQill, Your Next Concepts product)"
       },
       "built": {
@@ -10287,7 +10315,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "yes",
       "untis": "unknown",
       "xedule": "yes",
       "timeedit": "unknown",
@@ -10297,6 +10325,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/applicatiebeheerder/instellingen-voor-eind-gebruikers per user type and project, rights such as 'Aanwezigheid mijn docenten bekijken' and 'Alle roosters bekijken en Leerlingnamen bekijken' ; docs read 2026-09-27: https://support.zermelo.nl/guides/leerling-ouder/alle-roosters-bekijken 'Het is afhankelijk van de instellingen van de school welke roosters je mag bekijken'",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/37415902430738-Beheer-Configuratie-MyX 'Docent mag roosters zien van ... Student mag roosters zien van ... Docent mag op het rooster de beschikbaarheid zien van'"
       },
       "built": {
@@ -10334,6 +10363,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: elective enrolment pages https://support.zermelo.nl/guides/leerling-ouder/inschrijven-voor-keuzelessen read 2026-09-27, a full lesson shows 'VOL'; no waitlist described",
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/231196957 'Students can join the waitlist for full groups. Allocate will automatically allocate eligible students from the waitlist to groups with available seats'"
       },
       "built": {
@@ -10370,6 +10400,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: staff guide https://support.zermelo.nl/guides/medewerker read 2026-09-27, no change request flow for published timetables described",
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/viewer 'Built-in change request system ... so the right people are always informed before anything is finalised' ; https://www.academy.timeedit.com/products/reserve 'sending bookings and change requests directly into TE Core'"
       },
       "built": {
@@ -10396,7 +10427,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "partial",
       "untis": "unknown",
       "xedule": "unknown",
       "timeedit": "yes",
@@ -10406,6 +10437,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/roosterwensen-invullen-en-beheren a 'roosterwensenformulier' with a deadline that teachers fill in and team leaders approve ; docs read 2026-09-27: https://zermelo.nl/software 'Teamleiders, sectieleiders, mentoren en decanen leveren zelf informatie aan in het Zermelo Portal'; availability wishes, not per-course teaching requirements with validation",
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/products/preferences 'Entrust the task of filling in the class requirements information to someone knowledgeable ... A unified data model guarantees that only accurate data can be chosen'"
       },
       "built": {
@@ -10432,7 +10464,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "yes",
       "untis": "unknown",
       "xedule": "unknown",
       "timeedit": "yes",
@@ -10442,6 +10474,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/nieuw-portal-project new project 'op basis van een bestaand project. Het portal neemt dan een aantal zaken mee' ; docs read 2026-09-27: https://support.zermelo.nl/news/posts/release-2602 differences show in the desktop 'gegevenscontrole' for review",
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/scheduling 'Smart Roll-Over: Intelligently carry forward scheduling data from previous terms ... Selective data roll-over'"
       },
       "built": {
@@ -10479,6 +10512,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: integration pages under https://support.zermelo.nl/guides/applicatiebeheerder (Office365 mail, Teams via Speyk) read 2026-09-27, no room booking from Outlook described",
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/241235841 'allowing rooms to be booked in Outlook with any of its addresses and still be recognized by the Outlook -> TimeEdit synchronization'"
       },
       "built": {
@@ -10512,6 +10546,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: student guide https://support.zermelo.nl/guides/leerling-ouder read 2026-09-27, no swapping between students described",
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/allocation 'Students can request group swaps with impact analysis. Peer-to-peer swaps. Capacity checks'"
       },
       "built": {
@@ -10545,6 +10580,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: student guide and https://zermelo.nl/software read 2026-09-27; subject package choice exists, term-by-term study planning with credits is not described",
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/curriculum/study-planner 'Visualize the entire degree journey with semester-by-semester planning ... Connect study plans with real-time scheduling data so students avoid conflicts before registration'. Curriculum Suite"
       },
       "built": {
@@ -10581,6 +10617,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: release notes 25.11 to 26.09 on https://support.zermelo.nl/news/releases read 2026-09-27, no AI feature mentioned",
         "timeedit": "docs read 2026-09-27: https://timeedit.com/resources/roadmap lists 'Schedule: AI-assisted re-scheduling' as an upcoming roadmap item, not a shipped feature"
       },
       "built": {
@@ -10617,6 +10654,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: enrolment pages and the API docs https://docs.zportal.nl/docs/print.html read 2026-09-27; appointment versions exist, a history of a student's group allocations is not described",
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/234328576 'A long-awaited history view is now available in Manage student ... It shows changes for: Enrollment to a module'"
       },
       "built": {
@@ -10653,6 +10691,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: https://support.zermelo.nl/guides/applicatiebeheerder/zermelo-en-speyk-microsoft-teams says Speyk adds Teams links to appointments through the API, while https://docs.zportal.nl/docs/print.html states partners get read access only; adding own events is not described, 2026-09-27",
         "untis": "docs read 2026-09-27: https://developer.untis.com/api-reference/webuntis-apis/timetable-event-push/ 'Push calendar events to WU for displaying in the timetable' with updatePlatformCalendarEvents ; https://developer.untis.com/support-community/changelog/ 30.06.2026 'New external API to push calendar events to the timetable'"
       },
       "built": {
@@ -10716,7 +10755,7 @@
       "plane": "unknown",
       "kanboard": "unknown",
       "jira": "unknown",
-      "zermelo": "unknown",
+      "zermelo": "yes",
       "untis": "yes",
       "xedule": "unknown",
       "timeedit": "unknown",
@@ -10726,6 +10765,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "docs read 2026-09-27: https://docs.zportal.nl/docs/print.html appointments filters 'modifiedSince beperk tot afspraakversies met een wijziging (inclusief leerlingdeelname) sinds het opgegeven moment' and 'includeHidden vraag ook verwijderde afspraakversies op'",
         "untis": "docs read 2026-09-27: https://developer.untis.com/api-reference/webuntis-apis/timetable-data/ 'dateLastModifiedAfter Returns only periods modified after the given timestamp' and '/v3/timetable/deleted-periods' returns deleted period IDs"
       },
       "built": {
@@ -10762,6 +10802,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: https://support.zermelo.nl/guides/roostermaker/archiveren-en-verwijderen-van-een-roosterproject describes archiving projects and cleaning up users by hand; no automatic retention period found, 2026-09-27",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/36237385246738-Beheer-Configuratie-Databeheer 'per ORE een bewaartermijn (van 1 tot 10 jaar) ... voor het automatisch anonimiseren van privacygevoelige gegevens'"
       },
       "built": {
@@ -10798,6 +10839,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: no such warning found in the public guides 2026-09-27",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/35674360498450-AVG-waarschuwing-bij-vrije-invoervelden release 7.3 'AVG-waarschuwing bij vrije invulvelden'"
       },
       "built": {
@@ -10871,6 +10913,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: https://support.zermelo.nl/guides/leerling-ouder/mededelingen-bekijken shows an unread dot for the student; whether senders see who read it is not described, 2026-09-27",
         "untis": "docs read 2026-09-27: https://www.untis.at/produkte/webuntis/mitteilungen 'Bei Elternbriefen oder anderen wichtigen Ankündigungen können Lesebestätigungen angefordert werden ... die Lehrkraft behält immer den Überblick, wer die Nachricht bereits gelesen hat'. Included in the WebUntis base package"
       },
       "built": {
@@ -10908,6 +10951,7 @@
         "plane": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "kanboard": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
         "jira": "not checked: row added on 2026-09-27 by the timetabling competitor lane; this system was not re-read for it",
+        "zermelo": "not checked: no time zone setting found in the guides 2026-09-27; the product targets Dutch schools",
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/200067704 'Users can now view times in their preferred timezone' ; https://timeedit.com/platform/scheduling 'Multi-campus and multi timezone coordination'"
       },
       "built": {
