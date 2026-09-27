@@ -2,7 +2,7 @@
 
 ## 1. Check what the task rules do today
 
-- [ ] 1.1 As a non-admin project member, read, update and delete a task of your own project and of a project you are not on, through `/apps/openregister/api/objects/planninq/task`. Record whether the `$lookup` rule at `lib/Settings/planninq_register.json:51-143` scopes the answer. If it does not, update design.md (Decision 3) with a denormalised list on each task before starting section 3. Verify: the four answers written into design.md under "Risks / trade-offs", with the OpenRegister sha they were read on.
+- [ ] 1.1 As a non-admin project member, read, update and delete a task of your own project and of a project you are not on, through `/apps/openregister/api/objects/planninq/task`. Record whether the `$lookup` rule at `lib/Settings/planninq_register.json:51-143` scopes the answer. If it does not, update design.md (Decision 3) with a denormalised list on each task before starting section 3. Verify: the four answers written into design.md under "Risks / trade-offs", with the OpenRegister sha they were read on. Answered by planninq#681: OpenRegister does not evaluate `$lookup`, so `task`, `column`, `projectPhase` and `plannedTimeEntry` now match their own denormalised `members` list with `{"members": {"$contains": "$userId"}}`.
 
 ## 2. Schema and authorization (MVP to Enterprise)
 

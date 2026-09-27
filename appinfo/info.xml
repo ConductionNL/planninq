@@ -42,7 +42,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
 
 **Ondersteuning:** Voor ondersteuning, neem contact op via support@conduction.nl.
     ]]></description>
-    <version>0.2.21-unstable.20260912202931</version>
+    <version>0.2.22-unstable.20260927181034</version>
     <licence>EUPL-1.2</licence>
     <author mail="info@conduction.nl" homepage="https://www.conduction.nl/">Conduction</author>
     <namespace>Planninq</namespace>
@@ -177,6 +177,15 @@ Vrij en open source onder de EUPL-1.2-licentie.
             -->
             <step>OCA\Planninq\Repair\RenameTimeEntrySchemaSlug</step>
             <step>OCA\Planninq\Repair\InitializeSettings</step>
+            <!--
+                AFTER InitializeSettings, in BOTH blocks (planninq#681). The
+                import adds the `members` property that task, column,
+                projectPhase and plannedTimeEntry are now scoped by; before it
+                there is no column to fill. Rows stored before this release
+                have no list, and the new rule hides them from every member
+                until this step has run. Idempotent and never throws.
+            -->
+            <step>OCA\Planninq\Repair\BackfillProjectMembers</step>
             <step>OCA\Planninq\Repair\ReconcileDueReminderOverrides</step>
         </post-migration>
         <install>
@@ -196,6 +205,8 @@ Vrij en open source onder de EUPL-1.2-licentie.
             <!-- See the note in <post-migration>. -->
             <step>OCA\Planninq\Repair\RenameTimeEntrySchemaSlug</step>
             <step>OCA\Planninq\Repair\InitializeSettings</step>
+            <!-- See the note in <post-migration>. -->
+            <step>OCA\Planninq\Repair\BackfillProjectMembers</step>
         </install>
     </repair-steps>
 
