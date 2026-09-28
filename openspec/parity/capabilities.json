@@ -1706,7 +1706,7 @@
       "area": "boards",
       "name": "Switch between the board and a list of the same tasks.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "yes",
       "plane": "yes",
@@ -1724,16 +1724,18 @@
         "plane": "corpus: plane/round4/menu-tree.md 'spreadsheet, board, calendar, gantt and list layouts' ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/filters/header/layout-selection.tsx:24-36 LayoutSelection renders ISSUE_LAYOUTS; packages/constants/src/issue/layout.ts:9 'list' | 'kanban' | 'calendar' | 'spreadsheet' | 'gantt'; layout is a per-user display filter, the same items are served by apps/api/plane/app/views/issue/base.py:628 viewset"
       },
       "built": {
-        "state": "building",
-        "evidence": "src/views/ProjectBacklog.vue lists only the tasks in no board column (backlog); no view lists the board's own cards as a list",
-        "reachedOn": "ProjectBacklog page /projects/:id/backlog (backlog only)",
-        "owner": "ConductionNL/planninq"
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue:57 List button in the Board or list switch sets ?view=list -> :123 table of listRows (src/utils/columnHelpers.js boardListRows(): the board's cards after the label filter, lane then card order, with column, priority and due date)",
+        "reachedOn": "ProjectBoard page, Board or list switch in the header",
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/archive/2026-09-28-boards-list-toggle",
+        "readOn": "2026-09-28"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "the Backlog button on the board (src/views/ProjectBoard.vue:43-48) navigates to a page that is explicitly a stub; there is no working list rendering of the board's tasks anywhere. Read again on 2026-09-28: the backlog page is now a working list (2026-09-28-backlog-list) of the tasks in no column, not the same tasks as the board, so this row stays building until a board and list toggle exists."
+      "note": "the Backlog button on the board (src/views/ProjectBoard.vue:43-48) navigates to a page that is explicitly a stub; there is no working list rendering of the board's tasks anywhere. Read again on 2026-09-28: the backlog page is now a working list (2026-09-28-backlog-list) of the tasks in no column, not the same tasks as the board, so this row stays building until a board and list toggle exists. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-list-toggle."
     },
     {
       "id": "brd-card-badges",
