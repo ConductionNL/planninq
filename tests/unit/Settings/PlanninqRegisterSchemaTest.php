@@ -357,7 +357,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the eight expected schemas.
+	 * The register MUST declare exactly the nine expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
 	 * over the project work breakdown structure pipelinq had built, and
@@ -368,8 +368,8 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @spec openspec/changes/task-dependencies/specs/register-schemas/spec.md
 	 */
-	public function testRegisterDeclaresExactlyEightSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession'];
+	public function testRegisterDeclaresExactlyNineSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -378,7 +378,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the eight expected schemas'
+			message: 'register schema list must be exactly the nine expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -386,7 +386,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the eight expected schemas'
+			message: 'components.schemas must define exactly the nine expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -395,7 +395,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyEightSchemas()
+	}//end testRegisterDeclaresExactlyNineSchemas()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -573,7 +573,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testProjectScopedSchemasCarryAHiddenMembersList(): void {
-		foreach (['task', 'column', 'projectPhase', 'plannedTimeEntry'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry'] as $slug) {
 			$schema = $this->register['components']['schemas'][$slug];
 			$members = ($schema['properties']['members'] ?? null);
 
@@ -596,7 +596,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testProjectScopedSchemasMatchTheMembersList(): void {
-		foreach (['task', 'column', 'projectPhase'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'projectLogEntry'] as $slug) {
 			$authorization = $this->register['components']['schemas'][$slug]['authorization'];
 
 			foreach (['read', 'update', 'delete'] as $action) {
@@ -632,7 +632,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testProjectScopedCreateIsGatedByTheListenerNotByAMatch(): void {
-		foreach (['task', 'column', 'projectPhase'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'projectLogEntry'] as $slug) {
 			self::assertSame(
 				expected: [['group' => 'authenticated'], ['group' => 'admin']],
 				actual: $this->register['components']['schemas'][$slug]['authorization']['create'],
@@ -641,4 +641,30 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		}
 
 	}//end testProjectScopedCreateIsGatedByTheListenerNotByAMatch()
+	/**
+	 * A project log entry has its type, title, date, body, status, attendees and actions.
+	 *
+	 * The author and the time are OpenRegister's own object metadata, so the
+	 * schema declares no author or created property a client could fill in.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.1
+	 */
+	public function testProjectLogEntrySchemaDeclaresTheLogShape(): void {
+		$schema = $this->register['components']['schemas']['projectLogEntry'];
+		$properties = $schema['properties'];
+
+		self::assertSame(expected: ['title', 'project', 'type', 'date'], actual: $schema['required']);
+		self::assertSame(expected: ['issue', 'lesson', 'meeting', 'decision'], actual: $properties['type']['enum']);
+		self::assertSame(expected: ['open', 'closed'], actual: $properties['status']['enum']);
+		self::assertSame(expected: 'date', actual: $properties['date']['format']);
+		self::assertSame(expected: 'project', actual: $properties['project']['$ref']);
+		self::assertSame(expected: ['type' => 'string'], actual: $properties['attendees']['items']);
+		self::assertSame(expected: ['type' => 'string', 'format' => 'uuid'], actual: $properties['actions']['items']);
+		self::assertArrayNotHasKey(key: 'author', array: $properties);
+		self::assertArrayNotHasKey(key: 'created', array: $properties);
+		self::assertArrayHasKey(key: 'x-enum-labels', array: $properties['type']);
+
+	}//end testProjectLogEntrySchemaDeclaresTheLogShape()
 }//end class

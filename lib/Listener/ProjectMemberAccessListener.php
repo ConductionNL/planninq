@@ -83,7 +83,7 @@ class ProjectMemberAccessListener implements IEventListener {
 	 *
 	 * @var array<int,string>
 	 */
-	private const GATED_SCHEMAS = ['task', 'column', 'projectPhase'];
+	private const GATED_SCHEMAS = ['task', 'column', 'projectPhase', 'projectLogEntry'];
 
 	/**
 	 * OpenRegister's ambient system-operation marker, by name.

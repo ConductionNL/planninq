@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.7.0"
+    "version": "0.8.0"
   },
   "x-openregister": {
     "type": "application",
@@ -18,7 +18,7 @@
         "title": "Planninq",
         "description": "Planninq application data register — tasks, projects, columns, time entries, and labels.",
         "slug": "planninq",
-        "version": "0.7.0",
+        "version": "0.8.0",
         "schemas": [
           "task",
           "project",
@@ -27,7 +27,8 @@
           "plannedTimeEntry",
           "label",
           "dependency",
-          "timetableSession"
+          "timetableSession",
+          "projectLogEntry"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -1189,6 +1190,158 @@
             "type": "string",
             "description": "When this lesson was last delivered. Set by planninq.",
             "format": "date-time"
+          }
+        }
+      },
+      "projectLogEntry": {
+        "slug": "projectLogEntry",
+        "icon": "NotebookOutline",
+        "version": "0.1.0",
+        "title": "Log entry",
+        "description": "An issue, lesson learned, meeting or decision recorded in a project's log.",
+        "x-schema-org": "schema:Comment",
+        "type": "object",
+        "required": [
+          "title",
+          "project",
+          "type",
+          "date"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "A short name for the entry"
+          },
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project this entry belongs to",
+            "format": "uuid",
+            "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "type": {
+            "title": "Type",
+            "type": "string",
+            "description": "What kind of entry this is",
+            "enum": [
+              "issue",
+              "lesson",
+              "meeting",
+              "decision"
+            ],
+            "default": "issue",
+            "x-enum-labels": {
+              "issue": "Issue",
+              "lesson": "Lesson learned",
+              "meeting": "Meeting",
+              "decision": "Decision"
+            }
+          },
+          "date": {
+            "title": "Date",
+            "type": "string",
+            "description": "When it happened",
+            "format": "date"
+          },
+          "body": {
+            "title": "Details",
+            "type": "string",
+            "description": "What happened, in Markdown"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "Whether an issue is still open",
+            "enum": [
+              "open",
+              "closed"
+            ],
+            "default": "open",
+            "x-enum-labels": {
+              "open": "Open",
+              "closed": "Closed"
+            }
+          },
+          "attendees": {
+            "title": "Attendees",
+            "type": "array",
+            "description": "The people at a meeting",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "actions": {
+            "title": "Actions",
+            "type": "array",
+            "description": "Tasks that came out of this entry",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "default": [],
+            "x-notes": "Ids of task objects with issueType 'action' in the same project. The author and the time of an entry are OpenRegister's own object metadata (@self.owner, @self.created), so a client cannot set them (projects-overview-logs-risks, design decision 2)."
           }
         }
       }

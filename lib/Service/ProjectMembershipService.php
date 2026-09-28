@@ -76,7 +76,7 @@ class ProjectMembershipService {
 	 *
 	 * @var array<int,string>
 	 */
-	public const SCOPED_SCHEMAS = ['task', 'column', 'projectPhase', 'plannedTimeEntry'];
+	public const SCOPED_SCHEMAS = ['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry'];
 
 	/**
 	 * The one scoped schema that may name its project only through its task.
