@@ -25,9 +25,13 @@ use OCA\OpenRegister\AppHost\Bootstrap;
 use OCA\OpenRegister\Event\ObjectCreatedEvent;
 use OCA\OpenRegister\Event\ObjectDeletedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
+use OCA\Planninq\Event\TimetableSessionsQueryEvent;
+use OCA\Planninq\Event\TimetableUpsertRequestedEvent;
 use OCA\Planninq\Listener\DeepLinkRegistrationListener;
 use OCA\Planninq\Listener\RegisterProjectsLeafListener;
 use OCA\Planninq\Listener\TaskActivityListener;
+use OCA\Planninq\Listener\TimetableSessionsQueryListener;
+use OCA\Planninq\Listener\TimetableUpsertRequestedListener;
 use OCA\Planninq\Settings\AdminSettings;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -97,6 +101,12 @@ class Application extends App implements IBootstrap {
 		// Publish the projects leaf on OpenRegister's integration registry, so
 		// sibling apps render planninq's projects instead of querying for them.
 		$this->registerProjectsLeaf(context: $context);
+
+		// The school timetable doors (ADR-041, school-timetable-target): the
+		// integriq rostering adapter delivers a batch, learniq reads sessions.
+		// Both events are planninq's own classes, so no load-order hazard.
+		$context->registerEventListener(event: TimetableUpsertRequestedEvent::class, listener: TimetableUpsertRequestedListener::class);
+		$context->registerEventListener(event: TimetableSessionsQueryEvent::class, listener: TimetableSessionsQueryListener::class);
 
 		// NOTE: the task-lifecycle Activity listener is subscribed from boot(),
 		// not here — see registerFilteredObjectListener().

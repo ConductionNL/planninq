@@ -359,6 +359,60 @@
         "date": "2026-03-03",
         "contractorRef": "00000000-0000-4000-8000-000000000002",
         "description": "Voorbeeld Description 3"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableSession",
+          "slug": "timetable-wiskunde-3a"
+        },
+        "externalRef": "demo-zm-1001",
+        "sourceSystem": "roster-zermelo",
+        "subject": "Wiskunde",
+        "title": "Wiskunde",
+        "startsAt": "2026-09-28T09:00:00+02:00",
+        "endsAt": "2026-09-28T09:50:00+02:00",
+        "groupReference": "3a",
+        "teacherReference": "JAN",
+        "roomReference": "A1.12",
+        "roomLabel": "A1.12",
+        "status": "scheduled"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableSession",
+          "slug": "timetable-nederlands-3a"
+        },
+        "externalRef": "demo-zm-1002",
+        "sourceSystem": "roster-zermelo",
+        "subject": "Nederlands",
+        "title": "Nederlands",
+        "startsAt": "2026-09-28T10:00:00+02:00",
+        "endsAt": "2026-09-28T10:50:00+02:00",
+        "groupReference": "3a",
+        "teacherReference": "PIE",
+        "roomReference": "B2.04",
+        "roomLabel": "B2.04",
+        "status": "scheduled"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableSession",
+          "slug": "timetable-biologie-4b"
+        },
+        "externalRef": "demo-zm-1003",
+        "sourceSystem": "roster-zermelo",
+        "subject": "Biologie",
+        "title": "Biologie",
+        "startsAt": "2026-09-28T11:15:00+02:00",
+        "endsAt": "2026-09-28T12:05:00+02:00",
+        "groupReference": "4b",
+        "teacherReference": "KLA",
+        "roomReference": "C0.03",
+        "roomLabel": "C0.03",
+        "status": "cancelled"
       }
     ]
   }
