@@ -10,7 +10,7 @@ Planninq's projects and tasks already carry a case link: `project.caseReference`
 `task.zaakUuid` (`lib/Settings/planninq_register.json`). The link is display only
 (`src/components/ProjectSettingsSidebar.vue:47-53`), and neither direction of the bridge exists.
 
-A case handler in the case app (Dossiq, app id still `procest`) cannot start a project for a case.
+A case handler in the case app (Dossiq, app id `dossiq`) cannot start a project for a case.
 The main spec describes it (`openspec/specs/procest-integration.md`, "Procest Bridge, Create Project
 from Case", V1) and links a change that was never written; the matrix marks the row `specified` on
 that claim. The matrix also found that Dossiq references planninq nowhere but a repair step.
@@ -97,5 +97,5 @@ record; a mismatch fails that file and the record says so.
 
 ### Risk 3: The case app is not installed
 **Severity**: Low
-**Mitigation**: both actions are hidden unless the case app (`procest`, the id Dossiq still uses) is
-installed; the check moves with Dossiq's id when it lands, never before.
+**Mitigation**: both actions are hidden unless the case app (`dossiq`, the id Dossiq declares in `appinfo/info.xml`) is
+installed; the build checks `isInstalled('dossiq')`.

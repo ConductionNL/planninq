@@ -18,7 +18,8 @@ Read at development `de35541`:
   (`POST /planninq/api/bridge/project`).
 - hydra ADR-051 (semantic object handoff) and ADR-048 (cross-app references) prefer handing objects
   over through Open Register primitives over app-to-app APIs; ADR-054 hardens public surfaces.
-- The providers list of the matrix records Dossiq's app id as still `procest`.
+- The providers list of the matrix records Dossiq's app id as `procest`; Dossiq's `appinfo/info.xml` now
+  declares `<id>dossiq</id>`, and `<id>` is the only authority.
 
 ## Goals / non-goals
 
@@ -55,8 +56,8 @@ assignee) with its own checksum. A route `POST /api/projects/{id}/case-handover`
 
 ### Decision 4: shown only when the case app is there
 
-The action and the leaf scope check `IAppManager::isInstalled('procest')`. The id is Dossiq's
-current one; per the fleet rename rule it is not rewritten ahead of Dossiq's own id change.
+The action and the leaf scope check `IAppManager::isInstalled('dossiq')`. Dossiq's own id change
+has landed (`appinfo/info.xml` reads `<id>dossiq</id>`), so the check uses the new id.
 
 ## Risks / trade-offs
 
