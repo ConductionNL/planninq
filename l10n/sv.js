@@ -276,7 +276,22 @@ OC.L10N.register(
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Kolumnåtgärder",
+        "Columns": "Kolumner",
+        "Could not remove the column. Please try again.": "Kolumnen kunde inte tas bort. Försök igen.",
+        "Could not save the column. Please try again.": "Kolumnen kunde inte sparas. Försök igen.",
+        "Done column": "Klar-kolumn",
+        "Edit column": "Redigera kolumn",
+        "Keep the card's status": "Behåll kortets status",
+        "Move its cards to": "Flytta dess kort till",
+        "Move left": "Flytta åt vänster",
+        "Move right": "Flytta åt höger",
+        "Status of cards moved here": "Status för kort som flyttas hit",
+        "The last done column cannot be removed.": "Den sista klar-kolumnen kan inte tas bort.",
+        "WIP limit": "WIP-gräns",
+        "over limit": "över gränsen",
+        "The status a card gets when it is moved into this column.": "Den status ett kort får när det flyttas till den här kolumnen."
     },
     "nplurals=2; plural=(n != 1);"
 )

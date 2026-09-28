@@ -1,7 +1,6 @@
 import { buildHeaders } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
-import { showError, showWarning } from '@nextcloud/dialogs'
-import { loadState } from '@nextcloud/initial-state'
+import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 /**
@@ -86,28 +85,6 @@ async function fetchEvery(objectStore, schema, filters = {}) {
 		}
 	}
 	return out
-}
-
-/**
- * Default columns created for every new project.
- *
- * @return {Array} Column definitions
- */
-function getDefaultColumns() {
-	try {
-		const state = loadState('planninq', 'default_columns', null)
-		if (Array.isArray(state) && state.length > 0) {
-			return state
-		}
-	} catch {
-		// fall through to hardcoded defaults
-	}
-	return [
-		{ title: 'To Do', order: 0, wipLimit: null, type: 'active' },
-		{ title: 'In Progress', order: 1, wipLimit: 3, type: 'active' },
-		{ title: 'Review', order: 2, wipLimit: 2, type: 'active' },
-		{ title: 'Done', order: 3, wipLimit: null, type: 'done' },
-	]
 }
 
 export const useProjectsStore = defineStore('projects', {
@@ -350,9 +327,8 @@ export const useProjectsStore = defineStore('projects', {
 
 				this.projects = [...this.projects, project]
 
-				// Create default columns (non-blocking).
-				await this.createDefaultColumns(project.id)
-
+				// The server created the project's default columns in the same
+				// request (ProjectController::create, boards-configurable-columns).
 				return project
 			} catch (err) {
 				this.error = err.message || 'create-error'
@@ -455,42 +431,82 @@ export const useProjectsStore = defineStore('projects', {
 			}
 		},
 
-		// ── 2.6 createDefaultColumns ──────────────────────────────────────
+		// ── 2.6 board columns ─────────────────────────────────────────────
 
 		/**
-		 * Create default columns for a newly-created project.
-		 * Partial failures show a warning toast but do not throw.
+		 * Fetch a project's board columns, in lane order.
 		 *
-		 * @param {string} projectId Parent project ID
-		 * @return {Promise<{created: number, failed: number}>}
+		 * Reads the `column` schema straight from OpenRegister (ADR-022), which
+		 * scopes the read to the project's members.
 		 *
-		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-8
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The columns (empty array on error)
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.1
 		 */
-		async createDefaultColumns(projectId) {
-			const objectStore = this._objectStore()
-			const columns = getDefaultColumns()
-			let created = 0
-			const failedTitles = []
+		async fetchColumns(projectId) {
+			try {
+				const objectStore = this._objectStore()
+				const columns = await fetchEvery(objectStore, COLUMN_SCHEMA, { project: projectId })
+				return Array.isArray(columns)
+					? [...columns].sort((a, b) => (Number(a?.order) || 0) - (Number(b?.order) || 0))
+					: []
+			} catch (err) {
+				console.error('fetchColumns error:', err)
+				return []
+			}
+		},
 
-			for (const col of columns) {
-				const result = await objectStore.saveObject(COLUMN_SCHEMA, {
-					...col,
-					project: projectId,
+		/**
+		 * Write a column: POST when it has no id, PATCH the given fields when it has one.
+		 *
+		 * PATCH, not PUT, for the same reason as `updateTaskStatus`. The server
+		 * refuses the write unless the caller owns the project or is an admin
+		 * (ColumnOwnerGuardListener).
+		 *
+		 * @param {object} column The column, or the fields to change plus its id
+		 * @return {Promise<object|null>} The saved column, or null on failure
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
+		 */
+		async saveColumn(column) {
+			const { id, ...fields } = column
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/column/${id}`)
+				: generateUrl('/apps/openregister/api/objects/planninq/column')
+			try {
+				const response = await fetch(url, {
+					method: id ? 'PATCH' : 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(fields),
 				})
-				if (result) {
-					created++
-				} else {
-					failedTitles.push(col.title)
+				if (!response.ok) {
+					return null
 				}
+				return await response.json()
+			} catch (err) {
+				console.error('saveColumn error:', err)
+				return null
 			}
+		},
 
-			if (failedTitles.length > 0) {
-				showWarning(t('planninq', 'Some columns could not be created: {columns}', {
-					columns: failedTitles.join(', '),
-				}))
+		/**
+		 * Delete a column. Its cards must have been moved first.
+		 *
+		 * @param {string} id Column UUID
+		 * @return {Promise<boolean>} Whether the column is gone
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.2
+		 */
+		async deleteColumn(id) {
+			try {
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/column/${id}`)
+				const response = await fetch(url, { method: 'DELETE', headers: buildHeaders() })
+				return response.ok
+			} catch (err) {
+				console.error('deleteColumn error:', err)
+				return false
 			}
-
-			return { created, failed: failedTitles.length }
 		},
 
 		// ── 2.7 archiveProject ────────────────────────────────────────────

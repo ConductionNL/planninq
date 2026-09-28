@@ -275,7 +275,22 @@
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Acciones de la columna",
+        "Columns": "Columnas",
+        "Could not remove the column. Please try again.": "No se pudo eliminar la columna. Inténtelo de nuevo.",
+        "Could not save the column. Please try again.": "No se pudo guardar la columna. Inténtelo de nuevo.",
+        "Done column": "Columna de terminado",
+        "Edit column": "Editar columna",
+        "Keep the card's status": "Mantener el estado de la tarjeta",
+        "Move its cards to": "Mover sus tarjetas a",
+        "Move left": "Mover a la izquierda",
+        "Move right": "Mover a la derecha",
+        "Status of cards moved here": "Estado de las tarjetas movidas aquí",
+        "The last done column cannot be removed.": "La última columna de terminado no se puede eliminar.",
+        "WIP limit": "Límite WIP",
+        "over limit": "por encima del límite",
+        "The status a card gets when it is moved into this column.": "El estado que recibe una tarjeta cuando se mueve a esta columna."
     },
     "plurals": null
 }

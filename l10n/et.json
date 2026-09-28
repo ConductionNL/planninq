@@ -275,7 +275,22 @@
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Veeru toimingud",
+        "Columns": "Veerud",
+        "Could not remove the column. Please try again.": "Veergu ei õnnestunud eemaldada. Proovi uuesti.",
+        "Could not save the column. Please try again.": "Veergu ei õnnestunud salvestada. Proovi uuesti.",
+        "Done column": "Valmis-veerg",
+        "Edit column": "Muuda veergu",
+        "Keep the card's status": "Säilita kaardi olek",
+        "Move its cards to": "Teisalda selle kaardid veergu",
+        "Move left": "Liiguta vasakule",
+        "Move right": "Liiguta paremale",
+        "Status of cards moved here": "Siia teisaldatud kaartide olek",
+        "The last done column cannot be removed.": "Viimast valmis-veergu ei saa eemaldada.",
+        "WIP limit": "WIP-piirang",
+        "over limit": "üle piirangu",
+        "The status a card gets when it is moved into this column.": "Olek, mille kaart saab, kui see teisaldatakse sellesse veergu."
     },
     "plurals": null
 }

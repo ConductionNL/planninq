@@ -276,7 +276,22 @@ OC.L10N.register(
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Acziuns da la colonna",
+        "Columns": "Colonnas",
+        "Could not remove the column. Please try again.": "La colonna n'ha betg pudì vegnir allontanada. Empruvai anc ina giada.",
+        "Could not save the column. Please try again.": "La colonna n'ha betg pudì vegnir memorisada. Empruvai anc ina giada.",
+        "Done column": "Colonna terminà",
+        "Edit column": "Modifitgar la colonna",
+        "Keep the card's status": "Mantegnair il status da la carta",
+        "Move its cards to": "Spustar sias cartas en",
+        "Move left": "Spustar a sanestra",
+        "Move right": "Spustar a dretga",
+        "Status of cards moved here": "Status da las cartas spustadas qua",
+        "The last done column cannot be removed.": "L'ultima colonna terminà na po betg vegnir allontanada.",
+        "WIP limit": "Limita WIP",
+        "over limit": "sur la limita",
+        "The status a card gets when it is moved into this column.": "Il status che ina carta survegn cura ch'ella vegn spustada en questa colonna."
     },
     "nplurals=2; plural=(n != 1);"
 )

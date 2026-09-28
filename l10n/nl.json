@@ -296,7 +296,22 @@
         "Whether the lesson goes ahead or is cancelled.": "Of de les doorgaat of uitvalt.",
         "Scheduled": "Ingepland",
         "Imported at": "Geïmporteerd op",
-        "When this lesson was last delivered. Set by planninq.": "Wanneer deze les voor het laatst geleverd is. Planninq vult dit in."
+        "When this lesson was last delivered. Set by planninq.": "Wanneer deze les voor het laatst geleverd is. Planninq vult dit in.",
+        "Column actions": "Kolomacties",
+        "Columns": "Kolommen",
+        "Could not remove the column. Please try again.": "De kolom kon niet worden verwijderd. Probeer het opnieuw.",
+        "Could not save the column. Please try again.": "De kolom kon niet worden opgeslagen. Probeer het opnieuw.",
+        "Done column": "Klaar-kolom",
+        "Edit column": "Kolom bewerken",
+        "Keep the card's status": "Status van de kaart behouden",
+        "Move its cards to": "Verplaats de kaarten naar",
+        "Move left": "Naar links",
+        "Move right": "Naar rechts",
+        "Status of cards moved here": "Status van kaarten die hierheen gaan",
+        "The last done column cannot be removed.": "De laatste klaar-kolom kan niet worden verwijderd.",
+        "WIP limit": "WIP-limiet",
+        "over limit": "boven de limiet",
+        "The status a card gets when it is moved into this column.": "De status die een kaart krijgt als die naar deze kolom wordt verplaatst."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

@@ -276,7 +276,22 @@ OC.L10N.register(
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Veprimet e kolonës",
+        "Columns": "Kolonat",
+        "Could not remove the column. Please try again.": "Kolona nuk u hoq dot. Provoni përsëri.",
+        "Could not save the column. Please try again.": "Kolona nuk u ruajt dot. Provoni përsëri.",
+        "Done column": "Kolona e përfunduarave",
+        "Edit column": "Ndrysho kolonën",
+        "Keep the card's status": "Mbaj gjendjen e kartës",
+        "Move its cards to": "Zhvendos kartat e saj te",
+        "Move left": "Zhvendos majtas",
+        "Move right": "Zhvendos djathtas",
+        "Status of cards moved here": "Gjendja e kartave të zhvendosura këtu",
+        "The last done column cannot be removed.": "Kolona e fundit e përfunduarave nuk mund të hiqet.",
+        "WIP limit": "Kufiri WIP",
+        "over limit": "mbi kufirin",
+        "The status a card gets when it is moved into this column.": "Gjendja që merr një kartë kur zhvendoset në këtë kolonë."
     },
     "nplurals=2; plural=(n != 1);"
 )

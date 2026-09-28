@@ -276,7 +276,22 @@ OC.L10N.register(
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Дејства на колоната",
+        "Columns": "Колони",
+        "Could not remove the column. Please try again.": "Колоната не може да се отстрани. Обидете се повторно.",
+        "Could not save the column. Please try again.": "Колоната не може да се зачува. Обидете се повторно.",
+        "Done column": "Колона за завршени",
+        "Edit column": "Уреди колона",
+        "Keep the card's status": "Задржи го статусот на картичката",
+        "Move its cards to": "Премести ги нејзините картички во",
+        "Move left": "Помести лево",
+        "Move right": "Помести десно",
+        "Status of cards moved here": "Статус на картичките преместени овде",
+        "The last done column cannot be removed.": "Последната колона за завршени не може да се отстрани.",
+        "WIP limit": "WIP ограничување",
+        "over limit": "над ограничувањето",
+        "The status a card gets when it is moved into this column.": "Статусот што го добива картичката кога ќе се премести во оваа колона."
     },
     "nplurals=2; plural=(n != 1);"
 )

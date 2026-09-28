@@ -99,31 +99,46 @@
 				<NcLoadingIcon :size="32" />
 			</div>
 
-			<!-- Kanban columns -->
+			<!-- Kanban columns: one lane per column object of the project,
+			     in `order`. A task sits in the lane its `column` references;
+			     a task without one is in the backlog. -->
 			<div v-else class="project-board__columns" data-cy="kanban-board">
 				<section
-					v-for="column in columns"
-					:key="column.status"
+					v-for="(column, index) in columns"
+					:key="column.id"
 					class="kanban-column"
-					:data-status="column.status"
-					:aria-label="column.label"
-					:class="{ 'kanban-column--drop-target': dropTargetStatus === column.status }"
-					@dragover.prevent="onDragOver(column.status)"
-					@dragleave="onDragLeave(column.status)"
-					@drop="onDrop(column.status)">
-					<header class="kanban-column__header">
+					:data-column="column.title"
+					:aria-label="column.title"
+					:class="{ 'kanban-column--drop-target': dropTargetId === column.id }"
+					@dragover.prevent="onDragOver(column.id)"
+					@dragleave="onDragLeave(column.id)"
+					@drop="onDrop(column)">
+					<header
+						class="kanban-column__header"
+						:class="{ 'kanban-column__header--over': wipFor(column).over }"
+						:style="column.color ? { borderTopColor: column.color } : null">
 						<h3 class="kanban-column__title">
-							{{ column.label }}
+							{{ column.title }}
 						</h3>
-						<span class="kanban-column__count" aria-hidden="true">
-							{{ tasksByStatus[column.status].length }}
+						<span class="kanban-column__count" data-testid="column-count">
+							{{ wipFor(column).text }}
+							<template v-if="wipFor(column).over">
+								{{ t('planninq', 'over limit') }}
+							</template>
 						</span>
+						<ColumnActions
+							v-if="isOwner"
+							:first="index === 0"
+							:last="index === columns.length - 1"
+							@edit="editingColumn = column"
+							@move="(direction) => moveColumn(column, direction)"
+							@remove="removingColumn = column" />
 					</header>
 
 					<div class="kanban-column__body">
 						<!-- Task cards -->
 						<div
-							v-for="task in tasksByStatus[column.status]"
+							v-for="task in tasksByColumn[column.id]"
 							:key="task.id"
 							class="kanban-column__card"
 							:class="{ 'kanban-column__card--highlight': isHighlighted(task) }"
@@ -136,12 +151,14 @@
 							@keydown.enter="navigateToTask(task)"
 							@keydown.space.prevent="navigateToTask(task)"
 							@dragstart="onDragStart(task)"
-							@dragend="onDragEnd">
+							@dragend="onDragEnd"
+							@drop.stop="onDrop(column, task)">
 							<TaskCard :task="task" :labels="labelsForTask(task)" />
 
-							<!-- Keyboard-operable status change: accessible equivalent
-							     of drag-and-drop. Not itself draggable, and stops click
-							     propagation so activating it never navigates to detail. -->
+							<!-- Keyboard-operable move: the accessible equivalent
+							     of drag-and-drop, to another lane or a step up or
+							     down in this one. Not itself draggable, and stops
+							     click propagation so it never opens the task. -->
 							<div
 								class="kanban-column__card-actions"
 								draggable="false"
@@ -153,26 +170,67 @@
 									:aria-label="t('planninq', 'Move task to another column')"
 									:forceMenu="true">
 									<NcActionButton
-										v-for="target in otherColumns(column.status)"
-										:key="target.status"
 										:closeAfterClick="true"
-										@click="moveTask(task, target.status)">
+										@click="stepCard(task, column, -1)">
+										<template #icon>
+											<ArrowUpIcon :size="20" />
+										</template>
+										{{ t('planninq', 'Move up') }}
+									</NcActionButton>
+									<NcActionButton
+										:closeAfterClick="true"
+										@click="stepCard(task, column, 1)">
+										<template #icon>
+											<ArrowDownIcon :size="20" />
+										</template>
+										{{ t('planninq', 'Move down') }}
+									</NcActionButton>
+									<NcActionButton
+										v-for="target in otherColumns(column)"
+										:key="target.id"
+										:closeAfterClick="true"
+										@click="moveTask(task, target)">
 										<template #icon>
 											<ArrowRightIcon :size="20" />
 										</template>
-										{{ target.label }}
+										{{ target.title }}
 									</NcActionButton>
 								</NcActions>
 							</div>
 						</div>
 
 						<!-- Empty column placeholder -->
-						<p v-if="tasksByStatus[column.status].length === 0" class="kanban-column__empty">
+						<p v-if="tasksByColumn[column.id].length === 0" class="kanban-column__empty">
 							{{ t('planninq', 'No tasks') }}
 						</p>
 					</div>
 				</section>
+
+				<div v-if="isOwner" class="project-board__add-column">
+					<NcButton variant="secondary" data-testid="add-column" @click="editingColumn = {}">
+						<template #icon>
+							<PlusIcon :size="20" />
+						</template>
+						{{ t('planninq', 'Add column') }}
+					</NcButton>
+				</div>
 			</div>
+
+			<ColumnEditDialog
+				v-if="editingColumn"
+				:column="editingColumn.id ? editingColumn : null"
+				:projectId="project.id"
+				:nextOrder="nextColumnOrder"
+				@close="editingColumn = null"
+				@saved="onColumnsChanged" />
+			<ColumnRemoveDialog
+				v-if="removingColumn"
+				:column="removingColumn"
+				:columns="columns"
+				:cards="tasksOfColumn(removingColumn)"
+				:lanes="tasksByColumn"
+				@close="removingColumn = null"
+				@removed="onColumnsChanged" />
 		</template>
 
 		<!-- Settings sidebar (rendered via App.vue outlet, passed via provide) -->
@@ -199,14 +257,27 @@ import { showError } from '@nextcloud/dialogs'
  * @spec openspec/specs/admin-user-settings.md
  */
 import { NcActionButton, NcActions, NcButton, NcChip, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
+import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
+import ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import ColumnActions from '../components/ColumnActions.vue'
 import ProjectSettingsSidebar from '../components/ProjectSettingsSidebar.vue'
 import TaskCard from '../components/TaskCard.vue'
+import ColumnEditDialog from '../dialogs/ColumnEditDialog.vue'
+import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
 import { useProjectsStore } from '../store/projects.js'
+import {
+	buildMovePatch,
+	groupTasksByColumn,
+	orderPatchesForStep,
+	sortColumns,
+	swapColumnPatches,
+	wipState,
+} from '../utils/columnHelpers.js'
 import { filterTasksByLabel, labelId, resolveTaskLabels, sortLabelsByTitle } from '../utils/labelHelpers.js'
-import { BOARD_STATUSES, groupTasksByStatus } from '../utils/taskHelpers.js'
 
 export default {
 	name: 'ProjectBoard',
@@ -218,9 +289,15 @@ export default {
 		NcChip,
 		NcEmptyContent,
 		NcLoadingIcon,
+		ArrowDownIcon,
 		ArrowRightIcon,
+		ArrowUpIcon,
 		CogIcon,
+		ColumnActions,
+		ColumnEditDialog,
+		ColumnRemoveDialog,
 		LockOutline,
+		PlusIcon,
 		TaskCard,
 	},
 
@@ -241,8 +318,14 @@ export default {
 			tasksLoading: false,
 			/** @type {object|null} The task currently being dragged. */
 			draggingTask: null,
-			/** @type {string|null} The status column currently hovered during a drag. */
-			dropTargetStatus: null,
+			/** @type {string|null} Id of the lane currently hovered during a drag. */
+			dropTargetId: null,
+			/** @type {Array} The project's column objects. */
+			boardColumns: [],
+			/** @type {object|null} The column being edited; `{}` while adding one. */
+			editingColumn: null,
+			/** @type {object|null} The column being removed. */
+			removingColumn: null,
 			/** @type {Array} Every app-wide label, for the card chips and the filter. */
 			labels: [],
 			/** @type {string|null} Id of the label the board is filtered by, null for all. */
@@ -273,35 +356,46 @@ export default {
 		},
 
 		/**
-		 * The board's columns, in display order. One column per task status —
-		 * the status enum is the single source of truth for the board lanes.
+		 * The board's lanes: the project's column objects in `order`.
 		 *
-		 * @return {Array<{status: string, label: string}>}
+		 * @return {Array<object>}
 		 *
-		 * @spec openspec/specs/kanban-board.md
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.1
 		 */
 		columns() {
-			const labels = {
-				open: this.t('planninq', 'Open'),
-				in_progress: this.t('planninq', 'In Progress'),
-				blocked: this.t('planninq', 'Blocked'),
-				done: this.t('planninq', 'Done'),
-				cancelled: this.t('planninq', 'Cancelled'),
-			}
-			return BOARD_STATUSES.map((status) => ({ status, label: labels[status] }))
+			return sortColumns(this.boardColumns)
 		},
 
 		/**
-		 * Tasks grouped by their status. Every column key is always present so
-		 * empty columns render gracefully; a task with an unknown status falls
-		 * back to the "open" lane.
+		 * Tasks grouped by the column they reference, in `columnOrder`. Every
+		 * lane is a key; a column-less task is in the backlog, not here.
 		 *
-		 * @return {{[status: string]: Array}}
+		 * @return {{[columnId: string]: Array}}
 		 *
-		 * @spec openspec/specs/kanban-board.md
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.1
 		 */
-		tasksByStatus() {
-			return groupTasksByStatus(this.visibleTasks, BOARD_STATUSES)
+		tasksByColumn() {
+			return groupTasksByColumn(this.visibleTasks, this.columns)
+		},
+
+		/**
+		 * Whether the current user may manage the columns: the project owner or
+		 * an admin. The server enforces the same rule (ColumnOwnerGuardListener).
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
+		 */
+		isOwner() {
+			const user = getCurrentUser()
+			return !!user && (user.isAdmin === true || this.project?.owner === user.uid)
+		},
+
+		/**
+		 * @spec exclude Display helper: the `order` a new column gets.
+		 */
+		nextColumnOrder() {
+			return this.columns.reduce((max, column) => Math.max(max, Number(column.order) || 0), -1) + 1
 		},
 
 		/**
@@ -380,6 +474,7 @@ export default {
 			this.highlightTaskId = taskId
 		}
 
+		await this.loadColumns(id)
 		await this.loadTasks(id)
 		await this.loadLabels()
 	},
@@ -407,6 +502,21 @@ export default {
 			} finally {
 				this.tasksLoading = false
 			}
+		},
+
+		/**
+		 * Load the project's columns, the board's lanes.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.1
+		 */
+		async loadColumns(projectId) {
+			if (!projectId || this.accessDenied) {
+				return
+			}
+			this.boardColumns = await this.projectsStore.fetchColumns(projectId)
 		},
 
 		/**
@@ -474,45 +584,46 @@ export default {
 		 */
 		onDragEnd() {
 			this.draggingTask = null
-			this.dropTargetStatus = null
+			this.dropTargetId = null
 		},
 
 		/**
-		 * @param {string} status The hovered column's status.
-		 * @spec exclude Drag glue — marks the hovered column as the drop target.
+		 * @param {string} columnId The hovered lane's column id.
+		 * @spec exclude Drag glue — marks the hovered lane as the drop target.
 		 */
-		onDragOver(status) {
-			this.dropTargetStatus = status
+		onDragOver(columnId) {
+			this.dropTargetId = columnId
 		},
 
 		/**
-		 * @param {string} status The column being left.
+		 * @param {string} columnId The lane being left.
 		 * @spec exclude Drag glue — clears the drop-target highlight on leave.
 		 */
-		onDragLeave(status) {
-			if (this.dropTargetStatus === status) {
-				this.dropTargetStatus = null
+		onDragLeave(columnId) {
+			if (this.dropTargetId === columnId) {
+				this.dropTargetId = null
 			}
 		},
 
 		/**
-		 * Drop a dragged task into a column, changing its status.
+		 * Drop the dragged card into a lane: at the bottom, or in front of the
+		 * card it was dropped on. The drop is never refused, over a WIP limit
+		 * too.
 		 *
-		 * Applies the move optimistically (the card jumps to the new column
-		 * immediately) and persists it via the RBAC-scoped store action; on a
-		 * failed write the task reverts to its original status and an error toast
-		 * is shown.
-		 *
-		 * @param {string} newStatus The target column's status
+		 * @param {object}      column       The target column.
+		 * @param {object|null} [beforeTask] The card it was dropped on.
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/specs/kanban-board.md
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2
 		 */
-		async onDrop(newStatus) {
+		async onDrop(column, beforeTask = null) {
 			const task = this.draggingTask
-			this.dropTargetStatus = null
+			this.dropTargetId = null
 			this.draggingTask = null
-			await this.applyStatusMove(task, newStatus)
+			if (!task || (beforeTask && beforeTask.id === task.id)) {
+				return
+			}
+			await this.applyMove(task, column, beforeTask)
 		},
 
 		/**
@@ -535,61 +646,137 @@ export default {
 		},
 
 		/**
-		 * The board columns other than `currentStatus` — the valid keyboard
-		 * "Move to…" targets for a card in that column.
+		 * The lanes other than `column`: the keyboard "Move to" targets.
 		 *
-		 * @param {string} currentStatus The card's current status
-		 * @return {Array<{status: string, label: string}>}
+		 * @param {object} column The card's current column.
+		 * @return {Array<object>}
 		 *
-		 * @spec exclude Display helper — filters the column list for the move menu.
+		 * @spec exclude Display helper — filters the lane list for the move menu.
 		 */
-		otherColumns(currentStatus) {
-			return this.columns.filter((column) => column.status !== currentStatus)
+		otherColumns(column) {
+			return this.columns.filter((other) => other.id !== column.id)
 		},
 
 		/**
-		 * Keyboard-operable status change: the accessible equivalent of a
-		 * drag-and-drop move. Delegates to the exact same optimistic-update +
-		 * rollback path the drag handler uses, so behaviour and RBAC are
-		 * identical between the two.
-		 *
-		 * @param {object} task      The task to move
-		 * @param {string} newStatus The target column's status
-		 * @return {Promise<void>}
-		 *
-		 * @spec openspec/specs/kanban-board.md
+		 * @param {object} column A lane.
+		 * @return {Array<object>} Its cards, in order.
+		 * @spec exclude Display helper — the cards of one lane.
 		 */
-		async moveTask(task, newStatus) {
-			await this.applyStatusMove(task, newStatus)
+		tasksOfColumn(column) {
+			return this.tasksByColumn[column.id] || []
 		},
 
 		/**
-		 * Optimistically move a task to `newStatus` and persist it via the
-		 * RBAC-scoped store action; revert + toast on a failed write. Shared by
-		 * both the drag-and-drop drop handler and the keyboard "Move to…" menu.
+		 * @param {object} column A lane.
+		 * @return {{text: string, over: boolean}}
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.3
+		 */
+		wipFor(column) {
+			return wipState(this.tasksOfColumn(column).length, column.wipLimit)
+		},
+
+		/**
+		 * Keyboard move to another lane: the same path as a drop.
 		 *
-		 * @param {object} task      The task to move (no-op when null/same status)
-		 * @param {string} newStatus The target column's status
+		 * @param {object} task   The task to move.
+		 * @param {object} column The target column.
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/specs/kanban-board.md
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2
 		 */
-		async applyStatusMove(task, newStatus) {
-			if (!task || task.status === newStatus) {
+		async moveTask(task, column) {
+			await this.applyMove(task, column, null)
+		},
+
+		/**
+		 * Optimistically put a task in a lane and PATCH its `column`,
+		 * `columnOrder` and the lane's mapped status; revert and toast when the
+		 * write fails. The server stamps `completedAt` when the status becomes
+		 * done (TaskCompletionListener).
+		 *
+		 * @param {object}      task       The task to move.
+		 * @param {object}      column     The target column.
+		 * @param {object|null} beforeTask The card to land in front of.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2
+		 */
+		async applyMove(task, column, beforeTask) {
+			const lane = this.tasksOfColumn(column).filter((card) => card.id !== task.id)
+			const patch = buildMovePatch(column, lane, beforeTask)
+			await this.patchTasks([{ id: task.id, ...patch }])
+		},
+
+		/**
+		 * Move a card one step up (-1) or down (+1) in its lane.
+		 *
+		 * @param {object} task      The card.
+		 * @param {object} column    Its lane.
+		 * @param {number} direction -1 or +1.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.4
+		 */
+		async stepCard(task, column, direction) {
+			await this.patchTasks(orderPatchesForStep(this.tasksOfColumn(column), task, direction))
+		},
+
+		/**
+		 * Apply task patches optimistically and persist them; revert all on a failure.
+		 *
+		 * @param {Array<object>} patches Each `{ id, ...fields }`.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2
+		 */
+		async patchTasks(patches) {
+			if (!patches.length) {
 				return
 			}
-
-			const previousStatus = task.status
-
-			// Optimistic update.
-			this.tasks = this.tasks.map((existing) => existing.id === task.id ? { ...existing, status: newStatus } : existing)
-
-			const updated = await this.projectsStore.updateTaskStatus(task.id, newStatus)
-			if (!updated) {
-				// Revert on failure.
-				this.tasks = this.tasks.map((existing) => existing.id === task.id ? { ...existing, status: previousStatus } : existing)
-				showError(this.t('planninq', 'Could not move the task. Please try again.'))
+			const previous = this.tasks
+			const byId = new Map(patches.map((patch) => [patch.id, patch]))
+			this.tasks = this.tasks.map((task) => byId.has(task.id) ? { ...task, ...byId.get(task.id) } : task)
+			for (const { id, ...fields } of patches) {
+				const updated = await this.projectsStore.updateTask(id, fields)
+				if (!updated) {
+					this.tasks = previous
+					showError(this.t('planninq', 'Could not move the task. Please try again.'))
+					return
+				}
 			}
+		},
+
+		/**
+		 * Move a column one place left or right.
+		 *
+		 * @param {object} column    The column.
+		 * @param {number} direction -1 or +1.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
+		 */
+		async moveColumn(column, direction) {
+			for (const patch of swapColumnPatches(this.columns, column, direction)) {
+				if (!(await this.projectsStore.saveColumn(patch))) {
+					showError(this.t('planninq', 'Could not save the column. Please try again.'))
+					break
+				}
+			}
+			await this.loadColumns(this.project.id)
+		},
+
+		/**
+		 * Reload lanes and cards after a column was added, edited or removed.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
+		 */
+		async onColumnsChanged() {
+			this.editingColumn = null
+			this.removingColumn = null
+			await this.loadColumns(this.project.id)
+			await this.loadTasks(this.project.id)
 		},
 
 		/**
@@ -607,6 +794,7 @@ export default {
 				on: {
 					close: () => this.closeSidebar?.(),
 					archived: () => this.$router.push({ name: 'Projects' }),
+					columnsChanged: () => this.onColumnsChanged(),
 					deleted: () => this.$router.push({ name: 'Projects' }),
 				},
 			})
@@ -723,8 +911,13 @@ export default {
 .kanban-column__header {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	gap: 8px;
 	padding: 4px 8px 8px;
+	border-top: 3px solid transparent;
+}
+
+.kanban-column__title {
+	flex: 1;
 }
 
 .kanban-column__title {
@@ -741,6 +934,19 @@ export default {
 	background: var(--color-background-hover);
 	border-radius: 12px;
 	padding: 1px 8px;
+}
+
+/* Over the WIP limit: warning colour AND the words "over limit", so colour
+   is not the only signal (WCAG 1.4.1). The drop is never refused. */
+.kanban-column__header--over .kanban-column__count {
+	color: var(--color-warning-text);
+	background: var(--color-warning-hover, var(--color-background-hover));
+	border: 1px solid var(--color-warning);
+}
+
+.project-board__add-column {
+	flex: 0 0 auto;
+	padding-top: 4px;
 }
 
 .kanban-column__body {

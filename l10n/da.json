@@ -275,7 +275,22 @@
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Kolonnehandlinger",
+        "Columns": "Kolonner",
+        "Could not remove the column. Please try again.": "Kolonnen kunne ikke fjernes. Prøv igen.",
+        "Could not save the column. Please try again.": "Kolonnen kunne ikke gemmes. Prøv igen.",
+        "Done column": "Færdig-kolonne",
+        "Edit column": "Rediger kolonne",
+        "Keep the card's status": "Behold kortets status",
+        "Move its cards to": "Flyt dens kort til",
+        "Move left": "Flyt til venstre",
+        "Move right": "Flyt til højre",
+        "Status of cards moved here": "Status for kort flyttet hertil",
+        "The last done column cannot be removed.": "Den sidste færdig-kolonne kan ikke fjernes.",
+        "WIP limit": "WIP-grænse",
+        "over limit": "over grænsen",
+        "The status a card gets when it is moved into this column.": "Den status et kort får, når det flyttes til denne kolonne."
     },
     "plurals": null
 }

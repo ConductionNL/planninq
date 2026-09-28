@@ -276,7 +276,22 @@ OC.L10N.register(
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Дзеянні са слупком",
+        "Columns": "Слупкі",
+        "Could not remove the column. Please try again.": "Не ўдалося выдаліць слупок. Паспрабуйце яшчэ раз.",
+        "Could not save the column. Please try again.": "Не ўдалося захаваць слупок. Паспрабуйце яшчэ раз.",
+        "Done column": "Слупок выкананых",
+        "Edit column": "Рэдагаваць слупок",
+        "Keep the card's status": "Захаваць статус карткі",
+        "Move its cards to": "Перамясціць яго карткі ў",
+        "Move left": "Перамясціць улева",
+        "Move right": "Перамясціць управа",
+        "Status of cards moved here": "Статус картак, перамешчаных сюды",
+        "The last done column cannot be removed.": "Апошні слупок выкананых нельга выдаліць.",
+        "WIP limit": "Ліміт WIP",
+        "over limit": "вышэй за ліміт",
+        "The status a card gets when it is moved into this column.": "Статус, які атрымлівае картка, калі яе перамяшчаюць у гэты слупок."
     },
     "nplurals=2; plural=(n != 1);"
 )

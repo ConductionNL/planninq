@@ -276,7 +276,22 @@ OC.L10N.register(
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Gníomhartha colúin",
+        "Columns": "Colúin",
+        "Could not remove the column. Please try again.": "Níorbh fhéidir an colún a bhaint. Bain triail eile as.",
+        "Could not save the column. Please try again.": "Níorbh fhéidir an colún a shábháil. Bain triail eile as.",
+        "Done column": "Colún críochnaithe",
+        "Edit column": "Cuir an colún in eagar",
+        "Keep the card's status": "Coinnigh stádas an chárta",
+        "Move its cards to": "Bog a chártaí go",
+        "Move left": "Bog ar chlé",
+        "Move right": "Bog ar dheis",
+        "Status of cards moved here": "Stádas na gcártaí a bhogtar anseo",
+        "The last done column cannot be removed.": "Ní féidir an colún críochnaithe deireanach a bhaint.",
+        "WIP limit": "Teorainn WIP",
+        "over limit": "os cionn na teorann",
+        "The status a card gets when it is moved into this column.": "An stádas a fhaigheann cárta nuair a bhogtar isteach sa cholún seo é."
     },
     "nplurals=2; plural=(n != 1);"
 )
