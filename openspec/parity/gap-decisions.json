@@ -1102,5 +1102,45 @@
     "reason": "Deferred: One competitor rates it yes (TimeEdit), the only demand row is a competitor changelog, which is evidence of a competitor shipping it, not demand, and it sits outside the core areas (projects, boards) in platform. The row note records that it does not apply: every planninq date is a calendar date.",
     "change": null,
     "decidedOn": "2026-09-27"
+  },
+  {
+    "row": "int-push-events",
+    "matrix": "planninq",
+    "decision": "existing",
+    "reason": "Requested by learniq (decision D10, learniq PR #1132 moved the owner to planninq). Covered by planninq's school-timetable-target, in planninq PR #685 (open at 9801e16, not yet on development): its idempotent upsert keyed by sourceSystem and externalRef, the TimetableUpsertRequestedEvent and the admin route POST /api/timetable/sessions/upsert let another system add its own sessions to a group's or a teacher's timetable. A single learner is not addressable on their own. If PR #685 does not merge, this row goes back to none.",
+    "change": "school-timetable-target",
+    "decidedOn": "2026-09-28"
+  },
+  {
+    "row": "tt-draft-publish",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "Requested by learniq (decision D10, learniq PR #1132 moved the owner to planninq). Two competitors rate it yes (Xedule 'Concept publiceren', TimeEdit Viewer draft sharing). school-timetable-target has no draft stage: every delivered session is readable at once. The new change adds a draft status readable by the named teacher and admins, drafts only on request, and an admin publish; it depends on planninq PR #685.",
+    "change": "timetable-draft-review",
+    "decidedOn": "2026-09-28"
+  },
+  {
+    "row": "tt-term-rollover",
+    "matrix": "planninq",
+    "decision": "decided-no",
+    "reason": "Requested by learniq (decision D10, learniq PR #1132 moved the owner to planninq). Rolling scheduling data into a new term prepares the next timetable in the rostering system. The fleet does not build timetables: learniq openspec/changes/archive/2026-07-16-timetabling-and-substitution/design.md:25 and the Non-Goals entry at :59, adopted for planninq by D10 (planninq receives a generated timetable). Same reading the learniq lane applied to tt-availability-wishes; learniq#1036 holds the reconsider clause.",
+    "change": null,
+    "decidedOn": "2026-09-28"
+  },
+  {
+    "row": "tt-multiweek-periods",
+    "matrix": "planninq",
+    "decision": "decided-no",
+    "reason": "Requested by learniq (decision D10, learniq PR #1132 moved the owner to planninq). A and B week cycles and period versions are timetable construction in the rostering system, which the fleet leaves to it: learniq openspec/changes/archive/2026-07-16-timetabling-and-substitution/design.md:25 and :59, adopted by D10. A delivered timetable is dated occurrences, so a cycle arrives expanded and earlier periods stay intact. Only Xedule rates it yes, so it would be defer without the non-goal; learniq#1036 holds the reconsider clause.",
+    "change": null,
+    "decidedOn": "2026-09-28"
+  },
+  {
+    "row": "tsk-mentions",
+    "matrix": "planninq",
+    "decision": "existing",
+    "reason": "Matrix corrected. Requested by nextcloud-vue (its decision names archived change 2026-07-13-notes-mentions-autocomplete and asks planninq for a mention listener). OpenRegister already notifies and subscribes every named user who may read the task when a note is saved (NotesController create, TimelineWriteService, EntryMentionService, openregister #3762 of 2026-09-15), so planninq needs no listener and one would notify twice. Rating set to yes with a live check recorded.",
+    "change": null,
+    "decidedOn": "2026-09-28"
   }
 ]

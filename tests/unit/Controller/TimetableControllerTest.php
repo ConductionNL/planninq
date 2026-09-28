@@ -19,12 +19,12 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Controller;
 
-require_once __DIR__ . '/../Support/InMemoryObjectService.php';
+require_once __DIR__ . '/../Support/InMemoryTimetableObjectService.php';
 
 use OCA\Planninq\Controller\TimetableController;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\TimetableSessionService;
-use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
+use OCA\Planninq\Tests\Unit\Support\InMemoryTimetableObjectService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -70,9 +70,9 @@ class TimetableControllerTest extends TestCase {
 	/**
 	 * The in-memory OpenRegister.
 	 *
-	 * @var InMemoryObjectService
+	 * @var InMemoryTimetableObjectService
 	 */
-	private InMemoryObjectService $objectService;
+	private InMemoryTimetableObjectService $objectService;
 
 	/**
 	 * Set up fixtures.
@@ -85,7 +85,7 @@ class TimetableControllerTest extends TestCase {
 		$this->request = $this->createMock(originalClassName: IRequest::class);
 		$this->userSession = $this->createMock(originalClassName: IUserSession::class);
 		$this->settingsService = $this->createMock(originalClassName: SettingsService::class);
-		$this->objectService = new InMemoryObjectService();
+		$this->objectService = new InMemoryTimetableObjectService();
 
 	}//end setUp()
 

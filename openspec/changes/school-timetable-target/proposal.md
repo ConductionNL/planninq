@@ -43,7 +43,7 @@ One schema, one service, two events, one controller. The service owns every rule
 None.
 
 ## Impact
-- `lib/Settings/planninq_register.json`: one new schema, register `info.version` 0.4.0 to 0.5.0.
+- `lib/Settings/planninq_register.json`: one new schema, register `info.version` 0.5.0 to 0.6.0.
 - `lib/Settings/planninq_mock_register.json`: three demo sessions.
 - New PHP: `lib/Service/TimetableSessionService.php`, `lib/Event/TimetableUpsertRequestedEvent.php`, `lib/Event/TimetableSessionsQueryEvent.php`, `lib/Listener/TimetableUpsertRequestedListener.php`, `lib/Listener/TimetableSessionsQueryListener.php`, `lib/Controller/TimetableController.php`.
 - `appinfo/routes.php`: two routes. `lib/AppInfo/Application.php`: two listener registrations.

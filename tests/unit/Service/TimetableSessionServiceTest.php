@@ -19,12 +19,12 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
-require_once __DIR__ . '/../Support/InMemoryObjectService.php';
+require_once __DIR__ . '/../Support/InMemoryTimetableObjectService.php';
 
 use InvalidArgumentException;
 use OCA\Planninq\Service\TimetableSessionQuery;
 use OCA\Planninq\Service\TimetableSessionService;
-use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
+use OCA\Planninq\Tests\Unit\Support\InMemoryTimetableObjectService;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\NullLogger;
@@ -40,9 +40,9 @@ class TimetableSessionServiceTest extends TestCase {
 	/**
 	 * The in-memory OpenRegister.
 	 *
-	 * @var InMemoryObjectService
+	 * @var InMemoryTimetableObjectService
 	 */
-	private InMemoryObjectService $objectService;
+	private InMemoryTimetableObjectService $objectService;
 
 	/**
 	 * The service under test.
@@ -59,7 +59,7 @@ class TimetableSessionServiceTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->objectService = new InMemoryObjectService();
+		$this->objectService = new InMemoryTimetableObjectService();
 		$container = $this->createMock(originalClassName: ContainerInterface::class);
 		$container->method('get')->willReturn($this->objectService);
 

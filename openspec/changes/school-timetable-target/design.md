@@ -116,4 +116,4 @@ Demo data only (mock register, imported on demand from the setup walkthrough). A
 **Related items per object:** none; a lesson links to nothing inside planninq.
 
 ## Migration Plan
-Deploy: the register version bump (0.4.0 to 0.5.0) makes the existing repair-step import create the schema. Rollback: revert; the schema stays unused.
+Deploy: the register version bump (0.5.0 to 0.6.0) makes the existing repair-step import create the schema. Rollback: revert; the schema stays unused.
