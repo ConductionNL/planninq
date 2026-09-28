@@ -31,6 +31,7 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 
 use OCA\Planninq\Controller\ProjectController;
+use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Tests\Unit\Support\ObjectServiceDouble;
 use OCP\AppFramework\Http;
@@ -83,6 +84,8 @@ class ProjectControllerTest extends TestCase {
 	 */
 	private LoggerInterface&MockObject $logger;
 
+	private BoardColumnService&MockObject $boardColumns;
+
 	/**
 	 * The controller under test.
 	 *
@@ -103,6 +106,7 @@ class ProjectControllerTest extends TestCase {
 		$this->userSession = $this->createMock(originalClassName: IUserSession::class);
 		$this->container = $this->createMock(originalClassName: ContainerInterface::class);
 		$this->logger = $this->createMock(originalClassName: LoggerInterface::class);
+		$this->boardColumns = $this->createMock(originalClassName: BoardColumnService::class);
 
 		$this->controller = new ProjectController(
 			request: $this->request,
@@ -110,6 +114,7 @@ class ProjectControllerTest extends TestCase {
 			userSession: $this->userSession,
 			container: $this->container,
 			logger: $this->logger,
+			boardColumns: $this->boardColumns,
 		);
 
 	}//end setUp()
@@ -270,6 +275,13 @@ class ProjectControllerTest extends TestCase {
 			->willReturn($objectService);
 
 		$this->request->method('getParams')->willReturn(['title' => 'My Project']);
+
+		// Scenario "The admin changed the defaults": the new project gets its
+		// columns on the server, in the same request that creates it.
+		$this->boardColumns->expects($this->once())
+			->method('createDefaultColumns')
+			->with('new-uuid')
+			->willReturn([]);
 
 		$result = $this->controller->create();
 

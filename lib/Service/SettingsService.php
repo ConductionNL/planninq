@@ -58,7 +58,7 @@ class SettingsService {
 	 * @var array<string,string>
 	 */
 	private const ADMIN_CONFIG_DEFAULTS = [
-		'default_columns' => '["To Do","In Progress","Review","Done"]',
+		'default_columns' => '["To do","In progress","Review","Done"]',
 		'allow_project_creation' => 'all',
 		'due_reminder_lead_hours' => '24',
 	];

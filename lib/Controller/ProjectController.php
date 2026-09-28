@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Controller;
 
 use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\SettingsService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -103,6 +104,7 @@ class ProjectController extends Controller {
 	 * @param IUserSession $userSession The user session
 	 * @param ContainerInterface $container The DI container
 	 * @param LoggerInterface $logger The logger
+	 * @param BoardColumnService $boardColumns Creates a new project's default columns
 	 *
 	 * @return void
 	 */
@@ -112,6 +114,7 @@ class ProjectController extends Controller {
 		private IUserSession $userSession,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
+		private BoardColumnService $boardColumns,
 	) {
 		parent::__construct(appName: Application::APP_ID, request: $request);
 
@@ -266,7 +269,14 @@ class ProjectController extends Controller {
 
 			$this->logger->info('Planninq: project created', ['uid' => $uid]);
 
-			return new JSONResponse($saved->jsonSerialize(), Http::STATUS_CREATED);
+			$project = $saved->jsonSerialize();
+
+			// The board runs on the project's own columns, so a project is
+			// created with them: the admin's default titles, the last one the
+			// done column (boards-configurable-columns, decision 6).
+			$this->boardColumns->createDefaultColumns(projectId: (string)($project['id'] ?? ($project['@self']['id'] ?? '')));
+
+			return new JSONResponse($project, Http::STATUS_CREATED);
 		} catch (\Throwable $e) {
 			return $this->classifyObjectServiceException(
 				e: $e,

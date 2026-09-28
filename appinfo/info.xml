@@ -186,6 +186,16 @@ Vrij en open source onder de EUPL-1.2-licentie.
                 until this step has run. Idempotent and never throws.
             -->
             <step>OCA\Planninq\Repair\BackfillProjectMembers</step>
+            <!--
+                AFTER InitializeSettings and BackfillProjectMembers, in BOTH
+                blocks (boards-configurable-columns). The board groups cards by
+                column now, and a task stored before this release has none, so
+                it would drop off the board. The import adds the column's
+                `status`; this step then creates default columns where a
+                project has none and places each column-less, not cancelled
+                task. Idempotent and never throws.
+            -->
+            <step>OCA\Planninq\Repair\AssignBoardColumns</step>
             <step>OCA\Planninq\Repair\ReconcileDueReminderOverrides</step>
         </post-migration>
         <install>
@@ -207,6 +217,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
             <step>OCA\Planninq\Repair\InitializeSettings</step>
             <!-- See the note in <post-migration>. -->
             <step>OCA\Planninq\Repair\BackfillProjectMembers</step>
+            <step>OCA\Planninq\Repair\AssignBoardColumns</step>
         </install>
     </repair-steps>
 
