@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Akcje zadania",
         "All labels": "Wszystkie etykiety",
         "Filter tasks by label": "Filtruj zadania według etykiety",
-        "View timeline": "Pokaż oś czasu"
+        "View timeline": "Pokaż oś czasu",
+        "Board": "Tablica",
+        "List": "Lista",
+        "Column": "Kolumna",
+        "Board or list": "Tablica lub lista"
     },
     "nplurals=2; plural=(n != 1);"
 )

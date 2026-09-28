@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Akce úkolu",
         "All labels": "Všechny štítky",
         "Filter tasks by label": "Filtrovat úkoly podle štítku",
-        "View timeline": "Zobrazit časovou osu"
+        "View timeline": "Zobrazit časovou osu",
+        "Board": "Nástěnka",
+        "List": "Seznam",
+        "Column": "Sloupec",
+        "Board or list": "Nástěnka nebo seznam"
     },
     "nplurals=2; plural=(n != 1);"
 )

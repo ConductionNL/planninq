@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Acziuns da l'incumbensa",
         "All labels": "Tut las etichettas",
         "Filter tasks by label": "Filtrar las incumbensas tenor etichetta",
-        "View timeline": "Mussar la cronologia"
+        "View timeline": "Mussar la cronologia",
+        "Board": "Tavla",
+        "List": "Glista",
+        "Column": "Colonna",
+        "Board or list": "Tavla u glista"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -326,7 +326,11 @@ OC.L10N.register(
         "Task actions": "Taakacties",
         "All labels": "Alle labels",
         "Filter tasks by label": "Taken filteren op label",
-        "View timeline": "Tijdlijn bekijken"
+        "View timeline": "Tijdlijn bekijken",
+        "Board": "Bord",
+        "List": "Lijst",
+        "Column": "Kolom",
+        "Board or list": "Bord of lijst"
     },
     "nplurals=2; plural=(n != 1);"
 )

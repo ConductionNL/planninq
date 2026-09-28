@@ -254,3 +254,20 @@ export function columnPayload(draft = {}) {
 	}
 	return payload
 }
+
+/**
+ * The board as a list: one row per card on the board, in lane order and then
+ * card order, each with its column. A column-less task is in the backlog and
+ * not listed, exactly as it is not on the board.
+ *
+ * @param {Array<object>} tasks   The tasks the board shows (after its filters).
+ * @param {Array<object>} columns The project's columns.
+ * @return {Array<{task: object, column: object}>}
+ *
+ * @spec openspec/changes/boards-list-toggle/tasks.md#task-1.1
+ */
+export function boardListRows(tasks = [], columns = []) {
+	const lanes = sortColumns(columns)
+	const grouped = groupTasksByColumn(tasks, lanes)
+	return lanes.flatMap((column) => (grouped[idOf(column)] || []).map((task) => ({ task, column })))
+}

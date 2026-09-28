@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Feladatműveletek",
         "All labels": "Minden címke",
         "Filter tasks by label": "Feladatok szűrése címke szerint",
-        "View timeline": "Idővonal megtekintése"
+        "View timeline": "Idővonal megtekintése",
+        "Board": "Tábla",
+        "List": "Lista",
+        "Column": "Oszlop",
+        "Board or list": "Tábla vagy lista"
     },
     "nplurals=2; plural=(n != 1);"
 )

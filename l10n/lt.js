@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Užduoties veiksmai",
         "All labels": "Visos žymės",
         "Filter tasks by label": "Filtruoti užduotis pagal žymę",
-        "View timeline": "Rodyti laiko juostą"
+        "View timeline": "Rodyti laiko juostą",
+        "Board": "Lenta",
+        "List": "Sąrašas",
+        "Column": "Stulpelis",
+        "Board or list": "Lenta arba sąrašas"
     },
     "nplurals=2; plural=(n != 1);"
 )

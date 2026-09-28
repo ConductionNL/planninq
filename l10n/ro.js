@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Acțiuni sarcină",
         "All labels": "Toate etichetele",
         "Filter tasks by label": "Filtrează sarcinile după etichetă",
-        "View timeline": "Vezi cronologia"
+        "View timeline": "Vezi cronologia",
+        "Board": "Tablă",
+        "List": "Listă",
+        "Column": "Coloană",
+        "Board or list": "Tablă sau listă"
     },
     "nplurals=2; plural=(n != 1);"
 )

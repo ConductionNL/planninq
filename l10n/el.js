@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Ενέργειες εργασίας",
         "All labels": "Όλες οι ετικέτες",
         "Filter tasks by label": "Φιλτράρισμα εργασιών κατά ετικέτα",
-        "View timeline": "Προβολή χρονολογίου"
+        "View timeline": "Προβολή χρονολογίου",
+        "Board": "Πίνακας",
+        "List": "Λίστα",
+        "Column": "Στήλη",
+        "Board or list": "Πίνακας ή λίστα"
     },
     "nplurals=2; plural=(n != 1);"
 )

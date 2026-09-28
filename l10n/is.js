@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Aðgerðir verkefnis",
         "All labels": "Öll merki",
         "Filter tasks by label": "Sía verkefni eftir merki",
-        "View timeline": "Skoða tímalínu"
+        "View timeline": "Skoða tímalínu",
+        "Board": "Tafla",
+        "List": "Listi",
+        "Column": "Dálkur",
+        "Board or list": "Tafla eða listi"
     },
     "nplurals=2; plural=(n != 1);"
 )
