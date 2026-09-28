@@ -15,6 +15,8 @@
 			<span>{{ t('planninq', 'Backlog') }}</span>
 		</nav>
 
+		<ProjectTabs :projectId="$route.params.id" />
+
 		<!-- Page header with the create row -->
 		<div class="project-backlog__header">
 			<h2>{{ t('planninq', 'Backlog') }}</h2>
@@ -163,6 +165,7 @@ import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 import ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'
 import DragIcon from 'vue-material-design-icons/Drag.vue'
 import FormatListBulleted from 'vue-material-design-icons/FormatListBulleted.vue'
+import ProjectTabs from '../components/ProjectTabs.vue'
 import { useProjectsStore } from '../store/projects.js'
 import {
 	BACKLOG_SORTS,
@@ -192,6 +195,7 @@ export default {
 		NcLoadingIcon,
 		NcSelect,
 		NcTextField,
+		ProjectTabs,
 		ArrowDownIcon,
 		ArrowRightIcon,
 		ArrowUpIcon,
