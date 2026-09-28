@@ -76,7 +76,7 @@ class ProjectMembershipService {
 	 *
 	 * @var array<int,string>
 	 */
-	public const SCOPED_SCHEMAS = ['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk'];
+	public const SCOPED_SCHEMAS = ['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport'];
 
 	/**
 	 * The one scoped schema that may name its project only through its task.
@@ -247,6 +247,23 @@ class ProjectMembershipService {
 
 		return $owner;
 	}//end ownerOfProject()
+
+	/**
+	 * A project's stored data, read as the system, or null when it does not resolve.
+	 *
+	 * @param string $projectId The project UUID.
+	 *
+	 * @return array<string,mixed>|null
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.2
+	 */
+	public function projectData(string $projectId): ?array {
+		if ($projectId === '') {
+			return null;
+		}
+
+		return $this->findData(schema: self::PROJECT_SCHEMA, id: $projectId);
+	}//end projectData()
 
 	/**
 	 * Every planninq object of one schema matching the filters, read with RBAC off.

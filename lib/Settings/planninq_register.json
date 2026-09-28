@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.8.0"
+    "version": "0.9.0"
   },
   "x-openregister": {
     "type": "application",
@@ -18,7 +18,7 @@
         "title": "Planninq",
         "description": "Planninq application data register — tasks, projects, columns, time entries, and labels.",
         "slug": "planninq",
-        "version": "0.8.0",
+        "version": "0.9.0",
         "schemas": [
           "task",
           "project",
@@ -29,7 +29,8 @@
           "dependency",
           "timetableSession",
           "projectLogEntry",
-          "risk"
+          "risk",
+          "projectStatusReport"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -361,7 +362,7 @@
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.3.0",
+        "version": "0.4.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -541,6 +542,133 @@
             "description": "Planned end of the project (ISO 8601)",
             "format": "date",
             "nullable": true
+          },
+          "healthMoney": {
+            "title": "Health: money",
+            "type": "string",
+            "description": "Copied from the newest status report",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "nullable": true,
+            "x-notes": "Copied from the newest projectStatusReport by ProjectStatusListener. A client never sets it: a create that sends it is refused and an update keeps the stored value (portfolio-status-overview, design decision 1)."
+          },
+          "healthOrganisation": {
+            "title": "Health: organisation",
+            "type": "string",
+            "description": "Copied from the newest status report",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "nullable": true,
+            "x-notes": "Copied from the newest projectStatusReport by ProjectStatusListener. A client never sets it: a create that sends it is refused and an update keeps the stored value (portfolio-status-overview, design decision 1)."
+          },
+          "healthTime": {
+            "title": "Health: time",
+            "type": "string",
+            "description": "Copied from the newest status report",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "nullable": true,
+            "x-notes": "Copied from the newest projectStatusReport by ProjectStatusListener. A client never sets it: a create that sends it is refused and an update keeps the stored value (portfolio-status-overview, design decision 1)."
+          },
+          "healthInformation": {
+            "title": "Health: information",
+            "type": "string",
+            "description": "Copied from the newest status report",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "nullable": true,
+            "x-notes": "Copied from the newest projectStatusReport by ProjectStatusListener. A client never sets it: a create that sends it is refused and an update keeps the stored value (portfolio-status-overview, design decision 1)."
+          },
+          "healthQuality": {
+            "title": "Health: quality",
+            "type": "string",
+            "description": "Copied from the newest status report",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "nullable": true,
+            "x-notes": "Copied from the newest projectStatusReport by ProjectStatusListener. A client never sets it: a create that sends it is refused and an update keeps the stored value (portfolio-status-overview, design decision 1)."
+          },
+          "healthRisk": {
+            "title": "Health: risk",
+            "type": "string",
+            "description": "Copied from the newest status report",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "nullable": true,
+            "x-notes": "Copied from the newest projectStatusReport by ProjectStatusListener. A client never sets it: a create that sends it is refused and an update keeps the stored value (portfolio-status-overview, design decision 1)."
+          },
+          "healthOverall": {
+            "title": "Health: overall",
+            "type": "string",
+            "description": "Copied from the newest status report",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "nullable": true,
+            "x-notes": "Copied from the newest projectStatusReport by ProjectStatusListener. A client never sets it: a create that sends it is refused and an update keeps the stored value (portfolio-status-overview, design decision 1)."
+          },
+          "healthDate": {
+            "title": "Health: report date",
+            "type": "string",
+            "description": "The date of the newest status report",
+            "format": "date",
+            "nullable": true,
+            "x-notes": "Copied with the health statuses by ProjectStatusListener."
           },
           "metadata": {
             "title": "Metadata",
@@ -1530,6 +1658,387 @@
             "type": "string",
             "description": "When to look at this risk again",
             "format": "date"
+          }
+        }
+      },
+      "projectStatusReport": {
+        "slug": "projectStatusReport",
+        "icon": "ClipboardCheckOutline",
+        "version": "0.1.0",
+        "title": "Project status report",
+        "description": "A dated report on how a project stands on money, organisation, time, information, quality and risk (the GROTIK aspects), each with a note.",
+        "x-schema-org": "schema:Report",
+        "type": "object",
+        "required": [
+          "project",
+          "reportDate",
+          "statusMoney",
+          "statusOrganisation",
+          "statusTime",
+          "statusInformation",
+          "statusQuality",
+          "statusRisk"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "x-openregister-calculations": {
+          "overall": {
+            "type": "string",
+            "materialise": true,
+            "expression": {
+              "if": [
+                {
+                  "or": [
+                    {
+                      "eq": [
+                        {
+                          "prop": "statusMoney"
+                        },
+                        {
+                          "lit": "offTrack"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "prop": "statusOrganisation"
+                        },
+                        {
+                          "lit": "offTrack"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "prop": "statusTime"
+                        },
+                        {
+                          "lit": "offTrack"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "prop": "statusInformation"
+                        },
+                        {
+                          "lit": "offTrack"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "prop": "statusQuality"
+                        },
+                        {
+                          "lit": "offTrack"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "prop": "statusRisk"
+                        },
+                        {
+                          "lit": "offTrack"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "lit": "offTrack"
+                },
+                {
+                  "if": [
+                    {
+                      "or": [
+                        {
+                          "eq": [
+                            {
+                              "prop": "statusMoney"
+                            },
+                            {
+                              "lit": "atRisk"
+                            }
+                          ]
+                        },
+                        {
+                          "eq": [
+                            {
+                              "prop": "statusOrganisation"
+                            },
+                            {
+                              "lit": "atRisk"
+                            }
+                          ]
+                        },
+                        {
+                          "eq": [
+                            {
+                              "prop": "statusTime"
+                            },
+                            {
+                              "lit": "atRisk"
+                            }
+                          ]
+                        },
+                        {
+                          "eq": [
+                            {
+                              "prop": "statusInformation"
+                            },
+                            {
+                              "lit": "atRisk"
+                            }
+                          ]
+                        },
+                        {
+                          "eq": [
+                            {
+                              "prop": "statusQuality"
+                            },
+                            {
+                              "lit": "atRisk"
+                            }
+                          ]
+                        },
+                        {
+                          "eq": [
+                            {
+                              "prop": "statusRisk"
+                            },
+                            {
+                              "lit": "atRisk"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "lit": "atRisk"
+                    },
+                    {
+                      "lit": "onTrack"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "properties": {
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project this report is about",
+            "format": "uuid",
+            "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "reportDate": {
+            "title": "Report date",
+            "type": "string",
+            "description": "The day the report describes",
+            "format": "date"
+          },
+          "statusMoney": {
+            "title": "Money",
+            "type": "string",
+            "description": "How the project stands on this aspect",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            }
+          },
+          "noteMoney": {
+            "title": "Money note",
+            "type": "string",
+            "description": "A short explanation of this status"
+          },
+          "statusOrganisation": {
+            "title": "Organisation",
+            "type": "string",
+            "description": "How the project stands on this aspect",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            }
+          },
+          "noteOrganisation": {
+            "title": "Organisation note",
+            "type": "string",
+            "description": "A short explanation of this status"
+          },
+          "statusTime": {
+            "title": "Time",
+            "type": "string",
+            "description": "How the project stands on this aspect",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            }
+          },
+          "noteTime": {
+            "title": "Time note",
+            "type": "string",
+            "description": "A short explanation of this status"
+          },
+          "statusInformation": {
+            "title": "Information",
+            "type": "string",
+            "description": "How the project stands on this aspect",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            }
+          },
+          "noteInformation": {
+            "title": "Information note",
+            "type": "string",
+            "description": "A short explanation of this status"
+          },
+          "statusQuality": {
+            "title": "Quality",
+            "type": "string",
+            "description": "How the project stands on this aspect",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            }
+          },
+          "noteQuality": {
+            "title": "Quality note",
+            "type": "string",
+            "description": "A short explanation of this status"
+          },
+          "statusRisk": {
+            "title": "Risk",
+            "type": "string",
+            "description": "How the project stands on this aspect",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            }
+          },
+          "noteRisk": {
+            "title": "Risk note",
+            "type": "string",
+            "description": "A short explanation of this status"
+          },
+          "overall": {
+            "title": "Overall",
+            "type": "string",
+            "description": "The worst of the six statuses, calculated by the server",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "x-notes": "Materialised by OpenRegister from x-openregister-calculations on every save; an overall a client sends is overwritten (portfolio-status-overview, design decision 1)."
           }
         }
       }

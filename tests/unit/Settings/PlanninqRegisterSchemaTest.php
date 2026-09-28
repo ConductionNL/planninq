@@ -357,19 +357,21 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the ten expected schemas.
+	 * The register MUST declare exactly the eleven expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
 	 * over the project work breakdown structure pipelinq had built, and
 	 * `timetableSession` when planninq became the school timetable owner
-	 * (school-timetable-target, decision D10). `example` must not be present.
+	 * (school-timetable-target, decision D10), `projectLogEntry` and `risk`
+	 * (projects-overview-logs-risks) and `projectStatusReport`
+	 * (portfolio-status-overview). `example` must not be present.
 	 *
 	 * @return void
 	 *
 	 * @spec openspec/changes/task-dependencies/specs/register-schemas/spec.md
 	 */
-	public function testRegisterDeclaresExactlyTenSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk'];
+	public function testRegisterDeclaresExactlyElevenSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -378,7 +380,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the ten expected schemas'
+			message: 'register schema list must be exactly the eleven expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -386,7 +388,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the ten expected schemas'
+			message: 'components.schemas must define exactly the eleven expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -395,7 +397,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyTenSchemas()
+	}//end testRegisterDeclaresExactlyElevenSchemas()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -573,7 +575,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testProjectScopedSchemasCarryAHiddenMembersList(): void {
-		foreach (['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport'] as $slug) {
 			$schema = $this->register['components']['schemas'][$slug];
 			$members = ($schema['properties']['members'] ?? null);
 
@@ -596,7 +598,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testProjectScopedSchemasMatchTheMembersList(): void {
-		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk', 'projectStatusReport'] as $slug) {
 			$authorization = $this->register['components']['schemas'][$slug]['authorization'];
 
 			foreach (['read', 'update', 'delete'] as $action) {
@@ -632,7 +634,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testProjectScopedCreateIsGatedByTheListenerNotByAMatch(): void {
-		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk', 'projectStatusReport'] as $slug) {
 			self::assertSame(
 				expected: [['group' => 'authenticated'], ['group' => 'admin']],
 				actual: $this->register['components']['schemas'][$slug]['authorization']['create'],
@@ -708,4 +710,73 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		);
 
 	}//end testRiskSchemaCalculatesItsScore()
+	/**
+	 * A status report sets six aspects, each with a note, and the server calculates the overall status.
+	 *
+	 * `overall` is a materialised `x-openregister-calculations` entry: the worst
+	 * of the six, so an overall a client sends is overwritten on save.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.1
+	 */
+	public function testProjectStatusReportSchemaCalculatesTheOverallStatus(): void {
+		$schema = $this->register['components']['schemas']['projectStatusReport'];
+		$properties = $schema['properties'];
+		$aspects = ['Money', 'Organisation', 'Time', 'Information', 'Quality', 'Risk'];
+
+		self::assertSame(
+			expected: array_merge(['project', 'reportDate'], array_map(static fn (string $a): string => 'status' . $a, $aspects)),
+			actual: $schema['required']
+		);
+		self::assertSame(expected: 'project', actual: $properties['project']['$ref']);
+		self::assertSame(expected: 'date', actual: $properties['reportDate']['format']);
+		foreach ($aspects as $aspect) {
+			self::assertSame(expected: ['onTrack', 'atRisk', 'offTrack'], actual: $properties['status' . $aspect]['enum'], message: $aspect);
+			self::assertSame(expected: 'string', actual: $properties['note' . $aspect]['type'], message: $aspect);
+		}
+
+		self::assertSame(expected: ['onTrack', 'atRisk', 'offTrack'], actual: $properties['overall']['enum']);
+		$calculation = $schema['x-openregister-calculations']['overall'];
+		self::assertTrue(condition: $calculation['materialise']);
+		self::assertSame(expected: 'string', actual: $calculation['type']);
+
+		$anyIs = static fn (string $value): array => [
+			'or' => array_map(
+				static fn (string $a): array => ['eq' => [['prop' => 'status' . $a], ['lit' => $value]]],
+				$aspects
+			),
+		];
+		self::assertSame(
+			expected: [
+				'if' => [
+					$anyIs('offTrack'),
+					['lit' => 'offTrack'],
+					['if' => [$anyIs('atRisk'), ['lit' => 'atRisk'], ['lit' => 'onTrack']]],
+				],
+			],
+			actual: $calculation['expression']
+		);
+
+	}//end testProjectStatusReportSchemaCalculatesTheOverallStatus()
+
+	/**
+	 * A project carries the newest report's statuses and date, nullable, for the portfolio roll-up.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.2
+	 */
+	public function testProjectCarriesTheHealthOfItsNewestReport(): void {
+		$properties = $this->register['components']['schemas']['project']['properties'];
+		foreach (['Money', 'Organisation', 'Time', 'Information', 'Quality', 'Risk', 'Overall'] as $aspect) {
+			$field = $properties['health' . $aspect];
+			self::assertSame(expected: ['onTrack', 'atRisk', 'offTrack'], actual: $field['enum'], message: $aspect);
+			self::assertTrue(condition: $field['nullable'], message: $aspect);
+		}
+
+		self::assertSame(expected: 'date', actual: $properties['healthDate']['format']);
+		self::assertNotContains(needle: 'healthOverall', haystack: $this->register['components']['schemas']['project']['required']);
+
+	}//end testProjectCarriesTheHealthOfItsNewestReport()
 }//end class

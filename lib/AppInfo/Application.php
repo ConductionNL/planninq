@@ -625,6 +625,8 @@ class Application extends App implements IBootstrap {
 	 * caller is not a member of; it has to be a PRE-event listener to change
 	 * the data and to veto. ProjectMembershipSyncListener copies a project's
 	 * changed membership to its objects after the project is saved.
+	 * ProjectStatusListener keeps status reports to the project owner and
+	 * copies the newest one onto its project.
 	 *
 	 * Class names are literal strings for the reason given in boot(): each
 	 * import adds to this class's PHPMD coupling count.
@@ -642,7 +644,21 @@ class Application extends App implements IBootstrap {
 				event: 'OCA\\OpenRegister\\Event\\' . $event,
 				listener: 'OCA\\Planninq\\Listener\\ProjectMemberAccessListener',
 				registers: ['planninq'],
-				schemas: ['task', 'column', 'projectPhase', 'plannedTimeEntry']
+				// Must equal ProjectMembershipService::SCOPED_SCHEMAS (asserted by
+				// BoardColumnWiringTest): a schema missing here is never stamped.
+				schemas: ['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport']
+			);
+		}
+
+		// Status reports: owner-only writes, and the newest report copied onto
+		// its project inside the report's own save (portfolio-status-overview).
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\ProjectStatusListener',
+				registers: ['planninq'],
+				schemas: ['project', 'projectStatusReport']
 			);
 		}
 
