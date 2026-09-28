@@ -1324,7 +1324,7 @@
       "area": "projects",
       "name": "Open a project overview page showing its description, members and progress.",
       "origin": "competitor-derived",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "yes",
       "plane": "partial",
@@ -1342,11 +1342,12 @@
         "plane": "source: no overview route under apps/web/app/(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/ (archives, cycles, intake, issues, modules, pages, views only); the project card shows description and member count (apps/web/core/components/project/card.tsx:285-292). Project updates are a paid string never emitted (corpus: plane/round4/code-census.md opening section, is_project_updates_enabled 0 hits) ; source read at v1.4.2: project detail routes under apps/web/app/(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/ are archives, cycles, intake, issues, modules, pages, views only, no overview; apps/web/core/components/project/card.tsx:275-285 the project card shows description and member count"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/views/ProjectBoard.vue:26-64 (title/icon/color header) opens src/components/ProjectSettingsSidebar.vue:16-127 (Details tab shows description; Members tab lists members). No progress indicator anywhere: task.percentComplete (schema property) is never read in src/ (grep confirmed zero matches).",
-        "reachedOn": "ProjectBoard page + its settings sidebar (Details/Members tabs), not a single dedicated overview page",
+        "state": "built",
+        "evidence": "src/views/ProjectOverview.vue shows description, start and end dates, the people by display name, progress as '{done} of {total} tasks done' (src/utils/projectOverview.js projectProgress(): done over not cancelled), the three highest open risks and the five latest log entries; src/components/ProjectTabs.vue is the shared tab row on every project page",
+        "reachedOn": "ProjectOverview page /projects/:id/overview, Overview tab on every project page",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/projects-overview-logs-risks"
+        "change": "openspec/changes/archive/2026-09-28-projects-overview-logs-risks",
+        "readOn": "2026-09-28"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6051,7 +6052,7 @@
         "kanboard": "source read at v1.2.54: searched app/ (php) for 'likelihood', 'risk_register', 'riskregister': none",
         "jira": "https://marketplace.atlassian.com/apps/1213146/risk-register paid app 'Risk Register', build 8.1.1 compatible to Jira 11.3.11: 'record risks, assess their magnitude ... collaborate with others on their treatment'; Jira itself has no risk object (Marketplace REST API, read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
@@ -6062,11 +6063,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "searched src/ lib/ and lib/Settings/planninq_register.json for risk, likelihood, impact, countermeasure: none. No risk schema, no risk page in src/manifest.json pages, no risk component in src/registry.js:42-51.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json risk with score as a materialised x-openregister-calculations likelihood * impact, scoped to the project's members; src/views/ProjectRisks.vue list by score and src/components/RiskHeatMap.vue with band text; RiskIndex index page over every readable risk; lib/Service/RiskScaleService.php admin scale (3 to 5 levels, labels, thresholds) refused while risks use a higher level",
+        "reachedOn": "ProjectRisks page /projects/:id/risks, Risks under Projects (/projects/risks), Risk scale on the admin settings page",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/projects-overview-logs-risks"
+        "change": "openspec/changes/archive/2026-09-28-projects-overview-logs-risks",
+        "readOn": "2026-09-28"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6087,7 +6089,7 @@
         "kanboard": "source read at v1.2.54: searched app/Model and app/Controller for 'lesson', 'meeting', 'issue log': none; tasks only",
         "jira": "https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html 'Jira enables you to keep track of different types of things ... by using different issue types': an admin can add action, issue, lesson or meeting log issue types per project; there is no built-in project log (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "partial",
@@ -6098,11 +6100,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "No project-scoped log of actions, issues, lessons learned or meetings. The only logs are per task: CnObjectSidebar Comments (notes) and Activity (audit trail) tabs on src/views/TaskDetail.vue:129-137. The project settings sidebar has Details, Members and Danger zone tabs only (src/components/ProjectSettingsSidebar.vue:8-165).",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json projectLogEntry (issue, lesson, meeting, decision; attendees; actions) scoped to the project's members (ProjectMembershipService::SCOPED_SCHEMAS, ProjectMemberAccessListener); src/views/ProjectLog.vue with type filters and an Actions filter; src/dialogs/LogActionDialog.vue creates a task with issueType action on the board and links it",
+        "reachedOn": "ProjectLog page /projects/:id/log, Log tab on every project page",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/projects-overview-logs-risks"
+        "change": "openspec/changes/archive/2026-09-28-projects-overview-logs-risks",
+        "readOn": "2026-09-28"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
