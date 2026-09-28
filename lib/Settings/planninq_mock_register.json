@@ -521,6 +521,75 @@
         "response": "transfer",
         "countermeasures": "Voorbeeld Countermeasures 3",
         "reviewDate": "2026-03-03"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectStatusReport",
+          "slug": "projectstatusreport-voorbeeld-1"
+        },
+        "project": "00000000-0000-4000-8000-000000000000",
+        "members": [],
+        "reportDate": "2026-03-01",
+        "statusMoney": "onTrack",
+        "noteMoney": "Voorbeeld Money note 1",
+        "statusOrganisation": "onTrack",
+        "noteOrganisation": "Voorbeeld Organisation note 1",
+        "statusTime": "onTrack",
+        "noteTime": "Voorbeeld Time note 1",
+        "statusInformation": "onTrack",
+        "noteInformation": "Voorbeeld Information note 1",
+        "statusQuality": "onTrack",
+        "noteQuality": "Voorbeeld Quality note 1",
+        "statusRisk": "onTrack",
+        "noteRisk": "Voorbeeld Risk note 1",
+        "overall": "onTrack"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectStatusReport",
+          "slug": "projectstatusreport-voorbeeld-2"
+        },
+        "project": "00000000-0000-4000-8000-000000000000",
+        "members": [],
+        "reportDate": "2026-04-01",
+        "statusMoney": "onTrack",
+        "noteMoney": "Voorbeeld Money note 2",
+        "statusOrganisation": "onTrack",
+        "noteOrganisation": "Voorbeeld Organisation note 2",
+        "statusTime": "atRisk",
+        "noteTime": "Voorbeeld Time note 2",
+        "statusInformation": "onTrack",
+        "noteInformation": "Voorbeeld Information note 2",
+        "statusQuality": "onTrack",
+        "noteQuality": "Voorbeeld Quality note 2",
+        "statusRisk": "atRisk",
+        "noteRisk": "Voorbeeld Risk note 2",
+        "overall": "atRisk"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectStatusReport",
+          "slug": "projectstatusreport-voorbeeld-3"
+        },
+        "project": "00000000-0000-4000-8000-000000000000",
+        "members": [],
+        "reportDate": "2026-05-01",
+        "statusMoney": "offTrack",
+        "noteMoney": "Voorbeeld Money note 3",
+        "statusOrganisation": "onTrack",
+        "noteOrganisation": "Voorbeeld Organisation note 3",
+        "statusTime": "atRisk",
+        "noteTime": "Voorbeeld Time note 3",
+        "statusInformation": "onTrack",
+        "noteInformation": "Voorbeeld Information note 3",
+        "statusQuality": "atRisk",
+        "noteQuality": "Voorbeeld Quality note 3",
+        "statusRisk": "offTrack",
+        "noteRisk": "Voorbeeld Risk note 3",
+        "overall": "offTrack"
       }
     ]
   }

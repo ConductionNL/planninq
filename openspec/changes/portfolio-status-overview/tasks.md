@@ -2,10 +2,12 @@
 
 ## 1. Status reports (Enterprise)
 
-- [ ] 1.1 Add the `projectStatusReport` schema with the six statuses and notes, `overall` as a materialised calculation, and project-scoped rights. Verify: `tests/unit/Settings/PlanninqRegisterSchemaTest.php` asserts the calculation; a live POST with a wrong `overall` stores the worst status.
-- [ ] 1.2 Add the `health` fields to `project` with a property rule that no user writes them, and a listener that copies the newest report on create, update and delete. Verify: `tests/unit/Listener/ProjectStatusListenerTest.php` constructs the real OpenRegister event classes and covers a newer report, an older report and deleting the newest.
-- [ ] 1.3 Add the Status tab (`/projects/:id/status`) with the report form, history and suggestions for money, time and risk. Verify: `tests/vitest/statusSuggestions.spec.js` for each threshold; `tests/e2e/project-status.spec.ts` "writing a status report" and "a time suggestion from late tasks".
-- [ ] 1.4 Update `testRegisterDeclaresExactlySevenSchemas` and `openspec/specs/project-delivery/spec.md:68-72` for `projectStatusReport`. Verify: the PHPUnit suite passes.
+- [x] 1.1 Add the `projectStatusReport` schema with the six statuses and notes, `overall` as a materialised calculation, and project-scoped rights. Verify: `tests/unit/Settings/PlanninqRegisterSchemaTest.php` asserts the calculation; a live POST with a wrong `overall` stores the worst status.
+- [x] 1.2 Add the `health` fields to `project` with a property rule that no user writes them, and a listener that copies the newest report on create, update and delete. Verify: `tests/unit/Listener/ProjectStatusListenerTest.php` constructs the real OpenRegister event classes and covers a newer report, an older report and deleting the newest.
+- [x] 1.3 Add the Status tab (`/projects/:id/status`) with the report form, history and suggestions for money, time and risk. Verify: `tests/vitest/statusSuggestions.spec.js` for each threshold; `tests/e2e/project-status.spec.ts` "writing a status report" and "a time suggestion from late tasks".
+- [x] 1.4 Update `testRegisterDeclaresExactlySevenSchemas` and `openspec/specs/project-delivery/spec.md:68-72` for `projectStatusReport`. Verify: the PHPUnit suite passes.
+
+Done in the first PR (see design, "Built at HEAD"): 1.1 is proven by `PlanninqRegisterSchemaTest::testProjectStatusReportSchemaCalculatesTheOverallStatus` and by OpenRegister's own CalculationEvaluator on four payloads (quality off track with overall "onTrack" sent: stored "offTrack"); 1.2 by `tests/unit/Listener/ProjectStatusListenerTest.php` on the real event classes; 1.3 by `tests/vitest/statusSuggestions.spec.js` and `tests/e2e/project-status.spec.ts`; 1.4 renamed the test to `testRegisterDeclaresExactlyElevenSchemas`.
 
 ## 2. Portfolio overview (Enterprise)
 

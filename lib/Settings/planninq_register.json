@@ -546,7 +546,7 @@
           "healthMoney": {
             "title": "Health: money",
             "type": "string",
-            "description": "The money status of the newest status report",
+            "description": "Copied from the newest status report",
             "enum": [
               "onTrack",
               "atRisk",
@@ -563,7 +563,7 @@
           "healthOrganisation": {
             "title": "Health: organisation",
             "type": "string",
-            "description": "The organisation status of the newest status report",
+            "description": "Copied from the newest status report",
             "enum": [
               "onTrack",
               "atRisk",
@@ -580,7 +580,7 @@
           "healthTime": {
             "title": "Health: time",
             "type": "string",
-            "description": "The time status of the newest status report",
+            "description": "Copied from the newest status report",
             "enum": [
               "onTrack",
               "atRisk",
@@ -597,7 +597,7 @@
           "healthInformation": {
             "title": "Health: information",
             "type": "string",
-            "description": "The information status of the newest status report",
+            "description": "Copied from the newest status report",
             "enum": [
               "onTrack",
               "atRisk",
@@ -614,7 +614,7 @@
           "healthQuality": {
             "title": "Health: quality",
             "type": "string",
-            "description": "The quality status of the newest status report",
+            "description": "Copied from the newest status report",
             "enum": [
               "onTrack",
               "atRisk",
@@ -631,7 +631,7 @@
           "healthRisk": {
             "title": "Health: risk",
             "type": "string",
-            "description": "The risk status of the newest status report",
+            "description": "Copied from the newest status report",
             "enum": [
               "onTrack",
               "atRisk",
@@ -648,7 +648,7 @@
           "healthOverall": {
             "title": "Health: overall",
             "type": "string",
-            "description": "The overall status of the newest status report",
+            "description": "Copied from the newest status report",
             "enum": [
               "onTrack",
               "atRisk",
@@ -1907,7 +1907,7 @@
           "statusMoney": {
             "title": "Money",
             "type": "string",
-            "description": "How the project stands on money",
+            "description": "How the project stands on this aspect",
             "enum": [
               "onTrack",
               "atRisk",
@@ -1922,12 +1922,12 @@
           "noteMoney": {
             "title": "Money note",
             "type": "string",
-            "description": "A short explanation of the money status"
+            "description": "A short explanation of this status"
           },
           "statusOrganisation": {
             "title": "Organisation",
             "type": "string",
-            "description": "How the project stands on organisation",
+            "description": "How the project stands on this aspect",
             "enum": [
               "onTrack",
               "atRisk",
@@ -1942,12 +1942,12 @@
           "noteOrganisation": {
             "title": "Organisation note",
             "type": "string",
-            "description": "A short explanation of the organisation status"
+            "description": "A short explanation of this status"
           },
           "statusTime": {
             "title": "Time",
             "type": "string",
-            "description": "How the project stands on time",
+            "description": "How the project stands on this aspect",
             "enum": [
               "onTrack",
               "atRisk",
@@ -1962,12 +1962,12 @@
           "noteTime": {
             "title": "Time note",
             "type": "string",
-            "description": "A short explanation of the time status"
+            "description": "A short explanation of this status"
           },
           "statusInformation": {
             "title": "Information",
             "type": "string",
-            "description": "How the project stands on information",
+            "description": "How the project stands on this aspect",
             "enum": [
               "onTrack",
               "atRisk",
@@ -1982,12 +1982,12 @@
           "noteInformation": {
             "title": "Information note",
             "type": "string",
-            "description": "A short explanation of the information status"
+            "description": "A short explanation of this status"
           },
           "statusQuality": {
             "title": "Quality",
             "type": "string",
-            "description": "How the project stands on quality",
+            "description": "How the project stands on this aspect",
             "enum": [
               "onTrack",
               "atRisk",
@@ -2002,12 +2002,12 @@
           "noteQuality": {
             "title": "Quality note",
             "type": "string",
-            "description": "A short explanation of the quality status"
+            "description": "A short explanation of this status"
           },
           "statusRisk": {
             "title": "Risk",
             "type": "string",
-            "description": "How the project stands on risk",
+            "description": "How the project stands on this aspect",
             "enum": [
               "onTrack",
               "atRisk",
@@ -2022,7 +2022,7 @@
           "noteRisk": {
             "title": "Risk note",
             "type": "string",
-            "description": "A short explanation of the risk status"
+            "description": "A short explanation of this status"
           },
           "overall": {
             "title": "Overall",

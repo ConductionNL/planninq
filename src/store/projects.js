@@ -30,6 +30,7 @@ const TIME_ENTRY_SCHEMA = 'plannedTimeEntry'
 const LABEL_SCHEMA = 'label'
 const LOG_SCHEMA = 'projectLogEntry'
 const RISK_SCHEMA = 'risk'
+const STATUS_REPORT_SCHEMA = 'projectStatusReport'
 
 /**
  * Largest page OpenRegister will return. Asking for more is silently capped.
@@ -613,6 +614,52 @@ export const useProjectsStore = defineStore('projects', {
 				return await response.json()
 			} catch (err) {
 				console.error('saveRisk error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Every status report of a project, scoped by OpenRegister to its members.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The reports (empty array on error)
+		 *
+		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
+		 */
+		async fetchStatusReports(projectId) {
+			try {
+				const objectStore = this._objectStore()
+				const reports = await fetchEvery(objectStore, STATUS_REPORT_SCHEMA, { project: projectId })
+				return Array.isArray(reports) ? reports : []
+			} catch (err) {
+				console.error('fetchStatusReports error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Write a new status report. The server calculates the overall status,
+		 * refuses anyone but the project owner, and copies the newest report
+		 * onto the project.
+		 *
+		 * @param {object} report The report payload
+		 * @return {Promise<object|null>} The saved report, or null on failure
+		 *
+		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
+		 */
+		async saveStatusReport(report) {
+			try {
+				const response = await fetch(generateUrl(`/apps/openregister/api/objects/planninq/${STATUS_REPORT_SCHEMA}`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(report),
+				})
+				if (!response.ok) {
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				console.error('saveStatusReport error:', err)
 				return null
 			}
 		},

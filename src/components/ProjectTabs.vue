@@ -51,6 +51,7 @@ export default {
 				backlog: this.t('planninq', 'Backlog'),
 				timeline: this.t('planninq', 'Timeline'),
 				risks: this.t('planninq', 'Risks'),
+				status: this.t('planninq', 'Status'),
 				log: this.t('planninq', 'Log'),
 			}
 			return PROJECT_TABS.map((tab) => ({ ...tab, label: labels[tab.id] }))
