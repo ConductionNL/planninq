@@ -290,7 +290,21 @@
         "The last done column cannot be removed.": "Posledný stĺpec hotovo nemožno odstrániť.",
         "WIP limit": "Limit WIP",
         "over limit": "nad limitom",
-        "The status a card gets when it is moved into this column.": "Stav, ktorý karta získa po presunutí do tohto stĺpca."
+        "The status a card gets when it is moved into this column.": "Stav, ktorý karta získa po presunutí do tohto stĺpca.",
+        "All priorities": "Všetky priority",
+        "Could not create the task. Please try again.": "Úlohu sa nepodarilo vytvoriť. Skúste to znova.",
+        "Created": "Vytvorené",
+        "Move to backlog": "Do backlogu",
+        "Move to board": "Na nástenku",
+        "New task": "Nová úloha",
+        "Nothing in the backlog": "Backlog je prázdny",
+        "Rank": "Poradie",
+        "Sort by": "Zoradiť podľa",
+        "Sort by rank to reorder": "Na zmenu poradia zoraďte podľa poradia",
+        "Task actions": "Akcie úlohy",
+        "All labels": "Všetky štítky",
+        "Filter tasks by label": "Filtrovať úlohy podľa štítka",
+        "View timeline": "Zobraziť časovú os"
     },
     "plurals": null
 }

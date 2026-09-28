@@ -290,7 +290,21 @@
         "The last done column cannot be removed.": "Viimeistä valmis-saraketta ei voi poistaa.",
         "WIP limit": "WIP-raja",
         "over limit": "yli rajan",
-        "The status a card gets when it is moved into this column.": "Tila, jonka kortti saa, kun se siirretään tähän sarakkeeseen."
+        "The status a card gets when it is moved into this column.": "Tila, jonka kortti saa, kun se siirretään tähän sarakkeeseen.",
+        "All priorities": "Kaikki prioriteetit",
+        "Could not create the task. Please try again.": "Tehtävää ei voitu luoda. Yritä uudelleen.",
+        "Created": "Luotu",
+        "Move to backlog": "Backlogiin",
+        "Move to board": "Taululle",
+        "New task": "Uusi tehtävä",
+        "Nothing in the backlog": "Backlog on tyhjä",
+        "Rank": "Järjestys",
+        "Sort by": "Lajitteluperuste",
+        "Sort by rank to reorder": "Lajittele järjestyksen mukaan muuttaaksesi järjestystä",
+        "Task actions": "Tehtävän toiminnot",
+        "All labels": "Kaikki tunnisteet",
+        "Filter tasks by label": "Suodata tehtäviä tunnisteen mukaan",
+        "View timeline": "Näytä aikajana"
     },
     "plurals": null
 }

@@ -291,7 +291,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "Die letzte Erledigt-Spalte kann nicht entfernt werden.",
         "WIP limit": "WIP-Limit",
         "over limit": "über dem Limit",
-        "The status a card gets when it is moved into this column.": "Der Status, den eine Karte erhält, wenn sie in diese Spalte verschoben wird."
+        "The status a card gets when it is moved into this column.": "Der Status, den eine Karte erhält, wenn sie in diese Spalte verschoben wird.",
+        "All priorities": "Alle Prioritäten",
+        "Could not create the task. Please try again.": "Die Aufgabe konnte nicht erstellt werden. Bitte versuchen Sie es erneut.",
+        "Created": "Erstellt",
+        "Move to backlog": "In den Backlog",
+        "Move to board": "Aufs Board",
+        "New task": "Neue Aufgabe",
+        "Nothing in the backlog": "Nichts im Backlog",
+        "Rank": "Rang",
+        "Sort by": "Sortieren nach",
+        "Sort by rank to reorder": "Nach Rang sortieren, um neu anzuordnen",
+        "Task actions": "Aufgabenaktionen",
+        "All labels": "Alle Labels",
+        "Filter tasks by label": "Aufgaben nach Label filtern",
+        "View timeline": "Zeitleiste anzeigen"
     },
     "nplurals=2; plural=(n != 1);"
 )

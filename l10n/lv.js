@@ -291,7 +291,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "Pēdējo pabeigto kolonnu nevar noņemt.",
         "WIP limit": "WIP ierobežojums",
         "over limit": "virs ierobežojuma",
-        "The status a card gets when it is moved into this column.": "Statuss, ko kartīte saņem, kad tā tiek pārvietota uz šo kolonnu."
+        "The status a card gets when it is moved into this column.": "Statuss, ko kartīte saņem, kad tā tiek pārvietota uz šo kolonnu.",
+        "All priorities": "Visas prioritātes",
+        "Could not create the task. Please try again.": "Uzdevumu neizdevās izveidot. Mēģiniet vēlreiz.",
+        "Created": "Izveidots",
+        "Move to backlog": "Uz uzkrājumu",
+        "Move to board": "Uz dēli",
+        "New task": "Jauns uzdevums",
+        "Nothing in the backlog": "Uzkrājumā nekā nav",
+        "Rank": "Rangs",
+        "Sort by": "Kārtot pēc",
+        "Sort by rank to reorder": "Kārtojiet pēc ranga, lai mainītu secību",
+        "Task actions": "Uzdevuma darbības",
+        "All labels": "Visas birkas",
+        "Filter tasks by label": "Filtrēt uzdevumus pēc birkas",
+        "View timeline": "Skatīt laika skalu"
     },
     "nplurals=2; plural=(n != 1);"
 )

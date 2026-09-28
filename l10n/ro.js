@@ -291,7 +291,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "Ultima coloană finalizate nu poate fi eliminată.",
         "WIP limit": "Limită WIP",
         "over limit": "peste limită",
-        "The status a card gets when it is moved into this column.": "Starea pe care o primește un card când este mutat în această coloană."
+        "The status a card gets when it is moved into this column.": "Starea pe care o primește un card când este mutat în această coloană.",
+        "All priorities": "Toate prioritățile",
+        "Could not create the task. Please try again.": "Sarcina nu a putut fi creată. Încercați din nou.",
+        "Created": "Creată",
+        "Move to backlog": "În backlog",
+        "Move to board": "Pe tablă",
+        "New task": "Sarcină nouă",
+        "Nothing in the backlog": "Nimic în backlog",
+        "Rank": "Rang",
+        "Sort by": "Sortează după",
+        "Sort by rank to reorder": "Sortați după rang pentru a reordona",
+        "Task actions": "Acțiuni sarcină",
+        "All labels": "Toate etichetele",
+        "Filter tasks by label": "Filtrează sarcinile după etichetă",
+        "View timeline": "Vezi cronologia"
     },
     "nplurals=2; plural=(n != 1);"
 )

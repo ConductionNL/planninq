@@ -312,7 +312,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "De laatste klaar-kolom kan niet worden verwijderd.",
         "WIP limit": "WIP-limiet",
         "over limit": "boven de limiet",
-        "The status a card gets when it is moved into this column.": "De status die een kaart krijgt als die naar deze kolom wordt verplaatst."
+        "The status a card gets when it is moved into this column.": "De status die een kaart krijgt als die naar deze kolom wordt verplaatst.",
+        "All priorities": "Alle prioriteiten",
+        "Could not create the task. Please try again.": "De taak kon niet worden aangemaakt. Probeer het opnieuw.",
+        "Created": "Aangemaakt",
+        "Move to backlog": "Naar de backlog",
+        "Move to board": "Naar het bord",
+        "New task": "Nieuwe taak",
+        "Nothing in the backlog": "Niets in de backlog",
+        "Rank": "Rangorde",
+        "Sort by": "Sorteren op",
+        "Sort by rank to reorder": "Sorteer op rangorde om te herschikken",
+        "Task actions": "Taakacties",
+        "All labels": "Alle labels",
+        "Filter tasks by label": "Taken filteren op label",
+        "View timeline": "Tijdlijn bekijken"
     },
     "nplurals=2; plural=(n != 1);"
 )

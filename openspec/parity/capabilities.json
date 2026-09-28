@@ -1725,15 +1725,15 @@
       },
       "built": {
         "state": "building",
-        "evidence": "src/views/ProjectBacklog.vue:24-30 renders NcEmptyContent 'Backlog view coming soon' / 'Task management will be available in a future update.', an explicit placeholder, not a working list view.",
-        "reachedOn": "ProjectBacklog page /projects/:id/backlog (placeholder only)",
+        "evidence": "src/views/ProjectBacklog.vue lists only the tasks in no board column (backlog); no view lists the board's own cards as a list",
+        "reachedOn": "ProjectBacklog page /projects/:id/backlog (backlog only)",
         "owner": "ConductionNL/planninq"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "the Backlog button on the board (src/views/ProjectBoard.vue:43-48) navigates to a page that is explicitly a stub; there is no working list rendering of the board's tasks anywhere."
+      "note": "the Backlog button on the board (src/views/ProjectBoard.vue:43-48) navigates to a page that is explicitly a stub; there is no working list rendering of the board's tasks anywhere. Read again on 2026-09-28: the backlog page is now a working list (2026-09-28-backlog-list) of the tasks in no column, not the same tasks as the board, so this row stays building until a board and list toggle exists."
     },
     {
       "id": "brd-card-badges",
@@ -2848,7 +2848,7 @@
       "area": "backlog",
       "name": "Keep tasks that are not yet planned in a backlog apart from the board.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "partial",
@@ -2866,23 +2866,25 @@
         "plane": "corpus: plane/round4/code-census.md §2 state groups 'backlog, unstarted, started, completed, cancelled, triage'; the backlog is a state group shown as board columns unless filtered out, not a separate list apart from the board. Intake (off by default) is a triage queue, not a backlog (menu-tree.md) ; source read at v1.4.2: apps/api/plane/db/models/state.py:15 BACKLOG is a state group; apps/api/plane/utils/issue_filters.py:298-300 display type 'backlog' narrows to that group, offered in packages/constants/src/issue/filter.ts:121 type active or backlog. The backlog is a filter over the same layouts, not a separate list apart from the board"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/views/ProjectBacklog.vue:20-26 is a literal placeholder: NcEmptyContent with name 'Backlog view coming soon' and description 'Task management will be available in a future update.' Component-level comment confirms: 'Stays a placeholder until tasks#REQ-Task-CRUD lands.'",
-        "reachedOn": "route /projects/:id/backlog exists and is reachable (ProjectBoard.vue:46-48 'Backlog' button) but renders only the placeholder",
+        "state": "built",
+        "evidence": "src/views/ProjectBacklog.vue:266 rows() lists the tasks in no column, not done, in rank order (src/utils/backlogHelpers.js backlogTasks()); :376 createTask() adds a task with no column last in rank",
+        "reachedOn": "ProjectBacklog page /projects/:id/backlog",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/backlog-list"
+        "change": "openspec/changes/archive/2026-09-28-backlog-list",
+        "readOn": "2026-09-28"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "backlog",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-backlog-list."
     },
     {
       "id": "bkl-to-board",
       "area": "backlog",
       "name": "Move a task from the backlog onto the board.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "yes",
@@ -2900,23 +2902,25 @@
         "plane": "corpus: plane/round4/code-census.md §2 State group; moving a work item from a backlog-group state to an unstarted or started state is an ordinary state change (drag or state menu) ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/kanban/kanban-group.tsx:136,171 drop a card from a backlog-group column into another state column; apps/web/core/components/issues/issue-modal/components/default-properties.tsx:90 state_id dropdown; apps/api/plane/app/views/issue/base.py:628 partial_update; apps/api/plane/db/models/state.py:15 BACKLOG group"
       },
       "built": {
-        "state": "specified",
-        "evidence": "Same placeholder page, src/views/ProjectBacklog.vue:20-26; no task list, no move-to-board action exists at all.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/ProjectBacklog.vue:457 moveToBoard() puts a backlog task at the bottom of the chosen lane with its status (columnHelpers buildMovePatch()); src/views/ProjectBoard.vue:730 moveToBacklog() takes a card back",
+        "reachedOn": "ProjectBacklog page /projects/:id/backlog; ProjectBoard page, card menu",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/backlog-list"
+        "change": "openspec/changes/archive/2026-09-28-backlog-list",
+        "readOn": "2026-09-28"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "backlog",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-backlog-list."
     },
     {
       "id": "bkl-sort-filter",
       "area": "backlog",
       "name": "Sort and filter the backlog.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "yes",
@@ -2934,23 +2938,25 @@
         "plane": "corpus: plane/round4/code-census.md §9 IssueView filters and display_filters ; usability.md 'Layouts, filtering ... are all good' ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/filters/header/display-filters/display-filters-selection.tsx:112-118 order_by selector; apps/web/core/components/work-item-filters/filters-hoc/project-level.tsx:206 filters; apps/api/plane/utils/issue_filters.py:298-300 backlog type; apps/api/plane/utils/order_queryset.py:12 order_by allowlist"
       },
       "built": {
-        "state": "specified",
-        "evidence": "Same placeholder page, src/views/ProjectBacklog.vue:20-26; no sort or filter controls exist.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/ProjectBacklog.vue:266 rows() applies filterBacklog() (priority, Cancelled switch) and sortBacklog() (rank, priority, due date, created), both kept in the query string",
+        "reachedOn": "ProjectBacklog page /projects/:id/backlog, toolbar",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/backlog-list"
+        "change": "openspec/changes/archive/2026-09-28-backlog-list",
+        "readOn": "2026-09-28"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "backlog",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-backlog-list."
     },
     {
       "id": "bkl-rank",
       "area": "backlog",
       "name": "Rank the backlog by dragging items up and down.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "yes",
@@ -2968,16 +2974,18 @@
         "plane": "corpus: plane/round4/code-census.md §2 Issue 'sort_order float (:158)'; list and board support manual drag ordering (kanban/block.tsx:206 draggable) ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/list/block.tsx:117 draggable rows in the list layout and apps/web/core/components/issues/issue-layouts/kanban/block.tsx:206 on the board; apps/web/core/components/issues/issue-layouts/utils.tsx:491-518 new sort_order between neighbours; apps/api/plane/db/models/issue.py:158 sort_order"
       },
       "built": {
-        "state": "specified",
-        "evidence": "No backlog list exists to rank (src/views/ProjectBacklog.vue:20-26 placeholder) and no ordering field/drag UI for a backlog exists anywhere.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/ProjectBacklog.vue:425 step() (Move up, Move down) and :437 onDrop() (drag a row in front of another) write columnOrder through columnHelpers orderPatchesForStep()/orderFor()",
+        "reachedOn": "ProjectBacklog page /projects/:id/backlog, row menu and drag",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/backlog-list"
+        "change": "openspec/changes/archive/2026-09-28-backlog-list",
+        "readOn": "2026-09-28"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "backlog",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-backlog-list."
     },
     {
       "id": "bkl-sprints",

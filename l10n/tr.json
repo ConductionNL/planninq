@@ -290,7 +290,21 @@
         "The last done column cannot be removed.": "Son tamamlandı sütunu kaldırılamaz.",
         "WIP limit": "WIP sınırı",
         "over limit": "sınırın üzerinde",
-        "The status a card gets when it is moved into this column.": "Bir kart bu sütuna taşındığında aldığı durum."
+        "The status a card gets when it is moved into this column.": "Bir kart bu sütuna taşındığında aldığı durum.",
+        "All priorities": "Tüm öncelikler",
+        "Could not create the task. Please try again.": "Görev oluşturulamadı. Lütfen tekrar deneyin.",
+        "Created": "Oluşturulma",
+        "Move to backlog": "Birikime taşı",
+        "Move to board": "Panoya taşı",
+        "New task": "Yeni görev",
+        "Nothing in the backlog": "Birikimde hiçbir şey yok",
+        "Rank": "Sıra",
+        "Sort by": "Sırala",
+        "Sort by rank to reorder": "Yeniden sıralamak için sıraya göre sıralayın",
+        "Task actions": "Görev işlemleri",
+        "All labels": "Tüm etiketler",
+        "Filter tasks by label": "Görevleri etikete göre filtrele",
+        "View timeline": "Zaman çizelgesini görüntüle"
     },
     "plurals": {}
 }

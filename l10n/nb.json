@@ -290,7 +290,21 @@
         "The last done column cannot be removed.": "Den siste ferdig-kolonnen kan ikke fjernes.",
         "WIP limit": "WIP-grense",
         "over limit": "over grensen",
-        "The status a card gets when it is moved into this column.": "Statusen et kort får når det flyttes til denne kolonnen."
+        "The status a card gets when it is moved into this column.": "Statusen et kort får når det flyttes til denne kolonnen.",
+        "All priorities": "Alle prioriteter",
+        "Could not create the task. Please try again.": "Oppgaven kunne ikke opprettes. Prøv igjen.",
+        "Created": "Opprettet",
+        "Move to backlog": "Til backlogen",
+        "Move to board": "Til tavlen",
+        "New task": "Ny oppgave",
+        "Nothing in the backlog": "Ingenting i backlogen",
+        "Rank": "Rang",
+        "Sort by": "Sorter etter",
+        "Sort by rank to reorder": "Sorter etter rang for å endre rekkefølgen",
+        "Task actions": "Oppgavehandlinger",
+        "All labels": "Alle etiketter",
+        "Filter tasks by label": "Filtrer oppgaver etter etikett",
+        "View timeline": "Vis tidslinje"
     },
     "plurals": {}
 }

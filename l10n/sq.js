@@ -291,7 +291,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "Kolona e fundit e përfunduarave nuk mund të hiqet.",
         "WIP limit": "Kufiri WIP",
         "over limit": "mbi kufirin",
-        "The status a card gets when it is moved into this column.": "Gjendja që merr një kartë kur zhvendoset në këtë kolonë."
+        "The status a card gets when it is moved into this column.": "Gjendja që merr një kartë kur zhvendoset në këtë kolonë.",
+        "All priorities": "Të gjitha prioritetet",
+        "Could not create the task. Please try again.": "Detyra nuk u krijua dot. Provoni përsëri.",
+        "Created": "Krijuar",
+        "Move to backlog": "Te lista e pritjes",
+        "Move to board": "Te tabela",
+        "New task": "Detyrë e re",
+        "Nothing in the backlog": "Asgjë në listën e pritjes",
+        "Rank": "Renditja",
+        "Sort by": "Rendit sipas",
+        "Sort by rank to reorder": "Rendit sipas renditjes për ta ndryshuar radhën",
+        "Task actions": "Veprimet e detyrës",
+        "All labels": "Të gjitha etiketat",
+        "Filter tasks by label": "Filtro detyrat sipas etiketës",
+        "View timeline": "Shiko kronologjinë"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -291,7 +291,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "L'ultima colonna terminà na po betg vegnir allontanada.",
         "WIP limit": "Limita WIP",
         "over limit": "sur la limita",
-        "The status a card gets when it is moved into this column.": "Il status che ina carta survegn cura ch'ella vegn spustada en questa colonna."
+        "The status a card gets when it is moved into this column.": "Il status che ina carta survegn cura ch'ella vegn spustada en questa colonna.",
+        "All priorities": "Tut las prioritads",
+        "Could not create the task. Please try again.": "L'incumbensa n'ha betg pudì vegnir creada. Empruvai anc ina giada.",
+        "Created": "Creà",
+        "Move to backlog": "En il backlog",
+        "Move to board": "Sin la tavla",
+        "New task": "Nova incumbensa",
+        "Nothing in the backlog": "Nagut en il backlog",
+        "Rank": "Rang",
+        "Sort by": "Zavrar tenor",
+        "Sort by rank to reorder": "Zavrai tenor rang per midar la successiun",
+        "Task actions": "Acziuns da l'incumbensa",
+        "All labels": "Tut las etichettas",
+        "Filter tasks by label": "Filtrar las incumbensas tenor etichetta",
+        "View timeline": "Mussar la cronologia"
     },
     "nplurals=2; plural=(n != 1);"
 )

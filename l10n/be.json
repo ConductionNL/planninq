@@ -290,7 +290,21 @@
         "The last done column cannot be removed.": "Апошні слупок выкананых нельга выдаліць.",
         "WIP limit": "Ліміт WIP",
         "over limit": "вышэй за ліміт",
-        "The status a card gets when it is moved into this column.": "Статус, які атрымлівае картка, калі яе перамяшчаюць у гэты слупок."
+        "The status a card gets when it is moved into this column.": "Статус, які атрымлівае картка, калі яе перамяшчаюць у гэты слупок.",
+        "All priorities": "Усе прыярытэты",
+        "Could not create the task. Please try again.": "Не ўдалося стварыць задачу. Паспрабуйце яшчэ раз.",
+        "Created": "Створана",
+        "Move to backlog": "У беклог",
+        "Move to board": "На дошку",
+        "New task": "Новая задача",
+        "Nothing in the backlog": "У беклогу нічога няма",
+        "Rank": "Ранг",
+        "Sort by": "Сартаваць па",
+        "Sort by rank to reorder": "Сартуйце па рангу, каб змяніць парадак",
+        "Task actions": "Дзеянні з задачай",
+        "All labels": "Усе меткі",
+        "Filter tasks by label": "Фільтраваць задачы па метцы",
+        "View timeline": "Праглядзець часовую шкалу"
     },
     "plurals": {}
 }

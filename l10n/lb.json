@@ -290,7 +290,21 @@
         "The last done column cannot be removed.": "Déi lescht Fäerdeg-Kolonn kann net ewechgeholl ginn.",
         "WIP limit": "WIP-Limit",
         "over limit": "iwwer der Limit",
-        "The status a card gets when it is moved into this column.": "De Status, deen eng Kaart kritt, wann se an dës Kolonn geréckelt gëtt."
+        "The status a card gets when it is moved into this column.": "De Status, deen eng Kaart kritt, wann se an dës Kolonn geréckelt gëtt.",
+        "All priorities": "All Prioritéiten",
+        "Could not create the task. Please try again.": "D'Aufgab konnt net erstallt ginn. Probéiert w.e.g. nach eng Kéier.",
+        "Created": "Erstallt",
+        "Move to backlog": "An de Backlog",
+        "Move to board": "Op de Board",
+        "New task": "Nei Aufgab",
+        "Nothing in the backlog": "Näischt am Backlog",
+        "Rank": "Rang",
+        "Sort by": "Sortéieren no",
+        "Sort by rank to reorder": "No Rang sortéieren fir nei unzeuerdnen",
+        "Task actions": "Aufgabenaktiounen",
+        "All labels": "All Etiketten",
+        "Filter tasks by label": "Aufgabe no Etikett filteren",
+        "View timeline": "Zäitlinn weisen"
     },
     "plurals": null
 }

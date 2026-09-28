@@ -290,7 +290,21 @@
         "The last done column cannot be removed.": "Posljednja kolona završenih ne može se ukloniti.",
         "WIP limit": "WIP ograničenje",
         "over limit": "iznad ograničenja",
-        "The status a card gets when it is moved into this column.": "Status koji kartica dobija kada se premjesti u ovu kolonu."
+        "The status a card gets when it is moved into this column.": "Status koji kartica dobija kada se premjesti u ovu kolonu.",
+        "All priorities": "Svi prioriteti",
+        "Could not create the task. Please try again.": "Zadatak nije moguće kreirati. Pokušajte ponovo.",
+        "Created": "Kreirano",
+        "Move to backlog": "U zaostatak",
+        "Move to board": "Na tablu",
+        "New task": "Novi zadatak",
+        "Nothing in the backlog": "Ništa u zaostatku",
+        "Rank": "Rang",
+        "Sort by": "Poredaj po",
+        "Sort by rank to reorder": "Poredajte po rangu da biste promijenili redoslijed",
+        "Task actions": "Radnje zadatka",
+        "All labels": "Sve oznake",
+        "Filter tasks by label": "Filtriraj zadatke po oznaci",
+        "View timeline": "Prikaži vremensku liniju"
     },
     "plurals": null
 }

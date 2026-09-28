@@ -291,7 +291,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "Den sista klar-kolumnen kan inte tas bort.",
         "WIP limit": "WIP-gräns",
         "over limit": "över gränsen",
-        "The status a card gets when it is moved into this column.": "Den status ett kort får när det flyttas till den här kolumnen."
+        "The status a card gets when it is moved into this column.": "Den status ett kort får när det flyttas till den här kolumnen.",
+        "All priorities": "Alla prioriteter",
+        "Could not create the task. Please try again.": "Uppgiften kunde inte skapas. Försök igen.",
+        "Created": "Skapad",
+        "Move to backlog": "Till backloggen",
+        "Move to board": "Till tavlan",
+        "New task": "Ny uppgift",
+        "Nothing in the backlog": "Inget i backloggen",
+        "Rank": "Rang",
+        "Sort by": "Sortera efter",
+        "Sort by rank to reorder": "Sortera efter rang för att ändra ordningen",
+        "Task actions": "Uppgiftsåtgärder",
+        "All labels": "Alla etiketter",
+        "Filter tasks by label": "Filtrera uppgifter efter etikett",
+        "View timeline": "Visa tidslinje"
     },
     "nplurals=2; plural=(n != 1);"
 )

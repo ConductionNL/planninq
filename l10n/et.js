@@ -291,7 +291,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "Viimast valmis-veergu ei saa eemaldada.",
         "WIP limit": "WIP-piirang",
         "over limit": "üle piirangu",
-        "The status a card gets when it is moved into this column.": "Olek, mille kaart saab, kui see teisaldatakse sellesse veergu."
+        "The status a card gets when it is moved into this column.": "Olek, mille kaart saab, kui see teisaldatakse sellesse veergu.",
+        "All priorities": "Kõik prioriteedid",
+        "Could not create the task. Please try again.": "Ülesannet ei õnnestunud luua. Proovi uuesti.",
+        "Created": "Loodud",
+        "Move to backlog": "Ootenimekirja",
+        "Move to board": "Tahvlile",
+        "New task": "Uus ülesanne",
+        "Nothing in the backlog": "Ootenimekiri on tühi",
+        "Rank": "Järjekoht",
+        "Sort by": "Sordi",
+        "Sort by rank to reorder": "Järjestuse muutmiseks sordi järjekoha järgi",
+        "Task actions": "Ülesande toimingud",
+        "All labels": "Kõik sildid",
+        "Filter tasks by label": "Filtreeri ülesandeid sildi järgi",
+        "View timeline": "Vaata ajajoont"
     },
     "nplurals=2; plural=(n != 1);"
 )

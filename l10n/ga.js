@@ -291,7 +291,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "Ní féidir an colún críochnaithe deireanach a bhaint.",
         "WIP limit": "Teorainn WIP",
         "over limit": "os cionn na teorann",
-        "The status a card gets when it is moved into this column.": "An stádas a fhaigheann cárta nuair a bhogtar isteach sa cholún seo é."
+        "The status a card gets when it is moved into this column.": "An stádas a fhaigheann cárta nuair a bhogtar isteach sa cholún seo é.",
+        "All priorities": "Gach tosaíocht",
+        "Could not create the task. Please try again.": "Níorbh fhéidir an tasc a chruthú. Bain triail eile as.",
+        "Created": "Cruthaithe",
+        "Move to backlog": "Chuig an mbacliosta",
+        "Move to board": "Chuig an gclár",
+        "New task": "Tasc nua",
+        "Nothing in the backlog": "Níl aon rud sa bhacliosta",
+        "Rank": "Rangú",
+        "Sort by": "Sórtáil de réir",
+        "Sort by rank to reorder": "Sórtáil de réir rangaithe chun an t-ord a athrú",
+        "Task actions": "Gníomhartha taisc",
+        "All labels": "Gach lipéad",
+        "Filter tasks by label": "Scag tascanna de réir lipéid",
+        "View timeline": "Féach ar an amlíne"
     },
     "nplurals=2; plural=(n != 1);"
 )

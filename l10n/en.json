@@ -264,7 +264,21 @@
         "The last done column cannot be removed.": "The last done column cannot be removed.",
         "WIP limit": "WIP limit",
         "over limit": "over limit",
-        "The status a card gets when it is moved into this column.": "The status a card gets when it is moved into this column."
+        "The status a card gets when it is moved into this column.": "The status a card gets when it is moved into this column.",
+        "All priorities": "All priorities",
+        "Could not create the task. Please try again.": "Could not create the task. Please try again.",
+        "Created": "Created",
+        "Move to backlog": "Move to backlog",
+        "Move to board": "Move to board",
+        "New task": "New task",
+        "Nothing in the backlog": "Nothing in the backlog",
+        "Rank": "Rank",
+        "Sort by": "Sort by",
+        "Sort by rank to reorder": "Sort by rank to reorder",
+        "Task actions": "Task actions",
+        "All labels": "All labels",
+        "Filter tasks by label": "Filter tasks by label",
+        "View timeline": "View timeline"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

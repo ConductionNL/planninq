@@ -1,9 +1,9 @@
-# backlog delta for backlog-list
+# backlog Specification
 
-Extends the flat main spec `openspec/specs/projects.md` ("Project Backlog Route") and replaces
-its placeholder scenario.
+## Purpose
+A project's backlog: the tasks in no board column, which members create into, rank, sort, filter and move to and from the board. Built by the archived change 2026-09-28-backlog-list.
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: The backlog lists the tasks that are not on the board
 
@@ -41,6 +41,8 @@ and filter it with the board's filters, and MUST show cancelled tasks only under
 filter. Tier: MVP.
 
 #### Scenario: Sort by due date
+
+@e2e exclude the backlog has no due-date field to set from the UI yet; the comparator is covered by tests/vitest/backlog.spec.js (sortBacklog)
 
 - **GIVEN** backlog tasks due on 3, 1 and 2 October
 - **WHEN** a member sorts by due date

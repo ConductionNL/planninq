@@ -290,7 +290,21 @@
         "The last done column cannot be removed.": "L-aħħar kolonna ta' lest ma tistax titneħħa.",
         "WIP limit": "Limitu WIP",
         "over limit": "'il fuq mil-limitu",
-        "The status a card gets when it is moved into this column.": "L-istatus li tieħu karta meta titmexxa f'din il-kolonna."
+        "The status a card gets when it is moved into this column.": "L-istatus li tieħu karta meta titmexxa f'din il-kolonna.",
+        "All priorities": "Il-prijoritajiet kollha",
+        "Could not create the task. Please try again.": "Il-kompitu ma setax jinħoloq. Erġa' pprova.",
+        "Created": "Maħluq",
+        "Move to backlog": "Għall-backlog",
+        "Move to board": "Għall-bord",
+        "New task": "Kompitu ġdid",
+        "Nothing in the backlog": "Xejn fil-backlog",
+        "Rank": "Rank",
+        "Sort by": "Issortja skont",
+        "Sort by rank to reorder": "Issortja skont ir-rank biex terġa' tordna",
+        "Task actions": "Azzjonijiet tal-kompitu",
+        "All labels": "It-tikketti kollha",
+        "Filter tasks by label": "Iffiltra l-kompiti skont it-tikketta",
+        "View timeline": "Ara l-kronoloġija"
     },
     "plurals": {}
 }

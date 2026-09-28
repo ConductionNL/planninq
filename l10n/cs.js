@@ -291,7 +291,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "Poslední sloupec hotovo nelze odebrat.",
         "WIP limit": "Limit WIP",
         "over limit": "nad limitem",
-        "The status a card gets when it is moved into this column.": "Stav, který karta získá po přesunutí do tohoto sloupce."
+        "The status a card gets when it is moved into this column.": "Stav, který karta získá po přesunutí do tohoto sloupce.",
+        "All priorities": "Všechny priority",
+        "Could not create the task. Please try again.": "Úkol se nepodařilo vytvořit. Zkuste to znovu.",
+        "Created": "Vytvořeno",
+        "Move to backlog": "Do backlogu",
+        "Move to board": "Na nástěnku",
+        "New task": "Nový úkol",
+        "Nothing in the backlog": "Backlog je prázdný",
+        "Rank": "Pořadí",
+        "Sort by": "Seřadit podle",
+        "Sort by rank to reorder": "Pro změnu pořadí seřaďte podle pořadí",
+        "Task actions": "Akce úkolu",
+        "All labels": "Všechny štítky",
+        "Filter tasks by label": "Filtrovat úkoly podle štítku",
+        "View timeline": "Zobrazit časovou osu"
     },
     "nplurals=2; plural=(n != 1);"
 )

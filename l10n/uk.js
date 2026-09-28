@@ -291,7 +291,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "Останній стовпець виконаних не можна видалити.",
         "WIP limit": "Ліміт WIP",
         "over limit": "понад ліміт",
-        "The status a card gets when it is moved into this column.": "Статус, який отримує картка, коли її переміщують у цей стовпець."
+        "The status a card gets when it is moved into this column.": "Статус, який отримує картка, коли її переміщують у цей стовпець.",
+        "All priorities": "Усі пріоритети",
+        "Could not create the task. Please try again.": "Не вдалося створити завдання. Спробуйте ще раз.",
+        "Created": "Створено",
+        "Move to backlog": "До беклогу",
+        "Move to board": "На дошку",
+        "New task": "Нове завдання",
+        "Nothing in the backlog": "У беклозі нічого немає",
+        "Rank": "Ранг",
+        "Sort by": "Сортувати за",
+        "Sort by rank to reorder": "Сортуйте за рангом, щоб змінити порядок",
+        "Task actions": "Дії із завданням",
+        "All labels": "Усі мітки",
+        "Filter tasks by label": "Фільтрувати завдання за міткою",
+        "View timeline": "Переглянути часову шкалу"
     },
     "nplurals=2; plural=(n != 1);"
 )

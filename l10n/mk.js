@@ -291,7 +291,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "Последната колона за завршени не може да се отстрани.",
         "WIP limit": "WIP ограничување",
         "over limit": "над ограничувањето",
-        "The status a card gets when it is moved into this column.": "Статусот што го добива картичката кога ќе се премести во оваа колона."
+        "The status a card gets when it is moved into this column.": "Статусот што го добива картичката кога ќе се премести во оваа колона.",
+        "All priorities": "Сите приоритети",
+        "Could not create the task. Please try again.": "Задачата не може да се создаде. Обидете се повторно.",
+        "Created": "Создадено",
+        "Move to backlog": "Во заостатокот",
+        "Move to board": "На таблата",
+        "New task": "Нова задача",
+        "Nothing in the backlog": "Нема ништо во заостатокот",
+        "Rank": "Ранг",
+        "Sort by": "Подреди по",
+        "Sort by rank to reorder": "Подредете по ранг за да го промените редоследот",
+        "Task actions": "Дејства на задачата",
+        "All labels": "Сите ознаки",
+        "Filter tasks by label": "Филтрирај задачи по ознака",
+        "View timeline": "Прикажи временска линија"
     },
     "nplurals=2; plural=(n != 1);"
 )

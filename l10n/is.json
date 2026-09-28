@@ -290,7 +290,21 @@
         "The last done column cannot be removed.": "Ekki er hægt að fjarlægja síðasta lokið-dálkinn.",
         "WIP limit": "WIP-mörk",
         "over limit": "yfir mörkum",
-        "The status a card gets when it is moved into this column.": "Staðan sem spjald fær þegar það er fært í þennan dálk."
+        "The status a card gets when it is moved into this column.": "Staðan sem spjald fær þegar það er fært í þennan dálk.",
+        "All priorities": "Allar forgangsraðanir",
+        "Could not create the task. Please try again.": "Ekki tókst að búa til verkefnið. Reyndu aftur.",
+        "Created": "Búið til",
+        "Move to backlog": "Í biðlistann",
+        "Move to board": "Á töfluna",
+        "New task": "Nýtt verkefni",
+        "Nothing in the backlog": "Ekkert í biðlistanum",
+        "Rank": "Röð",
+        "Sort by": "Raða eftir",
+        "Sort by rank to reorder": "Raðaðu eftir röð til að endurraða",
+        "Task actions": "Aðgerðir verkefnis",
+        "All labels": "Öll merki",
+        "Filter tasks by label": "Sía verkefni eftir merki",
+        "View timeline": "Skoða tímalínu"
     },
     "plurals": {}
 }
