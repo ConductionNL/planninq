@@ -41,6 +41,8 @@ export default {
 		 * The tabs with their labels.
 		 *
 		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.1
 		 */
 		tabs() {
 			const labels = {

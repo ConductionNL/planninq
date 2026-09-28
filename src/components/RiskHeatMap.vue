@@ -59,7 +59,11 @@ export default {
 	},
 
 	computed: {
-		/** @return {Array<object>} */
+		/**
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
+		 */
 		rows() {
 			return heatMapRows(this.risks, this.scale)
 		},
@@ -69,6 +73,8 @@ export default {
 		/**
 		 * @param {string} band low, medium or high
 		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
 		 */
 		bandLabel(band) {
 			return {

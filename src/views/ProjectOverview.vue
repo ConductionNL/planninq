@@ -174,42 +174,74 @@ export default {
 	},
 
 	computed: {
-		/** @return {string} */
+		/**
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
+		 */
 		projectId() {
 			return String(this.$route.params.id || '')
 		},
 
-		/** @return {{done: number, total: number}} */
+		/**
+		 * @return {{done: number, total: number}}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
+		 */
 		progress() {
 			return projectProgress(this.tasks)
 		},
 
-		/** @return {number} */
+		/**
+		 * @return {number}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
+		 */
 		progressPercent() {
 			return this.progress.total ? Math.round((this.progress.done / this.progress.total) * 100) : 0
 		},
 
-		/** @return {string} */
+		/**
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
+		 */
 		progressText() {
 			return this.t('planninq', '{done} of {total} tasks done', { done: this.progress.done, total: this.progress.total })
 		},
 
-		/** @return {Array<string>} */
+		/**
+		 * @return {Array<string>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
+		 */
 		people() {
 			return projectPeople(this.project)
 		},
 
-		/** @return {Array<object>} */
+		/**
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
+		 */
 		topRisks() {
 			return topOpenRisks(this.risks, 3)
 		},
 
-		/** @return {Array<object>} */
+		/**
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
+		 */
 		latestEntries() {
 			return latestLogEntries(this.entries, 5)
 		},
 
-		/** @return {string} */
+		/**
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
+		 */
 		statusLabel() {
 			const labels = {
 				active: this.t('planninq', 'Active'),
@@ -224,6 +256,9 @@ export default {
 	watch: {
 		projectId: {
 			immediate: true,
+			/**
+			 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
+			 */
 			handler() {
 				this.load()
 			},
@@ -267,6 +302,8 @@ export default {
 		 *
 		 * @param {string} type The type.
 		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
 		 */
 		typeLabel(type) {
 			const labels = {

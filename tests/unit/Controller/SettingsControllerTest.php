@@ -337,7 +337,9 @@ class SettingsControllerTest extends TestCase {
 		$scale = json_encode(['levels' => 4, 'likelihood' => ['a', 'b', 'c', 'd'], 'impact' => ['a', 'b', 'c', 'd'], 'thresholds' => ['medium' => 4, 'high' => 9]]);
 		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
 		$this->request->method('getParams')->willReturn(['risk_scale' => $scale]);
+		$this->riskScale->method('normalise')->willReturn(json_decode((string)$scale, true));
 		$this->riskScale->method('conflict')->with(4)->willReturn(['count' => 2, 'level' => 5]);
+		$this->riskScale->method('refusal')->with(2, 5)->willReturn('2 risks use level 5. Change them first.');
 		$this->settingsService->expects($this->never())->method('updateSettings');
 
 		$result = $this->controller->create();
@@ -360,6 +362,8 @@ class SettingsControllerTest extends TestCase {
 	public function testCreateRefusesAMalformedRiskScale(): void {
 		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
 		$this->request->method('getParams')->willReturn(['risk_scale' => '{"levels": 9}']);
+		$this->riskScale->method('normalise')->willReturn(null);
+		$this->riskScale->expects($this->never())->method('conflict');
 		$this->settingsService->expects($this->never())->method('updateSettings');
 
 		$result = $this->controller->create();
@@ -380,8 +384,11 @@ class SettingsControllerTest extends TestCase {
 		$scale = json_encode(['levels' => 3, 'likelihood' => ['Low', 'Medium', 'High'], 'impact' => ['Low', 'Medium', 'High'], 'thresholds' => ['medium' => 3, 'high' => 6]]);
 		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
 		$this->request->method('getParams')->willReturn(['risk_scale' => $scale]);
+		$this->riskScale->method('normalise')->willReturn(json_decode((string)$scale, true));
 		$this->riskScale->method('conflict')->with(3)->willReturn(null);
-		$this->settingsService->expects($this->once())->method('updateSettings')->willReturn(['risk_scale' => $scale]);
+		$this->settingsService->expects($this->once())->method('updateSettings')
+			->with(['risk_scale' => $scale])
+			->willReturn(['risk_scale' => $scale]);
 
 		$result = $this->controller->create();
 

@@ -413,6 +413,114 @@
         "roomReference": "C0.03",
         "roomLabel": "C0.03",
         "status": "cancelled"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectLogEntry",
+          "slug": "projectlogentry-voorbeeld-title-1-1"
+        },
+        "title": "Voorbeeld Title 1",
+        "project": "00000000-0000-4000-8000-000000000000",
+        "type": "issue",
+        "date": "2026-03-01",
+        "members": [],
+        "body": "Voorbeeld Body 1",
+        "status": "open",
+        "attendees": [],
+        "actions": []
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectLogEntry",
+          "slug": "projectlogentry-voorbeeld-title-2-2"
+        },
+        "title": "Voorbeeld Title 2",
+        "project": "00000000-0000-4000-8000-000000000001",
+        "type": "lesson",
+        "date": "2026-03-02",
+        "members": [],
+        "body": "Voorbeeld Body 2",
+        "status": "closed",
+        "attendees": [],
+        "actions": []
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectLogEntry",
+          "slug": "projectlogentry-voorbeeld-title-3-3"
+        },
+        "title": "Voorbeeld Title 3",
+        "project": "00000000-0000-4000-8000-000000000002",
+        "type": "meeting",
+        "date": "2026-03-03",
+        "members": [],
+        "body": "Voorbeeld Body 3",
+        "status": "open",
+        "attendees": [],
+        "actions": []
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "risk",
+          "slug": "risk-voorbeeld-title-1-1"
+        },
+        "title": "Voorbeeld Title 1",
+        "project": "00000000-0000-4000-8000-000000000000",
+        "likelihood": 1,
+        "impact": 1,
+        "members": [],
+        "description": "Voorbeeld Description 1",
+        "category": "Voorbeeld Category 1",
+        "score": 1,
+        "status": "open",
+        "owner": "Voorbeeld Owner 1",
+        "response": "avoid",
+        "countermeasures": "Voorbeeld Countermeasures 1",
+        "reviewDate": "2026-03-01"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "risk",
+          "slug": "risk-voorbeeld-title-2-2"
+        },
+        "title": "Voorbeeld Title 2",
+        "project": "00000000-0000-4000-8000-000000000001",
+        "likelihood": 2,
+        "impact": 2,
+        "members": [],
+        "description": "Voorbeeld Description 2",
+        "category": "Voorbeeld Category 2",
+        "score": 2,
+        "status": "mitigating",
+        "owner": "Voorbeeld Owner 2",
+        "response": "reduce",
+        "countermeasures": "Voorbeeld Countermeasures 2",
+        "reviewDate": "2026-03-02"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "risk",
+          "slug": "risk-voorbeeld-title-3-3"
+        },
+        "title": "Voorbeeld Title 3",
+        "project": "00000000-0000-4000-8000-000000000002",
+        "likelihood": 3,
+        "impact": 3,
+        "members": [],
+        "description": "Voorbeeld Description 3",
+        "category": "Voorbeeld Category 3",
+        "score": 3,
+        "status": "closed",
+        "owner": "Voorbeeld Owner 3",
+        "response": "transfer",
+        "countermeasures": "Voorbeeld Countermeasures 3",
+        "reviewDate": "2026-03-03"
       }
     ]
   }

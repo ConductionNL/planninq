@@ -185,18 +185,30 @@ export default {
 	},
 
 	computed: {
-		/** @return {string} */
+		/**
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
+		 */
 		projectId() {
 			return String(this.$route.params.id || '')
 		},
 
-		/** @return {string} */
+		/**
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
+		 */
 		filter() {
 			const value = String(this.$route.query.type || 'all')
 			return [...LOG_TYPES, 'actions'].includes(value) ? value : 'all'
 		},
 
-		/** @return {Array<object>} */
+		/**
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
+		 */
 		filterOptions() {
 			return [
 				{ id: 'all', label: this.t('planninq', 'All') },
@@ -208,17 +220,29 @@ export default {
 			]
 		},
 
-		/** @return {Array<object>} */
+		/**
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
+		 */
 		visibleEntries() {
 			return filterLog(this.entries, this.filter)
 		},
 
-		/** @return {Array<object>} */
+		/**
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
+		 */
 		actions() {
 			return actionTasks(this.tasks)
 		},
 
-		/** @return {Array<object>} */
+		/**
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
+		 */
 		peopleOptions() {
 			return projectPeople(this.project).map((uid) => ({ id: uid, label: this.names[uid] || uid }))
 		},
@@ -227,6 +251,9 @@ export default {
 	watch: {
 		projectId: {
 			immediate: true,
+			/**
+			 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
+			 */
 			handler() {
 				this.load()
 			},
@@ -263,6 +290,8 @@ export default {
 
 		/**
 		 * Resolve the names of the people on the project and of every author.
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		async resolveNames() {
 			const uids = new Set(projectPeople(this.project))
@@ -276,6 +305,8 @@ export default {
 
 		/**
 		 * @param {string} id The filter.
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		setFilter(id) {
 			const query = { ...this.$route.query }
@@ -286,6 +317,8 @@ export default {
 
 		/**
 		 * @param {object|null} entry The entry to edit, or null for a new one.
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		openEditor(entry) {
 			this.editing = { entry }
@@ -293,6 +326,8 @@ export default {
 
 		/**
 		 * @param {object} saved The saved entry.
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		async onEntrySaved(saved) {
 			this.editing = null
@@ -302,6 +337,8 @@ export default {
 
 		/**
 		 * @param {{task: object, entry: object}} result The new task and the updated entry.
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		onActionSaved({ task, entry }) {
 			this.actionFor = null
@@ -311,6 +348,8 @@ export default {
 
 		/**
 		 * @param {object} saved The saved entry.
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		replaceEntry(saved) {
 			const id = saved?.id ?? saved?.['@self']?.id
@@ -321,6 +360,8 @@ export default {
 		/**
 		 * @param {object} entry The entry.
 		 * @return {Array<object>} The tasks it links, in link order.
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		linkedActions(entry) {
 			return (entry.actions || []).map((id) => this.tasks.find((task) => task.id === id)).filter(Boolean)
@@ -329,6 +370,8 @@ export default {
 		/**
 		 * @param {object} entry The entry.
 		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		authorOf(entry) {
 			return entryAuthor(entry)
@@ -337,6 +380,8 @@ export default {
 		/**
 		 * @param {object} entry The entry.
 		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		savedAt(entry) {
 			const created = entryCreated(entry)
@@ -347,6 +392,8 @@ export default {
 		/**
 		 * @param {string} type The entry type.
 		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		typeLabel(type) {
 			const labels = {
@@ -361,6 +408,8 @@ export default {
 		/**
 		 * @param {string} status The task status.
 		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		statusLabel(status) {
 			const labels = {

@@ -148,29 +148,24 @@ test.describe('visual baselines — planninq views', () => {
 		await shoot(page, 'project-board.png')
 	})
 
-	// Backlog and Timeline are reached from NcButtons that call $router.push —
-	// NOT anchors. getByRole('link') matches nothing here and the click times
-	// out, which reads as "the view is broken" rather than "the selector is".
-	// Same trap nav.ts records for project rows.
-	test('ProjectBacklog renders the backlog @visual', async ({ page }) => {
-		const id = await openFixtureProjectBoard(page)
-		await page
-			.getByRole('button', { name: /backlog/i })
-			.first()
-			.click()
-		await expect(page).toHaveURL(new RegExp(`/projects/${id}/backlog$`))
-		await shoot(page, 'project-backlog.png')
-	})
-
-	test('ProjectTimeline renders the gantt @visual', async ({ page }) => {
-		const id = await openFixtureProjectBoard(page)
-		await page
-			.getByRole('button', { name: /timeline/i })
-			.first()
-			.click()
-		await expect(page).toHaveURL(new RegExp(`/projects/${id}/timeline$`))
-		await shoot(page, 'project-timeline.png')
-	})
+	// The project pages are reached through the shared row of project tabs
+	// (src/components/ProjectTabs.vue), which are router links with stable
+	// test ids. Clicking by test id, not by label, keeps these tests
+	// independent of the language the instance runs in.
+	for (const [component, tab, path, file] of [
+		['ProjectBacklog', 'backlog', 'backlog', 'project-backlog.png'],
+		['ProjectTimeline', 'timeline', 'timeline', 'project-timeline.png'],
+		['ProjectOverview', 'overview', 'overview', 'project-overview.png'],
+		['ProjectRisks', 'risks', 'risks', 'project-risks.png'],
+		['ProjectLog', 'log', 'log', 'project-log.png'],
+	]) {
+		test(`${component} renders from its project tab @visual`, async ({ page }) => {
+			const id = await openFixtureProjectBoard(page)
+			await page.getByTestId(`project-tab-${tab}`).click()
+			await expect(page).toHaveURL(new RegExp(`/projects/${id}/${path}$`))
+			await shoot(page, file)
+		})
+	}
 
 	test('TaskDetail renders a task @visual', async ({ page }) => {
 		const id = await openFixtureProjectBoard(page)

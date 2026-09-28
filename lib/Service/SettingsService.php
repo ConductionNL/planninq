@@ -258,18 +258,6 @@ class SettingsService {
 				$value = $validated;
 			}
 
-			if ($key === RiskScaleService::CONFIG_KEY) {
-				// The controller refused a scale that risks still exceed; this
-				// guard keeps a malformed one out of the config on any path.
-				$scale = RiskScaleService::normalise(raw: $value);
-				if ($scale === null) {
-					$this->logger->warning('Planninq: invalid risk_scale value rejected', ['raw' => $value]);
-					continue;
-				}
-
-				$value = (string)json_encode($scale);
-			}
-
 			if ($key === 'due_reminder_lead_hours') {
 				$validated = $this->validateLeadHours(raw: $value);
 				if ($validated === null) {

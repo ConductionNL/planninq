@@ -103,10 +103,14 @@ class SettingsController extends Controller {
 
 		$data = $this->request->getParams();
 		if (array_key_exists(RiskScaleService::CONFIG_KEY, $data) === true) {
-			$refused = $this->refuseRiskScale(raw: (string)$data[RiskScaleService::CONFIG_KEY]);
+			$scale = $this->riskScale->normalise(raw: (string)$data[RiskScaleService::CONFIG_KEY]);
+			$refused = $this->refuseRiskScale(scale: $scale);
 			if ($refused !== null) {
 				return $refused;
 			}
+
+			// Store the normalised form: trimmed labels, integer levels.
+			$data[RiskScaleService::CONFIG_KEY] = (string)json_encode($scale);
 		}
 
 		$config = $this->settingsService->updateSettings($data);
@@ -122,14 +126,13 @@ class SettingsController extends Controller {
 	/**
 	 * The refusal of a risk scale that is malformed or that risks still exceed, or null to go on.
 	 *
-	 * @param string $raw The submitted scale JSON.
+	 * @param array<string,mixed>|null $scale The normalised scale, or null when it did not parse.
 	 *
 	 * @return JSONResponse|null
 	 *
 	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
 	 */
-	private function refuseRiskScale(string $raw): ?JSONResponse {
-		$scale = RiskScaleService::normalise(raw: $raw);
+	private function refuseRiskScale(?array $scale): ?JSONResponse {
 		if ($scale === null) {
 			return new JSONResponse(
 				['error' => 'risk-scale-invalid', 'message' => 'The risk scale is not valid.'],
@@ -137,7 +140,7 @@ class SettingsController extends Controller {
 			);
 		}
 
-		$conflict = $this->riskScale->conflict(levels: $scale['levels']);
+		$conflict = $this->riskScale->conflict(levels: (int)$scale['levels']);
 		if ($conflict === null) {
 			return null;
 		}
@@ -145,7 +148,7 @@ class SettingsController extends Controller {
 		return new JSONResponse(
 			[
 				'error' => 'risk-scale-in-use',
-				'message' => RiskScaleService::refusal(count: $conflict['count'], level: $conflict['level']),
+				'message' => $this->riskScale->refusal(count: $conflict['count'], level: $conflict['level']),
 				'count' => $conflict['count'],
 				'level' => $conflict['level'],
 			],

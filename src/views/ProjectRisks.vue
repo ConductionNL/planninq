@@ -154,27 +154,47 @@ export default {
 	},
 
 	computed: {
-		/** @return {string} */
+		/**
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
+		 */
 		projectId() {
 			return String(this.$route.params.id || '')
 		},
 
-		/** @return {object} */
+		/**
+		 * @return {object}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
+		 */
 		scale() {
 			return parseRiskScale(this.settingsStore.settings?.risk_scale)
 		},
 
-		/** @return {Array<object>} */
+		/**
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
+		 */
 		sortedRisks() {
 			return sortRisks(this.risks)
 		},
 
-		/** @return {Array<string>} */
+		/**
+		 * @return {Array<string>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
+		 */
 		people() {
 			return projectPeople(this.project)
 		},
 
-		/** @return {Array<object>} */
+		/**
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
+		 */
 		peopleOptions() {
 			return this.people.map((uid) => ({ id: uid, label: this.names[uid] || uid }))
 		},
@@ -183,6 +203,9 @@ export default {
 	watch: {
 		projectId: {
 			immediate: true,
+			/**
+			 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
+			 */
 			handler() {
 				this.load()
 			},
@@ -220,6 +243,8 @@ export default {
 
 		/**
 		 * @param {object} saved The saved risk, with the score the server calculated.
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
 		 */
 		onSaved(saved) {
 			this.editing = null
@@ -230,6 +255,8 @@ export default {
 		/**
 		 * @param {object} risk The risk.
 		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
 		 */
 		bandLabel(risk) {
 			return {
@@ -242,6 +269,8 @@ export default {
 		/**
 		 * @param {string} status The status.
 		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
 		 */
 		statusLabel(status) {
 			return {
@@ -255,6 +284,8 @@ export default {
 		/**
 		 * @param {string} response The response.
 		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
 		 */
 		responseLabel(response) {
 			return {

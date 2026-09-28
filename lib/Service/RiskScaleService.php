@@ -94,7 +94,7 @@ class RiskScaleService {
 	 *
 	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
 	 */
-	public static function normalise(string $raw): ?array {
+	public function normalise(string $raw): ?array {
 		$decoded = json_decode($raw, true);
 		if (is_array($decoded) === false) {
 			return null;
@@ -105,15 +105,10 @@ class RiskScaleService {
 			return null;
 		}
 
-		$likelihood = self::labels(value: ($decoded['likelihood'] ?? null), levels: $levels);
-		$impact = self::labels(value: ($decoded['impact'] ?? null), levels: $levels);
-		$medium = ($decoded['thresholds']['medium'] ?? null);
-		$high = ($decoded['thresholds']['high'] ?? null);
-		if ($likelihood === null || $impact === null || is_int($medium) === false || is_int($high) === false) {
-			return null;
-		}
-
-		if ($medium < 2 || $high <= $medium || $high > ($levels * $levels)) {
+		$likelihood = $this->labels(value: ($decoded['likelihood'] ?? null), levels: $levels);
+		$impact = $this->labels(value: ($decoded['impact'] ?? null), levels: $levels);
+		$thresholds = $this->thresholds(value: ($decoded['thresholds'] ?? null), levels: $levels);
+		if ($likelihood === null || $impact === null || $thresholds === null) {
 			return null;
 		}
 
@@ -121,9 +116,31 @@ class RiskScaleService {
 			'levels' => $levels,
 			'likelihood' => $likelihood,
 			'impact' => $impact,
-			'thresholds' => ['medium' => $medium, 'high' => $high],
+			'thresholds' => $thresholds,
 		];
 	}//end normalise()
+
+	/**
+	 * The two thresholds, when medium starts above 1 and high above medium and within the top score.
+	 *
+	 * @param mixed $value The submitted thresholds.
+	 * @param int $levels The number of levels.
+	 *
+	 * @return array{medium: int, high: int}|null
+	 */
+	private function thresholds(mixed $value, int $levels): ?array {
+		$medium = ($value['medium'] ?? null);
+		$high = ($value['high'] ?? null);
+		if (is_int($medium) === false || is_int($high) === false) {
+			return null;
+		}
+
+		if ($medium < 2 || $high <= $medium || $high > ($levels * $levels)) {
+			return null;
+		}
+
+		return ['medium' => $medium, 'high' => $high];
+	}//end thresholds()
 
 	/**
 	 * The risks a scale of this many levels would strand, and the highest level they use.
@@ -164,7 +181,7 @@ class RiskScaleService {
 	 *
 	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
 	 */
-	public static function refusal(int $count, int $level): string {
+	public function refusal(int $count, int $level): string {
 		if ($count === 1) {
 			return sprintf('1 risk uses level %d. Change it first.', $level);
 		}
@@ -180,7 +197,7 @@ class RiskScaleService {
 	 *
 	 * @return array<int,string>|null
 	 */
-	private static function labels(mixed $value, int $levels): ?array {
+	private function labels(mixed $value, int $levels): ?array {
 		if (is_array($value) === false || count($value) !== $levels) {
 			return null;
 		}

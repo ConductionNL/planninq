@@ -100,7 +100,7 @@ class RiskScaleServiceTest extends TestCase {
 				'impact' => ['Low', 'Medium', 'High'],
 				'thresholds' => ['medium' => 3, 'high' => 6],
 			],
-			actual: RiskScaleService::normalise(raw: (string)$raw)
+			actual: $this->service()->normalise(raw: (string)$raw)
 		);
 
 	}//end testAValidThreeLevelScaleIsNormalised()
@@ -125,7 +125,7 @@ class RiskScaleServiceTest extends TestCase {
 		];
 
 		foreach ($cases as $name => $raw) {
-			self::assertNull(actual: RiskScaleService::normalise(raw: (string)$raw), message: $name);
+			self::assertNull(actual: $this->service()->normalise(raw: (string)$raw), message: $name);
 		}
 
 	}//end testAMalformedScaleIsRefused()
@@ -136,7 +136,7 @@ class RiskScaleServiceTest extends TestCase {
 	 * @return void
 	 */
 	public function testTheDefaultScaleIsValid(): void {
-		$default = RiskScaleService::normalise(raw: RiskScaleService::DEFAULT_SCALE);
+		$default = $this->service()->normalise(raw: RiskScaleService::DEFAULT_SCALE);
 
 		self::assertIsArray(actual: $default);
 		self::assertSame(expected: 5, actual: $default['levels']);
@@ -156,13 +156,13 @@ class RiskScaleServiceTest extends TestCase {
 		self::assertSame(expected: ['count' => 2, 'level' => 5], actual: $service->conflict(levels: 4));
 		self::assertSame(
 			expected: '2 risks use level 5. Change them first.',
-			actual: RiskScaleService::refusal(count: 2, level: 5)
+			actual: $service->refusal(count: 2, level: 5)
 		);
 		self::assertSame(expected: ['count' => 3, 'level' => 5], actual: $service->conflict(levels: 3));
 		self::assertNull(actual: $service->conflict(levels: 5));
 		self::assertSame(
 			expected: '1 risk uses level 4. Change it first.',
-			actual: RiskScaleService::refusal(count: 1, level: 4)
+			actual: $service->refusal(count: 1, level: 4)
 		);
 
 	}//end testASmallerScaleIsRefusedWhileRisksUseAHigherLevel()

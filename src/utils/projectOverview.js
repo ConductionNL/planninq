@@ -82,6 +82,8 @@ export function projectPeople(project) {
  *
  * @param {object} entry The log entry.
  * @return {string}
+ *
+ * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
  */
 export function entryCreated(entry) {
 	return String(entry?.['@self']?.created ?? entry?.created ?? '')
@@ -92,6 +94,8 @@ export function entryCreated(entry) {
  *
  * @param {object} entry The log entry.
  * @return {string}
+ *
+ * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
  */
 export function entryAuthor(entry) {
 	return String(entry?.['@self']?.owner ?? '')
