@@ -28,7 +28,8 @@
           "label",
           "dependency",
           "timetableSession",
-          "projectLogEntry"
+          "projectLogEntry",
+          "risk"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -1342,6 +1343,193 @@
             },
             "default": [],
             "x-notes": "Ids of task objects with issueType 'action' in the same project. The author and the time of an entry are OpenRegister's own object metadata (@self.owner, @self.created), so a client cannot set them (projects-overview-logs-risks, design decision 2)."
+          }
+        }
+      },
+      "risk": {
+        "slug": "risk",
+        "icon": "AlertOutline",
+        "version": "0.1.0",
+        "title": "Risk",
+        "description": "A risk to a project, scored on likelihood and impact, with an owner, a response and its countermeasures.",
+        "x-schema-org": "schema:Thing",
+        "type": "object",
+        "required": [
+          "title",
+          "project",
+          "likelihood",
+          "impact"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "x-openregister-calculations": {
+          "score": {
+            "type": "integer",
+            "materialise": true,
+            "expression": {
+              "*": [
+                {
+                  "prop": "likelihood"
+                },
+                {
+                  "prop": "impact"
+                }
+              ]
+            }
+          }
+        },
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "What could go wrong"
+          },
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project this risk belongs to",
+            "format": "uuid",
+            "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "The cause and the effect, in Markdown"
+          },
+          "category": {
+            "title": "Category",
+            "type": "string",
+            "description": "A free grouping, such as planning, budget or supplier"
+          },
+          "likelihood": {
+            "title": "Likelihood",
+            "type": "integer",
+            "description": "How likely it is, on the admin's risk scale",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "impact": {
+            "title": "Impact",
+            "type": "integer",
+            "description": "How hard it would hit, on the admin's risk scale",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "score": {
+            "title": "Score",
+            "type": "integer",
+            "description": "Likelihood times impact, calculated by the server",
+            "x-notes": "Materialised by OpenRegister from x-openregister-calculations on every save; a score a client sends is overwritten (projects-overview-logs-risks, design decision 3)."
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "Where the risk stands",
+            "enum": [
+              "open",
+              "mitigating",
+              "closed",
+              "occurred"
+            ],
+            "default": "open",
+            "x-enum-labels": {
+              "open": "Open",
+              "mitigating": "Mitigating",
+              "closed": "Closed",
+              "occurred": "Occurred"
+            }
+          },
+          "owner": {
+            "title": "Owner",
+            "type": "string",
+            "description": "The person who watches this risk"
+          },
+          "response": {
+            "title": "Response",
+            "type": "string",
+            "description": "How the project answers the risk",
+            "enum": [
+              "avoid",
+              "reduce",
+              "transfer",
+              "accept"
+            ],
+            "default": "reduce",
+            "x-enum-labels": {
+              "avoid": "Avoid",
+              "reduce": "Reduce",
+              "transfer": "Transfer",
+              "accept": "Accept"
+            }
+          },
+          "countermeasures": {
+            "title": "Countermeasures",
+            "type": "string",
+            "description": "What is done to prevent it or soften it, in Markdown"
+          },
+          "reviewDate": {
+            "title": "Review date",
+            "type": "string",
+            "description": "When to look at this risk again",
+            "format": "date"
           }
         }
       }

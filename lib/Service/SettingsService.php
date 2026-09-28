@@ -61,6 +61,7 @@ class SettingsService {
 		'default_columns' => '["To do","In progress","Review","Done"]',
 		'allow_project_creation' => 'all',
 		'due_reminder_lead_hours' => '24',
+		RiskScaleService::CONFIG_KEY => RiskScaleService::DEFAULT_SCALE,
 	];
 
 	/**
@@ -255,6 +256,18 @@ class SettingsService {
 				}
 
 				$value = $validated;
+			}
+
+			if ($key === RiskScaleService::CONFIG_KEY) {
+				// The controller refused a scale that risks still exceed; this
+				// guard keeps a malformed one out of the config on any path.
+				$scale = RiskScaleService::normalise(raw: $value);
+				if ($scale === null) {
+					$this->logger->warning('Planninq: invalid risk_scale value rejected', ['raw' => $value]);
+					continue;
+				}
+
+				$value = (string)json_encode($scale);
 			}
 
 			if ($key === 'due_reminder_lead_hours') {

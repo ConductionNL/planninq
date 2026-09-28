@@ -191,6 +191,24 @@ class ProjectMemberAccessListenerTest extends TestCase {
 	}//end testProjectLogEntryIsStampedAndGated()
 
 	/**
+	 * A risk is stamped for a member and refused for an outsider.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.1
+	 */
+	public function testRiskIsStampedAndGated(): void {
+		$byMember = new ObjectCreatingEvent($this->object(schema: 'risk', data: ['title' => 'Supplier late', 'likelihood' => 4, 'impact' => 3, 'project' => 'proj-a']));
+		$this->listener(actor: 'alice')->handle($byMember);
+		self::assertFalse($byMember->isPropagationStopped(), 'alice is on project A');
+		self::assertSame(['alice', 'bob', 'carol'], ($byMember->getModifiedData()['members'] ?? null));
+
+		$byOutsider = new ObjectCreatingEvent($this->object(schema: 'risk', data: ['title' => 'Sneaky', 'likelihood' => 1, 'impact' => 1, 'project' => 'proj-a']));
+		$this->listener(actor: 'dave')->handle($byOutsider);
+		self::assertTrue($byOutsider->isPropagationStopped(), 'dave is not on project A');
+	}//end testRiskIsStampedAndGated()
+
+	/**
 	 * A task that names no project, or a project that does not exist, is refused for a non-admin.
 	 *
 	 * @return void

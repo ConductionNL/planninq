@@ -357,7 +357,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the nine expected schemas.
+	 * The register MUST declare exactly the ten expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
 	 * over the project work breakdown structure pipelinq had built, and
@@ -368,8 +368,8 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @spec openspec/changes/task-dependencies/specs/register-schemas/spec.md
 	 */
-	public function testRegisterDeclaresExactlyNineSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry'];
+	public function testRegisterDeclaresExactlyTenSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -378,7 +378,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the nine expected schemas'
+			message: 'register schema list must be exactly the ten expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -386,7 +386,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the nine expected schemas'
+			message: 'components.schemas must define exactly the ten expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -395,7 +395,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyNineSchemas()
+	}//end testRegisterDeclaresExactlyTenSchemas()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -573,7 +573,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testProjectScopedSchemasCarryAHiddenMembersList(): void {
-		foreach (['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk'] as $slug) {
 			$schema = $this->register['components']['schemas'][$slug];
 			$members = ($schema['properties']['members'] ?? null);
 
@@ -596,7 +596,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testProjectScopedSchemasMatchTheMembersList(): void {
-		foreach (['task', 'column', 'projectPhase', 'projectLogEntry'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk'] as $slug) {
 			$authorization = $this->register['components']['schemas'][$slug]['authorization'];
 
 			foreach (['read', 'update', 'delete'] as $action) {
@@ -632,7 +632,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testProjectScopedCreateIsGatedByTheListenerNotByAMatch(): void {
-		foreach (['task', 'column', 'projectPhase', 'projectLogEntry'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk'] as $slug) {
 			self::assertSame(
 				expected: [['group' => 'authenticated'], ['group' => 'admin']],
 				actual: $this->register['components']['schemas'][$slug]['authorization']['create'],
@@ -667,4 +667,45 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertArrayHasKey(key: 'x-enum-labels', array: $properties['type']);
 
 	}//end testProjectLogEntrySchemaDeclaresTheLogShape()
+	/**
+	 * A risk has likelihood, impact, owner, response, countermeasures and a score the server calculates.
+	 *
+	 * `score` is a materialised `x-openregister-calculations` entry, so
+	 * OpenRegister's CalculationOnSaveListener overwrites whatever score a
+	 * client sends with likelihood times impact.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.1
+	 */
+	public function testRiskSchemaCalculatesItsScore(): void {
+		$schema = $this->register['components']['schemas']['risk'];
+		$properties = $schema['properties'];
+
+		self::assertSame(expected: ['title', 'project', 'likelihood', 'impact'], actual: $schema['required']);
+		foreach (['likelihood', 'impact'] as $axis) {
+			self::assertSame(expected: 'integer', actual: $properties[$axis]['type'], message: $axis);
+			self::assertSame(expected: 1, actual: $properties[$axis]['minimum'], message: $axis);
+			self::assertSame(expected: 5, actual: $properties[$axis]['maximum'], message: $axis);
+		}
+
+		self::assertSame(expected: ['open', 'mitigating', 'closed', 'occurred'], actual: $properties['status']['enum']);
+		self::assertSame(expected: ['avoid', 'reduce', 'transfer', 'accept'], actual: $properties['response']['enum']);
+		self::assertSame(expected: 'integer', actual: $properties['score']['type']);
+		self::assertSame(expected: 'date', actual: $properties['reviewDate']['format']);
+		self::assertArrayHasKey(key: 'owner', array: $properties);
+		self::assertArrayHasKey(key: 'countermeasures', array: $properties);
+
+		self::assertSame(
+			expected: [
+				'score' => [
+					'type' => 'integer',
+					'materialise' => true,
+					'expression' => ['*' => [['prop' => 'likelihood'], ['prop' => 'impact']]],
+				],
+			],
+			actual: $schema['x-openregister-calculations']
+		);
+
+	}//end testRiskSchemaCalculatesItsScore()
 }//end class
