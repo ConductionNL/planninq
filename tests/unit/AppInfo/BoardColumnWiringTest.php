@@ -1,0 +1,79 @@
+<?php
+
+/**
+ * Wiring test for the board-column listeners, asserted from the caller
+ * (Application::boot's registration), so a listener with green tests and no
+ * subscription cannot pass.
+ *
+ * @category Tests
+ * @package  OCA\Planninq\Tests\Unit\AppInfo
+ *
+ * @author    Conduction Development Team <dev@conduction.nl>
+ * @copyright 2026 Conduction B.V.
+ * @license   EUPL-1.2 https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ *
+ * @version GIT: <git-id>
+ *
+ * @link https://conduction.nl
+ */
+
+declare(strict_types=1);
+
+namespace OCA\OpenRegister\Event {
+	if (class_exists(ObjectEventSubscription::class) === false) {
+		/**
+		 * Records subscriptions; same static signature as OpenRegister's
+		 * lib/Event/ObjectEventSubscription.php subscribe().
+		 */
+		class ObjectEventSubscription {
+			/** @var array<int,array<string,mixed>> */
+			public static array $calls = [];
+			public static function subscribe(
+				\OCP\EventDispatcher\IEventDispatcher $dispatcher,
+				string $event,
+				string $listener,
+				?array $registers = null,
+				?array $schemas = null,
+			): void {
+				self::$calls[] = ['event' => $event, 'listener' => $listener, 'registers' => $registers, 'schemas' => $schemas];
+			}
+		}
+	}
+}
+
+namespace OCA\Planninq\Tests\Unit\AppInfo {
+
+	use OCA\OpenRegister\Event\ObjectEventSubscription;
+	use OCA\Planninq\AppInfo\Application;
+	use OCP\EventDispatcher\IEventDispatcher;
+	use PHPUnit\Framework\TestCase;
+
+	class BoardColumnWiringTest extends TestCase {
+
+		public function testBootSubscribesBothBoardColumnListeners(): void {
+			ObjectEventSubscription::$calls = [];
+			$app    = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			$method = new \ReflectionMethod(Application::class, 'registerBoardColumnListeners');
+			$method->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
+
+			$byListener = [];
+			foreach (ObjectEventSubscription::$calls as $call) {
+				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
+				self::assertTrue(class_exists($call['event']), $call['event'] . ' must exist');
+				$byListener[$call['listener']][] = [substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
+			}
+
+			self::assertSame(
+				[['ObjectCreatingEvent', ['task']], ['ObjectUpdatingEvent', ['task']]],
+				$byListener['OCA\\Planninq\\Listener\\TaskCompletionListener']
+			);
+			self::assertSame(
+				[['ObjectCreatingEvent', ['column']], ['ObjectUpdatingEvent', ['column']], ['ObjectDeletingEvent', ['column']]],
+				$byListener['OCA\\Planninq\\Listener\\ColumnOwnerGuardListener']
+			);
+
+			$boot = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
+			self::assertStringContainsString('$this->registerBoardColumnListeners(dispatcher: $dispatcher);', $boot, 'boot() calls the registration');
+		}//end testBootSubscribesBothBoardColumnListeners()
+	}//end class
+}

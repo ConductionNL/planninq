@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.6.0"
+    "version": "0.7.0"
   },
   "x-openregister": {
     "type": "application",
@@ -18,7 +18,7 @@
         "title": "Planninq",
         "description": "Planninq application data register — tasks, projects, columns, time entries, and labels.",
         "slug": "planninq",
-        "version": "0.6.0",
+        "version": "0.7.0",
         "schemas": [
           "task",
           "project",
@@ -687,7 +687,7 @@
       "column": {
         "slug": "column",
         "icon": "ViewColumnOutline",
-        "version": "0.2.0",
+        "version": "0.3.0",
         "title": "Column",
         "description": "A kanban column belonging to a project. Maps to schema:DefinedTerm.",
         "x-schema-org": "schema:DefinedTerm",
@@ -797,6 +797,19 @@
               "done"
             ],
             "default": "active"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "The status a card gets when it is moved into this column.",
+            "enum": [
+              "open",
+              "in_progress",
+              "blocked",
+              "done",
+              "cancelled"
+            ],
+            "nullable": true
           }
         }
       },
@@ -1303,11 +1316,12 @@
           "slug": "portal-todo",
           "id": "00000000-0000-4000-b000-000000000001"
         },
-        "title": "To Do",
+        "title": "To do",
         "project": "00000000-0000-4000-a000-000000000001",
         "order": 0,
         "wipLimit": null,
-        "type": "active"
+        "type": "active",
+        "status": "open"
       },
       {
         "@self": {
@@ -1316,11 +1330,12 @@
           "slug": "portal-in-progress",
           "id": "00000000-0000-4000-b000-000000000002"
         },
-        "title": "In Progress",
+        "title": "In progress",
         "project": "00000000-0000-4000-a000-000000000001",
         "order": 1,
         "wipLimit": 3,
-        "type": "active"
+        "type": "active",
+        "status": "in_progress"
       },
       {
         "@self": {
@@ -1333,7 +1348,8 @@
         "project": "00000000-0000-4000-a000-000000000001",
         "order": 2,
         "wipLimit": 2,
-        "type": "active"
+        "type": "active",
+        "status": "in_progress"
       },
       {
         "@self": {
@@ -1346,7 +1362,8 @@
         "project": "00000000-0000-4000-a000-000000000001",
         "order": 3,
         "wipLimit": null,
-        "type": "done"
+        "type": "done",
+        "status": "done"
       },
       {
         "@self": {
@@ -1355,11 +1372,12 @@
           "slug": "infra-todo",
           "id": "00000000-0000-4000-b000-000000000005"
         },
-        "title": "To Do",
+        "title": "To do",
         "project": "00000000-0000-4000-a000-000000000002",
         "order": 0,
         "wipLimit": null,
-        "type": "active"
+        "type": "active",
+        "status": "open"
       },
       {
         "@self": {
@@ -1368,11 +1386,12 @@
           "slug": "infra-in-progress",
           "id": "00000000-0000-4000-b000-000000000006"
         },
-        "title": "In Progress",
+        "title": "In progress",
         "project": "00000000-0000-4000-a000-000000000002",
         "order": 1,
         "wipLimit": 3,
-        "type": "active"
+        "type": "active",
+        "status": "in_progress"
       },
       {
         "@self": {
@@ -1385,7 +1404,8 @@
         "project": "00000000-0000-4000-a000-000000000002",
         "order": 2,
         "wipLimit": 2,
-        "type": "active"
+        "type": "active",
+        "status": "in_progress"
       },
       {
         "@self": {
@@ -1398,7 +1418,8 @@
         "project": "00000000-0000-4000-a000-000000000002",
         "order": 3,
         "wipLimit": null,
-        "type": "done"
+        "type": "done",
+        "status": "done"
       },
       {
         "@self": {
@@ -1407,11 +1428,12 @@
           "slug": "onboard-todo",
           "id": "00000000-0000-4000-b000-000000000009"
         },
-        "title": "To Do",
+        "title": "To do",
         "project": "00000000-0000-4000-a000-000000000003",
         "order": 0,
         "wipLimit": null,
-        "type": "active"
+        "type": "active",
+        "status": "open"
       },
       {
         "@self": {
@@ -1420,11 +1442,12 @@
           "slug": "onboard-in-progress",
           "id": "00000000-0000-4000-b000-000000000010"
         },
-        "title": "In Progress",
+        "title": "In progress",
         "project": "00000000-0000-4000-a000-000000000003",
         "order": 1,
         "wipLimit": 3,
-        "type": "active"
+        "type": "active",
+        "status": "in_progress"
       },
       {
         "@self": {
@@ -1437,7 +1460,8 @@
         "project": "00000000-0000-4000-a000-000000000003",
         "order": 2,
         "wipLimit": 2,
-        "type": "active"
+        "type": "active",
+        "status": "in_progress"
       },
       {
         "@self": {
@@ -1450,7 +1474,8 @@
         "project": "00000000-0000-4000-a000-000000000003",
         "order": 3,
         "wipLimit": null,
-        "type": "done"
+        "type": "done",
+        "status": "done"
       },
       {
         "@self": {

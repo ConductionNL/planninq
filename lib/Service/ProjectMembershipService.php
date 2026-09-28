@@ -227,6 +227,42 @@ class ProjectMembershipService {
 	}//end membersOfProject()
 
 	/**
+	 * The owner of a project, or null when the project does not resolve.
+	 *
+	 * @param string $projectId The project UUID.
+	 *
+	 * @return string|null
+	 *
+	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-1.1
+	 */
+	public function ownerOfProject(string $projectId): ?string {
+		if ($projectId === '') {
+			return null;
+		}
+
+		$owner = ($this->findData(schema: self::PROJECT_SCHEMA, id: $projectId)['owner'] ?? null);
+		if (is_string($owner) === false || $owner === '') {
+			return null;
+		}
+
+		return $owner;
+	}//end ownerOfProject()
+
+	/**
+	 * Every planninq object of one schema matching the filters, read with RBAC off.
+	 *
+	 * @param string              $schema  The schema slug.
+	 * @param array<string,mixed> $filters OpenRegister search filters.
+	 *
+	 * @return array<int,array{id:string,data:array<string,mixed>}>
+	 *
+	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-2.1
+	 */
+	public function rows(string $schema, array $filters): array {
+		return $this->search(objectService: $this->objectService(), schema: $schema, filters: $filters);
+	}//end rows()
+
+	/**
 	 * Write a project's members list to every object of that project that is out of step.
 	 *
 	 * Writes run as the system (`_rbac: false`, all organisations), silent (no

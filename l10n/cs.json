@@ -275,7 +275,22 @@
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Akce sloupce",
+        "Columns": "Sloupce",
+        "Could not remove the column. Please try again.": "Sloupec se nepodařilo odebrat. Zkuste to znovu.",
+        "Could not save the column. Please try again.": "Sloupec se nepodařilo uložit. Zkuste to znovu.",
+        "Done column": "Sloupec hotovo",
+        "Edit column": "Upravit sloupec",
+        "Keep the card's status": "Zachovat stav karty",
+        "Move its cards to": "Přesunout jeho karty do",
+        "Move left": "Posunout doleva",
+        "Move right": "Posunout doprava",
+        "Status of cards moved here": "Stav karet přesunutých sem",
+        "The last done column cannot be removed.": "Poslední sloupec hotovo nelze odebrat.",
+        "WIP limit": "Limit WIP",
+        "over limit": "nad limitem",
+        "The status a card gets when it is moved into this column.": "Stav, který karta získá po přesunutí do tohoto sloupce."
     },
     "plurals": null
 }

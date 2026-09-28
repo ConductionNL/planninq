@@ -285,11 +285,14 @@ export async function seedFixtures(
 		}
 
 		// ── Columns (default set) ───────────────────────────────────────────
+		// ProjectController::create makes these on the server
+		// (boards-configurable-columns); the seed only fills a gap, so an
+		// older instance still gets a board. Titles match the server's.
 		const wantedColumns = [
-			{ title: 'To Do', order: 0, wipLimit: null, type: 'active' },
-			{ title: 'In Progress', order: 1, wipLimit: 3, type: 'active' },
-			{ title: 'Review', order: 2, wipLimit: 2, type: 'active' },
-			{ title: 'Done', order: 3, wipLimit: null, type: 'done' },
+			{ title: 'To do', order: 0, wipLimit: null, type: 'active', status: 'open' },
+			{ title: 'In progress', order: 1, wipLimit: 3, type: 'active', status: 'in_progress' },
+			{ title: 'Review', order: 2, wipLimit: 2, type: 'active', status: 'in_progress' },
+			{ title: 'Done', order: 3, wipLimit: null, type: 'done', status: 'done' },
 		]
 		const existingColumns = await list(
 			'column',
@@ -359,7 +362,7 @@ export async function seedFixtures(
 					title,
 					status: 'open',
 					project: projectId,
-					column: columnIdByTitle['To Do'],
+					column: columnIdByTitle['To do'],
 					assignedTo: username,
 					...extra,
 				},
@@ -372,21 +375,21 @@ export async function seedFixtures(
 			priority: 'high',
 			dueDate: isoDate(1),
 			labels: labelId ? [labelId] : [],
-			column: columnIdByTitle['In Progress'] ?? columnIdByTitle['To Do'],
+			column: columnIdByTitle['In progress'] ?? columnIdByTitle['To do'],
 			columnOrder: 0,
 		})
 		// Overdue: due yesterday → "Overdue" badge.
 		await ensureTask(FIXTURE.tasks.overdue, {
 			priority: 'urgent',
 			dueDate: isoDate(-1),
-			column: columnIdByTitle['To Do'],
+			column: columnIdByTitle['To do'],
 			columnOrder: 1,
 		})
 		// Normal: far-future due date → no warning badge.
 		await ensureTask(FIXTURE.tasks.normal, {
 			priority: 'normal',
 			dueDate: isoDate(60),
-			column: columnIdByTitle['To Do'],
+			column: columnIdByTitle['To do'],
 			columnOrder: 2,
 		})
 

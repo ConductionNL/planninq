@@ -576,7 +576,45 @@ class Application extends App implements IBootstrap {
 		);
 
 		$this->registerMembershipListeners(dispatcher: $dispatcher);
+		$this->registerBoardColumnListeners(dispatcher: $dispatcher);
 	}//end boot()
+
+	/**
+	 * Register the two board-column listeners (boards-configurable-columns).
+	 *
+	 * TaskCompletionListener stamps `completedAt` in the save that moves a task
+	 * to `done`, whichever client moved it. ColumnOwnerGuardListener keeps
+	 * column create, update and delete to the project owner and admins, a rule
+	 * OpenRegister cannot express because it matches no field across schemas.
+	 * Class names are literal strings for the same coupling reason as above.
+	 *
+	 * @param IEventDispatcher $dispatcher The event dispatcher.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2b
+	 */
+	private function registerBoardColumnListeners(IEventDispatcher $dispatcher): void {
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\TaskCompletionListener',
+				registers: ['planninq'],
+				schemas: ['task']
+			);
+		}
+
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\ColumnOwnerGuardListener',
+				registers: ['planninq'],
+				schemas: ['column']
+			);
+		}
+	}//end registerBoardColumnListeners()
 
 	/**
 	 * Subscribe the listeners that keep project membership on project objects (planninq#681).

@@ -276,7 +276,22 @@ OC.L10N.register(
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Aðgerðir dálks",
+        "Columns": "Dálkar",
+        "Could not remove the column. Please try again.": "Ekki tókst að fjarlægja dálkinn. Reyndu aftur.",
+        "Could not save the column. Please try again.": "Ekki tókst að vista dálkinn. Reyndu aftur.",
+        "Done column": "Lokið-dálkur",
+        "Edit column": "Breyta dálki",
+        "Keep the card's status": "Halda stöðu spjaldsins",
+        "Move its cards to": "Færa spjöld hans í",
+        "Move left": "Færa til vinstri",
+        "Move right": "Færa til hægri",
+        "Status of cards moved here": "Staða spjalda sem eru færð hingað",
+        "The last done column cannot be removed.": "Ekki er hægt að fjarlægja síðasta lokið-dálkinn.",
+        "WIP limit": "WIP-mörk",
+        "over limit": "yfir mörkum",
+        "The status a card gets when it is moved into this column.": "Staðan sem spjald fær þegar það er fært í þennan dálk."
     },
     "nplurals=2; plural=(n != 1);"
 )

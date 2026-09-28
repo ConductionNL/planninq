@@ -151,7 +151,7 @@ class SettingsServiceTest extends TestCase {
 
 		$columns = json_decode($result['default_columns'], true);
 		self::assertIsArray(actual: $columns);
-		self::assertContains(needle: 'To Do', haystack: $columns);
+		self::assertContains(needle: 'To do', haystack: $columns);
 		self::assertContains(needle: 'Done', haystack: $columns);
 		self::assertSame(expected: 'all', actual: $result['allow_project_creation']);
 

@@ -276,7 +276,22 @@ OC.L10N.register(
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Sütun işlemleri",
+        "Columns": "Sütunlar",
+        "Could not remove the column. Please try again.": "Sütun kaldırılamadı. Lütfen tekrar deneyin.",
+        "Could not save the column. Please try again.": "Sütun kaydedilemedi. Lütfen tekrar deneyin.",
+        "Done column": "Tamamlandı sütunu",
+        "Edit column": "Sütunu düzenle",
+        "Keep the card's status": "Kartın durumunu koru",
+        "Move its cards to": "Kartlarını şuraya taşı",
+        "Move left": "Sola taşı",
+        "Move right": "Sağa taşı",
+        "Status of cards moved here": "Buraya taşınan kartların durumu",
+        "The last done column cannot be removed.": "Son tamamlandı sütunu kaldırılamaz.",
+        "WIP limit": "WIP sınırı",
+        "over limit": "sınırın üzerinde",
+        "The status a card gets when it is moved into this column.": "Bir kart bu sütuna taşındığında aldığı durum."
     },
     "nplurals=2; plural=(n != 1);"
 )

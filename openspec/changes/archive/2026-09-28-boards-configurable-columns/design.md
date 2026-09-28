@@ -52,9 +52,16 @@ OpenSpec pass; flow reports and the dashboard's "completed today" depend on it.)
 
 A lane header menu (owner only) offers Rename, Set WIP limit, Mark as done column, Colour, Move
 left, Move right and Remove, and an "Add column" button ends the row. The settings sidebar gets a
-"Columns" tab with the same actions as a keyboard-friendly list. The column schema's create,
-update and delete rules are narrowed to the project owner and admins, so the menu and the server
+"Columns" tab with the same actions as a keyboard-friendly list. Column create,
+update and delete are narrowed to the project owner and admins, so the menu and the server
 agree. Members still move cards.
+
+Amended at build (28 Sep): OpenRegister cannot match a rule against the owner of another object,
+so the narrowing is not a schema rule. `lib/Listener/ColumnOwnerGuardListener.php` refuses the
+write on `ObjectCreatingEvent`, `ObjectUpdatingEvent` and `ObjectDeletingEvent` unless the caller
+owns the project or is an admin. A write that changes only the planninq-kept `members` list passes,
+because membership sync rewrites it as whoever changed the membership, including a member who
+leaves. The schema keeps its members rule.
 
 ### Decision 3: removing a column moves its cards first
 
@@ -75,9 +82,14 @@ lane only when no integer fits. The card menu gains "Move up" and "Move down" fo
 
 ### Decision 6: admin defaults reach creation
 
-The page controller provides `default_columns` as initial state, mapped from the admin's list of
-titles to objects: every title active, the last one type `done`, statuses mapped by position
-(first open, middle in_progress, last done). The fallback stays for an empty setting.
+The admin's list of titles maps to objects: every title active, the last one type `done`,
+statuses mapped by position (first open, middle in_progress, last done). The fallback stays for an
+empty setting.
+
+Amended at build (28 Sep): there is no page controller to provide initial state (the OpenRegister
+AppHost serves the page), so the server makes the columns. `ProjectController::create` calls
+`BoardColumnService::createDefaultColumns` right after it saves the project, and the client no
+longer creates columns. The fallback titles are sentence case: To do, In progress, Review, Done.
 
 ### Decision 7: a repair step keeps existing cards on the board
 

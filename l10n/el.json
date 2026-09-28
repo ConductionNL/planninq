@@ -275,7 +275,22 @@
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Ενέργειες στήλης",
+        "Columns": "Στήλες",
+        "Could not remove the column. Please try again.": "Δεν ήταν δυνατή η αφαίρεση της στήλης. Δοκιμάστε ξανά.",
+        "Could not save the column. Please try again.": "Δεν ήταν δυνατή η αποθήκευση της στήλης. Δοκιμάστε ξανά.",
+        "Done column": "Στήλη ολοκληρωμένων",
+        "Edit column": "Επεξεργασία στήλης",
+        "Keep the card's status": "Διατήρηση της κατάστασης της κάρτας",
+        "Move its cards to": "Μετακίνηση των καρτών της σε",
+        "Move left": "Μετακίνηση αριστερά",
+        "Move right": "Μετακίνηση δεξιά",
+        "Status of cards moved here": "Κατάσταση καρτών που μετακινούνται εδώ",
+        "The last done column cannot be removed.": "Η τελευταία στήλη ολοκληρωμένων δεν μπορεί να αφαιρεθεί.",
+        "WIP limit": "Όριο WIP",
+        "over limit": "πάνω από το όριο",
+        "The status a card gets when it is moved into this column.": "Η κατάσταση που παίρνει μια κάρτα όταν μετακινείται σε αυτή τη στήλη."
     },
     "plurals": null
 }

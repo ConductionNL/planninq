@@ -276,7 +276,22 @@ OC.L10N.register(
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Dejanja stolpca",
+        "Columns": "Stolpci",
+        "Could not remove the column. Please try again.": "Stolpca ni bilo mogoče odstraniti. Poskusite znova.",
+        "Could not save the column. Please try again.": "Stolpca ni bilo mogoče shraniti. Poskusite znova.",
+        "Done column": "Stolpec opravljenih",
+        "Edit column": "Uredi stolpec",
+        "Keep the card's status": "Ohrani stanje kartice",
+        "Move its cards to": "Premakni njegove kartice v",
+        "Move left": "Premakni levo",
+        "Move right": "Premakni desno",
+        "Status of cards moved here": "Stanje kartic, premaknjenih sem",
+        "The last done column cannot be removed.": "Zadnjega stolpca opravljenih ni mogoče odstraniti.",
+        "WIP limit": "Omejitev WIP",
+        "over limit": "nad omejitvijo",
+        "The status a card gets when it is moved into this column.": "Stanje, ki ga kartica dobi, ko je premaknjena v ta stolpec."
     },
     "nplurals=2; plural=(n != 1);"
 )

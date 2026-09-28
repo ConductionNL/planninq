@@ -126,11 +126,26 @@
 			</div>
 		</NcAppSidebarTab>
 
+		<!-- Columns tab: the board's lanes as a keyboard-friendly list -->
+		<NcAppSidebarTab
+			v-if="project"
+			id="columns"
+			:name="t('planninq', 'Columns')"
+			:order="3">
+			<template #icon>
+				<ViewColumnOutline :size="20" />
+			</template>
+			<ColumnSettingsList
+				:projectId="project.id"
+				:canManage="canManageColumns"
+				@changed="$emit('columnsChanged')" />
+		</NcAppSidebarTab>
+
 		<!-- Danger zone tab -->
 		<NcAppSidebarTab
 			id="danger"
 			:name="t('planninq', 'Danger zone')"
-			:order="3">
+			:order="4">
 			<template #icon>
 				<AlertCircleOutline :size="20" />
 			</template>
@@ -207,8 +222,10 @@ import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.v
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
 import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
 import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
+import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import { useProjectsStore } from '../store/projects.js'
 
@@ -227,6 +244,8 @@ export default {
 		AlertCircleOutline,
 		CloseIcon,
 		PencilIcon,
+		ViewColumnOutline,
+		ColumnSettingsList,
 		MemberSearch,
 		ProjectLeaveDialog,
 		ProjectDeleteDialog,
@@ -239,7 +258,7 @@ export default {
 		},
 	},
 
-	emits: ['close', 'archived', 'deleted'],
+	emits: ['close', 'archived', 'deleted', 'columnsChanged'],
 
 	data() {
 		return {
@@ -273,6 +292,18 @@ export default {
 		 */
 		currentUid() {
 			return getCurrentUser()?.uid || ''
+		},
+
+		/**
+		 * Whether the current user may manage the board columns: the project
+		 * owner or an admin, the rule the server enforces too.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.2
+		 */
+		canManageColumns() {
+			return getCurrentUser()?.isAdmin === true || (!!this.currentUid && this.project?.owner === this.currentUid)
 		},
 	},
 

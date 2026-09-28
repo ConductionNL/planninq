@@ -1079,7 +1079,7 @@
       "area": "projects",
       "name": "Start a new project with a ready-made set of board columns.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "yes",
@@ -1097,21 +1097,18 @@
         "plane": "corpus: plane/round4/code-census.md §2 'DEFAULT_STATES at state.py:24-62 seeds five plus triage'; states are the board columns ; source read at v1.4.2: apps/api/plane/db/models/state.py:24 DEFAULT_STATES list; apps/api/plane/app/views/project/base.py:293 project create bulk-creates a State per entry of DEFAULT_STATES, so every new project starts with the seeded columns"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/store/projects.js:328/354 createProject() -> createDefaultColumns() (line 469) writes 4 `column` objects (title/order/wipLimit/type) via saveObject(COLUMN_SCHEMA,...). But src/views/ProjectBoard.vue:283-291 builds its columns purely from the hardcoded BOARD_STATUSES status enum (src/utils/taskHelpers.js:252) and never fetches or reads the `column` schema (confirmed: no COLUMN_SCHEMA reference outside src/store/projects.js:28,138-139,476,564,566, which only write/delete it, never read it back for display).",
-        "reachedOn": "nothing renders the created columns; the board a user actually sees is always the same 5 fixed status lanes (Open/In Progress/Blocked/Done/Cancelled) regardless of what was created",
+        "state": "built",
+        "evidence": "lib/Controller/ProjectController.php:277 create() -> lib/Service/BoardColumnService.php:87 columnObjects() maps the admin's default_columns titles (last one the done column) -> createDefaultColumns() saves them; src/views/ProjectBoard.vue:377 tasksByColumn() renders them as lanes",
+        "reachedOn": "ProjectList page, New project dialog; the board of the new project",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/views/ProjectBoard.vue:283-291 columns() ignores the `column` schema entirely and hardcodes BOARD_STATUSES",
-          "src/store/projects.js:96-111 getDefaultColumns() also has a dead admin-override path: it calls loadState('planninq','default_columns', null) but no PHP code anywhere calls provideInitialState for that key (confirmed: zero matches for provideInitialState in lib/), so the admin's configured column titles in src/views/settings/Settings.vue:430-495 never reach the frontend and the hardcoded 4-column fallback is always used"
-        ],
-        "change": "openspec/changes/boards-configurable-columns"
+        "change": "openspec/changes/archive/2026-09-28-boards-configurable-columns",
+        "readOn": "2026-09-28"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "a new project does get a ready-made set of `column` OpenRegister objects written, but they are dead data: the kanban board the user opens is a hardcoded 5-status board, not driven by those column records at all, so the capability the row describes (a board that starts with a ready-made set of columns) does not actually reach the user."
+      "note": "a new project does get a ready-made set of `column` OpenRegister objects written, but they are dead data: the kanban board the user opens is a hardcoded 5-status board, not driven by those column records at all, so the capability the row describes (a board that starts with a ready-made set of columns) does not actually reach the user. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns. The defects recorded before (src/views/ProjectBoard.vue:283-291 columns() ignores the `column` schema entirely and hardcodes BOARD_STATUSES; src/store/projects.js:96-111 getDefaultColumns() also has a dead admin-override path: it calls loadState('planninq','default_columns', null) but no PHP code anywhere calls provideInitialState for that key (confirmed: zero matches for provideInitialState in lib/), so the admin's configured column titles in src/views/settings/Settings.vue:430-495 never reach the frontend and the hardcoded 4-column fallback is always used) are fixed by it."
     },
     {
       "id": "prj-delivery-terms",
@@ -1566,7 +1563,7 @@
       "area": "boards",
       "name": "Set a work in progress limit per column and see when a column goes over it.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
@@ -1584,27 +1581,25 @@
         "plane": "source: grep -rniE 'wip|max_issues|column_limit|issue_limit' --include=*.py apps/api returns only an unrelated test comment; corpus: plane/round4/code-census.md §2 State fields are name, description, color, slug, sequence, is_triage, default (no limit) ; source read at v1.4.2: apps/api/plane/db/models/state.py:79 State model; searched it for 'wip', 'max_issues', 'column_limit', 'issue_limit': none; searched apps/web/core/components/issues/issue-layouts/kanban/ likewise: none"
       },
       "built": {
-        "state": "specified",
-        "evidence": "`wipLimit` is written on `column` objects at project creation (src/store/projects.js:106-110 getDefaultColumns, e.g. 3/2), but src/views/ProjectBoard.vue never fetches the `column` schema at all (only COLUMN_SCHEMA writes/deletes exist in src/store/projects.js:28,138-139,476,564,566) and there is no wipLimit reference anywhere in src/ (grep confirmed zero matches outside the store's own write path).",
-        "reachedOn": "nothing reaches it, the board has no per-column WIP badge",
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue:124 lane header shows wipFor(column).text ('4 / 3') and 'over limit' in the warning style -> src/utils/columnHelpers.js wipState(); limit set in src/dialogs/ColumnEditDialog.vue (WIP limit field)",
+        "reachedOn": "ProjectBoard page, lane header; Edit column dialog",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/views/ProjectBoard.vue: no WIP-limit badge or read of the `column` schema's wipLimit field"
-        ],
-        "change": "openspec/changes/boards-configurable-columns"
+        "change": "openspec/changes/archive/2026-09-28-boards-configurable-columns",
+        "readOn": "2026-09-28"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "same root cause as prj-default-columns: the `column` schema (which carries wipLimit) is write-only, never read back by the board."
+      "note": "same root cause as prj-default-columns: the `column` schema (which carries wipLimit) is write-only, never read back by the board. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns. The defects recorded before (src/views/ProjectBoard.vue: no WIP-limit badge or read of the `column` schema's wipLimit field) are fixed by it."
     },
     {
       "id": "brd-columns-edit",
       "area": "boards",
       "name": "Add, rename, reorder and remove a board's columns.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -1622,24 +1617,25 @@
         "plane": "corpus: plane/round4/menu-tree.md 'Settings ... States' ; code-census.md §2 State per project with name, color, sequence; 'Groups are not user-definable' (six fixed groups), so columns within groups are free ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(settings)/settings/projects/[projectId]/states route; apps/web/core/components/project-states/root.tsx:30-32 createState, moveStatePosition, updateState and apps/web/core/components/project-states/state-delete-modal.tsx:30,42 deleteState; apps/api/plane/app/views/state/base.py:47 create and :114 destroy"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/views/ProjectBoard.vue:283-291 columns() is a hardcoded map over BOARD_STATUSES (src/utils/taskHelpers.js:252); there is no add/rename/reorder/remove-column UI anywhere in src/, and the `column` OpenRegister schema is never fetched by the frontend (see brd-wip-limits evidence).",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue:129 owner-only ColumnActions (Edit column, Move left, Move right, Remove column) and :210 Add column -> src/dialogs/ColumnEditDialog.vue / ColumnRemoveDialog.vue -> src/store/projects.js saveColumn()/deleteColumn(); server rule lib/Listener/ColumnOwnerGuardListener.php",
+        "reachedOn": "ProjectBoard page, lane header menu and Add column; Project settings sidebar, Columns tab",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/boards-configurable-columns"
+        "change": "openspec/changes/archive/2026-09-28-boards-configurable-columns",
+        "readOn": "2026-09-28"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "a board's columns are fixed by the task status enum and cannot be added, renamed, reordered or removed from any screen."
+      "note": "a board's columns are fixed by the task status enum and cannot be added, renamed, reordered or removed from any screen. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns."
     },
     {
       "id": "brd-done-column",
       "area": "boards",
       "name": "Mark a column as the done column so tasks in it count as finished.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "partial",
       "plane": "yes",
@@ -1657,17 +1653,18 @@
         "plane": "corpus: plane/round4/code-census.md §2 'A state change to a completed group state sets Issue.completed_at (issue.py:236-249)'; the completed group is fixed rather than chosen, but any state placed in it counts as done ; source read at v1.4.2: apps/web/core/components/project-states/group-list.tsx lists states under fixed groups, a state added to the completed group counts as done; apps/api/plane/db/models/issue.py:240-247 _sync_completed_at sets completed_at when the state group is COMPLETED. The done group is fixed, any state in it is a done column"
       },
       "built": {
-        "state": "specified",
-        "evidence": "the `column` schema declares a `type` enum ('active'/'done', src/store/projects.js:96-111 getDefaultColumns) but columns are never rendered or editable (see brd-columns-edit), so there is no user action to mark any column as the done column. The 'Done' status lane is simply hardcoded in BOARD_STATUSES (src/utils/taskHelpers.js:252).",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/dialogs/ColumnEditDialog.vue 'Done column' switch sets type done -> src/utils/columnHelpers.js buildMovePatch() gives a card moved there status done -> lib/Listener/TaskCompletionListener.php stamps completedAt in the same save",
+        "reachedOn": "ProjectBoard page, Edit column dialog and card moves",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/boards-configurable-columns"
+        "change": "openspec/changes/archive/2026-09-28-boards-configurable-columns",
+        "readOn": "2026-09-28"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "tasks with status 'done' do count as finished, but that is a hardcoded status value, not something a user marks on a column they configured."
+      "note": "tasks with status 'done' do count as finished, but that is a hardcoded status value, not something a user marks on a column they configured. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns."
     },
     {
       "id": "brd-filter",
@@ -1776,7 +1773,7 @@
       "area": "boards",
       "name": "Reorder cards within a column to show which comes first.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -1794,19 +1791,18 @@
         "plane": "corpus: plane/round4/code-census.md §2 'sort_order float (:158)' on Issue ; source: kanban/block.tsx:206 drag within a group reorders by sort_order under manual ordering ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/kanban/block.tsx:206 draggable card; apps/web/core/components/issues/issue-layouts/utils.tsx:491-518 drop computes a new sort_order between neighbours under manual ordering; apps/api/plane/db/models/issue.py:158 sort_order FloatField"
       },
       "built": {
-        "state": "specified",
-        "evidence": "the task schema declares `columnOrder` (\"Sort order within the column\") but grep across src/ finds zero references to columnOrder anywhere in the frontend; src/views/ProjectBoard.vue groups tasks by status (groupTasksByStatus, src/utils/taskHelpers.js:268) with no sort by columnOrder and no drag-to-reorder-within-column handler (onDrop only changes status, src/views/ProjectBoard.vue:510-515).",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue:720 stepCard() (Move up, Move down in the card menu) and :704 applyMove() (drop in front of a card) write task.columnOrder -> src/utils/columnHelpers.js orderPatchesForStep()/buildMovePatch(); lanes sort by columnOrder in groupTasksByColumn()",
+        "reachedOn": "ProjectBoard page, card menu and drag and drop",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "schema field task.columnOrder is declared but never read or written anywhere in src/"
-        ],
-        "change": "openspec/changes/boards-configurable-columns"
+        "change": "openspec/changes/archive/2026-09-28-boards-configurable-columns",
+        "readOn": "2026-09-28"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns. The defects recorded before (schema field task.columnOrder is declared but never read or written anywhere in src/) are fixed by it."
     },
     {
       "id": "brd-quick-add",

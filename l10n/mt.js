@@ -276,7 +276,22 @@ OC.L10N.register(
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Azzjonijiet tal-kolonna",
+        "Columns": "Kolonni",
+        "Could not remove the column. Please try again.": "Il-kolonna ma setgħetx titneħħa. Erġa' pprova.",
+        "Could not save the column. Please try again.": "Il-kolonna ma setgħetx tiġi ssejvjata. Erġa' pprova.",
+        "Done column": "Kolonna ta' lest",
+        "Edit column": "Editja l-kolonna",
+        "Keep the card's status": "Żomm l-istatus tal-karta",
+        "Move its cards to": "Mexxi l-karti tagħha għal",
+        "Move left": "Mexxi lejn ix-xellug",
+        "Move right": "Mexxi lejn il-lemin",
+        "Status of cards moved here": "L-istatus tal-karti mċaqalqa hawn",
+        "The last done column cannot be removed.": "L-aħħar kolonna ta' lest ma tistax titneħħa.",
+        "WIP limit": "Limitu WIP",
+        "over limit": "'il fuq mil-limitu",
+        "The status a card gets when it is moved into this column.": "L-istatus li tieħu karta meta titmexxa f'din il-kolonna."
     },
     "nplurals=2; plural=(n != 1);"
 )

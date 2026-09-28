@@ -275,7 +275,22 @@
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Sarakkeen toiminnot",
+        "Columns": "Sarakkeet",
+        "Could not remove the column. Please try again.": "Saraketta ei voitu poistaa. Yritä uudelleen.",
+        "Could not save the column. Please try again.": "Saraketta ei voitu tallentaa. Yritä uudelleen.",
+        "Done column": "Valmis-sarake",
+        "Edit column": "Muokkaa saraketta",
+        "Keep the card's status": "Säilytä kortin tila",
+        "Move its cards to": "Siirrä sen kortit sarakkeeseen",
+        "Move left": "Siirrä vasemmalle",
+        "Move right": "Siirrä oikealle",
+        "Status of cards moved here": "Tänne siirrettyjen korttien tila",
+        "The last done column cannot be removed.": "Viimeistä valmis-saraketta ei voi poistaa.",
+        "WIP limit": "WIP-raja",
+        "over limit": "yli rajan",
+        "The status a card gets when it is moved into this column.": "Tila, jonka kortti saa, kun se siirretään tähän sarakkeeseen."
     },
     "plurals": null
 }

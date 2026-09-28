@@ -275,7 +275,22 @@
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Acțiuni coloană",
+        "Columns": "Coloane",
+        "Could not remove the column. Please try again.": "Coloana nu a putut fi eliminată. Încercați din nou.",
+        "Could not save the column. Please try again.": "Coloana nu a putut fi salvată. Încercați din nou.",
+        "Done column": "Coloană finalizate",
+        "Edit column": "Editează coloana",
+        "Keep the card's status": "Păstrează starea cardului",
+        "Move its cards to": "Mută cardurile sale în",
+        "Move left": "Mută la stânga",
+        "Move right": "Mută la dreapta",
+        "Status of cards moved here": "Starea cardurilor mutate aici",
+        "The last done column cannot be removed.": "Ultima coloană finalizate nu poate fi eliminată.",
+        "WIP limit": "Limită WIP",
+        "over limit": "peste limită",
+        "The status a card gets when it is moved into this column.": "Starea pe care o primește un card când este mutat în această coloană."
     },
     "plurals": {}
 }

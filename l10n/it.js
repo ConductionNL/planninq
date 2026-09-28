@@ -276,7 +276,22 @@ OC.L10N.register(
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Azioni della colonna",
+        "Columns": "Colonne",
+        "Could not remove the column. Please try again.": "Impossibile rimuovere la colonna. Riprova.",
+        "Could not save the column. Please try again.": "Impossibile salvare la colonna. Riprova.",
+        "Done column": "Colonna completati",
+        "Edit column": "Modifica colonna",
+        "Keep the card's status": "Mantieni lo stato della scheda",
+        "Move its cards to": "Sposta le sue schede in",
+        "Move left": "Sposta a sinistra",
+        "Move right": "Sposta a destra",
+        "Status of cards moved here": "Stato delle schede spostate qui",
+        "The last done column cannot be removed.": "L'ultima colonna completati non può essere rimossa.",
+        "WIP limit": "Limite WIP",
+        "over limit": "oltre il limite",
+        "The status a card gets when it is moved into this column.": "Lo stato che una scheda riceve quando viene spostata in questa colonna."
     },
     "nplurals=2; plural=(n != 1);"
 )

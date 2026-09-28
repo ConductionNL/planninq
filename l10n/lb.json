@@ -275,7 +275,22 @@
         "Whether the lesson goes ahead or is cancelled.": "Whether the lesson goes ahead or is cancelled.",
         "Scheduled": "Scheduled",
         "Imported at": "Imported at",
-        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq."
+        "When this lesson was last delivered. Set by planninq.": "When this lesson was last delivered. Set by planninq.",
+        "Column actions": "Kolonnenaktiounen",
+        "Columns": "Kolonnen",
+        "Could not remove the column. Please try again.": "D'Kolonn konnt net ewechgeholl ginn. Probéiert w.e.g. nach eng Kéier.",
+        "Could not save the column. Please try again.": "D'Kolonn konnt net gespäichert ginn. Probéiert w.e.g. nach eng Kéier.",
+        "Done column": "Fäerdeg-Kolonn",
+        "Edit column": "Kolonn änneren",
+        "Keep the card's status": "Status vun der Kaart behalen",
+        "Move its cards to": "Seng Kaarte réckelen op",
+        "Move left": "No lénks réckelen",
+        "Move right": "No riets réckelen",
+        "Status of cards moved here": "Status vun de Kaarten, déi heihinner geréckelt ginn",
+        "The last done column cannot be removed.": "Déi lescht Fäerdeg-Kolonn kann net ewechgeholl ginn.",
+        "WIP limit": "WIP-Limit",
+        "over limit": "iwwer der Limit",
+        "The status a card gets when it is moved into this column.": "De Status, deen eng Kaart kritt, wann se an dës Kolonn geréckelt gëtt."
     },
     "plurals": null
 }
