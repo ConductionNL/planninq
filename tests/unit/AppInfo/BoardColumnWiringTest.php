@@ -75,5 +75,38 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 			$boot = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
 			self::assertStringContainsString('$this->registerBoardColumnListeners(dispatcher: $dispatcher);', $boot, 'boot() calls the registration');
 		}//end testBootSubscribesBothBoardColumnListeners()
+		/**
+		 * Every project-scoped schema is stamped and gated live, not only in the listener's own list.
+		 *
+		 * risk and projectLogEntry were in ProjectMembershipService::SCOPED_SCHEMAS
+		 * but not in this subscription, so on a live instance their members list
+		 * stayed empty and members could not read what they wrote.
+		 *
+		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.2
+		 */
+		public function testBootSubscribesTheMembershipAndStatusListenersForEveryScopedSchema(): void {
+			ObjectEventSubscription::$calls = [];
+			$app = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			(new \ReflectionMethod(Application::class, 'registerMembershipListeners'))->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
+
+			$byListener = [];
+			foreach (ObjectEventSubscription::$calls as $call) {
+				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
+				$byListener[$call['listener']][] = [substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
+			}
+
+			$scoped = \OCA\Planninq\Service\ProjectMembershipService::SCOPED_SCHEMAS;
+			self::assertSame(
+				[['ObjectCreatingEvent', $scoped], ['ObjectUpdatingEvent', $scoped]],
+				$byListener['OCA\\Planninq\\Listener\\ProjectMemberAccessListener']
+			);
+			self::assertContains('projectStatusReport', $scoped);
+
+			$status = ['project', 'projectStatusReport'];
+			self::assertSame(
+				[['ObjectCreatingEvent', $status], ['ObjectUpdatingEvent', $status], ['ObjectDeletingEvent', $status]],
+				$byListener['OCA\\Planninq\\Listener\\ProjectStatusListener']
+			);
+		}//end testBootSubscribesTheMembershipAndStatusListenersForEveryScopedSchema()
 	}//end class
 }
