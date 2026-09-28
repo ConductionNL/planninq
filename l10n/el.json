@@ -290,7 +290,21 @@
         "The last done column cannot be removed.": "Η τελευταία στήλη ολοκληρωμένων δεν μπορεί να αφαιρεθεί.",
         "WIP limit": "Όριο WIP",
         "over limit": "πάνω από το όριο",
-        "The status a card gets when it is moved into this column.": "Η κατάσταση που παίρνει μια κάρτα όταν μετακινείται σε αυτή τη στήλη."
+        "The status a card gets when it is moved into this column.": "Η κατάσταση που παίρνει μια κάρτα όταν μετακινείται σε αυτή τη στήλη.",
+        "All priorities": "Όλες οι προτεραιότητες",
+        "Could not create the task. Please try again.": "Δεν ήταν δυνατή η δημιουργία της εργασίας. Δοκιμάστε ξανά.",
+        "Created": "Δημιουργήθηκε",
+        "Move to backlog": "Στο backlog",
+        "Move to board": "Στον πίνακα",
+        "New task": "Νέα εργασία",
+        "Nothing in the backlog": "Τίποτα στο backlog",
+        "Rank": "Κατάταξη",
+        "Sort by": "Ταξινόμηση κατά",
+        "Sort by rank to reorder": "Ταξινομήστε κατά κατάταξη για αναδιάταξη",
+        "Task actions": "Ενέργειες εργασίας",
+        "All labels": "Όλες οι ετικέτες",
+        "Filter tasks by label": "Φιλτράρισμα εργασιών κατά ετικέτα",
+        "View timeline": "Προβολή χρονολογίου"
     },
     "plurals": null
 }

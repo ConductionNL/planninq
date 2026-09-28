@@ -291,7 +291,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "Den sidste færdig-kolonne kan ikke fjernes.",
         "WIP limit": "WIP-grænse",
         "over limit": "over grænsen",
-        "The status a card gets when it is moved into this column.": "Den status et kort får, når det flyttes til denne kolonne."
+        "The status a card gets when it is moved into this column.": "Den status et kort får, når det flyttes til denne kolonne.",
+        "All priorities": "Alle prioriteter",
+        "Could not create the task. Please try again.": "Opgaven kunne ikke oprettes. Prøv igen.",
+        "Created": "Oprettet",
+        "Move to backlog": "Til backlog",
+        "Move to board": "Til tavlen",
+        "New task": "Ny opgave",
+        "Nothing in the backlog": "Intet i backloggen",
+        "Rank": "Rang",
+        "Sort by": "Sorter efter",
+        "Sort by rank to reorder": "Sorter efter rang for at ændre rækkefølgen",
+        "Task actions": "Opgavehandlinger",
+        "All labels": "Alle etiketter",
+        "Filter tasks by label": "Filtrer opgaver efter etiket",
+        "View timeline": "Vis tidslinje"
     },
     "nplurals=2; plural=(n != 1);"
 )

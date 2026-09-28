@@ -869,6 +869,36 @@ export const useProjectsStore = defineStore('projects', {
 			}
 		},
 
+		// ── 2.14b createTask ──────────────────────────────────────────────
+
+		/**
+		 * Create a task through OpenRegister's object API (ADR-022). The
+		 * server stamps the members list and refuses a caller who is not a
+		 * member of the task's project (ProjectMemberAccessListener).
+		 *
+		 * @param {object} data The task fields; `title`, `status` and `project` at least
+		 * @return {Promise<object|null>} The created task, or null on failure
+		 *
+		 * @spec openspec/changes/backlog-list/tasks.md#task-1.2
+		 */
+		async createTask(data) {
+			try {
+				const url = generateUrl('/apps/openregister/api/objects/planninq/task')
+				const response = await fetch(url, {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(data),
+				})
+				if (!response.ok) {
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				console.error('createTask error:', err)
+				return null
+			}
+		},
+
 		// ── 2.15 updateTask ────────────────────────────────────────────────
 
 		/**

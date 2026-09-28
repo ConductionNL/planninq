@@ -42,6 +42,8 @@ filter. Tier: MVP.
 
 #### Scenario: Sort by due date
 
+@e2e exclude the backlog has no due-date field to set from the UI yet; the comparator is covered by tests/vitest/backlog.spec.js (sortBacklog)
+
 - **GIVEN** backlog tasks due on 3, 1 and 2 October
 - **WHEN** a member sorts by due date
 - **THEN** they are listed 1, 2, 3 October

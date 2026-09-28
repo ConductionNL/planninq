@@ -51,6 +51,22 @@ a hint "Sort by rank to reorder". The sort choice is in the query string, like t
 "New task" on the backlog opens `TaskFormDialog` without a column. The main spec's "Create a task"
 scenario (placed in the backlog by default) is met here.
 
+Amended at build (28 Sep): `TaskFormDialog` does not exist at HEAD (it belongs to
+`tasks-create-edit-delete`, not built yet). The backlog has an inline "New task" field and an Add
+button that create the task with status open, priority normal, no column and the bottom rank.
+
+### Decision 6: filters without the board's filter bar
+
+Amended at build (28 Sep): `boards-filters` is not built yet, so the backlog carries its own two
+filters: a priority choice and a "Cancelled" switch, both in the query string with the sort. When
+`boards-filters` lands, its bar replaces the priority choice here.
+
+### Decision 7: a card taken off the board is open again
+
+"Move to backlog" clears `column`, puts the card last in rank and sets status `open`, so a card
+taken off a done lane shows in the backlog (done tasks are hidden there) and the server clears
+its `completedAt`.
+
 ## Risks / trade-offs
 
 - [Done tasks without a column stay hidden] -> they are finished work; the Cancelled filter and the

@@ -290,7 +290,21 @@
         "The last done column cannot be removed.": "L'última columna de fet no es pot eliminar.",
         "WIP limit": "Límit WIP",
         "over limit": "per sobre del límit",
-        "The status a card gets when it is moved into this column.": "L'estat que rep una targeta quan es mou a aquesta columna."
+        "The status a card gets when it is moved into this column.": "L'estat que rep una targeta quan es mou a aquesta columna.",
+        "All priorities": "Totes les prioritats",
+        "Could not create the task. Please try again.": "No s'ha pogut crear la tasca. Torneu-ho a provar.",
+        "Created": "Creada",
+        "Move to backlog": "Al backlog",
+        "Move to board": "Al tauler",
+        "New task": "Tasca nova",
+        "Nothing in the backlog": "No hi ha res al backlog",
+        "Rank": "Rang",
+        "Sort by": "Ordena per",
+        "Sort by rank to reorder": "Ordeneu per rang per reordenar",
+        "Task actions": "Accions de la tasca",
+        "All labels": "Totes les etiquetes",
+        "Filter tasks by label": "Filtra les tasques per etiqueta",
+        "View timeline": "Mostra la cronologia"
     },
     "plurals": null
 }

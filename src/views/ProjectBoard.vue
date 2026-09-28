@@ -186,6 +186,15 @@
 										{{ t('planninq', 'Move down') }}
 									</NcActionButton>
 									<NcActionButton
+										:closeAfterClick="true"
+										data-testid="move-to-backlog"
+										@click="moveToBacklog(task)">
+										<template #icon>
+											<FormatListBulleted :size="20" />
+										</template>
+										{{ t('planninq', 'Move to backlog') }}
+									</NcActionButton>
+									<NcActionButton
 										v-for="target in otherColumns(column)"
 										:key="target.id"
 										:closeAfterClick="true"
@@ -261,6 +270,7 @@ import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 import ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
+import FormatListBulleted from 'vue-material-design-icons/FormatListBulleted.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ColumnActions from '../components/ColumnActions.vue'
@@ -269,6 +279,7 @@ import TaskCard from '../components/TaskCard.vue'
 import ColumnEditDialog from '../dialogs/ColumnEditDialog.vue'
 import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
 import { useProjectsStore } from '../store/projects.js'
+import { backlogTasks, moveToBacklogPatch } from '../utils/backlogHelpers.js'
 import {
 	buildMovePatch,
 	groupTasksByColumn,
@@ -294,6 +305,7 @@ export default {
 		ArrowUpIcon,
 		CogIcon,
 		ColumnActions,
+		FormatListBulleted,
 		ColumnEditDialog,
 		ColumnRemoveDialog,
 		LockOutline,
@@ -705,6 +717,18 @@ export default {
 			const lane = this.tasksOfColumn(column).filter((card) => card.id !== task.id)
 			const patch = buildMovePatch(column, lane, beforeTask)
 			await this.patchTasks([{ id: task.id, ...patch }])
+		},
+
+		/**
+		 * Take a card off the board: no column, last in the backlog.
+		 *
+		 * @param {object} task The card.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/backlog-list/tasks.md#task-3.1
+		 */
+		async moveToBacklog(task) {
+			await this.patchTasks([{ id: task.id, ...moveToBacklogPatch(backlogTasks(this.tasks)) }])
 		},
 
 		/**

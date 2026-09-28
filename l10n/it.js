@@ -291,7 +291,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "L'ultima colonna completati non può essere rimossa.",
         "WIP limit": "Limite WIP",
         "over limit": "oltre il limite",
-        "The status a card gets when it is moved into this column.": "Lo stato che una scheda riceve quando viene spostata in questa colonna."
+        "The status a card gets when it is moved into this column.": "Lo stato che una scheda riceve quando viene spostata in questa colonna.",
+        "All priorities": "Tutte le priorità",
+        "Could not create the task. Please try again.": "Impossibile creare l'attività. Riprova.",
+        "Created": "Creata",
+        "Move to backlog": "Nel backlog",
+        "Move to board": "Sulla bacheca",
+        "New task": "Nuova attività",
+        "Nothing in the backlog": "Niente nel backlog",
+        "Rank": "Rango",
+        "Sort by": "Ordina per",
+        "Sort by rank to reorder": "Ordina per rango per riordinare",
+        "Task actions": "Azioni dell'attività",
+        "All labels": "Tutte le etichette",
+        "Filter tasks by label": "Filtra le attività per etichetta",
+        "View timeline": "Visualizza cronologia"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -95,6 +95,27 @@ export function mappedStatus(column) {
 }
 
 /**
+ * The `columnOrder` for a card put at the bottom of a list, or just before `beforeTask`.
+ *
+ * @param {Array<object>} laneTasks    The list's cards, without the moved card.
+ * @param {object|null}   [beforeTask] The card to land in front of.
+ * @return {number}
+ *
+ * @spec openspec/changes/backlog-list/tasks.md#task-2.1
+ */
+export function orderFor(laneTasks = [], beforeTask = null) {
+	const lane = sortCards(laneTasks || [])
+	const index = beforeTask ? lane.findIndex((task) => idOf(task) === idOf(beforeTask)) : -1
+	if (index === -1) {
+		const last = lane.length ? Number(lane[lane.length - 1].columnOrder) || 0 : 0
+		return last + ORDER_STEP
+	}
+	const after = Number(lane[index].columnOrder) || 0
+	const before = index > 0 ? Number(lane[index - 1].columnOrder) || 0 : after - ORDER_STEP
+	return Math.floor((before + after) / 2)
+}
+
+/**
  * The PATCH that moves a card into a lane: at the bottom, or just before `beforeTask`.
  *
  * @param {object}        column       The target column.
@@ -105,18 +126,7 @@ export function mappedStatus(column) {
  * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2
  */
 export function buildMovePatch(column, laneTasks = [], beforeTask = null) {
-	const lane = sortCards(laneTasks || [])
-	let columnOrder
-	const index = beforeTask ? lane.findIndex((task) => idOf(task) === idOf(beforeTask)) : -1
-	if (index === -1) {
-		const last = lane.length ? Number(lane[lane.length - 1].columnOrder) || 0 : 0
-		columnOrder = last + ORDER_STEP
-	} else {
-		const after = Number(lane[index].columnOrder) || 0
-		const before = index > 0 ? Number(lane[index - 1].columnOrder) || 0 : after - ORDER_STEP
-		columnOrder = Math.floor((before + after) / 2)
-	}
-	const patch = { column: idOf(column), columnOrder }
+	const patch = { column: idOf(column), columnOrder: orderFor(laneTasks, beforeTask) }
 	const status = mappedStatus(column)
 	if (status) {
 		patch.status = status

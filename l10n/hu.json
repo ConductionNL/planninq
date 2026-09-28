@@ -290,7 +290,21 @@
         "The last done column cannot be removed.": "Az utolsó kész oszlop nem távolítható el.",
         "WIP limit": "WIP-korlát",
         "over limit": "korlát felett",
-        "The status a card gets when it is moved into this column.": "Az állapot, amelyet egy kártya kap, amikor ebbe az oszlopba kerül."
+        "The status a card gets when it is moved into this column.": "Az állapot, amelyet egy kártya kap, amikor ebbe az oszlopba kerül.",
+        "All priorities": "Minden prioritás",
+        "Could not create the task. Please try again.": "A feladatot nem sikerült létrehozni. Próbálja újra.",
+        "Created": "Létrehozva",
+        "Move to backlog": "A backlogba",
+        "Move to board": "A táblára",
+        "New task": "Új feladat",
+        "Nothing in the backlog": "A backlog üres",
+        "Rank": "Sorrend",
+        "Sort by": "Rendezés",
+        "Sort by rank to reorder": "Az átrendezéshez rendezzen sorrend szerint",
+        "Task actions": "Feladatműveletek",
+        "All labels": "Minden címke",
+        "Filter tasks by label": "Feladatok szűrése címke szerint",
+        "View timeline": "Idővonal megtekintése"
     },
     "plurals": null
 }

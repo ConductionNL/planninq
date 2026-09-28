@@ -291,7 +291,21 @@ OC.L10N.register(
         "The last done column cannot be removed.": "A última coluna de concluído não pode ser removida.",
         "WIP limit": "Limite WIP",
         "over limit": "acima do limite",
-        "The status a card gets when it is moved into this column.": "O estado que um cartão recebe quando é movido para esta coluna."
+        "The status a card gets when it is moved into this column.": "O estado que um cartão recebe quando é movido para esta coluna.",
+        "All priorities": "Todas as prioridades",
+        "Could not create the task. Please try again.": "Não foi possível criar a tarefa. Tente novamente.",
+        "Created": "Criada",
+        "Move to backlog": "Para o backlog",
+        "Move to board": "Para o quadro",
+        "New task": "Nova tarefa",
+        "Nothing in the backlog": "Nada no backlog",
+        "Rank": "Posição",
+        "Sort by": "Ordenar por",
+        "Sort by rank to reorder": "Ordene por posição para reordenar",
+        "Task actions": "Ações da tarefa",
+        "All labels": "Todas as etiquetas",
+        "Filter tasks by label": "Filtrar tarefas por etiqueta",
+        "View timeline": "Ver cronologia"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -290,7 +290,21 @@
         "The last done column cannot be removed.": "Paskutinio atliktų stulpelio pašalinti negalima.",
         "WIP limit": "WIP riba",
         "over limit": "virš ribos",
-        "The status a card gets when it is moved into this column.": "Būsena, kurią kortelė gauna, kai perkeliama į šį stulpelį."
+        "The status a card gets when it is moved into this column.": "Būsena, kurią kortelė gauna, kai perkeliama į šį stulpelį.",
+        "All priorities": "Visi prioritetai",
+        "Could not create the task. Please try again.": "Nepavyko sukurti užduoties. Bandykite dar kartą.",
+        "Created": "Sukurta",
+        "Move to backlog": "Į atsargų sąrašą",
+        "Move to board": "Į lentą",
+        "New task": "Nauja užduotis",
+        "Nothing in the backlog": "Atsargų sąrašas tuščias",
+        "Rank": "Rangas",
+        "Sort by": "Rikiuoti pagal",
+        "Sort by rank to reorder": "Norėdami pertvarkyti, rikiuokite pagal rangą",
+        "Task actions": "Užduoties veiksmai",
+        "All labels": "Visos žymės",
+        "Filter tasks by label": "Filtruoti užduotis pagal žymę",
+        "View timeline": "Rodyti laiko juostą"
     },
     "plurals": null
 }
