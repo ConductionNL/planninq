@@ -2660,7 +2660,7 @@
         "plane": "corpus: plane/round4/code-census.md §1 'Recurring issues: absent', grep recurring returns one celery comment ; source: grep -rli recurr apps/web/core hits only license/modal upsell files ; source read at v1.4.2: searched apps/api/plane --include=*.py for 'recurr', 'rrule': one comment at apps/api/plane/celery.py:45; searched apps/web/core for 'recurr': only upsell files such as apps/web/core/components/license/modal/upgrade-modal.tsx"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "No recurrence field exists in the task schema (lib/Settings/planninq_register.json task properties list has no repeat/recurrence/schedule key) and no scheduling job or UI for repeating tasks exists in lib/ or src/.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -2668,7 +2668,8 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-detail",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tsk-rich-text",
@@ -3568,7 +3569,7 @@
         "plane": "source: grep -rliE 'critical.?path' over apps and packages (*.ts, *.tsx, *.py, *.json) returns nothing; corpus: plane/round4/code-census.md §8 no date arithmetic beyond relative filters ; source read at v1.4.2: searched apps and packages in *.ts, *.tsx, *.py, *.json for 'critical.?path': none; the only date arithmetic is the relative filter in apps/api/plane/utils/issue_filters.py:29-51"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "ProjectTimeline.vue has no critical-path computation; DependencyGraph.php only implements cycle detection, not longest-path/critical-path",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -3576,7 +3577,8 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "timeline",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "pln-milestones",
@@ -3601,7 +3603,7 @@
         "plane": "source: i18n 'Milestones ... Enable milestones' strings (packages/i18n/src/locales/en) have no caller outside locales (grep milestones_description returns only locale files), so milestones are a closed-build feature; modules draw on the module timeline as dated bars (corpus: plane/round4/M1-column.md 8.8 'Cycle and Module carry start and end dates ... a milestone in the planning sense') ; source read at v1.4.2: packages/i18n/src/locales/en/common.json:838-839 'milestones_description' has no caller in apps/web, and apps/web/core/store/project/project.store.ts:21,86 names a 'milestones' section no component renders; searched apps/api/plane/db/models for 'milestone': none. Dated modules stand in, apps/web/core/components/modules/modules-list-view.tsx:108 module gantt, apps/api/plane/db/models/module.py:73 target_date"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "no milestone concept in lib/Settings/planninq_register.json schemas (task, project, projectPhase, column, plannedTimeEntry, label, dependency) or src/views/ProjectTimeline.vue",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -3609,7 +3611,8 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "timeline",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "pln-baseline",
@@ -3634,7 +3637,7 @@
         "plane": "source: grep -rliE 'baseline' apps/api --include=*.py returns only two test docstrings (tests/contract/api/test_projects.py:109, test_workspace_user_preference_app.py:69), no baseline model; corpus: plane/round4/code-census.md §8 date fields list has no baseline ; source read at v1.4.2: searched apps/api/plane --include=*.py for 'baseline': only test prose in apps/api/plane/tests/contract/api/test_projects.py and apps/api/plane/tests/contract/app/test_workspace_user_preference_app.py, no baseline model or snapshot of planned dates"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "no snapshot/baseline schema or comparison logic found in lib/ or src/",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -3642,7 +3645,8 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "timeline",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "pln-working-days",
@@ -4126,7 +4130,7 @@
         "plane": "corpus: plane/round4/code-census.md §3 'Approvals: absent' and §10 no timesheets ; source read at v1.4.2: searched apps/api/plane --include=*.py for 'approval', 'approve': only OpenAPI prose at apps/api/plane/settings/openapi.py:95-96; no timesheet or approval model"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "grep for 'approv' across src/ and lib/ returns only unrelated comments (ProjectController.php:372, PortalContributionProvider.php:153); no submission/approval workflow or status field on plannedTimeEntry",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -4134,7 +4138,8 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "time-tracking",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tim-export",
@@ -4159,7 +4164,7 @@
         "plane": "corpus: plane/round4/code-census.md §10 'exporter.py:31 lists (\"issue_worklogs\", \"Issue Worklogs\") ... but grep issue_worklogs finds no producer' ; source read at v1.4.2: apps/api/plane/db/models/exporter.py:31 'issue_worklogs' is a choice with no producer: searched apps/api/plane --include=*.py outside migrations for 'issue_worklogs': only that line; no worklog rows exist to export"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "no CSV/spreadsheet export code found for time entries in src/ or lib/ (grep for 'export' matches only JS module syntax)",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -4167,7 +4172,8 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "time-tracking",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tim-to-invoice",
@@ -4192,7 +4198,7 @@
         "plane": "corpus: plane/round4/code-census.md §10 no billable time; §5 no customer entity ; source read at v1.4.2: searched apps/api/plane/db/models --include=*.py for 'invoice', 'billable': none; no time entries, apps/api/plane/db/models/project.py:98 time tracking flag inert"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "grep for 'invoice' across src/ and lib/ returns nothing",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -4201,7 +4207,7 @@
       "providerHow": "read-from-code",
       "feature": "time-tracking",
       "featureConfidence": "high",
-      "note": "no invoicing app integration exists; billable/hourlyRate fields are themselves unreachable (see tim-billable/tim-rates), so there is nothing to hand off."
+      "note": "no invoicing app integration exists; billable/hourlyRate fields are themselves unreachable (see tim-billable/tim-rates), so there is nothing to hand off. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "prt-capacity",
@@ -4489,7 +4495,7 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/workload/workload 'Identify and prevent burnout by monitoring workload trends and flagging imbalances early' ; https://www.academy.timeedit.com/products/plan 'ensuring that agreed working hours are not surpassed'. Workload suite"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "no capacity or availability model anywhere; the only warning near people is the assigned-task count shown before removing a member (src/components/ProjectSettingsSidebar.vue:335-343)",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -4497,7 +4503,8 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "portfolio",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "prt-leave-aware",
@@ -4596,7 +4603,7 @@
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/33446842118930-Jaarplanning-Uitvoeren-Werkverdelen 'zo veel mogelijk van de posities voor medewerkers op onderwijsprogrammaregels toe te wijzen aan medewerkers ... houdt hierbij rekening met de eventueel gevraagde medewerker types', so positions exist before a named teacher is assigned"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "task.assignedTo is a single user uid (src/views/TaskDetail.vue:267, src/components/TaskCard.vue:65); no role or placeholder concept in any schema of lib/Settings/planninq_register.json",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -4604,7 +4611,8 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "portfolio",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "prt-cumulative-flow",
@@ -4984,7 +4992,7 @@
         "plane": "source: grep -rlniE 'cursor|presence|collaborators|users.?online' packages/editor/src/core/extensions packages/editor/src/core/hooks and grep awareness in packages/editor/src return nothing; corpus silent ; source read at v1.4.2: searched packages/editor/src, apps/live/src and apps/web/core for 'awareness', 'CollaborationCursor', 'connected.?users', 'active.?users', 'viewers': none; apps/live/src/types/index.ts:26 live sync covers pages only and shows no presence"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "no presence, viewer or cursor code in src/ or lib/; live updates (src/views/ProjectList.vue:282, src/views/TaskDetail.vue:420) refetch data but show no one",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -4992,7 +5000,8 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "platform",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "note": "Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "col-talk",
@@ -5017,7 +5026,7 @@
         "plane": "corpus: plane/round4/code-census.md §12 SlackProjectSync is an 'unreachable dead table'; no chat integration of any kind, and Talk is Nextcloud-specific ; source read at v1.4.2: apps/api/plane/db/models/integration/slack.py:14 SlackProjectSync is a model with no route: searched apps/api/plane/app/urls for 'slack', 'talk', 'mattermost', 'teams': none"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "TaskDetail's sidebar uses the legacy tab set (useRegistry:false, src/utils/taskHelpers.js:56-59): Files, Notes, Audit trail (nextcloud-vue src/components/CnObjectSidebar/CnObjectSidebar.vue:68-157); no Talk tab and no spreed reference in planninq",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -5026,7 +5035,7 @@
       "providerHow": "read-from-code",
       "feature": "task-detail",
       "featureConfidence": "high",
-      "note": "OpenRegister flows have a SendTalkMessage node, so posting to Talk could be automated, but no per-task conversation exists."
+      "note": "OpenRegister flows have a SendTalkMessage node, so posting to Talk could be automated, but no per-task conversation exists. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "col-link-preview",
@@ -5372,7 +5381,7 @@
         "plane": "corpus: plane/round4/code-census.md §12 'Importers: same. Importer is exported ... but no importer view or URL exists' ; source read at v1.4.2: apps/api/plane/db/models/importer.py:13 Importer model has no view; apps/api/plane/app/urls/external.py:17,22 the routes named 'importer' point at GPT endpoints; searched apps/web/core --include=*.tsx for 'deck': none"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "no reference to Deck, its API or its boards anywhere in src/ or lib/",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -5381,7 +5390,7 @@
       "providerHow": "read-from-code",
       "feature": "integrations",
       "featureConfidence": "high",
-      "note": "appinfo/info.xml positions planninq against Deck, yet offers no way to bring Deck boards across."
+      "note": "appinfo/info.xml positions planninq against Deck, yet offers no way to bring Deck boards across. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "int-import-other",
@@ -5516,7 +5525,7 @@
         "plane": "corpus: plane/round4/code-census.md §4 'Folders: absent. No folder or directory model'; M1-column.md 4.23 no file manager ; source read at v1.4.2: searched apps/api/plane/db/models/__init__.py for 'folder', 'directory': none; files are per work item attachments, apps/api/plane/db/models/asset.py:36-37"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "no folder creation or sharing per project in src/ or lib/; the register has one Files node (lib/Settings/planninq_register.json:33 folder 'planix'); per-object files exist only on the task page's Files tab (src/utils/taskHelpers.js:50-60, CnObjectSidebar over OpenRegister)",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/openregister"
@@ -5525,7 +5534,7 @@
       "providerHow": "read-from-code",
       "feature": "integrations",
       "featureConfidence": "medium",
-      "note": "Files can be attached per task through OpenRegister, but no shared folder is created for a project or shared with its members."
+      "note": "Files can be attached per task through OpenRegister, but no shared folder is created for a project or shared with its members. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "plt-rbac",
@@ -6501,7 +6510,7 @@
       "name": "Create a new task from a template with a ready-made description, checklist and labels.",
       "origin": "featureRequest",
       "originUrl": "https://github.com/nextcloud/deck/issues/1556",
-      "note": "Demand row mined from nextcloud-deck (featureRequest) on 2026-09-26.",
+      "note": "Demand row mined from nextcloud-deck (featureRequest) on 2026-09-26. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: src/CardMoveDialog.vue:28-29 'Copy card' duplicates an existing card to any list, appinfo/routes.php:176 card#clone; searched lib/ and src/ for 'template' on cards: none, so no card can be kept as a template; the request has 19 reactions",
         "openproject": "source read at v17.8.0: config/routes.rb:190 and app/controllers/work_package_types/defaults_tab_controller.rb:41-46 a default description per work package type fills new work packages; no checklist or label set in it; copy of a work package is the other route",
@@ -6520,7 +6529,7 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "No task template and no task create path to apply one to: src/store/projects.js has fetchTask, fetchTasks, updateTaskStatus :835 and updateTask :871, no createTask. The Store page (src/manifest.json:61-71) installs configsets and flows, not task templates.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -6684,7 +6693,7 @@
       "name": "Share a project with people on another organisation's server.",
       "origin": "changelog",
       "originUrl": "https://github.com/nextcloud/deck/pull/8261",
-      "note": "Demand row mined from nextcloud-deck (changelog) on 2026-09-26.",
+      "note": "Demand row mined from nextcloud-deck (changelog) on 2026-09-26. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: src/components/board/SharingTabSidebar.vue:94 remotes share type, :32 '(remote)'; lib/Federation/DeckFederationProvider.php:25-42 receives federated board shares; src/components/DeckAppSettings.vue:41 admin 'Enable federation'; CHANGELOG.md:14 1.19.0 signed OCM",
         "openproject": "source read at v17.8.0: searched app, lib and modules for 'federat', 'remote share', 'ocm': none; sharing is to users of the same instance",
@@ -6703,7 +6712,7 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "Project sharing is the members array of local uids [lib/Settings/planninq_register.json:483], filled by src/components/MemberSearch.vue:112-145 from the local users endpoint. No federated cloud id can be added and nothing talks to another server.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -6794,7 +6803,7 @@
       "name": "Run a meeting from an agenda and turn agenda items into tasks.",
       "origin": "changelog",
       "originUrl": "https://www.openproject.org/docs/release-notes/17-6-0/",
-      "note": "Demand row mined from openproject (changelog) on 2026-09-26.",
+      "note": "Demand row mined from openproject (changelog) on 2026-09-26. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: searched lib/ and src/ for 'meeting', 'agenda': none",
         "openproject": "source read at v17.8.0: modules/meeting/config/routes.rb:109-110 convert_to_work_package on an agenda item; modules/meeting/app/services/meeting_agenda_items/convert_to_work_package_service.rb:64-67 creates the work package; modules/meeting/app/components/meeting_agenda_items/item_component/show_component.rb:136 menu action",
@@ -6813,7 +6822,7 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "No meeting or agenda object in lib/Settings/planninq_register.json and no page for one in src/manifest.json pages. decidiq owns meetings in the fleet, but planninq neither links to it nor creates tasks from its agenda items.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -6938,7 +6947,7 @@
       "name": "Estimate tasks together as a team with planning poker.",
       "origin": "featureRequest",
       "originUrl": "https://community.openproject.org/wp/35154",
-      "note": "Demand row mined from openproject (featureRequest) on 2026-09-26.",
+      "note": "Demand row mined from openproject (featureRequest) on 2026-09-26. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: searched lib/ and src/ for 'poker', 'estimate', 'story point': none",
         "openproject": "source read at v17.8.0: searched app, lib, modules and frontend/src (rb, ts, yml) for 'poker': none; open Feature request since 2020-11-05, status new",
@@ -6957,7 +6966,7 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "No estimation session and no story point field on any screen. The only estimate a user can enter is the per-task time estimate on src/views/TaskDetail.vue:60-72, entered alone.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -6973,7 +6982,7 @@
       "name": "Have a task reviewed and approved by chosen people before it can be closed.",
       "origin": "featureRequest",
       "originUrl": "https://community.openproject.org/wp/49426",
-      "note": "Demand row mined from openproject (featureRequest) on 2026-09-26.",
+      "note": "Demand row mined from openproject (featureRequest) on 2026-09-26. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: searched lib/ and src/ for 'approv', 'review': none; any member with edit rights can mark a card done",
         "openproject": "source read at v17.8.0: searched app/models and modules/*/app/models for 'approv': none; closing is a status change governed by workflows only; open Feature request since 2023-07-27",
@@ -6992,7 +7001,7 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "Status changes are unguarded moves between the five statuses [src/utils/taskHelpers.js:252]. No reviewer property on the task schema, no approval state, no rule blocking done until someone approves. The 'Review' default column [src/store/projects.js:104-110] is written on project create and never rendered.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
@@ -7194,7 +7203,7 @@
       "name": "Draw a diagram, such as a flowchart, inside a task description or a documentation page.",
       "origin": "featureRequest",
       "originUrl": "https://github.com/makeplane/plane/issues/8147",
-      "note": "Demand row mined from plane (featureRequest) on 2026-09-26.",
+      "note": "Demand row mined from plane (featureRequest) on 2026-09-26. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: searched src/ and package.json for 'mermaid', 'drawio', 'plantuml': none; src/components/card/Description.vue:208 embeds the separate Text app when installed, whose features are outside this tree",
         "openproject": "source read at v17.8.0: searched app, lib, modules and frontend/src/app for 'mermaid', 'plantuml', 'drawio': none; the only hit in frontend/src/vendor/ckeditor/ckeditor.js is an emoji keyword",
@@ -7213,7 +7222,7 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "No diagram editor or renderer, no rich description editor [tsk-rich-text], no wiki [prj-wiki].",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -7267,7 +7276,7 @@
       "name": "Read and write documentation pages through the API.",
       "origin": "featureRequest",
       "originUrl": "https://github.com/makeplane/plane/issues/8598",
-      "note": "Demand row mined from plane (featureRequest) on 2026-09-26.",
+      "note": "Demand row mined from plane (featureRequest) on 2026-09-26. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: appinfo/routes.php has boards, stacks, cards, labels, comments and attachments; searched it for 'page', 'wiki': none, Deck has no documentation pages",
         "openproject": "source read at v17.8.0: modules/documents/lib/api/v3/documents/documents_api.rb:41 lists, :64 reads and :70 patches documents; lib/api/v3/wiki_pages/wiki_pages_api.rb:41 reads a wiki page by id with title only, lib/api/v3/wiki_pages/wiki_page_representer.rb:40-42; no create over the API",
@@ -7286,7 +7295,7 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "No page or wiki schema in lib/Settings/planninq_register.json, so neither planninq's routes [appinfo/routes.php:10-38] nor OpenRegister's objects API carry documentation pages for it.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -7451,7 +7460,7 @@
       "name": "Navigate the whole app and run actions from the keyboard with a command palette.",
       "origin": "changelog",
       "originUrl": "https://github.com/makeplane/plane/releases/tag/v1.2.0",
-      "note": "Demand row mined from plane (changelog) on 2026-09-26.",
+      "note": "Demand row mined from plane (changelog) on 2026-09-26. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: src/components/KeyboardShortcuts.vue:71-73 Ctrl+F search and board shortcuts with a help modal; searched src/ for 'palette', 'command': none, so no palette to run actions",
         "openproject": "source read at v17.8.0: frontend/src/app/shared/directives/a11y/keyboard-shortcut.service.ts:61-79 go to shortcuts, 's' quick search and 'p' project search; searched frontend/src for 'command palette', 'commandPalette': none",
@@ -7470,7 +7479,7 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "No command palette and no global shortcuts. Nextcloud's unified search is a platform search of objects, not an action runner, and planninq registers no actions in it [col-unified-search].",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -7486,7 +7495,7 @@
       "name": "Collect incoming requests in a triage queue and accept or decline each before it reaches the backlog.",
       "origin": "changelog",
       "originUrl": "https://github.com/makeplane/plane/releases/tag/v1.2.0",
-      "note": "Demand row mined from plane (changelog) on 2026-09-26.",
+      "note": "Demand row mined from plane (changelog) on 2026-09-26. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: searched lib/ and src/ for 'triage', 'intake', 'inbox': none",
         "openproject": "source read at v17.8.0: searched app, modules and frontend/src/app for 'triage', 'intake': none; app/services/incoming_emails/mail_handler.rb creates work packages from mail straight into a project, with no accept or decline step",
@@ -7505,7 +7514,7 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "No intake schema in lib/Settings/planninq_register.json, no triage page in src/manifest.json pages, and tasks cannot be created in the UI [tsk-create-edit], so nothing can arrive to triage.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -7704,7 +7713,7 @@
       "name": "Merge two duplicate tasks into one, keeping comments and history.",
       "origin": "featureRequest",
       "originUrl": "https://jira.atlassian.com/browse/JRASERVER-3592",
-      "note": "Demand row mined from jira (featureRequest) on 2026-09-26.",
+      "note": "Demand row mined from jira (featureRequest) on 2026-09-26. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: searched lib/Service/CardService.php and appinfo/routes.php for 'merge', 'duplicate': none",
         "openproject": "source read at v17.8.0: app/models/relation.rb:40-41 'duplicates' and 'duplicated' relations only link two work packages; searched app/services/work_packages for 'merge': none, comments and history stay apart",
@@ -7723,7 +7732,7 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "The 'duplicates' enum value is a declaration, and even the blocks-editor that could set links is unmounted [grep for TaskDependencies across src/ finds only its own file]. No merge in src/ or lib/.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
@@ -7743,7 +7752,7 @@
       "name": "Be warned about similar existing tasks while creating a new one.",
       "origin": "featureRequest",
       "originUrl": "https://jira.atlassian.com/browse/JRASERVER-1633",
-      "note": "Demand row mined from jira (featureRequest) on 2026-09-26.",
+      "note": "Demand row mined from jira (featureRequest) on 2026-09-26. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: searched src/ and lib/ for 'similar', 'duplicate' on card creation: none",
         "openproject": "source read at v17.8.0: searched app, modules and frontend/src/app for 'similar', 'dedupe', 'duplicate detection' on create: none",
@@ -7762,7 +7771,7 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "Without a create path there is no point at which similar tasks could be suggested [tsk-create-edit].",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
@@ -8729,13 +8738,13 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/reserve 'Empower staff and students to find and book available spaces instantly' ; https://www.academy.timeedit.com/products/reserve 'let your staff members and students book rooms, equipment or any other resources'"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'RoomBooking|book a room|reserv': no implementation of this capability, Room is booked by whoever schedules a Session (learniq row att-book-a-room), there is no self-service booking. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-display-screens",
@@ -8802,13 +8811,13 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/scenario-planning 'Create unlimited what-if scenarios ... Compare scenarios across key metrics like room utilization, student satisfaction, and staff workload distribution'"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'scenario|what if': no implementation of this capability, hits are test and engagement code. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Demand row from TenderNed 414807, Firda, market consultation for an education logistics application (published 2026-03-06): public document 'Bijlage 1 Vragen Marktconsultatie OLS' asks 'Op welke wijze ondersteunt uw oplossing het simuleren van scenario's ten behoeve van de bedrijfsvoering?'; read through the TenderNed public API on 2026-09-27. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Demand row from TenderNed 414807, Firda, market consultation for an education logistics application (published 2026-03-06): public document 'Bijlage 1 Vragen Marktconsultatie OLS' asks 'Op welke wijze ondersteunt uw oplossing het simuleren van scenario's ten behoeve van de bedrijfsvoering?'; read through the TenderNed public API on 2026-09-27. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-staff-deployment",
@@ -8992,13 +9001,13 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/products/autopilot 'Employ the most sophisticated TimeEdit scheduling concepts as either hard or soft constraints in your auto-scheduling process' ; https://www.academy.timeedit.com/product-updates/119928309 'exact start time and weekday(s) when importing activities, letting you use these when scheduling as soft or hard constraints'"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'hard constraint|soft constraint': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Noted on 2026-09-27 (learniq#1036): hard and soft wishes steer a generator. learniq's timetabling design rules timetable generation out ('Scholiq does not generate a timetable', learniq openspec/changes/archive/2026-07-16-timetabling-and-substitution/design.md:25, and the non-goal at :59). It names when to reconsider at :41-43. learniq#1036 asks for that decision on the record. Demand row from TenderNed 191698, VISTA college, Plannen en roosteren (published 2020-04-03), Bijlage 7 Wensenlijst: 'Aan roosterwensen kan een hoge prioriteit of lage prioriteit worden toegekend. Bij een hoge prioriteit leidt de roosterwens tot een rooster-blokkade, bij een lage prioriteit wordt er in het rooster rekening mee gehouden indien het mogelijk is.' Read through the TenderNed public API on 2026-09-27; first proposed by the Xedule reader. Proposed by the xedule reader as tt-hard-soft-constraints. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Noted on 2026-09-27 (learniq#1036): hard and soft wishes steer a generator. learniq's timetabling design rules timetable generation out ('Scholiq does not generate a timetable', learniq openspec/changes/archive/2026-07-16-timetabling-and-substitution/design.md:25, and the non-goal at :59). It names when to reconsider at :41-43. learniq#1036 asks for that decision on the record. Demand row from TenderNed 191698, VISTA college, Plannen en roosteren (published 2020-04-03), Bijlage 7 Wensenlijst: 'Aan roosterwensen kan een hoge prioriteit of lage prioriteit worden toegekend. Bij een hoge prioriteit leidt de roosterwens tot een rooster-blokkade, bij een lage prioriteit wordt er in het rooster rekening mee gehouden indien het mogelijk is.' Read through the TenderNed public API on 2026-09-27; first proposed by the Xedule reader. Proposed by the xedule reader as tt-hard-soft-constraints. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-hr-sync",
@@ -9185,13 +9194,13 @@
         "timeedit": "not checked: https://timeedit.com/platform/scheduling/assessment says 'Calculate necessary number of invigilators ... Book invigilators based on competence and type ... Conflict free and according to submitted availability'; fair spreading weighted by lessons lost is not stated"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'invigilat': no implementation of this capability, invigilator only appears as the proctoring flag reviewer. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the zermelo reader as tt-invigilation-fair-share. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the zermelo reader as tt-invigilation-fair-share. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-invigilator-assignment",
@@ -9224,13 +9233,13 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/assessment 'Complete management of invigilators, from availability collection to assiging session and confirmation flows'"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'invigilat': no implementation of this capability, invigilator only appears as the proctoring flag reviewer. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the timeedit reader as tt-invigilator-availability. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the timeedit reader as tt-invigilator-availability. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-exam-seat-plan",
@@ -9300,13 +9309,13 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/assessment 'Handle written, oral, practical, and continuous assessments - each with their own scheduling rules' ; https://www.academy.timeedit.com/guides-tutorials/curriculum-standard-data-model 'the assessment and its delivery, e.g. Oral, Digital, Portfolio'. Individual per-student slots with an examiner are not described"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'oral exam|mondeling': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the zermelo reader as tt-oral-exams. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the zermelo reader as tt-oral-exams. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-report-meetings",
@@ -9497,13 +9506,13 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index; Workload 12.7 adds competence management (https://www.academy.timeedit.com/product-updates/198965938) but no report of lessons taught without the qualification"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'bevoegd|qualified teaching': no implementation of this capability, hits are guards on unrelated objects. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the zermelo reader as tt-qualified-teaching-report. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the zermelo reader as tt-qualified-teaching-report. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-cancellation-report",
@@ -9536,13 +9545,13 @@
         "timeedit": "docs read 2026-09-27: https://developer.timeedit.com/reference/post_cancellations-find 'FIND Cancellations' with beginModified and endModified filters ; https://www.academy.timeedit.com/guides-tutorials/cancelling-and-restoring-reservations 'Cancelling and emailing ... Restoring reservations'. Cancellations are kept and queryable; a report per group or teacher with reasons is not stated"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'cancellation report': no implementation of this capability, Session has a cancel transition (lib/Controller/TimetableController.php:21-26) but no report over it. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the zermelo reader as tt-cancellation-report. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the zermelo reader as tt-cancellation-report. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-strategic-staff-planning",
@@ -9575,13 +9584,13 @@
         "timeedit": "not checked: https://www.academy.timeedit.com/products/plan states 'confirm that headcount calculations correspond with academic demands' for the current plan; a multi-year surplus or shortage forecast per subject is not stated"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/humaniq at development af702f7 (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'strategic staff|workforce plan|strategische': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/humaniq"
       },
       "provider": "humaniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the zermelo reader as tt-strategic-staff-planning. Sibling-owed: humaniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the zermelo reader as tt-strategic-staff-planning. Sibling-owed: humaniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-staff-count-export",
@@ -9688,13 +9697,13 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index searched for break, corridor and supervision duty; nothing found"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'break duty|pauzedienst|surveillance': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the untis reader as tt-break-duty. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the untis reader as tt-break-duty. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-cover-request",
@@ -9727,13 +9736,13 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index searched for cover requests to several teachers; nothing found"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'cover request': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the untis reader as tt-cover-request. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the untis reader as tt-cover-request. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-staff-report-absence",
@@ -9766,13 +9775,13 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index and the Chippo App Store listing (https://apps.apple.com/gb/app/chippo/id6612032321, student absence reporting only); staff sick reporting into cover planning is not described"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/humaniq at development af702f7 (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'ziekmelding|sick report': no implementation of this capability, humaniq keeps SickLeaveCase (lib/Settings/humaniq_mock_register.json:6580) but no link to cover planning. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/humaniq"
       },
       "provider": "humaniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the untis reader as tt-staff-report-absence. Sibling-owed: humaniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the untis reader as tt-staff-report-absence. Sibling-owed: humaniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-cover-counter",
@@ -9807,13 +9816,13 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index searched for cover counters or lessons lost per teacher; nothing found"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'cover count|lost lesson': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the untis reader as tt-cover-counter; proposed by the xedule reader as tt-sickness-in-deployment. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the untis reader as tt-cover-counter; proposed by the xedule reader as tt-sickness-in-deployment. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-multiweek-periods",
@@ -9885,13 +9894,13 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index searched for hours per year spread over weeks; hits concern staff contract hours in Workload, not course hours"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'annual hours|jaaruren': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the untis reader as tt-annual-hours. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the untis reader as tt-annual-hours. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-share-between-units",
@@ -9966,13 +9975,13 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index and https://timeedit.com/platform/engagement searched for emergency alerts and evacuation lists; nothing found"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'emergency|roll call': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the untis reader as tt-emergency-rollcall. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the untis reader as tt-emergency-rollcall. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-coming-of-age",
@@ -10044,13 +10053,13 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index; Allocate supports group swaps and manual allocation, but a move for one occurrence only with register data following is not described"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'regroup|single occurrence': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the untis reader as tt-one-off-regroup. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the untis reader as tt-one-off-regroup. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-absence-guardian-alert",
@@ -10080,13 +10089,13 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index and https://timeedit.com/platform/engagement searched for guardian messages on absence; nothing found"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'guardian absence alert': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the untis reader as tt-absence-guardian-alert. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the untis reader as tt-absence-guardian-alert. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-draft-publish",
@@ -10196,13 +10205,13 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/guides-tutorials/checking-in-and-automatic-cancellation 'you can require that the person making the reservation also checks in at a time relative to when the resource was reserved. If they do not, the reservation will be canceled and the room will be freed up again'"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'booking check in': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the xedule reader as tt-booking-check-in. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the xedule reader as tt-booking-check-in. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-booking-rules",
@@ -10237,13 +10246,13 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/reserve 'Decide exactly who can book what, when, and for how long ... Set booking time limits. Set booking frequency limits ... Request & Approve'"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'booking quota|booking limit': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the xedule reader as tt-booking-rules-per-profile; proposed by the timeedit reader as tt-booking-rules. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the xedule reader as tt-booking-rules-per-profile; proposed by the timeedit reader as tt-booking-rules. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-standby-slots",
@@ -10321,13 +10330,13 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/172240137 'sequencing rules on activity series level ... a minimum and maximum time between activities' ; https://www.academy.timeedit.com/product-updates/234679668 'Sequence constraints ... Min or Max padding'"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'lesson relation|precede': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the xedule reader as tt-lesson-relations; proposed by the timeedit reader as tt-sequence-constraints. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the xedule reader as tt-lesson-relations; proposed by the timeedit reader as tt-sequence-constraints. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-bulk-change-weeks",
@@ -10437,13 +10446,13 @@
         "timeedit": "docs read 2026-09-27: https://developer.timeedit.com/reference/get_padding-rules padding rule 'paddingType' enum 'DIRECT', 'TRAVEL_TIME' with 'Padding expressed in seconds' ; https://www.academy.timeedit.com/product-updates/new-release-of-te-viewer-5-academy 'Find free objects with padding'"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'travel time|reistijd': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the xedule reader as tt-travel-time-between-sites. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the xedule reader as tt-travel-time-between-sites. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-enrolment-forecast",
@@ -10513,13 +10522,13 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/curriculum/curriculum 'Enable faculties and departments to review, comment, and approve curriculum changes with clear audit trails ... Track every change with full version history' ; https://timeedit.com/platform/curriculum 'Study Catalogue: Publish comprehensive course and programme information'. Curriculum Suite; deadline reminders for curriculum work are not stated"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'curriculum design|studiegids': no implementation of this capability, CurriculumPlan holds the assessment structure, with no comments, tracked changes or study guide output. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the xedule reader as tt-curriculum-design-workflow. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the xedule reader as tt-curriculum-design-workflow. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-visibility-rules",
@@ -10629,13 +10638,13 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/viewer 'Built-in change request system ... so the right people are always informed before anything is finalised' ; https://www.academy.timeedit.com/products/reserve 'sending bookings and change requests directly into TE Core'"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'timetable change request': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the timeedit reader as tt-change-requests. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the timeedit reader as tt-change-requests. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-requirements-forms",
@@ -10668,13 +10677,13 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/products/preferences 'Entrust the task of filling in the class requirements information to someone knowledgeable ... A unified data model guarantees that only accurate data can be chosen'"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'teaching requirements form': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the timeedit reader as tt-requirements-forms. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the timeedit reader as tt-requirements-forms. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-term-rollover",
@@ -10747,13 +10756,13 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/241235841 'allowing rooms to be booked in Outlook with any of its addresses and still be recognized by the Outlook -> TimeEdit synchronization'"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'outlook|exchange booking': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the timeedit reader as tt-outlook-room-booking. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the timeedit reader as tt-outlook-room-booking. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-group-swap",
@@ -10783,13 +10792,13 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/allocation 'Students can request group swaps with impact analysis. Peer-to-peer swaps. Capacity checks'"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'group swap|swap': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the timeedit reader as tt-group-swap. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the timeedit reader as tt-group-swap. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-study-path-planner",
@@ -10819,13 +10828,13 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/curriculum/study-planner 'Visualize the entire degree journey with semester-by-semester planning ... Connect study plans with real-time scheduling data so students avoid conflicts before registration'. Curriculum Suite"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'study path|study plan|prerequisite': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the timeedit reader as tt-study-path-planner. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the timeedit reader as tt-study-path-planner. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "tt-ai-rescheduling",
@@ -11055,13 +11064,13 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/guides-tutorials/how-to-get-insight-in-data-in-background scripts 'Clear expired persons: anonymise expired persons after the provided retention period, e.g. 365 days'. Documented for the Evaluation product"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "searched planninq src/, lib/ and appinfo/ at 6480bea for anonymi, retention, bewaartermijn: none. Re-read on 2026-09-27 (planninq#667): openregister@d611a36 lib/BackgroundJob/ArchivalRetentionTask.php deletes rows past retention on schemas that declare x-openregister-archival (:445). Nothing anonymises: lib/Service/Archival/AnonymisationPlanner.php has no caller in lib/, and every task of openspec/changes/anonymising-as-an-archival-outcome is open. planninq's register declares no x-openregister-archival.",
         "owner": "ConductionNL/planninq"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
-      "note": "Evidence re-read on 2026-09-27 (planninq#667): Open Register can delete after a retention period but cannot anonymise, and planninq declares no retention. Proposed by the xedule reader as tt-retention-anonymise. planninq column: searched planninq src/, lib/ and appinfo/ at 6480bea for anonymi, retention, bewaartermijn: none."
+      "note": "Evidence re-read on 2026-09-27 (planninq#667): Open Register can delete after a retention period but cannot anonymise, and planninq declares no retention. Proposed by the xedule reader as tt-retention-anonymise. planninq column: searched planninq src/, lib/ and appinfo/ at 6480bea for anonymi, retention, bewaartermijn: none. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "plt-free-text-warning",
@@ -11094,13 +11103,13 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index searched for sensitive data warnings on free-text fields; nothing found"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "searched planninq src/, lib/ and appinfo/ at 6480bea for privacy warning, sensitive data: none",
         "owner": "ConductionNL/planninq"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the xedule reader as tt-free-text-privacy-warning. planninq column: searched planninq src/, lib/ and appinfo/ at 6480bea for privacy warning, sensitive data: none."
+      "note": "Proposed by the xedule reader as tt-free-text-privacy-warning. planninq column: searched planninq src/, lib/ and appinfo/ at 6480bea for privacy warning, sensitive data: none. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     },
     {
       "id": "col-meeting-slot-finder",
@@ -11215,13 +11224,13 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/200067704 'Users can now view times in their preferred timezone' ; https://timeedit.com/platform/scheduling 'Multi-campus and multi timezone coordination'"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "searched planninq src/, lib/ and appinfo/ at 6480bea for timezone, time zone: none (the only hit, src/views/ProjectTimeline.vue:408, formats month labels in UTC)",
         "owner": "ConductionNL/planninq"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
-      "note": "Noted on 2026-09-27: the row does not apply to planninq. Every date planninq stores is a calendar date (format date on task, project, projectPhase and plannedTimeEntry in lib/Settings/planninq_register.json). planninq's own screens never render its two timestamps, task completedAt and resolvedAt (:317, :348). lib/Portal/PortalContributionProvider.php:179 does pass completedAt to the portaliq contractor portal. Proposed by the timeedit reader as tt-multi-timezone. planninq column: searched planninq src/, lib/ and appinfo/ at 6480bea for timezone, time zone: none (the only hit, src/views/ProjectTimeline.vue:408, formats month labels in UTC)."
+      "note": "Noted on 2026-09-27: the row does not apply to planninq. Every date planninq stores is a calendar date (format date on task, project, projectPhase and plannedTimeEntry in lib/Settings/planninq_register.json). planninq's own screens never render its two timestamps, task completedAt and resolvedAt (:317, :348). lib/Portal/PortalContributionProvider.php:179 does pass completedAt to the portaliq contractor portal. Proposed by the timeedit reader as tt-multi-timezone. planninq column: searched planninq src/, lib/ and appinfo/ at 6480bea for timezone, time zone: none (the only hit, src/views/ProjectTimeline.vue:408, formats month labels in UTC). Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
     }
   ],
   "pending": [
