@@ -155,8 +155,8 @@ import { NcButton, NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vu
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
 import ChartTimeline from 'vue-material-design-icons/ChartTimeline.vue'
-import { fetchProjectTimeline } from '../api/timeline.js'
 import ProjectTabs from '../components/ProjectTabs.vue'
+import { fetchProjectTimeline } from '../api/timeline.js'
 import { useProjectsStore } from '../store/projects.js'
 import {
 	buildLayout,

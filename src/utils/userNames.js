@@ -31,7 +31,7 @@ export async function displayName(uid) {
 				const body = response.ok ? await response.json() : null
 				const match = (body?.ocs?.data || []).find((user) => user?.id === uid)
 				return match?.label || uid
-			} catch (err) {
+			} catch {
 				return uid
 			}
 		})())

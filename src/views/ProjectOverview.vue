@@ -75,7 +75,10 @@
 					</h3>
 					<ul class="project-overview__people" data-testid="overview-people">
 						<li v-for="uid in people" :key="uid" class="project-overview__person">
-							<NcAvatar :user="uid" :size="28" :displayName="names[uid] || uid" :hideStatus="true" />
+							<NcAvatar :user="uid"
+								:size="28"
+								:displayName="names[uid] || uid"
+								:hideStatus="true" />
 							<span>{{ names[uid] || uid }}</span>
 							<span v-if="uid === project.owner" class="project-overview__muted">
 								{{ t('planninq', 'Owner') }}
