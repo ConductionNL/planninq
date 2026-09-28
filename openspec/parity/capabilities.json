@@ -2709,7 +2709,7 @@
       "area": "tasks",
       "name": "Mention a colleague in a comment so they are notified.",
       "origin": "competitor-derived",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -2728,18 +2728,16 @@
       },
       "built": {
         "state": "built",
-        "evidence": "CnNotesTab parses and renders @mentions and emits a 'mention' event on save (nextcloud-vue/src/components/CnObjectSidebar/CnNotesTab.vue:60-63 rendering, :173/:311-321 emitMentionEvent). But src/views/TaskDetail.vue:129-137 mounts CnObjectSidebar with no '@mention' listener, so the notification hook the library exposes specifically for this (its own doc comment: 'apps mounting the full sidebar receive the mentioned user ids and dispatch NC notifications from their own backend') is never wired up in Planninq. The register's only notification rule is x-openregister-notifications for taskDueSoon (lib/Settings/planninq_register.json:145), not comment mentions.",
-        "reachedOn": "TaskDetail page, Comments tab (mention text/autocomplete works; the mentioned user is not notified)",
+        "evidence": "Code trace at development tips, not driven: planninq src/views/TaskDetail.vue:129-137 mounts CnObjectSidebar with taskCollaborationSidebarConfig (src/utils/taskHelpers.js, register planninq, schema task, default apiBase /apps/openregister/api) -> nextcloud-vue e487bc8 src/components/CnObjectSidebar/CnNotesTab.vue addNote() POSTs {apiBase}/objects/{register}/{schema}/{id}/notes with the @uid text -> openregister 555af72 lib/Controller/NotesController.php create() calls TimelineWriteService::projectNote() -> lib/Service/Timeline/TimelineWriteService.php derive() -> lib/Service/Timeline/EntryMentionService.php apply() notifies (subject timeline_mention, rendered by lib/Notification/Notifier.php prepareTimelineMention) and subscribes every named user who may read the task, skipping the author. Landed in openregister f53292707 (#3762, 2026-09-15).",
+        "reachedOn": "TaskDetail page, Comments tab: saving a comment that names @colleague sends that colleague a Nextcloud notification 'You were named in a note' (code trace)",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/views/TaskDetail.vue:129-137 does not bind @mention on CnObjectSidebar, so nextcloud-vue's mention notification hook (CnNotesTab.vue:311-321) is dead for Planninq"
-        ]
+        "liveCheck": "as a project member, save a task comment naming another member as @uid and confirm that member's bell shows 'You were named in a note'; the notification carries no link to the task (Notifier::prepareTimelineMention sets none)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-collaboration",
       "featureConfidence": "high",
-      "note": "the comment text supports @mention entry and rendering, but Planninq never listens for the library's mention event, so the colleague is not notified. The missing half is planninq's: src/views/TaskDetail.vue has no @mention listener, so the owner moved to ConductionNL/planninq (nextcloud-vue lane) (nextcloud-vue lane, OpenSpec pass 2026-09-27; owner was ConductionNL/nextcloud-vue)."
+      "note": "the comment text supports @mention entry and rendering, but Planninq never listens for the library's mention event, so the colleague is not notified. The missing half is planninq's: src/views/TaskDetail.vue has no @mention listener, so the owner moved to ConductionNL/planninq (nextcloud-vue lane) (nextcloud-vue lane, OpenSpec pass 2026-09-27; owner was ConductionNL/nextcloud-vue). Re-read 2026-09-28 (owner-moves pass): the partial rating and the defect were wrong. OpenRegister's notes endpoint notifies and subscribes the named users itself since openregister #3762, so planninq needs no mention listener, and one would notify twice. The ids nextcloud-vue quotes as @\"user id\" are not matched by OpenRegister's token (letters, digits, dot, dash, underscore only)."
     },
     {
       "id": "tsk-move-project",
@@ -9847,13 +9845,13 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/228833801 'Custom week names are now used in Data Manager whenever this is set up in Core' ; https://developer.timeedit.com/reference/get_periods 'LIST Periods' and get_period-headers. Named weeks and periods exist; A and B week cycles with frozen earlier periods are not described"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'week cycle|A week|B week': no implementation of this capability. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/planninq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the untis reader as tt-multiweek-periods. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Owner moved to ConductionNL/planninq under learniq corpus decision D10 (planninq owns the timetable, learniq reads sessions from it); state untouched (learniq lane, OpenSpec pass 2026-09-27; owner was ConductionNL/learniq)."
+      "note": "Proposed by the untis reader as tt-multiweek-periods. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Owner moved to ConductionNL/planninq under learniq corpus decision D10 (planninq owns the timetable, learniq reads sessions from it); state untouched (learniq lane, OpenSpec pass 2026-09-27; owner was ConductionNL/learniq). Owner-moves pass 2026-09-28: decided-no. Setting up an A and B week cycle and period versions is timetable construction in the rostering system. The fleet does not build timetables: learniq openspec/changes/archive/2026-07-16-timetabling-and-substitution/design.md:25 ('does not generate a timetable') and the Non-Goals entry at :59 ('Timetable generation / constraint-solving optimisation (Zermelo's/Untis's job, permanently)'), adopted for planninq by decision D10: planninq receives a generated timetable from the rostering system through integriq and stores dated sessions (school-timetable-target, planninq PR #685). The receiving side needs nothing more: a delivered timetable is dated occurrences, so an A and B cycle arrives expanded, and a later delivery updates occurrences by id and never deletes an earlier period's lessons. learniq#1036 holds the open reconsider clause."
     },
     {
       "id": "tt-annual-hours",
@@ -10120,13 +10118,14 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/viewer 'Share draft schedules with teachers and department heads before publishing. Reviewers can see their upcoming timetable, flag concerns, and sign off'"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'draft timetable|concept rooster': no implementation of this capability. A keyword search, not a two-hop trace.",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/timetable-draft-review"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the xedule reader as tt-draft-timetable-publish; proposed by the timeedit reader as tt-draft-review. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Owner moved to ConductionNL/planninq under learniq corpus decision D10 (planninq owns the timetable, learniq reads sessions from it); state untouched (learniq lane, OpenSpec pass 2026-09-27; owner was ConductionNL/learniq)."
+      "note": "Proposed by the xedule reader as tt-draft-timetable-publish; proposed by the timeedit reader as tt-draft-review. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Owner moved to ConductionNL/planninq under learniq corpus decision D10 (planninq owns the timetable, learniq reads sessions from it); state untouched (learniq lane, OpenSpec pass 2026-09-27; owner was ConductionNL/learniq). Owner-moves pass 2026-09-28: specified by timetable-draft-review (build: Xedule and TimeEdit rate it yes). A draft status on timetableSession readable only by the teacher it names and by admins, drafts only on request, and an admin publish per source and window. It depends on school-timetable-target (planninq PR #685)."
     },
     {
       "id": "tt-enrolment-deadline",
@@ -10707,13 +10706,13 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/scheduling 'Smart Roll-Over: Intelligently carry forward scheduling data from previous terms ... Selective data roll-over'"
       },
       "built": {
-        "state": "none",
+        "state": "decided-no",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'term rollover': no implementation of this capability, lib/Service/RolloverExecutionService.php rolls over the school year's cohorts, not scheduling data; not traced. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/planninq"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the timeedit reader as tt-term-rollover. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Owner moved to ConductionNL/planninq under learniq corpus decision D10 (planninq owns the timetable, learniq reads sessions from it); state untouched (learniq lane, OpenSpec pass 2026-09-27; owner was ConductionNL/learniq)."
+      "note": "Proposed by the timeedit reader as tt-term-rollover. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Owner moved to ConductionNL/planninq under learniq corpus decision D10 (planninq owns the timetable, learniq reads sessions from it); state untouched (learniq lane, OpenSpec pass 2026-09-27; owner was ConductionNL/learniq). Owner-moves pass 2026-09-28: decided-no. Carrying scheduling data into a new term prepares the next timetable in the rostering system (Zermelo's new project from an existing one, TimeEdit's roll-over, Xedule's year-planning copy wizards). The fleet does not build timetables: learniq openspec/changes/archive/2026-07-16-timetabling-and-substitution/design.md:25 ('does not generate a timetable') and the Non-Goals entry at :59 ('Timetable generation / constraint-solving optimisation (Zermelo's/Untis's job, permanently)'), adopted for planninq by decision D10: planninq receives a generated timetable from the rostering system through integriq and stores dated sessions (school-timetable-target, planninq PR #685). This applies the generation non-goal to scheduling input, as the learniq lane did for tt-availability-wishes and tt-cluster-groups; learniq#1036 holds the open reconsider clause."
     },
     {
       "id": "tt-outlook-booking",
@@ -10936,13 +10935,14 @@
         "timeedit": "docs read 2026-09-27: https://developer.timeedit.com/reference/post_reservations 'CREATE Reservation' and put_reservations 'BULK Reservations' in the Scheduling REST API ; https://developer.timeedit.com/reference/getting-started 'Use the access token as a bearer token on all your subsequent API calls'"
       },
       "built": {
-        "state": "none",
+        "state": "specified",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'external event push into timetable': no implementation of this capability. A keyword search, not a two-hop trace.",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/school-timetable-target"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the untis reader as int-push-events. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Owner moved to ConductionNL/planninq under learniq corpus decision D10 (planninq owns the timetable, learniq reads sessions from it); state untouched (learniq lane, OpenSpec pass 2026-09-27; owner was ConductionNL/learniq)."
+      "note": "Proposed by the untis reader as int-push-events. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Owner moved to ConductionNL/planninq under learniq corpus decision D10 (planninq owns the timetable, learniq reads sessions from it); state untouched (learniq lane, OpenSpec pass 2026-09-27; owner was ConductionNL/learniq). Owner-moves pass 2026-09-28: specified by school-timetable-target, which sits in planninq PR #685 (open at 9801e16, not yet on development). Its idempotent upsert keyed by sourceSystem and externalRef (REQ-002), the TimetableUpsertRequestedEvent (REQ-004) and the admin route POST /api/timetable/sessions/upsert (REQ-006) let another system add its own sessions to a group's or a teacher's timetable. A single learner is not addressable on their own: a session names a group or a teacher."
     },
     {
       "id": "int-scoped-api-access",
