@@ -148,6 +148,73 @@
 			</form>
 		</CnSettingsSection>
 
+		<!-- Risk scale (projects-overview-logs-risks) -->
+		<CnSettingsSection
+			:name="t('planninq', 'Risk scale')"
+			:description="t('planninq', 'The levels every project scores its risks on, and where low turns into medium and high')">
+			<form novalidate data-testid="risk-scale-form" @submit.prevent="saveRiskScale">
+				<div class="form-group">
+					<label for="risk-scale-levels">{{ t('planninq', 'Number of levels') }}</label>
+					<select
+						id="risk-scale-levels"
+						v-model.number="riskScale.levels"
+						class="column-input"
+						data-testid="risk-scale-levels"
+						@change="onRiskLevelsChanged">
+						<option v-for="n in [3, 4, 5]" :key="n" :value="n">
+							{{ n }}
+						</option>
+					</select>
+				</div>
+				<fieldset v-for="axis in ['likelihood', 'impact']" :key="axis" class="risk-scale__axis">
+					<legend>{{ axis === 'likelihood' ? t('planninq', 'Likelihood labels') : t('planninq', 'Impact labels') }}</legend>
+					<div v-for="(label, i) in riskScale[axis]" :key="i" class="form-group">
+						<label :for="`risk-scale-${axis}-${i}`">{{ t('planninq', 'Level {level}', { level: i + 1 }) }}</label>
+						<input
+							:id="`risk-scale-${axis}-${i}`"
+							v-model="riskScale[axis][i]"
+							type="text"
+							class="column-input"
+							:data-testid="`risk-scale-${axis}-${i + 1}`">
+					</div>
+				</fieldset>
+				<div class="form-group">
+					<label for="risk-scale-medium">{{ t('planninq', 'Medium from score') }}</label>
+					<input
+						id="risk-scale-medium"
+						v-model.number="riskScale.thresholds.medium"
+						type="number"
+						min="2"
+						class="column-input">
+				</div>
+				<div class="form-group">
+					<label for="risk-scale-high">{{ t('planninq', 'High from score') }}</label>
+					<input
+						id="risk-scale-high"
+						v-model.number="riskScale.thresholds.high"
+						type="number"
+						min="3"
+						class="column-input">
+				</div>
+				<div v-if="riskScaleSuccess" class="success-message">
+					{{ riskScaleSuccess }}
+				</div>
+				<div v-if="riskScaleError"
+					class="error-message"
+					role="alert"
+					data-testid="risk-scale-error">
+					{{ riskScaleError }}
+				</div>
+				<NcButton
+					variant="primary"
+					type="submit"
+					:disabled="savingRiskScale"
+					data-testid="risk-scale-save">
+					{{ savingRiskScale ? t('planninq', 'Saving…') : t('planninq', 'Save') }}
+				</NcButton>
+			</form>
+		</CnSettingsSection>
+
 		<!-- Label management -->
 		<CnSettingsSection
 			:name="t('planninq', 'Label management')"
@@ -283,6 +350,7 @@ import LabelDeleteDialog from '../../dialogs/LabelDeleteDialog.vue'
 import LabelEditDialog from '../../dialogs/LabelEditDialog.vue'
 import { useLabelsStore } from '../../store/labels.js'
 import { useSettingsStore } from '../../store/modules/settings.js'
+import { defaultThresholds, parseRiskScale } from '../../utils/riskHelpers.js'
 
 export default {
 	name: 'Settings',
@@ -321,6 +389,11 @@ export default {
 			savingLeadHours: false,
 			leadHoursSuccess: '',
 			leadHoursError: '',
+			// risk_scale
+			riskScale: JSON.parse(JSON.stringify(parseRiskScale(''))),
+			savingRiskScale: false,
+			riskScaleSuccess: '',
+			riskScaleError: '',
 			// Label management
 			showLabelEdit: false,
 			showLabelDelete: false,
@@ -367,6 +440,7 @@ export default {
 		this.form.register = settingsStore.settings?.register || ''
 		this.creationPolicy = settingsStore.settings?.allow_project_creation || 'all'
 		this.leadHours = parseInt(settingsStore.settings?.due_reminder_lead_hours, 10) || 24
+		this.riskScale = JSON.parse(JSON.stringify(parseRiskScale(settingsStore.settings?.risk_scale)))
 		this.loadColumnList(settingsStore.settings)
 		useLabelsStore().fetchLabels()
 	},
@@ -551,6 +625,49 @@ export default {
 		},
 
 		/**
+		 * Resize the label lists to the chosen number of levels and offer the
+		 * thresholds that suit it.
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
+		 */
+		onRiskLevelsChanged() {
+			const levels = this.riskScale.levels
+			for (const axis of ['likelihood', 'impact']) {
+				const labels = this.riskScale[axis].slice(0, levels)
+				while (labels.length < levels) {
+					labels.push('')
+				}
+				this.riskScale[axis] = labels
+			}
+			this.riskScale.thresholds = defaultThresholds(levels)
+		},
+
+		/**
+		 * Save the risk scale. A smaller scale is refused while risks still use
+		 * a higher level; the refusal names how many and which level.
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
+		 */
+		async saveRiskScale() {
+			this.riskScaleSuccess = ''
+			this.riskScaleError = ''
+			this.savingRiskScale = true
+			const result = await useSettingsStore().saveRiskScale(this.riskScale)
+			this.savingRiskScale = false
+			if (result.ok) {
+				this.riskScaleSuccess = this.t('planninq', 'Risk scale saved')
+				return
+			}
+			if (result.error === 'risk-scale-in-use') {
+				this.riskScaleError = result.count === 1
+					? this.t('planninq', '1 risk uses level {level}. Change it first.', { level: result.level })
+					: this.t('planninq', '{count} risks use level {level}. Change them first.', { count: result.count, level: result.level })
+				return
+			}
+			this.riskScaleError = this.t('planninq', 'Every level needs a label, and high must start above medium.')
+		},
+
+		/**
 		 * Trigger SettingsController::load to re-import the Planninq register.
 		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
@@ -596,6 +713,13 @@ export default {
 </script>
 
 <style scoped>
+.risk-scale__axis {
+	margin: 12px 0;
+	padding: 8px 12px;
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+}
+
 .form-group {
 	margin-bottom: 12px;
 }
