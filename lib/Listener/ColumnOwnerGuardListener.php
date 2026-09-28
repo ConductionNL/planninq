@@ -99,8 +99,13 @@ class ColumnOwnerGuardListener implements IEventListener {
 		}
 
 		if ($event instanceof ObjectUpdatingEvent === true) {
-			$old = $event->getOldObject();
-			$this->guard(event: $event, object: $event->getNewObject(), oldData: ($old === null ? null : (array)$old->getObject()));
+			$old     = $event->getOldObject();
+			$oldData = null;
+			if ($old !== null) {
+				$oldData = (array)$old->getObject();
+			}
+
+			$this->guard(event: $event, object: $event->getNewObject(), oldData: $oldData);
 		}
 	}//end handle()
 

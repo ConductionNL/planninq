@@ -37,6 +37,8 @@ Tier: MVP.
 
 #### Scenario: A member cannot change columns
 
+@e2e exclude API permission contract, covered by PHPUnit on ColumnOwnerGuardListener (tests/unit/Listener/ColumnOwnerGuardListenerTest.php)
+
 - **GIVEN** a member who is not the owner
 - **WHEN** they open a lane header
 - **THEN** no column actions are offered
@@ -56,6 +58,8 @@ into any other column MUST get that column's mapped status. Tier: MVP.
 - **THEN** the task has status `done` and `completedAt` set to the time of the move
 
 #### Scenario: A move through the API is stamped too
+
+@e2e exclude server-side pre-save stamp, covered by PHPUnit on TaskCompletionListener (tests/unit/Listener/TaskCompletionListenerTest.php)
 
 - **GIVEN** a flow sets a task's status to `done` through the Open Register objects API
 - **WHEN** the save finishes
@@ -94,6 +98,8 @@ the setting is empty. Tier: MVP.
 
 #### Scenario: The admin changed the defaults
 
+@e2e exclude needs an admin setting change mid-suite; covered by PHPUnit on BoardColumnService and ProjectController (tests/unit/Service/BoardColumnServiceTest.php)
+
 - **GIVEN** an admin set the default columns to Intake, Work and Closed
 - **WHEN** a user creates a project
 - **THEN** its board shows Intake, Work and Closed, with Closed as the done column
@@ -105,6 +111,8 @@ matches its status, so no card that showed before the change disappears from the
 Tier: MVP.
 
 #### Scenario: An upgraded board
+
+@e2e exclude one-shot upgrade repair step, covered by PHPUnit on AssignBoardColumns (tests/unit/Repair/AssignBoardColumnsTest.php)
 
 - **GIVEN** a project whose tasks have statuses open, in_progress and done and no column
 - **WHEN** the app upgrade runs its repair steps
