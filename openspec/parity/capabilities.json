@@ -4060,13 +4060,14 @@
         "state": "specified",
         "evidence": "openspec/changes/plannedtimeentry-reads-humaniqs-hours/proposal.md: explicitly says 'Not started. No code has moved'; today lib/Settings/planninq_register.json:912-919 plannedTimeEntry.timeEntry (uuid ref to humaniq's TimeEntry) is declared but no code in src/ or lib/ ever sets it (grep for 'timeEntry:' finds nothing outside the schema-slug constant)",
         "reachedOn": "nothing reaches it; planninq stores its own independent duration today",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/plannedtimeentry-reads-humaniqs-hours"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "time-tracking",
       "featureConfidence": "high",
-      "note": "the openspec change documents the design and says explicitly the migration has not started; hours are currently stored once in planninq's own plannedTimeEntry.duration, not read from or synced with humaniq."
+      "note": "the openspec change documents the design and says explicitly the migration has not started; hours are currently stored once in planninq's own plannedTimeEntry.duration, not read from or synced with humaniq. corrections round 9 (2026-09-28): built.change names openspec/changes/plannedtimeentry-reads-humaniqs-hours, open on development at 31118f5 with only its prerequisite checked (humaniq#323), whose proposal moves the hours onto humaniq's TimeEntry and keeps only contractorRef and hourlyRate in plannedTimeEntry; source: the corrections-9 list of specified rows that named no change."
     },
     {
       "id": "tim-timer",
