@@ -107,6 +107,12 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				[['ObjectCreatingEvent', $status], ['ObjectUpdatingEvent', $status], ['ObjectDeletingEvent', $status]],
 				$byListener['OCA\\Planninq\\Listener\\ProjectStatusListener']
 			);
+
+			$hierarchy = ['project', 'portfolio'];
+			self::assertSame(
+				[['ObjectCreatingEvent', $hierarchy], ['ObjectUpdatingEvent', $hierarchy], ['ObjectDeletingEvent', $hierarchy]],
+				$byListener['OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener']
+			);
 		}//end testBootSubscribesTheMembershipAndStatusListenersForEveryScopedSchema()
 	}//end class
 }

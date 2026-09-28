@@ -357,21 +357,22 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the eleven expected schemas.
+	 * The register MUST declare exactly the twelve expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
 	 * over the project work breakdown structure pipelinq had built, and
 	 * `timetableSession` when planninq became the school timetable owner
 	 * (school-timetable-target, decision D10), `projectLogEntry` and `risk`
 	 * (projects-overview-logs-risks) and `projectStatusReport`
-	 * (portfolio-status-overview). `example` must not be present.
+	 * (portfolio-status-overview) and `portfolio`
+	 * (projects-grouping-hierarchy-fields). `example` must not be present.
 	 *
 	 * @return void
 	 *
 	 * @spec openspec/changes/task-dependencies/specs/register-schemas/spec.md
 	 */
-	public function testRegisterDeclaresExactlyElevenSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport'];
+	public function testRegisterDeclaresExactlyTwelveSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'portfolio'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -380,7 +381,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the eleven expected schemas'
+			message: 'register schema list must be exactly the twelve expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -388,7 +389,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the eleven expected schemas'
+			message: 'components.schemas must define exactly the twelve expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -397,7 +398,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyElevenSchemas()
+	}//end testRegisterDeclaresExactlyTwelveSchemas()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -565,6 +566,16 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	];
 
 	/**
+	 * The read rule for a portfolio's managers (projects-grouping-hierarchy-fields).
+	 *
+	 * @var array<string,mixed>
+	 */
+	private const READER_RULE = [
+		'group' => 'authenticated',
+		'match' => ['portfolioReaders' => ['$contains' => '$userId']],
+	];
+
+	/**
 	 * Task, column, phase and planned time entry carry a hidden, system-kept members list.
 	 *
 	 * `visible: false` hides it from every form, widget and table, which is the
@@ -585,6 +596,11 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			self::assertFalse(condition: $members['visible'], message: "{$slug}.members is hidden");
 			self::assertArrayNotHasKey(key: 'format', array: $members, message: $slug);
 			self::assertNotContains(needle: 'members', haystack: ($schema['required'] ?? []), message: $slug);
+
+			$readers = ($schema['properties']['portfolioReaders'] ?? null);
+			self::assertIsArray(actual: $readers, message: "{$slug} has a portfolioReaders property");
+			self::assertSame(expected: ['type' => 'string'], actual: $readers['items'], message: $slug);
+			self::assertFalse(condition: $readers['visible'], message: "{$slug}.portfolioReaders is hidden");
 		}
 
 	}//end testProjectScopedSchemasCarryAHiddenMembersList()
@@ -601,11 +617,16 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk', 'projectStatusReport'] as $slug) {
 			$authorization = $this->register['components']['schemas'][$slug]['authorization'];
 
-			foreach (['read', 'update', 'delete'] as $action) {
+			self::assertSame(
+				expected: [self::MEMBER_RULE, self::READER_RULE, ['group' => 'admin']],
+				actual: $authorization['read'],
+				message: "{$slug}.read: members, the portfolio's managers, and admins"
+			);
+			foreach (['update', 'delete'] as $action) {
 				self::assertSame(
 					expected: [self::MEMBER_RULE, ['group' => 'admin']],
 					actual: $authorization[$action],
-					message: "{$slug}.{$action}"
+					message: "{$slug}.{$action}: portfolio managers read only"
 				);
 			}
 		}
@@ -614,6 +635,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			expected: [
 				['group' => 'authenticated', 'match' => ['user' => '$userId']],
 				self::MEMBER_RULE,
+				self::READER_RULE,
 				['group' => 'admin'],
 			],
 			actual: $this->register['components']['schemas']['plannedTimeEntry']['authorization']['read'],
@@ -779,4 +801,33 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertNotContains(needle: 'healthOverall', haystack: $this->register['components']['schemas']['project']['required']);
 
 	}//end testProjectCarriesTheHealthOfItsNewestReport()
+	/**
+	 * A portfolio has a title, managers and an order; every signed-in user reads it, admins create it.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.1
+	 */
+	public function testPortfolioSchemaAndTheProjectReaderRule(): void {
+		$portfolio = $this->register['components']['schemas']['portfolio'];
+		self::assertSame(expected: ['title'], actual: $portfolio['required']);
+		self::assertSame(expected: ['type' => 'string'], actual: $portfolio['properties']['managers']['items']);
+		self::assertSame(expected: 'integer', actual: $portfolio['properties']['order']['type']);
+		self::assertArrayHasKey(key: 'riskScale', array: $portfolio['properties']);
+		self::assertSame(expected: [['group' => 'authenticated'], ['group' => 'admin']], actual: $portfolio['authorization']['read']);
+		self::assertSame(expected: ['admin'], actual: $portfolio['authorization']['create']);
+		self::assertSame(
+			expected: [['group' => 'authenticated', 'match' => ['managers' => ['$contains' => '$userId']]], ['group' => 'admin']],
+			actual: $portfolio['authorization']['update']
+		);
+		self::assertSame(expected: ['admin'], actual: $portfolio['authorization']['delete']);
+
+		$project = $this->register['components']['schemas']['project'];
+		self::assertSame(expected: 'portfolio', actual: $project['properties']['portfolio']['$ref']);
+		self::assertTrue(condition: $project['properties']['portfolio']['nullable']);
+		self::assertFalse(condition: $project['properties']['portfolioReaders']['visible']);
+		self::assertContains(needle: self::READER_RULE, haystack: $project['authorization']['read']);
+		self::assertNotContains(needle: self::READER_RULE, haystack: $project['authorization']['update']);
+
+	}//end testPortfolioSchemaAndTheProjectReaderRule()
 }//end class

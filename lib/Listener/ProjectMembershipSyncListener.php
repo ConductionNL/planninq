@@ -93,18 +93,28 @@ class ProjectMembershipSyncListener implements IEventListener {
 				return;
 			}
 
-			$members = $this->membership->membersFromProject(project: (array)$project->getObject());
-			$old = $event->getOldObject();
-			if ($old !== null && $this->membership->membersFromProject(project: (array)$old->getObject()) === $members) {
-				return;
+			$data      = (array)$project->getObject();
+			$old       = $event->getOldObject();
+			$oldData   = null;
+			$projectId = (string)($project->getUuid() ?? '');
+			if ($old !== null) {
+				$oldData = (array)$old->getObject();
 			}
 
-			$projectId = (string)($project->getUuid() ?? '');
-			$written = $this->membership->syncProjectMembers(projectId: $projectId, members: $members);
-			$this->logger->info(
-				'Planninq: project membership changed; members list updated on its objects',
-				['project' => $projectId, 'written' => $written]
-			);
+			$members = $this->membership->membersFromProject(project: $data);
+			if ($oldData === null || $this->membership->membersFromProject(project: $oldData) !== $members) {
+				$written = $this->membership->syncProjectMembers(projectId: $projectId, members: $members);
+				$this->logger->info(
+					'Planninq: project membership changed; members list updated on its objects',
+					['project' => $projectId, 'written' => $written]
+				);
+			}
+
+			$field   = ProjectMembershipService::READERS_FIELD;
+			$readers = $this->membership->normalise(members: ($data[$field] ?? []));
+			if ($oldData === null || $this->membership->normalise(members: ($oldData[$field] ?? [])) !== $readers) {
+				$this->membership->syncProjectMembers(projectId: $projectId, members: $readers, field: $field);
+			}
 		} catch (\Throwable $e) {
 			// The project write already happened and must not turn into an
 			// error. The objects keep the previous list until the next change

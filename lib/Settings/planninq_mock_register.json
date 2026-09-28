@@ -590,6 +590,45 @@
         "statusRisk": "offTrack",
         "noteRisk": "Voorbeeld Risk note 3",
         "overall": "offTrack"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "portfolio",
+          "slug": "portfolio-voorbeeld-1"
+        },
+        "title": "Ruimte",
+        "description": "Voorbeeld portfolio Ruimte",
+        "color": "#2E7D32",
+        "managers": [],
+        "order": 0,
+        "riskScale": ""
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "portfolio",
+          "slug": "portfolio-voorbeeld-2"
+        },
+        "title": "Dienstverlening",
+        "description": "Voorbeeld portfolio Dienstverlening",
+        "color": "#1565C0",
+        "managers": [],
+        "order": 1,
+        "riskScale": ""
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "portfolio",
+          "slug": "portfolio-voorbeeld-3"
+        },
+        "title": "Bedrijfsvoering",
+        "description": "Voorbeeld portfolio Bedrijfsvoering",
+        "color": "#6A1B9A",
+        "managers": [],
+        "order": 2,
+        "riskScale": ""
       }
     ]
   }
