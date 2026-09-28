@@ -186,7 +186,7 @@ class ProjectStatusListener implements IEventListener {
 			$oldProject = $this->membership->projectIdFor(schemaSlug: ProjectHealthService::REPORT_SCHEMA, data: $oldData);
 		}
 
-		if ($this->mayWrite(projectId: $projectId) === false || ($oldProject !== '' && $this->mayWrite(projectId: $oldProject) === false)) {
+		if ($this->mayWriteBoth(projectId: $projectId, oldProject: $oldProject) === false) {
 			$event->setErrors(
 				[
 					'message' => 'Only the project owner can write a status report.',
@@ -199,17 +199,46 @@ class ProjectStatusListener implements IEventListener {
 			return;
 		}
 
-		$reportId = (string)($object->getUuid() ?? '');
-		$saving   = $data;
+		$saving = $data;
 		if ($event instanceof ObjectDeletingEvent === true) {
 			$saving = null;
 		}
 
+		$this->copy(reportId: (string)($object->getUuid() ?? ''), projectId: $projectId, oldProject: $oldProject, saving: $saving);
+	}//end onReport()
+
+	/**
+	 * Copy the newest report onto the report's project, and onto the project it left.
+	 *
+	 * @param string                   $reportId   The report UUID.
+	 * @param string                   $projectId  The report's project.
+	 * @param string                   $oldProject The project it was in before this update, or ''.
+	 * @param array<string,mixed>|null $saving     The report's new data, null when it is being deleted.
+	 *
+	 * @return void
+	 */
+	private function copy(string $reportId, string $projectId, string $oldProject, ?array $saving): void {
 		$this->health->refresh(projectId: $projectId, reportId: $reportId, saving: $saving);
 		if ($oldProject !== '' && $oldProject !== $projectId) {
 			$this->health->refresh(projectId: $oldProject, reportId: $reportId, saving: null);
 		}
-	}//end onReport()
+	}//end copy()
+
+	/**
+	 * Whether the caller may write reports of the report's project and of the project it leaves.
+	 *
+	 * @param string $projectId  The report's project.
+	 * @param string $oldProject The project it was in before this update, or ''.
+	 *
+	 * @return bool
+	 */
+	private function mayWriteBoth(string $projectId, string $oldProject): bool {
+		if ($this->mayWrite(projectId: $projectId) === false) {
+			return false;
+		}
+
+		return ($oldProject === '' || $this->mayWrite(projectId: $oldProject) === true);
+	}//end mayWriteBoth()
 
 	/**
 	 * Whether the caller may write status reports of this project.
