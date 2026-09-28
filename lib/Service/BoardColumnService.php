@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -58,12 +59,14 @@ class BoardColumnService {
 	 * @param ProjectMembershipService $membership Reads planninq objects with RBAC off.
 	 * @param SettingsService          $settings   Holds the admin's default column titles.
 	 * @param LoggerInterface          $logger     The logger.
+	 * @param IAppManager              $appManager Tells whether OpenRegister is installed.
 	 */
 	public function __construct(
 		private ContainerInterface $container,
 		private ProjectMembershipService $membership,
 		private SettingsService $settings,
 		private LoggerInterface $logger,
+		private IAppManager $appManager,
 	) {
 	}//end __construct()
 
@@ -146,7 +149,7 @@ class BoardColumnService {
 	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-1.2
 	 */
 	public function createDefaultColumns(string $projectId): array {
-		if ($projectId === '') {
+		if ($projectId === '' || $this->appManager->isInstalled('openregister') === false) {
 			return [];
 		}
 
@@ -199,6 +202,10 @@ class BoardColumnService {
 		}
 
 		usort($columns, static fn (array $a, array $b): int => ((int)($a['order'] ?? 0) <=> (int)($b['order'] ?? 0)));
+
+		if ($this->appManager->isInstalled('openregister') === false) {
+			return ['created' => $created, 'assigned' => 0];
+		}
 
 		$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 		$assigned      = 0;

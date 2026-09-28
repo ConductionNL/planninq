@@ -28,6 +28,7 @@ use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
+use OCP\App\IAppManager;
 use OCP\Migration\IOutput;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -56,7 +57,8 @@ class AssignBoardColumnsTest extends TestCase {
 				container: $this->container(),
 				membership: $membership,
 				settings: $settings,
-				logger: $this->createMock(originalClassName: LoggerInterface::class)
+				logger: $this->createMock(originalClassName: LoggerInterface::class),
+				appManager: $this->openRegisterInstalled(installed: $openRegisterInstalled)
 			),
 			membership: $membership,
 			logger: $this->createMock(originalClassName: LoggerInterface::class)
@@ -82,4 +84,9 @@ class AssignBoardColumnsTest extends TestCase {
 
 		self::assertSame([], $this->objects->saves);
 	}//end testWithoutOpenRegisterItWarnsAndWritesNothing()
+	private function openRegisterInstalled(bool $installed = true): IAppManager {
+		$appManager = $this->createMock(originalClassName: IAppManager::class);
+		$appManager->method('isInstalled')->willReturnCallback(static fn (string $app): bool => ($app === 'openregister' && $installed === true));
+		return $appManager;
+	}//end openRegisterInstalled()
 }//end class

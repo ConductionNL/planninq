@@ -84,6 +84,8 @@ export function groupTasksByColumn(tasks = [], columns = []) {
  *
  * @param {object} column The target column.
  * @return {string|undefined}
+ *
+ * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2
  */
 export function mappedStatus(column) {
 	if (column?.status) {
