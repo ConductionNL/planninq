@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Azzjonijiet tal-kompitu",
         "All labels": "It-tikketti kollha",
         "Filter tasks by label": "Iffiltra l-kompiti skont it-tikketta",
-        "View timeline": "Ara l-kronoloġija"
+        "View timeline": "Ara l-kronoloġija",
+        "Board": "Bord",
+        "List": "Lista",
+        "Column": "Kolonna",
+        "Board or list": "Bord jew lista"
     },
     "nplurals=2; plural=(n != 1);"
 )

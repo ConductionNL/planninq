@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Veprimet e detyrës",
         "All labels": "Të gjitha etiketat",
         "Filter tasks by label": "Filtro detyrat sipas etiketës",
-        "View timeline": "Shiko kronologjinë"
+        "View timeline": "Shiko kronologjinë",
+        "Board": "Tabela",
+        "List": "Lista",
+        "Column": "Kolona",
+        "Board or list": "Tabela ose lista"
     },
     "nplurals=2; plural=(n != 1);"
 )

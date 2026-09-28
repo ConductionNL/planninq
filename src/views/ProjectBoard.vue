@@ -40,6 +40,25 @@
 				</h2>
 
 				<div class="project-board__header-actions">
+					<div
+						class="project-board__view-switch"
+						role="group"
+						:aria-label="t('planninq', 'Board or list')">
+						<NcButton
+							:variant="view === 'board' ? 'primary' : 'tertiary'"
+							:aria-pressed="view === 'board'"
+							data-testid="view-board"
+							@click="setView('board')">
+							{{ t('planninq', 'Board') }}
+						</NcButton>
+						<NcButton
+							:variant="view === 'list' ? 'primary' : 'tertiary'"
+							:aria-pressed="view === 'list'"
+							data-testid="view-list"
+							@click="setView('list')">
+							{{ t('planninq', 'List') }}
+						</NcButton>
+					</div>
 					<NcButton
 						:aria-label="t('planninq', 'View backlog')"
 						variant="tertiary"
@@ -98,6 +117,43 @@
 			<div v-if="tasksLoading" class="project-board__loading">
 				<NcLoadingIcon :size="32" />
 			</div>
+
+			<!-- List view: the same cards the board shows, in lane order and
+			     then card order (boards-list-toggle). -->
+			<table v-else-if="view === 'list'" class="project-board__list" data-testid="board-list">
+				<thead>
+					<tr>
+						<th scope="col">
+							{{ t('planninq', 'Title') }}
+						</th>
+						<th scope="col">
+							{{ t('planninq', 'Column') }}
+						</th>
+						<th scope="col">
+							{{ t('planninq', 'Priority') }}
+						</th>
+						<th scope="col">
+							{{ t('planninq', 'Due date') }}
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr
+						v-for="row in listRows"
+						:key="row.task.id"
+						data-testid="board-list-row"
+						:data-title="row.task.title">
+						<td>
+							<NcButton variant="tertiary-no-background" @click="navigateToTask(row.task)">
+								{{ row.task.title }}
+							</NcButton>
+						</td>
+						<td>{{ row.column.title }}</td>
+						<td>{{ priorityLabel(row.task.priority) }}</td>
+						<td>{{ row.task.dueDate || '' }}</td>
+					</tr>
+				</tbody>
+			</table>
 
 			<!-- Kanban columns: one lane per column object of the project,
 			     in `order`. A task sits in the lane its `column` references;
@@ -281,6 +337,7 @@ import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { backlogTasks, moveToBacklogPatch } from '../utils/backlogHelpers.js'
 import {
+	boardListRows,
 	buildMovePatch,
 	groupTasksByColumn,
 	orderPatchesForStep,
@@ -388,6 +445,28 @@ export default {
 		 */
 		tasksByColumn() {
 			return groupTasksByColumn(this.visibleTasks, this.columns)
+		},
+
+		/**
+		 * The page's view from the query string: `list`, or the board.
+		 *
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/boards-list-toggle/tasks.md#task-1.2
+		 */
+		view() {
+			return this.$route.query.view === 'list' ? 'list' : 'board'
+		},
+
+		/**
+		 * The list view's rows: the board's cards in lane then card order.
+		 *
+		 * @return {Array<{task: object, column: object}>}
+		 *
+		 * @spec openspec/changes/boards-list-toggle/tasks.md#task-1.2
+		 */
+		listRows() {
+			return boardListRows(this.visibleTasks, this.columns)
 		},
 
 		/**
@@ -720,6 +799,38 @@ export default {
 		},
 
 		/**
+		 * Switch between the board and the list, keeping the rest of the query.
+		 *
+		 * @param {string} view `board` or `list`.
+		 *
+		 * @spec openspec/changes/boards-list-toggle/tasks.md#task-1.2
+		 */
+		setView(view) {
+			const query = { ...this.$route.query }
+			if (view === 'list') {
+				query.view = 'list'
+			} else {
+				delete query.view
+			}
+			this.$router.replace({ query })
+		},
+
+		/**
+		 * @param {string} priority A task priority.
+		 * @return {string} Its label.
+		 * @spec exclude Display helper — the label of a priority value.
+		 */
+		priorityLabel(priority) {
+			const labels = {
+				low: this.t('planninq', 'Low'),
+				normal: this.t('planninq', 'Normal'),
+				high: this.t('planninq', 'High'),
+				urgent: this.t('planninq', 'Urgent'),
+			}
+			return labels[priority || 'normal'] || ''
+		},
+
+		/**
 		 * Take a card off the board: no column, last in the backlog.
 		 *
 		 * @param {object} task The card.
@@ -966,6 +1077,28 @@ export default {
 	color: var(--color-warning-text);
 	background: var(--color-warning-hover, var(--color-background-hover));
 	border: 1px solid var(--color-warning);
+}
+
+.project-board__view-switch {
+	display: flex;
+	gap: 4px;
+}
+
+.project-board__list {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.project-board__list th,
+.project-board__list td {
+	padding: 4px 8px;
+	text-align: start;
+	border-bottom: 1px solid var(--color-border);
+}
+
+.project-board__list th {
+	font-weight: 600;
+	color: var(--color-text-maxcontrast);
 }
 
 .project-board__add-column {

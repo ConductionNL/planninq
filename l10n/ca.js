@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Accions de la tasca",
         "All labels": "Totes les etiquetes",
         "Filter tasks by label": "Filtra les tasques per etiqueta",
-        "View timeline": "Mostra la cronologia"
+        "View timeline": "Mostra la cronologia",
+        "Board": "Tauler",
+        "List": "Llista",
+        "Column": "Columna",
+        "Board or list": "Tauler o llista"
     },
     "nplurals=2; plural=(n != 1);"
 )

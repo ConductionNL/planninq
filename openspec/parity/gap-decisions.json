@@ -1574,5 +1574,13 @@
     "reason": "Single competitor or none, no demand that meets the build rule, outside the core areas. One competitor rates it yes (TimeEdit), the only demand row is a competitor changelog, which is evidence of a competitor shipping it, not demand, and it sits outside the core areas (projects, boards) in platform. The row note records that it does not apply: every planninq date is a calendar date. The 27 Sep pass deferred it; defer is retired on 28 Sep, so this is a recorded no that can be reversed when demand arrives.",
     "change": null,
     "decidedOn": "2026-09-28"
+  },
+  {
+    "row": "brd-list-toggle",
+    "matrix": "planninq",
+    "decision": "build",
+    "reason": "The only planninq-owned row marked building, and it named no change. The backlog page it pointed at is now a list of the tasks in no column (2026-09-28-backlog-list), not the board's own cards, so the capability was still missing. It sits in the boards core area and four competitors rate it yes (OpenProject, Plane, Kanboard, Jira).",
+    "change": "boards-list-toggle",
+    "decidedOn": "2026-09-28"
   }
 ]

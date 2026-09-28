@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Gníomhartha taisc",
         "All labels": "Gach lipéad",
         "Filter tasks by label": "Scag tascanna de réir lipéid",
-        "View timeline": "Féach ar an amlíne"
+        "View timeline": "Féach ar an amlíne",
+        "Board": "Clár",
+        "List": "Liosta",
+        "Column": "Colún",
+        "Board or list": "Clár nó liosta"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Azioni dell'attività",
         "All labels": "Tutte le etichette",
         "Filter tasks by label": "Filtra le attività per etichetta",
-        "View timeline": "Visualizza cronologia"
+        "View timeline": "Visualizza cronologia",
+        "Board": "Bacheca",
+        "List": "Elenco",
+        "Column": "Colonna",
+        "Board or list": "Bacheca o elenco"
     },
     "nplurals=2; plural=(n != 1);"
 )

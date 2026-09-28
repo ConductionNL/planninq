@@ -8,6 +8,7 @@ import addFormats from 'ajv-formats'
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import {
+	boardListRows,
 	buildMovePatch,
 	canRemoveColumn,
 	columnPayload,
@@ -170,5 +171,17 @@ describe('columnPayload', () => {
 
 	it('control: the validator refuses a status the schema does not know', () => {
 		expect(validate({ title: 'x', project, order: 0, status: 'finished' })).toBe(false)
+	})
+})
+
+describe('boardListRows', () => {
+	it('lists the board\'s cards in lane order, then card order, with their column (scenario: switch to the list)', () => {
+		const rows = boardListRows([
+			{ id: 'd', column: 'done', columnOrder: 0 },
+			{ id: 't2', column: 'todo', columnOrder: 2000 },
+			{ id: 't1', column: 'todo', columnOrder: 1000 },
+			{ id: 'b', column: null },
+		], columns)
+		expect(rows.map((row) => [row.task.id, row.column.title])).toEqual([['t1', 'To do'], ['t2', 'To do'], ['d', 'Done']])
 	})
 })

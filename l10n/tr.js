@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Görev işlemleri",
         "All labels": "Tüm etiketler",
         "Filter tasks by label": "Görevleri etikete göre filtrele",
-        "View timeline": "Zaman çizelgesini görüntüle"
+        "View timeline": "Zaman çizelgesini görüntüle",
+        "Board": "Pano",
+        "List": "Liste",
+        "Column": "Sütun",
+        "Board or list": "Pano veya liste"
     },
     "nplurals=2; plural=(n != 1);"
 )

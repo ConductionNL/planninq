@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Действия с задачей",
         "All labels": "Все метки",
         "Filter tasks by label": "Фильтровать задачи по метке",
-        "View timeline": "Показать временную шкалу"
+        "View timeline": "Показать временную шкалу",
+        "Board": "Доска",
+        "List": "Список",
+        "Column": "Столбец",
+        "Board or list": "Доска или список"
     },
     "nplurals=2; plural=(n != 1);"
 )

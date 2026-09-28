@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Aufgabenaktiounen",
         "All labels": "All Etiketten",
         "Filter tasks by label": "Aufgabe no Etikett filteren",
-        "View timeline": "Zäitlinn weisen"
+        "View timeline": "Zäitlinn weisen",
+        "Board": "Board",
+        "List": "Lëscht",
+        "Column": "Kolonn",
+        "Board or list": "Board oder Lëscht"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Dejanja opravila",
         "All labels": "Vse oznake",
         "Filter tasks by label": "Filtriraj opravila po oznaki",
-        "View timeline": "Prikaži časovnico"
+        "View timeline": "Prikaži časovnico",
+        "Board": "Tabla",
+        "List": "Seznam",
+        "Column": "Stolpec",
+        "Board or list": "Tabla ali seznam"
     },
     "nplurals=2; plural=(n != 1);"
 )

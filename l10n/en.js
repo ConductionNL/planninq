@@ -279,7 +279,11 @@ OC.L10N.register(
         "Task actions": "Task actions",
         "All labels": "All labels",
         "Filter tasks by label": "Filter tasks by label",
-        "View timeline": "View timeline"
+        "View timeline": "View timeline",
+        "Board": "Board",
+        "List": "List",
+        "Column": "Column",
+        "Board or list": "Board or list"
     },
     "nplurals=2; plural=(n != 1);"
 )

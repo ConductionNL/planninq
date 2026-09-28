@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Opgavehandlinger",
         "All labels": "Alle etiketter",
         "Filter tasks by label": "Filtrer opgaver efter etiket",
-        "View timeline": "Vis tidslinje"
+        "View timeline": "Vis tidslinje",
+        "Board": "Tavle",
+        "List": "Liste",
+        "Column": "Kolonne",
+        "Board or list": "Tavle eller liste"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Ülesande toimingud",
         "All labels": "Kõik sildid",
         "Filter tasks by label": "Filtreeri ülesandeid sildi järgi",
-        "View timeline": "Vaata ajajoont"
+        "View timeline": "Vaata ajajoont",
+        "Board": "Tahvel",
+        "List": "Loend",
+        "Column": "Veerg",
+        "Board or list": "Tahvel või loend"
     },
     "nplurals=2; plural=(n != 1);"
 )

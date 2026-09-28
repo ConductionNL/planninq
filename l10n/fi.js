@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Tehtävän toiminnot",
         "All labels": "Kaikki tunnisteet",
         "Filter tasks by label": "Suodata tehtäviä tunnisteen mukaan",
-        "View timeline": "Näytä aikajana"
+        "View timeline": "Näytä aikajana",
+        "Board": "Taulu",
+        "List": "Luettelo",
+        "Column": "Sarake",
+        "Board or list": "Taulu tai luettelo"
     },
     "nplurals=2; plural=(n != 1);"
 )

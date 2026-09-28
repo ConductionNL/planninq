@@ -305,7 +305,11 @@ OC.L10N.register(
         "Task actions": "Uzdevuma darbības",
         "All labels": "Visas birkas",
         "Filter tasks by label": "Filtrēt uzdevumus pēc birkas",
-        "View timeline": "Skatīt laika skalu"
+        "View timeline": "Skatīt laika skalu",
+        "Board": "Dēlis",
+        "List": "Saraksts",
+        "Column": "Kolonna",
+        "Board or list": "Dēlis vai saraksts"
     },
     "nplurals=2; plural=(n != 1);"
 )
