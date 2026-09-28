@@ -16,6 +16,7 @@
 
 import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
 import AccountMultiplePlus from 'vue-material-design-icons/AccountMultiplePlus.vue'
+import AlertOutline from 'vue-material-design-icons/AlertOutline.vue'
 import BookOpenVariantOutline from 'vue-material-design-icons/BookOpenVariantOutline.vue'
 import BriefcaseOutline from 'vue-material-design-icons/BriefcaseOutline.vue'
 import ChartBar from 'vue-material-design-icons/ChartBar.vue'
@@ -40,6 +41,7 @@ import Web from 'vue-material-design-icons/Web.vue'
 export default {
 	AccountGroup,
 	AccountMultiplePlus,
+	AlertOutline,
 	BookOpenVariantOutline,
 	BriefcaseOutline,
 	ChartBar,

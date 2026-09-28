@@ -48,7 +48,10 @@
   "menu": [
     { "id": "Dashboard", "label": "Dashboard", "icon": "ViewDashboardOutline", "route": "Dashboard", "order": 10 },
     { "id": "Boards", "label": "Boards", "icon": "ViewDashboardOutline", "route": "Boards", "order": 20 },
-    { "id": "Projects", "label": "Projects", "icon": "FolderOutline", "route": "Projects", "order": 30 },
+    { "id": "Projects", "label": "Projects", "icon": "FolderOutline", "route": "Projects", "order": 30, "children": [
+      { "id": "ProjectsAll", "label": "All projects", "icon": "FolderOutline", "route": "Projects" },
+      { "id": "RiskIndexMenu", "label": "Risks", "icon": "AlertOutline", "route": "RiskIndex" }
+    ] },
     { "id": "Timesheet", "label": "Timesheet", "icon": "ClockOutline", "route": "Timesheet", "order": 50 },
     { "id": "Documentation", "label": "Documentation", "icon": "BookOpenVariantOutline", "href": "https://planix.conduction.nl", "section": "footer", "order": 90 },
     { "id": "StoreMenu", "label": "Store", "icon": "StoreOutline", "route": "Store", "section": "footer", "order": 92 },
@@ -142,10 +145,12 @@
       }
     },
     { "id": "Projects", "_note": "Project index rendered as cards with a client-side status chip filter over filteredProjects, plus a free-text field. The chip row is a filter surface CnIndexPage does not express, so the list is a host-app SFC.", "route": "/projects", "type": "custom", "title": "Projects", "component": "ProjectList", "config": {} },
+    { "id": "RiskIndex", "_note": "Every risk of every project the user can read, highest score first. OpenRegister's read rule on the members list decides which risks a user sees, so the page is a declarative index. Declared before ProjectBoard so /projects/risks is never read as a project id.", "route": "/projects/risks", "type": "index", "title": "Risks", "config": { "register": "planninq", "schema": "risk", "readOnly": true, "showViewAction": false, "columns": ["title", "project", "score", "status", "owner", "reviewDate"], "defaultSort": [{ "field": "score", "order": "desc" }] } },
     { "id": "ProjectBoard", "_note": "Bespoke Kanban board: one column per project status, with drag-to-transition between columns and a per-card move menu listing the other columns as targets. No v2 primitive renders a column-per-status board or owns the drop-to-transition write.", "route": "/projects/:id", "type": "custom", "title": "Project board", "component": "ProjectBoard", "config": {} },
     { "id": "ProjectBacklog", "_note": "Backlog under a project: a parent breadcrumb back to the board above an ordered task list scoped to :id. The parent-scoped header is the part CnIndexPage does not carry.", "route": "/projects/:id/backlog", "type": "custom", "title": "Backlog", "component": "ProjectBacklog", "config": {} },
     { "id": "ProjectTimeline", "_note": "Gantt over a project's tasks: positioned bars plus dependency arrows drawn between them, fed by /api/timeline. The roadmap type renders milestones on a track and has no vocabulary for task bars with dependency edges.", "route": "/projects/:id/timeline", "type": "custom", "title": "Timeline", "component": "ProjectTimeline", "config": {} },
     { "id": "ProjectOverview", "_note": "One screen per project: description, dates, people, progress from the project's tasks, and its latest log entries, each block linking to its tab. It reads three schemas for one project and computes progress, which no detail page expresses.", "route": "/projects/:id/overview", "type": "custom", "title": "Overview", "component": "ProjectOverview", "config": {} },
+    { "id": "ProjectRisks", "_note": "The project's risk register: a heat map of likelihood against impact on the admin's risk scale beside the list sorted by score. The heat map is not an index, so the page is custom.", "route": "/projects/:id/risks", "type": "custom", "title": "Risks", "component": "ProjectRisks", "config": {} },
     { "id": "ProjectLog", "_note": "The project log: issues, lessons, meetings and decisions with type filters, plus an Actions filter over the project's tasks with issueType action, and an Add action that creates such a task. The mix of two schemas under one filter row is what makes it custom.", "route": "/projects/:id/log", "type": "custom", "title": "Log", "component": "ProjectLog", "config": {} },
     { "id": "TaskDetail", "_note": "Task detail that combines a CnObjectSidebar with an inline time-entry log written against the same task. A detail page renders the record; the embedded logging surface is what makes this custom.", "route": "/projects/:id/tasks/:taskId", "type": "custom", "title": "Task", "component": "TaskDetail", "config": {} },
     { "id": "Timesheet", "_note": "Week timesheet: entries grouped per day with inline edit and a project selector. A grouped, editable grid over time entries, which no v2 list primitive expresses.", "route": "/timesheet", "type": "custom", "title": "Timesheet", "component": "Timesheet", "config": {} },

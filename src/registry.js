@@ -27,6 +27,7 @@ import ProjectBoard from './views/ProjectBoard.vue'
 import ProjectList from './views/ProjectList.vue'
 import ProjectLog from './views/ProjectLog.vue'
 import ProjectOverview from './views/ProjectOverview.vue'
+import ProjectRisks from './views/ProjectRisks.vue'
 import ProjectTimeline from './views/ProjectTimeline.vue'
 import TaskDetail from './views/TaskDetail.vue'
 import Timesheet from './views/Timesheet.vue'
@@ -49,6 +50,7 @@ export default {
 	ProjectList: page(ProjectList),
 	ProjectLog: page(ProjectLog),
 	ProjectOverview: page(ProjectOverview),
+	ProjectRisks: page(ProjectRisks),
 	ProjectTimeline: page(ProjectTimeline),
 	TaskDetail: page(TaskDetail),
 	Timesheet: page(Timesheet),

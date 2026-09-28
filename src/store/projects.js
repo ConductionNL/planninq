@@ -29,6 +29,7 @@ const TASK_SCHEMA = 'task'
 const TIME_ENTRY_SCHEMA = 'plannedTimeEntry'
 const LABEL_SCHEMA = 'label'
 const LOG_SCHEMA = 'projectLogEntry'
+const RISK_SCHEMA = 'risk'
 
 /**
  * Largest page OpenRegister will return. Asking for more is silently capped.
@@ -127,6 +128,9 @@ export const useProjectsStore = defineStore('projects', {
 			}
 			if (!store.objectTypeRegistry?.[LOG_SCHEMA]) {
 				store.registerObjectType(LOG_SCHEMA, LOG_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: LOG_SCHEMA })
+			}
+			if (!store.objectTypeRegistry?.[RISK_SCHEMA]) {
+				store.registerObjectType(RISK_SCHEMA, RISK_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: RISK_SCHEMA })
 			}
 			return store
 		},
@@ -560,6 +564,55 @@ export const useProjectsStore = defineStore('projects', {
 				return await response.json()
 			} catch (err) {
 				console.error('saveLogEntry error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Every risk of a project, scoped by OpenRegister to its members.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The risks (empty array on error)
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
+		 */
+		async fetchRisks(projectId) {
+			try {
+				const objectStore = this._objectStore()
+				const risks = await fetchEvery(objectStore, RISK_SCHEMA, { project: projectId })
+				return Array.isArray(risks) ? risks : []
+			} catch (err) {
+				console.error('fetchRisks error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Write a risk: POST when it has no id, PATCH when it has one. The
+		 * server calculates the score and refuses a caller not on the project.
+		 *
+		 * @param {object} risk The risk, or the fields to change plus its id
+		 * @return {Promise<object|null>} The saved risk, or null on failure
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
+		 */
+		async saveRisk(risk) {
+			const { id, ...fields } = risk
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/${RISK_SCHEMA}/${id}`)
+				: generateUrl(`/apps/openregister/api/objects/planninq/${RISK_SCHEMA}`)
+			try {
+				const response = await fetch(url, {
+					method: id ? 'PATCH' : 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(fields),
+				})
+				if (!response.ok) {
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				console.error('saveRisk error:', err)
 				return null
 			}
 		},

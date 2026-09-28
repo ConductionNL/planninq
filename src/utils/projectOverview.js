@@ -13,15 +13,13 @@ export const LOG_TYPES = ['issue', 'lesson', 'meeting', 'decision']
 /** The `issueType` of a task that came out of a log entry. */
 export const ACTION_ISSUE_TYPE = 'action'
 
-/**
- * The project tabs in display order. Each names the manifest page it opens.
- * Risks joins this list with the risk register.
- */
+/** The project tabs in display order. Each names the manifest page it opens. */
 export const PROJECT_TABS = [
 	{ id: 'overview', route: 'ProjectOverview' },
 	{ id: 'board', route: 'ProjectBoard' },
 	{ id: 'backlog', route: 'ProjectBacklog' },
 	{ id: 'timeline', route: 'ProjectTimeline' },
+	{ id: 'risks', route: 'ProjectRisks' },
 	{ id: 'log', route: 'ProjectLog' },
 ]
 

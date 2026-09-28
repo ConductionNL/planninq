@@ -87,6 +87,24 @@
 					</ul>
 				</section>
 
+				<section class="project-overview__block" aria-labelledby="overview-risks">
+					<h3 id="overview-risks">
+						{{ t('planninq', 'Highest open risks') }}
+					</h3>
+					<ul v-if="topRisks.length" class="project-overview__entries" data-testid="overview-risks">
+						<li v-for="risk in topRisks" :key="risk.id">
+							<span class="project-overview__chip">{{ risk.score }}</span>
+							<span>{{ risk.title }}</span>
+						</li>
+					</ul>
+					<p v-else class="project-overview__muted">
+						{{ t('planninq', 'No open risks') }}
+					</p>
+					<RouterLink :to="{ name: 'ProjectRisks', params: { id: projectId } }" data-testid="overview-risks-link">
+						{{ risks.length ? t('planninq', 'Open the risk register') : t('planninq', 'Add the first risk') }}
+					</RouterLink>
+				</section>
+
 				<section class="project-overview__block" aria-labelledby="overview-log">
 					<h3 id="overview-log">
 						{{ t('planninq', 'Latest log entries') }}
@@ -118,8 +136,8 @@
  *
  * One screen that answers "where does this project stand": description,
  * planned dates, the people on it by name, progress (done tasks against every
- * task that is not cancelled) and the latest log entries, each block linking
- * to its tab.
+ * task that is not cancelled), the three highest open risks and the five
+ * latest log entries, each block linking to its tab.
  *
  * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
  */
@@ -128,6 +146,7 @@ import LockOutline from 'vue-material-design-icons/LockOutline.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { latestLogEntries, projectPeople, projectProgress } from '../utils/projectOverview.js'
+import { topOpenRisks } from '../utils/riskHelpers.js'
 import { displayNames } from '../utils/userNames.js'
 
 export default {
@@ -147,6 +166,7 @@ export default {
 			project: null,
 			tasks: [],
 			entries: [],
+			risks: [],
 			names: {},
 			loading: true,
 			accessDenied: false,
@@ -177,6 +197,11 @@ export default {
 		/** @return {Array<string>} */
 		people() {
 			return projectPeople(this.project)
+		},
+
+		/** @return {Array<object>} */
+		topRisks() {
+			return topOpenRisks(this.risks, 3)
 		},
 
 		/** @return {Array<object>} */
@@ -223,12 +248,14 @@ export default {
 					return
 				}
 				this.project = project
-				const [tasks, entries] = await Promise.all([
+				const [tasks, entries, risks] = await Promise.all([
 					store.fetchTasks(this.projectId),
 					store.fetchLogEntries(this.projectId),
+					store.fetchRisks(this.projectId),
 				])
 				this.tasks = tasks
 				this.entries = entries
+				this.risks = risks
 				this.names = await displayNames(this.people)
 			} finally {
 				this.loading = false
