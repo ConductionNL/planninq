@@ -61,6 +61,7 @@ class SettingsService {
 		'default_columns' => '["To do","In progress","Review","Done"]',
 		'allow_project_creation' => 'all',
 		'due_reminder_lead_hours' => '24',
+		RiskScaleService::CONFIG_KEY => RiskScaleService::DEFAULT_SCALE,
 	];
 
 	/**

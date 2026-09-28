@@ -49,7 +49,7 @@ test.describe('Project timeline (Gantt) — read-only view', () => {
 		const projectId = await openFixtureProjectBoard(page)
 
 		// Reach the timeline the way a user does — via the board's own action.
-		await page.getByRole('button', { name: 'Timeline' }).click()
+		await page.getByTestId('project-tab-timeline').click()
 		await expect(page).toHaveURL(new RegExp(`/projects/${projectId}/timeline$`))
 
 		// The Timeline heading must render (the view mounted). One of the
@@ -85,7 +85,7 @@ test.describe('Project timeline (Gantt) — read-only view', () => {
 		await openFixtureProjectBoard(page)
 
 		// The board header exposes a "Timeline" action that navigates to the view.
-		const timelineButton = page.getByRole('button', { name: 'Timeline' })
+		const timelineButton = page.getByTestId('project-tab-timeline')
 		await expect(timelineButton).toBeVisible({ timeout: 10000 })
 		await timelineButton.click()
 		await expect(page.getByRole('heading', { name: 'Timeline' })).toBeVisible({ timeout: 10000 })

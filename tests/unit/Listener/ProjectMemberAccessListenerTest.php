@@ -172,6 +172,43 @@ class ProjectMemberAccessListenerTest extends TestCase {
 	}//end testCreateByNonMemberIsRefused()
 
 	/**
+	 * A project log entry is stamped for a member and refused for an outsider.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.1
+	 */
+	public function testProjectLogEntryIsStampedAndGated(): void {
+		$byMember = new ObjectCreatingEvent($this->object(schema: 'projectLogEntry', data: ['title' => 'Kick-off', 'type' => 'meeting', 'project' => 'proj-a']));
+		$this->listener(actor: 'bob')->handle($byMember);
+		self::assertFalse($byMember->isPropagationStopped(), 'bob is on project A');
+		self::assertSame(['alice', 'bob', 'carol'], ($byMember->getModifiedData()['members'] ?? null));
+
+		$byOutsider = new ObjectCreatingEvent($this->object(schema: 'projectLogEntry', data: ['title' => 'Sneaky', 'type' => 'issue', 'project' => 'proj-b']));
+		$this->listener(actor: 'alice')->handle($byOutsider);
+		self::assertTrue($byOutsider->isPropagationStopped(), 'alice is not on project B');
+		self::assertSame(ProjectMemberAccessListener::ERROR_CODE, ($byOutsider->getErrors()['code'] ?? null));
+	}//end testProjectLogEntryIsStampedAndGated()
+
+	/**
+	 * A risk is stamped for a member and refused for an outsider.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.1
+	 */
+	public function testRiskIsStampedAndGated(): void {
+		$byMember = new ObjectCreatingEvent($this->object(schema: 'risk', data: ['title' => 'Supplier late', 'likelihood' => 4, 'impact' => 3, 'project' => 'proj-a']));
+		$this->listener(actor: 'alice')->handle($byMember);
+		self::assertFalse($byMember->isPropagationStopped(), 'alice is on project A');
+		self::assertSame(['alice', 'bob', 'carol'], ($byMember->getModifiedData()['members'] ?? null));
+
+		$byOutsider = new ObjectCreatingEvent($this->object(schema: 'risk', data: ['title' => 'Sneaky', 'likelihood' => 1, 'impact' => 1, 'project' => 'proj-a']));
+		$this->listener(actor: 'dave')->handle($byOutsider);
+		self::assertTrue($byOutsider->isPropagationStopped(), 'dave is not on project A');
+	}//end testRiskIsStampedAndGated()
+
+	/**
 	 * A task that names no project, or a project that does not exist, is refused for a non-admin.
 	 *
 	 * @return void

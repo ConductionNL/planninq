@@ -14,6 +14,8 @@
 			<span>{{ t('planninq', 'Timeline') }}</span>
 		</div>
 
+		<ProjectTabs :projectId="projectId" />
+
 		<!-- Header + zoom control -->
 		<div class="project-timeline__header">
 			<h2 class="project-timeline__title">
@@ -153,6 +155,7 @@ import { NcButton, NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vu
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
 import ChartTimeline from 'vue-material-design-icons/ChartTimeline.vue'
+import ProjectTabs from '../components/ProjectTabs.vue'
 import { fetchProjectTimeline } from '../api/timeline.js'
 import { useProjectsStore } from '../store/projects.js'
 import {
@@ -174,6 +177,7 @@ export default {
 		ArrowLeft,
 		AlertCircleOutline,
 		ChartTimeline,
+		ProjectTabs,
 	},
 
 	data() {

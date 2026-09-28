@@ -60,18 +60,6 @@
 						</NcButton>
 					</div>
 					<NcButton
-						:aria-label="t('planninq', 'View backlog')"
-						variant="tertiary"
-						@click="$router.push({ name: 'ProjectBacklog', params: { id: project.id } })">
-						{{ t('planninq', 'Backlog') }}
-					</NcButton>
-					<NcButton
-						:aria-label="t('planninq', 'View timeline')"
-						variant="tertiary"
-						@click="$router.push({ name: 'ProjectTimeline', params: { id: project.id } })">
-						{{ t('planninq', 'Timeline') }}
-					</NcButton>
-					<NcButton
 						:aria-label="t('planninq', 'Project settings')"
 						variant="tertiary"
 						@click="openSettings">
@@ -81,6 +69,8 @@
 					</NcButton>
 				</div>
 			</div>
+
+			<ProjectTabs :projectId="project.id" />
 
 			<!-- Label filter chips. Same idiom as the project list's status
 			     filter: one chip per value, the active one primary, pressed
@@ -331,6 +321,7 @@ import LockOutline from 'vue-material-design-icons/LockOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ColumnActions from '../components/ColumnActions.vue'
 import ProjectSettingsSidebar from '../components/ProjectSettingsSidebar.vue'
+import ProjectTabs from '../components/ProjectTabs.vue'
 import TaskCard from '../components/TaskCard.vue'
 import ColumnEditDialog from '../dialogs/ColumnEditDialog.vue'
 import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
@@ -367,6 +358,7 @@ export default {
 		ColumnRemoveDialog,
 		LockOutline,
 		PlusIcon,
+		ProjectTabs,
 		TaskCard,
 	},
 

@@ -21,6 +21,7 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 
 use OCA\Planninq\Controller\SettingsController;
 use OCA\Planninq\Service\RegisterImportService;
+use OCA\Planninq\Service\RiskScaleService;
 use OCA\Planninq\Service\SettingsService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -71,6 +72,13 @@ class SettingsControllerTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 
 	/**
+	 * The mocked risk scale service.
+	 *
+	 * @var RiskScaleService&MockObject
+	 */
+	private RiskScaleService&MockObject $riskScale;
+
+	/**
 	 * Set up test fixtures.
 	 *
 	 * @return void
@@ -82,12 +90,14 @@ class SettingsControllerTest extends TestCase {
 		$this->settingsService = $this->createMock(originalClassName: SettingsService::class);
 		$this->registerImport = $this->createMock(originalClassName: RegisterImportService::class);
 		$this->userSession = $this->createMock(originalClassName: IUserSession::class);
+		$this->riskScale = $this->createMock(originalClassName: RiskScaleService::class);
 
 		$this->controller = new SettingsController(
 			request: $this->request,
 			settingsService: $this->settingsService,
 			registerImport: $this->registerImport,
 			userSession: $this->userSession,
+			riskScale: $this->riskScale,
 		);
 
 	}//end setUp()
@@ -316,4 +326,73 @@ class SettingsControllerTest extends TestCase {
 		self::assertTrue(condition: $result->getData()['success']);
 
 	}//end testLoadReturnsConfigurationResult()
+	/**
+	 * A smaller risk scale is refused while risks use a higher level, and nothing is saved.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
+	 */
+	public function testCreateRefusesASmallerRiskScaleWhileRisksUseAHigherLevel(): void {
+		$scale = json_encode(['levels' => 4, 'likelihood' => ['a', 'b', 'c', 'd'], 'impact' => ['a', 'b', 'c', 'd'], 'thresholds' => ['medium' => 4, 'high' => 9]]);
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->request->method('getParams')->willReturn(['risk_scale' => $scale]);
+		$this->riskScale->method('normalise')->willReturn(json_decode((string)$scale, true));
+		$this->riskScale->method('conflict')->with(4)->willReturn(['count' => 2, 'level' => 5]);
+		$this->riskScale->method('refusal')->with(2, 5)->willReturn('2 risks use level 5. Change them first.');
+		$this->settingsService->expects($this->never())->method('updateSettings');
+
+		$result = $this->controller->create();
+
+		self::assertSame(expected: Http::STATUS_CONFLICT, actual: $result->getStatus());
+		self::assertSame(expected: '2 risks use level 5. Change them first.', actual: $result->getData()['message']);
+		self::assertSame(expected: 'risk-scale-in-use', actual: $result->getData()['error']);
+		self::assertSame(expected: 2, actual: $result->getData()['count']);
+		self::assertSame(expected: 5, actual: $result->getData()['level']);
+
+	}//end testCreateRefusesASmallerRiskScaleWhileRisksUseAHigherLevel()
+
+	/**
+	 * A malformed risk scale is refused with 400.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
+	 */
+	public function testCreateRefusesAMalformedRiskScale(): void {
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->request->method('getParams')->willReturn(['risk_scale' => '{"levels": 9}']);
+		$this->riskScale->method('normalise')->willReturn(null);
+		$this->riskScale->expects($this->never())->method('conflict');
+		$this->settingsService->expects($this->never())->method('updateSettings');
+
+		$result = $this->controller->create();
+
+		self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $result->getStatus());
+		self::assertSame(expected: 'risk-scale-invalid', actual: $result->getData()['error']);
+
+	}//end testCreateRefusesAMalformedRiskScale()
+
+	/**
+	 * A valid risk scale no risk is in the way of is saved.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
+	 */
+	public function testCreateSavesAValidRiskScale(): void {
+		$scale = json_encode(['levels' => 3, 'likelihood' => ['Low', 'Medium', 'High'], 'impact' => ['Low', 'Medium', 'High'], 'thresholds' => ['medium' => 3, 'high' => 6]]);
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->request->method('getParams')->willReturn(['risk_scale' => $scale]);
+		$this->riskScale->method('normalise')->willReturn(json_decode((string)$scale, true));
+		$this->riskScale->method('conflict')->with(3)->willReturn(null);
+		$this->settingsService->expects($this->once())->method('updateSettings')
+			->with(['risk_scale' => $scale])
+			->willReturn(['risk_scale' => $scale]);
+
+		$result = $this->controller->create();
+
+		self::assertSame(expected: Http::STATUS_OK, actual: $result->getStatus());
+
+	}//end testCreateSavesAValidRiskScale()
 }//end class

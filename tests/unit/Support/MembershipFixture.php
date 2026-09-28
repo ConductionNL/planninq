@@ -68,6 +68,8 @@ trait MembershipFixture {
 		'13' => 'plannedTimeEntry',
 		'14' => 'project',
 		'15' => 'label',
+		'16' => 'projectLogEntry',
+		'17' => 'risk',
 	];
 
 	/**

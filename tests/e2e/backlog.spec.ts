@@ -22,7 +22,7 @@ import { openFixtureProjectBoard } from './nav.ts'
 
 async function openBacklog(page) {
 	const projectId = await openFixtureProjectBoard(page)
-	await page.getByRole('button', { name: 'View backlog' }).click()
+	await page.getByTestId('project-tab-backlog').click()
 	await expect(page).toHaveURL(new RegExp(`/projects/${projectId}/backlog`))
 	return projectId
 }
@@ -89,7 +89,7 @@ test.describe('Backlog', () => {
 		await page.getByRole('menuitem', { name: 'Move to backlog' }).click()
 		await expect(page.locator(`[data-testid="task-card"][aria-label="${title}"]`)).toHaveCount(0)
 
-		await page.getByRole('button', { name: 'View backlog' }).click()
+		await page.getByTestId('project-tab-backlog').click()
 		expect((await rowTitles(page)).at(-1)).toBe(title)
 	})
 })

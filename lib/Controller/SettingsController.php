@@ -26,6 +26,7 @@ namespace OCA\Planninq\Controller;
 
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\RegisterImportService;
+use OCA\Planninq\Service\RiskScaleService;
 use OCA\Planninq\Service\SettingsService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -46,6 +47,7 @@ class SettingsController extends Controller {
 	 * @param SettingsService $settingsService The settings service
 	 * @param RegisterImportService $registerImport The register import service
 	 * @param IUserSession $userSession The user session
+	 * @param RiskScaleService $riskScale Finds the risks a smaller risk scale would strand
 	 *
 	 * @return void
 	 */
@@ -54,6 +56,7 @@ class SettingsController extends Controller {
 		private SettingsService $settingsService,
 		private RegisterImportService $registerImport,
 		private IUserSession $userSession,
+		private RiskScaleService $riskScale,
 	) {
 		parent::__construct(appName: Application::APP_ID, request: $request);
 	}//end __construct()
@@ -99,6 +102,17 @@ class SettingsController extends Controller {
 		}
 
 		$data = $this->request->getParams();
+		if (array_key_exists(RiskScaleService::CONFIG_KEY, $data) === true) {
+			$scale = $this->riskScale->normalise(raw: (string)$data[RiskScaleService::CONFIG_KEY]);
+			$refused = $this->refuseRiskScale(scale: $scale);
+			if ($refused !== null) {
+				return $refused;
+			}
+
+			// Store the normalised form: trimmed labels, integer levels.
+			$data[RiskScaleService::CONFIG_KEY] = (string)json_encode($scale);
+		}
+
 		$config = $this->settingsService->updateSettings($data);
 
 		return new JSONResponse(
@@ -108,6 +122,39 @@ class SettingsController extends Controller {
 			]
 		);
 	}//end create()
+
+	/**
+	 * The refusal of a risk scale that is malformed or that risks still exceed, or null to go on.
+	 *
+	 * @param array<string,mixed>|null $scale The normalised scale, or null when it did not parse.
+	 *
+	 * @return JSONResponse|null
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
+	 */
+	private function refuseRiskScale(?array $scale): ?JSONResponse {
+		if ($scale === null) {
+			return new JSONResponse(
+				['error' => 'risk-scale-invalid', 'message' => 'The risk scale is not valid.'],
+				Http::STATUS_BAD_REQUEST
+			);
+		}
+
+		$conflict = $this->riskScale->conflict(levels: (int)$scale['levels']);
+		if ($conflict === null) {
+			return null;
+		}
+
+		return new JSONResponse(
+			[
+				'error' => 'risk-scale-in-use',
+				'message' => $this->riskScale->refusal(count: $conflict['count'], level: $conflict['level']),
+				'count' => $conflict['count'],
+				'level' => $conflict['level'],
+			],
+			Http::STATUS_CONFLICT
+		);
+	}//end refuseRiskScale()
 
 	/**
 	 * Update app settings (PUT /api/settings).
