@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.12.0"
+    "version": "0.13.0"
   },
   "x-openregister": {
     "type": "application",
@@ -382,7 +382,7 @@
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.5.0",
+        "version": "0.6.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -527,6 +527,78 @@
             "description": "UUID of a linked Procest case",
             "format": "uuid",
             "nullable": true
+          },
+          "caseHandovers": {
+            "title": "Case handovers",
+            "type": "array",
+            "description": "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.",
+            "default": [],
+            "items": {
+              "type": "object",
+              "required": [
+                "date",
+                "by",
+                "case",
+                "files",
+                "failures"
+              ],
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "by": {
+                  "type": "string"
+                },
+                "case": {
+                  "type": "string"
+                },
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "sha256"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      },
+                      "size": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                },
+                "failures": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "reason"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "reason": {
+                        "type": "string",
+                        "enum": [
+                          "write",
+                          "checksum"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "labels": {
             "title": "Labels",

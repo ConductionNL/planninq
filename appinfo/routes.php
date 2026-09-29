@@ -37,6 +37,10 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'projectImport#preview', 'url' => '/api/projects/{projectId}/import/msproject/preview', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
     ['name' => 'projectImport#import', 'url' => '/api/projects/{projectId}/import/msproject', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
 
+    // Case handover: copy a project's files and metadata to its linked case. Owner or admin, checked per project.
+    ['name' => 'caseHandover#status', 'url' => '/api/projects/{projectId}/case-handover', 'verb' => 'GET', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'caseHandover#handOver', 'url' => '/api/projects/{projectId}/case-handover', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+
     // Read-only per-project timeline (Gantt) — RBAC-scoped through OR ObjectService.
     ['name' => 'timeline#forProject', 'url' => '/api/projects/{projectId}/timeline', 'verb' => 'GET', 'requirements' => ['projectId' => '[^/]+']],
     // Several projects on one axis (portfolio timeline), same RBAC-scoped read per project.
