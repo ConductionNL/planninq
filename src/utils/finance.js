@@ -330,3 +330,64 @@ export function categoriesValid(names) {
 	const lower = names.map((name) => name.toLowerCase())
 	return names.length > 0 && new Set(lower).size === lower.length
 }
+
+/**
+ * One project's money: the total row of its finance table, labour included.
+ *
+ * @param {object} project The project.
+ * @param {Array<object>} lines The project's finance lines.
+ * @param {Array<object>} entries The time entries booked on it.
+ * @param {object} [options] Options for laborCost().
+ * @return {object} Budget, commitment, actual, forecast, remaining and over.
+ *
+ * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
+ */
+export function projectMoney(project, lines, entries, options = {}) {
+	return financeTable({ lines, categories: [], labour: laborCost(entries, project, options), project }).total
+}
+
+/**
+ * Money across a portfolio: a row per project whose money the viewer may see,
+ * the totals, how many projects were left out, and whether every line belongs
+ * to one of the portfolio's projects (a line from elsewhere means the filter
+ * on `portfolio` was not applied, and the page says the totals cannot be
+ * trusted instead of showing them as if they could).
+ *
+ * @param {object} input The input.
+ * @param {Array<object>} input.projects The portfolio's projects the viewer can read.
+ * @param {Array<object>} input.lines The finance lines read with the filter portfolio = id.
+ * @param {object} input.entriesByProject Time entries keyed by project id.
+ * @param {{uid: string, isAdmin?: boolean}|null} input.user The viewer.
+ * @return {{rows: Array<object>, total: object, hidden: number, consistent: boolean}}
+ *
+ * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
+ */
+export function portfolioFinance({ projects, lines, entriesByProject, user }) {
+	const ids = new Set((projects || []).map((project) => project.id))
+	const byProject = {}
+	let consistent = true
+	for (const line of lines || []) {
+		const id = typeof line?.project === 'object' ? line?.project?.id : line?.project
+		if (!ids.has(id)) {
+			consistent = false
+			continue
+		}
+		(byProject[id] ||= []).push(line)
+	}
+
+	const visible = (projects || []).filter((project) => canSeeProjectMoney(project, user))
+	const rows = visible.map((project) => ({
+		project,
+		...projectMoney(project, byProject[project.id] || [], entriesByProject?.[project.id] || []),
+	}))
+
+	const total = { budget: 0, commitment: 0, actual: 0, forecast: 0, remaining: null, over: false }
+	for (const row of rows) {
+		for (const kind of FINANCE_KINDS) {
+			total[kind] += row[kind]
+		}
+	}
+	settle(total)
+
+	return { rows, total, hidden: (projects || []).length - visible.length, consistent }
+}

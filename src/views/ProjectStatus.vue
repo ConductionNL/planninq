@@ -131,6 +131,7 @@ import ProjectTabs from '../components/ProjectTabs.vue'
 import StatusReportDialog from '../dialogs/StatusReportDialog.vue'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
+import { canSeeProjectMoney, projectMoney } from '../utils/finance.js'
 import { entryAuthor } from '../utils/projectOverview.js'
 import { parseRiskScale } from '../utils/riskHelpers.js'
 import { aspectKey, ASPECTS, sortReports, suggestMoney, suggestRisk, suggestTime, worstStatus } from '../utils/statusReports.js'
@@ -155,6 +156,7 @@ export default {
 			reports: [],
 			tasks: [],
 			risks: [],
+			cost: null,
 			names: {},
 			loading: true,
 			writing: false,
@@ -220,8 +222,9 @@ export default {
 		},
 
 		/**
-		 * Suggestions for money, time and risk. Money has no cost source until
-		 * portfolio-finance records costs, so it says so instead of guessing.
+		 * Suggestions for money, time and risk. The money suggestion compares
+		 * the budget with the actual cost, labour included, for those who may
+		 * see the money; for anyone else there is no cost and no suggestion.
 		 *
 		 * @return {object}
 		 *
@@ -229,7 +232,7 @@ export default {
 		 */
 		suggestions() {
 			return {
-				money: suggestMoney({ budget: this.project?.budgetAmount, cost: null }),
+				money: suggestMoney({ budget: this.project?.budgetAmount, cost: this.cost }),
 				time: suggestTime(this.tasks, this.project),
 				risk: suggestRisk(this.risks, parseRiskScale(this.settingsStore.settings?.risk_scale)),
 			}
@@ -250,6 +253,26 @@ export default {
 
 	methods: {
 		/**
+		 * The project's actual cost, labour included, or null when the viewer may not see its money.
+		 *
+		 * @param {object|null} project The project.
+		 * @return {Promise<number|null>}
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
+		 */
+		async loadCost(project) {
+			if (!canSeeProjectMoney(project, getCurrentUser())) {
+				return null
+			}
+			const store = useProjectsStore()
+			const [lines, entries] = await Promise.all([
+				store.fetchFinanceLines(this.projectId),
+				store.fetchProjectTimeEntries(this.projectId),
+			])
+			return projectMoney(project, lines, entries).actual
+		},
+
+		/**
 		 * Load the project, its reports, tasks and risks, and the risk scale.
 		 *
 		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
@@ -269,6 +292,7 @@ export default {
 				this.reports = reports
 				this.tasks = Array.isArray(tasks) ? tasks : []
 				this.risks = risks
+				this.cost = await this.loadCost(project)
 				this.names = await displayNames([...new Set(reports.map((report) => entryAuthor(report)).filter(Boolean))])
 			} finally {
 				this.loading = false

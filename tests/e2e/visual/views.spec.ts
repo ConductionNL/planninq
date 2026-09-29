@@ -199,6 +199,7 @@ test.describe('visual baselines — planninq views', () => {
 	for (const [component, label, path, file] of [
 		['PortfolioStatus', 'Portfolio status', 'portfolio/status', 'portfolio-status.png'],
 		['PortfolioTimeline', 'Portfolio timeline', 'portfolio/timeline', 'portfolio-timeline.png'],
+		['PortfolioFinance', 'Portfolio finance', 'portfolio/finance', 'portfolio-finance.png'],
 	]) {
 		test(`${component} renders from its report card @visual`, async ({ page }) => {
 			await openReportCard(page, label)
