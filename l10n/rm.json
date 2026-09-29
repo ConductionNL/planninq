@@ -665,7 +665,13 @@
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "UIDs d'utilisaders da Nextcloud da las persunas che dastgan vesair quest import: il possessur dal project ed ils manaschers da ses portfolio",
         "Project owner": "Possessur dal project",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "UID d'utilisader da Nextcloud dal possessur dal project, che dastga midar ed allontanar lingias manualas",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Co ch'il client paja: betg facturà, pretsch fix u per ura."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Co ch'il client paja: betg facturà, pretsch fix u per ura.",
+        "Portfolio finance": "Finanzas dal portfolio",
+        "You cannot see the money of any project in this portfolio": "Ti na vesas ils daners da nagin project en quest portfolio",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Il server ha returnà lingias da custs da projects ordaifer quest portfolio, pertge pon questas summas esser faussas.",
+        "Projects left out because you cannot see their money: {count}": "Projects laschads davent perquai che ti na vesas betg lur daners: {count}",
+        "Unmatched finance lines": "Lingias finanzialas betg attribuidas",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, obligaziuns, custs effectivs e prognosa summads per in portfolio."
     },
     "plurals": null
 }

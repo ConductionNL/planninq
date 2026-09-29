@@ -666,7 +666,13 @@ OC.L10N.register(
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "UID карыстальнікаў Nextcloud, якім дазволена бачыць суму: уладальнік праекта і менеджары яго партфеля",
         "Project owner": "Уладальнік праекта",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "UID карыстальніка Nextcloud, уладальніка праекта, які можа змяняць і выдаляць ручныя радкі",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Як плаціць кліент: без рахунку, фіксаваная цана або пагадзінна."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Як плаціць кліент: без рахунку, фіксаваная цана або пагадзінна.",
+        "Portfolio finance": "Фінансы партфеля",
+        "You cannot see the money of any project in this portfolio": "Вы не бачыце грошай ніводнага праекта ў гэтым партфелі",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Сервер вярнуў радкі выдаткаў праектаў па-за гэтым партфелем, таму вынікі могуць быць памылковымі.",
+        "Projects left out because you cannot see their money: {count}": "Прапушчана праектаў, чые грошы вам не бачныя: {count}",
+        "Unmatched finance lines": "Незвязаныя фінансавыя радкі",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Бюджэт, абавязацельствы, фактычныя выдаткі і прагноз у суме па партфелі."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1115,7 +1115,7 @@
       "area": "projects",
       "name": "Record a project's delivery and billing terms, such as budget and fixed price or hourly billing.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "no",
@@ -1133,14 +1133,12 @@
         "plane": "corpus: plane/round4/code-census.md §2 fixed field list and 'no custom fields on any object'; no budget or billing field on Project (project.py:68-117); 'no Time tracking' (menu-tree.md) ; source read at v1.4.2: apps/api/plane/db/models/project.py:68-117 Project fields; searched project.py for 'budget', 'billing', 'fixed_price', 'hourly': none"
       },
       "built": {
-        "state": "specified",
-        "evidence": "lib/Settings/planninq_register.json declares billable/budgetHours/budgetAmount/hourlyRate on the project schema. They are read-only displayed in src/components/ProjectListItem.vue:41,127,138 and src/integrations/CnProjectsWidget.vue:45-52 (badges), but neither src/dialogs/ProjectCreationDialog.vue nor src/components/ProjectSettingsSidebar.vue (Details tab, lines 16-64) exposes any field to set them.",
-        "reachedOn": "display only (ProjectListItem badge, CnProjectsWidget); no screen lets a user record or edit these terms",
+        "state": "built",
+        "evidence": "src/views/ProjectFinance.vue terms form sets billable, billingModel (new on the project schema), budgetAmount, budgetHours, hourlyRate, startDate and endDate through termsPatch() in src/utils/finance.js; project owners and admins only (canEditTerms)",
+        "reachedOn": "Project Finance tab /projects/:id/finance, Delivery terms",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/components/ProjectSettingsSidebar.vue:16-64 Details tab has no fields for billable/budgetHours/budgetAmount/hourlyRate"
-        ],
-        "change": "openspec/changes/portfolio-finance"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-finance",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4558,7 +4556,7 @@
       "area": "portfolio",
       "name": "Track a project's budget against actual cost.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
@@ -4576,11 +4574,12 @@
         "plane": "corpus: plane/round4/code-census.md §2 fixed fields and no custom fields; no budget or cost model in db/models ; source read at v1.4.2: searched apps/api/plane/db/models --include=*.py for 'budget', 'cost': none; Project fields at apps/api/plane/db/models/project.py:68-117 carry no money"
       },
       "built": {
-        "state": "specified",
-        "evidence": "lib/Settings/planninq_register.json:544-561 project.budgetHours/budgetAmount/hourlyRate exist as schema properties; no planninq form sets them (src/dialogs/ProjectCreationDialog.vue, src/components/ProjectSettingsSidebar.vue have no budget field); src/integrations/CnProjectsWidget.vue:17-19,47-51 only DISPLAYS budgetAmount on the leaf in other apps",
-        "reachedOn": "nothing compares budget with cost",
+        "state": "built",
+        "evidence": "financeLine schema (lib/Settings/planninq_register.json) for budget, commitment, actual and forecast lines per category and phase; src/utils/finance.js laborCost() and financeTable() compare them with the budget, labour from booked time included; guarded by lib/Listener/FinanceLineListener.php",
+        "reachedOn": "Project Finance tab /projects/:id/finance, 'Budget against cost per category' and 'per phase'",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/portfolio-finance"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-finance",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6129,7 +6128,7 @@
         "kanboard": "source read at v1.2.54: searched app/ for 'budget', 'cost', 'portfolio': none (budget is a third party plugin, not core)",
         "jira": "https://marketplace.atlassian.com/apps/1211259/budgets-jira-project-budget-management-tempo paid app Tempo Budgets, build 19.6.2-jira-11 compatible to Jira 11.3.11: 'Budget and track projects, and portfolios ... Forecast costs, revenues, and profitability'; Jira has no budget object (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "no",
@@ -6140,12 +6139,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "Budget is schema plus display only: lib/Settings/planninq_register.json:544-561 budgetHours/budgetAmount/hourlyRate, shown on src/components/ProjectListItem.vue:44-49 and totalled in src/integrations/CnProjectsWidget.vue:254-256 (a leaf rendered on OTHER apps' pages). No planninq page sets a budget, and spend, commitments and forecast have no property at all. The Portfolio page (src/views/Portfolio.vue:29-69) carries no money column.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/PortfolioFinance.vue totals budget, commitments, actual cost with labour, forecast and remaining per project of a portfolio through portfolioFinance() in src/utils/finance.js, reading lines with the filter portfolio=<id> kept in step by lib/Service/FinanceLineService.php; only projects whose money the viewer may see",
+        "reachedOn": "Reports page /reports, 'Portfolio finance' card -> /portfolio/finance",
         "owner": "ConductionNL/planninq",
-        "nearCredit": "the budget total in CnProjectsWidget reads like a portfolio figure but is budget only, is set nowhere in planninq and renders on other apps' pages",
-        "change": "openspec/changes/portfolio-finance"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-finance",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6166,7 +6165,7 @@
         "kanboard": "source read at v1.2.54: searched app/Model and app/Api/Procedure for 'cost', 'budget', 'finance': none",
         "jira": "https://confluence.atlassian.com/adminjiraserver/integrating-with-other-tools-938846907.html lists no finance system integration, and projects carry no budget or spend fields (https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html) to import into (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
@@ -6177,11 +6176,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "No finance import and no project number to match on: project.key is declared at lib/Settings/planninq_register.json:524 and unused in src/ and lib/. lib/Service/RegisterImportService.php loads planninq's own register JSON (schemas and seed objects), not external spend. Spend and commitments have no schema property to land in.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "The integration app writes financeLine objects with source import; lib/Listener/FinanceLineListener.php resolves the project from projectKey against project.key, keeps writes to the planninq-finance-import group and refuses a duplicate externalRef naming the existing line; contract in docs/features/finance-import.md; unmatched lines in the declarative index /finance/unmatched",
+        "reachedOn": "Beheer, 'Unmatched finance lines' /finance/unmatched; imported lines on the project Finance tab",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/portfolio-finance"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-finance",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

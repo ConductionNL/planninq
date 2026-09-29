@@ -697,6 +697,33 @@ export const useProjectsStore = defineStore('projects', {
 		},
 
 		/**
+		 * The finance lines of a portfolio's projects and the time booked on the
+		 * projects whose money the viewer may see, for the portfolio totals.
+		 * The lines are read with the one equality filter `portfolio = id`.
+		 *
+		 * @param {string} portfolioId The portfolio UUID
+		 * @param {Array<object>} projects The portfolio's projects whose money the viewer may see
+		 * @return {Promise<{lines: Array, entriesByProject: object}>}
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
+		 */
+		async fetchPortfolioMoney(portfolioId, projects) {
+			try {
+				const [lines, ...entries] = await Promise.all([
+					fetchEvery(this._objectStore(), FINANCE_LINE_SCHEMA, { portfolio: portfolioId }),
+					...projects.map((project) => this.fetchProjectTimeEntries(project.id)),
+				])
+				return {
+					lines: Array.isArray(lines) ? lines : [],
+					entriesByProject: Object.fromEntries(projects.map((project, i) => [project.id, entries[i]])),
+				}
+			} catch (err) {
+				console.error('fetchPortfolioMoney error:', err)
+				return { lines: [], entriesByProject: {} }
+			}
+		},
+
+		/**
 		 * Every time entry booked on a project, for its labour cost.
 		 *
 		 * @param {string} projectId Parent project UUID

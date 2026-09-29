@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.14.0"
+    "version": "0.14.1"
   },
   "x-openregister": {
     "type": "application",
@@ -2370,8 +2370,8 @@
       },
       "financeLine": {
         "slug": "financeLine",
-        "icon": "CashMultiple",
-        "version": "0.1.0",
+        "icon": "CurrencyEur",
+        "version": "0.1.1",
         "title": "Finance line",
         "description": "One amount of money on a project: a budget, a commitment, an actual cost or a forecast, in a cost category and optionally a phase. Written by the project owner, or by the finance system through the integration app.",
         "x-schema-org": "schema:MonetaryAmount",

@@ -1174,6 +1174,262 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Finance Import",
+			"description": "portfolio-finance task 3.1: the integration writes financeLine objects with source import; a line lands on the project whose key is its projectKey, and the same externalRef twice is refused with planninq-finance-line-exists and the existing line, which the integration then updates.",
+			"item": [
+				{
+					"name": "create a project with a finance number",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/project",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Omgevingsvisie (newman finance)\", \"status\": \"active\", \"key\": \"NWMFIN\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('project created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('finance_project_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "the finance system sends a line on the project number",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/financeLine",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"projectKey\": \"NWMFIN\", \"kind\": \"actual\", \"amount\": 1200, \"externalRef\": \"FIN-NEWMAN-778\", \"source\": \"import\", \"category\": \"Hired staff\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('line created on the project with that key', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('finance_line_id', json.id || (json['@self'] || {}).id);",
+									"    pm.expect(json.project).to.eql(pm.collectionVariables.get('finance_project_id'));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "sending the same finance line again is refused, naming the line",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/financeLine",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"projectKey\": \"NWMFIN\", \"kind\": \"actual\", \"amount\": 1250, \"externalRef\": \"FIN-NEWMAN-778\", \"source\": \"import\", \"category\": \"Hired staff\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('duplicate refused', function () {",
+									"    pm.expect(pm.response.code).to.be.within(400, 499);",
+									"    pm.expect(pm.response.text()).to.include('planninq-finance-line-exists');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "the finance system updates that line",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/financeLine/{{finance_line_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"amount\": 1250}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('line updated', function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.json().amount).to.eql(1250);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "one line comes back for the finance line id",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/financeLine?externalRef=FIN-NEWMAN-778",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('exactly one line of 1250', function () {",
+									"    const json = pm.response.json();",
+									"    const rows = json.results || json;",
+									"    pm.expect(rows.length).to.eql(1);",
+									"    pm.expect(rows[0].amount).to.eql(1250);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the line",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/financeLine/{{finance_line_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('line removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the project",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/project/{{finance_project_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('project removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
 		}
 	]
 }

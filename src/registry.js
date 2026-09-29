@@ -22,6 +22,7 @@
 // and slot overrides only.
 import Boards from './views/Boards.vue'
 import Portfolio from './views/Portfolio.vue'
+import PortfolioFinance from './views/PortfolioFinance.vue'
 import PortfolioStatus from './views/PortfolioStatus.vue'
 import PortfolioTimeline from './views/PortfolioTimeline.vue'
 import ProjectBacklog from './views/ProjectBacklog.vue'
@@ -50,6 +51,7 @@ function page(component) {
 export default {
 	Boards: page(Boards),
 	Portfolio: page(Portfolio),
+	PortfolioFinance: page(PortfolioFinance),
 	PortfolioStatus: page(PortfolioStatus),
 	PortfolioTimeline: page(PortfolioTimeline),
 	ProjectBacklog: page(ProjectBacklog),

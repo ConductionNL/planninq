@@ -666,7 +666,13 @@ OC.L10N.register(
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "Nextcloud-användar-UID:n för personerna som får se beloppet: projektägaren och portföljens förvaltare",
         "Project owner": "Projektägare",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "Nextcloud-användar-UID för projektägaren, som får ändra och ta bort manuella rader",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Hur kunden betalar: faktureras inte, fast pris eller per timme."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Hur kunden betalar: faktureras inte, fast pris eller per timme.",
+        "Portfolio finance": "Portföljekonomi",
+        "You cannot see the money of any project in this portfolio": "Du kan inte se pengarna för något projekt i den här portföljen",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Servern returnerade kostnadsrader från projekt utanför den här portföljen, så summorna kan vara fel.",
+        "Projects left out because you cannot see their money: {count}": "Projekt som utelämnats eftersom du inte kan se deras pengar: {count}",
+        "Unmatched finance lines": "Omatchade ekonomirader",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, åtaganden, faktisk kostnad och prognos summerade för en portfölj."
     },
     "nplurals=2; plural=(n != 1);"
 )

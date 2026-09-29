@@ -665,7 +665,13 @@
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "Nextcloud-Benutzer-UIDs der Personen, die diesen Betrag sehen dürfen: der Projektinhaber und die Manager seines Portfolios",
         "Project owner": "Projektinhaber",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "Nextcloud-Benutzer-UID des Projektinhabers, der manuelle Zeilen ändern und entfernen darf",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Wie der Kunde zahlt: nicht abgerechnet, Festpreis oder stündlich."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Wie der Kunde zahlt: nicht abgerechnet, Festpreis oder stündlich.",
+        "Portfolio finance": "Portfoliofinanzen",
+        "You cannot see the money of any project in this portfolio": "Du kannst das Geld keines Projekts in diesem Portfolio sehen",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Der Server hat Kostenzeilen von Projekten außerhalb dieses Portfolios geliefert, daher können diese Summen falsch sein.",
+        "Projects left out because you cannot see their money: {count}": "Ausgelassene Projekte, weil du ihr Geld nicht sehen kannst: {count}",
+        "Unmatched finance lines": "Nicht zugeordnete Finanzzeilen",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, Verpflichtungen, Ist-Kosten und Prognose, über ein Portfolio summiert."
     },
     "plurals": null
 }

@@ -83,6 +83,9 @@
 								<th v-if="showMoney" scope="col">
 									{{ t('planninq', 'Budget') }}
 								</th>
+								<th v-if="showMoney" scope="col">
+									{{ t('planninq', 'Actual cost') }}
+								</th>
 								<th v-for="aspect in aspects" :key="aspect" scope="col">
 									{{ aspectLabels[aspect] }}
 								</th>
@@ -108,6 +111,9 @@
 								<td>{{ row.project.endDate || '' }}</td>
 								<td v-if="showMoney" data-testid="portfolio-project-budget">
 									{{ row.money ? budgetText(row.project) : '' }}
+								</td>
+								<td v-if="showMoney" data-testid="portfolio-project-actual">
+									{{ row.money && actualCost[row.project.id] !== undefined ? euro(actualCost[row.project.id]) : '' }}
 								</td>
 								<td v-for="aspect in aspects" :key="aspect">
 									<HealthStatus :status="row.project.healthDate ? (row.project[`health${aspectKey(aspect)}`] || '') : ''" />
@@ -152,6 +158,7 @@ import HealthStatus from '../components/HealthStatus.vue'
 import { fetchPortfolioTimeline } from '../api/timeline.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
+import { canSeeProjectMoney, formatEuro, portfolioFinance } from '../utils/finance.js'
 import { filterByPortfolio, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { canSeeMoney, isOutOfDate, portfolioRollup } from '../utils/portfolioStatus.js'
 import { projectProgress } from '../utils/projectOverview.js'
@@ -173,6 +180,8 @@ export default {
 			portfolios: [],
 			projects: [],
 			tasksByProject: {},
+			moneyLines: [],
+			entriesByProject: {},
 			aspects: ASPECTS,
 			settingsStore: useSettingsStore(),
 		}
@@ -217,6 +226,23 @@ export default {
 		 */
 		portfolioProjects() {
 			return this.portfolio ? filterByPortfolio(this.projects, String(this.portfolio.id)) : []
+		},
+
+		/**
+		 * The actual cost per project, labour included, for the projects whose money the viewer may see.
+		 *
+		 * @return {object}
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
+		 */
+		actualCost() {
+			const finance = portfolioFinance({
+				projects: this.portfolioProjects,
+				lines: this.moneyLines,
+				entriesByProject: this.entriesByProject,
+				user: getCurrentUser(),
+			})
+			return Object.fromEntries(finance.rows.map((row) => [row.project.id, row.actual]))
 		},
 
 		/**
@@ -281,6 +307,7 @@ export default {
 		 */
 		portfolioProjects() {
 			this.loadTasks()
+			this.loadMoney()
 		},
 	},
 
@@ -331,6 +358,34 @@ export default {
 				console.error('PortfolioStatus: could not load the tasks', err)
 				this.tasksByProject = {}
 			}
+		},
+
+		/**
+		 * Load the finance lines and booked time behind the actual cost column.
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
+		 */
+		async loadMoney() {
+			const user = getCurrentUser()
+			const visible = this.portfolioProjects.filter((project) => canSeeProjectMoney(project, user))
+			if (!this.portfolio || !visible.length) {
+				this.moneyLines = []
+				this.entriesByProject = {}
+				return
+			}
+			const money = await useProjectsStore().fetchPortfolioMoney(String(this.portfolio.id), visible)
+			this.moneyLines = money.lines
+			this.entriesByProject = money.entriesByProject
+		},
+
+		/**
+		 * @param {number} amount The amount.
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
+		 */
+		euro(amount) {
+			return formatEuro(amount)
 		},
 
 		/**

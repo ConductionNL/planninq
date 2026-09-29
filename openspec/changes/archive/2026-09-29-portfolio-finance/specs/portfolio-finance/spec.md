@@ -16,6 +16,8 @@ The Portfolio menu MUST have a finance sub-page that, for a chosen portfolio, li
 
 #### Scenario: A project outside your reach is not totalled
 
+@e2e exclude The e2e suite signs in as the admin only, who sees every project's money; asserted by tests/vitest/portfolioFinance.spec.js "totals nothing for a member who holds no role on the portfolio"
+
 - **GIVEN** a user who is a member but not a manager of one project in "Ruimte", and holds no role on the portfolio
 - **WHEN** the user opens /portfolio/finance and picks "Ruimte"
 - **THEN** the page says "You cannot see the money of any project in this portfolio"

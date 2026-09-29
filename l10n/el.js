@@ -666,7 +666,13 @@ OC.L10N.register(
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "UID χρηστών Nextcloud των ατόμων που μπορούν να δουν το ποσό: ο κάτοχος του έργου και οι διαχειριστές του χαρτοφυλακίου του",
         "Project owner": "Κάτοχος έργου",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "UID χρήστη Nextcloud του κατόχου του έργου, που μπορεί να αλλάζει και να αφαιρεί χειροκίνητες γραμμές",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Πώς πληρώνει ο πελάτης: χωρίς χρέωση, σταθερή τιμή ή ανά ώρα."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Πώς πληρώνει ο πελάτης: χωρίς χρέωση, σταθερή τιμή ή ανά ώρα.",
+        "Portfolio finance": "Οικονομικά χαρτοφυλακίου",
+        "You cannot see the money of any project in this portfolio": "Δεν μπορείτε να δείτε τα χρήματα κανενός έργου αυτού του χαρτοφυλακίου",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Ο διακομιστής επέστρεψε γραμμές κόστους έργων εκτός αυτού του χαρτοφυλακίου, άρα τα σύνολα μπορεί να είναι λάθος.",
+        "Projects left out because you cannot see their money: {count}": "Έργα που παραλείφθηκαν επειδή δεν βλέπετε τα χρήματά τους: {count}",
+        "Unmatched finance lines": "Μη αντιστοιχισμένες οικονομικές γραμμές",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Προϋπολογισμός, δεσμεύσεις, πραγματικό κόστος και πρόβλεψη αθροισμένα για ένα χαρτοφυλάκιο."
     },
     "nplurals=2; plural=(n != 1);"
 )

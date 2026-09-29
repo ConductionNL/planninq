@@ -665,7 +665,13 @@
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "Niiden henkilöiden Nextcloud-käyttäjätunnukset, jotka saavat nähdä summan: projektin omistaja ja salkun hallinnoijat",
         "Project owner": "Projektin omistaja",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "Projektin omistajan Nextcloud-käyttäjätunnus; hän saa muuttaa ja poistaa käsin kirjattuja rivejä",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Miten asiakas maksaa: ei laskuteta, kiinteä hinta tai tuntiperusteinen."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Miten asiakas maksaa: ei laskuteta, kiinteä hinta tai tuntiperusteinen.",
+        "Portfolio finance": "Salkun talous",
+        "You cannot see the money of any project in this portfolio": "Et näe tämän salkun minkään projektin rahoja",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Palvelin palautti kustannusrivejä tämän salkun ulkopuolisista projekteista, joten summat voivat olla vääriä.",
+        "Projects left out because you cannot see their money: {count}": "Pois jätetyt projektit, koska et näe niiden rahoja: {count}",
+        "Unmatched finance lines": "Kohdistamattomat talousrivit",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budjetti, sitoumukset, toteutuneet kustannukset ja ennuste salkun yhteissummina."
     },
     "plurals": null
 }

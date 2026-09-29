@@ -666,7 +666,13 @@ OC.L10N.register(
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "Nextcloud-notandaauðkenni þeirra sem mega sjá fjárhæðina: eigandi verkefnisins og stjórnendur safnsins",
         "Project owner": "Eigandi verkefnis",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "Nextcloud-notandaauðkenni eiganda verkefnisins, sem má breyta og fjarlægja handvirkar línur",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Hvernig viðskiptavinurinn greiðir: ekki rukkað, fast verð eða á klukkustund."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Hvernig viðskiptavinurinn greiðir: ekki rukkað, fast verð eða á klukkustund.",
+        "Portfolio finance": "Fjármál safns",
+        "You cannot see the money of any project in this portfolio": "Þú getur ekki séð fjármuni neins verkefnis í þessu safni",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Þjónninn skilaði kostnaðarlínum verkefna utan þessa safns, svo heildartölurnar gætu verið rangar.",
+        "Projects left out because you cannot see their money: {count}": "Verkefni sleppt af því að þú sérð ekki fjármuni þeirra: {count}",
+        "Unmatched finance lines": "Ópöruð fjármálalínur",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Fjárhagsáætlun, skuldbindingar, raunkostnaður og spá lögð saman fyrir safn."
     },
     "nplurals=2; plural=(n != 1);"
 )
