@@ -42,6 +42,9 @@
 						<span data-testid="phase-status">{{ statusLabel(phase.status) }}</span>
 						<span v-if="phase.startDate || phase.endDate">{{ phase.startDate || '' }} – {{ phase.endDate || '' }}</span>
 						<span v-if="phase.budgetHours">{{ t('planninq', '{hours} hours', { hours: phase.budgetHours }) }}</span>
+						<span v-if="documents[phase.id]" data-testid="phase-document">
+							{{ t('planninq', 'Concluding document: {title}', { title: documents[phase.id] }) }}
+						</span>
 						<span
 							v-if="flagged[phase.id]"
 							class="project-phases__flag"
@@ -164,6 +167,7 @@ export default {
 		return {
 			phases: [],
 			flagged: {},
+			documents: {},
 			loading: true,
 			moving: false,
 			selectedId: '',
@@ -236,14 +240,18 @@ export default {
 			this.phases = await useProjectsStore().fetchPhases(this.projectId)
 			this.loading = false
 			const flagged = {}
+			const documents = {}
 			await Promise.all(this.phases.filter((phase) => phase.status === 'completed').map(async (phase) => {
 				try {
-					flagged[phase.id] = missingConcludingDocument(phase, await listPhaseFiles(phase.id))
+					const files = await listPhaseFiles(phase.id)
+					flagged[phase.id] = missingConcludingDocument(phase, files)
+					documents[phase.id] = files.find((file) => String(file.id) === String(phase.concludingDocument))?.title || ''
 				} catch {
 					flagged[phase.id] = false
 				}
 			}))
 			this.flagged = flagged
+			this.documents = documents
 		},
 
 		/**

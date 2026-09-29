@@ -51,3 +51,12 @@ The register's `openregister` constraint rises to the first release that ships t
 ## Open questions
 
 - The exact key OpenRegister's annotation validator expects for a transition's action name is read from its `object-lifecycle` spec at implementation time; this design only fixes the states, the `from`/`to` pairs and the guard tag.
+
+## Built at HEAD (29 Sep 2026)
+
+The code at `a9cd351` and OpenRegister at its current development settled four points this design left open.
+
+- **The guard is named by its class, not a tag.** OpenRegister's `LifecycleGuardRegistry` resolves `requires` from its own container, then from the server container. A plain tag such as `planninq.phase.concludingDocument` resolves in neither and fails closed on every close. The `complete` transition therefore names `OCA\Planninq\Lifecycle\PhaseConcludingDocumentGuard`, which the server container autowires from planninq, as OpenRegister's own `DenialFinaliseGuard` is named. Nothing is registered in `Application.php`.
+- **The transitions are named** `start`, `complete` (with `requires`), `cancel` and `reopen`; `final` lists completed and cancelled. OpenRegister's `LifecycleAnnotationValidator` (origin/development) returns no finding for the block, and one for a control with an undeclared `to` state.
+- **The OpenRegister constraint** becomes `>=v1.1.7`, the first plain release tag that carries `LifecycleGuardInterface` and the `requires` step in `LifecycleValidationListener`. OpenRegister stores the constraint and does not enforce it; a caret range would have excluded the 2.x line the fleet runs.
+- **The page is reached from the Phases tab**, not a board-header button: since `projects-overview-logs-risks` every project page shares one row of tabs (`ProjectTabs`), and a board-header button would be a second way in. The close dialog shows the guard's refusal as the translated sentence for the code `lifecycle-guard-denied`, not OpenRegister's English message.
