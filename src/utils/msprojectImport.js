@@ -73,3 +73,17 @@ export function lossList(losses) {
 		.map((code) => ({ code, count: Number(losses?.[code] || 0) }))
 		.filter((loss) => loss.count > 0)
 }
+
+/**
+ * Whether this user is offered the import: the project owner or an admin.
+ * The server enforces the same rule (ProjectImportController).
+ *
+ * @param {object|null} project The project.
+ * @param {{uid: string, isAdmin: boolean}|null} user The current user.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/integration-msproject-import/tasks.md#task-3.1
+ */
+export function mayImport(project, user) {
+	return !!user && (user.isAdmin === true || (!!project?.owner && project.owner === user.uid))
+}

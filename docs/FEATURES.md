@@ -209,6 +209,7 @@ No dedicated Dutch government task management tools were identified. OpenProject
 | Webhook outgoing (on task create/update/complete) | **V1** | External system triggers |
 | Import from Nextcloud Deck (boards → projects) | **V1** | Migration from Deck |
 | Import from CSV (tasks bulk import) | **V1** | Data onboarding |
+| Import a Gantt plan from Microsoft Project (XML: phases, tasks, sub-tasks, milestones, links; re-import updates) | **V1** | Tender demand: TenderNed 365739, requirement 4132 |
 
 ### Security & Compliance
 

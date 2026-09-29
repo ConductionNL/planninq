@@ -15,6 +15,7 @@ The project owner, or an admin, MUST be able to upload a plan saved from Microso
 - **AND** the project has no new objects yet
 
 #### Scenario: A member who is not the owner cannot import
+@e2e exclude The e2e suite runs as the admin only; the hidden button is asserted by tests/vitest/msprojectImport.spec.js "offers the import to the owner and to an admin only" and the refused request by ProjectImportControllerTest::testMemberWhoIsNotOwnerIsRefused
 
 - **GIVEN** a project member who is not the project owner
 - **WHEN** they open the project's timeline
@@ -47,12 +48,14 @@ The system MUST refuse a file that declares a DOCTYPE or external entities, a fi
 When a plan is imported into a project that already holds objects from an earlier import of the same plan, the system MUST update the objects whose Microsoft Project task UID matches, create the new ones, and list, without deleting them, the objects whose UID is no longer in the file. Running the same import twice SHALL create no duplicates. Tier: V1.
 
 #### Scenario: A newer plan moves a task instead of duplicating it
+@e2e exclude Needs two versions of one plan in one run; asserted by ProjectImportControllerTest::testReimportUpdatesMatchedTasks
 
 - **GIVEN** a project with "Fundering" imported earlier from 1 to 12 March 2027
 - **WHEN** the owner imports the contractor's new version where "Fundering" runs 8 to 19 March 2027
 - **THEN** the same "Fundering" task now runs from 8 to 19 March 2027 and there is only one "Fundering"
 
 #### Scenario: A task dropped from the plan is listed, not deleted
+@e2e exclude Needs two versions of one plan in one run; asserted by ProjectImportControllerTest::testReimportListsMissingTasks
 
 - **GIVEN** a project with an imported task "Asbestsanering"
 - **WHEN** the owner imports a newer file without it

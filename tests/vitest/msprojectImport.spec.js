@@ -11,6 +11,7 @@ import {
 	COUNT_KINDS,
 	fileRefusal,
 	lossList,
+	mayImport,
 	refusalReason,
 } from '../../src/utils/msprojectImport.js'
 import { deriveBlockedTaskIds, isBlocked, openBlockerIds } from '../../src/utils/taskHelpers.js'
@@ -83,5 +84,17 @@ describe('related links from an import', () => {
 		])
 		const layout = buildLayout(scheduled, edges.map((edge, i) => ({ id: `e${i}`, ...edge })), PX_PER_DAY.day)
 		expect(layout.edgeLines.map((line) => [line.key, line.related])).toEqual([['e0', true], ['e1', false]])
+	})
+})
+
+describe('mayImport (scenario: a member who is not the owner cannot import)', () => {
+	const project = { owner: 'olga', members: ['olga', 'mo'] }
+
+	it('offers the import to the owner and to an admin only', () => {
+		expect(mayImport(project, { uid: 'olga', isAdmin: false })).toBe(true)
+		expect(mayImport(project, { uid: 'root', isAdmin: true })).toBe(true)
+		expect(mayImport(project, { uid: 'mo', isAdmin: false })).toBe(false)
+		expect(mayImport(null, { uid: 'mo', isAdmin: false })).toBe(false)
+		expect(mayImport(project, null)).toBe(false)
 	})
 })

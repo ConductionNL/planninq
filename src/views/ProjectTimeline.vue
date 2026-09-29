@@ -175,6 +175,7 @@ import ProjectTabs from '../components/ProjectTabs.vue'
 import MsProjectImportDialog from '../dialogs/MsProjectImportDialog.vue'
 import { fetchProjectTimeline } from '../api/timeline.js'
 import { useProjectsStore } from '../store/projects.js'
+import { mayImport } from '../utils/msprojectImport.js'
 import {
 	buildLayout,
 	MS_PER_DAY,
@@ -240,9 +241,7 @@ export default {
 		 * @spec openspec/changes/integration-msproject-import/tasks.md#task-3.1
 		 */
 		isOwner() {
-			const user = getCurrentUser()
-			const project = useProjectsStore().activeProject
-			return !!user && (user.isAdmin === true || (!!project && project.owner === user.uid))
+			return mayImport(useProjectsStore().activeProject, getCurrentUser())
 		},
 
 		/**
