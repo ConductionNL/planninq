@@ -247,32 +247,10 @@ class ProjectController extends Controller {
 			return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
 		}
 
-		$uid = $user->getUID();
-		$body = $this->request->getParams();
-
-		// Strip framework-injected routing params.
-		unset($body['_route'], $body['_format']);
-
-		// The project key (tasks-readable-keys): stored uppercase, refused
-		// here with a clear status when it is malformed or taken. The key
-		// listener holds every other project write to the same rules.
-		$body['key'] = $this->keys->normalise(key: ($body['key'] ?? null));
-		if ($body['key'] === '') {
-			unset($body['key']);
-		}
-
-		$keyRefusal = $this->checkKey(key: ($body['key'] ?? ''));
-		if ($keyRefusal !== null) {
-			return $keyRefusal;
-		}
-
-		// Ensure owner + initial membership are set server-side so the client
-		// cannot spoof a different owner.
-		$body['owner'] = $uid;
-		$body['members'] = array_values(array_unique(array_merge([$uid], (array)($body['members'] ?? []))));
-		$body['status'] = ($body['status'] ?? 'active');
-		if ($requesting === true) {
-			$body = $this->asRequest(body: $body, uid: $uid);
+		$uid  = $user->getUID();
+		$body = $this->createBody(uid: $uid, requesting: $requesting);
+		if ($body instanceof JSONResponse) {
+			return $body;
 		}
 
 		try {
@@ -311,6 +289,49 @@ class ProjectController extends Controller {
 		}//end try
 
 	}//end create()
+
+	/**
+	 * The body a create saves: routing params stripped, the key normalised and
+	 * checked, owner and members set by the server, a request marked as one.
+	 *
+	 * @param string $uid        The caller.
+	 * @param bool   $requesting Whether the caller may only request.
+	 *
+	 * @return array<string,mixed>|JSONResponse The body, or the refusal of its key.
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.2
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	private function createBody(string $uid, bool $requesting): array|JSONResponse {
+		$body = $this->request->getParams();
+
+		// Strip framework-injected routing params.
+		unset($body['_route'], $body['_format']);
+
+		// The project key (tasks-readable-keys): stored uppercase, refused
+		// here with a clear status when it is malformed or taken. The key
+		// listener holds every other project write to the same rules.
+		$body['key'] = $this->keys->normalise(key: ($body['key'] ?? null));
+		if ($body['key'] === '') {
+			unset($body['key']);
+		}
+
+		$keyRefusal = $this->checkKey(key: ($body['key'] ?? ''));
+		if ($keyRefusal !== null) {
+			return $keyRefusal;
+		}
+
+		// Ensure owner + initial membership are set server-side so the client
+		// cannot spoof a different owner.
+		$body['owner']   = $uid;
+		$body['members'] = array_values(array_unique(array_merge([$uid], (array)($body['members'] ?? []))));
+		$body['status']  = ($body['status'] ?? 'active');
+		if ($requesting === true) {
+			return $this->asRequest(body: $body, uid: $uid);
+		}
+
+		return $body;
+	}//end createBody()
 
 	/**
 	 * A create body turned into a project request: status requested, the requester its only member, no review filled in.

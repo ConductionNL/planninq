@@ -26,7 +26,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 
 use OCA\Planninq\Repair\ApplyProjectPolicy;
 use OCA\Planninq\Service\ProjectPolicySchemaService;
-use OCA\Planninq\Service\SettingsService;
+use OCA\Planninq\Service\CreationPolicyService;
 use OCP\App\IAppManager;
 use OCP\Migration\IOutput;
 use PHPUnit\Framework\TestCase;
@@ -198,9 +198,9 @@ class ProjectPolicySchemaServiceTest extends TestCase {
 		// The import rewrites the live schema from the register file.
 		$this->setUp();
 
-		$settings = $this->createMock(originalClassName: SettingsService::class);
-		$settings->method('reviewerGroups')->willReturn(['projectleiders']);
-		(new ApplyProjectPolicy(settings: $settings, policySchema: $service))->run($this->createMock(originalClassName: IOutput::class));
+		$policy = $this->createMock(originalClassName: CreationPolicyService::class);
+		$policy->method('reviewerGroups')->willReturn(['projectleiders']);
+		(new ApplyProjectPolicy(policy: $policy, policySchema: $service))->run($this->createMock(originalClassName: IOutput::class));
 
 		self::assertSame(['admin', 'projectleiders'], $this->schemas[10]->getConfiguration()['x-openregister-lifecycle']['transitions']['approve']['authorization']);
 	}//end testTheRepairStepReappliesThePatchAfterAnImport()

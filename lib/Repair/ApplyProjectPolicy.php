@@ -30,7 +30,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Repair;
 
 use OCA\Planninq\Service\ProjectPolicySchemaService;
-use OCA\Planninq\Service\SettingsService;
+use OCA\Planninq\Service\CreationPolicyService;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
@@ -42,11 +42,11 @@ class ApplyProjectPolicy implements IRepairStep {
 	/**
 	 * Constructor.
 	 *
-	 * @param SettingsService            $settings     Knows the reviewer groups.
+	 * @param CreationPolicyService      $policy       Knows the reviewer groups.
 	 * @param ProjectPolicySchemaService $policySchema Writes them into the live schema.
 	 */
 	public function __construct(
-		private SettingsService $settings,
+		private CreationPolicyService $policy,
 		private ProjectPolicySchemaService $policySchema,
 	) {
 	}//end __construct()
@@ -70,7 +70,7 @@ class ApplyProjectPolicy implements IRepairStep {
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.2
 	 */
 	public function run(IOutput $output): void {
-		if ($this->policySchema->apply(groups: $this->settings->reviewerGroups()) === false) {
+		if ($this->policySchema->apply(groups: $this->policy->reviewerGroups()) === false) {
 			$output->warning('Planninq project reviewers were not written; admins still review project requests.');
 		}
 	}//end run()

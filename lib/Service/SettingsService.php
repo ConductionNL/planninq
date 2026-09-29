@@ -31,7 +31,6 @@ use OCA\Planninq\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
-use OCP\IGroupManager;
 use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -139,10 +138,11 @@ class SettingsService {
 	 * @param IConfig $config The user config interface
 	 * @param IAppManager $appManager The app manager
 	 * @param ContainerInterface $container The container
-	 * @param IGroupManager $groupManager The group manager
 	 * @param IUserSession $userSession The user session
 	 * @param LoggerInterface $logger The logger
 	 * @param DueReminderWindowService $dueReminderWindow The live-schema due-reminder window patcher
+	 * @param ProjectPolicySchemaService $policySchema Writes the reviewers of project requests into the live schema.
+	 * @param CreationPolicyService $creationPolicy Who may create and who may request a project.
 	 *
 	 * @return void
 	 */
@@ -151,11 +151,11 @@ class SettingsService {
 		private IConfig $config,
 		private IAppManager $appManager,
 		private ContainerInterface $container,
-		private IGroupManager $groupManager,
 		private IUserSession $userSession,
 		private LoggerInterface $logger,
 		private DueReminderWindowService $dueReminderWindow,
 		private ProjectPolicySchemaService $policySchema,
+		private CreationPolicyService $creationPolicy,
 	) {
 	}//end __construct()
 
@@ -178,8 +178,7 @@ class SettingsService {
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
 	 */
 	public function isCurrentUserAdmin(): bool {
-		$user = $this->userSession->getUser();
-		return ($user !== null && $this->groupManager->isAdmin($user->getUID()));
+		return $this->creationPolicy->isAdmin();
 	}//end isCurrentUserAdmin()
 
 	/**
@@ -197,22 +196,7 @@ class SettingsService {
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
 	 */
 	public function canCurrentUserCreateProject(): bool {
-		$policy = $this->appConfig->getValueString(
-			Application::APP_ID,
-			'allow_project_creation',
-			'all'
-		);
-
-		if ($policy === 'admins') {
-			return $this->isCurrentUserAdmin();
-		}
-
-		if ($policy === 'groups') {
-			return $this->isCurrentUserAdmin() === true || $this->isInCreationGroup() === true;
-		}
-
-		// Default ('all'): any authenticated user may create.
-		return $this->userSession->getUser() !== null;
+		return $this->creationPolicy->canCreate();
 	}//end canCurrentUserCreateProject()
 
 	/**
@@ -223,63 +207,8 @@ class SettingsService {
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
 	 */
 	public function canCurrentUserRequestProject(): bool {
-		return $this->userSession->getUser() !== null
-			&& $this->appConfig->getValueString(Application::APP_ID, self::REQUESTS_KEY, 'off') === 'on'
-			&& $this->canCurrentUserCreateProject() === false;
+		return $this->creationPolicy->canRequest();
 	}//end canCurrentUserRequestProject()
-
-	/**
-	 * Whether the current user is in one of the groups that may create projects.
-	 *
-	 * @return bool
-	 *
-	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
-	 */
-	private function isInCreationGroup(): bool {
-		$user = $this->userSession->getUser();
-		if ($user === null) {
-			return false;
-		}
-
-		foreach ($this->creationGroups() as $group) {
-			if ($this->groupManager->isInGroup($user->getUID(), $group) === true) {
-				return true;
-			}
-		}
-
-		return false;
-	}//end isInCreationGroup()
-
-	/**
-	 * The groups besides admins who review project requests: the creation groups under the `groups` policy.
-	 *
-	 * @return array<int,string>
-	 *
-	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.2
-	 */
-	public function reviewerGroups(): array {
-		if ($this->appConfig->getValueString(Application::APP_ID, 'allow_project_creation', 'all') !== 'groups') {
-			return [];
-		}
-
-		return $this->creationGroups();
-	}//end reviewerGroups()
-
-	/**
-	 * The stored group ids of the `groups` creation policy.
-	 *
-	 * @return array<int,string>
-	 *
-	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
-	 */
-	public function creationGroups(): array {
-		$groups = json_decode($this->appConfig->getValueString(Application::APP_ID, self::CREATION_GROUPS_KEY, '[]'), true);
-		if (is_array($groups) === false) {
-			return [];
-		}
-
-		return array_values(array_filter($groups, static fn ($group): bool => is_string($group) === true && $group !== ''));
-	}//end creationGroups()
 
 	/**
 	 * A submitted setting as it is stored: name lists and creation policy checked; null to refuse it.
@@ -301,52 +230,8 @@ class SettingsService {
 			$value = $listed;
 		}
 
-		return $this->creationPolicyValue(key: $key, value: $value);
+		return $this->creationPolicy->normalise(key: $key, value: $value);
 	}//end normalisedValue()
-
-	/**
-	 * A creation policy value to store, or null to refuse it.
-	 *
-	 * @param string $key   The setting key.
-	 * @param string $value The submitted value.
-	 *
-	 * @return string|null The value unchanged for other keys; the policy or the cleaned group list; null when refused.
-	 *
-	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
-	 */
-	private function creationPolicyValue(string $key, string $value): ?string {
-		if ($key === 'allow_project_creation') {
-			if (in_array($value, self::CREATION_POLICIES, true) === false) {
-				return null;
-			}
-
-			return $value;
-		}
-
-		if ($key === self::REQUESTS_KEY) {
-			if (in_array($value, ['on', 'off'], true) === false) {
-				return null;
-			}
-
-			return $value;
-		}
-
-		if ($key !== self::CREATION_GROUPS_KEY) {
-			return $value;
-		}
-
-		$groups = json_decode($value, true);
-		if (is_array($groups) === false) {
-			return null;
-		}
-
-		$known = array_filter(
-			$groups,
-			fn ($group): bool => is_string($group) === true && $this->groupManager->groupExists($group) === true
-		);
-
-		return (string)json_encode(array_values(array_unique($known)));
-	}//end creationPolicyValue()
 
 	/**
 	 * Retrieve all admin settings with defaults applied.
@@ -606,28 +491,9 @@ class SettingsService {
 				'canCreateProject' => $this->canCurrentUserCreateProject(),
 				'canRequestProject' => $this->canCurrentUserRequestProject(),
 			],
-			$this->missingCreationGroups()
+			$this->creationPolicy->missingGroups()
 		);
 	}//end getSettings()
-
-	/**
-	 * For an admin: the listed creation groups that no longer exist.
-	 *
-	 * @return array<string,array<int,string>>
-	 *
-	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.2
-	 */
-	private function missingCreationGroups(): array {
-		if ($this->isCurrentUserAdmin() === false) {
-			return [];
-		}
-
-		return [
-			'creationGroupsMissing' => array_values(
-				array_filter($this->creationGroups(), fn (string $group): bool => $this->groupManager->groupExists($group) === false)
-			),
-		];
-	}//end missingCreationGroups()
 
 	/**
 	 * Update the current user's personal settings (notification toggles).
@@ -671,7 +537,7 @@ class SettingsService {
 
 		// The reviewers of project requests follow the creation policy.
 		if (array_key_exists('allow_project_creation', $data) === true || array_key_exists(self::CREATION_GROUPS_KEY, $data) === true) {
-			$this->policySchema->apply(groups: $this->reviewerGroups());
+			$this->policySchema->apply(groups: $this->creationPolicy->reviewerGroups());
 		}
 
 		return $this->getSettings();
