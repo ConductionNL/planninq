@@ -80,7 +80,7 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
   `src/integrations/CnProjectsWidget.vue`, `src/views/ProjectList.vue`,
   `src/dialogs/ProjectCreationDialog.vue`, a new `lib/Service/CaseHandoverService.php` and
   controller route, `lib/Settings/planninq_register.json` (project `caseHandovers`), `l10n/`.
-- Cross-project: ConductionNL/dossiq adds planninq's leaf to its case schema's linked types.
+- Cross-project: ConductionNL/dossiq adds planninq's leaf to its case schema's linked types. Issue: https://github.com/ConductionNL/dossiq/issues/3190
 
 ## Risks
 

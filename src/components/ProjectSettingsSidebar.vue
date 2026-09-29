@@ -59,6 +59,7 @@
 						{{ t('planninq', 'Case reference') }}
 					</label>
 					<span class="project-settings-sidebar__readonly">{{ project.caseReference }}</span>
+					<CaseHandoverSection :project="project" />
 				</div>
 
 				<NcButton
@@ -235,6 +236,7 @@ import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
 import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
 import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
+import CaseHandoverSection from './CaseHandoverSection.vue'
 import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import { useProjectsStore } from '../store/projects.js'
@@ -244,6 +246,7 @@ export default {
 	name: 'ProjectSettingsSidebar',
 
 	components: {
+		CaseHandoverSection,
 		NcAppSidebar,
 		NcAppSidebarTab,
 		NcAvatar,

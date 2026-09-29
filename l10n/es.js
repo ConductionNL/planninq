@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Este archivo no es un plan de Microsoft Project en formato XML.",
         "Choose a file to import.": "Elija un archivo para importar.",
         "Only the project owner can import a plan.": "Solo el propietario del proyecto puede importar un plan.",
-        "The plan could not be read. Please try again.": "No se pudo leer el plan. Inténtelo de nuevo."
+        "The plan could not be read. Please try again.": "No se pudo leer el plan. Inténtelo de nuevo.",
+        "Linked case: {title}": "Expediente vinculado: {title}",
+        "Linked to a case": "Vinculado a un expediente",
+        "Hand over to case": "Entregar al expediente",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Copia sin cambios cada archivo del proyecto y de sus tareas, y un archivo que describe el proyecto, al expediente vinculado.",
+        "{date} by {user}": "{date} por {user}",
+        "Files copied: {count}": "Archivos copiados: {count}",
+        "Files that failed: {names}": "Archivos con error: {names}",
+        "The handover failed. Please try again.": "La entrega ha fallado. Inténtelo de nuevo.",
+        "The linked case could not be found, or you cannot open it.": "No se encontró el expediente vinculado o no puede abrirlo.",
+        "Case handovers": "Entregas al expediente",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Cada entrega de los archivos y metadatos del proyecto a su expediente: cuándo, por quién, a qué expediente, cada archivo copiado con su SHA-256 y los archivos que fallaron."
     },
     "nplurals=2; plural=(n != 1);"
 )

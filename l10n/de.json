@@ -580,7 +580,18 @@
         "This file is not a Microsoft Project plan in XML format.": "Diese Datei ist kein Microsoft-Project-Plan im XML-Format.",
         "Choose a file to import.": "Wählen Sie eine Datei zum Importieren.",
         "Only the project owner can import a plan.": "Nur der Projektinhaber kann einen Plan importieren.",
-        "The plan could not be read. Please try again.": "Der Plan konnte nicht gelesen werden. Bitte versuchen Sie es erneut."
+        "The plan could not be read. Please try again.": "Der Plan konnte nicht gelesen werden. Bitte versuchen Sie es erneut.",
+        "Linked case: {title}": "Verknüpfter Vorgang: {title}",
+        "Linked to a case": "Mit einem Vorgang verknüpft",
+        "Hand over to case": "An Vorgang übergeben",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Kopiert jede Datei des Projekts und seiner Aufgaben sowie eine Datei, die das Projekt beschreibt, unverändert in den verknüpften Vorgang.",
+        "{date} by {user}": "{date} von {user}",
+        "Files copied: {count}": "Kopierte Dateien: {count}",
+        "Files that failed: {names}": "Fehlgeschlagene Dateien: {names}",
+        "The handover failed. Please try again.": "Die Übergabe ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+        "The linked case could not be found, or you cannot open it.": "Der verknüpfte Vorgang wurde nicht gefunden, oder Sie können ihn nicht öffnen.",
+        "Case handovers": "Übergaben an den Vorgang",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Jede Übergabe der Dateien und Metadaten des Projekts an seinen Vorgang: wann, durch wen, an welchen Vorgang, jede kopierte Datei mit ihrem SHA-256 und die fehlgeschlagenen Dateien."
     },
     "plurals": null
 }

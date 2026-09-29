@@ -30,6 +30,13 @@
 					</span>
 				</div>
 
+				<!-- The case or client this project starts from (read-only, from the link) -->
+				<p v-if="prefill.caseReference" class="project-creation-dialog__linked" data-testid="project-creation-linked-case">
+					{{ prefill.title
+						? t('planninq', 'Linked case: {title}', { title: prefill.title })
+						: t('planninq', 'Linked to a case') }}
+				</p>
+
 				<!-- Description (optional) -->
 				<div class="project-creation-dialog__field">
 					<NcTextArea
@@ -104,6 +111,17 @@ export default {
 		NcLoadingIcon,
 	},
 
+	props: {
+		/**
+		 * What the link that opened the dialog carries: a case (with its
+		 * title) or a client. The case link is saved on the project.
+		 */
+		prefill: {
+			type: Object,
+			default: () => ({}),
+		},
+	},
+
 	emits: ['close', 'created'],
 
 	data() {
@@ -111,7 +129,7 @@ export default {
 			open: true,
 			titleTouched: false,
 			form: {
-				title: '',
+				title: this.prefill?.title || '',
 				description: '',
 				color: '#0082c9',
 				icon: '',
@@ -170,6 +188,8 @@ export default {
 					description: this.form.description.trim() || undefined,
 					color: this.form.color || undefined,
 					icon: this.form.icon.trim() || undefined,
+					caseReference: this.prefill?.caseReference || undefined,
+					client: this.prefill?.client || undefined,
 				})
 
 				showSuccess(this.t('planninq', 'Project created'))
@@ -217,6 +237,11 @@ export default {
 	cursor: pointer;
 	padding: 2px;
 	background: none;
+}
+
+.project-creation-dialog__linked {
+	margin: 0;
+	color: var(--color-text-maxcontrast);
 }
 
 .project-creation-dialog__error {

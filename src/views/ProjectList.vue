@@ -107,6 +107,7 @@
 		<!-- Creation dialog — only mounted when creation is permitted -->
 		<ProjectCreationDialog
 			v-if="showCreationDialog && canCreateProject"
+			:prefill="creationPrefill"
 			@close="showCreationDialog = false"
 			@created="onProjectCreated" />
 	</div>
@@ -135,6 +136,7 @@ import ProjectCreationDialog from '../dialogs/ProjectCreationDialog.vue'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
+import { creationPrefill as prefillFromQuery } from '../utils/caseBridge.js'
 import { filterByPortfolio, groupByPortfolio, NO_PORTFOLIO, sortPortfolios } from '../utils/portfolioGrouping.js'
 
 export default {
@@ -170,6 +172,7 @@ export default {
 	data() {
 		return {
 			showCreationDialog: false,
+			creationPrefill: {},
 			activeStatus: null,
 			portfolios: [],
 			portfolioFilter: null,
@@ -299,6 +302,14 @@ export default {
 	 * @spec exclude list-view lifecycle — loads the project list, then attaches the live collection subscription.
 	 */
 	async mounted() {
+		// A "New project" link from a case or client page (the projects leaf)
+		// opens the dialog with the case or client filled in.
+		const prefill = prefillFromQuery(this.$route?.query)
+		if (prefill !== null) {
+			this.creationPrefill = prefill
+			this.showCreationDialog = true
+		}
+
 		const [portfolios] = await Promise.all([this.projectsStore.fetchPortfolios(), this.projectsStore.fetchProjects()])
 		this.portfolios = portfolios
 		this.syncLiveSubscription()

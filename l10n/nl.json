@@ -601,7 +601,18 @@
         "This file is not a Microsoft Project plan in XML format.": "Dit bestand is geen Microsoft Project-planning in XML-indeling.",
         "Choose a file to import.": "Kies een bestand om te importeren.",
         "Only the project owner can import a plan.": "Alleen de projecteigenaar kan een planning importeren.",
-        "The plan could not be read. Please try again.": "De planning kon niet worden gelezen. Probeer het opnieuw."
+        "The plan could not be read. Please try again.": "De planning kon niet worden gelezen. Probeer het opnieuw.",
+        "Linked case: {title}": "Gekoppelde zaak: {title}",
+        "Linked to a case": "Gekoppeld aan een zaak",
+        "Hand over to case": "Overdragen aan zaak",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Kopieert elk bestand van het project en de taken, en een bestand dat het project beschrijft, ongewijzigd naar de gekoppelde zaak.",
+        "{date} by {user}": "{date} door {user}",
+        "Files copied: {count}": "Bestanden gekopieerd: {count}",
+        "Files that failed: {names}": "Mislukte bestanden: {names}",
+        "The handover failed. Please try again.": "De overdracht is mislukt. Probeer het opnieuw.",
+        "The linked case could not be found, or you cannot open it.": "De gekoppelde zaak is niet gevonden, of je kunt hem niet openen.",
+        "Case handovers": "Overdrachten aan de zaak",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Elke keer dat de bestanden en metadata van het project aan de zaak zijn overgedragen: wanneer, door wie, aan welke zaak, elk gekopieerd bestand met zijn SHA-256, en de bestanden die mislukten."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

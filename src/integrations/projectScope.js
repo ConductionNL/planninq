@@ -15,6 +15,20 @@
 export const SINGLE_ENTITY = 'single-entity'
 
 /**
+ * Whether the leaf sits on a case in Dossiq, the case app. Schema slugs are
+ * global on a shared OpenRegister, so the slug `case` names Dossiq's case.
+ * A host that passes numeric ids instead of slugs keeps the client scope.
+ *
+ * @param {{register?: string, schema?: string}|undefined} host The host object's register and schema.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/integration-case-bridge/tasks.md#task-1.1
+ */
+export function isCaseHost(host) {
+	return String(host?.schema || '') === 'case'
+}
+
+/**
  * The query parameters that scope a project read for one surface.
  *
  * 🔴 BARE FIELD NAMES, NOT `_filters[field]`. OpenRegister's object API reads
@@ -26,11 +40,15 @@ export const SINGLE_ENTITY = 'single-entity'
  * @param {string} surface  The render surface the host mounted the leaf into.
  * @param {string} objectId The host object's uuid, or the project's own uuid.
  *
+ * @param {{register?: string, schema?: string}} [host] The host object's register and schema; a case scopes to `caseReference`.
  * @return {object} Query parameters for the object API.
  */
-export function scopeParams(surface, objectId) {
+export function scopeParams(surface, objectId, host) {
 	if (surface === SINGLE_ENTITY) {
 		return { id: objectId }
+	}
+	if (objectId && isCaseHost(host)) {
+		return { caseReference: objectId }
 	}
 	if (objectId) {
 		return { client: objectId }
@@ -48,12 +66,16 @@ export function scopeParams(surface, objectId) {
  * @param {string} surface  The render surface.
  * @param {string} objectId The host object's uuid, or the project's own uuid.
  *
+ * @param {{register?: string, schema?: string}} [host] The host object's register and schema; a case scopes to `caseReference`.
  * @return {Array} Only the rows this surface actually asked for.
  */
-export function guardRows(rows, surface, objectId) {
+export function guardRows(rows, surface, objectId, host) {
 	const list = Array.isArray(rows) ? rows : []
 	if (surface === SINGLE_ENTITY) {
 		return list.filter((r) => idOf(r) === objectId && objectId !== '')
+	}
+	if (objectId && isCaseHost(host)) {
+		return list.filter((r) => r && r.caseReference === objectId)
 	}
 	if (objectId) {
 		return list.filter((r) => r && r.client === objectId)

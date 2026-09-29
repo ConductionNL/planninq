@@ -1,8 +1,9 @@
-# case-bridge delta for integration-case-bridge
+# case-bridge Specification
 
-Extends the flat main spec `openspec/specs/procest-integration.md`.
+## Purpose
+A case handler starts a planninq project from a case page, with the case linked, and a project owner hands the project's files and metadata over to its case unchanged, with the checksums recorded on the project.
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: A case handler can start a project from a case page
 
@@ -11,6 +12,7 @@ linked to that case, and its "New project" action MUST open planninq's New proje
 case linked and the case title filled in. Tier: V1 (docs/FEATURES.md).
 
 #### Scenario: Start a project from a case
+@e2e exclude Needs Dossiq's case page with planninq's leaf placed on it (the Dossiq issue named in the proposal); the case scope is asserted by tests/vitest/caseBridge.spec.js "asks for the projects linked to the case, and keeps only those" and the link by "links the case and its title from a case page"
 
 - **GIVEN** a case handler allowed to create projects is on the page of case "Omgevingsvergunning Markt 12" in the case app
 - **WHEN** they choose "New project" in the Projects panel and create the project
@@ -30,6 +32,7 @@ tasks, and a metadata file describing the project, to that case without changing
 record the handover on the project with each file's checksum. Tier: Enterprise.
 
 #### Scenario: Hand over a finished project
+@e2e exclude Needs Dossiq installed next to planninq; asserted by CaseHandoverControllerTest::testOwnerHandsOverFilesAndMetadataUnchanged and testChecksumMismatchFailsThatFile
 
 - **GIVEN** a project linked to a case holds three files on its tasks, and its owner may write to the case
 - **WHEN** the owner chooses "Hand over to case" in the project settings
@@ -37,13 +40,15 @@ record the handover on the project with each file's checksum. Tier: Enterprise.
 - **AND** each copied file has the same SHA-256 as its source
 - **AND** the project lists the handover with date, person and the four checksums
 
-#### Scenario: No right to write to the case
+#### Scenario: No access to the case
+@e2e exclude Needs Dossiq installed next to planninq; asserted by CaseHandoverControllerTest::testNothingIsCopiedWithoutAReachableCase
 
-- **GIVEN** the owner of a linked project cannot write to the case
+- **GIVEN** the owner of a linked project cannot open the case (the rule OpenRegister's own files API applies before it adds a file to an object)
 - **WHEN** they choose "Hand over to case"
-- **THEN** nothing is copied and they see that they have no access to the case
+- **THEN** nothing is copied and they see "The linked case could not be found, or you cannot open it."
 
 #### Scenario: The case app is not installed
+@e2e exclude The e2e instance has no Dossiq, so the hidden action is the default there; asserted by tests/vitest/caseBridge.spec.js "is hidden without the case app, without a case link, or for anyone else" and CaseHandoverControllerTest::testNothingIsCopiedWithoutAReachableCase
 
 - **GIVEN** the case app is not installed on the instance
 - **WHEN** a project owner opens the project settings

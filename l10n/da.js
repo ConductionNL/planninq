@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Denne fil er ikke en Microsoft Project-plan i XML-format.",
         "Choose a file to import.": "Vælg en fil at importere.",
         "Only the project owner can import a plan.": "Kun projektets ejer kan importere en plan.",
-        "The plan could not be read. Please try again.": "Planen kunne ikke læses. Prøv igen."
+        "The plan could not be read. Please try again.": "Planen kunne ikke læses. Prøv igen.",
+        "Linked case: {title}": "Tilknyttet sag: {title}",
+        "Linked to a case": "Tilknyttet en sag",
+        "Hand over to case": "Overdrag til sag",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Kopierer hver fil på projektet og dets opgaver samt en fil, der beskriver projektet, uændret til den tilknyttede sag.",
+        "{date} by {user}": "{date} af {user}",
+        "Files copied: {count}": "Kopierede filer: {count}",
+        "Files that failed: {names}": "Filer, der fejlede: {names}",
+        "The handover failed. Please try again.": "Overdragelsen mislykkedes. Prøv igen.",
+        "The linked case could not be found, or you cannot open it.": "Den tilknyttede sag blev ikke fundet, eller du kan ikke åbne den.",
+        "Case handovers": "Overdragelser til sagen",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Hver gang projektets filer og metadata blev overdraget til sagen: hvornår, af hvem, til hvilken sag, hver kopieret fil med dens SHA-256 og de filer, der fejlede."
     },
     "nplurals=2; plural=(n != 1);"
 )

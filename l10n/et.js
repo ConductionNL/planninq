@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "See fail ei ole XML-vormingus Microsoft Projecti plaan.",
         "Choose a file to import.": "Vali imporditav fail.",
         "Only the project owner can import a plan.": "Ainult projekti omanik saab plaani importida.",
-        "The plan could not be read. Please try again.": "Plaani ei saanud lugeda. Proovi uuesti."
+        "The plan could not be read. Please try again.": "Plaani ei saanud lugeda. Proovi uuesti.",
+        "Linked case: {title}": "Seotud menetlus: {title}",
+        "Linked to a case": "Seotud menetlusega",
+        "Hand over to case": "Anna menetlusele üle",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Kopeerib iga projekti ja selle ülesannete faili ning projekti kirjeldava faili muutmata kujul seotud menetlusse.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Kopeeritud faile: {count}",
+        "Files that failed: {names}": "Ebaõnnestunud failid: {names}",
+        "The handover failed. Please try again.": "Üleandmine ebaõnnestus. Proovi uuesti.",
+        "The linked case could not be found, or you cannot open it.": "Seotud menetlust ei leitud või sa ei saa seda avada.",
+        "Case handovers": "Üleandmised menetlusele",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Iga kord, kui projekti failid ja metaandmed menetlusele üle anti: millal, kes, millisele menetlusele, iga kopeeritud fail koos SHA-256-ga ja ebaõnnestunud failid."
     },
     "nplurals=2; plural=(n != 1);"
 )

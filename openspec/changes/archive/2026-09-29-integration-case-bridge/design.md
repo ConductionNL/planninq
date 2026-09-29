@@ -68,3 +68,16 @@ has landed (`appinfo/info.xml` reads `<id>dossiq</id>`), so the check uses the n
 
 - Does Open Register's file service expose a copy between objects in different registers, or must
   the service stream each file? Task 3.1 decides.
+
+## Amendments at build (29 Sep 2026)
+
+What the code at 64408e3 needed, and what changed while building:
+
+- **The case scope lives in the client half only.** `RegisterProjectsLeafListener` declares id, label, icon, group, surfaces, reference type and render mode; there is no scope or link template on the server side to mirror (the "New project" link lives in `CnProjectsWidget.vue`), so gate-24 has nothing new to compare and task 1.2 changes only the widget.
+- **The host is recognised by its schema slug.** A detail-page host passes `register`, `schema` and `objectId` to a mounted leaf (nextcloud-vue `CnDetailWidgetHost`). Schema slugs are global on a shared OpenRegister, so `schema === 'case'` names Dossiq's case (`dossiq` register, `case` schema). A host that passes numeric ids keeps the client scope.
+- **The case title** is read by the widget from OpenRegister's object API when the user chooses "New project", and passed as `title`; without it the dialog says "Linked to a case".
+- **Access to the case is the read rule.** OpenRegister's `FileService::addFile` checks nothing itself; its own files API (`FilesController::create`) only checks that the user may access the object. The handover applies the same rule: the case is read with the user's rights (`ObjectService::find`, RBAC on), and an unreadable case refuses the whole handover with `caseNotFound`. The scenario is renamed "No access to the case".
+- **Synchronous, no queued job.** A queued job has no user session, and the handover must run with the user's rights; a queued copy would have to run as the system. The request copies synchronously; a very large project is a later change if it is ever needed.
+- **File names on the case:** project files keep their name, task files get "{key} {title} - " in front, and a name already taken gets " (1)", " (2)" and so on, so a second handover keeps the first copies.
+- **Status endpoint:** `GET /api/projects/{id}/case-handover` returns whether the case app is installed and the handovers so far; the sidebar asks it instead of reading app state from the page.
+- **The hidden state is tested as a pure rule** (`handoverOffered` in `src/utils/caseBridge.js`): the vitest suite runs in node without a DOM.

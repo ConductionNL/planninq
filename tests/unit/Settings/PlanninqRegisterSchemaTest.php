@@ -139,6 +139,34 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testPhaseHasMetadata()
 
 	/**
+	 * A project records each handover to its case: when, by whom, to which
+	 * case, and every file with its SHA-256, plus the files that failed.
+	 *
+	 * @spec openspec/changes/integration-case-bridge/tasks.md#task-3.2
+	 *
+	 * @return void
+	 */
+	public function testProjectRecordsCaseHandovers(): void {
+		$project   = $this->register['components']['schemas']['project'];
+		$handovers = ($project['properties']['caseHandovers'] ?? null);
+		self::assertIsArray($handovers, 'project declares caseHandovers');
+		self::assertSame('array', $handovers['type']);
+		self::assertSame(['date', 'by', 'case', 'files', 'failures'], $handovers['items']['required']);
+
+		$record = [
+			'date'     => '2026-09-29T10:00:00+00:00',
+			'by'       => 'olga',
+			'case'     => '9a8b7c6d-5e4f-4a3b-8c2d-1e0f9a8b7c6d',
+			'files'    => [['name' => 'plan.pdf', 'sha256' => hash('sha256', 'x'), 'size' => 1]],
+			'failures' => [['name' => 'tekening.pdf', 'reason' => 'checksum']],
+		];
+		$base    = ['title' => 'Renovatie stadhuis', 'status' => 'active', 'owner' => 'olga'];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: $base + ['caseHandovers' => [$record]]));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'project', payload: $base + ['caseHandovers' => [['by' => 'olga']]]));
+
+	}//end testProjectRecordsCaseHandovers()
+
+	/**
 	 * Register JSON must be valid JSON with the required top-level structure.
 	 *
 	 * @return void

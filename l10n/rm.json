@@ -580,7 +580,18 @@
         "This file is not a Microsoft Project plan in XML format.": "Questa datoteca n'è betg in plan da Microsoft Project en il format XML.",
         "Choose a file to import.": "Tscherni ina datoteca per importar.",
         "Only the project owner can import a plan.": "Mo il possessur dal project po importar in plan.",
-        "The plan could not be read. Please try again.": "Il plan n'ha betg pudì vegnir legì. Empruvai anc ina giada."
+        "The plan could not be read. Please try again.": "Il plan n'ha betg pudì vegnir legì. Empruvai anc ina giada.",
+        "Linked case: {title}": "Cas collià: {title}",
+        "Linked to a case": "Collià cun in cas",
+        "Hand over to case": "Surdar al cas",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Copiescha senza midadas mintga datoteca dal project e da sias incumbensas, ed ina datoteca che descriva il project, en il cas collià.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Datotecas copiadas: {count}",
+        "Files that failed: {names}": "Datotecas che n'han betg funcziunà: {names}",
+        "The handover failed. Please try again.": "La surdada n'ha betg funcziunà. Empruvai anc ina giada.",
+        "The linked case could not be found, or you cannot open it.": "Il cas collià n'è betg vegnì chattà, u Vus na pudais betg l'avrir.",
+        "Case handovers": "Surdadas al cas",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Mintga surdada da las datotecas e da las metadatas dal project a ses cas: cura, da tgi, a tge cas, mintga datoteca copiada cun ses SHA-256, e las datotecas che n'han betg funcziunà."
     },
     "plurals": null
 }

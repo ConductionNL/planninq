@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Ní plean Microsoft Project i bhformáid XML é an comhad seo.",
         "Choose a file to import.": "Roghnaigh comhad le hiompórtáil.",
         "Only the project owner can import a plan.": "Ní féidir ach le húinéir an tionscadail plean a iompórtáil.",
-        "The plan could not be read. Please try again.": "Níorbh fhéidir an plean a léamh. Bain triail eile as."
+        "The plan could not be read. Please try again.": "Níorbh fhéidir an plean a léamh. Bain triail eile as.",
+        "Linked case: {title}": "Cás nasctha: {title}",
+        "Linked to a case": "Nasctha le cás",
+        "Hand over to case": "Tabhair don chás",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Cóipeálann sé gach comhad den tionscadal agus dá thascanna, agus comhad a chuireann síos ar an tionscadal, gan athrú chuig an gcás nasctha.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Comhaid cóipeáilte: {count}",
+        "Files that failed: {names}": "Comhaid a theip: {names}",
+        "The handover failed. Please try again.": "Theip ar an tabhairt. Bain triail eile as.",
+        "The linked case could not be found, or you cannot open it.": "Níor aimsíodh an cás nasctha, nó ní féidir leat é a oscailt.",
+        "Case handovers": "Tabhairtí don chás",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Gach uair a tugadh comhaid agus meiteashonraí an tionscadail dá chás: cathain, cé, cén cás, gach comhad cóipeáilte lena SHA-256, agus na comhaid a theip."
     },
     "nplurals=2; plural=(n != 1);"
 )

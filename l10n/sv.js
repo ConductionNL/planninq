@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Den här filen är inte en Microsoft Project-plan i XML-format.",
         "Choose a file to import.": "Välj en fil att importera.",
         "Only the project owner can import a plan.": "Endast projektägaren kan importera en plan.",
-        "The plan could not be read. Please try again.": "Planen kunde inte läsas. Försök igen."
+        "The plan could not be read. Please try again.": "Planen kunde inte läsas. Försök igen.",
+        "Linked case: {title}": "Kopplat ärende: {title}",
+        "Linked to a case": "Kopplat till ett ärende",
+        "Hand over to case": "Överlämna till ärende",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Kopierar varje fil i projektet och dess uppgifter, och en fil som beskriver projektet, oförändrat till det kopplade ärendet.",
+        "{date} by {user}": "{date} av {user}",
+        "Files copied: {count}": "Kopierade filer: {count}",
+        "Files that failed: {names}": "Filer som misslyckades: {names}",
+        "The handover failed. Please try again.": "Överlämningen misslyckades. Försök igen.",
+        "The linked case could not be found, or you cannot open it.": "Det kopplade ärendet hittades inte, eller så kan du inte öppna det.",
+        "Case handovers": "Överlämningar till ärendet",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Varje gång projektets filer och metadata överlämnades till ärendet: när, av vem, till vilket ärende, varje kopierad fil med sin SHA-256, och filerna som misslyckades."
     },
     "nplurals=2; plural=(n != 1);"
 )
