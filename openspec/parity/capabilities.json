@@ -8129,7 +8129,8 @@
       "built": {
         "state": "building",
         "evidence": "sibling row learniq:att-timetable-in-my-calendar in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated partial): lib/Service/TimetableProjector.php projects sessions; lib/AppInfo/Registrar/SchedulingListenerRegistrar.php is the seam, with no CalDAV export route. Re-read on 2026-09-27 (learniq#1037): openregister@d611a36 serves an .ics feed at /api/public/calendar-feeds/{token}.ics (appinfo/routes.php:1024) for any schema that declares calendarProvider (lib/Service/Calendar/ObjectCalendarFeedService.php:346-351). learniq@721b28a's Session schema (lib/Settings/learniq_register.json:6004) declares none, so no timetable reaches the feed.",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "ConductionNL/learniq openspec/changes/attendance-timetable-calendar-feed"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8410,11 +8411,12 @@
         "timeedit": "docs read 2026-09-27: https://apps.apple.com/gb/app/chippo/id6612032321 'Scan the Chippo in the room to be marked present instantly ... Scan a QR code ... Offline Scanning'. Engagement Suite product"
       },
       "built": {
-        "state": "specified",
-        "evidence": "sibling row learniq:att-learner-checks-in-with-qr in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated no): lib/Settings/learniq_register.json:13551",
+        "state": "built",
+        "evidence": "ConductionNL/learniq archived the change 2026-09-29-attendance-self-check-in on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
         "reachedOn": "nothing",
-        "change": "ConductionNL/learniq openspec/changes/attendance-self-check-in"
+        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-attendance-self-check-in",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8558,7 +8560,8 @@
       "built": {
         "state": "building",
         "evidence": "learniq@4a6e9dc lib/Listener/SubjectChoiceEnrolmentBridge.php turns a SubjectChoice into an enrolment and src/manifest.d/learning.json:240-257 SubjectChoices and SubjectChoicePicker pages; nothing places a choice in the timetable. Sibling keyword reading, not traced",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "ConductionNL/learniq openspec/changes/timetabling-student-choice-placement"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8594,7 +8597,8 @@
       "built": {
         "state": "building",
         "evidence": "learniq@721b28a lib/Settings/learniq_register.json: Assessment.sessionId (:8337) links an exam to a lesson Session, Room.capacity (:5938) holds the room size, and TimetableConflict.kind lists exam-clash (:6324). lib/Timetabling/TimetableConflictDetector.php:222-227 flags any overlap as an exam-clash when either Session has a linked Assessment. No test week object and no invigilator assignment were found.",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "ConductionNL/learniq openspec/changes/timetabling-exam-schedule"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8700,10 +8704,11 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/workload/workload 'Plan all teaching activities down to the module level, allocate staff with defined roles' ; https://timeedit.com/platform/curriculum/curriculum 'From programmes of study down to individual activities - all curriculum data structured, connected' ; https://www.academy.timeedit.com/product-updates/207862315 'tighter integration between the planned activities in Workload Management and the schedule activities in Core'. Needs the Curriculum and Workload suites"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'curriculum|onderwijsprogramma|EducationPlan': no implementation of this capability, CurriculumPlan holds the assessment structure, it does not produce Session objects. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-multi-year-hour-plan on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-multi-year-hour-plan"
+        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-multi-year-hour-plan",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8773,10 +8778,11 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/viewer 'Digital Signage & Feeds: Display schedules on campus screens and calendars' ; https://www.academy.timeedit.com/product-updates/213065497 'error pages will automatically reload every 5 minutes to better support unattended public displays'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'signage|infoscreen|display screen|lichtkrant': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-display-screens on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-display-screens"
+        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-display-screens",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8810,9 +8816,10 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/scenario-planning 'Create unlimited what-if scenarios ... Compare scenarios across key metrics like room utilization, student satisfaction, and staff workload distribution'"
       },
       "built": {
-        "state": "decided-no",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'scenario|what if': no implementation of this capability, hits are test and engagement code. A keyword search, not a two-hop trace.",
-        "owner": "ConductionNL/learniq"
+        "state": "specified",
+        "evidence": "Nothing in planninq or learniq generates a timetable: planninq stores lessons delivered by a rostering system (lib/Service/TimetableSessionService.php upsert, drafts and publish) and places none. Ruben decided on 29 Sep 2026 to build a generator in planninq (build-all DECISIONS.md row 17), reversing the 28 Sep decided-no and the learniq non-goal; learniq decided no in ConductionNL/learniq#1493 before that decision.",
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/timetabling-generator"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8886,10 +8893,11 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/reserve 'Maximize the use of every room and resource with data-driven booking and occupancy insights' ; https://www.academy.timeedit.com/guides-tutorials guide index lists 'How to configure utilisation reports' ; https://timeedit.com/platform/scheduling/scheduling 'Understand resource utilization'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'utilisation|occupancy|bezetting': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-room-utilisation on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-room-utilisation"
+        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-room-utilisation",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8923,10 +8931,11 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/guides-tutorials/how-to-define-conditions-and-calculated-fields ''contact hours' is automatically calculated based on the number of credits * <norm hours per credit>' ; https://timeedit.com/platform/ai 'Compare Workload Planning and Scheduled Classes ... Planned 1,240 h / Scheduled 1,180 h'. Per module in the Curriculum and Workload suites, not per learner"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'contact hour|contacttijd|urennorm': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-contact-hours on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-contact-hours"
+        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-contact-hours",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8963,10 +8972,11 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/curriculum/study-planner 'Visualize the entire degree journey with semester-by-semester planning ... From next semester to graduation' ; https://timeedit.com/platform/curriculum 'Manage programmes from proposal through retirement'. Curriculum Suite; multi-year planning of the timetable itself is not stated"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'multi year|meerjaren': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-multi-year-hour-plan on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-multi-year-hour-plan"
+        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-multi-year-hour-plan",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -9000,9 +9010,10 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/products/autopilot 'Employ the most sophisticated TimeEdit scheduling concepts as either hard or soft constraints in your auto-scheduling process' ; https://www.academy.timeedit.com/product-updates/119928309 'exact start time and weekday(s) when importing activities, letting you use these when scheduling as soft or hard constraints'"
       },
       "built": {
-        "state": "decided-no",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'hard constraint|soft constraint': no implementation of this capability. A keyword search, not a two-hop trace.",
-        "owner": "ConductionNL/learniq"
+        "state": "specified",
+        "evidence": "Nothing in planninq or learniq generates a timetable: planninq stores lessons delivered by a rostering system (lib/Service/TimetableSessionService.php upsert, drafts and publish) and places none. Ruben decided on 29 Sep 2026 to build a generator in planninq (build-all DECISIONS.md row 17), reversing the 28 Sep decided-no and the learniq non-goal; learniq decided no in ConductionNL/learniq#1493 before that decision.",
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/timetabling-generator"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -9159,7 +9170,8 @@
       "built": {
         "state": "building",
         "evidence": "learniq@4a6e9dc lib/Settings/learniq_register.json ExamAccommodation schema and lib/Lifecycle/ExamAccommodationApprovalGuard.php approve an accommodation; learniq schedules no exams, so nothing places it in an exam schedule",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "ConductionNL/learniq openspec/changes/timetabling-exam-schedule"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -9232,9 +9244,10 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/assessment 'Complete management of invigilators, from availability collection to assiging session and confirmation flows'"
       },
       "built": {
-        "state": "decided-no",
+        "state": "specified",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'invigilat': no implementation of this capability, invigilator only appears as the proctoring flag reviewer. A keyword search, not a two-hop trace.",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "ConductionNL/learniq openspec/changes/timetabling-exam-schedule"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -9344,7 +9357,7 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index searched for report meetings and class meetings; nothing found"
       },
       "built": {
-        "state": "building",
+        "state": "decided-no",
         "evidence": "learniq@4a6e9dc src/views/RapportvergaderingReviewView.vue runs the review itself; no planning of the meeting round was found. Sibling keyword reading, not traced",
         "owner": "ConductionNL/learniq"
       },
@@ -9389,7 +9402,8 @@
       "built": {
         "state": "building",
         "evidence": "learniq@721b28a src/manifest.d/learning.json:2668-2672 puts a Talk integration widget titled 'Join call' on the SessionDetail page (/sessions/:id). src/views/MyTimetable.vue:152-155 shows a lesson's location as plain text, so the timetable itself carries no join link.",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "ConductionNL/learniq openspec/changes/timetabling-online-lesson-link"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -9428,10 +9442,11 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/new-release-of-te-viewer-13-academy 'iCal subscription: line break in Location and Description. Line breaks in comments are preserved' ; https://timeedit.com/platform/scheduling/viewer 'Configurable information per view ... Comments and feedback on reservations'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'lesson note|lesson topic|lessonNote': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-lesson-note on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-lesson-note"
+        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-lesson-note",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -9465,7 +9480,7 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index searched for teacher presence or absence shown to students; nothing found"
       },
       "built": {
-        "state": "building",
+        "state": "decided-no",
         "evidence": "learniq@721b28a src/views/MyTimetable.vue:224-225 loads same-day cancel and substitute-teacher changes into the 'Today's changes' panel (:72-80), and :495-498 labels a lesson Cancelled or 'Substitute: {id}'. A learner sees a teacher's absence only through its effect on a lesson, not as a presence status.",
         "owner": "ConductionNL/learniq"
       },
@@ -9656,10 +9671,11 @@
         "timeedit": "docs read 2026-09-27: https://developer.timeedit.com/reference/post_objects-update-members-by-type 'UPDATE Object members' ; https://www.academy.timeedit.com/guides-tutorials/pinboard 'Student objects are members of Group objects' ; https://www.academy.timeedit.com/product-updates/214072344 'user import via API'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'elective enrolment API': no implementation of this capability, enrolment is written through Open Register's object API, not an elective-specific endpoint; not traced. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-elective-lesson-signup on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-elective-lesson-signup"
+        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-elective-lesson-signup",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -10013,7 +10029,7 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index searched for guardians and coming of age; not addressed by this higher education product"
       },
       "built": {
-        "state": "building",
+        "state": "decided-no",
         "evidence": "learniq@721b28a lib/Lifecycle/SubjectChoiceConsentGuard.php:229-233 lets a learner submit their own subject choice when the caller is the learner's own ncUserId (the '18+ self-submission' comment at :229), wired through lib/Settings/learniq_register.json:5329. No age is checked, and guardians listed in parentIds keep acting (:235-238).",
         "owner": "ConductionNL/learniq"
       },
@@ -10168,10 +10184,11 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/169667324 'The Registration period filter has been re-implemented to use group-level periods with three states (Open, Closed, No date)' ; https://www.academy.timeedit.com/product-updates/151405794 'After the registration period has closed, Auto-allocate will no longer assign students to activities that have more than one group'. Placing late students is not described"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'enrolment window|deadline placement': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-elective-lesson-signup on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-elective-lesson-signup"
+        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-elective-lesson-signup",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -10285,10 +10302,11 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index searched for standby and on-call slots; nothing found"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'standby|piket': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-standby-slots on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-standby-slots"
+        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-standby-slots",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -10366,10 +10384,11 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/scheduling 'Comprehensive bulk replace and updating features' ; https://www.academy.timeedit.com/product-updates/229158242 Data Manager toolbar 'Edit values, weeks, time constraints and sequence constraints' ; https://www.academy.timeedit.com/guides-tutorials/cancelling-and-restoring-reservations 'Canceling a Cluster of Reservations ... Multi-week calendar'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'bulk change sessions': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-bulk-change-weeks on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-bulk-change-weeks"
+        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-bulk-change-weeks",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -10485,10 +10504,11 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/curriculum/study-planner lists 'Demand Forecasting' under advisor collaboration ; https://timeedit.com/platform/scheduling 'Demand Analytics'. Curriculum Suite; forecasting from study plans, a next-year student number forecast is not detailed"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'forecast|prognose': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-enrolment-forecast on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-enrolment-forecast"
+        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-enrolment-forecast",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -10558,10 +10578,11 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/products/viewer 'Using our comprehensive access model, you can steer the users to access and see exactly what they should see' ; https://timeedit.com/platform/scheduling/viewer 'Let students and staff see only what's relevant to them with role-based, filtered schedule views'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'timetable visibility': no implementation of this capability, hits are grade visibility. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-visibility-rules on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-visibility-rules"
+        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-visibility-rules",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -10599,7 +10620,7 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/231196957 'Students can join the waitlist for full groups. Allocate will automatically allocate eligible students from the waitlist to groups with available seats'"
       },
       "built": {
-        "state": "building",
+        "state": "decided-no",
         "evidence": "learniq@721b28a lib/Listener/AdmissionsWaitlistPromoter.php, registered at lib/AppInfo/Registrar/SchedulingListenerRegistrar.php:103, promotes the oldest waitlisted Application to placed when a placed one in the same admissionsRoundId is withdrawn or rejected. It covers admission rounds only, not a full lesson group. learniq rates this as its own row enr-waitlist-promotes-itself (yes, built).",
         "owner": "ConductionNL/learniq"
       },
@@ -10906,7 +10927,7 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/product-updates/234328576 'A long-awaited history view is now available in Manage student ... It shows changes for: Enrollment to a module'"
       },
       "built": {
-        "state": "building",
+        "state": "decided-no",
         "evidence": "learniq@721b28a src/manifest.d/people.json:207 and :504-518: the EnrolmentDetail page (/enrolments/:id) has a History sidebar tab with the audit widget, so each enrolment shows its own change trail. The trail is per enrolment record; a combined allocation history per student was not traced.",
         "owner": "ConductionNL/learniq"
       },
