@@ -36,6 +36,7 @@ use OCA\OpenRegister\Service\SystemOperationContext;
 use OCA\Planninq\Listener\ProjectHierarchyGuardListener;
 use OCA\Planninq\Listener\ProjectMemberAccessListener;
 use OCA\Planninq\Service\FinanceLineService;
+use OCA\Planninq\Service\ProjectFieldService;
 use OCA\Planninq\Service\ProjectTreeService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
@@ -72,6 +73,7 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 			membership: $membership,
 			finance: new FinanceLineService(membership: $membership, container: $this->container(), logger: $logger),
 			tree: new ProjectTreeService(membership: $membership),
+			fields: new ProjectFieldService(membership: $membership),
 			scopeResolver: $this->scopeResolver(),
 			container: $this->container(),
 			logger: $logger
@@ -313,4 +315,103 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 		$this->listener()->handle($cleared);
 		self::assertFalse($cleared->isPropagationStopped(), 'taking a project out of its parent');
 	}//end testAFourthLevelIsRefused()
+
+	/**
+	 * The admin's project fields for the custom field tests.
+	 */
+	private function seedFields(): void {
+		$fields = [
+			['key' => 'beleidsveld', 'label' => 'Beleidsveld', 'type' => 'choice', 'options' => ['Wonen', 'Mobiliteit', 'Economie'], 'required' => true],
+			['key' => 'contractwaarde', 'label' => 'Contractwaarde', 'type' => 'number'],
+			['key' => 'startbesluit', 'label' => 'Startbesluit', 'type' => 'date'],
+			['key' => 'wethouder', 'label' => 'Wethouder', 'type' => 'person'],
+			['key' => 'subsidie', 'label' => 'Subsidie', 'type' => 'boolean'],
+			['key' => 'dossier', 'label' => 'Dossier', 'type' => 'text'],
+		];
+		foreach ($fields as $i => $field) {
+			$this->objects->seed('projectField', 'field-' . $i, $field + ['appliesTo' => 'project', 'order' => $i]);
+		}
+	}//end seedFields()
+
+	/**
+	 * A project update that sends custom field values.
+	 *
+	 * @param array<string,mixed> $values The values.
+	 */
+	private function fieldWrite(array $values): ObjectUpdatingEvent {
+		$old = $this->stored(slug: 'project', uuid: self::PROJECT);
+
+		return new ObjectUpdatingEvent(
+			$this->entity(slug: 'project', uuid: self::PROJECT, data: array_merge($old, ['customFields' => $values])),
+			$this->entity(slug: 'project', uuid: self::PROJECT, data: $old)
+		);
+	}//end fieldWrite()
+
+	/**
+	 * Task 3.2: values of the right type pass, and the payload is one the project schema accepts.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.2
+	 */
+	public function testCustomFieldsOfTheRightTypePass(): void {
+		$this->seedFields();
+		$values = ['beleidsveld' => 'Wonen', 'contractwaarde' => 125000.5, 'startbesluit' => '2026-10-01', 'wethouder' => 'mia', 'subsidie' => false, 'dossier' => 'Z-2026-12'];
+		$event  = $this->fieldWrite(values: $values);
+
+		$this->listener()->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		$payload = array_merge($this->stored(slug: 'project', uuid: self::PROJECT), ['customFields' => $values], $event->getModifiedData());
+		self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: $payload));
+	}//end testCustomFieldsOfTheRightTypePass()
+
+	/**
+	 * Task 3.2 and scenario "A wrong value type is refused by the server": each type refuses a wrong value, naming the field.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.2
+	 */
+	public function testAWrongValueTypeIsRefusedNamingTheField(): void {
+		$this->seedFields();
+		$wrong = [
+			'Contractwaarde' => ['contractwaarde' => 'veel'],
+			'Startbesluit'   => ['startbesluit' => '1 oktober'],
+			'Beleidsveld'    => ['beleidsveld' => 'Cultuur'],
+			'Wethouder'      => ['wethouder' => ['mia']],
+			'Subsidie'       => ['subsidie' => 'ja'],
+			'Dossier'        => ['dossier' => 12],
+		];
+		foreach ($wrong as $label => $values) {
+			$event = $this->fieldWrite(values: array_merge(['beleidsveld' => 'Wonen'], $values));
+			$this->listener()->handle($event);
+			self::assertTrue($event->isPropagationStopped(), $label . ' refused');
+			self::assertSame(ProjectHierarchyGuardListener::ERROR_FIELD, $event->getErrors()['code']);
+			self::assertStringContainsString($label, $event->getErrors()['message']);
+		}
+	}//end testAWrongValueTypeIsRefusedNamingTheField()
+
+	/**
+	 * Task 3.2: an empty required field and an unknown key are refused; a write without custom fields is not checked.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.2
+	 */
+	public function testARequiredFieldAndAnUnknownKeyAreRefused(): void {
+		$this->seedFields();
+
+		$empty = $this->fieldWrite(values: ['beleidsveld' => '', 'dossier' => 'Z-1']);
+		$this->listener()->handle($empty);
+		self::assertTrue($empty->isPropagationStopped());
+		self::assertSame('Beleidsveld is required.', $empty->getErrors()['message']);
+
+		$unknown = $this->fieldWrite(values: ['beleidsveld' => 'Wonen', 'kleur' => 'rood']);
+		$this->listener()->handle($unknown);
+		self::assertTrue($unknown->isPropagationStopped());
+		self::assertStringContainsString('kleur', $unknown->getErrors()['message']);
+
+		$old     = $this->stored(slug: 'project', uuid: self::PROJECT);
+		$renamed = new ObjectUpdatingEvent(
+			$this->entity(slug: 'project', uuid: self::PROJECT, data: ['title' => 'Renamed'] + $old),
+			$this->entity(slug: 'project', uuid: self::PROJECT, data: $old)
+		);
+		$this->listener()->handle($renamed);
+		self::assertFalse($renamed->isPropagationStopped(), 'a write that leaves the custom fields alone is not held to a new required field');
+	}//end testARequiredFieldAndAnUnknownKeyAreRefused()
 }//end class

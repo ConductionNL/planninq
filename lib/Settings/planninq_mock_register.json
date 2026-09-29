@@ -677,6 +677,52 @@
         "source": "manual",
         "financeReaders": [],
         "projectOwner": null
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectField",
+          "slug": "projectfield-beleidsveld"
+        },
+        "key": "beleidsveld",
+        "label": "Beleidsveld",
+        "type": "choice",
+        "options": [
+          "Wonen",
+          "Mobiliteit",
+          "Economie"
+        ],
+        "required": false,
+        "order": 0,
+        "appliesTo": "project"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectField",
+          "slug": "projectfield-contractwaarde"
+        },
+        "key": "contractwaarde",
+        "label": "Contractwaarde",
+        "type": "number",
+        "options": [],
+        "required": false,
+        "order": 1,
+        "appliesTo": "project"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectField",
+          "slug": "projectfield-startbesluit"
+        },
+        "key": "startbesluit",
+        "label": "Startbesluit",
+        "type": "date",
+        "options": [],
+        "required": false,
+        "order": 2,
+        "appliesTo": "project"
       }
     ]
   }
