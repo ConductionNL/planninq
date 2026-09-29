@@ -245,6 +245,29 @@ class SettingsService {
 	}//end creationGroups()
 
 	/**
+	 * A submitted setting as it is stored: name lists and creation policy checked; null to refuse it.
+	 *
+	 * @param string $key   The setting key.
+	 * @param string $value The submitted value.
+	 *
+	 * @return string|null
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 */
+	private function normalisedValue(string $key, string $value): ?string {
+		$listed = $this->validatedNameList(key: $key, raw: $value);
+		if ($listed === false) {
+			return null;
+		}
+
+		if ($listed !== null) {
+			$value = $listed;
+		}
+
+		return $this->creationPolicyValue(key: $key, value: $value);
+	}//end normalisedValue()
+
+	/**
 	 * A creation policy value to store, or null to refuse it.
 	 *
 	 * @param string $key   The setting key.
@@ -403,23 +426,13 @@ class SettingsService {
 
 			$value = (string)$settings[$key];
 
-			$listed = $this->validatedNameList(key: $key, raw: $value);
-			if ($listed === false) {
+			$normalised = $this->normalisedValue(key: $key, value: $value);
+			if ($normalised === null) {
 				$this->logger->warning('Planninq: invalid ' . $key . ' value rejected', ['raw' => $value]);
 				continue;
 			}
 
-			if ($listed !== null) {
-				$value = $listed;
-			}
-
-			$policy = $this->creationPolicyValue(key: $key, value: $value);
-			if ($policy === null) {
-				$this->logger->warning('Planninq: invalid ' . $key . ' value rejected', ['raw' => $value]);
-				continue;
-			}
-
-			$value = $policy;
+			$value = $normalised;
 
 			if ($key === self::REPORT_PERIOD_KEY) {
 				$days = $this->validateWholeNumber(raw: $value, min: 1, max: 365);
