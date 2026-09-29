@@ -123,6 +123,28 @@ class TimetableSessionRows {
 	}//end dataOf()
 
 	/**
+	 * Whether stored lesson data is a draft that overlaps a window, comparing moments rather than strings.
+	 *
+	 * @param array<string,mixed> $data  The stored session data.
+	 * @param int                 $start Window start as a Unix timestamp.
+	 * @param int                 $end   Window end as a Unix timestamp.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-an-admin-publishes-the-drafts-of-one-source-in-a-date-window
+	 */
+	public function isDraftInWindow(array $data, int $start, int $end): bool {
+		if (($data['status'] ?? null) !== 'draft') {
+			return false;
+		}
+
+		$lessonStart = strtotime((string)($data['startsAt'] ?? ''));
+		$lessonEnd   = strtotime((string)($data['endsAt'] ?? ''));
+
+		return $lessonStart !== false && $lessonEnd !== false && $lessonStart <= $end && $lessonEnd >= $start;
+	}//end isDraftInWindow()
+
+	/**
 	 * Project a stored row onto the contract's read shape.
 	 *
 	 * @param mixed $row An ObjectEntity or a plain array row.

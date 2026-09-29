@@ -244,7 +244,7 @@ class TimetableSessionService {
 		foreach ($this->rows->listOf(results: $results) as $row) {
 			$data = $this->rows->dataOf(row: $row);
 			$id   = $this->rows->idOf(row: $row);
-			if ($id === '' || ($data['status'] ?? null) !== 'draft' || $this->overlaps(data: $data, start: $start, end: $end) === false) {
+			if ($id === '' || $this->rows->isDraftInWindow(data: $data, start: $start, end: $end) === false) {
 				continue;
 			}
 
@@ -467,22 +467,6 @@ class TimetableSessionService {
 	private function wouldUnpublish(array $stored, array $incoming): bool {
 		return ($incoming['status'] ?? null) === 'draft' && ($stored['status'] ?? 'scheduled') !== 'draft';
 	}//end wouldUnpublish()
-
-	/**
-	 * Whether a stored lesson overlaps a window, comparing moments rather than strings.
-	 *
-	 * @param array<string,mixed> $data  The stored session data.
-	 * @param int                 $start Window start as a Unix timestamp.
-	 * @param int                 $end   Window end as a Unix timestamp.
-	 *
-	 * @return bool
-	 */
-	private function overlaps(array $data, int $start, int $end): bool {
-		$lessonStart = strtotime((string)($data['startsAt'] ?? ''));
-		$lessonEnd   = strtotime((string)($data['endsAt'] ?? ''));
-
-		return $lessonStart !== false && $lessonEnd !== false && $lessonStart <= $end && $lessonEnd >= $start;
-	}//end overlaps()
 
 	/**
 	 * Copy the writable fields a row carries, trimmed, under the batch's source.
