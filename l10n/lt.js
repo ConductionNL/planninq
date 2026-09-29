@@ -476,7 +476,23 @@ OC.L10N.register(
         "No suggestion: the project has no budget.": "Pasiūlymo nėra: projektas neturi biudžeto.",
         "No suggestion: no costs are recorded for this project yet.": "Pasiūlymo nėra: šiam projektui dar neužregistruota išlaidų.",
         "The report was not saved. Only the project owner can write status reports.": "Ataskaita neišsaugota. Būklės ataskaitas gali rašyti tik projekto savininkas.",
-        "No report": "Ataskaitos nėra"
+        "No report": "Ataskaitos nėra",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Projektų grupė, kuriai vadovauja tie patys žmonės, pavyzdžiui, skyrius ar programa. Jos vadovai skaito kiekvieną joje esantį projektą.",
+        "The name of the portfolio": "Portfelio pavadinimas",
+        "What the portfolio holds and who runs it": "Ką apima portfelis ir kas jam vadovauja",
+        "A colour for the portfolio's section in project lists": "Portfelio skilties spalva projektų sąrašuose",
+        "Managers": "Vadovai",
+        "Nextcloud user UIDs of the people who run the portfolio": "Portfeliui vadovaujančių žmonių Nextcloud naudotojų ID",
+        "Order": "Tvarka",
+        "Where the portfolio comes in project lists, lowest first": "Portfelio vieta projektų sąrašuose, mažiausias pirmas",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Šio portfelio nuosava rizikos skalė JSON formatu, tokios pat formos kaip visos programos skalė. Tuščia reiškia programos skalę.",
+        "Portfolio readers": "Portfelio skaitytojai",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Projekto portfelio vadovų Nextcloud naudotojų ID",
+        "The portfolio this project belongs to": "Portfelis, kuriam priklauso šis projektas",
+        "No portfolio": "Be portfelio",
+        "All portfolios": "Visi portfeliai",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Šį projektą skaitote kaip jo portfelio vadovas. Jį keičia tik jo nariai.",
+        "Portfolios": "Portfeliai"
     },
     "nplurals=2; plural=(n != 1);"
 )

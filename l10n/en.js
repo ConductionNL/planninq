@@ -452,7 +452,23 @@ OC.L10N.register(
         "No suggestion: the project has no budget.": "No suggestion: the project has no budget.",
         "No suggestion: no costs are recorded for this project yet.": "No suggestion: no costs are recorded for this project yet.",
         "The report was not saved. Only the project owner can write status reports.": "The report was not saved. Only the project owner can write status reports.",
-        "No report": "No report"
+        "No report": "No report",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.",
+        "The name of the portfolio": "The name of the portfolio",
+        "What the portfolio holds and who runs it": "What the portfolio holds and who runs it",
+        "A colour for the portfolio's section in project lists": "A colour for the portfolio's section in project lists",
+        "Managers": "Managers",
+        "Nextcloud user UIDs of the people who run the portfolio": "Nextcloud user UIDs of the people who run the portfolio",
+        "Order": "Order",
+        "Where the portfolio comes in project lists, lowest first": "Where the portfolio comes in project lists, lowest first",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.",
+        "Portfolio readers": "Portfolio readers",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Nextcloud user UIDs of the managers of the project's portfolio",
+        "The portfolio this project belongs to": "The portfolio this project belongs to",
+        "No portfolio": "No portfolio",
+        "All portfolios": "All portfolios",
+        "You read this project as a manager of its portfolio. Only its members change it.": "You read this project as a manager of its portfolio. Only its members change it.",
+        "Portfolios": "Portfolios"
     },
     "nplurals=2; plural=(n != 1);"
 )

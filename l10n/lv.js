@@ -476,7 +476,23 @@ OC.L10N.register(
         "No suggestion: the project has no budget.": "Nav ieteikuma: projektam nav budžeta.",
         "No suggestion: no costs are recorded for this project yet.": "Nav ieteikuma: šim projektam vēl nav reģistrētu izmaksu.",
         "The report was not saved. Only the project owner can write status reports.": "Ziņojums netika saglabāts. Statusa ziņojumus var rakstīt tikai projekta īpašnieks.",
-        "No report": "Nav ziņojuma"
+        "No report": "Nav ziņojuma",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Projektu grupa, ko vada tie paši cilvēki, piemēram, nodaļa vai programma. Tās vadītāji lasa katru tajā esošo projektu.",
+        "The name of the portfolio": "Portfeļa nosaukums",
+        "What the portfolio holds and who runs it": "Ko portfelis ietver un kas to vada",
+        "A colour for the portfolio's section in project lists": "Krāsa portfeļa sadaļai projektu sarakstos",
+        "Managers": "Vadītāji",
+        "Nextcloud user UIDs of the people who run the portfolio": "To cilvēku Nextcloud lietotāju ID, kuri vada portfeli",
+        "Order": "Secība",
+        "Where the portfolio comes in project lists, lowest first": "Portfeļa vieta projektu sarakstos, mazākais vispirms",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Šī portfeļa paša riska skala JSON formātā, tādā pašā formā kā visas lietotnes skala. Tukšs nozīmē lietotnes skalu.",
+        "Portfolio readers": "Portfeļa lasītāji",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Projekta portfeļa vadītāju Nextcloud lietotāju ID",
+        "The portfolio this project belongs to": "Portfelis, kuram pieder šis projekts",
+        "No portfolio": "Nav portfeļa",
+        "All portfolios": "Visi portfeļi",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Jūs lasāt šo projektu kā tā portfeļa vadītājs. To maina tikai tā dalībnieki.",
+        "Portfolios": "Portfeļi"
     },
     "nplurals=2; plural=(n != 1);"
 )

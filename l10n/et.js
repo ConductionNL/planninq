@@ -476,7 +476,23 @@ OC.L10N.register(
         "No suggestion: the project has no budget.": "Soovitust pole: projektil pole eelarvet.",
         "No suggestion: no costs are recorded for this project yet.": "Soovitust pole: sellele projektile pole veel kulusid kirjendatud.",
         "The report was not saved. Only the project owner can write status reports.": "Aruannet ei salvestatud. Olukorra aruandeid saab kirjutada ainult projekti omanik.",
-        "No report": "Aruanne puudub"
+        "No report": "Aruanne puudub",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Samade inimeste juhitavate projektide rühm, näiteks osakond või programm. Selle juhid loevad iga selles olevat projekti.",
+        "The name of the portfolio": "Portfelli nimi",
+        "What the portfolio holds and who runs it": "Mida portfell sisaldab ja kes seda juhib",
+        "A colour for the portfolio's section in project lists": "Portfelli jaotise värv projektiloendites",
+        "Managers": "Juhid",
+        "Nextcloud user UIDs of the people who run the portfolio": "Portfelli juhtivate inimeste Nextcloudi kasutajatunnused",
+        "Order": "Järjekord",
+        "Where the portfolio comes in project lists, lowest first": "Portfelli koht projektiloendites, väikseim eespool",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Selle portfelli oma riskiskaala JSON-ina, samas kujus nagu kogu rakenduse skaala. Tühi tähendab rakenduse skaalat.",
+        "Portfolio readers": "Portfelli lugejad",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Projekti portfelli juhtide Nextcloudi kasutajatunnused",
+        "The portfolio this project belongs to": "Portfell, kuhu see projekt kuulub",
+        "No portfolio": "Portfell puudub",
+        "All portfolios": "Kõik portfellid",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Loed seda projekti selle portfelli juhina. Muudavad seda ainult selle liikmed.",
+        "Portfolios": "Portfellid"
     },
     "nplurals=2; plural=(n != 1);"
 )

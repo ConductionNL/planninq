@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Нема предлог: проектот нема буџет.",
         "No suggestion: no costs are recorded for this project yet.": "Нема предлог: за овој проект сè уште нема евидентирани трошоци.",
         "The report was not saved. Only the project owner can write status reports.": "Извештајот не е зачуван. Само сопственикот на проектот може да пишува извештаи за состојбата.",
-        "No report": "Нема извештај"
+        "No report": "Нема извештај",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Група проекти што ги водат истите луѓе, на пример оддел или програма. Нејзините раководители го читаат секој проект во неа.",
+        "The name of the portfolio": "Име на портфолиото",
+        "What the portfolio holds and who runs it": "Што содржи портфолиото и кој го води",
+        "A colour for the portfolio's section in project lists": "Боја за делот на портфолиото во листите на проекти",
+        "Managers": "Раководители",
+        "Nextcloud user UIDs of the people who run the portfolio": "Nextcloud кориснички ID на луѓето што го водат портфолиото",
+        "Order": "Редослед",
+        "Where the portfolio comes in project lists, lowest first": "Каде е портфолиото во листите на проекти, најнискиот прв",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Сопствената скала на ризик на ова портфолио како JSON, во истата форма како скалата на целата апликација. Празно значи скалата на апликацијата.",
+        "Portfolio readers": "Читатели на портфолиото",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Nextcloud кориснички ID на раководителите на портфолиото на проектот",
+        "The portfolio this project belongs to": "Портфолиото на кое му припаѓа проектот",
+        "No portfolio": "Без портфолио",
+        "All portfolios": "Сите портфолија",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Го читате овој проект како раководител на неговото портфолио. Го менуваат само неговите членови.",
+        "Portfolios": "Портфолија"
     },
     "plurals": null
 }

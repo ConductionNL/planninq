@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Öneri yok: projenin bütçesi yok.",
         "No suggestion: no costs are recorded for this project yet.": "Öneri yok: bu proje için henüz maliyet kaydedilmedi.",
         "The report was not saved. Only the project owner can write status reports.": "Rapor kaydedilmedi. Durum raporlarını yalnızca proje sahibi yazabilir.",
-        "No report": "Rapor yok"
+        "No report": "Rapor yok",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Aynı kişilerin yürüttüğü proje grubu, örneğin bir birim veya bir program. Sorumluları içindeki her projeyi okur.",
+        "The name of the portfolio": "Portföyün adı",
+        "What the portfolio holds and who runs it": "Portföyün neleri içerdiği ve kimin yürüttüğü",
+        "A colour for the portfolio's section in project lists": "Proje listelerinde portföy bölümünün rengi",
+        "Managers": "Sorumlular",
+        "Nextcloud user UIDs of the people who run the portfolio": "Portföyü yürüten kişilerin Nextcloud kullanıcı kimlikleri",
+        "Order": "Sıra",
+        "Where the portfolio comes in project lists, lowest first": "Portföyün proje listelerindeki yeri, en küçük önce",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Bu portföyün JSON biçiminde kendi risk ölçeği, uygulama geneli ölçekle aynı biçimde. Boş, uygulama geneli ölçek demektir.",
+        "Portfolio readers": "Portföy okuyucuları",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Projenin portföy sorumlularının Nextcloud kullanıcı kimlikleri",
+        "The portfolio this project belongs to": "Bu projenin ait olduğu portföy",
+        "No portfolio": "Portföy yok",
+        "All portfolios": "Tüm portföyler",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Bu projeyi portföyünün sorumlusu olarak okuyorsunuz. Yalnızca üyeleri değiştirir.",
+        "Portfolios": "Portföyler"
     },
     "plurals": {}
 }

@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Nessun suggerimento: il progetto non ha un budget.",
         "No suggestion: no costs are recorded for this project yet.": "Nessun suggerimento: per questo progetto non sono ancora registrati costi.",
         "The report was not saved. Only the project owner can write status reports.": "Il rapporto non è stato salvato. Solo il proprietario del progetto può scrivere rapporti di stato.",
-        "No report": "Nessun rapporto"
+        "No report": "Nessun rapporto",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Un gruppo di progetti gestiti dalle stesse persone, come un reparto o un programma. I suoi responsabili leggono ogni progetto che contiene.",
+        "The name of the portfolio": "Il nome del portafoglio",
+        "What the portfolio holds and who runs it": "Cosa contiene il portafoglio e chi lo gestisce",
+        "A colour for the portfolio's section in project lists": "Un colore per la sezione del portafoglio negli elenchi dei progetti",
+        "Managers": "Responsabili",
+        "Nextcloud user UIDs of the people who run the portfolio": "ID utente Nextcloud delle persone che gestiscono il portafoglio",
+        "Order": "Ordine",
+        "Where the portfolio comes in project lists, lowest first": "La posizione del portafoglio negli elenchi dei progetti, dal più basso",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "La scala di rischio propria di questo portafoglio in JSON, nella stessa forma di quella dell'app. Vuoto significa la scala dell'app.",
+        "Portfolio readers": "Lettori del portafoglio",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "ID utente Nextcloud dei responsabili del portafoglio del progetto",
+        "The portfolio this project belongs to": "Il portafoglio a cui appartiene questo progetto",
+        "No portfolio": "Nessun portafoglio",
+        "All portfolios": "Tutti i portafogli",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Leggi questo progetto come responsabile del suo portafoglio. Solo i membri lo modificano.",
+        "Portfolios": "Portafogli"
     },
     "plurals": null
 }

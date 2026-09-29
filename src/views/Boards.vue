@@ -19,25 +19,29 @@
 			</template>
 		</NcEmptyContent>
 
-		<ul v-else class="boards__grid">
-			<li v-for="project in projects" :key="project.id" class="boards__card-wrap">
-				<button
-					type="button"
-					class="boards__card"
-					@click="openBoard(project)">
-					<span
-						class="boards__card-accent"
-						:style="{ backgroundColor: project.color || 'var(--color-primary-element)' }"
-						aria-hidden="true" />
-					<span class="boards__card-body">
-						<span class="boards__card-title">{{ project.icon }} {{ project.title }}</span>
-						<span class="boards__card-meta">
-							{{ t('planninq', '{count} members', { count: memberCount(project) }) }}
-						</span>
-					</span>
-				</button>
-			</li>
-		</ul>
+		<PortfolioSections v-else :groups="groups" :showHeadings="portfolios.length > 0">
+			<template #default="{ projects: groupProjects }">
+				<ul class="boards__grid">
+					<li v-for="project in groupProjects" :key="project.id" class="boards__card-wrap">
+						<button
+							type="button"
+							class="boards__card"
+							@click="openBoard(project)">
+							<span
+								class="boards__card-accent"
+								:style="{ backgroundColor: project.color || 'var(--color-primary-element)' }"
+								aria-hidden="true" />
+							<span class="boards__card-body">
+								<span class="boards__card-title">{{ project.icon }} {{ project.title }}</span>
+								<span class="boards__card-meta">
+									{{ t('planninq', '{count} members', { count: memberCount(project) }) }}
+								</span>
+							</span>
+						</button>
+					</li>
+				</ul>
+			</template>
+		</PortfolioSections>
 	</div>
 </template>
 
@@ -54,16 +58,19 @@
  */
 import { NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
 import ViewDashboardOutline from 'vue-material-design-icons/ViewDashboardOutline.vue'
+import PortfolioSections from '../components/PortfolioSections.vue'
 import { useProjectsStore } from '../store/projects.js'
+import { groupByPortfolio } from '../utils/portfolioGrouping.js'
 
 export default {
 	name: 'Boards',
 
-	components: { NcEmptyContent, NcLoadingIcon, ViewDashboardOutline },
+	components: { NcEmptyContent, NcLoadingIcon, PortfolioSections, ViewDashboardOutline },
 
 	data() {
 		return {
 			projectsStore: useProjectsStore(),
+			portfolios: [],
 		}
 	},
 
@@ -81,13 +88,25 @@ export default {
 		loading() {
 			return this.projectsStore.loading
 		},
+
+		/**
+		 * The boards grouped by portfolio, like the project list.
+		 *
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
+		 */
+		groups() {
+			return groupByPortfolio(this.projects, this.portfolios)
+		},
 	},
 
 	/**
 	 * @spec exclude Lifecycle glue — loads the user's member projects.
 	 */
 	async mounted() {
-		await this.projectsStore.fetchProjects({ status: 'active' })
+		const [portfolios] = await Promise.all([this.projectsStore.fetchPortfolios(), this.projectsStore.fetchProjects({ status: 'active' })])
+		this.portfolios = portfolios
 	},
 
 	methods: {

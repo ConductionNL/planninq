@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Brez predloga: projekt nima proračuna.",
         "No suggestion: no costs are recorded for this project yet.": "Brez predloga: za ta projekt še ni zabeleženih stroškov.",
         "The report was not saved. Only the project owner can write status reports.": "Poročilo ni bilo shranjeno. Poročila o stanju lahko piše samo lastnik projekta.",
-        "No report": "Ni poročila"
+        "No report": "Ni poročila",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Skupina projektov, ki jih vodijo isti ljudje, na primer oddelek ali program. Njeni upravitelji berejo vsak projekt v njej.",
+        "The name of the portfolio": "Ime portfelja",
+        "What the portfolio holds and who runs it": "Kaj portfelj vsebuje in kdo ga vodi",
+        "A colour for the portfolio's section in project lists": "Barva razdelka portfelja v seznamih projektov",
+        "Managers": "Upravitelji",
+        "Nextcloud user UIDs of the people who run the portfolio": "Uporabniški ID-ji Nextcloud ljudi, ki vodijo portfelj",
+        "Order": "Vrstni red",
+        "Where the portfolio comes in project lists, lowest first": "Kje je portfelj v seznamih projektov, najnižji najprej",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Lastna lestvica tveganj tega portfelja v obliki JSON, v enaki obliki kot lestvica celotne aplikacije. Prazno pomeni lestvico aplikacije.",
+        "Portfolio readers": "Bralci portfelja",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Uporabniški ID-ji Nextcloud upraviteljev portfelja projekta",
+        "The portfolio this project belongs to": "Portfelj, kateremu projekt pripada",
+        "No portfolio": "Brez portfelja",
+        "All portfolios": "Vsi portfelji",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Ta projekt berete kot upravitelj njegovega portfelja. Spreminjajo ga le njegovi člani.",
+        "Portfolios": "Portfelji"
     },
     "plurals": null
 }

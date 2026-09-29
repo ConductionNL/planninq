@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Ei ehdotusta: projektilla ei ole budjettia.",
         "No suggestion: no costs are recorded for this project yet.": "Ei ehdotusta: projektille ei ole vielä kirjattu kustannuksia.",
         "The report was not saved. Only the project owner can write status reports.": "Raporttia ei tallennettu. Vain projektin omistaja voi kirjoittaa tilaraportteja.",
-        "No report": "Ei raporttia"
+        "No report": "Ei raporttia",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Samojen ihmisten johtamien projektien ryhmä, kuten osasto tai ohjelma. Sen vastuuhenkilöt lukevat jokaista siihen kuuluvaa projektia.",
+        "The name of the portfolio": "Salkun nimi",
+        "What the portfolio holds and who runs it": "Mitä salkku sisältää ja kuka sitä johtaa",
+        "A colour for the portfolio's section in project lists": "Väri salkun osiolle projektiluetteloissa",
+        "Managers": "Vastuuhenkilöt",
+        "Nextcloud user UIDs of the people who run the portfolio": "Salkkua johtavien ihmisten Nextcloud-käyttäjätunnukset",
+        "Order": "Järjestys",
+        "Where the portfolio comes in project lists, lowest first": "Salkun paikka projektiluetteloissa, pienin ensin",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Tämän salkun oma riskiasteikko JSON-muodossa, samassa muodossa kuin koko sovelluksen asteikko. Tyhjä tarkoittaa koko sovelluksen asteikkoa.",
+        "Portfolio readers": "Salkun lukijat",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Projektin salkun vastuuhenkilöiden Nextcloud-käyttäjätunnukset",
+        "The portfolio this project belongs to": "Salkku, johon tämä projekti kuuluu",
+        "No portfolio": "Ei salkkua",
+        "All portfolios": "Kaikki salkut",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Luet tätä projektia sen salkun vastuuhenkilönä. Vain sen jäsenet muuttavat sitä.",
+        "Portfolios": "Salkut"
     },
     "plurals": null
 }

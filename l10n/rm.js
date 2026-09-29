@@ -476,7 +476,23 @@ OC.L10N.register(
         "No suggestion: the project has no budget.": "Nagina proposta: il project n'ha nagin budget.",
         "No suggestion: no costs are recorded for this project yet.": "Nagina proposta: per quest project n'èn anc nagins custs registrads.",
         "The report was not saved. Only the project owner can write status reports.": "Il rapport n'è betg vegnì memorisà. Mo il possessur dal project po scriver rapports da status.",
-        "No report": "Nagin rapport"
+        "No report": "Nagin rapport",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Ina gruppa da projects manads da las medemas persunas, per exempel in departament u in program. Ses responsabels legian mintga project en ella.",
+        "The name of the portfolio": "Il num dal portfolio",
+        "What the portfolio holds and who runs it": "Tge ch'il portfolio cuntegna e tgi ch'al maina",
+        "A colour for the portfolio's section in project lists": "Ina colur per la secziun dal portfolio en glistas da projects",
+        "Managers": "Responsabels",
+        "Nextcloud user UIDs of the people who run the portfolio": "IDs d'utilisaders Nextcloud da las persunas che mainan il portfolio",
+        "Order": "Urden",
+        "Where the portfolio comes in project lists, lowest first": "Nua ch'il portfolio stat en glistas da projects, il pli bass l'emprim",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "L'atgna scala da ristgs da quest portfolio sco JSON, en la medema furma sco quella da l'entira app. Vid significa la scala da l'app.",
+        "Portfolio readers": "Lecturs dal portfolio",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "IDs d'utilisaders Nextcloud dals responsabels dal portfolio dal project",
+        "The portfolio this project belongs to": "Il portfolio al qual quest project appartegna",
+        "No portfolio": "Nagin portfolio",
+        "All portfolios": "Tut ils portfolios",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Vus legis quest project sco responsabel da ses portfolio. Mo ses commembers al midan.",
+        "Portfolios": "Portfolios"
     },
     "nplurals=2; plural=(n != 1);"
 )

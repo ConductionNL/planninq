@@ -476,7 +476,23 @@ OC.L10N.register(
         "No suggestion: the project has no budget.": "Нема предлога: пројекат нема буџет.",
         "No suggestion: no costs are recorded for this project yet.": "Нема предлога: за овај пројекат још нису евидентирани трошкови.",
         "The report was not saved. Only the project owner can write status reports.": "Извештај није сачуван. Извештаје о стању може писати само власник пројекта.",
-        "No report": "Нема извештаја"
+        "No report": "Нема извештаја",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Група пројеката које воде исти људи, на пример одељење или програм. Њени руководиоци читају сваки пројекат у њој.",
+        "The name of the portfolio": "Назив портфолија",
+        "What the portfolio holds and who runs it": "Шта портфолио садржи и ко га води",
+        "A colour for the portfolio's section in project lists": "Боја одељка портфолија у листама пројеката",
+        "Managers": "Руководиоци",
+        "Nextcloud user UIDs of the people who run the portfolio": "Nextcloud кориснички ID-јеви људи који воде портфолио",
+        "Order": "Редослед",
+        "Where the portfolio comes in project lists, lowest first": "Где је портфолио у листама пројеката, најнижи први",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Сопствена скала ризика овог портфолија као JSON, у истом облику као скала целе апликације. Празно значи скалу апликације.",
+        "Portfolio readers": "Читаоци портфолија",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Nextcloud кориснички ID-јеви руководилаца портфолија пројекта",
+        "The portfolio this project belongs to": "Портфолио коме овај пројекат припада",
+        "No portfolio": "Без портфолија",
+        "All portfolios": "Сви портфолији",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Овај пројекат читате као руководилац његовог портфолија. Мењају га само његови чланови.",
+        "Portfolios": "Портфолији"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -16,6 +16,7 @@ import { generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  */
 import { defineStore } from 'pinia'
+import { canSeeProject } from '../utils/portfolioGrouping.js'
 import { useObjectStore } from './objectStore.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
@@ -31,6 +32,7 @@ const LABEL_SCHEMA = 'label'
 const LOG_SCHEMA = 'projectLogEntry'
 const RISK_SCHEMA = 'risk'
 const STATUS_REPORT_SCHEMA = 'projectStatusReport'
+const PORTFOLIO_SCHEMA = 'portfolio'
 
 /**
  * Largest page OpenRegister will return. Asking for more is silently capped.
@@ -177,9 +179,10 @@ export const useProjectsStore = defineStore('projects', {
 				// empty collection — the same silent disappearance, one layer down.
 				const results = await fetchEvery(objectStore, PROJECT_SCHEMA, filters)
 
-				// Client-side guard: ensure only member projects are shown.
+				// Client-side guard: only projects the user is on or reads as a portfolio manager.
+				// Members, and the managers of the project's portfolio (portfolioReaders).
 				this.projects = uid
-					? results.filter((p) => Array.isArray(p.members) && p.members.includes(uid))
+					? results.filter((p) => canSeeProject(p, uid))
 					: results
 
 				return this.projects
@@ -209,7 +212,7 @@ export const useProjectsStore = defineStore('projects', {
 			const uid = this._currentUid()
 			const list = Array.isArray(results) ? results : []
 			this.projects = uid
-				? list.filter((p) => Array.isArray(p.members) && p.members.includes(uid))
+				? list.filter((p) => canSeeProject(p, uid))
 				: list
 			return this.projects
 		},
@@ -661,6 +664,23 @@ export const useProjectsStore = defineStore('projects', {
 			} catch (err) {
 				console.error('saveStatusReport error:', err)
 				return null
+			}
+		},
+
+		/**
+		 * Every portfolio. Every signed-in user reads their names, so lists can group by them.
+		 *
+		 * @return {Promise<Array>} The portfolios (empty array on error)
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
+		 */
+		async fetchPortfolios() {
+			try {
+				const portfolios = await fetchEvery(this._objectStore(), PORTFOLIO_SCHEMA, {})
+				return Array.isArray(portfolios) ? portfolios : []
+			} catch (err) {
+				console.error('fetchPortfolios error:', err)
+				return []
 			}
 		},
 

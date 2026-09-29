@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Gan mholadh: níl buiséad ag an tionscadal.",
         "No suggestion: no costs are recorded for this project yet.": "Gan mholadh: níl aon chostas taifeadta don tionscadal seo fós.",
         "The report was not saved. Only the project owner can write status reports.": "Níor sábháladh an tuarascáil. Ní féidir ach le húinéir an tionscadail tuarascálacha stádais a scríobh.",
-        "No report": "Gan tuarascáil"
+        "No report": "Gan tuarascáil",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Grúpa tionscadal a reáchtálann na daoine céanna, mar roinn nó clár. Léann a bhainisteoirí gach tionscadal ann.",
+        "The name of the portfolio": "Ainm na punainne",
+        "What the portfolio holds and who runs it": "Cad atá sa phunann agus cé a reáchtálann í",
+        "A colour for the portfolio's section in project lists": "Dath do chuid na punainne i liostaí tionscadal",
+        "Managers": "Bainisteoirí",
+        "Nextcloud user UIDs of the people who run the portfolio": "Aitheantais úsáideora Nextcloud na ndaoine a reáchtálann an phunann",
+        "Order": "Ord",
+        "Where the portfolio comes in project lists, lowest first": "Áit na punainne i liostaí tionscadal, an ceann is ísle ar dtús",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Scála riosca na punainne seo féin mar JSON, sa chruth céanna le scála an aip ar fad. Ciallaíonn folamh scála an aip.",
+        "Portfolio readers": "Léitheoirí na punainne",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Aitheantais úsáideora Nextcloud bhainisteoirí phunann an tionscadail",
+        "The portfolio this project belongs to": "An phunann lena mbaineann an tionscadal seo",
+        "No portfolio": "Gan punann",
+        "All portfolios": "Gach punann",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Léann tú an tionscadal seo mar bhainisteoir ar a phunann. Ní athraíonn ach a bhaill é.",
+        "Portfolios": "Punanna"
     },
     "plurals": null
 }

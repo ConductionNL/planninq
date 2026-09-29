@@ -476,7 +476,23 @@ OC.L10N.register(
         "No suggestion: the project has no budget.": "Pas de suggestion : le projet n'a pas de budget.",
         "No suggestion: no costs are recorded for this project yet.": "Pas de suggestion : aucun coût n'est encore enregistré pour ce projet.",
         "The report was not saved. Only the project owner can write status reports.": "Le rapport n'a pas été enregistré. Seul le propriétaire du projet peut rédiger des rapports d'état.",
-        "No report": "Aucun rapport"
+        "No report": "Aucun rapport",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Un groupe de projets menés par les mêmes personnes, comme un service ou un programme. Ses responsables lisent chaque projet qu'il contient.",
+        "The name of the portfolio": "Le nom du portefeuille",
+        "What the portfolio holds and who runs it": "Ce que contient le portefeuille et qui le pilote",
+        "A colour for the portfolio's section in project lists": "Une couleur pour la section du portefeuille dans les listes de projets",
+        "Managers": "Responsables",
+        "Nextcloud user UIDs of the people who run the portfolio": "Identifiants Nextcloud des personnes qui pilotent le portefeuille",
+        "Order": "Ordre",
+        "Where the portfolio comes in project lists, lowest first": "La place du portefeuille dans les listes de projets, du plus bas au plus haut",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "L'échelle de risque propre à ce portefeuille, en JSON, de même forme que celle de l'application. Vide signifie l'échelle de l'application.",
+        "Portfolio readers": "Lecteurs du portefeuille",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Identifiants Nextcloud des responsables du portefeuille du projet",
+        "The portfolio this project belongs to": "Le portefeuille auquel appartient ce projet",
+        "No portfolio": "Aucun portefeuille",
+        "All portfolios": "Tous les portefeuilles",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Vous lisez ce projet en tant que responsable de son portefeuille. Seuls ses membres le modifient.",
+        "Portfolios": "Portefeuilles"
     },
     "nplurals=2; plural=(n != 1);"
 )

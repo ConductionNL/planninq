@@ -476,7 +476,23 @@ OC.L10N.register(
         "No suggestion: the project has no budget.": "Nincs javaslat: a projektnek nincs költségvetése.",
         "No suggestion: no costs are recorded for this project yet.": "Nincs javaslat: ehhez a projekthez még nincs rögzített költség.",
         "The report was not saved. Only the project owner can write status reports.": "A jelentés nem lett mentve. Állapotjelentést csak a projekt tulajdonosa írhat.",
-        "No report": "Nincs jelentés"
+        "No report": "Nincs jelentés",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Ugyanazon emberek által vezetett projektek csoportja, például egy osztály vagy egy program. A felelősei minden benne lévő projektet olvasnak.",
+        "The name of the portfolio": "A portfólió neve",
+        "What the portfolio holds and who runs it": "Mit tartalmaz a portfólió, és ki vezeti",
+        "A colour for the portfolio's section in project lists": "A portfólió szakaszának színe a projektlistákban",
+        "Managers": "Felelősök",
+        "Nextcloud user UIDs of the people who run the portfolio": "A portfóliót vezető személyek Nextcloud-felhasználóazonosítói",
+        "Order": "Sorrend",
+        "Where the portfolio comes in project lists, lowest first": "A portfólió helye a projektlistákban, a legkisebb elöl",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "A portfólió saját kockázati skálája JSON-ként, az egész alkalmazás skálájával azonos formában. Üresen az alkalmazás skáláját jelenti.",
+        "Portfolio readers": "Portfólió-olvasók",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "A projekt portfóliója felelőseinek Nextcloud-felhasználóazonosítói",
+        "The portfolio this project belongs to": "A portfólió, amelyhez a projekt tartozik",
+        "No portfolio": "Nincs portfólió",
+        "All portfolios": "Összes portfólió",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Ezt a projektet a portfóliója felelőseként olvassa. Csak a tagjai módosítják.",
+        "Portfolios": "Portfóliók"
     },
     "nplurals=2; plural=(n != 1);"
 )

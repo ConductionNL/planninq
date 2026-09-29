@@ -476,7 +476,23 @@ OC.L10N.register(
         "No suggestion: the project has no budget.": "Engin tillaga: verkefnið hefur enga fjárhagsáætlun.",
         "No suggestion: no costs are recorded for this project yet.": "Engin tillaga: enginn kostnaður hefur enn verið skráður á þetta verkefni.",
         "The report was not saved. Only the project owner can write status reports.": "Skýrslan var ekki vistuð. Aðeins eigandi verkefnisins getur skrifað stöðuskýrslur.",
-        "No report": "Engin skýrsla"
+        "No report": "Engin skýrsla",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Hópur verkefna sem sama fólkið stýrir, til dæmis deild eða áætlun. Umsjónarmenn hans lesa hvert verkefni í honum.",
+        "The name of the portfolio": "Heiti safnsins",
+        "What the portfolio holds and who runs it": "Hvað safnið inniheldur og hver stýrir því",
+        "A colour for the portfolio's section in project lists": "Litur fyrir hluta safnsins í verkefnalistum",
+        "Managers": "Umsjónarmenn",
+        "Nextcloud user UIDs of the people who run the portfolio": "Nextcloud-notendaauðkenni fólksins sem stýrir safninu",
+        "Order": "Röð",
+        "Where the portfolio comes in project lists, lowest first": "Hvar safnið kemur í verkefnalistum, lægst fyrst",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Eigin áhættukvarði þessa safns sem JSON, á sama formi og kvarðinn fyrir allt forritið. Tómt þýðir kvarðinn fyrir allt forritið.",
+        "Portfolio readers": "Lesendur safns",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Nextcloud-notendaauðkenni umsjónarmanna safns verkefnisins",
+        "The portfolio this project belongs to": "Safnið sem þetta verkefni tilheyrir",
+        "No portfolio": "Ekkert safn",
+        "All portfolios": "Öll söfn",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Þú lest þetta verkefni sem umsjónarmaður safns þess. Aðeins meðlimir þess breyta því.",
+        "Portfolios": "Söfn"
     },
     "nplurals=2; plural=(n != 1);"
 )

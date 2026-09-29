@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Asnjë sugjerim: projekti nuk ka buxhet.",
         "No suggestion: no costs are recorded for this project yet.": "Asnjë sugjerim: ende nuk janë regjistruar kosto për këtë projekt.",
         "The report was not saved. Only the project owner can write status reports.": "Raporti nuk u ruajt. Vetëm pronari i projektit mund të shkruajë raporte gjendjeje.",
-        "No report": "Asnjë raport"
+        "No report": "Asnjë raport",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Një grup projektesh që drejtohen nga të njëjtët njerëz, si një departament ose një program. Drejtuesit e tij lexojnë çdo projekt në të.",
+        "The name of the portfolio": "Emri i portofolit",
+        "What the portfolio holds and who runs it": "Çfarë përmban portofoli dhe kush e drejton",
+        "A colour for the portfolio's section in project lists": "Një ngjyrë për seksionin e portofolit në listat e projekteve",
+        "Managers": "Drejtues",
+        "Nextcloud user UIDs of the people who run the portfolio": "ID-të e përdoruesve Nextcloud të njerëzve që drejtojnë portofolin",
+        "Order": "Renditja",
+        "Where the portfolio comes in project lists, lowest first": "Vendi i portofolit në listat e projekteve, më i ulëti i pari",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Shkalla e vet e rrezikut e këtij portofoli si JSON, në të njëjtën formë si ajo e gjithë aplikacionit. Bosh do të thotë shkalla e aplikacionit.",
+        "Portfolio readers": "Lexuesit e portofolit",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "ID-të e përdoruesve Nextcloud të drejtuesve të portofolit të projektit",
+        "The portfolio this project belongs to": "Portofoli të cilit i përket ky projekt",
+        "No portfolio": "Pa portofol",
+        "All portfolios": "Të gjithë portofolet",
+        "You read this project as a manager of its portfolio. Only its members change it.": "E lexoni këtë projekt si drejtues i portofolit të tij. Vetëm anëtarët e tij e ndryshojnë.",
+        "Portfolios": "Portofole"
     },
     "plurals": {}
 }

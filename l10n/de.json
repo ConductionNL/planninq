@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Kein Vorschlag: Das Projekt hat kein Budget.",
         "No suggestion: no costs are recorded for this project yet.": "Kein Vorschlag: Für dieses Projekt sind noch keine Kosten erfasst.",
         "The report was not saved. Only the project owner can write status reports.": "Der Bericht wurde nicht gespeichert. Nur der Projekteigentümer kann Statusberichte schreiben.",
-        "No report": "Kein Bericht"
+        "No report": "Kein Bericht",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Eine Gruppe von Projekten, die von denselben Personen geführt wird, etwa eine Abteilung oder ein Programm. Die Verantwortlichen lesen jedes Projekt darin.",
+        "The name of the portfolio": "Der Name des Portfolios",
+        "What the portfolio holds and who runs it": "Was das Portfolio enthält und wer es führt",
+        "A colour for the portfolio's section in project lists": "Eine Farbe für den Abschnitt des Portfolios in Projektlisten",
+        "Managers": "Verantwortliche",
+        "Nextcloud user UIDs of the people who run the portfolio": "Nextcloud-Benutzer-IDs der Personen, die das Portfolio führen",
+        "Order": "Reihenfolge",
+        "Where the portfolio comes in project lists, lowest first": "Wo das Portfolio in Projektlisten steht, niedrigste zuerst",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Die eigene Risikoskala dieses Portfolios als JSON, in derselben Form wie die appweite. Leer bedeutet die appweite Skala.",
+        "Portfolio readers": "Portfolio-Leser",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Nextcloud-Benutzer-IDs der Verantwortlichen des Portfolios des Projekts",
+        "The portfolio this project belongs to": "Das Portfolio, zu dem dieses Projekt gehört",
+        "No portfolio": "Kein Portfolio",
+        "All portfolios": "Alle Portfolios",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Sie lesen dieses Projekt als Verantwortliche des Portfolios. Nur seine Mitglieder ändern es.",
+        "Portfolios": "Portfolios"
     },
     "plurals": null
 }

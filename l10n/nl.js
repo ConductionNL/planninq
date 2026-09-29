@@ -497,7 +497,23 @@ OC.L10N.register(
         "No suggestion: the project has no budget.": "Geen voorstel: het project heeft geen budget.",
         "No suggestion: no costs are recorded for this project yet.": "Geen voorstel: er zijn nog geen kosten geboekt voor dit project.",
         "The report was not saved. Only the project owner can write status reports.": "De rapportage is niet opgeslagen. Alleen de projecteigenaar kan statusrapportages schrijven.",
-        "No report": "Geen rapportage"
+        "No report": "Geen rapportage",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Een groep projecten die door dezelfde mensen wordt gerund, zoals een afdeling of een programma. De beheerders lezen elk project erin.",
+        "The name of the portfolio": "De naam van het portfolio",
+        "What the portfolio holds and who runs it": "Wat het portfolio bevat en wie het runt",
+        "A colour for the portfolio's section in project lists": "Een kleur voor de sectie van het portfolio in projectlijsten",
+        "Managers": "Beheerders",
+        "Nextcloud user UIDs of the people who run the portfolio": "Nextcloud-gebruikers-ID's van de mensen die het portfolio runnen",
+        "Order": "Volgorde",
+        "Where the portfolio comes in project lists, lowest first": "Waar het portfolio in projectlijsten staat, laagste eerst",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "De eigen risicoschaal van dit portfolio als JSON, in dezelfde vorm als de schaal voor de hele app. Leeg betekent de schaal voor de hele app.",
+        "Portfolio readers": "Portfoliolezers",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Nextcloud-gebruikers-ID's van de beheerders van het portfolio van het project",
+        "The portfolio this project belongs to": "Het portfolio waar dit project bij hoort",
+        "No portfolio": "Geen portfolio",
+        "All portfolios": "Alle portfolio's",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Je leest dit project als beheerder van het portfolio. Alleen de leden wijzigen het.",
+        "Portfolios": "Portfolio's"
     },
     "nplurals=2; plural=(n != 1);"
 )

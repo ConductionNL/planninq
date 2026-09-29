@@ -44,6 +44,15 @@
 					:label="t('planninq', 'Icon (emoji)')"
 					:placeholder="t('planninq', 'e.g. 📁 🚀')" />
 
+				<!-- Portfolio: its managers read the project (projects-grouping-hierarchy-fields) -->
+				<NcSelect
+					v-model="form.portfolio"
+					:options="portfolioOptions"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Portfolio')"
+					label="label"
+					data-testid="project-portfolio" />
+
 				<!-- Case reference (read-only) -->
 				<div v-if="project.caseReference" class="project-settings-sidebar__field">
 					<label class="project-settings-sidebar__label">
@@ -215,6 +224,7 @@ import {
 	NcAvatar,
 	NcButton,
 	NcLoadingIcon,
+	NcSelect,
 	NcTextArea,
 	NcTextField,
 } from '@nextcloud/vue'
@@ -228,6 +238,7 @@ import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
 import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import { useProjectsStore } from '../store/projects.js'
+import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
 
 export default {
 	name: 'ProjectSettingsSidebar',
@@ -238,6 +249,7 @@ export default {
 		NcAvatar,
 		NcButton,
 		NcLoadingIcon,
+		NcSelect,
 		NcTextField,
 		NcTextArea,
 		AccountGroupOutline,
@@ -275,7 +287,10 @@ export default {
 				description: this.project?.description || '',
 				color: this.project?.color || '#0082c9',
 				icon: this.project?.icon || '',
+				portfolio: null,
 			},
+
+			portfolios: [],
 		}
 	},
 
@@ -305,6 +320,20 @@ export default {
 		canManageColumns() {
 			return getCurrentUser()?.isAdmin === true || (!!this.currentUid && this.project?.owner === this.currentUid)
 		},
+
+		/**
+		 * No portfolio, then every portfolio in list order.
+		 *
+		 * @return {Array<{id: string, label: string}>}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
+		 */
+		portfolioOptions() {
+			return [
+				{ id: '', label: this.t('planninq', 'No portfolio') },
+				...sortPortfolios(this.portfolios).map((p) => ({ id: String(p.id), label: String(p.title ?? '') })),
+			]
+		},
 	},
 
 	watch: {
@@ -318,11 +347,35 @@ export default {
 				this.form.description = newVal.description || ''
 				this.form.color = newVal.color || '#0082c9'
 				this.form.icon = newVal.icon || ''
+				this.form.portfolio = this.portfolioOption(newVal)
 			}
 		},
 	},
 
+	/**
+	 * Load the portfolios for the Portfolio field.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
+	 */
+	async mounted() {
+		this.portfolios = await this.projectsStore.fetchPortfolios()
+		this.form.portfolio = this.portfolioOption(this.project)
+	},
+
 	methods: {
+		/**
+		 * The option of a project's portfolio, or No portfolio.
+		 *
+		 * @param {object} project The project.
+		 * @return {{id: string, label: string}}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
+		 */
+		portfolioOption(project) {
+			const id = portfolioIdOf(project)
+			return this.portfolioOptions.find((option) => option.id === id) || this.portfolioOptions[0]
+		},
+
 		/**
 		 * Persist title/description/color/icon edits via updateProject.
 		 *
@@ -336,6 +389,7 @@ export default {
 					description: this.form.description.trim() || undefined,
 					color: this.form.color,
 					icon: this.form.icon.trim() || undefined,
+					portfolio: this.form.portfolio?.id || null,
 					// Always include existing members and owner so a PATCH/PUT does not wipe them
 					members: Array.isArray(this.project.members) ? this.project.members : [],
 					owner: this.project.owner || undefined,

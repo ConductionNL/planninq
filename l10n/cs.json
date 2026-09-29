@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Bez návrhu: projekt nemá rozpočet.",
         "No suggestion: no costs are recorded for this project yet.": "Bez návrhu: pro tento projekt zatím nejsou zaznamenány žádné náklady.",
         "The report was not saved. Only the project owner can write status reports.": "Zpráva nebyla uložena. Zprávy o stavu může psát jen vlastník projektu.",
-        "No report": "Žádná zpráva"
+        "No report": "Žádná zpráva",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Skupina projektů vedených stejnými lidmi, například oddělení nebo program. Její správci čtou každý projekt v ní.",
+        "The name of the portfolio": "Název portfolia",
+        "What the portfolio holds and who runs it": "Co portfolio obsahuje a kdo ho vede",
+        "A colour for the portfolio's section in project lists": "Barva sekce portfolia v seznamech projektů",
+        "Managers": "Správci",
+        "Nextcloud user UIDs of the people who run the portfolio": "ID uživatelů Nextcloud lidí, kteří portfolio vedou",
+        "Order": "Pořadí",
+        "Where the portfolio comes in project lists, lowest first": "Kde je portfolio v seznamech projektů, od nejnižšího",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Vlastní škála rizik tohoto portfolia jako JSON, ve stejném tvaru jako škála celé aplikace. Prázdné znamená škálu aplikace.",
+        "Portfolio readers": "Čtenáři portfolia",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "ID uživatelů Nextcloud správců portfolia projektu",
+        "The portfolio this project belongs to": "Portfolio, do kterého projekt patří",
+        "No portfolio": "Bez portfolia",
+        "All portfolios": "Všechna portfolia",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Tento projekt čtete jako správce jeho portfolia. Mění ho jen jeho členové.",
+        "Portfolios": "Portfolia"
     },
     "plurals": null
 }

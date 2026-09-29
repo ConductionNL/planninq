@@ -476,7 +476,23 @@ OC.L10N.register(
         "No suggestion: the project has no budget.": "Intet forslag: projektet har intet budget.",
         "No suggestion: no costs are recorded for this project yet.": "Intet forslag: der er endnu ikke registreret omkostninger for dette projekt.",
         "The report was not saved. Only the project owner can write status reports.": "Rapporten blev ikke gemt. Kun projektets ejer kan skrive statusrapporter.",
-        "No report": "Ingen rapport"
+        "No report": "Ingen rapport",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "En gruppe projekter, der drives af de samme personer, for eksempel en afdeling eller et program. Dens ansvarlige læser alle projekter i den.",
+        "The name of the portfolio": "Porteføljens navn",
+        "What the portfolio holds and who runs it": "Hvad porteføljen rummer, og hvem der driver den",
+        "A colour for the portfolio's section in project lists": "En farve til porteføljens afsnit i projektlister",
+        "Managers": "Ansvarlige",
+        "Nextcloud user UIDs of the people who run the portfolio": "Nextcloud-bruger-id'er for de personer, der driver porteføljen",
+        "Order": "Rækkefølge",
+        "Where the portfolio comes in project lists, lowest first": "Hvor porteføljen står i projektlister, laveste først",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Porteføljens egen risikoskala som JSON, i samme form som den for hele appen. Tom betyder skalaen for hele appen.",
+        "Portfolio readers": "Porteføljelæsere",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Nextcloud-bruger-id'er for de ansvarlige for projektets portefølje",
+        "The portfolio this project belongs to": "Den portefølje, projektet hører til",
+        "No portfolio": "Ingen portefølje",
+        "All portfolios": "Alle porteføljer",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Du læser dette projekt som ansvarlig for dets portefølje. Kun medlemmerne ændrer det.",
+        "Portfolios": "Porteføljer"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -114,7 +114,11 @@
  * admin's scale and a list sorted by the server-calculated score. An owner who
  * is no longer on the project is marked, so a manager can reassign the risk.
  *
+ * The scale is the portfolio's own when it has one (task 1.4 of
+ * projects-grouping-hierarchy-fields), else the admin's.
+ *
  * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
+ * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.4
  */
 import { NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
@@ -124,6 +128,7 @@ import RiskHeatMap from '../components/RiskHeatMap.vue'
 import RiskEditDialog from '../dialogs/RiskEditDialog.vue'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
+import { portfolioRiskScale } from '../utils/portfolioGrouping.js'
 import { projectPeople } from '../utils/projectOverview.js'
 import { parseRiskScale, riskBand, sortRisks } from '../utils/riskHelpers.js'
 import { displayNames } from '../utils/userNames.js'
@@ -145,6 +150,7 @@ export default {
 	data() {
 		return {
 			project: null,
+			portfolios: [],
 			risks: [],
 			names: {},
 			loading: true,
@@ -169,7 +175,7 @@ export default {
 		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
 		 */
 		scale() {
-			return parseRiskScale(this.settingsStore.settings?.risk_scale)
+			return portfolioRiskScale(this.project, this.portfolios, parseRiskScale(this.settingsStore.settings?.risk_scale))
 		},
 
 		/**
@@ -222,13 +228,15 @@ export default {
 			this.loading = true
 			const store = useProjectsStore()
 			try {
-				const [project, risks] = await Promise.all([
+				const [project, risks, portfolios] = await Promise.all([
 					store.fetchProject(this.projectId),
 					store.fetchRisks(this.projectId),
+					store.fetchPortfolios(),
 					this.settingsStore.settings?.risk_scale ? Promise.resolve() : this.settingsStore.fetchSettings(),
 				])
 				this.project = project
 				this.risks = risks
+				this.portfolios = portfolios
 				const uids = new Set(this.people)
 				for (const risk of risks) {
 					if (risk.owner) {

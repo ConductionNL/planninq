@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Kee Virschlag: de Projet huet kee Budget.",
         "No suggestion: no costs are recorded for this project yet.": "Kee Virschlag: fir dëse Projet sinn nach keng Käschten erfaasst.",
         "The report was not saved. Only the project owner can write status reports.": "De Bericht gouf net gespäichert. Nëmmen de Proprietär vum Projet kann Statusberichter schreiwen.",
-        "No report": "Kee Bericht"
+        "No report": "Kee Bericht",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Eng Grupp vu Projeten, déi vun deene selwechte Leit gefouert ginn, zum Beispill eng Abteilung oder e Programm. Seng Responsabel liesen all Projet dran.",
+        "The name of the portfolio": "Den Numm vum Portfolio",
+        "What the portfolio holds and who runs it": "Wat am Portfolio ass a wien et féiert",
+        "A colour for the portfolio's section in project lists": "Eng Faarf fir d'Sektioun vum Portfolio a Projetlëschten",
+        "Managers": "Responsabel",
+        "Nextcloud user UIDs of the people who run the portfolio": "Nextcloud-Benotzer-IDe vun de Leit, déi de Portfolio féieren",
+        "Order": "Reiefolleg",
+        "Where the portfolio comes in project lists, lowest first": "Wou de Portfolio a Projetlëschte steet, déi niddregst als éischt",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Déi eege Risikoskala vun dësem Portfolio als JSON, an der selwechter Form wéi déi fir déi ganz App. Eidel heescht d'Skala vun der App.",
+        "Portfolio readers": "Portfolio-Lieser",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Nextcloud-Benotzer-IDe vun de Responsabele vum Portfolio vum Projet",
+        "The portfolio this project belongs to": "De Portfolio, zu deem dëse Projet gehéiert",
+        "No portfolio": "Kee Portfolio",
+        "All portfolios": "All Portfolioen",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Dir liest dëse Projet als Responsabel vu sengem Portfolio. Nëmme seng Memberen änneren en.",
+        "Portfolios": "Portfolioen"
     },
     "plurals": null
 }
