@@ -950,6 +950,230 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Project Phases",
+			"description": "planning-phase-gate-document: a phase closes only with a concluding document attached to it (OpenRegister lifecycle guard OCA\\Planninq\\Lifecycle\\PhaseConcludingDocumentGuard).",
+			"item": [
+				{
+					"name": "create a phase in progress",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectPhase",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Realisatie (newman)\", \"project\": \"{{project_id}}\", \"status\": \"in_progress\", \"order\": 990}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('phase created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('phase_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "phase close without document is refused",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectPhase/{{phase_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"status\": \"completed\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('refused by the guard', function () {",
+									"    pm.response.to.have.status(403);",
+									"    pm.expect(pm.response.text()).to.include('Upload the concluding document before you close this phase.');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "attach the concluding document",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectPhase/{{phase_id}}/files",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Ontwerpbesluit.txt\", \"content\": \"Besluit: de fase is afgerond.\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('file attached', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('phase_file_id', String(json.id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "a file id that is not on the phase does not count",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectPhase/{{phase_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"status\": \"completed\", \"concludingDocument\": \"999999999\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('refused by the guard', function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "phase close with document succeeds",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectPhase/{{phase_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"status\": \"completed\", \"concludingDocument\": \"{{phase_file_id}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('phase completed', function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.json().status).to.eql('completed');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the phase",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectPhase/{{phase_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('phase removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
 		}
 	]
 }

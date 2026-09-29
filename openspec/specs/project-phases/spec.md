@@ -1,16 +1,19 @@
-# project-phases delta for planning-phase-gate-document
+# project-phases Specification
 
-## ADDED Requirements
+## Purpose
+Project members manage the phases of a project and their documents; a phase closes only once its concluding document is attached, enforced by OpenRegister for every client.
+
+## Requirements
 
 ### Requirement: A project member can manage the phases of a project
 
-Each project MUST have a phases page at /projects/:id/phases, reached from the project board header, that lists the project's phases in order with their status, planned dates and budget hours. A project member SHALL be able to add a phase, edit it and move it up or down with the keyboard. Only members of the project and admins SHALL see its phases. Tier: V1 (docs/FEATURES.md, project management: project milestones).
+Each project MUST have a phases page at /projects/:id/phases, reached from the Phases tab in the row of project tabs, that lists the project's phases in order with their status, planned dates and budget hours. A project member SHALL be able to add a phase, edit it and move it up or down with the keyboard. Only members of the project and admins SHALL see its phases. Tier: V1 (docs/FEATURES.md, project management: project milestones).
 
 #### Scenario: A member opens the phases page from the board
 
 - **GIVEN** a project member on the project board at /projects/:id
-- **WHEN** they press "Phases" in the board header
-- **THEN** the phases page opens with the project's name in its breadcrumb
+- **WHEN** they press the "Phases" tab
+- **THEN** the phases page opens and the tab row marks Phases as the open page
 
 #### Scenario: A member adds a phase
 
@@ -55,6 +58,7 @@ The `projectPhase` schema MUST declare a lifecycle on `status` whose transition 
 - **AND** the phases page shows "Ontwerpbesluit.pdf" as the phase's concluding document
 
 #### Scenario: The API refuses a close without a document
+@e2e exclude API-level rule with no screen, asserted by the Newman request "phase close without document is refused" and PhaseConcludingDocumentGuardTest::testDeniesWithoutDocument
 
 - **GIVEN** a project member's client and the phase "Realisatie" with no concluding document
 - **WHEN** it sends PATCH /apps/openregister/api/objects/planninq/projectPhase/{id} with `status: completed`
@@ -62,6 +66,7 @@ The `projectPhase` schema MUST declare a lifecycle on `status` whose transition 
 - **AND** the phase's status is unchanged
 
 #### Scenario: A document that is not on the phase does not count
+@e2e exclude API-level rule with no screen, asserted by the Newman request "a file id that is not on the phase does not count" and PhaseConcludingDocumentGuardTest::testDeniesWhenFileIsNotOnThePhase
 
 - **GIVEN** the phase "Realisatie" and a file attached to a different phase
 - **WHEN** a client sets `concludingDocument` to that other file's id and `status` to `completed`
@@ -72,6 +77,7 @@ The `projectPhase` schema MUST declare a lifecycle on `status` whose transition 
 The phases page MUST flag a completed phase whose concluding document is no longer attached to it with the text "Concluding document missing". Tier: V1.
 
 #### Scenario: A removed concluding document is flagged
+@e2e exclude Removing a file needs a second write after the close; asserted by tests/vitest/phases.spec.js "completed phase without its file is flagged"
 
 - **GIVEN** the completed phase "Ontwerp" whose file "Ontwerpbesluit.pdf" was removed afterwards
 - **WHEN** a project member opens the phases page

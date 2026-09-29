@@ -23,12 +23,17 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Settings;
 
+require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
+
+use OCA\Planninq\Lifecycle\PhaseConcludingDocumentGuard;
+use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for planninq_register.json schema authorization and security configuration.
  */
 class PlanninqRegisterSchemaTest extends TestCase {
+	use RegisterSchemaValidation;
 
 	/**
 	 * Decoded register JSON data.
@@ -55,6 +60,56 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		$this->register = $decoded;
 
 	}//end setUp()
+
+	/**
+	 * A phase closes only through the transition that runs the concluding
+	 * document guard, and the register asks for an OpenRegister that runs
+	 * `requires` guards on update. The two ship together.
+	 *
+	 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-1.1
+	 *
+	 * @return void
+	 */
+	public function testPhaseLifecycleRequiresConcludingDocumentGuard(): void {
+		$phase = $this->register['components']['schemas']['projectPhase'];
+		$lifecycle = ($phase['x-openregister-lifecycle'] ?? null);
+		self::assertIsArray($lifecycle, 'projectPhase declares x-openregister-lifecycle');
+		self::assertSame('status', $lifecycle['field']);
+		self::assertSame('open', $lifecycle['initial']);
+
+		$moves = [];
+		foreach ($lifecycle['transitions'] as $action => $transition) {
+			foreach ($transition['from'] as $from) {
+				$moves[$from.'->'.$transition['to']] = [$action, ($transition['requires'] ?? null)];
+			}
+		}
+
+		ksort($moves);
+		self::assertSame(
+			[
+				'cancelled->in_progress' => ['reopen', null],
+				'completed->in_progress' => ['reopen', null],
+				'in_progress->cancelled' => ['cancel', null],
+				'in_progress->completed' => ['complete', PhaseConcludingDocumentGuard::class],
+				'open->cancelled' => ['cancel', null],
+				'open->completed' => ['complete', PhaseConcludingDocumentGuard::class],
+				'open->in_progress' => ['start', null],
+			],
+			$moves
+		);
+
+		self::assertSame(['open', 'in_progress', 'completed', 'cancelled'], $phase['properties']['status']['enum']);
+		self::assertSame('>=v1.1.7', $this->register['x-openregister']['openregister'], 'the constraint names the first OpenRegister that runs requires guards on update');
+
+		$document = $phase['properties']['concludingDocument'];
+		self::assertSame('string', $document['type']);
+		self::assertTrue($document['nullable']);
+
+		$base = ['title' => 'Initiatie', 'project' => '6f1d6c0e-1b2a-4c3d-8e9f-0a1b2c3d4e5f', 'status' => 'completed'];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'projectPhase', payload: $base + ['concludingDocument' => '4711']));
+		self::assertSame([], $this->registerSchemaErrors(slug: 'projectPhase', payload: $base + ['concludingDocument' => null]));
+
+	}//end testPhaseLifecycleRequiresConcludingDocumentGuard()
 
 	/**
 	 * Register JSON must be valid JSON with the required top-level structure.

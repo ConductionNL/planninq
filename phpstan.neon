@@ -41,6 +41,11 @@ parameters:
         # above and now ships in the shared package, because decidiq and filinq
         # carry the same guarded call and were red on psalm without it.
         - vendor/conduction/hydra-gates/hydra-gates/stubs/openregister-apphost-bootstrap.stub.php
+        # OpenRegister's lifecycle guard contract, verbatim copies of
+        # lib/Lifecycle/*.php (planning-phase-gate-document). An interface a
+        # class implements cannot be ignored, only supplied.
+        - tests/stubs/openregister/Lifecycle/LifecycleGuardInterface.php
+        - tests/stubs/openregister/Lifecycle/GuardResult.php
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         # Nextcloud server internals (\OC, OC_App, OC\) not stubbed in nextcloud/ocp

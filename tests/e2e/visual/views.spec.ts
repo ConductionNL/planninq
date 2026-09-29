@@ -156,6 +156,7 @@ test.describe('visual baselines — planninq views', () => {
 		['ProjectBacklog', 'backlog', 'backlog', 'project-backlog.png'],
 		['ProjectTimeline', 'timeline', 'timeline', 'project-timeline.png'],
 		['ProjectOverview', 'overview', 'overview', 'project-overview.png'],
+		['ProjectPhases', 'phases', 'phases', 'project-phases.png'],
 		['ProjectRisks', 'risks', 'risks', 'project-risks.png'],
 		['ProjectStatus', 'status', 'status', 'project-status.png'],
 		['ProjectLog', 'log', 'log', 'project-log.png'],
