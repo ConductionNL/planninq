@@ -384,7 +384,7 @@
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.11.0",
+        "version": "0.12.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -859,7 +859,55 @@
               "authorization": [
                 "admin"
               ],
-              "description": "Reject a project request with a reason."
+              "description": "Reject a project request with a reason.",
+              "inputs": [
+                {
+                  "field": "reviewNote",
+                  "required": true
+                }
+              ]
+            }
+          }
+        },
+        "x-openregister-notifications": {
+          "projectRequestApproved": {
+            "trigger": {
+              "type": "transition",
+              "action": "approve"
+            },
+            "enabled": true,
+            "channels": [
+              "nc-notification"
+            ],
+            "recipients": [
+              {
+                "kind": "field",
+                "field": "owner"
+              }
+            ],
+            "subject": {
+              "en": "Your project request \"{{title}}\" was approved",
+              "nl": "Je projectaanvraag \"{{title}}\" is goedgekeurd"
+            }
+          },
+          "projectRequestRejected": {
+            "trigger": {
+              "type": "transition",
+              "action": "reject"
+            },
+            "enabled": true,
+            "channels": [
+              "nc-notification"
+            ],
+            "recipients": [
+              {
+                "kind": "field",
+                "field": "owner"
+              }
+            ],
+            "subject": {
+              "en": "Your project request \"{{title}}\" was not approved",
+              "nl": "Je projectaanvraag \"{{title}}\" is niet goedgekeurd"
             }
           }
         }

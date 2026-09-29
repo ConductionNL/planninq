@@ -830,7 +830,7 @@
       "area": "projects",
       "name": "Restrict who may create projects to admins or chosen groups.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "partial",
@@ -848,11 +848,12 @@
         "plane": "source: apps/api/plane/app/views/project/base.py:257 create is @allow_permission([ROLE.ADMIN, ROLE.MEMBER], level=\"WORKSPACE\"), so guests are excluded, but there is no setting to restrict creation to admins or chosen groups (corpus: plane/round4/code-census.md §5 three fixed roles 20/15/5, no groups) ; source read at v1.4.2: apps/api/plane/app/views/project/base.py:257 create allowed for workspace ROLE.ADMIN and ROLE.MEMBER only, so guests cannot create; searched apps/api/plane for 'can_create_project', 'restrict.?project', 'project_creation': none, so no admin or group restriction setting"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/views/ProjectList.vue:207-215 canCreateProject() -> lib/Service/SettingsService.php:158 canCurrentUserCreateProject() reads app config 'allow_project_creation' (default 'all', line 62) -> lib/Controller/ProjectController.php:191 checkCreatePolicy()",
-        "reachedOn": "ProjectList page (button visibility) + server-enforced in ProjectController::create()",
+        "state": "built",
+        "evidence": "lib/Service/CreationPolicyService.php canCreate(): all, admins or members of project_creation_groups; enforced in lib/Controller/ProjectController.php create(); src/views/settings/Settings.vue offers Members of these groups with a group picker; the list reads canCreateProject from the settings payload",
+        "reachedOn": "Admin settings page, Project creation; ProjectList page (New project button)",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/projects-lifecycle-policy"
+        "change": "openspec/changes/archive/2026-09-29-projects-lifecycle-policy",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -970,7 +971,7 @@
       "area": "projects",
       "name": "Archive a finished project and restore it later.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -989,14 +990,12 @@
         "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/archiveren-en-verwijderen-van-een-roosterproject 'Wij raden aan om uw oude roosterproject(en) te archiveren' via Beheer > Roosterprojecten; archiving a timetable project is stated, restoring it is not described on the page"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/components/ProjectSettingsSidebar.vue:149 (Archive project button, Danger zone tab) -> src/store/projects.js:506 archiveProject() (PATCH status='archived')",
-        "reachedOn": "ProjectBoard page, Project settings sidebar, Danger zone tab",
+        "state": "built",
+        "evidence": "src/components/ProjectSettingsSidebar.vue Danger zone shows Restore project or Archive project from GET /apps/openregister/api/objects/{id}/available-actions; src/views/ProjectList.vue Restore on archived rows; src/store/projects.js archiveProject/restoreProject run the archive and restore transitions of the project lifecycle (lib/Settings/planninq_register.json project x-openregister-lifecycle)",
+        "reachedOn": "ProjectBoard page, Project settings sidebar, Danger zone tab; ProjectList page, Archived chip",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/components/ProjectSettingsSidebar.vue: Danger zone tab has no restore/unarchive action for an already-archived project"
-        ],
-        "change": "openspec/changes/projects-lifecycle-policy"
+        "change": "openspec/changes/archive/2026-09-29-projects-lifecycle-policy",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6922,7 +6921,7 @@
         "kanboard": "source read at v1.2.54: searched app/Controller/ProjectCreationController.php and app/Model for 'request', 'approv': none; a project is created directly",
         "jira": "https://confluence.atlassian.com/adminjiraserver/creating-a-project-938846813.html 'creating and configuring a project is done by an administrator': no request form or review step before a project exists; request forms are Jira Service Management, a separate licence (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "no",
@@ -6933,11 +6932,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "Create path: src/dialogs/ProjectCreationDialog.vue:65-75 submit -> src/store/projects.js:328 createProject -> POST /apps/planninq/api/projects -> lib/Controller/ProjectController.php create, which stores the project immediately. No request status, no reviewer and no guided intake form. The creation policy [prj-create-policy] restricts WHO may create, it does not route a request to someone.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/dialogs/ProjectRequestDialog.vue (two steps) -> ProjectController::create stores status requested when CreationPolicyService::canRequest(); reviewers from lib/Service/ProjectPolicySchemaService.php (approve/reject authorization, read and update on requested projects); src/dialogs/ProjectRequestReviewDialog.vue runs approve or reject (with reviewNote); lib/Listener/ProjectReviewListener.php stamps the review and creates the board; notification rules projectRequestApproved/Rejected to the owner",
+        "reachedOn": "ProjectList page, Request a project and the Requested chip; ProjectBoard page banner and Review request",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/projects-lifecycle-policy"
+        "change": "openspec/changes/archive/2026-09-29-projects-lifecycle-policy",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

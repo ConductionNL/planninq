@@ -232,8 +232,11 @@ class ProjectController extends Controller {
 
 		// Server-side enforcement of the allow_project_creation admin setting (C1).
 		// Delegate to the dedicated policy-check endpoint so the gate logic stays in one place.
+		// Someone who may not create may still REQUEST a project when requests
+		// are on (projects-lifecycle-policy): it is stored as `requested`.
 		$policyCheck = $this->checkCreatePolicy();
-		if ($policyCheck->getStatus() === Http::STATUS_FORBIDDEN) {
+		$requesting  = ($policyCheck->getStatus() === Http::STATUS_FORBIDDEN);
+		if ($requesting === true && $this->settingsService->canCurrentUserRequestProject() === false) {
 			return $policyCheck;
 		}
 
@@ -244,30 +247,11 @@ class ProjectController extends Controller {
 			return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
 		}
 
-		$uid = $user->getUID();
-		$body = $this->request->getParams();
-
-		// Strip framework-injected routing params.
-		unset($body['_route'], $body['_format']);
-
-		// The project key (tasks-readable-keys): stored uppercase, refused
-		// here with a clear status when it is malformed or taken. The key
-		// listener holds every other project write to the same rules.
-		$body['key'] = $this->keys->normalise(key: ($body['key'] ?? null));
-		if ($body['key'] === '') {
-			unset($body['key']);
+		$uid  = $user->getUID();
+		$body = $this->createBody(uid: $uid, requesting: $requesting);
+		if ($body instanceof JSONResponse) {
+			return $body;
 		}
-
-		$keyRefusal = $this->checkKey(key: ($body['key'] ?? ''));
-		if ($keyRefusal !== null) {
-			return $keyRefusal;
-		}
-
-		// Ensure owner + initial membership are set server-side so the client
-		// cannot spoof a different owner.
-		$body['owner'] = $uid;
-		$body['members'] = array_values(array_unique(array_merge([$uid], (array)($body['members'] ?? []))));
-		$body['status'] = ($body['status'] ?? 'active');
 
 		try {
 			// SB1 fix: pass _rbac: false so that the schema-level "create": ["admin"]
@@ -290,7 +274,10 @@ class ProjectController extends Controller {
 			// The board runs on the project's own columns, so a project is
 			// created with them: the admin's default titles, the last one the
 			// done column (boards-configurable-columns, decision 6).
-			$this->boardColumns->createDefaultColumns(projectId: (string)($project['id'] ?? ($project['@self']['id'] ?? '')));
+			// A request gets its columns when it is approved (ProjectReviewListener).
+			if ($requesting === false) {
+				$this->boardColumns->createDefaultColumns(projectId: (string)($project['id'] ?? ($project['@self']['id'] ?? '')));
+			}
 
 			return new JSONResponse($project, Http::STATUS_CREATED);
 		} catch (\Throwable $e) {
@@ -302,6 +289,67 @@ class ProjectController extends Controller {
 		}//end try
 
 	}//end create()
+
+	/**
+	 * The body a create saves: routing params stripped, the key normalised and
+	 * checked, owner and members set by the server, a request marked as one.
+	 *
+	 * @param string $uid        The caller.
+	 * @param bool   $requesting Whether the caller may only request.
+	 *
+	 * @return array<string,mixed>|JSONResponse The body, or the refusal of its key.
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.2
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	private function createBody(string $uid, bool $requesting): array|JSONResponse {
+		$body = $this->request->getParams();
+
+		// Strip framework-injected routing params.
+		unset($body['_route'], $body['_format']);
+
+		// The project key (tasks-readable-keys): stored uppercase, refused
+		// here with a clear status when it is malformed or taken. The key
+		// listener holds every other project write to the same rules.
+		$body['key'] = $this->keys->normalise(key: ($body['key'] ?? null));
+		if ($body['key'] === '') {
+			unset($body['key']);
+		}
+
+		$keyRefusal = $this->checkKey(key: ($body['key'] ?? ''));
+		if ($keyRefusal !== null) {
+			return $keyRefusal;
+		}
+
+		// Ensure owner + initial membership are set server-side so the client
+		// cannot spoof a different owner.
+		$body['owner']   = $uid;
+		$body['members'] = array_values(array_unique(array_merge([$uid], (array)($body['members'] ?? []))));
+		$body['status']  = ($body['status'] ?? 'active');
+		if ($requesting === true) {
+			return $this->asRequest(body: $body, uid: $uid);
+		}
+
+		return $body;
+	}//end createBody()
+
+	/**
+	 * A create body turned into a project request: status requested, the requester its only member, no review filled in.
+	 *
+	 * @param array<string,mixed> $body The create body.
+	 * @param string              $uid  The requester.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	private function asRequest(array $body, string $uid): array {
+		unset($body['reviewedBy'], $body['reviewedAt'], $body['reviewNote']);
+		$body['status']  = 'requested';
+		$body['members'] = [$uid];
+
+		return $body;
+	}//end asRequest()
 
 	/**
 	 * Whether a project key is well formed and free, without saying which project has it.

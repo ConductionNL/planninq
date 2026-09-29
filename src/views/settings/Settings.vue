@@ -105,6 +105,12 @@
 						{{ t('planninq', 'The group {group} no longer exists. Save to remove it.', { group }) }}
 					</p>
 				</div>
+				<!-- Project requests (projects-lifecycle-policy) -->
+				<div v-if="creationPolicy !== 'all'" class="form-group">
+					<NcCheckboxRadioSwitch v-model="projectRequests" type="switch" data-testid="project-requests">
+						{{ t('planninq', 'Let everyone else request a project') }}
+					</NcCheckboxRadioSwitch>
+				</div>
 				<div v-if="creationPolicySuccess" class="success-message">
 					{{ creationPolicySuccess }}
 				</div>
@@ -413,7 +419,7 @@ import { generateOcsUrl, generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  */
-import { NcButton, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
+import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import LabelDeleteDialog from '../../dialogs/LabelDeleteDialog.vue'
 import LabelEditDialog from '../../dialogs/LabelEditDialog.vue'
 import { useLabelsStore } from '../../store/labels.js'
@@ -426,6 +432,7 @@ export default {
 	name: 'Settings',
 	components: {
 		NcButton,
+		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
 		NcSelect,
 		CnSettingsSection,
@@ -453,6 +460,7 @@ export default {
 			// allow_project_creation
 			creationPolicy: 'all',
 			creationGroups: [],
+			projectRequests: false,
 			groupOptions: [],
 			missingCreationGroups: [],
 			savingCreationPolicy: false,
@@ -525,6 +533,7 @@ export default {
 		this.creationPolicy = settingsStore.settings?.allow_project_creation || 'all'
 		this.creationGroups = creationGroupIds(settingsStore.settings?.project_creation_groups).map((id) => ({ id, label: id }))
 		this.missingCreationGroups = settingsStore.settings?.creationGroupsMissing || []
+		this.projectRequests = settingsStore.settings?.project_requests === 'on'
 		this.loadGroups()
 		this.leadHours = parseInt(settingsStore.settings?.due_reminder_lead_hours, 10) || 24
 		this.riskScale = JSON.parse(JSON.stringify(parseRiskScale(settingsStore.settings?.risk_scale)))
@@ -696,6 +705,7 @@ export default {
 			const result = await settingsStore.saveSettings({
 				allow_project_creation: this.creationPolicy,
 				project_creation_groups: creationGroupsSetting(this.creationGroups),
+				project_requests: this.projectRequests ? 'on' : 'off',
 			})
 			if (result) {
 				this.creationPolicySuccess = this.t('planninq', 'Creation policy saved successfully')
