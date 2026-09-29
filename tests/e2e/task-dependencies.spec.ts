@@ -10,6 +10,9 @@
  *   @e2e task-dependencies::the-badge-appears-and-clears
  *   @e2e task-dependencies::link-two-related-tasks
  *   @e2e task-dependencies::arrow-on-the-timeline
+ *   @e2e task-dependencies::add-a-blocked-by-dependency
+ *   @e2e task-dependencies::remove-a-dependency
+ *   @e2e task-dependencies::blocker-completion-clears-the-indicator
  */
 
 import { expect, test } from '@playwright/test'

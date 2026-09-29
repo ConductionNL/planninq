@@ -2778,7 +2778,7 @@
       "area": "tasks",
       "name": "Link related tasks to each other without one blocking the other.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "yes",
       "plane": "yes",
@@ -2796,16 +2796,12 @@
         "plane": "corpus: plane/round4/code-census.md §2 IssueRelationChoices 'duplicate, relates_to, blocked_by, ...' ; source read at v1.4.2: apps/web/core/components/issues/issue-detail-widgets/relations/quick-action-button.tsx:38-40 opens the relation modal; apps/web/core/components/relations/index.tsx:13-14 relates_to option; apps/api/plane/app/urls/issue.py:236 issue-relation route; apps/api/plane/db/models/issue.py:272-274 IssueRelationChoices RELATES_TO"
       },
       "built": {
-        "state": "specified",
-        "evidence": "The dependency schema declares a non-blocking 'type' enum (blocks/relates/duplicates/clones/splits/causes, lib/Settings/planninq_register.json dependency.properties.type), but src/store/dependencies.js:81-100 createEdge() only ever POSTs {blocker, blocked} with no type, so the server always defaults to 'blocks'. Worse, the only component that could create any edge, src/components/TaskDependencies.vue, is never imported by any other file in src/ (grep across src/ finds it only in its own file), it is not mounted on TaskDetail or anywhere else, so even blocking dependencies have no reachable UI.",
-        "reachedOn": "nothing reaches it (TaskDependencies.vue is an orphan component)",
+        "state": "built",
+        "evidence": "src/components/TaskDependencies.vue link type 'Relates to' / 'Duplicates' with a Related group (linkGroups() in src/utils/taskHelpers.js); DependencyService::create() stores the type and skips the cycle check for non-blocking links",
+        "reachedOn": "Task page /projects/:id/tasks/:taskId, Dependencies section",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/components/TaskDependencies.vue is never imported/mounted by any view or component in src/, a full dependency-editing UI with no caller",
-          "src/components/BlockedBadge.vue is likewise never imported/mounted anywhere in src/",
-          "src/store/dependencies.js:81 createEdge() has no `type` parameter, so even if wired up it could never create the non-blocking 'relates'/'duplicates'/etc edges the schema declares"
-        ],
-        "change": "openspec/changes/planning-dependencies-on-task-page"
+        "change": "openspec/changes/archive/2026-09-29-planning-dependencies-on-task-page",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3233,7 +3229,7 @@
       "area": "planning",
       "name": "Mark a task as blocked by another task.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -3251,15 +3247,12 @@
         "plane": "corpus: plane/round4/code-census.md §2 IssueRelationChoices includes blocked_by with pair 'blocking' (issue.py:272-290) ; source read at v1.4.2: apps/web/core/components/relations/index.tsx:27 blocked_by option in the relation menu; apps/api/plane/app/urls/issue.py:236 issue-relation route; apps/api/plane/db/models/issue.py:275 BLOCKED_BY and :284 blocked_by paired with blocking"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/components/TaskDependencies.vue (full picker/add/remove UI) -> src/store/dependencies.js:81 createEdge -> lib/Service/DependencyService.php:112 create(); but src/views/TaskDetail.vue never imports or mounts TaskDependencies (grep of src/ finds no importer)",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/components/TaskDependencies.vue mounted on src/views/TaskDetail.vue: Blocked by / Blocks lists, same-project picker, remove per link, through /apps/planninq/api/dependencies",
+        "reachedOn": "Task page /projects/:id/tasks/:taskId, Dependencies section",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/components/TaskDependencies.vue: complete component (picker, blocked banner, remove buttons) with no importer anywhere in src/",
-          "src/views/TaskDetail.vue: has no Dependencies section and does not import TaskDependencies.vue"
-        ],
-        "change": "openspec/changes/planning-dependencies-on-task-page"
+        "change": "openspec/changes/archive/2026-09-29-planning-dependencies-on-task-page",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3272,7 +3265,7 @@
       "area": "planning",
       "name": "Be stopped from creating a circular, duplicate or self dependency.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "yes",
       "plane": "partial",
@@ -3290,14 +3283,12 @@
         "plane": "source: apps/api/plane/db/models/issue.py:306-312 UniqueConstraint on (issue, related_issue) blocks duplicates, and apps/api/plane/app/views/issue/relation.py:229-245 bulk_create(ignore_conflicts=True) drops them silently; no self or circular check in relation.py create. Corpus silent ; source read at v1.4.2: apps/api/plane/app/views/search/issue.py:44 the relation picker excludes the item itself and its parent, :47-53 excludes already related items; apps/api/plane/db/models/issue.py:308-311 UniqueConstraint issue and related_issue; apps/api/plane/app/views/issue/relation.py:229-245 bulk_create ignore_conflicts, no check for a circular chain"
       },
       "built": {
-        "state": "specified",
-        "evidence": "lib/Service/DependencyService.php:112-236 assertDistinctTasks/assertEdgeIsValid/DependencyGraph::cyclePath fully implement self/duplicate/cross-project/cycle checks, surfaced by src/components/TaskDependencies.vue:73 (errorMessage)",
-        "reachedOn": "nothing reaches it (same dead component as pln-dependencies)",
+        "state": "built",
+        "evidence": "DependencyService::create() refuses self, duplicate, cross-project and cycle-closing blocking links with the cycle path; TaskDependencies.vue shows the server message inline",
+        "reachedOn": "Task page Dependencies section, the message next to the picker",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/components/TaskDependencies.vue: the only caller of dependencies.js createEdge/deleteEdge, and it is never imported (see pln-dependencies)"
-        ],
-        "change": "openspec/changes/planning-dependencies-on-task-page"
+        "change": "openspec/changes/archive/2026-09-29-planning-dependencies-on-task-page",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3310,7 +3301,7 @@
       "area": "planning",
       "name": "See at a glance which tasks are blocked by unfinished work.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "partial",
       "plane": "no",
@@ -3328,15 +3319,12 @@
         "plane": "source: grep -rniE 'blocked|blocking' apps/web/core/components/issues/issue-layouts returns 0 hits; ISSUE_DISPLAY_PROPERTIES (packages/constants/src/issue/common.ts) has no blocked property. Relations show only on the work item page ; source read at v1.4.2: packages/constants/src/issue/common.ts:142-159 card display keys have no blocked entry; searched apps/web/core/components/issues/issue-layouts for 'blocked', 'blocking': none. Relations show only inside the work item, apps/web/core/components/relations/index.tsx:27"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/components/BlockedBadge.vue (renders isBlocked() result) and src/utils/taskHelpers.js:105 isBlocked() / :135 blockedTaskIds() exist, but grep across src/ finds no importer of BlockedBadge.vue and no caller of isBlocked()/blockedTaskIds() anywhere",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue derives blocked ids once (deriveBlockedTaskIds) and src/components/TaskCard.vue renders src/components/BlockedBadge.vue with the open blocker count; it never gates a move",
+        "reachedOn": "Project board /projects/:id, the Blocked badge on a card",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/components/BlockedBadge.vue: defined, never imported by any view or component",
-          "src/utils/taskHelpers.js:105 isBlocked() and :135 blockedTaskIds(): exported, never called outside their own file"
-        ],
-        "change": "openspec/changes/planning-dependencies-on-task-page"
+        "change": "openspec/changes/archive/2026-09-29-planning-dependencies-on-task-page",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3349,7 +3337,7 @@
       "area": "planning",
       "name": "See dependency links drawn on the timeline.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
@@ -3367,14 +3355,12 @@
         "plane": "source: apps/web/core/components/gantt-chart/helpers/draggable.tsx:26 declares enableDependency and the ChartDraggable body (:30-39) never destructures or uses it; no dependency path component in the tree. A hollow shim like those in corpus: plane/round4/open-core.md ; source read at v1.4.2: apps/web/core/components/gantt-chart/helpers/draggable.tsx:26 declares enableDependency and :30-38 ChartDraggable never destructures it; searched apps/web/core/components/gantt-chart for 'dependency.?path', 'DependencyPath', 'relation.?line': none"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/views/ProjectTimeline.vue:71-95 (edgeLines svg) <- src/utils/timelineHelpers.js buildLayout() consumes payload.dependencies from src/api/timeline.js:35",
-        "reachedOn": "ProjectTimeline page /projects/:id/timeline",
+        "state": "built",
+        "evidence": "src/views/ProjectTimeline.vue draws edgeLines from the timeline payload, dashed for related links; links made on the task page appear there",
+        "reachedOn": "Project Timeline tab /projects/:id/timeline",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/components/TaskDependencies.vue: not mounted anywhere, so no real edge ever reaches the timeline outside seeded demo data"
-        ],
-        "change": "openspec/changes/planning-dependencies-on-task-page"
+        "change": "openspec/changes/archive/2026-09-29-planning-dependencies-on-task-page",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
