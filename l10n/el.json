@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Καμία πρόταση: το έργο δεν έχει προϋπολογισμό.",
         "No suggestion: no costs are recorded for this project yet.": "Καμία πρόταση: δεν έχει καταγραφεί ακόμη κόστος για αυτό το έργο.",
         "The report was not saved. Only the project owner can write status reports.": "Η αναφορά δεν αποθηκεύτηκε. Μόνο ο κάτοχος του έργου μπορεί να γράφει αναφορές κατάστασης.",
-        "No report": "Καμία αναφορά"
+        "No report": "Καμία αναφορά",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Ομάδα έργων που διευθύνουν τα ίδια άτομα, όπως ένα τμήμα ή ένα πρόγραμμα. Οι υπεύθυνοί της διαβάζουν κάθε έργο της.",
+        "The name of the portfolio": "Το όνομα του χαρτοφυλακίου",
+        "What the portfolio holds and who runs it": "Τι περιέχει το χαρτοφυλάκιο και ποιος το διευθύνει",
+        "A colour for the portfolio's section in project lists": "Ένα χρώμα για την ενότητα του χαρτοφυλακίου στις λίστες έργων",
+        "Managers": "Υπεύθυνοι",
+        "Nextcloud user UIDs of the people who run the portfolio": "Αναγνωριστικά χρηστών Nextcloud των ατόμων που διευθύνουν το χαρτοφυλάκιο",
+        "Order": "Σειρά",
+        "Where the portfolio comes in project lists, lowest first": "Η θέση του χαρτοφυλακίου στις λίστες έργων, πρώτα το χαμηλότερο",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Η δική του κλίμακα κινδύνου αυτού του χαρτοφυλακίου σε JSON, στην ίδια μορφή με την κλίμακα όλης της εφαρμογής. Κενό σημαίνει την κλίμακα της εφαρμογής.",
+        "Portfolio readers": "Αναγνώστες χαρτοφυλακίου",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Αναγνωριστικά χρηστών Nextcloud των υπευθύνων του χαρτοφυλακίου του έργου",
+        "The portfolio this project belongs to": "Το χαρτοφυλάκιο στο οποίο ανήκει το έργο",
+        "No portfolio": "Χωρίς χαρτοφυλάκιο",
+        "All portfolios": "Όλα τα χαρτοφυλάκια",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Διαβάζετε αυτό το έργο ως υπεύθυνος του χαρτοφυλακίου του. Μόνο τα μέλη του το αλλάζουν.",
+        "Portfolios": "Χαρτοφυλάκια"
     },
     "plurals": null
 }

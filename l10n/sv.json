@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Inget förslag: projektet har ingen budget.",
         "No suggestion: no costs are recorded for this project yet.": "Inget förslag: inga kostnader har registrerats för projektet än.",
         "The report was not saved. Only the project owner can write status reports.": "Rapporten sparades inte. Endast projektägaren kan skriva statusrapporter.",
-        "No report": "Ingen rapport"
+        "No report": "Ingen rapport",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "En grupp projekt som drivs av samma personer, till exempel en avdelning eller ett program. Dess ansvariga läser varje projekt i den.",
+        "The name of the portfolio": "Portföljens namn",
+        "What the portfolio holds and who runs it": "Vad portföljen innehåller och vem som driver den",
+        "A colour for the portfolio's section in project lists": "En färg för portföljens avsnitt i projektlistor",
+        "Managers": "Ansvariga",
+        "Nextcloud user UIDs of the people who run the portfolio": "Nextcloud-användar-id för de personer som driver portföljen",
+        "Order": "Ordning",
+        "Where the portfolio comes in project lists, lowest first": "Var portföljen står i projektlistor, lägst först",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Portföljens egen riskskala som JSON, i samma form som den för hela appen. Tom betyder skalan för hela appen.",
+        "Portfolio readers": "Portföljläsare",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Nextcloud-användar-id för de ansvariga för projektets portfölj",
+        "The portfolio this project belongs to": "Portföljen som projektet hör till",
+        "No portfolio": "Ingen portfölj",
+        "All portfolios": "Alla portföljer",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Du läser det här projektet som ansvarig för dess portfölj. Endast medlemmarna ändrar det.",
+        "Portfolios": "Portföljer"
     },
     "plurals": null
 }

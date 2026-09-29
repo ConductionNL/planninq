@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "L-ebda suġġeriment: il-proġett m'għandux baġit.",
         "No suggestion: no costs are recorded for this project yet.": "L-ebda suġġeriment: għad m'hemm l-ebda spiża rreġistrata għal dan il-proġett.",
         "The report was not saved. Only the project owner can write status reports.": "Ir-rapport ma ġiex issejvjat. Is-sid tal-proġett biss jista' jikteb rapporti tal-istat.",
-        "No report": "L-ebda rapport"
+        "No report": "L-ebda rapport",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Grupp ta' proġetti mmexxija mill-istess nies, bħal dipartiment jew programm. Il-maniġers tiegħu jaqraw kull proġett fih.",
+        "The name of the portfolio": "L-isem tal-portafoll",
+        "What the portfolio holds and who runs it": "X'fih il-portafoll u min imexxih",
+        "A colour for the portfolio's section in project lists": "Kulur għas-sezzjoni tal-portafoll fil-listi tal-proġetti",
+        "Managers": "Maniġers",
+        "Nextcloud user UIDs of the people who run the portfolio": "L-IDs tal-utenti ta' Nextcloud tan-nies li jmexxu l-portafoll",
+        "Order": "Ordni",
+        "Where the portfolio comes in project lists, lowest first": "Fejn jidher il-portafoll fil-listi tal-proġetti, l-iżgħar l-ewwel",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "L-iskala tar-riskju proprja ta' dan il-portafoll bħala JSON, fl-istess forma bħal dik tal-app kollha. Vojt ifisser l-iskala tal-app.",
+        "Portfolio readers": "Qarrejja tal-portafoll",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "L-IDs tal-utenti ta' Nextcloud tal-maniġers tal-portafoll tal-proġett",
+        "The portfolio this project belongs to": "Il-portafoll li jappartjeni għalih dan il-proġett",
+        "No portfolio": "L-ebda portafoll",
+        "All portfolios": "Il-portafolli kollha",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Qed taqra dan il-proġett bħala maniġer tal-portafoll tiegħu. Il-membri tiegħu biss ibiddluh.",
+        "Portfolios": "Portafolli"
     },
     "plurals": {}
 }

@@ -3,8 +3,9 @@
 /**
  * Planninq ProjectMemberAccessListener
  *
- * Stamps a project's members on every task, column, phase and planned time
- * entry as it is written, and refuses a create or a move into a project the
+ * Stamps a project's members, and the managers of its portfolio, on every
+ * task, column, phase, planned time entry, log entry, risk and status report
+ * as it is written, and refuses a create or a move into a project the
  * caller is not a member of.
  *
  * WHY (planninq#681)
@@ -174,16 +175,43 @@ class ProjectMemberAccessListener implements IEventListener {
 			return;
 		}
 
-		$members = ($members ?? []);
-		if (array_key_exists('members', $data) === true && $this->membership->normalise(members: $data['members']) === $members) {
-			// Already in step. Leaving the data untouched matters beyond speed:
-			// OpenRegister's batched soft delete falls back to a full-row save
-			// for every object a pre-update hook modifies.
-			return;
+		$lists = [
+			'members'                                 => ($members ?? []),
+			ProjectMembershipService::READERS_FIELD => $this->readersOf(projectId: $projectId),
+		];
+		$changes = [];
+		foreach ($lists as $field => $values) {
+			// Leave a list that is already in step untouched: OpenRegister's
+			// batched soft delete falls back to a full-row save for every
+			// object a pre-update hook modifies. A missing readers list reads
+			// as empty, so objects outside any portfolio are never rewritten.
+			$inStep = $this->membership->normalise(members: ($data[$field] ?? null)) === $values;
+			if ($field === 'members') {
+				$inStep = (array_key_exists('members', $data) === true && $inStep === true);
+			}
+
+			if ($inStep === false) {
+				$changes[$field] = $values;
+			}
 		}
 
-		$event->setModifiedData(array_merge($event->getModifiedData(), ['members' => $members]));
+		if ($changes !== []) {
+			$event->setModifiedData(array_merge($event->getModifiedData(), $changes));
+		}
 	}//end apply()
+
+	/**
+	 * The managers of the project's portfolio, as the project carries them.
+	 *
+	 * @param string $projectId The project UUID.
+	 *
+	 * @return array<int,string>
+	 */
+	private function readersOf(string $projectId): array {
+		$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+
+		return $this->membership->normalise(members: ($project[ProjectMembershipService::READERS_FIELD] ?? []));
+	}//end readersOf()
 
 	/**
 	 * Whether the acting user may put this object in its project.

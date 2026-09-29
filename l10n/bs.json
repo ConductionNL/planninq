@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Nema prijedloga: projekt nema budžet.",
         "No suggestion: no costs are recorded for this project yet.": "Nema prijedloga: za ovaj projekt još nisu zabilježeni troškovi.",
         "The report was not saved. Only the project owner can write status reports.": "Izvještaj nije spremljen. Izvještaje o stanju može pisati samo vlasnik projekta.",
-        "No report": "Nema izvještaja"
+        "No report": "Nema izvještaja",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Grupa projekata koje vode isti ljudi, na primjer odjel ili program. Njeni voditelji čitaju svaki projekt u njoj.",
+        "The name of the portfolio": "Naziv portfolija",
+        "What the portfolio holds and who runs it": "Šta portfolio sadrži i ko ga vodi",
+        "A colour for the portfolio's section in project lists": "Boja odjeljka portfolija u listama projekata",
+        "Managers": "Voditelji",
+        "Nextcloud user UIDs of the people who run the portfolio": "Nextcloud korisnički ID-ovi ljudi koji vode portfolio",
+        "Order": "Redoslijed",
+        "Where the portfolio comes in project lists, lowest first": "Gdje je portfolio u listama projekata, najniži prvi",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Vlastita skala rizika ovog portfolija kao JSON, u istom obliku kao skala cijele aplikacije. Prazno znači skalu aplikacije.",
+        "Portfolio readers": "Čitaoci portfolija",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Nextcloud korisnički ID-ovi voditelja portfolija projekta",
+        "The portfolio this project belongs to": "Portfolio kojem ovaj projekt pripada",
+        "No portfolio": "Bez portfolija",
+        "All portfolios": "Svi portfoliji",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Ovaj projekt čitate kao voditelj njegovog portfolija. Mijenjaju ga samo njegovi članovi.",
+        "Portfolios": "Portfoliji"
     },
     "plurals": null
 }

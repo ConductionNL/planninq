@@ -193,7 +193,7 @@ class ProjectHealthService {
 	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.2
 	 */
 	public function refresh(string $projectId, string $reportId, ?array $saving): bool {
-		$project = $this->membership->projectData(projectId: $projectId);
+		$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
 		if ($project === null) {
 			return false;
 		}

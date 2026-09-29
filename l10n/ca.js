@@ -476,7 +476,23 @@ OC.L10N.register(
         "No suggestion: the project has no budget.": "Sense suggeriment: el projecte no té pressupost.",
         "No suggestion: no costs are recorded for this project yet.": "Sense suggeriment: encara no hi ha costos registrats per a aquest projecte.",
         "The report was not saved. Only the project owner can write status reports.": "L'informe no s'ha desat. Només el propietari del projecte pot escriure informes d'estat.",
-        "No report": "Sense informe"
+        "No report": "Sense informe",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Un grup de projectes portats per les mateixes persones, com un departament o un programa. Els seus responsables llegeixen cada projecte que conté.",
+        "The name of the portfolio": "El nom de la cartera",
+        "What the portfolio holds and who runs it": "Què conté la cartera i qui la porta",
+        "A colour for the portfolio's section in project lists": "Un color per a la secció de la cartera a les llistes de projectes",
+        "Managers": "Responsables",
+        "Nextcloud user UIDs of the people who run the portfolio": "Identificadors d'usuari de Nextcloud de les persones que porten la cartera",
+        "Order": "Ordre",
+        "Where the portfolio comes in project lists, lowest first": "On apareix la cartera a les llistes de projectes, primer el més baix",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "L'escala de risc pròpia d'aquesta cartera en JSON, amb la mateixa forma que la de tota l'aplicació. Buit vol dir l'escala de l'aplicació.",
+        "Portfolio readers": "Lectors de la cartera",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Identificadors d'usuari de Nextcloud dels responsables de la cartera del projecte",
+        "The portfolio this project belongs to": "La cartera a la qual pertany aquest projecte",
+        "No portfolio": "Sense cartera",
+        "All portfolios": "Totes les carteres",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Llegiu aquest projecte com a responsable de la seva cartera. Només els membres el canvien.",
+        "Portfolios": "Carteres"
     },
     "nplurals=2; plural=(n != 1);"
 )

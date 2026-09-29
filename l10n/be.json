@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Няма прапановы: у праекта няма бюджэту.",
         "No suggestion: no costs are recorded for this project yet.": "Няма прапановы: па гэтым праекце яшчэ не ўлічаны выдаткі.",
         "The report was not saved. Only the project owner can write status reports.": "Справаздача не захавана. Справаздачы пра стан можа пісаць толькі ўладальнік праекта.",
-        "No report": "Няма справаздачы"
+        "No report": "Няма справаздачы",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Група праектаў, якімі кіруюць адны і тыя ж людзі, напрыклад аддзел або праграма. Яе кіраўнікі чытаюць кожны праект у ёй.",
+        "The name of the portfolio": "Назва партфеля",
+        "What the portfolio holds and who runs it": "Што ўваходзіць у партфель і хто ім кіруе",
+        "A colour for the portfolio's section in project lists": "Колер раздзела партфеля ў спісах праектаў",
+        "Managers": "Кіраўнікі",
+        "Nextcloud user UIDs of the people who run the portfolio": "Ідэнтыфікатары карыстальнікаў Nextcloud, якія кіруюць партфелем",
+        "Order": "Парадак",
+        "Where the portfolio comes in project lists, lowest first": "Месца партфеля ў спісах праектаў, спачатку найменшы",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Уласная шкала рызык гэтага партфеля ў фармаце JSON, у той жа форме, што і шкала ўсёй праграмы. Пуста азначае шкалу праграмы.",
+        "Portfolio readers": "Чытачы партфеля",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Ідэнтыфікатары карыстальнікаў Nextcloud кіраўнікоў партфеля праекта",
+        "The portfolio this project belongs to": "Партфель, да якога належыць праект",
+        "No portfolio": "Без партфеля",
+        "All portfolios": "Усе партфелі",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Вы чытаеце гэты праект як кіраўнік яго партфеля. Змяняюць яго толькі ўдзельнікі.",
+        "Portfolios": "Партфелі"
     },
     "plurals": {}
 }

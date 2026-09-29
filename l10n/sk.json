@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Bez návrhu: projekt nemá rozpočet.",
         "No suggestion: no costs are recorded for this project yet.": "Bez návrhu: pre tento projekt zatiaľ nie sú zaznamenané žiadne náklady.",
         "The report was not saved. Only the project owner can write status reports.": "Správa nebola uložená. Správy o stave môže písať iba vlastník projektu.",
-        "No report": "Žiadna správa"
+        "No report": "Žiadna správa",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Skupina projektov vedených tými istými ľuďmi, napríklad oddelenie alebo program. Jej správcovia čítajú každý projekt v nej.",
+        "The name of the portfolio": "Názov portfólia",
+        "What the portfolio holds and who runs it": "Čo portfólio obsahuje a kto ho vedie",
+        "A colour for the portfolio's section in project lists": "Farba sekcie portfólia v zoznamoch projektov",
+        "Managers": "Správcovia",
+        "Nextcloud user UIDs of the people who run the portfolio": "ID používateľov Nextcloud ľudí, ktorí portfólio vedú",
+        "Order": "Poradie",
+        "Where the portfolio comes in project lists, lowest first": "Kde je portfólio v zoznamoch projektov, od najnižšieho",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Vlastná škála rizík tohto portfólia ako JSON, v rovnakom tvare ako škála celej aplikácie. Prázdne znamená škálu aplikácie.",
+        "Portfolio readers": "Čitatelia portfólia",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "ID používateľov Nextcloud správcov portfólia projektu",
+        "The portfolio this project belongs to": "Portfólio, do ktorého projekt patrí",
+        "No portfolio": "Bez portfólia",
+        "All portfolios": "Všetky portfóliá",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Tento projekt čítate ako správca jeho portfólia. Menia ho iba jeho členovia.",
+        "Portfolios": "Portfóliá"
     },
     "plurals": null
 }

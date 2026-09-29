@@ -476,7 +476,23 @@ OC.L10N.register(
         "No suggestion: the project has no budget.": "Nicio sugestie: proiectul nu are buget.",
         "No suggestion: no costs are recorded for this project yet.": "Nicio sugestie: nu există încă costuri înregistrate pentru acest proiect.",
         "The report was not saved. Only the project owner can write status reports.": "Raportul nu a fost salvat. Doar proprietarul proiectului poate scrie rapoarte de stare.",
-        "No report": "Niciun raport"
+        "No report": "Niciun raport",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Un grup de proiecte conduse de aceleași persoane, cum ar fi un departament sau un program. Responsabilii lui citesc fiecare proiect din el.",
+        "The name of the portfolio": "Numele portofoliului",
+        "What the portfolio holds and who runs it": "Ce conține portofoliul și cine îl conduce",
+        "A colour for the portfolio's section in project lists": "O culoare pentru secțiunea portofoliului în listele de proiecte",
+        "Managers": "Responsabili",
+        "Nextcloud user UIDs of the people who run the portfolio": "ID-urile de utilizator Nextcloud ale persoanelor care conduc portofoliul",
+        "Order": "Ordine",
+        "Where the portfolio comes in project lists, lowest first": "Locul portofoliului în listele de proiecte, cel mai mic primul",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Scala de risc proprie a acestui portofoliu în JSON, în aceeași formă ca scala întregii aplicații. Gol înseamnă scala aplicației.",
+        "Portfolio readers": "Cititorii portofoliului",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "ID-urile de utilizator Nextcloud ale responsabililor portofoliului proiectului",
+        "The portfolio this project belongs to": "Portofoliul din care face parte proiectul",
+        "No portfolio": "Fără portofoliu",
+        "All portfolios": "Toate portofoliile",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Citiți acest proiect ca responsabil al portofoliului său. Doar membrii îl modifică.",
+        "Portfolios": "Portofolii"
     },
     "nplurals=2; plural=(n != 1);"
 )

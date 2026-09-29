@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Sem sugestão: o projeto não tem orçamento.",
         "No suggestion: no costs are recorded for this project yet.": "Sem sugestão: ainda não há custos registados para este projeto.",
         "The report was not saved. Only the project owner can write status reports.": "O relatório não foi guardado. Só o proprietário do projeto pode escrever relatórios de estado.",
-        "No report": "Sem relatório"
+        "No report": "Sem relatório",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Um grupo de projetos geridos pelas mesmas pessoas, como um departamento ou um programa. Os seus gestores leem todos os projetos que contém.",
+        "The name of the portfolio": "O nome do portefólio",
+        "What the portfolio holds and who runs it": "O que o portefólio contém e quem o gere",
+        "A colour for the portfolio's section in project lists": "Uma cor para a secção do portefólio nas listas de projetos",
+        "Managers": "Gestores",
+        "Nextcloud user UIDs of the people who run the portfolio": "IDs de utilizador Nextcloud das pessoas que gerem o portefólio",
+        "Order": "Ordem",
+        "Where the portfolio comes in project lists, lowest first": "Onde o portefólio aparece nas listas de projetos, o mais baixo primeiro",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "A escala de risco própria deste portefólio em JSON, com a mesma forma da escala da aplicação. Vazio significa a escala da aplicação.",
+        "Portfolio readers": "Leitores do portefólio",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "IDs de utilizador Nextcloud dos gestores do portefólio do projeto",
+        "The portfolio this project belongs to": "O portefólio a que este projeto pertence",
+        "No portfolio": "Sem portefólio",
+        "All portfolios": "Todos os portefólios",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Lê este projeto como gestor do seu portefólio. Só os membros o alteram.",
+        "Portfolios": "Portefólios"
     },
     "plurals": {}
 }

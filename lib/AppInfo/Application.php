@@ -650,6 +650,19 @@ class Application extends App implements IBootstrap {
 			);
 		}
 
+		// Portfolios: a project's readers are the managers of its portfolio,
+		// derived on every project write and pushed out when a portfolio's
+		// managers change or it is deleted (projects-grouping-hierarchy-fields).
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener',
+				registers: ['planninq'],
+				schemas: ['project', 'projectPortfolio']
+			);
+		}
+
 		// Status reports: owner-only writes, and the newest report copied onto
 		// its project inside the report's own save (portfolio-status-overview).
 		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'] as $event) {

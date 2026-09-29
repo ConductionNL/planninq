@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Няма предложение: проектът няма бюджет.",
         "No suggestion: no costs are recorded for this project yet.": "Няма предложение: все още няма записани разходи за този проект.",
         "The report was not saved. Only the project owner can write status reports.": "Докладът не е запазен. Само собственикът на проекта може да пише доклади за състоянието.",
-        "No report": "Няма доклад"
+        "No report": "Няма доклад",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Група проекти, водени от едни и същи хора, например отдел или програма. Нейните ръководители четат всеки проект в нея.",
+        "The name of the portfolio": "Името на портфолиото",
+        "What the portfolio holds and who runs it": "Какво съдържа портфолиото и кой го води",
+        "A colour for the portfolio's section in project lists": "Цвят за раздела на портфолиото в списъците с проекти",
+        "Managers": "Ръководители",
+        "Nextcloud user UIDs of the people who run the portfolio": "Потребителски ID в Nextcloud на хората, които водят портфолиото",
+        "Order": "Ред",
+        "Where the portfolio comes in project lists, lowest first": "Къде е портфолиото в списъците с проекти, най-ниското първо",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Собствената скала за риск на това портфолио като JSON, в същата форма като скалата за цялото приложение. Празно означава скалата на приложението.",
+        "Portfolio readers": "Читатели на портфолиото",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Потребителски ID в Nextcloud на ръководителите на портфолиото на проекта",
+        "The portfolio this project belongs to": "Портфолиото, към което принадлежи проектът",
+        "No portfolio": "Без портфолио",
+        "All portfolios": "Всички портфолиа",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Четете този проект като ръководител на неговото портфолио. Само членовете му го променят.",
+        "Portfolios": "Портфолиа"
     },
     "plurals": null
 }

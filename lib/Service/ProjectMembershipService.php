@@ -72,6 +72,13 @@ class ProjectMembershipService {
 	public const PROJECT_SCHEMA = 'project';
 
 	/**
+	 * The field holding the managers of a project's portfolio, copied like `members`.
+	 *
+	 * @var string
+	 */
+	public const READERS_FIELD = 'portfolioReaders';
+
+	/**
 	 * Schemas that carry a copy of their project's members.
 	 *
 	 * @var array<int,string>
@@ -91,6 +98,7 @@ class ProjectMembershipService {
 	 * @var integer
 	 */
 	private const IN_CHUNK = 500;
+
 
 	/**
 	 * Members per project id for this request; null for a project that did not resolve.
@@ -249,21 +257,22 @@ class ProjectMembershipService {
 	}//end ownerOfProject()
 
 	/**
-	 * A project's stored data, read as the system, or null when it does not resolve.
+	 * One planninq object's stored data, read as the system, or null when it does not resolve.
 	 *
-	 * @param string $projectId The project UUID.
+	 * @param string $schema The schema slug.
+	 * @param string $id     The UUID.
 	 *
 	 * @return array<string,mixed>|null
 	 *
-	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.2
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.3
 	 */
-	public function projectData(string $projectId): ?array {
-		if ($projectId === '') {
+	public function objectData(string $schema, string $id): ?array {
+		if ($id === '') {
 			return null;
 		}
 
-		return $this->findData(schema: self::PROJECT_SCHEMA, id: $projectId);
-	}//end projectData()
+		return $this->findData(schema: $schema, id: $id);
+	}//end objectData()
 
 	/**
 	 * Every planninq object of one schema matching the filters, read with RBAC off.
@@ -287,33 +296,52 @@ class ProjectMembershipService {
 	 * acting user changed the project, and only `members` changes on the object.
 	 * One object that refuses the write is logged and does not stop the rest.
 	 *
-	 * @param string $projectId The project uuid.
-	 * @param array<int,string> $members The project's members list, from membersFromProject().
+	 * The same writes keep `portfolioReaders` in step: pass that field and the
+	 * managers of the project's portfolio.
+	 *
+	 * @param string            $projectId The project uuid.
+	 * @param array<int,string> $members   The list, for `members` from membersFromProject().
+	 * @param string            $field     `members`, or READERS_FIELD for the portfolio readers.
 	 *
 	 * @return int The number of objects written.
 	 *
 	 * @spec openspec/specs/projects.md
 	 */
-	public function syncProjectMembers(string $projectId, array $members): int {
+	public function syncProjectMembers(string $projectId, array $members, string $field = 'members'): int {
+		$members = $this->normalise(members: $members);
+		if ($field === 'members') {
+			$this->membersCache[$projectId] = $members;
+		}
+
+		return $this->syncField(projectId: $projectId, field: $field, values: $members);
+	}//end syncProjectMembers()
+
+	/**
+	 * Write one access list to every object of a project that is out of step.
+	 *
+	 * @param string            $projectId The project uuid.
+	 * @param string            $field     `members` or `portfolioReaders`.
+	 * @param array<int,string> $values    The normalised list.
+	 *
+	 * @return int The number of objects written.
+	 */
+	private function syncField(string $projectId, string $field, array $values): int {
 		if ($projectId === '') {
 			return 0;
 		}
 
-		$members = $this->normalise(members: $members);
-		$this->membersCache[$projectId] = $members;
-
 		$objectService = $this->objectService();
 		$written = 0;
 		foreach ($this->childrenOf(objectService: $objectService, projectId: $projectId) as $child) {
-			if ($this->normalise(members: ($child['data']['members'] ?? null)) === $members) {
+			if ($this->normalise(members: ($child['data'][$field] ?? null)) === $values) {
 				continue;
 			}
 
-			$written += $this->writeMembers(objectService: $objectService, child: $child, members: $members);
+			$written += $this->writeField(objectService: $objectService, child: $child, field: $field, values: $values);
 		}
 
 		return $written;
-	}//end syncProjectMembers()
+	}//end syncField()
 
 	/**
 	 * Bring every project's objects in step: the upgrade back-fill.
@@ -334,6 +362,11 @@ class ProjectMembershipService {
 			$written += $this->syncProjectMembers(
 				projectId: $project['id'],
 				members: $this->membersFromProject(project: $project['data'])
+			);
+			$written += $this->syncProjectMembers(
+				projectId: $project['id'],
+				members: $this->normalise(members: ($project['data'][self::READERS_FIELD] ?? [])),
+				field: self::READERS_FIELD
 			);
 		}
 
@@ -374,17 +407,18 @@ class ProjectMembershipService {
 	}//end childrenOf()
 
 	/**
-	 * Write one object's members list.
+	 * Write one access list onto one object.
 	 *
-	 * @param object $objectService OpenRegister's ObjectService.
-	 * @param array{schema: string, id: string, data: array<string,mixed>} $child The object.
-	 * @param array<int,string> $members The members list.
+	 * @param object                                                       $objectService OpenRegister's ObjectService.
+	 * @param array{schema: string, id: string, data: array<string,mixed>} $child         The object.
+	 * @param string                                                       $field         `members` or `portfolioReaders`.
+	 * @param array<int,string>                                            $values        The list.
 	 *
 	 * @return int 1 when written, 0 when the write was refused.
 	 */
-	private function writeMembers(object $objectService, array $child, array $members): int {
+	private function writeField(object $objectService, array $child, string $field, array $values): int {
 		$data = $child['data'];
-		$data['members'] = $members;
+		$data[$field] = $values;
 
 		try {
 			$objectService->saveObject(
@@ -399,14 +433,14 @@ class ProjectMembershipService {
 			);
 		} catch (\Throwable $e) {
 			$this->logger->error(
-				'Planninq: could not write the members list of a project object; members may not see it',
-				['schema' => $child['schema'], 'object' => $child['id'], 'exception' => $e->getMessage()]
+				'Planninq: could not write an access list of a project object; people may not see it',
+				['schema' => $child['schema'], 'object' => $child['id'], 'field' => $field, 'exception' => $e->getMessage()]
 			);
 			return 0;
 		}
 
 		return 1;
-	}//end writeMembers()
+	}//end writeField()
 
 	/**
 	 * Search one planninq schema as the system.

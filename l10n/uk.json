@@ -475,7 +475,23 @@
         "No suggestion: the project has no budget.": "Немає пропозиції: у проєкту немає бюджету.",
         "No suggestion: no costs are recorded for this project yet.": "Немає пропозиції: для цього проєкту ще не обліковано витрат.",
         "The report was not saved. Only the project owner can write status reports.": "Звіт не збережено. Звіти про стан може писати лише власник проєкту.",
-        "No report": "Немає звіту"
+        "No report": "Немає звіту",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Група проєктів, якими керують ті самі люди, наприклад відділ або програма. Її керівники читають кожен проєкт у ній.",
+        "The name of the portfolio": "Назва портфеля",
+        "What the portfolio holds and who runs it": "Що входить до портфеля і хто ним керує",
+        "A colour for the portfolio's section in project lists": "Колір розділу портфеля у списках проєктів",
+        "Managers": "Керівники",
+        "Nextcloud user UIDs of the people who run the portfolio": "Ідентифікатори користувачів Nextcloud, які керують портфелем",
+        "Order": "Порядок",
+        "Where the portfolio comes in project lists, lowest first": "Місце портфеля у списках проєктів, спершу найменший",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "Власна шкала ризиків цього портфеля у форматі JSON, у тій самій формі, що й шкала всього застосунку. Порожньо означає шкалу застосунку.",
+        "Portfolio readers": "Читачі портфеля",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "Ідентифікатори користувачів Nextcloud керівників портфеля проєкту",
+        "The portfolio this project belongs to": "Портфель, до якого належить проєкт",
+        "No portfolio": "Без портфеля",
+        "All portfolios": "Усі портфелі",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Ви читаєте цей проєкт як керівник його портфеля. Змінюють його лише учасники.",
+        "Portfolios": "Портфелі"
     },
     "plurals": {}
 }

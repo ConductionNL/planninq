@@ -476,7 +476,23 @@ OC.L10N.register(
         "No suggestion: the project has no budget.": "Sin sugerencia: el proyecto no tiene presupuesto.",
         "No suggestion: no costs are recorded for this project yet.": "Sin sugerencia: aún no hay costes registrados para este proyecto.",
         "The report was not saved. Only the project owner can write status reports.": "El informe no se ha guardado. Solo el propietario del proyecto puede escribir informes de estado.",
-        "No report": "Sin informe"
+        "No report": "Sin informe",
+        "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.": "Un grupo de proyectos dirigidos por las mismas personas, como un departamento o un programa. Sus responsables leen cada proyecto que contiene.",
+        "The name of the portfolio": "El nombre de la cartera",
+        "What the portfolio holds and who runs it": "Qué contiene la cartera y quién la dirige",
+        "A colour for the portfolio's section in project lists": "Un color para la sección de la cartera en las listas de proyectos",
+        "Managers": "Responsables",
+        "Nextcloud user UIDs of the people who run the portfolio": "ID de usuario de Nextcloud de las personas que dirigen la cartera",
+        "Order": "Orden",
+        "Where the portfolio comes in project lists, lowest first": "Dónde aparece la cartera en las listas de proyectos, primero el más bajo",
+        "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale.": "La escala de riesgo propia de esta cartera en JSON, con la misma forma que la de toda la aplicación. Vacío significa la escala de la aplicación.",
+        "Portfolio readers": "Lectores de la cartera",
+        "Nextcloud user UIDs of the managers of the project's portfolio": "ID de usuario de Nextcloud de los responsables de la cartera del proyecto",
+        "The portfolio this project belongs to": "La cartera a la que pertenece este proyecto",
+        "No portfolio": "Sin cartera",
+        "All portfolios": "Todas las carteras",
+        "You read this project as a manager of its portfolio. Only its members change it.": "Lee este proyecto como responsable de su cartera. Solo sus miembros lo cambian.",
+        "Portfolios": "Carteras"
     },
     "nplurals=2; plural=(n != 1);"
 )

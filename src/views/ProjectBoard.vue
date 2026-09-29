@@ -72,6 +72,10 @@
 
 			<ProjectTabs :projectId="project.id" />
 
+			<p v-if="readOnly" class="project-board__read-only" data-testid="board-read-only">
+				{{ t('planninq', 'You read this project as a manager of its portfolio. Only its members change it.') }}
+			</p>
+
 			<!-- Label filter chips. Same idiom as the project list's status
 			     filter: one chip per value, the active one primary, pressed
 			     state exposed through aria-pressed. -->
@@ -192,7 +196,7 @@
 							tabindex="0"
 							:aria-label="task.title"
 							data-testid="task-card"
-							draggable="true"
+							:draggable="readOnly ? 'false' : 'true'"
 							@click="navigateToTask(task)"
 							@keydown.enter="navigateToTask(task)"
 							@keydown.space.prevent="navigateToTask(task)"
@@ -206,6 +210,7 @@
 							     down in this one. Not itself draggable, and stops
 							     click propagation so it never opens the task. -->
 							<div
+								v-if="!readOnly"
 								class="kanban-column__card-actions"
 								draggable="false"
 								@click.stop
@@ -337,6 +342,7 @@ import {
 	wipState,
 } from '../utils/columnHelpers.js'
 import { filterTasksByLabel, labelId, resolveTaskLabels, sortLabelsByTitle } from '../utils/labelHelpers.js'
+import { isReadOnlyFor } from '../utils/portfolioGrouping.js'
 
 export default {
 	name: 'ProjectBoard',
@@ -472,6 +478,19 @@ export default {
 		isOwner() {
 			const user = getCurrentUser()
 			return !!user && (user.isAdmin === true || this.project?.owner === user.uid)
+		},
+
+		/**
+		 * Whether the board is read-only for the current user: a manager of the
+		 * project's portfolio who is not on the project. The server refuses
+		 * their writes the same way.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.6
+		 */
+		readOnly() {
+			return isReadOnlyFor(this.project, getCurrentUser())
 		},
 
 		/**
@@ -659,7 +678,7 @@ export default {
 		 * @spec exclude Drag glue — records the task being dragged.
 		 */
 		onDragStart(task) {
-			this.draggingTask = task
+			this.draggingTask = this.readOnly ? null : task
 		},
 
 		/**
@@ -1158,5 +1177,10 @@ export default {
 	font-size: 12px;
 	color: var(--color-text-maxcontrast);
 	text-align: center;
+}
+
+.project-board__read-only {
+	margin: 0 0 12px;
+	color: var(--color-text-maxcontrast);
 }
 </style>

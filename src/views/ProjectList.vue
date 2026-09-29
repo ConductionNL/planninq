@@ -28,13 +28,22 @@
 			</div>
 		</div>
 
-		<!-- Search bar -->
+		<!-- Search bar and portfolio filter -->
 		<div class="project-list__search">
 			<NcTextField
 				:modelValue="listView.searchTerm.value"
 				:label="t('planninq', 'Search projects')"
 				:placeholder="t('planninq', 'Search by title or description\u2026')"
 				@update:modelValue="listView.onSearchInput($event)" />
+			<NcSelect
+				v-if="portfolios.length"
+				v-model="portfolioFilter"
+				class="project-list__portfolio-filter"
+				:options="portfolioOptions"
+				:clearable="false"
+				:inputLabel="t('planninq', 'Portfolio')"
+				label="label"
+				data-testid="portfolio-filter" />
 		</div>
 
 		<!-- Loading state -->
@@ -82,14 +91,18 @@
 			</template>
 		</NcEmptyContent>
 
-		<!-- Project list -->
-		<ul v-else class="project-list__items" role="listbox">
-			<ProjectListItem
-				v-for="project in filteredProjects"
-				:key="project.id"
-				:project="project"
-				@click="navigateToProject(project)" />
-		</ul>
+		<!-- Project list, grouped by portfolio -->
+		<PortfolioSections v-else :groups="groupedProjects" :showHeadings="portfolios.length > 0">
+			<template #default="{ projects: groupProjects }">
+				<ul class="project-list__items" role="listbox">
+					<ProjectListItem
+						v-for="project in groupProjects"
+						:key="project.id"
+						:project="project"
+						@click="navigateToProject(project)" />
+				</ul>
+			</template>
+		</PortfolioSections>
 
 		<!-- Creation dialog — only mounted when creation is permitted -->
 		<ProjectCreationDialog
@@ -111,16 +124,18 @@ import { useListView } from '@conduction/nextcloud-vue'
  */
 // @nextcloud/vue@9 removed the `dist/Components/*.js` layout, so NcChip comes
 // from the root barrel like every other component here.
-import { NcButton, NcChip, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { NcButton, NcChip, NcEmptyContent, NcLoadingIcon, NcSelect, NcTextField } from '@nextcloud/vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import PortfolioSections from '../components/PortfolioSections.vue'
 import ProjectListItem from '../components/ProjectListItem.vue'
 import ProjectCreationDialog from '../dialogs/ProjectCreationDialog.vue'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
+import { filterByPortfolio, groupByPortfolio, NO_PORTFOLIO, sortPortfolios } from '../utils/portfolioGrouping.js'
 
 export default {
 	name: 'ProjectList',
@@ -131,10 +146,12 @@ export default {
 		NcTextField,
 		NcLoadingIcon,
 		NcEmptyContent,
+		NcSelect,
 		AlertCircleOutline,
 		FolderOutline,
 		Magnify,
 		PlusIcon,
+		PortfolioSections,
 		ProjectListItem,
 		ProjectCreationDialog,
 	},
@@ -154,6 +171,8 @@ export default {
 		return {
 			showCreationDialog: false,
 			activeStatus: null,
+			portfolios: [],
+			portfolioFilter: null,
 			// Live-updates handle for the or-collection-planninq-project
 			// subscription. livePendingType marks an in-flight subscribe so a
 			// concurrent call doesn't double-subscribe; liveEpoch invalidates
@@ -245,7 +264,34 @@ export default {
 				list = list.filter((p) => p.title?.toLowerCase().includes(term)
 					|| p.description?.toLowerCase().includes(term))
 			}
-			return list
+			return filterByPortfolio(list, this.portfolioFilter?.id || '')
+		},
+
+		/**
+		 * The filtered projects grouped by portfolio.
+		 *
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
+		 */
+		groupedProjects() {
+			return groupByPortfolio(this.filteredProjects, this.portfolios)
+		},
+
+		/**
+		 * The portfolio filter: all, each portfolio in order, and no portfolio.
+		 *
+		 * @return {Array<{id: string, label: string}>}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
+		 */
+		portfolioOptions() {
+			const named = sortPortfolios(this.portfolios).map((p) => ({ id: String(p.id), label: String(p.title ?? '') }))
+			return [
+				{ id: '', label: this.t('planninq', 'All portfolios') },
+				...named,
+				{ id: NO_PORTFOLIO, label: this.t('planninq', 'No portfolio') },
+			]
 		},
 	},
 
@@ -253,7 +299,8 @@ export default {
 	 * @spec exclude list-view lifecycle — loads the project list, then attaches the live collection subscription.
 	 */
 	async mounted() {
-		await this.projectsStore.fetchProjects()
+		const [portfolios] = await Promise.all([this.projectsStore.fetchPortfolios(), this.projectsStore.fetchProjects()])
+		this.portfolios = portfolios
 		this.syncLiveSubscription()
 	},
 
@@ -408,7 +455,15 @@ export default {
 }
 
 .project-list__search {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 12px;
 	margin-bottom: 16px;
+}
+
+.project-list__portfolio-filter {
+	min-width: 220px;
 }
 
 .project-list__loading {
