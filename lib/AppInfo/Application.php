@@ -675,6 +675,19 @@ class Application extends App implements IBootstrap {
 			);
 		}
 
+		// Finance lines: hand-entered money is the project owner's, imported
+		// money the finance import's, and each line carries who may read it
+		// (portfolio-finance).
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\FinanceLineListener',
+				registers: ['planninq'],
+				schemas: ['financeLine']
+			);
+		}
+
 		$this->registerFilteredObjectListener(
 			dispatcher: $dispatcher,
 			event: 'OCA\\OpenRegister\\Event\\ObjectUpdatedEvent',

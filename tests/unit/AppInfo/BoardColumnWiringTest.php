@@ -113,6 +113,14 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				[['ObjectCreatingEvent', $hierarchy], ['ObjectUpdatingEvent', $hierarchy], ['ObjectDeletingEvent', $hierarchy]],
 				$byListener['OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener']
 			);
+
+			// portfolio-finance task 1.1: finance lines are guarded and stamped on every write.
+			$finance = ['financeLine'];
+			self::assertSame(
+				[['ObjectCreatingEvent', $finance], ['ObjectUpdatingEvent', $finance], ['ObjectDeletingEvent', $finance]],
+				$byListener['OCA\\Planninq\\Listener\\FinanceLineListener'] ?? null
+			);
+			self::assertNotContains('financeLine', $scoped, 'members must not be stamped onto money');
 		}//end testBootSubscribesTheMembershipAndStatusListenersForEveryScopedSchema()
 	}//end class
 }

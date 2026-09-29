@@ -35,6 +35,7 @@ use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\OpenRegister\Service\SystemOperationContext;
 use OCA\Planninq\Listener\ProjectHierarchyGuardListener;
 use OCA\Planninq\Listener\ProjectMemberAccessListener;
+use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
 use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
@@ -63,11 +64,15 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 	}//end setUp()
 
 	private function listener(): ProjectHierarchyGuardListener {
+		$membership = $this->membershipService();
+		$logger     = $this->createMock(originalClassName: LoggerInterface::class);
+
 		return new ProjectHierarchyGuardListener(
-			membership: $this->membershipService(),
+			membership: $membership,
+			finance: new FinanceLineService(membership: $membership, container: $this->container(), logger: $logger),
 			scopeResolver: $this->scopeResolver(),
 			container: $this->container(),
-			logger: $this->createMock(originalClassName: LoggerInterface::class)
+			logger: $logger
 		);
 	}//end listener()
 
@@ -212,4 +217,26 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 		$readOnly->handle($byReader);
 		self::assertTrue($byReader->isPropagationStopped(), 'a portfolio manager reads but does not add tasks');
 	}//end testANewTaskCarriesThePortfolioReaders()
+
+	/**
+	 * Task 3.3: a manager change and a deleted portfolio reach the project's finance lines too.
+	 *
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.3
+	 */
+	public function testPortfolioChangesReachTheFinanceLines(): void {
+		$this->objects->seed('financeLine', 'fl-1', ['project' => self::PROJECT, 'kind' => 'actual', 'amount' => 10, 'financeReaders' => ['carol', 'mia'], 'projectOwner' => 'carol', 'portfolio' => self::RUIMTE]);
+		$old = $this->stored(slug: 'projectPortfolio', uuid: self::RUIMTE);
+		$this->listener()->handle(
+			new ObjectUpdatingEvent(
+				$this->entity(slug: 'projectPortfolio', uuid: self::RUIMTE, data: ['managers' => ['noor']] + $old),
+				$this->entity(slug: 'projectPortfolio', uuid: self::RUIMTE, data: $old)
+			)
+		);
+		self::assertSame(['carol', 'noor'], $this->stored(slug: 'financeLine', uuid: 'fl-1')['financeReaders'], 'mia no longer sees the money');
+
+		$this->listener()->handle(new ObjectDeletingEvent($this->entity(slug: 'projectPortfolio', uuid: self::RUIMTE, data: $old)));
+		$line = $this->stored(slug: 'financeLine', uuid: 'fl-1');
+		self::assertSame(['carol'], $line['financeReaders']);
+		self::assertNull($line['portfolio'], 'a released project takes its lines out of the portfolio totals');
+	}//end testPortfolioChangesReachTheFinanceLines()
 }//end class

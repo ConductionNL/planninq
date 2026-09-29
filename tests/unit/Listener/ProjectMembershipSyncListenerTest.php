@@ -37,6 +37,7 @@ require_once __DIR__ . '/../Support/MembershipFixture.php';
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Listener\ProjectMembershipSyncListener;
+use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
 use PHPUnit\Framework\TestCase;
@@ -76,10 +77,14 @@ class ProjectMembershipSyncListenerTest extends TestCase {
 	 * @return ProjectMembershipSyncListener
 	 */
 	private function listener(): ProjectMembershipSyncListener {
+		$membership = $this->membershipService();
+		$logger     = $this->createMock(originalClassName: LoggerInterface::class);
+
 		return new ProjectMembershipSyncListener(
-			membership: $this->membershipService(),
+			membership: $membership,
+			finance: new FinanceLineService(membership: $membership, container: $this->container(), logger: $logger),
 			scopeResolver: $this->scopeResolver(),
-			logger: $this->createMock(originalClassName: LoggerInterface::class)
+			logger: $logger
 		);
 	}//end listener()
 
@@ -262,4 +267,24 @@ class ProjectMembershipSyncListenerTest extends TestCase {
 
 		self::assertSame([], $this->objects->saves);
 	}//end testIgnoresOtherSchemasAndThePreEvent()
+
+	/**
+	 * Task 3.3: a new owner, or a project that moves portfolio, is copied onto its finance lines.
+	 *
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.3
+	 */
+	public function testANewOwnerOrPortfolioReachesTheFinanceLines(): void {
+		$this->objects->seed('financeLine', 'fl-1', ['project' => 'proj-a', 'kind' => 'budget', 'amount' => 5, 'financeReaders' => ['alice'], 'projectOwner' => 'alice', 'portfolio' => null]);
+		$old = ['title' => 'A', 'members' => ['alice', 'bob'], 'owner' => 'alice'];
+		$new = ['title' => 'A', 'members' => ['alice', 'bob'], 'owner' => 'bob', 'portfolio' => 'pf-1', 'portfolioReaders' => ['mia']];
+		$this->objects->seed('project', 'proj-a', $new);
+
+		$this->listener()->handle($this->projectUpdate(old: $old, new: $new));
+
+		$line = $this->objects->rows['financeLine']['fl-1'];
+		self::assertSame(['bob', 'mia'], $line['financeReaders']);
+		self::assertSame('bob', $line['projectOwner']);
+		self::assertSame('pf-1', $line['portfolio']);
+		self::assertSame(['alice', 'bob'], $this->objects->rows['task']['t1']['members'], 'the finance copies do not touch members');
+	}//end testANewOwnerOrPortfolioReachesTheFinanceLines()
 }//end class
