@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Hatırlatma ön süresi kaydedildi",
         "Failed to save reminder lead time": "Hatırlatma ön süresi kaydedilemedi",
         "Notifications": "Bildirimler",
-        "Notify me 1 day before a task's due date": "Bir görevin son tarihinden 1 gün önce bana bildir"
+        "Notify me 1 day before a task's due date": "Bir görevin son tarihinden 1 gün önce bana bildir",
+        "Draft": "Taslak",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Dersin yalnızca öğretmeninin gördüğü bir taslak mı olduğu, yapılıp yapılmayacağı veya iptal edilip edilmediği."
     },
     "nplurals=2; plural=(n != 1);"
 )

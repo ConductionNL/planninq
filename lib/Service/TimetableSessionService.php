@@ -115,7 +115,14 @@ class TimetableSessionService {
 	 *
 	 * @var string[]
 	 */
-	private const STATUSES = ['scheduled', 'cancelled'];
+	private const STATUSES = ['draft', 'scheduled', 'cancelled'];
+
+	/**
+	 * Seconds a publish window is widened by in the OpenRegister prefilter (offsets differ at the edges).
+	 *
+	 * @var int
+	 */
+	private const DAY = 86400;
 
 	/**
 	 * Reads ObjectService rows and shapes sessions.
@@ -188,6 +195,70 @@ class TimetableSessionService {
 
 		return $result;
 	}//end upsert()
+
+	/**
+	 * Publish the drafts of one source that overlap a window: each becomes scheduled.
+	 *
+	 * Each draft is saved whole (its stored fields with the new status), so no
+	 * field is nulled on the way. Reached only through the admin endpoint.
+	 *
+	 * @param string $sourceSystem The source whose drafts are published.
+	 * @param string $from         ISO 8601 window start.
+	 * @param string $to           ISO 8601 window end.
+	 *
+	 * @return array{contractVersion:int,sourceSystem:string,published:int,failed:array<int,string>}
+	 *
+	 * @throws InvalidArgumentException When the source is empty or the window is missing or reversed.
+	 * @throws RuntimeException         When OpenRegister is not available.
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-an-admin-publishes-the-drafts-of-one-source-in-a-date-window
+	 */
+	public function publish(string $sourceSystem, string $from, string $to): array {
+		$sourceSystem = trim($sourceSystem);
+		if ($sourceSystem === '') {
+			throw new InvalidArgumentException('Name the source system whose drafts to publish.');
+		}
+
+		$start = strtotime($from);
+		$end   = strtotime($to);
+		if ($start === false || $end === false || $start > $end) {
+			throw new InvalidArgumentException('Give the window to publish as from and to, the start before the end.');
+		}
+
+		$result = ['contractVersion' => self::CONTRACT_VERSION, 'sourceSystem' => $sourceSystem, 'published' => 0, 'failed' => []];
+
+		$objectService = $this->objectService();
+		$results = $objectService->searchObjectsBySlug(
+			registerSlug: self::REGISTER,
+			schemaSlug: self::SCHEMA,
+			filters: [
+				'sourceSystem' => $sourceSystem,
+				'status' => 'draft',
+				'startsAt' => ['lte' => date(DATE_ATOM, ($end + self::DAY))],
+				'endsAt' => ['gte' => date(DATE_ATOM, ($start - self::DAY))],
+				'_limit' => TimetableSessionQuery::MAX_LIMIT,
+			],
+			_rbac: false
+		);
+
+		foreach ($this->rows->listOf(results: $results) as $row) {
+			$data = $this->rows->dataOf(row: $row);
+			$id   = $this->rows->idOf(row: $row);
+			if ($id === '' || ($data['status'] ?? null) !== 'draft' || $this->overlaps(data: $data, start: $start, end: $end) === false) {
+				continue;
+			}
+
+			$lesson = array_merge($this->storedFields(data: $data), ['status' => 'scheduled', 'importedAt' => (new DateTimeImmutable())->format(DATE_ATOM)]);
+			if ($this->save(objectService: $objectService, data: $lesson, uuid: $id) === null) {
+				$result['failed'][] = $id;
+				continue;
+			}
+
+			$result['published']++;
+		}
+
+		return $result;
+	}//end publish()
 
 	/**
 	 * List the sessions of a cohort, group or teacher for the signed-in caller.
@@ -338,6 +409,15 @@ class TimetableSessionService {
 	private function upsertRow(object $objectService, array $row, array &$result): void {
 		$existing = $this->findExisting(objectService: $objectService, sourceSystem: $row['sourceSystem'], externalRef: $row['externalRef']);
 
+		if ($existing !== null && $this->wouldUnpublish(stored: $existing['data'], incoming: $row) === true) {
+			$result['rejected'][] = $this->rejection(
+				externalRef: $row['externalRef'],
+				code: 'already-published',
+				message: 'This lesson is already published; a later delivery cannot turn it back into a draft.'
+			);
+			return;
+		}
+
 		if ($existing !== null && $this->isUnchanged(stored: $existing['data'], incoming: $row) === true) {
 			$result['unchanged']++;
 			$result['sessionIds'][] = $existing['id'];
@@ -373,6 +453,36 @@ class TimetableSessionService {
 		$result[$counter]++;
 		$result['sessionIds'][] = $savedId;
 	}//end upsertRow()
+
+	/**
+	 * Whether a delivery would turn a published (scheduled or cancelled) lesson back into a draft.
+	 *
+	 * @param array<string,mixed> $stored   The stored session data.
+	 * @param array<string,mixed> $incoming The normalised incoming row.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-a-later-delivery-never-turns-a-published-lesson-into-a-draft
+	 */
+	private function wouldUnpublish(array $stored, array $incoming): bool {
+		return ($incoming['status'] ?? null) === 'draft' && ($stored['status'] ?? 'scheduled') !== 'draft';
+	}//end wouldUnpublish()
+
+	/**
+	 * Whether a stored lesson overlaps a window, comparing moments rather than strings.
+	 *
+	 * @param array<string,mixed> $data  The stored session data.
+	 * @param int                 $start Window start as a Unix timestamp.
+	 * @param int                 $end   Window end as a Unix timestamp.
+	 *
+	 * @return bool
+	 */
+	private function overlaps(array $data, int $start, int $end): bool {
+		$lessonStart = strtotime((string)($data['startsAt'] ?? ''));
+		$lessonEnd   = strtotime((string)($data['endsAt'] ?? ''));
+
+		return $lessonStart !== false && $lessonEnd !== false && $lessonStart <= $end && $lessonEnd >= $start;
+	}//end overlaps()
 
 	/**
 	 * Copy the writable fields a row carries, trimmed, under the batch's source.
@@ -424,7 +534,7 @@ class TimetableSessionService {
 		}
 
 		if (isset($row['status']) === true && in_array($row['status'], self::STATUSES, true) === false) {
-			return ['code' => 'invalid-status', 'message' => 'Status must be scheduled or cancelled.'];
+			return ['code' => 'invalid-status', 'message' => 'Status must be draft, scheduled or cancelled.'];
 		}
 
 		return null;

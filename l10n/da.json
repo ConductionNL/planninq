@@ -893,7 +893,9 @@
         "Reminder lead time saved successfully": "Varsel for påmindelse gemt",
         "Failed to save reminder lead time": "Varslet for påmindelsen kunne ikke gemmes",
         "Notifications": "Notifikationer",
-        "Notify me 1 day before a task's due date": "Giv mig besked 1 dag før en opgaves forfaldsdato"
+        "Notify me 1 day before a task's due date": "Giv mig besked 1 dag før en opgaves forfaldsdato",
+        "Draft": "Kladde",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Om lektionen er en kladde, som kun læreren ser, gennemføres eller er aflyst."
     },
     "plurals": null
 }

@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Az emlékeztető ideje mentve",
         "Failed to save reminder lead time": "Az emlékeztető idejét nem sikerült menteni",
         "Notifications": "Értesítések",
-        "Notify me 1 day before a task's due date": "Értesítsen 1 nappal egy feladat határideje előtt"
+        "Notify me 1 day before a task's due date": "Értesítsen 1 nappal egy feladat határideje előtt",
+        "Draft": "Vázlat",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Az óra csak a tanára által látható vázlat, megtartják, vagy elmarad."
     },
     "nplurals=2; plural=(n != 1);"
 )

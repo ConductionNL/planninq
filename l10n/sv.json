@@ -893,7 +893,9 @@
         "Reminder lead time saved successfully": "Framförhållningen för påminnelsen har sparats",
         "Failed to save reminder lead time": "Framförhållningen för påminnelsen kunde inte sparas",
         "Notifications": "Aviseringar",
-        "Notify me 1 day before a task's due date": "Meddela mig 1 dag före en uppgifts förfallodatum"
+        "Notify me 1 day before a task's due date": "Meddela mig 1 dag före en uppgifts förfallodatum",
+        "Draft": "Utkast",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Om lektionen är ett utkast som bara läraren ser, blir av eller är inställd."
     },
     "plurals": null
 }

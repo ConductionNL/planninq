@@ -51,4 +51,6 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     // read a cohort's, group's or teacher's sessions; admins upsert a batch by hand.
     ['name' => 'timetable#sessions', 'url' => '/api/timetable/sessions', 'verb' => 'GET'],
     ['name' => 'timetable#upsert', 'url' => '/api/timetable/sessions/upsert', 'verb' => 'POST'],
+    // Admins publish a source's draft lessons in a window (timetable-draft-review).
+    ['name' => 'timetable#publish', 'url' => '/api/timetable/sessions/publish', 'verb' => 'POST'],
 ]);

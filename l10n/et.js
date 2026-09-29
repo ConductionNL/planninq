@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Meeldetuletuse ennetusaeg salvestatud",
         "Failed to save reminder lead time": "Meeldetuletuse ennetusaega ei õnnestunud salvestada",
         "Notifications": "Teavitused",
-        "Notify me 1 day before a task's due date": "Teavita mind 1 päev enne ülesande tähtaega"
+        "Notify me 1 day before a task's due date": "Teavita mind 1 päev enne ülesande tähtaega",
+        "Draft": "Mustand",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Kas tund on mustand, mida näeb ainult õpetaja, toimub või jääb ära."
     },
     "nplurals=2; plural=(n != 1);"
 )

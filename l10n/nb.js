@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Varseltid for påminnelse lagret",
         "Failed to save reminder lead time": "Kunne ikke lagre varseltiden for påminnelsen",
         "Notifications": "Varsler",
-        "Notify me 1 day before a task's due date": "Varsle meg 1 dag før en oppgaves forfallsdato"
+        "Notify me 1 day before a task's due date": "Varsle meg 1 dag før en oppgaves forfallsdato",
+        "Draft": "Utkast",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Om timen er et utkast bare læreren ser, blir holdt eller er avlyst."
     },
     "nplurals=2; plural=(n != 1);"
 )

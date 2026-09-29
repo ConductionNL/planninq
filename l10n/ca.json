@@ -893,7 +893,9 @@
         "Reminder lead time saved successfully": "S'ha desat l'antelació del recordatori",
         "Failed to save reminder lead time": "No s'ha pogut desar l'antelació del recordatori",
         "Notifications": "Notificacions",
-        "Notify me 1 day before a task's due date": "Avisa'm 1 dia abans del venciment d'una tasca"
+        "Notify me 1 day before a task's due date": "Avisa'm 1 dia abans del venciment d'una tasca",
+        "Draft": "Esborrany",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Si la classe és un esborrany que només veu el seu docent, es fa o està cancel·lada."
     },
     "plurals": null
 }

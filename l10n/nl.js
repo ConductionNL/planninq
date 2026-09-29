@@ -907,7 +907,9 @@ OC.L10N.register(
         "Could not delete a task, so some data may remain. Try deleting the project again.": "Een taak kon niet worden verwijderd, dus er kunnen gegevens achterblijven. Verwijder het project opnieuw.",
         "Could not delete a time entry, so some data may remain. Try deleting the project again.": "Een tijdregel kon niet worden verwijderd, dus er kunnen gegevens achterblijven. Verwijder het project opnieuw.",
         "Could not delete a column, so some data may remain. Try deleting the project again.": "Een kolom kon niet worden verwijderd, dus er kunnen gegevens achterblijven. Verwijder het project opnieuw.",
-        "Could not delete the project. Please try again.": "Het project kon niet worden verwijderd. Probeer het opnieuw."
+        "Could not delete the project. Please try again.": "Het project kon niet worden verwijderd. Probeer het opnieuw.",
+        "Draft": "Concept",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Of de les een concept is dat alleen de docent ziet, doorgaat of vervalt."
     },
     "nplurals=2; plural=(n != 1);"
 )

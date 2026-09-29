@@ -893,7 +893,9 @@
         "Reminder lead time saved successfully": "Temp da la regurdientscha memorisà",
         "Failed to save reminder lead time": "Betg pussaivel da memorisar il temp da la regurdientscha",
         "Notifications": "Notificaziuns",
-        "Notify me 1 day before a task's due date": "Ma notifitgar 1 di avant la scadenza d'ina incumbensa"
+        "Notify me 1 day before a task's due date": "Ma notifitgar 1 di avant la scadenza d'ina incumbensa",
+        "Draft": "Sboz",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Sche la lecziun è in sboz che mo ses magister vesa, ha lieu u è annullada."
     },
     "plurals": null
 }

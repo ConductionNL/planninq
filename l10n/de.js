@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Vorlaufzeit der Erinnerung gespeichert",
         "Failed to save reminder lead time": "Die Vorlaufzeit der Erinnerung konnte nicht gespeichert werden",
         "Notifications": "Benachrichtigungen",
-        "Notify me 1 day before a task's due date": "Benachrichtige mich 1 Tag vor dem Fälligkeitsdatum einer Aufgabe"
+        "Notify me 1 day before a task's due date": "Benachrichtige mich 1 Tag vor dem Fälligkeitsdatum einer Aufgabe",
+        "Draft": "Entwurf",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Ob die Stunde ein Entwurf ist, den nur die Lehrkraft sieht, stattfindet oder ausfällt."
     },
     "nplurals=2; plural=(n != 1);"
 )

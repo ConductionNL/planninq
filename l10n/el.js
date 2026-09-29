@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Ο χρόνος υπενθύμισης αποθηκεύτηκε",
         "Failed to save reminder lead time": "Δεν ήταν δυνατή η αποθήκευση του χρόνου υπενθύμισης",
         "Notifications": "Ειδοποιήσεις",
-        "Notify me 1 day before a task's due date": "Ειδοποίησέ με 1 ημέρα πριν από την προθεσμία μιας εργασίας"
+        "Notify me 1 day before a task's due date": "Ειδοποίησέ με 1 ημέρα πριν από την προθεσμία μιας εργασίας",
+        "Draft": "Πρόχειρο",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Αν το μάθημα είναι πρόχειρο που βλέπει μόνο ο εκπαιδευτικός του, γίνεται ή ακυρώνεται."
     },
     "nplurals=2; plural=(n != 1);"
 )

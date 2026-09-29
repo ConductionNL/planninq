@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Předstih připomínky uložen",
         "Failed to save reminder lead time": "Předstih připomínky se nepodařilo uložit",
         "Notifications": "Oznámení",
-        "Notify me 1 day before a task's due date": "Upozornit mě 1 den před termínem úkolu"
+        "Notify me 1 day before a task's due date": "Upozornit mě 1 den před termínem úkolu",
+        "Draft": "Koncept",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Zda je hodina koncept, který vidí jen její učitel, koná se, nebo je zrušena."
     },
     "nplurals=2; plural=(n != 1);"
 )

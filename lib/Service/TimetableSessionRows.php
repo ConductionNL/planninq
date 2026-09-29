@@ -130,6 +130,7 @@ class TimetableSessionRows {
 	 * @return array<string,mixed>|null The session, or null when it has no id.
 	 *
 	 * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-another-app-reads-sessions-through-a-typed-event-req-005
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-a-draft-lesson-is-readable-only-by-the-teacher-it-names-and-by-admins
 	 */
 	public function toReadShape(mixed $row): ?array {
 		$id = $this->idOf(row: $row);
@@ -152,8 +153,8 @@ class TimetableSessionRows {
 		}
 
 		$session['status'] = 'scheduled';
-		if (($data['status'] ?? 'scheduled') === 'cancelled') {
-			$session['status'] = 'cancelled';
+		if (in_array(($data['status'] ?? 'scheduled'), ['cancelled', 'draft'], true) === true) {
+			$session['status'] = $data['status'];
 		}
 
 		return $session;

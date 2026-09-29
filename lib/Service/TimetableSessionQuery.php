@@ -104,14 +104,23 @@ class TimetableSessionQuery {
 	private bool $includeCancelled;
 
 	/**
+	 * Whether draft lessons are included (default false).
+	 *
+	 * @var bool
+	 */
+	private bool $includeDrafts;
+
+	/**
 	 * Validate the contract's criteria.
 	 *
 	 * @param array<string,mixed> $criteria cohortId, groupReference, teacherUserId, teacherReference,
-	 *                                      from, to, limit, includeCancelled.
+	 *                                      from, to, limit, includeCancelled, includeDrafts.
 	 *
 	 * @return void
 	 *
 	 * @throws InvalidArgumentException When no identity filter is given or the window is invalid.
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-drafts-are-returned-only-when-the-caller-asks-for-them
 	 */
 	public function __construct(array $criteria) {
 		$this->identity = $this->parseIdentity(criteria: $criteria);
@@ -126,6 +135,8 @@ class TimetableSessionQuery {
 		if (array_key_exists('includeCancelled', $criteria) === true) {
 			$this->includeCancelled = filter_var($criteria['includeCancelled'], FILTER_VALIDATE_BOOLEAN);
 		}
+
+		$this->includeDrafts = filter_var(($criteria['includeDrafts'] ?? false), FILTER_VALIDATE_BOOLEAN);
 	}//end __construct()
 
 	/**
@@ -175,6 +186,7 @@ class TimetableSessionQuery {
 	 * @return bool
 	 *
 	 * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-another-app-reads-sessions-through-a-typed-event-req-005
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-drafts-are-returned-only-when-the-caller-asks-for-them
 	 */
 	public function matches(array $session): bool {
 		if ($this->matchesIdentity(session: $session) === false) {
@@ -182,6 +194,10 @@ class TimetableSessionQuery {
 		}
 
 		if ($this->includeCancelled === false && ($session['status'] ?? '') === 'cancelled') {
+			return false;
+		}
+
+		if ($this->includeDrafts === false && ($session['status'] ?? '') === 'draft') {
 			return false;
 		}
 

@@ -110,6 +110,27 @@ class TimetableSessionsQueryListenerTest extends TestCase {
 	}//end testCohortWeekIsAnsweredInTimeOrder()
 
 	/**
+	 * A consumer that does not ask for drafts gets the published lessons only.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-drafts-are-returned-only-when-the-caller-asks-for-them
+	 */
+	public function testConsumerThatDoesNotAskGetsNoDrafts(): void {
+		$this->objectService->rows['timetableSession']['s-2']['status'] = 'draft';
+		$window = ['teacherUserId' => 'klaas', 'from' => '2026-09-28T00:00:00+02:00', 'to' => '2026-10-04T23:59:59+02:00'];
+
+		$plain = new TimetableSessionsQueryEvent(sourceApp: 'learniq', criteria: $window);
+		$this->listener->handle($plain);
+		self::assertSame(expected: ['zm-1'], actual: array_column($plain->getSessions(), 'externalRef'));
+
+		$asked = new TimetableSessionsQueryEvent(sourceApp: 'learniq', criteria: array_merge($window, ['includeDrafts' => true]));
+		$this->listener->handle($asked);
+		self::assertSame(expected: ['zm-1', 'zm-2'], actual: array_column($asked->getSessions(), 'externalRef'));
+
+	}//end testConsumerThatDoesNotAskGetsNoDrafts()
+
+	/**
 	 * A query without an identity filter is refused with an error and no sessions.
 	 *
 	 * @return void

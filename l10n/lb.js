@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Virlafzäit vun der Erënnerung gespäichert",
         "Failed to save reminder lead time": "D'Virlafzäit vun der Erënnerung konnt net gespäichert ginn",
         "Notifications": "Notifikatiounen",
-        "Notify me 1 day before a task's due date": "Informéier mech 1 Dag virum Fällegkeetsdatum vun enger Aufgab"
+        "Notify me 1 day before a task's due date": "Informéier mech 1 Dag virum Fällegkeetsdatum vun enger Aufgab",
+        "Draft": "Entworf",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Ob d'Stonn en Entworf ass, deen nëmmen hiren Enseignant gesäit, stattfënnt oder ausfält."
     },
     "nplurals=2; plural=(n != 1);"
 )

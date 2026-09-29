@@ -755,7 +755,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			self::assertArrayHasKey(key: $optional, array: $session['properties'], message: "timetableSession must declare {$optional}");
 		}
 
-		self::assertSame(expected: ['scheduled', 'cancelled'], actual: $session['properties']['status']['enum']);
+		self::assertSame(expected: ['draft', 'scheduled', 'cancelled'], actual: $session['properties']['status']['enum']);
 		self::assertSame(expected: 'scheduled', actual: $session['properties']['status']['default']);
 		self::assertSame(expected: 'date-time', actual: $session['properties']['startsAt']['format']);
 		self::assertSame(expected: 'date-time', actual: $session['properties']['endsAt']['format']);
@@ -782,12 +782,12 @@ class PlanninqRegisterSchemaTest extends TestCase {
 
 		self::assertSame(
 			expected: [
-				['group' => 'planninq-timetable'],
+				['group' => 'planninq-timetable', 'match' => ['status' => ['$in' => ['scheduled', 'cancelled']]]],
 				['group' => 'authenticated', 'match' => ['teacherUserId' => '$userId']],
 				['group' => 'admin'],
 			],
 			actual: $auth['read'],
-			message: 'timetableSession read is the timetable group, the teacher the lesson names, and admins'
+			message: 'timetableSession read is the timetable group (published lessons, timetable-draft-review), the teacher the lesson names, and admins'
 		);
 
 		foreach ($auth['read'] as $rule) {
@@ -1178,4 +1178,42 @@ class PlanninqRegisterSchemaTest extends TestCase {
 
 		self::assertSame(expected: 'object', actual: $this->register['components']['schemas']['project']['properties']['customFields']['type']);
 	}//end testProjectFieldSchemaAndTheProjectValues()
+
+	/**
+	 * A lesson can be delivered as a draft, and the schema version moved with it.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-a-draft-lesson-is-readable-only-by-the-teacher-it-names-and-by-admins
+	 */
+	public function testTimetableSessionStatusAllowsDraft(): void {
+		$status = $this->register['components']['schemas']['timetableSession']['properties']['status'];
+		self::assertSame(expected: ['draft', 'scheduled', 'cancelled'], actual: $status['enum']);
+		self::assertSame(expected: 'scheduled', actual: $status['default']);
+		self::assertSame(expected: 'Draft', actual: $status['x-enum-labels']['draft']);
+		self::assertSame(expected: '0.3.0', actual: $this->register['components']['schemas']['timetableSession']['version']);
+
+		$lesson = ['externalRef' => 'zm-1', 'sourceSystem' => 'roster-zermelo', 'subject' => 'Wiskunde', 'title' => 'Wiskunde', 'startsAt' => '2026-10-05T09:00:00+02:00', 'endsAt' => '2026-10-05T09:50:00+02:00', 'status' => 'draft'];
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableSession', payload: $lesson));
+		self::assertNotSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableSession', payload: array_merge($lesson, ['status' => 'concept'])));
+	}//end testTimetableSessionStatusAllowsDraft()
+
+	/**
+	 * The timetable group reads published lessons only; the named teacher and admins read drafts too.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-a-draft-lesson-is-readable-only-by-the-teacher-it-names-and-by-admins
+	 */
+	public function testDraftReadRuleNamesTheTeacher(): void {
+		self::assertSame(
+			expected: [
+				['group' => 'planninq-timetable', 'match' => ['status' => ['$in' => ['scheduled', 'cancelled']]]],
+				['group' => 'authenticated', 'match' => ['teacherUserId' => '$userId']],
+				['group' => 'admin'],
+			],
+			actual: $this->register['components']['schemas']['timetableSession']['authorization']['read']
+		);
+		self::assertSame(expected: ['admin'], actual: $this->register['components']['schemas']['timetableSession']['authorization']['update']);
+	}//end testDraftReadRuleNamesTheTeacher()
 }//end class

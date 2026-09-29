@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Priminimo laikas išsaugotas",
         "Failed to save reminder lead time": "Nepavyko išsaugoti priminimo laiko",
         "Notifications": "Pranešimai",
-        "Notify me 1 day before a task's due date": "Pranešti man 1 dieną iki užduoties termino"
+        "Notify me 1 day before a task's due date": "Pranešti man 1 dieną iki užduoties termino",
+        "Draft": "Juodraštis",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Ar pamoka yra juodraštis, kurį mato tik jos mokytojas, vyksta ar atšaukta."
     },
     "nplurals=2; plural=(n != 1);"
 )

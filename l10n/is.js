@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Fyrirvari áminningar vistaður",
         "Failed to save reminder lead time": "Ekki tókst að vista fyrirvara áminningar",
         "Notifications": "Tilkynningar",
-        "Notify me 1 day before a task's due date": "Láttu mig vita 1 degi fyrir gjalddaga verks"
+        "Notify me 1 day before a task's due date": "Láttu mig vita 1 degi fyrir gjalddaga verks",
+        "Draft": "Drög",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Hvort kennslustundin er drög sem aðeins kennarinn sér, fer fram eða fellur niður."
     },
     "nplurals=2; plural=(n != 1);"
 )

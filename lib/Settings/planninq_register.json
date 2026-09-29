@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.23.0"
+    "version": "0.24.0"
   },
   "x-openregister": {
     "type": "application",
@@ -1569,7 +1569,7 @@
       "timetableSession": {
         "slug": "timetableSession",
         "icon": "ClockOutline",
-        "version": "0.2.0",
+        "version": "0.3.0",
         "title": "Timetable session",
         "description": "One lesson in a school timetable as the rostering system knows it: when it runs, for which group, with which teacher, in which room and for which subject. Delivered by a rostering import and matched again by source and occurrence id.",
         "x-schema-org": "schema:Event",
@@ -1584,7 +1584,15 @@
         "authorization": {
           "read": [
             {
-              "group": "planninq-timetable"
+              "group": "planninq-timetable",
+              "match": {
+                "status": {
+                  "$in": [
+                    "scheduled",
+                    "cancelled"
+                  ]
+                }
+              }
             },
             {
               "group": "authenticated",
@@ -1677,13 +1685,15 @@
           "status": {
             "title": "Status",
             "type": "string",
-            "description": "Whether the lesson goes ahead or is cancelled.",
+            "description": "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.",
             "enum": [
+              "draft",
               "scheduled",
               "cancelled"
             ],
             "default": "scheduled",
             "x-enum-labels": {
+              "draft": "Draft",
               "scheduled": "Scheduled",
               "cancelled": "Cancelled"
             }

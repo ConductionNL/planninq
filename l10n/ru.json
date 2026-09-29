@@ -893,7 +893,9 @@
         "Reminder lead time saved successfully": "Заблаговременность напоминания сохранена",
         "Failed to save reminder lead time": "Не удалось сохранить заблаговременность напоминания",
         "Notifications": "Уведомления",
-        "Notify me 1 day before a task's due date": "Уведомлять меня за 1 день до срока задачи"
+        "Notify me 1 day before a task's due date": "Уведомлять меня за 1 день до срока задачи",
+        "Draft": "Черновик",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Является ли урок черновиком, который видит только его учитель, состоится ли он или отменён."
     },
     "plurals": {}
 }

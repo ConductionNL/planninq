@@ -893,7 +893,9 @@
         "Reminder lead time saved successfully": "Завчасність нагадування збережено",
         "Failed to save reminder lead time": "Не вдалося зберегти завчасність нагадування",
         "Notifications": "Сповіщення",
-        "Notify me 1 day before a task's due date": "Сповіщати мене за 1 день до терміну завдання"
+        "Notify me 1 day before a task's due date": "Сповіщати мене за 1 день до терміну завдання",
+        "Draft": "Чернетка",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Чи є урок чернеткою, яку бачить лише його вчитель, чи відбудеться він, чи скасований."
     },
     "plurals": {}
 }

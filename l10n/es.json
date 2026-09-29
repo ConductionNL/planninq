@@ -893,7 +893,9 @@
         "Reminder lead time saved successfully": "Antelación del recordatorio guardada",
         "Failed to save reminder lead time": "No se pudo guardar la antelación del recordatorio",
         "Notifications": "Notificaciones",
-        "Notify me 1 day before a task's due date": "Avisarme 1 día antes del vencimiento de una tarea"
+        "Notify me 1 day before a task's due date": "Avisarme 1 día antes del vencimiento de una tarea",
+        "Draft": "Borrador",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Si la clase es un borrador que solo ve su docente, se imparte o se cancela."
     },
     "plurals": null
 }

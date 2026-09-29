@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Zapisano wyprzedzenie przypomnienia",
         "Failed to save reminder lead time": "Nie udało się zapisać wyprzedzenia przypomnienia",
         "Notifications": "Powiadomienia",
-        "Notify me 1 day before a task's due date": "Powiadom mnie 1 dzień przed terminem zadania"
+        "Notify me 1 day before a task's due date": "Powiadom mnie 1 dzień przed terminem zadania",
+        "Draft": "Wersja robocza",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Czy lekcja jest wersją roboczą widoczną tylko dla jej nauczyciela, odbywa się czy jest odwołana."
     },
     "nplurals=2; plural=(n != 1);"
 )

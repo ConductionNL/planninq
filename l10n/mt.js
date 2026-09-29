@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Il-ħin tat-tfakkira ġie ssejvjat",
         "Failed to save reminder lead time": "Il-ħin tat-tfakkira ma setax jiġi ssejvjat",
         "Notifications": "Notifiki",
-        "Notify me 1 day before a task's due date": "Innotifikani jum qabel id-data dovuta ta' kompitu"
+        "Notify me 1 day before a task's due date": "Innotifikani jum qabel id-data dovuta ta' kompitu",
+        "Draft": "Abbozz",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Jekk il-lezzjoni hijiex abbozz li jarah l-għalliem tagħha biss, issirx jew hijiex ikkanċellata."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Времето на потсетникот е зачувано",
         "Failed to save reminder lead time": "Времето на потсетникот не може да се зачува",
         "Notifications": "Известувања",
-        "Notify me 1 day before a task's due date": "Извести ме 1 ден пред рокот на задачата"
+        "Notify me 1 day before a task's due date": "Извести ме 1 ден пред рокот на задачата",
+        "Draft": "Нацрт",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Дали часот е нацрт што го гледа само неговиот наставник, се одржува или е откажан."
     },
     "nplurals=2; plural=(n != 1);"
 )

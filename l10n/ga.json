@@ -893,7 +893,9 @@
         "Reminder lead time saved successfully": "Sábháladh am an mheabhrúcháin",
         "Failed to save reminder lead time": "Níorbh fhéidir am an mheabhrúcháin a shábháil",
         "Notifications": "Fógraí",
-        "Notify me 1 day before a task's due date": "Cuir in iúl dom 1 lá roimh dháta dlite taisc"
+        "Notify me 1 day before a task's due date": "Cuir in iúl dom 1 lá roimh dháta dlite taisc",
+        "Draft": "Dréacht",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "An dréacht é an ceacht nach bhfeiceann ach a mhúinteoir, an mbeidh sé ar siúl nó an bhfuil sé curtha ar ceal."
     },
     "plurals": null
 }

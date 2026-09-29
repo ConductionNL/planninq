@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Koha e kujtesës u ruajt",
         "Failed to save reminder lead time": "Koha e kujtesës nuk mund të ruhej",
         "Notifications": "Njoftime",
-        "Notify me 1 day before a task's due date": "Më njofto 1 ditë para afatit të një detyre"
+        "Notify me 1 day before a task's due date": "Më njofto 1 ditë para afatit të një detyre",
+        "Draft": "Draft",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Nëse ora është draft që e sheh vetëm mësuesi i saj, zhvillohet apo është anuluar."
     },
     "nplurals=2; plural=(n != 1);"
 )

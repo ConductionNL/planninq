@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Загадзя для напаміну захавана",
         "Failed to save reminder lead time": "Не ўдалося захаваць загадзя для напаміну",
         "Notifications": "Апавяшчэнні",
-        "Notify me 1 day before a task's due date": "Апавяшчаць мяне за 1 дзень да тэрміну задачы"
+        "Notify me 1 day before a task's due date": "Апавяшчаць мяне за 1 дзень да тэрміну задачы",
+        "Draft": "Чарнавік",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Ці ёсць урок чарнавіком, які бачыць толькі яго настаўнік, ці адбудзецца ён, ці адменены."
     },
     "nplurals=2; plural=(n != 1);"
 )

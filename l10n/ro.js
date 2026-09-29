@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Timpul de avertizare a fost salvat",
         "Failed to save reminder lead time": "Timpul de avertizare nu a putut fi salvat",
         "Notifications": "Notificări",
-        "Notify me 1 day before a task's due date": "Anunță-mă cu 1 zi înainte de scadența unei sarcini"
+        "Notify me 1 day before a task's due date": "Anunță-mă cu 1 zi înainte de scadența unei sarcini",
+        "Draft": "Ciornă",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Dacă ora este o ciornă pe care o vede doar profesorul ei, are loc sau este anulată."
     },
     "nplurals=2; plural=(n != 1);"
 )

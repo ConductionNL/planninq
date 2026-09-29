@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Muistutuksen ennakko tallennettu",
         "Failed to save reminder lead time": "Muistutuksen ennakkoa ei voitu tallentaa",
         "Notifications": "Ilmoitukset",
-        "Notify me 1 day before a task's due date": "Ilmoita minulle 1 päivä ennen tehtävän eräpäivää"
+        "Notify me 1 day before a task's due date": "Ilmoita minulle 1 päivä ennen tehtävän eräpäivää",
+        "Draft": "Luonnos",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Onko oppitunti luonnos, jonka vain sen opettaja näkee, pidetäänkö se vai onko se peruttu."
     },
     "nplurals=2; plural=(n != 1);"
 )

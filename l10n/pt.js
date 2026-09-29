@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Antecedência do lembrete guardada",
         "Failed to save reminder lead time": "Não foi possível guardar a antecedência do lembrete",
         "Notifications": "Notificações",
-        "Notify me 1 day before a task's due date": "Avisar-me 1 dia antes do prazo de uma tarefa"
+        "Notify me 1 day before a task's due date": "Avisar-me 1 dia antes do prazo de uma tarefa",
+        "Draft": "Rascunho",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Se a aula é um rascunho que só o seu professor vê, se realiza ou está cancelada."
     },
     "nplurals=2; plural=(n != 1);"
 )

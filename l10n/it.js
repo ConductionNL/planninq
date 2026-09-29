@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Anticipo del promemoria salvato",
         "Failed to save reminder lead time": "Impossibile salvare l'anticipo del promemoria",
         "Notifications": "Notifiche",
-        "Notify me 1 day before a task's due date": "Avvisami 1 giorno prima della scadenza di un'attività"
+        "Notify me 1 day before a task's due date": "Avvisami 1 giorno prima della scadenza di un'attività",
+        "Draft": "Bozza",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Se la lezione è una bozza visibile solo al suo docente, si svolge o è annullata."
     },
     "nplurals=2; plural=(n != 1);"
 )

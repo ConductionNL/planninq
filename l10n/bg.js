@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Предварителното време за напомняне е запазено",
         "Failed to save reminder lead time": "Предварителното време за напомняне не можа да бъде запазено",
         "Notifications": "Известия",
-        "Notify me 1 day before a task's due date": "Уведоми ме 1 ден преди срока на задача"
+        "Notify me 1 day before a task's due date": "Уведоми ме 1 ден преди срока на задача",
+        "Draft": "Чернова",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Дали часът е чернова, която вижда само учителят, провежда ли се или е отменен."
     },
     "nplurals=2; plural=(n != 1);"
 )

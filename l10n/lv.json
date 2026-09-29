@@ -893,7 +893,9 @@
         "Reminder lead time saved successfully": "Atgādinājuma laiks saglabāts",
         "Failed to save reminder lead time": "Atgādinājuma laiku neizdevās saglabāt",
         "Notifications": "Paziņojumi",
-        "Notify me 1 day before a task's due date": "Paziņot man 1 dienu pirms uzdevuma termiņa"
+        "Notify me 1 day before a task's due date": "Paziņot man 1 dienu pirms uzdevuma termiņa",
+        "Draft": "Melnraksts",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Vai stunda ir melnraksts, ko redz tikai tās skolotājs, notiek vai ir atcelta."
     },
     "plurals": null
 }

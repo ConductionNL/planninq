@@ -894,7 +894,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Délai du rappel enregistré",
         "Failed to save reminder lead time": "Impossible d'enregistrer le délai du rappel",
         "Notifications": "Notifications",
-        "Notify me 1 day before a task's due date": "Me prévenir 1 jour avant l'échéance d'une tâche"
+        "Notify me 1 day before a task's due date": "Me prévenir 1 jour avant l'échéance d'une tâche",
+        "Draft": "Brouillon",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Indique si le cours est un brouillon que seul son enseignant voit, s'il a lieu ou s'il est annulé."
     },
     "nplurals=2; plural=(n != 1);"
 )

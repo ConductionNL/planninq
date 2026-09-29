@@ -871,7 +871,9 @@ OC.L10N.register(
         "Reminder lead time saved successfully": "Reminder lead time saved successfully",
         "Failed to save reminder lead time": "Failed to save reminder lead time",
         "Notifications": "Notifications",
-        "Notify me 1 day before a task's due date": "Notify me 1 day before a task's due date"
+        "Notify me 1 day before a task's due date": "Notify me 1 day before a task's due date",
+        "Draft": "Draft",
+        "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.": "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled."
     },
     "nplurals=2; plural=(n != 1);"
 )
