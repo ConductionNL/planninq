@@ -817,7 +817,23 @@ OC.L10N.register(
         "No open work in these projects.": "У цих проєктах немає відкритої роботи.",
         "Open work": "Відкрита робота",
         "{count} open tasks": "Відкритих завдань: {count}",
-        "Create a project to see capacity here.": "Створіть проєкт, щоб побачити тут завантаження."
+        "Create a project to see capacity here.": "Створіть проєкт, щоб побачити тут завантаження.",
+        "My tasks": "Мої завдання",
+        "Show all my tasks": "Показати всі мої завдання",
+        "No tasks assigned to you": "Вам не призначено жодного завдання",
+        "Browse projects": "Переглянути проєкти",
+        "Later": "Пізніше",
+        "Due {date}": "Термін {date}",
+        "Could not change the status. Please try again.": "Не вдалося змінити статус. Спробуйте ще раз.",
+        "Completed today": "Завершено сьогодні",
+        "My open tasks": "Мої відкриті завдання",
+        "My overdue tasks": "Мої прострочені завдання",
+        "My tasks in progress": "Мої завдання в роботі",
+        "Pin to the top": "Закріпити вгорі",
+        "Unpin": "Відкріпити",
+        "Pinned": "Закріплено",
+        "Actions for {title}": "Дії для {title}",
+        "Could not save your project order. Please try again.": "Не вдалося зберегти порядок ваших проєктів. Спробуйте ще раз."
     },
     "nplurals=2; plural=(n != 1);"
 )

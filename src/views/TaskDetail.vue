@@ -1088,13 +1088,15 @@ export default {
 		},
 
 		/**
-		 * Navigate back to the project board.
+		 * Navigate back: to My tasks when the task was opened there, else to the project board.
 		 *
-		 * @spec exclude Router navigation glue; no observable spec behaviour.
+		 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-1.2
 		 */
 		goBack() {
 			const projectId = this.$route.params.id
-			if (projectId) {
+			if (this.$route.query.from === 'my-tasks') {
+				this.$router.push({ name: 'MyWork' })
+			} else if (projectId) {
 				this.$router.push({ name: 'ProjectBoard', params: { id: projectId } })
 			} else {
 				this.$router.push({ name: 'Projects' })

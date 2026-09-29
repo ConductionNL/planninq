@@ -817,7 +817,23 @@ OC.L10N.register(
         "No open work in these projects.": "Intet åbent arbejde i disse projekter.",
         "Open work": "Åbent arbejde",
         "{count} open tasks": "{count} åbne opgaver",
-        "Create a project to see capacity here.": "Opret et projekt for at se kapaciteten her."
+        "Create a project to see capacity here.": "Opret et projekt for at se kapaciteten her.",
+        "My tasks": "Mine opgaver",
+        "Show all my tasks": "Vis alle mine opgaver",
+        "No tasks assigned to you": "Du har ingen tildelte opgaver",
+        "Browse projects": "Gennemse projekter",
+        "Later": "Senere",
+        "Due {date}": "Forfalder {date}",
+        "Could not change the status. Please try again.": "Status kunne ikke ændres. Prøv igen.",
+        "Completed today": "Fuldført i dag",
+        "My open tasks": "Mine åbne opgaver",
+        "My overdue tasks": "Mine forfaldne opgaver",
+        "My tasks in progress": "Mine opgaver i gang",
+        "Pin to the top": "Fastgør øverst",
+        "Unpin": "Frigør",
+        "Pinned": "Fastgjort",
+        "Actions for {title}": "Handlinger for {title}",
+        "Could not save your project order. Please try again.": "Din projektrækkefølge kunne ikke gemmes. Prøv igen."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -817,7 +817,23 @@ OC.L10N.register(
         "No open work in these projects.": "V těchto projektech není žádná otevřená práce.",
         "Open work": "Otevřená práce",
         "{count} open tasks": "{count} otevřených úkolů",
-        "Create a project to see capacity here.": "Vytvořte projekt, abyste zde viděli kapacitu."
+        "Create a project to see capacity here.": "Vytvořte projekt, abyste zde viděli kapacitu.",
+        "My tasks": "Moje úkoly",
+        "Show all my tasks": "Zobrazit všechny moje úkoly",
+        "No tasks assigned to you": "Nemáte přiřazené žádné úkoly",
+        "Browse projects": "Procházet projekty",
+        "Later": "Později",
+        "Due {date}": "Termín {date}",
+        "Could not change the status. Please try again.": "Stav se nepodařilo změnit. Zkuste to znovu.",
+        "Completed today": "Dokončeno dnes",
+        "My open tasks": "Moje otevřené úkoly",
+        "My overdue tasks": "Moje úkoly po termínu",
+        "My tasks in progress": "Moje rozpracované úkoly",
+        "Pin to the top": "Připnout nahoru",
+        "Unpin": "Odepnout",
+        "Pinned": "Připnuto",
+        "Actions for {title}": "Akce pro {title}",
+        "Could not save your project order. Please try again.": "Pořadí projektů se nepodařilo uložit. Zkuste to znovu."
     },
     "nplurals=2; plural=(n != 1);"
 )

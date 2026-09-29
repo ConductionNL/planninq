@@ -816,7 +816,23 @@
         "No open work in these projects.": "Bu projelerde açık iş yok.",
         "Open work": "Açık iş",
         "{count} open tasks": "{count} açık görev",
-        "Create a project to see capacity here.": "Kapasiteyi burada görmek için bir proje oluşturun."
+        "Create a project to see capacity here.": "Kapasiteyi burada görmek için bir proje oluşturun.",
+        "My tasks": "Görevlerim",
+        "Show all my tasks": "Tüm görevlerimi göster",
+        "No tasks assigned to you": "Size atanmış görev yok",
+        "Browse projects": "Projelere göz atın",
+        "Later": "Daha sonra",
+        "Due {date}": "Son tarih {date}",
+        "Could not change the status. Please try again.": "Durum değiştirilemedi. Lütfen yeniden deneyin.",
+        "Completed today": "Bugün tamamlanan",
+        "My open tasks": "Açık görevlerim",
+        "My overdue tasks": "Geciken görevlerim",
+        "My tasks in progress": "Devam eden görevlerim",
+        "Pin to the top": "En üste sabitle",
+        "Unpin": "Sabitlemeyi kaldır",
+        "Pinned": "Sabitlendi",
+        "Actions for {title}": "{title} için işlemler",
+        "Could not save your project order. Please try again.": "Proje sıranız kaydedilemedi. Lütfen yeniden deneyin."
     },
     "plurals": {}
 }

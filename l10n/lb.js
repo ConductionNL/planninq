@@ -817,7 +817,23 @@ OC.L10N.register(
         "No open work in these projects.": "Keng oppen Aarbecht an dëse Projeten.",
         "Open work": "Oppen Aarbecht",
         "{count} open tasks": "{count} oppen Aufgaben",
-        "Create a project to see capacity here.": "Maach e Projet un, fir hei d'Kapazitéit ze gesinn."
+        "Create a project to see capacity here.": "Maach e Projet un, fir hei d'Kapazitéit ze gesinn.",
+        "My tasks": "Meng Aufgaben",
+        "Show all my tasks": "All meng Aufgabe weisen",
+        "No tasks assigned to you": "Dir sinn keng Aufgaben zougewisen",
+        "Browse projects": "Projete duerchsichen",
+        "Later": "Méi spéit",
+        "Due {date}": "Fälleg {date}",
+        "Could not change the status. Please try again.": "De Status konnt net geännert ginn. Probéier nach eng Kéier.",
+        "Completed today": "Haut ofgeschloss",
+        "My open tasks": "Meng oppen Aufgaben",
+        "My overdue tasks": "Meng iwwerfälleg Aufgaben",
+        "My tasks in progress": "Meng Aufgaben amgaang",
+        "Pin to the top": "Uewen upinnen",
+        "Unpin": "Lassmaachen",
+        "Pinned": "Ugepinnt",
+        "Actions for {title}": "Aktioune fir {title}",
+        "Could not save your project order. Please try again.": "D'Reiefolleg vun denge Projete konnt net gespäichert ginn. Probéier nach eng Kéier."
     },
     "nplurals=2; plural=(n != 1);"
 )

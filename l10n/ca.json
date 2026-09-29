@@ -816,7 +816,23 @@
         "No open work in these projects.": "No hi ha feina oberta en aquests projectes.",
         "Open work": "Feina oberta",
         "{count} open tasks": "{count} tasques obertes",
-        "Create a project to see capacity here.": "Creeu un projecte per veure aquí la capacitat."
+        "Create a project to see capacity here.": "Creeu un projecte per veure aquí la capacitat.",
+        "My tasks": "Les meves tasques",
+        "Show all my tasks": "Mostra totes les meves tasques",
+        "No tasks assigned to you": "No teniu cap tasca assignada",
+        "Browse projects": "Explora els projectes",
+        "Later": "Més endavant",
+        "Due {date}": "Venç {date}",
+        "Could not change the status. Please try again.": "No s'ha pogut canviar l'estat. Torneu-ho a provar.",
+        "Completed today": "Completades avui",
+        "My open tasks": "Les meves tasques obertes",
+        "My overdue tasks": "Les meves tasques endarrerides",
+        "My tasks in progress": "Les meves tasques en curs",
+        "Pin to the top": "Fixa a dalt",
+        "Unpin": "Deixa de fixar",
+        "Pinned": "Fixat",
+        "Actions for {title}": "Accions per a {title}",
+        "Could not save your project order. Please try again.": "No s'ha pogut desar l'ordre dels vostres projectes. Torneu-ho a provar."
     },
     "plurals": null
 }

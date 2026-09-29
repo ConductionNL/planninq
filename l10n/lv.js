@@ -817,7 +817,23 @@ OC.L10N.register(
         "No open work in these projects.": "Šajos projektos nav atvērta darba.",
         "Open work": "Atvērtais darbs",
         "{count} open tasks": "Atvērti uzdevumi: {count}",
-        "Create a project to see capacity here.": "Izveidojiet projektu, lai šeit redzētu noslodzi."
+        "Create a project to see capacity here.": "Izveidojiet projektu, lai šeit redzētu noslodzi.",
+        "My tasks": "Mani uzdevumi",
+        "Show all my tasks": "Rādīt visus manus uzdevumus",
+        "No tasks assigned to you": "Jums nav piešķirtu uzdevumu",
+        "Browse projects": "Pārlūkot projektus",
+        "Later": "Vēlāk",
+        "Due {date}": "Termiņš {date}",
+        "Could not change the status. Please try again.": "Statusu neizdevās mainīt. Mēģiniet vēlreiz.",
+        "Completed today": "Pabeigti šodien",
+        "My open tasks": "Mani atvērtie uzdevumi",
+        "My overdue tasks": "Mani nokavētie uzdevumi",
+        "My tasks in progress": "Mani uzdevumi procesā",
+        "Pin to the top": "Piespraust augšā",
+        "Unpin": "Atspraust",
+        "Pinned": "Piesprausts",
+        "Actions for {title}": "Darbības: {title}",
+        "Could not save your project order. Please try again.": "Projektu secību neizdevās saglabāt. Mēģiniet vēlreiz."
     },
     "nplurals=2; plural=(n != 1);"
 )

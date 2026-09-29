@@ -816,7 +816,23 @@
         "No open work in these projects.": "Níl aon obair oscailte sna tionscadail seo.",
         "Open work": "Obair oscailte",
         "{count} open tasks": "{count} tasc oscailte",
-        "Create a project to see capacity here.": "Cruthaigh tionscadal chun an acmhainn a fheiceáil anseo."
+        "Create a project to see capacity here.": "Cruthaigh tionscadal chun an acmhainn a fheiceáil anseo.",
+        "My tasks": "Mo thascanna",
+        "Show all my tasks": "Taispeáin mo thascanna go léir",
+        "No tasks assigned to you": "Níl aon tascanna sannta duit",
+        "Browse projects": "Brabhsáil tionscadail",
+        "Later": "Níos déanaí",
+        "Due {date}": "Dlite {date}",
+        "Could not change the status. Please try again.": "Níorbh fhéidir an stádas a athrú. Bain triail eile as.",
+        "Completed today": "Críochnaithe inniu",
+        "My open tasks": "Mo thascanna oscailte",
+        "My overdue tasks": "Mo thascanna thar téarma",
+        "My tasks in progress": "Mo thascanna ar siúl",
+        "Pin to the top": "Pionnáil ag an mbarr",
+        "Unpin": "Díphionnáil",
+        "Pinned": "Pionnáilte",
+        "Actions for {title}": "Gníomhartha do {title}",
+        "Could not save your project order. Please try again.": "Níorbh fhéidir ord do thionscadal a shábháil. Bain triail eile as."
     },
     "plurals": null
 }

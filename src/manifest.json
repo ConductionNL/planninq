@@ -47,6 +47,7 @@
   },
   "menu": [
     { "id": "Dashboard", "label": "Dashboard", "icon": "ViewDashboardOutline", "route": "Dashboard", "order": 10 },
+    { "id": "MyWorkMenu", "label": "My tasks", "icon": "ClipboardCheckOutline", "route": "MyWork", "order": 15 },
     { "id": "Boards", "label": "Boards", "icon": "ViewDashboardOutline", "route": "Boards", "order": 20 },
     { "id": "Projects", "label": "Projects", "icon": "FolderOutline", "route": "Projects", "order": 30, "children": [
       { "id": "ProjectsAll", "label": "All projects", "icon": "FolderOutline", "route": "Projects" },
@@ -111,7 +112,8 @@
               "source": {
                 "register": "planninq",
                 "schema": "project",
-                "metric": "count"
+                "metric": "count",
+                "filter": { "members": "@me" }
               }
             }
           },
@@ -133,6 +135,74 @@
             }
           },
           {
+            "id": "kpi-my-open",
+            "type": "stat",
+            "title": "My open tasks",
+            "content": {
+              "label": "My open tasks",
+              "icon": "ClipboardCheckOutline",
+              "route": { "name": "MyWork", "query": { "group": "open" } },
+              "format": { "style": "decimal", "decimals": 0 },
+              "source": {
+                "register": "planninq",
+                "schema": "task",
+                "metric": "count",
+                "filter": { "assignedTo": "@me", "status": { "notIn": ["done", "cancelled"] } }
+              }
+            }
+          },
+          {
+            "id": "kpi-my-overdue",
+            "type": "stat",
+            "title": "My overdue tasks",
+            "content": {
+              "label": "My overdue tasks",
+              "icon": "AlertOutline",
+              "route": { "name": "MyWork", "query": { "group": "overdue" } },
+              "format": { "style": "decimal", "decimals": 0 },
+              "source": {
+                "register": "planninq",
+                "schema": "task",
+                "metric": "count",
+                "filter": { "assignedTo": "@me", "status": { "notIn": ["done", "cancelled"] }, "dueDate": { "lt": "@today" } }
+              }
+            }
+          },
+          {
+            "id": "kpi-my-in-progress",
+            "type": "stat",
+            "title": "My tasks in progress",
+            "content": {
+              "label": "My tasks in progress",
+              "icon": "TimerOutline",
+              "route": { "name": "MyWork", "query": { "group": "in_progress" } },
+              "format": { "style": "decimal", "decimals": 0 },
+              "source": {
+                "register": "planninq",
+                "schema": "task",
+                "metric": "count",
+                "filter": { "assignedTo": "@me", "status": "in_progress" }
+              }
+            }
+          },
+          {
+            "id": "kpi-my-done-today",
+            "type": "stat",
+            "title": "Completed today",
+            "content": {
+              "label": "Completed today",
+              "icon": "CheckboxMarkedCircleOutline",
+              "route": { "name": "MyWork", "query": { "group": "completed_today" } },
+              "format": { "style": "decimal", "decimals": 0 },
+              "source": {
+                "register": "planninq",
+                "schema": "task",
+                "metric": "count",
+                "filter": { "assignedTo": "@me", "status": "done", "completedAt": { "gte": "@today" } }
+              }
+            }
+          },
+          {
             "id": "dashboard-panels",
             "type": "project-panels",
             "title": "My projects",
@@ -143,10 +213,15 @@
           { "id": "1", "widgetId": "kpi-active-projects", "gridX": 0, "gridY": 0, "gridWidth": 4, "gridHeight": 2, "showTitle": false },
           { "id": "2", "widgetId": "kpi-member-projects", "gridX": 4, "gridY": 0, "gridWidth": 4, "gridHeight": 2, "showTitle": false },
           { "id": "3", "widgetId": "kpi-archived-projects", "gridX": 8, "gridY": 0, "gridWidth": 4, "gridHeight": 2, "showTitle": false },
-          { "id": "4", "widgetId": "dashboard-panels", "gridX": 0, "gridY": 2, "gridWidth": 12, "gridHeight": 5, "showTitle": false, "borderless": true }
+          { "id": "5", "widgetId": "kpi-my-open", "gridX": 0, "gridY": 2, "gridWidth": 3, "gridHeight": 2, "showTitle": false },
+          { "id": "6", "widgetId": "kpi-my-overdue", "gridX": 3, "gridY": 2, "gridWidth": 3, "gridHeight": 2, "showTitle": false },
+          { "id": "7", "widgetId": "kpi-my-in-progress", "gridX": 6, "gridY": 2, "gridWidth": 3, "gridHeight": 2, "showTitle": false },
+          { "id": "8", "widgetId": "kpi-my-done-today", "gridX": 9, "gridY": 2, "gridWidth": 3, "gridHeight": 2, "showTitle": false },
+          { "id": "4", "widgetId": "dashboard-panels", "gridX": 0, "gridY": 4, "gridWidth": 12, "gridHeight": 5, "showTitle": false, "borderless": true }
         ]
       }
     },
+    { "id": "MyWork", "_note": "Every open task assigned to the user or shared with them, across the projects they can read, grouped as Overdue, Due this week and Later with the status changed in place; a dashboard figure opens it narrowed through ?group=. Grouping plus an inline status write per row is not an index (portfolio-my-work-dashboard).", "route": "/my-tasks", "type": "custom", "title": "My tasks", "component": "MyWork", "config": {} },
     { "id": "Projects", "_note": "Project index rendered as cards with a client-side status chip filter over filteredProjects, plus a free-text field. The chip row is a filter surface CnIndexPage does not express, so the list is a host-app SFC.", "route": "/projects", "type": "custom", "title": "Projects", "component": "ProjectList", "config": {} },
     { "id": "PortfolioIndex", "_note": "The portfolios projects are grouped by, with their managers and list order. Admins create and delete them and the managers edit them, which OpenRegister enforces on the projectPortfolio schema, so the page is a declarative index. Declared before ProjectBoard so /projects/portfolios is never read as a project id.", "route": "/projects/portfolios", "type": "index", "title": "Portfolios", "config": { "register": "planninq", "schema": "projectPortfolio", "columns": ["title", "managers", "order"], "defaultSort": [{ "field": "order", "order": "asc" }] } },
     { "id": "ProjectFieldIndex", "_note": "The fields an admin adds to every project: label, type (text, number, date, choice, person or yes/no), options, required and order. OpenRegister keeps writes to admins, so the page is a declarative index with the schema's own form. The Details tab of the project settings sidebar shows one input per field.", "route": "/project-fields", "type": "index", "title": "Project fields", "config": { "register": "planninq", "schema": "projectField", "columns": ["label", "key", "type", "required", "order"], "defaultSort": [{ "field": "order", "order": "asc" }] } },

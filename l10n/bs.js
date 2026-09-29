@@ -817,7 +817,23 @@ OC.L10N.register(
         "No open work in these projects.": "Nema otvorenog posla u ovim projektima.",
         "Open work": "Otvoreni posao",
         "{count} open tasks": "{count} otvorenih zadataka",
-        "Create a project to see capacity here.": "Kreirajte projekat da biste ovdje vidjeli kapacitet."
+        "Create a project to see capacity here.": "Kreirajte projekat da biste ovdje vidjeli kapacitet.",
+        "My tasks": "Moji zadaci",
+        "Show all my tasks": "Prikaži sve moje zadatke",
+        "No tasks assigned to you": "Nemate dodijeljenih zadataka",
+        "Browse projects": "Pregledaj projekte",
+        "Later": "Kasnije",
+        "Due {date}": "Rok {date}",
+        "Could not change the status. Please try again.": "Status nije moguće promijeniti. Pokušajte ponovo.",
+        "Completed today": "Završeno danas",
+        "My open tasks": "Moji otvoreni zadaci",
+        "My overdue tasks": "Moji zakašnjeli zadaci",
+        "My tasks in progress": "Moji zadaci u toku",
+        "Pin to the top": "Zakači na vrh",
+        "Unpin": "Otkači",
+        "Pinned": "Zakačeno",
+        "Actions for {title}": "Radnje za {title}",
+        "Could not save your project order. Please try again.": "Redoslijed projekata nije moguće sačuvati. Pokušajte ponovo."
     },
     "nplurals=2; plural=(n != 1);"
 )

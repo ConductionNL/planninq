@@ -63,3 +63,12 @@ builds the Mijn werk group, it moves there without a URL change.
 
 - Does the `stat` widget filter grammar support "before `@today`" and "on `@today`" for date fields
   and "contains" for arrays? Task 2.1 checks against nextcloud-vue before choosing.
+
+## Amendments at build time (2026-09-29)
+
+- My tasks reads the task collection once, paged, and keeps the tasks assigned to or shared with the user in the browser (`fetchMyTasks`). `sharedWith` is an array, and an array filter on OpenRegister's object list is not portable across databases (the same reason `fetchProjects` filters members in the browser). For an admin this reads every task the admin can see.
+- The stat grammar was checked against OpenRegister's aggregation runner (task 2.1): `ne`, `in`, `notIn`, `gt`, `gte`, `lt`, `lte`, and a filter on an array-typed field (`members: @me`) is matched as any-overlap by the PHP fallback. So all four figures and "Projects I am in" are declarative `stat` widgets: open = `status notIn [done, cancelled]`, overdue = that plus `dueDate lt @today`, in progress = `status in_progress`, completed today = `status done` and `completedAt gte @today`.
+- The figures count the tasks the user is responsible for (`assignedTo: @me`). The aggregation cannot say "assigned to me OR shared with me" in one filter. So a figure opens My tasks narrowed to exactly what it counts (`?group=open|overdue|in_progress|completed_today`, responsible only), and the unfiltered page lists shared tasks too. A "Show all my tasks" button clears the figure.
+- Back on a task opened from My tasks returns to My tasks (`?from=my-tasks` on the task route).
+- "My projects" rows became a button (open the board) plus an actions menu (Pin to the top or Unpin, Move up, Move down), because a pin control inside a row that is itself a button nests two interactive elements. Pinned projects are all listed, then the rest up to five in all.
+- Copy lands in all 36 locales the app ships, not only en and nl (task 4.1).

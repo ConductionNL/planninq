@@ -4314,7 +4314,7 @@
       "area": "portfolio",
       "name": "See a personal dashboard of your projects and tasks.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "partial",
@@ -4333,14 +4333,12 @@
         "untis": "not checked: https://help.untis.at/hc/de/articles/360015023539 and https://help.untis.at/hc/de/articles/360009210060 mention a personal 'Startseite' and 'Heute-Seite' in WebUntis, but no page read describes what it holds in enough detail to settle this"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/manifest.json:72-140 (Dashboard page, three project-count stat widgets + project-panels) -> src/components/DashboardPanels.vue:16-44 'My projects' list via src/store/projects.js:170 fetchProjects()",
-        "reachedOn": "Dashboard / (menu 'Dashboard')",
+        "state": "built",
+        "evidence": "src/manifest.json Dashboard: task figures My open tasks, My overdue tasks, My tasks in progress, Completed today (stat widgets on task, assignedTo @me) each opening My tasks with ?group=; 'Projects I am in' filters members @me; src/components/DashboardPanels.vue My projects with pins",
+        "reachedOn": "Dashboard",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/manifest.json:97-110 'Projects I am in' KPI has no member filter; it counts every project the reader can see, which for an admin (project read grants group admin, lib/Settings/planninq_register.json project.authorization) is every project (code reading, needs a live check)"
-        ],
-        "change": "openspec/changes/portfolio-my-work-dashboard"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-my-work-dashboard",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4353,7 +4351,7 @@
       "area": "portfolio",
       "name": "See the tasks assigned to you across all projects.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -4371,11 +4369,12 @@
         "plane": "corpus: plane/round4/menu-tree.md workspace 'Your work' ; M1-column.md 5.4 'a workspace member's profile page aggregates their assigned and created work items' ; source: filter.ts profile_issues list and kanban grouped by project ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(projects)/profile/[userId]/[profileViewId]/page.tsx assigned, created and subscribed tabs; packages/constants/src/issue/filter.ts:113-131 profile_issues list and kanban grouped by project; apps/api/plane/app/urls/workspace.py:153 user-issues route, apps/api/plane/app/views/workspace/user.py:98 WorkspaceUserProfileIssuesEndpoint"
       },
       "built": {
-        "state": "specified",
-        "evidence": "openspec/specs/dashboard-my-work.md (status in-progress) describes a My Work view; no page in src/manifest.json and no component filters tasks by assignedTo == current user",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/MyWork.vue at /my-tasks (menu My tasks): open tasks assigned to or shared with the user across projects (store fetchMyTasks), grouped Overdue, Due this week, Later by src/utils/myWork.js groupMyTasks, urgent first, status changed in place, title to TaskDetail and Back returns",
+        "reachedOn": "Menu My tasks; dashboard figures",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/portfolio-my-work-dashboard"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-my-work-dashboard",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7100,7 +7099,7 @@
         "kanboard": "source read at v1.2.54: app/Template/project_list/sort_menu.php:5-17 sort by id, name, status, start or end date; searched app/Model for a per user project position: none",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/configuring-dashboards-939939002.html gadgets on a dashboard 'can be reordered and switched between the left and right columns'; the Projects gadget 'Shows information on various issue filters from a selected project', one project per gadget, so ordering projects means ordering gadgets (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "yes",
@@ -7111,11 +7110,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "src/components/DashboardPanels.vue:18-44 renders recentProjects [:102-106, a filter and slice of src/store/projects.js:170 fetchProjects]. No stored per-user order, no drag handle, no favourite or pin.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/components/DashboardPanels.vue actions menu per project: Pin to the top or Unpin, Move up, Move down; order stored per user as dashboard_project_order (lib/Service/SettingsService.php getDashboardProjectOrder/setDashboardProjectOrder via POST /api/settings/user)",
+        "reachedOn": "Dashboard My projects",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/portfolio-my-work-dashboard"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-my-work-dashboard",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

@@ -817,7 +817,23 @@ OC.L10N.register(
         "No open work in these projects.": "Ezekben a projektekben nincs nyitott munka.",
         "Open work": "Nyitott munka",
         "{count} open tasks": "{count} nyitott feladat",
-        "Create a project to see capacity here.": "Hozzon létre egy projektet, hogy itt lássa a kapacitást."
+        "Create a project to see capacity here.": "Hozzon létre egy projektet, hogy itt lássa a kapacitást.",
+        "My tasks": "Saját feladataim",
+        "Show all my tasks": "Összes saját feladatom mutatása",
+        "No tasks assigned to you": "Nincs önhöz rendelt feladat",
+        "Browse projects": "Projektek böngészése",
+        "Later": "Később",
+        "Due {date}": "Határidő: {date}",
+        "Could not change the status. Please try again.": "Az állapotot nem sikerült módosítani. Próbálja újra.",
+        "Completed today": "Ma befejezett",
+        "My open tasks": "Nyitott feladataim",
+        "My overdue tasks": "Lejárt feladataim",
+        "My tasks in progress": "Folyamatban lévő feladataim",
+        "Pin to the top": "Kitűzés felülre",
+        "Unpin": "Kitűzés megszüntetése",
+        "Pinned": "Kitűzve",
+        "Actions for {title}": "Műveletek: {title}",
+        "Could not save your project order. Please try again.": "A projektek sorrendjét nem sikerült menteni. Próbálja újra."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -794,7 +794,23 @@ OC.L10N.register(
         "No open work in these projects.": "No open work in these projects.",
         "Open work": "Open work",
         "{count} open tasks": "{count} open tasks",
-        "Create a project to see capacity here.": "Create a project to see capacity here."
+        "Create a project to see capacity here.": "Create a project to see capacity here.",
+        "My tasks": "My tasks",
+        "Show all my tasks": "Show all my tasks",
+        "No tasks assigned to you": "No tasks assigned to you",
+        "Browse projects": "Browse projects",
+        "Later": "Later",
+        "Due {date}": "Due {date}",
+        "Could not change the status. Please try again.": "Could not change the status. Please try again.",
+        "Completed today": "Completed today",
+        "My open tasks": "My open tasks",
+        "My overdue tasks": "My overdue tasks",
+        "My tasks in progress": "My tasks in progress",
+        "Pin to the top": "Pin to the top",
+        "Unpin": "Unpin",
+        "Pinned": "Pinned",
+        "Actions for {title}": "Actions for {title}",
+        "Could not save your project order. Please try again.": "Could not save your project order. Please try again."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -21,6 +21,7 @@
 // registerDashboardWidget() in main.js; this registry is for page components
 // and slot overrides only.
 import Boards from './views/Boards.vue'
+import MyWork from './views/MyWork.vue'
 import Portfolio from './views/Portfolio.vue'
 import PortfolioFinance from './views/PortfolioFinance.vue'
 import PortfolioStatus from './views/PortfolioStatus.vue'
@@ -50,6 +51,7 @@ function page(component) {
 
 export default {
 	Boards: page(Boards),
+	MyWork: page(MyWork),
 	Portfolio: page(Portfolio),
 	PortfolioFinance: page(PortfolioFinance),
 	PortfolioStatus: page(PortfolioStatus),

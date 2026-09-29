@@ -816,7 +816,23 @@
         "No open work in these projects.": "Nagina lavur averta en quests projects.",
         "Open work": "Lavur averta",
         "{count} open tasks": "{count} incumbensas avertas",
-        "Create a project to see capacity here.": "Creescha in project per vesair qua la capacitad."
+        "Create a project to see capacity here.": "Creescha in project per vesair qua la capacitad.",
+        "My tasks": "Mias incumbensas",
+        "Show all my tasks": "Mussar tut mias incumbensas",
+        "No tasks assigned to you": "Ti n'has nagina incumbensa attribuida",
+        "Browse projects": "Tschertgar projects",
+        "Later": "Pli tard",
+        "Due {date}": "Scadenza {date}",
+        "Could not change the status. Please try again.": "Il status n'ha betg pudì vegnir midà. Emprova anc ina giada.",
+        "Completed today": "Terminà oz",
+        "My open tasks": "Mias incumbensas avertas",
+        "My overdue tasks": "Mias incumbensas en retard",
+        "My tasks in progress": "Mias incumbensas en lavur",
+        "Pin to the top": "Fixar sisum",
+        "Unpin": "Distatgar",
+        "Pinned": "Fixà",
+        "Actions for {title}": "Acziuns per {title}",
+        "Could not save your project order. Please try again.": "L'urden da tes projects n'ha betg pudì vegnir memorisà. Emprova anc ina giada."
     },
     "plurals": null
 }

@@ -816,7 +816,23 @@
         "No open work in these projects.": "Šiuose projektuose nėra atviro darbo.",
         "Open work": "Atviras darbas",
         "{count} open tasks": "Atvirų užduočių: {count}",
-        "Create a project to see capacity here.": "Sukurkite projektą, kad čia matytumėte apkrovą."
+        "Create a project to see capacity here.": "Sukurkite projektą, kad čia matytumėte apkrovą.",
+        "My tasks": "Mano užduotys",
+        "Show all my tasks": "Rodyti visas mano užduotis",
+        "No tasks assigned to you": "Jums nepriskirta jokių užduočių",
+        "Browse projects": "Naršyti projektus",
+        "Later": "Vėliau",
+        "Due {date}": "Terminas {date}",
+        "Could not change the status. Please try again.": "Nepavyko pakeisti būsenos. Bandykite dar kartą.",
+        "Completed today": "Užbaigta šiandien",
+        "My open tasks": "Mano atviros užduotys",
+        "My overdue tasks": "Mano vėluojančios užduotys",
+        "My tasks in progress": "Mano vykdomos užduotys",
+        "Pin to the top": "Prisegti viršuje",
+        "Unpin": "Atsegti",
+        "Pinned": "Prisegta",
+        "Actions for {title}": "Veiksmai: {title}",
+        "Could not save your project order. Please try again.": "Nepavyko išsaugoti projektų tvarkos. Bandykite dar kartą."
     },
     "plurals": null
 }

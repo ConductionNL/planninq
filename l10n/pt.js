@@ -817,7 +817,23 @@ OC.L10N.register(
         "No open work in these projects.": "Não há trabalho em aberto nestes projetos.",
         "Open work": "Trabalho em aberto",
         "{count} open tasks": "{count} tarefas em aberto",
-        "Create a project to see capacity here.": "Crie um projeto para ver aqui a capacidade."
+        "Create a project to see capacity here.": "Crie um projeto para ver aqui a capacidade.",
+        "My tasks": "As minhas tarefas",
+        "Show all my tasks": "Mostrar todas as minhas tarefas",
+        "No tasks assigned to you": "Não tem tarefas atribuídas",
+        "Browse projects": "Ver projetos",
+        "Later": "Mais tarde",
+        "Due {date}": "Vence {date}",
+        "Could not change the status. Please try again.": "Não foi possível alterar o estado. Tente novamente.",
+        "Completed today": "Concluídas hoje",
+        "My open tasks": "As minhas tarefas em aberto",
+        "My overdue tasks": "As minhas tarefas em atraso",
+        "My tasks in progress": "As minhas tarefas em curso",
+        "Pin to the top": "Fixar no topo",
+        "Unpin": "Desafixar",
+        "Pinned": "Fixado",
+        "Actions for {title}": "Ações para {title}",
+        "Could not save your project order. Please try again.": "Não foi possível guardar a ordem dos seus projetos. Tente novamente."
     },
     "nplurals=2; plural=(n != 1);"
 )

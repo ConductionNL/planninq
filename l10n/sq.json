@@ -816,7 +816,23 @@
         "No open work in these projects.": "Nuk ka punë të hapur në këto projekte.",
         "Open work": "Punë e hapur",
         "{count} open tasks": "{count} detyra të hapura",
-        "Create a project to see capacity here.": "Krijoni një projekt për të parë këtu kapacitetin."
+        "Create a project to see capacity here.": "Krijoni një projekt për të parë këtu kapacitetin.",
+        "My tasks": "Detyrat e mia",
+        "Show all my tasks": "Shfaq të gjitha detyrat e mia",
+        "No tasks assigned to you": "Nuk keni detyra të caktuara",
+        "Browse projects": "Shfleto projektet",
+        "Later": "Më vonë",
+        "Due {date}": "Afati {date}",
+        "Could not change the status. Please try again.": "Statusi nuk mund të ndryshohej. Provoni sërish.",
+        "Completed today": "Përfunduar sot",
+        "My open tasks": "Detyrat e mia të hapura",
+        "My overdue tasks": "Detyrat e mia të vonuara",
+        "My tasks in progress": "Detyrat e mia në punë",
+        "Pin to the top": "Fikso në krye",
+        "Unpin": "Hiq fiksimin",
+        "Pinned": "Fiksuar",
+        "Actions for {title}": "Veprime për {title}",
+        "Could not save your project order. Please try again.": "Renditja e projekteve nuk mund të ruhej. Provoni sërish."
     },
     "plurals": {}
 }

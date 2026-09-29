@@ -817,7 +817,23 @@ OC.L10N.register(
         "No open work in these projects.": "Engin opin vinna í þessum verkefnum.",
         "Open work": "Opin vinna",
         "{count} open tasks": "{count} opin verk",
-        "Create a project to see capacity here.": "Stofnaðu verkefni til að sjá afkastagetu hér."
+        "Create a project to see capacity here.": "Stofnaðu verkefni til að sjá afkastagetu hér.",
+        "My tasks": "Verkin mín",
+        "Show all my tasks": "Sýna öll verkin mín",
+        "No tasks assigned to you": "Engum verkum úthlutað til þín",
+        "Browse projects": "Skoða verkefni",
+        "Later": "Síðar",
+        "Due {date}": "Gjalddagi {date}",
+        "Could not change the status. Please try again.": "Ekki tókst að breyta stöðunni. Reyndu aftur.",
+        "Completed today": "Lokið í dag",
+        "My open tasks": "Opin verk mín",
+        "My overdue tasks": "Verk mín í vanskilum",
+        "My tasks in progress": "Verk mín í vinnslu",
+        "Pin to the top": "Festa efst",
+        "Unpin": "Losa",
+        "Pinned": "Fest",
+        "Actions for {title}": "Aðgerðir fyrir {title}",
+        "Could not save your project order. Please try again.": "Ekki tókst að vista röð verkefnanna þinna. Reyndu aftur."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -817,7 +817,23 @@ OC.L10N.register(
         "No open work in these projects.": "Nendes projektides pole avatud tööd.",
         "Open work": "Avatud töö",
         "{count} open tasks": "{count} avatud ülesannet",
-        "Create a project to see capacity here.": "Loo projekt, et siin koormust näha."
+        "Create a project to see capacity here.": "Loo projekt, et siin koormust näha.",
+        "My tasks": "Minu ülesanded",
+        "Show all my tasks": "Näita kõiki minu ülesandeid",
+        "No tasks assigned to you": "Sulle pole ülesandeid määratud",
+        "Browse projects": "Sirvi projekte",
+        "Later": "Hiljem",
+        "Due {date}": "Tähtaeg {date}",
+        "Could not change the status. Please try again.": "Olekut ei saanud muuta. Proovi uuesti.",
+        "Completed today": "Täna lõpetatud",
+        "My open tasks": "Minu avatud ülesanded",
+        "My overdue tasks": "Minu hilinenud ülesanded",
+        "My tasks in progress": "Minu pooleliolevad ülesanded",
+        "Pin to the top": "Kinnita üles",
+        "Unpin": "Vabasta",
+        "Pinned": "Kinnitatud",
+        "Actions for {title}": "Toimingud: {title}",
+        "Could not save your project order. Please try again.": "Projektide järjekorda ei saanud salvestada. Proovi uuesti."
     },
     "nplurals=2; plural=(n != 1);"
 )

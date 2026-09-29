@@ -816,7 +816,23 @@
         "No open work in these projects.": "No hay trabajo abierto en estos proyectos.",
         "Open work": "Trabajo abierto",
         "{count} open tasks": "{count} tareas abiertas",
-        "Create a project to see capacity here.": "Crea un proyecto para ver aquí la capacidad."
+        "Create a project to see capacity here.": "Crea un proyecto para ver aquí la capacidad.",
+        "My tasks": "Mis tareas",
+        "Show all my tasks": "Mostrar todas mis tareas",
+        "No tasks assigned to you": "No tienes tareas asignadas",
+        "Browse projects": "Explorar proyectos",
+        "Later": "Más adelante",
+        "Due {date}": "Vence {date}",
+        "Could not change the status. Please try again.": "No se pudo cambiar el estado. Inténtalo de nuevo.",
+        "Completed today": "Completadas hoy",
+        "My open tasks": "Mis tareas abiertas",
+        "My overdue tasks": "Mis tareas vencidas",
+        "My tasks in progress": "Mis tareas en curso",
+        "Pin to the top": "Fijar arriba",
+        "Unpin": "Desfijar",
+        "Pinned": "Fijado",
+        "Actions for {title}": "Acciones para {title}",
+        "Could not save your project order. Please try again.": "No se pudo guardar el orden de tus proyectos. Inténtalo de nuevo."
     },
     "plurals": null
 }

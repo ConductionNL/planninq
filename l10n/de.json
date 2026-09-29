@@ -816,7 +816,23 @@
         "No open work in these projects.": "Keine offene Arbeit in diesen Projekten.",
         "Open work": "Offene Arbeit",
         "{count} open tasks": "{count} offene Aufgaben",
-        "Create a project to see capacity here.": "Lege ein Projekt an, um hier die Kapazität zu sehen."
+        "Create a project to see capacity here.": "Lege ein Projekt an, um hier die Kapazität zu sehen.",
+        "My tasks": "Meine Aufgaben",
+        "Show all my tasks": "Alle meine Aufgaben anzeigen",
+        "No tasks assigned to you": "Dir sind keine Aufgaben zugewiesen",
+        "Browse projects": "Projekte durchsuchen",
+        "Later": "Später",
+        "Due {date}": "Fällig {date}",
+        "Could not change the status. Please try again.": "Der Status konnte nicht geändert werden. Bitte versuche es erneut.",
+        "Completed today": "Heute erledigt",
+        "My open tasks": "Meine offenen Aufgaben",
+        "My overdue tasks": "Meine überfälligen Aufgaben",
+        "My tasks in progress": "Meine Aufgaben in Bearbeitung",
+        "Pin to the top": "Oben anheften",
+        "Unpin": "Lösen",
+        "Pinned": "Angeheftet",
+        "Actions for {title}": "Aktionen für {title}",
+        "Could not save your project order. Please try again.": "Deine Projektreihenfolge konnte nicht gespeichert werden. Bitte versuche es erneut."
     },
     "plurals": null
 }

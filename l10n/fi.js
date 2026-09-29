@@ -817,7 +817,23 @@ OC.L10N.register(
         "No open work in these projects.": "Näissä projekteissa ei ole avointa työtä.",
         "Open work": "Avoin työ",
         "{count} open tasks": "{count} avointa tehtävää",
-        "Create a project to see capacity here.": "Luo projekti nähdäksesi kapasiteetin tässä."
+        "Create a project to see capacity here.": "Luo projekti nähdäksesi kapasiteetin tässä.",
+        "My tasks": "Omat tehtävät",
+        "Show all my tasks": "Näytä kaikki omat tehtävät",
+        "No tasks assigned to you": "Sinulle ei ole osoitettu tehtäviä",
+        "Browse projects": "Selaa projekteja",
+        "Later": "Myöhemmin",
+        "Due {date}": "Erääntyy {date}",
+        "Could not change the status. Please try again.": "Tilaa ei voitu muuttaa. Yritä uudelleen.",
+        "Completed today": "Valmistuneet tänään",
+        "My open tasks": "Omat avoimet tehtävät",
+        "My overdue tasks": "Omat myöhässä olevat tehtävät",
+        "My tasks in progress": "Omat käynnissä olevat tehtävät",
+        "Pin to the top": "Kiinnitä ylös",
+        "Unpin": "Irrota",
+        "Pinned": "Kiinnitetty",
+        "Actions for {title}": "Toiminnot: {title}",
+        "Could not save your project order. Please try again.": "Projektiesi järjestystä ei voitu tallentaa. Yritä uudelleen."
     },
     "nplurals=2; plural=(n != 1);"
 )

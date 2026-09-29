@@ -816,7 +816,23 @@
         "No open work in these projects.": "V teh projektih ni odprtega dela.",
         "Open work": "Odprto delo",
         "{count} open tasks": "{count} odprtih nalog",
-        "Create a project to see capacity here.": "Ustvarite projekt, da tukaj vidite zmogljivost."
+        "Create a project to see capacity here.": "Ustvarite projekt, da tukaj vidite zmogljivost.",
+        "My tasks": "Moje naloge",
+        "Show all my tasks": "Pokaži vse moje naloge",
+        "No tasks assigned to you": "Nimate dodeljenih nalog",
+        "Browse projects": "Prebrskaj projekte",
+        "Later": "Kasneje",
+        "Due {date}": "Rok {date}",
+        "Could not change the status. Please try again.": "Stanja ni bilo mogoče spremeniti. Poskusite znova.",
+        "Completed today": "Končano danes",
+        "My open tasks": "Moje odprte naloge",
+        "My overdue tasks": "Moje zamujene naloge",
+        "My tasks in progress": "Moje naloge v teku",
+        "Pin to the top": "Pripni na vrh",
+        "Unpin": "Odpni",
+        "Pinned": "Pripeto",
+        "Actions for {title}": "Dejanja za {title}",
+        "Could not save your project order. Please try again.": "Vrstnega reda projektov ni bilo mogoče shraniti. Poskusite znova."
     },
     "plurals": null
 }

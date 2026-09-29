@@ -816,7 +816,23 @@
         "No open work in these projects.": "В этих проектах нет открытой работы.",
         "Open work": "Открытая работа",
         "{count} open tasks": "Открытых задач: {count}",
-        "Create a project to see capacity here.": "Создайте проект, чтобы увидеть здесь загрузку."
+        "Create a project to see capacity here.": "Создайте проект, чтобы увидеть здесь загрузку.",
+        "My tasks": "Мои задачи",
+        "Show all my tasks": "Показать все мои задачи",
+        "No tasks assigned to you": "Вам не назначено ни одной задачи",
+        "Browse projects": "Просмотреть проекты",
+        "Later": "Позже",
+        "Due {date}": "Срок {date}",
+        "Could not change the status. Please try again.": "Не удалось изменить статус. Попробуйте ещё раз.",
+        "Completed today": "Завершено сегодня",
+        "My open tasks": "Мои открытые задачи",
+        "My overdue tasks": "Мои просроченные задачи",
+        "My tasks in progress": "Мои задачи в работе",
+        "Pin to the top": "Закрепить наверху",
+        "Unpin": "Открепить",
+        "Pinned": "Закреплено",
+        "Actions for {title}": "Действия для {title}",
+        "Could not save your project order. Please try again.": "Не удалось сохранить порядок ваших проектов. Попробуйте ещё раз."
     },
     "plurals": {}
 }

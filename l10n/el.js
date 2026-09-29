@@ -817,7 +817,23 @@ OC.L10N.register(
         "No open work in these projects.": "Δεν υπάρχει ανοιχτή εργασία σε αυτά τα έργα.",
         "Open work": "Ανοιχτή εργασία",
         "{count} open tasks": "{count} ανοιχτές εργασίες",
-        "Create a project to see capacity here.": "Δημιουργήστε ένα έργο για να δείτε εδώ τη διαθεσιμότητα."
+        "Create a project to see capacity here.": "Δημιουργήστε ένα έργο για να δείτε εδώ τη διαθεσιμότητα.",
+        "My tasks": "Οι εργασίες μου",
+        "Show all my tasks": "Εμφάνιση όλων των εργασιών μου",
+        "No tasks assigned to you": "Δεν σας έχουν ανατεθεί εργασίες",
+        "Browse projects": "Περιήγηση στα έργα",
+        "Later": "Αργότερα",
+        "Due {date}": "Λήξη {date}",
+        "Could not change the status. Please try again.": "Δεν ήταν δυνατή η αλλαγή της κατάστασης. Δοκιμάστε ξανά.",
+        "Completed today": "Ολοκληρώθηκαν σήμερα",
+        "My open tasks": "Οι ανοιχτές εργασίες μου",
+        "My overdue tasks": "Οι εκπρόθεσμες εργασίες μου",
+        "My tasks in progress": "Οι εργασίες μου σε εξέλιξη",
+        "Pin to the top": "Καρφίτσωμα στην κορυφή",
+        "Unpin": "Ξεκαρφίτσωμα",
+        "Pinned": "Καρφιτσωμένο",
+        "Actions for {title}": "Ενέργειες για {title}",
+        "Could not save your project order. Please try again.": "Δεν ήταν δυνατή η αποθήκευση της σειράς των έργων σας. Δοκιμάστε ξανά."
     },
     "nplurals=2; plural=(n != 1);"
 )

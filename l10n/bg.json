@@ -816,7 +816,23 @@
         "No open work in these projects.": "Няма отворена работа в тези проекти.",
         "Open work": "Отворена работа",
         "{count} open tasks": "{count} отворени задачи",
-        "Create a project to see capacity here.": "Създайте проект, за да видите капацитета тук."
+        "Create a project to see capacity here.": "Създайте проект, за да видите капацитета тук.",
+        "My tasks": "Моите задачи",
+        "Show all my tasks": "Покажи всички мои задачи",
+        "No tasks assigned to you": "Нямате възложени задачи",
+        "Browse projects": "Разгледай проектите",
+        "Later": "По-късно",
+        "Due {date}": "Срок {date}",
+        "Could not change the status. Please try again.": "Статусът не можа да бъде променен. Опитайте отново.",
+        "Completed today": "Завършени днес",
+        "My open tasks": "Моите отворени задачи",
+        "My overdue tasks": "Моите просрочени задачи",
+        "My tasks in progress": "Моите задачи в процес",
+        "Pin to the top": "Закачи най-горе",
+        "Unpin": "Откачи",
+        "Pinned": "Закачено",
+        "Actions for {title}": "Действия за {title}",
+        "Could not save your project order. Please try again.": "Редът на проектите ви не можа да бъде запазен. Опитайте отново."
     },
     "plurals": null
 }

@@ -817,7 +817,23 @@ OC.L10N.register(
         "No open work in these projects.": "M'hemm l-ebda xogħol miftuħ f'dawn il-proġetti.",
         "Open work": "Xogħol miftuħ",
         "{count} open tasks": "{count} kompiti miftuħa",
-        "Create a project to see capacity here.": "Oħloq proġett biex tara l-kapaċità hawn."
+        "Create a project to see capacity here.": "Oħloq proġett biex tara l-kapaċità hawn.",
+        "My tasks": "Il-kompiti tiegħi",
+        "Show all my tasks": "Uri l-kompiti kollha tiegħi",
+        "No tasks assigned to you": "M'għandek l-ebda kompitu assenjat",
+        "Browse projects": "Esplora l-proġetti",
+        "Later": "Aktar tard",
+        "Due {date}": "Dovut {date}",
+        "Could not change the status. Please try again.": "L-istatus ma setax jinbidel. Erġa' pprova.",
+        "Completed today": "Lesti llum",
+        "My open tasks": "Il-kompiti miftuħa tiegħi",
+        "My overdue tasks": "Il-kompiti tardivi tiegħi",
+        "My tasks in progress": "Il-kompiti tiegħi għaddejjin",
+        "Pin to the top": "Waħħal fuq nett",
+        "Unpin": "Neħħi l-waħħil",
+        "Pinned": "Imwaħħal",
+        "Actions for {title}": "Azzjonijiet għal {title}",
+        "Could not save your project order. Please try again.": "L-ordni tal-proġetti tiegħek ma setgħetx tiġi ssejvjata. Erġa' pprova."
     },
     "nplurals=2; plural=(n != 1);"
 )

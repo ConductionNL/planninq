@@ -816,7 +816,23 @@
         "No open work in these projects.": "Nu există muncă deschisă în aceste proiecte.",
         "Open work": "Muncă deschisă",
         "{count} open tasks": "{count} sarcini deschise",
-        "Create a project to see capacity here.": "Creați un proiect pentru a vedea aici capacitatea."
+        "Create a project to see capacity here.": "Creați un proiect pentru a vedea aici capacitatea.",
+        "My tasks": "Sarcinile mele",
+        "Show all my tasks": "Arată toate sarcinile mele",
+        "No tasks assigned to you": "Nu aveți sarcini atribuite",
+        "Browse projects": "Răsfoiți proiectele",
+        "Later": "Mai târziu",
+        "Due {date}": "Scadent {date}",
+        "Could not change the status. Please try again.": "Starea nu a putut fi schimbată. Încercați din nou.",
+        "Completed today": "Finalizate azi",
+        "My open tasks": "Sarcinile mele deschise",
+        "My overdue tasks": "Sarcinile mele întârziate",
+        "My tasks in progress": "Sarcinile mele în lucru",
+        "Pin to the top": "Fixează sus",
+        "Unpin": "Anulează fixarea",
+        "Pinned": "Fixat",
+        "Actions for {title}": "Acțiuni pentru {title}",
+        "Could not save your project order. Please try again.": "Ordinea proiectelor nu a putut fi salvată. Încercați din nou."
     },
     "plurals": {}
 }

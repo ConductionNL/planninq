@@ -817,7 +817,23 @@ OC.L10N.register(
         "No open work in these projects.": "Inget öppet arbete i dessa projekt.",
         "Open work": "Öppet arbete",
         "{count} open tasks": "{count} öppna uppgifter",
-        "Create a project to see capacity here.": "Skapa ett projekt för att se kapaciteten här."
+        "Create a project to see capacity here.": "Skapa ett projekt för att se kapaciteten här.",
+        "My tasks": "Mina uppgifter",
+        "Show all my tasks": "Visa alla mina uppgifter",
+        "No tasks assigned to you": "Inga uppgifter är tilldelade dig",
+        "Browse projects": "Bläddra bland projekt",
+        "Later": "Senare",
+        "Due {date}": "Förfaller {date}",
+        "Could not change the status. Please try again.": "Statusen kunde inte ändras. Försök igen.",
+        "Completed today": "Klara i dag",
+        "My open tasks": "Mina öppna uppgifter",
+        "My overdue tasks": "Mina försenade uppgifter",
+        "My tasks in progress": "Mina pågående uppgifter",
+        "Pin to the top": "Fäst överst",
+        "Unpin": "Lossa",
+        "Pinned": "Fäst",
+        "Actions for {title}": "Åtgärder för {title}",
+        "Could not save your project order. Please try again.": "Din projektordning kunde inte sparas. Försök igen."
     },
     "nplurals=2; plural=(n != 1);"
 )
