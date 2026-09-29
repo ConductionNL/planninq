@@ -10942,10 +10942,11 @@
         "timeedit": "docs read 2026-09-27: https://developer.timeedit.com/reference/post_reservations 'CREATE Reservation' and put_reservations 'BULK Reservations' in the Scheduling REST API ; https://developer.timeedit.com/reference/getting-started 'Use the access token as a bearer token on all your subsequent API calls'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'external event push into timetable': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "lib/Service/TimetableSessionService.php upsert() (idempotent by sourceSystem + externalRef), lib/Event/TimetableUpsertRequestedEvent.php answered by lib/Listener/TimetableUpsertRequestedListener.php (registered in lib/AppInfo/Application.php), admin route POST /api/timetable/sessions/upsert (appinfo/routes.php, lib/Controller/TimetableController.php), all on development since #685 (f8ec5c2) and #761. Proven by tests/unit/Service/TimetableSessionServiceTest.php (incl. testEveryWrittenSessionPassesTheRegisterSchema: every created and updated row validated against the real timetableSession schema), TimetableUpsertRequestedListenerTest and TimetableControllerTest. Another system adds sessions per group or teacher; a single learner is not addressed on their own.",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/school-timetable-target"
+        "change": "openspec/changes/archive/2026-09-29-school-timetable-target",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",

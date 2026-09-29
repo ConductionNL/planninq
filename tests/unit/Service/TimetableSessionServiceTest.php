@@ -25,6 +25,7 @@ use InvalidArgumentException;
 use OCA\Planninq\Service\TimetableSessionQuery;
 use OCA\Planninq\Service\TimetableSessionService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryTimetableObjectService;
+use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\NullLogger;
@@ -36,6 +37,7 @@ use RuntimeException;
  * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-upsert-is-idempotent-by-source-and-occurrence-id-req-002
  */
 class TimetableSessionServiceTest extends TestCase {
+	use RegisterSchemaValidation;
 
 	/**
 	 * The in-memory OpenRegister.
@@ -139,6 +141,30 @@ class TimetableSessionServiceTest extends TestCase {
 		self::assertNotFalse(condition: strtotime($save['object']['importedAt']));
 
 	}//end testCreateStampsImportedAtAndDefaults()
+
+	/**
+	 * Every object the upsert writes, created or updated, passes the real timetableSession schema.
+	 *
+	 * @return void
+	 */
+	public function testEveryWrittenSessionPassesTheRegisterSchema(): void {
+		$full = $this->batch()[0];
+		$full['cohortId'] = 'cohort-3a';
+		$full['teacherUserId'] = 'jan';
+		$full['status'] = 'cancelled';
+		$this->service->upsert(sourceSystem: 'roster-zermelo', sessions: [$full, $this->batch()[1]]);
+
+		$moved = $full;
+		$moved['roomReference'] = 'C3.01';
+		$this->service->upsert(sourceSystem: 'roster-zermelo', sessions: [$moved]);
+
+		self::assertCount(expectedCount: 3, haystack: $this->objectService->saves);
+		foreach ($this->objectService->saves as $save) {
+			$errors = $this->registerSchemaErrors(slug: 'timetableSession', payload: $save['object']);
+			self::assertSame(expected: [], actual: $errors, message: (string)$save['object']['externalRef']);
+		}
+
+	}//end testEveryWrittenSessionPassesTheRegisterSchema()
 
 	/**
 	 * A moved lesson is updated in place under its own id.
