@@ -671,7 +671,18 @@
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Сервер повернув рядки витрат проєктів поза цим портфелем, тому підсумки можуть бути хибними.",
         "Projects left out because you cannot see their money: {count}": "Пропущено проєктів, чиї гроші вам не видно: {count}",
         "Unmatched finance lines": "Незіставлені фінансові рядки",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Бюджет, зобов'язання, фактичні витрати й прогноз у сумі за портфелем."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Бюджет, зобов'язання, фактичні витрати й прогноз у сумі за портфелем.",
+        "Subprojects": "Підпроєкти",
+        "{done} of {total}": "{done} з {total}",
+        "{done} of {total} tasks done, including subprojects": "Виконано {done} з {total} завдань, з підпроєктами",
+        "Show the subprojects of {title}": "Показати підпроєкти {title}",
+        "Hide the subprojects of {title}": "Приховати підпроєкти {title}",
+        "Part of": "Входить до",
+        "No parent project": "Без батьківського проєкту",
+        "A project cannot sit under one of its own subprojects.": "Проєкт не може бути під одним зі своїх підпроєктів.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Проєкти вкладаються не глибше трьох рівнів: програма, проєкт і підпроєкт.",
+        "Parent project": "Батьківський проєкт",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Проєкт, під яким розташований цей проєкт, наприклад програма. Проєкти вкладаються не глибше трьох рівнів."
     },
     "plurals": {}
 }

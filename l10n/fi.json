@@ -671,7 +671,18 @@
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Palvelin palautti kustannusrivejä tämän salkun ulkopuolisista projekteista, joten summat voivat olla vääriä.",
         "Projects left out because you cannot see their money: {count}": "Pois jätetyt projektit, koska et näe niiden rahoja: {count}",
         "Unmatched finance lines": "Kohdistamattomat talousrivit",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budjetti, sitoumukset, toteutuneet kustannukset ja ennuste salkun yhteissummina."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budjetti, sitoumukset, toteutuneet kustannukset ja ennuste salkun yhteissummina.",
+        "Subprojects": "Aliprojektit",
+        "{done} of {total}": "{done}/{total}",
+        "{done} of {total} tasks done, including subprojects": "{done}/{total} tehtävää valmiina, aliprojektit mukaan lukien",
+        "Show the subprojects of {title}": "Näytä kohteen {title} aliprojektit",
+        "Hide the subprojects of {title}": "Piilota kohteen {title} aliprojektit",
+        "Part of": "Osa kohdetta",
+        "No parent project": "Ei yläprojektia",
+        "A project cannot sit under one of its own subprojects.": "Projekti ei voi olla oman aliprojektinsa alla.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Projektit voivat olla enintään kolmen tason syvyydellä: ohjelma, projekti ja aliprojekti.",
+        "Parent project": "Yläprojekti",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Projekti, jonka alla tämä projekti on, esimerkiksi ohjelma. Projektit voivat olla enintään kolmen tason syvyydellä."
     },
     "plurals": null
 }

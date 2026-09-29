@@ -96,10 +96,14 @@
 			<template #default="{ projects: groupProjects }">
 				<ul class="project-list__items" role="listbox">
 					<ProjectListItem
-						v-for="project in groupProjects"
-						:key="project.id"
-						:project="project"
-						@click="navigateToProject(project)" />
+						v-for="row in treeRows(groupProjects, folded)"
+						:key="row.project.id"
+						:project="row.project"
+						:depth="row.depth"
+						:hasChildren="row.hasChildren"
+						:folded="!row.expanded"
+						@click="navigateToProject(row.project)"
+						@toggle="toggleSubprojects(row.project)" />
 				</ul>
 			</template>
 		</PortfolioSections>
@@ -138,6 +142,7 @@ import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
 import { creationPrefill as prefillFromQuery } from '../utils/caseBridge.js'
 import { filterByPortfolio, groupByPortfolio, NO_PORTFOLIO, sortPortfolios } from '../utils/portfolioGrouping.js'
+import { treeRows } from '../utils/projectTree.js'
 
 export default {
 	name: 'ProjectList',
@@ -171,6 +176,7 @@ export default {
 
 	data() {
 		return {
+			folded: new Set(),
 			showCreationDialog: false,
 			creationPrefill: {},
 			activeStatus: null,
@@ -325,6 +331,26 @@ export default {
 	},
 
 	methods: {
+		treeRows,
+
+		/**
+		 * Fold or unfold the subprojects under a project.
+		 *
+		 * @param {object} project The parent project.
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.3
+		 */
+		toggleSubprojects(project) {
+			const folded = new Set(this.folded)
+			const id = String(project.id)
+			if (folded.has(id)) {
+				folded.delete(id)
+			} else {
+				folded.add(id)
+			}
+			this.folded = folded
+		},
+
 		/**
 		 * Subscribe to live updates for the Planninq project collection
 		 * (or-collection-planninq-project). Events are refetch hints only: the

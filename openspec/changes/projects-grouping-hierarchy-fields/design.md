@@ -75,3 +75,10 @@ The code at `c4a6694` settled three questions this design left open.
 The board opens read-only for a portfolio manager who is not on the project: a note says so, cards do not drag and the move menu is hidden. The server refuses their writes the same way. There is no role helper yet (`projects-members-and-roles`), so the rule lives in `isReadOnlyFor()` in `src/utils/portfolioGrouping.js`.
 
 - **The schema slug is `projectPortfolio`, not `portfolio`.** learniq owns the `portfolio` slug (a learner's portfolio), and slugs are global on a shared OpenRegister (gate-106). The project property stays `project.portfolio`; only the schema slug carries the qualifier.
+
+## Built at HEAD, section 2 (29 Sep 2026)
+
+- `project.parent` (project schema 0.8.0) with the checks in `lib/Service/ProjectTreeService.php`, called from `ProjectHierarchyGuardListener` only when the parent changes: the new parent may not be the project or one of its descendants (`planninq-project-cycle`, "A project cannot sit under one of its own subprojects."), and the parent's chain plus the project's own subtree may not exceed three levels (`planninq-project-too-deep`). An unchanged parent is not checked again, so a legacy chain never blocks an unrelated edit.
+- The parent is picked in the settings sidebar's Details tab ("Part of"). The picker leaves out the project and its descendants (`parentOptions()` in `src/utils/projectTree.js`); the server check is the rule. The sidebar used to report "Project saved" even when the save failed, because `updateProject` returns null rather than throwing; it now shows the refusal.
+- The overview lists the direct subprojects the user can read, each with the progress of its own subtree, and adds them to the programme's progress with the words "including subprojects". A subproject the user cannot read is left out of both.
+- The project list folds per session only; the folded set is not stored.

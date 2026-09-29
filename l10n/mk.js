@@ -672,7 +672,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Серверот врати ставки за трошок од проекти надвор од ова портфолио, па овие збирови можат да бидат погрешни.",
         "Projects left out because you cannot see their money: {count}": "Изоставени проекти бидејќи не можете да ги видите нивните пари: {count}",
         "Unmatched finance lines": "Неповрзани финансиски ставки",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Буџет, обврски, реален трошок и прогноза собрани за портфолио."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Буџет, обврски, реален трошок и прогноза собрани за портфолио.",
+        "Subprojects": "Потпроекти",
+        "{done} of {total}": "{done} од {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} од {total} задачи завршени, вклучувајќи потпроекти",
+        "Show the subprojects of {title}": "Прикажи ги потпроектите на {title}",
+        "Hide the subprojects of {title}": "Скриј ги потпроектите на {title}",
+        "Part of": "Дел од",
+        "No parent project": "Нема надреден проект",
+        "A project cannot sit under one of its own subprojects.": "Проектот не може да биде под еден од своите потпроекти.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Проектите се вгнездуваат најмногу три нивоа длабоко: програма, проект и потпроект.",
+        "Parent project": "Надреден проект",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Проектот под кој е овој проект, на пример програма. Проектите се вгнездуваат најмногу три нивоа длабоко."
     },
     "nplurals=2; plural=(n != 1);"
 )

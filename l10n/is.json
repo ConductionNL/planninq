@@ -671,7 +671,18 @@
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Þjónninn skilaði kostnaðarlínum verkefna utan þessa safns, svo heildartölurnar gætu verið rangar.",
         "Projects left out because you cannot see their money: {count}": "Verkefni sleppt af því að þú sérð ekki fjármuni þeirra: {count}",
         "Unmatched finance lines": "Ópöruð fjármálalínur",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Fjárhagsáætlun, skuldbindingar, raunkostnaður og spá lögð saman fyrir safn."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Fjárhagsáætlun, skuldbindingar, raunkostnaður og spá lögð saman fyrir safn.",
+        "Subprojects": "Undirverkefni",
+        "{done} of {total}": "{done} af {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} af {total} verkum lokið, með undirverkefnum",
+        "Show the subprojects of {title}": "Sýna undirverkefni {title}",
+        "Hide the subprojects of {title}": "Fela undirverkefni {title}",
+        "Part of": "Hluti af",
+        "No parent project": "Ekkert yfirverkefni",
+        "A project cannot sit under one of its own subprojects.": "Verkefni getur ekki verið undir einu af sínum eigin undirverkefnum.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Verkefni geta verið í mesta lagi þrjú stig: áætlun, verkefni og undirverkefni.",
+        "Parent project": "Yfirverkefni",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Verkefnið sem þetta verkefni er undir, til dæmis áætlun. Verkefni geta verið í mesta lagi þrjú stig."
     },
     "plurals": {}
 }

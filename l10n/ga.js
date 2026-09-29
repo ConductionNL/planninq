@@ -672,7 +672,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Sheol an freastalaí línte costais ó thionscadail lasmuigh den phunann seo, mar sin d'fhéadfadh na hiomláin a bheith mícheart.",
         "Projects left out because you cannot see their money: {count}": "Tionscadail fágtha amach toisc nach bhfeiceann tú a n-airgead: {count}",
         "Unmatched finance lines": "Línte airgeadais gan mheaitseáil",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Buiséad, gealltanais, costas iarbhír agus réamhaisnéis iomlánaithe thar phunann."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Buiséad, gealltanais, costas iarbhír agus réamhaisnéis iomlánaithe thar phunann.",
+        "Subprojects": "Fothionscadail",
+        "{done} of {total}": "{done} as {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} as {total} tasc déanta, fothionscadail san áireamh",
+        "Show the subprojects of {title}": "Taispeáin fothionscadail {title}",
+        "Hide the subprojects of {title}": "Folaigh fothionscadail {title}",
+        "Part of": "Cuid de",
+        "No parent project": "Gan máthairthionscadal",
+        "A project cannot sit under one of its own subprojects.": "Ní féidir le tionscadal suí faoi cheann dá fhothionscadail féin.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Neadaíonn tionscadail trí leibhéal ar a mhéad: clár, tionscadal agus fothionscadal.",
+        "Parent project": "Máthairthionscadal",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "An tionscadal a bhfuil an tionscadal seo faoi, mar shampla clár. Neadaíonn tionscadail trí leibhéal ar a mhéad."
     },
     "nplurals=2; plural=(n != 1);"
 )

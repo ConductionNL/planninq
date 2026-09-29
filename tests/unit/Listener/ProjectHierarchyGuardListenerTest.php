@@ -36,6 +36,7 @@ use OCA\OpenRegister\Service\SystemOperationContext;
 use OCA\Planninq\Listener\ProjectHierarchyGuardListener;
 use OCA\Planninq\Listener\ProjectMemberAccessListener;
 use OCA\Planninq\Service\FinanceLineService;
+use OCA\Planninq\Service\ProjectTreeService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
 use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
@@ -70,6 +71,7 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 		return new ProjectHierarchyGuardListener(
 			membership: $membership,
 			finance: new FinanceLineService(membership: $membership, container: $this->container(), logger: $logger),
+			tree: new ProjectTreeService(membership: $membership),
 			scopeResolver: $this->scopeResolver(),
 			container: $this->container(),
 			logger: $logger
@@ -239,4 +241,76 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 		self::assertSame(['carol'], $line['financeReaders']);
 		self::assertNull($line['portfolio'], 'a released project takes its lines out of the portfolio totals');
 	}//end testPortfolioChangesReachTheFinanceLines()
+
+	/**
+	 * A project write that sets a parent, as the event the listener receives.
+	 *
+	 * @param string              $uuid   The project.
+	 * @param array<string,mixed> $stored The stored project, [] for a create.
+	 * @param string|null         $parent The new parent.
+	 */
+	private function parentWrite(string $uuid, array $stored, ?string $parent): ObjectCreatingEvent|ObjectUpdatingEvent {
+		$data = array_merge($stored === [] ? ['title' => 'Nieuw', 'status' => 'active', 'owner' => 'carol'] : $stored, ['parent' => $parent]);
+		if ($stored === []) {
+			return new ObjectCreatingEvent($this->entity(slug: 'project', uuid: $uuid, data: $data));
+		}
+
+		return new ObjectUpdatingEvent($this->entity(slug: 'project', uuid: $uuid, data: $data), $this->entity(slug: 'project', uuid: $uuid, data: $stored));
+	}//end parentWrite()
+
+	/**
+	 * Task 2.1 and scenario "A cycle is refused": a project cannot sit under itself or one of its own subprojects.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
+	 */
+	public function testACycleIsRefused(): void {
+		$this->objects->seed('project', 'prog', ['title' => 'Programma Wonen', 'status' => 'active', 'owner' => 'carol']);
+		$this->objects->seed('project', 'child', ['title' => 'Woningbouw', 'status' => 'active', 'owner' => 'carol', 'parent' => 'prog']);
+
+		$self = $this->parentWrite(uuid: 'prog', stored: $this->stored(slug: 'project', uuid: 'prog'), parent: 'prog');
+		$this->listener()->handle($self);
+		self::assertTrue($self->isPropagationStopped(), 'a project under itself');
+		self::assertSame('A project cannot sit under one of its own subprojects.', $self->getErrors()['message']);
+
+		$loop = $this->parentWrite(uuid: 'prog', stored: $this->stored(slug: 'project', uuid: 'prog'), parent: 'child');
+		$this->listener()->handle($loop);
+		self::assertTrue($loop->isPropagationStopped(), 'a project under its own subproject');
+		self::assertSame(ProjectHierarchyGuardListener::ERROR_CYCLE, $loop->getErrors()['code']);
+	}//end testACycleIsRefused()
+
+	/**
+	 * Task 2.1: projects nest three levels deep at most, counting the subtree that moves along.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
+	 */
+	public function testAFourthLevelIsRefused(): void {
+		$this->objects->seed('project', 'l1', ['title' => 'Programma', 'status' => 'active', 'owner' => 'carol']);
+		$this->objects->seed('project', 'l2', ['title' => 'Project', 'status' => 'active', 'owner' => 'carol', 'parent' => 'l1']);
+		$this->objects->seed('project', 'l3', ['title' => 'Deelproject', 'status' => 'active', 'owner' => 'carol', 'parent' => 'l2']);
+		$this->objects->seed('project', 'loose', ['title' => 'Los', 'status' => 'active', 'owner' => 'carol']);
+		$this->objects->seed('project', 'loose-child', ['title' => 'Los kind', 'status' => 'active', 'owner' => 'carol', 'parent' => 'loose']);
+
+		$fourth = $this->parentWrite(uuid: 'new', stored: [], parent: 'l3');
+		$this->listener()->handle($fourth);
+		self::assertTrue($fourth->isPropagationStopped(), 'a new project under a third level');
+		self::assertSame(ProjectHierarchyGuardListener::ERROR_DEPTH, $fourth->getErrors()['code']);
+
+		$subtree = $this->parentWrite(uuid: 'loose', stored: $this->stored(slug: 'project', uuid: 'loose'), parent: 'l2');
+		$this->listener()->handle($subtree);
+		self::assertTrue($subtree->isPropagationStopped(), 'a project whose own child would land on a fourth level');
+
+		$fine = $this->parentWrite(uuid: 'loose', stored: $this->stored(slug: 'project', uuid: 'loose'), parent: 'l1');
+		$this->listener()->handle($fine);
+		self::assertFalse($fine->isPropagationStopped(), 'three levels with the child that moves along');
+		$payload = array_merge($this->stored(slug: 'project', uuid: 'loose'), ['parent' => self::PROJECT], $fine->getModifiedData());
+		self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: $payload));
+
+		$unchanged = $this->parentWrite(uuid: 'l3', stored: $this->stored(slug: 'project', uuid: 'l3'), parent: 'l2');
+		$this->listener()->handle($unchanged);
+		self::assertFalse($unchanged->isPropagationStopped(), 'an unchanged parent is not checked again');
+
+		$cleared = $this->parentWrite(uuid: 'l3', stored: $this->stored(slug: 'project', uuid: 'l3'), parent: null);
+		$this->listener()->handle($cleared);
+		self::assertFalse($cleared->isPropagationStopped(), 'taking a project out of its parent');
+	}//end testAFourthLevelIsRefused()
 }//end class

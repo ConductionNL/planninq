@@ -672,7 +672,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Server tagastas kuluridu väljaspool seda portfelli olevatest projektidest, seega võivad need kogusummad olla valed.",
         "Projects left out because you cannot see their money: {count}": "Välja jäetud projektid, sest sa ei näe nende raha: {count}",
         "Unmatched finance lines": "Sobitamata finantsread",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Eelarve, kohustused, tegelik kulu ja prognoos portfelli kohta kokku."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Eelarve, kohustused, tegelik kulu ja prognoos portfelli kohta kokku.",
+        "Subprojects": "Alamprojektid",
+        "{done} of {total}": "{done}/{total}",
+        "{done} of {total} tasks done, including subprojects": "{done}/{total} ülesannet tehtud, alamprojektid kaasa arvatud",
+        "Show the subprojects of {title}": "Näita projekti {title} alamprojekte",
+        "Hide the subprojects of {title}": "Peida projekti {title} alamprojektid",
+        "Part of": "Kuulub",
+        "No parent project": "Ülemprojekt puudub",
+        "A project cannot sit under one of its own subprojects.": "Projekt ei saa olla oma alamprojekti all.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Projektid pesastuvad kuni kolm taset: programm, projekt ja alamprojekt.",
+        "Parent project": "Ülemprojekt",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Projekt, mille all see projekt on, näiteks programm. Projektid pesastuvad kuni kolm taset."
     },
     "nplurals=2; plural=(n != 1);"
 )

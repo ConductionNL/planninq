@@ -53,6 +53,15 @@
 					label="label"
 					data-testid="project-portfolio" />
 
+				<!-- Parent: a programme above this project (projects-grouping-hierarchy-fields) -->
+				<NcSelect
+					v-model="form.parent"
+					:options="parentChoices"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Part of')"
+					label="label"
+					data-testid="project-parent" />
+
 				<!-- Case reference (read-only) -->
 				<div v-if="project.caseReference" class="project-settings-sidebar__field">
 					<label class="project-settings-sidebar__label">
@@ -241,6 +250,7 @@ import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
+import { parentIdOf, parentOptions, parentRefusal } from '../utils/projectTree.js'
 
 export default {
 	name: 'ProjectSettingsSidebar',
@@ -291,6 +301,7 @@ export default {
 				color: this.project?.color || '#0082c9',
 				icon: this.project?.icon || '',
 				portfolio: null,
+				parent: null,
 			},
 
 			portfolios: [],
@@ -325,6 +336,20 @@ export default {
 		},
 
 		/**
+		 * No parent, then every project the user reads except this one and its subprojects.
+		 *
+		 * @return {Array<{id: string, label: string}>}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
+		 */
+		parentChoices() {
+			return [
+				{ id: '', label: this.t('planninq', 'No parent project') },
+				...parentOptions(this.projectsStore.projects, this.project).map((p) => ({ id: String(p.id), label: String(p.title ?? '') })),
+			]
+		},
+
+		/**
 		 * No portfolio, then every portfolio in list order.
 		 *
 		 * @return {Array<{id: string, label: string}>}
@@ -351,6 +376,7 @@ export default {
 				this.form.color = newVal.color || '#0082c9'
 				this.form.icon = newVal.icon || ''
 				this.form.portfolio = this.portfolioOption(newVal)
+				this.form.parent = this.parentOption(newVal)
 			}
 		},
 	},
@@ -361,8 +387,13 @@ export default {
 	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
 	 */
 	async mounted() {
-		this.portfolios = await this.projectsStore.fetchPortfolios()
+		const [portfolios] = await Promise.all([
+			this.projectsStore.fetchPortfolios(),
+			this.projectsStore.projects.length ? Promise.resolve() : this.projectsStore.fetchProjects(),
+		])
+		this.portfolios = portfolios
 		this.form.portfolio = this.portfolioOption(this.project)
+		this.form.parent = this.parentOption(this.project)
 	},
 
 	methods: {
@@ -380,6 +411,19 @@ export default {
 		},
 
 		/**
+		 * The option of a project's parent, or No parent project.
+		 *
+		 * @param {object} project The project.
+		 * @return {{id: string, label: string}}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
+		 */
+		parentOption(project) {
+			const id = parentIdOf(project)
+			return this.parentChoices.find((option) => option.id === id) || this.parentChoices[0]
+		},
+
+		/**
 		 * Persist title/description/color/icon edits via updateProject.
 		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
@@ -387,22 +431,43 @@ export default {
 		async saveDetails() {
 			this.saving = true
 			try {
-				await this.projectsStore.updateProject(this.project.id, {
+				const saved = await this.projectsStore.updateProject(this.project.id, {
 					title: this.form.title.trim(),
 					description: this.form.description.trim() || undefined,
 					color: this.form.color,
 					icon: this.form.icon.trim() || undefined,
 					portfolio: this.form.portfolio?.id || null,
+					parent: this.form.parent?.id || null,
 					// Always include existing members and owner so a PATCH/PUT does not wipe them
 					members: Array.isArray(this.project.members) ? this.project.members : [],
 					owner: this.project.owner || undefined,
 				})
+				if (!saved) {
+					showError(this.saveFailure(this.projectsStore.error))
+					this.form.parent = this.parentOption(this.project)
+					return
+				}
 				showSuccess(this.t('planninq', 'Project saved'))
 			} catch {
 				showError(this.t('planninq', 'Could not save project'))
 			} finally {
 				this.saving = false
 			}
+		},
+
+		/**
+		 * The message for a project save the server refused.
+		 *
+		 * @param {string} error The store's error text.
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
+		 */
+		saveFailure(error) {
+			return {
+				cycle: this.t('planninq', 'A project cannot sit under one of its own subprojects.'),
+				depth: this.t('planninq', 'Projects nest three levels deep at most: programme, project and subproject.'),
+			}[parentRefusal(error)] || this.t('planninq', 'Could not save project')
 		},
 
 		/**

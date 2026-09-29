@@ -672,7 +672,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Ο διακομιστής επέστρεψε γραμμές κόστους έργων εκτός αυτού του χαρτοφυλακίου, άρα τα σύνολα μπορεί να είναι λάθος.",
         "Projects left out because you cannot see their money: {count}": "Έργα που παραλείφθηκαν επειδή δεν βλέπετε τα χρήματά τους: {count}",
         "Unmatched finance lines": "Μη αντιστοιχισμένες οικονομικές γραμμές",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Προϋπολογισμός, δεσμεύσεις, πραγματικό κόστος και πρόβλεψη αθροισμένα για ένα χαρτοφυλάκιο."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Προϋπολογισμός, δεσμεύσεις, πραγματικό κόστος και πρόβλεψη αθροισμένα για ένα χαρτοφυλάκιο.",
+        "Subprojects": "Υποέργα",
+        "{done} of {total}": "{done} από {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} από {total} εργασίες ολοκληρώθηκαν, μαζί με τα υποέργα",
+        "Show the subprojects of {title}": "Εμφάνιση των υποέργων του {title}",
+        "Hide the subprojects of {title}": "Απόκρυψη των υποέργων του {title}",
+        "Part of": "Μέρος του",
+        "No parent project": "Χωρίς γονικό έργο",
+        "A project cannot sit under one of its own subprojects.": "Ένα έργο δεν μπορεί να βρίσκεται κάτω από ένα από τα δικά του υποέργα.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Τα έργα εμφωλεύονται έως τρία επίπεδα: πρόγραμμα, έργο και υποέργο.",
+        "Parent project": "Γονικό έργο",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Το έργο κάτω από το οποίο βρίσκεται αυτό το έργο, όπως ένα πρόγραμμα. Τα έργα εμφωλεύονται έως τρία επίπεδα."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -671,7 +671,18 @@
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Il server ha restituito righe di costo di progetti fuori da questo portafoglio, quindi questi totali potrebbero essere errati.",
         "Projects left out because you cannot see their money: {count}": "Progetti esclusi perché non puoi vederne il denaro: {count}",
         "Unmatched finance lines": "Righe finanziarie non abbinate",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, impegni, costo effettivo e previsione sommati su un portafoglio."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, impegni, costo effettivo e previsione sommati su un portafoglio.",
+        "Subprojects": "Sottoprogetti",
+        "{done} of {total}": "{done} di {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} di {total} attività completate, sottoprogetti inclusi",
+        "Show the subprojects of {title}": "Mostra i sottoprogetti di {title}",
+        "Hide the subprojects of {title}": "Nascondi i sottoprogetti di {title}",
+        "Part of": "Parte di",
+        "No parent project": "Nessun progetto superiore",
+        "A project cannot sit under one of its own subprojects.": "Un progetto non può stare sotto uno dei propri sottoprogetti.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "I progetti si annidano al massimo su tre livelli: programma, progetto e sottoprogetto.",
+        "Parent project": "Progetto superiore",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Il progetto sotto cui sta questo progetto, ad esempio un programma. I progetti si annidano al massimo su tre livelli."
     },
     "plurals": null
 }

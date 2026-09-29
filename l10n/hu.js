@@ -672,7 +672,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "A kiszolgáló a portfólión kívüli projektek költségsorait is visszaadta, ezért az összesítések hibásak lehetnek.",
         "Projects left out because you cannot see their money: {count}": "Kihagyott projektek, mert nem láthatod a pénzüket: {count}",
         "Unmatched finance lines": "Nem egyeztetett pénzügyi sorok",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Költségkeret, kötelezettségek, tényleges költség és előrejelzés egy portfólióra összesítve."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Költségkeret, kötelezettségek, tényleges költség és előrejelzés egy portfólióra összesítve.",
+        "Subprojects": "Alprojektek",
+        "{done} of {total}": "{done}/{total}",
+        "{done} of {total} tasks done, including subprojects": "{done}/{total} feladat kész, az alprojektekkel együtt",
+        "Show the subprojects of {title}": "{title} alprojektjeinek megjelenítése",
+        "Hide the subprojects of {title}": "{title} alprojektjeinek elrejtése",
+        "Part of": "Része ennek",
+        "No parent project": "Nincs szülőprojekt",
+        "A project cannot sit under one of its own subprojects.": "Egy projekt nem kerülhet a saját alprojektjei egyike alá.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "A projektek legfeljebb három szint mélyen ágyazhatók: program, projekt és alprojekt.",
+        "Parent project": "Szülőprojekt",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "A projekt, amely alá ez a projekt tartozik, például egy program. A projektek legfeljebb három szint mélyen ágyazhatók."
     },
     "nplurals=2; plural=(n != 1);"
 )

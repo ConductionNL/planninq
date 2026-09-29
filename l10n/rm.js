@@ -672,7 +672,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Il server ha returnà lingias da custs da projects ordaifer quest portfolio, pertge pon questas summas esser faussas.",
         "Projects left out because you cannot see their money: {count}": "Projects laschads davent perquai che ti na vesas betg lur daners: {count}",
         "Unmatched finance lines": "Lingias finanzialas betg attribuidas",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, obligaziuns, custs effectivs e prognosa summads per in portfolio."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, obligaziuns, custs effectivs e prognosa summads per in portfolio.",
+        "Subprojects": "Sutprojects",
+        "{done} of {total}": "{done} da {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} da {total} incumbensas terminadas, inclus ils sutprojects",
+        "Show the subprojects of {title}": "Mussar ils sutprojects da {title}",
+        "Hide the subprojects of {title}": "Zuppentar ils sutprojects da {title}",
+        "Part of": "Part da",
+        "No parent project": "Nagin project superiur",
+        "A project cannot sit under one of its own subprojects.": "In project na po betg star sut in da ses agens sutprojects.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Projects vegnan ennidads al pli trais nivels: program, project e sutproject.",
+        "Parent project": "Project superiur",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Il project sut il qual quest project stat, sco in program. Projects vegnan ennidads al pli trais nivels."
     },
     "nplurals=2; plural=(n != 1);"
 )

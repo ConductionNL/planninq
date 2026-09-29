@@ -671,7 +671,18 @@
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Is-server bagħat linji tal-ispiża ta' proġetti barra dan il-portafoll, għalhekk dawn it-totali jistgħu jkunu żbaljati.",
         "Projects left out because you cannot see their money: {count}": "Proġetti mħollija barra għax ma tistax tara flushom: {count}",
         "Unmatched finance lines": "Linji finanzjarji mhux imqabbla",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Baġit, impenji, spiża attwali u tbassir miġbura għal portafoll."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Baġit, impenji, spiża attwali u tbassir miġbura għal portafoll.",
+        "Subprojects": "Sottoproġetti",
+        "{done} of {total}": "{done} minn {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} minn {total} kompitu lesti, inklużi s-sottoproġetti",
+        "Show the subprojects of {title}": "Uri s-sottoproġetti ta' {title}",
+        "Hide the subprojects of {title}": "Aħbi s-sottoproġetti ta' {title}",
+        "Part of": "Parti minn",
+        "No parent project": "L-ebda proġett ġenitur",
+        "A project cannot sit under one of its own subprojects.": "Proġett ma jistax ikun taħt wieħed mis-sottoproġetti tiegħu stess.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Il-proġetti jitqiegħdu mhux aktar minn tliet livelli fil-fond: programm, proġett u sottoproġett.",
+        "Parent project": "Proġett ġenitur",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Il-proġett li taħtu jinsab dan il-proġett, bħal programm. Il-proġetti jitqiegħdu mhux aktar minn tliet livelli fil-fond."
     },
     "plurals": {}
 }

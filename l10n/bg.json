@@ -671,7 +671,18 @@
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Сървърът върна разходни редове на проекти извън това портфолио, затова тези суми може да са грешни.",
         "Projects left out because you cannot see their money: {count}": "Пропуснати проекти, защото не можете да видите парите им: {count}",
         "Unmatched finance lines": "Несвързани финансови редове",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Бюджет, ангажименти, действителни разходи и прогноза, сумирани за портфолио."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Бюджет, ангажименти, действителни разходи и прогноза, сумирани за портфолио.",
+        "Subprojects": "Подпроекти",
+        "{done} of {total}": "{done} от {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} от {total} задачи изпълнени, включително подпроектите",
+        "Show the subprojects of {title}": "Показване на подпроектите на {title}",
+        "Hide the subprojects of {title}": "Скриване на подпроектите на {title}",
+        "Part of": "Част от",
+        "No parent project": "Без родителски проект",
+        "A project cannot sit under one of its own subprojects.": "Проект не може да стои под някой от собствените си подпроекти.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Проектите се влагат най-много на три нива: програма, проект и подпроект.",
+        "Parent project": "Родителски проект",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Проектът, под който стои този проект, например програма. Проектите се влагат най-много на три нива."
     },
     "plurals": null
 }

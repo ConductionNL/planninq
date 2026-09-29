@@ -13,9 +13,9 @@ Section 1 was built in one PR (see design, "Built at HEAD, section 1"). 1.5 adde
 
 ## 2. Subprojects (Enterprise)
 
-- [ ] 2.1 Add `project.parent` and the cycle and depth checks to the guard listener. Verify: `ProjectHierarchyGuardListenerTest.php` cases for self, descendant and a fourth level; e2e `tests/e2e/project-hierarchy.spec.ts` "a cycle is refused".
-- [ ] 2.2 List subprojects on the parent's overview and add their tasks to its progress. Verify: `tests/vitest/projectProgress.spec.js` roll-up case; e2e "a programme shows its subprojects".
-- [ ] 2.3 Indent subprojects under their parent in the project list with a toggle button. Verify: e2e "the project list shows subprojects under their parent".
+- [x] 2.1 Add `project.parent` and the cycle and depth checks to the guard listener. Verify: `ProjectHierarchyGuardListenerTest::testACycleIsRefused` (self, descendant) and `testAFourthLevelIsRefused` (a new fourth level, a subtree that would land on it, an unchanged parent); e2e `tests/e2e/project-hierarchy.spec.ts` "a cycle is refused".
+- [x] 2.2 List subprojects on the parent's overview and add their tasks to its progress. Verify: `tests/vitest/projectTree.spec.js` rollupProgress case; e2e "a programme shows its subprojects".
+- [x] 2.3 Indent subprojects under their parent in the project list with a toggle button. Verify: `tests/vitest/projectTree.spec.js` treeRows cases; e2e "the project list shows subprojects under their parent".
 
 ## 3. Custom fields (Enterprise)
 
