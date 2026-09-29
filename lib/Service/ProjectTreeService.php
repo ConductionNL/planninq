@@ -112,7 +112,9 @@ class ProjectTreeService {
 	private function ancestors(string $parentId): array {
 		$chain   = [];
 		$current = $parentId;
-		while ($current !== '' && in_array($current, $chain, true) === false && count($chain) < self::WALK_LIMIT) {
+		$steps   = 0;
+		while ($current !== '' && in_array($current, $chain, true) === false && $steps < self::WALK_LIMIT) {
+			$steps++;
 			$chain[] = $current;
 			$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $current);
 			$current = $this->referenceId(value: ($project['parent'] ?? null));
