@@ -44,7 +44,7 @@ interface LifecycleGuardInterface {
 	 *
 	 * @return GuardResult Allow or deny + optional message.
 	 *
-	 * @spec openspec/specs/object-lifecycle/spec.md
+	 * @spec exclude Verbatim OpenRegister stub; its spec is OpenRegister openspec/specs/object-lifecycle/spec.md
 	 */
 	public function check(array $object, string $action, string $userId): GuardResult;
 }//end interface

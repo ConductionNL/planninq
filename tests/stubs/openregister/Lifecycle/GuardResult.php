@@ -60,7 +60,7 @@ final class GuardResult {
 	 *
 	 * @return self Allow verdict instance.
 	 *
-	 * @spec openspec/specs/object-lifecycle/spec.md
+	 * @spec exclude Verbatim OpenRegister stub; its spec is OpenRegister openspec/specs/object-lifecycle/spec.md
 	 */
 	public static function allow(): self {
 		return new self(allowed: true, message: null);
@@ -73,7 +73,7 @@ final class GuardResult {
 	 *
 	 * @return self Deny verdict instance.
 	 *
-	 * @spec openspec/specs/object-lifecycle/spec.md
+	 * @spec exclude Verbatim OpenRegister stub; its spec is OpenRegister openspec/specs/object-lifecycle/spec.md
 	 */
 	public static function deny(string $message): self {
 		return new self(allowed: false, message: $message);
@@ -84,7 +84,7 @@ final class GuardResult {
 	 *
 	 * @return bool True when allowed, false when denied.
 	 *
-	 * @spec openspec/specs/object-lifecycle/spec.md
+	 * @spec exclude Verbatim OpenRegister stub; its spec is OpenRegister openspec/specs/object-lifecycle/spec.md
 	 */
 	public function isAllowed(): bool {
 		return $this->allowed;
