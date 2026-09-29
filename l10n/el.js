@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "Εξετάστηκε στις",
         "When the request was approved or rejected.": "Πότε εγκρίθηκε ή απορρίφθηκε το αίτημα.",
         "Review note": "Σημείωση εξέτασης",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Ο λόγος του εξεταστή, που βλέπει ο αιτών όταν ένα αίτημα δεν εγκρίνεται."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Ο λόγος του εξεταστή, που βλέπει ο αιτών όταν ένα αίτημα δεν εγκρίνεται.",
+        "Members of these groups": "Μέλη αυτών των ομάδων",
+        "Groups that may create projects": "Ομάδες που μπορούν να δημιουργούν έργα",
+        "The group {group} no longer exists. Save to remove it.": "Η ομάδα {group} δεν υπάρχει πλέον. Αποθηκεύστε για να αφαιρεθεί."
     },
     "nplurals=2; plural=(n != 1);"
 )

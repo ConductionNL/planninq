@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "Vurdert",
         "When the request was approved or rejected.": "Når forespørselen ble godkjent eller avvist.",
         "Review note": "Vurderingsnotat",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Begrunnelsen fra den som vurderte, som den som ba om prosjektet ser når en forespørsel ikke godkjennes."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Begrunnelsen fra den som vurderte, som den som ba om prosjektet ser når en forespørsel ikke godkjennes.",
+        "Members of these groups": "Medlemmer av disse gruppene",
+        "Groups that may create projects": "Grupper som kan opprette prosjekter",
+        "The group {group} no longer exists. Save to remove it.": "Gruppen {group} finnes ikke lenger. Lagre for å fjerne den."
     },
     "nplurals=2; plural=(n != 1);"
 )

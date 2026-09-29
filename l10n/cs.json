@@ -735,7 +735,10 @@
         "Reviewed at": "Posouzeno",
         "When the request was approved or rejected.": "Kdy byla žádost schválena nebo zamítnuta.",
         "Review note": "Poznámka k posouzení",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Důvod posuzovatele, který žadatel uvidí, když žádost není schválena."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Důvod posuzovatele, který žadatel uvidí, když žádost není schválena.",
+        "Members of these groups": "Členové těchto skupin",
+        "Groups that may create projects": "Skupiny, které smějí zakládat projekty",
+        "The group {group} no longer exists. Save to remove it.": "Skupina {group} už neexistuje. Uložením ji odeberete."
     },
     "plurals": null
 }

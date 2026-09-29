@@ -735,7 +735,10 @@
         "Reviewed at": "Дата разгляду",
         "When the request was approved or rejected.": "Калі запыт быў адобраны або адхілены.",
         "Review note": "Заўвага рэцэнзента",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Прычына рэцэнзента, якую бачыць заяўнік, калі запыт не адобраны."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Прычына рэцэнзента, якую бачыць заяўнік, калі запыт не адобраны.",
+        "Members of these groups": "Удзельнікі гэтых груп",
+        "Groups that may create projects": "Групы, якім можна ствараць праекты",
+        "The group {group} no longer exists. Save to remove it.": "Групы {group} больш не існуе. Захавайце, каб прыбраць яе."
     },
     "plurals": {}
 }

@@ -83,7 +83,27 @@
 						<option value="admins">
 							{{ t('planninq', 'Administrators only') }}
 						</option>
+						<option value="groups">
+							{{ t('planninq', 'Members of these groups') }}
+						</option>
 					</select>
+				</div>
+				<!-- The groups whose members may create projects (projects-lifecycle-policy) -->
+				<div v-if="creationPolicy === 'groups'" class="form-group">
+					<NcSelect
+						v-model="creationGroups"
+						:options="groupOptions"
+						:multiple="true"
+						:inputLabel="t('planninq', 'Groups that may create projects')"
+						label="label"
+						data-testid="creation-groups" />
+					<p
+						v-for="group in missingCreationGroups"
+						:key="group"
+						class="error-message"
+						role="alert">
+						{{ t('planninq', 'The group {group} no longer exists. Save to remove it.', { group }) }}
+					</p>
 				</div>
 				<div v-if="creationPolicySuccess" class="success-message">
 					{{ creationPolicySuccess }}
@@ -382,7 +402,8 @@
 
 <script>
 import { CnSettingsSection } from '@conduction/nextcloud-vue'
-import { generateUrl } from '@nextcloud/router'
+import { getRequestToken } from '@nextcloud/auth'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 /**
  * Settings view (admin form).
  *
@@ -392,11 +413,12 @@ import { generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  */
-import { NcButton, NcLoadingIcon } from '@nextcloud/vue'
+import { NcButton, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import LabelDeleteDialog from '../../dialogs/LabelDeleteDialog.vue'
 import LabelEditDialog from '../../dialogs/LabelEditDialog.vue'
 import { useLabelsStore } from '../../store/labels.js'
 import { useSettingsStore } from '../../store/modules/settings.js'
+import { creationGroupIds, creationGroupsSetting } from '../../utils/creationPolicy.js'
 import { categoriesValid, categoryLines, parseCategories } from '../../utils/finance.js'
 import { defaultThresholds, parseRiskScale } from '../../utils/riskHelpers.js'
 
@@ -405,6 +427,7 @@ export default {
 	components: {
 		NcButton,
 		NcLoadingIcon,
+		NcSelect,
 		CnSettingsSection,
 		LabelEditDialog,
 		LabelDeleteDialog,
@@ -429,6 +452,9 @@ export default {
 			initError: '',
 			// allow_project_creation
 			creationPolicy: 'all',
+			creationGroups: [],
+			groupOptions: [],
+			missingCreationGroups: [],
 			savingCreationPolicy: false,
 			creationPolicySuccess: '',
 			creationPolicyError: '',
@@ -497,6 +523,9 @@ export default {
 		const settingsStore = useSettingsStore()
 		this.form.register = settingsStore.settings?.register || ''
 		this.creationPolicy = settingsStore.settings?.allow_project_creation || 'all'
+		this.creationGroups = creationGroupIds(settingsStore.settings?.project_creation_groups).map((id) => ({ id, label: id }))
+		this.missingCreationGroups = settingsStore.settings?.creationGroupsMissing || []
+		this.loadGroups()
 		this.leadHours = parseInt(settingsStore.settings?.due_reminder_lead_hours, 10) || 24
 		this.riskScale = JSON.parse(JSON.stringify(parseRiskScale(settingsStore.settings?.risk_scale)))
 		this.reportPeriod = parseInt(settingsStore.settings?.status_report_period_days, 10) || 30
@@ -640,7 +669,25 @@ export default {
 		 * Persist the project creation policy via settingsStore.saveSettings.
 		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.2
 		 */
+		/**
+		 * Load the Nextcloud groups for the creation-groups picker.
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.2
+		 */
+		async loadGroups() {
+			try {
+				const response = await fetch(generateOcsUrl('cloud/groups') + '?format=json&limit=500', {
+					headers: { 'OCS-APIRequest': 'true', requesttoken: getRequestToken() },
+				})
+				const groups = response.ok ? ((await response.json())?.ocs?.data?.groups || []) : []
+				this.groupOptions = groups.map((id) => ({ id, label: id }))
+			} catch {
+				this.groupOptions = []
+			}
+		},
+
 		async saveCreationPolicy() {
 			this.savingCreationPolicy = true
 			this.creationPolicySuccess = ''
@@ -648,6 +695,7 @@ export default {
 			const settingsStore = useSettingsStore()
 			const result = await settingsStore.saveSettings({
 				allow_project_creation: this.creationPolicy,
+				project_creation_groups: creationGroupsSetting(this.creationGroups),
 			})
 			if (result) {
 				this.creationPolicySuccess = this.t('planninq', 'Creation policy saved successfully')

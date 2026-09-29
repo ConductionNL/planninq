@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "Läbi vaadatud",
         "When the request was approved or rejected.": "Millal taotlus kinnitati või tagasi lükati.",
         "Review note": "Läbivaataja märkus",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Läbivaataja põhjendus, mida taotleja näeb, kui taotlust ei kinnitata."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Läbivaataja põhjendus, mida taotleja näeb, kui taotlust ei kinnitata.",
+        "Members of these groups": "Nende gruppide liikmed",
+        "Groups that may create projects": "Grupid, kes võivad projekte luua",
+        "The group {group} no longer exists. Save to remove it.": "Gruppi {group} enam pole. Salvestage, et see eemaldada."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "Pregledano",
         "When the request was approved or rejected.": "Kada je zahtjev odobren ili odbijen.",
         "Review note": "Napomena pregledavatelja",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Razlog pregledavatelja koji podnositelj vidi kad zahtjev nije odobren."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Razlog pregledavatelja koji podnositelj vidi kad zahtjev nije odobren.",
+        "Members of these groups": "Članovi ovih grupa",
+        "Groups that may create projects": "Grupe koje smiju stvarati projekte",
+        "The group {group} no longer exists. Save to remove it.": "Grupa {group} više ne postoji. Spremite da biste je uklonili."
     },
     "nplurals=2; plural=(n != 1);"
 )

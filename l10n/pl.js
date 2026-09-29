@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "Rozpatrzone dnia",
         "When the request was approved or rejected.": "Kiedy wniosek został zatwierdzony lub odrzucony.",
         "Review note": "Uwaga rozpatrującego",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Powód rozpatrującego, który widzi wnioskodawca, gdy wniosek nie zostanie zatwierdzony."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Powód rozpatrującego, który widzi wnioskodawca, gdy wniosek nie zostanie zatwierdzony.",
+        "Members of these groups": "Członkowie tych grup",
+        "Groups that may create projects": "Grupy, które mogą tworzyć projekty",
+        "The group {group} no longer exists. Save to remove it.": "Grupa {group} już nie istnieje. Zapisz, aby ją usunąć."
     },
     "nplurals=2; plural=(n != 1);"
 )

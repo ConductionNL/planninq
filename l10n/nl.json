@@ -756,7 +756,10 @@
         "Reviewed at": "Beoordeeld op",
         "When the request was approved or rejected.": "Wanneer de aanvraag werd goedgekeurd of afgewezen.",
         "Review note": "Toelichting van de beoordelaar",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "De reden van de beoordelaar, die de aanvrager ziet als een aanvraag niet is goedgekeurd."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "De reden van de beoordelaar, die de aanvrager ziet als een aanvraag niet is goedgekeurd.",
+        "Members of these groups": "Leden van deze groepen",
+        "Groups that may create projects": "Groepen die projecten mogen aanmaken",
+        "The group {group} no longer exists. Save to remove it.": "De groep {group} bestaat niet meer. Sla op om hem te verwijderen."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

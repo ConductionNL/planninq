@@ -735,7 +735,10 @@
         "Reviewed at": "Yfirfarið",
         "When the request was approved or rejected.": "Hvenær beiðnin var samþykkt eða henni hafnað.",
         "Review note": "Athugasemd yfirferðar",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Ástæða þess sem yfirfór, sem umsækjandinn sér þegar beiðni er ekki samþykkt."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Ástæða þess sem yfirfór, sem umsækjandinn sér þegar beiðni er ekki samþykkt.",
+        "Members of these groups": "Meðlimir þessara hópa",
+        "Groups that may create projects": "Hópar sem mega stofna verkefni",
+        "The group {group} no longer exists. Save to remove it.": "Hópurinn {group} er ekki lengur til. Vistaðu til að fjarlægja hann."
     },
     "plurals": {}
 }

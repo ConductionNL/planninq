@@ -735,7 +735,10 @@
         "Reviewed at": "Прегледано на",
         "When the request was approved or rejected.": "Кога заявката е одобрена или отхвърлена.",
         "Review note": "Бележка от прегледа",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Причината на проверяващия, която заявителят вижда, когато заявката не е одобрена."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Причината на проверяващия, която заявителят вижда, когато заявката не е одобрена.",
+        "Members of these groups": "Членове на тези групи",
+        "Groups that may create projects": "Групи, които могат да създават проекти",
+        "The group {group} no longer exists. Save to remove it.": "Групата {group} вече не съществува. Запазете, за да я премахнете."
     },
     "plurals": null
 }

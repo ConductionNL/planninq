@@ -735,7 +735,10 @@
         "Reviewed at": "Käsitelty",
         "When the request was approved or rejected.": "Milloin pyyntö hyväksyttiin tai hylättiin.",
         "Review note": "Käsittelijän huomautus",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Käsittelijän perustelu, jonka pyytäjä näkee, kun pyyntöä ei hyväksytä."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Käsittelijän perustelu, jonka pyytäjä näkee, kun pyyntöä ei hyväksytä.",
+        "Members of these groups": "Näiden ryhmien jäsenet",
+        "Groups that may create projects": "Ryhmät, jotka voivat luoda projekteja",
+        "The group {group} no longer exists. Save to remove it.": "Ryhmää {group} ei enää ole. Poista se tallentamalla."
     },
     "plurals": null
 }

@@ -23,6 +23,7 @@ import ChartBar from 'vue-material-design-icons/ChartBar.vue'
 import ChartBoxOutline from 'vue-material-design-icons/ChartBoxOutline.vue'
 import ChartTimeline from 'vue-material-design-icons/ChartTimeline.vue'
 import CheckboxMarkedCircleOutline from 'vue-material-design-icons/CheckboxMarkedCircleOutline.vue'
+import ClipboardCheckOutline from 'vue-material-design-icons/ClipboardCheckOutline.vue'
 import ClockOutline from 'vue-material-design-icons/ClockOutline.vue'
 import CloudUpload from 'vue-material-design-icons/CloudUpload.vue'
 import CurrencyEur from 'vue-material-design-icons/CurrencyEur.vue'
@@ -31,6 +32,7 @@ import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
 import History from 'vue-material-design-icons/History.vue'
 import Home from 'vue-material-design-icons/Home.vue'
 import MapMarkerPath from 'vue-material-design-icons/MapMarkerPath.vue'
+import NotebookOutline from 'vue-material-design-icons/NotebookOutline.vue'
 import SitemapOutline from 'vue-material-design-icons/SitemapOutline.vue'
 import StoreOutline from 'vue-material-design-icons/StoreOutline.vue'
 import TagOutline from 'vue-material-design-icons/TagOutline.vue'
@@ -52,6 +54,7 @@ export default {
 	ChartBoxOutline,
 	ChartTimeline,
 	CheckboxMarkedCircleOutline,
+	ClipboardCheckOutline,
 	ClockOutline,
 	CloudUpload,
 	CurrencyEur,
@@ -60,6 +63,7 @@ export default {
 	History,
 	Home,
 	MapMarkerPath,
+	NotebookOutline,
 	SitemapOutline,
 	StoreOutline,
 	TagOutline,

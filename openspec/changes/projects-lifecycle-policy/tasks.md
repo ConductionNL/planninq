@@ -9,8 +9,8 @@
 
 ## 2. Creation by group (V1)
 
-- [ ] 2.1 Teach `SettingsService::canCurrentUserCreateProject` the `groups` value and the `project_creation_groups` key, and return a `canCreateProject` flag in the settings payload. Verify: new cases in `tests/unit/Service/SettingsServiceTest.php` for a member and a non-member of a listed group.
-- [ ] 2.2 Offer "Members of these groups" with a group `NcSelect` (with `inputLabel`) on the admin page in `src/views/settings/Settings.vue`, and read the flag in `ProjectList.vue`. Verify: e2e "only the chosen groups may create".
+- [x] 2.1 Teach `SettingsService::canCurrentUserCreateProject` the `groups` value and the `project_creation_groups` key, and return a `canCreateProject` flag in the settings payload. Verify: new cases in `tests/unit/Service/SettingsServiceTest.php` for a member and a non-member of a listed group.
+- [x] 2.2 Offer "Members of these groups" with a group `NcSelect` (with `inputLabel`) on the admin page in `src/views/settings/Settings.vue`, and read the flag in `ProjectList.vue`. Verify: e2e "only the chosen groups may create" (`tests/e2e/project-creation-groups.spec.ts`, through the API for the two users and the admin page for the picker); `tests/vitest/creationPolicy.spec.js`.
 
 ## 3. Project requests (Enterprise)
 
