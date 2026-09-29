@@ -27,6 +27,7 @@ namespace OCA\Planninq\Controller;
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\SettingsService;
+use OCA\Planninq\Service\WorkItemKeyService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -115,6 +116,7 @@ class ProjectController extends Controller {
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
 		private BoardColumnService $boardColumns,
+		private WorkItemKeyService $keys,
 	) {
 		parent::__construct(appName: Application::APP_ID, request: $request);
 
@@ -247,6 +249,19 @@ class ProjectController extends Controller {
 		// Strip framework-injected routing params.
 		unset($body['_route'], $body['_format']);
 
+		// The project key (tasks-readable-keys): stored uppercase, refused
+		// here with a clear status when it is malformed or taken. The key
+		// listener holds every other project write to the same rules.
+		$body['key'] = $this->keys->normalise(key: ($body['key'] ?? null));
+		if ($body['key'] === '') {
+			unset($body['key']);
+		}
+
+		$keyRefusal = $this->checkKey(key: ($body['key'] ?? ''));
+		if ($keyRefusal !== null) {
+			return $keyRefusal;
+		}
+
 		// Ensure owner + initial membership are set server-side so the client
 		// cannot spoof a different owner.
 		$body['owner'] = $uid;
@@ -286,6 +301,57 @@ class ProjectController extends Controller {
 		}//end try
 
 	}//end create()
+
+	/**
+	 * Whether a project key is well formed and free, without saying which project has it.
+	 *
+	 * @param string $key The key to check.
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return JSONResponse {valid, available}; 401 when not logged in.
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.2
+	 */
+	public function keyAvailable(string $key = ''): JSONResponse {
+		if ($this->userSession->getUser() === null) {
+			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
+		}
+
+		$key   = $this->keys->normalise(key: $key);
+		$valid = $this->keys->isValidFormat(key: $key);
+
+		return new JSONResponse(['valid' => $valid, 'available' => ($valid === true && $this->keys->isTaken(key: $key) === false)]);
+	}//end keyAvailable()
+
+	/**
+	 * The refusal for a malformed or taken key on create, or null.
+	 *
+	 * @param string $key The normalised key, empty for none.
+	 *
+	 * @return JSONResponse|null
+	 */
+	private function checkKey(string $key): ?JSONResponse {
+		if ($key === '') {
+			return null;
+		}
+
+		if ($this->keys->isValidFormat(key: $key) === false) {
+			return new JSONResponse(
+				['error' => 'A key has 2 to 10 letters and digits and starts with a letter.', 'code' => 'planninq-project-key-format'],
+				Http::STATUS_BAD_REQUEST
+			);
+		}
+
+		if ($this->keys->isTaken(key: $key) === true) {
+			return new JSONResponse(
+				['error' => 'This key is already used by another project.', 'code' => 'planninq-project-key-used'],
+				Http::STATUS_CONFLICT
+			);
+		}
+
+		return null;
+	}//end checkKey()
 
 	/**
 	 * Allow a non-owner member to leave a project (C3 fix, WF2 fix).

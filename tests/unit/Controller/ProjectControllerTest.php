@@ -33,6 +33,7 @@ require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 use OCA\Planninq\Controller\ProjectController;
 use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\SettingsService;
+use OCA\Planninq\Service\WorkItemKeyService;
 use OCA\Planninq\Tests\Unit\Support\ObjectServiceDouble;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -115,6 +116,7 @@ class ProjectControllerTest extends TestCase {
 			container: $this->container,
 			logger: $this->logger,
 			boardColumns: $this->boardColumns,
+			keys: $this->createMock(originalClassName: WorkItemKeyService::class),
 		);
 
 	}//end setUp()
