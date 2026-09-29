@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Vai laidiens ir plānots, izlaists vai arhivēts",
         "Released on": "Izlaists",
         "When the release was marked as released": "Kad laidiens tika atzīmēts kā izlaists",
-        "The release this task is planned for": "Laidiens, kuram šis uzdevums ir plānots"
+        "The release this task is planned for": "Laidiens, kuram šis uzdevums ir plānots",
+        "Board view options": "Dēļa skata opcijas",
+        "Colour cards": "Krāsot kartītes",
+        "No colour": "Bez krāsas",
+        "By label": "Pēc etiķetes",
+        "Swimlanes": "Celiņi",
+        "No swimlanes": "Bez celiņiem",
+        "By assignee": "Pēc atbildīgā",
+        "By epic": "Pēc eposa",
+        "No assignee": "Nav piešķirts",
+        "No epic": "Bez eposa",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Kartītes paliek sava eposa rindā. Mainiet eposu uzdevuma lapā.",
+        "Hand over to": "Nodot",
+        "Could not save your board view. It applies until you reload.": "Dēļa skatu neizdevās saglabāt. Tas darbojas līdz lapas pārlādei."
     },
     "nplurals=2; plural=(n != 1);"
 )

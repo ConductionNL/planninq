@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Ar laida suplanuota, išleista ar archyvuota",
         "Released on": "Išleista",
         "When the release was marked as released": "Kada laida pažymėta kaip išleista",
-        "The release this task is planned for": "Laida, kuriai suplanuota ši užduotis"
+        "The release this task is planned for": "Laida, kuriai suplanuota ši užduotis",
+        "Board view options": "Lentos rodinio parinktys",
+        "Colour cards": "Spalvinti korteles",
+        "No colour": "Be spalvos",
+        "By label": "Pagal žymą",
+        "Swimlanes": "Takeliai",
+        "No swimlanes": "Be takelių",
+        "By assignee": "Pagal atsakingą asmenį",
+        "By epic": "Pagal epą",
+        "No assignee": "Nepriskirta",
+        "No epic": "Be epo",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Kortelės lieka savo epo eilutėje. Epą pakeiskite užduoties puslapyje.",
+        "Hand over to": "Perduoti",
+        "Could not save your board view. It applies until you reload.": "Lentos rodinio išsaugoti nepavyko. Jis galioja, kol iš naujo įkelsite puslapį."
     },
     "nplurals=2; plural=(n != 1);"
 )

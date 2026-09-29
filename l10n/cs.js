@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Zda je vydání plánované, vydané nebo archivované",
         "Released on": "Vydáno dne",
         "When the release was marked as released": "Kdy bylo vydání označeno jako vydané",
-        "The release this task is planned for": "Vydání, pro které je tento úkol naplánován"
+        "The release this task is planned for": "Vydání, pro které je tento úkol naplánován",
+        "Board view options": "Možnosti zobrazení nástěnky",
+        "Colour cards": "Obarvit karty",
+        "No colour": "Bez barvy",
+        "By label": "Podle štítku",
+        "Swimlanes": "Plavecké dráhy",
+        "No swimlanes": "Bez plaveckých drah",
+        "By assignee": "Podle řešitele",
+        "By epic": "Podle eposu",
+        "No assignee": "Nepřiřazeno",
+        "No epic": "Bez eposu",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Karty zůstávají v řádku svého eposu. Epos změňte na stránce úkolu.",
+        "Hand over to": "Předat",
+        "Could not save your board view. It applies until you reload.": "Zobrazení nástěnky se nepodařilo uložit. Platí do opětovného načtení."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -936,7 +936,21 @@
         "Whether the release is planned, released or archived": "Запланирован ли выпуск, выпущен или заархивирован",
         "Released on": "Выпущен",
         "When the release was marked as released": "Когда выпуск отметили как выпущенный",
-        "The release this task is planned for": "Выпуск, на который запланирована эта задача"
+        "The release this task is planned for": "Выпуск, на который запланирована эта задача",
+        "Board view options": "Параметры вида доски",
+        "Colour cards": "Раскрасить карточки",
+        "No colour": "Без цвета",
+        "By label": "По метке",
+        "Swimlanes": "Дорожки",
+        "No swimlanes": "Без дорожек",
+        "By assignee": "По исполнителю",
+        "By epic": "По эпику",
+        "No assignee": "Не назначено",
+        "No epic": "Без эпика",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Карточки остаются в строке своего эпика. Измените эпик на странице задачи.",
+        "Hand over to": "Передать",
+        "Could not save your board view. It applies until you reload.": "Вид доски не сохранён. Он действует до перезагрузки."
     },
     "plurals": {}
 }

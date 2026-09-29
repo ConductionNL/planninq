@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Kas väljalase on planeeritud, välja lastud või arhiveeritud",
         "Released on": "Välja lastud",
         "When the release was marked as released": "Millal väljalase välja lastuks märgiti",
-        "The release this task is planned for": "Väljalase, mille jaoks see ülesanne on planeeritud"
+        "The release this task is planned for": "Väljalase, mille jaoks see ülesanne on planeeritud",
+        "Board view options": "Tahvli vaate valikud",
+        "Colour cards": "Värvi kaardid",
+        "No colour": "Värvita",
+        "By label": "Sildi järgi",
+        "Swimlanes": "Ujumisrajad",
+        "No swimlanes": "Ujumisradadeta",
+        "By assignee": "Täitja järgi",
+        "By epic": "Eepose järgi",
+        "No assignee": "Määramata",
+        "No epic": "Eeposeta",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Kaardid jäävad oma eepose reale. Muuda eepost ülesande lehel.",
+        "Hand over to": "Anna üle",
+        "Could not save your board view. It applies until you reload.": "Tahvli vaadet ei salvestatud. See kehtib kuni lehe uuesti laadimiseni."
     },
     "nplurals=2; plural=(n != 1);"
 )

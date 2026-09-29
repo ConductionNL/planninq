@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Si la versió està planificada, publicada o arxivada",
         "Released on": "Publicada el",
         "When the release was marked as released": "Quan es va marcar la versió com a publicada",
-        "The release this task is planned for": "La versió per a la qual està planificada aquesta tasca"
+        "The release this task is planned for": "La versió per a la qual està planificada aquesta tasca",
+        "Board view options": "Opcions de visualització del tauler",
+        "Colour cards": "Acoloreix les targetes",
+        "No colour": "Sense color",
+        "By label": "Per etiqueta",
+        "Swimlanes": "Carrils",
+        "No swimlanes": "Sense carrils",
+        "By assignee": "Per persona assignada",
+        "By epic": "Per èpica",
+        "No assignee": "Sense assignar",
+        "No epic": "Sense èpica",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Les targetes es queden a la fila de la seva èpica. Canvieu l'èpica a la pàgina de la tasca.",
+        "Hand over to": "Traspassa a",
+        "Could not save your board view. It applies until you reload.": "No s'ha pogut desar la vista del tauler. S'aplica fins que torneu a carregar."
     },
     "nplurals=2; plural=(n != 1);"
 )

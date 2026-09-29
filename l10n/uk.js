@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Чи випуск запланований, випущений чи архівований",
         "Released on": "Випущено",
         "When the release was marked as released": "Коли випуск позначили як випущений",
-        "The release this task is planned for": "Випуск, на який заплановано цю задачу"
+        "The release this task is planned for": "Випуск, на який заплановано цю задачу",
+        "Board view options": "Параметри вигляду дошки",
+        "Colour cards": "Розфарбувати картки",
+        "No colour": "Без кольору",
+        "By label": "За міткою",
+        "Swimlanes": "Доріжки",
+        "No swimlanes": "Без доріжок",
+        "By assignee": "За виконавцем",
+        "By epic": "За епіком",
+        "No assignee": "Не призначено",
+        "No epic": "Без епіка",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Картки залишаються в рядку свого епіка. Змініть епік на сторінці завдання.",
+        "Hand over to": "Передати",
+        "Could not save your board view. It applies until you reload.": "Вигляд дошки не збережено. Він діє до перезавантаження."
     },
     "nplurals=2; plural=(n != 1);"
 )

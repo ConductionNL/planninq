@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Se a versão está planeada, lançada ou arquivada",
         "Released on": "Lançada em",
         "When the release was marked as released": "Quando a versão foi marcada como lançada",
-        "The release this task is planned for": "A versão para a qual esta tarefa está planeada"
+        "The release this task is planned for": "A versão para a qual esta tarefa está planeada",
+        "Board view options": "Opções de vista do quadro",
+        "Colour cards": "Colorir cartões",
+        "No colour": "Sem cor",
+        "By label": "Por etiqueta",
+        "Swimlanes": "Raias",
+        "No swimlanes": "Sem raias",
+        "By assignee": "Por responsável",
+        "By epic": "Por épico",
+        "No assignee": "Sem responsável",
+        "No epic": "Sem épico",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Os cartões ficam na linha do seu épico. Altere o épico na página da tarefa.",
+        "Hand over to": "Passar a",
+        "Could not save your board view. It applies until you reload.": "Não foi possível guardar a vista do quadro. Aplica-se até recarregar."
     },
     "nplurals=2; plural=(n != 1);"
 )

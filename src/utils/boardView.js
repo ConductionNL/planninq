@@ -170,3 +170,20 @@ export function epicTitles(tasks) {
 	}
 	return titles
 }
+
+/**
+ * The fields a card created in a swimlane gets, so it lands in that row.
+ *
+ * @param {string} field The grouping field.
+ * @param {string} key   The row it is created in.
+ * @return {object}
+ *
+ * @spec openspec/changes/boards-card-display/tasks.md#task-2.3
+ */
+export function newCardFields(field, key) {
+	if (field === 'epic') {
+		return key ? { epic: key } : {}
+	}
+	const result = swimlanePatch({}, field, key)
+	return result.ok ? result.patch : {}
+}

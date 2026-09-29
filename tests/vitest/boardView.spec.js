@@ -4,7 +4,7 @@
  * @spec openspec/changes/boards-card-display/tasks.md#task-2.1
  */
 import { describe, expect, it } from 'vitest'
-import { cardEdge, epicTitles, groupTasksBySwimlane, normaliseView, swimlanePatch } from '../../src/utils/boardView.js'
+import { cardEdge, epicTitles, groupTasksBySwimlane, newCardFields, normaliseView, swimlanePatch } from '../../src/utils/boardView.js'
 
 const tasks = [
 	{ id: 'a1', assignedTo: 'anna', priority: 'high', epic: 'e1' },
@@ -66,6 +66,16 @@ describe('swimlanePatch', () => {
 		expect(swimlanePatch(tasks[0], 'priority', 'urgent')).toEqual({ ok: true, patch: { priority: 'urgent' } })
 		expect(swimlanePatch(tasks[0], 'epic', '')).toEqual({ ok: false, reason: 'epic' })
 		expect(swimlanePatch(tasks[0], 'epic', 'e1')).toEqual({ ok: true, patch: {} })
+	})
+})
+
+describe('newCardFields', () => {
+	it('puts a card made in a row into that row', () => {
+		expect(newCardFields('assignee', 'bram')).toEqual({ assignedTo: 'bram' })
+		expect(newCardFields('assignee', '')).toEqual({})
+		expect(newCardFields('priority', 'urgent')).toEqual({ priority: 'urgent' })
+		expect(newCardFields('epic', 'e1')).toEqual({ epic: 'e1' })
+		expect(newCardFields('none', '')).toEqual({})
 	})
 })
 

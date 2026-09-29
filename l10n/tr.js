@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Sürümün planlanmış, yayımlanmış ya da arşivlenmiş olduğu",
         "Released on": "Yayımlanma tarihi",
         "When the release was marked as released": "Sürümün yayımlandı olarak işaretlendiği zaman",
-        "The release this task is planned for": "Bu görevin planlandığı sürüm"
+        "The release this task is planned for": "Bu görevin planlandığı sürüm",
+        "Board view options": "Pano görünüm seçenekleri",
+        "Colour cards": "Kartları renklendir",
+        "No colour": "Renk yok",
+        "By label": "Etikete göre",
+        "Swimlanes": "Kulvarlar",
+        "No swimlanes": "Kulvar yok",
+        "By assignee": "Atanan kişiye göre",
+        "By epic": "Epiğe göre",
+        "No assignee": "Atanmamış",
+        "No epic": "Epik yok",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Kartlar kendi epik satırında kalır. Epiği görev sayfasında değiştirin.",
+        "Hand over to": "Devret",
+        "Could not save your board view. It applies until you reload.": "Pano görünümünüz kaydedilemedi. Sayfayı yenileyene kadar geçerlidir."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -949,7 +949,21 @@
         "Whether the release is planned, released or archived": "Of de release gepland, uitgebracht of gearchiveerd is",
         "Released on": "Uitgebracht op",
         "When the release was marked as released": "Wanneer de release als uitgebracht is gemarkeerd",
-        "The release this task is planned for": "De release waarvoor deze taak is gepland"
+        "The release this task is planned for": "De release waarvoor deze taak is gepland",
+        "Board view options": "Weergaveopties van het bord",
+        "Colour cards": "Kaarten kleuren",
+        "No colour": "Geen kleur",
+        "By label": "Op label",
+        "Swimlanes": "Swimlanes",
+        "No swimlanes": "Geen swimlanes",
+        "By assignee": "Op toegewezen persoon",
+        "By epic": "Op epic",
+        "No assignee": "Niet toegewezen",
+        "No epic": "Geen epic",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Kaarten blijven in hun epic-rij. Wijzig de epic op de taakpagina.",
+        "Hand over to": "Overdragen aan",
+        "Could not save your board view. It applies until you reload.": "Kon de bordweergave niet opslaan. Ze geldt tot u de pagina herlaadt."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

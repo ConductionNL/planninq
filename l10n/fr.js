@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Si la version est prévue, publiée ou archivée",
         "Released on": "Publiée le",
         "When the release was marked as released": "Quand la version a été marquée comme publiée",
-        "The release this task is planned for": "La version pour laquelle cette tâche est planifiée"
+        "The release this task is planned for": "La version pour laquelle cette tâche est planifiée",
+        "Board view options": "Options d'affichage du tableau",
+        "Colour cards": "Colorer les cartes",
+        "No colour": "Aucune couleur",
+        "By label": "Par étiquette",
+        "Swimlanes": "Couloirs",
+        "No swimlanes": "Aucun couloir",
+        "By assignee": "Par responsable",
+        "By epic": "Par epic",
+        "No assignee": "Non attribuée",
+        "No epic": "Aucun epic",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Les cartes restent dans la ligne de leur epic. Modifiez l'epic sur la page de la tâche.",
+        "Hand over to": "Confier à",
+        "Could not save your board view. It applies until you reload.": "Votre affichage du tableau n'a pas été enregistré. Il s'applique jusqu'au rechargement."
     },
     "nplurals=2; plural=(n != 1);"
 )
