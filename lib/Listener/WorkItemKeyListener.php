@@ -209,7 +209,7 @@ class WorkItemKeyListener implements IEventListener {
 		// A write that leaves the key out keeps it. OpenRegister's PUT fills a
 		// property it was not sent with null, so an empty key on a project
 		// whose tasks carry its key is read the same way: kept, not cleared.
-		if (array_key_exists('key', $data) === false || ($key === '' && $this->keys->hasNumberedTasks(project: $stored) === true)) {
+		if ($this->keyLeftOut(data: $data, key: $key, stored: $stored) === true) {
 			$this->keepKey(event: $event, stored: $stored);
 			return;
 		}
@@ -231,6 +231,25 @@ class WorkItemKeyListener implements IEventListener {
 			$this->jobList->add(NumberProjectTasks::class, ['project' => $projectId]);
 		}
 	}//end guardProject()
+
+	/**
+	 * Whether a write left the key out: not sent, or nulled by a PUT on a numbered project.
+	 *
+	 * @param array<string,mixed> $data   The new project data.
+	 * @param string              $key    The normalised new key.
+	 * @param array<string,mixed> $stored The stored project.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.3
+	 */
+	private function keyLeftOut(array $data, string $key, array $stored): bool {
+		if (array_key_exists('key', $data) === false) {
+			return true;
+		}
+
+		return $key === '' && $this->keys->hasNumberedTasks(project: $stored) === true;
+	}//end keyLeftOut()
 
 	/**
 	 * Replace a client value of the counter with the stored one.
