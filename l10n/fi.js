@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Mihin kenttä lisätään",
         "Custom fields": "Omat kentät",
         "The values of the project fields an admin defined, keyed by the field's key.": "Ylläpitäjän määrittämien projektikenttien arvot kentän avaimen mukaan.",
-        "Project fields": "Projektikentät"
+        "Project fields": "Projektikentät",
+        "Related": "Liittyvät",
+        "Remove link": "Poista linkki",
+        "Link type": "Linkin tyyppi",
+        "Relates to": "Liittyy",
+        "Duplicates": "Kaksoiskappale"
     },
     "nplurals=2; plural=(n != 1);"
 )

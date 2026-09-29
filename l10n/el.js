@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Σε τι προστίθεται το πεδίο",
         "Custom fields": "Δικά σας πεδία",
         "The values of the project fields an admin defined, keyed by the field's key.": "Οι τιμές των πεδίων έργου που όρισε ένας διαχειριστής, ανά κλειδί πεδίου.",
-        "Project fields": "Πεδία έργου"
+        "Project fields": "Πεδία έργου",
+        "Related": "Σχετικές",
+        "Remove link": "Αφαίρεση σύνδεσης",
+        "Link type": "Είδος σύνδεσης",
+        "Relates to": "Σχετίζεται με",
+        "Duplicates": "Αντιγράφει"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Ku shtohet fusha",
         "Custom fields": "Fusha të veta",
         "The values of the project fields an admin defined, keyed by the field's key.": "Vlerat e fushave të projektit të përcaktuara nga një administrator, sipas çelësit të fushës.",
-        "Project fields": "Fushat e projektit"
+        "Project fields": "Fushat e projektit",
+        "Related": "Të lidhura",
+        "Remove link": "Hiq lidhjen",
+        "Link type": "Lloji i lidhjes",
+        "Relates to": "Lidhet me",
+        "Duplicates": "Dublon"
     },
     "nplurals=2; plural=(n != 1);"
 )

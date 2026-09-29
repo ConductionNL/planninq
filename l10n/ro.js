@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "La ce se adaugă câmpul",
         "Custom fields": "Câmpuri proprii",
         "The values of the project fields an admin defined, keyed by the field's key.": "Valorile câmpurilor de proiect definite de un administrator, după cheia câmpului.",
-        "Project fields": "Câmpuri de proiect"
+        "Project fields": "Câmpuri de proiect",
+        "Related": "Asociate",
+        "Remove link": "Elimină legătura",
+        "Link type": "Tipul legăturii",
+        "Relates to": "Se leagă de",
+        "Duplicates": "Dublează"
     },
     "nplurals=2; plural=(n != 1);"
 )

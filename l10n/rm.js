@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Tar tge ch'il champ vegn agiuntà",
         "Custom fields": "Agens champs",
         "The values of the project fields an admin defined, keyed by the field's key.": "Las valurs dals champs da project che in administratur ha definì, tenor la clav dal champ.",
-        "Project fields": "Champs da project"
+        "Project fields": "Champs da project",
+        "Related": "Colliads",
+        "Remove link": "Allontanar la colliaziun",
+        "Link type": "Tip da colliaziun",
+        "Relates to": "Collià cun",
+        "Duplicates": "Duplitgescha"
     },
     "nplurals=2; plural=(n != 1);"
 )

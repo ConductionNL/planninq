@@ -708,7 +708,12 @@
         "What the field is added to": "Към какво се добавя полето",
         "Custom fields": "Собствени полета",
         "The values of the project fields an admin defined, keyed by the field's key.": "Стойностите на полетата на проекта, зададени от администратор, по ключа на полето.",
-        "Project fields": "Полета на проекта"
+        "Project fields": "Полета на проекта",
+        "Related": "Свързани",
+        "Remove link": "Премахване на връзката",
+        "Link type": "Вид връзка",
+        "Relates to": "Свързана с",
+        "Duplicates": "Дублира"
     },
     "plurals": null
 }

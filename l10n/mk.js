@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "На што се додава полето",
         "Custom fields": "Сопствени полиња",
         "The values of the project fields an admin defined, keyed by the field's key.": "Вредностите на полињата на проектот што ги дефинирал администраторот, според клучот на полето.",
-        "Project fields": "Полиња на проект"
+        "Project fields": "Полиња на проект",
+        "Related": "Поврзани",
+        "Remove link": "Отстрани врска",
+        "Link type": "Вид врска",
+        "Relates to": "Поврзано со",
+        "Duplicates": "Дуплира"
     },
     "nplurals=2; plural=(n != 1);"
 )

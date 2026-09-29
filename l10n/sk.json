@@ -708,7 +708,12 @@
         "What the field is added to": "K čomu sa pole pridáva",
         "Custom fields": "Vlastné polia",
         "The values of the project fields an admin defined, keyed by the field's key.": "Hodnoty polí projektu, ktoré definoval správca, podľa kľúča poľa.",
-        "Project fields": "Polia projektu"
+        "Project fields": "Polia projektu",
+        "Related": "Súvisiace",
+        "Remove link": "Odstrániť odkaz",
+        "Link type": "Typ odkazu",
+        "Relates to": "Súvisí s",
+        "Duplicates": "Duplikuje"
     },
     "plurals": null
 }

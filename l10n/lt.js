@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Prie ko pridedamas laukas",
         "Custom fields": "Savi laukai",
         "The values of the project fields an admin defined, keyed by the field's key.": "Administratoriaus apibrėžtų projekto laukų reikšmės pagal lauko raktą.",
-        "Project fields": "Projekto laukai"
+        "Project fields": "Projekto laukai",
+        "Related": "Susijusios",
+        "Remove link": "Pašalinti ryšį",
+        "Link type": "Ryšio tipas",
+        "Relates to": "Susijusi su",
+        "Duplicates": "Dubliuoja"
     },
     "nplurals=2; plural=(n != 1);"
 )

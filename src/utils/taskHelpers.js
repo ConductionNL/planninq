@@ -294,3 +294,50 @@ export function groupTasksByStatus(tasks = [], statuses = BOARD_STATUSES) {
 	}
 	return grouped
 }
+
+/**
+ * A task's links split into what blocks it, what it blocks and what is only
+ * related (relates, duplicates and the other non-blocking types, either way).
+ *
+ * @param {string} taskId The task UUID.
+ * @param {Array<object>} edges The dependency edges.
+ * @return {{blockedBy: Array<object>, blocks: Array<object>, related: Array<object>}}
+ *
+ * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.2
+ */
+export function linkGroups(taskId, edges = []) {
+	const groups = { blockedBy: [], blocks: [], related: [] }
+	for (const edge of edges || []) {
+		if (!edge || (edge.blocked !== taskId && edge.blocker !== taskId)) {
+			continue
+		}
+		const otherId = edge.blocker === taskId ? edge.blocked : edge.blocker
+		const link = { edgeId: edge.id, otherId, type: edge.type || 'blocks' }
+		if (!isBlockingEdge(edge)) {
+			groups.related.push(link)
+		} else if (edge.blocked === taskId) {
+			groups.blockedBy.push(link)
+		} else {
+			groups.blocks.push(link)
+		}
+	}
+	return groups
+}
+
+/**
+ * The link the picker creates: for "Blocked by" the picked task blocks this
+ * one; for a related link this task comes first.
+ *
+ * @param {string} taskId This task.
+ * @param {string} pickedId The picked task.
+ * @param {string} type The link type.
+ * @return {{blocker: string, blocked: string, type: string}}
+ *
+ * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.2
+ */
+export function newLinkFor(taskId, pickedId, type = 'blocks') {
+	if (type === 'blocks') {
+		return { blocker: pickedId, blocked: taskId, type }
+	}
+	return { blocker: taskId, blocked: pickedId, type }
+}

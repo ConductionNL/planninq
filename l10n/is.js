@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Hverju reitnum er bætt við",
         "Custom fields": "Eigin reitir",
         "The values of the project fields an admin defined, keyed by the field's key.": "Gildi verkefnisreitanna sem stjórnandi skilgreindi, eftir lykli reitsins.",
-        "Project fields": "Verkefnisreitir"
+        "Project fields": "Verkefnisreitir",
+        "Related": "Tengd",
+        "Remove link": "Fjarlægja tengingu",
+        "Link type": "Tegund tengingar",
+        "Relates to": "Tengist",
+        "Duplicates": "Tvítekur"
     },
     "nplurals=2; plural=(n != 1);"
 )

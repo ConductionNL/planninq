@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Ma' xiex jiżdied il-qasam",
         "Custom fields": "Oqsma proprji",
         "The values of the project fields an admin defined, keyed by the field's key.": "Il-valuri tal-oqsma tal-proġett li ddefinixxa amministratur, skont iċ-ċavetta tal-qasam.",
-        "Project fields": "Oqsma tal-proġett"
+        "Project fields": "Oqsma tal-proġett",
+        "Related": "Relatati",
+        "Remove link": "Neħħi l-link",
+        "Link type": "Tip ta' link",
+        "Relates to": "Relatat ma'",
+        "Duplicates": "Jidduplika"
     },
     "nplurals=2; plural=(n != 1);"
 )

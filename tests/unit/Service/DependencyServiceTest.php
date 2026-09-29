@@ -27,6 +27,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
+
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCA\Planninq\Service\DependencyGraph;
 use OCA\Planninq\Service\DependencyRepository;
@@ -35,6 +37,7 @@ use OCP\App\IAppManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
+use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -43,6 +46,8 @@ use Psr\Log\LoggerInterface;
  * Tests for DependencyService.
  */
 class DependencyServiceTest extends TestCase {
+	use RegisterSchemaValidation;
+
 
 	/**
 	 * Mock container.
@@ -413,6 +418,57 @@ class DependencyServiceTest extends TestCase {
 		$result = $this->service()->create('A', 'C');
 		self::assertSame('new-edge', $result['id']);
 	}//end testCreateSavesLegalEdge()
+
+	/**
+	 * Task 3.1: a related link is stored with its type and never refused as a cycle.
+	 *
+	 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.1
+	 *
+	 * @return void
+	 */
+	public function testCreateStoresARelatedLinkWithoutACycleCheck(): void {
+		$objectService = $this->makeObjectService(
+			tasks: ['A' => ['project' => 'P1'], 'B' => ['project' => 'P1']],
+			projects: ['P1' => ['members' => ['alice']]],
+			projectTaskIds: ['A', 'B'],
+			edges: [['id' => 'e1', 'blocker' => 'A', 'blocked' => 'B']],
+		);
+		$this->container->method('get')->willReturn($objectService);
+		$this->setUser('alice');
+
+		$result = $this->service()->create('B', 'A', 'relates');
+		self::assertSame('relates', $result['type']);
+		self::assertSame([], $this->registerSchemaErrors(slug: 'dependency', payload: ['blocker' => '5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e', 'blocked' => '7c1d2e3f-4a5b-4c6d-8e7f-9a0b1c2d3e4f', 'type' => $result['type']]));
+	}//end testCreateStoresARelatedLinkWithoutACycleCheck()
+
+	/**
+	 * Task 3.1: a blocking link keeps the cycle check, and an unknown type is refused.
+	 *
+	 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.1
+	 *
+	 * @return void
+	 */
+	public function testCreateChecksBlockingLinksAndRefusesAnUnknownType(): void {
+		$objectService = $this->makeObjectService(
+			tasks: ['A' => ['project' => 'P1', 'title' => 'Alpha'], 'B' => ['project' => 'P1', 'title' => 'Bravo']],
+			projects: ['P1' => ['members' => ['alice']]],
+			projectTaskIds: ['A', 'B'],
+			edges: [['id' => 'e1', 'blocker' => 'A', 'blocked' => 'B']],
+		);
+		$this->container->method('get')->willReturn($objectService);
+		$this->setUser('alice');
+
+		try {
+			$this->service()->create('B', 'A', 'blocks');
+			self::fail('a blocking cycle must be refused');
+		} catch (DependencyValidationException $e) {
+			self::assertStringContainsString('cycle', $e->getMessage());
+		}
+
+		$this->expectException(DependencyValidationException::class);
+		$this->expectExceptionMessageMatches('/type/i');
+		$this->service()->create('B', 'A', 'follows');
+	}//end testCreateChecksBlockingLinksAndRefusesAnUnknownType()
 
 	/**
 	 * Task-delete cascade removes every edge in which the task participates.

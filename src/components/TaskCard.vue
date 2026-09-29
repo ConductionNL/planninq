@@ -12,6 +12,9 @@
 
 		<!-- Task metadata -->
 		<div class="task-card__meta">
+			<!-- Blocked by an unfinished task (planning-dependencies-on-task-page) -->
+			<BlockedBadge :blocked="blocked" :openBlockerCount="openBlockerCount" />
+
 			<!-- Due date badge -->
 			<NcChip
 				v-if="dueDateBadgeStatus"
@@ -72,6 +75,7 @@
 // @nextcloud/vue@9 removed the `dist/Components/*.js` layout; the package now
 // publishes only an `exports` map (root barrel + `./components/<Name>`).
 import { NcChip } from '@nextcloud/vue'
+import BlockedBadge from './BlockedBadge.vue'
 import { formatDuration } from '../utils/durationParser.js'
 import { labelId } from '../utils/labelHelpers.js'
 import { dueDateStatus } from '../utils/taskHelpers.js'
@@ -92,12 +96,24 @@ import { dueDateStatus } from '../utils/taskHelpers.js'
  */
 export default {
 	name: 'TaskCard',
-	components: { NcChip },
+	components: { BlockedBadge, NcChip },
 
 	props: {
 		task: {
 			type: Object,
 			required: true,
+		},
+
+		/** Whether an unfinished task blocks this one. */
+		blocked: {
+			type: Boolean,
+			default: false,
+		},
+
+		/** How many unfinished tasks block this one. */
+		openBlockerCount: {
+			type: Number,
+			default: 0,
 		},
 
 		/**

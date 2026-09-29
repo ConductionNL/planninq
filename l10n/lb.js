@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Zu wat d'Feld bäigesat gëtt",
         "Custom fields": "Eege Felder",
         "The values of the project fields an admin defined, keyed by the field's key.": "D'Wäerter vun de Projetsfelder, déi en Admin definéiert huet, no dem Schlëssel vum Feld.",
-        "Project fields": "Projetsfelder"
+        "Project fields": "Projetsfelder",
+        "Related": "Verbonnen",
+        "Remove link": "Link ewechhuelen",
+        "Link type": "Linktyp",
+        "Relates to": "Hänkt zesumme mat",
+        "Duplicates": "Dupliziert"
     },
     "nplurals=2; plural=(n != 1);"
 )

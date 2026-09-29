@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Kam lauks tiek pievienots",
         "Custom fields": "Savi lauki",
         "The values of the project fields an admin defined, keyed by the field's key.": "Administratora definēto projekta lauku vērtības pēc lauka atslēgas.",
-        "Project fields": "Projekta lauki"
+        "Project fields": "Projekta lauki",
+        "Related": "Saistītie",
+        "Remove link": "Noņemt saiti",
+        "Link type": "Saites veids",
+        "Relates to": "Saistīts ar",
+        "Duplicates": "Dublē"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -708,7 +708,12 @@
         "What the field is added to": "Čemu se polje doda",
         "Custom fields": "Lastna polja",
         "The values of the project fields an admin defined, keyed by the field's key.": "Vrednosti polj projekta, ki jih je določil skrbnik, po ključu polja.",
-        "Project fields": "Polja projekta"
+        "Project fields": "Polja projekta",
+        "Related": "Povezano",
+        "Remove link": "Odstrani povezavo",
+        "Link type": "Vrsta povezave",
+        "Relates to": "Povezano z",
+        "Duplicates": "Podvaja"
     },
     "plurals": null
 }

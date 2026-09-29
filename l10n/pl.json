@@ -708,7 +708,12 @@
         "What the field is added to": "Do czego dodaje się pole",
         "Custom fields": "Własne pola",
         "The values of the project fields an admin defined, keyed by the field's key.": "Wartości pól projektu zdefiniowanych przez administratora, według klucza pola.",
-        "Project fields": "Pola projektu"
+        "Project fields": "Pola projektu",
+        "Related": "Powiązane",
+        "Remove link": "Usuń powiązanie",
+        "Link type": "Rodzaj powiązania",
+        "Relates to": "Powiązane z",
+        "Duplicates": "Duplikuje"
     },
     "plurals": {}
 }

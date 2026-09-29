@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "K čemu se pole přidává",
         "Custom fields": "Vlastní pole",
         "The values of the project fields an admin defined, keyed by the field's key.": "Hodnoty polí projektu, která definoval správce, podle klíče pole.",
-        "Project fields": "Pole projektu"
+        "Project fields": "Pole projektu",
+        "Related": "Související",
+        "Remove link": "Odebrat odkaz",
+        "Link type": "Typ odkazu",
+        "Relates to": "Souvisí s",
+        "Duplicates": "Duplikuje"
     },
     "nplurals=2; plural=(n != 1);"
 )
