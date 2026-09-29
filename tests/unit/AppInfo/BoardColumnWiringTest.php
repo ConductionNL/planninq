@@ -94,8 +94,14 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 			}
 
 			$listener = 'OCA\\Planninq\\Listener\\WorkItemKeyListener';
+			$review = 'OCA\\Planninq\\Listener\\ProjectReviewListener';
 			self::assertSame(
-				[[$listener, 'ObjectCreatingEvent', ['project', 'task']], [$listener, 'ObjectUpdatingEvent', ['project', 'task']]],
+				[
+					[$listener, 'ObjectCreatingEvent', ['project', 'task']],
+					[$listener, 'ObjectUpdatingEvent', ['project', 'task']],
+					[$review, 'ObjectUpdatingEvent', ['project']],
+					[$review, 'ObjectUpdatedEvent', ['project']],
+				],
 				$calls
 			);
 

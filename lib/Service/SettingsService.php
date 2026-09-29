@@ -65,7 +65,15 @@ class SettingsService {
 		self::REPORT_PERIOD_KEY => '30',
 		self::FINANCE_CATEGORIES_KEY => '["Personnel","Hired staff","Materials","Other"]',
 		self::CREATION_GROUPS_KEY => '[]',
+		self::REQUESTS_KEY => 'off',
 	];
+
+	/**
+	 * Whether people who may not create a project may request one: `on` or `off`.
+	 *
+	 * @var string
+	 */
+	public const REQUESTS_KEY = 'project_requests';
 
 	/**
 	 * The groups whose members may create projects under the `groups` policy, a JSON list of group ids.
@@ -147,6 +155,7 @@ class SettingsService {
 		private IUserSession $userSession,
 		private LoggerInterface $logger,
 		private DueReminderWindowService $dueReminderWindow,
+		private ProjectPolicySchemaService $policySchema,
 	) {
 	}//end __construct()
 
@@ -207,6 +216,19 @@ class SettingsService {
 	}//end canCurrentUserCreateProject()
 
 	/**
+	 * Whether the current user may request a project: requests are on and the user may not create one.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	public function canCurrentUserRequestProject(): bool {
+		return $this->userSession->getUser() !== null
+			&& $this->appConfig->getValueString(Application::APP_ID, self::REQUESTS_KEY, 'off') === 'on'
+			&& $this->canCurrentUserCreateProject() === false;
+	}//end canCurrentUserRequestProject()
+
+	/**
 	 * Whether the current user is in one of the groups that may create projects.
 	 *
 	 * @return bool
@@ -227,6 +249,21 @@ class SettingsService {
 
 		return false;
 	}//end isInCreationGroup()
+
+	/**
+	 * The groups besides admins who review project requests: the creation groups under the `groups` policy.
+	 *
+	 * @return array<int,string>
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.2
+	 */
+	public function reviewerGroups(): array {
+		if ($this->appConfig->getValueString(Application::APP_ID, 'allow_project_creation', 'all') !== 'groups') {
+			return [];
+		}
+
+		return $this->creationGroups();
+	}//end reviewerGroups()
 
 	/**
 	 * The stored group ids of the `groups` creation policy.
@@ -280,6 +317,14 @@ class SettingsService {
 	private function creationPolicyValue(string $key, string $value): ?string {
 		if ($key === 'allow_project_creation') {
 			if (in_array($value, self::CREATION_POLICIES, true) === false) {
+				return null;
+			}
+
+			return $value;
+		}
+
+		if ($key === self::REQUESTS_KEY) {
+			if (in_array($value, ['on', 'off'], true) === false) {
 				return null;
 			}
 
@@ -559,6 +604,7 @@ class SettingsService {
 				'openregisters' => $this->isOpenRegisterAvailable(),
 				'isAdmin' => $this->isCurrentUserAdmin(),
 				'canCreateProject' => $this->canCurrentUserCreateProject(),
+				'canRequestProject' => $this->canCurrentUserRequestProject(),
 			],
 			$this->missingCreationGroups()
 		);
@@ -622,6 +668,11 @@ class SettingsService {
 		}
 
 		$this->setAdminSettings(settings: $data);
+
+		// The reviewers of project requests follow the creation policy.
+		if (array_key_exists('allow_project_creation', $data) === true || array_key_exists(self::CREATION_GROUPS_KEY, $data) === true) {
+			$this->policySchema->apply(groups: $this->reviewerGroups());
+		}
 
 		return $this->getSettings();
 	}//end updateSettings()

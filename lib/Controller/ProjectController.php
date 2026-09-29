@@ -232,8 +232,11 @@ class ProjectController extends Controller {
 
 		// Server-side enforcement of the allow_project_creation admin setting (C1).
 		// Delegate to the dedicated policy-check endpoint so the gate logic stays in one place.
+		// Someone who may not create may still REQUEST a project when requests
+		// are on (projects-lifecycle-policy): it is stored as `requested`.
 		$policyCheck = $this->checkCreatePolicy();
-		if ($policyCheck->getStatus() === Http::STATUS_FORBIDDEN) {
+		$requesting  = ($policyCheck->getStatus() === Http::STATUS_FORBIDDEN);
+		if ($requesting === true && $this->settingsService->canCurrentUserRequestProject() === false) {
 			return $policyCheck;
 		}
 
@@ -268,6 +271,9 @@ class ProjectController extends Controller {
 		$body['owner'] = $uid;
 		$body['members'] = array_values(array_unique(array_merge([$uid], (array)($body['members'] ?? []))));
 		$body['status'] = ($body['status'] ?? 'active');
+		if ($requesting === true) {
+			$body = $this->asRequest(body: $body, uid: $uid);
+		}
 
 		try {
 			// SB1 fix: pass _rbac: false so that the schema-level "create": ["admin"]
@@ -290,7 +296,10 @@ class ProjectController extends Controller {
 			// The board runs on the project's own columns, so a project is
 			// created with them: the admin's default titles, the last one the
 			// done column (boards-configurable-columns, decision 6).
-			$this->boardColumns->createDefaultColumns(projectId: (string)($project['id'] ?? ($project['@self']['id'] ?? '')));
+			// A request gets its columns when it is approved (ProjectReviewListener).
+			if ($requesting === false) {
+				$this->boardColumns->createDefaultColumns(projectId: (string)($project['id'] ?? ($project['@self']['id'] ?? '')));
+			}
 
 			return new JSONResponse($project, Http::STATUS_CREATED);
 		} catch (\Throwable $e) {
@@ -302,6 +311,24 @@ class ProjectController extends Controller {
 		}//end try
 
 	}//end create()
+
+	/**
+	 * A create body turned into a project request: status requested, the requester its only member, no review filled in.
+	 *
+	 * @param array<string,mixed> $body The create body.
+	 * @param string              $uid  The requester.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	private function asRequest(array $body, string $uid): array {
+		unset($body['reviewedBy'], $body['reviewedAt'], $body['reviewNote']);
+		$body['status']  = 'requested';
+		$body['members'] = [$uid];
+
+		return $body;
+	}//end asRequest()
 
 	/**
 	 * Whether a project key is well formed and free, without saying which project has it.

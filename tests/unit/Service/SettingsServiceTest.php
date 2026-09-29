@@ -21,6 +21,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\DueReminderWindowService;
+use OCA\Planninq\Service\ProjectPolicySchemaService;
 use OCA\Planninq\Service\SettingsService;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
@@ -123,6 +124,11 @@ class SettingsServiceTest extends TestCase {
 			userSession: $this->userSession,
 			logger: $this->logger,
 			dueReminderWindow: new DueReminderWindowService(
+				appManager: $this->appManager,
+				container: $this->container,
+				logger: $this->logger,
+			),
+			policySchema: new ProjectPolicySchemaService(
 				appManager: $this->appManager,
 				container: $this->container,
 				logger: $this->logger,

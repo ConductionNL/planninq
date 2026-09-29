@@ -641,6 +641,18 @@ class Application extends App implements IBootstrap {
 				schemas: ['project', 'task']
 			);
 		}
+
+		// Project requests (projects-lifecycle-policy): a review is stamped in
+		// its own save, and an approved request gets its board afterwards.
+		foreach (['ObjectUpdatingEvent', 'ObjectUpdatedEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\ProjectReviewListener',
+				registers: ['planninq'],
+				schemas: ['project']
+			);
+		}
 	}//end registerWorkItemKeyListeners()
 
 	/**
