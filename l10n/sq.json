@@ -671,7 +671,18 @@
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Serveri ktheu rreshta kostoje nga projekte jashtë këtij portofoli, ndaj këto totale mund të jenë të gabuara.",
         "Projects left out because you cannot see their money: {count}": "Projekte të lëna jashtë sepse nuk ua sheh paratë: {count}",
         "Unmatched finance lines": "Rreshta financiarë të pa përputhur",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Buxheti, angazhimet, kosto reale dhe parashikimi të mbledhura për një portofol."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Buxheti, angazhimet, kosto reale dhe parashikimi të mbledhura për një portofol.",
+        "Subprojects": "Nënprojekte",
+        "{done} of {total}": "{done} nga {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} nga {total} detyra të kryera, përfshirë nënprojektet",
+        "Show the subprojects of {title}": "Shfaq nënprojektet e {title}",
+        "Hide the subprojects of {title}": "Fshih nënprojektet e {title}",
+        "Part of": "Pjesë e",
+        "No parent project": "Pa projekt prind",
+        "A project cannot sit under one of its own subprojects.": "Një projekt nuk mund të qëndrojë nën një nga nënprojektet e veta.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Projektet futen njëri brenda tjetrit deri në tre nivele: program, projekt dhe nënprojekt.",
+        "Parent project": "Projekt prind",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Projekti nën të cilin qëndron ky projekt, p.sh. një program. Projektet futen njëri brenda tjetrit deri në tre nivele."
     },
     "plurals": {}
 }

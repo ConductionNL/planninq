@@ -672,7 +672,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Serverul a returnat linii de cost ale unor proiecte din afara acestui portofoliu, deci aceste totaluri pot fi greșite.",
         "Projects left out because you cannot see their money: {count}": "Proiecte omise pentru că nu le poți vedea banii: {count}",
         "Unmatched finance lines": "Linii financiare neasociate",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Buget, angajamente, cost real și prognoză însumate pe un portofoliu."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Buget, angajamente, cost real și prognoză însumate pe un portofoliu.",
+        "Subprojects": "Subproiecte",
+        "{done} of {total}": "{done} din {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} din {total} sarcini gata, inclusiv subproiectele",
+        "Show the subprojects of {title}": "Arată subproiectele lui {title}",
+        "Hide the subprojects of {title}": "Ascunde subproiectele lui {title}",
+        "Part of": "Face parte din",
+        "No parent project": "Fără proiect părinte",
+        "A project cannot sit under one of its own subprojects.": "Un proiect nu poate sta sub unul dintre propriile subproiecte.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Proiectele se imbrică pe cel mult trei niveluri: program, proiect și subproiect.",
+        "Parent project": "Proiect părinte",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Proiectul sub care stă acest proiect, de exemplu un program. Proiectele se imbrică pe cel mult trei niveluri."
     },
     "nplurals=2; plural=(n != 1);"
 )

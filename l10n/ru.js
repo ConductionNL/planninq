@@ -672,7 +672,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Сервер вернул строки затрат проектов вне этого портфеля, поэтому итоги могут быть неверны.",
         "Projects left out because you cannot see their money: {count}": "Пропущено проектов, чьи деньги вам не видны: {count}",
         "Unmatched finance lines": "Несопоставленные финансовые строки",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Бюджет, обязательства, фактические затраты и прогноз в сумме по портфелю."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Бюджет, обязательства, фактические затраты и прогноз в сумме по портфелю.",
+        "Subprojects": "Подпроекты",
+        "{done} of {total}": "{done} из {total}",
+        "{done} of {total} tasks done, including subprojects": "Выполнено {done} из {total} задач, включая подпроекты",
+        "Show the subprojects of {title}": "Показать подпроекты {title}",
+        "Hide the subprojects of {title}": "Скрыть подпроекты {title}",
+        "Part of": "Входит в",
+        "No parent project": "Без родительского проекта",
+        "A project cannot sit under one of its own subprojects.": "Проект не может находиться под одним из своих подпроектов.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Проекты вкладываются не глубже трёх уровней: программа, проект и подпроект.",
+        "Parent project": "Родительский проект",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Проект, под которым находится этот проект, например программа. Проекты вкладываются не глубже трёх уровней."
     },
     "nplurals=2; plural=(n != 1);"
 )

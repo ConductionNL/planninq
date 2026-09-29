@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.14.1"
+    "version": "0.15.0"
   },
   "x-openregister": {
     "type": "application",
@@ -383,7 +383,7 @@
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.7.0",
+        "version": "0.8.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -506,6 +506,14 @@
             "default": [],
             "visible": false,
             "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
+          },
+          "parent": {
+            "title": "Parent project",
+            "type": "string",
+            "description": "The project this project sits under, such as a programme. Projects nest three levels deep at most.",
+            "format": "uuid",
+            "$ref": "project",
+            "nullable": true
           },
           "contractorRefs": {
             "title": "Contractors",

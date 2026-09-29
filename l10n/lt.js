@@ -672,7 +672,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Serveris grąžino išlaidų eilučių iš projektų už šio portfelio ribų, todėl šios sumos gali būti klaidingos.",
         "Projects left out because you cannot see their money: {count}": "Praleisti projektai, nes nematote jų pinigų: {count}",
         "Unmatched finance lines": "Nesusietos finansų eilutės",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Biudžetas, įsipareigojimai, faktinės išlaidos ir prognozė, susumuoti portfeliui."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Biudžetas, įsipareigojimai, faktinės išlaidos ir prognozė, susumuoti portfeliui.",
+        "Subprojects": "Subprojektai",
+        "{done} of {total}": "{done} iš {total}",
+        "{done} of {total} tasks done, including subprojects": "Atlikta {done} iš {total} užduočių, įskaitant subprojektus",
+        "Show the subprojects of {title}": "Rodyti {title} subprojektus",
+        "Hide the subprojects of {title}": "Slėpti {title} subprojektus",
+        "Part of": "Dalis",
+        "No parent project": "Nėra aukštesnio projekto",
+        "A project cannot sit under one of its own subprojects.": "Projektas negali būti po vienu iš savo subprojektų.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Projektai įdedami ne giliau nei trys lygiai: programa, projektas ir subprojektas.",
+        "Parent project": "Aukštesnis projektas",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Projektas, po kuriuo yra šis projektas, pvz., programa. Projektai įdedami ne giliau nei trys lygiai."
     },
     "nplurals=2; plural=(n != 1);"
 )

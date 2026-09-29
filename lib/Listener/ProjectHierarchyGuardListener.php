@@ -51,6 +51,7 @@ use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Service\ProjectTreeService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Container\ContainerInterface;
@@ -80,10 +81,25 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	private const OR_SYSTEM_CONTEXT = 'OCA\\OpenRegister\\Service\\SystemOperationContext';
 
 	/**
+	 * Error code of a parent that makes a project its own ancestor.
+	 *
+	 * @var string
+	 */
+	public const ERROR_CYCLE = 'planninq-project-cycle';
+
+	/**
+	 * Error code of a parent that makes the chain deeper than three levels.
+	 *
+	 * @var string
+	 */
+	public const ERROR_DEPTH = 'planninq-project-too-deep';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ProjectMembershipService $membership    Reads portfolios and projects, writes as the system.
 	 * @param FinanceLineService       $finance       Keeps the access copies on the projects' finance lines.
+	 * @param ProjectTreeService       $tree          Checks a new parent for cycles and depth.
 	 * @param TaskScopeResolver        $scopeResolver Tells a planninq schema from any other object.
 	 * @param ContainerInterface       $container     Resolves OpenRegister's ObjectService for the system write.
 	 * @param LoggerInterface          $logger        The logger.
@@ -91,6 +107,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	public function __construct(
 		private ProjectMembershipService $membership,
 		private FinanceLineService $finance,
+		private ProjectTreeService $tree,
 		private TaskScopeResolver $scopeResolver,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
@@ -144,6 +161,10 @@ class ProjectHierarchyGuardListener implements IEventListener {
 		$data = (array)$object->getObject();
 
 		if ($slug === ProjectMembershipService::PROJECT_SCHEMA && $event instanceof ObjectDeletingEvent === false) {
+			if ($this->refuseParent(event: $event, projectId: (string)($object->getUuid() ?? ''), data: $data, oldData: $oldData) === true) {
+				return;
+			}
+
 			$this->deriveReaders(event: $event, data: $data);
 			return;
 		}
@@ -162,6 +183,45 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			$this->onManagersChange(portfolioId: $portfolioId, data: $data, oldData: $oldData);
 		}
 	}//end route()
+
+	/**
+	 * Refuse a new parent that makes a cycle or a chain deeper than three levels.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event     The event.
+	 * @param string                                  $projectId The project UUID.
+	 * @param array<string,mixed>                     $data      The project's new data.
+	 * @param array<string,mixed>|null                $oldData   The stored project on an update.
+	 *
+	 * @return bool True when the write was refused.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
+	 */
+	private function refuseParent(ObjectCreatingEvent|ObjectUpdatingEvent $event, string $projectId, array $data, ?array $oldData): bool {
+		$parentId = $this->referenceId(value: ($data['parent'] ?? null));
+		if ($parentId === '' || ($oldData !== null && $this->referenceId(value: ($oldData['parent'] ?? null)) === $parentId)) {
+			return false;
+		}
+
+		if ($event instanceof ObjectCreatingEvent === true) {
+			$projectId = '';
+		}
+
+		$refusal = $this->tree->refusal(projectId: $projectId, parentId: $parentId);
+		if ($refusal === null) {
+			return false;
+		}
+
+		$error = ['code' => self::ERROR_DEPTH, 'message' => 'Projects nest three levels deep at most: programme, project and subproject.'];
+		if ($refusal === ProjectTreeService::CYCLE) {
+			$error = ['code' => self::ERROR_CYCLE, 'message' => 'A project cannot sit under one of its own subprojects.'];
+		}
+
+		$event->setErrors($error + ['project' => $projectId, 'parent' => $parentId]);
+		$event->stopPropagation();
+		$this->logger->info('Planninq: refused a project parent', ['code' => $error['code'], 'project' => $projectId]);
+
+		return true;
+	}//end refuseParent()
 
 	/**
 	 * Set a project's readers to the managers of its portfolio.

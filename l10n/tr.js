@@ -672,7 +672,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Sunucu bu portföyün dışındaki projelerin maliyet satırlarını döndürdü, bu yüzden bu toplamlar yanlış olabilir.",
         "Projects left out because you cannot see their money: {count}": "Parasını göremediğiniz için dışarıda bırakılan projeler: {count}",
         "Unmatched finance lines": "Eşleşmeyen finans satırları",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Bir portföy genelinde toplanan bütçe, taahhütler, gerçekleşen maliyet ve tahmin."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Bir portföy genelinde toplanan bütçe, taahhütler, gerçekleşen maliyet ve tahmin.",
+        "Subprojects": "Alt projeler",
+        "{done} of {total}": "{done}/{total}",
+        "{done} of {total} tasks done, including subprojects": "{done}/{total} görev tamamlandı, alt projeler dahil",
+        "Show the subprojects of {title}": "{title} alt projelerini göster",
+        "Hide the subprojects of {title}": "{title} alt projelerini gizle",
+        "Part of": "Şunun parçası",
+        "No parent project": "Üst proje yok",
+        "A project cannot sit under one of its own subprojects.": "Bir proje kendi alt projelerinden birinin altında olamaz.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Projeler en fazla üç düzey iç içe olabilir: program, proje ve alt proje.",
+        "Parent project": "Üst proje",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Bu projenin altında durduğu proje, örneğin bir program. Projeler en fazla üç düzey iç içe olabilir."
     },
     "nplurals=2; plural=(n != 1);"
 )

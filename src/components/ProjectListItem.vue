@@ -7,9 +7,27 @@
 		role="option"
 		tabindex="0"
 		:aria-selected="false"
+		:style="depth ? { paddingInlineStart: `${depth * 28}px` } : null"
+		:data-depth="depth"
 		@click="$emit('click', project)"
 		@keydown.enter="$emit('click', project)"
 		@keydown.space.prevent="$emit('click', project)">
+		<!-- Subprojects (projects-grouping-hierarchy-fields): folds the rows below -->
+		<NcButton
+			v-if="hasChildren"
+			variant="tertiary"
+			class="project-list-item__toggle"
+			:aria-expanded="folded ? 'false' : 'true'"
+			:aria-label="folded ? t('planninq', 'Show the subprojects of {title}', { title: project.title }) : t('planninq', 'Hide the subprojects of {title}', { title: project.title })"
+			data-testid="project-subprojects-toggle"
+			@click.stop="$emit('toggle', project)"
+			@keydown.enter.stop
+			@keydown.space.stop>
+			<template #icon>
+				<ChevronRight v-if="folded" :size="20" />
+				<ChevronDown v-else :size="20" />
+			</template>
+		</NcButton>
 		<!-- Color swatch -->
 		<span
 			class="project-list-item__swatch"
@@ -60,20 +78,40 @@
 <script>
 // @nextcloud/vue@9 removed the `dist/Components/*.js` layout; the package now
 // publishes only an `exports` map (root barrel + `./components/<Name>`).
-import { NcChip } from '@nextcloud/vue'
+import { NcButton, NcChip } from '@nextcloud/vue'
+import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
+import ChevronRight from 'vue-material-design-icons/ChevronRight.vue'
 
 export default {
 	name: 'ProjectListItem',
-	components: { NcChip },
+	components: { ChevronDown, ChevronRight, NcButton, NcChip },
 
 	props: {
 		project: {
 			type: Object,
 			required: true,
 		},
+
+		/** How deep the project sits under its parents: 0 for a top row. */
+		depth: {
+			type: Number,
+			default: 0,
+		},
+
+		/** Whether subprojects follow this row. */
+		hasChildren: {
+			type: Boolean,
+			default: false,
+		},
+
+		/** Whether those subprojects are hidden. */
+		folded: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
-	emits: ['click'],
+	emits: ['click', 'toggle'],
 
 	computed: {
 		/**

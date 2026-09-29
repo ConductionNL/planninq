@@ -693,7 +693,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "De server gaf kostenregels van projecten buiten dit portfolio terug, dus deze totalen kunnen onjuist zijn.",
         "Projects left out because you cannot see their money: {count}": "Weggelaten projecten omdat je hun geld niet kunt zien: {count}",
         "Unmatched finance lines": "Niet-gekoppelde financiële regels",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, verplichtingen, werkelijke kosten en prognose opgeteld over een portfolio."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, verplichtingen, werkelijke kosten en prognose opgeteld over een portfolio.",
+        "Subprojects": "Deelprojecten",
+        "{done} of {total}": "{done} van {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} van {total} taken klaar, inclusief deelprojecten",
+        "Show the subprojects of {title}": "Deelprojecten van {title} tonen",
+        "Hide the subprojects of {title}": "Deelprojecten van {title} verbergen",
+        "Part of": "Onderdeel van",
+        "No parent project": "Geen bovenliggend project",
+        "A project cannot sit under one of its own subprojects.": "Een project kan niet onder een van zijn eigen deelprojecten vallen.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Projecten nesten hooguit drie niveaus diep: programma, project en deelproject.",
+        "Parent project": "Bovenliggend project",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Het project waaronder dit project valt, zoals een programma. Projecten nesten hooguit drie niveaus diep."
     },
     "nplurals=2; plural=(n != 1);"
 )

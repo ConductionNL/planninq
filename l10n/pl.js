@@ -672,7 +672,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Serwer zwrócił pozycje kosztów projektów spoza tego portfela, więc te sumy mogą być błędne.",
         "Projects left out because you cannot see their money: {count}": "Pominięte projekty, bo nie widzisz ich pieniędzy: {count}",
         "Unmatched finance lines": "Niedopasowane pozycje finansowe",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budżet, zobowiązania, koszt rzeczywisty i prognoza zsumowane dla portfela."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budżet, zobowiązania, koszt rzeczywisty i prognoza zsumowane dla portfela.",
+        "Subprojects": "Podprojekty",
+        "{done} of {total}": "{done} z {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} z {total} zadań wykonanych, z podprojektami",
+        "Show the subprojects of {title}": "Pokaż podprojekty {title}",
+        "Hide the subprojects of {title}": "Ukryj podprojekty {title}",
+        "Part of": "Część",
+        "No parent project": "Brak projektu nadrzędnego",
+        "A project cannot sit under one of its own subprojects.": "Projekt nie może znaleźć się pod jednym ze swoich podprojektów.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Projekty zagnieżdżają się najwyżej na trzech poziomach: program, projekt i podprojekt.",
+        "Parent project": "Projekt nadrzędny",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Projekt, pod którym znajduje się ten projekt, np. program. Projekty zagnieżdżają się najwyżej na trzech poziomach."
     },
     "nplurals=2; plural=(n != 1);"
 )

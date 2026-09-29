@@ -672,7 +672,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "El servidor ha retornat línies de cost de projectes de fora d'aquesta cartera, així que aquests totals poden ser erronis.",
         "Projects left out because you cannot see their money: {count}": "Projectes omesos perquè no pots veure'n els diners: {count}",
         "Unmatched finance lines": "Línies financeres sense assignar",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Pressupost, compromisos, cost real i previsió sumats en una cartera."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Pressupost, compromisos, cost real i previsió sumats en una cartera.",
+        "Subprojects": "Subprojectes",
+        "{done} of {total}": "{done} de {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} de {total} tasques fetes, subprojectes inclosos",
+        "Show the subprojects of {title}": "Mostra els subprojectes de {title}",
+        "Hide the subprojects of {title}": "Amaga els subprojectes de {title}",
+        "Part of": "Forma part de",
+        "No parent project": "Sense projecte superior",
+        "A project cannot sit under one of its own subprojects.": "Un projecte no pot quedar sota un dels seus propis subprojectes.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Els projectes s'imbriquen com a màxim tres nivells: programa, projecte i subprojecte.",
+        "Parent project": "Projecte superior",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "El projecte sota el qual queda aquest projecte, com un programa. Els projectes s'imbriquen com a màxim tres nivells."
     },
     "nplurals=2; plural=(n != 1);"
 )

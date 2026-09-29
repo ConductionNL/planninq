@@ -671,7 +671,18 @@
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Server vrátil nákladové položky projektů mimo toto portfolio, takže tyto součty mohou být chybné.",
         "Projects left out because you cannot see their money: {count}": "Vynechané projekty, protože nevidíte jejich peníze: {count}",
         "Unmatched finance lines": "Nepřiřazené finanční položky",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Rozpočet, závazky, skutečné náklady a prognóza sečtené za portfolio."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Rozpočet, závazky, skutečné náklady a prognóza sečtené za portfolio.",
+        "Subprojects": "Podprojekty",
+        "{done} of {total}": "{done} z {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} z {total} úkolů hotovo, včetně podprojektů",
+        "Show the subprojects of {title}": "Zobrazit podprojekty {title}",
+        "Hide the subprojects of {title}": "Skrýt podprojekty {title}",
+        "Part of": "Součást",
+        "No parent project": "Bez nadřazeného projektu",
+        "A project cannot sit under one of its own subprojects.": "Projekt nemůže ležet pod jedním ze svých vlastních podprojektů.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Projekty se vnořují nejvýše do tří úrovní: program, projekt a podprojekt.",
+        "Parent project": "Nadřazený projekt",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Projekt, pod kterým tento projekt leží, například program. Projekty se vnořují nejvýše do tří úrovní."
     },
     "plurals": null
 }

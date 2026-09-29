@@ -672,7 +672,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Serveren returnerte kostnadslinjer fra prosjekter utenfor denne porteføljen, så disse totalene kan være feil.",
         "Projects left out because you cannot see their money: {count}": "Prosjekter utelatt fordi du ikke kan se pengene deres: {count}",
         "Unmatched finance lines": "Umatchede økonomilinjer",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budsjett, forpliktelser, faktiske kostnader og prognose summert for en portefølje."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budsjett, forpliktelser, faktiske kostnader og prognose summert for en portefølje.",
+        "Subprojects": "Delprosjekter",
+        "{done} of {total}": "{done} av {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} av {total} oppgaver fullført, inkludert delprosjekter",
+        "Show the subprojects of {title}": "Vis delprosjektene under {title}",
+        "Hide the subprojects of {title}": "Skjul delprosjektene under {title}",
+        "Part of": "Del av",
+        "No parent project": "Ingen overordnet prosjekt",
+        "A project cannot sit under one of its own subprojects.": "Et prosjekt kan ikke ligge under et av sine egne delprosjekter.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Prosjekter kan ligge høyst tre nivåer dypt: program, prosjekt og delprosjekt.",
+        "Parent project": "Overordnet prosjekt",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Prosjektet dette prosjektet ligger under, for eksempel et program. Prosjekter kan ligge høyst tre nivåer dypt."
     },
     "nplurals=2; plural=(n != 1);"
 )

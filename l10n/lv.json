@@ -671,7 +671,18 @@
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Serveris atgrieza izmaksu rindas no projektiem ārpus šī portfeļa, tāpēc šīs kopsummas var būt nepareizas.",
         "Projects left out because you cannot see their money: {count}": "Izlaisti projekti, jo jūs neredzat to naudu: {count}",
         "Unmatched finance lines": "Nesasaistītas finanšu rindas",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budžets, saistības, faktiskās izmaksas un prognoze, saskaitītas portfelim."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budžets, saistības, faktiskās izmaksas un prognoze, saskaitītas portfelim.",
+        "Subprojects": "Apakšprojekti",
+        "{done} of {total}": "{done} no {total}",
+        "{done} of {total} tasks done, including subprojects": "Izpildīti {done} no {total} uzdevumiem, ieskaitot apakšprojektus",
+        "Show the subprojects of {title}": "Rādīt {title} apakšprojektus",
+        "Hide the subprojects of {title}": "Slēpt {title} apakšprojektus",
+        "Part of": "Daļa no",
+        "No parent project": "Nav augstāka projekta",
+        "A project cannot sit under one of its own subprojects.": "Projekts nevar atrasties zem kāda no saviem apakšprojektiem.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Projekti ligzdojas ne dziļāk par trim līmeņiem: programma, projekts un apakšprojekts.",
+        "Parent project": "Augstākais projekts",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "Projekts, zem kura atrodas šis projekts, piemēram, programma. Projekti ligzdojas ne dziļāk par trim līmeņiem."
     },
     "plurals": null
 }

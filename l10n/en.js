@@ -648,7 +648,18 @@ OC.L10N.register(
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.",
         "Projects left out because you cannot see their money: {count}": "Projects left out because you cannot see their money: {count}",
         "Unmatched finance lines": "Unmatched finance lines",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, commitments, actual cost and forecast totalled across a portfolio."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, commitments, actual cost and forecast totalled across a portfolio.",
+        "Subprojects": "Subprojects",
+        "{done} of {total}": "{done} of {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} of {total} tasks done, including subprojects",
+        "Show the subprojects of {title}": "Show the subprojects of {title}",
+        "Hide the subprojects of {title}": "Hide the subprojects of {title}",
+        "Part of": "Part of",
+        "No parent project": "No parent project",
+        "A project cannot sit under one of its own subprojects.": "A project cannot sit under one of its own subprojects.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Projects nest three levels deep at most: programme, project and subproject.",
+        "Parent project": "Parent project",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "The project this project sits under, such as a programme. Projects nest three levels deep at most."
     },
     "nplurals=2; plural=(n != 1);"
 )

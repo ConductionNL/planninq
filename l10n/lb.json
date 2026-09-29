@@ -671,7 +671,18 @@
         "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "De Server huet Käschtelinne vu Projeten ausserhalb vun dësem Portfolio geschéckt, dofir kéinten dës Summe falsch sinn.",
         "Projects left out because you cannot see their money: {count}": "Projeten ausgelooss, well s du hir Suen net gesäis: {count}",
         "Unmatched finance lines": "Net zougeuerdent Finanzlinnen",
-        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, Engagementer, tatsächlech Käschten a Prognos iwwer e Portfolio zesummegezielt."
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, Engagementer, tatsächlech Käschten a Prognos iwwer e Portfolio zesummegezielt.",
+        "Subprojects": "Ënnerprojeten",
+        "{done} of {total}": "{done} vun {total}",
+        "{done} of {total} tasks done, including subprojects": "{done} vun {total} Aufgaben erleedegt, Ënnerprojeten inbegraff",
+        "Show the subprojects of {title}": "Ënnerprojete vun {title} weisen",
+        "Hide the subprojects of {title}": "Ënnerprojete vun {title} verstoppen",
+        "Part of": "Deel vun",
+        "No parent project": "Keen iwwergeuerdente Projet",
+        "A project cannot sit under one of its own subprojects.": "E Projet kann net ënner engem vu sengen eegenen Ënnerprojete leien.",
+        "Projects nest three levels deep at most: programme, project and subproject.": "Projete ginn héchstens dräi Niveaue déif verschachtelt: Programm, Projet an Ënnerprojet.",
+        "Parent project": "Iwwergeuerdente Projet",
+        "The project this project sits under, such as a programme. Projects nest three levels deep at most.": "De Projet, ënner deem dëse Projet läit, wéi e Programm. Projete ginn héchstens dräi Niveaue déif verschachtelt."
     },
     "plurals": null
 }
