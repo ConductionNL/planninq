@@ -119,10 +119,7 @@ class ProjectMembershipSyncListener implements IEventListener {
 				$this->membership->syncProjectMembers(projectId: $projectId, members: $readers, field: $field);
 			}
 
-			if ($oldData === null || $this->financeCopiesChanged(data: $data, oldData: $oldData) === true) {
-				// portfolio-finance task 3.3: owner, portfolio and its managers are copied onto the money.
-				$this->finance->syncProject(projectId: $projectId);
-			}
+			$this->syncFinance(projectId: $projectId, data: $data, oldData: $oldData);
 		} catch (\Throwable $e) {
 			// The project write already happened and must not turn into an
 			// error. The objects keep the previous list until the next change
@@ -133,6 +130,23 @@ class ProjectMembershipSyncListener implements IEventListener {
 			);
 		}//end try
 	}//end handle()
+
+	/**
+	 * Copy the owner, portfolio and portfolio managers onto the project's finance lines when they changed.
+	 *
+	 * @param string                   $projectId The project UUID.
+	 * @param array<string,mixed>      $data      The saved project.
+	 * @param array<string,mixed>|null $oldData   The stored project before the change.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.3
+	 */
+	private function syncFinance(string $projectId, array $data, ?array $oldData): void {
+		if ($oldData === null || $this->financeCopiesChanged(data: $data, oldData: $oldData) === true) {
+			$this->finance->syncProject(projectId: $projectId);
+		}
+	}//end syncFinance()
 
 	/**
 	 * Whether a project change touches what its finance lines copy.
@@ -150,6 +164,9 @@ class ProjectMembershipSyncListener implements IEventListener {
 			return true;
 		}
 
-		return json_encode([($data['owner'] ?? null), ($data['portfolio'] ?? null)]) !== json_encode([($oldData['owner'] ?? null), ($oldData['portfolio'] ?? null)]);
+		$now    = json_encode([($data['owner'] ?? null), ($data['portfolio'] ?? null)]);
+		$before = json_encode([($oldData['owner'] ?? null), ($oldData['portfolio'] ?? null)]);
+
+		return $now !== $before;
 	}//end financeCopiesChanged()
 }//end class

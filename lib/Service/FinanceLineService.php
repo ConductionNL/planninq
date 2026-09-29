@@ -120,12 +120,10 @@ class FinanceLineService {
 			$readers = $this->membership->normalise(members: array_merge($readers, [$owner]));
 		}
 
-		$portfolio = $this->text(value: ($project['portfolio'] ?? null));
-
 		return [
 			'financeReaders' => $readers,
-			'projectOwner'   => ($owner === '' ? null : $owner),
-			'portfolio'      => ($portfolio === '' ? null : $portfolio),
+			'projectOwner'   => $this->nullIfEmpty(value: $owner),
+			'portfolio'      => $this->nullIfEmpty(value: $this->text(value: ($project['portfolio'] ?? null))),
 		];
 	}//end keptFieldsFor()
 
@@ -276,6 +274,21 @@ class FinanceLineService {
 
 		return 1;
 	}//end write()
+
+	/**
+	 * A string, or null when it is empty.
+	 *
+	 * @param string $value The value.
+	 *
+	 * @return string|null
+	 */
+	private function nullIfEmpty(string $value): ?string {
+		if ($value === '') {
+			return null;
+		}
+
+		return $value;
+	}//end nullIfEmpty()
 
 	/**
 	 * A stored reference or uid as a plain string.

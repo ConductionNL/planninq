@@ -192,7 +192,12 @@ class FinanceLineListener implements IEventListener {
 				return true;
 			}
 
-			return $this->refuse(event: $event, code: self::ERROR_IMPORTED, message: 'Lines from the finance system are changed by the finance system only.', data: $data);
+			return $this->refuse(
+				event: $event,
+				code: self::ERROR_IMPORTED,
+				message: 'Lines from the finance system are changed by the finance system only.',
+				data: $data
+			);
 		}
 
 		$projectId  = $this->membership->projectIdFor(schemaSlug: FinanceLineService::SCHEMA, data: $data);
@@ -205,7 +210,12 @@ class FinanceLineListener implements IEventListener {
 			return true;
 		}
 
-		return $this->refuse(event: $event, code: self::ERROR_NOT_OWNER, message: 'Only the project owner can change the money of this project.', data: $data);
+		return $this->refuse(
+			event: $event,
+			code: self::ERROR_NOT_OWNER,
+			message: 'Only the project owner can change the money of this project.',
+			data: $data
+		);
 	}//end guard()
 
 	/**
@@ -274,7 +284,8 @@ class FinanceLineListener implements IEventListener {
 	 * @return bool Always false.
 	 */
 	private function refuse(ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event, string $code, string $message, array $data): bool {
-		$error = ['message' => $message, 'code' => $code, 'project' => $this->membership->projectIdFor(schemaSlug: FinanceLineService::SCHEMA, data: $data)];
+		$projectId = $this->membership->projectIdFor(schemaSlug: FinanceLineService::SCHEMA, data: $data);
+		$error     = ['message' => $message, 'code' => $code, 'project' => $projectId];
 		if (isset($data['conflictingObject']) === true) {
 			$error['conflictingObject'] = $data['conflictingObject'];
 		}

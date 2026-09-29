@@ -266,6 +266,30 @@ class SettingsService {
 	}//end validateCategoryNames()
 
 	/**
+	 * The normalised value of a setting that holds a list of names, false when
+	 * the list is refused, null when the key holds no list of names.
+	 *
+	 * @param string $key The setting key.
+	 * @param string $raw The submitted value.
+	 *
+	 * @return string|false|null
+	 *
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2
+	 */
+	private function validatedNameList(string $key, string $raw): string|false|null {
+		$validated = match ($key) {
+			'default_columns' => $this->validateDefaultColumns(raw: $raw),
+			self::FINANCE_CATEGORIES_KEY => $this->validateCategoryNames(raw: $raw),
+			default => '',
+		};
+		if ($validated === '') {
+			return null;
+		}
+
+		return ($validated ?? false);
+	}//end validatedNameList()
+
+	/**
 	 * Store admin settings. Unknown keys are silently ignored.
 	 * Validates default_columns JSON shape before persisting; rejects malformed values.
 	 *
@@ -286,27 +310,14 @@ class SettingsService {
 
 			$value = (string)$settings[$key];
 
-			if ($key === 'default_columns') {
-				$validated = $this->validateDefaultColumns(raw: $value);
-				if ($validated === null) {
-					$this->logger->warning(
-						'Planninq: invalid default_columns value rejected',
-						['raw' => $value]
-					);
-					continue;
-				}
-
-				$value = $validated;
+			$listed = $this->validatedNameList(key: $key, raw: $value);
+			if ($listed === false) {
+				$this->logger->warning('Planninq: invalid ' . $key . ' value rejected', ['raw' => $value]);
+				continue;
 			}
 
-			if ($key === self::FINANCE_CATEGORIES_KEY) {
-				$validated = $this->validateCategoryNames(raw: $value);
-				if ($validated === null) {
-					$this->logger->warning('Planninq: invalid finance_categories value rejected', ['raw' => $value]);
-					continue;
-				}
-
-				$value = $validated;
+			if ($listed !== null) {
+				$value = $listed;
 			}
 
 			if ($key === self::REPORT_PERIOD_KEY) {
