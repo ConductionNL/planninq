@@ -618,7 +618,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the fifteen expected schemas.
+	 * The register MUST declare exactly the seventeen expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
 	 * over the project work breakdown structure pipelinq had built, and
@@ -627,14 +627,15 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * (projects-overview-logs-risks) and `projectStatusReport`
 	 * (portfolio-status-overview) and `portfolio`
 	 * (projects-grouping-hierarchy-fields) and `projectRelease`
-	 * (backlog-releases-roadmap). `example` must not be present.
+	 * (backlog-releases-roadmap), `timetableWish` and `timetableScenario`
+	 * (timetabling-generator). `example` must not be present.
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-1.3
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.1
 	 */
-	public function testRegisterDeclaresExactlyFifteenSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease'];
+	public function testRegisterDeclaresExactlySeventeenSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -643,7 +644,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the fifteen expected schemas'
+			message: 'register schema list must be exactly the seventeen expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -651,7 +652,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the fifteen expected schemas'
+			message: 'components.schemas must define exactly the seventeen expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -660,7 +661,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyFifteenSchemas()
+	}//end testRegisterDeclaresExactlySeventeenSchemas()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -1269,4 +1270,108 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'task', payload: $task));
 
 	}//end testTaskReleaseReferenceIsNullable()
+
+	/**
+	 * Task 1.1: a wish is about a teacher, group, room or activity, is hard or
+	 * soft, carries period keys of the week grid, and only admins write it while
+	 * the timetable group reads it. The spec's two example wishes pass the real
+	 * validator; an unknown strength, a weight of 4 and a malformed period do not.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.1
+	 */
+	public function testTimetableWishSchemaAndItsRules(): void {
+		$schema = $this->register['components']['schemas']['timetableWish'];
+
+		self::assertSame(expected: ['appliesTo', 'reference', 'kind', 'strength'], actual: $schema['required']);
+		self::assertSame(expected: ['teacher', 'group', 'room', 'activity'], actual: $schema['properties']['appliesTo']['enum']);
+		self::assertSame(expected: ['unavailable', 'avoid', 'maxPerDay', 'noGaps', 'sameRoom'], actual: $schema['properties']['kind']['enum']);
+		self::assertSame(expected: ['hard', 'soft'], actual: $schema['properties']['strength']['enum']);
+		self::assertSame(
+			expected: ['read' => [['group' => 'planninq-timetable'], ['group' => 'admin']], 'create' => ['admin'], 'update' => ['admin'], 'delete' => ['admin']],
+			actual: $schema['authorization']
+		);
+
+		$hard = ['appliesTo' => 'teacher', 'reference' => 'klaas', 'kind' => 'unavailable', 'periods' => ['wed-5', 'wed-6', 'wed-7', 'wed-8'], 'strength' => 'hard', 'weight' => null, 'limit' => null, 'note' => 'Wednesday afternoon off'];
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableWish', payload: $hard));
+
+		$soft = ['kind' => 'avoid', 'periods' => ['fri-8'], 'strength' => 'soft', 'weight' => 2] + $hard;
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableWish', payload: $soft));
+
+		$perDay = ['appliesTo' => 'group', 'reference' => '3A', 'kind' => 'maxPerDay', 'limit' => 6, 'strength' => 'soft', 'weight' => 1];
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableWish', payload: $perDay));
+
+		self::assertNotSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableWish', payload: ['strength' => 'firm'] + $hard));
+		self::assertNotSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableWish', payload: ['weight' => 4] + $soft));
+		self::assertNotSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableWish', payload: ['periods' => ['wednesday-5']] + $hard));
+
+	}//end testTimetableWishSchemaAndItsRules()
+
+	/**
+	 * Task 1.1: a scenario keeps the solver input it was made from and, once
+	 * finished, its placements, unplaced lessons, broken wishes and measures.
+	 * The example SolverInput and a finished scenario pass the real validator;
+	 * an unknown status or source does not.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.1
+	 */
+	public function testTimetableScenarioKeepsItsInputAndResult(): void {
+		$schema = $this->register['components']['schemas']['timetableScenario'];
+
+		self::assertSame(expected: ['generated', 'imported'], actual: $schema['properties']['source']['enum']);
+		self::assertSame(expected: ['queued', 'running', 'done', 'failed', 'published'], actual: $schema['properties']['status']['enum']);
+		self::assertSame(expected: 'queued', actual: $schema['properties']['status']['default']);
+		self::assertSame(expected: $this->register['components']['schemas']['timetableWish']['authorization'], actual: $schema['authorization']);
+
+		$input = [
+			'periods' => ['mon-1', 'mon-2', 'wed-5'],
+			'rooms' => [['reference' => 'r-101', 'capacity' => 30, 'type' => 'classroom']],
+			'lessons' => [['key' => '3A-en-1', 'activity' => '3A-en', 'group' => '3A', 'teacher' => 'klaas', 'roomType' => 'classroom', 'length' => 1]],
+			'wishes' => [['id' => 'w-1', 'appliesTo' => 'teacher', 'reference' => 'klaas', 'kind' => 'unavailable', 'periods' => ['wed-5'], 'strength' => 'hard']],
+		];
+		$queued = ['title' => 'Autumn, first try', 'source' => 'generated', 'weekOf' => '2026-10-05', 'windowFrom' => '2026-10-05', 'windowTo' => '2026-10-30', 'status' => 'queued', 'seed' => 7, 'input' => $input, 'publishedAt' => null];
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableScenario', payload: $queued));
+
+		$done = [
+			'status' => 'done',
+			'placements' => [['lesson' => '3A-en-1', 'period' => 'mon-1', 'room' => 'r-101']],
+			'unplaced' => [],
+			'brokenWishes' => [['wish' => 'w-2', 'lessons' => ['3A-en-1'], 'weight' => 2]],
+			'metrics' => ['placed' => 1, 'unplaced' => 0, 'hardBroken' => 0, 'softBroken' => 1, 'softPenalty' => 2],
+		] + $queued;
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableScenario', payload: $done));
+
+		self::assertNotSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableScenario', payload: ['status' => 'finished'] + $done));
+		self::assertNotSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableScenario', payload: ['source' => 'manual'] + $done));
+		self::assertNotSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableScenario', payload: ['placements' => [['lesson' => '3A-en-1']]] + $done));
+
+	}//end testTimetableScenarioKeepsItsInputAndResult()
+
+	/**
+	 * Task 1.1: the demo register carries three rows of each new schema, each valid.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.1
+	 */
+	public function testMockRegisterCarriesTimetableGeneratorDemoRows(): void {
+		$mock = json_decode((string)file_get_contents(__DIR__ . '/../../../lib/Settings/planninq_mock_register.json'), true, 512, JSON_THROW_ON_ERROR);
+		foreach (['timetableWish', 'timetableScenario'] as $slug) {
+			$rows = array_values(
+				array_filter(
+					$mock['components']['objects'],
+					static fn (array $row): bool => ($row['@self']['schema'] ?? '') === $slug
+				)
+			);
+			self::assertCount(expectedCount: 3, haystack: $rows, message: $slug);
+			foreach ($rows as $row) {
+				unset($row['@self']);
+				self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: $slug, payload: $row), message: $slug);
+			}
+		}
+
+	}//end testMockRegisterCarriesTimetableGeneratorDemoRows()
 }//end class

@@ -23,6 +23,8 @@ use OCA\Planninq\Controller\SettingsController;
 use OCA\Planninq\Service\RegisterImportService;
 use OCA\Planninq\Service\RiskScaleService;
 use OCA\Planninq\Service\SettingsService;
+use OCA\Planninq\Service\TimetableGridService;
+use OCP\IAppConfig;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
@@ -98,6 +100,7 @@ class SettingsControllerTest extends TestCase {
 			registerImport: $this->registerImport,
 			userSession: $this->userSession,
 			riskScale: $this->riskScale,
+			timetableGrid: new TimetableGridService(appConfig: $this->appConfig()),
 		);
 
 	}//end setUp()
@@ -166,7 +169,10 @@ class SettingsControllerTest extends TestCase {
 		$result = $this->controller->index();
 
 		self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
-		self::assertSame(expected: $settings, actual: $result->getData());
+		self::assertSame(
+			expected: $settings + ['timetable_period_grid' => TimetableGridService::DEFAULT_GRID, 'timetable_generator_budget_minutes' => '10'],
+			actual: $result->getData()
+		);
 
 	}//end testIndexReturnsJsonResponseWithSettings()
 
@@ -395,4 +401,59 @@ class SettingsControllerTest extends TestCase {
 		self::assertSame(expected: Http::STATUS_OK, actual: $result->getStatus());
 
 	}//end testCreateSavesAValidRiskScale()
+
+	/**
+	 * App config values stored by the timetable grid, in memory.
+	 *
+	 * @var array<string,string>
+	 */
+	private array $stored = [];
+
+	/**
+	 * An IAppConfig that keeps values in $this->stored.
+	 *
+	 * @return IAppConfig
+	 */
+	private function appConfig(): IAppConfig {
+		$config = $this->createMock(originalClassName: IAppConfig::class);
+		$config->method('getValueString')->willReturnCallback(
+			fn (string $app, string $key, string $default = ''): string => ($this->stored[$key] ?? $default)
+		);
+		$config->method('setValueString')->willReturnCallback(
+			function (string $app, string $key, string $value): bool {
+				$this->stored[$key] = $value;
+				return true;
+			}
+		);
+		return $config;
+	}//end appConfig()
+
+	/**
+	 * Task 1.2: the settings carry the week grid and budget, and an admin saves them; a refused grid is not stored.
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 *
+	 * @return void
+	 */
+	public function testTheSettingsCarryTheTimetableGrid(): void {
+		$this->userSession->method('getUser')->willReturn($this->createMock(originalClassName: \OCP\IUser::class));
+		$this->settingsService->method('getSettings')->willReturn(['isAdmin' => true]);
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->settingsService->method('updateSettings')->willReturn(['isAdmin' => true]);
+
+		$read = $this->controller->index()->getData();
+		self::assertSame(expected: TimetableGridService::DEFAULT_GRID, actual: $read['timetable_period_grid']);
+		self::assertSame(expected: '10', actual: $read['timetable_generator_budget_minutes']);
+
+		$this->request->method('getParams')->willReturnOnConsecutiveCalls(
+			['timetable_period_grid' => '{"days":["mon"],"periods":[{"start":"09:00","end":"08:00"}]}'],
+			['timetable_period_grid' => '{"days":["tue","mon"],"periods":[{"start":"08:00","end":"08:45"}]}', 'timetable_generator_budget_minutes' => '20'],
+		);
+		$this->controller->create();
+		self::assertSame(expected: [], actual: $this->stored, message: 'a period that ends before it starts is refused');
+
+		$saved = $this->controller->create()->getData()['config'];
+		self::assertSame(expected: '{"days":["mon","tue"],"periods":[{"start":"08:00","end":"08:45"}]}', actual: $saved['timetable_period_grid']);
+		self::assertSame(expected: '20', actual: $saved['timetable_generator_budget_minutes']);
+	}//end testTheSettingsCarryTheTimetableGrid()
 }//end class

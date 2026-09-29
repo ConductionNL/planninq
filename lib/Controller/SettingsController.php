@@ -28,6 +28,7 @@ use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\RegisterImportService;
 use OCA\Planninq\Service\RiskScaleService;
 use OCA\Planninq\Service\SettingsService;
+use OCA\Planninq\Service\TimetableGridService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -48,6 +49,7 @@ class SettingsController extends Controller {
 	 * @param RegisterImportService $registerImport The register import service
 	 * @param IUserSession $userSession The user session
 	 * @param RiskScaleService $riskScale Finds the risks a smaller risk scale would strand
+	 * @param TimetableGridService $timetableGrid The timetable week grid and generator budget
 	 *
 	 * @return void
 	 */
@@ -57,6 +59,7 @@ class SettingsController extends Controller {
 		private RegisterImportService $registerImport,
 		private IUserSession $userSession,
 		private RiskScaleService $riskScale,
+		private TimetableGridService $timetableGrid,
 	) {
 		parent::__construct(appName: Application::APP_ID, request: $request);
 	}//end __construct()
@@ -72,6 +75,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 *
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
 	 */
 	public function index(): JSONResponse {
 		if ($this->userSession->getUser() === null) {
@@ -79,7 +83,7 @@ class SettingsController extends Controller {
 		}
 
 		return new JSONResponse(
-			$this->settingsService->getSettings()
+			array_merge($this->settingsService->getSettings(), $this->timetableGrid->settings())
 		);
 	}//end index()
 
@@ -92,6 +96,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 *
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
 	 */
 	public function create(): JSONResponse {
 		if ($this->settingsService->isCurrentUserAdmin() === false) {
@@ -113,7 +118,8 @@ class SettingsController extends Controller {
 			$data[RiskScaleService::CONFIG_KEY] = (string)json_encode($scale);
 		}
 
-		$config = $this->settingsService->updateSettings($data);
+		$this->timetableGrid->save(data: $data);
+		$config = array_merge($this->settingsService->updateSettings($data), $this->timetableGrid->settings());
 
 		return new JSONResponse(
 			[

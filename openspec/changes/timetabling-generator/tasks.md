@@ -5,8 +5,8 @@ DECISIONS.md row 17). Sections 5 onward assume the solver answer recorded in des
 
 ## 1. Schemas and the week grid
 
-- [ ] 1.1 `timetableWish` and `timetableScenario` schemas (design decision 2) with admin-write and `planninq-timetable`-read authorization; register and app version bump; three demo objects each. Verify: PHPUnit `PlanninqRegisterSchemaTest` (fields, enums, rules), and the example payloads of `SolverInput` and a finished scenario validated against the real schema fragments.
-- [ ] 1.2 Admin setting `timetable_period_grid` (days, periods with start and end) and `timetable_generator_budget_minutes`, with validation. Verify: PHPUnit `SettingsServiceTest` (default grid, refused overlapping periods, refused empty day list).
+- [x] 1.1 `timetableWish` and `timetableScenario` schemas (design decision 2) with admin-write and `planninq-timetable`-read authorization; register and app version bump; three demo objects each. Verify: PHPUnit `PlanninqRegisterSchemaTest` (fields, enums, rules), and the example payloads of `SolverInput` and a finished scenario validated against the real schema fragments.
+- [x] 1.2 Admin setting `timetable_period_grid` (days, periods with start and end) and `timetable_generator_budget_minutes`, with validation. Verify: PHPUnit `TimetableGridServiceTest` and `SettingsControllerTest` (default grid, refused overlapping periods, refused empty day list; the settings live in `TimetableGridService`, not `SettingsService`, for phpmd coupling).
 
 ## 2. Activities and the solver input
 
