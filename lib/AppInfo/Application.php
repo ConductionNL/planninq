@@ -716,7 +716,7 @@ class Application extends App implements IBootstrap {
 				registers: ['planninq'],
 				// Must equal ProjectMembershipService::SCOPED_SCHEMAS (asserted by
 				// BoardColumnWiringTest): a schema missing here is never stamped.
-				schemas: ['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport']
+				schemas: ['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease']
 			);
 		}
 

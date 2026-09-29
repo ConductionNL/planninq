@@ -209,6 +209,24 @@ class ProjectMemberAccessListenerTest extends TestCase {
 	}//end testRiskIsStampedAndGated()
 
 	/**
+	 * A release is stamped for a member and refused for an outsider.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-1.1
+	 */
+	public function testReleaseIsStampedAndGated(): void {
+		$byMember = new ObjectCreatingEvent($this->object(schema: 'projectRelease', data: ['title' => 'Version 2.0', 'project' => 'proj-a']));
+		$this->listener(actor: 'alice')->handle($byMember);
+		self::assertFalse($byMember->isPropagationStopped(), 'alice is on project A');
+		self::assertSame(['alice', 'bob', 'carol'], ($byMember->getModifiedData()['members'] ?? null));
+
+		$byOutsider = new ObjectCreatingEvent($this->object(schema: 'projectRelease', data: ['title' => 'Version 9', 'project' => 'proj-a']));
+		$this->listener(actor: 'dave')->handle($byOutsider);
+		self::assertTrue($byOutsider->isPropagationStopped(), 'dave is not on project A');
+	}//end testReleaseIsStampedAndGated()
+
+	/**
 	 * A task that names no project, or a project that does not exist, is refused for a non-admin.
 	 *
 	 * @return void
