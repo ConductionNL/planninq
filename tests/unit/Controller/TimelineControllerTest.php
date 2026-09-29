@@ -325,6 +325,157 @@ class TimelineControllerTest extends TestCase {
 	}//end testEmptyProjectReturnsEmptyTimeline()
 
 	/**
+	 * Several projects in one answer: a project the caller cannot read is
+	 * listed under `skipped` and none of its tasks are returned.
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.1
+	 *
+	 * @return void
+	 */
+	public function testForProjectsListsUnreadableProjectsUnderSkipped(): void {
+		$this->setUser('mia');
+		$objectService = $this->makeObjectService(
+			projectsById: [
+				'a' => ['title' => 'Omgevingsvisie', 'status' => 'active', 'startDate' => '2026-03-01', 'endDate' => '2026-06-30'],
+				'b' => ['title' => 'Bestemmingsplan', 'status' => 'completed'],
+			],
+			projectTasks: [],
+			edges: [],
+			tasksByProject: [
+				'a' => [['@self' => ['id' => 'a1'], 'title' => 'Inspraak', 'status' => 'open', 'startDate' => '2026-03-02', 'dueDate' => '2026-03-20']],
+				'b' => [['@self' => ['id' => 'b1'], 'title' => 'Vaststelling', 'status' => 'done', 'dueDate' => '2026-02-10']],
+				'c' => [['@self' => ['id' => 'c1'], 'title' => 'Secret', 'status' => 'open', 'dueDate' => '2026-02-10']],
+			],
+		);
+		$this->container->method('get')->willReturn($objectService);
+
+		$response = $this->controller()->forProjects(projects: 'a,b,c');
+
+		self::assertSame(Http::STATUS_OK, $response->getStatus());
+		$data = (array)$response->getData();
+		self::assertSame(['a', 'b'], array_column($data['projects'], 'id'));
+		self::assertSame(['c'], $data['skipped']);
+		self::assertSame('Omgevingsvisie', $data['projects'][0]['title']);
+		self::assertSame(['a1'], array_column($data['projects'][0]['tasks'], 'id'));
+		self::assertNotContains('c1', array_merge(...array_map(static fn (array $p): array => array_column($p['tasks'], 'id'), $data['projects'])));
+		$readProjects = array_map(static fn (array $search): string => (string)($search['filters']['project'] ?? ''), $objectService->searches);
+		self::assertNotContains('c', $readProjects, 'the tasks of an unreadable project are never read');
+	}//end testForProjectsListsUnreadableProjectsUnderSkipped()
+
+	/**
+	 * A dependency between tasks of two projects in the answer is an edge; one
+	 * whose other end is outside the answer is not.
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.1
+	 *
+	 * @return void
+	 */
+	public function testForProjectsIncludesCrossProjectEdges(): void {
+		$this->setUser('mia');
+		$objectService = $this->makeObjectService(
+			projectsById: ['a' => ['title' => 'A'], 'b' => ['title' => 'B']],
+			projectTasks: [],
+			edges: [
+				['@self' => ['id' => 'cross'], 'blocker' => 'a1', 'blocked' => 'b1'],
+				['@self' => ['id' => 'inside'], 'blocker' => 'b1', 'blocked' => 'b2'],
+				['@self' => ['id' => 'outside'], 'blocker' => 'a1', 'blocked' => 'z9'],
+			],
+			tasksByProject: [
+				'a' => [['@self' => ['id' => 'a1'], 'title' => 'A1', 'status' => 'open', 'dueDate' => '2026-03-01']],
+				'b' => [
+					['@self' => ['id' => 'b1'], 'title' => 'B1', 'status' => 'open', 'dueDate' => '2026-03-05'],
+					['@self' => ['id' => 'b2'], 'title' => 'B2', 'status' => 'open'],
+				],
+			],
+		);
+		$this->container->method('get')->willReturn($objectService);
+
+		$data = (array)$this->controller()->forProjects(projects: 'a,b')->getData();
+
+		self::assertSame(['cross', 'inside'], array_column($data['dependencies'], 'id'));
+		self::assertSame(['b2'], array_column($data['projects'][1]['unscheduled'], 'id'));
+	}//end testForProjectsIncludesCrossProjectEdges()
+
+	/**
+	 * The summary span is the project's planned dates, else the earliest start
+	 * and latest due date of its tasks; phases come with their dates.
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.1
+	 *
+	 * @return void
+	 */
+	public function testForProjectsSummarySpanAndPhases(): void {
+		$this->setUser('mia');
+		$objectService = $this->makeObjectService(
+			projectsById: [
+				'a' => ['title' => 'Planned', 'startDate' => '2026-01-01', 'endDate' => '2026-12-31'],
+				'b' => ['title' => 'From tasks'],
+				'c' => ['title' => 'Nothing dated'],
+			],
+			projectTasks: [],
+			edges: [],
+			tasksByProject: [
+				'a' => [['@self' => ['id' => 'a1'], 'title' => 'A1', 'status' => 'open', 'dueDate' => '2027-02-01']],
+				'b' => [
+					['@self' => ['id' => 'b1'], 'title' => 'B1', 'status' => 'open', 'startDate' => '2026-04-10', 'dueDate' => '2026-04-20'],
+					['@self' => ['id' => 'b2'], 'title' => 'B2', 'status' => 'open', 'startDate' => '2026-04-01', 'dueDate' => '2026-05-15'],
+				],
+			],
+			phasesByProject: [
+				'a' => [['@self' => ['id' => 'ph1'], 'title' => 'Initiatie', 'status' => 'active', 'startDate' => '2026-01-01', 'endDate' => '2026-02-28', 'order' => 1]],
+			],
+		);
+		$this->container->method('get')->willReturn($objectService);
+
+		$projects = ((array)$this->controller()->forProjects(projects: 'a,b,c')->getData())['projects'];
+
+		self::assertSame(['2026-01-01', '2026-12-31'], [$projects[0]['spanStart'], $projects[0]['spanEnd']]);
+		self::assertSame(['2026-04-01', '2026-05-15'], [$projects[1]['spanStart'], $projects[1]['spanEnd']]);
+		self::assertSame([null, null], [$projects[2]['spanStart'], $projects[2]['spanEnd']]);
+		self::assertSame(
+			[['id' => 'ph1', 'title' => 'Initiatie', 'status' => 'active', 'startDate' => '2026-01-01', 'endDate' => '2026-02-28']],
+			$projects[0]['phases']
+		);
+		self::assertSame([], $projects[1]['phases']);
+	}//end testForProjectsSummarySpanAndPhases()
+
+	/**
+	 * More than fifty projects is refused before anything is read; an empty
+	 * list answers an empty timeline.
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.1
+	 *
+	 * @return void
+	 */
+	public function testForProjectsLimitsTheListToFifty(): void {
+		$this->setUser('mia');
+		$objectService = $this->makeObjectService(projectsById: [], projectTasks: [], edges: []);
+		$this->container->method('get')->willReturn($objectService);
+
+		$ids = implode(',', array_map(static fn (int $i): string => 'p'.$i, range(1, 51)));
+		$refused = $this->controller()->forProjects(projects: $ids);
+		self::assertSame(Http::STATUS_BAD_REQUEST, $refused->getStatus());
+		self::assertSame([], $objectService->searches);
+
+		$empty = (array)$this->controller()->forProjects(projects: ' , ')->getData();
+		self::assertSame(['projects' => [], 'dependencies' => [], 'skipped' => []], $empty);
+	}//end testForProjectsLimitsTheListToFifty()
+
+	/**
+	 * An unauthenticated caller gets 401 on the multi-project read too.
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.1
+	 *
+	 * @return void
+	 */
+	public function testForProjectsUnauthenticatedReturns401(): void {
+		$this->userSession->method('getUser')->willReturn(null);
+		$this->container->expects(self::never())->method('get');
+
+		self::assertSame(Http::STATUS_UNAUTHORIZED, $this->controller()->forProjects(projects: 'a')->getStatus());
+	}//end testForProjectsUnauthenticatedReturns401()
+
+	/**
 	 * Build a stub ObjectService whose find/searchObjects behave per fixtures.
 	 *
 	 * find('project') returns the project entity when present (RBAC allowed) or
@@ -337,8 +488,8 @@ class TimelineControllerTest extends TestCase {
 	 *
 	 * @return object
 	 */
-	private function makeObjectService(array $projectsById, array $projectTasks, array $edges): object {
-		return new class($projectsById, $projectTasks, $edges) {
+	private function makeObjectService(array $projectsById, array $projectTasks, array $edges, ?array $tasksByProject = null, array $phasesByProject = []): object {
+		return new class($projectsById, $projectTasks, $edges, $tasksByProject, $phasesByProject) {
 			/** @var array<string,array<string,mixed>> */
 			private array $projectsById;
 
@@ -347,6 +498,19 @@ class TimelineControllerTest extends TestCase {
 
 			/** @var array<int,array<string,mixed>> */
 			private array $edges;
+
+			/** @var array<string,array<int,array<string,mixed>>>|null */
+			private ?array $tasksByProject;
+
+			/** @var array<string,array<int,array<string,mixed>>> */
+			private array $phasesByProject;
+
+			/**
+			 * The schemas searched, in order, with their filters.
+			 *
+			 * @var array<int,array{schema: string, filters: array<string,mixed>}>
+			 */
+			public array $searches = [];
 
 			private string $schema = '';
 
@@ -366,11 +530,15 @@ class TimelineControllerTest extends TestCase {
 			 * @param array<string,array<string,mixed>> $projectsById Project fixtures.
 			 * @param array<int,array<string,mixed>> $projectTasks Task fixtures.
 			 * @param array<int,array<string,mixed>> $edges Edge fixtures.
+			 * @param array<string,array<int,array<string,mixed>>>|null $tasksByProject Task fixtures per project, honouring the `project` filter.
+			 * @param array<string,array<int,array<string,mixed>>> $phasesByProject Phase fixtures per project.
 			 */
-			public function __construct(array $projectsById, array $projectTasks, array $edges) {
+			public function __construct(array $projectsById, array $projectTasks, array $edges, ?array $tasksByProject, array $phasesByProject) {
 				$this->projectsById = $projectsById;
 				$this->projectTasks = $projectTasks;
 				$this->edges = $edges;
+				$this->tasksByProject = $tasksByProject;
+				$this->phasesByProject = $phasesByProject;
 			}
 
 			/**
@@ -429,8 +597,17 @@ class TimelineControllerTest extends TestCase {
 			 * @return array<int,mixed>
 			 */
 			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = []): array {
+				$this->searches[] = ['schema' => $schemaSlug, 'filters' => $filters];
+				if ($schemaSlug === 'task' && $this->tasksByProject !== null) {
+					return ($this->tasksByProject[(string)($filters['project'] ?? '')] ?? []);
+				}
+
 				if ($schemaSlug === 'task') {
 					return $this->projectTasks;
+				}
+
+				if ($schemaSlug === 'projectPhase') {
+					return ($this->phasesByProject[(string)($filters['project'] ?? '')] ?? []);
 				}
 
 				if ($schemaSlug === 'dependency') {

@@ -35,6 +35,8 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
 
     // Read-only per-project timeline (Gantt) — RBAC-scoped through OR ObjectService.
     ['name' => 'timeline#forProject', 'url' => '/api/projects/{projectId}/timeline', 'verb' => 'GET', 'requirements' => ['projectId' => '[^/]+']],
+    // Several projects on one axis (portfolio timeline), same RBAC-scoped read per project.
+    ['name' => 'timeline#forProjects', 'url' => '/api/timeline', 'verb' => 'GET'],
 
     // School timetable (school-timetable-target, decision D10): signed-in users
     // read a cohort's, group's or teacher's sessions; admins upsert a batch by hand.

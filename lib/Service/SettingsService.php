@@ -62,7 +62,15 @@ class SettingsService {
 		'allow_project_creation' => 'all',
 		'due_reminder_lead_hours' => '24',
 		RiskScaleService::CONFIG_KEY => RiskScaleService::DEFAULT_SCALE,
+		self::REPORT_PERIOD_KEY => '30',
 	];
+
+	/**
+	 * Days after which a project's latest status report counts as out of date.
+	 *
+	 * @var string
+	 */
+	public const REPORT_PERIOD_KEY = 'status_report_period_days';
 
 	/**
 	 * Slug of the OpenRegister schema carrying the due-soon reminder rule.
@@ -258,6 +266,16 @@ class SettingsService {
 				$value = $validated;
 			}
 
+			if ($key === self::REPORT_PERIOD_KEY) {
+				$days = $this->validateWholeNumber(raw: $value, min: 1, max: 365);
+				if ($days === null) {
+					$this->logger->warning('Planninq: invalid status_report_period_days value rejected', ['raw' => $value]);
+					continue;
+				}
+
+				$value = (string)$days;
+			}
+
 			if ($key === 'due_reminder_lead_hours') {
 				$validated = $this->validateLeadHours(raw: $value);
 				if ($validated === null) {
@@ -293,18 +311,33 @@ class SettingsService {
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#3
 	 */
 	public function validateLeadHours(string $raw): ?int {
+		return $this->validateWholeNumber(raw: $raw, min: self::LEAD_HOURS_MIN, max: self::LEAD_HOURS_MAX);
+	}//end validateLeadHours()
+
+	/**
+	 * A whole number from a settings form within [min, max], or null.
+	 *
+	 * @param string $raw The submitted value.
+	 * @param int $min Lowest accepted value.
+	 * @param int $max Highest accepted value.
+	 *
+	 * @return int|null
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.2
+	 */
+	private function validateWholeNumber(string $raw, int $min, int $max): ?int {
 		$trimmed = trim($raw);
 		if ($trimmed === '' || preg_match('/^\d+$/', $trimmed) !== 1) {
 			return null;
 		}
 
-		$hours = (int)$trimmed;
-		if ($hours < self::LEAD_HOURS_MIN || $hours > self::LEAD_HOURS_MAX) {
+		$number = (int)$trimmed;
+		if ($number < $min || $number > $max) {
 			return null;
 		}
 
-		return $hours;
-	}//end validateLeadHours()
+		return $number;
+	}//end validateWholeNumber()
 
 	/**
 	 * Resolve the effective due-reminder lead time in hours.

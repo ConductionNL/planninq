@@ -112,7 +112,7 @@ test.describe('app chrome (ADR-114)', () => {
 			timeout: 15_000,
 		})
 
-		for (const label of ['Task status', 'Capacity', 'Time spent']) {
+		for (const label of ['Task status', 'Portfolio status', 'Portfolio timeline', 'Capacity', 'Time spent']) {
 			await expect(page.getByText(label, { exact: false }).first()).toBeVisible({ timeout: 15_000 })
 		}
 	})

@@ -234,6 +234,46 @@ class SettingsServiceTest extends TestCase {
 	}//end testSetAdminSettingsStoresAllowProjectCreation()
 
 	/**
+	 * The reporting period behind the portfolio overview's out-of-date marker:
+	 * 30 days by default, a whole number of days from 1 to 365 when set, and
+	 * anything else is refused without touching the stored value.
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.2
+	 *
+	 * @return void
+	 */
+	public function testStatusReportPeriodDefaultsToThirtyAndAcceptsWholeDays(): void {
+		$stored = [];
+		$this->appConfig->method('setValueString')
+			->willReturnCallback(
+				function (string $appId, string $key, string $value) use (&$stored): bool {
+					$stored[$key] = $value;
+					return true;
+				}
+			);
+		$this->appConfig->method('getValueString')
+			->willReturnCallback(
+				function (string $appId, string $key, string $default = '') use (&$stored): string {
+					return ($stored[$key] ?? $default);
+				}
+			);
+		$this->appManager->method('isInstalled')->willReturn(false);
+		$this->userSession->method('getUser')->willReturn(null);
+
+		self::assertSame(expected: '30', actual: $this->service->getAdminSettings()['status_report_period_days']);
+
+		foreach (['0', '366', 'abc', '7.5', ''] as $refused) {
+			$this->service->updateSettings(['status_report_period_days' => $refused]);
+			self::assertArrayNotHasKey(key: 'status_report_period_days', array: $stored, message: 'stored '.$refused);
+		}
+
+		$result = $this->service->updateSettings(['status_report_period_days' => ' 14 ']);
+		self::assertSame(expected: '14', actual: $stored['status_report_period_days']);
+		self::assertSame(expected: '14', actual: $result['status_report_period_days']);
+
+	}//end testStatusReportPeriodDefaultsToThirtyAndAcceptsWholeDays()
+
+	/**
 	 * Test isCurrentUserAdmin() returns true when user is in admin group.
 	 *
 	 * @return void

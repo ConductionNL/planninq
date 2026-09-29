@@ -194,6 +194,17 @@ test.describe('visual baselines — planninq views', () => {
 		await shoot(page, 'portfolio.png')
 	})
 
+	for (const [component, label, path, file] of [
+		['PortfolioStatus', 'Portfolio status', 'portfolio/status', 'portfolio-status.png'],
+		['PortfolioTimeline', 'Portfolio timeline', 'portfolio/timeline', 'portfolio-timeline.png'],
+	]) {
+		test(`${component} renders from its report card @visual`, async ({ page }) => {
+			await openReportCard(page, label)
+			await expect(page).toHaveURL(new RegExp(`/${path}`))
+			await shoot(page, file)
+		})
+	}
+
 	test('Timesheet renders time entries @visual', async ({ page }) => {
 		await navigateTo(page, 'Timesheet')
 		await expect(page).toHaveURL(/\/timesheet$/)
