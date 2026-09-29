@@ -50,6 +50,7 @@ export default {
 				board: this.t('planninq', 'Board'),
 				backlog: this.t('planninq', 'Backlog'),
 				timeline: this.t('planninq', 'Timeline'),
+				phases: this.t('planninq', 'Phases'),
 				risks: this.t('planninq', 'Risks'),
 				status: this.t('planninq', 'Status'),
 				log: this.t('planninq', 'Log'),

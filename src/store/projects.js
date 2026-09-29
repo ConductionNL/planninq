@@ -16,6 +16,7 @@ import { generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  */
 import { defineStore } from 'pinia'
+import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelpers.js'
 import { canSeeProject } from '../utils/portfolioGrouping.js'
 import { useObjectStore } from './objectStore.js'
 
@@ -33,6 +34,7 @@ const LOG_SCHEMA = 'projectLogEntry'
 const RISK_SCHEMA = 'risk'
 const STATUS_REPORT_SCHEMA = 'projectStatusReport'
 const PORTFOLIO_SCHEMA = 'projectPortfolio'
+const PHASE_SCHEMA = 'projectPhase'
 
 /**
  * Largest page OpenRegister will return. Asking for more is silently capped.
@@ -682,6 +684,83 @@ export const useProjectsStore = defineStore('projects', {
 				console.error('fetchPortfolios error:', err)
 				return []
 			}
+		},
+
+		/**
+		 * Every phase of a project, scoped by OpenRegister to its members.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The phases (empty array on error)
+		 *
+		 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
+		 */
+		async fetchPhases(projectId) {
+			try {
+				const phases = await fetchEvery(this._objectStore(), PHASE_SCHEMA, { project: projectId })
+				return Array.isArray(phases) ? phases : []
+			} catch (err) {
+				console.error('fetchPhases error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Write a phase: POST without an id, PATCH with one.
+		 *
+		 * @param {object} phase The phase fields, with `id` for an existing one
+		 * @return {Promise<{ok: boolean, phase?: object, reason?: string}>}
+		 *
+		 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
+		 */
+		async savePhase(phase) {
+			const { id, ...fields } = phase
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/${PHASE_SCHEMA}/${id}`)
+				: generateUrl(`/apps/openregister/api/objects/planninq/${PHASE_SCHEMA}`)
+			try {
+				const response = await fetch(url, {
+					method: id ? 'PATCH' : 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(fields),
+				})
+				const body = await response.json().catch(() => ({}))
+				if (!response.ok) {
+					return { ok: false, reason: refusalMessage(response.status, body) }
+				}
+				return { ok: true, phase: body }
+			} catch (err) {
+				console.error('savePhase error:', err)
+				return { ok: false, reason: 'other' }
+			}
+		},
+
+		/**
+		 * Move a phase up (-1) or down (+1) by swapping its order with its neighbour's.
+		 *
+		 * @param {Array<object>} phases The project's phases
+		 * @param {string} id The phase to move
+		 * @param {number} step -1 or +1
+		 * @return {Promise<boolean>} Whether both writes succeeded
+		 *
+		 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
+		 */
+		async reorderPhase(phases, id, step) {
+			const results = await Promise.all(reorderPatches(phases, id, step).map((patch) => this.savePhase(patch)))
+			return results.length > 0 && results.every((result) => result.ok)
+		},
+
+		/**
+		 * Close a phase: its concluding document and status in one write, which
+		 * OpenRegister's lifecycle guard accepts only with the file attached.
+		 *
+		 * @param {string} id The phase
+		 * @param {string|number} fileId The concluding document on the phase
+		 * @return {Promise<{ok: boolean, phase?: object, reason?: string}>}
+		 *
+		 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.4
+		 */
+		async closePhase(id, fileId) {
+			return this.savePhase({ id, ...closePatch(fileId) })
 		},
 
 		// ── 2.7 archiveProject ────────────────────────────────────────────
