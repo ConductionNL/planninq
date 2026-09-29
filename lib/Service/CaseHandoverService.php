@@ -185,7 +185,8 @@ class CaseHandoverService {
 			}
 		}
 
-		$metadata = (string)json_encode($this->metadata(project: $project, tasks: $tasks), (JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+		$flags    = (JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+		$metadata = (string)json_encode($this->metadata(project: $project, tasks: $tasks), $flags);
 		$this->copy(case: $case['entity'], name: self::METADATA_FILE, content: $metadata, record: $record);
 
 		$data = $project['data'];
