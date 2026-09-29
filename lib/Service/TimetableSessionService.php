@@ -190,11 +190,37 @@ class TimetableSessionService {
 	}//end upsert()
 
 	/**
-	 * List the sessions of a cohort, group or teacher, optionally in a window.
+	 * List the sessions of a cohort, group or teacher for the signed-in caller.
 	 *
-	 * The read runs with OpenRegister RBAC on, as the current user. A session is
-	 * included when it overlaps the window. Results are sorted by start time and
-	 * bounded by the limit.
+	 * The read runs with OpenRegister RBAC on, as the current user, so the
+	 * schema's read rule decides which rows come back: the timetable group and
+	 * admins read every lesson, a teacher reads the lessons that name them, and
+	 * nobody else reads any (planninq#711). This is the HTTP path.
+	 *
+	 * @param array<string,mixed> $criteria The contract's query criteria.
+	 *
+	 * @return array<int,array<string,mixed>> Sessions in the contract's read shape.
+	 *
+	 * @throws InvalidArgumentException When no identity filter is given or the window is invalid.
+	 * @throws RuntimeException         When OpenRegister is not available.
+	 *
+	 * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-signed-in-users-read-sessions-over-http-only-admins-upsert-req-006
+	 */
+	public function list(array $criteria): array {
+		return $this->read(criteria: $criteria, rbac: true);
+	}//end list()
+
+	/**
+	 * List the sessions of a cohort, group or teacher for another app.
+	 *
+	 * Reached only through {@see \OCA\Planninq\Listener\TimetableSessionsQueryListener},
+	 * which answers an in-process PHP event that only server code can
+	 * dispatch. The read runs with RBAC off: the requesting app has already
+	 * decided that its user may see this cohort or teacher (learniq resolves a
+	 * learner's cohorts from its own membership before it asks), and planninq
+	 * holds no membership it could check that against. Reading as the caller
+	 * here would take a learner's own lessons away once the schema no longer
+	 * grants every signed-in user (planninq#711).
 	 *
 	 * @param array<string,mixed> $criteria The contract's query criteria.
 	 *
@@ -205,14 +231,33 @@ class TimetableSessionService {
 	 *
 	 * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-another-app-reads-sessions-through-a-typed-event-req-005
 	 */
-	public function list(array $criteria): array {
+	public function listForApp(array $criteria): array {
+		return $this->read(criteria: $criteria, rbac: false);
+	}//end listForApp()
+
+	/**
+	 * Read, re-check, sort and bound the sessions matching the criteria.
+	 *
+	 * A session is included when it overlaps the window. Results are sorted by
+	 * start time and bounded by the limit.
+	 *
+	 * @param array<string,mixed> $criteria The contract's query criteria.
+	 * @param bool                $rbac     Whether OpenRegister applies the schema's read rule for the current user.
+	 *
+	 * @return array<int,array<string,mixed>> Sessions in the contract's read shape.
+	 *
+	 * @throws InvalidArgumentException When no identity filter is given or the window is invalid.
+	 * @throws RuntimeException         When OpenRegister is not available.
+	 */
+	private function read(array $criteria, bool $rbac): array {
 		$query = new TimetableSessionQuery(criteria: $criteria);
 
 		$objectService = $this->objectService();
 		$results = $objectService->searchObjectsBySlug(
 			registerSlug: self::REGISTER,
 			schemaSlug: self::SCHEMA,
-			filters: $query->filters()
+			filters: $query->filters(),
+			_rbac: $rbac
 		);
 
 		$sessions = [];
@@ -229,7 +274,7 @@ class TimetableSessionService {
 		);
 
 		return array_slice($sessions, 0, $query->limit());
-	}//end list()
+	}//end read()
 
 	/**
 	 * Validate every row and drop the earlier occurrences of a repeated key.

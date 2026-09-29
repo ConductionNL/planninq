@@ -706,28 +706,45 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testTimetableSessionSchemaDeclaresTheSessionShape()
 
 	/**
-	 * Any signed-in user reads a timetable; only admins write one directly.
-	 * Imports reach the schema through planninq's own service, not through
-	 * a user's write rights.
+	 * The timetable group, the named teacher and admins read a lesson; only
+	 * admins write one directly (planninq#711).
+	 *
+	 * No rule may admit every signed-in user: that let a pupil list every
+	 * group's lessons over the object API, round learniq's visibility rules.
+	 * Imports reach the schema through planninq's own service, not through a
+	 * user's write rights, and another app reads through the query event.
 	 *
 	 * @return void
 	 *
 	 * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-a-timetable-session-schema-carries-the-schools-own-ids-req-001
 	 */
-	public function testTimetableSessionAuthorizationReadsForSignedInWritesForAdmins(): void {
-		$auth = $this->register['components']['schemas']['timetableSession']['authorization'];
+	public function testTimetableSessionIsReadByTheTimetableGroupTheTeacherAndAdmins(): void {
+		$session = $this->register['components']['schemas']['timetableSession'];
+		$auth = $session['authorization'];
 
-		$readGroups = array_map(
-			static fn (mixed $rule): string => is_array($rule) === true ? (string)($rule['group'] ?? '') : (string)$rule,
-			$auth['read']
+		self::assertSame(
+			expected: [
+				['group' => 'planninq-timetable'],
+				['group' => 'authenticated', 'match' => ['teacherUserId' => '$userId']],
+				['group' => 'admin'],
+			],
+			actual: $auth['read'],
+			message: 'timetableSession read is the timetable group, the teacher the lesson names, and admins'
 		);
-		self::assertContains(needle: 'authenticated', haystack: $readGroups);
+
+		foreach ($auth['read'] as $rule) {
+			$unconditional = ($rule === 'authenticated') || (is_array($rule) === true && ($rule['group'] ?? null) === 'authenticated' && empty($rule['match']) === true);
+			self::assertFalse(condition: $unconditional, message: 'no read rule may admit every signed-in user (planninq#711)');
+		}
 
 		foreach (['create', 'update', 'delete'] as $action) {
 			self::assertSame(expected: ['admin'], actual: $auth[$action], message: "timetableSession {$action} must be admin-only");
 		}
 
-	}//end testTimetableSessionAuthorizationReadsForSignedInWritesForAdmins()
+		self::assertTrue(version_compare($session['version'], '0.2.0', '>='), 'timetableSession version moves past 0.1.0 with the new read rule');
+		self::assertTrue(version_compare($this->register['info']['version'], '0.20.0', '>='), 'register version moves past 0.19.0 so the import applies the new rule');
+
+	}//end testTimetableSessionIsReadByTheTimetableGroupTheTeacherAndAdmins()
 
 	/**
 	 * Demo data MUST cover the timetableSession schema with rows that carry

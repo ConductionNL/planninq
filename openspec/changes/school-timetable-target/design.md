@@ -35,8 +35,12 @@ A prefetch with an `in` filter would save queries, but if OpenRegister ignored t
 ### D5: Unchanged rows are not saved
 The service compares the significant fields (everything in the session shape except `importedAt`) with what is stored. Skipping unchanged rows keeps the audit trail readable after the nightly re-delivery and makes the second run of the same batch observable as `unchanged`.
 
-### D6: Upsert writes with RBAC off; reads with RBAC on
-The upsert listener is reachable only from in-process server code, and the HTTP upsert is admin-only by middleware, so the service writes with `_rbac: false` for both. A coordinator who starts a learniq import is not an OpenRegister admin, and must still get the timetable in. Reads always use RBAC as the current user: a timetable is readable by any signed-in user by schema authorization, and nothing else leaks.
+### D6: Upsert writes with RBAC off; the HTTP read uses RBAC, the query event does not
+The upsert listener is reachable only from in-process server code, and the HTTP upsert is admin-only by middleware, so the service writes with `_rbac: false` for both. A coordinator who starts a learniq import is not an OpenRegister admin, and must still get the timetable in.
+
+The first version let every signed-in user read every lesson, so a pupil could list every group's timetable over the object API and get round learniq's visibility rules (planninq#711). The read rule is now narrow: the `planninq-timetable` group (planners and staff who need the whole school timetable; the admin creates it, as with `planninq-finance-import`), the teacher a lesson names (`teacherUserId` equal to `$userId`), and admins. The HTTP read and the OpenRegister object API use RBAC as the current user, so a pupil reads nothing there.
+
+A learner's own lessons are not in that rule, because learner membership lives in learniq (`Cohort.learnerIds`, `Enrolment.cohortId`), not on the lesson. A match rule can only compare the lesson's own fields with the caller, and `$user.groups` would only help where the school's group codes happen to be Nextcloud group ids. So the query event reads with RBAC off: only in-process server code can dispatch it, and learniq resolves which cohorts its user belongs to, or checks that the user may read the cohort, before it asks. Reading as the caller there would empty every pupil's timetable in learniq. Rejected: copying learner ids onto each lesson, which makes planninq keep a second, drifting copy of learniq's membership.
 
 ### D7: Codes and ids side by side
 The school's own codes (`groupReference`, `teacherReference`, `roomReference`) are what every rostering system has. The fleet ids (`cohortId`, `teacherUserId`) are what learniq has. Planninq stores both and filters on either, so learniq can read a group's lessons before anyone maps the code to a cohort. Planninq does not resolve codes itself: the deliverer knows the school's mapping.
