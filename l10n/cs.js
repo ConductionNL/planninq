@@ -714,7 +714,15 @@ OC.L10N.register(
         "Remove link": "Odebrat odkaz",
         "Link type": "Typ odkazu",
         "Relates to": "Souvisí s",
-        "Duplicates": "Duplikuje"
+        "Duplicates": "Duplikuje",
+        "Project key": "Klíč projektu",
+        "Every task number starts with it, such as VERG-42.": "Každé číslo úkolu jím začíná, například VERG-42.",
+        "This key is already used by another project.": "Tento klíč už používá jiný projekt.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Použijte 2 až 10 písmen a číslic, začínající písmenem.",
+        "The key cannot change once tasks carry it.": "Klíč se nemůže změnit, jakmile ho nesou úkoly.",
+        "Project saved. The existing tasks get their numbers in the background.": "Projekt uložen. Stávající úkoly dostanou svá čísla na pozadí.",
+        "Next task number": "Číslo dalšího úkolu",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Číslo, které další úkol tohoto projektu dostane ve svém klíči. Zapisuje ho jen systém."
     },
     "nplurals=2; plural=(n != 1);"
 )

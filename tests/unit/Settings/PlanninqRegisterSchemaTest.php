@@ -167,6 +167,27 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testProjectRecordsCaseHandovers()
 
 	/**
+	 * The project carries the task counter; a task key and a project key validate.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-2.1
+	 */
+	public function testProjectCarriesTheTaskCounter(): void {
+		$counter = ($this->register['components']['schemas']['project']['properties']['nextTaskNumber'] ?? null);
+		self::assertIsArray($counter, 'project declares nextTaskNumber');
+		self::assertSame('integer', $counter['type']);
+		self::assertSame(1, $counter['minimum']);
+
+		$base = ['title' => 'Vergunningen Centrum', 'status' => 'active', 'owner' => 'carol', 'key' => 'VERG'];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: $base + ['nextTaskNumber' => 43]));
+		self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: $base + ['nextTaskNumber' => null]));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'project', payload: $base + ['nextTaskNumber' => 0]));
+		self::assertSame([], $this->registerSchemaErrors(slug: 'task', payload: ['title' => 'Check the zoning plan', 'status' => 'open', 'key' => 'VERG-42']));
+
+	}//end testProjectCarriesTheTaskCounter()
+
+	/**
 	 * Register JSON must be valid JSON with the required top-level structure.
 	 *
 	 * @return void

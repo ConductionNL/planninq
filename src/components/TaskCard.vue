@@ -2,6 +2,8 @@
 	<div class="task-card">
 		<!-- Task title -->
 		<h3 class="task-card__title">
+			<!-- Readable key such as VERG-42 (tasks-readable-keys) -->
+			<span v-if="task.key" class="task-card__key" data-testid="task-card-key">{{ task.key }}</span>
 			{{ task.title }}
 		</h3>
 
@@ -258,6 +260,12 @@ export default {
 	font-weight: 600;
 	line-height: 1.4;
 	color: var(--color-text);
+}
+
+.task-card__key {
+	margin-inline-end: 4px;
+	font-weight: 400;
+	color: var(--color-text-maxcontrast);
 }
 
 .task-card__description {

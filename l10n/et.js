@@ -714,7 +714,15 @@ OC.L10N.register(
         "Remove link": "Eemalda link",
         "Link type": "Lingi tüüp",
         "Relates to": "Seotud ülesandega",
-        "Duplicates": "Dubleerib"
+        "Duplicates": "Dubleerib",
+        "Project key": "Projekti võti",
+        "Every task number starts with it, such as VERG-42.": "Iga ülesande number algab sellega, näiteks VERG-42.",
+        "This key is already used by another project.": "Seda võtit kasutab juba teine projekt.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Kasutage 2 kuni 10 tähte ja numbrit, alustades tähega.",
+        "The key cannot change once tasks carry it.": "Võti ei saa muutuda, kui ülesanded seda kannavad.",
+        "Project saved. The existing tasks get their numbers in the background.": "Projekt salvestatud. Olemasolevad ülesanded saavad numbrid taustal.",
+        "Next task number": "Järgmise ülesande number",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Number, mille selle projekti järgmine ülesanne oma võtmes saab. Seda kirjutab ainult süsteem."
     },
     "nplurals=2; plural=(n != 1);"
 )

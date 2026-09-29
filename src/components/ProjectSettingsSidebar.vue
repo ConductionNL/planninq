@@ -19,6 +19,19 @@
 					v-model="form.title"
 					:label="t('planninq', 'Title')" />
 
+				<!-- Project key (tasks-readable-keys): editable until a task carries it -->
+				<NcTextField
+					v-if="canEditKey"
+					v-model="form.key"
+					:label="t('planninq', 'Project key')"
+					:helperText="t('planninq', 'Every task number starts with it, such as VERG-42.')"
+					maxlength="10"
+					data-testid="project-key" />
+				<div v-else class="project-settings-sidebar__field">
+					<span class="project-settings-sidebar__label">{{ t('planninq', 'Project key') }}</span>
+					<span class="project-settings-sidebar__readonly" data-testid="project-key">{{ project.key }}</span>
+				</div>
+
 				<!-- Description -->
 				<NcTextArea
 					v-model="form.description"
@@ -281,6 +294,7 @@ import { useProjectsStore } from '../store/projects.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
 import { parentIdOf, parentOptions, parentRefusal } from '../utils/projectTree.js'
+import { keyEditable, keyRefusal, normaliseProjectKey } from '../utils/workItemKeys.js'
 
 export default {
 	name: 'ProjectSettingsSidebar',
@@ -328,6 +342,7 @@ export default {
 			pendingRemoveUid: null,
 			form: {
 				title: this.project?.title || '',
+				key: this.project?.key || '',
 				description: this.project?.description || '',
 				color: this.project?.color || '#0082c9',
 				icon: this.project?.icon || '',
@@ -371,6 +386,17 @@ export default {
 		},
 
 		/**
+		 * Whether the key may still change: until a task carries it.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.3
+		 */
+		canEditKey() {
+			return keyEditable(this.project)
+		},
+
+		/**
 		 * No parent, then every project the user reads except this one and its subprojects.
 		 *
 		 * @return {Array<{id: string, label: string}>}
@@ -407,6 +433,7 @@ export default {
 		project(newVal) {
 			if (newVal) {
 				this.form.title = newVal.title || ''
+				this.form.key = newVal.key || ''
 				this.form.description = newVal.description || ''
 				this.form.color = newVal.color || '#0082c9'
 				this.form.icon = newVal.icon || ''
@@ -474,8 +501,11 @@ export default {
 				return
 			}
 			this.saving = true
+			const firstKey = !this.project.key && !!normaliseProjectKey(this.form.key)
 			try {
 				const saved = await this.projectsStore.updateProject(this.project.id, {
+					// The key only while it may change; left out, the server keeps it.
+					...(this.canEditKey ? { key: normaliseProjectKey(this.form.key) || null } : {}),
 					title: this.form.title.trim(),
 					description: this.form.description.trim() || undefined,
 					color: this.form.color,
@@ -492,7 +522,9 @@ export default {
 					this.form.parent = this.parentOption(this.project)
 					return
 				}
-				showSuccess(this.t('planninq', 'Project saved'))
+				showSuccess(firstKey
+					? this.t('planninq', 'Project saved. The existing tasks get their numbers in the background.')
+					: this.t('planninq', 'Project saved'))
 			} catch {
 				showError(this.t('planninq', 'Could not save project'))
 			} finally {
@@ -520,6 +552,14 @@ export default {
 		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
 		 */
 		saveFailure(error) {
+			const key = {
+				used: this.t('planninq', 'This key is already used by another project.'),
+				format: this.t('planninq', 'Use 2 to 10 letters and digits, starting with a letter.'),
+				fixed: this.t('planninq', 'The key cannot change once tasks carry it.'),
+			}[keyRefusal(error)]
+			if (key) {
+				return key
+			}
 			return {
 				cycle: this.t('planninq', 'A project cannot sit under one of its own subprojects.'),
 				depth: this.t('planninq', 'Projects nest three levels deep at most: programme, project and subproject.'),

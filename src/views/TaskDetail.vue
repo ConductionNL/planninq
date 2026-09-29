@@ -31,6 +31,8 @@
 						{{ t('planninq', 'Back to board') }}
 					</NcButton>
 					<h2 class="task-detail__title">
+						<!-- Readable key such as VERG-42 (tasks-readable-keys) -->
+						<span v-if="task && task.key" class="task-detail__key" data-testid="task-detail-key">{{ task.key }}</span>
 						{{ taskTitle }}
 					</h2>
 				</div>
@@ -168,6 +170,7 @@ import { useProjectsStore } from '../store/projects.js'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
 import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
+import { taskHeading } from '../utils/workItemKeys.js'
 
 /**
  * Task detail view.
@@ -391,6 +394,7 @@ export default {
 			async handler(id) {
 				if (id) {
 					await this.projectsStore.fetchTask(id)
+					this.setDocumentTitle()
 					this.estimateInput = this.estimateMinutes > 0 ? formatDuration(this.estimateMinutes) : ''
 					await this.timeEntriesStore.fetchForTask(id)
 					await this.loadLinks()
@@ -412,6 +416,18 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Put the task's key and title in the browser tab (tasks-readable-keys).
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-3.1
+		 */
+		setDocumentTitle() {
+			const heading = taskHeading(this.task)
+			if (heading) {
+				document.title = `${heading} - Planninq`
+			}
+		},
+
 		/**
 		 * Load the project's tasks and the dependency links for the Dependencies section.
 		 *
@@ -668,6 +684,12 @@ export default {
 
 .task-detail__title {
 	margin: 0;
+}
+
+.task-detail__key {
+	margin-inline-end: 8px;
+	font-weight: 400;
+	color: var(--color-text-maxcontrast);
 }
 
 .task-detail__fields {

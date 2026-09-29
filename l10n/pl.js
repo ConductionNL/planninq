@@ -714,7 +714,15 @@ OC.L10N.register(
         "Remove link": "Usuń powiązanie",
         "Link type": "Rodzaj powiązania",
         "Relates to": "Powiązane z",
-        "Duplicates": "Duplikuje"
+        "Duplicates": "Duplikuje",
+        "Project key": "Klucz projektu",
+        "Every task number starts with it, such as VERG-42.": "Każdy numer zadania zaczyna się od niego, np. VERG-42.",
+        "This key is already used by another project.": "Ten klucz jest już używany przez inny projekt.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Użyj od 2 do 10 liter i cyfr, zaczynając od litery.",
+        "The key cannot change once tasks carry it.": "Klucz nie może się zmienić, gdy zadania go noszą.",
+        "Project saved. The existing tasks get their numbers in the background.": "Projekt zapisany. Istniejące zadania otrzymują numery w tle.",
+        "Next task number": "Numer następnego zadania",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Numer, który następne zadanie tego projektu otrzymuje w swoim kluczu. Zapisuje go tylko system."
     },
     "nplurals=2; plural=(n != 1);"
 )

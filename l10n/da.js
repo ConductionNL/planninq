@@ -714,7 +714,15 @@ OC.L10N.register(
         "Remove link": "Fjern link",
         "Link type": "Linktype",
         "Relates to": "Relaterer til",
-        "Duplicates": "Duplikerer"
+        "Duplicates": "Duplikerer",
+        "Project key": "Projektnøgle",
+        "Every task number starts with it, such as VERG-42.": "Hvert opgavenummer begynder med den, fx VERG-42.",
+        "This key is already used by another project.": "Denne nøgle bruges allerede af et andet projekt.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Brug 2 til 10 bogstaver og cifre, der begynder med et bogstav.",
+        "The key cannot change once tasks carry it.": "Nøglen kan ikke ændres, når opgaver bærer den.",
+        "Project saved. The existing tasks get their numbers in the background.": "Projektet er gemt. De eksisterende opgaver får deres numre i baggrunden.",
+        "Next task number": "Næste opgavenummer",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Det nummer, den næste opgave i dette projekt får i sin nøgle. Kun systemet skriver det."
     },
     "nplurals=2; plural=(n != 1);"
 )

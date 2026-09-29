@@ -75,6 +75,33 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 			$boot = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
 			self::assertStringContainsString('$this->registerBoardColumnListeners(dispatcher: $dispatcher);', $boot, 'boot() calls the registration');
 		}//end testBootSubscribesBothBoardColumnListeners()
+
+		/**
+		 * The key listener is subscribed live for project and task writes, and boot() calls it.
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-2.2
+		 */
+		public function testBootSubscribesTheWorkItemKeyListener(): void {
+			ObjectEventSubscription::$calls = [];
+			$app = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			(new \ReflectionMethod(Application::class, 'registerWorkItemKeyListeners'))->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
+
+			$calls = [];
+			foreach (ObjectEventSubscription::$calls as $call) {
+				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
+				self::assertTrue(class_exists($call['event']), $call['event'] . ' must exist');
+				$calls[] = [$call['listener'], substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
+			}
+
+			$listener = 'OCA\\Planninq\\Listener\\WorkItemKeyListener';
+			self::assertSame(
+				[[$listener, 'ObjectCreatingEvent', ['project', 'task']], [$listener, 'ObjectUpdatingEvent', ['project', 'task']]],
+				$calls
+			);
+
+			$boot = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
+			self::assertStringContainsString('$this->registerWorkItemKeyListeners(dispatcher: $dispatcher);', $boot);
+		}//end testBootSubscribesTheWorkItemKeyListener()
 		/**
 		 * Every project-scoped schema is stamped and gated live, not only in the listener's own list.
 		 *

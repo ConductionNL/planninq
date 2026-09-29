@@ -714,7 +714,15 @@ OC.L10N.register(
         "Remove link": "Вилучити зв'язок",
         "Link type": "Тип зв'язку",
         "Relates to": "Пов'язана з",
-        "Duplicates": "Дублює"
+        "Duplicates": "Дублює",
+        "Project key": "Ключ проєкту",
+        "Every task number starts with it, such as VERG-42.": "З нього починається кожен номер завдання, наприклад VERG-42.",
+        "This key is already used by another project.": "Цей ключ уже використовує інший проєкт.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Використовуйте від 2 до 10 літер і цифр, починаючи з літери.",
+        "The key cannot change once tasks carry it.": "Ключ не можна змінити, коли завдання вже його мають.",
+        "Project saved. The existing tasks get their numbers in the background.": "Проєкт збережено. Наявні завдання отримують номери у фоновому режимі.",
+        "Next task number": "Номер наступного завдання",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Номер, який наступне завдання цього проєкту отримує у своєму ключі. Його записує лише система."
     },
     "nplurals=2; plural=(n != 1);"
 )

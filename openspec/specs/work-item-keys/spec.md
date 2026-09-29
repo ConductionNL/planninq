@@ -1,9 +1,9 @@
-# work-item-keys delta for tasks-readable-keys
+# work-item-keys Specification
 
-Extends the flat main specs `openspec/specs/projects.md` (Project Creation Dialog) and
-`openspec/specs/tasks.md`.
+## Purpose
+A project has a short unique key, and every task in it gets a readable key made of that key and a number, such as VERG-42. Built by `tasks-readable-keys` (archived 2026-09-29).
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: A project has a short unique key chosen at creation
 
@@ -42,6 +42,8 @@ NOT get the same key. Tier: V1.
 - **WHEN** both creates finish
 - **THEN** the two tasks carry different keys
 
+@e2e exclude two creates at the same instant cannot be timed from one browser; covered by tests/unit/Listener/WorkItemKeyListenerTest.php::testTwoCreatesOnOneCounterGetDifferentKeys (a held lock, then the next number)
+
 #### Scenario: An imported key is kept
 
 - **GIVEN** an import creates a task with key "PLX-7" in project "VERG"
@@ -58,3 +60,5 @@ sets a key for the first time. Tier: V1.
 - **GIVEN** a project without a key that holds three tasks
 - **WHEN** its owner sets the key "HAND" in the settings sidebar
 - **THEN** the three tasks get HAND-1, HAND-2 and HAND-3 in creation order
+
+@e2e exclude the numbering runs in a queued background job that CI e2e does not drive; covered by tests/unit/Listener/WorkItemKeyListenerTest.php::testTheFirstKeyQueuesTheNumberingOfExistingTasks and ::testTheJobNumbersTheKeylessTasksInOrder

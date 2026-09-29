@@ -577,6 +577,7 @@ class Application extends App implements IBootstrap {
 
 		$this->registerMembershipListeners(dispatcher: $dispatcher);
 		$this->registerBoardColumnListeners(dispatcher: $dispatcher);
+		$this->registerWorkItemKeyListeners(dispatcher: $dispatcher);
 	}//end boot()
 
 	/**
@@ -615,6 +616,32 @@ class Application extends App implements IBootstrap {
 			);
 		}
 	}//end registerBoardColumnListeners()
+
+	/**
+	 * Register the key listener (tasks-readable-keys).
+	 *
+	 * WorkItemKeyListener gives a new task the next key of its project and
+	 * holds project writes to the key rules. It must be a pre-event listener
+	 * to set the key in the same save and to refuse a used key. The class
+	 * name is a literal string for the coupling reason given in boot().
+	 *
+	 * @param IEventDispatcher $dispatcher The event dispatcher.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-2.2
+	 */
+	private function registerWorkItemKeyListeners(IEventDispatcher $dispatcher): void {
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\WorkItemKeyListener',
+				registers: ['planninq'],
+				schemas: ['project', 'task']
+			);
+		}
+	}//end registerWorkItemKeyListeners()
 
 	/**
 	 * Subscribe the listeners that keep project membership on project objects (planninq#681).

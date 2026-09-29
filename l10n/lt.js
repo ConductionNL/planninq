@@ -714,7 +714,15 @@ OC.L10N.register(
         "Remove link": "Pašalinti ryšį",
         "Link type": "Ryšio tipas",
         "Relates to": "Susijusi su",
-        "Duplicates": "Dubliuoja"
+        "Duplicates": "Dubliuoja",
+        "Project key": "Projekto raktas",
+        "Every task number starts with it, such as VERG-42.": "Juo prasideda kiekvienas užduoties numeris, pvz., VERG-42.",
+        "This key is already used by another project.": "Šį raktą jau naudoja kitas projektas.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Naudokite nuo 2 iki 10 raidžių ir skaitmenų, pradedant raide.",
+        "The key cannot change once tasks carry it.": "Rakto negalima keisti, kai užduotys jį jau turi.",
+        "Project saved. The existing tasks get their numbers in the background.": "Projektas išsaugotas. Esamos užduotys numerius gauna fone.",
+        "Next task number": "Kitos užduoties numeris",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Numeris, kurį kita šio projekto užduotis gauna savo rakte. Jį rašo tik sistema."
     },
     "nplurals=2; plural=(n != 1);"
 )

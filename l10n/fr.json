@@ -713,7 +713,15 @@
         "Remove link": "Retirer le lien",
         "Link type": "Type de lien",
         "Relates to": "Lié à",
-        "Duplicates": "Duplique"
+        "Duplicates": "Duplique",
+        "Project key": "Clé du projet",
+        "Every task number starts with it, such as VERG-42.": "Chaque numéro de tâche commence par elle, par exemple VERG-42.",
+        "This key is already used by another project.": "Cette clé est déjà utilisée par un autre projet.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Utilisez 2 à 10 lettres et chiffres, en commençant par une lettre.",
+        "The key cannot change once tasks carry it.": "La clé ne peut plus changer une fois que des tâches la portent.",
+        "Project saved. The existing tasks get their numbers in the background.": "Projet enregistré. Les tâches existantes reçoivent leur numéro en arrière-plan.",
+        "Next task number": "Numéro de la prochaine tâche",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Le numéro que la prochaine tâche de ce projet reçoit dans sa clé. Seul le système l’écrit."
     },
     "plurals": null
 }

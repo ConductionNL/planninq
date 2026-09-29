@@ -30,6 +30,18 @@
 					</span>
 				</div>
 
+				<!-- Project key: the prefix of every task key, such as VERG-42 (tasks-readable-keys) -->
+				<div class="project-creation-dialog__field">
+					<NcTextField
+						v-model="form.key"
+						:label="t('planninq', 'Project key')"
+						:error="!!keyMessage"
+						:helperText="keyMessage || t('planninq', 'Every task number starts with it, such as VERG-42.')"
+						maxlength="10"
+						data-testid="project-creation-key"
+						@update:modelValue="keyTouched = true" />
+				</div>
+
 				<!-- The case or client this project starts from (read-only, from the link) -->
 				<p v-if="prefill.caseReference" class="project-creation-dialog__linked" data-testid="project-creation-linked-case">
 					{{ prefill.title
@@ -99,6 +111,7 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
  */
 import { NcButton, NcDialog, NcLoadingIcon, NcTextArea, NcTextField } from '@nextcloud/vue'
 import { useProjectsStore } from '../store/projects.js'
+import { isValidProjectKey, keyRefusal, normaliseProjectKey, suggestProjectKey } from '../utils/workItemKeys.js'
 
 export default {
 	name: 'ProjectCreationDialog',
@@ -128,8 +141,13 @@ export default {
 		return {
 			open: true,
 			titleTouched: false,
+			keyTouched: false,
+			// 'used' from the availability check or the server; '' otherwise.
+			keyTaken: '',
+			keyCheckTimer: null,
 			form: {
 				title: this.prefill?.title || '',
+				key: suggestProjectKey(this.prefill?.title || ''),
 				description: '',
 				color: '#0082c9',
 				icon: '',
@@ -152,9 +170,78 @@ export default {
 			return this.projectsStore.loading
 		},
 
+		/**
+		 * Whether the form can be sent: a title and a free, well-formed key.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.1
+		 */
 		isValid() {
-			return this.form.title.trim().length > 0
+			return this.form.title.trim().length > 0 && isValidProjectKey(normaliseProjectKey(this.form.key)) && this.keyTaken !== 'used'
 		},
+
+		/**
+		 * The message under the key field when the key cannot be used.
+		 *
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.1
+		 */
+		keyMessage() {
+			const key = normaliseProjectKey(this.form.key)
+			if (this.keyTaken === 'used') {
+				return this.t('planninq', 'This key is already used by another project.')
+			}
+			if ((this.keyTouched || this.titleTouched) && !isValidProjectKey(key)) {
+				return this.t('planninq', 'Use 2 to 10 letters and digits, starting with a letter.')
+			}
+			return ''
+		},
+	},
+
+	watch: {
+		/**
+		 * Suggest a key from the title until the user types one.
+		 *
+		 * @param {string} title The new title.
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.1
+		 */
+		'form.title': function(title) {
+			if (!this.keyTouched) {
+				this.form.key = suggestProjectKey(title)
+			}
+		},
+
+		/**
+		 * Ask the server whether the key is free, a moment after typing stops.
+		 *
+		 * @param {string} key The new key.
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.2
+		 */
+		'form.key': function(key) {
+			this.keyTaken = ''
+			clearTimeout(this.keyCheckTimer)
+			const normalised = normaliseProjectKey(key)
+			if (!isValidProjectKey(normalised)) {
+				return
+			}
+			this.keyCheckTimer = setTimeout(async () => {
+				const answer = await this.projectsStore.checkProjectKey(normalised)
+				if (answer && answer.available === false && normaliseProjectKey(this.form.key) === normalised) {
+					this.keyTaken = 'used'
+				}
+			}, 300)
+		},
+	},
+
+	/**
+	 * @spec exclude Lifecycle glue — stops a pending key check.
+	 */
+	beforeUnmount() {
+		clearTimeout(this.keyCheckTimer)
 	},
 
 	/**
@@ -185,6 +272,7 @@ export default {
 			try {
 				const project = await this.projectsStore.createProject({
 					title: this.form.title.trim(),
+					key: normaliseProjectKey(this.form.key),
 					description: this.form.description.trim() || undefined,
 					color: this.form.color || undefined,
 					icon: this.form.icon.trim() || undefined,
@@ -198,6 +286,10 @@ export default {
 				// Warn if column creation had partial failures.
 				// (Warnings are already shown inside createDefaultColumns via toast)
 			} catch (err) {
+				if (keyRefusal(err?.message) === 'used') {
+					this.keyTaken = 'used'
+					return
+				}
 				const message = err?.message?.includes('restricted to administrators')
 					? this.t('planninq', 'Project creation is restricted to administrators.')
 					: this.t('planninq', 'Could not create project. Please try again.')

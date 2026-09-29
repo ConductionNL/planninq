@@ -713,7 +713,15 @@
         "Remove link": "Hiq lidhjen",
         "Link type": "Lloji i lidhjes",
         "Relates to": "Lidhet me",
-        "Duplicates": "Dublon"
+        "Duplicates": "Dublon",
+        "Project key": "Çelësi i projektit",
+        "Every task number starts with it, such as VERG-42.": "Çdo numër detyre fillon me të, për shembull VERG-42.",
+        "This key is already used by another project.": "Ky çelës përdoret tashmë nga një projekt tjetër.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Përdorni 2 deri në 10 shkronja dhe shifra, duke filluar me një shkronjë.",
+        "The key cannot change once tasks carry it.": "Çelësi nuk mund të ndryshojë pasi detyrat e mbajnë.",
+        "Project saved. The existing tasks get their numbers in the background.": "Projekti u ruajt. Detyrat ekzistuese marrin numrat e tyre në sfond.",
+        "Next task number": "Numri i detyrës së radhës",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Numri që detyra e radhës e këtij projekti merr në çelësin e saj. Vetëm sistemi e shkruan."
     },
     "plurals": {}
 }

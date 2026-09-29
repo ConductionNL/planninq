@@ -689,7 +689,15 @@
         "Remove link": "Remove link",
         "Link type": "Link type",
         "Relates to": "Relates to",
-        "Duplicates": "Duplicates"
+        "Duplicates": "Duplicates",
+        "Project key": "Project key",
+        "Every task number starts with it, such as VERG-42.": "Every task number starts with it, such as VERG-42.",
+        "This key is already used by another project.": "This key is already used by another project.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Use 2 to 10 letters and digits, starting with a letter.",
+        "The key cannot change once tasks carry it.": "The key cannot change once tasks carry it.",
+        "Project saved. The existing tasks get their numbers in the background.": "Project saved. The existing tasks get their numbers in the background.",
+        "Next task number": "Next task number",
+        "The number the next task of this project gets in its key. Only the system writes it.": "The number the next task of this project gets in its key. Only the system writes it."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

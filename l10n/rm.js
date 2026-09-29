@@ -714,7 +714,15 @@ OC.L10N.register(
         "Remove link": "Allontanar la colliaziun",
         "Link type": "Tip da colliaziun",
         "Relates to": "Collià cun",
-        "Duplicates": "Duplitgescha"
+        "Duplicates": "Duplitgescha",
+        "Project key": "Clav dal project",
+        "Every task number starts with it, such as VERG-42.": "Mintga numer d’incumbensa cumenza cun ella, per exempel VERG-42.",
+        "This key is already used by another project.": "Questa clav vegn gia duvrada d’in auter project.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Duvrai 2 fin 10 bustabs e cifras che cumenzan cun in bustab.",
+        "The key cannot change once tasks carry it.": "La clav na po betg pli midar, uschespert che incumbensas la portan.",
+        "Project saved. The existing tasks get their numbers in the background.": "Project memorisà. Las incumbensas existentas survegnan lur numers en il fund.",
+        "Next task number": "Numer da la proxima incumbensa",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Il numer che la proxima incumbensa da quest project survegn en sia clav. Mo il sistem al scriva."
     },
     "nplurals=2; plural=(n != 1);"
 )

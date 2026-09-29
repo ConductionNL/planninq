@@ -713,7 +713,15 @@
         "Remove link": "Poista linkki",
         "Link type": "Linkin tyyppi",
         "Relates to": "Liittyy",
-        "Duplicates": "Kaksoiskappale"
+        "Duplicates": "Kaksoiskappale",
+        "Project key": "Projektin tunnus",
+        "Every task number starts with it, such as VERG-42.": "Jokainen tehtävänumero alkaa sillä, esimerkiksi VERG-42.",
+        "This key is already used by another project.": "Toinen projekti käyttää jo tätä tunnusta.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Käytä 2–10 kirjainta ja numeroa, ja aloita kirjaimella.",
+        "The key cannot change once tasks carry it.": "Tunnus ei voi muuttua, kun tehtävillä on se.",
+        "Project saved. The existing tasks get their numbers in the background.": "Projekti tallennettu. Nykyiset tehtävät saavat numeronsa taustalla.",
+        "Next task number": "Seuraava tehtävänumero",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Numero, jonka tämän projektin seuraava tehtävä saa tunnukseensa. Vain järjestelmä kirjoittaa sen."
     },
     "plurals": null
 }

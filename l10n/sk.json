@@ -713,7 +713,15 @@
         "Remove link": "Odstrániť odkaz",
         "Link type": "Typ odkazu",
         "Relates to": "Súvisí s",
-        "Duplicates": "Duplikuje"
+        "Duplicates": "Duplikuje",
+        "Project key": "Kľúč projektu",
+        "Every task number starts with it, such as VERG-42.": "Každé číslo úlohy ním začína, napríklad VERG-42.",
+        "This key is already used by another project.": "Tento kľúč už používa iný projekt.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Použite 2 až 10 písmen a číslic, začínajúc písmenom.",
+        "The key cannot change once tasks carry it.": "Kľúč sa nemôže zmeniť, keď ho nesú úlohy.",
+        "Project saved. The existing tasks get their numbers in the background.": "Projekt uložený. Existujúce úlohy dostanú svoje čísla na pozadí.",
+        "Next task number": "Číslo ďalšej úlohy",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Číslo, ktoré ďalšia úloha tohto projektu dostane vo svojom kľúči. Zapisuje ho iba systém."
     },
     "plurals": null
 }
