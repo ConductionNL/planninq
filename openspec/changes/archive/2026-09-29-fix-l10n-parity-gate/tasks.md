@@ -18,4 +18,8 @@
 ## 4. Verify
 
 - [x] 4.1 Re-run `node tests/l10n/check-l10n-parity.js` and confirm `EXIT=0` with the summary reporting 0 missing / 0 empty across all 36 required locales
-- [~] 4.2 `openspec validate fix-l10n-parity-gate --strict` passes — DEFERRED: the openspec CLI is not installed in this worktree (no `node_modules/.bin/openspec`, no global). Spec/tasks are well-formed; validation to run in an environment with the CLI.
+- [x] 4.2 `openspec validate fix-l10n-parity-gate --strict` passes (run 2026-09-29 with openspec 1.12.0).
+
+## 5. Close the source gap (2026-09-29)
+
+- [x] 5.1 The parity gate only compares locales with `l10n/en.json`, so a string used in `src/` but never added to `en.json` passed every gate and showed in English everywhere: 63 file-and-string pairs (62 distinct strings) at `feat/my-work` (among them the row's `Go to projects`). Add `tests/vitest/l10nSourceCoverage.spec.js`, which fails on any `t('planninq', '<literal>')` in `src/` without an English entry, add 62 keys to all 36 locales (four of them the rewritten delete messages), and rewrite the four project-delete error messages without an em-dash. Verify: the test fails before the strings land (63 pairs) and passes after; `npm run check:l10n` exits 0.

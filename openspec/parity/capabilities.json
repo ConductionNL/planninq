@@ -5684,7 +5684,7 @@
       "area": "platform",
       "name": "Use the app in Dutch and in English.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "partial",
@@ -5706,14 +5706,12 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/guides-tutorials/te-preferences-language-support-and-configuration 'TE Preferences currently supports the following languages: English, Swedish, German, French, and Dutch' ; https://www.academy.timeedit.com/product-updates/246698476 Study Guide 'keeps English on later visits even where the default is Dutch' ; npm te-integration-lib@0.0.64 src/i18n/constants.js:3 \"Dutch: 'nl'\""
       },
       "built": {
-        "state": "specified",
-        "evidence": "l10n/nl.json (269 keys) and l10n/en.json; UI strings go through t('planninq', ...) e.g. src/views/ProjectTimeline.vue:189, src/components/DashboardPanels.vue:56",
+        "state": "built",
+        "evidence": "l10n/<locale>.json and .js for 36 locales plus en; every t('planninq', ...) literal in src/ has an en.json entry (tests/vitest/l10nSourceCoverage.spec.js) and every required locale is at parity with en (npm run check:l10n, tests/l10n/check-l10n-parity.js, CI job l10n-parity)",
         "reachedOn": "every page, following the user's Nextcloud language",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "l10n/nl.json lacks src/components/DashboardPanels.vue:56 'Go to projects' and src/views/ProjectTimeline.vue:189 'Week' (two of 67 untranslated strings found by script; the regex misses multi-line calls, so the true count may differ)"
-        ],
-        "change": "openspec/changes/fix-l10n-parity-gate"
+        "change": "openspec/changes/archive/2026-09-29-fix-l10n-parity-gate",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

@@ -4,6 +4,11 @@
  *
  * The browser-catalogue contract.
  *
+ *   @e2e exclude i18n-locale-completeness::new-english-key-is-added-without-a-translation the parity check is a CI script (tests/l10n/check-l10n-parity.js, npm run check:l10n), not browser behaviour
+ *   @e2e exclude i18n-locale-completeness::all-required-locales-are-at-parity the parity check is a CI script (tests/l10n/check-l10n-parity.js, npm run check:l10n), not browser behaviour
+ *   @e2e exclude i18n-locale-completeness::a-locale-carries-an-english-fallback-value-for-a-translatable-key the parity check counts identical values, a CI script, not browser behaviour
+ *   @e2e exclude i18n-locale-completeness::a-new-string-is-used-in-a-component-without-a-catalogue-entry a unit test guards it (tests/vitest/l10nSourceCoverage.spec.js), not browser behaviour
+ *
  * THE DEFECT THIS PINS
  * --------------------
  * Nextcloud loads a locale catalogue in two formats and neither substitutes
