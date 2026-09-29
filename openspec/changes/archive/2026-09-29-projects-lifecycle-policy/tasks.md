@@ -14,13 +14,13 @@
 
 ## 3. Project requests (Enterprise)
 
-- [ ] 3.1 Add the `project_requests` setting and make `ProjectController::create` store `status: 'requested'` when the caller may only request. Verify: new cases in `tests/unit/Controller/ProjectControllerTest.php` for allowed, requesting and refused callers.
-- [ ] 3.2 Add `ProjectPolicySchemaService` that writes the reviewer groups into the live `project` schema on save, and a repair step that re-applies it after the register import. Verify: `tests/unit/Service/ProjectPolicySchemaServiceTest.php` covers save, import then repair, and a deleted group.
-- [ ] 3.3 Add `src/dialogs/ProjectRequestDialog.vue` (two steps) and the "Request a project" button, and a "Requested" chip on the project list. Verify: e2e "a requester fills in the guided form".
-- [ ] 3.4 Add `src/dialogs/ProjectRequestReviewDialog.vue` with approve and reject, and the waiting and rejected banners on the board. Verify: e2e "a reviewer approves a request" and "a reviewer rejects a request with a reason".
-- [ ] 3.5 Add notification rules on `project` for the `approve` and `reject` transitions, with the owner as recipient. Verify: PHPUnit schema test for both rules, plus the notification assertions in the two e2e scenarios of 3.4.
+- [x] 3.1 Add the `project_requests` setting and make `ProjectController::create` store `status: 'requested'` when the caller may only request. Verify: new cases in `tests/unit/Controller/ProjectControllerTest.php` for allowed, requesting and refused callers. Built as `tests/unit/Controller/ProjectRequestControllerTest.php` (real in-memory ObjectService, payload validated against the project schema).
+- [x] 3.2 Add `ProjectPolicySchemaService` that writes the reviewer groups into the live `project` schema on save, and a repair step that re-applies it after the register import. Verify: `tests/unit/Service/ProjectPolicySchemaServiceTest.php` covers save, import then repair, and a deleted group.
+- [x] 3.3 Add `src/dialogs/ProjectRequestDialog.vue` (two steps) and the "Request a project" button, and a "Requested" chip on the project list. Verify: e2e "a requester fills in the guided form" (`tests/e2e/project-requests.spec.ts`: the request goes in through the requester's own API call; the browser runs as the admin, who may create and so gets no Request button); `tests/vitest/projectRequests.spec.js` covers the two steps and the payload.
+- [x] 3.4 Add `src/dialogs/ProjectRequestReviewDialog.vue` with approve and reject, and the waiting and rejected banners on the board. Verify: e2e "a reviewer approves a request" and "a reviewer rejects a request with a reason".
+- [x] 3.5 Add notification rules on `project` for the `approve` and `reject` transitions, with the owner as recipient. Verify: PHPUnit schema test for both rules, plus the notification assertions in the two e2e scenarios of 3.4. Built: `PlanninqRegisterSchemaTest::testProjectRequestsNotifyTheRequester` and OpenRegister's own NotificationAnnotationValidator (0 findings, control 1). The e2e does not assert the Nextcloud notification.
 
 ## 4. Verification
 
-- [ ] 4.1 `openspec validate projects-lifecycle-policy --type change --strict` passes.
-- [ ] 4.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+- [x] 4.1 `openspec validate projects-lifecycle-policy --type change --strict` passes.
+- [x] 4.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.

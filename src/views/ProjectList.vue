@@ -25,6 +25,17 @@
 					</template>
 					{{ t('planninq', 'New project') }}
 				</NcButton>
+				<!-- Request a project, for those outside the creation policy (projects-lifecycle-policy) -->
+				<NcButton
+					v-if="!canCreateProject && canRequestProject"
+					variant="primary"
+					data-testid="project-request-open"
+					@click="showRequestDialog = true">
+					<template #icon>
+						<PlusIcon :size="20" />
+					</template>
+					{{ t('planninq', 'Request a project') }}
+				</NcButton>
 			</div>
 		</div>
 
@@ -110,6 +121,11 @@
 			</template>
 		</PortfolioSections>
 
+		<ProjectRequestDialog
+			v-if="showRequestDialog"
+			@close="showRequestDialog = false"
+			@requested="onProjectRequested" />
+
 		<!-- Creation dialog — only mounted when creation is permitted -->
 		<ProjectCreationDialog
 			v-if="showCreationDialog && canCreateProject"
@@ -141,6 +157,7 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import PortfolioSections from '../components/PortfolioSections.vue'
 import ProjectListItem from '../components/ProjectListItem.vue'
 import ProjectCreationDialog from '../dialogs/ProjectCreationDialog.vue'
+import ProjectRequestDialog from '../dialogs/ProjectRequestDialog.vue'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
@@ -166,6 +183,7 @@ export default {
 		PortfolioSections,
 		ProjectListItem,
 		ProjectCreationDialog,
+		ProjectRequestDialog,
 	},
 
 	/**
@@ -183,6 +201,7 @@ export default {
 		return {
 			folded: new Set(),
 			showCreationDialog: false,
+			showRequestDialog: false,
 			creationPrefill: {},
 			activeStatus: null,
 			portfolios: [],
@@ -244,7 +263,19 @@ export default {
 		},
 
 		/**
+		 * Whether the current user may request a project (the server answers).
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.3
+		 */
+		canRequestProject() {
+			return useSettingsStore().settings?.canRequestProject === true
+		},
+
+		/**
 		 * @spec openspec/changes/retrofit-2026-05-26-planix-display-capabilities/tasks.md#task-3
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.3
 		 */
 		statusChips() {
 			return [
@@ -252,6 +283,7 @@ export default {
 				{ value: 'active', label: this.t('planninq', 'Active') },
 				{ value: 'archived', label: this.t('planninq', 'Archived') },
 				{ value: 'completed', label: this.t('planninq', 'Completed') },
+				{ value: 'requested', label: this.t('planninq', 'Requested') },
 			]
 		},
 
@@ -438,6 +470,17 @@ export default {
 		 */
 		setStatusFilter(status) {
 			this.activeStatus = status
+		},
+
+		/**
+		 * After a request is sent: show it under the Requested chip.
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.3
+		 */
+		onProjectRequested() {
+			this.showRequestDialog = false
+			this.activeStatus = 'requested'
+			showSuccess(this.t('planninq', 'Your request was sent'))
 		},
 
 		/**

@@ -237,6 +237,29 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testProjectStatusMovesThroughDeclaredTransitions()
 
 	/**
+	 * A reject asks for the reason, and the requester is told the outcome of approve and reject.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.5
+	 */
+	public function testProjectRequestsNotifyTheRequester(): void {
+		$project = $this->register['components']['schemas']['project'];
+		self::assertSame([['field' => 'reviewNote', 'required' => true]], $project['x-openregister-lifecycle']['transitions']['reject']['inputs']);
+
+		$rules = ($project['x-openregister-notifications'] ?? []);
+		foreach (['projectRequestApproved' => 'approve', 'projectRequestRejected' => 'reject'] as $key => $action) {
+			self::assertArrayHasKey($key, $rules);
+			self::assertSame(['type' => 'transition', 'action' => $action], $rules[$key]['trigger']);
+			self::assertSame([['kind' => 'field', 'field' => 'owner']], $rules[$key]['recipients']);
+			self::assertSame(['nc-notification'], $rules[$key]['channels']);
+			self::assertArrayHasKey('en', $rules[$key]['subject']);
+			self::assertArrayHasKey('nl', $rules[$key]['subject']);
+		}
+
+	}//end testProjectRequestsNotifyTheRequester()
+
+	/**
 	 * Register JSON must be valid JSON with the required top-level structure.
 	 *
 	 * @return void
