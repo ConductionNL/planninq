@@ -65,6 +65,8 @@ class SettingsService {
 		self::FINANCE_CATEGORIES_KEY => '["Personnel","Hired staff","Materials","Other"]',
 		self::CREATION_GROUPS_KEY => '[]',
 		self::REQUESTS_KEY => 'off',
+		TimetableGridService::GRID_KEY => TimetableGridService::DEFAULT_GRID,
+		TimetableGridService::BUDGET_KEY => TimetableGridService::DEFAULT_BUDGET,
 	];
 
 	/**
@@ -234,8 +236,17 @@ class SettingsService {
 	 * @return string|null
 	 *
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
 	 */
 	private function normalisedValue(string $key, string $value): ?string {
+		if ($key === TimetableGridService::GRID_KEY) {
+			return (new TimetableGridService())->normaliseGrid(raw: $value);
+		}
+
+		if ($key === TimetableGridService::BUDGET_KEY) {
+			return (new TimetableGridService())->normaliseBudget(raw: $value);
+		}
+
 		$listed = $this->validatedNameList(key: $key, raw: $value);
 		if ($listed === false) {
 			return null;

@@ -54,10 +54,11 @@ question for Ruben (below).
   `strength` (`hard`, `soft`), `weight` (1 to 3, soft only), `note`. Hard and soft is one field, so
   a wish can be softened in place when a run reports it blocked a lesson.
 - `timetableScenario`: `title`, `source` (`generated`, `imported`), `weekOf` (the first Monday of the
-  window), `window` (from, to), `status` (`queued`, `running`, `done`, `failed`, `published`),
+  window), `windowFrom` and `windowTo` (two date fields: a nested object would need its own translated
+  titles, amended in the section 1 PR), `status` (`queued`, `running`, `done`, `failed`, `published`),
   `seed`, `input` (the `SolverInput` it was made from), `placements` (lesson key, period key, room
   reference), `unplaced` (lesson key and the blocking hard wish), `brokenWishes` (wish id, lesson
-  keys, weight), `metrics` (see decision 5), `publishedAt`.
+  keys, weight), `metrics` (see decision 5), `reason` (why a run failed, added in section 1), `publishedAt`.
 
 Both are admin-write and `planninq-timetable`-read, like `timetableSession`. The input is snapshotted
 so a scenario can be compared and re-run after the activities or wishes change, and so compare never

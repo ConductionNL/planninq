@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.25.0"
+    "version": "0.26.0"
   },
   "x-openregister": {
     "type": "application",
@@ -34,7 +34,9 @@
           "projectPortfolio",
           "financeLine",
           "projectField",
-          "projectRelease"
+          "projectRelease",
+          "timetableWish",
+          "timetableScenario"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -2992,6 +2994,297 @@
             "description": "When the release was marked as released",
             "format": "date-time",
             "nullable": true
+          }
+        }
+      },
+      "timetableWish": {
+        "slug": "timetableWish",
+        "icon": "AlertOutline",
+        "version": "0.1.0",
+        "title": "Timetable wish",
+        "description": "A wish the generator weighs. It always keeps a hard wish, and keeps a soft wish where it can.",
+        "x-schema-org": "schema:Demand",
+        "type": "object",
+        "required": [
+          "appliesTo",
+          "reference",
+          "kind",
+          "strength"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "planninq-timetable"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            "admin"
+          ],
+          "update": [
+            "admin"
+          ],
+          "delete": [
+            "admin"
+          ]
+        },
+        "properties": {
+          "appliesTo": {
+            "title": "Applies to",
+            "type": "string",
+            "description": "Whether the wish is about a teacher, a group, a room or one activity",
+            "enum": [
+              "teacher",
+              "group",
+              "room",
+              "activity"
+            ],
+            "x-enum-labels": {
+              "teacher": "Teacher",
+              "group": "Group",
+              "room": "Room",
+              "activity": "Activity"
+            }
+          },
+          "reference": {
+            "title": "Reference",
+            "type": "string",
+            "description": "The user, group, room or activity the wish is about",
+            "minLength": 1
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string",
+            "description": "What the wish asks for",
+            "enum": [
+              "unavailable",
+              "avoid",
+              "maxPerDay",
+              "noGaps",
+              "sameRoom"
+            ],
+            "x-enum-labels": {
+              "unavailable": "Not on these periods",
+              "avoid": "Preferably not on these periods",
+              "maxPerDay": "At most a number of lessons a day",
+              "noGaps": "No free periods between lessons",
+              "sameRoom": "Always the same room"
+            }
+          },
+          "periods": {
+            "title": "Periods",
+            "type": "array",
+            "description": "The periods of the week the wish is about, such as wed-5",
+            "items": {
+              "type": "string",
+              "pattern": "^(mon|tue|wed|thu|fri|sat|sun)-[1-9][0-9]?$"
+            },
+            "default": []
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer",
+            "nullable": true,
+            "description": "The most lessons a day, for a wish of that kind",
+            "minimum": 1
+          },
+          "strength": {
+            "title": "Strength",
+            "type": "string",
+            "description": "Whether the generator must keep the wish or should keep it",
+            "enum": [
+              "hard",
+              "soft"
+            ],
+            "x-enum-labels": {
+              "hard": "Hard",
+              "soft": "Soft"
+            }
+          },
+          "weight": {
+            "title": "Weight",
+            "type": "integer",
+            "nullable": true,
+            "description": "How much a soft wish counts, from 1 to 3",
+            "minimum": 1,
+            "maximum": 3
+          },
+          "note": {
+            "title": "Note",
+            "type": "string",
+            "description": "Why the wish exists"
+          }
+        }
+      },
+      "timetableScenario": {
+        "slug": "timetableScenario",
+        "icon": "ChartTimeline",
+        "version": "0.1.0",
+        "title": "Timetable scenario",
+        "description": "One week pattern, made by the generator or taken from the current timetable. It keeps its input and how well it keeps the wishes.",
+        "x-schema-org": "schema:Schedule",
+        "type": "object",
+        "required": [
+          "title",
+          "source",
+          "weekOf",
+          "windowFrom",
+          "windowTo",
+          "status"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "planninq-timetable"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            "admin"
+          ],
+          "update": [
+            "admin"
+          ],
+          "delete": [
+            "admin"
+          ]
+        },
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "The name timetablers know the scenario by",
+            "minLength": 1
+          },
+          "source": {
+            "title": "Source",
+            "type": "string",
+            "description": "Whether the generator made it or it came from the current timetable",
+            "enum": [
+              "generated",
+              "imported"
+            ],
+            "x-enum-labels": {
+              "generated": "Generated",
+              "imported": "From the current timetable"
+            }
+          },
+          "weekOf": {
+            "title": "Week of",
+            "type": "string",
+            "format": "date",
+            "description": "The Monday of the first week of the window"
+          },
+          "windowFrom": {
+            "title": "Window start",
+            "type": "string",
+            "format": "date",
+            "description": "The first day the week pattern applies to"
+          },
+          "windowTo": {
+            "title": "Window end",
+            "type": "string",
+            "format": "date",
+            "description": "The last day the week pattern applies to"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "Waiting, generating, done, failed, or published as draft lessons",
+            "enum": [
+              "queued",
+              "running",
+              "done",
+              "failed",
+              "published"
+            ],
+            "default": "queued",
+            "x-enum-labels": {
+              "queued": "Waiting",
+              "running": "Generating",
+              "done": "Done",
+              "failed": "Failed",
+              "published": "Published"
+            }
+          },
+          "seed": {
+            "title": "Seed",
+            "type": "integer",
+            "nullable": true,
+            "description": "The number the generator starts from, so a run can be repeated"
+          },
+          "input": {
+            "title": "Input",
+            "type": "object",
+            "description": "The periods, rooms, lessons and wishes the scenario was made from",
+            "required": [
+              "periods",
+              "rooms",
+              "lessons",
+              "wishes"
+            ]
+          },
+          "placements": {
+            "title": "Placements",
+            "type": "array",
+            "description": "Each lesson with the period and room it was given",
+            "items": {
+              "type": "object",
+              "required": [
+                "lesson",
+                "period",
+                "room"
+              ]
+            },
+            "default": []
+          },
+          "unplaced": {
+            "title": "Unplaced lessons",
+            "type": "array",
+            "description": "Lessons without a place, each with the hard wish that blocked it",
+            "items": {
+              "type": "object",
+              "required": [
+                "lesson",
+                "wish"
+              ]
+            },
+            "default": []
+          },
+          "brokenWishes": {
+            "title": "Broken wishes",
+            "type": "array",
+            "description": "The wishes this scenario breaks, with the lessons that break them",
+            "items": {
+              "type": "object",
+              "required": [
+                "wish",
+                "lessons",
+                "weight"
+              ]
+            },
+            "default": []
+          },
+          "metrics": {
+            "title": "Measures",
+            "type": "object",
+            "description": "Placed lessons, broken wishes, teacher gaps, lessons a day and room use"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string",
+            "description": "Why the run failed"
+          },
+          "publishedAt": {
+            "title": "Published at",
+            "type": "string",
+            "nullable": true,
+            "format": "date-time",
+            "description": "When the scenario was written out as draft lessons"
           }
         }
       }

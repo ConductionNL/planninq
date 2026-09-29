@@ -1248,6 +1248,350 @@
         "roomLabel": "Room A0.12",
         "status": "scheduled",
         "importedAt": "2026-10-01T06:00:00+00:00"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableWish",
+          "slug": "demo-wish-wednesday-afternoon",
+          "id": "0000de00-0000-4000-8000-001000000001"
+        },
+        "appliesTo": "teacher",
+        "reference": "@operator",
+        "kind": "unavailable",
+        "periods": [
+          "wed-5",
+          "wed-6",
+          "wed-7",
+          "wed-8"
+        ],
+        "strength": "hard",
+        "note": "Works elsewhere on Wednesday afternoon."
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableWish",
+          "slug": "demo-wish-no-last-period-friday",
+          "id": "0000de00-0000-4000-8000-001000000002"
+        },
+        "appliesTo": "teacher",
+        "reference": "@operator",
+        "kind": "avoid",
+        "periods": [
+          "fri-8"
+        ],
+        "strength": "soft",
+        "weight": 2,
+        "note": "Prefers to leave early on Friday."
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableWish",
+          "slug": "demo-wish-group-3b-six-a-day",
+          "id": "0000de00-0000-4000-8000-001000000003"
+        },
+        "appliesTo": "group",
+        "reference": "3B",
+        "kind": "maxPerDay",
+        "limit": 6,
+        "strength": "soft",
+        "weight": 1,
+        "note": "Group 3B has at most six lessons a day."
+      },
+      {
+        "source": "generated",
+        "weekOf": "2026-10-05",
+        "windowFrom": "2026-10-05",
+        "windowTo": "2026-10-30",
+        "input": {
+          "periods": [
+            "mon-1",
+            "mon-2",
+            "tue-1",
+            "tue-2",
+            "wed-5",
+            "fri-8"
+          ],
+          "rooms": [
+            {
+              "reference": "B1.04",
+              "capacity": 30,
+              "type": "classroom"
+            },
+            {
+              "reference": "A0.12",
+              "capacity": 24,
+              "type": "classroom"
+            }
+          ],
+          "lessons": [
+            {
+              "key": "3B-planning-1",
+              "activity": "3B-planning",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            },
+            {
+              "key": "3B-planning-2",
+              "activity": "3B-planning",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            },
+            {
+              "key": "3B-agile-1",
+              "activity": "3B-agile",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            }
+          ],
+          "wishes": [
+            {
+              "id": "0000de00-0000-4000-8000-001000000001",
+              "appliesTo": "teacher",
+              "reference": "@operator",
+              "kind": "unavailable",
+              "periods": [
+                "wed-5",
+                "wed-6",
+                "wed-7",
+                "wed-8"
+              ],
+              "strength": "hard"
+            }
+          ]
+        },
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableScenario",
+          "slug": "demo-scenario-autumn-first",
+          "id": "0000de00-0000-4000-8000-001100000001"
+        },
+        "title": "Autumn, first run",
+        "status": "done",
+        "seed": 1,
+        "placements": [
+          {
+            "lesson": "3B-planning-1",
+            "period": "mon-1",
+            "room": "B1.04"
+          },
+          {
+            "lesson": "3B-planning-2",
+            "period": "tue-1",
+            "room": "B1.04"
+          },
+          {
+            "lesson": "3B-agile-1",
+            "period": "mon-2",
+            "room": "A0.12"
+          }
+        ],
+        "unplaced": [],
+        "brokenWishes": [],
+        "metrics": {
+          "placed": 3,
+          "unplaced": 0,
+          "hardBroken": 0,
+          "softBroken": 0,
+          "softPenalty": 0
+        }
+      },
+      {
+        "source": "imported",
+        "weekOf": "2026-10-05",
+        "windowFrom": "2026-10-05",
+        "windowTo": "2026-10-30",
+        "input": {
+          "periods": [
+            "mon-1",
+            "mon-2",
+            "tue-1",
+            "tue-2",
+            "wed-5",
+            "fri-8"
+          ],
+          "rooms": [
+            {
+              "reference": "B1.04",
+              "capacity": 30,
+              "type": "classroom"
+            },
+            {
+              "reference": "A0.12",
+              "capacity": 24,
+              "type": "classroom"
+            }
+          ],
+          "lessons": [
+            {
+              "key": "3B-planning-1",
+              "activity": "3B-planning",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            },
+            {
+              "key": "3B-planning-2",
+              "activity": "3B-planning",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            },
+            {
+              "key": "3B-agile-1",
+              "activity": "3B-agile",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            }
+          ],
+          "wishes": [
+            {
+              "id": "0000de00-0000-4000-8000-001000000001",
+              "appliesTo": "teacher",
+              "reference": "@operator",
+              "kind": "unavailable",
+              "periods": [
+                "wed-5",
+                "wed-6",
+                "wed-7",
+                "wed-8"
+              ],
+              "strength": "hard"
+            }
+          ]
+        },
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableScenario",
+          "slug": "demo-scenario-autumn-current",
+          "id": "0000de00-0000-4000-8000-001100000002"
+        },
+        "title": "Autumn, current timetable",
+        "status": "done",
+        "placements": [
+          {
+            "lesson": "3B-planning-1",
+            "period": "mon-1",
+            "room": "B1.04"
+          },
+          {
+            "lesson": "3B-planning-2",
+            "period": "fri-8",
+            "room": "B1.04"
+          },
+          {
+            "lesson": "3B-agile-1",
+            "period": "tue-2",
+            "room": "A0.12"
+          }
+        ],
+        "unplaced": [],
+        "brokenWishes": [
+          {
+            "wish": "0000de00-0000-4000-8000-001000000002",
+            "lessons": [
+              "3B-planning-2"
+            ],
+            "weight": 2
+          }
+        ],
+        "metrics": {
+          "placed": 3,
+          "unplaced": 0,
+          "hardBroken": 0,
+          "softBroken": 1,
+          "softPenalty": 2
+        }
+      },
+      {
+        "source": "generated",
+        "weekOf": "2026-10-05",
+        "windowFrom": "2026-10-05",
+        "windowTo": "2026-10-30",
+        "input": {
+          "periods": [
+            "mon-1",
+            "mon-2",
+            "tue-1",
+            "tue-2",
+            "wed-5",
+            "fri-8"
+          ],
+          "rooms": [
+            {
+              "reference": "B1.04",
+              "capacity": 30,
+              "type": "classroom"
+            },
+            {
+              "reference": "A0.12",
+              "capacity": 24,
+              "type": "classroom"
+            }
+          ],
+          "lessons": [
+            {
+              "key": "3B-planning-1",
+              "activity": "3B-planning",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            },
+            {
+              "key": "3B-planning-2",
+              "activity": "3B-planning",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            },
+            {
+              "key": "3B-agile-1",
+              "activity": "3B-agile",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            }
+          ],
+          "wishes": [
+            {
+              "id": "0000de00-0000-4000-8000-001000000001",
+              "appliesTo": "teacher",
+              "reference": "@operator",
+              "kind": "unavailable",
+              "periods": [
+                "wed-5",
+                "wed-6",
+                "wed-7",
+                "wed-8"
+              ],
+              "strength": "hard"
+            }
+          ]
+        },
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableScenario",
+          "slug": "demo-scenario-autumn-queued",
+          "id": "0000de00-0000-4000-8000-001100000003"
+        },
+        "title": "Autumn, second run",
+        "status": "queued",
+        "seed": 2
       }
     ]
   }
