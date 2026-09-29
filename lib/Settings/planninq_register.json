@@ -541,63 +541,7 @@
                 "case",
                 "files",
                 "failures"
-              ],
-              "properties": {
-                "date": {
-                  "type": "string",
-                  "format": "date-time"
-                },
-                "by": {
-                  "type": "string"
-                },
-                "case": {
-                  "type": "string"
-                },
-                "files": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "required": [
-                      "name",
-                      "sha256"
-                    ],
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "sha256": {
-                        "type": "string",
-                        "pattern": "^[0-9a-f]{64}$"
-                      },
-                      "size": {
-                        "type": "integer"
-                      }
-                    }
-                  }
-                },
-                "failures": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "required": [
-                      "name",
-                      "reason"
-                    ],
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "reason": {
-                        "type": "string",
-                        "enum": [
-                          "write",
-                          "checksum"
-                        ]
-                      }
-                    }
-                  }
-                }
-              }
+              ]
             }
           },
           "labels": {

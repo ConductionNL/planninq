@@ -33,6 +33,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use DateTimeImmutable;
 use OCA\Planninq\Exception\CaseHandoverException;
 use OCP\App\IAppManager;
 use OCP\Files\File;
@@ -161,7 +162,7 @@ class CaseHandoverService {
 
 		$tasks  = $this->tasks(projectId: $projectId);
 		$record = [
-			'date'     => (new \DateTimeImmutable())->format(DATE_ATOM),
+			'date'     => (new DateTimeImmutable())->format(DATE_ATOM),
 			'by'       => (string)($this->userSession->getUser()?->getUID() ?? ''),
 			'case'     => $caseId,
 			'files'    => [],
