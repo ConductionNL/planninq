@@ -2,7 +2,7 @@
 
 ## 1. My tasks
 
-- [ ] 1.1 `fetchMyTasks()` in `src/store/projects.js` (assigned or shared, open statuses, paged) and a pure `groupMyTasks(tasks, today)` helper. Verify: vitest specs for the merge and the three groups with priority order.
+- [x] 1.1 `fetchMyTasks()` in `src/store/projects.js` (assigned or shared, open statuses, paged) and a pure `groupMyTasks(tasks, today)` helper. Verify: vitest specs for the merge and the three groups with priority order.
 - [ ] 1.2 `src/views/MyWork.vue`, its manifest page and registry entry, a "My tasks" menu entry, inline status change, and the empty state "No tasks assigned to you" with "Browse projects". Verify: Playwright e2e opens My tasks, changes a status in place, and follows a title to TaskDetail and back.
 
 ## 2. Dashboard

@@ -16,6 +16,7 @@ import { generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  */
 import { defineStore } from 'pinia'
+import { isMine } from '../utils/myWork.js'
 import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelpers.js'
 import { canSeeProject } from '../utils/portfolioGrouping.js'
 import { actionNames, transitionRequest } from '../utils/projectLifecycle.js'
@@ -1269,6 +1270,35 @@ export const useProjectsStore = defineStore('projects', {
 				return Array.isArray(tasks) ? tasks : []
 			} catch (err) {
 				console.error('fetchTasks error:', err)
+				return []
+			}
+		},
+
+		// ── 2.13a fetchMyTasks ────────────────────────────────────────────
+
+		/**
+		 * Every task assigned to the current user or shared with them, in
+		 * every project they can read (OpenRegister scopes task reads to the
+		 * project's members), open and closed; My tasks filters further.
+		 *
+		 * One paged read of the task collection, filtered here: `sharedWith`
+		 * is an array, and an array filter on the object list is not
+		 * portable across databases (see fetchProjects).
+		 *
+		 * @return {Promise<Array>}
+		 *
+		 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-1.1
+		 */
+		async fetchMyTasks() {
+			const uid = this._currentUid()
+			if (!uid) {
+				return []
+			}
+			try {
+				const tasks = await fetchEvery(this._objectStore(), TASK_SCHEMA, {})
+				return (Array.isArray(tasks) ? tasks : []).filter((task) => isMine(task, uid))
+			} catch (err) {
+				console.error('fetchMyTasks error:', err)
 				return []
 			}
 		},
