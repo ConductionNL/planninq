@@ -119,6 +119,9 @@
 						</li>
 					</ul>
 				</section>
+
+				<!-- Links to other tasks of the project (planning-dependencies-on-task-page) -->
+				<TaskDependencies :task="task" :projectTasks="projectTasks" />
 			</div>
 
 			<!-- Collaboration sidebar: comments (notes), files, audit trail.
@@ -156,7 +159,9 @@ import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
 import ClockPlusOutline from 'vue-material-design-icons/ClockPlusOutline.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import TaskDependencies from '../components/TaskDependencies.vue'
 import TimeEntryDialog from '../dialogs/TimeEntryDialog.vue'
+import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
@@ -190,6 +195,7 @@ export default {
 		ClockPlusOutline,
 		PencilIcon,
 		DeleteIcon,
+		TaskDependencies,
 		TimeEntryDialog,
 	},
 
@@ -200,6 +206,7 @@ export default {
 			settingsStore: useSettingsStore(),
 			estimateInput: '',
 			savingEstimate: false,
+			projectTasks: [],
 			dialogOpen: false,
 			editingEntry: null,
 			// Live-updates handle for the or-object-{uuid} subscription of the
@@ -386,6 +393,7 @@ export default {
 					await this.projectsStore.fetchTask(id)
 					this.estimateInput = this.estimateMinutes > 0 ? formatDuration(this.estimateMinutes) : ''
 					await this.timeEntriesStore.fetchForTask(id)
+					await this.loadLinks()
 					this.syncLiveSubscription()
 				} else {
 					this.releaseLiveSubscription()
@@ -404,6 +412,20 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Load the project's tasks and the dependency links for the Dependencies section.
+		 *
+		 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-1.1
+		 */
+		async loadLinks() {
+			const projectId = this.task?.project?.id || this.task?.project
+			const [tasks] = await Promise.all([
+				projectId ? this.projectsStore.fetchTasks(String(projectId)) : Promise.resolve([]),
+				useDependenciesStore().fetchEdges(),
+			])
+			this.projectTasks = Array.isArray(tasks) ? tasks : []
+		},
+
 		/**
 		 * Subscribe to live updates for the task being viewed
 		 * (or-object-{uuid}). Events are refetch hints only: the

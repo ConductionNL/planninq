@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "A què s'afegeix el camp",
         "Custom fields": "Camps propis",
         "The values of the project fields an admin defined, keyed by the field's key.": "Els valors dels camps de projecte que ha definit un administrador, per la clau del camp.",
-        "Project fields": "Camps de projecte"
+        "Project fields": "Camps de projecte",
+        "Related": "Relacionades",
+        "Remove link": "Treu l'enllaç",
+        "Link type": "Tipus d'enllaç",
+        "Relates to": "Relacionada amb",
+        "Duplicates": "Duplica"
     },
     "nplurals=2; plural=(n != 1);"
 )

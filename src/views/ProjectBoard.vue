@@ -203,7 +203,11 @@
 							@dragstart="onDragStart(task)"
 							@dragend="onDragEnd"
 							@drop.stop="onDrop(column, task)">
-							<TaskCard :task="task" :labels="labelsForTask(task)" />
+							<TaskCard
+								:task="task"
+								:labels="labelsForTask(task)"
+								:blocked="blockedIds.has(task.id)"
+								:openBlockerCount="openBlockerIds(task.id, dependenciesStore.edges, statusById).length" />
 
 							<!-- Keyboard-operable move: the accessible equivalent
 							     of drag-and-drop, to another lane or a step up or
@@ -330,6 +334,7 @@ import ProjectTabs from '../components/ProjectTabs.vue'
 import TaskCard from '../components/TaskCard.vue'
 import ColumnEditDialog from '../dialogs/ColumnEditDialog.vue'
 import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
+import { useDependenciesStore } from '../store/dependencies.js'
 import { useProjectsStore } from '../store/projects.js'
 import { backlogTasks, moveToBacklogPatch } from '../utils/backlogHelpers.js'
 import {
@@ -343,6 +348,7 @@ import {
 } from '../utils/columnHelpers.js'
 import { filterTasksByLabel, labelId, resolveTaskLabels, sortLabelsByTitle } from '../utils/labelHelpers.js'
 import { isReadOnlyFor } from '../utils/portfolioGrouping.js'
+import { deriveBlockedTaskIds, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
 
 export default {
 	name: 'ProjectBoard',
@@ -401,6 +407,35 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * @spec exclude Store passthrough — the dependencies store the badges read.
+		 */
+		dependenciesStore() {
+			return useDependenciesStore()
+		},
+
+		/**
+		 * Task id to status, for the blocked derivation.
+		 *
+		 * @return {object}
+		 *
+		 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-2.1
+		 */
+		statusById() {
+			return statusMapFromTasks(this.tasks)
+		},
+
+		/**
+		 * The tasks an unfinished task blocks, derived once per render.
+		 *
+		 * @return {Set<string>}
+		 *
+		 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-2.1
+		 */
+		blockedIds() {
+			return new Set(deriveBlockedTaskIds(this.dependenciesStore.edges, this.statusById))
+		},
+
 		/**
 		 * @spec exclude Store passthrough — returns the projects Pinia store.
 		 */
@@ -586,6 +621,8 @@ export default {
 	},
 
 	methods: {
+		openBlockerIds,
+
 		/**
 		 * Load the project's tasks into the board.
 		 *
@@ -600,7 +637,11 @@ export default {
 			}
 			this.tasksLoading = true
 			try {
-				this.tasks = await this.projectsStore.fetchTasks(projectId)
+				const [tasks] = await Promise.all([
+					this.projectsStore.fetchTasks(projectId),
+					this.dependenciesStore.fetchEdges(),
+				])
+				this.tasks = tasks
 			} finally {
 				this.tasksLoading = false
 			}

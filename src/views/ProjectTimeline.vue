@@ -95,6 +95,7 @@
 							</defs>
 							<line v-for="edge in edgeLines"
 								:key="edge.key"
+								data-testid="timeline-edge"
 								:x1="edge.x1"
 								:y1="edge.y1"
 								:x2="edge.x2"

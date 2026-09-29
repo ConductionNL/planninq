@@ -56,3 +56,9 @@ change is archived.
 ## Risks / trade-offs
 
 - [An extra edges request per board] -> one request per board load; edges are small.
+
+## Built at HEAD (29 Sep 2026)
+
+- The picker offers "Blocked by", "Relates to" and "Duplicates"; `DependencyService::create()` takes the type, refuses a type the schema does not name, and runs the cycle check for `blocks` only. A related link is stored with this task as `blocker` and the picked task as `blocked`; the direction carries no meaning for a non-blocking link.
+- `fetchEdges()` read one page of 20 links and dropped `type`; it now asks for 1000 and keeps the type, so a busy instance no longer loses links on the task page and the board.
+- The timeline e2e sits in `tests/e2e/task-dependencies.spec.ts` with the other link tests. Draft PR #641 (blocked badge and filter) was untouched since 23 Sep; this change supersedes its badge.

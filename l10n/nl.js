@@ -730,7 +730,12 @@ OC.L10N.register(
         "What the field is added to": "Waaraan het veld wordt toegevoegd",
         "Custom fields": "Eigen velden",
         "The values of the project fields an admin defined, keyed by the field's key.": "De waarden van de projectvelden die een beheerder instelde, op de sleutel van het veld.",
-        "Project fields": "Projectvelden"
+        "Project fields": "Projectvelden",
+        "Related": "Gerelateerd",
+        "Remove link": "Koppeling verwijderen",
+        "Link type": "Soort koppeling",
+        "Relates to": "Hangt samen met",
+        "Duplicates": "Dupliceert"
     },
     "nplurals=2; plural=(n != 1);"
 )

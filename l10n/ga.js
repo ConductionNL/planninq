@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Cad lena gcuirtear an réimse",
         "Custom fields": "Réimsí féin",
         "The values of the project fields an admin defined, keyed by the field's key.": "Luachanna na réimsí tionscadail a shainigh riarthóir, de réir eochair an réimse.",
-        "Project fields": "Réimsí tionscadail"
+        "Project fields": "Réimsí tionscadail",
+        "Related": "Gaolmhar",
+        "Remove link": "Bain an nasc",
+        "Link type": "Cineál naisc",
+        "Relates to": "Bainteach le",
+        "Duplicates": "Dúblaíonn"
     },
     "nplurals=2; plural=(n != 1);"
 )

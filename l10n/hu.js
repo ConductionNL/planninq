@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Mihez adják a mezőt",
         "Custom fields": "Saját mezők",
         "The values of the project fields an admin defined, keyed by the field's key.": "Az adminisztrátor által megadott projektmezők értékei a mező kulcsa szerint.",
-        "Project fields": "Projektmezők"
+        "Project fields": "Projektmezők",
+        "Related": "Kapcsolódó",
+        "Remove link": "Kapcsolat eltávolítása",
+        "Link type": "Kapcsolat típusa",
+        "Relates to": "Kapcsolódik ehhez",
+        "Duplicates": "Megkettőzi"
     },
     "nplurals=2; plural=(n != 1);"
 )

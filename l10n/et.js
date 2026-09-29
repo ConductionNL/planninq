@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Millele väli lisatakse",
         "Custom fields": "Omad väljad",
         "The values of the project fields an admin defined, keyed by the field's key.": "Administraatori määratud projektiväljade väärtused välja võtme järgi.",
-        "Project fields": "Projekti väljad"
+        "Project fields": "Projekti väljad",
+        "Related": "Seotud",
+        "Remove link": "Eemalda link",
+        "Link type": "Lingi tüüp",
+        "Relates to": "Seotud ülesandega",
+        "Duplicates": "Dubleerib"
     },
     "nplurals=2; plural=(n != 1);"
 )

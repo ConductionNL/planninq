@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Wozu das Feld hinzugefügt wird",
         "Custom fields": "Eigene Felder",
         "The values of the project fields an admin defined, keyed by the field's key.": "Die Werte der vom Admin festgelegten Projektfelder, nach dem Schlüssel des Felds.",
-        "Project fields": "Projektfelder"
+        "Project fields": "Projektfelder",
+        "Related": "Verwandt",
+        "Remove link": "Verknüpfung entfernen",
+        "Link type": "Art der Verknüpfung",
+        "Relates to": "Hängt zusammen mit",
+        "Duplicates": "Dupliziert"
     },
     "nplurals=2; plural=(n != 1);"
 )

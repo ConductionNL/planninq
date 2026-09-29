@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "К чему добавляется поле",
         "Custom fields": "Свои поля",
         "The values of the project fields an admin defined, keyed by the field's key.": "Значения полей проекта, заданных администратором, по ключу поля.",
-        "Project fields": "Поля проекта"
+        "Project fields": "Поля проекта",
+        "Related": "Связанные",
+        "Remove link": "Удалить связь",
+        "Link type": "Тип связи",
+        "Relates to": "Связана с",
+        "Duplicates": "Дублирует"
     },
     "nplurals=2; plural=(n != 1);"
 )

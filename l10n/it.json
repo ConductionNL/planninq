@@ -708,7 +708,12 @@
         "What the field is added to": "A cosa viene aggiunto il campo",
         "Custom fields": "Campi personalizzati",
         "The values of the project fields an admin defined, keyed by the field's key.": "I valori dei campi di progetto definiti da un amministratore, per chiave del campo.",
-        "Project fields": "Campi di progetto"
+        "Project fields": "Campi di progetto",
+        "Related": "Correlate",
+        "Remove link": "Rimuovi il collegamento",
+        "Link type": "Tipo di collegamento",
+        "Relates to": "Correlata a",
+        "Duplicates": "Duplica"
     },
     "plurals": null
 }

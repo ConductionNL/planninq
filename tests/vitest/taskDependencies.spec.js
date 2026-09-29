@@ -12,6 +12,8 @@ import {
 	dependencyPickerCandidates,
 	deriveBlockedTaskIds,
 	isBlocked,
+	linkGroups,
+	newLinkFor,
 	openBlockerIds,
 	statusMapFromTasks,
 } from '../../src/utils/taskHelpers.js'
@@ -139,5 +141,31 @@ describe('dependencyPickerCandidates', () => {
 
 	it('returns empty for a null current task', () => {
 		expect(dependencyPickerCandidates(null, tasks)).toEqual([])
+	})
+})
+
+describe('linkGroups (planning-dependencies-on-task-page, task 3.2)', () => {
+	const edges = [
+		{ id: 'e1', blocker: 'A', blocked: 'B' },
+		{ id: 'e2', blocker: 'B', blocked: 'C', type: 'blocks' },
+		{ id: 'e3', blocker: 'B', blocked: 'D', type: 'relates' },
+		{ id: 'e4', blocker: 'E', blocked: 'B', type: 'duplicates' },
+	]
+
+	it('splits a task\'s links into blocked by, blocks and related, related in both directions', () => {
+		const groups = linkGroups('B', edges)
+		expect(groups.blockedBy.map((link) => [link.edgeId, link.otherId])).toEqual([['e1', 'A']])
+		expect(groups.blocks.map((link) => [link.edgeId, link.otherId])).toEqual([['e2', 'C']])
+		expect(groups.related.map((link) => [link.edgeId, link.otherId, link.type])).toEqual([['e3', 'D', 'relates'], ['e4', 'E', 'duplicates']])
+	})
+
+	it('a related link does not block', () => {
+		expect(isBlocked('D', edges, { B: 'open', D: 'open' })).toBe(false)
+		expect(isBlocked('C', edges, { B: 'open', C: 'open' })).toBe(true)
+	})
+
+	it('builds the new link the picker asks for: a blocker for "Blocked by", this task first for a related link', () => {
+		expect(newLinkFor('B', 'X', 'blocks')).toEqual({ blocker: 'X', blocked: 'B', type: 'blocks' })
+		expect(newLinkFor('B', 'X', 'relates')).toEqual({ blocker: 'B', blocked: 'X', type: 'relates' })
 	})
 })

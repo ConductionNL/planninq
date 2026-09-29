@@ -708,7 +708,12 @@
         "What the field is added to": "Чему се поље додаје",
         "Custom fields": "Сопствена поља",
         "The values of the project fields an admin defined, keyed by the field's key.": "Вредности поља пројекта која је дефинисао администратор, према кључу поља.",
-        "Project fields": "Поља пројекта"
+        "Project fields": "Поља пројекта",
+        "Related": "Повезано",
+        "Remove link": "Уклони везу",
+        "Link type": "Врста везе",
+        "Relates to": "Повезано са",
+        "Duplicates": "Дуплира"
     },
     "plurals": null
 }

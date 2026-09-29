@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Alanın eklendiği şey",
         "Custom fields": "Özel alanlar",
         "The values of the project fields an admin defined, keyed by the field's key.": "Bir yöneticinin tanımladığı proje alanlarının, alan anahtarına göre değerleri.",
-        "Project fields": "Proje alanları"
+        "Project fields": "Proje alanları",
+        "Related": "İlgili",
+        "Remove link": "Bağlantıyı kaldır",
+        "Link type": "Bağlantı türü",
+        "Relates to": "İlgili olduğu",
+        "Duplicates": "Çoğaltır"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -685,7 +685,12 @@ OC.L10N.register(
         "What the field is added to": "What the field is added to",
         "Custom fields": "Custom fields",
         "The values of the project fields an admin defined, keyed by the field's key.": "The values of the project fields an admin defined, keyed by the field's key.",
-        "Project fields": "Project fields"
+        "Project fields": "Project fields",
+        "Related": "Related",
+        "Remove link": "Remove link",
+        "Link type": "Link type",
+        "Relates to": "Relates to",
+        "Duplicates": "Duplicates"
     },
     "nplurals=2; plural=(n != 1);"
 )

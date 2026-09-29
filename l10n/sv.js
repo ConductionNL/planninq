@@ -709,7 +709,12 @@ OC.L10N.register(
         "What the field is added to": "Vad fältet läggs till på",
         "Custom fields": "Egna fält",
         "The values of the project fields an admin defined, keyed by the field's key.": "Värdena i de projektfält som en administratör har definierat, efter fältets nyckel.",
-        "Project fields": "Projektfält"
+        "Project fields": "Projektfält",
+        "Related": "Relaterade",
+        "Remove link": "Ta bort länk",
+        "Link type": "Länktyp",
+        "Relates to": "Relaterar till",
+        "Duplicates": "Duplicerar"
     },
     "nplurals=2; plural=(n != 1);"
 )
