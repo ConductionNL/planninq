@@ -25,6 +25,8 @@ const FINISHED = ['done', 'cancelled']
  *
  * @param {object|string|null} value The object, reference or id.
  * @return {string} The id, or ''.
+ *
+ * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.2
  */
 export function refId(value) {
 	if (value === null || value === undefined) {
@@ -41,6 +43,8 @@ export function refId(value) {
  *
  * @param {object} task The task.
  * @return {boolean}
+ *
+ * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.3
  */
 export function isEpic(task) {
 	return task?.issueType === EPIC_TYPE
@@ -190,6 +194,8 @@ export function roadmapLayout(epics, tasks, releases, pxPerDay) {
  *
  * @param {number} day Days since the epoch.
  * @return {string}
+ *
+ * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.2
  */
 export function dayIso(day) {
 	return new Date(day * MS_PER_DAY).toISOString().slice(0, 10)
