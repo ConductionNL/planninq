@@ -112,10 +112,12 @@
 import axios from '@nextcloud/axios'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
+import { newProjectQuery } from '../utils/caseBridge.js'
 import {
 	budgetOf,
 	guardRows,
 	idOf,
+	isCaseHost,
 	scopeParams,
 	SINGLE_ENTITY,
 } from './projectScope.js'
@@ -138,6 +140,18 @@ export default {
 	props: {
 		/** The host object's uuid, or the project uuid on `single-entity`. */
 		objectId: {
+			type: String,
+			default: '',
+		},
+
+		/** The host object's register, as the host passes it (a slug on Dossiq's case page). */
+		register: {
+			type: String,
+			default: '',
+		},
+
+		/** The host object's schema; `case` scopes the list to projects linked to the case. */
+		schema: {
 			type: String,
 			default: '',
 		},
@@ -165,6 +179,13 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * @spec exclude Trivial getter: the host object's register and schema, for the case scope.
+		 */
+		host() {
+			return { register: this.register, schema: this.schema }
+		},
+
 		/**
 		 * True when this surface renders one named project rather than a list.
 		 *
@@ -318,7 +339,7 @@ export default {
 				const { data } = await axios.get(url, {
 					params: {
 						_limit: 100,
-						...scopeParams(this.surface, this.objectId),
+						...scopeParams(this.surface, this.objectId, this.host),
 					},
 				})
 				const rows = Array.isArray(data?.results)
@@ -330,7 +351,7 @@ export default {
 				// A filter that did not run returns MORE than it should, and looks
 				// like success. So the count comes from the rows this widget was
 				// actually willing to show, never from the server's own total.
-				this.projects = guardRows(rows, this.surface, this.objectId)
+				this.projects = guardRows(rows, this.surface, this.objectId, this.host)
 				this.total = this.projects.length
 			} catch {
 				// Say so rather than render an empty list. See the docblock.
@@ -368,20 +389,29 @@ export default {
 		},
 
 		/**
-		 * Open planninq's project list with this client pre-selected.
+		 * Open planninq's New project dialog with this client, or this case and
+		 * its title, filled in.
 		 *
-		 * @return {void}
+		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
+		 * @spec openspec/changes/integration-case-bridge/tasks.md#task-1.2
 		 */
-		openNewProject() {
-			const url = generateUrl(
-				'/apps/planninq/projects?new=1&client={client}',
-				{
-					client: this.objectId,
-				},
-			)
-			window.open(url, '_self')
+		async openNewProject() {
+			let title = ''
+			if (isCaseHost(this.host) && this.register) {
+				try {
+					const { data } = await axios.get(generateUrl('/apps/openregister/api/objects/{register}/{schema}/{id}', {
+						register: this.register,
+						schema: this.schema,
+						id: this.objectId,
+					}))
+					title = data?.title || ''
+				} catch {
+					// The link still carries the case; the dialog shows it without a title.
+				}
+			}
+			const query = new URLSearchParams(newProjectQuery(this.objectId, this.host, title))
+			window.open(generateUrl('/apps/planninq/projects') + '?' + query.toString(), '_self')
 		},
 
 		/**
