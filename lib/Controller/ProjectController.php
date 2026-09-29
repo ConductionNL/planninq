@@ -106,6 +106,7 @@ class ProjectController extends Controller {
 	 * @param ContainerInterface $container The DI container
 	 * @param LoggerInterface $logger The logger
 	 * @param BoardColumnService $boardColumns Creates a new project's default columns
+	 * @param WorkItemKeyService $keys The project key rules (tasks-readable-keys).
 	 *
 	 * @return void
 	 */

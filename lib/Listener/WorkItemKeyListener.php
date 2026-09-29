@@ -109,22 +109,34 @@ class WorkItemKeyListener implements IEventListener {
 	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-2.2
 	 */
 	public function handle(Event $event): void {
-		if ($event instanceof ObjectCreatingEvent === false && $event instanceof ObjectUpdatingEvent === false) {
+		if ($event instanceof ObjectCreatingEvent === true) {
+			$this->route(event: $event, object: $event->getObject(), oldData: null);
 			return;
 		}
 
-		$oldData = null;
 		if ($event instanceof ObjectUpdatingEvent === true) {
-			$object  = $event->getNewObject();
 			$old     = $event->getOldObject();
 			$oldData = [];
 			if ($old !== null) {
 				$oldData = (array)$old->getObject();
 			}
-		} else {
-			$object = $event->getObject();
-		}
 
+			$this->route(event: $event, object: $event->getNewObject(), oldData: $oldData);
+		}
+	}//end handle()
+
+	/**
+	 * Send a task create to the numbering and a project write to the key rules.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event   The event.
+	 * @param object                                  $object  The object being saved.
+	 * @param array<string,mixed>|null                $oldData The stored object on an update.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-2.2
+	 */
+	private function route(ObjectCreatingEvent|ObjectUpdatingEvent $event, object $object, ?array $oldData): void {
 		$slug = $this->scopeResolver->planninqSchemaSlug(
 			registerId: (string)($object->getRegister() ?? ''),
 			schemaId: (string)($object->getSchema() ?? '')
@@ -139,7 +151,7 @@ class WorkItemKeyListener implements IEventListener {
 		if ($slug === 'project' && $this->isSystemOperation() === false) {
 			$this->guardProject(event: $event, projectId: (string)($object->getUuid() ?? ''), data: $data, oldData: $oldData);
 		}
-	}//end handle()
+	}//end route()
 
 	/**
 	 * Give a keyless new task the next key of its project.
@@ -189,23 +201,16 @@ class WorkItemKeyListener implements IEventListener {
 	 */
 	private function guardProject(ObjectCreatingEvent|ObjectUpdatingEvent $event, string $projectId, array $data, ?array $oldData): void {
 		$stored = ($oldData ?? []);
-		$key    = $this->keys->normalise(key: ($data['key'] ?? null));
-		$oldKey = $this->keys->normalise(key: ($stored['key'] ?? null));
-
-		$counter = ($stored[WorkItemKeyService::COUNTER] ?? null);
-		if (($data[WorkItemKeyService::COUNTER] ?? null) !== $counter) {
-			$event->setModifiedData(array_merge($event->getModifiedData(), [WorkItemKeyService::COUNTER => $counter]));
-		}
+		$this->keepCounter(event: $event, data: $data, stored: $stored);
 
 		// A write that leaves the key out (a PUT of other fields) keeps it.
 		if (array_key_exists('key', $data) === false) {
-			if ($oldKey !== '') {
-				$event->setModifiedData(array_merge($event->getModifiedData(), ['key' => $stored['key']]));
-			}
-
+			$this->keepKey(event: $event, stored: $stored);
 			return;
 		}
 
+		$key    = $this->keys->normalise(key: $data['key']);
+		$oldKey = $this->keys->normalise(key: ($stored['key'] ?? null));
 		if ($key === $oldKey) {
 			return;
 		}
@@ -217,14 +222,68 @@ class WorkItemKeyListener implements IEventListener {
 			return;
 		}
 
-		if ($key !== ($data['key'] ?? null)) {
-			$event->setModifiedData(array_merge($event->getModifiedData(), ['key' => ($key === '' ? null : $key)]));
-		}
+		$this->storeKey(event: $event, key: $key, sent: $data['key']);
 
 		if ($oldData !== null && $oldKey === '' && $key !== '' && $projectId !== '') {
 			$this->jobList->add(NumberProjectTasks::class, ['project' => $projectId]);
 		}
 	}//end guardProject()
+
+	/**
+	 * Replace a client value of the counter with the stored one.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event  The event.
+	 * @param array<string,mixed>                     $data   The new project data.
+	 * @param array<string,mixed>                     $stored The stored project, empty on a create.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-2.1
+	 */
+	private function keepCounter(ObjectCreatingEvent|ObjectUpdatingEvent $event, array $data, array $stored): void {
+		$counter = ($stored[WorkItemKeyService::COUNTER] ?? null);
+		if (($data[WorkItemKeyService::COUNTER] ?? null) !== $counter) {
+			$event->setModifiedData(array_merge($event->getModifiedData(), [WorkItemKeyService::COUNTER => $counter]));
+		}
+	}//end keepCounter()
+
+	/**
+	 * Keep the stored key on a write that left it out.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event  The event.
+	 * @param array<string,mixed>                     $stored The stored project, empty on a create.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.3
+	 */
+	private function keepKey(ObjectCreatingEvent|ObjectUpdatingEvent $event, array $stored): void {
+		if ($this->keys->normalise(key: ($stored['key'] ?? null)) !== '') {
+			$event->setModifiedData(array_merge($event->getModifiedData(), ['key' => $stored['key']]));
+		}
+	}//end keepKey()
+
+	/**
+	 * Store an accepted key uppercase, or no key for an empty one.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event The event.
+	 * @param string                                  $key   The normalised key.
+	 * @param mixed                                   $sent  The key as sent.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.2
+	 */
+	private function storeKey(ObjectCreatingEvent|ObjectUpdatingEvent $event, string $key, mixed $sent): void {
+		$value = null;
+		if ($key !== '') {
+			$value = $key;
+		}
+
+		if ($value !== $sent) {
+			$event->setModifiedData(array_merge($event->getModifiedData(), ['key' => $value]));
+		}
+	}//end storeKey()
 
 	/**
 	 * Why a key change is refused, or null when it is allowed.

@@ -46,7 +46,7 @@ class NumberProjectTasks extends QueuedJob {
 		ITimeFactory $time,
 		private WorkItemKeyService $keys,
 	) {
-		parent::__construct($time);
+		parent::__construct(time: $time);
 	}//end __construct()
 
 	/**
