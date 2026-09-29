@@ -310,6 +310,11 @@ class WorkItemKeyService {
 	 * @return void
 	 */
 	private function writeAsSystem(string $schema, string $uuid, array $data): void {
+		if ($this->openRegisterAvailable() === false) {
+			$this->logger->warning('Planninq: OpenRegister is not installed; task numbers not written', ['schema' => $schema]);
+			return;
+		}
+
 		$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 		$write         = static fn () => $objectService->saveObject(
 			object: $data,
@@ -331,4 +336,13 @@ class WorkItemKeyService {
 
 		$class::run($write);
 	}//end writeAsSystem()
+
+	/**
+	 * Whether OpenRegister is installed, so there is anything to write.
+	 *
+	 * @return bool
+	 */
+	private function openRegisterAvailable(): bool {
+		return $this->membership->isAvailable();
+	}//end openRegisterAvailable()
 }//end class
