@@ -580,7 +580,18 @@
         "This file is not a Microsoft Project plan in XML format.": "Гэты файл не з'яўляецца планам Microsoft Project у фармаце XML.",
         "Choose a file to import.": "Выберыце файл для імпарту.",
         "Only the project owner can import a plan.": "Толькі ўладальнік праекта можа імпартаваць план.",
-        "The plan could not be read. Please try again.": "Не ўдалося прачытаць план. Паспрабуйце яшчэ раз."
+        "The plan could not be read. Please try again.": "Не ўдалося прачытаць план. Паспрабуйце яшчэ раз.",
+        "Linked case: {title}": "Звязаная справа: {title}",
+        "Linked to a case": "Звязана са справай",
+        "Hand over to case": "Перадаць у справу",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Капіюе без змен кожны файл праекта і яго задач, а таксама файл з апісаннем праекта, у звязаную справу.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Скапіявана файлаў: {count}",
+        "Files that failed: {names}": "Файлы з памылкай: {names}",
+        "The handover failed. Please try again.": "Перадача не ўдалася. Паспрабуйце яшчэ раз.",
+        "The linked case could not be found, or you cannot open it.": "Звязаную справу не знойдзена, або вы не можаце яе адкрыць.",
+        "Case handovers": "Перадачы ў справу",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Кожная перадача файлаў і метаданых праекта ў яго справу: калі, кім, у якую справу, кожны скапіяваны файл з яго SHA-256 і файлы з памылкай."
     },
     "plurals": {}
 }

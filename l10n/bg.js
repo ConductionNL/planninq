@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Този файл не е план на Microsoft Project във формат XML.",
         "Choose a file to import.": "Изберете файл за импортиране.",
         "Only the project owner can import a plan.": "Само собственикът на проекта може да импортира план.",
-        "The plan could not be read. Please try again.": "Планът не можа да бъде прочетен. Опитайте отново."
+        "The plan could not be read. Please try again.": "Планът не можа да бъде прочетен. Опитайте отново.",
+        "Linked case: {title}": "Свързана преписка: {title}",
+        "Linked to a case": "Свързано с преписка",
+        "Hand over to case": "Предаване към преписката",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Копира без промяна всеки файл на проекта и задачите му, както и файл, описващ проекта, в свързаната преписка.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Копирани файлове: {count}",
+        "Files that failed: {names}": "Неуспешни файлове: {names}",
+        "The handover failed. Please try again.": "Предаването не успя. Опитайте отново.",
+        "The linked case could not be found, or you cannot open it.": "Свързаната преписка не е намерена или не можете да я отворите.",
+        "Case handovers": "Предавания към преписката",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Всяко предаване на файловете и метаданните на проекта към преписката му: кога, от кого, към коя преписка, всеки копиран файл с неговия SHA-256 и неуспешните файлове."
     },
     "nplurals=2; plural=(n != 1);"
 )

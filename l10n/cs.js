@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Tento soubor není plán Microsoft Project ve formátu XML.",
         "Choose a file to import.": "Vyberte soubor k importu.",
         "Only the project owner can import a plan.": "Plán může importovat jen vlastník projektu.",
-        "The plan could not be read. Please try again.": "Plán se nepodařilo přečíst. Zkuste to znovu."
+        "The plan could not be read. Please try again.": "Plán se nepodařilo přečíst. Zkuste to znovu.",
+        "Linked case: {title}": "Propojený spis: {title}",
+        "Linked to a case": "Propojeno se spisem",
+        "Hand over to case": "Předat do spisu",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Beze změny zkopíruje každý soubor projektu a jeho úkolů a soubor popisující projekt do propojeného spisu.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Zkopírované soubory: {count}",
+        "Files that failed: {names}": "Neúspěšné soubory: {names}",
+        "The handover failed. Please try again.": "Předání se nezdařilo. Zkuste to znovu.",
+        "The linked case could not be found, or you cannot open it.": "Propojený spis nebyl nalezen, nebo ho nemůžete otevřít.",
+        "Case handovers": "Předání do spisu",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Každé předání souborů a metadat projektu do jeho spisu: kdy, kým, do kterého spisu, každý zkopírovaný soubor s jeho SHA-256 a neúspěšné soubory."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Šis fails nav Microsoft Project plāns XML formātā.",
         "Choose a file to import.": "Izvēlieties failu importēšanai.",
         "Only the project owner can import a plan.": "Tikai projekta īpašnieks var importēt plānu.",
-        "The plan could not be read. Please try again.": "Plānu neizdevās nolasīt. Lūdzu, mēģiniet vēlreiz."
+        "The plan could not be read. Please try again.": "Plānu neizdevās nolasīt. Lūdzu, mēģiniet vēlreiz.",
+        "Linked case: {title}": "Saistītā lieta: {title}",
+        "Linked to a case": "Saistīts ar lietu",
+        "Hand over to case": "Nodot lietai",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Nemainītu kopē katru projekta un tā uzdevumu failu, kā arī failu, kas apraksta projektu, uz saistīto lietu.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Nokopēti faili: {count}",
+        "Files that failed: {names}": "Neizdevušies faili: {names}",
+        "The handover failed. Please try again.": "Nodošana neizdevās. Lūdzu, mēģiniet vēlreiz.",
+        "The linked case could not be found, or you cannot open it.": "Saistītā lieta netika atrasta, vai jūs to nevarat atvērt.",
+        "Case handovers": "Nodošanas lietai",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Katra reize, kad projekta faili un metadati tika nodoti lietai: kad, kas, kurai lietai, katrs nokopētais fails ar tā SHA-256 un neizdevušies faili."
     },
     "nplurals=2; plural=(n != 1);"
 )

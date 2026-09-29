@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Ez a fájl nem XML formátumú Microsoft Project-terv.",
         "Choose a file to import.": "Válasszon egy importálandó fájlt.",
         "Only the project owner can import a plan.": "Csak a projekt tulajdonosa importálhat tervet.",
-        "The plan could not be read. Please try again.": "A tervet nem sikerült beolvasni. Próbálja újra."
+        "The plan could not be read. Please try again.": "A tervet nem sikerült beolvasni. Próbálja újra.",
+        "Linked case: {title}": "Kapcsolt ügy: {title}",
+        "Linked to a case": "Ügyhöz kapcsolva",
+        "Hand over to case": "Átadás az ügynek",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Változatlanul átmásolja a projekt és feladatai minden fájlját, valamint a projektet leíró fájlt a kapcsolt ügybe.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Átmásolt fájlok: {count}",
+        "Files that failed: {names}": "Sikertelen fájlok: {names}",
+        "The handover failed. Please try again.": "Az átadás nem sikerült. Próbálja újra.",
+        "The linked case could not be found, or you cannot open it.": "A kapcsolt ügy nem található, vagy nem nyithatja meg.",
+        "Case handovers": "Átadások az ügynek",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "A projekt fájljainak és metaadatainak minden átadása az ügyének: mikor, ki, melyik ügynek, minden átmásolt fájl a SHA-256 értékével, és a sikertelen fájlok."
     },
     "nplurals=2; plural=(n != 1);"
 )

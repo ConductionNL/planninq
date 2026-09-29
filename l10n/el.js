@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Αυτό το αρχείο δεν είναι σχέδιο Microsoft Project σε μορφή XML.",
         "Choose a file to import.": "Επιλέξτε ένα αρχείο για εισαγωγή.",
         "Only the project owner can import a plan.": "Μόνο ο κάτοχος του έργου μπορεί να εισαγάγει σχέδιο.",
-        "The plan could not be read. Please try again.": "Δεν ήταν δυνατή η ανάγνωση του σχεδίου. Δοκιμάστε ξανά."
+        "The plan could not be read. Please try again.": "Δεν ήταν δυνατή η ανάγνωση του σχεδίου. Δοκιμάστε ξανά.",
+        "Linked case: {title}": "Συνδεδεμένη υπόθεση: {title}",
+        "Linked to a case": "Συνδεδεμένο με υπόθεση",
+        "Hand over to case": "Παράδοση στην υπόθεση",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Αντιγράφει αναλλοίωτο κάθε αρχείο του έργου και των εργασιών του, και ένα αρχείο που περιγράφει το έργο, στη συνδεδεμένη υπόθεση.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Αρχεία που αντιγράφηκαν: {count}",
+        "Files that failed: {names}": "Αρχεία που απέτυχαν: {names}",
+        "The handover failed. Please try again.": "Η παράδοση απέτυχε. Δοκιμάστε ξανά.",
+        "The linked case could not be found, or you cannot open it.": "Η συνδεδεμένη υπόθεση δεν βρέθηκε ή δεν μπορείτε να την ανοίξετε.",
+        "Case handovers": "Παραδόσεις στην υπόθεση",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Κάθε παράδοση των αρχείων και μεταδεδομένων του έργου στην υπόθεσή του: πότε, από ποιον, σε ποια υπόθεση, κάθε αρχείο που αντιγράφηκε με το SHA-256 του και τα αρχεία που απέτυχαν."
     },
     "nplurals=2; plural=(n != 1);"
 )

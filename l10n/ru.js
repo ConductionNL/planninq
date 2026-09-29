@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Этот файл не является планом Microsoft Project в формате XML.",
         "Choose a file to import.": "Выберите файл для импорта.",
         "Only the project owner can import a plan.": "Только владелец проекта может импортировать план.",
-        "The plan could not be read. Please try again.": "Не удалось прочитать план. Попробуйте ещё раз."
+        "The plan could not be read. Please try again.": "Не удалось прочитать план. Попробуйте ещё раз.",
+        "Linked case: {title}": "Связанное дело: {title}",
+        "Linked to a case": "Связано с делом",
+        "Hand over to case": "Передать в дело",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Копирует без изменений каждый файл проекта и его задач, а также файл с описанием проекта, в связанное дело.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Скопировано файлов: {count}",
+        "Files that failed: {names}": "Файлы с ошибкой: {names}",
+        "The handover failed. Please try again.": "Передача не удалась. Попробуйте ещё раз.",
+        "The linked case could not be found, or you cannot open it.": "Связанное дело не найдено, или у вас нет доступа к нему.",
+        "Case handovers": "Передачи в дело",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Каждая передача файлов и метаданных проекта в его дело: когда, кем, в какое дело, каждый скопированный файл с его SHA-256 и файлы с ошибкой."
     },
     "nplurals=2; plural=(n != 1);"
 )

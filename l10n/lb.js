@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Dëse Fichier ass kee Microsoft-Project-Plang am XML-Format.",
         "Choose a file to import.": "Wielt e Fichier fir ze importéieren.",
         "Only the project owner can import a plan.": "Nëmmen de Proprietär vum Projet kann e Plang importéieren.",
-        "The plan could not be read. Please try again.": "De Plang konnt net gelies ginn. Probéiert w.e.g. nach eng Kéier."
+        "The plan could not be read. Please try again.": "De Plang konnt net gelies ginn. Probéiert w.e.g. nach eng Kéier.",
+        "Linked case: {title}": "Verknäppte Fall: {title}",
+        "Linked to a case": "Mat engem Fall verknäppt",
+        "Hand over to case": "Dem Fall iwwerginn",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Kopéiert all Fichier vum Projet a senge Aufgaben, an e Fichier deen de Projet beschreift, onverännert an de verknäppte Fall.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Kopéiert Fichieren: {count}",
+        "Files that failed: {names}": "Fichieren déi feelgeschloen hunn: {names}",
+        "The handover failed. Please try again.": "D'Iwwergab ass feelgeschloen. Probéiert w.e.g. nach eng Kéier.",
+        "The linked case could not be found, or you cannot open it.": "De verknäppte Fall gouf net fonnt, oder Dir kënnt en net opmaachen.",
+        "Case handovers": "Iwwergabe fir de Fall",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "All Iwwergab vun de Fichieren an de Metadate vum Projet u säi Fall: wéini, vu wiem, u wéi ee Fall, all kopéierte Fichier mat sengem SHA-256, an d'Fichieren déi feelgeschloen hunn."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Šis failas nėra Microsoft Project planas XML formatu.",
         "Choose a file to import.": "Pasirinkite failą importuoti.",
         "Only the project owner can import a plan.": "Tik projekto savininkas gali importuoti planą.",
-        "The plan could not be read. Please try again.": "Plano nepavyko nuskaityti. Bandykite dar kartą."
+        "The plan could not be read. Please try again.": "Plano nepavyko nuskaityti. Bandykite dar kartą.",
+        "Linked case: {title}": "Susieta byla: {title}",
+        "Linked to a case": "Susieta su byla",
+        "Hand over to case": "Perduoti bylai",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Nepakeistus nukopijuoja kiekvieną projekto ir jo užduočių failą bei projektą aprašantį failą į susietą bylą.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Nukopijuota failų: {count}",
+        "Files that failed: {names}": "Nepavykę failai: {names}",
+        "The handover failed. Please try again.": "Perduoti nepavyko. Bandykite dar kartą.",
+        "The linked case could not be found, or you cannot open it.": "Susieta byla nerasta arba jūs negalite jos atidaryti.",
+        "Case handovers": "Perdavimai bylai",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Kiekvienas kartas, kai projekto failai ir metaduomenys buvo perduoti bylai: kada, kas, kuriai bylai, kiekvienas nukopijuotas failas su jo SHA-256 ir nepavykę failai."
     },
     "nplurals=2; plural=(n != 1);"
 )

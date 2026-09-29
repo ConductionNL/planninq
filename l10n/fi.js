@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Tämä tiedosto ei ole XML-muotoinen Microsoft Project -suunnitelma.",
         "Choose a file to import.": "Valitse tuotava tiedosto.",
         "Only the project owner can import a plan.": "Vain projektin omistaja voi tuoda suunnitelman.",
-        "The plan could not be read. Please try again.": "Suunnitelmaa ei voitu lukea. Yritä uudelleen."
+        "The plan could not be read. Please try again.": "Suunnitelmaa ei voitu lukea. Yritä uudelleen.",
+        "Linked case: {title}": "Linkitetty asia: {title}",
+        "Linked to a case": "Linkitetty asiaan",
+        "Hand over to case": "Luovuta asialle",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Kopioi jokaisen projektin ja sen tehtävien tiedoston sekä projektia kuvaavan tiedoston muuttamattomina linkitettyyn asiaan.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Kopioidut tiedostot: {count}",
+        "Files that failed: {names}": "Epäonnistuneet tiedostot: {names}",
+        "The handover failed. Please try again.": "Luovutus epäonnistui. Yritä uudelleen.",
+        "The linked case could not be found, or you cannot open it.": "Linkitettyä asiaa ei löytynyt, tai et voi avata sitä.",
+        "Case handovers": "Luovutukset asialle",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Jokainen kerta, kun projektin tiedostot ja metatiedot luovutettiin asialle: milloin, kuka, mille asialle, jokainen kopioitu tiedosto SHA-256-tiivisteineen ja epäonnistuneet tiedostot."
     },
     "nplurals=2; plural=(n != 1);"
 )

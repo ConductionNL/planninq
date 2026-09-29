@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Bu dosya XML biçiminde bir Microsoft Project planı değil.",
         "Choose a file to import.": "İçe aktarılacak bir dosya seçin.",
         "Only the project owner can import a plan.": "Yalnızca proje sahibi bir plan içe aktarabilir.",
-        "The plan could not be read. Please try again.": "Plan okunamadı. Lütfen yeniden deneyin."
+        "The plan could not be read. Please try again.": "Plan okunamadı. Lütfen yeniden deneyin.",
+        "Linked case: {title}": "Bağlı dosya: {title}",
+        "Linked to a case": "Bir dosyaya bağlı",
+        "Hand over to case": "Dosyaya teslim et",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Projenin ve görevlerinin her dosyasını ve projeyi tanımlayan bir dosyayı değiştirmeden bağlı dosyaya kopyalar.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Kopyalanan dosyalar: {count}",
+        "Files that failed: {names}": "Başarısız dosyalar: {names}",
+        "The handover failed. Please try again.": "Teslim başarısız oldu. Lütfen yeniden deneyin.",
+        "The linked case could not be found, or you cannot open it.": "Bağlı dosya bulunamadı veya açamıyorsunuz.",
+        "Case handovers": "Dosyaya teslimler",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Projenin dosyalarının ve üst verilerinin dosyasına her teslimi: ne zaman, kim tarafından, hangi dosyaya, SHA-256 değeriyle kopyalanan her dosya ve başarısız dosyalar."
     },
     "nplurals=2; plural=(n != 1);"
 )

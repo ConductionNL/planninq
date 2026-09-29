@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Ova datoteka nije plan Microsoft Projecta u XML formatu.",
         "Choose a file to import.": "Odaberite datoteku za uvoz.",
         "Only the project owner can import a plan.": "Samo vlasnik projekta može uvesti plan.",
-        "The plan could not be read. Please try again.": "Plan nije moguće pročitati. Pokušajte ponovo."
+        "The plan could not be read. Please try again.": "Plan nije moguće pročitati. Pokušajte ponovo.",
+        "Linked case: {title}": "Povezani predmet: {title}",
+        "Linked to a case": "Povezano s predmetom",
+        "Hand over to case": "Predaj predmetu",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Nepromijenjeno kopira svaku datoteku projekta i njegovih zadataka te datoteku koja opisuje projekt u povezani predmet.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Kopirane datoteke: {count}",
+        "Files that failed: {names}": "Neuspjele datoteke: {names}",
+        "The handover failed. Please try again.": "Predaja nije uspjela. Pokušajte ponovo.",
+        "The linked case could not be found, or you cannot open it.": "Povezani predmet nije pronađen ili ga ne možete otvoriti.",
+        "Case handovers": "Predaje predmetu",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Svaka predaja datoteka i metapodataka projekta njegovom predmetu: kada, ko, kojem predmetu, svaka kopirana datoteka s njenim SHA-256 i neuspjele datoteke."
     },
     "nplurals=2; plural=(n != 1);"
 )

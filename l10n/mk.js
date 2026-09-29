@@ -581,7 +581,18 @@ OC.L10N.register(
         "This file is not a Microsoft Project plan in XML format.": "Оваа датотека не е план на Microsoft Project во XML формат.",
         "Choose a file to import.": "Изберете датотека за увоз.",
         "Only the project owner can import a plan.": "Само сопственикот на проектот може да увезе план.",
-        "The plan could not be read. Please try again.": "Планот не можеше да се прочита. Обидете се повторно."
+        "The plan could not be read. Please try again.": "Планот не можеше да се прочита. Обидете се повторно.",
+        "Linked case: {title}": "Поврзан предмет: {title}",
+        "Linked to a case": "Поврзано со предмет",
+        "Hand over to case": "Предај на предметот",
+        "Copies every file on the project and its tasks, and a file describing the project, to the linked case, unchanged.": "Непроменето ја копира секоја датотека на проектот и неговите задачи и датотека што го опишува проектот во поврзаниот предмет.",
+        "{date} by {user}": "{date}, {user}",
+        "Files copied: {count}": "Копирани датотеки: {count}",
+        "Files that failed: {names}": "Неуспешни датотеки: {names}",
+        "The handover failed. Please try again.": "Предавањето не успеа. Обидете се повторно.",
+        "The linked case could not be found, or you cannot open it.": "Поврзаниот предмет не е пронајден или не можете да го отворите.",
+        "Case handovers": "Предавања на предметот",
+        "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.": "Секое предавање на датотеките и метаподатоците на проектот на неговиот предмет: кога, кој, на кој предмет, секоја копирана датотека со нејзиниот SHA-256 и неуспешните датотеки."
     },
     "nplurals=2; plural=(n != 1);"
 )
