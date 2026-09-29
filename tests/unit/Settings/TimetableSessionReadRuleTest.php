@@ -53,10 +53,10 @@ class TimetableSessionReadRuleTest extends TestCase {
 	 * @var array<string,array<string,string>>
 	 */
 	private array $lessons = [
-		'4a-bio' => ['groupReference' => '4A', 'cohortId' => 'c-4a', 'teacherUserId' => 'klaas'],
-		'4a-wis' => ['groupReference' => '4A', 'cohortId' => 'c-4a', 'teacherUserId' => 'marieke'],
-		'4b-bio' => ['groupReference' => '4B', 'cohortId' => 'c-4b', 'teacherUserId' => 'klaas'],
-		'4b-ned' => ['groupReference' => '4B', 'cohortId' => 'c-4b', 'teacherUserId' => 'joost'],
+		'4a-bio' => ['groupReference' => '4A', 'cohortId' => 'c-4a', 'teacherUserId' => 'klaas', 'status' => 'scheduled'],
+		'4a-wis' => ['groupReference' => '4A', 'cohortId' => 'c-4a', 'teacherUserId' => 'marieke', 'status' => 'scheduled'],
+		'4b-bio' => ['groupReference' => '4B', 'cohortId' => 'c-4b', 'teacherUserId' => 'klaas', 'status' => 'cancelled'],
+		'4b-ned' => ['groupReference' => '4B', 'cohortId' => 'c-4b', 'teacherUserId' => 'joost', 'status' => 'scheduled'],
 	];
 
 	/**
@@ -117,6 +117,25 @@ class TimetableSessionReadRuleTest extends TestCase {
 	}//end testTimetableGroupAndAdminsReadEveryLesson()
 
 	/**
+	 * A draft reaches the teacher it names and admins, not the timetable group, another teacher or a pupil.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-a-draft-lesson-is-readable-only-by-the-teacher-it-names-and-by-admins
+	 */
+	public function testDraftIsReadOnlyByItsTeacherAndAdmins(): void {
+		$this->lessons['4a-wis']['status'] = 'draft';
+
+		self::assertContains(needle: '4a-wis', haystack: $this->readableBy(user: ['userId' => 'marieke', 'groups' => ['docenten']]));
+		self::assertContains(needle: '4a-wis', haystack: $this->readableBy(user: ['userId' => 'beheer', 'groups' => ['admin']]));
+		self::assertNotContains(needle: '4a-wis', haystack: $this->readableBy(user: ['userId' => 'roostermaker', 'groups' => ['planninq-timetable']]));
+		self::assertNotContains(needle: '4a-wis', haystack: $this->readableBy(user: ['userId' => 'klaas', 'groups' => ['docenten']]));
+		self::assertNotContains(needle: '4a-wis', haystack: $this->readableBy(user: ['userId' => 'pupil-4a', 'groups' => ['leerlingen', '4A']]));
+		self::assertSame(expected: ['4a-bio', '4b-bio', '4b-ned'], actual: $this->readableBy(user: ['userId' => 'roostermaker', 'groups' => ['planninq-timetable']]));
+
+	}//end testDraftIsReadOnlyByItsTeacherAndAdmins()
+
+	/**
 	 * The lessons a caller may read under the register's rule.
 	 *
 	 * @param array{userId:string,groups:array<int,string>} $user The signed-in caller.
@@ -162,6 +181,16 @@ class TimetableSessionReadRuleTest extends TestCase {
 		}
 
 		foreach (($rule['match'] ?? []) as $property => $expected) {
+			if (is_array($expected) === true) {
+				self::assertSame(expected: ['$in'], actual: array_keys($expected), message: "match on {$property}: this evaluator knows only \$in");
+				// OpenRegister's \$in denies a missing value (OperatorEvaluator::operatorIn).
+				if (in_array(($lesson[$property] ?? null), $expected['$in'], true) === false) {
+					return false;
+				}
+
+				continue;
+			}
+
 			self::assertIsString(actual: $expected, message: "match on {$property} must be a plain value this evaluator knows");
 			if ($expected === '$userId') {
 				$expected = $user['userId'];

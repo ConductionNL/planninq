@@ -4,6 +4,9 @@ namespace Unit\Service;
 
 use OCA\Planninq\Service\DemoDataService;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IUser;
+use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -49,10 +52,19 @@ class DemoDataServiceTest extends TestCase {
 	}
 
 	private function service(): DemoDataService {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('admin');
+		$session = $this->createMock(IUserSession::class);
+		$session->method('getUser')->willReturn($user);
+		$time = $this->createMock(ITimeFactory::class);
+		$time->method('now')->willReturn(new \DateTimeImmutable('2026-10-05'));
+
 		return new DemoDataService(
 			$this->appManager,
 			$this->container,
-			$this->createMock(LoggerInterface::class)
+			$this->createMock(LoggerInterface::class),
+			$session,
+			$time
 		);
 	}
 

@@ -15,7 +15,7 @@ Planninq has no timetable page of its own. It stores the lessons and answers two
 | `groupReference`, `cohortId` | The school's group code, and the learniq cohort it belongs to when known. |
 | `teacherReference`, `teacherUserId` | The school's teacher code, and the teacher's Nextcloud account when known. |
 | `roomReference`, `roomLabel` | The school's room code and the room name. |
-| `status` | `scheduled` or `cancelled`. |
+| `status` | `draft`, `scheduled` or `cancelled`. |
 | `importedAt` | When planninq last received the lesson. Planninq fills this in. |
 
 ## Delivering the same timetable again
@@ -36,6 +36,16 @@ A lesson is not open to everyone who can sign in. It can be read by:
 - the teacher the lesson names, through `teacherUserId`;
 - admins.
 
+## Checking a draft timetable with the teachers
+
+A school often checks a new timetable with its teachers before pupils see it. Deliver those lessons with the status `draft`. A draft lesson can be read only by the teacher it names and by admins; the `planninq-timetable` group sees it once it is published. A read returns drafts only when it asks for them with `includeDrafts=true`.
+
+When the teachers agree, an admin publishes the drafts of one source for a period:
+
+`POST /apps/planninq/api/timetable/sessions/publish` with `{"sourceSystem": "roster-zermelo", "from": "2026-10-05T00:00:00+02:00", "to": "2026-10-11T23:59:59+02:00"}`
+
+Every draft of that source in that period becomes scheduled. Delivering a draft lesson again as `scheduled` publishes that one lesson. A lesson that is already published cannot turn back into a draft: the delivery refuses it with `already-published`.
+
 Pupils and parents see their own lessons in learniq. Learniq works out which groups they belong to and asks planninq for those groups only.
 
 ## For integrators
@@ -51,5 +61,6 @@ Two endpoints do the same over HTTP:
 |---|---|---|
 | `GET` | `/apps/planninq/api/timetable/sessions?cohortId=…&from=…&to=…` | Any signed-in user, who gets only the lessons they may read |
 | `POST` | `/apps/planninq/api/timetable/sessions/upsert` with `{"sourceSystem": "…", "sessions": […]}` | Admins |
+| `POST` | `/apps/planninq/api/timetable/sessions/publish` with `{"sourceSystem": "…", "from": "…", "to": "…"}` | Admins |
 
-The full contract, with every field and rejection code, is in `openspec/changes/school-timetable-target/contract.md`.
+The full contract, with every field and rejection code, is in `openspec/changes/archive/2026-09-29-school-timetable-target/contract.md`.

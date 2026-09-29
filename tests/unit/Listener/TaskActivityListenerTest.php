@@ -273,6 +273,25 @@ class TaskActivityListenerTest extends TestCase {
 	}//end testAssigneeChangePublished()
 
 	/**
+	 * People a task is shared with get its activity, also when they are not project members.
+	 *
+	 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.3
+	 *
+	 * @return void
+	 */
+	public function testSharedWithIsInTheAudience(): void {
+		$listener = $this->makeListener(actor: 'alice');
+		$new = $this->taskEntity(['title' => 'T', 'project' => 'p1', 'status' => 'done', 'assignedTo' => 'bob', 'sharedWith' => ['carla', 'alice', 'bob']]);
+		$oldEntity = $this->taskEntity(['title' => 'T', 'project' => 'p1', 'status' => 'open', 'assignedTo' => 'bob', 'sharedWith' => ['carla', 'alice', 'bob']]);
+
+		$listener->handle(new ObjectUpdatedEvent($new, $oldEntity));
+
+		$affected = array_column($this->published, 'affected');
+		sort($affected);
+		$this->assertSame(['bob', 'carla'], $affected, 'carla via sharedWith, bob once, not the actor');
+	}//end testSharedWithIsInTheAudience()
+
+	/**
 	 * A due date change publishes task_due_date_changed.
 	 *
 	 * @return void

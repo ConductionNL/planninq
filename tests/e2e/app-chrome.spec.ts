@@ -115,6 +115,8 @@ test.describe('app chrome (ADR-114)', () => {
 		for (const label of ['Task status', 'Portfolio status', 'Portfolio timeline', 'Capacity', 'Time spent']) {
 			await expect(page.getByText(label, { exact: false }).first()).toBeVisible({ timeout: 15_000 })
 		}
+		// The Capacity card says what the page shows (portfolio-people-capacity task 2.3).
+		await expect(page.getByText('Open work per person and per project.').first()).toBeVisible({ timeout: 15_000 })
 	})
 
 	test('the Portfolio page is still routable at its own path', async ({

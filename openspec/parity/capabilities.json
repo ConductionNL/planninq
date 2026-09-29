@@ -1809,7 +1809,7 @@
       "area": "boards",
       "name": "Add a card straight into a column from the board.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -1827,14 +1827,12 @@
         "plane": "source: apps/web/core/components/issues/issue-layouts/kanban/kanban-group.tsx:47,333 QuickAddIssueRoot per column ; corpus: plane/round4/menu-tree.md 'New work item' global create ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/kanban/kanban-group.tsx:47,333 QuickAddIssueRoot at the foot of each column; apps/api/plane/app/views/issue/base.py:405 create"
       },
       "built": {
-        "state": "specified",
-        "evidence": "no add-card/add-task control exists on src/views/ProjectBoard.vue. Wider check: there is no task-creation code path anywhere in the app, no createTask action in src/store/projects.js (only fetchTasks/updateTaskStatus/updateTask), no POST to the task schema anywhere in src/, and src/views/ProjectBacklog.vue:24-30 is an explicit placeholder pending future task CRUD.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue quick-add field at the foot of every lane: Enter creates the task at the bottom of that lane (column, columnOrder, lane status via src/utils/taskEditing.js newLaneTask) and keeps focus",
+        "reachedOn": "ProjectBoard, every lane",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "no task-creation UI or store action anywhere in src/ (checked src/store/projects.js, src/views/ProjectBoard.vue, src/views/ProjectBacklog.vue)"
-        ],
-        "change": "openspec/changes/tasks-create-edit-delete"
+        "change": "openspec/changes/archive/2026-09-29-tasks-create-edit-delete",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2085,7 +2083,7 @@
       "area": "tasks",
       "name": "Create, edit and delete a task with a title, description and status.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -2104,11 +2102,12 @@
         "untis": "docs read 2026-09-27: https://help.untis.at/hc/de/articles/360015023539 WebUntis ticket system (Aufgaben): 'Unter Unterricht | Aufgaben kann durch das Klicken auf <Neu> ein neues Ticket angelegt werden' ; https://help.untis.at/hc/de/articles/360015324359 status can be changed to 'Erledigt' or 'in Bearbeitung'. It is a damage report ticket list for school facilities, not project task management"
       },
       "built": {
-        "state": "specified",
-        "evidence": "No task create or edit form exists anywhere in src/ (dialogs/ holds only LabelEditDialog, LabelDeleteDialog, ProjectCreationDialog, ProjectDeleteDialog, ProjectLeaveDialog, TimeEntryDialog; registry.js has no task dialog/component). Status changes via drag/keyboard move only: src/views/ProjectBoard.vue:562-593 (applyStatusMove) and :152-165 (move menu). Estimate is the only editable field: src/views/TaskDetail.vue:557-570 (saveEstimate). Delete only happens as a project-delete cascade: src/store/projects.js:554-561 (deleteObject(TASK_SCHEMA, task.id) inside deleteProject), with no standalone delete-a-task action anywhere.",
-        "reachedOn": "ProjectBoard page for status move; TaskDetail page for estimate edit; nothing reaches create or standalone delete",
+        "state": "built",
+        "evidence": "src/dialogs/TaskFormDialog.vue (create with title, Markdown description and priority; edit title, description, status and priority, PATCHing only the changed fields) -> src/store/projects.js createTask()/updateTask(); src/dialogs/TaskDeleteDialog.vue -> deleteTask() (refuses a task with logged time, offers Cancel task); lib/Listener/TaskReporterGuardListener.php stamps reporter and holds deletes to reporter, project owner and admin",
+        "reachedOn": "ProjectBoard header New task; TaskDetail Edit and Delete task",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-create-edit-delete"
+        "change": "openspec/changes/archive/2026-09-29-tasks-create-edit-delete",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2121,7 +2120,7 @@
       "area": "tasks",
       "name": "Assign a task to a person.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -2140,11 +2139,12 @@
         "untis": "docs read 2026-09-27: https://help.untis.at/hc/de/articles/360015324359 'Die Aufgabe kann nun vom Sachbearbeiter mit einer Bemerkung versehen, einem anderen Benutzer zugewiesen ... werden' and staff can take a ticket for themselves"
       },
       "built": {
-        "state": "specified",
-        "evidence": "task.assignedTo is a plain string schema property (lib/Settings/planninq_register.json). It is only ever read for display: src/components/TaskCard.vue:65-66 and src/views/TaskDetail.vue:267 (fields()). No component, dialog or store action writes assignedTo anywhere in src/ (only read as a query filter in src/store/projects.js:642 getMemberTaskCount).",
-        "reachedOn": "nothing reaches it (display only)",
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue 'Responsible' picker (project members and owner, by display name, src/utils/taskPeople.js memberOptions/responsiblePatch) PATCHes task.assignedTo; the same picker in src/dialogs/TaskFormDialog.vue; src/components/TaskCard.vue shows avatar and display name",
+        "reachedOn": "TaskDetail; New task and Edit task dialogs; board card",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-assignment-priority-labels"
+        "change": "openspec/changes/archive/2026-09-29-tasks-assignment-priority-labels",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2156,7 +2156,7 @@
       "area": "tasks",
       "name": "Assign one task to several people.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "no",
       "plane": "yes",
@@ -2174,11 +2174,12 @@
         "plane": "corpus: plane/round4/code-census.md §2 'assignees M2M (:149)'; journeys.md 'assignees' plural set in the driven journey ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/default-properties.tsx:126-139 assignee_ids dropdown with multiple; apps/api/plane/db/models/issue.py:149 assignees ManyToManyField"
       },
       "built": {
-        "state": "specified",
-        "evidence": "assignedTo is declared type: string (single value), not an array (lib/Settings/planninq_register.json properties.assignedTo), and as tsk-assign shows there is no assignment UI at all.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "task.sharedWith (task schema 0.6.0, array of uids) set from 'Also working on this' on TaskDetail and in TaskFormDialog (sharedWithPatch keeps the responsible person out); card lists everyone, responsible first; lib/Listener/TaskActivityListener.php adds sharedWith to the activity audience",
+        "reachedOn": "TaskDetail; task dialog; board card",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-assignment-priority-labels"
+        "change": "openspec/changes/archive/2026-09-29-tasks-assignment-priority-labels",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2190,7 +2191,7 @@
       "area": "tasks",
       "name": "Give a task a priority.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "yes",
@@ -2208,11 +2209,12 @@
         "plane": "corpus: plane/round4/code-census.md §2 'priority from PRIORITY_CHOICES urgent/high/medium/low/none' ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/default-properties.tsx:109-119 PriorityDropdown; apps/api/plane/db/models/issue.py:107 PRIORITY_CHOICES and :141-143 priority field"
       },
       "built": {
-        "state": "specified",
-        "evidence": "priority is only displayed, never set: src/components/TaskCard.vue:32-36 (chip) and :189-211 (priorityLabel/priorityVariant), src/views/TaskDetail.vue:266 (fields()). No form or control anywhere writes task.priority.",
-        "reachedOn": "nothing reaches it (display only)",
+        "state": "built",
+        "evidence": "TaskDetail priority select and the board card menu's 'Priority' levels (src/views/ProjectBoard.vue setPriority, optimistic PATCH), src/utils/taskPeople.js priorityPatch",
+        "reachedOn": "TaskDetail; board card action menu",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-assignment-priority-labels"
+        "change": "openspec/changes/archive/2026-09-29-tasks-assignment-priority-labels",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2293,7 +2295,7 @@
       "area": "tasks",
       "name": "Tag tasks with coloured labels.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "no",
       "plane": "yes",
@@ -2311,14 +2313,12 @@
         "plane": "corpus: plane/round4/M1-column.md 2.8 'label.py:11 workspace-scoped with an optional project, a self-FK parent, color and sort_order' ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/default-properties.tsx:147-157 label_ids dropdown; apps/web/core/components/issues/issue-layouts/properties/labels.tsx:155 coloured chip; apps/api/plane/db/models/label.py:11-21 Label with parent and color; apps/api/plane/db/models/issue.py:543-545 IssueLabel"
       },
       "built": {
-        "state": "specified",
-        "evidence": "Labels are app-wide objects tasks reference by UUID array (task.labels), rendered and filterable on the board: src/views/ProjectBoard.vue:69-95 (filter chips), :439-441 (labelsForTask), src/components/TaskCard.vue:44-58 (label chips). But no UI anywhere lets a user add/remove a label ON a given task: the library's generic per-object tag tab is deliberately hidden, src/utils/taskHelpers.js:34 TASK_SIDEBAR_HIDDEN_TABS = ['tags', 'tasks'] applied at :59, and Planninq built no replacement tagging control on TaskDetail.",
-        "reachedOn": "ProjectBoard page (view/filter only); nothing reaches attaching a label to a task",
+        "state": "built",
+        "evidence": "TaskDetail 'Labels' multi-select of the app-wide labels writes task.labels (labelsPatch); chips on the card and the board label filter read them",
+        "reachedOn": "TaskDetail; board card chips and label filter",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/utils/taskHelpers.js:34 hides the generic CnTagsTab with a comment claiming Planninq has its own label concept, but no per-task label-attach UI exists to replace it"
-        ],
-        "change": "openspec/changes/tasks-assignment-priority-labels"
+        "change": "openspec/changes/archive/2026-09-29-tasks-assignment-priority-labels",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2567,7 +2567,7 @@
       "area": "tasks",
       "name": "Break a task into subtasks.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "yes",
@@ -2585,14 +2585,12 @@
         "plane": "corpus: plane/round4/code-census.md §2 'Issue.parent gives sub-issues; the endpoint is apps/api/plane/app/urls/issue.py:105' ; source read at v1.4.2: apps/web/core/components/issues/issue-detail-widgets/sub-issues/title-actions.tsx:114 add sub-work item button; apps/api/plane/app/urls/issue.py:105 sub-issues route, apps/api/plane/app/views/issue/sub_issue.py:204 post; apps/api/plane/db/models/issue.py:114 parent FK"
       },
       "built": {
-        "state": "specified",
-        "evidence": "task.parent is declared for sub-task support (lib/Settings/planninq_register.json properties.parent) but is never read or written anywhere in src/ (no match for 'parent' as a task field in any .vue/.js). The library's generic linked-task tab that could serve this, CnTasksTab, is explicitly hidden: src/utils/taskHelpers.js:34 TASK_SIDEBAR_HIDDEN_TABS includes 'tasks', applied at src/views/TaskDetail.vue via taskCollaborationSidebarConfig:59. No Planninq replacement exists.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue Subtasks section (children with parent set, '{done} of {total} done', add field via src/utils/taskBreakdown.js newSubtask; hidden on a subtask); 'Part of {title}' chip on src/components/TaskCard.vue; parent delete asks keep or delete (src/dialogs/TaskDeleteDialog.vue, store deleteTaskTree)",
+        "reachedOn": "TaskDetail; board card; delete dialog",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/utils/taskHelpers.js:34 hides CnTasksTab (nextcloud-vue's generic linked-task/subtask tab) with no Planninq-built substitute, so task.parent (lib/Settings/planninq_register.json) is unreachable"
-        ],
-        "change": "openspec/changes/tasks-subtasks-checklist"
+        "change": "openspec/changes/archive/2026-09-29-tasks-subtasks-checklist",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2604,7 +2602,7 @@
       "area": "tasks",
       "name": "Keep a checklist inside a task.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "partial",
       "plane": "partial",
@@ -2622,11 +2620,12 @@
         "plane": "corpus: plane/round4/code-census.md §3 'No checklist model. Sub-tasks are ordinary issues with parent set' ; source read at v1.4.2, contradicts the drive: The drive recorded no checklist; the description editor ships a to-do list block with tickable items, so a checklist inside a task exists as rich text. packages/editor/src/core/extensions/extensions.ts:95 TaskList and TaskItem in the core editor, offered as 'To-do list' in packages/editor/src/core/extensions/slash-commands/command-items-list.tsx:150; the work item description uses it via apps/web/core/components/issues/issue-modal/components/description-editor.tsx:184 RichTextEditor. Checkboxes in the description text, no checklist object or progress count; searched apps/api/plane/db/models for 'checklist': only apps/api/plane/db/models/workspace.py:211 onboarding"
       },
       "built": {
-        "state": "specified",
-        "evidence": "No checklist concept exists in the task schema or in src/. The library's generic CnTasksTab (a linked-item/checklist-style tab, nextcloud-vue/src/components/CnObjectSidebar/CnObjectSidebar.vue:124-142) is deliberately hidden by src/utils/taskHelpers.js:34, and Planninq built no checklist UI of its own.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "task.checklist (task schema 0.7.0, array of {id, text, done}); TaskDetail Checklist section adds, ticks, reorders (menu and drag) and removes items; card chip '3/5' (checklistCount)",
+        "reachedOn": "TaskDetail; board card",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-subtasks-checklist"
+        "change": "openspec/changes/archive/2026-09-29-tasks-subtasks-checklist",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2672,7 +2671,7 @@
       "area": "tasks",
       "name": "Write a task description in rich text or Markdown with headings, lists and links.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -2690,11 +2689,12 @@
         "plane": "corpus: plane/round4/code-census.md §2 description_json / description_html; usability.md driven editor ; source: packages/editor rich text editor with markdown copy (i18n 'Copy markdown') ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/description-editor.tsx:23,184 RichTextEditor for the description; packages/editor/src/core/extensions/extensions.ts:65 CoreEditorExtensions with lists and task lists; apps/api/plane/db/models/issue.py:137-138 description_json and description_html"
       },
       "built": {
-        "state": "specified",
-        "evidence": "task.description is rendered as plain text interpolation everywhere it appears: src/components/TaskCard.vue:9 ({{ task.description }}) and src/views/TaskDetail.vue:48/269 ({{ field.value }}). No markdown/rich-text renderer or editor is used, and (per tsk-create-edit) there is no description edit form at all.",
-        "reachedOn": "displayed as plain text on ProjectBoard cards and TaskDetail; nothing renders or edits it as rich text",
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue renders task.description with NcRichText useMarkdown (raw HTML escaped, no v-html); src/dialogs/TaskFormDialog.vue edits the Markdown source with a Write/Preview toggle; src/components/TaskCard.vue shows a 140-character plain-text excerpt (descriptionExcerpt)",
+        "reachedOn": "TaskDetail description section; task dialog; board cards",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-create-edit-delete"
+        "change": "openspec/changes/archive/2026-09-29-tasks-create-edit-delete",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4205,7 +4205,7 @@
       "area": "portfolio",
       "name": "See how allocation is spread across the people working on projects.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "no",
@@ -4226,14 +4226,12 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/workload/workload 'See exactly how planned hours are distributed across teaching, research, and administration ... Individual and bulk views'. Workload suite"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/manifest.json:163 (Reports card 'Capacity') -> src/views/Portfolio.vue:134 fetchProjects({status:'active'}) + :137 fetchTasks(project.id) -> src/utils/portfolioHelpers.js:28 summariseProjectTasks(); columns Project/Members/Open/Overdue at src/views/Portfolio.vue:32-45",
-        "reachedOn": "Reports page /reports, 'Capacity' card -> Portfolio /portfolio",
+        "state": "built",
+        "evidence": "src/views/Portfolio.vue 'By person' view (default): one row per person with open, overdue, hours left (primary assignee only), tasks without an estimate, due in 14 days and shared, an Unassigned row, a disclosure per person with the per-project breakdown; 'By project' toggle (aria-pressed); portfolio picker and project filter. Grouping in src/utils/portfolioHelpers.js summariseByAssignee",
+        "reachedOn": "Reports card Capacity -> /portfolio",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/manifest.json:151 page _note and :163 card description claim 'one row per assignee' / 'spread across the people', but src/views/Portfolio.vue:139-147 builds one row per project (code reading, needs a live check)"
-        ],
-        "change": "openspec/changes/portfolio-people-capacity"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-people-capacity",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4316,7 +4314,7 @@
       "area": "portfolio",
       "name": "See a personal dashboard of your projects and tasks.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "partial",
@@ -4335,14 +4333,12 @@
         "untis": "not checked: https://help.untis.at/hc/de/articles/360015023539 and https://help.untis.at/hc/de/articles/360009210060 mention a personal 'Startseite' and 'Heute-Seite' in WebUntis, but no page read describes what it holds in enough detail to settle this"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/manifest.json:72-140 (Dashboard page, three project-count stat widgets + project-panels) -> src/components/DashboardPanels.vue:16-44 'My projects' list via src/store/projects.js:170 fetchProjects()",
-        "reachedOn": "Dashboard / (menu 'Dashboard')",
+        "state": "built",
+        "evidence": "src/manifest.json Dashboard: task figures My open tasks, My overdue tasks, My tasks in progress, Completed today (stat widgets on task, assignedTo @me) each opening My tasks with ?group=; 'Projects I am in' filters members @me; src/components/DashboardPanels.vue My projects with pins",
+        "reachedOn": "Dashboard",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/manifest.json:97-110 'Projects I am in' KPI has no member filter; it counts every project the reader can see, which for an admin (project read grants group admin, lib/Settings/planninq_register.json project.authorization) is every project (code reading, needs a live check)"
-        ],
-        "change": "openspec/changes/portfolio-my-work-dashboard"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-my-work-dashboard",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4355,7 +4351,7 @@
       "area": "portfolio",
       "name": "See the tasks assigned to you across all projects.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -4373,11 +4369,12 @@
         "plane": "corpus: plane/round4/menu-tree.md workspace 'Your work' ; M1-column.md 5.4 'a workspace member's profile page aggregates their assigned and created work items' ; source: filter.ts profile_issues list and kanban grouped by project ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(projects)/profile/[userId]/[profileViewId]/page.tsx assigned, created and subscribed tabs; packages/constants/src/issue/filter.ts:113-131 profile_issues list and kanban grouped by project; apps/api/plane/app/urls/workspace.py:153 user-issues route, apps/api/plane/app/views/workspace/user.py:98 WorkspaceUserProfileIssuesEndpoint"
       },
       "built": {
-        "state": "specified",
-        "evidence": "openspec/specs/dashboard-my-work.md (status in-progress) describes a My Work view; no page in src/manifest.json and no component filters tasks by assignedTo == current user",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/MyWork.vue at /my-tasks (menu My tasks): open tasks assigned to or shared with the user across projects (store fetchMyTasks), grouped Overdue, Due this week, Later by src/utils/myWork.js groupMyTasks, urgent first, status changed in place, title to TaskDetail and Back returns",
+        "reachedOn": "Menu My tasks; dashboard figures",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/portfolio-my-work-dashboard"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-my-work-dashboard",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5665,16 +5662,12 @@
         "untis": "not checked: https://www.untis.at/webuntis-demo is a slideshow and trial access needs a form ; https://developer.untis.com/api-reference/api-overview/ offers a sandbox school 'with synthetic data' for API developers only"
       },
       "built": {
-        "state": "specified",
-        "evidence": "setup step 'load-demo-data' -> lib/Controller/SetupController.php runAction -> lib/Service/DemoDataService.php:46,202 imports lib/Settings/planninq_mock_register.json",
+        "state": "built",
+        "evidence": "setup wizard 'Example data' -> SetupController::loadDataset -> DemoDataService::install() fits lib/Settings/planninq_mock_register.json (59 curated objects, fixed ids, every reference resolving) to the loading admin (@operator) and the load day (anchorDate shift) before OpenRegister importFromApp; the real register seeds only the five labels",
         "reachedOn": "setup wizard, 'Load example data?' + 'Load the example data'",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "lib/Settings/planninq_mock_register.json:135,155,175 demo projects have \"members\": [], so src/store/projects.js:195 filters them out of Projects, Boards and Portfolio for every user (code reading, needs a live check)",
-          "lib/Settings/planninq_mock_register.json:123-140 demo objects are placeholder values ('Voorbeeld Title 1', owner 'Voorbeeld Owner 1') and their project/task references are 00000000-0000-4000-8000-00000000000N, which no demo project carries as its id",
-          "lib/Settings/planninq_mock_register.json:69-70 demo dependency edges have blocker == blocked, a self-dependency lib/Service/DependencyService.php:113 rejects on the normal path"
-        ],
-        "change": "openspec/changes/platform-demo-data"
+        "change": "openspec/changes/archive/2026-09-29-platform-demo-data",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5687,7 +5680,7 @@
       "area": "platform",
       "name": "Use the app in Dutch and in English.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "partial",
@@ -5709,14 +5702,12 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/guides-tutorials/te-preferences-language-support-and-configuration 'TE Preferences currently supports the following languages: English, Swedish, German, French, and Dutch' ; https://www.academy.timeedit.com/product-updates/246698476 Study Guide 'keeps English on later visits even where the default is Dutch' ; npm te-integration-lib@0.0.64 src/i18n/constants.js:3 \"Dutch: 'nl'\""
       },
       "built": {
-        "state": "specified",
-        "evidence": "l10n/nl.json (269 keys) and l10n/en.json; UI strings go through t('planninq', ...) e.g. src/views/ProjectTimeline.vue:189, src/components/DashboardPanels.vue:56",
+        "state": "built",
+        "evidence": "l10n/<locale>.json and .js for 36 locales plus en; every t('planninq', ...) literal in src/ has an en.json entry (tests/vitest/l10nSourceCoverage.spec.js) and every required locale is at parity with en (npm run check:l10n, tests/l10n/check-l10n-parity.js, CI job l10n-parity)",
         "reachedOn": "every page, following the user's Nextcloud language",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "l10n/nl.json lacks src/components/DashboardPanels.vue:56 'Go to projects' and src/views/ProjectTimeline.vue:189 'Week' (two of 67 untranslated strings found by script; the regex misses multi-line calls, so the true count may differ)"
-        ],
-        "change": "openspec/changes/fix-l10n-parity-gate"
+        "change": "openspec/changes/archive/2026-09-29-fix-l10n-parity-gate",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7102,7 +7093,7 @@
         "kanboard": "source read at v1.2.54: app/Template/project_list/sort_menu.php:5-17 sort by id, name, status, start or end date; searched app/Model for a per user project position: none",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/configuring-dashboards-939939002.html gadgets on a dashboard 'can be reordered and switched between the left and right columns'; the Projects gadget 'Shows information on various issue filters from a selected project', one project per gadget, so ordering projects means ordering gadgets (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "yes",
@@ -7113,11 +7104,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "src/components/DashboardPanels.vue:18-44 renders recentProjects [:102-106, a filter and slice of src/store/projects.js:170 fetchProjects]. No stored per-user order, no drag handle, no favourite or pin.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/components/DashboardPanels.vue actions menu per project: Pin to the top or Unpin, Move up, Move down; order stored per user as dashboard_project_order (lib/Service/SettingsService.php getDashboardProjectOrder/setDashboardProjectOrder via POST /api/settings/user)",
+        "reachedOn": "Dashboard My projects",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/portfolio-my-work-dashboard"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-my-work-dashboard",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7541,7 +7533,7 @@
         "kanboard": "source read at v1.2.54: app/Template/task/details.php:98-101 time estimated on the task; app/Model/SubtaskTimeTrackingModel.php:280-287 SUM of subtask time_estimated written to the task, called from app/Model/SubtaskModel.php:219",
         "jira": "JSWSERVER-9167 'Provide ability to automatically sum estimates from sub-tasks in user stories', Future Consideration, 1993 votes; https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html 'Choosing to include sub-tasks displays the aggregated time': hours roll up, story points do not (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
@@ -7552,11 +7544,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "No parent and child tasks on any screen, and no sum of child estimates. The progress line at src/views/TaskDetail.vue:76-88 compares the task's own logged time with its own estimate.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "TaskDetail time section: 'Subtasks: {estimate} estimated, {logged} logged' and 'Total estimate: {total}' from src/utils/taskBreakdown.js subtaskRollup over the project's time entries",
+        "reachedOn": "TaskDetail time tracking section",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-subtasks-checklist"
+        "change": "openspec/changes/archive/2026-09-29-tasks-subtasks-checklist",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7613,7 +7606,7 @@
         "kanboard": "source read at v1.2.54: app/Template/task/dropdown.php:48 'Duplicate'; app/Model/TaskDuplicationModel.php:164 copies subtasks and :59 tags; child tasks joined by links are not copied",
         "jira": "JSWSERVER-7721 'When cloning an Epic, add the option to clone the linked Stories as well', Future Consideration, 1295 votes; https://confluence.atlassian.com/jirasoftwareserver/creating-issues-and-sub-tasks-939938925.html 'Clone sub-tasks to copy existing sub-tasks' (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
@@ -7624,11 +7617,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "Neither the board card menu [src/views/ProjectBoard.vue:152-165, move targets only] nor the task detail page offers copy. No hierarchy to copy [tsk-subtasks].",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "store duplicateTask (src/store/projects.js) with duplicatePayload: 'Copy of {title}', open, description, priority, labels, lane and an unticked checklist, then each subtask under the copy; no dates, people, time, key or reporter",
+        "reachedOn": "TaskDetail Duplicate; board card menu Duplicate",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-subtasks-checklist"
+        "change": "openspec/changes/archive/2026-09-29-tasks-subtasks-checklist",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -10131,10 +10125,11 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/viewer 'Share draft schedules with teachers and department heads before publishing. Reviewers can see their upcoming timetable, flag concerns, and sign off'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'draft timetable|concept rooster': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "timetableSession.status draft + read rule (planninq-timetable reads status $in [scheduled, cancelled]; teacherUserId = $userId; admin) in lib/Settings/planninq_register.json; TimetableSessionService upsert refuses already-published and publish() behind POST /api/timetable/sessions/publish (admin, TimetableController::publish); includeDrafts in TimetableSessionQuery. Tests: TimetableSessionServiceTest (draft, already-published, publish window/source, payloads validated against the real schema), TimetableSessionReadRuleTest::testDraftIsReadOnlyByItsTeacherAndAdmins, TimetableSessionQueryTest, TimetableSessionsQueryListenerTest::testConsumerThatDoesNotAskGetsNoDrafts, TimetableControllerTest::testPublishRefusesANonAdmin; read condition run through OpenRegister's OperatorEvaluator. The learniq half (showing a draft mark to teachers) is learniq's.",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/timetable-draft-review"
+        "change": "openspec/changes/archive/2026-09-29-timetable-draft-review",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -10948,10 +10943,11 @@
         "timeedit": "docs read 2026-09-27: https://developer.timeedit.com/reference/post_reservations 'CREATE Reservation' and put_reservations 'BULK Reservations' in the Scheduling REST API ; https://developer.timeedit.com/reference/getting-started 'Use the access token as a bearer token on all your subsequent API calls'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'external event push into timetable': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "lib/Service/TimetableSessionService.php upsert() (idempotent by sourceSystem + externalRef), lib/Event/TimetableUpsertRequestedEvent.php answered by lib/Listener/TimetableUpsertRequestedListener.php (registered in lib/AppInfo/Application.php), admin route POST /api/timetable/sessions/upsert (appinfo/routes.php, lib/Controller/TimetableController.php), all on development since #685 (f8ec5c2) and #761. Proven by tests/unit/Service/TimetableSessionServiceTest.php (incl. testEveryWrittenSessionPassesTheRegisterSchema: every created and updated row validated against the real timetableSession schema), TimetableUpsertRequestedListenerTest and TimetableControllerTest. Another system adds sessions per group or teacher; a single learner is not addressed on their own.",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/school-timetable-target"
+        "change": "openspec/changes/archive/2026-09-29-school-timetable-target",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",

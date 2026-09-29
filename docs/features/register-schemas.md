@@ -17,12 +17,9 @@ Planninq uses OpenRegister to store its data model. The `planninq_register.json`
 
 ## Seed Data
 
-Fresh installs include demo data:
-- 5 labels: Bug, Feature, Docs, Design, Infrastructure
-- 3 projects: Client Portal v2, Infrastructure Migration, Onboarding Automation
-- 12 columns: 4 per project (To Do, In Progress, Review, Done)
-- 5 tasks with realistic assignments
-- 3 time entries
+A fresh install creates only the five default labels: Bug, Feature, Docs, Design and Infrastructure.
+
+Example projects come from the setup wizard's "Example data" step (`lib/Settings/planninq_mock_register.json`, loaded by `DemoDataService`). It adds three projects (Client Portal v2, Infrastructure Migration, Onboarding Automation) with their columns, phases, tasks, dependencies, logged time, risks, status reports, finance lines and portfolios. The admin who loads it becomes the owner and the assignee, and the dates are placed around the day it is loaded.
 
 ## Technical Details
 

@@ -188,6 +188,44 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testProjectCarriesTheTaskCounter()
 
 	/**
+	 * A task names one responsible person and may be shared with more.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-1.1
+	 */
+	public function testTaskIsSharedWithAListOfPeople(): void {
+		$shared = ($this->register['components']['schemas']['task']['properties']['sharedWith'] ?? null);
+		self::assertIsArray($shared, 'task declares sharedWith');
+		self::assertSame('array', $shared['type']);
+		self::assertSame('string', $shared['items']['type']);
+
+		$base = ['title' => 'Draft the permit letter', 'status' => 'open', 'assignedTo' => 'bram'];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'task', payload: $base + ['sharedWith' => ['anna', 'carla']]));
+		self::assertSame([], $this->registerSchemaErrors(slug: 'task', payload: $base + ['sharedWith' => []]));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'task', payload: $base + ['sharedWith' => 'anna']), 'control: one string is not a list');
+	}//end testTaskIsSharedWithAListOfPeople()
+
+	/**
+	 * A task keeps a checklist of small steps: each item an id, a text and a done flag.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-1.1
+	 */
+	public function testTaskKeepsAChecklist(): void {
+		$checklist = ($this->register['components']['schemas']['task']['properties']['checklist'] ?? null);
+		self::assertIsArray($checklist, 'task declares checklist');
+		self::assertSame('array', $checklist['type']);
+		self::assertSame(['id', 'text', 'done'], $checklist['items']['required']);
+
+		$base = ['title' => 'Prepare the council decision', 'status' => 'open'];
+		$item = ['id' => 'c1', 'text' => 'Collect the advice', 'done' => false];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'task', payload: $base + ['checklist' => [$item, ['id' => 'c2', 'text' => 'Send it', 'done' => true]]]));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'task', payload: $base + ['checklist' => [['text' => 'No id']]]), 'control: an item needs its id and done flag');
+	}//end testTaskKeepsAChecklist()
+
+	/**
 	 * The project status moves only through declared transitions; approve and
 	 * reject belong to reviewers, archive and restore to whoever may update.
 	 *
@@ -258,6 +296,26 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		}
 
 	}//end testProjectRequestsNotifyTheRequester()
+
+	/**
+	 * A fresh install creates the five default labels and nothing else (ADR-111 rule 3).
+	 *
+	 * The sample projects, columns, tasks and time entries moved to the example
+	 * data the setup wizard loads on request.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/platform-demo-data/tasks.md#task-1.2
+	 */
+	public function testInstallSeedsOnlyDefaultLabels(): void {
+		$objects = $this->register['components']['objects'];
+		self::assertSame(['label'], array_values(array_unique(array_map(static fn (array $o): string => $o['@self']['schema'], $objects))));
+		self::assertSame(['Bug', 'Feature', 'Docs', 'Design', 'Infrastructure'], array_column($objects, 'title'));
+		foreach ($objects as $label) {
+			self::assertMatchesRegularExpression('/^#[0-9A-Fa-f]{6}$/', $label['color']);
+		}
+
+	}//end testInstallSeedsOnlyDefaultLabels()
 
 	/**
 	 * Register JSON must be valid JSON with the required top-level structure.
@@ -697,7 +755,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			self::assertArrayHasKey(key: $optional, array: $session['properties'], message: "timetableSession must declare {$optional}");
 		}
 
-		self::assertSame(expected: ['scheduled', 'cancelled'], actual: $session['properties']['status']['enum']);
+		self::assertSame(expected: ['draft', 'scheduled', 'cancelled'], actual: $session['properties']['status']['enum']);
 		self::assertSame(expected: 'scheduled', actual: $session['properties']['status']['default']);
 		self::assertSame(expected: 'date-time', actual: $session['properties']['startsAt']['format']);
 		self::assertSame(expected: 'date-time', actual: $session['properties']['endsAt']['format']);
@@ -724,12 +782,12 @@ class PlanninqRegisterSchemaTest extends TestCase {
 
 		self::assertSame(
 			expected: [
-				['group' => 'planninq-timetable'],
+				['group' => 'planninq-timetable', 'match' => ['status' => ['$in' => ['scheduled', 'cancelled']]]],
 				['group' => 'authenticated', 'match' => ['teacherUserId' => '$userId']],
 				['group' => 'admin'],
 			],
 			actual: $auth['read'],
-			message: 'timetableSession read is the timetable group, the teacher the lesson names, and admins'
+			message: 'timetableSession read is the timetable group (published lessons, timetable-draft-review), the teacher the lesson names, and admins'
 		);
 
 		foreach ($auth['read'] as $rule) {
@@ -1120,4 +1178,42 @@ class PlanninqRegisterSchemaTest extends TestCase {
 
 		self::assertSame(expected: 'object', actual: $this->register['components']['schemas']['project']['properties']['customFields']['type']);
 	}//end testProjectFieldSchemaAndTheProjectValues()
+
+	/**
+	 * A lesson can be delivered as a draft, and the schema version moved with it.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-a-draft-lesson-is-readable-only-by-the-teacher-it-names-and-by-admins
+	 */
+	public function testTimetableSessionStatusAllowsDraft(): void {
+		$status = $this->register['components']['schemas']['timetableSession']['properties']['status'];
+		self::assertSame(expected: ['draft', 'scheduled', 'cancelled'], actual: $status['enum']);
+		self::assertSame(expected: 'scheduled', actual: $status['default']);
+		self::assertSame(expected: 'Draft', actual: $status['x-enum-labels']['draft']);
+		self::assertSame(expected: '0.3.0', actual: $this->register['components']['schemas']['timetableSession']['version']);
+
+		$lesson = ['externalRef' => 'zm-1', 'sourceSystem' => 'roster-zermelo', 'subject' => 'Wiskunde', 'title' => 'Wiskunde', 'startsAt' => '2026-10-05T09:00:00+02:00', 'endsAt' => '2026-10-05T09:50:00+02:00', 'status' => 'draft'];
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableSession', payload: $lesson));
+		self::assertNotSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableSession', payload: array_merge($lesson, ['status' => 'concept'])));
+	}//end testTimetableSessionStatusAllowsDraft()
+
+	/**
+	 * The timetable group reads published lessons only; the named teacher and admins read drafts too.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-a-draft-lesson-is-readable-only-by-the-teacher-it-names-and-by-admins
+	 */
+	public function testDraftReadRuleNamesTheTeacher(): void {
+		self::assertSame(
+			expected: [
+				['group' => 'planninq-timetable', 'match' => ['status' => ['$in' => ['scheduled', 'cancelled']]]],
+				['group' => 'authenticated', 'match' => ['teacherUserId' => '$userId']],
+				['group' => 'admin'],
+			],
+			actual: $this->register['components']['schemas']['timetableSession']['authorization']['read']
+		);
+		self::assertSame(expected: ['admin'], actual: $this->register['components']['schemas']['timetableSession']['authorization']['update']);
+	}//end testDraftReadRuleNamesTheTeacher()
 }//end class

@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.20.0"
+    "version": "0.24.0"
   },
   "x-openregister": {
     "type": "application",
@@ -46,7 +46,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedCircleOutline",
-        "version": "0.5.0",
+        "version": "0.7.0",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
@@ -249,6 +249,15 @@
             "type": "string",
             "description": "Nextcloud user UID of the assignee"
           },
+          "sharedWith": {
+            "title": "Also working on this",
+            "type": "array",
+            "description": "Other project members who work on this task alongside the person responsible.",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
           "contractorRef": {
             "title": "Contractor",
             "type": "string",
@@ -299,6 +308,20 @@
             "format": "uuid",
             "nullable": true,
             "$ref": "task"
+          },
+          "checklist": {
+            "title": "Checklist",
+            "type": "array",
+            "description": "Small steps inside the task. Each item has an id, a text and whether it is done.",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "text",
+                "done"
+              ]
+            },
+            "default": []
           },
           "calendarEventUid": {
             "title": "Calendar Event UID",
@@ -1546,7 +1569,7 @@
       "timetableSession": {
         "slug": "timetableSession",
         "icon": "ClockOutline",
-        "version": "0.2.0",
+        "version": "0.3.0",
         "title": "Timetable session",
         "description": "One lesson in a school timetable as the rostering system knows it: when it runs, for which group, with which teacher, in which room and for which subject. Delivered by a rostering import and matched again by source and occurrence id.",
         "x-schema-org": "schema:Event",
@@ -1561,7 +1584,15 @@
         "authorization": {
           "read": [
             {
-              "group": "planninq-timetable"
+              "group": "planninq-timetable",
+              "match": {
+                "status": {
+                  "$in": [
+                    "scheduled",
+                    "cancelled"
+                  ]
+                }
+              }
             },
             {
               "group": "authenticated",
@@ -1654,13 +1685,15 @@
           "status": {
             "title": "Status",
             "type": "string",
-            "description": "Whether the lesson goes ahead or is cancelled.",
+            "description": "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.",
             "enum": [
+              "draft",
               "scheduled",
               "cancelled"
             ],
             "default": "scheduled",
             "x-enum-labels": {
+              "draft": "Draft",
               "scheduled": "Scheduled",
               "cancelled": "Cancelled"
             }
@@ -2861,371 +2894,6 @@
         "title": "Infrastructure",
         "color": "#F39C12",
         "description": "DevOps, deployment, and server work"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "project",
-          "slug": "client-portal-v2",
-          "id": "00000000-0000-4000-a000-000000000001"
-        },
-        "title": "Client Portal v2",
-        "description": "Redesign and rebuild the self-service client portal using NL Design System components.",
-        "status": "active",
-        "color": "#4376FC",
-        "icon": "Web",
-        "owner": "admin",
-        "members": [
-          "admin",
-          "jdoe",
-          "mvanderberg"
-        ],
-        "defaultAssignee": "jdoe"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "project",
-          "slug": "infrastructure-migration",
-          "id": "00000000-0000-4000-a000-000000000002"
-        },
-        "title": "Infrastructure Migration",
-        "description": "Migrate on-premise services to managed Kubernetes cluster before Q3.",
-        "status": "active",
-        "color": "#F39C12",
-        "icon": "CloudUpload",
-        "owner": "admin",
-        "members": [
-          "admin",
-          "ksmits"
-        ],
-        "defaultAssignee": "ksmits"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "project",
-          "slug": "onboarding-automation",
-          "id": "00000000-0000-4000-a000-000000000003"
-        },
-        "title": "Onboarding Automation",
-        "description": "Automate new-employee onboarding workflows via n8n and Nextcloud.",
-        "status": "active",
-        "color": "#27AE60",
-        "icon": "AccountMultiplePlus",
-        "owner": "admin",
-        "members": [
-          "admin",
-          "jdoe",
-          "mvanderberg",
-          "ksmits"
-        ],
-        "defaultAssignee": "admin"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "portal-todo",
-          "id": "00000000-0000-4000-b000-000000000001"
-        },
-        "title": "To do",
-        "project": "00000000-0000-4000-a000-000000000001",
-        "order": 0,
-        "wipLimit": null,
-        "type": "active",
-        "status": "open"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "portal-in-progress",
-          "id": "00000000-0000-4000-b000-000000000002"
-        },
-        "title": "In progress",
-        "project": "00000000-0000-4000-a000-000000000001",
-        "order": 1,
-        "wipLimit": 3,
-        "type": "active",
-        "status": "in_progress"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "portal-review",
-          "id": "00000000-0000-4000-b000-000000000003"
-        },
-        "title": "Review",
-        "project": "00000000-0000-4000-a000-000000000001",
-        "order": 2,
-        "wipLimit": 2,
-        "type": "active",
-        "status": "in_progress"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "portal-done",
-          "id": "00000000-0000-4000-b000-000000000004"
-        },
-        "title": "Done",
-        "project": "00000000-0000-4000-a000-000000000001",
-        "order": 3,
-        "wipLimit": null,
-        "type": "done",
-        "status": "done"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "infra-todo",
-          "id": "00000000-0000-4000-b000-000000000005"
-        },
-        "title": "To do",
-        "project": "00000000-0000-4000-a000-000000000002",
-        "order": 0,
-        "wipLimit": null,
-        "type": "active",
-        "status": "open"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "infra-in-progress",
-          "id": "00000000-0000-4000-b000-000000000006"
-        },
-        "title": "In progress",
-        "project": "00000000-0000-4000-a000-000000000002",
-        "order": 1,
-        "wipLimit": 3,
-        "type": "active",
-        "status": "in_progress"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "infra-review",
-          "id": "00000000-0000-4000-b000-000000000007"
-        },
-        "title": "Review",
-        "project": "00000000-0000-4000-a000-000000000002",
-        "order": 2,
-        "wipLimit": 2,
-        "type": "active",
-        "status": "in_progress"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "infra-done",
-          "id": "00000000-0000-4000-b000-000000000008"
-        },
-        "title": "Done",
-        "project": "00000000-0000-4000-a000-000000000002",
-        "order": 3,
-        "wipLimit": null,
-        "type": "done",
-        "status": "done"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "onboard-todo",
-          "id": "00000000-0000-4000-b000-000000000009"
-        },
-        "title": "To do",
-        "project": "00000000-0000-4000-a000-000000000003",
-        "order": 0,
-        "wipLimit": null,
-        "type": "active",
-        "status": "open"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "onboard-in-progress",
-          "id": "00000000-0000-4000-b000-000000000010"
-        },
-        "title": "In progress",
-        "project": "00000000-0000-4000-a000-000000000003",
-        "order": 1,
-        "wipLimit": 3,
-        "type": "active",
-        "status": "in_progress"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "onboard-review",
-          "id": "00000000-0000-4000-b000-000000000011"
-        },
-        "title": "Review",
-        "project": "00000000-0000-4000-a000-000000000003",
-        "order": 2,
-        "wipLimit": 2,
-        "type": "active",
-        "status": "in_progress"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "onboard-done",
-          "id": "00000000-0000-4000-b000-000000000012"
-        },
-        "title": "Done",
-        "project": "00000000-0000-4000-a000-000000000003",
-        "order": 3,
-        "wipLimit": null,
-        "type": "done",
-        "status": "done"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "task",
-          "slug": "fix-login-redirect",
-          "id": "00000000-0000-4000-d000-000000000001"
-        },
-        "title": "Fix login page redirect bug",
-        "description": "After OAuth login the user is redirected to / instead of the originally requested page.",
-        "status": "in_progress",
-        "priority": "high",
-        "project": "00000000-0000-4000-a000-000000000001",
-        "column": "00000000-0000-4000-b000-000000000002",
-        "columnOrder": 0,
-        "assignedTo": "jdoe",
-        "dueDate": "2026-04-10",
-        "labels": [
-          "00000000-0000-4000-c000-000000000001"
-        ],
-        "percentComplete": 40
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "task",
-          "slug": "design-dashboard-widgets",
-          "id": "00000000-0000-4000-d000-000000000002"
-        },
-        "title": "Design dashboard widget layout",
-        "description": "Create Figma mockups for the new widget-based dashboard using NL Design System tokens.",
-        "status": "open",
-        "priority": "normal",
-        "project": "00000000-0000-4000-a000-000000000001",
-        "column": "00000000-0000-4000-b000-000000000001",
-        "columnOrder": 0,
-        "assignedTo": "mvanderberg",
-        "dueDate": "2026-04-18",
-        "labels": [
-          "00000000-0000-4000-c000-000000000004"
-        ]
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "task",
-          "slug": "write-api-docs",
-          "id": "00000000-0000-4000-d000-000000000003"
-        },
-        "title": "Write REST API documentation",
-        "description": "Document all public endpoints in OpenAPI 3.0.0 format and publish to developer portal.",
-        "status": "open",
-        "priority": "normal",
-        "project": "00000000-0000-4000-a000-000000000001",
-        "column": "00000000-0000-4000-b000-000000000001",
-        "columnOrder": 1,
-        "assignedTo": "jdoe",
-        "labels": [
-          "00000000-0000-4000-c000-000000000003"
-        ],
-        "estimatedDuration": 240
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "task",
-          "slug": "k8s-namespace-setup",
-          "id": "00000000-0000-4000-d000-000000000004"
-        },
-        "title": "Set up production Kubernetes namespaces",
-        "description": "Create namespaces, resource quotas, and network policies for prod environment.",
-        "status": "open",
-        "priority": "urgent",
-        "project": "00000000-0000-4000-a000-000000000002",
-        "column": "00000000-0000-4000-b000-000000000005",
-        "columnOrder": 0,
-        "assignedTo": "ksmits",
-        "dueDate": "2026-04-07",
-        "labels": [
-          "00000000-0000-4000-c000-000000000005"
-        ]
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "task",
-          "slug": "onboarding-n8n-workflow",
-          "id": "00000000-0000-4000-d000-000000000005"
-        },
-        "title": "Build n8n onboarding workflow",
-        "description": "Create the automated onboarding flow: create NC account, add to groups, send welcome email, generate Planninq project.",
-        "status": "open",
-        "priority": "normal",
-        "project": "00000000-0000-4000-a000-000000000003",
-        "column": "00000000-0000-4000-b000-000000000009",
-        "columnOrder": 0,
-        "assignedTo": "admin",
-        "estimatedDuration": 180,
-        "labels": [
-          "00000000-0000-4000-c000-000000000002"
-        ]
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "plannedTimeEntry",
-          "slug": "te-fix-login-2026-04-01"
-        },
-        "task": "00000000-0000-4000-d000-000000000001",
-        "user": "jdoe",
-        "duration": 90,
-        "date": "2026-04-01",
-        "description": "Traced redirect issue to missing redirect_uri state parameter in OAuth middleware."
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "plannedTimeEntry",
-          "slug": "te-fix-login-2026-04-02"
-        },
-        "task": "00000000-0000-4000-d000-000000000001",
-        "user": "jdoe",
-        "duration": 60,
-        "date": "2026-04-02",
-        "description": "Implemented fix and wrote unit test."
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "plannedTimeEntry",
-          "slug": "te-k8s-2026-04-01"
-        },
-        "task": "00000000-0000-4000-d000-000000000004",
-        "user": "ksmits",
-        "duration": 45,
-        "date": "2026-04-01",
-        "description": "Drafted namespace YAML manifests for review."
       }
     ]
   }

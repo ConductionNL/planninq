@@ -253,6 +253,86 @@ class TimetableControllerTest extends TestCase {
 	}//end testUpsertRefusesBadBodiesAndNonAdmins()
 
 	/**
+	 * The HTTP read passes includeDrafts on; without it the named teacher's draft stays out.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-drafts-are-returned-only-when-the-caller-asks-for-them
+	 */
+	public function testSessionsPassesIncludeDrafts(): void {
+		$this->signIn();
+		foreach ([['s-1', 'zm-1', 'scheduled', '09'], ['s-2', 'zm-2', 'draft', '10']] as [$id, $ref, $status, $hour]) {
+			$this->objectService->seed(
+				schema: 'timetableSession',
+				id: $id,
+				data: [
+					'externalRef' => $ref,
+					'sourceSystem' => 'roster-zermelo',
+					'subject' => 'Wiskunde',
+					'startsAt' => "2026-10-05T{$hour}:00:00+02:00",
+					'endsAt' => "2026-10-05T{$hour}:50:00+02:00",
+					'teacherUserId' => 'jan',
+					'status' => $status,
+				]
+			);
+		}
+
+		$plain = $this->controller()->sessions(teacherUserId: 'jan');
+		$asked = $this->controller()->sessions(teacherUserId: 'jan', includeDrafts: true);
+
+		self::assertSame(expected: ['s-1'], actual: array_column($plain->getData()['results'], 'id'));
+		self::assertSame(expected: ['s-1', 's-2'], actual: array_column($asked->getData()['results'], 'id'));
+		self::assertSame(expected: 'draft', actual: $asked->getData()['results'][1]['status']);
+
+	}//end testSessionsPassesIncludeDrafts()
+
+	/**
+	 * An admin publishes a window; a non-admin is refused and nothing changes.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-an-admin-publishes-the-drafts-of-one-source-in-a-date-window
+	 */
+	public function testPublishRefusesANonAdmin(): void {
+		$this->objectService->seed(
+			schema: 'timetableSession',
+			id: 'd-1',
+			data: [
+				'externalRef' => 'zm-1',
+				'sourceSystem' => 'roster-zermelo',
+				'subject' => 'Wiskunde',
+				'title' => 'Wiskunde',
+				'startsAt' => '2026-10-05T09:00:00+02:00',
+				'endsAt' => '2026-10-05T09:50:00+02:00',
+				'status' => 'draft',
+			]
+		);
+		$this->settingsService->method('isCurrentUserAdmin')->willReturnOnConsecutiveCalls(false, true, true);
+		$this->request->method('getParam')->willReturnMap(
+			[
+				['sourceSystem', null, 'roster-zermelo'],
+				['from', null, '2026-10-05T00:00:00+02:00'],
+				['to', null, '2026-10-11T23:59:59+02:00'],
+			]
+		);
+
+		self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $this->controller()->publish()->getStatus());
+		self::assertSame(expected: [], actual: $this->objectService->saves);
+
+		$response = $this->controller()->publish();
+		self::assertSame(expected: Http::STATUS_OK, actual: $response->getStatus());
+		self::assertSame(expected: 1, actual: $response->getData()['published']);
+		self::assertSame(expected: 'scheduled', actual: $this->objectService->rows['timetableSession']['d-1']['status']);
+
+		$publish = new ReflectionMethod(TimetableController::class, 'publish');
+		self::assertSame(expected: [], actual: $publish->getAttributes(NoAdminRequired::class));
+		self::assertNotEmpty(actual: $publish->getAttributes(AuthorizedAdminSetting::class));
+		$routes = (string)file_get_contents(__DIR__ . '/../../../appinfo/routes.php');
+		self::assertStringContainsString(needle: "'timetable#publish', 'url' => '/api/timetable/sessions/publish', 'verb' => 'POST'", haystack: $routes);
+
+	}//end testPublishRefusesANonAdmin()
+
+	/**
 	 * The read is open to signed-in users; the upsert is not.
 	 *
 	 * @return void

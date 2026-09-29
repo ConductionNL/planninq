@@ -188,6 +188,12 @@ test.describe('visual baselines — planninq views', () => {
 		await shoot(page, 'boards.png')
 	})
 
+	test('MyWork renders my tasks @visual', async ({ page }) => {
+		await navigateTo(page, 'My tasks')
+		await expect(page).toHaveURL(/\/my-tasks$/)
+		await shoot(page, 'my-work.png')
+	})
+
 	test('Portfolio renders capacity @visual', async ({ page }) => {
 		// Reached by its card, labelled "Capacity" on the Reports page. The
 		// nav entry this used to click was retired when the report was carded.

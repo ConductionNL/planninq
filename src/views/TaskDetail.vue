@@ -35,6 +35,84 @@
 						<span v-if="task && task.key" class="task-detail__key" data-testid="task-detail-key">{{ task.key }}</span>
 						{{ taskTitle }}
 					</h2>
+					<div class="task-detail__actions">
+						<NcButton variant="secondary" data-testid="task-edit" @click="editing = true">
+							<template #icon>
+								<PencilIcon :size="20" />
+							</template>
+							{{ t('planninq', 'Edit') }}
+						</NcButton>
+						<NcButton
+							variant="tertiary"
+							:disabled="duplicating"
+							data-testid="task-duplicate"
+							@click="duplicate">
+							<template #icon>
+								<ContentCopy :size="20" />
+							</template>
+							{{ t('planninq', 'Duplicate') }}
+						</NcButton>
+						<NcButton
+							v-if="canDelete"
+							variant="tertiary"
+							data-testid="task-delete"
+							@click="deleting = true">
+							<template #icon>
+								<DeleteIcon :size="20" />
+							</template>
+							{{ t('planninq', 'Delete task') }}
+						</NcButton>
+					</div>
+				</div>
+
+				<!-- Description as Markdown; NcRichText escapes raw HTML (tasks-create-edit-delete) -->
+				<section class="task-detail__description" aria-labelledby="task-detail-description-heading">
+					<h3 id="task-detail-description-heading" class="task-detail__section-title">
+						{{ t('planninq', 'Description') }}
+					</h3>
+					<NcRichText
+						v-if="task.description"
+						:text="task.description"
+						:useMarkdown="true"
+						data-testid="task-description" />
+					<p v-else class="task-detail__no-description">
+						{{ t('planninq', 'No description yet') }}
+					</p>
+				</section>
+
+				<!-- People, priority and labels (tasks-assignment-priority-labels) -->
+				<div class="task-detail__controls">
+					<NcSelect
+						:modelValue="responsibleOption"
+						:options="peopleOptions"
+						:inputLabel="t('planninq', 'Responsible')"
+						label="label"
+						data-testid="task-responsible"
+						@update:modelValue="onResponsible" />
+					<NcSelect
+						:modelValue="sharedOptions"
+						:options="sharerOptions"
+						:inputLabel="t('planninq', 'Also working on this')"
+						:multiple="true"
+						label="label"
+						data-testid="task-shared-with"
+						@update:modelValue="onShared" />
+					<NcSelect
+						:modelValue="priorityOption"
+						:options="priorityOptions"
+						:inputLabel="t('planninq', 'Priority')"
+						:clearable="false"
+						label="label"
+						data-testid="task-priority"
+						@update:modelValue="onPriority" />
+					<NcSelect
+						:modelValue="selectedLabels"
+						:options="labelOptions"
+						:inputLabel="t('planninq', 'Labels')"
+						:multiple="true"
+						label="label"
+						data-testid="task-labels"
+						@update:modelValue="onLabels" />
 				</div>
 
 				<dl class="task-detail__fields">
@@ -51,6 +129,86 @@
 						</dd>
 					</template>
 				</dl>
+
+				<!-- Subtasks, one level deep (tasks-subtasks-checklist) -->
+				<section
+					v-if="!task.parent"
+					class="task-detail__subtasks"
+					aria-labelledby="task-detail-subtasks-heading"
+					data-testid="task-subtasks">
+					<h3 id="task-detail-subtasks-heading" class="task-detail__section-title">
+						{{ t('planninq', 'Subtasks') }}
+					</h3>
+					<p v-if="subtasks.length" data-testid="subtask-progress">
+						{{ t('planninq', '{done} of {total} done', subtaskCounts) }}
+					</p>
+					<ul v-if="subtasks.length" class="task-detail__list">
+						<li v-for="sub in subtasks" :key="sub.id">
+							<router-link :to="{ name: 'TaskDetail', params: { id: $route.params.id, taskId: sub.id } }">
+								{{ sub.title }}
+							</router-link>
+							<span class="task-detail__muted">{{ statusText(sub.status) }}</span>
+						</li>
+					</ul>
+					<form class="task-detail__add" @submit.prevent="addSubtask">
+						<NcTextField
+							v-model="newSubtaskTitle"
+							:label="t('planninq', 'Add a subtask')"
+							:disabled="addingSubtask"
+							data-testid="subtask-add" />
+					</form>
+				</section>
+
+				<!-- Checklist (tasks-subtasks-checklist) -->
+				<section class="task-detail__checklist" aria-labelledby="task-detail-checklist-heading" data-testid="task-checklist">
+					<h3 id="task-detail-checklist-heading" class="task-detail__section-title">
+						{{ t('planninq', 'Checklist') }}
+						<span v-if="checklist.length" class="task-detail__muted">{{ checklistDone }}</span>
+					</h3>
+					<ul v-if="checklist.length" class="task-detail__list">
+						<li
+							v-for="(item, index) in checklist"
+							:key="item.id"
+							class="task-detail__check"
+							draggable="true"
+							@dragstart="dragItem = item.id"
+							@dragover.prevent
+							@drop="dropItem(index)">
+							<NcCheckboxRadioSwitch
+								:modelValue="item.done"
+								data-testid="checklist-item"
+								@update:modelValue="saveChecklist(toggled(item))">
+								{{ item.text }}
+							</NcCheckboxRadioSwitch>
+							<NcActions :aria-label="t('planninq', 'Checklist item actions')">
+								<NcActionButton :closeAfterClick="true" @click="saveChecklist(moved(item, -1))">
+									<template #icon>
+										<ArrowUp :size="20" />
+									</template>
+									{{ t('planninq', 'Move up') }}
+								</NcActionButton>
+								<NcActionButton :closeAfterClick="true" @click="saveChecklist(moved(item, 1))">
+									<template #icon>
+										<ArrowDown :size="20" />
+									</template>
+									{{ t('planninq', 'Move down') }}
+								</NcActionButton>
+								<NcActionButton :closeAfterClick="true" @click="saveChecklist(removed(item))">
+									<template #icon>
+										<DeleteIcon :size="20" />
+									</template>
+									{{ t('planninq', 'Remove') }}
+								</NcActionButton>
+							</NcActions>
+						</li>
+					</ul>
+					<form class="task-detail__add" @submit.prevent="addItem">
+						<NcTextField
+							v-model="newChecklistText"
+							:label="t('planninq', 'Add a checklist item')"
+							data-testid="checklist-add" />
+					</form>
+				</section>
 
 				<!-- Time tracking -->
 				<section class="task-detail__time" aria-labelledby="task-detail-time-heading">
@@ -87,6 +245,11 @@
 					</p>
 					<p v-else class="task-detail__progress" data-testid="time-progress">
 						{{ t('planninq', 'Logged: {logged}', { logged: loggedText }) }}
+					</p>
+					<p v-if="subtasks.length" class="task-detail__progress" data-testid="subtask-rollup">
+						{{ t('planninq', 'Subtasks: {estimate} estimated, {logged} logged', rollupText) }}
+						<br>
+						{{ t('planninq', 'Total estimate: {total}', { total: formatMinutes(estimateMinutes + rollup.estimate) }) }}
 					</p>
 
 					<!-- Log time -->
@@ -149,19 +312,41 @@
 			:entry="editingEntry"
 			@close="closeDialog"
 			@saved="onEntrySaved" />
+
+		<TaskFormDialog
+			v-if="editing && task"
+			:task="task"
+			:project="project"
+			@close="editing = false"
+			@saved="onTaskSaved" />
+		<TaskDeleteDialog
+			v-if="deleting && task"
+			:task="task"
+			:hasTime="timeEntries.length > 0"
+			:subtasks="subtasks"
+			@close="deleting = false"
+			@deleted="onTaskDeleted"
+			@cancelled="onTaskSaved" />
 	</div>
 </template>
 
 <script>
 import { CnObjectSidebar } from '@conduction/nextcloud-vue'
-import { NcActionButton, NcActions, NcButton, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
+import { NcActionButton, NcActions, NcButton, NcCheckboxRadioSwitch, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
+import ArrowDown from 'vue-material-design-icons/ArrowDown.vue'
 import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
+import ArrowUp from 'vue-material-design-icons/ArrowUp.vue'
 import ClockPlusOutline from 'vue-material-design-icons/ClockPlusOutline.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import TaskDependencies from '../components/TaskDependencies.vue'
+import TaskDeleteDialog from '../dialogs/TaskDeleteDialog.vue'
+import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
 import TimeEntryDialog from '../dialogs/TimeEntryDialog.vue'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
@@ -169,7 +354,11 @@ import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
+import { addChecklistItem, checklistCount, moveChecklistItem, newSubtask, removeChecklistItem, subtaskProgress, subtaskRollup, toggleChecklistItem } from '../utils/taskBreakdown.js'
+import { canDeleteTask } from '../utils/taskEditing.js'
 import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
+import { labelsPatch, memberOptions, PRIORITIES, priorityPatch, responsiblePatch, sharedWithPatch } from '../utils/taskPeople.js'
+import { displayNames } from '../utils/userNames.js'
 import { taskHeading } from '../utils/workItemKeys.js'
 
 /**
@@ -189,16 +378,24 @@ export default {
 		NcActions,
 		NcActionButton,
 		NcButton,
+		NcCheckboxRadioSwitch,
 		NcEmptyContent,
 		NcLoadingIcon,
+		NcRichText,
+		NcSelect,
 		NcTextField,
 		CnObjectSidebar,
+		ArrowDown,
 		ArrowLeft,
+		ArrowUp,
+		ContentCopy,
 		AlertCircleOutline,
 		ClockPlusOutline,
 		PencilIcon,
 		DeleteIcon,
 		TaskDependencies,
+		TaskDeleteDialog,
+		TaskFormDialog,
 		TimeEntryDialog,
 	},
 
@@ -212,6 +409,17 @@ export default {
 			projectTasks: [],
 			dialogOpen: false,
 			editingEntry: null,
+			editing: false,
+			deleting: false,
+			project: null,
+			names: {},
+			labels: [],
+			projectEntries: [],
+			newSubtaskTitle: '',
+			addingSubtask: false,
+			newChecklistText: '',
+			dragItem: null,
+			duplicating: false,
 			// Live-updates handle for the or-object-{uuid} subscription of the
 			// task being viewed. livePendingKey marks an in-flight subscribe so
 			// a concurrent same-key call doesn't double-subscribe; liveEpoch
@@ -273,11 +481,132 @@ export default {
 			const t = this.task || {}
 			return [
 				{ key: 'status', label: this.t('planninq', 'Status'), value: t.status },
-				{ key: 'priority', label: this.t('planninq', 'Priority'), value: t.priority },
-				{ key: 'assignedTo', label: this.t('planninq', 'Assigned to'), value: t.assignedTo },
 				{ key: 'dueDate', label: this.t('planninq', 'Due date'), value: t.dueDate },
-				{ key: 'description', label: this.t('planninq', 'Description'), value: t.description },
 			]
+		},
+
+		/**
+		 * The task's subtasks, from the project's tasks.
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-2.1
+		 */
+		subtasks() {
+			return this.task ? this.projectTasks.filter((other) => other.parent === this.task.id) : []
+		},
+
+		/**
+		 * @spec exclude Display helper, done and total subtasks.
+		 */
+		subtaskCounts() {
+			return subtaskProgress(this.subtasks)
+		},
+
+		/**
+		 * The subtasks' summed estimate and logged time, in minutes.
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-4.1
+		 */
+		rollup() {
+			const ids = new Set(this.subtasks.map((sub) => sub.id))
+			const entries = {}
+			for (const entry of this.projectEntries) {
+				const id = entry?.task?.id ?? entry?.task
+				if (ids.has(id)) {
+					(entries[id] = entries[id] || []).push(entry)
+				}
+			}
+			return subtaskRollup(this.subtasks, entries)
+		},
+
+		/**
+		 * @spec exclude Display helper, the rollup as text.
+		 */
+		rollupText() {
+			return { estimate: formatDuration(this.rollup.estimate), logged: formatDuration(this.rollup.logged) }
+		},
+
+		/**
+		 * @spec exclude Display helper, the task's checklist.
+		 */
+		checklist() {
+			return this.task?.checklist || []
+		},
+
+		/**
+		 * @spec exclude Display helper, the checklist's done count.
+		 */
+		checklistDone() {
+			return checklistCount(this.checklist)
+		},
+
+		/**
+		 * The project's members as picker options, by display name.
+		 *
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
+		 */
+		peopleOptions() {
+			return memberOptions(this.project, this.names)
+		},
+
+		/**
+		 * @spec exclude Display helper, the members who can share the task.
+		 */
+		sharerOptions() {
+			return this.peopleOptions.filter((option) => option.id !== this.task?.assignedTo)
+		},
+
+		/**
+		 * @spec exclude Display helper, the labels on the task.
+		 */
+		selectedLabels() {
+			return this.labelOptions.filter((option) => (this.task?.labels || []).includes(option.id))
+		},
+
+		/**
+		 * @spec exclude Display helper, the selected responsible person.
+		 */
+		responsibleOption() {
+			const uid = this.task?.assignedTo
+			return uid ? { id: uid, label: this.names[uid] || uid } : null
+		},
+
+		/**
+		 * @spec exclude Display helper, the people the task is shared with.
+		 */
+		sharedOptions() {
+			return (this.task?.sharedWith || []).map((uid) => ({ id: uid, label: this.names[uid] || uid }))
+		},
+
+		/**
+		 * @spec exclude Display helper, the priority choices.
+		 */
+		priorityOptions() {
+			const labels = { urgent: this.t('planninq', 'Urgent'), high: this.t('planninq', 'High'), normal: this.t('planninq', 'Normal'), low: this.t('planninq', 'Low') }
+			return PRIORITIES.map((id) => ({ id, label: labels[id] }))
+		},
+
+		/**
+		 * @spec exclude Display helper, the selected priority.
+		 */
+		priorityOption() {
+			return this.priorityOptions.find((option) => option.id === (this.task?.priority || 'normal'))
+		},
+
+		/**
+		 * @spec exclude Display helper, every label as a picker option.
+		 */
+		labelOptions() {
+			return this.labels.map((label) => ({ id: label.id ?? label['@self']?.id, label: label.title }))
+		},
+
+		/**
+		 * Whether "Delete task" shows: the reporter, the project owner or an admin.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-4.1
+		 */
+		canDelete() {
+			const user = getCurrentUser()
+			return canDeleteTask(this.task, this.project, user ? { uid: user.uid, isAdmin: user.isAdmin === true } : null)
 		},
 
 		/**
@@ -435,11 +764,234 @@ export default {
 		 */
 		async loadLinks() {
 			const projectId = this.task?.project?.id || this.task?.project
-			const [tasks] = await Promise.all([
+			const [tasks, project] = await Promise.all([
 				projectId ? this.projectsStore.fetchTasks(String(projectId)) : Promise.resolve([]),
+				projectId ? this.projectsStore._objectStore().fetchObject('project', String(projectId)) : Promise.resolve(null),
 				useDependenciesStore().fetchEdges(),
 			])
 			this.projectTasks = Array.isArray(tasks) ? tasks : []
+			this.project = project || null
+			this.projectEntries = projectId ? await this.projectsStore.fetchProjectTimeEntries(String(projectId)) : []
+			const [names, labels] = await Promise.all([
+				displayNames([...new Set([...memberOptions(this.project).map((option) => option.id), ...(this.task?.sharedWith || []), this.task?.assignedTo].filter(Boolean))]),
+				this.projectsStore.fetchLabels(),
+			])
+			this.names = names
+			this.labels = labels
+		},
+
+		/**
+		 * @param {{id: string}|null} option The chosen member, or null for nobody.
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
+		 */
+		onResponsible(option) {
+			return this.saveTask(responsiblePatch(this.task, option ? option.id : ''))
+		},
+
+		/**
+		 * @param {Array<{id: string}>} options The chosen members.
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
+		 */
+		onShared(options) {
+			return this.saveTask(sharedWithPatch(this.task, (options || []).map((option) => option.id)))
+		},
+
+		/**
+		 * @param {{id: string}|null} option The chosen level.
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-3.1
+		 */
+		onPriority(option) {
+			return this.saveTask(priorityPatch(this.task, option ? option.id : ''))
+		},
+
+		/**
+		 * @param {Array<{id: string}>} options The chosen labels.
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-4.1
+		 */
+		onLabels(options) {
+			return this.saveTask(labelsPatch(this.task, (options || []).map((option) => option.id)))
+		},
+
+		/**
+		 * Add a subtask with the typed title under this task, and keep the field for the next one.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-2.1
+		 */
+		async addSubtask() {
+			if (this.newSubtaskTitle.trim() === '' || this.addingSubtask) {
+				return
+			}
+			this.addingSubtask = true
+			const created = await this.projectsStore.createTask(newSubtask(this.newSubtaskTitle, this.task, this.projectTasks))
+			this.addingSubtask = false
+			if (!created) {
+				showError(this.t('planninq', 'Could not create the task. Please try again.'))
+				return
+			}
+			this.newSubtaskTitle = ''
+			this.projectTasks = [...this.projectTasks, created]
+		},
+
+		/**
+		 * Add a checklist item with the typed text.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		async addItem() {
+			const next = addChecklistItem(this.checklist, this.newChecklistText)
+			if (next === this.checklist) {
+				return
+			}
+			this.newChecklistText = ''
+			await this.saveChecklist(next)
+		},
+
+		/**
+		 * Drop the dragged checklist item at a position.
+		 *
+		 * @param {number} index Where it lands.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		async dropItem(index) {
+			const from = this.checklist.findIndex((item) => item.id === this.dragItem)
+			this.dragItem = null
+			if (from === -1 || from === index) {
+				return
+			}
+			await this.saveChecklist(this.reordered(from, index))
+		},
+
+		/**
+		 * @param {object} item A checklist item.
+		 * @return {Array<object>} The checklist with it ticked or unticked.
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		toggled(item) {
+			return toggleChecklistItem(this.checklist, item.id)
+		},
+
+		/**
+		 * @param {object} item      A checklist item.
+		 * @param {number} direction -1 or +1.
+		 * @return {Array<object>} The checklist with it moved a step.
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		moved(item, direction) {
+			return moveChecklistItem(this.checklist, item.id, direction)
+		},
+
+		/**
+		 * @param {object} item A checklist item.
+		 * @return {Array<object>} The checklist without it.
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		removed(item) {
+			return removeChecklistItem(this.checklist, item.id)
+		},
+
+		/**
+		 * @param {number} from The dragged item's position.
+		 * @param {number} to   Where it lands.
+		 * @return {Array<object>} The reordered checklist.
+		 * @spec exclude Display helper, the list after a drop.
+		 */
+		reordered(from, to) {
+			const next = [...this.checklist]
+			const [item] = next.splice(from, 1)
+			next.splice(to, 0, item)
+			return next
+		},
+
+		/**
+		 * Write the whole checklist (the array is the unit, tasks-subtasks-checklist design).
+		 *
+		 * @param {Array<object>} checklist The new checklist.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		saveChecklist(checklist) {
+			return this.saveTask({ checklist })
+		},
+
+		/**
+		 * Copy this task with its checklist and subtasks, then open the copy.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-5.1
+		 */
+		async duplicate() {
+			this.duplicating = true
+			const copy = await this.projectsStore.duplicateTask(this.task, this.subtasks)
+			this.duplicating = false
+			const copyId = copy?.id ?? copy?.['@self']?.id
+			if (!copyId) {
+				showError(this.t('planninq', 'Could not copy the task. Please try again.'))
+				return
+			}
+			this.$router.push({ name: 'TaskDetail', params: { id: this.$route.params.id, taskId: copyId } })
+		},
+
+		/**
+		 * @param {string} status A task status.
+		 * @return {string} Its label.
+		 * @spec exclude Display helper, the label of a status.
+		 */
+		statusText(status) {
+			const labels = { open: this.t('planninq', 'Open'), in_progress: this.t('planninq', 'In progress'), blocked: this.t('planninq', 'Blocked'), done: this.t('planninq', 'Done'), cancelled: this.t('planninq', 'Cancelled') }
+			return labels[status] || status
+		},
+
+		/**
+		 * PATCH one change from the people, priority or label controls.
+		 *
+		 * @param {object} patch Only the changed fields; an empty patch does nothing.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
+		 */
+		async saveTask(patch) {
+			if (!this.task || !Object.keys(patch).length) {
+				return
+			}
+			const updated = await this.projectsStore.updateTask(this.task.id, patch)
+			if (!updated) {
+				showError(this.t('planninq', 'Could not save the task. Please try again.'))
+				return
+			}
+			this.projectsStore.activeTask = { ...this.task, ...patch, ...updated }
+		},
+
+		/**
+		 * Show the saved task (an edit, or a cancel from the delete dialog).
+		 *
+		 * @param {object} saved The task as the server returned it.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-4.1
+		 */
+		onTaskSaved(saved) {
+			this.editing = false
+			this.deleting = false
+			this.projectsStore.activeTask = { ...this.task, ...saved }
+			this.setDocumentTitle()
+		},
+
+		/**
+		 * Back to the board once the task is deleted.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-4.1
+		 */
+		onTaskDeleted() {
+			this.deleting = false
+			this.projectsStore.activeTask = null
+			this.goBack()
 		},
 
 		/**
@@ -536,13 +1088,15 @@ export default {
 		},
 
 		/**
-		 * Navigate back to the project board.
+		 * Navigate back: to My tasks when the task was opened there, else to the project board.
 		 *
-		 * @spec exclude Router navigation glue; no observable spec behaviour.
+		 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-1.2
 		 */
 		goBack() {
 			const projectId = this.$route.params.id
-			if (projectId) {
+			if (this.$route.query.from === 'my-tasks') {
+				this.$router.push({ name: 'MyWork' })
+			} else if (projectId) {
 				this.$router.push({ name: 'ProjectBoard', params: { id: projectId } })
 			} else {
 				this.$router.push({ name: 'Projects' })
@@ -686,10 +1240,55 @@ export default {
 	margin: 0;
 }
 
+.task-detail__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.task-detail__description {
+	margin-bottom: 24px;
+}
+
+.task-detail__no-description {
+	color: var(--color-text-maxcontrast);
+}
+
 .task-detail__key {
 	margin-inline-end: 8px;
 	font-weight: 400;
 	color: var(--color-text-maxcontrast);
+}
+
+.task-detail__subtasks,
+.task-detail__checklist {
+	margin-bottom: 24px;
+	max-width: 640px;
+}
+
+.task-detail__list {
+	margin: 0 0 8px;
+	padding: 0;
+	list-style: none;
+}
+
+.task-detail__list li {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.task-detail__muted {
+	color: var(--color-text-maxcontrast);
+	font-weight: 400;
+}
+
+.task-detail__controls {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 12px 24px;
+	max-width: 640px;
+	margin-bottom: 24px;
 }
 
 .task-detail__fields {

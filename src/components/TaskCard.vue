@@ -7,13 +7,30 @@
 			{{ task.title }}
 		</h3>
 
-		<!-- Task description (optional) -->
-		<p v-if="task.description" class="task-card__description">
-			{{ task.description }}
+		<!-- Plain-text excerpt of the Markdown description (tasks-create-edit-delete) -->
+		<p v-if="excerpt" class="task-card__description" data-testid="task-card-excerpt">
+			{{ excerpt }}
 		</p>
 
 		<!-- Task metadata -->
 		<div class="task-card__meta">
+			<!-- Subtask of (tasks-subtasks-checklist) -->
+			<NcChip
+				v-if="parentTitle"
+				:text="t('planninq', 'Part of {title}', { title: parentTitle })"
+				variant="tertiary"
+				:noClose="true"
+				data-testid="task-card-parent" />
+
+			<!-- Checklist done count such as 3/5 -->
+			<NcChip
+				v-if="checklistText"
+				:text="checklistText"
+				:aria-label="t('planninq', 'Checklist: {count} done', { count: checklistText })"
+				variant="tertiary"
+				:noClose="true"
+				data-testid="task-card-checklist" />
+
 			<!-- Blocked by an unfinished task (planning-dependencies-on-task-page) -->
 			<BlockedBadge :blocked="blocked" :openBlockerCount="openBlockerCount" />
 
@@ -66,21 +83,34 @@
 			</NcChip>
 		</div>
 
-		<!-- Assignee (optional) -->
-		<div v-if="task.assignedTo" class="task-card__assignee">
-			{{ t('planninq', 'Assigned to: {user}', { user: task.assignedTo }) }}
-		</div>
+		<!-- People: the responsible person first, then who it is shared with (tasks-assignment-priority-labels) -->
+		<ul v-if="people.length" class="task-card__people" data-testid="task-card-people">
+			<li v-for="uid in people" :key="uid" class="task-card__person">
+				<NcAvatar
+					:user="uid"
+					:size="20"
+					:displayName="names[uid] || uid"
+					:hideStatus="true"
+					:disableMenu="true"
+					:disableTooltip="true" />
+				<span>{{ names[uid] || uid }}</span>
+			</li>
+		</ul>
 	</div>
 </template>
 
 <script>
 // @nextcloud/vue@9 removed the `dist/Components/*.js` layout; the package now
 // publishes only an `exports` map (root barrel + `./components/<Name>`).
-import { NcChip } from '@nextcloud/vue'
+import { NcAvatar, NcChip } from '@nextcloud/vue'
 import BlockedBadge from './BlockedBadge.vue'
 import { formatDuration } from '../utils/durationParser.js'
 import { labelId } from '../utils/labelHelpers.js'
+import { checklistCount } from '../utils/taskBreakdown.js'
+import { descriptionExcerpt } from '../utils/taskEditing.js'
 import { dueDateStatus } from '../utils/taskHelpers.js'
+import { peopleOf } from '../utils/taskPeople.js'
+import { displayNames } from '../utils/userNames.js'
 
 /**
  * Kanban board task card.
@@ -98,9 +128,15 @@ import { dueDateStatus } from '../utils/taskHelpers.js'
  */
 export default {
 	name: 'TaskCard',
-	components: { BlockedBadge, NcChip },
+	components: { BlockedBadge, NcAvatar, NcChip },
 
 	props: {
+		/** The title of the task this one is a subtask of, if any. */
+		parentTitle: {
+			type: String,
+			default: '',
+		},
+
 		task: {
 			type: Object,
 			required: true,
@@ -132,7 +168,41 @@ export default {
 		},
 	},
 
+	data() {
+		return {
+			/** @type {object} User id to display name for the people on the card. */
+			names: {},
+		}
+	},
+
 	computed: {
+		/**
+		 * The people on the task, the responsible person first.
+		 *
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.2
+		 */
+		people() {
+			return peopleOf(this.task)
+		},
+
+		/**
+		 * The checklist's done count such as "3/5", or empty.
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		checklistText() {
+			return checklistCount(this.task.checklist)
+		},
+
+		/**
+		 * The description as a short plain-text excerpt, Markdown stripped.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-3.2
+		 */
+		excerpt() {
+			return descriptionExcerpt(this.task.description)
+		},
+
 		/**
 		 * @spec openspec/specs/kanban-board.md
 		 */
@@ -230,6 +300,21 @@ export default {
 		},
 	},
 
+	watch: {
+		people: {
+			immediate: true,
+			/**
+			 * Look up the display names of the people on the card (cached per user).
+			 *
+			 * @param {Array<string>} uids The people.
+			 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.2
+			 */
+			async handler(uids) {
+				this.names = uids.length ? await displayNames(uids) : {}
+			},
+		},
+	},
+
 	methods: {
 		/**
 		 * @param {object} label The label to key.
@@ -312,8 +397,20 @@ export default {
 	background: var(--color-background-dark);
 }
 
-.task-card__assignee {
+.task-card__people {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 12px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
 	font-size: 12px;
 	color: var(--color-text-maxcontrast);
+}
+
+.task-card__person {
+	display: flex;
+	align-items: center;
+	gap: 4px;
 }
 </style>

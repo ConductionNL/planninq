@@ -553,6 +553,9 @@ class Application extends App implements IBootstrap {
 			);
 		}
 
+		// The reporter guard first: a delete it refuses must not lose the edges.
+		$this->registerTaskGuardListeners(dispatcher: $dispatcher);
+
 		// Dependency-edge cascade, on the PRE-delete event.
 		//
 		// ADR-078 / gate-61 forbid a synchronous write in a POST-event listener
@@ -616,6 +619,34 @@ class Application extends App implements IBootstrap {
 			);
 		}
 	}//end registerBoardColumnListeners()
+
+	/**
+	 * Register the task reporter guard (tasks-create-edit-delete).
+	 *
+	 * TaskReporterGuardListener stamps the creator as `reporter`, keeps it on
+	 * every update, and holds a task delete to the reporter, the project owner
+	 * and admins, refusing a task with logged time. It is subscribed before
+	 * TaskDependencyCleanupListener, so a refused delete stops before the
+	 * edges are removed. The class name is a literal string for the coupling
+	 * reason given in boot().
+	 *
+	 * @param IEventDispatcher $dispatcher The event dispatcher.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-5.1
+	 */
+	private function registerTaskGuardListeners(IEventDispatcher $dispatcher): void {
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\TaskReporterGuardListener',
+				registers: ['planninq'],
+				schemas: ['task']
+			);
+		}
+	}//end registerTaskGuardListeners()
 
 	/**
 	 * Register the key listener (tasks-readable-keys).
