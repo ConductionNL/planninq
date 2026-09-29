@@ -142,7 +142,10 @@ class DependencyService {
 
 		// 4. + 5. No duplicate edge; no cycle. Loads the project edges once.
 		$edges = $this->repository->fetchProjectEdges(objectService: $objectService, projectId: $projectId);
-		$this->assertEdgeIsValid(objectService: $objectService, edges: $edges, blocker: $blocker, blocked: $blocked, blocking: ($type === 'blocks'));
+		$this->assertNotDuplicate(edges: $edges, blocker: $blocker, blocked: $blocked);
+		if ($type === 'blocks') {
+			$this->assertNoCycle(objectService: $objectService, edges: $edges, blocker: $blocker, blocked: $blocked);
+		}
 
 		$saved = $objectService->saveObject(
 			object: ['blocker' => $blocker, 'blocked' => $blocked, 'type' => $type],
@@ -287,19 +290,19 @@ class DependencyService {
 	}//end resolveSharedProjectId()
 
 	/**
-	 * Assert the proposed edge is neither a duplicate nor cycle-forming.
+	 * Assert the proposed edge does not already exist.
 	 *
-	 * @param object $objectService The OR ObjectService (for path rendering).
 	 * @param array<int,array<string,mixed>> $edges The project's existing edges.
 	 * @param string $blocker UUID of the blocking task.
 	 * @param string $blocked UUID of the blocked task.
-	 * @param bool $blocking Whether the new link blocks, and so must not close a cycle.
 	 *
 	 * @return void
 	 *
-	 * @throws DependencyValidationException On a duplicate or a cycle (message names the path).
+	 * @throws DependencyValidationException On a duplicate.
+	 *
+	 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.1
 	 */
-	private function assertEdgeIsValid(object $objectService, array $edges, string $blocker, string $blocked, bool $blocking=true): void {
+	private function assertNotDuplicate(array $edges, string $blocker, string $blocked): void {
 		foreach ($edges as $edge) {
 			if ((string)($edge['blocker'] ?? '') === $blocker
 				&& (string)($edge['blocked'] ?? '') === $blocked
@@ -311,11 +314,24 @@ class DependencyService {
 			}
 		}
 
-		$path = null;
-		if ($blocking === true) {
-			$path = $this->graph->cyclePath(edges: $edges, blocker: $blocker, blocked: $blocked);
-		}
+	}//end assertNotDuplicate()
 
+	/**
+	 * Assert a blocking edge would not close a cycle.
+	 *
+	 * @param object $objectService The OR ObjectService (for path rendering).
+	 * @param array<int,array<string,mixed>> $edges The project's existing edges.
+	 * @param string $blocker UUID of the blocking task.
+	 * @param string $blocked UUID of the blocked task.
+	 *
+	 * @return void
+	 *
+	 * @throws DependencyValidationException On a cycle (message names the path).
+	 *
+	 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.1
+	 */
+	private function assertNoCycle(object $objectService, array $edges, string $blocker, string $blocked): void {
+		$path = $this->graph->cyclePath(edges: $edges, blocker: $blocker, blocked: $blocked);
 		if ($path !== null) {
 			$rendered = $this->renderPath(objectService: $objectService, path: $path);
 			throw new DependencyValidationException(
@@ -324,7 +340,7 @@ class DependencyService {
 			);
 		}
 
-	}//end assertEdgeIsValid()
+	}//end assertNoCycle()
 
 	/**
 	 * Delete a dependency edge after a project-membership guard.
