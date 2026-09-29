@@ -20,6 +20,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Tests\Unit\Service;
 
 use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\BoardViewPreferenceService;
 use OCA\Planninq\Service\CreationPolicyService;
 use OCA\Planninq\Service\DueReminderWindowService;
 use OCA\Planninq\Service\ProjectPolicySchemaService;
@@ -138,6 +139,7 @@ class SettingsServiceTest extends TestCase {
 				groupManager: $this->groupManager,
 				userSession: $this->userSession,
 			),
+			boardViews: new BoardViewPreferenceService(config: $this->config),
 		);
 
 	}//end setUp()
@@ -219,6 +221,36 @@ class SettingsServiceTest extends TestCase {
 		);
 
 	}//end testUpdateUserSettingsTakesTheDashboardOrder()
+
+	/**
+	 * The user settings endpoint stores a board view under the caller's own
+	 * user value, and ignores one without a project (boards-card-display).
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
+	 */
+	public function testUpdateUserSettingsStoresTheBoardViewPerUser(): void {
+		$this->appManager->method('isInstalled')->willReturn(false);
+		$stored = [];
+		$this->config->method('getUserValue')->willReturnCallback(
+			fn (string $userId, string $app, string $key, mixed $default = ''): string => (string) $default
+		);
+		$this->config->method('setUserValue')->willReturnCallback(
+			function (string $userId, string $app, string $key, string $value) use (&$stored): void {
+				$stored[] = [$userId, $key, $value];
+			}
+		);
+
+		$this->service->updateUserSettings(userId: 'anna', data: ['board_view' => ['project' => 'p-verg', 'colour' => 'label', 'group' => 'priority']]);
+		$this->service->updateUserSettings(userId: 'anna', data: ['board_view' => ['colour' => 'label']]);
+
+		self::assertSame(
+			expected: [['anna', BoardViewPreferenceService::KEY, '{"p-verg":{"colour":"label","group":"priority"}}']],
+			actual: $stored
+		);
+
+	}//end testUpdateUserSettingsStoresTheBoardViewPerUser()
 
 	/**
 	 * Test getAdminSettings() returns defaults when no values are stored.
