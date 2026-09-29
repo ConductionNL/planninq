@@ -55,6 +55,19 @@ the new parent. Dates, assignees, time, comments and attachments are not copied.
 subtasks." with "Delete subtasks too" and "Keep subtasks as separate tasks" (clears `parent`).
 The logged-time refusal applies to every task it would delete.
 
+## Amendments at build time (29 Sep 2026, on top of tasks-assignment-priority-labels)
+
+- **Children come from the project's tasks**, which TaskDetail already loads, not a second
+  `{ project, parent }` query; the rollup's logged time comes from one project time-entry query,
+  not one per child.
+- **A subtask is placed in the parent's lane**, at its bottom, so it shows on the board.
+- **One level is held by the client** (no Subtasks section on a subtask). The server does not
+  refuse a `parent` that itself has a parent; a guard can be added if imports start nesting.
+- **The checklist items' nested properties are not declared** in the schema (only `required`),
+  because gate-51 wants a translated title and description on every declared nested property.
+- **Tests:** vitest runs without a DOM, so the "mount tests" are helper tests, a store test on
+  the real pinia store with the object store and fetch replaced, and the e2e spec.
+
 ## Risks / trade-offs
 
 - [One time-entry query per child] -> fine for the handful of subtasks one level allows; the

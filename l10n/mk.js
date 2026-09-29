@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "На ова работат и",
         "Labels": "Ознаки",
         "Could not change the priority. Please try again.": "Приоритетот не може да се промени. Обидете се повторно.",
-        "Other project members who work on this task alongside the person responsible.": "Други членови на проектот кои работат на задачата заедно со одговорното лице."
+        "Other project members who work on this task alongside the person responsible.": "Други членови на проектот кои работат на задачата заедно со одговорното лице.",
+        "Duplicate": "Дуплирај",
+        "Could not copy the task. Please try again.": "Задачата не може да се копира. Обидете се повторно.",
+        "Subtasks": "Подзадачи",
+        "{done} of {total} done": "Завршени {done} од {total}",
+        "Add a subtask": "Додај подзадача",
+        "Checklist": "Список за проверка",
+        "Checklist item actions": "Дејства за ставка од списокот",
+        "Add a checklist item": "Додај ставка во списокот",
+        "Subtasks: {estimate} estimated, {logged} logged": "Подзадачи: проценето {estimate}, евидентирано {logged}",
+        "Total estimate: {total}": "Вкупна проценка: {total}",
+        "Part of {title}": "Дел од {title}",
+        "Checklist: {count} done": "Список за проверка: завршени {count}",
+        "This task has subtasks: {count}.": "Оваа задача има подзадачи: {count}.",
+        "Keep subtasks as separate tasks": "Задржи ги подзадачите како посебни задачи",
+        "Delete subtasks too": "Избриши ги и подзадачите",
+        "Copy of {title}": "Копија од {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Задачата е копирана, но не и сите нејзини подзадачи. Проверете ја копијата.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Мали чекори во задачата. Секоја ставка има id, текст и дали е завршена."
     },
     "nplurals=2; plural=(n != 1);"
 )

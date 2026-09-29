@@ -2567,7 +2567,7 @@
       "area": "tasks",
       "name": "Break a task into subtasks.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "yes",
@@ -2585,14 +2585,12 @@
         "plane": "corpus: plane/round4/code-census.md §2 'Issue.parent gives sub-issues; the endpoint is apps/api/plane/app/urls/issue.py:105' ; source read at v1.4.2: apps/web/core/components/issues/issue-detail-widgets/sub-issues/title-actions.tsx:114 add sub-work item button; apps/api/plane/app/urls/issue.py:105 sub-issues route, apps/api/plane/app/views/issue/sub_issue.py:204 post; apps/api/plane/db/models/issue.py:114 parent FK"
       },
       "built": {
-        "state": "specified",
-        "evidence": "task.parent is declared for sub-task support (lib/Settings/planninq_register.json properties.parent) but is never read or written anywhere in src/ (no match for 'parent' as a task field in any .vue/.js). The library's generic linked-task tab that could serve this, CnTasksTab, is explicitly hidden: src/utils/taskHelpers.js:34 TASK_SIDEBAR_HIDDEN_TABS includes 'tasks', applied at src/views/TaskDetail.vue via taskCollaborationSidebarConfig:59. No Planninq replacement exists.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue Subtasks section (children with parent set, '{done} of {total} done', add field via src/utils/taskBreakdown.js newSubtask; hidden on a subtask); 'Part of {title}' chip on src/components/TaskCard.vue; parent delete asks keep or delete (src/dialogs/TaskDeleteDialog.vue, store deleteTaskTree)",
+        "reachedOn": "TaskDetail; board card; delete dialog",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/utils/taskHelpers.js:34 hides CnTasksTab (nextcloud-vue's generic linked-task/subtask tab) with no Planninq-built substitute, so task.parent (lib/Settings/planninq_register.json) is unreachable"
-        ],
-        "change": "openspec/changes/tasks-subtasks-checklist"
+        "change": "openspec/changes/archive/2026-09-29-tasks-subtasks-checklist",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2604,7 +2602,7 @@
       "area": "tasks",
       "name": "Keep a checklist inside a task.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "partial",
       "plane": "partial",
@@ -2622,11 +2620,12 @@
         "plane": "corpus: plane/round4/code-census.md §3 'No checklist model. Sub-tasks are ordinary issues with parent set' ; source read at v1.4.2, contradicts the drive: The drive recorded no checklist; the description editor ships a to-do list block with tickable items, so a checklist inside a task exists as rich text. packages/editor/src/core/extensions/extensions.ts:95 TaskList and TaskItem in the core editor, offered as 'To-do list' in packages/editor/src/core/extensions/slash-commands/command-items-list.tsx:150; the work item description uses it via apps/web/core/components/issues/issue-modal/components/description-editor.tsx:184 RichTextEditor. Checkboxes in the description text, no checklist object or progress count; searched apps/api/plane/db/models for 'checklist': only apps/api/plane/db/models/workspace.py:211 onboarding"
       },
       "built": {
-        "state": "specified",
-        "evidence": "No checklist concept exists in the task schema or in src/. The library's generic CnTasksTab (a linked-item/checklist-style tab, nextcloud-vue/src/components/CnObjectSidebar/CnObjectSidebar.vue:124-142) is deliberately hidden by src/utils/taskHelpers.js:34, and Planninq built no checklist UI of its own.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "task.checklist (task schema 0.7.0, array of {id, text, done}); TaskDetail Checklist section adds, ticks, reorders (menu and drag) and removes items; card chip '3/5' (checklistCount)",
+        "reachedOn": "TaskDetail; board card",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-subtasks-checklist"
+        "change": "openspec/changes/archive/2026-09-29-tasks-subtasks-checklist",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7542,7 +7541,7 @@
         "kanboard": "source read at v1.2.54: app/Template/task/details.php:98-101 time estimated on the task; app/Model/SubtaskTimeTrackingModel.php:280-287 SUM of subtask time_estimated written to the task, called from app/Model/SubtaskModel.php:219",
         "jira": "JSWSERVER-9167 'Provide ability to automatically sum estimates from sub-tasks in user stories', Future Consideration, 1993 votes; https://confluence.atlassian.com/jirasoftwareserver/logging-work-on-issues-939938944.html 'Choosing to include sub-tasks displays the aggregated time': hours roll up, story points do not (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
@@ -7553,11 +7552,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "No parent and child tasks on any screen, and no sum of child estimates. The progress line at src/views/TaskDetail.vue:76-88 compares the task's own logged time with its own estimate.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "TaskDetail time section: 'Subtasks: {estimate} estimated, {logged} logged' and 'Total estimate: {total}' from src/utils/taskBreakdown.js subtaskRollup over the project's time entries",
+        "reachedOn": "TaskDetail time tracking section",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-subtasks-checklist"
+        "change": "openspec/changes/archive/2026-09-29-tasks-subtasks-checklist",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7614,7 +7614,7 @@
         "kanboard": "source read at v1.2.54: app/Template/task/dropdown.php:48 'Duplicate'; app/Model/TaskDuplicationModel.php:164 copies subtasks and :59 tags; child tasks joined by links are not copied",
         "jira": "JSWSERVER-7721 'When cloning an Epic, add the option to clone the linked Stories as well', Future Consideration, 1295 votes; https://confluence.atlassian.com/jirasoftwareserver/creating-issues-and-sub-tasks-939938925.html 'Clone sub-tasks to copy existing sub-tasks' (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
@@ -7625,11 +7625,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "Neither the board card menu [src/views/ProjectBoard.vue:152-165, move targets only] nor the task detail page offers copy. No hierarchy to copy [tsk-subtasks].",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "store duplicateTask (src/store/projects.js) with duplicatePayload: 'Copy of {title}', open, description, priority, labels, lane and an unticked checklist, then each subtask under the copy; no dates, people, time, key or reporter",
+        "reachedOn": "TaskDetail Duplicate; board card menu Duplicate",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-subtasks-checklist"
+        "change": "openspec/changes/archive/2026-09-29-tasks-subtasks-checklist",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

@@ -783,7 +783,25 @@
         "Also working on this": "Työskentelee myös tämän parissa",
         "Labels": "Tunnisteet",
         "Could not change the priority. Please try again.": "Prioriteettia ei voitu muuttaa. Yritä uudelleen.",
-        "Other project members who work on this task alongside the person responsible.": "Muut projektin jäsenet, jotka työskentelevät tehtävän parissa vastuuhenkilön kanssa."
+        "Other project members who work on this task alongside the person responsible.": "Muut projektin jäsenet, jotka työskentelevät tehtävän parissa vastuuhenkilön kanssa.",
+        "Duplicate": "Monista",
+        "Could not copy the task. Please try again.": "Tehtävää ei voitu kopioida. Yritä uudelleen.",
+        "Subtasks": "Alitehtävät",
+        "{done} of {total} done": "{done}/{total} valmiina",
+        "Add a subtask": "Lisää alitehtävä",
+        "Checklist": "Tarkistuslista",
+        "Checklist item actions": "Tarkistuslistan kohdan toiminnot",
+        "Add a checklist item": "Lisää tarkistuslistan kohta",
+        "Subtasks: {estimate} estimated, {logged} logged": "Alitehtävät: {estimate} arvioitu, {logged} kirjattu",
+        "Total estimate: {total}": "Kokonaisarvio: {total}",
+        "Part of {title}": "Osa tehtävää {title}",
+        "Checklist: {count} done": "Tarkistuslista: {count} valmiina",
+        "This task has subtasks: {count}.": "Tällä tehtävällä on alitehtäviä: {count}.",
+        "Keep subtasks as separate tasks": "Säilytä alitehtävät erillisinä tehtävinä",
+        "Delete subtasks too": "Poista myös alitehtävät",
+        "Copy of {title}": "Kopio: {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Tehtävä kopioitiin, mutta ei kaikkia sen alitehtäviä. Tarkista kopio.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Pieniä vaiheita tehtävän sisällä. Jokaisella kohdalla on tunniste, teksti ja tieto siitä, onko se valmis."
     },
     "plurals": null
 }

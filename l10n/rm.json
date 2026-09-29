@@ -783,7 +783,25 @@
         "Also working on this": "Lavuran era vi",
         "Labels": "Etichettas",
         "Could not change the priority. Please try again.": "La prioritad n'ha betg pudì vegnir midada. Emprova anc ina giada.",
-        "Other project members who work on this task alongside the person responsible.": "Auters commembers dal project che lavuran vi da quest pensum ensemen cun la persuna responsabla."
+        "Other project members who work on this task alongside the person responsible.": "Auters commembers dal project che lavuran vi da quest pensum ensemen cun la persuna responsabla.",
+        "Duplicate": "Duplitgar",
+        "Could not copy the task. Please try again.": "Il pensum n'ha betg pudì vegnir copià. Emprova anc ina giada.",
+        "Subtasks": "Sutpensums",
+        "{done} of {total} done": "{done} da {total} terminads",
+        "Add a subtask": "Agiuntar in sutpensum",
+        "Checklist": "Glista da controlla",
+        "Checklist item actions": "Acziuns per l'element da la glista",
+        "Add a checklist item": "Agiuntar in element a la glista",
+        "Subtasks: {estimate} estimated, {logged} logged": "Sutpensums: {estimate} stimà, {logged} registrà",
+        "Total estimate: {total}": "Stima totala: {total}",
+        "Part of {title}": "Part da {title}",
+        "Checklist: {count} done": "Glista da controlla: {count} terminads",
+        "This task has subtasks: {count}.": "Quest pensum ha sutpensums: {count}.",
+        "Keep subtasks as separate tasks": "Tegnair ils sutpensums sco pensums separads",
+        "Delete subtasks too": "Stizzar era ils sutpensums",
+        "Copy of {title}": "Copia da {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Il pensum è vegnì copià, ma betg tut ils sutpensums. Controllescha la copia.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Pass pitschens entaifer il pensum. Mintga element ha in id, in text e sch'el è terminà."
     },
     "plurals": null
 }

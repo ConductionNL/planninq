@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "Arbejder også på dette",
         "Labels": "Etiketter",
         "Could not change the priority. Please try again.": "Prioriteten kunne ikke ændres. Prøv igen.",
-        "Other project members who work on this task alongside the person responsible.": "Andre projektmedlemmer, der arbejder på opgaven sammen med den ansvarlige."
+        "Other project members who work on this task alongside the person responsible.": "Andre projektmedlemmer, der arbejder på opgaven sammen med den ansvarlige.",
+        "Duplicate": "Dupliker",
+        "Could not copy the task. Please try again.": "Opgaven kunne ikke kopieres. Prøv igen.",
+        "Subtasks": "Underopgaver",
+        "{done} of {total} done": "{done} af {total} færdige",
+        "Add a subtask": "Tilføj en underopgave",
+        "Checklist": "Tjekliste",
+        "Checklist item actions": "Handlinger for tjeklistepunkt",
+        "Add a checklist item": "Tilføj et tjeklistepunkt",
+        "Subtasks: {estimate} estimated, {logged} logged": "Underopgaver: {estimate} estimeret, {logged} registreret",
+        "Total estimate: {total}": "Samlet estimat: {total}",
+        "Part of {title}": "Del af {title}",
+        "Checklist: {count} done": "Tjekliste: {count} færdige",
+        "This task has subtasks: {count}.": "Denne opgave har underopgaver: {count}.",
+        "Keep subtasks as separate tasks": "Behold underopgaver som separate opgaver",
+        "Delete subtasks too": "Slet også underopgaver",
+        "Copy of {title}": "Kopi af {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Opgaven blev kopieret, men ikke alle dens underopgaver. Tjek kopien.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Små trin i opgaven. Hvert punkt har et id, en tekst og om det er færdigt."
     },
     "nplurals=2; plural=(n != 1);"
 )

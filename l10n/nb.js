@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "Jobber også med dette",
         "Labels": "Etiketter",
         "Could not change the priority. Please try again.": "Prioriteten kunne ikke endres. Prøv igjen.",
-        "Other project members who work on this task alongside the person responsible.": "Andre prosjektmedlemmer som jobber med oppgaven sammen med den ansvarlige."
+        "Other project members who work on this task alongside the person responsible.": "Andre prosjektmedlemmer som jobber med oppgaven sammen med den ansvarlige.",
+        "Duplicate": "Dupliser",
+        "Could not copy the task. Please try again.": "Oppgaven kunne ikke kopieres. Prøv igjen.",
+        "Subtasks": "Deloppgaver",
+        "{done} of {total} done": "{done} av {total} ferdige",
+        "Add a subtask": "Legg til en deloppgave",
+        "Checklist": "Sjekkliste",
+        "Checklist item actions": "Handlinger for sjekklistepunkt",
+        "Add a checklist item": "Legg til et sjekklistepunkt",
+        "Subtasks: {estimate} estimated, {logged} logged": "Deloppgaver: {estimate} estimert, {logged} ført",
+        "Total estimate: {total}": "Totalt estimat: {total}",
+        "Part of {title}": "Del av {title}",
+        "Checklist: {count} done": "Sjekkliste: {count} ferdige",
+        "This task has subtasks: {count}.": "Denne oppgaven har deloppgaver: {count}.",
+        "Keep subtasks as separate tasks": "Behold deloppgavene som egne oppgaver",
+        "Delete subtasks too": "Slett også deloppgavene",
+        "Copy of {title}": "Kopi av {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Oppgaven ble kopiert, men ikke alle deloppgavene. Sjekk kopien.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Små steg i oppgaven. Hvert punkt har en id, en tekst og om det er ferdig."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -783,7 +783,25 @@
         "Also working on this": "Arbetar också med detta",
         "Labels": "Etiketter",
         "Could not change the priority. Please try again.": "Prioriteten kunde inte ändras. Försök igen.",
-        "Other project members who work on this task alongside the person responsible.": "Andra projektmedlemmar som arbetar med uppgiften tillsammans med den ansvariga."
+        "Other project members who work on this task alongside the person responsible.": "Andra projektmedlemmar som arbetar med uppgiften tillsammans med den ansvariga.",
+        "Duplicate": "Duplicera",
+        "Could not copy the task. Please try again.": "Uppgiften kunde inte kopieras. Försök igen.",
+        "Subtasks": "Deluppgifter",
+        "{done} of {total} done": "{done} av {total} klara",
+        "Add a subtask": "Lägg till en deluppgift",
+        "Checklist": "Checklista",
+        "Checklist item actions": "Åtgärder för checklistpunkt",
+        "Add a checklist item": "Lägg till en checklistpunkt",
+        "Subtasks: {estimate} estimated, {logged} logged": "Deluppgifter: {estimate} uppskattat, {logged} registrerat",
+        "Total estimate: {total}": "Total uppskattning: {total}",
+        "Part of {title}": "Del av {title}",
+        "Checklist: {count} done": "Checklista: {count} klara",
+        "This task has subtasks: {count}.": "Den här uppgiften har deluppgifter: {count}.",
+        "Keep subtasks as separate tasks": "Behåll deluppgifterna som separata uppgifter",
+        "Delete subtasks too": "Ta bort deluppgifterna också",
+        "Copy of {title}": "Kopia av {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Uppgiften kopierades, men inte alla dess deluppgifter. Kontrollera kopian.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Små steg inom uppgiften. Varje punkt har ett id, en text och om den är klar."
     },
     "plurals": null
 }

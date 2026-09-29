@@ -783,7 +783,25 @@
         "Also working on this": "На овоме раде и",
         "Labels": "Ознаке",
         "Could not change the priority. Please try again.": "Приоритет није могуће променити. Покушајте поново.",
-        "Other project members who work on this task alongside the person responsible.": "Остали чланови пројекта који на овом задатку раде заједно са одговорном особом."
+        "Other project members who work on this task alongside the person responsible.": "Остали чланови пројекта који на овом задатку раде заједно са одговорном особом.",
+        "Duplicate": "Дуплирај",
+        "Could not copy the task. Please try again.": "Задатак није могуће копирати. Покушајте поново.",
+        "Subtasks": "Подзадаци",
+        "{done} of {total} done": "Готово {done} од {total}",
+        "Add a subtask": "Додај подзадатак",
+        "Checklist": "Контролна листа",
+        "Checklist item actions": "Радње ставке листе",
+        "Add a checklist item": "Додај ставку листе",
+        "Subtasks: {estimate} estimated, {logged} logged": "Подзадаци: процена {estimate}, евидентирано {logged}",
+        "Total estimate: {total}": "Укупна процена: {total}",
+        "Part of {title}": "Део задатка {title}",
+        "Checklist: {count} done": "Контролна листа: готово {count}",
+        "This task has subtasks: {count}.": "Овај задатак има подзадатке: {count}.",
+        "Keep subtasks as separate tasks": "Задржи подзадатке као засебне задатке",
+        "Delete subtasks too": "Обриши и подзадатке",
+        "Copy of {title}": "Копија: {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Задатак је копиран, али не и сви његови подзадаци. Проверите копију.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Мали кораци унутар задатка. Свака ставка има id, текст и податак да ли је готова."
     },
     "plurals": null
 }

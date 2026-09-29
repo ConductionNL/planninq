@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "Prie to taip pat dirba",
         "Labels": "Žymos",
         "Could not change the priority. Please try again.": "Nepavyko pakeisti prioriteto. Bandykite dar kartą.",
-        "Other project members who work on this task alongside the person responsible.": "Kiti projekto nariai, kurie dirba prie šios užduoties kartu su atsakingu asmeniu."
+        "Other project members who work on this task alongside the person responsible.": "Kiti projekto nariai, kurie dirba prie šios užduoties kartu su atsakingu asmeniu.",
+        "Duplicate": "Dubliuoti",
+        "Could not copy the task. Please try again.": "Nepavyko nukopijuoti užduoties. Bandykite dar kartą.",
+        "Subtasks": "Použduotys",
+        "{done} of {total} done": "Atlikta {done} iš {total}",
+        "Add a subtask": "Pridėti použduotį",
+        "Checklist": "Kontrolinis sąrašas",
+        "Checklist item actions": "Sąrašo punkto veiksmai",
+        "Add a checklist item": "Pridėti sąrašo punktą",
+        "Subtasks: {estimate} estimated, {logged} logged": "Použduotys: įvertinta {estimate}, užregistruota {logged}",
+        "Total estimate: {total}": "Bendras įvertinimas: {total}",
+        "Part of {title}": "Užduoties {title} dalis",
+        "Checklist: {count} done": "Kontrolinis sąrašas: atlikta {count}",
+        "This task has subtasks: {count}.": "Ši užduotis turi použduočių: {count}.",
+        "Keep subtasks as separate tasks": "Palikti použduotis kaip atskiras užduotis",
+        "Delete subtasks too": "Ištrinti ir použduotis",
+        "Copy of {title}": "Kopija: {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Užduotis nukopijuota, bet ne visos jos použduotys. Patikrinkite kopiją.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Maži žingsniai užduoties viduje. Kiekvienas punktas turi id, tekstą ir žymą, ar jis atliktas."
     },
     "nplurals=2; plural=(n != 1);"
 )

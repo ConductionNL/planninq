@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "Ag obair air seo freisin",
         "Labels": "Lipéid",
         "Could not change the priority. Please try again.": "Níorbh fhéidir an tosaíocht a athrú. Bain triail eile as.",
-        "Other project members who work on this task alongside the person responsible.": "Baill eile den tionscadal atá ag obair ar an tasc seo in éineacht leis an duine freagrach."
+        "Other project members who work on this task alongside the person responsible.": "Baill eile den tionscadal atá ag obair ar an tasc seo in éineacht leis an duine freagrach.",
+        "Duplicate": "Dúblaigh",
+        "Could not copy the task. Please try again.": "Níorbh fhéidir an tasc a chóipeáil. Bain triail eile as.",
+        "Subtasks": "Fo-thascanna",
+        "{done} of {total} done": "{done} as {total} déanta",
+        "Add a subtask": "Cuir fo-thasc leis",
+        "Checklist": "Seicliosta",
+        "Checklist item actions": "Gníomhartha míre seicliosta",
+        "Add a checklist item": "Cuir mír seicliosta leis",
+        "Subtasks: {estimate} estimated, {logged} logged": "Fo-thascanna: {estimate} measta, {logged} logáilte",
+        "Total estimate: {total}": "Meastachán iomlán: {total}",
+        "Part of {title}": "Cuid de {title}",
+        "Checklist: {count} done": "Seicliosta: {count} déanta",
+        "This task has subtasks: {count}.": "Tá fo-thascanna ag an tasc seo: {count}.",
+        "Keep subtasks as separate tasks": "Coinnigh na fo-thascanna mar thascanna ar leith",
+        "Delete subtasks too": "Scrios na fo-thascanna freisin",
+        "Copy of {title}": "Cóip de {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Cóipeáladh an tasc, ach ní a fo-thascanna go léir. Seiceáil an chóip.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Céimeanna beaga laistigh den tasc. Tá aitheantas, téacs agus stádas déanta ag gach mír."
     },
     "nplurals=2; plural=(n != 1);"
 )

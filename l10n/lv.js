@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "Pie šī strādā arī",
         "Labels": "Etiķetes",
         "Could not change the priority. Please try again.": "Prioritāti neizdevās mainīt. Mēģiniet vēlreiz.",
-        "Other project members who work on this task alongside the person responsible.": "Citi projekta dalībnieki, kas strādā pie šī uzdevuma kopā ar atbildīgo."
+        "Other project members who work on this task alongside the person responsible.": "Citi projekta dalībnieki, kas strādā pie šī uzdevuma kopā ar atbildīgo.",
+        "Duplicate": "Dublēt",
+        "Could not copy the task. Please try again.": "Uzdevumu neizdevās kopēt. Mēģiniet vēlreiz.",
+        "Subtasks": "Apakšuzdevumi",
+        "{done} of {total} done": "Pabeigti {done} no {total}",
+        "Add a subtask": "Pievienot apakšuzdevumu",
+        "Checklist": "Kontrolsaraksts",
+        "Checklist item actions": "Saraksta vienuma darbības",
+        "Add a checklist item": "Pievienot saraksta vienumu",
+        "Subtasks: {estimate} estimated, {logged} logged": "Apakšuzdevumi: novērtēts {estimate}, reģistrēts {logged}",
+        "Total estimate: {total}": "Kopējais novērtējums: {total}",
+        "Part of {title}": "Daļa no {title}",
+        "Checklist: {count} done": "Kontrolsaraksts: pabeigti {count}",
+        "This task has subtasks: {count}.": "Šim uzdevumam ir apakšuzdevumi: {count}.",
+        "Keep subtasks as separate tasks": "Paturēt apakšuzdevumus kā atsevišķus uzdevumus",
+        "Delete subtasks too": "Dzēst arī apakšuzdevumus",
+        "Copy of {title}": "Kopija: {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Uzdevums tika nokopēts, bet ne visi tā apakšuzdevumi. Pārbaudiet kopiju.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Nelieli soļi uzdevuma ietvaros. Katram vienumam ir id, teksts un vai tas ir pabeigts."
     },
     "nplurals=2; plural=(n != 1);"
 )

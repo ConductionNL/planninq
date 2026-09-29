@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "Pracujú na tom aj",
         "Labels": "Štítky",
         "Could not change the priority. Please try again.": "Prioritu sa nepodarilo zmeniť. Skúste to znova.",
-        "Other project members who work on this task alongside the person responsible.": "Ďalší členovia projektu, ktorí na úlohe pracujú spolu so zodpovednou osobou."
+        "Other project members who work on this task alongside the person responsible.": "Ďalší členovia projektu, ktorí na úlohe pracujú spolu so zodpovednou osobou.",
+        "Duplicate": "Duplikovať",
+        "Could not copy the task. Please try again.": "Úlohu sa nepodarilo skopírovať. Skúste to znova.",
+        "Subtasks": "Podúlohy",
+        "{done} of {total} done": "Hotové {done} z {total}",
+        "Add a subtask": "Pridať podúlohu",
+        "Checklist": "Kontrolný zoznam",
+        "Checklist item actions": "Akcie položky zoznamu",
+        "Add a checklist item": "Pridať položku zoznamu",
+        "Subtasks: {estimate} estimated, {logged} logged": "Podúlohy: odhad {estimate}, zaznamenané {logged}",
+        "Total estimate: {total}": "Celkový odhad: {total}",
+        "Part of {title}": "Súčasť úlohy {title}",
+        "Checklist: {count} done": "Kontrolný zoznam: hotové {count}",
+        "This task has subtasks: {count}.": "Táto úloha má podúlohy: {count}.",
+        "Keep subtasks as separate tasks": "Ponechať podúlohy ako samostatné úlohy",
+        "Delete subtasks too": "Odstrániť aj podúlohy",
+        "Copy of {title}": "Kópia: {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Úloha bola skopírovaná, ale nie všetky jej podúlohy. Skontrolujte kópiu.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Malé kroky v rámci úlohy. Každá položka má id, text a informáciu, či je hotová."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "Vinnur líka að þessu",
         "Labels": "Merki",
         "Could not change the priority. Please try again.": "Ekki tókst að breyta forgangi. Reyndu aftur.",
-        "Other project members who work on this task alongside the person responsible.": "Aðrir meðlimir verkefnisins sem vinna að þessu verkefni með ábyrgðaraðilanum."
+        "Other project members who work on this task alongside the person responsible.": "Aðrir meðlimir verkefnisins sem vinna að þessu verkefni með ábyrgðaraðilanum.",
+        "Duplicate": "Tvítaka",
+        "Could not copy the task. Please try again.": "Ekki tókst að afrita verkefnið. Reyndu aftur.",
+        "Subtasks": "Undirverkefni",
+        "{done} of {total} done": "{done} af {total} lokið",
+        "Add a subtask": "Bæta við undirverkefni",
+        "Checklist": "Gátlisti",
+        "Checklist item actions": "Aðgerðir fyrir atriði á gátlista",
+        "Add a checklist item": "Bæta atriði á gátlista",
+        "Subtasks: {estimate} estimated, {logged} logged": "Undirverkefni: {estimate} áætlað, {logged} skráð",
+        "Total estimate: {total}": "Heildaráætlun: {total}",
+        "Part of {title}": "Hluti af {title}",
+        "Checklist: {count} done": "Gátlisti: {count} lokið",
+        "This task has subtasks: {count}.": "Þetta verkefni hefur undirverkefni: {count}.",
+        "Keep subtasks as separate tasks": "Halda undirverkefnum sem sérstökum verkefnum",
+        "Delete subtasks too": "Eyða undirverkefnum líka",
+        "Copy of {title}": "Afrit af {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Verkefnið var afritað, en ekki öll undirverkefni þess. Athugaðu afritið.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Lítil skref innan verkefnisins. Hvert atriði hefur auðkenni, texta og hvort því sé lokið."
     },
     "nplurals=2; plural=(n != 1);"
 )

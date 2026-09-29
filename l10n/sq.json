@@ -783,7 +783,25 @@
         "Also working on this": "Punojnë gjithashtu për këtë",
         "Labels": "Etiketa",
         "Could not change the priority. Please try again.": "Përparësia nuk u ndryshua dot. Provoni sërish.",
-        "Other project members who work on this task alongside the person responsible.": "Anëtarë të tjerë të projektit që punojnë për këtë detyrë bashkë me përgjegjësin."
+        "Other project members who work on this task alongside the person responsible.": "Anëtarë të tjerë të projektit që punojnë për këtë detyrë bashkë me përgjegjësin.",
+        "Duplicate": "Dyfisho",
+        "Could not copy the task. Please try again.": "Detyra nuk u kopjua dot. Provoni sërish.",
+        "Subtasks": "Nëndetyra",
+        "{done} of {total} done": "{done} nga {total} të kryera",
+        "Add a subtask": "Shto një nëndetyrë",
+        "Checklist": "Listë kontrolli",
+        "Checklist item actions": "Veprime për elementin e listës",
+        "Add a checklist item": "Shto një element në listë",
+        "Subtasks: {estimate} estimated, {logged} logged": "Nëndetyra: {estimate} vlerësuar, {logged} regjistruar",
+        "Total estimate: {total}": "Vlerësimi total: {total}",
+        "Part of {title}": "Pjesë e {title}",
+        "Checklist: {count} done": "Listë kontrolli: {count} të kryera",
+        "This task has subtasks: {count}.": "Kjo detyrë ka nëndetyra: {count}.",
+        "Keep subtasks as separate tasks": "Mbaji nëndetyrat si detyra të veçanta",
+        "Delete subtasks too": "Fshi edhe nëndetyrat",
+        "Copy of {title}": "Kopje e {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Detyra u kopjua, por jo të gjitha nëndetyrat e saj. Kontrolloni kopjen.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Hapa të vegjël brenda detyrës. Çdo element ka një id, një tekst dhe nëse është kryer."
     },
     "plurals": {}
 }

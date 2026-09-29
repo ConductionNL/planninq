@@ -783,7 +783,25 @@
         "Also working on this": "Работят и по това",
         "Labels": "Етикети",
         "Could not change the priority. Please try again.": "Приоритетът не можа да бъде променен. Опитайте отново.",
-        "Other project members who work on this task alongside the person responsible.": "Други членове на проекта, които работят по задачата заедно с отговорника."
+        "Other project members who work on this task alongside the person responsible.": "Други членове на проекта, които работят по задачата заедно с отговорника.",
+        "Duplicate": "Дублиране",
+        "Could not copy the task. Please try again.": "Задачата не можа да бъде копирана. Опитайте отново.",
+        "Subtasks": "Подзадачи",
+        "{done} of {total} done": "Завършени {done} от {total}",
+        "Add a subtask": "Добавяне на подзадача",
+        "Checklist": "Контролен списък",
+        "Checklist item actions": "Действия за елемента от списъка",
+        "Add a checklist item": "Добавяне на елемент в списъка",
+        "Subtasks: {estimate} estimated, {logged} logged": "Подзадачи: {estimate} оценка, {logged} отчетено",
+        "Total estimate: {total}": "Обща оценка: {total}",
+        "Part of {title}": "Част от {title}",
+        "Checklist: {count} done": "Контролен списък: {count} завършени",
+        "This task has subtasks: {count}.": "Тази задача има подзадачи: {count}.",
+        "Keep subtasks as separate tasks": "Запазване на подзадачите като отделни задачи",
+        "Delete subtasks too": "Изтриване и на подзадачите",
+        "Copy of {title}": "Копие на {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Задачата беше копирана, но не всички нейни подзадачи. Проверете копието.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Малки стъпки в задачата. Всеки елемент има id, текст и дали е завършен."
     },
     "plurals": null
 }

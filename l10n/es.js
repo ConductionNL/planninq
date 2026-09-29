@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "También trabajan en esto",
         "Labels": "Etiquetas",
         "Could not change the priority. Please try again.": "No se pudo cambiar la prioridad. Inténtalo de nuevo.",
-        "Other project members who work on this task alongside the person responsible.": "Otros miembros del proyecto que trabajan en esta tarea junto a la persona responsable."
+        "Other project members who work on this task alongside the person responsible.": "Otros miembros del proyecto que trabajan en esta tarea junto a la persona responsable.",
+        "Duplicate": "Duplicar",
+        "Could not copy the task. Please try again.": "No se pudo copiar la tarea. Inténtalo de nuevo.",
+        "Subtasks": "Subtareas",
+        "{done} of {total} done": "{done} de {total} hechas",
+        "Add a subtask": "Añadir una subtarea",
+        "Checklist": "Lista de comprobación",
+        "Checklist item actions": "Acciones del elemento de la lista",
+        "Add a checklist item": "Añadir un elemento a la lista",
+        "Subtasks: {estimate} estimated, {logged} logged": "Subtareas: {estimate} estimado, {logged} registrado",
+        "Total estimate: {total}": "Estimación total: {total}",
+        "Part of {title}": "Parte de {title}",
+        "Checklist: {count} done": "Lista de comprobación: {count} hechos",
+        "This task has subtasks: {count}.": "Esta tarea tiene subtareas: {count}.",
+        "Keep subtasks as separate tasks": "Conservar las subtareas como tareas independientes",
+        "Delete subtasks too": "Eliminar también las subtareas",
+        "Copy of {title}": "Copia de {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "La tarea se copió, pero no todas sus subtareas. Revisa la copia.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Pequeños pasos dentro de la tarea. Cada elemento tiene un id, un texto y si está hecho."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -783,7 +783,25 @@
         "Also working on this": "Szintén dolgoznak rajta",
         "Labels": "Címkék",
         "Could not change the priority. Please try again.": "A prioritást nem sikerült módosítani. Próbálja újra.",
-        "Other project members who work on this task alongside the person responsible.": "A projekt további tagjai, akik a felelőssel együtt dolgoznak ezen a feladaton."
+        "Other project members who work on this task alongside the person responsible.": "A projekt további tagjai, akik a felelőssel együtt dolgoznak ezen a feladaton.",
+        "Duplicate": "Másolat készítése",
+        "Could not copy the task. Please try again.": "A feladatot nem sikerült másolni. Próbálja újra.",
+        "Subtasks": "Részfeladatok",
+        "{done} of {total} done": "{done} / {total} kész",
+        "Add a subtask": "Részfeladat hozzáadása",
+        "Checklist": "Ellenőrzőlista",
+        "Checklist item actions": "Listaelem műveletei",
+        "Add a checklist item": "Listaelem hozzáadása",
+        "Subtasks: {estimate} estimated, {logged} logged": "Részfeladatok: {estimate} becsült, {logged} rögzített",
+        "Total estimate: {total}": "Teljes becslés: {total}",
+        "Part of {title}": "A(z) {title} része",
+        "Checklist: {count} done": "Ellenőrzőlista: {count} kész",
+        "This task has subtasks: {count}.": "Ennek a feladatnak részfeladatai vannak: {count}.",
+        "Keep subtasks as separate tasks": "Részfeladatok megtartása különálló feladatként",
+        "Delete subtasks too": "Részfeladatok törlése is",
+        "Copy of {title}": "Másolat: {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "A feladat másolása megtörtént, de nem az összes részfeladaté. Ellenőrizze a másolatot.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Kis lépések a feladaton belül. Minden elemnek van azonosítója, szövege és jelzése, hogy kész-e."
     },
     "plurals": null
 }

@@ -783,7 +783,25 @@
         "Also working on this": "També hi treballen",
         "Labels": "Etiquetes",
         "Could not change the priority. Please try again.": "No s'ha pogut canviar la prioritat. Torneu-ho a provar.",
-        "Other project members who work on this task alongside the person responsible.": "Altres membres del projecte que treballen en aquesta tasca amb la persona responsable."
+        "Other project members who work on this task alongside the person responsible.": "Altres membres del projecte que treballen en aquesta tasca amb la persona responsable.",
+        "Duplicate": "Duplica",
+        "Could not copy the task. Please try again.": "No s'ha pogut copiar la tasca. Torneu-ho a provar.",
+        "Subtasks": "Subtasques",
+        "{done} of {total} done": "{done} de {total} fetes",
+        "Add a subtask": "Afegeix una subtasca",
+        "Checklist": "Llista de comprovació",
+        "Checklist item actions": "Accions de l'element de la llista",
+        "Add a checklist item": "Afegeix un element a la llista",
+        "Subtasks: {estimate} estimated, {logged} logged": "Subtasques: {estimate} estimat, {logged} registrat",
+        "Total estimate: {total}": "Estimació total: {total}",
+        "Part of {title}": "Part de {title}",
+        "Checklist: {count} done": "Llista de comprovació: {count} fets",
+        "This task has subtasks: {count}.": "Aquesta tasca té subtasques: {count}.",
+        "Keep subtasks as separate tasks": "Conserva les subtasques com a tasques separades",
+        "Delete subtasks too": "Suprimeix també les subtasques",
+        "Copy of {title}": "Còpia de {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "La tasca s'ha copiat, però no totes les subtasques. Reviseu la còpia.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Passos petits dins de la tasca. Cada element té un id, un text i si està fet."
     },
     "plurals": null
 }

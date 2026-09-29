@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "Εργάζονται επίσης σε αυτό",
         "Labels": "Ετικέτες",
         "Could not change the priority. Please try again.": "Δεν ήταν δυνατή η αλλαγή της προτεραιότητας. Δοκιμάστε ξανά.",
-        "Other project members who work on this task alongside the person responsible.": "Άλλα μέλη του έργου που εργάζονται σε αυτή την εργασία μαζί με τον υπεύθυνο."
+        "Other project members who work on this task alongside the person responsible.": "Άλλα μέλη του έργου που εργάζονται σε αυτή την εργασία μαζί με τον υπεύθυνο.",
+        "Duplicate": "Αντιγραφή",
+        "Could not copy the task. Please try again.": "Δεν ήταν δυνατή η αντιγραφή της εργασίας. Δοκιμάστε ξανά.",
+        "Subtasks": "Υποεργασίες",
+        "{done} of {total} done": "{done} από {total} ολοκληρωμένες",
+        "Add a subtask": "Προσθήκη υποεργασίας",
+        "Checklist": "Λίστα ελέγχου",
+        "Checklist item actions": "Ενέργειες στοιχείου λίστας",
+        "Add a checklist item": "Προσθήκη στοιχείου λίστας",
+        "Subtasks: {estimate} estimated, {logged} logged": "Υποεργασίες: {estimate} εκτίμηση, {logged} καταγεγραμμένα",
+        "Total estimate: {total}": "Συνολική εκτίμηση: {total}",
+        "Part of {title}": "Μέρος της {title}",
+        "Checklist: {count} done": "Λίστα ελέγχου: {count} ολοκληρωμένα",
+        "This task has subtasks: {count}.": "Αυτή η εργασία έχει υποεργασίες: {count}.",
+        "Keep subtasks as separate tasks": "Διατήρηση των υποεργασιών ως ξεχωριστών εργασιών",
+        "Delete subtasks too": "Διαγραφή και των υποεργασιών",
+        "Copy of {title}": "Αντίγραφο της {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Η εργασία αντιγράφηκε, αλλά όχι όλες οι υποεργασίες της. Ελέγξτε το αντίγραφο.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Μικρά βήματα μέσα στην εργασία. Κάθε στοιχείο έχει αναγνωριστικό, κείμενο και αν έχει ολοκληρωθεί."
     },
     "nplurals=2; plural=(n != 1);"
 )

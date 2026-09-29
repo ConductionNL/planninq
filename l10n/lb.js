@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "Schaffen och dorun",
         "Labels": "Etiketten",
         "Could not change the priority. Please try again.": "D'Prioritéit konnt net geännert ginn. Probéiert w.e.g. nach eng Kéier.",
-        "Other project members who work on this task alongside the person responsible.": "Aner Projetsmemberen, déi mat der verantwortlecher Persoun un dëser Aufgab schaffen."
+        "Other project members who work on this task alongside the person responsible.": "Aner Projetsmemberen, déi mat der verantwortlecher Persoun un dëser Aufgab schaffen.",
+        "Duplicate": "Duplizéieren",
+        "Could not copy the task. Please try again.": "D'Aufgab konnt net kopéiert ginn. Probéiert w.e.g. nach eng Kéier.",
+        "Subtasks": "Ënneraufgaben",
+        "{done} of {total} done": "{done} vun {total} fäerdeg",
+        "Add a subtask": "Ënneraufgab derbäisetzen",
+        "Checklist": "Checklëscht",
+        "Checklist item actions": "Aktioune fir de Lëschtenelement",
+        "Add a checklist item": "Element op d'Checklëscht setzen",
+        "Subtasks: {estimate} estimated, {logged} logged": "Ënneraufgaben: {estimate} geschat, {logged} agedroen",
+        "Total estimate: {total}": "Gesamtschätzung: {total}",
+        "Part of {title}": "Deel vun {title}",
+        "Checklist: {count} done": "Checklëscht: {count} fäerdeg",
+        "This task has subtasks: {count}.": "Dës Aufgab huet Ënneraufgaben: {count}.",
+        "Keep subtasks as separate tasks": "Ënneraufgaben als eege Aufgabe behalen",
+        "Delete subtasks too": "Ënneraufgaben och läschen",
+        "Copy of {title}": "Kopie vun {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "D'Aufgab gouf kopéiert, awer net all hir Ënneraufgaben. Kontrolléiert d'Kopie.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Kleng Schrëtt an der Aufgab. All Element huet eng ID, en Text an ob et fäerdeg ass."
     },
     "nplurals=2; plural=(n != 1);"
 )

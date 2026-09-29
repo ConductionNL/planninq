@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "Também trabalham nisto",
         "Labels": "Etiquetas",
         "Could not change the priority. Please try again.": "Não foi possível alterar a prioridade. Tente novamente.",
-        "Other project members who work on this task alongside the person responsible.": "Outros membros do projeto que trabalham nesta tarefa com a pessoa responsável."
+        "Other project members who work on this task alongside the person responsible.": "Outros membros do projeto que trabalham nesta tarefa com a pessoa responsável.",
+        "Duplicate": "Duplicar",
+        "Could not copy the task. Please try again.": "Não foi possível copiar a tarefa. Tente novamente.",
+        "Subtasks": "Subtarefas",
+        "{done} of {total} done": "{done} de {total} concluídas",
+        "Add a subtask": "Adicionar uma subtarefa",
+        "Checklist": "Lista de verificação",
+        "Checklist item actions": "Ações do item da lista",
+        "Add a checklist item": "Adicionar um item à lista",
+        "Subtasks: {estimate} estimated, {logged} logged": "Subtarefas: {estimate} estimado, {logged} registado",
+        "Total estimate: {total}": "Estimativa total: {total}",
+        "Part of {title}": "Parte de {title}",
+        "Checklist: {count} done": "Lista de verificação: {count} concluídos",
+        "This task has subtasks: {count}.": "Esta tarefa tem subtarefas: {count}.",
+        "Keep subtasks as separate tasks": "Manter as subtarefas como tarefas separadas",
+        "Delete subtasks too": "Eliminar também as subtarefas",
+        "Copy of {title}": "Cópia de {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "A tarefa foi copiada, mas não todas as suas subtarefas. Verifique a cópia.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Pequenos passos dentro da tarefa. Cada item tem um id, um texto e se está concluído."
     },
     "nplurals=2; plural=(n != 1);"
 )

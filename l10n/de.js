@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "Arbeitet auch daran",
         "Labels": "Labels",
         "Could not change the priority. Please try again.": "Die Priorität konnte nicht geändert werden. Bitte versuche es erneut.",
-        "Other project members who work on this task alongside the person responsible.": "Weitere Projektmitglieder, die mit der verantwortlichen Person an dieser Aufgabe arbeiten."
+        "Other project members who work on this task alongside the person responsible.": "Weitere Projektmitglieder, die mit der verantwortlichen Person an dieser Aufgabe arbeiten.",
+        "Duplicate": "Duplizieren",
+        "Could not copy the task. Please try again.": "Die Aufgabe konnte nicht kopiert werden. Bitte versuche es erneut.",
+        "Subtasks": "Unteraufgaben",
+        "{done} of {total} done": "{done} von {total} erledigt",
+        "Add a subtask": "Unteraufgabe hinzufügen",
+        "Checklist": "Checkliste",
+        "Checklist item actions": "Aktionen für Checklisteneintrag",
+        "Add a checklist item": "Checklisteneintrag hinzufügen",
+        "Subtasks: {estimate} estimated, {logged} logged": "Unteraufgaben: {estimate} geschätzt, {logged} gebucht",
+        "Total estimate: {total}": "Gesamtschätzung: {total}",
+        "Part of {title}": "Teil von {title}",
+        "Checklist: {count} done": "Checkliste: {count} erledigt",
+        "This task has subtasks: {count}.": "Diese Aufgabe hat Unteraufgaben: {count}.",
+        "Keep subtasks as separate tasks": "Unteraufgaben als eigene Aufgaben behalten",
+        "Delete subtasks too": "Unteraufgaben ebenfalls löschen",
+        "Copy of {title}": "Kopie von {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Die Aufgabe wurde kopiert, aber nicht alle Unteraufgaben. Bitte prüfe die Kopie.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Kleine Schritte innerhalb der Aufgabe. Jeder Eintrag hat eine ID, einen Text und ob er erledigt ist."
     },
     "nplurals=2; plural=(n != 1);"
 )

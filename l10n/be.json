@@ -783,7 +783,25 @@
         "Also working on this": "Таксама працуюць над гэтым",
         "Labels": "Меткі",
         "Could not change the priority. Please try again.": "Не ўдалося змяніць прыярытэт. Паспрабуйце яшчэ раз.",
-        "Other project members who work on this task alongside the person responsible.": "Іншыя ўдзельнікі праекта, якія працуюць над задачай разам з адказным."
+        "Other project members who work on this task alongside the person responsible.": "Іншыя ўдзельнікі праекта, якія працуюць над задачай разам з адказным.",
+        "Duplicate": "Дубляваць",
+        "Could not copy the task. Please try again.": "Не ўдалося скапіяваць задачу. Паспрабуйце яшчэ раз.",
+        "Subtasks": "Падзадачы",
+        "{done} of {total} done": "Выканана {done} з {total}",
+        "Add a subtask": "Дадаць падзадачу",
+        "Checklist": "Чэк-ліст",
+        "Checklist item actions": "Дзеянні з пунктам чэк-ліста",
+        "Add a checklist item": "Дадаць пункт чэк-ліста",
+        "Subtasks: {estimate} estimated, {logged} logged": "Падзадачы: ацэнка {estimate}, улічана {logged}",
+        "Total estimate: {total}": "Агульная ацэнка: {total}",
+        "Part of {title}": "Частка задачы {title}",
+        "Checklist: {count} done": "Чэк-ліст: выканана {count}",
+        "This task has subtasks: {count}.": "У гэтай задачы ёсць падзадачы: {count}.",
+        "Keep subtasks as separate tasks": "Пакінуць падзадачы асобнымі задачамі",
+        "Delete subtasks too": "Выдаліць і падзадачы",
+        "Copy of {title}": "Копія: {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Задача скапіявана, але не ўсе яе падзадачы. Праверце копію.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Невялікія крокі ўнутры задачы. У кожнага пункта ёсць id, тэкст і адзнака аб выкананні."
     },
     "plurals": {}
 }

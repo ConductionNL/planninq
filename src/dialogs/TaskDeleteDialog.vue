@@ -10,7 +10,7 @@
 						{{ t('planninq', 'Delete "{title}"? Its links to other tasks are removed too. This cannot be undone.', { title: task.title }) }}
 					</p>
 					<p v-if="subtasks.length" data-testid="task-delete-has-subtasks">
-						{{ n('planninq', 'This task has {count} subtask.', 'This task has {count} subtasks.', subtasks.length, { count: subtasks.length }) }}
+						{{ t('planninq', 'This task has subtasks: {count}.', { count: subtasks.length }) }}
 					</p>
 				</template>
 				<div v-if="submitError" class="task-delete-dialog__error" role="alert">

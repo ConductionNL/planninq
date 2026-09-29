@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "Pri tem sodelujejo tudi",
         "Labels": "Oznake",
         "Could not change the priority. Please try again.": "Prioritete ni bilo mogoče spremeniti. Poskusite znova.",
-        "Other project members who work on this task alongside the person responsible.": "Drugi člani projekta, ki pri tej nalogi sodelujejo z odgovorno osebo."
+        "Other project members who work on this task alongside the person responsible.": "Drugi člani projekta, ki pri tej nalogi sodelujejo z odgovorno osebo.",
+        "Duplicate": "Podvoji",
+        "Could not copy the task. Please try again.": "Naloge ni bilo mogoče kopirati. Poskusite znova.",
+        "Subtasks": "Podnaloge",
+        "{done} of {total} done": "Končano {done} od {total}",
+        "Add a subtask": "Dodaj podnalogo",
+        "Checklist": "Kontrolni seznam",
+        "Checklist item actions": "Dejanja elementa seznama",
+        "Add a checklist item": "Dodaj element seznama",
+        "Subtasks: {estimate} estimated, {logged} logged": "Podnaloge: ocena {estimate}, zabeleženo {logged}",
+        "Total estimate: {total}": "Skupna ocena: {total}",
+        "Part of {title}": "Del naloge {title}",
+        "Checklist: {count} done": "Kontrolni seznam: končano {count}",
+        "This task has subtasks: {count}.": "Ta naloga ima podnaloge: {count}.",
+        "Keep subtasks as separate tasks": "Obdrži podnaloge kot ločene naloge",
+        "Delete subtasks too": "Izbriši tudi podnaloge",
+        "Copy of {title}": "Kopija: {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Naloga je bila kopirana, a ne vse njene podnaloge. Preverite kopijo.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Majhni koraki znotraj naloge. Vsak element ima id, besedilo in podatek, ali je končan."
     },
     "nplurals=2; plural=(n != 1);"
 )

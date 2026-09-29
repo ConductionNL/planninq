@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "Na ovome rade i",
         "Labels": "Oznake",
         "Could not change the priority. Please try again.": "Prioritet nije moguće promijeniti. Pokušajte ponovo.",
-        "Other project members who work on this task alongside the person responsible.": "Ostali članovi projekta koji na ovom zadatku rade zajedno s odgovornom osobom."
+        "Other project members who work on this task alongside the person responsible.": "Ostali članovi projekta koji na ovom zadatku rade zajedno s odgovornom osobom.",
+        "Duplicate": "Dupliciraj",
+        "Could not copy the task. Please try again.": "Zadatak nije moguće kopirati. Pokušajte ponovo.",
+        "Subtasks": "Podzadaci",
+        "{done} of {total} done": "Gotovo {done} od {total}",
+        "Add a subtask": "Dodaj podzadatak",
+        "Checklist": "Kontrolna lista",
+        "Checklist item actions": "Radnje stavke liste",
+        "Add a checklist item": "Dodaj stavku liste",
+        "Subtasks: {estimate} estimated, {logged} logged": "Podzadaci: procjena {estimate}, evidentirano {logged}",
+        "Total estimate: {total}": "Ukupna procjena: {total}",
+        "Part of {title}": "Dio zadatka {title}",
+        "Checklist: {count} done": "Kontrolna lista: gotovo {count}",
+        "This task has subtasks: {count}.": "Ovaj zadatak ima podzadatke: {count}.",
+        "Keep subtasks as separate tasks": "Zadrži podzadatke kao zasebne zadatke",
+        "Delete subtasks too": "Izbriši i podzadatke",
+        "Copy of {title}": "Kopija: {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Zadatak je kopiran, ali ne i svi njegovi podzadaci. Provjerite kopiju.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Mali koraci unutar zadatka. Svaka stavka ima id, tekst i podatak da li je gotova."
     },
     "nplurals=2; plural=(n != 1);"
 )

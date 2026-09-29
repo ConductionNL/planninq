@@ -783,7 +783,25 @@
         "Also working on this": "Qed jaħdmu fuqu wkoll",
         "Labels": "Tikketti",
         "Could not change the priority. Please try again.": "Il-prijorità ma setgħetx tinbidel. Erġa' pprova.",
-        "Other project members who work on this task alongside the person responsible.": "Membri oħra tal-proġett li qed jaħdmu fuq dan il-kompitu flimkien mar-responsabbli."
+        "Other project members who work on this task alongside the person responsible.": "Membri oħra tal-proġett li qed jaħdmu fuq dan il-kompitu flimkien mar-responsabbli.",
+        "Duplicate": "Iddoppja",
+        "Could not copy the task. Please try again.": "Il-kompitu ma setax jiġi kkupjat. Erġa' pprova.",
+        "Subtasks": "Sottokompiti",
+        "{done} of {total} done": "{done} minn {total} lesti",
+        "Add a subtask": "Żid sottokompitu",
+        "Checklist": "Lista ta' kontroll",
+        "Checklist item actions": "Azzjonijiet tal-oġġett tal-lista",
+        "Add a checklist item": "Żid oġġett fil-lista",
+        "Subtasks: {estimate} estimated, {logged} logged": "Sottokompiti: {estimate} stmati, {logged} irreġistrati",
+        "Total estimate: {total}": "Stima totali: {total}",
+        "Part of {title}": "Parti minn {title}",
+        "Checklist: {count} done": "Lista ta' kontroll: {count} lesti",
+        "This task has subtasks: {count}.": "Dan il-kompitu għandu sottokompiti: {count}.",
+        "Keep subtasks as separate tasks": "Żomm is-sottokompiti bħala kompiti separati",
+        "Delete subtasks too": "Ħassar is-sottokompiti wkoll",
+        "Copy of {title}": "Kopja ta' {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Il-kompitu ġie kkupjat, iżda mhux is-sottokompiti kollha tiegħu. Iċċekkja l-kopja.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Passi żgħar fi ħdan il-kompitu. Kull oġġett għandu id, test u jekk huwiex lest."
     },
     "plurals": {}
 }

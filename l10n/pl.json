@@ -783,7 +783,25 @@
         "Also working on this": "Pracują nad tym także",
         "Labels": "Etykiety",
         "Could not change the priority. Please try again.": "Nie udało się zmienić priorytetu. Spróbuj ponownie.",
-        "Other project members who work on this task alongside the person responsible.": "Inni członkowie projektu, którzy pracują nad tym zadaniem razem z osobą odpowiedzialną."
+        "Other project members who work on this task alongside the person responsible.": "Inni członkowie projektu, którzy pracują nad tym zadaniem razem z osobą odpowiedzialną.",
+        "Duplicate": "Duplikuj",
+        "Could not copy the task. Please try again.": "Nie udało się skopiować zadania. Spróbuj ponownie.",
+        "Subtasks": "Podzadania",
+        "{done} of {total} done": "Ukończono {done} z {total}",
+        "Add a subtask": "Dodaj podzadanie",
+        "Checklist": "Lista kontrolna",
+        "Checklist item actions": "Działania elementu listy",
+        "Add a checklist item": "Dodaj element listy kontrolnej",
+        "Subtasks: {estimate} estimated, {logged} logged": "Podzadania: szacowane {estimate}, zarejestrowane {logged}",
+        "Total estimate: {total}": "Łączne oszacowanie: {total}",
+        "Part of {title}": "Część zadania {title}",
+        "Checklist: {count} done": "Lista kontrolna: ukończono {count}",
+        "This task has subtasks: {count}.": "To zadanie ma podzadania: {count}.",
+        "Keep subtasks as separate tasks": "Zachowaj podzadania jako osobne zadania",
+        "Delete subtasks too": "Usuń również podzadania",
+        "Copy of {title}": "Kopia: {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Zadanie zostało skopiowane, ale nie wszystkie jego podzadania. Sprawdź kopię.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Małe kroki w ramach zadania. Każdy element ma identyfikator, tekst i informację, czy jest ukończony."
     },
     "plurals": {}
 }

@@ -783,7 +783,25 @@
         "Also working on this": "Также работают над этим",
         "Labels": "Метки",
         "Could not change the priority. Please try again.": "Не удалось изменить приоритет. Попробуйте ещё раз.",
-        "Other project members who work on this task alongside the person responsible.": "Другие участники проекта, которые работают над задачей вместе с ответственным."
+        "Other project members who work on this task alongside the person responsible.": "Другие участники проекта, которые работают над задачей вместе с ответственным.",
+        "Duplicate": "Дублировать",
+        "Could not copy the task. Please try again.": "Не удалось скопировать задачу. Попробуйте ещё раз.",
+        "Subtasks": "Подзадачи",
+        "{done} of {total} done": "Выполнено {done} из {total}",
+        "Add a subtask": "Добавить подзадачу",
+        "Checklist": "Чек-лист",
+        "Checklist item actions": "Действия с пунктом чек-листа",
+        "Add a checklist item": "Добавить пункт чек-листа",
+        "Subtasks: {estimate} estimated, {logged} logged": "Подзадачи: оценка {estimate}, учтено {logged}",
+        "Total estimate: {total}": "Общая оценка: {total}",
+        "Part of {title}": "Часть задачи {title}",
+        "Checklist: {count} done": "Чек-лист: выполнено {count}",
+        "This task has subtasks: {count}.": "У этой задачи есть подзадачи: {count}.",
+        "Keep subtasks as separate tasks": "Оставить подзадачи отдельными задачами",
+        "Delete subtasks too": "Удалить и подзадачи",
+        "Copy of {title}": "Копия: {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Задача скопирована, но не все её подзадачи. Проверьте копию.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Небольшие шаги внутри задачи. У каждого пункта есть id, текст и отметка о выполнении."
     },
     "plurals": {}
 }

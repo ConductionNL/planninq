@@ -784,7 +784,25 @@ OC.L10N.register(
         "Also working on this": "Також працюють над цим",
         "Labels": "Мітки",
         "Could not change the priority. Please try again.": "Не вдалося змінити пріоритет. Спробуйте ще раз.",
-        "Other project members who work on this task alongside the person responsible.": "Інші учасники проєкту, які працюють над завданням разом із відповідальним."
+        "Other project members who work on this task alongside the person responsible.": "Інші учасники проєкту, які працюють над завданням разом із відповідальним.",
+        "Duplicate": "Дублювати",
+        "Could not copy the task. Please try again.": "Не вдалося скопіювати завдання. Спробуйте ще раз.",
+        "Subtasks": "Підзавдання",
+        "{done} of {total} done": "Виконано {done} з {total}",
+        "Add a subtask": "Додати підзавдання",
+        "Checklist": "Чек-лист",
+        "Checklist item actions": "Дії з пунктом чек-листа",
+        "Add a checklist item": "Додати пункт чек-листа",
+        "Subtasks: {estimate} estimated, {logged} logged": "Підзавдання: оцінка {estimate}, обліковано {logged}",
+        "Total estimate: {total}": "Загальна оцінка: {total}",
+        "Part of {title}": "Частина завдання {title}",
+        "Checklist: {count} done": "Чек-лист: виконано {count}",
+        "This task has subtasks: {count}.": "Це завдання має підзавдання: {count}.",
+        "Keep subtasks as separate tasks": "Залишити підзавдання окремими завданнями",
+        "Delete subtasks too": "Видалити й підзавдання",
+        "Copy of {title}": "Копія: {title}",
+        "The task was copied, but not all of its subtasks. Please check the copy.": "Завдання скопійовано, але не всі його підзавдання. Перевірте копію.",
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Невеликі кроки всередині завдання. Кожен пункт має id, текст і позначку про виконання."
     },
     "nplurals=2; plural=(n != 1);"
 )
