@@ -105,7 +105,7 @@ class TimetableSessionsQueryListenerTest extends TestCase {
 		self::assertTrue(condition: $event->isHandled());
 		self::assertNull(actual: $event->getError());
 		self::assertSame(expected: ['zm-1', 'zm-2'], actual: array_column($event->getSessions(), 'externalRef'));
-		self::assertTrue(condition: end($this->objectService->searches)['rbac'], message: 'reads run with RBAC on');
+		self::assertFalse(condition: end($this->objectService->searches)['rbac'], message: 'the event is answered as the system; the requesting app decides access (planninq#711)');
 
 	}//end testCohortWeekIsAnsweredInTimeOrder()
 

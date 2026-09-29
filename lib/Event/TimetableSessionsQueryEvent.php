@@ -6,8 +6,10 @@
  * The public, typed door another app uses to read the school timetable
  * planninq holds (ADR-041). Learniq dispatches it to show a cohort's or a
  * teacher's lessons; planninq's listener answers it in this event's result
- * slot before dispatch returns, reading with OpenRegister RBAC on as the
- * current user.
+ * slot before dispatch returns. The read runs with OpenRegister RBAC off,
+ * because the dispatching app is responsible for asking only for a cohort or
+ * teacher its user may see (planninq#711). Learniq resolves that from its own
+ * cohort membership before it dispatches.
  *
  * Consumers never import this class: they look it up by name, guard it with
  * `class_exists()` and treat an absent class or an unhandled event as

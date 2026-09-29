@@ -4,8 +4,8 @@
  * Planninq Timetable Controller
  *
  * The HTTP doors onto the school timetable planninq holds (decision D10):
- * any signed-in user reads the sessions of a cohort, group or teacher, and an
- * admin can upsert a batch by hand, for example to load an export while the
+ * a signed-in user reads the sessions of a cohort, group or teacher that the
+ * schema's read rule lets them see (planninq#711), and an admin can upsert a batch by hand, for example to load an export while the
  * rostering adapter is still dormant. Every rule lives in
  * {@see \OCA\Planninq\Service\TimetableSessionService}; this class only
  * translates HTTP into a service call and the service's exceptions into
@@ -87,10 +87,11 @@ class TimetableController extends Controller {
 	 *
 	 * @return JSONResponse 200 with results; 400 on bad criteria; 401 without a user; 503 without OpenRegister.
 	 *
-	 * @no-admin-idor-exempt Every signed-in user may read the school timetable: the timetableSession
-	 *   schema grants read to the authenticated group, and TimetableSessionService::list() reads
-	 *   through OpenRegister with RBAC on, so OpenRegister answers the per-row question for this
-	 *   caller. The mandatory identity filter bounds the read.
+	 * @no-admin-idor-exempt TimetableSessionService::list() reads through OpenRegister with RBAC on,
+	 *   so the timetableSession read rule answers the per-row question for this caller: the
+	 *   planninq-timetable group and admins read every lesson, a teacher reads the lessons whose
+	 *   teacherUserId is their own, and any other signed-in user gets an empty list (planninq#711).
+	 *   The mandatory identity filter bounds the read.
 	 *
 	 * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-signed-in-users-read-sessions-over-http-only-admins-upsert-req-006
 	 */

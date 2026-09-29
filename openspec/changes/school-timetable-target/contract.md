@@ -84,7 +84,7 @@ new TimetableSessionsQueryEvent(
 
 Criteria keys: `cohortId`, `groupReference`, `teacherUserId`, `teacherReference` (at least one is required), `from`, `to` (optional ISO 8601 window; a session is included when it overlaps the window), `limit` (default 500, capped at 1,000), `includeCancelled` (default true).
 
-Getters: `getSourceApp()`, `getCriteria()`, `isHandled()`, `getSessions(): ?array`, `getError(): ?string`. The listener calls `setSessions(array)` on success or `setError(string)` when the criteria are invalid; both mark the event handled. The read runs with OpenRegister RBAC on, as the current user.
+Getters: `getSourceApp()`, `getCriteria()`, `isHandled()`, `getSessions(): ?array`, `getError(): ?string`. The listener calls `setSessions(array)` on success or `setError(string)` when the criteria are invalid; both mark the event handled. The read runs with OpenRegister RBAC off: the dispatching app MUST ask only for a cohort or teacher its user may see, because planninq holds no cohort membership to check (planninq#711).
 
 Each session in the result:
 ```json
@@ -111,7 +111,7 @@ Sessions are sorted by `startsAt` ascending.
 ## Endpoints
 
 ### `GET /apps/planninq/api/timetable/sessions`
-**Auth**: Nextcloud session, any signed-in user (`#[NoAdminRequired]`). Rows are read through OpenRegister with RBAC on, so a caller sees only what the schema lets them read.
+**Auth**: Nextcloud session, any signed-in user (`#[NoAdminRequired]`). Rows are read through OpenRegister with RBAC on, so a caller sees only what the schema lets them read: the `planninq-timetable` group and admins every lesson, a teacher the lessons whose `teacherUserId` is theirs, anyone else nothing (planninq#711).
 
 **Request:** query parameters `cohortId`, `groupReference`, `teacherUserId`, `teacherReference`, `from`, `to`, `limit`, as the query event.
 
