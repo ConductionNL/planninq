@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Запрошен",
         "Not approved": "Не одобрен",
         "Your request was sent": "Ваш запрос отправлен",
-        "Let everyone else request a project": "Разрешить всем остальным запрашивать проект"
+        "Let everyone else request a project": "Разрешить всем остальным запрашивать проект",
+        "Add a task": "Добавить задачу",
+        "Delete task": "Удалить задачу",
+        "Edit task": "Изменить задачу",
+        "Write": "Написать",
+        "Preview": "Предпросмотр",
+        "Markdown works here: headings, lists and links.": "Здесь работает Markdown: заголовки, списки и ссылки.",
+        "Could not save the task. Please try again.": "Не удалось сохранить задачу. Попробуйте ещё раз.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "По задаче \"{title}\" учтено время, поэтому её нельзя удалить. Вместо этого её можно отменить: записи времени сохранятся.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Удалить \"{title}\"? Её связи с другими задачами тоже будут удалены. Это действие нельзя отменить.",
+        "Keep task": "Оставить задачу",
+        "Cancel task": "Отменить задачу",
+        "Only the reporter, the project owner or an admin can delete this task.": "Удалить эту задачу может только автор, владелец проекта или администратор.",
+        "Could not delete the task. Please try again.": "Не удалось удалить задачу. Попробуйте ещё раз.",
+        "Could not cancel the task. Please try again.": "Не удалось отменить задачу. Попробуйте ещё раз."
     },
     "nplurals=2; plural=(n != 1);"
 )

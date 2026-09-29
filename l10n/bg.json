@@ -764,7 +764,21 @@
         "Requested": "Заявен",
         "Not approved": "Не е одобрен",
         "Your request was sent": "Заявката ви е изпратена",
-        "Let everyone else request a project": "Разрешете на всички останали да заявяват проект"
+        "Let everyone else request a project": "Разрешете на всички останали да заявяват проект",
+        "Add a task": "Добавяне на задача",
+        "Delete task": "Изтриване на задачата",
+        "Edit task": "Редактиране на задачата",
+        "Write": "Писане",
+        "Preview": "Преглед",
+        "Markdown works here: headings, lists and links.": "Тук работи Markdown: заглавия, списъци и връзки.",
+        "Could not save the task. Please try again.": "Задачата не можа да бъде запазена. Опитайте отново.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "По \"{title}\" има отчетено време, затова не може да бъде изтрита. Вместо това можете да я откажете: записите за време остават.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Да се изтрие ли \"{title}\"? Връзките ѝ с други задачи също се премахват. Това не може да бъде отменено.",
+        "Keep task": "Запазване на задачата",
+        "Cancel task": "Отказване на задачата",
+        "Only the reporter, the project owner or an admin can delete this task.": "Само подателят, собственикът на проекта или администратор може да изтрие тази задача.",
+        "Could not delete the task. Please try again.": "Задачата не можа да бъде изтрита. Опитайте отново.",
+        "Could not cancel the task. Please try again.": "Задачата не можа да бъде отказана. Опитайте отново."
     },
     "plurals": null
 }

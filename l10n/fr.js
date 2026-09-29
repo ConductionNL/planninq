@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Demandé",
         "Not approved": "Non approuvé",
         "Your request was sent": "Votre demande a été envoyée",
-        "Let everyone else request a project": "Permettre à tous les autres de demander un projet"
+        "Let everyone else request a project": "Permettre à tous les autres de demander un projet",
+        "Add a task": "Ajouter une tâche",
+        "Delete task": "Supprimer la tâche",
+        "Edit task": "Modifier la tâche",
+        "Write": "Écrire",
+        "Preview": "Aperçu",
+        "Markdown works here: headings, lists and links.": "Le Markdown fonctionne ici : titres, listes et liens.",
+        "Could not save the task. Please try again.": "Impossible d'enregistrer la tâche. Veuillez réessayer.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Du temps a été saisi sur \"{title}\", elle ne peut donc pas être supprimée. Vous pouvez l'annuler à la place : les saisies de temps sont conservées.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Supprimer \"{title}\" ? Ses liens vers d'autres tâches sont aussi supprimés. Cette action est irréversible.",
+        "Keep task": "Garder la tâche",
+        "Cancel task": "Annuler la tâche",
+        "Only the reporter, the project owner or an admin can delete this task.": "Seul le rapporteur, le propriétaire du projet ou un administrateur peut supprimer cette tâche.",
+        "Could not delete the task. Please try again.": "Impossible de supprimer la tâche. Veuillez réessayer.",
+        "Could not cancel the task. Please try again.": "Impossible d'annuler la tâche. Veuillez réessayer."
     },
     "nplurals=2; plural=(n != 1);"
 )

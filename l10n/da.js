@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Anmodet",
         "Not approved": "Ikke godkendt",
         "Your request was sent": "Din anmodning er sendt",
-        "Let everyone else request a project": "Lad alle andre anmode om et projekt"
+        "Let everyone else request a project": "Lad alle andre anmode om et projekt",
+        "Add a task": "Tilføj en opgave",
+        "Delete task": "Slet opgave",
+        "Edit task": "Rediger opgave",
+        "Write": "Skriv",
+        "Preview": "Forhåndsvisning",
+        "Markdown works here: headings, lists and links.": "Markdown virker her: overskrifter, lister og links.",
+        "Could not save the task. Please try again.": "Opgaven kunne ikke gemmes. Prøv igen.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Der er registreret tid på \"{title}\", så den kan ikke slettes. Du kan annullere den i stedet: tidsregistreringerne bevares.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Slet \"{title}\"? Dens links til andre opgaver fjernes også. Dette kan ikke fortrydes.",
+        "Keep task": "Behold opgave",
+        "Cancel task": "Annuller opgave",
+        "Only the reporter, the project owner or an admin can delete this task.": "Kun den der oprettede den, projektejeren eller en administrator kan slette denne opgave.",
+        "Could not delete the task. Please try again.": "Opgaven kunne ikke slettes. Prøv igen.",
+        "Could not cancel the task. Please try again.": "Opgaven kunne ikke annulleres. Prøv igen."
     },
     "nplurals=2; plural=(n != 1);"
 )

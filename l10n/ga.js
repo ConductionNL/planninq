@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Iarrtha",
         "Not approved": "Gan fhaomhadh",
         "Your request was sent": "Seoladh d’iarratas",
-        "Let everyone else request a project": "Lig do gach duine eile tionscadal a iarraidh"
+        "Let everyone else request a project": "Lig do gach duine eile tionscadal a iarraidh",
+        "Add a task": "Cuir tasc leis",
+        "Delete task": "Scrios an tasc",
+        "Edit task": "Cuir an tasc in eagar",
+        "Write": "Scríobh",
+        "Preview": "Réamhamharc",
+        "Markdown works here: headings, lists and links.": "Oibríonn Markdown anseo: ceannteidil, liostaí agus naisc.",
+        "Could not save the task. Please try again.": "Níorbh fhéidir an tasc a shábháil. Bain triail eile as.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Tá am logáilte ar \"{title}\", mar sin ní féidir é a scriosadh. Is féidir leat é a chealú ina ionad: fanann na hiontrálacha ama.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Scrios \"{title}\"? Baintear a naisc le tascanna eile freisin. Ní féidir é seo a chealú.",
+        "Keep task": "Coinnigh an tasc",
+        "Cancel task": "Cealaigh an tasc",
+        "Only the reporter, the project owner or an admin can delete this task.": "Ní féidir ach leis an tuairisceoir, le húinéir an tionscadail nó le riarthóir an tasc seo a scriosadh.",
+        "Could not delete the task. Please try again.": "Níorbh fhéidir an tasc a scriosadh. Bain triail eile as.",
+        "Could not cancel the task. Please try again.": "Níorbh fhéidir an tasc a chealú. Bain triail eile as."
     },
     "nplurals=2; plural=(n != 1);"
 )

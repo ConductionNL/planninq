@@ -82,6 +82,32 @@ with Markdown syntax stripped. The dialog edits the source in `NcTextArea` with 
 toggle. Alternative: the Nextcloud Text editor. Rejected for now: it is an optional app and
 far heavier than a description needs.
 
+## Amendments at build time (29 Sep 2026, development 395ae3c)
+
+The design was read at `de35541`; four things had changed by the time it was built.
+
+- **The board is column based** (`boards-configurable-columns`). Quick add writes the lane's
+  `column`, a `columnOrder` after the last card and the lane's mapped status
+  (`buildMovePatch`). "New task" in the header puts the task at the bottom of the first lane,
+  so the create dialog has no status field; the edit dialog has one.
+- **`createTask` already existed** (`backlog-list`). It now applies the defaults (`status: open`,
+  `priority: normal`) itself; the callers keep their payloads.
+- **Decision 4, the delete rule, is a listener, not a schema rule.** OpenRegister matches a rule
+  against the object's own fields, and the project owner lives on the project, so "reporter or
+  project owner" cannot be written in the task schema. The schema keeps members plus admin;
+  `lib/Listener/TaskReporterGuardListener.php` holds the narrower rule on `ObjectDeletingEvent`
+  (answer 403, code `planninq-task-delete-not-allowed`) and refuses a task with time entries
+  (409, `planninq-task-has-logged-time`), as `ColumnOwnerGuardListener` does for columns. It is
+  subscribed before `TaskDependencyCleanupListener`, so a refused delete keeps its links.
+- **`reporter` is stamped by the server.** The same listener sets it to the caller on create and
+  keeps the stored value on every update, so a member cannot make themselves the reporter of
+  someone else's task (and so its deleter), and a PUT that nulls the unsent field keeps it.
+- **Vitest runs in the node environment** with no component mounting, so the dialog tests of
+  tasks 2.1, 2.2 and 4.2 are tests of the pure helpers in `src/utils/taskEditing.js`
+  (`editPatch`, `deleteRefusal`, `descriptionExcerpt`) plus a source check that TaskDetail
+  renders the description through `NcRichText` with Markdown on and has no `v-html`. The browser
+  behaviour is in `tests/e2e/task-editing.spec.ts`.
+
 ## Risks / trade-offs
 
 - [Quick add creates tasks with only a title] -> that is the point; the card opens TaskDetail for

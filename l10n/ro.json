@@ -764,7 +764,21 @@
         "Requested": "Solicitat",
         "Not approved": "Neaprobat",
         "Your request was sent": "Cererea dvs. a fost trimisă",
-        "Let everyone else request a project": "Permiteți tuturor celorlalți să solicite un proiect"
+        "Let everyone else request a project": "Permiteți tuturor celorlalți să solicite un proiect",
+        "Add a task": "Adaugă o sarcină",
+        "Delete task": "Șterge sarcina",
+        "Edit task": "Editează sarcina",
+        "Write": "Scrie",
+        "Preview": "Previzualizare",
+        "Markdown works here: headings, lists and links.": "Aici funcționează Markdown: titluri, liste și linkuri.",
+        "Could not save the task. Please try again.": "Sarcina nu a putut fi salvată. Încercați din nou.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Pe \"{title}\" s-a înregistrat timp, deci nu poate fi ștearsă. În schimb o puteți anula: înregistrările de timp rămân.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Ștergeți \"{title}\"? Se elimină și legăturile ei cu alte sarcini. Acțiunea nu poate fi anulată.",
+        "Keep task": "Păstrează sarcina",
+        "Cancel task": "Anulează sarcina",
+        "Only the reporter, the project owner or an admin can delete this task.": "Doar cel care a raportat-o, proprietarul proiectului sau un administrator poate șterge această sarcină.",
+        "Could not delete the task. Please try again.": "Sarcina nu a putut fi ștearsă. Încercați din nou.",
+        "Could not cancel the task. Please try again.": "Sarcina nu a putut fi anulată. Încercați din nou."
     },
     "plurals": {}
 }

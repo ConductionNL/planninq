@@ -785,7 +785,21 @@
         "Requested": "Aangevraagd",
         "Not approved": "Niet goedgekeurd",
         "Your request was sent": "Je aanvraag is verstuurd",
-        "Let everyone else request a project": "Laat alle anderen een project aanvragen"
+        "Let everyone else request a project": "Laat alle anderen een project aanvragen",
+        "Add a task": "Taak toevoegen",
+        "Delete task": "Taak verwijderen",
+        "Edit task": "Taak bewerken",
+        "Write": "Schrijven",
+        "Preview": "Voorbeeld",
+        "Markdown works here: headings, lists and links.": "Markdown werkt hier: koppen, lijsten en links.",
+        "Could not save the task. Please try again.": "De taak kon niet worden opgeslagen. Probeer het opnieuw.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Op \"{title}\" is tijd geschreven, dus deze kan niet worden verwijderd. Je kunt de taak wel annuleren: de tijdregels blijven bestaan.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "\"{title}\" verwijderen? De koppelingen met andere taken worden ook verwijderd. Dit kan niet ongedaan worden gemaakt.",
+        "Keep task": "Taak behouden",
+        "Cancel task": "Taak annuleren",
+        "Only the reporter, the project owner or an admin can delete this task.": "Alleen de melder, de projecteigenaar of een beheerder kan deze taak verwijderen.",
+        "Could not delete the task. Please try again.": "De taak kon niet worden verwijderd. Probeer het opnieuw.",
+        "Could not cancel the task. Please try again.": "De taak kon niet worden geannuleerd. Probeer het opnieuw."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

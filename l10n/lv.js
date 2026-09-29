@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Pieprasīts",
         "Not approved": "Nav apstiprināts",
         "Your request was sent": "Jūsu pieprasījums ir nosūtīts",
-        "Let everyone else request a project": "Ļaut visiem pārējiem pieprasīt projektu"
+        "Let everyone else request a project": "Ļaut visiem pārējiem pieprasīt projektu",
+        "Add a task": "Pievienot uzdevumu",
+        "Delete task": "Dzēst uzdevumu",
+        "Edit task": "Rediģēt uzdevumu",
+        "Write": "Rakstīt",
+        "Preview": "Priekšskatījums",
+        "Markdown works here: headings, lists and links.": "Šeit darbojas Markdown: virsraksti, saraksti un saites.",
+        "Could not save the task. Please try again.": "Uzdevumu neizdevās saglabāt. Mēģiniet vēlreiz.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Uzdevumam \"{title}\" ir reģistrēts laiks, tāpēc to nevar dzēst. Tā vietā to var atcelt: laika ieraksti paliek.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Dzēst \"{title}\"? Tiek noņemtas arī tā saites ar citiem uzdevumiem. To nevar atsaukt.",
+        "Keep task": "Paturēt uzdevumu",
+        "Cancel task": "Atcelt uzdevumu",
+        "Only the reporter, the project owner or an admin can delete this task.": "Šo uzdevumu var dzēst tikai ziņotājs, projekta īpašnieks vai administrators.",
+        "Could not delete the task. Please try again.": "Uzdevumu neizdevās dzēst. Mēģiniet vēlreiz.",
+        "Could not cancel the task. Please try again.": "Uzdevumu neizdevās atcelt. Mēģiniet vēlreiz."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -764,7 +764,21 @@
         "Requested": "Forespurt",
         "Not approved": "Ikke godkjent",
         "Your request was sent": "Forespørselen din er sendt",
-        "Let everyone else request a project": "La alle andre be om et prosjekt"
+        "Let everyone else request a project": "La alle andre be om et prosjekt",
+        "Add a task": "Legg til en oppgave",
+        "Delete task": "Slett oppgave",
+        "Edit task": "Rediger oppgave",
+        "Write": "Skriv",
+        "Preview": "Forhåndsvisning",
+        "Markdown works here: headings, lists and links.": "Markdown fungerer her: overskrifter, lister og lenker.",
+        "Could not save the task. Please try again.": "Oppgaven kunne ikke lagres. Prøv igjen.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Det er ført tid på \"{title}\", så den kan ikke slettes. Du kan avbryte den i stedet: timeføringene beholdes.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Slette \"{title}\"? Koblingene til andre oppgaver fjernes også. Dette kan ikke angres.",
+        "Keep task": "Behold oppgave",
+        "Cancel task": "Avbryt oppgave",
+        "Only the reporter, the project owner or an admin can delete this task.": "Bare den som meldte den, prosjekteieren eller en administrator kan slette denne oppgaven.",
+        "Could not delete the task. Please try again.": "Oppgaven kunne ikke slettes. Prøv igjen.",
+        "Could not cancel the task. Please try again.": "Oppgaven kunne ikke avbrytes. Prøv igjen."
     },
     "plurals": {}
 }

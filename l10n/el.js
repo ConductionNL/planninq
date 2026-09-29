@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Αιτήθηκε",
         "Not approved": "Δεν εγκρίθηκε",
         "Your request was sent": "Το αίτημά σας στάλθηκε",
-        "Let everyone else request a project": "Επιτρέψτε σε όλους τους άλλους να ζητούν έργο"
+        "Let everyone else request a project": "Επιτρέψτε σε όλους τους άλλους να ζητούν έργο",
+        "Add a task": "Προσθήκη εργασίας",
+        "Delete task": "Διαγραφή εργασίας",
+        "Edit task": "Επεξεργασία εργασίας",
+        "Write": "Γραφή",
+        "Preview": "Προεπισκόπηση",
+        "Markdown works here: headings, lists and links.": "Εδώ λειτουργεί το Markdown: επικεφαλίδες, λίστες και σύνδεσμοι.",
+        "Could not save the task. Please try again.": "Δεν ήταν δυνατή η αποθήκευση της εργασίας. Δοκιμάστε ξανά.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Στην εργασία \"{title}\" έχει καταγραφεί χρόνος, οπότε δεν μπορεί να διαγραφεί. Μπορείτε να την ακυρώσετε: οι καταχωρίσεις χρόνου παραμένουν.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Διαγραφή της \"{title}\"; Αφαιρούνται και οι σύνδεσμοί της με άλλες εργασίες. Αυτό δεν αναιρείται.",
+        "Keep task": "Διατήρηση εργασίας",
+        "Cancel task": "Ακύρωση εργασίας",
+        "Only the reporter, the project owner or an admin can delete this task.": "Μόνο ο αναφέρων, ο κάτοχος του έργου ή ένας διαχειριστής μπορεί να διαγράψει αυτή την εργασία.",
+        "Could not delete the task. Please try again.": "Δεν ήταν δυνατή η διαγραφή της εργασίας. Δοκιμάστε ξανά.",
+        "Could not cancel the task. Please try again.": "Δεν ήταν δυνατή η ακύρωση της εργασίας. Δοκιμάστε ξανά."
     },
     "nplurals=2; plural=(n != 1);"
 )

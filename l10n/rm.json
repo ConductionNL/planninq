@@ -764,7 +764,21 @@
         "Requested": "Dumandà",
         "Not approved": "Betg approvà",
         "Your request was sent": "Vossa dumonda è vegnida tramessa",
-        "Let everyone else request a project": "Laschar dumandar tut ils auters in project"
+        "Let everyone else request a project": "Laschar dumandar tut ils auters in project",
+        "Add a task": "Agiuntar in pensum",
+        "Delete task": "Stizzar il pensum",
+        "Edit task": "Modifitgar il pensum",
+        "Write": "Scriver",
+        "Preview": "Prevista",
+        "Markdown works here: headings, lists and links.": "Qua funcziuna Markdown: titels, glistas e colliaziuns.",
+        "Could not save the task. Please try again.": "Il pensum n'ha betg pudì vegnir memorisà. Emprova anc ina giada.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Sin \"{title}\" è temp registrà, perquai na po el betg vegnir stizzà. Ti pos al annullar enstagl: las registraziuns da temp restan.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Stizzar \"{title}\"? Sias colliaziuns cun auters pensums vegnan era allontanadas. Quai na po betg vegnir revocà.",
+        "Keep task": "Tegnair il pensum",
+        "Cancel task": "Annullar il pensum",
+        "Only the reporter, the project owner or an admin can delete this task.": "Mo la persuna che l'ha annunzià, il possessur dal project u in administratur po stizzar quest pensum.",
+        "Could not delete the task. Please try again.": "Il pensum n'ha betg pudì vegnir stizzà. Emprova anc ina giada.",
+        "Could not cancel the task. Please try again.": "Il pensum n'ha betg pudì vegnir annullà. Emprova anc ina giada."
     },
     "plurals": null
 }

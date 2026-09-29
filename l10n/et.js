@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Taotletud",
         "Not approved": "Pole kinnitatud",
         "Your request was sent": "Teie taotlus on saadetud",
-        "Let everyone else request a project": "Luba kõigil teistel projekti taotleda"
+        "Let everyone else request a project": "Luba kõigil teistel projekti taotleda",
+        "Add a task": "Lisa ülesanne",
+        "Delete task": "Kustuta ülesanne",
+        "Edit task": "Muuda ülesannet",
+        "Write": "Kirjuta",
+        "Preview": "Eelvaade",
+        "Markdown works here: headings, lists and links.": "Siin töötab Markdown: pealkirjad, loendid ja lingid.",
+        "Could not save the task. Please try again.": "Ülesannet ei õnnestunud salvestada. Proovi uuesti.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Ülesandele \"{title}\" on aega kirjendatud, seega ei saa seda kustutada. Selle asemel saad selle tühistada: ajakanded jäävad alles.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Kas kustutada \"{title}\"? Ka selle lingid teistele ülesannetele eemaldatakse. Seda ei saa tagasi võtta.",
+        "Keep task": "Jäta ülesanne alles",
+        "Cancel task": "Tühista ülesanne",
+        "Only the reporter, the project owner or an admin can delete this task.": "Seda ülesannet saab kustutada ainult teataja, projekti omanik või administraator.",
+        "Could not delete the task. Please try again.": "Ülesannet ei õnnestunud kustutada. Proovi uuesti.",
+        "Could not cancel the task. Please try again.": "Ülesannet ei õnnestunud tühistada. Proovi uuesti."
     },
     "nplurals=2; plural=(n != 1);"
 )

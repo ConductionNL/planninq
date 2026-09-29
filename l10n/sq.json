@@ -764,7 +764,21 @@
         "Requested": "E kërkuar",
         "Not approved": "E pamiratuar",
         "Your request was sent": "Kërkesa juaj u dërgua",
-        "Let everyone else request a project": "Lejo të gjithë të tjerët të kërkojnë një projekt"
+        "Let everyone else request a project": "Lejo të gjithë të tjerët të kërkojnë një projekt",
+        "Add a task": "Shto një detyrë",
+        "Delete task": "Fshi detyrën",
+        "Edit task": "Ndrysho detyrën",
+        "Write": "Shkruaj",
+        "Preview": "Parapamje",
+        "Markdown works here: headings, lists and links.": "Këtu funksionon Markdown: tituj, lista dhe lidhje.",
+        "Could not save the task. Please try again.": "Detyra nuk u ruajt dot. Provoni sërish.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Te \"{title}\" është regjistruar kohë, prandaj nuk mund të fshihet. Në vend të kësaj mund ta anuloni: regjistrimet e kohës mbeten.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Të fshihet \"{title}\"? Hiqen edhe lidhjet e saj me detyra të tjera. Kjo nuk mund të zhbëhet.",
+        "Keep task": "Mbaje detyrën",
+        "Cancel task": "Anulo detyrën",
+        "Only the reporter, the project owner or an admin can delete this task.": "Këtë detyrë mund ta fshijë vetëm raportuesi, pronari i projektit ose një administrator.",
+        "Could not delete the task. Please try again.": "Detyra nuk u fshi dot. Provoni sërish.",
+        "Could not cancel the task. Please try again.": "Detyra nuk u anulua dot. Provoni sërish."
     },
     "plurals": {}
 }

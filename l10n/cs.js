@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Požadováno",
         "Not approved": "Neschváleno",
         "Your request was sent": "Vaše žádost byla odeslána",
-        "Let everyone else request a project": "Umožnit všem ostatním požádat o projekt"
+        "Let everyone else request a project": "Umožnit všem ostatním požádat o projekt",
+        "Add a task": "Přidat úkol",
+        "Delete task": "Smazat úkol",
+        "Edit task": "Upravit úkol",
+        "Write": "Psát",
+        "Preview": "Náhled",
+        "Markdown works here: headings, lists and links.": "Zde funguje Markdown: nadpisy, seznamy a odkazy.",
+        "Could not save the task. Please try again.": "Úkol se nepodařilo uložit. Zkuste to znovu.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Na úkolu \"{title}\" je zapsaný čas, proto ho nelze smazat. Místo toho ho můžete zrušit: záznamy času zůstanou.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Smazat \"{title}\"? Odstraní se také jeho odkazy na jiné úkoly. Tuto akci nelze vrátit zpět.",
+        "Keep task": "Ponechat úkol",
+        "Cancel task": "Zrušit úkol",
+        "Only the reporter, the project owner or an admin can delete this task.": "Tento úkol může smazat jen ten, kdo ho nahlásil, vlastník projektu nebo správce.",
+        "Could not delete the task. Please try again.": "Úkol se nepodařilo smazat. Zkuste to znovu.",
+        "Could not cancel the task. Please try again.": "Úkol se nepodařilo zrušit. Zkuste to znovu."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Sol·licitat",
         "Not approved": "No aprovat",
         "Your request was sent": "S’ha enviat la vostra sol·licitud",
-        "Let everyone else request a project": "Permet que tothom més sol·liciti un projecte"
+        "Let everyone else request a project": "Permet que tothom més sol·liciti un projecte",
+        "Add a task": "Afegeix una tasca",
+        "Delete task": "Suprimeix la tasca",
+        "Edit task": "Edita la tasca",
+        "Write": "Escriu",
+        "Preview": "Previsualització",
+        "Markdown works here: headings, lists and links.": "Aquí funciona el Markdown: títols, llistes i enllaços.",
+        "Could not save the task. Please try again.": "No s'ha pogut desar la tasca. Torneu-ho a provar.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "\"{title}\" té temps registrat, per tant no es pot suprimir. En lloc d'això, la podeu cancel·lar: els registres de temps es mantenen.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Voleu suprimir \"{title}\"? També se suprimeixen els enllaços amb altres tasques. Això no es pot desfer.",
+        "Keep task": "Conserva la tasca",
+        "Cancel task": "Cancel·la la tasca",
+        "Only the reporter, the project owner or an admin can delete this task.": "Només qui l'ha informada, el propietari del projecte o un administrador pot suprimir aquesta tasca.",
+        "Could not delete the task. Please try again.": "No s'ha pogut suprimir la tasca. Torneu-ho a provar.",
+        "Could not cancel the task. Please try again.": "No s'ha pogut cancel·lar la tasca. Torneu-ho a provar."
     },
     "nplurals=2; plural=(n != 1);"
 )

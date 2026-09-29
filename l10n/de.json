@@ -764,7 +764,21 @@
         "Requested": "Angefragt",
         "Not approved": "Nicht genehmigt",
         "Your request was sent": "Ihre Anfrage wurde gesendet",
-        "Let everyone else request a project": "Alle anderen dürfen ein Projekt anfragen"
+        "Let everyone else request a project": "Alle anderen dürfen ein Projekt anfragen",
+        "Add a task": "Aufgabe hinzufügen",
+        "Delete task": "Aufgabe löschen",
+        "Edit task": "Aufgabe bearbeiten",
+        "Write": "Schreiben",
+        "Preview": "Vorschau",
+        "Markdown works here: headings, lists and links.": "Hier funktioniert Markdown: Überschriften, Listen und Links.",
+        "Could not save the task. Please try again.": "Die Aufgabe konnte nicht gespeichert werden. Bitte versuche es erneut.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Auf \"{title}\" wurde Zeit gebucht, daher kann sie nicht gelöscht werden. Du kannst sie stattdessen abbrechen: Die Zeiteinträge bleiben erhalten.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "\"{title}\" löschen? Die Verknüpfungen zu anderen Aufgaben werden ebenfalls entfernt. Dies kann nicht rückgängig gemacht werden.",
+        "Keep task": "Aufgabe behalten",
+        "Cancel task": "Aufgabe abbrechen",
+        "Only the reporter, the project owner or an admin can delete this task.": "Nur die meldende Person, der Projektinhaber oder ein Admin kann diese Aufgabe löschen.",
+        "Could not delete the task. Please try again.": "Die Aufgabe konnte nicht gelöscht werden. Bitte versuche es erneut.",
+        "Could not cancel the task. Please try again.": "Die Aufgabe konnte nicht abgebrochen werden. Bitte versuche es erneut."
     },
     "plurals": null
 }

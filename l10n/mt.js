@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Mitlub",
         "Not approved": "Mhux approvat",
         "Your request was sent": "It-talba tiegħek intbagħtet",
-        "Let everyone else request a project": "Ħalli lil kulħadd ieħor jitlob proġett"
+        "Let everyone else request a project": "Ħalli lil kulħadd ieħor jitlob proġett",
+        "Add a task": "Żid kompitu",
+        "Delete task": "Ħassar il-kompitu",
+        "Edit task": "Editja l-kompitu",
+        "Write": "Ikteb",
+        "Preview": "Dehra minn qabel",
+        "Markdown works here: headings, lists and links.": "Il-Markdown jaħdem hawn: intestaturi, listi u links.",
+        "Could not save the task. Please try again.": "Il-kompitu ma setax jiġi ssejvjat. Erġa' pprova.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Fuq \"{title}\" hemm ħin irreġistrat, għalhekk ma jistax jitħassar. Minflok tista' tikkanċellah: ir-reġistrazzjonijiet tal-ħin jibqgħu.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Tħassar \"{title}\"? Il-links tiegħu ma' kompiti oħra jitneħħew ukoll. Dan ma jistax jitreġġa' lura.",
+        "Keep task": "Żomm il-kompitu",
+        "Cancel task": "Ikkanċella l-kompitu",
+        "Only the reporter, the project owner or an admin can delete this task.": "Dan il-kompitu jista' jħassru biss min irrappurtah, is-sid tal-proġett jew amministratur.",
+        "Could not delete the task. Please try again.": "Il-kompitu ma setax jitħassar. Erġa' pprova.",
+        "Could not cancel the task. Please try again.": "Il-kompitu ma setax jiġi kkanċellat. Erġa' pprova."
     },
     "nplurals=2; plural=(n != 1);"
 )

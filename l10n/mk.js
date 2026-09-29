@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Побарано",
         "Not approved": "Не е одобрено",
         "Your request was sent": "Вашето барање е испратено",
-        "Let everyone else request a project": "Дозволи им на сите други да побараат проект"
+        "Let everyone else request a project": "Дозволи им на сите други да побараат проект",
+        "Add a task": "Додај задача",
+        "Delete task": "Избриши задача",
+        "Edit task": "Уреди задача",
+        "Write": "Пишувај",
+        "Preview": "Преглед",
+        "Markdown works here: headings, lists and links.": "Тука работи Markdown: наслови, листи и врски.",
+        "Could not save the task. Please try again.": "Задачата не може да се зачува. Обидете се повторно.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "На \"{title}\" е евидентирано време, па не може да се избрише. Наместо тоа можете да ја откажете: записите за време остануваат.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Да се избрише \"{title}\"? Се отстрануваат и нејзините врски со други задачи. Ова не може да се врати.",
+        "Keep task": "Задржи ја задачата",
+        "Cancel task": "Откажи ја задачата",
+        "Only the reporter, the project owner or an admin can delete this task.": "Оваа задача може да ја избрише само пријавувачот, сопственикот на проектот или администратор.",
+        "Could not delete the task. Please try again.": "Задачата не може да се избрише. Обидете се повторно.",
+        "Could not cancel the task. Please try again.": "Задачата не може да се откаже. Обидете се повторно."
     },
     "nplurals=2; plural=(n != 1);"
 )

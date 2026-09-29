@@ -764,7 +764,21 @@
         "Requested": "Požadované",
         "Not approved": "Neschválené",
         "Your request was sent": "Vaša žiadosť bola odoslaná",
-        "Let everyone else request a project": "Umožniť všetkým ostatným požiadať o projekt"
+        "Let everyone else request a project": "Umožniť všetkým ostatným požiadať o projekt",
+        "Add a task": "Pridať úlohu",
+        "Delete task": "Odstrániť úlohu",
+        "Edit task": "Upraviť úlohu",
+        "Write": "Písať",
+        "Preview": "Náhľad",
+        "Markdown works here: headings, lists and links.": "Tu funguje Markdown: nadpisy, zoznamy a odkazy.",
+        "Could not save the task. Please try again.": "Úlohu sa nepodarilo uložiť. Skúste to znova.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Na úlohe \"{title}\" je zaznamenaný čas, preto ju nemožno odstrániť. Namiesto toho ju môžete zrušiť: záznamy času zostanú.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Odstrániť \"{title}\"? Odstránia sa aj jej prepojenia na iné úlohy. Túto akciu nemožno vrátiť späť.",
+        "Keep task": "Ponechať úlohu",
+        "Cancel task": "Zrušiť úlohu",
+        "Only the reporter, the project owner or an admin can delete this task.": "Túto úlohu môže odstrániť iba ten, kto ju nahlásil, vlastník projektu alebo správca.",
+        "Could not delete the task. Please try again.": "Úlohu sa nepodarilo odstrániť. Skúste to znova.",
+        "Could not cancel the task. Please try again.": "Úlohu sa nepodarilo zrušiť. Skúste to znova."
     },
     "plurals": null
 }

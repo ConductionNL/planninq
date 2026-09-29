@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Запытаны",
         "Not approved": "Не адобраны",
         "Your request was sent": "Ваш запыт адпраўлены",
-        "Let everyone else request a project": "Дазволіць усім астатнім запытваць праект"
+        "Let everyone else request a project": "Дазволіць усім астатнім запытваць праект",
+        "Add a task": "Дадаць задачу",
+        "Delete task": "Выдаліць задачу",
+        "Edit task": "Рэдагаваць задачу",
+        "Write": "Пісаць",
+        "Preview": "Папярэдні прагляд",
+        "Markdown works here: headings, lists and links.": "Тут працуе Markdown: загалоўкі, спісы і спасылкі.",
+        "Could not save the task. Please try again.": "Не ўдалося захаваць задачу. Паспрабуйце яшчэ раз.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Па задачы \"{title}\" улічаны час, таму яе нельга выдаліць. Замест гэтага яе можна скасаваць: запісы часу застануцца.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Выдаліць \"{title}\"? Яе сувязі з іншымі задачамі таксама будуць выдалены. Гэта нельга адмяніць.",
+        "Keep task": "Пакінуць задачу",
+        "Cancel task": "Скасаваць задачу",
+        "Only the reporter, the project owner or an admin can delete this task.": "Выдаліць гэтую задачу можа толькі аўтар, уладальнік праекта або адміністратар.",
+        "Could not delete the task. Please try again.": "Не ўдалося выдаліць задачу. Паспрабуйце яшчэ раз.",
+        "Could not cancel the task. Please try again.": "Не ўдалося скасаваць задачу. Паспрабуйце яшчэ раз."
     },
     "nplurals=2; plural=(n != 1);"
 )

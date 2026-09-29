@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Zatraženo",
         "Not approved": "Nije odobreno",
         "Your request was sent": "Vaš zahtjev je poslan",
-        "Let everyone else request a project": "Dozvoli svima ostalima da zatraže projekat"
+        "Let everyone else request a project": "Dozvoli svima ostalima da zatraže projekat",
+        "Add a task": "Dodaj zadatak",
+        "Delete task": "Izbriši zadatak",
+        "Edit task": "Uredi zadatak",
+        "Write": "Piši",
+        "Preview": "Pregled",
+        "Markdown works here: headings, lists and links.": "Ovdje radi Markdown: naslovi, liste i linkovi.",
+        "Could not save the task. Please try again.": "Zadatak nije moguće sačuvati. Pokušajte ponovo.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Na zadatku \"{title}\" je evidentirano vrijeme pa se ne može izbrisati. Umjesto toga ga možete otkazati: zapisi vremena ostaju.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Izbrisati \"{title}\"? Uklonit će se i njegove veze s drugim zadacima. Ovo se ne može poništiti.",
+        "Keep task": "Zadrži zadatak",
+        "Cancel task": "Otkaži zadatak",
+        "Only the reporter, the project owner or an admin can delete this task.": "Ovaj zadatak može izbrisati samo prijavilac, vlasnik projekta ili administrator.",
+        "Could not delete the task. Please try again.": "Zadatak nije moguće izbrisati. Pokušajte ponovo.",
+        "Could not cancel the task. Please try again.": "Zadatak nije moguće otkazati. Pokušajte ponovo."
     },
     "nplurals=2; plural=(n != 1);"
 )

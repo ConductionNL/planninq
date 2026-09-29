@@ -764,7 +764,21 @@
         "Requested": "Begärd",
         "Not approved": "Inte godkänd",
         "Your request was sent": "Din begäran har skickats",
-        "Let everyone else request a project": "Låt alla andra begära ett projekt"
+        "Let everyone else request a project": "Låt alla andra begära ett projekt",
+        "Add a task": "Lägg till en uppgift",
+        "Delete task": "Ta bort uppgift",
+        "Edit task": "Redigera uppgift",
+        "Write": "Skriv",
+        "Preview": "Förhandsgranska",
+        "Markdown works here: headings, lists and links.": "Markdown fungerar här: rubriker, listor och länkar.",
+        "Could not save the task. Please try again.": "Uppgiften kunde inte sparas. Försök igen.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Det finns registrerad tid på \"{title}\", så den kan inte tas bort. Du kan avbryta den i stället: tidsposterna finns kvar.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Ta bort \"{title}\"? Dess länkar till andra uppgifter tas också bort. Detta kan inte ångras.",
+        "Keep task": "Behåll uppgift",
+        "Cancel task": "Avbryt uppgift",
+        "Only the reporter, the project owner or an admin can delete this task.": "Endast rapportören, projektägaren eller en administratör kan ta bort den här uppgiften.",
+        "Could not delete the task. Please try again.": "Uppgiften kunde inte tas bort. Försök igen.",
+        "Could not cancel the task. Please try again.": "Uppgiften kunde inte avbrytas. Försök igen."
     },
     "plurals": null
 }

@@ -1,8 +1,9 @@
-# task-editing delta for tasks-create-edit-delete
+# task-editing Specification
 
-Extends the flat main spec `openspec/specs/tasks.md` (Task CRUD).
+## Purpose
+How a project member creates, quick-adds, edits and deletes a task, and how a task description is written in Markdown. Built by tasks-create-edit-delete (archived 2026-09-29). Extends the flat main spec `openspec/specs/tasks.md` (Task CRUD).
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: A project member can create a task
 
@@ -15,13 +16,15 @@ and priority `normal`, and MUST record the creator as `reporter`. Tier: MVP (doc
 - **GIVEN** a project member has the board of project "Vergunningen" open at /projects/:id
 - **WHEN** they choose "New task", enter the title "Draft the permit letter" and save
 - **THEN** the task is stored with status `open`, priority `normal` and the member as reporter
-- **AND** its card appears in the Open lane without a page reload
+- **AND** its card appears at the bottom of the board's first lane without a page reload
 
 #### Scenario: A non-member cannot create a task
 
 - **GIVEN** a user who is not a member of project "Vergunningen"
 - **WHEN** they POST a task for that project to the OpenRegister objects API
 - **THEN** the request is refused with 403 and no task is stored
+
+@e2e exclude needs a second, non-member account the CI e2e run does not have; covered by tests/unit/Listener/ProjectMemberAccessListenerTest.php::testCreateByNonMemberIsRefused on the real listener
 
 ### Requirement: A project member can quick-add a task in a board lane
 
@@ -90,3 +93,5 @@ deleted; the confirmation MUST offer to cancel it instead. Tier: MVP.
 - **WHEN** they open the task page
 - **THEN** no "Delete task" action is shown
 - **AND** a DELETE on the OpenRegister objects API for that task answers 403
+
+@e2e exclude needs a second member account the CI e2e run does not have; covered by tests/unit/Listener/TaskReporterGuardListenerTest.php::testAPlainMemberCannotDeleteSomeoneElsesTask (code and status 403) and tests/vitest/taskEditing.spec.js canDeleteTask

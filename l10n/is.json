@@ -764,7 +764,21 @@
         "Requested": "Beðið um",
         "Not approved": "Ekki samþykkt",
         "Your request was sent": "Beiðnin þín var send",
-        "Let everyone else request a project": "Leyfa öllum öðrum að biðja um verkefni"
+        "Let everyone else request a project": "Leyfa öllum öðrum að biðja um verkefni",
+        "Add a task": "Bæta við verkefni",
+        "Delete task": "Eyða verkefni",
+        "Edit task": "Breyta verkefni",
+        "Write": "Skrifa",
+        "Preview": "Forskoðun",
+        "Markdown works here: headings, lists and links.": "Markdown virkar hér: fyrirsagnir, listar og tenglar.",
+        "Could not save the task. Please try again.": "Ekki tókst að vista verkefnið. Reyndu aftur.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Tími hefur verið skráður á \"{title}\" og því er ekki hægt að eyða því. Þú getur hætt við það í staðinn: tímaskráningarnar haldast.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Eyða \"{title}\"? Tenglar þess við önnur verkefni eru líka fjarlægðir. Þetta er ekki hægt að afturkalla.",
+        "Keep task": "Halda verkefni",
+        "Cancel task": "Hætta við verkefni",
+        "Only the reporter, the project owner or an admin can delete this task.": "Aðeins sá sem tilkynnti það, eigandi verkefnisins eða stjórnandi getur eytt þessu verkefni.",
+        "Could not delete the task. Please try again.": "Ekki tókst að eyða verkefninu. Reyndu aftur.",
+        "Could not cancel the task. Please try again.": "Ekki tókst að hætta við verkefnið. Reyndu aftur."
     },
     "plurals": {}
 }

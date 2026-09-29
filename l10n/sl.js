@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Zahtevano",
         "Not approved": "Ni odobreno",
         "Your request was sent": "Vaša zahteva je bila poslana",
-        "Let everyone else request a project": "Dovoli vsem drugim, da zahtevajo projekt"
+        "Let everyone else request a project": "Dovoli vsem drugim, da zahtevajo projekt",
+        "Add a task": "Dodaj nalogo",
+        "Delete task": "Izbriši nalogo",
+        "Edit task": "Uredi nalogo",
+        "Write": "Piši",
+        "Preview": "Predogled",
+        "Markdown works here: headings, lists and links.": "Tu deluje Markdown: naslovi, seznami in povezave.",
+        "Could not save the task. Please try again.": "Naloge ni bilo mogoče shraniti. Poskusite znova.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Na nalogi \"{title}\" je zabeležen čas, zato je ni mogoče izbrisati. Namesto tega jo lahko prekličete: vnosi časa ostanejo.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Izbrišem \"{title}\"? Odstranjene bodo tudi njene povezave z drugimi nalogami. Tega ni mogoče razveljaviti.",
+        "Keep task": "Obdrži nalogo",
+        "Cancel task": "Prekliči nalogo",
+        "Only the reporter, the project owner or an admin can delete this task.": "To nalogo lahko izbriše le prijavitelj, lastnik projekta ali skrbnik.",
+        "Could not delete the task. Please try again.": "Naloge ni bilo mogoče izbrisati. Poskusite znova.",
+        "Could not cancel the task. Please try again.": "Naloge ni bilo mogoče preklicati. Poskusite znova."
     },
     "nplurals=2; plural=(n != 1);"
 )

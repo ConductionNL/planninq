@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Talep edildi",
         "Not approved": "Onaylanmadı",
         "Your request was sent": "Talebiniz gönderildi",
-        "Let everyone else request a project": "Diğer herkesin proje talep etmesine izin ver"
+        "Let everyone else request a project": "Diğer herkesin proje talep etmesine izin ver",
+        "Add a task": "Görev ekle",
+        "Delete task": "Görevi sil",
+        "Edit task": "Görevi düzenle",
+        "Write": "Yaz",
+        "Preview": "Önizleme",
+        "Markdown works here: headings, lists and links.": "Burada Markdown çalışır: başlıklar, listeler ve bağlantılar.",
+        "Could not save the task. Please try again.": "Görev kaydedilemedi. Lütfen yeniden deneyin.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "\"{title}\" üzerinde kayıtlı süre olduğu için silinemez. Bunun yerine iptal edebilirsiniz: süre kayıtları korunur.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "\"{title}\" silinsin mi? Diğer görevlerle bağlantıları da kaldırılır. Bu işlem geri alınamaz.",
+        "Keep task": "Görevi koru",
+        "Cancel task": "Görevi iptal et",
+        "Only the reporter, the project owner or an admin can delete this task.": "Bu görevi yalnızca bildiren kişi, proje sahibi veya bir yönetici silebilir.",
+        "Could not delete the task. Please try again.": "Görev silinemedi. Lütfen yeniden deneyin.",
+        "Could not cancel the task. Please try again.": "Görev iptal edilemedi. Lütfen yeniden deneyin."
     },
     "nplurals=2; plural=(n != 1);"
 )

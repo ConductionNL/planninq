@@ -1809,7 +1809,7 @@
       "area": "boards",
       "name": "Add a card straight into a column from the board.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -1827,14 +1827,12 @@
         "plane": "source: apps/web/core/components/issues/issue-layouts/kanban/kanban-group.tsx:47,333 QuickAddIssueRoot per column ; corpus: plane/round4/menu-tree.md 'New work item' global create ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/kanban/kanban-group.tsx:47,333 QuickAddIssueRoot at the foot of each column; apps/api/plane/app/views/issue/base.py:405 create"
       },
       "built": {
-        "state": "specified",
-        "evidence": "no add-card/add-task control exists on src/views/ProjectBoard.vue. Wider check: there is no task-creation code path anywhere in the app, no createTask action in src/store/projects.js (only fetchTasks/updateTaskStatus/updateTask), no POST to the task schema anywhere in src/, and src/views/ProjectBacklog.vue:24-30 is an explicit placeholder pending future task CRUD.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue quick-add field at the foot of every lane: Enter creates the task at the bottom of that lane (column, columnOrder, lane status via src/utils/taskEditing.js newLaneTask) and keeps focus",
+        "reachedOn": "ProjectBoard, every lane",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "no task-creation UI or store action anywhere in src/ (checked src/store/projects.js, src/views/ProjectBoard.vue, src/views/ProjectBacklog.vue)"
-        ],
-        "change": "openspec/changes/tasks-create-edit-delete"
+        "change": "openspec/changes/archive/2026-09-29-tasks-create-edit-delete",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2085,7 +2083,7 @@
       "area": "tasks",
       "name": "Create, edit and delete a task with a title, description and status.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -2104,11 +2102,12 @@
         "untis": "docs read 2026-09-27: https://help.untis.at/hc/de/articles/360015023539 WebUntis ticket system (Aufgaben): 'Unter Unterricht | Aufgaben kann durch das Klicken auf <Neu> ein neues Ticket angelegt werden' ; https://help.untis.at/hc/de/articles/360015324359 status can be changed to 'Erledigt' or 'in Bearbeitung'. It is a damage report ticket list for school facilities, not project task management"
       },
       "built": {
-        "state": "specified",
-        "evidence": "No task create or edit form exists anywhere in src/ (dialogs/ holds only LabelEditDialog, LabelDeleteDialog, ProjectCreationDialog, ProjectDeleteDialog, ProjectLeaveDialog, TimeEntryDialog; registry.js has no task dialog/component). Status changes via drag/keyboard move only: src/views/ProjectBoard.vue:562-593 (applyStatusMove) and :152-165 (move menu). Estimate is the only editable field: src/views/TaskDetail.vue:557-570 (saveEstimate). Delete only happens as a project-delete cascade: src/store/projects.js:554-561 (deleteObject(TASK_SCHEMA, task.id) inside deleteProject), with no standalone delete-a-task action anywhere.",
-        "reachedOn": "ProjectBoard page for status move; TaskDetail page for estimate edit; nothing reaches create or standalone delete",
+        "state": "built",
+        "evidence": "src/dialogs/TaskFormDialog.vue (create with title, Markdown description and priority; edit title, description, status and priority, PATCHing only the changed fields) -> src/store/projects.js createTask()/updateTask(); src/dialogs/TaskDeleteDialog.vue -> deleteTask() (refuses a task with logged time, offers Cancel task); lib/Listener/TaskReporterGuardListener.php stamps reporter and holds deletes to reporter, project owner and admin",
+        "reachedOn": "ProjectBoard header New task; TaskDetail Edit and Delete task",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-create-edit-delete"
+        "change": "openspec/changes/archive/2026-09-29-tasks-create-edit-delete",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2672,7 +2671,7 @@
       "area": "tasks",
       "name": "Write a task description in rich text or Markdown with headings, lists and links.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -2690,11 +2689,12 @@
         "plane": "corpus: plane/round4/code-census.md §2 description_json / description_html; usability.md driven editor ; source: packages/editor rich text editor with markdown copy (i18n 'Copy markdown') ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/description-editor.tsx:23,184 RichTextEditor for the description; packages/editor/src/core/extensions/extensions.ts:65 CoreEditorExtensions with lists and task lists; apps/api/plane/db/models/issue.py:137-138 description_json and description_html"
       },
       "built": {
-        "state": "specified",
-        "evidence": "task.description is rendered as plain text interpolation everywhere it appears: src/components/TaskCard.vue:9 ({{ task.description }}) and src/views/TaskDetail.vue:48/269 ({{ field.value }}). No markdown/rich-text renderer or editor is used, and (per tsk-create-edit) there is no description edit form at all.",
-        "reachedOn": "displayed as plain text on ProjectBoard cards and TaskDetail; nothing renders or edits it as rich text",
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue renders task.description with NcRichText useMarkdown (raw HTML escaped, no v-html); src/dialogs/TaskFormDialog.vue edits the Markdown source with a Write/Preview toggle; src/components/TaskCard.vue shows a 140-character plain-text excerpt (descriptionExcerpt)",
+        "reachedOn": "TaskDetail description section; task dialog; board cards",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-create-edit-delete"
+        "change": "openspec/changes/archive/2026-09-29-tasks-create-edit-delete",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

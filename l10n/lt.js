@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Paprašyta",
         "Not approved": "Nepatvirtinta",
         "Your request was sent": "Jūsų prašymas išsiųstas",
-        "Let everyone else request a project": "Leisti visiems kitiems prašyti projekto"
+        "Let everyone else request a project": "Leisti visiems kitiems prašyti projekto",
+        "Add a task": "Pridėti užduotį",
+        "Delete task": "Ištrinti užduotį",
+        "Edit task": "Redaguoti užduotį",
+        "Write": "Rašyti",
+        "Preview": "Peržiūra",
+        "Markdown works here: headings, lists and links.": "Čia veikia Markdown: antraštės, sąrašai ir nuorodos.",
+        "Could not save the task. Please try again.": "Nepavyko išsaugoti užduoties. Bandykite dar kartą.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Užduočiai \"{title}\" užregistruotas laikas, todėl jos negalima ištrinti. Vietoj to ją galite atšaukti: laiko įrašai lieka.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Ištrinti \"{title}\"? Taip pat bus pašalintos jos sąsajos su kitomis užduotimis. To negalima atšaukti.",
+        "Keep task": "Palikti užduotį",
+        "Cancel task": "Atšaukti užduotį",
+        "Only the reporter, the project owner or an admin can delete this task.": "Šią užduotį gali ištrinti tik pranešėjas, projekto savininkas arba administratorius.",
+        "Could not delete the task. Please try again.": "Nepavyko ištrinti užduoties. Bandykite dar kartą.",
+        "Could not cancel the task. Please try again.": "Nepavyko atšaukti užduoties. Bandykite dar kartą."
     },
     "nplurals=2; plural=(n != 1);"
 )

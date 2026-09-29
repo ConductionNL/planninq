@@ -764,7 +764,21 @@
         "Requested": "Pedido",
         "Not approved": "Não aprovado",
         "Your request was sent": "O seu pedido foi enviado",
-        "Let everyone else request a project": "Permitir que todos os outros peçam um projeto"
+        "Let everyone else request a project": "Permitir que todos os outros peçam um projeto",
+        "Add a task": "Adicionar uma tarefa",
+        "Delete task": "Eliminar tarefa",
+        "Edit task": "Editar tarefa",
+        "Write": "Escrever",
+        "Preview": "Pré-visualizar",
+        "Markdown works here: headings, lists and links.": "Aqui funciona Markdown: títulos, listas e ligações.",
+        "Could not save the task. Please try again.": "Não foi possível guardar a tarefa. Tente novamente.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "\"{title}\" tem tempo registado, por isso não pode ser eliminada. Pode cancelá-la em vez disso: os registos de tempo mantêm-se.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Eliminar \"{title}\"? As ligações a outras tarefas também são removidas. Esta ação não pode ser anulada.",
+        "Keep task": "Manter tarefa",
+        "Cancel task": "Cancelar tarefa",
+        "Only the reporter, the project owner or an admin can delete this task.": "Só quem a reportou, o proprietário do projeto ou um administrador pode eliminar esta tarefa.",
+        "Could not delete the task. Please try again.": "Não foi possível eliminar a tarefa. Tente novamente.",
+        "Could not cancel the task. Please try again.": "Não foi possível cancelar a tarefa. Tente novamente."
     },
     "plurals": {}
 }

@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Gefrot",
         "Not approved": "Net guttgeheescht",
         "Your request was sent": "Är Ufro gouf geschéckt",
-        "Let everyone else request a project": "All déi aner däerfen e Projet ufroen"
+        "Let everyone else request a project": "All déi aner däerfen e Projet ufroen",
+        "Add a task": "Aufgab derbäisetzen",
+        "Delete task": "Aufgab läschen",
+        "Edit task": "Aufgab änneren",
+        "Write": "Schreiwen",
+        "Preview": "Virschau",
+        "Markdown works here: headings, lists and links.": "Hei funktionéiert Markdown: Iwwerschrëften, Lëschten a Linken.",
+        "Could not save the task. Please try again.": "D'Aufgab konnt net gespäichert ginn. Probéiert w.e.g. nach eng Kéier.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Op \"{title}\" ass Zäit agedroen, dofir kann se net geläscht ginn. Dir kënnt se amplaz annuléieren: d'Zäitagäng bleiwen.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "\"{title}\" läschen? Hir Linken op aner Aufgaben ginn och ewechgeholl. Dat kann net réckgängeg gemaach ginn.",
+        "Keep task": "Aufgab behalen",
+        "Cancel task": "Aufgab annuléieren",
+        "Only the reporter, the project owner or an admin can delete this task.": "Just déi Persoun déi se gemellt huet, de Projetsbesëtzer oder en Admin kann dës Aufgab läschen.",
+        "Could not delete the task. Please try again.": "D'Aufgab konnt net geläscht ginn. Probéiert w.e.g. nach eng Kéier.",
+        "Could not cancel the task. Please try again.": "D'Aufgab konnt net annuléiert ginn. Probéiert w.e.g. nach eng Kéier."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Pyydetty",
         "Not approved": "Ei hyväksytty",
         "Your request was sent": "Pyyntösi on lähetetty",
-        "Let everyone else request a project": "Anna kaikkien muiden pyytää projektia"
+        "Let everyone else request a project": "Anna kaikkien muiden pyytää projektia",
+        "Add a task": "Lisää tehtävä",
+        "Delete task": "Poista tehtävä",
+        "Edit task": "Muokkaa tehtävää",
+        "Write": "Kirjoita",
+        "Preview": "Esikatselu",
+        "Markdown works here: headings, lists and links.": "Markdown toimii tässä: otsikot, luettelot ja linkit.",
+        "Could not save the task. Please try again.": "Tehtävää ei voitu tallentaa. Yritä uudelleen.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "Tehtävään \"{title}\" on kirjattu aikaa, joten sitä ei voi poistaa. Voit perua sen sen sijaan: aikakirjaukset säilyvät.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Poistetaanko \"{title}\"? Myös sen linkit muihin tehtäviin poistetaan. Tätä ei voi perua.",
+        "Keep task": "Säilytä tehtävä",
+        "Cancel task": "Peru tehtävä",
+        "Only the reporter, the project owner or an admin can delete this task.": "Vain ilmoittaja, projektin omistaja tai ylläpitäjä voi poistaa tämän tehtävän.",
+        "Could not delete the task. Please try again.": "Tehtävää ei voitu poistaa. Yritä uudelleen.",
+        "Could not cancel the task. Please try again.": "Tehtävää ei voitu perua. Yritä uudelleen."
     },
     "nplurals=2; plural=(n != 1);"
 )

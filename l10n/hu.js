@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Kérve",
         "Not approved": "Nincs jóváhagyva",
         "Your request was sent": "A kérését elküldtük",
-        "Let everyone else request a project": "Mindenki más kérhet projektet"
+        "Let everyone else request a project": "Mindenki más kérhet projektet",
+        "Add a task": "Feladat hozzáadása",
+        "Delete task": "Feladat törlése",
+        "Edit task": "Feladat szerkesztése",
+        "Write": "Írás",
+        "Preview": "Előnézet",
+        "Markdown works here: headings, lists and links.": "Itt működik a Markdown: címsorok, listák és hivatkozások.",
+        "Could not save the task. Please try again.": "A feladatot nem sikerült menteni. Próbálja újra.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "A(z) \"{title}\" feladaton rögzített idő van, ezért nem törölhető. Helyette visszavonhatja: az időbejegyzések megmaradnak.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Törli a(z) \"{title}\" feladatot? A más feladatokra mutató kapcsolatai is törlődnek. Ez nem vonható vissza.",
+        "Keep task": "Feladat megtartása",
+        "Cancel task": "Feladat visszavonása",
+        "Only the reporter, the project owner or an admin can delete this task.": "Ezt a feladatot csak a bejelentő, a projekt tulajdonosa vagy egy rendszergazda törölheti.",
+        "Could not delete the task. Please try again.": "A feladatot nem sikerült törölni. Próbálja újra.",
+        "Could not cancel the task. Please try again.": "A feladatot nem sikerült visszavonni. Próbálja újra."
     },
     "nplurals=2; plural=(n != 1);"
 )

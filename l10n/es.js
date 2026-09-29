@@ -765,7 +765,21 @@ OC.L10N.register(
         "Requested": "Solicitado",
         "Not approved": "No aprobado",
         "Your request was sent": "Su solicitud se ha enviado",
-        "Let everyone else request a project": "Permitir que los demás soliciten un proyecto"
+        "Let everyone else request a project": "Permitir que los demás soliciten un proyecto",
+        "Add a task": "Añadir una tarea",
+        "Delete task": "Eliminar tarea",
+        "Edit task": "Editar tarea",
+        "Write": "Escribir",
+        "Preview": "Vista previa",
+        "Markdown works here: headings, lists and links.": "Aquí funciona Markdown: encabezados, listas y enlaces.",
+        "Could not save the task. Please try again.": "No se pudo guardar la tarea. Inténtalo de nuevo.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "\"{title}\" tiene tiempo registrado, así que no se puede eliminar. Puedes cancelarla en su lugar: los registros de tiempo se conservan.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "¿Eliminar \"{title}\"? También se eliminan sus vínculos con otras tareas. Esto no se puede deshacer.",
+        "Keep task": "Conservar tarea",
+        "Cancel task": "Cancelar tarea",
+        "Only the reporter, the project owner or an admin can delete this task.": "Solo quien la informó, el propietario del proyecto o un administrador puede eliminar esta tarea.",
+        "Could not delete the task. Please try again.": "No se pudo eliminar la tarea. Inténtalo de nuevo.",
+        "Could not cancel the task. Please try again.": "No se pudo cancelar la tarea. Inténtalo de nuevo."
     },
     "nplurals=2; plural=(n != 1);"
 )

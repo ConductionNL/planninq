@@ -740,7 +740,22 @@
         "Requested": "Requested",
         "Not approved": "Not approved",
         "Your request was sent": "Your request was sent",
-        "Let everyone else request a project": "Let everyone else request a project"
+        "Let everyone else request a project": "Let everyone else request a project",
+        "Add a task": "Add a task",
+        "Delete task": "Delete task",
+        "Edit task": "Edit task",
+        "Write": "Write",
+        "Preview": "Preview",
+        "Markdown works here: headings, lists and links.": "Markdown works here: headings, lists and links.",
+        "Could not save the task. Please try again.": "Could not save the task. Please try again.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.",
+        "Keep task": "Keep task",
+        "Cancel task": "Cancel task",
+        "Only the reporter, the project owner or an admin can delete this task.": "Only the reporter, the project owner or an admin can delete this task.",
+        "Could not delete the task. Please try again.": "Could not delete the task. Please try again.",
+        "Could not cancel the task. Please try again.": "Could not cancel the task. Please try again.",
+        "In progress": "In progress"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

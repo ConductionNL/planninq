@@ -764,7 +764,21 @@
         "Requested": "Запитано",
         "Not approved": "Не схвалено",
         "Your request was sent": "Ваш запит надіслано",
-        "Let everyone else request a project": "Дозволити всім іншим запитувати проєкт"
+        "Let everyone else request a project": "Дозволити всім іншим запитувати проєкт",
+        "Add a task": "Додати завдання",
+        "Delete task": "Видалити завдання",
+        "Edit task": "Редагувати завдання",
+        "Write": "Написати",
+        "Preview": "Попередній перегляд",
+        "Markdown works here: headings, lists and links.": "Тут працює Markdown: заголовки, списки та посилання.",
+        "Could not save the task. Please try again.": "Не вдалося зберегти завдання. Спробуйте ще раз.",
+        "\"{title}\" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.": "На завданні \"{title}\" обліковано час, тому його не можна видалити. Натомість його можна скасувати: записи часу залишаться.",
+        "Delete \"{title}\"? Its links to other tasks are removed too. This cannot be undone.": "Видалити \"{title}\"? Його зв'язки з іншими завданнями теж буде видалено. Цю дію не можна скасувати.",
+        "Keep task": "Залишити завдання",
+        "Cancel task": "Скасувати завдання",
+        "Only the reporter, the project owner or an admin can delete this task.": "Видалити це завдання може лише автор, власник проєкту або адміністратор.",
+        "Could not delete the task. Please try again.": "Не вдалося видалити завдання. Спробуйте ще раз.",
+        "Could not cancel the task. Please try again.": "Не вдалося скасувати завдання. Спробуйте ще раз."
     },
     "plurals": {}
 }
