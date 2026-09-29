@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.13.0"
+    "version": "0.14.0"
   },
   "x-openregister": {
     "type": "application",
@@ -31,7 +31,8 @@
           "projectLogEntry",
           "risk",
           "projectStatusReport",
-          "projectPortfolio"
+          "projectPortfolio",
+          "financeLine"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -382,7 +383,7 @@
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.6.0",
+        "version": "0.7.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -573,6 +574,22 @@
             "type": "boolean",
             "description": "Whether the work on this project is billable to the client. Phases, tasks and time entries inherit this unless they set their own value.",
             "default": false
+          },
+          "billingModel": {
+            "title": "Billing model",
+            "type": "string",
+            "description": "How the client pays: not billed, a fixed price, or by the hour.",
+            "enum": [
+              "none",
+              "fixedPrice",
+              "hourly"
+            ],
+            "default": "none",
+            "x-enum-labels": {
+              "none": "Not billed",
+              "fixedPrice": "Fixed price",
+              "hourly": "Hourly"
+            }
           },
           "budgetHours": {
             "title": "Budget Hours",
@@ -2348,6 +2365,183 @@
             "title": "Risk scale",
             "type": "string",
             "description": "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale."
+          }
+        }
+      },
+      "financeLine": {
+        "slug": "financeLine",
+        "icon": "CashMultiple",
+        "version": "0.1.0",
+        "title": "Finance line",
+        "description": "One amount of money on a project: a budget, a commitment, an actual cost or a forecast, in a cost category and optionally a phase. Written by the project owner, or by the finance system through the integration app.",
+        "x-schema-org": "schema:MonetaryAmount",
+        "type": "object",
+        "required": [
+          "kind",
+          "amount"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "financeReaders": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "planninq-finance-import"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "projectOwner": "$userId"
+              }
+            },
+            {
+              "group": "planninq-finance-import"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "projectOwner": "$userId"
+              }
+            },
+            {
+              "group": "planninq-finance-import"
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project this amount belongs to. Empty for a line from the finance system whose project number matches no project.",
+            "format": "uuid",
+            "$ref": "project",
+            "nullable": true
+          },
+          "phase": {
+            "title": "Phase",
+            "type": "string",
+            "description": "The phase this amount belongs to, if any",
+            "format": "uuid",
+            "$ref": "projectPhase",
+            "nullable": true
+          },
+          "category": {
+            "title": "Category",
+            "type": "string",
+            "description": "The cost category, one of the categories the admin set up"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string",
+            "description": "Whether the amount is a budget, a commitment, an actual cost or a forecast",
+            "enum": [
+              "budget",
+              "commitment",
+              "actual",
+              "forecast"
+            ],
+            "x-enum-labels": {
+              "budget": "Budget",
+              "commitment": "Commitment",
+              "actual": "Actual cost",
+              "forecast": "Forecast"
+            }
+          },
+          "amount": {
+            "title": "Amount",
+            "type": "number",
+            "description": "The amount in the reporting currency (euro)"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string",
+            "description": "The date the amount was booked or is expected",
+            "format": "date",
+            "nullable": true
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "What the amount is for"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string",
+            "description": "Whether a person entered the line or the finance system sent it",
+            "enum": [
+              "manual",
+              "import"
+            ],
+            "default": "manual",
+            "x-enum-labels": {
+              "manual": "Entered by hand",
+              "import": "From the finance system"
+            }
+          },
+          "externalRef": {
+            "title": "Finance line id",
+            "type": "string",
+            "description": "The finance system's own id of this line. One imported line per id.",
+            "nullable": true
+          },
+          "projectKey": {
+            "title": "Project number",
+            "type": "string",
+            "description": "The project number the finance system sent, matched against the project key",
+            "nullable": true
+          },
+          "portfolio": {
+            "title": "Portfolio",
+            "type": "string",
+            "description": "The portfolio of the line's project, copied from the project so portfolio totals need one filter",
+            "format": "uuid",
+            "$ref": "projectPortfolio",
+            "nullable": true
+          },
+          "financeReaders": {
+            "title": "Finance readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person. FinanceLineService writes it on every create and update and whenever the project's owner, portfolio or portfolio managers change (portfolio-finance, design decision 1)."
+          },
+          "projectOwner": {
+            "title": "Project owner",
+            "type": "string",
+            "description": "Nextcloud user UID of the project owner, who may change and remove manual lines",
+            "nullable": true,
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person. FinanceLineService writes it on every create and update and whenever the project's owner, portfolio or portfolio managers change (portfolio-finance, design decision 1)."
           }
         }
       }

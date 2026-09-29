@@ -467,7 +467,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the twelve expected schemas.
+	 * The register MUST declare exactly the thirteen expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
 	 * over the project work breakdown structure pipelinq had built, and
@@ -481,8 +481,8 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @spec openspec/changes/task-dependencies/specs/register-schemas/spec.md
 	 */
-	public function testRegisterDeclaresExactlyTwelveSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio'];
+	public function testRegisterDeclaresExactlyThirteenSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -491,7 +491,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the twelve expected schemas'
+			message: 'register schema list must be exactly the thirteen expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -499,7 +499,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the twelve expected schemas'
+			message: 'components.schemas must define exactly the thirteen expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -508,7 +508,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyTwelveSchemas()
+	}//end testRegisterDeclaresExactlyThirteenSchemas()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -940,4 +940,48 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertNotContains(needle: self::READER_RULE, haystack: $project['authorization']['update']);
 
 	}//end testPortfolioSchemaAndTheProjectReaderRule()
+
+	/**
+	 * A finance line holds one amount of one kind in one category, readable by
+	 * the project owner, the portfolio managers, the import group and admins,
+	 * and never by a plain member. The payloads the Finance tab and the import
+	 * write pass the validator OpenRegister runs.
+	 *
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.1
+	 *
+	 * @return void
+	 */
+	public function testFinanceLineSchemaAndItsRules(): void {
+		$schema = $this->register['components']['schemas']['financeLine'];
+		self::assertSame(expected: ['kind', 'amount'], actual: $schema['required']);
+		self::assertSame(expected: ['budget', 'commitment', 'actual', 'forecast'], actual: $schema['properties']['kind']['enum']);
+		self::assertSame(expected: ['manual', 'import'], actual: $schema['properties']['source']['enum']);
+		self::assertSame(expected: 'manual', actual: $schema['properties']['source']['default']);
+		foreach (['financeReaders', 'projectOwner'] as $hidden) {
+			self::assertFalse(condition: $schema['properties'][$hidden]['visible'], message: "{$hidden} is kept by planninq");
+			self::assertArrayNotHasKey(key: 'format', array: $schema['properties'][$hidden]);
+		}
+
+		$readers = ['group' => 'authenticated', 'match' => ['financeReaders' => ['$contains' => '$userId']]];
+		$owner   = ['group' => 'authenticated', 'match' => ['projectOwner' => '$userId']];
+		$import  = ['group' => 'planninq-finance-import'];
+		self::assertSame(expected: [$readers, $import, ['group' => 'admin']], actual: $schema['authorization']['read']);
+		self::assertNotContains(needle: self::MEMBER_RULE, haystack: $schema['authorization']['read'], message: 'members do not read money');
+		self::assertSame(expected: [['group' => 'authenticated'], ['group' => 'admin']], actual: $schema['authorization']['create']);
+		foreach (['update', 'delete'] as $action) {
+			self::assertSame(expected: [$owner, $import, ['group' => 'admin']], actual: $schema['authorization'][$action], message: $action);
+		}
+
+		$manual = ['project' => '5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e', 'category' => 'Materials', 'kind' => 'actual', 'amount' => 1500, 'date' => '2026-09-29', 'description' => 'Bricks', 'source' => 'manual', 'phase' => null];
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'financeLine', payload: $manual));
+		$imported = ['project' => null, 'projectKey' => 'OMG', 'kind' => 'actual', 'amount' => 1200.5, 'externalRef' => 'FIN-778', 'source' => 'import', 'category' => 'Hired staff'];
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'financeLine', payload: $imported));
+		self::assertNotSame(expected: [], actual: $this->registerSchemaErrors(slug: 'financeLine', payload: ['kind' => 'spent', 'amount' => 1]));
+
+		$project = $this->register['components']['schemas']['project'];
+		self::assertSame(expected: ['none', 'fixedPrice', 'hourly'], actual: $project['properties']['billingModel']['enum']);
+		$terms = ['title' => 'Stadspark', 'status' => 'active', 'billable' => true, 'billingModel' => 'fixedPrice', 'budgetAmount' => 56000, 'budgetHours' => 400, 'hourlyRate' => 0, 'startDate' => '2026-10-01', 'endDate' => null];
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'project', payload: $terms));
+
+	}//end testFinanceLineSchemaAndItsRules()
 }//end class
