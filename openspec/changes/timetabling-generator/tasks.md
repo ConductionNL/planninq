@@ -10,9 +10,9 @@ DECISIONS.md row 17). Sections 5 onward assume the solver answer recorded in des
 
 ## 2. Activities and the solver input
 
-- [ ] 2.1 `TimetableActivitiesQueryEvent` (typed, ADR-041) and `TimetableInputBuilder` that turns activities, rooms, the grid and the wishes into a `SolverInput`. Verify: PHPUnit on the builder with a fixture; an event nobody answers yields an empty input and the reason "No activities: learniq did not answer and no CSV was uploaded".
-- [ ] 2.2 CSV upload of activities and rooms (same columns as the event), admin only. Verify: PHPUnit on the parser (header check, lessons per week and lesson length as whole numbers, unknown room type refused with the line number); controller refuses a non-admin.
-- [ ] 2.3 Draft the learniq listener contract to `~/memcap-work/build-all/for-ruben/learniq-timetable-activities-event.md`. Verify: the file names the event class, its fields and the learniq endpoint it mirrors.
+- [x] 2.1 `TimetableActivitiesQueryEvent` (typed, ADR-041) and `TimetableInputBuilder` that turns activities, rooms, the grid and the wishes into a `SolverInput`. Verify: PHPUnit on the builder with a fixture; an event nobody answers yields an empty input and the reason "No activities: learniq did not answer and no CSV was uploaded".
+- [x] 2.2 CSV upload of activities and rooms (same columns as the event), admin only. Verify: PHPUnit on the parser (header check, lessons per week and lesson length as whole numbers, unknown room type refused with the line number); controller refuses a non-admin.
+- [x] 2.3 Draft the learniq listener contract to `~/memcap-work/build-all/for-ruben/learniq-timetable-activities-event.md`. Verify: the file names the event class, its fields and the learniq endpoint it mirrors.
 
 ## 3. Wishes
 

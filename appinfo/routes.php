@@ -53,4 +53,6 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'timetable#upsert', 'url' => '/api/timetable/sessions/upsert', 'verb' => 'POST'],
     // Admins publish a source's draft lessons in a window (timetable-draft-review).
     ['name' => 'timetable#publish', 'url' => '/api/timetable/sessions/publish', 'verb' => 'POST'],
+    // Admins upload the activities and rooms sheets for the timetable generator (timetabling-generator 2.2).
+    ['name' => 'timetableInput#upload', 'url' => '/api/timetable/input/upload', 'verb' => 'POST'],
 ]);
