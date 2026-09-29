@@ -55,3 +55,14 @@ and in the document title; `matchesSearch` (from `tasks-search-and-bulk`) includ
 
 - [The lock needs a working locking provider] -> Nextcloud always has one (database-backed by
   default); the listener fails the create with a clear error rather than issuing a duplicate.
+
+## Built at HEAD (29 Sep 2026)
+
+- The dialog makes the key required and suggests it from the title: the initials of several words, or the first four characters of one word. The server accepts a create without a key, so older API callers keep working.
+- Key rules sit in `WorkItemKeyListener` for every project write, and `ProjectController::create` answers them first with 400 or 409. A write that leaves `key` out (a PUT of other fields) keeps the stored key; an explicit empty key is a change and is refused once tasks carry it.
+- "Tasks carry the key" is read as `nextTaskNumber > 1`. Only a system write moves the counter: a client value is replaced by the stored one.
+- A project without a counter (an imported key) starts after the highest `{KEY}-n` among its tasks, so an imported key is never reissued.
+- The lock is `planninq/task-key/{project}` through `ILockingProvider`; a create waits up to about a second for it, then fails with `planninq-task-key-busy` rather than risk a duplicate. Two projects created with the same key at the same instant are not locked against each other; the window is one request.
+- Search: `matchesSearch` from `tasks-search-and-bulk` is not built, so task search by key waits for that change. The project list search matches the project key.
+- The sidebar has no "Numbering tasks" state: saving the first key says the existing tasks get their numbers in the background.
+
