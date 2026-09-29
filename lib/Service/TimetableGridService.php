@@ -144,8 +144,9 @@ class TimetableGridService {
 		$grid = (array)json_decode(($this->normaliseGrid(raw: $this->settings()[self::GRID_KEY]) ?? self::DEFAULT_GRID), true);
 		$keys = [];
 		foreach ((array)$grid['days'] as $day) {
-			foreach (array_keys((array)$grid['periods']) as $index) {
-				$keys[] = $day.'-'.($index + 1);
+			$count = count((array)$grid['periods']);
+			for ($number = 1; $number <= $count; $number++) {
+				$keys[] = $day.'-'.$number;
 			}
 		}
 
