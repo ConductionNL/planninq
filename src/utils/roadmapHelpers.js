@@ -102,7 +102,7 @@ export function epicSpan(epic, tasks) {
 	const id = refId(epic)
 	const dates = []
 	;(tasks || []).filter((task) => refId(task.epic) === id).forEach((task) => {
-		;[task.startDate, task.dueDate].forEach((value) => {
+		[task.startDate, task.dueDate].forEach((value) => {
 			if (parseDay(value) !== null) {
 				dates.push(String(value).slice(0, 10))
 			}
