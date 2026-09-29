@@ -21,7 +21,7 @@ DECISIONS.md row 17). Sections 5 onward assume the solver answer recorded in des
 
 ## 4. Scorer
 
-- [ ] 4.1 `TimetableScorer`: clashes, hard wish breaches, soft wish breaches with weights, teacher gaps, lessons per day, room use, as `metrics` (design decision 5). Verify: PHPUnit with a hand-made placement for each wish kind, each broken once and kept once.
+- [x] 4.1 `TimetableScorer`: clashes, hard wish breaches, soft wish breaches with weights, teacher gaps, lessons per day, room use, as `metrics` (design decision 5). Verify: PHPUnit with a hand-made placement for each wish kind, each broken once and kept once.
 
 ## 5. Solver and the background run
 
