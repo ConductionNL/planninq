@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "Ključ se ne može promijeniti kad ga zadaci nose.",
         "Project saved. The existing tasks get their numbers in the background.": "Projekt je spremljen. Postojeći zadaci dobivaju brojeve u pozadini.",
         "Next task number": "Broj sljedećeg zadatka",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Broj koji sljedeći zadatak ovog projekta dobiva u svom ključu. Upisuje ga samo sustav."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Broj koji sljedeći zadatak ovog projekta dobiva u svom ključu. Upisuje ga samo sustav.",
+        "Restore {title}": "Vrati {title}",
+        "Restore": "Vrati",
+        "Project restored": "Projekt je vraćen",
+        "Could not restore the project": "Projekt nije moguće vratiti",
+        "Bring this project back to the active list.": "Vrati ovaj projekt na popis aktivnih projekata.",
+        "Restore project": "Vrati projekt",
+        "Request reason": "Razlog zahtjeva",
+        "Why the requester needs this project. Filled in when the project is requested.": "Zašto podnositelju treba ovaj projekt. Ispunjava se pri zahtjevu.",
+        "Reviewed by": "Pregledao",
+        "The user who approved or rejected the request.": "Korisnik koji je odobrio ili odbio zahtjev.",
+        "Reviewed at": "Pregledano",
+        "When the request was approved or rejected.": "Kada je zahtjev odobren ili odbijen.",
+        "Review note": "Napomena pregledavatelja",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Razlog pregledavatelja koji podnositelj vidi kad zahtjev nije odobren."
     },
     "plurals": null
 }

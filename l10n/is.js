@@ -722,7 +722,21 @@ OC.L10N.register(
         "The key cannot change once tasks carry it.": "Ekki er hægt að breyta lyklinum þegar verk bera hann.",
         "Project saved. The existing tasks get their numbers in the background.": "Verkefni vistað. Núverandi verk fá númerin sín í bakgrunni.",
         "Next task number": "Næsta verknúmer",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Númerið sem næsta verk þessa verkefnis fær í lykli sínum. Aðeins kerfið skrifar það."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Númerið sem næsta verk þessa verkefnis fær í lykli sínum. Aðeins kerfið skrifar það.",
+        "Restore {title}": "Endurheimta {title}",
+        "Restore": "Endurheimta",
+        "Project restored": "Verkefni endurheimt",
+        "Could not restore the project": "Ekki tókst að endurheimta verkefnið",
+        "Bring this project back to the active list.": "Settu þetta verkefni aftur á lista yfir virk verkefni.",
+        "Restore project": "Endurheimta verkefni",
+        "Request reason": "Ástæða beiðninnar",
+        "Why the requester needs this project. Filled in when the project is requested.": "Hvers vegna umsækjandinn þarf þetta verkefni. Fyllt út við beiðnina.",
+        "Reviewed by": "Yfirfarið af",
+        "The user who approved or rejected the request.": "Notandinn sem samþykkti eða hafnaði beiðninni.",
+        "Reviewed at": "Yfirfarið",
+        "When the request was approved or rejected.": "Hvenær beiðnin var samþykkt eða henni hafnað.",
+        "Review note": "Athugasemd yfirferðar",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Ástæða þess sem yfirfór, sem umsækjandinn sér þegar beiðni er ekki samþykkt."
     },
     "nplurals=2; plural=(n != 1);"
 )

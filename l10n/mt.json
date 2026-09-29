@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "Iċ-ċavetta ma tistax tinbidel ladarba kompiti jġorruha.",
         "Project saved. The existing tasks get their numbers in the background.": "Il-proġett ġie ssejvjat. Il-kompiti eżistenti jiksbu n-numri tagħhom fl-isfond.",
         "Next task number": "In-numru tal-kompitu li jmiss",
-        "The number the next task of this project gets in its key. Only the system writes it.": "In-numru li l-kompitu li jmiss ta’ dan il-proġett jieħu fiċ-ċavetta tiegħu. Is-sistema biss tiktbu."
+        "The number the next task of this project gets in its key. Only the system writes it.": "In-numru li l-kompitu li jmiss ta’ dan il-proġett jieħu fiċ-ċavetta tiegħu. Is-sistema biss tiktbu.",
+        "Restore {title}": "Irrestawra {title}",
+        "Restore": "Irrestawra",
+        "Project restored": "Il-proġett ġie rrestawrat",
+        "Could not restore the project": "Il-proġett ma setax jiġi rrestawrat",
+        "Bring this project back to the active list.": "Ġib dan il-proġett lura fil-lista tal-proġetti attivi.",
+        "Restore project": "Irrestawra l-proġett",
+        "Request reason": "Ir-raġuni tat-talba",
+        "Why the requester needs this project. Filled in when the project is requested.": "Għaliex min jagħmel it-talba għandu bżonn dan il-proġett. Jimtela mat-talba.",
+        "Reviewed by": "Rieżaminat minn",
+        "The user who approved or rejected the request.": "L-utent li approva jew ċaħad it-talba.",
+        "Reviewed at": "Rieżaminat fi",
+        "When the request was approved or rejected.": "Meta t-talba ġiet approvata jew miċħuda.",
+        "Review note": "Nota tar-rieżami",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Ir-raġuni ta’ min irrieżamina, li jara min għamel it-talba meta talba ma tiġix approvata."
     },
     "plurals": {}
 }

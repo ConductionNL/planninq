@@ -722,7 +722,21 @@ OC.L10N.register(
         "The key cannot change once tasks carry it.": "Nøkkelen kan ikke endres når oppgaver bærer den.",
         "Project saved. The existing tasks get their numbers in the background.": "Prosjektet er lagret. De eksisterende oppgavene får numrene sine i bakgrunnen.",
         "Next task number": "Neste oppgavenummer",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Nummeret den neste oppgaven i dette prosjektet får i nøkkelen sin. Bare systemet skriver det."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Nummeret den neste oppgaven i dette prosjektet får i nøkkelen sin. Bare systemet skriver det.",
+        "Restore {title}": "Gjenopprett {title}",
+        "Restore": "Gjenopprett",
+        "Project restored": "Prosjektet er gjenopprettet",
+        "Could not restore the project": "Kunne ikke gjenopprette prosjektet",
+        "Bring this project back to the active list.": "Flytt prosjektet tilbake til listen over aktive prosjekter.",
+        "Restore project": "Gjenopprett prosjekt",
+        "Request reason": "Begrunnelse for forespørselen",
+        "Why the requester needs this project. Filled in when the project is requested.": "Hvorfor den som ber om prosjektet trenger det. Fylles ut ved forespørselen.",
+        "Reviewed by": "Vurdert av",
+        "The user who approved or rejected the request.": "Brukeren som godkjente eller avviste forespørselen.",
+        "Reviewed at": "Vurdert",
+        "When the request was approved or rejected.": "Når forespørselen ble godkjent eller avvist.",
+        "Review note": "Vurderingsnotat",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Begrunnelsen fra den som vurderte, som den som ba om prosjektet ser når en forespørsel ikke godkjennes."
     },
     "nplurals=2; plural=(n != 1);"
 )

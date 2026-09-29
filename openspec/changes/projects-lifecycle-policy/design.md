@@ -76,3 +76,11 @@ While `status` is `requested` or `rejected`, the board shows a banner instead of
 - [A register import resets the live patch] -> The repair step re-applies it, and a PHPUnit test runs the import then the repair and asserts the reviewer groups are present.
 - [A group listed in the policy is deleted] -> `ProjectPolicySchemaService` drops unknown groups on save, and the admin page shows a warning for a listed group that no longer exists.
 - [Transition authorization and object update rules disagree] -> Task 1.2 checks live that a member without update rights gets 403 on `restore`, before the store is moved to the transition endpoint.
+
+## Built at HEAD (29 Sep 2026, section 1)
+
+- The lifecycle also declares `complete` (active to completed) and `cancel` (active to cancelled), and `restore` also leaves `cancelled`. OpenRegister's `LifecycleValidationListener` refuses any status write no transition allows, so without them an API client setting `completed` or `cancelled` would have been refused.
+- "Owner and managers": managers do not exist yet (`projects-members-and-roles` is not built), so archive and restore follow the project's update rule: the owner and admins. The list shows Restore to them only.
+- `approve` and `reject` carry `authorization: ["admin"]` in the register file; section 3 writes the reviewer groups into the live schema.
+- The block passed OpenRegister's own `LifecycleAnnotationValidator` (development `4abd834`): 0 findings, control with an empty `authorization` 1.
+

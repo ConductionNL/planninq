@@ -18,6 +18,7 @@ import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelpers.js'
 import { canSeeProject } from '../utils/portfolioGrouping.js'
+import { actionNames, transitionRequest } from '../utils/projectLifecycle.js'
 import { useObjectStore } from './objectStore.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
@@ -920,24 +921,87 @@ export const useProjectsStore = defineStore('projects', {
 		// ── 2.7 archiveProject ────────────────────────────────────────────
 
 		/**
-		 * Archive a project by setting status to 'archived'.
+		 * Run a lifecycle transition on a project through OpenRegister, which
+		 * checks the caller's update right and the schema's lifecycle block.
+		 *
+		 * @param {string} id Project ID
+		 * @param {string} action The transition: archive, restore, approve or reject
+		 * @param {object} [data] Input values the transition accepts
+		 * @return {Promise<object|null>} The saved project, or null on a refusal (message in `error`)
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.3
+		 */
+		async runProjectTransition(id, action, data) {
+			this.error = null
+			const { path, body } = transitionRequest(id, action)
+			try {
+				const response = await fetch(generateUrl(path), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(data ? { ...body, data } : body),
+				})
+				const answer = await response.json().catch(() => ({}))
+				if (!response.ok) {
+					this.error = answer?.error || 'transition-error'
+					return null
+				}
+				const updated = { ...answer, id: answer.id || answer['@self']?.id || id }
+				this.projects = this.projects.map((p) => (p.id === id ? { ...p, ...updated } : p))
+				if (this.activeProject?.id === id) {
+					this.activeProject = { ...this.activeProject, ...updated }
+				}
+				return updated
+			} catch (err) {
+				this.error = err.message || 'transition-error'
+				return null
+			}
+		},
+
+		/**
+		 * The lifecycle actions OpenRegister offers the caller on a project.
+		 *
+		 * @param {string} id Project ID
+		 * @return {Promise<string[]|null>} Action names, or null when the list could not be read
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.4
+		 */
+		async fetchProjectActions(id) {
+			try {
+				const url = generateUrl(`/apps/openregister/api/objects/${encodeURIComponent(id)}/available-actions`)
+				const response = await fetch(url, { headers: buildHeaders() })
+				return response.ok ? actionNames(await response.json()) : null
+			} catch {
+				return null
+			}
+		},
+
+		/**
+		 * Archive a project through the `archive` transition.
 		 *
 		 * @param {string} id Project ID
 		 * @return {Promise<object|null>}
 		 *
-		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.3
 		 */
 		async archiveProject(id) {
-			// Use PATCH (not PUT) so only `status` is changed server-side.
-			// OR's PUT semantics fill every missing schema property with null,
-			// which would wipe `owner` and make the project permanently
-			// uneditable by the owner (H1 / same root cause as C2).
-			const updated = await this.patchProject(id, { status: 'archived' })
+			const updated = await this.runProjectTransition(id, 'archive')
 			if (updated) {
 				// Remove from the active list (default filter excludes archived).
 				this.projects = this.projects.filter((p) => p.id !== id)
 			}
 			return updated
+		},
+
+		/**
+		 * Bring an archived project back through the `restore` transition.
+		 *
+		 * @param {string} id Project ID
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.3
+		 */
+		async restoreProject(id) {
+			return this.runProjectTransition(id, 'restore')
 		},
 
 		// ── 2.8 deleteProject ─────────────────────────────────────────────

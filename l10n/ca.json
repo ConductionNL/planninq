@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "La clau no pot canviar un cop les tasques la porten.",
         "Project saved. The existing tasks get their numbers in the background.": "Projecte desat. Les tasques existents reben el número en segon pla.",
         "Next task number": "Número de la tasca següent",
-        "The number the next task of this project gets in its key. Only the system writes it.": "El número que rep a la seva clau la tasca següent d’aquest projecte. Només el sistema l’escriu."
+        "The number the next task of this project gets in its key. Only the system writes it.": "El número que rep a la seva clau la tasca següent d’aquest projecte. Només el sistema l’escriu.",
+        "Restore {title}": "Restaura {title}",
+        "Restore": "Restaura",
+        "Project restored": "S’ha restaurat el projecte",
+        "Could not restore the project": "No s’ha pogut restaurar el projecte",
+        "Bring this project back to the active list.": "Torna aquest projecte a la llista de projectes actius.",
+        "Restore project": "Restaura el projecte",
+        "Request reason": "Motiu de la sol·licitud",
+        "Why the requester needs this project. Filled in when the project is requested.": "Per què el sol·licitant necessita aquest projecte. S’omple en sol·licitar-lo.",
+        "Reviewed by": "Revisat per",
+        "The user who approved or rejected the request.": "L’usuari que va aprovar o rebutjar la sol·licitud.",
+        "Reviewed at": "Revisat el",
+        "When the request was approved or rejected.": "Quan es va aprovar o rebutjar la sol·licitud.",
+        "Review note": "Nota de revisió",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "El motiu del revisor, que veu el sol·licitant quan una sol·licitud no s’aprova."
     },
     "plurals": null
 }

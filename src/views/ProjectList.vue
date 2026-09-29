@@ -102,7 +102,9 @@
 						:depth="row.depth"
 						:hasChildren="row.hasChildren"
 						:folded="!row.expanded"
+						:canRestore="mayRestore(row.project)"
 						@click="navigateToProject(row.project)"
+						@restore="restore"
 						@toggle="toggleSubprojects(row.project)" />
 				</ul>
 			</template>
@@ -119,6 +121,8 @@
 
 <script>
 import { useListView } from '@conduction/nextcloud-vue'
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 /**
  * ProjectList view.
  *
@@ -437,6 +441,36 @@ export default {
 		 */
 		setStatusFilter(status) {
 			this.activeStatus = status
+		},
+
+		/**
+		 * Whether the viewer may restore a project: its owner or an admin, the
+		 * project's update rule that the restore transition checks.
+		 *
+		 * @param {object} project The project.
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.4
+		 */
+		mayRestore(project) {
+			const user = getCurrentUser()
+			return user?.isAdmin === true || (!!user?.uid && project?.owner === user.uid)
+		},
+
+		/**
+		 * Restore an archived project from the list.
+		 *
+		 * @param {object} project The archived project.
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.4
+		 */
+		async restore(project) {
+			const restored = await this.projectsStore.restoreProject(project.id)
+			if (restored) {
+				showSuccess(this.t('planninq', 'Project restored'))
+				return
+			}
+			showError(this.t('planninq', 'Could not restore the project'))
 		},
 
 		/**

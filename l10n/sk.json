@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "Kľúč sa nemôže zmeniť, keď ho nesú úlohy.",
         "Project saved. The existing tasks get their numbers in the background.": "Projekt uložený. Existujúce úlohy dostanú svoje čísla na pozadí.",
         "Next task number": "Číslo ďalšej úlohy",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Číslo, ktoré ďalšia úloha tohto projektu dostane vo svojom kľúči. Zapisuje ho iba systém."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Číslo, ktoré ďalšia úloha tohto projektu dostane vo svojom kľúči. Zapisuje ho iba systém.",
+        "Restore {title}": "Obnoviť {title}",
+        "Restore": "Obnoviť",
+        "Project restored": "Projekt obnovený",
+        "Could not restore the project": "Projekt sa nepodarilo obnoviť",
+        "Bring this project back to the active list.": "Vrátiť projekt do zoznamu aktívnych projektov.",
+        "Restore project": "Obnoviť projekt",
+        "Request reason": "Dôvod žiadosti",
+        "Why the requester needs this project. Filled in when the project is requested.": "Prečo žiadateľ potrebuje tento projekt. Vypĺňa sa pri žiadosti.",
+        "Reviewed by": "Posúdil",
+        "The user who approved or rejected the request.": "Používateľ, ktorý žiadosť schválil alebo zamietol.",
+        "Reviewed at": "Posúdené",
+        "When the request was approved or rejected.": "Kedy bola žiadosť schválená alebo zamietnutá.",
+        "Review note": "Poznámka k posúdeniu",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Dôvod posudzovateľa, ktorý žiadateľ uvidí, keď žiadosť nie je schválená."
     },
     "plurals": null
 }

@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "Ní féidir an eochair a athrú nuair atá sí ar thascanna.",
         "Project saved. The existing tasks get their numbers in the background.": "Sábháladh an tionscadal. Faigheann na tascanna atá ann a n-uimhreacha sa chúlra.",
         "Next task number": "Uimhir an chéad taisc eile",
-        "The number the next task of this project gets in its key. Only the system writes it.": "An uimhir a fhaigheann an chéad tasc eile den tionscadal seo ina eochair. Ní scríobhann ach an córas í."
+        "The number the next task of this project gets in its key. Only the system writes it.": "An uimhir a fhaigheann an chéad tasc eile den tionscadal seo ina eochair. Ní scríobhann ach an córas í.",
+        "Restore {title}": "Athchóirigh {title}",
+        "Restore": "Athchóirigh",
+        "Project restored": "Athchóiríodh an tionscadal",
+        "Could not restore the project": "Níorbh fhéidir an tionscadal a athchóiriú",
+        "Bring this project back to the active list.": "Cuir an tionscadal seo ar ais ar liosta na dtionscadal gníomhach.",
+        "Restore project": "Athchóirigh an tionscadal",
+        "Request reason": "Cúis an iarratais",
+        "Why the requester needs this project. Filled in when the project is requested.": "Cén fáth a bhfuil an tionscadal seo de dhíth ar an iarratasóir. Líontar é leis an iarratas.",
+        "Reviewed by": "Athbhreithnithe ag",
+        "The user who approved or rejected the request.": "An t-úsáideoir a d’fhaomh nó a dhiúltaigh an t-iarratas.",
+        "Reviewed at": "Athbhreithnithe ar",
+        "When the request was approved or rejected.": "Cathain a faomhadh nó a diúltaíodh an t-iarratas.",
+        "Review note": "Nóta athbhreithnithe",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Cúis an athbhreithneora, a fheiceann an t-iarratasóir nuair nach bhfaomhtar iarratas."
     },
     "plurals": null
 }

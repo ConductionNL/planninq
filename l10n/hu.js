@@ -722,7 +722,21 @@ OC.L10N.register(
         "The key cannot change once tasks carry it.": "A kulcs nem változhat, ha már feladatok viselik.",
         "Project saved. The existing tasks get their numbers in the background.": "A projekt mentve. A meglévő feladatok a háttérben kapják meg a számukat.",
         "Next task number": "Következő feladatszám",
-        "The number the next task of this project gets in its key. Only the system writes it.": "A szám, amelyet a projekt következő feladata a kulcsában kap. Csak a rendszer írja."
+        "The number the next task of this project gets in its key. Only the system writes it.": "A szám, amelyet a projekt következő feladata a kulcsában kap. Csak a rendszer írja.",
+        "Restore {title}": "{title} visszaállítása",
+        "Restore": "Visszaállítás",
+        "Project restored": "A projekt visszaállítva",
+        "Could not restore the project": "A projektet nem sikerült visszaállítani",
+        "Bring this project back to the active list.": "A projekt visszakerül az aktív projektek listájába.",
+        "Restore project": "Projekt visszaállítása",
+        "Request reason": "A kérés indoka",
+        "Why the requester needs this project. Filled in when the project is requested.": "Miért van szüksége a kérelmezőnek erre a projektre. A kérésnél kell kitölteni.",
+        "Reviewed by": "Elbírálta",
+        "The user who approved or rejected the request.": "A felhasználó, aki jóváhagyta vagy elutasította a kérést.",
+        "Reviewed at": "Elbírálás ideje",
+        "When the request was approved or rejected.": "Mikor hagyták jóvá vagy utasították el a kérést.",
+        "Review note": "Elbírálói megjegyzés",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Az elbíráló indoka, amelyet a kérelmező lát, ha a kérést nem hagyják jóvá."
     },
     "nplurals=2; plural=(n != 1);"
 )

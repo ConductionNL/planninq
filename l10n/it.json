@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "La chiave non può cambiare una volta che le attività la portano.",
         "Project saved. The existing tasks get their numbers in the background.": "Progetto salvato. Le attività esistenti ricevono il loro numero in background.",
         "Next task number": "Numero della prossima attività",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Il numero che la prossima attività di questo progetto riceve nella sua chiave. Solo il sistema lo scrive."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Il numero che la prossima attività di questo progetto riceve nella sua chiave. Solo il sistema lo scrive.",
+        "Restore {title}": "Ripristina {title}",
+        "Restore": "Ripristina",
+        "Project restored": "Progetto ripristinato",
+        "Could not restore the project": "Impossibile ripristinare il progetto",
+        "Bring this project back to the active list.": "Riporta questo progetto nell’elenco dei progetti attivi.",
+        "Restore project": "Ripristina progetto",
+        "Request reason": "Motivo della richiesta",
+        "Why the requester needs this project. Filled in when the project is requested.": "Perché il richiedente ha bisogno di questo progetto. Compilato alla richiesta.",
+        "Reviewed by": "Esaminato da",
+        "The user who approved or rejected the request.": "L’utente che ha approvato o respinto la richiesta.",
+        "Reviewed at": "Esaminato il",
+        "When the request was approved or rejected.": "Quando la richiesta è stata approvata o respinta.",
+        "Review note": "Nota di revisione",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Il motivo del revisore, mostrato al richiedente quando una richiesta non è approvata."
     },
     "plurals": null
 }

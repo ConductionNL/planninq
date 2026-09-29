@@ -722,7 +722,21 @@ OC.L10N.register(
         "The key cannot change once tasks carry it.": "Cheia nu se mai poate schimba după ce sarcinile o poartă.",
         "Project saved. The existing tasks get their numbers in the background.": "Proiect salvat. Sarcinile existente își primesc numerele în fundal.",
         "Next task number": "Numărul următoarei sarcini",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Numărul pe care următoarea sarcină a acestui proiect îl primește în cheia sa. Doar sistemul îl scrie."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Numărul pe care următoarea sarcină a acestui proiect îl primește în cheia sa. Doar sistemul îl scrie.",
+        "Restore {title}": "Restaurează {title}",
+        "Restore": "Restaurează",
+        "Project restored": "Proiect restaurat",
+        "Could not restore the project": "Proiectul nu a putut fi restaurat",
+        "Bring this project back to the active list.": "Readuceți acest proiect în lista proiectelor active.",
+        "Restore project": "Restaurează proiectul",
+        "Request reason": "Motivul cererii",
+        "Why the requester needs this project. Filled in when the project is requested.": "De ce are nevoie solicitantul de acest proiect. Se completează la cerere.",
+        "Reviewed by": "Analizat de",
+        "The user who approved or rejected the request.": "Utilizatorul care a aprobat sau a respins cererea.",
+        "Reviewed at": "Analizat la",
+        "When the request was approved or rejected.": "Când a fost aprobată sau respinsă cererea.",
+        "Review note": "Nota evaluatorului",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Motivul evaluatorului, afișat solicitantului când o cerere nu este aprobată."
     },
     "nplurals=2; plural=(n != 1);"
 )

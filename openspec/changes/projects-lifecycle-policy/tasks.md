@@ -2,10 +2,10 @@
 
 ## 1. Lifecycle on the project schema (MVP)
 
-- [ ] 1.1 Add the statuses `requested` and `rejected`, the fields `requestReason`, `reviewedBy`, `reviewedAt` and `reviewNote`, and an `x-openregister-lifecycle` block with `archive`, `restore`, `approve` and `reject` to `project` in `lib/Settings/planninq_register.json`, and bump its version. Verify: `tests/unit/Settings/PlanninqRegisterSchemaTest.php` asserts the enum, the fields and each transition's `from` and `to`.
-- [ ] 1.2 On the dev instance, as a member without update rights, call the transition endpoint with `restore` on an archived project. Verify: the answer is 403 and the status is unchanged; the result goes in the PR body.
-- [ ] 1.3 Replace the PATCH in `archiveProject` with the transition endpoint and add `restoreProject` to `src/store/projects.js`. Verify: `tests/vitest/projectLifecycle.spec.js` asserts the request URL and body for both actions.
-- [ ] 1.4 Show "Restore project" in the Danger zone tab for an archived project and "Archive project" otherwise, based on `available-actions`, and add "Restore" to the actions of an archived project in the list. Verify: `tests/e2e/project-lifecycle.spec.ts` "restore from the project settings sidebar" and "restore from the archived list".
+- [x] 1.1 Add the statuses `requested` and `rejected`, the fields `requestReason`, `reviewedBy`, `reviewedAt` and `reviewNote`, and an `x-openregister-lifecycle` block with `archive`, `restore`, `approve` and `reject` to `project` in `lib/Settings/planninq_register.json`, and bump its version. Verify: `tests/unit/Settings/PlanninqRegisterSchemaTest.php` asserts the enum, the fields and each transition's `from` and `to`.
+- [ ] 1.2 On the dev instance, as a member without update rights, call the transition endpoint with `restore` on an archived project. Verify: the answer is 403 and the status is unchanged; the result goes in the PR body. Not run live yet (the lane has no instance on this branch). Read instead at OpenRegister development `4abd834`: `TransitionEngine::resolveTransitionSubject()` refuses a transition without `update` permission on the object (403), and `LifecycleValidationListener` refuses a direct status write that no transition allows.
+- [x] 1.3 Replace the PATCH in `archiveProject` with the transition endpoint and add `restoreProject` to `src/store/projects.js`. Verify: `tests/vitest/projectLifecycle.spec.js` asserts the request URL and body for both actions.
+- [x] 1.4 Show "Restore project" in the Danger zone tab for an archived project and "Archive project" otherwise, based on `available-actions`, and add "Restore" to the actions of an archived project in the list. Verify: `tests/e2e/project-lifecycle.spec.ts` "restore from the project settings sidebar" and "restore from the archived list".
 
 ## 2. Creation by group (V1)
 

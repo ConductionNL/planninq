@@ -722,7 +722,21 @@ OC.L10N.register(
         "The key cannot change once tasks carry it.": "Ključ se ne može promijeniti kada ga zadaci nose.",
         "Project saved. The existing tasks get their numbers in the background.": "Projekat je sačuvan. Postojeći zadaci dobijaju brojeve u pozadini.",
         "Next task number": "Broj sljedećeg zadatka",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Broj koji sljedeći zadatak ovog projekta dobija u svom ključu. Upisuje ga samo sistem."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Broj koji sljedeći zadatak ovog projekta dobija u svom ključu. Upisuje ga samo sistem.",
+        "Restore {title}": "Vrati {title}",
+        "Restore": "Vrati",
+        "Project restored": "Projekat je vraćen",
+        "Could not restore the project": "Projekat nije moguće vratiti",
+        "Bring this project back to the active list.": "Vrati ovaj projekat na listu aktivnih projekata.",
+        "Restore project": "Vrati projekat",
+        "Request reason": "Razlog zahtjeva",
+        "Why the requester needs this project. Filled in when the project is requested.": "Zašto podnosiocu treba ovaj projekat. Popunjava se pri zahtjevu.",
+        "Reviewed by": "Pregledao",
+        "The user who approved or rejected the request.": "Korisnik koji je odobrio ili odbio zahtjev.",
+        "Reviewed at": "Pregledano",
+        "When the request was approved or rejected.": "Kada je zahtjev odobren ili odbijen.",
+        "Review note": "Napomena pregledača",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Razlog pregledača koji podnosilac vidi kada zahtjev nije odobren."
     },
     "nplurals=2; plural=(n != 1);"
 )

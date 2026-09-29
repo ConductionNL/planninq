@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "Ключ нельзя изменить, когда задачи его уже носят.",
         "Project saved. The existing tasks get their numbers in the background.": "Проект сохранён. Существующие задачи получают номера в фоновом режиме.",
         "Next task number": "Номер следующей задачи",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Номер, который следующая задача этого проекта получает в своём ключе. Его записывает только система."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Номер, который следующая задача этого проекта получает в своём ключе. Его записывает только система.",
+        "Restore {title}": "Восстановить {title}",
+        "Restore": "Восстановить",
+        "Project restored": "Проект восстановлен",
+        "Could not restore the project": "Не удалось восстановить проект",
+        "Bring this project back to the active list.": "Вернуть этот проект в список активных проектов.",
+        "Restore project": "Восстановить проект",
+        "Request reason": "Причина запроса",
+        "Why the requester needs this project. Filled in when the project is requested.": "Зачем заявителю нужен этот проект. Заполняется при запросе.",
+        "Reviewed by": "Рассмотрено",
+        "The user who approved or rejected the request.": "Пользователь, который одобрил или отклонил запрос.",
+        "Reviewed at": "Дата рассмотрения",
+        "When the request was approved or rejected.": "Когда запрос был одобрен или отклонён.",
+        "Review note": "Комментарий рецензента",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Причина рецензента, которую видит заявитель, если запрос не одобрен."
     },
     "plurals": {}
 }

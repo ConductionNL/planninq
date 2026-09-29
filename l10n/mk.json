@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "Клучот не може да се смени откако задачите го носат.",
         "Project saved. The existing tasks get their numbers in the background.": "Проектот е зачуван. Постојните задачи ги добиваат своите броеви во позадина.",
         "Next task number": "Број на следната задача",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Бројот што следната задача од овој проект го добива во својот клуч. Го запишува само системот."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Бројот што следната задача од овој проект го добива во својот клуч. Го запишува само системот.",
+        "Restore {title}": "Врати {title}",
+        "Restore": "Врати",
+        "Project restored": "Проектот е вратен",
+        "Could not restore the project": "Проектот не може да се врати",
+        "Bring this project back to the active list.": "Врати го овој проект во списокот на активни проекти.",
+        "Restore project": "Врати го проектот",
+        "Request reason": "Причина за барањето",
+        "Why the requester needs this project. Filled in when the project is requested.": "Зошто на барателот му треба овој проект. Се пополнува при барањето.",
+        "Reviewed by": "Прегледано од",
+        "The user who approved or rejected the request.": "Корисникот што го одобри или одби барањето.",
+        "Reviewed at": "Прегледано на",
+        "When the request was approved or rejected.": "Кога барањето беше одобрено или одбиено.",
+        "Review note": "Белешка од прегледот",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Причината на прегледувачот, што барателот ја гледа кога барањето не е одобрено."
     },
     "plurals": null
 }
