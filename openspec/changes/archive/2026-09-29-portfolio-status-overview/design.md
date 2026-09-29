@@ -77,3 +77,13 @@ The code at `94c2eda` differs from what this design assumed in four places. The 
 - **A wiring gap it found.** `ProjectMemberAccessListener` was subscribed for `task`, `column`, `projectPhase` and `plannedTimeEntry` only, while `ProjectMembershipService::SCOPED_SCHEMAS` also held `projectLogEntry` and `risk` (#708). Log entries and risks were therefore never stamped with their project's members on a live instance. The subscription now lists every scoped schema, including `projectStatusReport`, and `BoardColumnWiringTest` asserts the two lists are equal. The app version bump runs `BackfillProjectMembers`, which stamps the entries and risks already written.
 
 Sections 2 and 3 need portfolios (`project.portfolio` and portfolio readers from `projects-grouping-hierarchy-fields`), which are not built. They follow in a second PR once portfolios exist, and this change is archived with that PR.
+
+## Built at HEAD (second PR, 29 Sep 2026)
+
+Sections 2 and 3 were built on `5172b4c`, after portfolios landed (#714). Five places differ from the decisions above.
+
+- **The roll-up runs in the browser.** Decision 1 counted the `health` fields with OpenRegister's aggregation and an equality filter on `portfolio`. The overview loads the portfolio's readable projects anyway to draw its rows, so `portfolioRollup()` in `src/utils/portfolioStatus.js` counts them from that same list. It sees exactly the projects the rows show, including the ones the viewer reads as a portfolio reader, and it needs no second request.
+- **Progress comes from the timeline endpoint.** The rows read the tasks of every shown project through one `GET /api/timeline?projects=` call instead of one task request per project.
+- **Who sees money.** Project roles are not built (`projects-members-and-roles`), so the budget column shows for admins, the project's owner and the portfolio's managers (`canSeeMoney()`). Actual cost is not shown: no cost is recorded until `portfolio-finance`.
+- **The portfolio is chosen in the address.** Both pages read `?portfolio=<id>` and default to the first portfolio in list order, so a link opens the same portfolio.
+- **The limit and its measurement.** `forProjects()` refuses more than 50 ids with a 400; the browser client asks in batches of 50, so edges between two batches are not drawn. For 50 projects of 100 tasks the controller's own work took 19.5 ms on a fixture (500 edges, 776 kB of JSON); it makes 50 finds, 50 task reads, 50 phase reads and one dependency read against OpenRegister, whose query time the fixture does not include.

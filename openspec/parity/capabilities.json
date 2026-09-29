@@ -3775,7 +3775,7 @@
       "area": "planning",
       "name": "See several projects on one timeline.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
@@ -3793,11 +3793,12 @@
         "plane": "source: packages/constants/src/issue/filter.ts my_issues (workspace views) layouts are spreadsheet and list only, no gantt; the gantt is per project. Corpus silent ; source read at v1.4.2: packages/constants/src/issue/filter.ts:170-195 workspace views (my_issues) offer spreadsheet and list layouts, no gantt; the gantt root is mounted per project at apps/web/core/components/issues/issue-layouts/roots/project-layout-root.tsx:36-37"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/views/ProjectTimeline.vue is scoped to one :id (route /projects/:id/timeline); src/views/Portfolio.vue (route /portfolio) is a per-project capacity bar chart of open-task counts, not a shared Gantt/timeline",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Controller/TimelineController.php forProjects() GET /api/timeline?projects= (RBAC find per project, skipped list, cross-project edges, at most 50); src/views/PortfolioTimeline.vue summary bars sorted by start, opened by click or Enter into phases and tasks (src/utils/portfolioTimeline.js)",
+        "reachedOn": "Reports page /reports, 'Portfolio timeline' card -> PortfolioTimeline /portfolio/timeline",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/portfolio-status-overview"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-status-overview",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4296,7 +4297,7 @@
       "area": "portfolio",
       "name": "See the state of all projects in one portfolio view.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "partial",
@@ -4314,11 +4315,12 @@
         "plane": "corpus: plane/round4/menu-tree.md workspace 'Projects', 'Analytics'; code-census.md §10 AnalyticsEndpoint and AdvanceAnalyticsChartEndpoint 'a two-dimensional count, not a report builder'. A workspace-level count across projects, no portfolio health view ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(projects)/analytics/[tabId]/page.tsx workspace analytics; apps/web/core/components/analytics/overview/root.tsx:10-19 active projects and project insights, apps/web/core/components/analytics/overview/active-project-item.tsx:37-62 percent complete per project; apps/api/plane/app/urls/analytic.py:61 advance-analytics, apps/api/plane/app/views/analytic/advance.py:43. Counts and completion only, no health or status"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/manifest.json:163 -> src/views/Portfolio.vue:134 fetchProjects({status:'active'}) -> src/store/projects.js:170 fetchProjects() (client-side member filter at :195) -> OpenRegister /api/objects/planninq/project",
-        "reachedOn": "Reports page /reports, 'Capacity' card -> Portfolio /portfolio",
+        "state": "built",
+        "evidence": "src/views/PortfolioStatus.vue lists every readable project of a picked portfolio (members and portfolio readers, any lifecycle status) with status, progress from GET /api/timeline, dates, budget for admins/owner/portfolio managers, six aspect statuses and the last report date",
+        "reachedOn": "Reports page /reports, 'Portfolio status' card -> PortfolioStatus /portfolio/status",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/portfolio-status-overview"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-status-overview",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6383,7 +6385,7 @@
         "kanboard": "source read at v1.2.54: searched app/Model/ProjectModel.php and app/Template/project_overview for a status or health field: none",
         "jira": "https://marketplace.atlassian.com/apps/1228554/pmo-assessment-and-reports-for-jira paid app, build 1.2 compatible to Jira 11.3.11: 'insights into project time, costs, quality and inefficiencies'; it covers time, money and quality, not organisation, information and risk, and Jira has no project status report (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "no",
@@ -6394,11 +6396,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "The only per-project roll-up is src/views/Portfolio.vue:29-69 (members, open, overdue, open-work bar) fed by src/store/projects.js:170 fetchProjects. No per-aspect status property on the project schema (lib/Settings/planninq_register.json:450-580) and no portfolio roll-up of such statuses.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json projectStatusReport (six statuses, overall as a materialised calculation) copied onto project.health* by lib/Listener/ProjectStatusListener.php; src/views/ProjectStatus.vue writes reports; src/views/PortfolioStatus.vue rolls the six aspects up per portfolio with portfolioRollup() in src/utils/portfolioStatus.js, a No report count and an out-of-date marker from the status_report_period_days admin setting",
+        "reachedOn": "ProjectStatus page /projects/:id/status (Status tab); Reports page /reports, 'Portfolio status' card -> PortfolioStatus /portfolio/status",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/portfolio-status-overview"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-status-overview",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
