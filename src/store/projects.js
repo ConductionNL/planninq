@@ -19,6 +19,7 @@ import { defineStore } from 'pinia'
 import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelpers.js'
 import { canSeeProject } from '../utils/portfolioGrouping.js'
 import { actionNames, transitionRequest } from '../utils/projectLifecycle.js'
+import { deleteRefusal, withTaskDefaults } from '../utils/taskEditing.js'
 import { useObjectStore } from './objectStore.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
@@ -1348,10 +1349,14 @@ export const useProjectsStore = defineStore('projects', {
 		 * server stamps the members list and refuses a caller who is not a
 		 * member of the task's project (ProjectMemberAccessListener).
 		 *
-		 * @param {object} data The task fields; `title`, `status` and `project` at least
+		 * A task without a status or priority gets `open` and `normal`. The
+		 * server records the caller as `reporter` (TaskReporterGuardListener).
+		 *
+		 * @param {object} data The task fields; `title` and `project` at least
 		 * @return {Promise<object|null>} The created task, or null on failure
 		 *
 		 * @spec openspec/changes/backlog-list/tasks.md#task-1.2
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-1.1
 		 */
 		async createTask(data) {
 			try {
@@ -1359,7 +1364,7 @@ export const useProjectsStore = defineStore('projects', {
 				const response = await fetch(url, {
 					method: 'POST',
 					headers: buildHeaders(),
-					body: JSON.stringify(data),
+					body: JSON.stringify(withTaskDefaults(data)),
 				})
 				if (!response.ok) {
 					return null
@@ -1368,6 +1373,41 @@ export const useProjectsStore = defineStore('projects', {
 			} catch (err) {
 				console.error('createTask error:', err)
 				return null
+			}
+		},
+
+		// ── 2.14c deleteTask ──────────────────────────────────────────────
+
+		/**
+		 * Delete one task, unless it has logged time.
+		 *
+		 * A task with time entries is not deleted: the hours belong to the
+		 * people who logged them, and the dialog offers to cancel the task
+		 * instead. The server refuses the same (TaskReporterGuardListener),
+		 * and also refuses anyone but the reporter, the project owner or an
+		 * admin; the refusal's code says which.
+		 *
+		 * @param {string} taskId Task UUID
+		 * @return {Promise<{deleted: boolean, reason?: string}>} `reason` is has-time, not-allowed or failed
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-1.2
+		 */
+		async deleteTask(taskId) {
+			try {
+				const entries = await fetchEvery(this._objectStore(), TIME_ENTRY_SCHEMA, { task: taskId })
+				if (entries.length > 0) {
+					return { deleted: false, reason: 'has-time' }
+				}
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/task/${taskId}`)
+				const response = await fetch(url, { method: 'DELETE', headers: buildHeaders() })
+				if (!response.ok) {
+					const body = await response.json().catch(() => ({}))
+					return { deleted: false, reason: deleteRefusal(body) }
+				}
+				return { deleted: true }
+			} catch (err) {
+				console.error('deleteTask error:', err)
+				return { deleted: false, reason: 'failed' }
 			}
 		},
 

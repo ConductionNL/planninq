@@ -161,13 +161,13 @@ class TaskReporterGuardListener implements IEventListener {
 		$projectId = $this->membership->projectIdFor(schemaSlug: 'task', data: $data);
 
 		if ($this->mayDelete(uid: $uid, reporter: $data['reporter'] ?? null, projectId: $projectId) === false) {
-			$this->refuse(event: $event, code: self::ERROR_NOT_ALLOWED, message: 'Only the reporter, the project owner or an admin can delete this task.');
+			$this->refuse(event: $event, code: self::ERROR_NOT_ALLOWED, status: 403, message: 'Only the reporter, the project owner or an admin can delete this task.');
 			return;
 		}
 
 		$taskId = (string)($task->getUuid() ?? '');
 		if ($taskId !== '' && $this->membership->rows(schema: 'plannedTimeEntry', filters: ['task' => $taskId]) !== []) {
-			$this->refuse(event: $event, code: self::ERROR_HAS_TIME, message: 'This task has logged time. Cancel it instead.');
+			$this->refuse(event: $event, code: self::ERROR_HAS_TIME, status: 409, message: 'This task has logged time. Cancel it instead.');
 		}
 	}//end guardDelete()
 
@@ -189,16 +189,17 @@ class TaskReporterGuardListener implements IEventListener {
 	}//end mayDelete()
 
 	/**
-	 * Stop the event with an error the API returns.
+	 * Stop the event with an error the API returns; OpenRegister answers with its `status`.
 	 *
 	 * @param ObjectDeletingEvent $event   The event.
 	 * @param string              $code    The error code.
+	 * @param int                 $status  The HTTP status OpenRegister answers with.
 	 * @param string              $message The message.
 	 *
 	 * @return void
 	 */
-	private function refuse(ObjectDeletingEvent $event, string $code, string $message): void {
-		$event->setErrors(['message' => $message, 'code' => $code]);
+	private function refuse(ObjectDeletingEvent $event, string $code, int $status, string $message): void {
+		$event->setErrors(['message' => $message, 'code' => $code, 'status' => $status]);
 		$event->stopPropagation();
 		$this->logger->info('Planninq: refused a task delete', ['code' => $code]);
 	}//end refuse()

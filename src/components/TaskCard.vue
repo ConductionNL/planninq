@@ -7,9 +7,9 @@
 			{{ task.title }}
 		</h3>
 
-		<!-- Task description (optional) -->
-		<p v-if="task.description" class="task-card__description">
-			{{ task.description }}
+		<!-- Plain-text excerpt of the Markdown description (tasks-create-edit-delete) -->
+		<p v-if="excerpt" class="task-card__description" data-testid="task-card-excerpt">
+			{{ excerpt }}
 		</p>
 
 		<!-- Task metadata -->
@@ -80,6 +80,7 @@ import { NcChip } from '@nextcloud/vue'
 import BlockedBadge from './BlockedBadge.vue'
 import { formatDuration } from '../utils/durationParser.js'
 import { labelId } from '../utils/labelHelpers.js'
+import { descriptionExcerpt } from '../utils/taskEditing.js'
 import { dueDateStatus } from '../utils/taskHelpers.js'
 
 /**
@@ -133,6 +134,15 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * The description as a short plain-text excerpt, Markdown stripped.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-3.2
+		 */
+		excerpt() {
+			return descriptionExcerpt(this.task.description)
+		},
+
 		/**
 		 * @spec openspec/specs/kanban-board.md
 		 */

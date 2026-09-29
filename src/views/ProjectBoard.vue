@@ -60,6 +60,16 @@
 						</NcButton>
 					</div>
 					<NcButton
+						v-if="!readOnly && !requestBanner && columns.length"
+						variant="primary"
+						data-testid="new-task"
+						@click="creatingTask = true">
+						<template #icon>
+							<PlusIcon :size="20" />
+						</template>
+						{{ t('planninq', 'New task') }}
+					</NcButton>
+					<NcButton
 						:aria-label="t('planninq', 'Project settings')"
 						variant="tertiary"
 						@click="openSettings">
@@ -161,6 +171,7 @@
 						:key="column.id"
 						class="kanban-column"
 						:data-column="column.title"
+						:data-column-id="column.id"
 						:aria-label="column.title"
 						:class="{ 'kanban-column--drop-target': dropTargetId === column.id }"
 						@dragover.prevent="onDragOver(column.id)"
@@ -271,6 +282,19 @@
 								{{ t('planninq', 'No tasks') }}
 							</p>
 						</div>
+
+						<!-- Quick add: Enter creates the task at the bottom of this lane
+						     and keeps focus for the next one (tasks-create-edit-delete). -->
+						<form
+							v-if="!readOnly"
+							class="kanban-column__quick-add"
+							@submit.prevent="quickAdd(column)">
+							<NcTextField
+								v-model="quickAddTitles[column.id]"
+								:label="t('planninq', 'Add a task')"
+								:disabled="quickAdding === column.id"
+								data-testid="quick-add" />
+						</form>
 					</section>
 
 					<div v-if="isOwner" class="project-board__add-column">
@@ -283,6 +307,13 @@
 					</div>
 				</div>
 
+				<TaskFormDialog
+					v-if="creatingTask"
+					:projectId="project.id"
+					:column="columns[0] || null"
+					:laneTasks="columns.length ? tasksByColumn[columns[0].id] : []"
+					@close="creatingTask = false"
+					@saved="onTaskCreated" />
 				<ColumnEditDialog
 					v-if="editingColumn"
 					:column="editingColumn.id ? editingColumn : null"
@@ -324,7 +355,7 @@ import { showError } from '@nextcloud/dialogs'
  * @spec openspec/specs/kanban-board.md
  * @spec openspec/specs/admin-user-settings.md
  */
-import { NcActionButton, NcActions, NcButton, NcChip, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcButton, NcChip, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 import ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'
@@ -339,6 +370,7 @@ import ProjectTabs from '../components/ProjectTabs.vue'
 import TaskCard from '../components/TaskCard.vue'
 import ColumnEditDialog from '../dialogs/ColumnEditDialog.vue'
 import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
+import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useProjectsStore } from '../store/projects.js'
 import { backlogTasks, moveToBacklogPatch } from '../utils/backlogHelpers.js'
@@ -354,6 +386,7 @@ import {
 import { filterTasksByLabel, labelId, resolveTaskLabels, sortLabelsByTitle } from '../utils/labelHelpers.js'
 import { isReadOnlyFor } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
+import { newLaneTask } from '../utils/taskEditing.js'
 import { deriveBlockedTaskIds, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
 
 export default {
@@ -375,10 +408,12 @@ export default {
 		ColumnEditDialog,
 		ColumnRemoveDialog,
 		LockOutline,
+		NcTextField,
 		PlusIcon,
 		ProjectRequestBanner,
 		ProjectTabs,
 		TaskCard,
+		TaskFormDialog,
 	},
 
 	inject: {
@@ -410,6 +445,12 @@ export default {
 			labels: [],
 			/** @type {string|null} Id of the label the board is filtered by, null for all. */
 			activeLabelId: null,
+			/** @type {boolean} Whether the New task dialog is open. */
+			creatingTask: false,
+			/** @type {object} Column id to the title typed in that lane's quick add. */
+			quickAddTitles: {},
+			/** @type {string} Id of the lane whose quick add is saving. */
+			quickAdding: '',
 		}
 	},
 
@@ -653,6 +694,47 @@ export default {
 				await this.loadColumns(id)
 				await this.loadTasks(id)
 			}
+		},
+
+		/**
+		 * Quick add: create a task with the typed title at the bottom of this
+		 * lane, clear the field and keep focus in it for the next one.
+		 *
+		 * @param {object} column The lane.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-3.1
+		 */
+		async quickAdd(column) {
+			const title = String(this.quickAddTitles[column.id] ?? '').trim()
+			if (title === '' || this.quickAdding) {
+				return
+			}
+			this.quickAdding = column.id
+			const lane = groupTasksByColumn(this.tasks, this.columns)[column.id] || []
+			const created = await this.projectsStore.createTask(newLaneTask({ title }, this.project.id, column, lane))
+			this.quickAdding = ''
+			if (!created) {
+				showError(this.t('planninq', 'Could not create the task. Please try again.'))
+				return
+			}
+			this.quickAddTitles = { ...this.quickAddTitles, [column.id]: '' }
+			this.tasks = [...this.tasks, created]
+			this.$nextTick(() => {
+				this.$el.querySelector(`section[data-column-id="${column.id}"] [data-testid="quick-add"] input`)?.focus()
+			})
+		},
+
+		/**
+		 * Put a task made in the New task dialog on the board.
+		 *
+		 * @param {object} created The task as the server returned it.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-3.1
+		 */
+		onTaskCreated(created) {
+			this.creatingTask = false
+			this.tasks = [...this.tasks, created]
 		},
 
 		/**
@@ -1250,6 +1332,11 @@ export default {
 	font-size: 12px;
 	color: var(--color-text-maxcontrast);
 	text-align: center;
+}
+
+.kanban-column__quick-add {
+	padding: 8px;
+	border-top: 1px solid var(--color-border);
 }
 
 .project-board__read-only {

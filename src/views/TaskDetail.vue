@@ -35,7 +35,40 @@
 						<span v-if="task && task.key" class="task-detail__key" data-testid="task-detail-key">{{ task.key }}</span>
 						{{ taskTitle }}
 					</h2>
+					<div class="task-detail__actions">
+						<NcButton variant="secondary" data-testid="task-edit" @click="editing = true">
+							<template #icon>
+								<PencilIcon :size="20" />
+							</template>
+							{{ t('planninq', 'Edit') }}
+						</NcButton>
+						<NcButton
+							v-if="canDelete"
+							variant="tertiary"
+							data-testid="task-delete"
+							@click="deleting = true">
+							<template #icon>
+								<DeleteIcon :size="20" />
+							</template>
+							{{ t('planninq', 'Delete task') }}
+						</NcButton>
+					</div>
 				</div>
+
+				<!-- Description as Markdown; NcRichText escapes raw HTML (tasks-create-edit-delete) -->
+				<section class="task-detail__description" aria-labelledby="task-detail-description-heading">
+					<h3 id="task-detail-description-heading" class="task-detail__section-title">
+						{{ t('planninq', 'Description') }}
+					</h3>
+					<NcRichText
+						v-if="task.description"
+						:text="task.description"
+						:useMarkdown="true"
+						data-testid="task-description" />
+					<p v-else class="task-detail__no-description">
+						{{ t('planninq', 'No description yet') }}
+					</p>
+				</section>
 
 				<dl class="task-detail__fields">
 					<!-- Vue 3 wants the key on the <template v-for> itself; the
@@ -149,12 +182,26 @@
 			:entry="editingEntry"
 			@close="closeDialog"
 			@saved="onEntrySaved" />
+
+		<TaskFormDialog
+			v-if="editing && task"
+			:task="task"
+			@close="editing = false"
+			@saved="onTaskSaved" />
+		<TaskDeleteDialog
+			v-if="deleting && task"
+			:task="task"
+			:hasTime="timeEntries.length > 0"
+			@close="deleting = false"
+			@deleted="onTaskDeleted"
+			@cancelled="onTaskSaved" />
 	</div>
 </template>
 
 <script>
 import { CnObjectSidebar } from '@conduction/nextcloud-vue'
-import { NcActionButton, NcActions, NcButton, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { getCurrentUser } from '@nextcloud/auth'
+import { NcActionButton, NcActions, NcButton, NcEmptyContent, NcLoadingIcon, NcRichText, NcTextField } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
@@ -162,6 +209,8 @@ import ClockPlusOutline from 'vue-material-design-icons/ClockPlusOutline.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import TaskDependencies from '../components/TaskDependencies.vue'
+import TaskDeleteDialog from '../dialogs/TaskDeleteDialog.vue'
+import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
 import TimeEntryDialog from '../dialogs/TimeEntryDialog.vue'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
@@ -169,6 +218,7 @@ import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
+import { canDeleteTask } from '../utils/taskEditing.js'
 import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
 import { taskHeading } from '../utils/workItemKeys.js'
 
@@ -191,6 +241,7 @@ export default {
 		NcButton,
 		NcEmptyContent,
 		NcLoadingIcon,
+		NcRichText,
 		NcTextField,
 		CnObjectSidebar,
 		ArrowLeft,
@@ -199,6 +250,8 @@ export default {
 		PencilIcon,
 		DeleteIcon,
 		TaskDependencies,
+		TaskDeleteDialog,
+		TaskFormDialog,
 		TimeEntryDialog,
 	},
 
@@ -212,6 +265,9 @@ export default {
 			projectTasks: [],
 			dialogOpen: false,
 			editingEntry: null,
+			editing: false,
+			deleting: false,
+			project: null,
 			// Live-updates handle for the or-object-{uuid} subscription of the
 			// task being viewed. livePendingKey marks an in-flight subscribe so
 			// a concurrent same-key call doesn't double-subscribe; liveEpoch
@@ -276,8 +332,17 @@ export default {
 				{ key: 'priority', label: this.t('planninq', 'Priority'), value: t.priority },
 				{ key: 'assignedTo', label: this.t('planninq', 'Assigned to'), value: t.assignedTo },
 				{ key: 'dueDate', label: this.t('planninq', 'Due date'), value: t.dueDate },
-				{ key: 'description', label: this.t('planninq', 'Description'), value: t.description },
 			]
+		},
+
+		/**
+		 * Whether "Delete task" shows: the reporter, the project owner or an admin.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-4.1
+		 */
+		canDelete() {
+			const user = getCurrentUser()
+			return canDeleteTask(this.task, this.project, user ? { uid: user.uid, isAdmin: user.isAdmin === true } : null)
 		},
 
 		/**
@@ -435,11 +500,38 @@ export default {
 		 */
 		async loadLinks() {
 			const projectId = this.task?.project?.id || this.task?.project
-			const [tasks] = await Promise.all([
+			const [tasks, project] = await Promise.all([
 				projectId ? this.projectsStore.fetchTasks(String(projectId)) : Promise.resolve([]),
+				projectId ? this.projectsStore._objectStore().fetchObject('project', String(projectId)) : Promise.resolve(null),
 				useDependenciesStore().fetchEdges(),
 			])
 			this.projectTasks = Array.isArray(tasks) ? tasks : []
+			this.project = project || null
+		},
+
+		/**
+		 * Show the saved task (an edit, or a cancel from the delete dialog).
+		 *
+		 * @param {object} saved The task as the server returned it.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-4.1
+		 */
+		onTaskSaved(saved) {
+			this.editing = false
+			this.deleting = false
+			this.projectsStore.activeTask = { ...this.task, ...saved }
+			this.setDocumentTitle()
+		},
+
+		/**
+		 * Back to the board once the task is deleted.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-4.1
+		 */
+		onTaskDeleted() {
+			this.deleting = false
+			this.projectsStore.activeTask = null
+			this.goBack()
 		},
 
 		/**
@@ -684,6 +776,20 @@ export default {
 
 .task-detail__title {
 	margin: 0;
+}
+
+.task-detail__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.task-detail__description {
+	margin-bottom: 24px;
+}
+
+.task-detail__no-description {
+	color: var(--color-text-maxcontrast);
 }
 
 .task-detail__key {

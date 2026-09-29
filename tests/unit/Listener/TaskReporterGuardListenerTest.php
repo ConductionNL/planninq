@@ -109,6 +109,7 @@ class TaskReporterGuardListenerTest extends TestCase {
 
 		self::assertTrue($event->isPropagationStopped());
 		self::assertSame(TaskReporterGuardListener::ERROR_NOT_ALLOWED, $event->getErrors()['code']);
+		self::assertSame(403, $event->getErrors()['status'], 'OpenRegister answers 403');
 	}//end testAPlainMemberCannotDeleteSomeoneElsesTask()
 
 	/**
@@ -133,6 +134,7 @@ class TaskReporterGuardListenerTest extends TestCase {
 
 		self::assertTrue($event->isPropagationStopped());
 		self::assertSame(TaskReporterGuardListener::ERROR_HAS_TIME, $event->getErrors()['code']);
+		self::assertSame(409, $event->getErrors()['status']);
 	}//end testATaskWithLoggedTimeIsNotDeleted()
 
 	/**
