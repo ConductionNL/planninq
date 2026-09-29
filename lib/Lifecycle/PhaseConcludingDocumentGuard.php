@@ -78,6 +78,9 @@ class PhaseConcludingDocumentGuard implements LifecycleGuardInterface {
 	 *
 	 * @return GuardResult
 	 *
+	 * @SuppressWarnings(PHPMD.StaticAccess) GuardResult::allow() and ::deny() are
+	 *   OpenRegister's only constructors for the value the interface returns.
+	 *
 	 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-1.2
 	 */
 	public function check(array $object, string $action, string $userId): GuardResult {
