@@ -262,7 +262,7 @@ class TimelineControllerTest extends TestCase {
 				['@self' => ['id' => 't2'], 'title' => 'B', 'status' => 'open', 'startDate' => '2026-01-03', 'dueDate' => '2026-01-04'],
 			],
 			edges: [
-				['@self' => ['id' => 'e1'], 'blocker' => 't1', 'blocked' => 't2'],
+				['@self' => ['id' => 'e1'], 'blocker' => 't1', 'blocked' => 't2', 'type' => 'relates'],
 				// Foreign edge — blocker task belongs to another project → excluded.
 				['@self' => ['id' => 'e2'], 'blocker' => 'foreign', 'blocked' => 't2'],
 			],
@@ -275,6 +275,8 @@ class TimelineControllerTest extends TestCase {
 		self::assertSame('e1', $data['dependencies'][0]['id']);
 		self::assertSame('t1', $data['dependencies'][0]['blocker']);
 		self::assertSame('t2', $data['dependencies'][0]['blocked']);
+		// The type reaches the timeline, which draws a related link without an arrow (integration-msproject-import).
+		self::assertSame('relates', $data['dependencies'][0]['type']);
 	}//end testDependencyEdgesComeFromStoredLinks()
 
 	/**

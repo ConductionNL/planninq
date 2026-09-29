@@ -86,6 +86,20 @@ export function statusMapFromTasks(tasks = []) {
 }
 
 /**
+ * Whether a dependency edge blocks: one without a type (every edge made
+ * before types were used) or of type `blocks`. A related link, such as an
+ * imported start-to-start link, is drawn but never blocks.
+ *
+ * @param {object} edge The edge.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/integration-msproject-import/tasks.md#task-1.2
+ */
+export function isBlockingEdge(edge) {
+	return !edge?.type || edge.type === 'blocks'
+}
+
+/**
  * Decide whether a single task is blocked, given the project's dependency
  * edges and a UUID → status map of all tasks.
  *
@@ -107,7 +121,7 @@ export function isBlocked(taskId, edges = [], statusById = {}) {
 		return false
 	}
 	for (const edge of edges || []) {
-		if (!edge || edge.blocked !== taskId) {
+		if (!edge || edge.blocked !== taskId || !isBlockingEdge(edge)) {
 			continue
 		}
 		const blockerId = edge.blocker
@@ -134,7 +148,7 @@ export function isBlocked(taskId, edges = [], statusById = {}) {
 export function deriveBlockedTaskIds(edges = [], statusById = {}) {
 	const blocked = new Set()
 	for (const edge of edges || []) {
-		if (!edge || !edge.blocker || !edge.blocked) {
+		if (!edge || !edge.blocker || !edge.blocked || !isBlockingEdge(edge)) {
 			continue
 		}
 		if (!Object.hasOwn(statusById, edge.blocker)) {
@@ -160,7 +174,7 @@ export function deriveBlockedTaskIds(edges = [], statusById = {}) {
 export function openBlockerIds(taskId, edges = [], statusById = {}) {
 	const open = []
 	for (const edge of edges || []) {
-		if (!edge || edge.blocked !== taskId || !edge.blocker) {
+		if (!edge || edge.blocked !== taskId || !edge.blocker || !isBlockingEdge(edge)) {
 			continue
 		}
 		const status = statusById[edge.blocker]
