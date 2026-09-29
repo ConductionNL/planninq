@@ -3,12 +3,12 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.10.0"
+    "version": "0.11.0"
   },
   "x-openregister": {
     "type": "application",
     "app": "planninq",
-    "openregister": "^v0.2.10",
+    "openregister": ">=v1.1.7",
     "description": "Flow-based kanban project and task management for Nextcloud dev and IT teams"
   },
   "paths": {},
@@ -728,7 +728,7 @@
       "projectPhase": {
         "slug": "projectPhase",
         "icon": "TimelineOutline",
-        "version": "0.3.0",
+        "version": "0.4.0",
         "title": "Project Phase",
         "description": "A delivery stage within a project, such as discovery, build or hypercare. Phases carry their own budget and billable flag, and tasks hang off them. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -794,6 +794,48 @@
             }
           ]
         },
+        "x-openregister-lifecycle": {
+          "field": "status",
+          "initial": "open",
+          "final": [
+            "completed",
+            "cancelled"
+          ],
+          "transitions": {
+            "start": {
+              "from": [
+                "open"
+              ],
+              "to": "in_progress",
+              "description": "Start working on the phase."
+            },
+            "complete": {
+              "from": [
+                "open",
+                "in_progress"
+              ],
+              "to": "completed",
+              "requires": "OCA\\Planninq\\Lifecycle\\PhaseConcludingDocumentGuard",
+              "description": "Close the phase. Needs its concluding document attached."
+            },
+            "cancel": {
+              "from": [
+                "open",
+                "in_progress"
+              ],
+              "to": "cancelled",
+              "description": "Stop the phase without concluding it."
+            },
+            "reopen": {
+              "from": [
+                "completed",
+                "cancelled"
+              ],
+              "to": "in_progress",
+              "description": "Take a closed phase up again."
+            }
+          }
+        },
         "properties": {
           "title": {
             "title": "Title",
@@ -845,6 +887,12 @@
               "cancelled"
             ],
             "default": "open"
+          },
+          "concludingDocument": {
+            "title": "Concluding document",
+            "type": "string",
+            "description": "The id of the file on this phase that concludes it. The phase can only be completed once it is set and the file is attached.",
+            "nullable": true
           },
           "order": {
             "title": "Order",
