@@ -2,7 +2,7 @@
 
 ## 1. Grouping (V1)
 
-- [ ] 1.1 Add `summariseByAssignee` to `src/utils/portfolioHelpers.js`, reusing `CLOSED_STATUSES` and `dueDateStatus`, with the unassigned row, the missing-estimate count, the 14-day window and `sharedWith` handled as shared without hours. Verify: new cases in `tests/vitest/portfolio.spec.js` for each field, the unassigned row and a shared task.
+- [x] 1.1 Add `summariseByAssignee` to `src/utils/portfolioHelpers.js`, reusing `CLOSED_STATUSES` and `dueDateStatus`, with the unassigned row, the missing-estimate count, the 14-day window and `sharedWith` handled as shared without hours. Verify: new cases in `tests/vitest/portfolio.spec.js` for each field, the unassigned row and a shared task.
 
 ## 2. Page (V1)
 
