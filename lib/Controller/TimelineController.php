@@ -80,6 +80,13 @@ class TimelineController extends Controller {
 	private const OR_OBJECT_SERVICE = 'OCA\\OpenRegister\\Service\\ObjectService';
 
 	/**
+	 * The most projects one multi-project timeline read accepts.
+	 *
+	 * @var integer
+	 */
+	private const MAX_PROJECTS = 50;
+
+	/**
 	 * Constructor for the TimelineController.
 	 *
 	 * @param IRequest $request The request object.
@@ -202,6 +209,199 @@ class TimelineController extends Controller {
 		);
 
 	}//end forProject()
+
+	/**
+	 * Return several projects on one time axis, for the portfolio timeline.
+	 *
+	 * Each id is read through the same RBAC-scoped find as `forProject()`. A
+	 * project the caller cannot read is listed under `skipped` and none of its
+	 * tasks are read. Every readable project comes back with its summary span
+	 * (its planned dates, else the earliest start and latest due date of its
+	 * tasks), its phases and its task rows. `dependencies` holds every stored
+	 * edge whose two ends are tasks in the answer, across projects too.
+	 *
+	 * @param string $projects Comma-separated project UUIDs, at most MAX_PROJECTS.
+	 *
+	 * @return JSONResponse 200 with {projects, dependencies, skipped}; 400 over the
+	 *                      limit; 401 if unauthenticated; 503 if OR is unavailable.
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.1
+	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	public function forProjects(string $projects = ''): JSONResponse {
+		if ($this->userSession->getUser() === null) {
+			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
+		}
+
+		$ids = array_values(array_unique(array_filter(array_map('trim', explode(',', $projects)), static fn (string $id): bool => $id !== '')));
+		if (count($ids) > self::MAX_PROJECTS) {
+			return new JSONResponse(
+				['error' => 'At most '.self::MAX_PROJECTS.' projects can be read at once.'],
+				Http::STATUS_BAD_REQUEST
+			);
+		}
+
+		if ($ids === []) {
+			return new JSONResponse(['projects' => [], 'dependencies' => [], 'skipped' => []]);
+		}
+
+		try {
+			$objectService = $this->container->get(self::OR_OBJECT_SERVICE);
+		} catch (\Throwable $e) {
+			$this->logger->error('Planninq: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
+			return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
+		}
+
+		$answer = ['projects' => [], 'skipped' => []];
+		$taskIdSet = [];
+		foreach ($ids as $projectId) {
+			$entry = $this->projectEntry(objectService: $objectService, projectId: $projectId);
+			if ($entry === null) {
+				$answer['skipped'][] = $projectId;
+				continue;
+			}
+
+			foreach (array_merge($entry['tasks'], $entry['unscheduled']) as $row) {
+				$taskIdSet[$row['id']] = true;
+			}
+
+			$answer['projects'][] = $entry;
+		}
+
+		$edges = $this->fetchProjectDependencies(objectService: $objectService, taskIdSet: $taskIdSet);
+
+		return new JSONResponse(
+			[
+				'projects' => $answer['projects'],
+				'dependencies' => array_values(array_filter($edges, static fn (array $edge): bool => isset($taskIdSet[$edge['blocked']]))),
+				'skipped' => $answer['skipped'],
+			]
+		);
+
+	}//end forProjects()
+
+	/**
+	 * One project of the multi-project answer, or null when the caller cannot read it.
+	 *
+	 * @param object $objectService The OR ObjectService.
+	 * @param string $projectId UUID of the project.
+	 *
+	 * @return array<string,mixed>|null
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.1
+	 */
+	private function projectEntry(object $objectService, string $projectId): ?array {
+		// The shared service keeps resolution state between callers (see forProject()).
+		if (method_exists($objectService, 'clearCurrents') === true) {
+			$objectService->clearCurrents();
+		}
+
+		$objectService->setRegister(self::REGISTER);
+		$objectService->setSchema('project');
+		$project = $objectService->find(id: $projectId);
+		if ($project === null) {
+			return null;
+		}
+
+		$data = $this->extractData(row: $project);
+		$scheduled = [];
+		$unscheduled = [];
+		foreach ($this->fetchProjectTasks(objectService: $objectService, projectId: $projectId) as $task) {
+			$row = $this->timelineRow(task: $task);
+			if ($row['startDate'] === null && $row['dueDate'] === null) {
+				unset($row['startDate'], $row['dueDate'], $row['duration']);
+				$unscheduled[] = $row;
+				continue;
+			}
+
+			$scheduled[] = $row;
+		}
+
+		$span = $this->summarySpan(project: $data, tasks: $scheduled);
+
+		return [
+			'id' => $projectId,
+			'title' => (string)($data['title'] ?? ''),
+			'status' => (string)($data['status'] ?? ''),
+			'spanStart' => $span[0],
+			'spanEnd' => $span[1],
+			'phases' => $this->fetchProjectPhases(objectService: $objectService, projectId: $projectId),
+			'tasks' => $scheduled,
+			'unscheduled' => $unscheduled,
+		];
+
+	}//end projectEntry()
+
+	/**
+	 * A project's summary span: its planned dates, else the earliest start and
+	 * the latest due date of its dated tasks, else [null, null].
+	 *
+	 * @param array<string,mixed> $project The project data.
+	 * @param array<int,array<string,mixed>> $tasks The project's scheduled timeline rows.
+	 *
+	 * @return array{0: string|null, 1: string|null}
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.1
+	 */
+	private function summarySpan(array $project, array $tasks): array {
+		$firstStart = null;
+		$lastDue = null;
+		foreach ($tasks as $row) {
+			$first = ($row['startDate'] ?? $row['dueDate']);
+			$last = ($row['dueDate'] ?? $row['startDate']);
+			$firstStart = ($firstStart === null || $first < $firstStart) ? $first : $firstStart;
+			$lastDue = ($lastDue === null || $last > $lastDue) ? $last : $lastDue;
+		}
+
+		return [
+			($this->nullableDate(value: ($project['startDate'] ?? null)) ?? $firstStart),
+			($this->nullableDate(value: ($project['endDate'] ?? null)) ?? $lastDue),
+		];
+
+	}//end summarySpan()
+
+	/**
+	 * A project's phases as {id, title, status, startDate, endDate}, in phase order.
+	 *
+	 * @param object $objectService The OR ObjectService.
+	 * @param string $projectId UUID of the project.
+	 *
+	 * @return array<int,array<string,string|null>>
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.1
+	 */
+	private function fetchProjectPhases(object $objectService, string $projectId): array {
+		$results = $objectService->searchObjectsBySlug(
+			registerSlug: self::REGISTER,
+			schemaSlug: 'projectPhase',
+			filters: ['project' => $projectId]
+		);
+
+		$phases = [];
+		foreach ($this->normaliseResults(results: $results) as $row) {
+			$data = $this->extractData(row: $row);
+			$phases[] = [
+				'order' => (int)($data['order'] ?? 0),
+				'id' => $this->extractId(row: $row),
+				'title' => (string)($data['title'] ?? ''),
+				'status' => (string)($data['status'] ?? ''),
+				'startDate' => $this->nullableDate(value: ($data['startDate'] ?? null)),
+				'endDate' => $this->nullableDate(value: ($data['endDate'] ?? null)),
+			];
+		}
+
+		usort($phases, static fn (array $one, array $two): int => $one['order'] <=> $two['order']);
+
+		return array_map(
+			static function (array $phase): array {
+				unset($phase['order']);
+				return $phase;
+			},
+			$phases
+		);
+
+	}//end fetchProjectPhases()
 
 	/**
 	 * Fetch every task in a project as a plain data array.
