@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.17.0"
+    "version": "0.18.0"
   },
   "x-openregister": {
     "type": "application",
@@ -384,7 +384,7 @@
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.10.0",
+        "version": "0.11.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -460,9 +460,36 @@
               "active",
               "archived",
               "completed",
-              "cancelled"
+              "cancelled",
+              "requested",
+              "rejected"
             ],
             "default": "active"
+          },
+          "requestReason": {
+            "title": "Request reason",
+            "type": "string",
+            "nullable": true,
+            "description": "Why the requester needs this project. Filled in when the project is requested."
+          },
+          "reviewedBy": {
+            "title": "Reviewed by",
+            "type": "string",
+            "nullable": true,
+            "description": "The user who approved or rejected the request."
+          },
+          "reviewedAt": {
+            "title": "Reviewed at",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the request was approved or rejected."
+          },
+          "reviewNote": {
+            "title": "Review note",
+            "type": "string",
+            "nullable": true,
+            "description": "The reviewer's reason, shown to the requester when a request is not approved."
           },
           "color": {
             "title": "Colour",
@@ -777,6 +804,63 @@
             "type": "object",
             "description": "Declared catch-all for source-system fields and provenance keys (e.g. jiraProjectId, migratedAt). Declared explicitly so magic-table storage persists it.",
             "default": {}
+          }
+        },
+        "x-openregister-lifecycle": {
+          "field": "status",
+          "initial": "active",
+          "transitions": {
+            "archive": {
+              "from": [
+                "active",
+                "completed"
+              ],
+              "to": "archived",
+              "description": "Archive the project. It leaves the active list."
+            },
+            "restore": {
+              "from": [
+                "archived",
+                "completed",
+                "cancelled"
+              ],
+              "to": "active",
+              "description": "Bring the project back to the active list."
+            },
+            "complete": {
+              "from": [
+                "active"
+              ],
+              "to": "completed",
+              "description": "Mark the project as completed."
+            },
+            "cancel": {
+              "from": [
+                "active"
+              ],
+              "to": "cancelled",
+              "description": "Stop the project without completing it."
+            },
+            "approve": {
+              "from": [
+                "requested"
+              ],
+              "to": "active",
+              "authorization": [
+                "admin"
+              ],
+              "description": "Approve a project request. It becomes an active project."
+            },
+            "reject": {
+              "from": [
+                "requested"
+              ],
+              "to": "rejected",
+              "authorization": [
+                "admin"
+              ],
+              "description": "Reject a project request with a reason."
+            }
           }
         }
       },

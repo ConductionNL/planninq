@@ -188,6 +188,55 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testProjectCarriesTheTaskCounter()
 
 	/**
+	 * The project status moves only through declared transitions; approve and
+	 * reject belong to reviewers, archive and restore to whoever may update.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.1
+	 */
+	public function testProjectStatusMovesThroughDeclaredTransitions(): void {
+		$project   = $this->register['components']['schemas']['project'];
+		$lifecycle = ($project['x-openregister-lifecycle'] ?? null);
+		self::assertIsArray($lifecycle, 'project declares x-openregister-lifecycle');
+		self::assertSame('status', $lifecycle['field']);
+		self::assertSame('active', $lifecycle['initial']);
+		self::assertSame(['active', 'archived', 'completed', 'cancelled', 'requested', 'rejected'], $project['properties']['status']['enum']);
+
+		$moves = [];
+		foreach ($lifecycle['transitions'] as $action => $transition) {
+			foreach ($transition['from'] as $from) {
+				$moves[$from.'->'.$transition['to']] = [$action, ($transition['authorization'] ?? null)];
+			}
+		}
+
+		ksort($moves);
+		self::assertSame(
+			[
+				'active->archived' => ['archive', null],
+				'active->cancelled' => ['cancel', null],
+				'active->completed' => ['complete', null],
+				'archived->active' => ['restore', null],
+				'cancelled->active' => ['restore', null],
+				'completed->active' => ['restore', null],
+				'completed->archived' => ['archive', null],
+				'requested->active' => ['approve', ['admin']],
+				'requested->rejected' => ['reject', ['admin']],
+			],
+			$moves
+		);
+
+		foreach (['requestReason', 'reviewedBy', 'reviewedAt', 'reviewNote'] as $field) {
+			self::assertArrayHasKey($field, $project['properties'], $field);
+		}
+
+		$base = ['title' => 'Portaal', 'owner' => 'rik', 'status' => 'requested', 'requestReason' => 'Residents ask for it', 'reviewedBy' => 'olga', 'reviewedAt' => '2026-09-29T10:00:00+00:00', 'reviewNote' => 'Fits in the existing portal project'];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: $base));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'project', payload: ['status' => 'pending'] + $base));
+
+	}//end testProjectStatusMovesThroughDeclaredTransitions()
+
+	/**
 	 * Register JSON must be valid JSON with the required top-level structure.
 	 *
 	 * @return void

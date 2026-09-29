@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "Nyckeln kan inte ändras när uppgifter bär den.",
         "Project saved. The existing tasks get their numbers in the background.": "Projektet sparat. De befintliga uppgifterna får sina nummer i bakgrunden.",
         "Next task number": "Nästa uppgiftsnummer",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Numret som nästa uppgift i det här projektet får i sin nyckel. Bara systemet skriver det."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Numret som nästa uppgift i det här projektet får i sin nyckel. Bara systemet skriver det.",
+        "Restore {title}": "Återställ {title}",
+        "Restore": "Återställ",
+        "Project restored": "Projektet har återställts",
+        "Could not restore the project": "Det gick inte att återställa projektet",
+        "Bring this project back to the active list.": "Flytta tillbaka projektet till listan över aktiva projekt.",
+        "Restore project": "Återställ projekt",
+        "Request reason": "Skäl för begäran",
+        "Why the requester needs this project. Filled in when the project is requested.": "Varför den som begär projektet behöver det. Fylls i vid begäran.",
+        "Reviewed by": "Granskad av",
+        "The user who approved or rejected the request.": "Användaren som godkände eller avslog begäran.",
+        "Reviewed at": "Granskad",
+        "When the request was approved or rejected.": "När begäran godkändes eller avslogs.",
+        "Review note": "Granskningsanteckning",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Granskarens skäl, som visas för den som begärde projektet när en begäran inte godkänns."
     },
     "plurals": null
 }

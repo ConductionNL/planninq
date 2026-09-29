@@ -722,7 +722,21 @@ OC.L10N.register(
         "The key cannot change once tasks carry it.": "Ключ нельга змяніць, калі задачы ўжо яго маюць.",
         "Project saved. The existing tasks get their numbers in the background.": "Праект захаваны. Існуючыя задачы атрымліваюць нумары ў фонавым рэжыме.",
         "Next task number": "Нумар наступнай задачы",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Нумар, які наступная задача гэтага праекта атрымлівае ў сваім ключы. Яго запісвае толькі сістэма."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Нумар, які наступная задача гэтага праекта атрымлівае ў сваім ключы. Яго запісвае толькі сістэма.",
+        "Restore {title}": "Аднавіць {title}",
+        "Restore": "Аднавіць",
+        "Project restored": "Праект адноўлены",
+        "Could not restore the project": "Не ўдалося аднавіць праект",
+        "Bring this project back to the active list.": "Вярнуць гэты праект у спіс актыўных праектаў.",
+        "Restore project": "Аднавіць праект",
+        "Request reason": "Прычына запыту",
+        "Why the requester needs this project. Filled in when the project is requested.": "Навошта заяўніку гэты праект. Запаўняецца пры запыце.",
+        "Reviewed by": "Разгледжана",
+        "The user who approved or rejected the request.": "Карыстальнік, які адобрыў або адхіліў запыт.",
+        "Reviewed at": "Дата разгляду",
+        "When the request was approved or rejected.": "Калі запыт быў адобраны або адхілены.",
+        "Review note": "Заўвага рэцэнзента",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Прычына рэцэнзента, якую бачыць заяўнік, калі запыт не адобраны."
     },
     "nplurals=2; plural=(n != 1);"
 )

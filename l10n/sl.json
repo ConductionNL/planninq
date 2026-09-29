@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "Ključa ni mogoče spremeniti, ko ga nosijo naloge.",
         "Project saved. The existing tasks get their numbers in the background.": "Projekt je shranjen. Obstoječe naloge dobijo številke v ozadju.",
         "Next task number": "Številka naslednje naloge",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Številka, ki jo naslednja naloga tega projekta dobi v svojem ključu. Piše jo samo sistem."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Številka, ki jo naslednja naloga tega projekta dobi v svojem ključu. Piše jo samo sistem.",
+        "Restore {title}": "Obnovi {title}",
+        "Restore": "Obnovi",
+        "Project restored": "Projekt je obnovljen",
+        "Could not restore the project": "Projekta ni bilo mogoče obnoviti",
+        "Bring this project back to the active list.": "Vrni ta projekt na seznam aktivnih projektov.",
+        "Restore project": "Obnovi projekt",
+        "Request reason": "Razlog za zahtevo",
+        "Why the requester needs this project. Filled in when the project is requested.": "Zakaj vlagatelj potrebuje ta projekt. Izpolni se ob zahtevi.",
+        "Reviewed by": "Pregledal",
+        "The user who approved or rejected the request.": "Uporabnik, ki je zahtevo odobril ali zavrnil.",
+        "Reviewed at": "Pregledano",
+        "When the request was approved or rejected.": "Kdaj je bila zahteva odobrena ali zavrnjena.",
+        "Review note": "Opomba pregledovalca",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Razlog pregledovalca, ki ga vlagatelj vidi, ko zahteva ni odobrena."
     },
     "plurals": null
 }

@@ -722,7 +722,21 @@ OC.L10N.register(
         "The key cannot change once tasks carry it.": "Görevler taşıdıktan sonra anahtar değiştirilemez.",
         "Project saved. The existing tasks get their numbers in the background.": "Proje kaydedildi. Mevcut görevler numaralarını arka planda alır.",
         "Next task number": "Sonraki görev numarası",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Bu projenin bir sonraki görevinin anahtarında aldığı numara. Yalnızca sistem yazar."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Bu projenin bir sonraki görevinin anahtarında aldığı numara. Yalnızca sistem yazar.",
+        "Restore {title}": "{title} geri yükle",
+        "Restore": "Geri yükle",
+        "Project restored": "Proje geri yüklendi",
+        "Could not restore the project": "Proje geri yüklenemedi",
+        "Bring this project back to the active list.": "Bu projeyi etkin projeler listesine geri getirin.",
+        "Restore project": "Projeyi geri yükle",
+        "Request reason": "Talebin nedeni",
+        "Why the requester needs this project. Filled in when the project is requested.": "Talep edenin bu projeye neden ihtiyaç duyduğu. Talepte doldurulur.",
+        "Reviewed by": "İnceleyen",
+        "The user who approved or rejected the request.": "Talebi onaylayan veya reddeden kullanıcı.",
+        "Reviewed at": "İnceleme tarihi",
+        "When the request was approved or rejected.": "Talebin ne zaman onaylandığı veya reddedildiği.",
+        "Review note": "İnceleme notu",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Bir talep onaylanmadığında talep edenin gördüğü inceleyenin gerekçesi."
     },
     "nplurals=2; plural=(n != 1);"
 )

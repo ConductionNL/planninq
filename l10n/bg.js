@@ -722,7 +722,21 @@ OC.L10N.register(
         "The key cannot change once tasks carry it.": "Ключът не може да се промени, след като задачите го носят.",
         "Project saved. The existing tasks get their numbers in the background.": "Проектът е запазен. Съществуващите задачи получават номерата си във фонов режим.",
         "Next task number": "Номер на следващата задача",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Номерът, който следващата задача на този проект получава в ключа си. Записва го само системата."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Номерът, който следващата задача на този проект получава в ключа си. Записва го само системата.",
+        "Restore {title}": "Възстанови {title}",
+        "Restore": "Възстанови",
+        "Project restored": "Проектът е възстановен",
+        "Could not restore the project": "Проектът не можа да бъде възстановен",
+        "Bring this project back to the active list.": "Върнете този проект в списъка с активни проекти.",
+        "Restore project": "Възстанови проекта",
+        "Request reason": "Причина за заявката",
+        "Why the requester needs this project. Filled in when the project is requested.": "Защо заявителят се нуждае от този проект. Попълва се при заявката.",
+        "Reviewed by": "Прегледано от",
+        "The user who approved or rejected the request.": "Потребителят, който е одобрил или отхвърлил заявката.",
+        "Reviewed at": "Прегледано на",
+        "When the request was approved or rejected.": "Кога заявката е одобрена или отхвърлена.",
+        "Review note": "Бележка от прегледа",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Причината на проверяващия, която заявителят вижда, когато заявката не е одобрена."
     },
     "nplurals=2; plural=(n != 1);"
 )

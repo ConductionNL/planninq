@@ -722,7 +722,21 @@ OC.L10N.register(
         "The key cannot change once tasks carry it.": "La clav na po betg pli midar, uschespert che incumbensas la portan.",
         "Project saved. The existing tasks get their numbers in the background.": "Project memorisà. Las incumbensas existentas survegnan lur numers en il fund.",
         "Next task number": "Numer da la proxima incumbensa",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Il numer che la proxima incumbensa da quest project survegn en sia clav. Mo il sistem al scriva."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Il numer che la proxima incumbensa da quest project survegn en sia clav. Mo il sistem al scriva.",
+        "Restore {title}": "Restaurar {title}",
+        "Restore": "Restaurar",
+        "Project restored": "Project restaurà",
+        "Could not restore the project": "Il project n’ha betg pudì vegnir restaurà",
+        "Bring this project back to the active list.": "Returnar quest project en la glista dals projects activs.",
+        "Restore project": "Restaurar il project",
+        "Request reason": "Motiv da la dumonda",
+        "Why the requester needs this project. Filled in when the project is requested.": "Pertge che la persuna che dumonda dovra quest project. Vegn emplenì cun la dumonda.",
+        "Reviewed by": "Examinà da",
+        "The user who approved or rejected the request.": "L’utilisader che ha approvà u refusà la dumonda.",
+        "Reviewed at": "Examinà ils",
+        "When the request was approved or rejected.": "Cura che la dumonda è vegnida approvada u refusada.",
+        "Review note": "Remartga da l’examinatur",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Il motiv da l’examinatur, che la persuna che dumonda vesa, sch’ina dumonda na vegn betg approvada."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "Atslēgu nevar mainīt, kad uzdevumi to jau nes.",
         "Project saved. The existing tasks get their numbers in the background.": "Projekts saglabāts. Esošie uzdevumi saņem numurus fonā.",
         "Next task number": "Nākamā uzdevuma numurs",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Numurs, ko nākamais šī projekta uzdevums saņem savā atslēgā. To raksta tikai sistēma."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Numurs, ko nākamais šī projekta uzdevums saņem savā atslēgā. To raksta tikai sistēma.",
+        "Restore {title}": "Atjaunot {title}",
+        "Restore": "Atjaunot",
+        "Project restored": "Projekts atjaunots",
+        "Could not restore the project": "Projektu neizdevās atjaunot",
+        "Bring this project back to the active list.": "Atgriezt šo projektu aktīvo projektu sarakstā.",
+        "Restore project": "Atjaunot projektu",
+        "Request reason": "Pieprasījuma iemesls",
+        "Why the requester needs this project. Filled in when the project is requested.": "Kāpēc pieprasītājam šis projekts ir vajadzīgs. Aizpilda pieprasījumā.",
+        "Reviewed by": "Izskatīja",
+        "The user who approved or rejected the request.": "Lietotājs, kas pieprasījumu apstiprināja vai noraidīja.",
+        "Reviewed at": "Izskatīts",
+        "When the request was approved or rejected.": "Kad pieprasījums tika apstiprināts vai noraidīts.",
+        "Review note": "Izskatītāja piezīme",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Izskatītāja iemesls, ko pieprasītājs redz, ja pieprasījums nav apstiprināts."
     },
     "plurals": null
 }

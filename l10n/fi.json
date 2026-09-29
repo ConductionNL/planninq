@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "Tunnus ei voi muuttua, kun tehtävillä on se.",
         "Project saved. The existing tasks get their numbers in the background.": "Projekti tallennettu. Nykyiset tehtävät saavat numeronsa taustalla.",
         "Next task number": "Seuraava tehtävänumero",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Numero, jonka tämän projektin seuraava tehtävä saa tunnukseensa. Vain järjestelmä kirjoittaa sen."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Numero, jonka tämän projektin seuraava tehtävä saa tunnukseensa. Vain järjestelmä kirjoittaa sen.",
+        "Restore {title}": "Palauta {title}",
+        "Restore": "Palauta",
+        "Project restored": "Projekti palautettu",
+        "Could not restore the project": "Projektia ei voitu palauttaa",
+        "Bring this project back to the active list.": "Palauta projekti aktiivisten projektien luetteloon.",
+        "Restore project": "Palauta projekti",
+        "Request reason": "Pyynnön syy",
+        "Why the requester needs this project. Filled in when the project is requested.": "Miksi pyytäjä tarvitsee projektin. Täytetään pyynnön yhteydessä.",
+        "Reviewed by": "Käsittelijä",
+        "The user who approved or rejected the request.": "Käyttäjä, joka hyväksyi tai hylkäsi pyynnön.",
+        "Reviewed at": "Käsitelty",
+        "When the request was approved or rejected.": "Milloin pyyntö hyväksyttiin tai hylättiin.",
+        "Review note": "Käsittelijän huomautus",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Käsittelijän perustelu, jonka pyytäjä näkee, kun pyyntöä ei hyväksytä."
     },
     "plurals": null
 }

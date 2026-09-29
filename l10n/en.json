@@ -697,7 +697,21 @@
         "The key cannot change once tasks carry it.": "The key cannot change once tasks carry it.",
         "Project saved. The existing tasks get their numbers in the background.": "Project saved. The existing tasks get their numbers in the background.",
         "Next task number": "Next task number",
-        "The number the next task of this project gets in its key. Only the system writes it.": "The number the next task of this project gets in its key. Only the system writes it."
+        "The number the next task of this project gets in its key. Only the system writes it.": "The number the next task of this project gets in its key. Only the system writes it.",
+        "Restore {title}": "Restore {title}",
+        "Restore": "Restore",
+        "Project restored": "Project restored",
+        "Could not restore the project": "Could not restore the project",
+        "Bring this project back to the active list.": "Bring this project back to the active list.",
+        "Restore project": "Restore project",
+        "Request reason": "Request reason",
+        "Why the requester needs this project. Filled in when the project is requested.": "Why the requester needs this project. Filled in when the project is requested.",
+        "Reviewed by": "Reviewed by",
+        "The user who approved or rejected the request.": "The user who approved or rejected the request.",
+        "Reviewed at": "Reviewed at",
+        "When the request was approved or rejected.": "When the request was approved or rejected.",
+        "Review note": "Review note",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "The reviewer's reason, shown to the requester when a request is not approved."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

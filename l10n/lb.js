@@ -722,7 +722,21 @@ OC.L10N.register(
         "The key cannot change once tasks carry it.": "De Schlëssel kann net méi änneren, soubal Aufgaben en droen.",
         "Project saved. The existing tasks get their numbers in the background.": "Projet gespäichert. Déi bestoend Aufgaben kréien hir Nummeren am Hannergrond.",
         "Next task number": "Nächst Aufgabennummer",
-        "The number the next task of this project gets in its key. Only the system writes it.": "D’Nummer, déi déi nächst Aufgab vun dësem Projet an hirem Schlëssel kritt. Just de System schreift se."
+        "The number the next task of this project gets in its key. Only the system writes it.": "D’Nummer, déi déi nächst Aufgab vun dësem Projet an hirem Schlëssel kritt. Just de System schreift se.",
+        "Restore {title}": "{title} restauréieren",
+        "Restore": "Restauréieren",
+        "Project restored": "Projet restauréiert",
+        "Could not restore the project": "De Projet konnt net restauréiert ginn",
+        "Bring this project back to the active list.": "Dëse Projet zréck an d’Lëscht vun den aktive Projeten huelen.",
+        "Restore project": "Projet restauréieren",
+        "Request reason": "Grond vun der Ufro",
+        "Why the requester needs this project. Filled in when the project is requested.": "Firwat den Ufroesteller dëse Projet brauch. Gëtt bei der Ufro ausgefëllt.",
+        "Reviewed by": "Gepréift vun",
+        "The user who approved or rejected the request.": "De Benotzer, deen d’Ufro guttgeheescht oder ofgeleent huet.",
+        "Reviewed at": "Gepréift den",
+        "When the request was approved or rejected.": "Wéini d’Ufro guttgeheescht oder ofgeleent gouf.",
+        "Review note": "Notiz vun der Préifung",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "De Grond vum Préifer, deen den Ufroesteller gesäit, wann eng Ufro net guttgeheescht gëtt."
     },
     "nplurals=2; plural=(n != 1);"
 )

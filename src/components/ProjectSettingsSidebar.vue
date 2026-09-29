@@ -211,7 +211,15 @@
 			</template>
 
 			<div class="project-settings-sidebar__section">
-				<div class="project-settings-sidebar__danger-item">
+				<!-- Restore an archived project (projects-lifecycle-policy) -->
+				<div v-if="lifecycle.restore" class="project-settings-sidebar__danger-item">
+					<p>{{ t('planninq', 'Bring this project back to the active list.') }}</p>
+					<NcButton variant="primary" data-testid="project-restore" @click="doRestore">
+						{{ t('planninq', 'Restore project') }}
+					</NcButton>
+				</div>
+
+				<div v-if="lifecycle.archive" class="project-settings-sidebar__danger-item">
 					<p>{{ t('planninq', 'Archive this project. It will no longer appear in the active list.') }}</p>
 					<NcButton
 						v-if="!confirmArchive"
@@ -293,6 +301,7 @@ import MemberSearch from './MemberSearch.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
+import { lifecycleButtons } from '../utils/projectLifecycle.js'
 import { parentIdOf, parentOptions, parentRefusal } from '../utils/projectTree.js'
 import { keyEditable, keyRefusal, normaliseProjectKey } from '../utils/workItemKeys.js'
 
@@ -328,7 +337,7 @@ export default {
 		},
 	},
 
-	emits: ['close', 'archived', 'deleted', 'columnsChanged'],
+	emits: ['close', 'archived', 'restored', 'deleted', 'columnsChanged'],
 
 	data() {
 		return {
@@ -352,6 +361,8 @@ export default {
 
 			projectFields: [],
 			fieldForm: {},
+			// The lifecycle actions OpenRegister offers on this project; null until read.
+			projectActions: null,
 			missingFields: [],
 
 			portfolios: [],
@@ -383,6 +394,17 @@ export default {
 		 */
 		canManageColumns() {
 			return getCurrentUser()?.isAdmin === true || (!!this.currentUid && this.project?.owner === this.currentUid)
+		},
+
+		/**
+		 * Which of Archive and Restore the Danger zone shows.
+		 *
+		 * @return {{archive: boolean, restore: boolean}}
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.4
+		 */
+		lifecycle() {
+			return lifecycleButtons(this.project, this.projectActions)
 		},
 
 		/**
@@ -441,6 +463,7 @@ export default {
 				this.form.parent = this.parentOption(newVal)
 				this.fieldForm = { ...(newVal.customFields || {}) }
 				this.missingFields = []
+				this.loadActions()
 			}
 		},
 	},
@@ -461,9 +484,35 @@ export default {
 		this.fieldForm = { ...(this.project?.customFields || {}) }
 		this.form.portfolio = this.portfolioOption(this.project)
 		this.form.parent = this.parentOption(this.project)
+		this.loadActions()
 	},
 
 	methods: {
+		/**
+		 * Read the lifecycle actions OpenRegister offers on the project.
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.4
+		 */
+		async loadActions() {
+			this.projectActions = this.project?.id ? await this.projectsStore.fetchProjectActions(this.project.id) : null
+		},
+
+		/**
+		 * Restore the archived project, then show Archive again.
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.4
+		 */
+		async doRestore() {
+			const restored = await this.projectsStore.restoreProject(this.project.id)
+			if (!restored) {
+				showError(this.t('planninq', 'Could not restore the project'))
+				return
+			}
+			showSuccess(this.t('planninq', 'Project restored'))
+			this.$emit('restored', restored)
+			await this.loadActions()
+		},
+
 		/**
 		 * The option of a project's portfolio, or No portfolio.
 		 *

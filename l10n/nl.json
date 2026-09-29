@@ -742,7 +742,21 @@
         "The key cannot change once tasks carry it.": "De sleutel kan niet meer veranderen zodra taken hem dragen.",
         "Project saved. The existing tasks get their numbers in the background.": "Project opgeslagen. De bestaande taken krijgen op de achtergrond hun nummer.",
         "Next task number": "Volgend taaknummer",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Het nummer dat de volgende taak van dit project in zijn sleutel krijgt. Alleen het systeem schrijft het."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Het nummer dat de volgende taak van dit project in zijn sleutel krijgt. Alleen het systeem schrijft het.",
+        "Restore {title}": "{title} herstellen",
+        "Restore": "Herstellen",
+        "Project restored": "Project hersteld",
+        "Could not restore the project": "Het project kon niet worden hersteld",
+        "Bring this project back to the active list.": "Zet dit project terug in de lijst met actieve projecten.",
+        "Restore project": "Project herstellen",
+        "Request reason": "Reden van de aanvraag",
+        "Why the requester needs this project. Filled in when the project is requested.": "Waarom de aanvrager dit project nodig heeft. Ingevuld bij de aanvraag.",
+        "Reviewed by": "Beoordeeld door",
+        "The user who approved or rejected the request.": "De gebruiker die de aanvraag goedkeurde of afwees.",
+        "Reviewed at": "Beoordeeld op",
+        "When the request was approved or rejected.": "Wanneer de aanvraag werd goedgekeurd of afgewezen.",
+        "Review note": "Toelichting van de beoordelaar",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "De reden van de beoordelaar, die de aanvrager ziet als een aanvraag niet is goedgekeurd."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

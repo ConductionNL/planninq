@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "Rakto negalima keisti, kai užduotys jį jau turi.",
         "Project saved. The existing tasks get their numbers in the background.": "Projektas išsaugotas. Esamos užduotys numerius gauna fone.",
         "Next task number": "Kitos užduoties numeris",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Numeris, kurį kita šio projekto užduotis gauna savo rakte. Jį rašo tik sistema."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Numeris, kurį kita šio projekto užduotis gauna savo rakte. Jį rašo tik sistema.",
+        "Restore {title}": "Atkurti {title}",
+        "Restore": "Atkurti",
+        "Project restored": "Projektas atkurtas",
+        "Could not restore the project": "Nepavyko atkurti projekto",
+        "Bring this project back to the active list.": "Grąžinkite šį projektą į aktyvių projektų sąrašą.",
+        "Restore project": "Atkurti projektą",
+        "Request reason": "Prašymo priežastis",
+        "Why the requester needs this project. Filled in when the project is requested.": "Kodėl prašytojui reikia šio projekto. Pildoma teikiant prašymą.",
+        "Reviewed by": "Peržiūrėjo",
+        "The user who approved or rejected the request.": "Naudotojas, kuris patvirtino arba atmetė prašymą.",
+        "Reviewed at": "Peržiūrėta",
+        "When the request was approved or rejected.": "Kada prašymas buvo patvirtintas arba atmestas.",
+        "Review note": "Peržiūrėtojo pastaba",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Peržiūrėtojo priežastis, kurią prašytojas mato, kai prašymas nepatvirtinamas."
     },
     "plurals": null
 }

@@ -66,6 +66,19 @@
 			{{ budgetLabel }}
 		</span>
 
+		<!-- Restore an archived project (projects-lifecycle-policy) -->
+		<NcButton
+			v-if="canRestore && project.status === 'archived'"
+			variant="secondary"
+			class="project-list-item__restore"
+			:aria-label="t('planninq', 'Restore {title}', { title: project.title })"
+			data-testid="project-restore"
+			@click.stop="$emit('restore', project)"
+			@keydown.enter.stop
+			@keydown.space.stop>
+			{{ t('planninq', 'Restore') }}
+		</NcButton>
+
 		<!-- Status chip -->
 		<NcChip
 			class="project-list-item__status"
@@ -109,9 +122,15 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+
+		/** Whether the viewer may restore the project (its owner or an admin). */
+		canRestore: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
-	emits: ['click', 'toggle'],
+	emits: ['click', 'toggle', 'restore'],
 
 	computed: {
 		/**

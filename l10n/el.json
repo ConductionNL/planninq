@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "Το κλειδί δεν μπορεί να αλλάξει όταν το φέρουν εργασίες.",
         "Project saved. The existing tasks get their numbers in the background.": "Το έργο αποθηκεύτηκε. Οι υπάρχουσες εργασίες παίρνουν τους αριθμούς τους στο παρασκήνιο.",
         "Next task number": "Αριθμός επόμενης εργασίας",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Ο αριθμός που παίρνει στο κλειδί της η επόμενη εργασία αυτού του έργου. Τον γράφει μόνο το σύστημα."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Ο αριθμός που παίρνει στο κλειδί της η επόμενη εργασία αυτού του έργου. Τον γράφει μόνο το σύστημα.",
+        "Restore {title}": "Επαναφορά {title}",
+        "Restore": "Επαναφορά",
+        "Project restored": "Το έργο επανήλθε",
+        "Could not restore the project": "Δεν ήταν δυνατή η επαναφορά του έργου",
+        "Bring this project back to the active list.": "Επαναφέρετε αυτό το έργο στη λίστα των ενεργών έργων.",
+        "Restore project": "Επαναφορά έργου",
+        "Request reason": "Αιτία του αιτήματος",
+        "Why the requester needs this project. Filled in when the project is requested.": "Γιατί ο αιτών χρειάζεται αυτό το έργο. Συμπληρώνεται κατά το αίτημα.",
+        "Reviewed by": "Εξετάστηκε από",
+        "The user who approved or rejected the request.": "Ο χρήστης που ενέκρινε ή απέρριψε το αίτημα.",
+        "Reviewed at": "Εξετάστηκε στις",
+        "When the request was approved or rejected.": "Πότε εγκρίθηκε ή απορρίφθηκε το αίτημα.",
+        "Review note": "Σημείωση εξέτασης",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Ο λόγος του εξεταστή, που βλέπει ο αιτών όταν ένα αίτημα δεν εγκρίνεται."
     },
     "plurals": null
 }

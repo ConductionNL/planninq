@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "Võti ei saa muutuda, kui ülesanded seda kannavad.",
         "Project saved. The existing tasks get their numbers in the background.": "Projekt salvestatud. Olemasolevad ülesanded saavad numbrid taustal.",
         "Next task number": "Järgmise ülesande number",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Number, mille selle projekti järgmine ülesanne oma võtmes saab. Seda kirjutab ainult süsteem."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Number, mille selle projekti järgmine ülesanne oma võtmes saab. Seda kirjutab ainult süsteem.",
+        "Restore {title}": "Taasta {title}",
+        "Restore": "Taasta",
+        "Project restored": "Projekt taastatud",
+        "Could not restore the project": "Projekti ei õnnestunud taastada",
+        "Bring this project back to the active list.": "Too see projekt tagasi aktiivsete projektide loendisse.",
+        "Restore project": "Taasta projekt",
+        "Request reason": "Taotluse põhjus",
+        "Why the requester needs this project. Filled in when the project is requested.": "Miks taotleja seda projekti vajab. Täidetakse taotlemisel.",
+        "Reviewed by": "Läbi vaadanud",
+        "The user who approved or rejected the request.": "Kasutaja, kes taotluse kinnitas või tagasi lükkas.",
+        "Reviewed at": "Läbi vaadatud",
+        "When the request was approved or rejected.": "Millal taotlus kinnitati või tagasi lükati.",
+        "Review note": "Läbivaataja märkus",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Läbivaataja põhjendus, mida taotleja näeb, kui taotlust ei kinnitata."
     },
     "plurals": null
 }

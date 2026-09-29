@@ -721,7 +721,21 @@
         "The key cannot change once tasks carry it.": "Çelësi nuk mund të ndryshojë pasi detyrat e mbajnë.",
         "Project saved. The existing tasks get their numbers in the background.": "Projekti u ruajt. Detyrat ekzistuese marrin numrat e tyre në sfond.",
         "Next task number": "Numri i detyrës së radhës",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Numri që detyra e radhës e këtij projekti merr në çelësin e saj. Vetëm sistemi e shkruan."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Numri që detyra e radhës e këtij projekti merr në çelësin e saj. Vetëm sistemi e shkruan.",
+        "Restore {title}": "Rikthe {title}",
+        "Restore": "Rikthe",
+        "Project restored": "Projekti u rikthye",
+        "Could not restore the project": "Projekti nuk mund të rikthehej",
+        "Bring this project back to the active list.": "Ktheje këtë projekt në listën e projekteve aktive.",
+        "Restore project": "Rikthe projektin",
+        "Request reason": "Arsyeja e kërkesës",
+        "Why the requester needs this project. Filled in when the project is requested.": "Pse kërkuesit i nevojitet ky projekt. Plotësohet me kërkesën.",
+        "Reviewed by": "Shqyrtuar nga",
+        "The user who approved or rejected the request.": "Përdoruesi që e miratoi ose e refuzoi kërkesën.",
+        "Reviewed at": "Shqyrtuar më",
+        "When the request was approved or rejected.": "Kur u miratua ose u refuzua kërkesa.",
+        "Review note": "Shënim i shqyrtimit",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Arsyeja e shqyrtuesit, që kërkuesi e sheh kur një kërkesë nuk miratohet."
     },
     "plurals": {}
 }

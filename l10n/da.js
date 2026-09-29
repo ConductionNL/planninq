@@ -722,7 +722,21 @@ OC.L10N.register(
         "The key cannot change once tasks carry it.": "Nøglen kan ikke ændres, når opgaver bærer den.",
         "Project saved. The existing tasks get their numbers in the background.": "Projektet er gemt. De eksisterende opgaver får deres numre i baggrunden.",
         "Next task number": "Næste opgavenummer",
-        "The number the next task of this project gets in its key. Only the system writes it.": "Det nummer, den næste opgave i dette projekt får i sin nøgle. Kun systemet skriver det."
+        "The number the next task of this project gets in its key. Only the system writes it.": "Det nummer, den næste opgave i dette projekt får i sin nøgle. Kun systemet skriver det.",
+        "Restore {title}": "Gendan {title}",
+        "Restore": "Gendan",
+        "Project restored": "Projektet er gendannet",
+        "Could not restore the project": "Projektet kunne ikke gendannes",
+        "Bring this project back to the active list.": "Flyt projektet tilbage til listen over aktive projekter.",
+        "Restore project": "Gendan projekt",
+        "Request reason": "Begrundelse for anmodningen",
+        "Why the requester needs this project. Filled in when the project is requested.": "Hvorfor ansøgeren har brug for projektet. Udfyldes ved anmodningen.",
+        "Reviewed by": "Gennemgået af",
+        "The user who approved or rejected the request.": "Brugeren, der godkendte eller afviste anmodningen.",
+        "Reviewed at": "Gennemgået den",
+        "When the request was approved or rejected.": "Hvornår anmodningen blev godkendt eller afvist.",
+        "Review note": "Bemærkning fra gennemgangen",
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Begrundelsen fra den, der gennemgik, som ansøgeren ser, når en anmodning ikke godkendes."
     },
     "nplurals=2; plural=(n != 1);"
 )
