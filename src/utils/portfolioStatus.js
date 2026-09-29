@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: EUPL-1.2
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  */
-import { ASPECTS, aspectKey, STATUSES, worstStatus } from './statusReports.js'
+import { aspectKey, ASPECTS, STATUSES, worstStatus } from './statusReports.js'
 
 /** The reporting period when the admin setting is missing or not a whole number. */
 export const DEFAULT_REPORT_PERIOD_DAYS = 30

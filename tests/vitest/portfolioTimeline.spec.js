@@ -7,8 +7,8 @@
  * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.2
  */
 import { describe, expect, it } from 'vitest'
-import { PX_PER_DAY } from '../../src/utils/timelineHelpers.js'
 import { buildPortfolioLayout, sortBySpan } from '../../src/utils/portfolioTimeline.js'
+import { PX_PER_DAY } from '../../src/utils/timelineHelpers.js'
 
 const projects = [
 	{ id: 'b', title: 'Bestemmingsplan', spanStart: '2026-03-01', spanEnd: '2026-03-10', phases: [], tasks: [{ id: 'b1', title: 'B1', status: 'open', startDate: '2026-03-02', dueDate: '2026-03-04' }] },
@@ -38,7 +38,11 @@ describe('buildPortfolioLayout', () => {
 	it('opens a project into its phases and task bars under it', () => {
 		const layout = buildPortfolioLayout(projects, ['a'], edges, PX_PER_DAY.week)
 		expect(layout.rows.map((row) => [row.kind, row.id])).toEqual([
-			['project', 'a'], ['phase', 'ph'], ['task', 'a1'], ['project', 'b'], ['project', 'c'],
+			['project', 'a'],
+			['phase', 'ph'],
+			['task', 'a1'],
+			['project', 'b'],
+			['project', 'c'],
 		])
 		expect(layout.rows[2].projectId).toBe('a')
 	})

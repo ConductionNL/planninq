@@ -148,6 +148,30 @@
 			</form>
 		</CnSettingsSection>
 
+		<!-- Reporting period (portfolio-status-overview) -->
+		<CnSettingsSection
+			:name="t('planninq', 'Status reports')"
+			:description="t('planninq', 'After how many days a project\'s latest status report is marked out of date on the portfolio overview')">
+			<form novalidate data-testid="report-period-form" @submit.prevent="saveReportPeriod">
+				<div class="form-group">
+					<label for="status-report-period-days">{{ t('planninq', 'Reporting period (days)') }}</label>
+					<input
+						id="status-report-period-days"
+						v-model="reportPeriod"
+						type="number"
+						min="1"
+						max="365"
+						class="column-input">
+				</div>
+				<div v-if="reportPeriodMessage" :class="reportPeriodOk ? 'success-message' : 'error-message'">
+					{{ reportPeriodMessage }}
+				</div>
+				<NcButton variant="primary" type="submit" :disabled="savingReportPeriod">
+					{{ savingReportPeriod ? t('planninq', 'Saving…') : t('planninq', 'Save') }}
+				</NcButton>
+			</form>
+		</CnSettingsSection>
+
 		<!-- Risk scale (projects-overview-logs-risks) -->
 		<CnSettingsSection
 			:name="t('planninq', 'Risk scale')"
@@ -390,6 +414,11 @@ export default {
 			leadHoursSuccess: '',
 			leadHoursError: '',
 			// risk_scale
+			// status_report_period_days
+			reportPeriod: 30,
+			reportPeriodMessage: '',
+			reportPeriodOk: false,
+			savingReportPeriod: false,
 			riskScale: JSON.parse(JSON.stringify(parseRiskScale(''))),
 			savingRiskScale: false,
 			riskScaleSuccess: '',
@@ -441,6 +470,7 @@ export default {
 		this.creationPolicy = settingsStore.settings?.allow_project_creation || 'all'
 		this.leadHours = parseInt(settingsStore.settings?.due_reminder_lead_hours, 10) || 24
 		this.riskScale = JSON.parse(JSON.stringify(parseRiskScale(settingsStore.settings?.risk_scale)))
+		this.reportPeriod = parseInt(settingsStore.settings?.status_report_period_days, 10) || 30
 		this.loadColumnList(settingsStore.settings)
 		useLabelsStore().fetchLabels()
 	},
@@ -622,6 +652,31 @@ export default {
 				this.leadHoursError = this.t('planninq', 'Failed to save reminder lead time')
 			}
 			this.savingLeadHours = false
+		},
+
+		/**
+		 * Save the reporting period after which a status report is out of date.
+		 *
+		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.2
+		 */
+		async saveReportPeriod() {
+			this.reportPeriodMessage = ''
+			const days = Number(this.reportPeriod)
+			if (!Number.isInteger(days) || days < 1 || days > 365) {
+				this.reportPeriodOk = false
+				this.reportPeriodMessage = this.t('planninq', 'The reporting period is a whole number of days from 1 to 365.')
+				return
+			}
+			this.savingReportPeriod = true
+			const settingsStore = useSettingsStore()
+			const result = await settingsStore.saveSettings({ status_report_period_days: String(days) })
+			// saveSettings() keeps the POST answer as the settings; read them back.
+			await settingsStore.fetchSettings()
+			this.reportPeriodOk = !!result
+			this.reportPeriodMessage = result
+				? this.t('planninq', 'Reporting period saved')
+				: this.t('planninq', 'The reporting period was not saved. Please try again.')
+			this.savingReportPeriod = false
 		},
 
 		/**

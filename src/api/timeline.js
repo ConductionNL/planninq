@@ -44,3 +44,27 @@ export async function fetchProjectTimeline(projectId, from = null, to = null) {
 		dependencies: Array.isArray(data.dependencies) ? data.dependencies : [],
 	}
 }
+
+/**
+ * Fetch several projects for one time axis through a single RBAC-scoped
+ * request per 50 projects. Projects the caller cannot read come back under
+ * `skipped`; `dependencies` holds edges between any two tasks in the answer.
+ *
+ * @param {Array<string>} projectIds The OR UUIDs of the projects.
+ * @return {Promise<{projects: Array<object>, dependencies: Array<object>, skipped: Array<string>}>}
+ *
+ * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.1
+ */
+export async function fetchPortfolioTimeline(projectIds = []) {
+	const ids = [...new Set((projectIds || []).filter(Boolean).map(String))]
+	const answer = { projects: [], dependencies: [], skipped: [] }
+	const url = generateUrl('/apps/planninq/api/timeline')
+	for (let offset = 0; offset < ids.length; offset += 50) {
+		const response = await axios.get(url, { params: { projects: ids.slice(offset, offset + 50).join(',') } })
+		const data = response.data || {}
+		answer.projects.push(...(Array.isArray(data.projects) ? data.projects : []))
+		answer.dependencies.push(...(Array.isArray(data.dependencies) ? data.dependencies : []))
+		answer.skipped.push(...(Array.isArray(data.skipped) ? data.skipped : []))
+	}
+	return answer
+}
