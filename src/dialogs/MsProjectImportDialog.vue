@@ -214,20 +214,16 @@ export default {
 		 */
 		lossText(loss) {
 			const count = loss.count
-			switch (loss.code) {
-			case 'resources':
-				return this.t('planninq', 'Tasks with resources, which are not imported: {count}', { count })
-			case 'collapsedLevels':
-				return this.t('planninq', 'Tasks deeper than level 3, placed under their level-2 task: {count}', { count })
-			case 'relatedLinks':
-				return this.t('planninq', 'Links other than finish-to-start, imported as related links: {count}', { count })
-			case 'lags':
-				return this.t('planninq', 'Link lags, which are dropped: {count}', { count })
-			case 'phaseLinks':
-				return this.t('planninq', 'Links to a summary task, which are not imported: {count}', { count })
-			default:
-				return this.t('planninq', 'Links to tasks outside this plan, which are not imported: {count}', { count })
+			const texts = {
+				resources: () => this.t('planninq', 'Tasks with resources, which are not imported: {count}', { count }),
+				collapsedLevels: () => this.t('planninq', 'Tasks deeper than level 3, placed under their level-2 task: {count}', { count }),
+				relatedLinks: () => this.t('planninq', 'Links other than finish-to-start, imported as related links: {count}', { count }),
+				lags: () => this.t('planninq', 'Link lags, which are dropped: {count}', { count }),
+				phaseLinks: () => this.t('planninq', 'Links to a summary task, which are not imported: {count}', { count }),
 			}
+			return texts[loss.code]
+				? texts[loss.code]()
+				: this.t('planninq', 'Links to tasks outside this plan, which are not imported: {count}', { count })
 		},
 
 		/**
