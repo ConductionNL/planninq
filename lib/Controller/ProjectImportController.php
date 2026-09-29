@@ -160,12 +160,18 @@ class ProjectImportController extends Controller {
 	 */
 	private function withUpload(callable $run): JSONResponse {
 		$file = $this->request->getUploadedFile('file');
-		if (is_array($file) === false || (int)($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK || is_readable((string)($file['tmp_name'] ?? '')) === false) {
+		if (is_array($file) === false
+			|| (int)($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK
+			|| is_readable((string)($file['tmp_name'] ?? '')) === false
+		) {
 			return new JSONResponse(['error' => 'Choose a file to import.', 'reason' => 'noFile'], Http::STATUS_BAD_REQUEST);
 		}
 
 		if ((int)($file['size'] ?? 0) > MsProjectPlanParser::MAX_BYTES) {
-			return new JSONResponse(['error' => 'The file is larger than 10 MB.', 'reason' => MsProjectImportException::TOO_LARGE], Http::STATUS_UNPROCESSABLE_ENTITY);
+			return new JSONResponse(
+				['error' => 'The file is larger than 10 MB.', 'reason' => MsProjectImportException::TOO_LARGE],
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
 		}
 
 		try {

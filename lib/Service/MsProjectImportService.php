@@ -143,7 +143,12 @@ class MsProjectImportService {
 
 					$match = ($existing[$schema][$object['uid']] ?? null);
 					$ids[$object['uid']] = $this->write(objectService: $objectService, schema: $schema, data: $data, match: $match);
-					$result[($match === null) ? 'created' : 'updated'][$kind]++;
+					$outcome = 'updated';
+					if ($match === null) {
+						$outcome = 'created';
+					}
+
+					$result[$outcome][$kind]++;
 				}
 			}
 
@@ -305,7 +310,7 @@ class MsProjectImportService {
 	 * @return string
 	 */
 	private function idOf(mixed $row, string $fallback): string {
-		// is_callable, not method_exists: an OpenRegister entity serves getUuid() through __call().
+		// Use is_callable, not method_exists: an OpenRegister entity serves getUuid() through __call().
 		if (is_object($row) === true && is_callable([$row, 'getUuid']) === true) {
 			return (string)($row->getUuid() ?? $fallback);
 		}

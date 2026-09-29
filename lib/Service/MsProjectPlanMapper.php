@@ -82,10 +82,14 @@ class MsProjectPlanMapper {
 			}
 
 			if ($level <= 2) {
-				$phaseUid  = ($level === 1) ? null : $phaseUid;
+				if ($level === 1) {
+					$phaseUid = null;
+				}
+
 				$level2Uid = $task['uid'];
 				$kindByUid[$task['uid']] = 'task';
-				$out['tasks'][]          = ['uid' => $task['uid'], 'phaseUid' => $phaseUid, 'parentUid' => null, 'data' => $this->taskData(task: $task, provenance: $provenance, path: null)];
+				$data = $this->taskData(task: $task, provenance: $provenance, path: null);
+				$out['tasks'][] = $this->mapped(task: $task, phaseUid: $phaseUid, parentUid: null, data: $data);
 				continue;
 			}
 
@@ -96,7 +100,8 @@ class MsProjectPlanMapper {
 			}
 
 			$kindByUid[$task['uid']] = 'task';
-			$out['subtasks'][]       = ['uid' => $task['uid'], 'phaseUid' => $phaseUid, 'parentUid' => $level2Uid, 'data' => $this->taskData(task: $task, provenance: $provenance, path: $collapsed)];
+			$data = $this->taskData(task: $task, provenance: $provenance, path: $collapsed);
+			$out['subtasks'][] = $this->mapped(task: $task, phaseUid: $phaseUid, parentUid: $level2Uid, data: $data);
 		}//end foreach
 
 		$links = $this->links(tasks: $plan['tasks'], kindByUid: $kindByUid, losses: $losses);
@@ -150,6 +155,20 @@ class MsProjectPlanMapper {
 	}//end links()
 
 	/**
+	 * One mapped task with its references by Project UID.
+	 *
+	 * @param array<string,mixed> $task      The plan task.
+	 * @param string|null         $phaseUid  The UID of its phase.
+	 * @param string|null         $parentUid The UID of its parent task.
+	 * @param array<string,mixed> $data      The payload.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function mapped(array $task, ?string $phaseUid, ?string $parentUid, array $data): array {
+		return ['uid' => $task['uid'], 'phaseUid' => $phaseUid, 'parentUid' => $parentUid, 'data' => $data];
+	}//end mapped()
+
+	/**
 	 * A phase payload.
 	 *
 	 * @param array<string,mixed>  $task       The summary task.
@@ -182,6 +201,10 @@ class MsProjectPlanMapper {
 	 */
 	private function taskData(array $task, array $provenance, ?string $path): array {
 		$description = trim(implode("\n\n", array_filter([$path, $task['notes']], static fn ($part): bool => $part !== null && $part !== '')));
+		if ($description === '') {
+			$description = null;
+		}
+
 		$start       = $task['start'];
 		$issueType   = null;
 		if ($task['milestone'] === true) {
@@ -192,7 +215,7 @@ class MsProjectPlanMapper {
 		return array_filter(
 			[
 				'title'             => $this->title(task: $task),
-				'description'       => ($description === '' ? null : $description),
+				'description'       => $description,
 				'status'            => $this->status(percent: (int)$task['percent']),
 				'startDate'         => $start,
 				'dueDate'           => ($task['finish'] ?? $start),

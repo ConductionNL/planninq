@@ -89,7 +89,10 @@ class MsProjectPlanParser {
 
 		$taskElements = $this->children(parent: $this->child(parent: $root, name: 'Tasks'), name: 'Task');
 		if (count($taskElements) > self::MAX_TASKS) {
-			throw new MsProjectImportException(reason: MsProjectImportException::TOO_MANY_TASKS, message: 'The plan has more than ' . self::MAX_TASKS . ' tasks.');
+			throw new MsProjectImportException(
+				reason: MsProjectImportException::TOO_MANY_TASKS,
+				message: 'The plan has more than ' . self::MAX_TASKS . ' tasks.'
+			);
 		}
 
 		$resourced = $this->resourcedTaskUids(root: $root);
