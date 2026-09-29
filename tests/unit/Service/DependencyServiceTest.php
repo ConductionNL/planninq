@@ -241,6 +241,27 @@ class DependencyServiceTest extends TestCase {
 		self::assertSame([], $this->graph->deriveBlockedTaskIds($edges, $status));
 	}//end testCancelledBlockerDoesNotBlock()
 
+	/**
+	 * A related link (an imported start-to-start link, for example) neither
+	 * blocks its task nor counts toward a cycle of blocking links.
+	 *
+	 * @spec openspec/changes/integration-msproject-import/tasks.md#task-1.2
+	 *
+	 * @return void
+	 */
+	public function testRelatedLinksNeitherBlockNorCycle(): void {
+		$edges  = [
+			['blocker' => 'A', 'blocked' => 'B', 'type' => 'relates'],
+			['blocker' => 'B', 'blocked' => 'C', 'type' => 'blocks'],
+			['blocker' => 'C', 'blocked' => 'D'],
+		];
+		$status = ['A' => 'open', 'B' => 'open', 'C' => 'open', 'D' => 'open'];
+
+		self::assertSame(['C', 'D'], $this->graph->deriveBlockedTaskIds($edges, $status));
+		self::assertNull($this->graph->cyclePath($edges, 'B', 'A'), 'B -> A closes no cycle: A -> B only relates.');
+		self::assertNotNull($this->graph->cyclePath($edges, 'D', 'B'));
+	}//end testRelatedLinksNeitherBlockNorCycle()
+
 	// ── create() validation chain ────────────────────────────────────────────
 
 	/**

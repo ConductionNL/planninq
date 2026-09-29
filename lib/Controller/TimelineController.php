@@ -464,7 +464,7 @@ class TimelineController extends Controller {
 	 * @param object $objectService The OR ObjectService.
 	 * @param array<string,bool> $taskIdSet Set of the project's task UUIDs.
 	 *
-	 * @return array<int,array<string,string>> Edges as {id, blocker, blocked}.
+	 * @return array<int,array<string,string>> Edges as {id, blocker, blocked, type}.
 	 */
 	private function fetchProjectDependencies(object $objectService, array $taskIdSet): array {
 		if ($taskIdSet === []) {
@@ -495,6 +495,7 @@ class TimelineController extends Controller {
 				'id' => $this->extractId(row: $row),
 				'blocker' => $blocker,
 				'blocked' => $blocked,
+				'type' => (string)($data['type'] ?? 'blocks'),
 			];
 		}
 

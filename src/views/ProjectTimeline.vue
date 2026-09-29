@@ -22,6 +22,14 @@
 				{{ t('planninq', 'Timeline') }}
 			</h2>
 			<div class="project-timeline__zoom">
+				<NcButton v-if="isOwner"
+					data-testid="msproject-import-open"
+					@click="showImport = true">
+					<template #icon>
+						<FileImportOutline :size="20" />
+					</template>
+					{{ t('planninq', 'Import from Microsoft Project') }}
+				</NcButton>
 				<NcSelect v-model="zoom"
 					:options="zoomOptions"
 					:inputLabel="t('planninq', 'Zoom')"
@@ -93,7 +101,8 @@
 								:y2="edge.y2"
 								stroke="var(--color-text-maxcontrast)"
 								stroke-width="1.5"
-								marker-end="url(#planninq-timeline-arrow)" />
+								:stroke-dasharray="edge.related ? '4 3' : null"
+								:marker-end="edge.related ? null : 'url(#planninq-timeline-arrow)'" />
 						</svg>
 
 						<!-- Task bars -->
@@ -134,6 +143,11 @@
 				</ul>
 			</div>
 		</template>
+
+		<MsProjectImportDialog v-if="showImport"
+			:projectId="projectId"
+			@imported="load"
+			@close="showImport = false" />
 	</div>
 </template>
 
@@ -150,14 +164,18 @@
  *
  * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md
  */
+import { getCurrentUser } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
 import { NcButton, NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
 import ChartTimeline from 'vue-material-design-icons/ChartTimeline.vue'
+import FileImportOutline from 'vue-material-design-icons/FileImportOutline.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
+import MsProjectImportDialog from '../dialogs/MsProjectImportDialog.vue'
 import { fetchProjectTimeline } from '../api/timeline.js'
 import { useProjectsStore } from '../store/projects.js'
+import { mayImport } from '../utils/msprojectImport.js'
 import {
 	buildLayout,
 	MS_PER_DAY,
@@ -177,6 +195,8 @@ export default {
 		ArrowLeft,
 		AlertCircleOutline,
 		ChartTimeline,
+		FileImportOutline,
+		MsProjectImportDialog,
 		ProjectTabs,
 	},
 
@@ -187,6 +207,7 @@ export default {
 			tasks: [],
 			unscheduled: [],
 			dependencies: [],
+			showImport: false,
 			zoom: { value: 'day', label: t('planninq', 'Day') },
 			zoomOptions: [
 				{ value: 'day', label: t('planninq', 'Day') },
@@ -209,6 +230,18 @@ export default {
 		 */
 		projectTitle() {
 			return useProjectsStore().activeProject?.title || this.projectId
+		},
+
+		/**
+		 * Whether the current user may import a plan: the project owner or an
+		 * admin. The server enforces the same rule (ProjectImportController).
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/integration-msproject-import/tasks.md#task-3.1
+		 */
+		isOwner() {
+			return mayImport(useProjectsStore().activeProject, getCurrentUser())
 		},
 
 		/**
@@ -472,6 +505,10 @@ export default {
 }
 
 .project-timeline__zoom {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 8px;
 	min-width: 160px;
 }
 

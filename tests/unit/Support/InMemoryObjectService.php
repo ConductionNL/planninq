@@ -173,6 +173,11 @@ class InMemoryObjectService extends ObjectServiceDouble {
 			throw new \RuntimeException('save refused for ' . $uuid);
 		}
 
+		// A create (no uuid) gets one, as OpenRegister gives it.
+		if ($uuid === null || $uuid === '') {
+			$uuid = sprintf('00000000-0000-4000-8000-%012d', count($this->saves));
+		}
+
 		$this->rows[(string)$schema][(string)$uuid] = (array)$object;
 
 		return self::entity(uuid: (string)$uuid, data: (array)$object);

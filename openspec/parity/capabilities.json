@@ -6275,7 +6275,7 @@
         "kanboard": "source read at v1.2.54: app/Controller/TaskImportController.php:40 imports tasks from CSV only, no dependencies or Gantt; searched app/ for 'mpp', 'mspdi', 'msproject': none",
         "jira": "https://marketplace.atlassian.com/apps/1211768/wbs-gantt-chart-for-jira-enterprise-project-management paid app WBS Gantt-Chart for Jira, build 9.20.0.1067 compatible to Jira 11.3.11, lists 'Microsoft Project import/export'; https://confluence.atlassian.com/adminjiraserver/migrating-from-other-issue-trackers-938847532.html core import is CSV or JSON only (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
@@ -6286,11 +6286,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "No Microsoft Project import in src/ or lib/. lib/Service/RegisterImportService.php imports the app's own configuration. The nearest path is OpenRegister's generic register import (the int-import-other row), which takes tabular rows and would not rebuild a Gantt plan with dependencies.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Service/MsProjectPlanParser.php reads MSPDI XML with DOCTYPE and entity refusal, LIBXML_NONET, a 10 MB and 2,000-task cap and an .mpp refusal; lib/Service/MsProjectPlanMapper.php maps level-1 summary tasks to projectPhase, level-2 tasks to task, deeper levels to sub-tasks, milestones, and finish-to-start links to blocks (others relates), counting every loss; lib/Service/MsProjectImportService.php previews and writes phases, tasks, sub-tasks, then links through DependencyService::createImported, matched on metadata.msProjectUid so a re-import updates; lib/Controller/ProjectImportController.php guards owner-or-admin; src/dialogs/MsProjectImportDialog.vue",
+        "reachedOn": "Import from Microsoft Project button on the project timeline /projects/:id/timeline (owner or admin); POST /api/projects/{projectId}/import/msproject/preview and /import/msproject",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/integration-msproject-import"
+        "change": "openspec/changes/archive/2026-09-29-integration-msproject-import",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

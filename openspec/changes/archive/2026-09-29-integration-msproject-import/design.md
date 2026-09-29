@@ -52,3 +52,17 @@ Before writing, commit reads the project's tasks and phases with a `metadata.msP
 - [Model mismatch] -> Fixed mapping, every loss counted in the preview (Decision 2).
 - [Half-finished import] -> Ordered writes, UID matching, safe to rerun (Decision 4).
 - [Large plans in one request] -> The 2,000-task cap keeps a commit within a normal request; larger plans are refused with that reason.
+
+## Amendments at build (29 Sep 2026)
+
+The design was written at de35541. What the code at 5e33023 needed, and what changed while building:
+
+- **Links go through `DependencyService::createImported()`**, not `create()` once per link. `create()` reads every task and edge of the project for each link, which is 4,000 searches for a large plan, and its membership step refuses an admin who is not on the project although Decision 3 lets admins import. `createImported()` reads the project's edges once and applies the same duplicate, self-link and cycle checks to each link against that list as it grows. The controller has already checked owner-or-admin, and every task id is one the import created or matched in the project.
+- **Related links never block.** Nothing read `dependency.type` before this change, so an imported `relates` link would have blocked its task and counted in cycle checks. `DependencyGraph` and `src/utils/taskHelpers.js` now count only edges without a type or of type `blocks`; the timeline receives `type` and draws a related link as a dashed line without an arrow.
+- **Imported tasks have no board column.** The board is column-based since boards-configurable-columns: a task without `column` is in the backlog, and that is where imported tasks land. "Move to board" puts them in a lane.
+- **Imported phases have no status.** A phase closes only with its concluding document (planning-phase-gate-document), so the import never writes one; a phase starts as `open`.
+- **A re-import leaves `status` alone** and changes only what the plan owns (title, dates, duration, progress, notes, phase or parent); what members set in planninq stays.
+- **The outline path is kept only for a collapsed task** (level 4 and deeper). A level-3 task sits under its level-2 task where it was, so its path adds nothing.
+- **Provenance keys:** `metadata.msProjectUid`, `metadata.msProjectFile` (the plan's `Name`) and `metadata.msProjectSaveVersion`.
+- **The fixture** `tests/fixtures/msproject/contractor-plan.xml` is written by hand in the MSPDI format, not exported from Project; no copy of Project was available to the build.
+- **Refusals carry a reason code** (`mpp`, `unsafe`, `tooLarge`, `tooManyTasks`, `notAPlan`, `noFile`) that the dialog explains; an `.mpp` file is refused in the browser before upload as well.
