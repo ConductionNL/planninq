@@ -312,7 +312,9 @@ class ProjectController extends Controller {
 	 *
 	 * @return JSONResponse {valid, available}; 401 when not logged in.
 	 *
-	 * @no-admin-idor-exempt Takes no object id and returns no object: only whether a key string is free, which the New project dialog needs before any project exists.
+	 * @no-admin-idor-exempt Takes no object id and returns no object: only whether a key
+	 *                       string is free, which the New project dialog needs before any
+	 *                       project exists.
 	 *
 	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.2
 	 */
