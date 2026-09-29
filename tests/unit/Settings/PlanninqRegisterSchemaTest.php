@@ -742,7 +742,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		}
 
 		self::assertTrue(version_compare($session['version'], '0.2.0', '>='), 'timetableSession version moves past 0.1.0 with the new read rule');
-		self::assertTrue(version_compare($this->register['info']['version'], '0.19.0', '>='), 'register version moves past 0.18.0 so the import applies the new rule');
+		self::assertTrue(version_compare($this->register['info']['version'], '0.20.0', '>='), 'register version moves past 0.19.0 so the import applies the new rule');
 
 	}//end testTimetableSessionIsReadByTheTimetableGroupTheTeacherAndAdmins()
 
