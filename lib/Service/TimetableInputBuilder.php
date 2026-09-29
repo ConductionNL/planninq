@@ -114,7 +114,8 @@ class TimetableInputBuilder {
 			return new SolverInput(periods: $periods, rooms: [], lessons: [], wishes: $wishes, source: 'none', reason: self::NO_ACTIVITIES);
 		}
 
-		return new SolverInput(periods: $periods, rooms: array_values($rooms), lessons: $this->lessons(activities: $activities), wishes: $wishes, source: $source);
+		$lessons = $this->lessons(activities: $activities);
+		return new SolverInput(periods: $periods, rooms: array_values($rooms), lessons: $lessons, wishes: $wishes, source: $source);
 	}//end build()
 
 	/**

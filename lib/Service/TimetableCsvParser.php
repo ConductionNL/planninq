@@ -242,7 +242,8 @@ class TimetableCsvParser {
 			return true;
 		}
 
-		$errors[] = $this->error(line: $line, field: 'room type', code: 'unknown-room-type', message: "Line {$line}: room type {$type} is not on the rooms sheet.");
+		$message  = "Line {$line}: room type {$type} is not on the rooms sheet.";
+		$errors[] = $this->error(line: $line, field: 'room type', code: 'unknown-room-type', message: $message);
 		return false;
 	}//end knownRoomType()
 
