@@ -5154,7 +5154,7 @@
       "area": "integration",
       "name": "Create a project from a case.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "partial",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
@@ -5172,11 +5172,12 @@
         "plane": "corpus: plane/round4/code-census.md §12 no connectors reachable; §5 no case or contact entity ; source read at v1.4.2: searched apps/api/plane/db/models/__init__.py for 'customer', 'contact', 'organisation', 'organization', 'case': none; the only create path is the project form, apps/api/plane/app/views/project/base.py:257-258"
       },
       "built": {
-        "state": "specified",
-        "evidence": "openspec/specs/procest-integration.md:13 describes it; no planninq route, dialog or listener creates a project from a case, and procest/src + procest/lib reference planninq only in lib/Repair/MigrateSchemaApplicationId.php",
-        "reachedOn": "nothing reaches it",
+        "state": "building",
+        "evidence": "Planninq's half is built: src/integrations/projectScope.js scopes the planninq-projects leaf to projects with caseReference on a host whose schema slug is case, CnProjectsWidget.vue links New project to /apps/planninq/projects?new=1&case={uuid}&title={case title}, and ProjectList.vue opens ProjectCreationDialog prefilled, saving caseReference. The missing half is Dossiq placing the leaf on its case page: ConductionNL/dossiq#3190.",
+        "reachedOn": "/apps/planninq/projects?new=1&case={uuid}&title=...; the case page once dossiq#3190 lands",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/integration-case-bridge"
+        "change": "openspec/changes/archive/2026-09-29-integration-case-bridge",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6312,7 +6313,7 @@
         "kanboard": "source read at v1.2.54: searched app/ and app/Api/Procedure for 'zaak', 'records', 'case management': none",
         "jira": "https://confluence.atlassian.com/adminjiraserver/integrating-with-other-tools-938846907.html names no records or case management integration; https://confluence.atlassian.com/adminjiraserver/archiving-a-project-938847621.html archiving keeps data inside Jira, 'All the project data remains in the database' (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
@@ -6323,12 +6324,13 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "src/components/ProjectSettingsSidebar.vue:47-53 displays caseReference when set; no action exports a project's attachments or metadata to dossiq/procest or a ZGW DRC. grep for 'zaakUuid', 'caseReference', 'drc', 'archive' in lib/ finds only the portal field exclusion list in lib/Portal/PortalContributionProvider.php:64.",
-        "reachedOn": "ProjectBoard /projects/:id, project settings sidebar shows the case reference only",
+        "state": "built",
+        "evidence": "lib/Service/CaseHandoverService.php copies every file on the project and its tasks (OpenRegister FileService getFiles/addFile) and a project-metadata.json to the linked Dossiq case (register dossiq, schema case, read with the user's rights), takes each file's SHA-256 before and after, and appends the record to project.caseHandovers; lib/Controller/CaseHandoverController.php (owner or admin); src/components/CaseHandoverSection.vue in the project settings sidebar, shown only when Dossiq is installed",
+        "reachedOn": "Project settings sidebar, Hand over to case (project linked to a case, Dossiq installed); POST /api/projects/{projectId}/case-handover",
         "owner": "ConductionNL/planninq",
         "consumesSibling": "dossiq/procest owns cases; planninq only stores a reference to one",
-        "change": "openspec/changes/integration-case-bridge"
+        "change": "openspec/changes/archive/2026-09-29-integration-case-bridge",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
