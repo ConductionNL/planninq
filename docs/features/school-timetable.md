@@ -28,18 +28,28 @@ A rostering system sends the whole timetable again every night. Planninq recogni
 
 A lesson with a missing subject or time, or one that ends before it starts, is refused with a reason. The rest of the delivery still lands.
 
+## Who can read the timetable
+
+A lesson is not open to everyone who can sign in. It can be read by:
+
+- members of the Nextcloud group `planninq-timetable`, meant for planners and staff who need the whole school timetable. Create the group and add those people to it;
+- the teacher the lesson names, through `teacherUserId`;
+- admins.
+
+Pupils and parents see their own lessons in learniq. Learniq works out which groups they belong to and asks planninq for those groups only.
+
 ## For integrators
 
 Apps talk to planninq through two events (ADR-041). Look the class up by name and treat a missing class as "planninq is not installed".
 
 - `OCA\Planninq\Event\TimetableUpsertRequestedEvent`: deliver a batch. Read the counts from `getResult()`.
-- `OCA\Planninq\Event\TimetableSessionsQueryEvent`: read lessons by `cohortId`, `groupReference`, `teacherUserId` or `teacherReference`, optionally between `from` and `to`. Read them from `getSessions()`.
+- `OCA\Planninq\Event\TimetableSessionsQueryEvent`: read lessons by `cohortId`, `groupReference`, `teacherUserId` or `teacherReference`, optionally between `from` and `to`. Read them from `getSessions()`. Planninq answers this event without checking the signed-in user, so your app must only ask for a group or teacher that its user is allowed to see.
 
 Two endpoints do the same over HTTP:
 
 | Method | Path | Who |
 |---|---|---|
-| `GET` | `/apps/planninq/api/timetable/sessions?cohortId=…&from=…&to=…` | Any signed-in user |
+| `GET` | `/apps/planninq/api/timetable/sessions?cohortId=…&from=…&to=…` | Any signed-in user, who gets only the lessons they may read |
 | `POST` | `/apps/planninq/api/timetable/sessions/upsert` with `{"sourceSystem": "…", "sessions": […]}` | Admins |
 
 The full contract, with every field and rejection code, is in `openspec/changes/school-timetable-target/contract.md`.

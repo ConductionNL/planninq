@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.18.0"
+    "version": "0.19.0"
   },
   "x-openregister": {
     "type": "application",
@@ -1498,7 +1498,7 @@
       "timetableSession": {
         "slug": "timetableSession",
         "icon": "ClockOutline",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "title": "Timetable session",
         "description": "One lesson in a school timetable as the rostering system knows it: when it runs, for which group, with which teacher, in which room and for which subject. Delivered by a rostering import and matched again by source and occurrence id.",
         "x-schema-org": "schema:Event",
@@ -1513,7 +1513,13 @@
         "authorization": {
           "read": [
             {
-              "group": "authenticated"
+              "group": "planninq-timetable"
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "teacherUserId": "$userId"
+              }
             },
             {
               "group": "admin"

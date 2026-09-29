@@ -361,6 +361,32 @@ class TimetableSessionServiceTest extends TestCase {
 	}//end testListReturnsACohortsWeekInTimeOrder()
 
 	/**
+	 * Another app's read runs with RBAC off and returns the same rows, re-checked.
+	 *
+	 * The HTTP read stays with RBAC on (above). Only the in-process query event
+	 * reads as the system, because the requesting app has already decided that
+	 * its user may see this cohort (planninq#711).
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-another-app-reads-sessions-through-a-typed-event-req-005
+	 */
+	public function testListForAppReadsWithRbacOffAndTheSameRecheck(): void {
+		$this->seedCohortWeek();
+
+		$sessions = $this->service->listForApp(
+			criteria: ['cohortId' => 'c-1', 'from' => '2026-09-28T00:00:00+02:00', 'to' => '2026-10-04T23:59:59+02:00']
+		);
+
+		self::assertSame(expected: ['early', 'late'], actual: array_column($sessions, 'externalRef'));
+
+		$search = end($this->objectService->searches);
+		self::assertFalse(condition: $search['rbac']);
+		self::assertSame(expected: 'c-1', actual: $search['filters']['cohortId']);
+
+	}//end testListForAppReadsWithRbacOffAndTheSameRecheck()
+
+	/**
 	 * The PHP re-check keeps other cohorts and out-of-window rows out even when OpenRegister ignores the filters.
 	 *
 	 * @return void
