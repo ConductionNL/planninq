@@ -801,7 +801,22 @@
         "Delete subtasks too": "Izbriši tudi podnaloge",
         "Copy of {title}": "Kopija: {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Naloga je bila kopirana, a ne vse njene podnaloge. Preverite kopijo.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Majhni koraki znotraj naloge. Vsak element ima id, besedilo in podatek, ali je končan."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Majhni koraki znotraj naloge. Vsak element ima id, besedilo in podatek, ali je končan.",
+        "Open work per person and per project.": "Odprto delo po osebah in projektih.",
+        "View": "Pogled",
+        "By person": "Po osebi",
+        "By project": "Po projektu",
+        "Hours left": "Preostale ure",
+        "Tasks without an estimate": "Naloge brez ocene",
+        "Due in 14 days": "Rok v 14 dneh",
+        "Shared": "Deljeno",
+        "Unassigned": "Nedodeljeno",
+        "{hours} h": "{hours} h",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Prikazano je delo v projektih, ki jih lahko vidite. Ure štejejo za odgovorno osebo; deljene naloge se štejejo brez ur.",
+        "No open work in these projects.": "V teh projektih ni odprtega dela.",
+        "Open work": "Odprto delo",
+        "{count} open tasks": "{count} odprtih nalog",
+        "Create a project to see capacity here.": "Ustvarite projekt, da tukaj vidite zmogljivost."
     },
     "plurals": null
 }

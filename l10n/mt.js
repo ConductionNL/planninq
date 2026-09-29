@@ -802,7 +802,22 @@ OC.L10N.register(
         "Delete subtasks too": "Ħassar is-sottokompiti wkoll",
         "Copy of {title}": "Kopja ta' {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Il-kompitu ġie kkupjat, iżda mhux is-sottokompiti kollha tiegħu. Iċċekkja l-kopja.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Passi żgħar fi ħdan il-kompitu. Kull oġġett għandu id, test u jekk huwiex lest."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Passi żgħar fi ħdan il-kompitu. Kull oġġett għandu id, test u jekk huwiex lest.",
+        "Open work per person and per project.": "Xogħol miftuħ skont il-persuna u l-proġett.",
+        "View": "Veduta",
+        "By person": "Skont il-persuna",
+        "By project": "Skont il-proġett",
+        "Hours left": "Sigħat li fadal",
+        "Tasks without an estimate": "Kompiti mingħajr stima",
+        "Due in 14 days": "Dovuti fi żmien 14-il jum",
+        "Shared": "Maqsuma",
+        "Unassigned": "Mhux assenjati",
+        "{hours} h": "{hours} s",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Jintwera x-xogħol fil-proġetti li tista' tara. Is-sigħat jgħoddu għall-persuna responsabbli; il-kompiti maqsuma jingħaddu mingħajr sigħat.",
+        "No open work in these projects.": "M'hemm l-ebda xogħol miftuħ f'dawn il-proġetti.",
+        "Open work": "Xogħol miftuħ",
+        "{count} open tasks": "{count} kompiti miftuħa",
+        "Create a project to see capacity here.": "Oħloq proġett biex tara l-kapaċità hawn."
     },
     "nplurals=2; plural=(n != 1);"
 )

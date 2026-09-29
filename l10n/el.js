@@ -802,7 +802,22 @@ OC.L10N.register(
         "Delete subtasks too": "Διαγραφή και των υποεργασιών",
         "Copy of {title}": "Αντίγραφο της {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Η εργασία αντιγράφηκε, αλλά όχι όλες οι υποεργασίες της. Ελέγξτε το αντίγραφο.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Μικρά βήματα μέσα στην εργασία. Κάθε στοιχείο έχει αναγνωριστικό, κείμενο και αν έχει ολοκληρωθεί."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Μικρά βήματα μέσα στην εργασία. Κάθε στοιχείο έχει αναγνωριστικό, κείμενο και αν έχει ολοκληρωθεί.",
+        "Open work per person and per project.": "Ανοιχτή εργασία ανά άτομο και ανά έργο.",
+        "View": "Προβολή",
+        "By person": "Ανά άτομο",
+        "By project": "Ανά έργο",
+        "Hours left": "Ώρες που απομένουν",
+        "Tasks without an estimate": "Εργασίες χωρίς εκτίμηση",
+        "Due in 14 days": "Λήγει σε 14 ημέρες",
+        "Shared": "Κοινόχρηστες",
+        "Unassigned": "Χωρίς ανάθεση",
+        "{hours} h": "{hours} ώ",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Εμφανίζεται η εργασία στα έργα που μπορείτε να δείτε. Οι ώρες μετρούν για τον υπεύθυνο· οι κοινόχρηστες εργασίες μετρούν χωρίς ώρες.",
+        "No open work in these projects.": "Δεν υπάρχει ανοιχτή εργασία σε αυτά τα έργα.",
+        "Open work": "Ανοιχτή εργασία",
+        "{count} open tasks": "{count} ανοιχτές εργασίες",
+        "Create a project to see capacity here.": "Δημιουργήστε ένα έργο για να δείτε εδώ τη διαθεσιμότητα."
     },
     "nplurals=2; plural=(n != 1);"
 )

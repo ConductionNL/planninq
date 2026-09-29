@@ -802,7 +802,22 @@ OC.L10N.register(
         "Delete subtasks too": "Részfeladatok törlése is",
         "Copy of {title}": "Másolat: {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "A feladat másolása megtörtént, de nem az összes részfeladaté. Ellenőrizze a másolatot.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Kis lépések a feladaton belül. Minden elemnek van azonosítója, szövege és jelzése, hogy kész-e."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Kis lépések a feladaton belül. Minden elemnek van azonosítója, szövege és jelzése, hogy kész-e.",
+        "Open work per person and per project.": "Nyitott munka személyenként és projektenként.",
+        "View": "Nézet",
+        "By person": "Személyenként",
+        "By project": "Projektenként",
+        "Hours left": "Hátralévő órák",
+        "Tasks without an estimate": "Becslés nélküli feladatok",
+        "Due in 14 days": "14 napon belül esedékes",
+        "Shared": "Megosztott",
+        "Unassigned": "Nincs hozzárendelve",
+        "{hours} h": "{hours} ó",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "A látható projektek munkája jelenik meg. Az órák a felelős személyhez számítanak; a megosztott feladatok órák nélkül számítanak.",
+        "No open work in these projects.": "Ezekben a projektekben nincs nyitott munka.",
+        "Open work": "Nyitott munka",
+        "{count} open tasks": "{count} nyitott feladat",
+        "Create a project to see capacity here.": "Hozzon létre egy projektet, hogy itt lássa a kapacitást."
     },
     "nplurals=2; plural=(n != 1);"
 )

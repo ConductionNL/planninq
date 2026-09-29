@@ -801,7 +801,22 @@
         "Delete subtasks too": "Dzēst arī apakšuzdevumus",
         "Copy of {title}": "Kopija: {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Uzdevums tika nokopēts, bet ne visi tā apakšuzdevumi. Pārbaudiet kopiju.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Nelieli soļi uzdevuma ietvaros. Katram vienumam ir id, teksts un vai tas ir pabeigts."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Nelieli soļi uzdevuma ietvaros. Katram vienumam ir id, teksts un vai tas ir pabeigts.",
+        "Open work per person and per project.": "Atvērtais darbs pa personām un projektiem.",
+        "View": "Skats",
+        "By person": "Pa personām",
+        "By project": "Pa projektiem",
+        "Hours left": "Atlikušās stundas",
+        "Tasks without an estimate": "Uzdevumi bez novērtējuma",
+        "Due in 14 days": "Termiņš 14 dienu laikā",
+        "Shared": "Koplietoti",
+        "Unassigned": "Nepiešķirti",
+        "{hours} h": "{hours} h",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Rādīts darbs projektos, kurus varat redzēt. Stundas tiek skaitītas atbildīgajai personai; koplietotie uzdevumi tiek skaitīti bez stundām.",
+        "No open work in these projects.": "Šajos projektos nav atvērta darba.",
+        "Open work": "Atvērtais darbs",
+        "{count} open tasks": "Atvērti uzdevumi: {count}",
+        "Create a project to see capacity here.": "Izveidojiet projektu, lai šeit redzētu noslodzi."
     },
     "plurals": null
 }

@@ -801,7 +801,22 @@
         "Delete subtasks too": "Suprimeix també les subtasques",
         "Copy of {title}": "Còpia de {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "La tasca s'ha copiat, però no totes les subtasques. Reviseu la còpia.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Passos petits dins de la tasca. Cada element té un id, un text i si està fet."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Passos petits dins de la tasca. Cada element té un id, un text i si està fet.",
+        "Open work per person and per project.": "Feina oberta per persona i per projecte.",
+        "View": "Visualització",
+        "By person": "Per persona",
+        "By project": "Per projecte",
+        "Hours left": "Hores restants",
+        "Tasks without an estimate": "Tasques sense estimació",
+        "Due in 14 days": "Venç en 14 dies",
+        "Shared": "Compartides",
+        "Unassigned": "Sense assignar",
+        "{hours} h": "{hours} h",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Es mostra la feina dels projectes que podeu veure. Les hores compten per a la persona responsable; les tasques compartides es compten sense hores.",
+        "No open work in these projects.": "No hi ha feina oberta en aquests projectes.",
+        "Open work": "Feina oberta",
+        "{count} open tasks": "{count} tasques obertes",
+        "Create a project to see capacity here.": "Creeu un projecte per veure aquí la capacitat."
     },
     "plurals": null
 }

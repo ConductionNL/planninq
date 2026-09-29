@@ -779,7 +779,22 @@ OC.L10N.register(
         "Delete subtasks too": "Delete subtasks too",
         "Copy of {title}": "Copy of {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "The task was copied, but not all of its subtasks. Please check the copy.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Small steps inside the task. Each item has an id, a text and whether it is done."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Small steps inside the task. Each item has an id, a text and whether it is done.",
+        "Open work per person and per project.": "Open work per person and per project.",
+        "View": "View",
+        "By person": "By person",
+        "By project": "By project",
+        "Hours left": "Hours left",
+        "Tasks without an estimate": "Tasks without an estimate",
+        "Due in 14 days": "Due in 14 days",
+        "Shared": "Shared",
+        "Unassigned": "Unassigned",
+        "{hours} h": "{hours} h",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.",
+        "No open work in these projects.": "No open work in these projects.",
+        "Open work": "Open work",
+        "{count} open tasks": "{count} open tasks",
+        "Create a project to see capacity here.": "Create a project to see capacity here."
     },
     "nplurals=2; plural=(n != 1);"
 )

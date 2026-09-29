@@ -802,7 +802,22 @@ OC.L10N.register(
         "Delete subtasks too": "Обриши и подзадатке",
         "Copy of {title}": "Копија: {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Задатак је копиран, али не и сви његови подзадаци. Проверите копију.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Мали кораци унутар задатка. Свака ставка има id, текст и податак да ли је готова."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Мали кораци унутар задатка. Свака ставка има id, текст и податак да ли је готова.",
+        "Open work per person and per project.": "Отворени посао по особи и по пројекту.",
+        "View": "Приказ",
+        "By person": "По особи",
+        "By project": "По пројекту",
+        "Hours left": "Преостали сати",
+        "Tasks without an estimate": "Задаци без процене",
+        "Due in 14 days": "Рок у 14 дана",
+        "Shared": "Дељено",
+        "Unassigned": "Недодељено",
+        "{hours} h": "{hours} ч",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Приказује се посао у пројектима које можете да видите. Сати се рачунају одговорној особи; дељени задаци рачунају се без сати.",
+        "No open work in these projects.": "Нема отвореног посла у овим пројектима.",
+        "Open work": "Отворени посао",
+        "{count} open tasks": "{count} отворених задатака",
+        "Create a project to see capacity here.": "Направите пројекат да бисте овде видели капацитет."
     },
     "nplurals=2; plural=(n != 1);"
 )

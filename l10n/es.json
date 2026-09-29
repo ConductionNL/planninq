@@ -801,7 +801,22 @@
         "Delete subtasks too": "Eliminar también las subtareas",
         "Copy of {title}": "Copia de {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "La tarea se copió, pero no todas sus subtareas. Revisa la copia.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Pequeños pasos dentro de la tarea. Cada elemento tiene un id, un texto y si está hecho."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Pequeños pasos dentro de la tarea. Cada elemento tiene un id, un texto y si está hecho.",
+        "Open work per person and per project.": "Trabajo abierto por persona y por proyecto.",
+        "View": "Vista",
+        "By person": "Por persona",
+        "By project": "Por proyecto",
+        "Hours left": "Horas restantes",
+        "Tasks without an estimate": "Tareas sin estimación",
+        "Due in 14 days": "Vence en 14 días",
+        "Shared": "Compartidas",
+        "Unassigned": "Sin asignar",
+        "{hours} h": "{hours} h",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Se muestra el trabajo de los proyectos que puedes ver. Las horas cuentan para la persona responsable; las tareas compartidas se cuentan sin horas.",
+        "No open work in these projects.": "No hay trabajo abierto en estos proyectos.",
+        "Open work": "Trabajo abierto",
+        "{count} open tasks": "{count} tareas abiertas",
+        "Create a project to see capacity here.": "Crea un proyecto para ver aquí la capacidad."
     },
     "plurals": null
 }

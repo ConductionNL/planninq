@@ -802,7 +802,22 @@ OC.L10N.register(
         "Delete subtasks too": "Scrios na fo-thascanna freisin",
         "Copy of {title}": "Cóip de {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Cóipeáladh an tasc, ach ní a fo-thascanna go léir. Seiceáil an chóip.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Céimeanna beaga laistigh den tasc. Tá aitheantas, téacs agus stádas déanta ag gach mír."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Céimeanna beaga laistigh den tasc. Tá aitheantas, téacs agus stádas déanta ag gach mír.",
+        "Open work per person and per project.": "Obair oscailte de réir duine agus de réir tionscadail.",
+        "View": "Amharc",
+        "By person": "De réir duine",
+        "By project": "De réir tionscadail",
+        "Hours left": "Uaireanta fágtha",
+        "Tasks without an estimate": "Tascanna gan meastachán",
+        "Due in 14 days": "Dlite laistigh de 14 lá",
+        "Shared": "Roinnte",
+        "Unassigned": "Gan sannadh",
+        "{hours} h": "{hours} u",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Taispeántar an obair sna tionscadail is féidir leat a fheiceáil. Comhairtear na huaireanta don duine freagrach; comhairtear tascanna roinnte gan uaireanta.",
+        "No open work in these projects.": "Níl aon obair oscailte sna tionscadail seo.",
+        "Open work": "Obair oscailte",
+        "{count} open tasks": "{count} tasc oscailte",
+        "Create a project to see capacity here.": "Cruthaigh tionscadal chun an acmhainn a fheiceáil anseo."
     },
     "nplurals=2; plural=(n != 1);"
 )

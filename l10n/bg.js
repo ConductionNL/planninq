@@ -802,7 +802,22 @@ OC.L10N.register(
         "Delete subtasks too": "Изтриване и на подзадачите",
         "Copy of {title}": "Копие на {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Задачата беше копирана, но не всички нейни подзадачи. Проверете копието.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Малки стъпки в задачата. Всеки елемент има id, текст и дали е завършен."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Малки стъпки в задачата. Всеки елемент има id, текст и дали е завършен.",
+        "Open work per person and per project.": "Отворена работа по човек и по проект.",
+        "View": "Изглед",
+        "By person": "По човек",
+        "By project": "По проект",
+        "Hours left": "Оставащи часове",
+        "Tasks without an estimate": "Задачи без оценка",
+        "Due in 14 days": "Срок до 14 дни",
+        "Shared": "Споделени",
+        "Unassigned": "Неразпределени",
+        "{hours} h": "{hours} ч",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Показва се работата в проектите, които можете да виждате. Часовете се отчитат за отговорния; споделените задачи се броят без часове.",
+        "No open work in these projects.": "Няма отворена работа в тези проекти.",
+        "Open work": "Отворена работа",
+        "{count} open tasks": "{count} отворени задачи",
+        "Create a project to see capacity here.": "Създайте проект, за да видите капацитета тук."
     },
     "nplurals=2; plural=(n != 1);"
 )

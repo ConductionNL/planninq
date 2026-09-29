@@ -801,7 +801,22 @@
         "Delete subtasks too": "Șterge și subsarcinile",
         "Copy of {title}": "Copie a {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Sarcina a fost copiată, dar nu toate subsarcinile ei. Verificați copia.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Pași mici în cadrul sarcinii. Fiecare element are un id, un text și dacă este finalizat."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Pași mici în cadrul sarcinii. Fiecare element are un id, un text și dacă este finalizat.",
+        "Open work per person and per project.": "Muncă deschisă pe persoană și pe proiect.",
+        "View": "Vizualizare",
+        "By person": "Pe persoană",
+        "By project": "Pe proiect",
+        "Hours left": "Ore rămase",
+        "Tasks without an estimate": "Sarcini fără estimare",
+        "Due in 14 days": "Scadente în 14 zile",
+        "Shared": "Partajate",
+        "Unassigned": "Neatribuite",
+        "{hours} h": "{hours} h",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Se afișează munca din proiectele pe care le puteți vedea. Orele se socotesc pentru persoana responsabilă; sarcinile partajate se socotesc fără ore.",
+        "No open work in these projects.": "Nu există muncă deschisă în aceste proiecte.",
+        "Open work": "Muncă deschisă",
+        "{count} open tasks": "{count} sarcini deschise",
+        "Create a project to see capacity here.": "Creați un proiect pentru a vedea aici capacitatea."
     },
     "plurals": {}
 }

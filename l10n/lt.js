@@ -802,7 +802,22 @@ OC.L10N.register(
         "Delete subtasks too": "Ištrinti ir použduotis",
         "Copy of {title}": "Kopija: {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Užduotis nukopijuota, bet ne visos jos použduotys. Patikrinkite kopiją.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Maži žingsniai užduoties viduje. Kiekvienas punktas turi id, tekstą ir žymą, ar jis atliktas."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Maži žingsniai užduoties viduje. Kiekvienas punktas turi id, tekstą ir žymą, ar jis atliktas.",
+        "Open work per person and per project.": "Atviras darbas pagal asmenis ir projektus.",
+        "View": "Rodinys",
+        "By person": "Pagal asmenį",
+        "By project": "Pagal projektą",
+        "Hours left": "Liko valandų",
+        "Tasks without an estimate": "Užduotys be įverčio",
+        "Due in 14 days": "Terminas per 14 dienų",
+        "Shared": "Bendrinamos",
+        "Unassigned": "Nepriskirtos",
+        "{hours} h": "{hours} val.",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Rodomas darbas projektuose, kuriuos galite matyti. Valandos skaičiuojamos atsakingam asmeniui; bendrinamos užduotys skaičiuojamos be valandų.",
+        "No open work in these projects.": "Šiuose projektuose nėra atviro darbo.",
+        "Open work": "Atviras darbas",
+        "{count} open tasks": "Atvirų užduočių: {count}",
+        "Create a project to see capacity here.": "Sukurkite projektą, kad čia matytumėte apkrovą."
     },
     "nplurals=2; plural=(n != 1);"
 )

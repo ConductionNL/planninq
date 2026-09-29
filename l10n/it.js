@@ -802,7 +802,22 @@ OC.L10N.register(
         "Delete subtasks too": "Elimina anche le sottoattività",
         "Copy of {title}": "Copia di {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "L'attività è stata copiata, ma non tutte le sue sottoattività. Controlla la copia.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Piccoli passi all'interno dell'attività. Ogni elemento ha un id, un testo e se è completato."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Piccoli passi all'interno dell'attività. Ogni elemento ha un id, un testo e se è completato.",
+        "Open work per person and per project.": "Lavoro aperto per persona e per progetto.",
+        "View": "Vista",
+        "By person": "Per persona",
+        "By project": "Per progetto",
+        "Hours left": "Ore rimanenti",
+        "Tasks without an estimate": "Attività senza stima",
+        "Due in 14 days": "In scadenza entro 14 giorni",
+        "Shared": "Condivise",
+        "Unassigned": "Non assegnate",
+        "{hours} h": "{hours} h",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Viene mostrato il lavoro nei progetti che puoi vedere. Le ore contano per la persona responsabile; le attività condivise sono contate senza ore.",
+        "No open work in these projects.": "Nessun lavoro aperto in questi progetti.",
+        "Open work": "Lavoro aperto",
+        "{count} open tasks": "{count} attività aperte",
+        "Create a project to see capacity here.": "Crea un progetto per vedere qui la capacità."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -802,7 +802,22 @@ OC.L10N.register(
         "Delete subtasks too": "Выдаліць і падзадачы",
         "Copy of {title}": "Копія: {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Задача скапіявана, але не ўсе яе падзадачы. Праверце копію.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Невялікія крокі ўнутры задачы. У кожнага пункта ёсць id, тэкст і адзнака аб выкананні."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Невялікія крокі ўнутры задачы. У кожнага пункта ёсць id, тэкст і адзнака аб выкананні.",
+        "Open work per person and per project.": "Адкрытая праца па людзях і па праектах.",
+        "View": "Выгляд",
+        "By person": "Па людзях",
+        "By project": "Па праектах",
+        "Hours left": "Засталося гадзін",
+        "Tasks without an estimate": "Задачы без ацэнкі",
+        "Due in 14 days": "Тэрмін на працягу 14 дзён",
+        "Shared": "Агульныя",
+        "Unassigned": "Не прызначаныя",
+        "{hours} h": "{hours} г",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Паказана праца ў праектах, якія вы можаце бачыць. Гадзіны ўлічваюцца для адказнага; агульныя задачы ўлічваюцца без гадзін.",
+        "No open work in these projects.": "У гэтых праектах няма адкрытай працы.",
+        "Open work": "Адкрытая праца",
+        "{count} open tasks": "Адкрытых задач: {count}",
+        "Create a project to see capacity here.": "Стварыце праект, каб убачыць тут загрузку."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -802,7 +802,22 @@ OC.L10N.register(
         "Delete subtasks too": "Smazat i podúkoly",
         "Copy of {title}": "Kopie: {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Úkol byl zkopírován, ale ne všechny jeho podúkoly. Zkontrolujte kopii.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Malé kroky v rámci úkolu. Každá položka má id, text a informaci, zda je hotová."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Malé kroky v rámci úkolu. Každá položka má id, text a informaci, zda je hotová.",
+        "Open work per person and per project.": "Otevřená práce podle osob a projektů.",
+        "View": "Zobrazení",
+        "By person": "Podle osoby",
+        "By project": "Podle projektu",
+        "Hours left": "Zbývající hodiny",
+        "Tasks without an estimate": "Úkoly bez odhadu",
+        "Due in 14 days": "Termín do 14 dnů",
+        "Shared": "Sdílené",
+        "Unassigned": "Nepřiřazené",
+        "{hours} h": "{hours} h",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Zobrazuje se práce v projektech, které vidíte. Hodiny se počítají odpovědné osobě; sdílené úkoly se počítají bez hodin.",
+        "No open work in these projects.": "V těchto projektech není žádná otevřená práce.",
+        "Open work": "Otevřená práce",
+        "{count} open tasks": "{count} otevřených úkolů",
+        "Create a project to see capacity here.": "Vytvořte projekt, abyste zde viděli kapacitu."
     },
     "nplurals=2; plural=(n != 1);"
 )

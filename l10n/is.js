@@ -802,7 +802,22 @@ OC.L10N.register(
         "Delete subtasks too": "Eyða undirverkefnum líka",
         "Copy of {title}": "Afrit af {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Verkefnið var afritað, en ekki öll undirverkefni þess. Athugaðu afritið.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Lítil skref innan verkefnisins. Hvert atriði hefur auðkenni, texta og hvort því sé lokið."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Lítil skref innan verkefnisins. Hvert atriði hefur auðkenni, texta og hvort því sé lokið.",
+        "Open work per person and per project.": "Opin vinna eftir einstaklingi og verkefni.",
+        "View": "Yfirlit",
+        "By person": "Eftir einstaklingi",
+        "By project": "Eftir verkefni",
+        "Hours left": "Klukkustundir eftir",
+        "Tasks without an estimate": "Verk án áætlunar",
+        "Due in 14 days": "Á gjalddaga innan 14 daga",
+        "Shared": "Deilt",
+        "Unassigned": "Ekki úthlutað",
+        "{hours} h": "{hours} klst.",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Sýnir vinnu í verkefnunum sem þú sérð. Klukkustundir teljast hjá ábyrgðaraðila; deild verk eru talin án klukkustunda.",
+        "No open work in these projects.": "Engin opin vinna í þessum verkefnum.",
+        "Open work": "Opin vinna",
+        "{count} open tasks": "{count} opin verk",
+        "Create a project to see capacity here.": "Stofnaðu verkefni til að sjá afkastagetu hér."
     },
     "nplurals=2; plural=(n != 1);"
 )

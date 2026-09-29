@@ -801,7 +801,22 @@
         "Delete subtasks too": "Slett også deloppgavene",
         "Copy of {title}": "Kopi av {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Oppgaven ble kopiert, men ikke alle deloppgavene. Sjekk kopien.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Små steg i oppgaven. Hvert punkt har en id, en tekst og om det er ferdig."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Små steg i oppgaven. Hvert punkt har en id, en tekst og om det er ferdig.",
+        "Open work per person and per project.": "Åpent arbeid per person og per prosjekt.",
+        "View": "Visning",
+        "By person": "Per person",
+        "By project": "Per prosjekt",
+        "Hours left": "Timer igjen",
+        "Tasks without an estimate": "Oppgaver uten estimat",
+        "Due in 14 days": "Forfaller innen 14 dager",
+        "Shared": "Delt",
+        "Unassigned": "Ikke tildelt",
+        "{hours} h": "{hours} t",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Viser arbeid i prosjektene du kan se. Timer teller for den ansvarlige; delte oppgaver telles uten timer.",
+        "No open work in these projects.": "Ikke noe åpent arbeid i disse prosjektene.",
+        "Open work": "Åpent arbeid",
+        "{count} open tasks": "{count} åpne oppgaver",
+        "Create a project to see capacity here.": "Opprett et prosjekt for å se kapasiteten her."
     },
     "plurals": {}
 }

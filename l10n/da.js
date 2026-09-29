@@ -802,7 +802,22 @@ OC.L10N.register(
         "Delete subtasks too": "Slet også underopgaver",
         "Copy of {title}": "Kopi af {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Opgaven blev kopieret, men ikke alle dens underopgaver. Tjek kopien.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Små trin i opgaven. Hvert punkt har et id, en tekst og om det er færdigt."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Små trin i opgaven. Hvert punkt har et id, en tekst og om det er færdigt.",
+        "Open work per person and per project.": "Åbent arbejde pr. person og pr. projekt.",
+        "View": "Visning",
+        "By person": "Pr. person",
+        "By project": "Pr. projekt",
+        "Hours left": "Timer tilbage",
+        "Tasks without an estimate": "Opgaver uden estimat",
+        "Due in 14 days": "Forfalder inden for 14 dage",
+        "Shared": "Delt",
+        "Unassigned": "Ikke tildelt",
+        "{hours} h": "{hours} t",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Viser arbejde i de projekter, du kan se. Timer tæller for den ansvarlige; delte opgaver tælles uden timer.",
+        "No open work in these projects.": "Intet åbent arbejde i disse projekter.",
+        "Open work": "Åbent arbejde",
+        "{count} open tasks": "{count} åbne opgaver",
+        "Create a project to see capacity here.": "Opret et projekt for at se kapaciteten her."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -801,7 +801,22 @@
         "Delete subtasks too": "Kustuta ka alamülesanded",
         "Copy of {title}": "Koopia: {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Ülesanne kopeeriti, kuid mitte kõik selle alamülesanded. Kontrolli koopiat.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Väikesed sammud ülesande sees. Igal punktil on id, tekst ja märge, kas see on valmis."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Väikesed sammud ülesande sees. Igal punktil on id, tekst ja märge, kas see on valmis.",
+        "Open work per person and per project.": "Avatud töö inimeste ja projektide kaupa.",
+        "View": "Vaade",
+        "By person": "Inimeste kaupa",
+        "By project": "Projektide kaupa",
+        "Hours left": "Jäänud tunde",
+        "Tasks without an estimate": "Hinnanguta ülesanded",
+        "Due in 14 days": "Tähtaeg 14 päeva jooksul",
+        "Shared": "Jagatud",
+        "Unassigned": "Määramata",
+        "{hours} h": "{hours} h",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Näidatakse tööd projektides, mida sa näed. Tunnid lähevad vastutajale; jagatud ülesanded loetakse ilma tundideta.",
+        "No open work in these projects.": "Nendes projektides pole avatud tööd.",
+        "Open work": "Avatud töö",
+        "{count} open tasks": "{count} avatud ülesannet",
+        "Create a project to see capacity here.": "Loo projekt, et siin koormust näha."
     },
     "plurals": null
 }

@@ -802,7 +802,22 @@ OC.L10N.register(
         "Delete subtasks too": "Stizzar era ils sutpensums",
         "Copy of {title}": "Copia da {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Il pensum è vegnì copià, ma betg tut ils sutpensums. Controllescha la copia.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Pass pitschens entaifer il pensum. Mintga element ha in id, in text e sch'el è terminà."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Pass pitschens entaifer il pensum. Mintga element ha in id, in text e sch'el è terminà.",
+        "Open work per person and per project.": "Lavur avert per persuna e per project.",
+        "View": "Vista",
+        "By person": "Tenor persuna",
+        "By project": "Tenor project",
+        "Hours left": "Uras restantas",
+        "Tasks without an estimate": "Incumbensas senza stima",
+        "Due in 14 days": "Scadent en 14 dis",
+        "Shared": "Cundividì",
+        "Unassigned": "Betg attribuì",
+        "{hours} h": "{hours} h",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Igl è mussà la lavur en ils projects che ti vesas. Las uras dumbran per la persuna responsabla; incumbensas cundivididas dumbran senza uras.",
+        "No open work in these projects.": "Nagina lavur averta en quests projects.",
+        "Open work": "Lavur averta",
+        "{count} open tasks": "{count} incumbensas avertas",
+        "Create a project to see capacity here.": "Creescha in project per vesair qua la capacitad."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -822,7 +822,22 @@
         "Delete subtasks too": "Subtaken ook verwijderen",
         "Copy of {title}": "Kopie van {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "De taak is gekopieerd, maar niet al haar subtaken. Controleer de kopie.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Kleine stappen binnen de taak. Elk item heeft een id, een tekst en of het klaar is."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Kleine stappen binnen de taak. Elk item heeft een id, een tekst en of het klaar is.",
+        "Open work per person and per project.": "Openstaand werk per persoon en per project.",
+        "View": "Weergave",
+        "By person": "Per persoon",
+        "By project": "Per project",
+        "Hours left": "Resterende uren",
+        "Tasks without an estimate": "Taken zonder schatting",
+        "Due in 14 days": "Binnen 14 dagen",
+        "Shared": "Gedeeld",
+        "Unassigned": "Niet toegewezen",
+        "{hours} h": "{hours} u",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Je ziet werk in de projecten die je kunt inzien. Uren tellen voor de verantwoordelijke; gedeelde taken tellen zonder uren.",
+        "No open work in these projects.": "Geen openstaand werk in deze projecten.",
+        "Open work": "Openstaand werk",
+        "{count} open tasks": "{count} open taken",
+        "Create a project to see capacity here.": "Maak een project aan om hier de capaciteit te zien."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

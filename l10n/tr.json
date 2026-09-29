@@ -801,7 +801,22 @@
         "Delete subtasks too": "Alt görevleri de sil",
         "Copy of {title}": "{title} kopyası",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Görev kopyalandı, ancak tüm alt görevleri kopyalanmadı. Kopyayı kontrol edin.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Görev içindeki küçük adımlar. Her öğenin bir kimliği, bir metni ve tamamlanıp tamamlanmadığı bilgisi vardır."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Görev içindeki küçük adımlar. Her öğenin bir kimliği, bir metni ve tamamlanıp tamamlanmadığı bilgisi vardır.",
+        "Open work per person and per project.": "Kişi ve proje başına açık iş.",
+        "View": "Görünüm",
+        "By person": "Kişiye göre",
+        "By project": "Projeye göre",
+        "Hours left": "Kalan saat",
+        "Tasks without an estimate": "Tahmini olmayan görevler",
+        "Due in 14 days": "14 gün içinde teslim",
+        "Shared": "Paylaşılan",
+        "Unassigned": "Atanmamış",
+        "{hours} h": "{hours} sa",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Görebildiğiniz projelerdeki iş gösterilir. Saatler sorumlu kişiye sayılır; paylaşılan görevler saatsiz sayılır.",
+        "No open work in these projects.": "Bu projelerde açık iş yok.",
+        "Open work": "Açık iş",
+        "{count} open tasks": "{count} açık görev",
+        "Create a project to see capacity here.": "Kapasiteyi burada görmek için bir proje oluşturun."
     },
     "plurals": {}
 }

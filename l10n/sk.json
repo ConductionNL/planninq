@@ -801,7 +801,22 @@
         "Delete subtasks too": "Odstrániť aj podúlohy",
         "Copy of {title}": "Kópia: {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Úloha bola skopírovaná, ale nie všetky jej podúlohy. Skontrolujte kópiu.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Malé kroky v rámci úlohy. Každá položka má id, text a informáciu, či je hotová."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Malé kroky v rámci úlohy. Každá položka má id, text a informáciu, či je hotová.",
+        "Open work per person and per project.": "Otvorená práca podľa osôb a projektov.",
+        "View": "Zobrazenie",
+        "By person": "Podľa osoby",
+        "By project": "Podľa projektu",
+        "Hours left": "Zostávajúce hodiny",
+        "Tasks without an estimate": "Úlohy bez odhadu",
+        "Due in 14 days": "Termín do 14 dní",
+        "Shared": "Zdieľané",
+        "Unassigned": "Nepriradené",
+        "{hours} h": "{hours} h",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Zobrazuje sa práca v projektoch, ktoré vidíte. Hodiny sa počítajú zodpovednej osobe; zdieľané úlohy sa počítajú bez hodín.",
+        "No open work in these projects.": "V týchto projektoch nie je žiadna otvorená práca.",
+        "Open work": "Otvorená práca",
+        "{count} open tasks": "{count} otvorených úloh",
+        "Create a project to see capacity here.": "Vytvorte projekt, aby ste tu videli kapacitu."
     },
     "plurals": null
 }

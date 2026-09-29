@@ -802,7 +802,22 @@ OC.L10N.register(
         "Delete subtasks too": "Ënneraufgaben och läschen",
         "Copy of {title}": "Kopie vun {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "D'Aufgab gouf kopéiert, awer net all hir Ënneraufgaben. Kontrolléiert d'Kopie.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Kleng Schrëtt an der Aufgab. All Element huet eng ID, en Text an ob et fäerdeg ass."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Kleng Schrëtt an der Aufgab. All Element huet eng ID, en Text an ob et fäerdeg ass.",
+        "Open work per person and per project.": "Oppen Aarbecht pro Persoun a pro Projet.",
+        "View": "Usiicht",
+        "By person": "No Persoun",
+        "By project": "No Projet",
+        "Hours left": "Verbleiwend Stonnen",
+        "Tasks without an estimate": "Aufgabe ouni Schätzung",
+        "Due in 14 days": "Fälleg an 14 Deeg",
+        "Shared": "Gedeelt",
+        "Unassigned": "Net zougewisen",
+        "{hours} h": "{hours} h",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Et gëtt d'Aarbecht an de Projete gewisen, déi s du gesäis. Stonnen zielen fir déi verantwortlech Persoun; gedeelt Aufgabe ginn ouni Stonnen gezielt.",
+        "No open work in these projects.": "Keng oppen Aarbecht an dëse Projeten.",
+        "Open work": "Oppen Aarbecht",
+        "{count} open tasks": "{count} oppen Aufgaben",
+        "Create a project to see capacity here.": "Maach e Projet un, fir hei d'Kapazitéit ze gesinn."
     },
     "nplurals=2; plural=(n != 1);"
 )

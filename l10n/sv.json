@@ -801,7 +801,22 @@
         "Delete subtasks too": "Ta bort deluppgifterna också",
         "Copy of {title}": "Kopia av {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Uppgiften kopierades, men inte alla dess deluppgifter. Kontrollera kopian.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Små steg inom uppgiften. Varje punkt har ett id, en text och om den är klar."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Små steg inom uppgiften. Varje punkt har ett id, en text och om den är klar.",
+        "Open work per person and per project.": "Öppet arbete per person och per projekt.",
+        "View": "Vy",
+        "By person": "Per person",
+        "By project": "Per projekt",
+        "Hours left": "Timmar kvar",
+        "Tasks without an estimate": "Uppgifter utan uppskattning",
+        "Due in 14 days": "Förfaller inom 14 dagar",
+        "Shared": "Delade",
+        "Unassigned": "Ej tilldelade",
+        "{hours} h": "{hours} h",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Visar arbete i de projekt du kan se. Timmar räknas för den ansvariga; delade uppgifter räknas utan timmar.",
+        "No open work in these projects.": "Inget öppet arbete i dessa projekt.",
+        "Open work": "Öppet arbete",
+        "{count} open tasks": "{count} öppna uppgifter",
+        "Create a project to see capacity here.": "Skapa ett projekt för att se kapaciteten här."
     },
     "plurals": null
 }

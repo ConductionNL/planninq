@@ -801,7 +801,22 @@
         "Delete subtasks too": "Izbriši i podzadatke",
         "Copy of {title}": "Kopija: {title}",
         "The task was copied, but not all of its subtasks. Please check the copy.": "Zadatak je kopiran, ali ne i svi njegovi podzadaci. Provjerite kopiju.",
-        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Mali koraci unutar zadatka. Svaka stavka ima id, tekst i podatak je li gotova."
+        "Small steps inside the task. Each item has an id, a text and whether it is done.": "Mali koraci unutar zadatka. Svaka stavka ima id, tekst i podatak je li gotova.",
+        "Open work per person and per project.": "Otvoreni posao po osobi i po projektu.",
+        "View": "Prikaz",
+        "By person": "Po osobi",
+        "By project": "Po projektu",
+        "Hours left": "Preostali sati",
+        "Tasks without an estimate": "Zadaci bez procjene",
+        "Due in 14 days": "Rok u 14 dana",
+        "Shared": "Dijeljeno",
+        "Unassigned": "Nedodijeljeno",
+        "{hours} h": "{hours} h",
+        "Showing work in the projects you can see. Hours count for the person responsible; shared tasks are counted without hours.": "Prikazuje se posao u projektima koje možete vidjeti. Sati se računaju odgovornoj osobi; dijeljeni zadaci računaju se bez sati.",
+        "No open work in these projects.": "Nema otvorenog posla u ovim projektima.",
+        "Open work": "Otvoreni posao",
+        "{count} open tasks": "{count} otvorenih zadataka",
+        "Create a project to see capacity here.": "Izradite projekt da biste ovdje vidjeli kapacitet."
     },
     "plurals": null
 }
