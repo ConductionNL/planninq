@@ -6238,7 +6238,7 @@
         "kanboard": "source read at v1.2.54: searched app/Model and app/Action for 'phase', 'gate': none; no action blocks a column move on an attachment",
         "jira": "https://confluence.atlassian.com/adminjiraserver/using-validators-with-custom-fields-938847524.html 'Use the Fields Required workflow validator that is packaged in the Jira Suite Utilities'; https://marketplace.atlassian.com/apps/5048/jsu-automation-suite-for-jira-workflows paid app, build 4.1.3 compatible to Jira 11.3.11; phases are workflow statuses, not project phases (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "no",
@@ -6249,11 +6249,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "Schema only: lib/Settings/planninq_register.json:584-760 declares projectPhase (title, status open/in_progress/completed/cancelled, order, budget). grep for 'projectPhase' and 'phase' across src/ finds nothing but an unrelated comment in src/App.vue:122. No page lists phases and no guard checks for a concluding document.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json projectPhase x-openregister-lifecycle: the complete transition requires OCA\\Planninq\\Lifecycle\\PhaseConcludingDocumentGuard (lib/Lifecycle/PhaseConcludingDocumentGuard.php), which allows it only when concludingDocument names a file attached to the phase (OpenRegister FileService::getFile inside the phase folder); src/views/ProjectPhases.vue with PhaseEditDialog, PhaseCloseDialog (upload, pick, one PATCH) and the phase's files, notes and audit trail in CnObjectSidebar",
+        "reachedOn": "ProjectPhases page /projects/:id/phases, Phases tab on every project page",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/planning-phase-gate-document"
+        "change": "openspec/changes/archive/2026-09-29-planning-phase-gate-document",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
