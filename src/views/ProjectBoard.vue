@@ -72,229 +72,233 @@
 
 			<ProjectTabs :projectId="project.id" />
 
-			<p v-if="readOnly" class="project-board__read-only" data-testid="board-read-only">
-				{{ t('planninq', 'You read this project as a manager of its portfolio. Only its members change it.') }}
-			</p>
+			<!-- A requested or rejected project shows its review, not a board (projects-lifecycle-policy) -->
+			<ProjectRequestBanner v-if="requestBanner" :project="project" @reviewed="onRequestReviewed" />
+			<template v-else>
+				<p v-if="readOnly" class="project-board__read-only" data-testid="board-read-only">
+					{{ t('planninq', 'You read this project as a manager of its portfolio. Only its members change it.') }}
+				</p>
 
-			<!-- Label filter chips. Same idiom as the project list's status
+				<!-- Label filter chips. Same idiom as the project list's status
 			     filter: one chip per value, the active one primary, pressed
 			     state exposed through aria-pressed. -->
-			<div
-				v-if="labels.length"
-				class="project-board__filters"
-				role="group"
-				:aria-label="t('planninq', 'Filter tasks by label')">
-				<NcChip
-					v-for="chip in labelFilterChips"
-					:key="chip.key"
-					:text="chip.title"
-					:variant="activeLabelId === chip.value ? 'primary' : 'secondary'"
-					:noClose="true"
-					class="project-board__filter-chip"
-					data-testid="label-filter-chip"
-					role="button"
-					tabindex="0"
-					:aria-pressed="activeLabelId === chip.value"
-					@click="setLabelFilter(chip.value)"
-					@keydown.enter="setLabelFilter(chip.value)"
-					@keydown.space.prevent="setLabelFilter(chip.value)">
-					<template v-if="chip.color" #icon>
-						<span
-							class="project-board__filter-swatch"
-							:style="{ backgroundColor: chip.color }"
-							aria-hidden="true" />
-					</template>
-				</NcChip>
-			</div>
+				<div
+					v-if="labels.length"
+					class="project-board__filters"
+					role="group"
+					:aria-label="t('planninq', 'Filter tasks by label')">
+					<NcChip
+						v-for="chip in labelFilterChips"
+						:key="chip.key"
+						:text="chip.title"
+						:variant="activeLabelId === chip.value ? 'primary' : 'secondary'"
+						:noClose="true"
+						class="project-board__filter-chip"
+						data-testid="label-filter-chip"
+						role="button"
+						tabindex="0"
+						:aria-pressed="activeLabelId === chip.value"
+						@click="setLabelFilter(chip.value)"
+						@keydown.enter="setLabelFilter(chip.value)"
+						@keydown.space.prevent="setLabelFilter(chip.value)">
+						<template v-if="chip.color" #icon>
+							<span
+								class="project-board__filter-swatch"
+								:style="{ backgroundColor: chip.color }"
+								aria-hidden="true" />
+						</template>
+					</NcChip>
+				</div>
 
-			<!-- Board loading overlay (tasks fetch) -->
-			<div v-if="tasksLoading" class="project-board__loading">
-				<NcLoadingIcon :size="32" />
-			</div>
+				<!-- Board loading overlay (tasks fetch) -->
+				<div v-if="tasksLoading" class="project-board__loading">
+					<NcLoadingIcon :size="32" />
+				</div>
 
-			<!-- List view: the same cards the board shows, in lane order and
+				<!-- List view: the same cards the board shows, in lane order and
 			     then card order (boards-list-toggle). -->
-			<table v-else-if="view === 'list'" class="project-board__list" data-testid="board-list">
-				<thead>
-					<tr>
-						<th scope="col">
-							{{ t('planninq', 'Title') }}
-						</th>
-						<th scope="col">
-							{{ t('planninq', 'Column') }}
-						</th>
-						<th scope="col">
-							{{ t('planninq', 'Priority') }}
-						</th>
-						<th scope="col">
-							{{ t('planninq', 'Due date') }}
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr
-						v-for="row in listRows"
-						:key="row.task.id"
-						data-testid="board-list-row"
-						:data-title="row.task.title">
-						<td>
-							<NcButton variant="tertiary-no-background" @click="navigateToTask(row.task)">
-								{{ row.task.title }}
-							</NcButton>
-						</td>
-						<td>{{ row.column.title }}</td>
-						<td>{{ priorityLabel(row.task.priority) }}</td>
-						<td>{{ row.task.dueDate || '' }}</td>
-					</tr>
-				</tbody>
-			</table>
+				<table v-else-if="view === 'list'" class="project-board__list" data-testid="board-list">
+					<thead>
+						<tr>
+							<th scope="col">
+								{{ t('planninq', 'Title') }}
+							</th>
+							<th scope="col">
+								{{ t('planninq', 'Column') }}
+							</th>
+							<th scope="col">
+								{{ t('planninq', 'Priority') }}
+							</th>
+							<th scope="col">
+								{{ t('planninq', 'Due date') }}
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr
+							v-for="row in listRows"
+							:key="row.task.id"
+							data-testid="board-list-row"
+							:data-title="row.task.title">
+							<td>
+								<NcButton variant="tertiary-no-background" @click="navigateToTask(row.task)">
+									{{ row.task.title }}
+								</NcButton>
+							</td>
+							<td>{{ row.column.title }}</td>
+							<td>{{ priorityLabel(row.task.priority) }}</td>
+							<td>{{ row.task.dueDate || '' }}</td>
+						</tr>
+					</tbody>
+				</table>
 
-			<!-- Kanban columns: one lane per column object of the project,
+				<!-- Kanban columns: one lane per column object of the project,
 			     in `order`. A task sits in the lane its `column` references;
 			     a task without one is in the backlog. -->
-			<div v-else class="project-board__columns" data-cy="kanban-board">
-				<section
-					v-for="(column, index) in columns"
-					:key="column.id"
-					class="kanban-column"
-					:data-column="column.title"
-					:aria-label="column.title"
-					:class="{ 'kanban-column--drop-target': dropTargetId === column.id }"
-					@dragover.prevent="onDragOver(column.id)"
-					@dragleave="onDragLeave(column.id)"
-					@drop="onDrop(column)">
-					<header
-						class="kanban-column__header"
-						:class="{ 'kanban-column__header--over': wipFor(column).over }"
-						:style="column.color ? { borderTopColor: column.color } : null">
-						<h3 class="kanban-column__title">
-							{{ column.title }}
-						</h3>
-						<span class="kanban-column__count" data-testid="column-count">
-							{{ wipFor(column).text }}
-							<template v-if="wipFor(column).over">
-								{{ t('planninq', 'over limit') }}
-							</template>
-						</span>
-						<ColumnActions
-							v-if="isOwner"
-							:first="index === 0"
-							:last="index === columns.length - 1"
-							@edit="editingColumn = column"
-							@move="(direction) => moveColumn(column, direction)"
-							@remove="removingColumn = column" />
-					</header>
+				<div v-else class="project-board__columns" data-cy="kanban-board">
+					<section
+						v-for="(column, index) in columns"
+						:key="column.id"
+						class="kanban-column"
+						:data-column="column.title"
+						:aria-label="column.title"
+						:class="{ 'kanban-column--drop-target': dropTargetId === column.id }"
+						@dragover.prevent="onDragOver(column.id)"
+						@dragleave="onDragLeave(column.id)"
+						@drop="onDrop(column)">
+						<header
+							class="kanban-column__header"
+							:class="{ 'kanban-column__header--over': wipFor(column).over }"
+							:style="column.color ? { borderTopColor: column.color } : null">
+							<h3 class="kanban-column__title">
+								{{ column.title }}
+							</h3>
+							<span class="kanban-column__count" data-testid="column-count">
+								{{ wipFor(column).text }}
+								<template v-if="wipFor(column).over">
+									{{ t('planninq', 'over limit') }}
+								</template>
+							</span>
+							<ColumnActions
+								v-if="isOwner"
+								:first="index === 0"
+								:last="index === columns.length - 1"
+								@edit="editingColumn = column"
+								@move="(direction) => moveColumn(column, direction)"
+								@remove="removingColumn = column" />
+						</header>
 
-					<div class="kanban-column__body">
-						<!-- Task cards -->
-						<div
-							v-for="task in tasksByColumn[column.id]"
-							:key="task.id"
-							class="kanban-column__card"
-							:class="{ 'kanban-column__card--highlight': isHighlighted(task) }"
-							role="button"
-							tabindex="0"
-							:aria-label="task.title"
-							data-testid="task-card"
-							:draggable="readOnly ? 'false' : 'true'"
-							@click="navigateToTask(task)"
-							@keydown.enter="navigateToTask(task)"
-							@keydown.space.prevent="navigateToTask(task)"
-							@dragstart="onDragStart(task)"
-							@dragend="onDragEnd"
-							@drop.stop="onDrop(column, task)">
-							<TaskCard
-								:task="task"
-								:labels="labelsForTask(task)"
-								:blocked="blockedIds.has(task.id)"
-								:openBlockerCount="openBlockerIds(task.id, dependenciesStore.edges, statusById).length" />
+						<div class="kanban-column__body">
+							<!-- Task cards -->
+							<div
+								v-for="task in tasksByColumn[column.id]"
+								:key="task.id"
+								class="kanban-column__card"
+								:class="{ 'kanban-column__card--highlight': isHighlighted(task) }"
+								role="button"
+								tabindex="0"
+								:aria-label="task.title"
+								data-testid="task-card"
+								:draggable="readOnly ? 'false' : 'true'"
+								@click="navigateToTask(task)"
+								@keydown.enter="navigateToTask(task)"
+								@keydown.space.prevent="navigateToTask(task)"
+								@dragstart="onDragStart(task)"
+								@dragend="onDragEnd"
+								@drop.stop="onDrop(column, task)">
+								<TaskCard
+									:task="task"
+									:labels="labelsForTask(task)"
+									:blocked="blockedIds.has(task.id)"
+									:openBlockerCount="openBlockerIds(task.id, dependenciesStore.edges, statusById).length" />
 
-							<!-- Keyboard-operable move: the accessible equivalent
+								<!-- Keyboard-operable move: the accessible equivalent
 							     of drag-and-drop, to another lane or a step up or
 							     down in this one. Not itself draggable, and stops
 							     click propagation so it never opens the task. -->
-							<div
-								v-if="!readOnly"
-								class="kanban-column__card-actions"
-								draggable="false"
-								@click.stop
-								@keydown.enter.stop
-								@keydown.space.stop
-								@dragstart.stop>
-								<NcActions
-									:aria-label="t('planninq', 'Move task to another column')"
-									:forceMenu="true">
-									<NcActionButton
-										:closeAfterClick="true"
-										@click="stepCard(task, column, -1)">
-										<template #icon>
-											<ArrowUpIcon :size="20" />
-										</template>
-										{{ t('planninq', 'Move up') }}
-									</NcActionButton>
-									<NcActionButton
-										:closeAfterClick="true"
-										@click="stepCard(task, column, 1)">
-										<template #icon>
-											<ArrowDownIcon :size="20" />
-										</template>
-										{{ t('planninq', 'Move down') }}
-									</NcActionButton>
-									<NcActionButton
-										:closeAfterClick="true"
-										data-testid="move-to-backlog"
-										@click="moveToBacklog(task)">
-										<template #icon>
-											<FormatListBulleted :size="20" />
-										</template>
-										{{ t('planninq', 'Move to backlog') }}
-									</NcActionButton>
-									<NcActionButton
-										v-for="target in otherColumns(column)"
-										:key="target.id"
-										:closeAfterClick="true"
-										@click="moveTask(task, target)">
-										<template #icon>
-											<ArrowRightIcon :size="20" />
-										</template>
-										{{ target.title }}
-									</NcActionButton>
-								</NcActions>
+								<div
+									v-if="!readOnly"
+									class="kanban-column__card-actions"
+									draggable="false"
+									@click.stop
+									@keydown.enter.stop
+									@keydown.space.stop
+									@dragstart.stop>
+									<NcActions
+										:aria-label="t('planninq', 'Move task to another column')"
+										:forceMenu="true">
+										<NcActionButton
+											:closeAfterClick="true"
+											@click="stepCard(task, column, -1)">
+											<template #icon>
+												<ArrowUpIcon :size="20" />
+											</template>
+											{{ t('planninq', 'Move up') }}
+										</NcActionButton>
+										<NcActionButton
+											:closeAfterClick="true"
+											@click="stepCard(task, column, 1)">
+											<template #icon>
+												<ArrowDownIcon :size="20" />
+											</template>
+											{{ t('planninq', 'Move down') }}
+										</NcActionButton>
+										<NcActionButton
+											:closeAfterClick="true"
+											data-testid="move-to-backlog"
+											@click="moveToBacklog(task)">
+											<template #icon>
+												<FormatListBulleted :size="20" />
+											</template>
+											{{ t('planninq', 'Move to backlog') }}
+										</NcActionButton>
+										<NcActionButton
+											v-for="target in otherColumns(column)"
+											:key="target.id"
+											:closeAfterClick="true"
+											@click="moveTask(task, target)">
+											<template #icon>
+												<ArrowRightIcon :size="20" />
+											</template>
+											{{ target.title }}
+										</NcActionButton>
+									</NcActions>
+								</div>
 							</div>
+
+							<!-- Empty column placeholder -->
+							<p v-if="tasksByColumn[column.id].length === 0" class="kanban-column__empty">
+								{{ t('planninq', 'No tasks') }}
+							</p>
 						</div>
+					</section>
 
-						<!-- Empty column placeholder -->
-						<p v-if="tasksByColumn[column.id].length === 0" class="kanban-column__empty">
-							{{ t('planninq', 'No tasks') }}
-						</p>
+					<div v-if="isOwner" class="project-board__add-column">
+						<NcButton variant="secondary" data-testid="add-column" @click="editingColumn = {}">
+							<template #icon>
+								<PlusIcon :size="20" />
+							</template>
+							{{ t('planninq', 'Add column') }}
+						</NcButton>
 					</div>
-				</section>
-
-				<div v-if="isOwner" class="project-board__add-column">
-					<NcButton variant="secondary" data-testid="add-column" @click="editingColumn = {}">
-						<template #icon>
-							<PlusIcon :size="20" />
-						</template>
-						{{ t('planninq', 'Add column') }}
-					</NcButton>
 				</div>
-			</div>
 
-			<ColumnEditDialog
-				v-if="editingColumn"
-				:column="editingColumn.id ? editingColumn : null"
-				:projectId="project.id"
-				:nextOrder="nextColumnOrder"
-				@close="editingColumn = null"
-				@saved="onColumnsChanged" />
-			<ColumnRemoveDialog
-				v-if="removingColumn"
-				:column="removingColumn"
-				:columns="columns"
-				:cards="tasksOfColumn(removingColumn)"
-				:lanes="tasksByColumn"
-				@close="removingColumn = null"
-				@removed="onColumnsChanged" />
+				<ColumnEditDialog
+					v-if="editingColumn"
+					:column="editingColumn.id ? editingColumn : null"
+					:projectId="project.id"
+					:nextOrder="nextColumnOrder"
+					@close="editingColumn = null"
+					@saved="onColumnsChanged" />
+				<ColumnRemoveDialog
+					v-if="removingColumn"
+					:column="removingColumn"
+					:columns="columns"
+					:cards="tasksOfColumn(removingColumn)"
+					:lanes="tasksByColumn"
+					@close="removingColumn = null"
+					@removed="onColumnsChanged" />
+			</template>
 		</template>
 
 		<!-- Settings sidebar (rendered via App.vue outlet, passed via provide) -->
@@ -329,6 +333,7 @@ import FormatListBulleted from 'vue-material-design-icons/FormatListBulleted.vue
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ColumnActions from '../components/ColumnActions.vue'
+import ProjectRequestBanner from '../components/ProjectRequestBanner.vue'
 import ProjectSettingsSidebar from '../components/ProjectSettingsSidebar.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import TaskCard from '../components/TaskCard.vue'
@@ -348,6 +353,7 @@ import {
 } from '../utils/columnHelpers.js'
 import { filterTasksByLabel, labelId, resolveTaskLabels, sortLabelsByTitle } from '../utils/labelHelpers.js'
 import { isReadOnlyFor } from '../utils/portfolioGrouping.js'
+import { requestBanner } from '../utils/projectRequests.js'
 import { deriveBlockedTaskIds, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
 
 export default {
@@ -370,6 +376,7 @@ export default {
 		ColumnRemoveDialog,
 		LockOutline,
 		PlusIcon,
+		ProjectRequestBanner,
 		ProjectTabs,
 		TaskCard,
 	},
@@ -407,6 +414,17 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * The banner of a requested or rejected project, which replaces the board.
+		 *
+		 * @return {{kind: string, note: string}|null}
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.4
+		 */
+		requestBanner() {
+			return requestBanner(this.project)
+		},
+
 		/**
 		 * @spec exclude Store passthrough — the dependencies store the badges read.
 		 */
@@ -622,6 +640,20 @@ export default {
 
 	methods: {
 		openBlockerIds,
+
+		/**
+		 * After a review, reload the project, and the board of an approved one.
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.4
+		 */
+		async onRequestReviewed() {
+			const id = this.project.id
+			await this.projectsStore.fetchProject(id)
+			if (!this.requestBanner) {
+				await this.loadColumns(id)
+				await this.loadTasks(id)
+			}
+		},
 
 		/**
 		 * Load the project's tasks into the board.

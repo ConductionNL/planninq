@@ -149,6 +149,8 @@ export default {
 				archived: this.t('planninq', 'Archived'),
 				completed: this.t('planninq', 'Completed'),
 				cancelled: this.t('planninq', 'Cancelled'),
+				requested: this.t('planninq', 'Requested'),
+				rejected: this.t('planninq', 'Not approved'),
 			}
 			return map[this.project.status] || this.project.status || this.t('planninq', 'Active')
 		},
