@@ -180,7 +180,8 @@ class CaseHandoverService {
 					continue;
 				}
 
-				$this->copy(case: $case['entity'], name: $source['prefix'] . $file->getName(), content: (string)$file->getContent(), record: $record);
+				$name = $source['prefix'] . $file->getName();
+				$this->copy(case: $case['entity'], name: $name, content: (string)$file->getContent(), record: $record);
 			}
 		}
 
@@ -193,7 +194,10 @@ class CaseHandoverService {
 		$data['caseHandovers'][] = $record;
 		$this->objectService()->saveObject(object: $data, register: self::REGISTER, schema: 'project', uuid: $projectId);
 
-		$this->logger->info('Planninq: project handed over to its case', ['project' => $projectId, 'case' => $caseId, 'files' => count($record['files']), 'failures' => count($record['failures'])]);
+		$this->logger->info(
+			'Planninq: project handed over to its case',
+			['project' => $projectId, 'case' => $caseId, 'files' => count($record['files']), 'failures' => count($record['failures'])]
+		);
 
 		return $record;
 	}//end handOver()
