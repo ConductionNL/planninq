@@ -81,6 +81,40 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 		 *
 		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-2.2
 		 */
+		/**
+		 * The task reporter guard is subscribed for task creates, updates and deletes,
+		 * and before the dependency cleanup, so a refused delete leaves the links alone.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-5.1
+		 */
+		public function testBootSubscribesTheTaskReporterGuardBeforeTheDependencyCleanup(): void {
+			ObjectEventSubscription::$calls = [];
+			$app = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			(new \ReflectionMethod(Application::class, 'registerTaskGuardListeners'))->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
+
+			$calls = [];
+			foreach (ObjectEventSubscription::$calls as $call) {
+				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
+				self::assertTrue(class_exists($call['event']), $call['event'] . ' must exist');
+				$calls[] = [$call['listener'], substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
+			}
+
+			$guard = 'OCA\\Planninq\\Listener\\TaskReporterGuardListener';
+			self::assertSame(
+				[
+					[$guard, 'ObjectCreatingEvent', ['task']],
+					[$guard, 'ObjectUpdatingEvent', ['task']],
+					[$guard, 'ObjectDeletingEvent', ['task']],
+				],
+				$calls
+			);
+
+			$boot    = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
+			$guardAt = strpos($boot, '$this->registerTaskGuardListeners(dispatcher: $dispatcher);');
+			self::assertNotFalse($guardAt, 'boot() calls the registration');
+			self::assertLessThan(strpos($boot, "listener: 'OCA\\\\Planninq\\\\Listener\\\\TaskDependencyCleanupListener'"), $guardAt, 'the guard runs before the cleanup');
+		}//end testBootSubscribesTheTaskReporterGuardBeforeTheDependencyCleanup()
+
 		public function testBootSubscribesTheWorkItemKeyListener(): void {
 			ObjectEventSubscription::$calls = [];
 			$app = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
