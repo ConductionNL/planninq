@@ -665,7 +665,13 @@
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "UID пользователей Nextcloud, которым разрешено видеть сумму: владелец проекта и менеджеры его портфеля",
         "Project owner": "Владелец проекта",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "UID пользователя Nextcloud, владельца проекта, который может изменять и удалять ручные строки",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Как платит клиент: без выставления счёта, фиксированная цена или почасово."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Как платит клиент: без выставления счёта, фиксированная цена или почасово.",
+        "Portfolio finance": "Финансы портфеля",
+        "You cannot see the money of any project in this portfolio": "Вы не видите денег ни одного проекта в этом портфеле",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Сервер вернул строки затрат проектов вне этого портфеля, поэтому итоги могут быть неверны.",
+        "Projects left out because you cannot see their money: {count}": "Пропущено проектов, чьи деньги вам не видны: {count}",
+        "Unmatched finance lines": "Несопоставленные финансовые строки",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Бюджет, обязательства, фактические затраты и прогноз в сумме по портфелю."
     },
     "plurals": {}
 }

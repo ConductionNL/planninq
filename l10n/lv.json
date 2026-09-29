@@ -665,7 +665,13 @@
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "Nextcloud lietotāju UID tiem, kas drīkst redzēt summu: projekta īpašnieks un tā portfeļa vadītāji",
         "Project owner": "Projekta īpašnieks",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "Projekta īpašnieka Nextcloud lietotāja UID; viņš drīkst mainīt un noņemt manuālās rindas",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Kā klients maksā: netiek rēķināts, fiksēta cena vai pa stundām."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Kā klients maksā: netiek rēķināts, fiksēta cena vai pa stundām.",
+        "Portfolio finance": "Portfeļa finanses",
+        "You cannot see the money of any project in this portfolio": "Jūs neredzat neviena šī portfeļa projekta naudu",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Serveris atgrieza izmaksu rindas no projektiem ārpus šī portfeļa, tāpēc šīs kopsummas var būt nepareizas.",
+        "Projects left out because you cannot see their money: {count}": "Izlaisti projekti, jo jūs neredzat to naudu: {count}",
+        "Unmatched finance lines": "Nesasaistītas finanšu rindas",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budžets, saistības, faktiskās izmaksas un prognoze, saskaitītas portfelim."
     },
     "plurals": null
 }

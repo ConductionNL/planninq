@@ -666,7 +666,13 @@ OC.L10N.register(
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "UIDs tal-utenti ta' Nextcloud tal-persuni li jistgħu jaraw dan l-ammont: is-sid tal-proġett u l-maniġers tal-portafoll tiegħu",
         "Project owner": "Sid tal-proġett",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "UID tal-utent ta' Nextcloud tas-sid tal-proġett, li jista' jibdel u jneħħi linji manwali",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Kif iħallas il-klijent: mhux iffatturat, prezz fiss jew bis-siegħa."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Kif iħallas il-klijent: mhux iffatturat, prezz fiss jew bis-siegħa.",
+        "Portfolio finance": "Finanzi tal-portafoll",
+        "You cannot see the money of any project in this portfolio": "Ma tistax tara l-flus ta' l-ebda proġett f'dan il-portafoll",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Is-server bagħat linji tal-ispiża ta' proġetti barra dan il-portafoll, għalhekk dawn it-totali jistgħu jkunu żbaljati.",
+        "Projects left out because you cannot see their money: {count}": "Proġetti mħollija barra għax ma tistax tara flushom: {count}",
+        "Unmatched finance lines": "Linji finanzjarji mhux imqabbla",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Baġit, impenji, spiża attwali u tbassir miġbura għal portafoll."
     },
     "nplurals=2; plural=(n != 1);"
 )

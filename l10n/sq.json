@@ -665,7 +665,13 @@
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "UID-të e përdoruesve të Nextcloud që mund ta shohin shumën: pronari i projektit dhe menaxherët e portofolit të tij",
         "Project owner": "Pronari i projektit",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "UID-ja e përdoruesit Nextcloud të pronarit të projektit, i cili mund të ndryshojë dhe heqë rreshtat manualë",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Si paguan klienti: pa faturim, çmim fiks ose me orë."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Si paguan klienti: pa faturim, çmim fiks ose me orë.",
+        "Portfolio finance": "Financat e portofolit",
+        "You cannot see the money of any project in this portfolio": "Nuk mund të shohësh paratë e asnjë projekti në këtë portofol",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Serveri ktheu rreshta kostoje nga projekte jashtë këtij portofoli, ndaj këto totale mund të jenë të gabuara.",
+        "Projects left out because you cannot see their money: {count}": "Projekte të lëna jashtë sepse nuk ua sheh paratë: {count}",
+        "Unmatched finance lines": "Rreshta financiarë të pa përputhur",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Buxheti, angazhimet, kosto reale dhe parashikimi të mbledhura për një portofol."
     },
     "plurals": {}
 }

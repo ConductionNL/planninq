@@ -665,7 +665,13 @@
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "UID-urile utilizatorilor Nextcloud care pot vedea suma: proprietarul proiectului și managerii portofoliului său",
         "Project owner": "Proprietarul proiectului",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "UID-ul utilizatorului Nextcloud al proprietarului proiectului, care poate modifica și elimina liniile manuale",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Cum plătește clientul: nefacturat, preț fix sau pe oră."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Cum plătește clientul: nefacturat, preț fix sau pe oră.",
+        "Portfolio finance": "Finanțele portofoliului",
+        "You cannot see the money of any project in this portfolio": "Nu poți vedea banii niciunui proiect din acest portofoliu",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Serverul a returnat linii de cost ale unor proiecte din afara acestui portofoliu, deci aceste totaluri pot fi greșite.",
+        "Projects left out because you cannot see their money: {count}": "Proiecte omise pentru că nu le poți vedea banii: {count}",
+        "Unmatched finance lines": "Linii financiare neasociate",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Buget, angajamente, cost real și prognoză însumate pe un portofoliu."
     },
     "plurals": {}
 }

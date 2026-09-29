@@ -665,7 +665,13 @@
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "UID-ovi korisnika Nextclouda koji smiju vidjeti ovaj iznos: vlasnik projekta i upravitelji njegovog portfolija",
         "Project owner": "Vlasnik projekta",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "UID korisnika Nextclouda vlasnika projekta, koji smije mijenjati i uklanjati ručne stavke",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Kako klijent plaća: ne naplaćuje se, fiksna cijena ili po satu."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Kako klijent plaća: ne naplaćuje se, fiksna cijena ili po satu.",
+        "Portfolio finance": "Finansije portfolija",
+        "You cannot see the money of any project in this portfolio": "Ne možete vidjeti novac nijednog projekta u ovom portfoliju",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Server je vratio stavke troška projekata izvan ovog portfolija, pa ovi zbirovi mogu biti pogrešni.",
+        "Projects left out because you cannot see their money: {count}": "Izostavljeni projekti jer ne možete vidjeti njihov novac: {count}",
+        "Unmatched finance lines": "Nepovezane finansijske stavke",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budžet, obaveze, stvarni trošak i prognoza sabrani za portfolio."
     },
     "plurals": null
 }

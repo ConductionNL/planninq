@@ -14,12 +14,12 @@
 
 ## 3. Import contract and portfolio (Enterprise)
 
-- [ ] 3.1 Enforce uniqueness of (`source`, `externalRef`) and write the integration contract (fields, group, matching on `project.key`) into `docs/`. Verify: Newman requests in `tests/integration/planninq.postman_collection.json` post the same line twice and read one line back.
-- [ ] 3.2 Add the declarative "Unmatched finance lines" index in Beheer and the assign action. Verify: e2e "assigning an unmatched line".
+- [x] 3.1 Enforce uniqueness of (`source`, `externalRef`) and write the integration contract (fields, group, matching on `project.key`) into `docs/`. Verify: Newman folder "Finance Import" in `tests/integration/planninq.postman_collection.json` posts the same line twice (the second is refused naming the first), updates the first and reads one line back; `FinanceLineListenerTest::testASecondLineWithTheSameFinanceIdIsRefusedNamingTheFirst`. Contract: `docs/features/finance-import.md`.
+- [x] 3.2 Add the declarative "Unmatched finance lines" index in Beheer and the assign action. Verify: e2e `tests/e2e/portfolio-finance.spec.ts` "assigning an unmatched line"; `FinanceLineListenerTest::testAnAdminAssignsAnUnmatchedLine`.
 - [x] 3.3 Keep `financeLine.portfolio` and the access copies in step through the listener of `projects-grouping-hierarchy-fields` and the project membership sync. Verify: `ProjectHierarchyGuardListenerTest::testPortfolioChangesReachTheFinanceLines` and `ProjectMembershipSyncListenerTest::testANewOwnerOrPortfolioReachesTheFinanceLines`.
-- [ ] 3.4 Add the portfolio finance page (`/portfolio/finance`) on OpenRegister aggregation with an equality filter on `portfolio`, plus labour per project. Verify: `tests/vitest/portfolioFinance.spec.js` for totals and the cross-check; e2e "totals for a portfolio" and "a project outside your reach is not totalled".
+- [x] 3.4 Add the portfolio finance page (`/portfolio/finance`) on OpenRegister aggregation with an equality filter on `portfolio`, plus labour per project. Verify: `tests/vitest/portfolioFinance.spec.js` for totals and the cross-check; e2e `tests/e2e/portfolio-finance.spec.ts` "totals for a portfolio" ("a project outside your reach is not totalled" is `@e2e exclude`, the suite signs in as admin). The same figures fill the actual cost column of the portfolio status page and the money suggestion of a status report.
 
 ## 4. Verification
 
-- [ ] 4.1 `openspec validate portfolio-finance --type change --strict` passes.
-- [ ] 4.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+- [x] 4.1 `openspec validate portfolio-finance --type change --strict` passes.
+- [x] 4.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.

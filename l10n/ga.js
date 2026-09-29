@@ -666,7 +666,13 @@ OC.L10N.register(
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "UIDanna úsáideora Nextcloud na ndaoine a fhéadfaidh an tsuim a fheiceáil: úinéir an tionscadail agus bainisteoirí a phunainne",
         "Project owner": "Úinéir an tionscadail",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "UID úsáideora Nextcloud úinéir an tionscadail, a fhéadfaidh línte láimhe a athrú agus a bhaint",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Conas a íocann an cliant: gan bhilleáil, praghas seasta nó in aghaidh na huaire."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Conas a íocann an cliant: gan bhilleáil, praghas seasta nó in aghaidh na huaire.",
+        "Portfolio finance": "Airgeadas na punainne",
+        "You cannot see the money of any project in this portfolio": "Ní fheiceann tú airgead aon tionscadail sa phunann seo",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Sheol an freastalaí línte costais ó thionscadail lasmuigh den phunann seo, mar sin d'fhéadfadh na hiomláin a bheith mícheart.",
+        "Projects left out because you cannot see their money: {count}": "Tionscadail fágtha amach toisc nach bhfeiceann tú a n-airgead: {count}",
+        "Unmatched finance lines": "Línte airgeadais gan mheaitseáil",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Buiséad, gealltanais, costas iarbhír agus réamhaisnéis iomlánaithe thar phunann."
     },
     "nplurals=2; plural=(n != 1);"
 )

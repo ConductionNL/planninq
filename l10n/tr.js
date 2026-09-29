@@ -666,7 +666,13 @@ OC.L10N.register(
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "Bu tutarı görebilecek kişilerin Nextcloud kullanıcı UID'leri: proje sahibi ve portföyünün yöneticileri",
         "Project owner": "Proje sahibi",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "Elle girilen satırları değiştirip kaldırabilen proje sahibinin Nextcloud kullanıcı UID'si",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Müşteri nasıl öder: faturalanmıyor, sabit fiyat veya saatlik."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Müşteri nasıl öder: faturalanmıyor, sabit fiyat veya saatlik.",
+        "Portfolio finance": "Portföy finansı",
+        "You cannot see the money of any project in this portfolio": "Bu portföydeki hiçbir projenin parasını göremezsiniz",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Sunucu bu portföyün dışındaki projelerin maliyet satırlarını döndürdü, bu yüzden bu toplamlar yanlış olabilir.",
+        "Projects left out because you cannot see their money: {count}": "Parasını göremediğiniz için dışarıda bırakılan projeler: {count}",
+        "Unmatched finance lines": "Eşleşmeyen finans satırları",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Bir portföy genelinde toplanan bütçe, taahhütler, gerçekleşen maliyet ve tahmin."
     },
     "nplurals=2; plural=(n != 1);"
 )

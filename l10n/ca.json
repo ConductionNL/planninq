@@ -665,7 +665,13 @@
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "UID de Nextcloud de les persones que poden veure aquest import: el propietari del projecte i els gestors de la seva cartera",
         "Project owner": "Propietari del projecte",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "UID de Nextcloud del propietari del projecte, que pot canviar i eliminar les línies manuals",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Com paga el client: sense facturar, preu fix o per hores."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Com paga el client: sense facturar, preu fix o per hores.",
+        "Portfolio finance": "Finances de la cartera",
+        "You cannot see the money of any project in this portfolio": "No pots veure els diners de cap projecte d'aquesta cartera",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "El servidor ha retornat línies de cost de projectes de fora d'aquesta cartera, així que aquests totals poden ser erronis.",
+        "Projects left out because you cannot see their money: {count}": "Projectes omesos perquè no pots veure'n els diners: {count}",
+        "Unmatched finance lines": "Línies financeres sense assignar",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Pressupost, compromisos, cost real i previsió sumats en una cartera."
     },
     "plurals": null
 }

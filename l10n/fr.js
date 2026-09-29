@@ -666,7 +666,13 @@ OC.L10N.register(
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "UID Nextcloud des personnes autorisées à voir ce montant : le propriétaire du projet et les gestionnaires de son portefeuille",
         "Project owner": "Propriétaire du projet",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "UID Nextcloud du propriétaire du projet, qui peut modifier et supprimer les lignes saisies à la main",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Comment le client paie : non facturé, prix forfaitaire ou à l'heure."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Comment le client paie : non facturé, prix forfaitaire ou à l'heure.",
+        "Portfolio finance": "Finances du portefeuille",
+        "You cannot see the money of any project in this portfolio": "Vous ne pouvez voir l'argent d'aucun projet de ce portefeuille",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Le serveur a renvoyé des lignes de coût de projets hors de ce portefeuille, ces totaux peuvent donc être faux.",
+        "Projects left out because you cannot see their money: {count}": "Projets écartés car vous ne pouvez pas voir leur argent : {count}",
+        "Unmatched finance lines": "Lignes financières non rattachées",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, engagements, coût réel et prévision totalisés sur un portefeuille."
     },
     "nplurals=2; plural=(n != 1);"
 )

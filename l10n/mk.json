@@ -665,7 +665,13 @@
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "UID на корисниците на Nextcloud што смеат да го гледаат износот: сопственикот на проектот и менаџерите на неговото портфолио",
         "Project owner": "Сопственик на проектот",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "UID на корисникот на Nextcloud сопственик на проектот, кој смее да менува и отстранува рачни ставки",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Како плаќа клиентот: не се наплаќа, фиксна цена или по час."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Како плаќа клиентот: не се наплаќа, фиксна цена или по час.",
+        "Portfolio finance": "Финансии на портфолиото",
+        "You cannot see the money of any project in this portfolio": "Не можете да ги видите парите на ниеден проект во ова портфолио",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Серверот врати ставки за трошок од проекти надвор од ова портфолио, па овие збирови можат да бидат погрешни.",
+        "Projects left out because you cannot see their money: {count}": "Изоставени проекти бидејќи не можете да ги видите нивните пари: {count}",
+        "Unmatched finance lines": "Неповрзани финансиски ставки",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Буџет, обврски, реален трошок и прогноза собрани за портфолио."
     },
     "plurals": null
 }

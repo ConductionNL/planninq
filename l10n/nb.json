@@ -665,7 +665,13 @@
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "Nextcloud-bruker-UID-er for personene som kan se beløpet: prosjekteieren og porteføljens ledere",
         "Project owner": "Prosjekteier",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "Nextcloud-bruker-UID for prosjekteieren, som kan endre og fjerne manuelle linjer",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Hvordan kunden betaler: ikke fakturert, fastpris eller per time."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Hvordan kunden betaler: ikke fakturert, fastpris eller per time.",
+        "Portfolio finance": "Porteføljeøkonomi",
+        "You cannot see the money of any project in this portfolio": "Du kan ikke se pengene til noe prosjekt i denne porteføljen",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Serveren returnerte kostnadslinjer fra prosjekter utenfor denne porteføljen, så disse totalene kan være feil.",
+        "Projects left out because you cannot see their money: {count}": "Prosjekter utelatt fordi du ikke kan se pengene deres: {count}",
+        "Unmatched finance lines": "Umatchede økonomilinjer",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budsjett, forpliktelser, faktiske kostnader og prognose summert for en portefølje."
     },
     "plurals": {}
 }

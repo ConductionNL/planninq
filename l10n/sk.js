@@ -666,7 +666,13 @@ OC.L10N.register(
         "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio": "UID používateľov Nextcloud, ktorí smú vidieť túto sumu: vlastník projektu a správcovia jeho portfólia",
         "Project owner": "Vlastník projektu",
         "Nextcloud user UID of the project owner, who may change and remove manual lines": "UID používateľa Nextcloud vlastníka projektu, ktorý smie meniť a odstraňovať ručné položky",
-        "How the client pays: not billed, a fixed price, or by the hour.": "Ako klient platí: nefakturované, pevná cena alebo hodinovo."
+        "How the client pays: not billed, a fixed price, or by the hour.": "Ako klient platí: nefakturované, pevná cena alebo hodinovo.",
+        "Portfolio finance": "Financie portfólia",
+        "You cannot see the money of any project in this portfolio": "Nevidíte peniaze žiadneho projektu v tomto portfóliu",
+        "The server returned cost lines of projects outside this portfolio, so these totals may be wrong.": "Server vrátil nákladové položky projektov mimo tohto portfólia, takže tieto súčty môžu byť nesprávne.",
+        "Projects left out because you cannot see their money: {count}": "Vynechané projekty, pretože nevidíte ich peniaze: {count}",
+        "Unmatched finance lines": "Nepriradené finančné položky",
+        "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Rozpočet, záväzky, skutočné náklady a prognóza spočítané za portfólio."
     },
     "nplurals=2; plural=(n != 1);"
 )
