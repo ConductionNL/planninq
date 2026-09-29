@@ -71,6 +71,13 @@ class DependencyService {
 	private const SCHEMA = 'dependency';
 
 	/**
+	 * The link types the dependency schema allows; only `blocks` blocks.
+	 *
+	 * @var array<int,string>
+	 */
+	public const LINK_TYPES = ['blocks', 'relates', 'duplicates', 'clones', 'splits', 'causes'];
+
+	/**
 	 * Constructor for the DependencyService.
 	 *
 	 * @param DependencyRepository $repository The OpenRegister read plane for edges/tasks/projects.
@@ -100,16 +107,28 @@ class DependencyService {
 	 *   5. adding it would not close a cycle (DFS over the project's edges).
 	 * Only after all five pass is the edge saved through ObjectService.
 	 *
+	 * A link that is not `blocks` (relates, duplicates and the other types the
+	 * schema names) does not block and so is not checked for a cycle.
+	 *
 	 * @param string $blocker UUID of the blocking task.
 	 * @param string $blocked UUID of the blocked task.
+	 * @param string $type    The link type, `blocks` by default.
 	 *
 	 * @return array<string,mixed> The serialised stored edge.
 	 *
 	 * @throws DependencyValidationException On any validation failure (carries an HTTP-mappable code).
 	 *
 	 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
+	 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.1
 	 */
-	public function create(string $blocker, string $blocked): array {
+	public function create(string $blocker, string $blocked, string $type='blocks'): array {
+		if (in_array($type, self::LINK_TYPES, true) === false) {
+			throw new DependencyValidationException(
+				message: 'Unknown link type.',
+				code: DependencyValidationException::CODE_VALIDATION
+			);
+		}
+
 		// 1. No self-edge.
 		$this->assertDistinctTasks(blocker: $blocker, blocked: $blocked);
 
@@ -123,10 +142,10 @@ class DependencyService {
 
 		// 4. + 5. No duplicate edge; no cycle. Loads the project edges once.
 		$edges = $this->repository->fetchProjectEdges(objectService: $objectService, projectId: $projectId);
-		$this->assertEdgeIsValid(objectService: $objectService, edges: $edges, blocker: $blocker, blocked: $blocked);
+		$this->assertEdgeIsValid(objectService: $objectService, edges: $edges, blocker: $blocker, blocked: $blocked, blocking: ($type === 'blocks'));
 
 		$saved = $objectService->saveObject(
-			object: ['blocker' => $blocker, 'blocked' => $blocked],
+			object: ['blocker' => $blocker, 'blocked' => $blocked, 'type' => $type],
 			register: self::REGISTER,
 			schema: self::SCHEMA,
 			_rbac: false
@@ -274,12 +293,13 @@ class DependencyService {
 	 * @param array<int,array<string,mixed>> $edges The project's existing edges.
 	 * @param string $blocker UUID of the blocking task.
 	 * @param string $blocked UUID of the blocked task.
+	 * @param bool $blocking Whether the new link blocks, and so must not close a cycle.
 	 *
 	 * @return void
 	 *
 	 * @throws DependencyValidationException On a duplicate or a cycle (message names the path).
 	 */
-	private function assertEdgeIsValid(object $objectService, array $edges, string $blocker, string $blocked): void {
+	private function assertEdgeIsValid(object $objectService, array $edges, string $blocker, string $blocked, bool $blocking=true): void {
 		foreach ($edges as $edge) {
 			if ((string)($edge['blocker'] ?? '') === $blocker
 				&& (string)($edge['blocked'] ?? '') === $blocked
@@ -291,7 +311,11 @@ class DependencyService {
 			}
 		}
 
-		$path = $this->graph->cyclePath(edges: $edges, blocker: $blocker, blocked: $blocked);
+		$path = null;
+		if ($blocking === true) {
+			$path = $this->graph->cyclePath(edges: $edges, blocker: $blocker, blocked: $blocked);
+		}
+
 		if ($path !== null) {
 			$rendered = $this->renderPath(objectService: $objectService, path: $path);
 			throw new DependencyValidationException(

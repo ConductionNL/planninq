@@ -95,15 +95,17 @@ class DependencyController extends Controller {
 	 *
 	 * @param string|null $blocker UUID of the blocking task.
 	 * @param string|null $blocked UUID of the blocked task.
+	 * @param string|null $type    The link type; `blocks` when omitted.
 	 *
 	 * @return JSONResponse 201 with the created edge; 4xx/5xx on failure.
 	 *
 	 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
+	 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.1
 	 */
 	#[NoAdminRequired]
-	public function create(?string $blocker = null, ?string $blocked = null): JSONResponse {
+	public function create(?string $blocker = null, ?string $blocked = null, ?string $type = null): JSONResponse {
 		try {
-			$edge = $this->dependencyService->create(blocker: (string)$blocker, blocked: (string)$blocked);
+			$edge = $this->dependencyService->create(blocker: (string)$blocker, blocked: (string)$blocked, type: ($type ?? 'blocks'));
 			return new JSONResponse($edge, Http::STATUS_CREATED);
 		} catch (DependencyValidationException $e) {
 			// Project-membership guard (IDOR): a non-member caller is rejected by
