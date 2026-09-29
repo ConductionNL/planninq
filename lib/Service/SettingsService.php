@@ -63,6 +63,7 @@ class SettingsService {
 		'due_reminder_lead_hours' => '24',
 		RiskScaleService::CONFIG_KEY => RiskScaleService::DEFAULT_SCALE,
 		self::REPORT_PERIOD_KEY => '30',
+		self::FINANCE_CATEGORIES_KEY => '["Personnel","Hired staff","Materials","Other"]',
 	];
 
 	/**
@@ -71,6 +72,13 @@ class SettingsService {
 	 * @var string
 	 */
 	public const REPORT_PERIOD_KEY = 'status_report_period_days';
+
+	/**
+	 * The cost categories every project's money is split into (portfolio-finance).
+	 *
+	 * @var string
+	 */
+	public const FINANCE_CATEGORIES_KEY = 'finance_categories';
 
 	/**
 	 * Slug of the OpenRegister schema carrying the due-soon reminder rule.
@@ -233,6 +241,31 @@ class SettingsService {
 	}//end validateDefaultColumns()
 
 	/**
+	 * Validate a list of finance category names: a non-empty JSON array of
+	 * non-empty strings, none repeated (case and spaces ignored).
+	 *
+	 * @param string $raw Raw value submitted by the client
+	 *
+	 * @return string|null Normalised JSON string, or null when the list is refused
+	 *
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2
+	 */
+	public function validateCategoryNames(string $raw): ?string {
+		$normalised = $this->validateDefaultColumns(raw: $raw);
+		if ($normalised === null) {
+			return null;
+		}
+
+		$names = (array)json_decode($normalised, true);
+		$seen  = array_unique(array_map(static fn (string $name): string => mb_strtolower($name), $names));
+		if (count($seen) !== count($names)) {
+			return null;
+		}
+
+		return $normalised;
+	}//end validateCategoryNames()
+
+	/**
 	 * Store admin settings. Unknown keys are silently ignored.
 	 * Validates default_columns JSON shape before persisting; rejects malformed values.
 	 *
@@ -260,6 +293,16 @@ class SettingsService {
 						'Planninq: invalid default_columns value rejected',
 						['raw' => $value]
 					);
+					continue;
+				}
+
+				$value = $validated;
+			}
+
+			if ($key === self::FINANCE_CATEGORIES_KEY) {
+				$validated = $this->validateCategoryNames(raw: $value);
+				if ($validated === null) {
+					$this->logger->warning('Planninq: invalid finance_categories value rejected', ['raw' => $value]);
 					continue;
 				}
 
