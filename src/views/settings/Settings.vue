@@ -666,12 +666,6 @@ export default {
 		},
 
 		/**
-		 * Persist the project creation policy via settingsStore.saveSettings.
-		 *
-		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
-		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.2
-		 */
-		/**
 		 * Load the Nextcloud groups for the creation-groups picker.
 		 *
 		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.2
@@ -688,6 +682,12 @@ export default {
 			}
 		},
 
+		/**
+		 * Persist the project creation policy via settingsStore.saveSettings.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.2
+		 */
 		async saveCreationPolicy() {
 			this.savingCreationPolicy = true
 			this.creationPolicySuccess = ''
