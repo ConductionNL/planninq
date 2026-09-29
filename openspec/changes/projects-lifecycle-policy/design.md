@@ -90,3 +90,12 @@ While `status` is `requested` or `rejected`, the board shows a banner instead of
 - The group picker reads the groups through OCS `cloud/groups` (admin only, like the page).
 - The list reads `canCreateProject` from the settings payload; an older payload without it falls back to the policy, with `groups` read as admins only.
 
+## Built at HEAD (29 Sep 2026, section 3)
+
+- Approving needs `update` permission on the project: OpenRegister's transition endpoint checks it before the lifecycle does, and the reviewer is not the owner. So `ProjectPolicySchemaService` writes, per reviewer group, a read AND an update rule `{"group": "<id>", "match": {"status": "requested"}}`, besides the `approve`/`reject` authorization. The requester (owner) keeps update rights on the request but cannot approve it: the transition authorization does not name them.
+- The live schema is found through the planninq register's schema ids, not the slug alone, because another app may have a `project` schema.
+- Reviewer groups follow the creation policy: the creation groups under `groups`, none (admins only) under `admins`. The patch runs on saving the policy and in the `ApplyProjectPolicy` repair step after the import. A settings `load` (forced re-import) does not re-run it; saving the policy once does.
+- `reject` declares the input `reviewNote` (required), so the reason arrives in the transition save. `ProjectReviewListener` stamps `reviewedBy` and `reviewedAt` in the reviewing save and, after an approval, creates the default columns inside OpenRegister's system scope (the column guard keeps columns to the owner).
+- `project_requests` is an admin switch (`on`/`off`, default off) shown when creation is not open to all. The list shows "Request a project" to whoever the server says may request.
+- The desired start date uses the existing `startDate` property.
+
