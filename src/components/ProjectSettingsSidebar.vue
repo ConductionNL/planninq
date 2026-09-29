@@ -504,8 +504,8 @@ export default {
 			const firstKey = !this.project.key && !!normaliseProjectKey(this.form.key)
 			try {
 				const saved = await this.projectsStore.updateProject(this.project.id, {
-					// The key only while it may change; left out, the server keeps it.
-					...(this.canEditKey ? { key: normaliseProjectKey(this.form.key) || null } : {}),
+					// A PUT nulls what it is not sent, so the key always goes along.
+					key: this.canEditKey ? (normaliseProjectKey(this.form.key) || null) : (this.project.key || null),
 					title: this.form.title.trim(),
 					description: this.form.description.trim() || undefined,
 					color: this.form.color,

@@ -274,7 +274,8 @@ class WorkItemKeyListenerTest extends TestCase {
 			$this->entity(slug: 'project', uuid: self::VERG, data: $old)
 		);
 		$this->listener()->handle($cleared);
-		self::assertSame(WorkItemKeyListener::ERROR_FIXED, $cleared->getErrors()['code'] ?? null, 'clearing a used key is a change too');
+		self::assertSame([], $cleared->getErrors(), 'a PUT fills an unsent key with null: not a refusal');
+		self::assertSame('VERG', $cleared->getModifiedData()['key'], 'the key of a numbered project is kept');
 	}//end testTheKeyIsFixedOnceTasksCarryIt()
 
 	/**

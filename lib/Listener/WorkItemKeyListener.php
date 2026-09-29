@@ -203,14 +203,17 @@ class WorkItemKeyListener implements IEventListener {
 		$stored = ($oldData ?? []);
 		$this->keepCounter(event: $event, data: $data, stored: $stored);
 
-		// A write that leaves the key out (a PUT of other fields) keeps it.
-		if (array_key_exists('key', $data) === false) {
+		$key    = $this->keys->normalise(key: ($data['key'] ?? null));
+		$oldKey = $this->keys->normalise(key: ($stored['key'] ?? null));
+
+		// A write that leaves the key out keeps it. OpenRegister's PUT fills a
+		// property it was not sent with null, so an empty key on a project
+		// whose tasks carry its key is read the same way: kept, not cleared.
+		if (array_key_exists('key', $data) === false || ($key === '' && $this->keys->hasNumberedTasks(project: $stored) === true)) {
 			$this->keepKey(event: $event, stored: $stored);
 			return;
 		}
 
-		$key    = $this->keys->normalise(key: $data['key']);
-		$oldKey = $this->keys->normalise(key: ($stored['key'] ?? null));
 		if ($key === $oldKey) {
 			return;
 		}
