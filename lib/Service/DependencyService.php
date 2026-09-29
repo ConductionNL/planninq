@@ -141,6 +141,73 @@ class DependencyService {
 	}//end create()
 
 	/**
+	 * Create the links of an imported plan in one project, with the same checks as create().
+	 *
+	 * The project's edges are read once and every accepted link joins them, so
+	 * a plan's links are checked against each other too. A self link or one
+	 * that would close a cycle of blocking links is refused and counted; an
+	 * edge that already exists is counted as existing and not written again,
+	 * which makes a rerun of the same import safe. The caller has already
+	 * checked that the acting user may restructure this project (its owner or
+	 * an admin), and every task id is one it created or matched in that
+	 * project, so the membership step of create() is not repeated here.
+	 *
+	 * @param string                                                   $projectId The project UUID.
+	 * @param list<array{blocker:string,blocked:string,type:string}> $links     The links.
+	 *
+	 * @return array{created:int,existing:int,refused:int}
+	 *
+	 * @spec openspec/changes/integration-msproject-import/tasks.md#task-2.1
+	 */
+	public function createImported(string $projectId, array $links): array {
+		$objectService = $this->repository->objectService();
+		$edges         = $this->repository->fetchProjectEdges(objectService: $objectService, projectId: $projectId);
+		$result        = ['created' => 0, 'existing' => 0, 'refused' => 0];
+
+		foreach ($links as $link) {
+			$edge = ['blocker' => $link['blocker'], 'blocked' => $link['blocked'], 'type' => $link['type']];
+			if ($this->hasEdge(edges: $edges, blocker: $edge['blocker'], blocked: $edge['blocked']) === true) {
+				$result['existing']++;
+				continue;
+			}
+
+			if ($edge['blocker'] === '' || $edge['blocker'] === $edge['blocked']
+				|| ($edge['type'] === 'blocks' && $this->graph->cyclePath(edges: $edges, blocker: $edge['blocker'], blocked: $edge['blocked']) !== null)
+			) {
+				$result['refused']++;
+				continue;
+			}
+
+			$objectService->saveObject(object: $edge, register: self::REGISTER, schema: self::SCHEMA, _rbac: false);
+			$edges[] = $edge;
+			$result['created']++;
+		}
+
+		$this->logger->info('Planninq: imported dependency links', ['project' => $projectId] + $result);
+
+		return $result;
+	}//end createImported()
+
+	/**
+	 * Whether the edge list already holds blocker → blocked.
+	 *
+	 * @param array<int,array<string,mixed>> $edges   The edges.
+	 * @param string                         $blocker The blocking task.
+	 * @param string                         $blocked The blocked task.
+	 *
+	 * @return bool
+	 */
+	private function hasEdge(array $edges, string $blocker, string $blocked): bool {
+		foreach ($edges as $edge) {
+			if ((string)($edge['blocker'] ?? '') === $blocker && (string)($edge['blocked'] ?? '') === $blocked) {
+				return true;
+			}
+		}
+
+		return false;
+	}//end hasEdge()
+
+	/**
 	 * Assert the two task ids are both present and distinct (no self-edge).
 	 *
 	 * @param string $blocker UUID of the blocking task.
