@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "Elbírálás ideje",
         "When the request was approved or rejected.": "Mikor hagyták jóvá vagy utasították el a kérést.",
         "Review note": "Elbírálói megjegyzés",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Az elbíráló indoka, amelyet a kérelmező lát, ha a kérést nem hagyják jóvá."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Az elbíráló indoka, amelyet a kérelmező lát, ha a kérést nem hagyják jóvá.",
+        "Members of these groups": "Ezeknek a csoportoknak a tagjai",
+        "Groups that may create projects": "Csoportok, amelyek projektet hozhatnak létre",
+        "The group {group} no longer exists. Save to remove it.": "A(z) {group} csoport már nem létezik. Mentse el az eltávolításhoz."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -711,7 +711,10 @@
         "Reviewed at": "Reviewed at",
         "When the request was approved or rejected.": "When the request was approved or rejected.",
         "Review note": "Review note",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "The reviewer's reason, shown to the requester when a request is not approved."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "The reviewer's reason, shown to the requester when a request is not approved.",
+        "Members of these groups": "Members of these groups",
+        "Groups that may create projects": "Groups that may create projects",
+        "The group {group} no longer exists. Save to remove it.": "The group {group} no longer exists. Save to remove it."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

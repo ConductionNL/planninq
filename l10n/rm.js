@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "Examinà ils",
         "When the request was approved or rejected.": "Cura che la dumonda è vegnida approvada u refusada.",
         "Review note": "Remartga da l’examinatur",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Il motiv da l’examinatur, che la persuna che dumonda vesa, sch’ina dumonda na vegn betg approvada."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Il motiv da l’examinatur, che la persuna che dumonda vesa, sch’ina dumonda na vegn betg approvada.",
+        "Members of these groups": "Commembers da questas gruppas",
+        "Groups that may create projects": "Gruppas che dastgan crear projects",
+        "The group {group} no longer exists. Save to remove it.": "La gruppa {group} n’exista betg pli. Memorisai per l’allontanar."
     },
     "nplurals=2; plural=(n != 1);"
 )

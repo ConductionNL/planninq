@@ -735,7 +735,10 @@
         "Reviewed at": "Gennemgået den",
         "When the request was approved or rejected.": "Hvornår anmodningen blev godkendt eller afvist.",
         "Review note": "Bemærkning fra gennemgangen",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Begrundelsen fra den, der gennemgik, som ansøgeren ser, når en anmodning ikke godkendes."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Begrundelsen fra den, der gennemgik, som ansøgeren ser, når en anmodning ikke godkendes.",
+        "Members of these groups": "Medlemmer af disse grupper",
+        "Groups that may create projects": "Grupper, der må oprette projekter",
+        "The group {group} no longer exists. Save to remove it.": "Gruppen {group} findes ikke længere. Gem for at fjerne den."
     },
     "plurals": null
 }

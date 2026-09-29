@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "Revisat el",
         "When the request was approved or rejected.": "Quan es va aprovar o rebutjar la sol·licitud.",
         "Review note": "Nota de revisió",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "El motiu del revisor, que veu el sol·licitant quan una sol·licitud no s’aprova."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "El motiu del revisor, que veu el sol·licitant quan una sol·licitud no s’aprova.",
+        "Members of these groups": "Membres d’aquests grups",
+        "Groups that may create projects": "Grups que poden crear projectes",
+        "The group {group} no longer exists. Save to remove it.": "El grup {group} ja no existeix. Deseu per treure’l."
     },
     "nplurals=2; plural=(n != 1);"
 )

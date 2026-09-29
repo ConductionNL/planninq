@@ -84,3 +84,9 @@ While `status` is `requested` or `rejected`, the board shows a banner instead of
 - `approve` and `reject` carry `authorization: ["admin"]` in the register file; section 3 writes the reviewer groups into the live schema.
 - The block passed OpenRegister's own `LifecycleAnnotationValidator` (development `4abd834`): 0 findings, control with an empty `authorization` 1.
 
+## Built at HEAD (29 Sep 2026, section 2)
+
+- `SettingsService` refuses an `allow_project_creation` value outside `all`, `admins`, `groups`, and on save keeps only groups that exist. For an admin the settings payload names listed groups that no longer exist (`creationGroupsMissing`), and the admin page warns about each.
+- The group picker reads the groups through OCS `cloud/groups` (admin only, like the page).
+- The list reads `canCreateProject` from the settings payload; an older payload without it falls back to the policy, with `groups` read as admins only.
+

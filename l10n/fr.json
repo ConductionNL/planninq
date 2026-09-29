@@ -735,7 +735,10 @@
         "Reviewed at": "Examiné le",
         "When the request was approved or rejected.": "Quand la demande a été approuvée ou refusée.",
         "Review note": "Note d’examen",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "La raison de l’examinateur, affichée au demandeur quand une demande n’est pas approuvée."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "La raison de l’examinateur, affichée au demandeur quand une demande n’est pas approuvée.",
+        "Members of these groups": "Membres de ces groupes",
+        "Groups that may create projects": "Groupes autorisés à créer des projets",
+        "The group {group} no longer exists. Save to remove it.": "Le groupe {group} n’existe plus. Enregistrez pour le retirer."
     },
     "plurals": null
 }

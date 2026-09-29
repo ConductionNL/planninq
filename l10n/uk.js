@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "Дата розгляду",
         "When the request was approved or rejected.": "Коли запит було схвалено або відхилено.",
         "Review note": "Примітка рецензента",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Причина рецензента, яку бачить заявник, якщо запит не схвалено."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Причина рецензента, яку бачить заявник, якщо запит не схвалено.",
+        "Members of these groups": "Учасники цих груп",
+        "Groups that may create projects": "Групи, яким можна створювати проєкти",
+        "The group {group} no longer exists. Save to remove it.": "Групи {group} більше не існує. Збережіть, щоб прибрати її."
     },
     "nplurals=2; plural=(n != 1);"
 )

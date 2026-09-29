@@ -735,7 +735,10 @@
         "Reviewed at": "Athbhreithnithe ar",
         "When the request was approved or rejected.": "Cathain a faomhadh nó a diúltaíodh an t-iarratas.",
         "Review note": "Nóta athbhreithnithe",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Cúis an athbhreithneora, a fheiceann an t-iarratasóir nuair nach bhfaomhtar iarratas."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Cúis an athbhreithneora, a fheiceann an t-iarratasóir nuair nach bhfaomhtar iarratas.",
+        "Members of these groups": "Baill na ngrúpaí seo",
+        "Groups that may create projects": "Grúpaí ar féidir leo tionscadail a chruthú",
+        "The group {group} no longer exists. Save to remove it.": "Níl an grúpa {group} ann a thuilleadh. Sábháil chun é a bhaint."
     },
     "plurals": null
 }

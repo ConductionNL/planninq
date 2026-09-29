@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "Shqyrtuar më",
         "When the request was approved or rejected.": "Kur u miratua ose u refuzua kërkesa.",
         "Review note": "Shënim i shqyrtimit",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Arsyeja e shqyrtuesit, që kërkuesi e sheh kur një kërkesë nuk miratohet."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Arsyeja e shqyrtuesit, që kërkuesi e sheh kur një kërkesë nuk miratohet.",
+        "Members of these groups": "Anëtarët e këtyre grupeve",
+        "Groups that may create projects": "Grupet që mund të krijojnë projekte",
+        "The group {group} no longer exists. Save to remove it.": "Grupi {group} nuk ekziston më. Ruajeni për ta hequr."
     },
     "nplurals=2; plural=(n != 1);"
 )

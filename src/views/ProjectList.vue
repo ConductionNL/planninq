@@ -145,6 +145,7 @@ import { useSettingsStore } from '../store/modules/settings.js'
 import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
 import { creationPrefill as prefillFromQuery } from '../utils/caseBridge.js'
+import { canCreateFrom } from '../utils/creationPolicy.js'
 import { filterByPortfolio, groupByPortfolio, NO_PORTFOLIO, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { treeRows } from '../utils/projectTree.js'
 
@@ -237,13 +238,9 @@ export default {
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
 		 */
 		canCreateProject() {
+			// The server answers for the current user, groups included (projects-lifecycle-policy).
 			const settingsStore = useSettingsStore()
-			const policy = settingsStore.settings?.allow_project_creation || 'all'
-			if (policy === 'admins') {
-				return !!settingsStore.isAdmin
-			}
-			// 'all' or any unrecognised value — every authenticated user may create.
-			return true
+			return canCreateFrom(settingsStore.settings, settingsStore.isAdmin)
 		},
 
 		/**

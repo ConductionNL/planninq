@@ -735,7 +735,10 @@
         "Reviewed at": "Gepréift den",
         "When the request was approved or rejected.": "Wéini d’Ufro guttgeheescht oder ofgeleent gouf.",
         "Review note": "Notiz vun der Préifung",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "De Grond vum Préifer, deen den Ufroesteller gesäit, wann eng Ufro net guttgeheescht gëtt."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "De Grond vum Préifer, deen den Ufroesteller gesäit, wann eng Ufro net guttgeheescht gëtt.",
+        "Members of these groups": "Membere vun dëse Gruppen",
+        "Groups that may create projects": "Gruppen, déi Projete maache däerfen",
+        "The group {group} no longer exists. Save to remove it.": "De Grupp {group} gëtt et net méi. Späichert fir en ze läschen."
     },
     "plurals": null
 }

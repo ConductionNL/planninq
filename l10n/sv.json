@@ -735,7 +735,10 @@
         "Reviewed at": "Granskad",
         "When the request was approved or rejected.": "När begäran godkändes eller avslogs.",
         "Review note": "Granskningsanteckning",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Granskarens skäl, som visas för den som begärde projektet när en begäran inte godkänns."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Granskarens skäl, som visas för den som begärde projektet när en begäran inte godkänns.",
+        "Members of these groups": "Medlemmar i dessa grupper",
+        "Groups that may create projects": "Grupper som får skapa projekt",
+        "The group {group} no longer exists. Save to remove it.": "Gruppen {group} finns inte längre. Spara för att ta bort den."
     },
     "plurals": null
 }

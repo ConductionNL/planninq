@@ -735,7 +735,10 @@
         "Reviewed at": "Analizat la",
         "When the request was approved or rejected.": "Când a fost aprobată sau respinsă cererea.",
         "Review note": "Nota evaluatorului",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Motivul evaluatorului, afișat solicitantului când o cerere nu este aprobată."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Motivul evaluatorului, afișat solicitantului când o cerere nu este aprobată.",
+        "Members of these groups": "Membrii acestor grupuri",
+        "Groups that may create projects": "Grupuri care pot crea proiecte",
+        "The group {group} no longer exists. Save to remove it.": "Grupul {group} nu mai există. Salvați pentru a-l elimina."
     },
     "plurals": {}
 }

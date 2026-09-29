@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "İnceleme tarihi",
         "When the request was approved or rejected.": "Talebin ne zaman onaylandığı veya reddedildiği.",
         "Review note": "İnceleme notu",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Bir talep onaylanmadığında talep edenin gördüğü inceleyenin gerekçesi."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Bir talep onaylanmadığında talep edenin gördüğü inceleyenin gerekçesi.",
+        "Members of these groups": "Bu grupların üyeleri",
+        "Groups that may create projects": "Proje oluşturabilecek gruplar",
+        "The group {group} no longer exists. Save to remove it.": "{group} grubu artık yok. Kaldırmak için kaydedin."
     },
     "nplurals=2; plural=(n != 1);"
 )

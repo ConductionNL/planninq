@@ -234,6 +234,104 @@ class SettingsServiceTest extends TestCase {
 	}//end testSetAdminSettingsStoresAllowProjectCreation()
 
 	/**
+	 * Store the settings in memory and act as user $uid, member of $groups.
+	 *
+	 * @param array<string,string> $stored The stored values, by reference.
+	 * @param string|null          $uid    The signed-in user, null for none.
+	 * @param array<int,string>    $groups The user's groups.
+	 * @param bool                 $admin  Whether the user is an admin.
+	 *
+	 * @return void
+	 */
+	private function actAs(array &$stored, ?string $uid, array $groups = [], bool $admin = false): void {
+		$this->appConfig->method('setValueString')->willReturnCallback(
+			function (string $appId, string $key, string $value) use (&$stored): bool {
+				$stored[$key] = $value;
+				return true;
+			}
+		);
+		$this->appConfig->method('getValueString')->willReturnCallback(
+			function (string $appId, string $key, string $default = '') use (&$stored): string {
+				return ($stored[$key] ?? $default);
+			}
+		);
+		$this->appManager->method('isInstalled')->willReturn(false);
+
+		$user = null;
+		if ($uid !== null) {
+			$user = $this->createMock(originalClassName: IUser::class);
+			$user->method('getUID')->willReturn($uid);
+		}
+
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->groupManager->method('isAdmin')->willReturn($admin);
+		$this->groupManager->method('isInGroup')->willReturnCallback(
+			static fn (string $who, string $group): bool => ($who === $uid && in_array($group, $groups, true) === true)
+		);
+		$this->groupManager->method('groupExists')->willReturnCallback(
+			static fn (string $group): bool => in_array($group, ['projectleiders', 'staf'], true)
+		);
+	}//end actAs()
+
+	/**
+	 * Scenario "Only the chosen groups may create": a member of a listed group may, anyone else may not.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 */
+	public function testCreationByGroupAllowsMembersOfTheListedGroupsOnly(): void {
+		$stored = ['allow_project_creation' => 'groups', SettingsService::CREATION_GROUPS_KEY => '["projectleiders"]'];
+		$this->actAs(stored: $stored, uid: 'pieter', groups: ['projectleiders']);
+		self::assertTrue($this->service->canCurrentUserCreateProject());
+		self::assertTrue($this->service->getSettings()['canCreateProject']);
+	}//end testCreationByGroupAllowsMembersOfTheListedGroupsOnly()
+
+	/**
+	 * A user in no listed group may not create; an admin always may.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 */
+	public function testCreationByGroupRefusesANonMember(): void {
+		$stored = ['allow_project_creation' => 'groups', SettingsService::CREATION_GROUPS_KEY => '["projectleiders"]'];
+		$this->actAs(stored: $stored, uid: 'nina', groups: ['staf']);
+		self::assertFalse($this->service->canCurrentUserCreateProject());
+		self::assertFalse($this->service->getSettings()['canCreateProject']);
+	}//end testCreationByGroupRefusesANonMember()
+
+	/**
+	 * An admin may create under every policy.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 */
+	public function testAnAdminMayCreateUnderTheGroupPolicy(): void {
+		$stored = ['allow_project_creation' => 'groups', SettingsService::CREATION_GROUPS_KEY => '[]'];
+		$this->actAs(stored: $stored, uid: 'root', admin: true);
+		self::assertTrue($this->service->canCurrentUserCreateProject());
+	}//end testAnAdminMayCreateUnderTheGroupPolicy()
+
+	/**
+	 * Saving keeps known policies and existing groups only, and names a listed group that is gone.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 */
+	public function testSavingThePolicyDropsUnknownValuesAndGroups(): void {
+		$stored = [];
+		$this->actAs(stored: $stored, uid: 'root', admin: true);
+
+		$this->service->updateSettings(['allow_project_creation' => 'groups', SettingsService::CREATION_GROUPS_KEY => '["projectleiders","deleted-group","projectleiders"]']);
+		self::assertSame('groups', $stored['allow_project_creation']);
+		self::assertSame('["projectleiders"]', $stored[SettingsService::CREATION_GROUPS_KEY]);
+
+		$this->service->updateSettings(['allow_project_creation' => 'everyone']);
+		self::assertSame('groups', $stored['allow_project_creation'], 'an unknown policy is refused');
+
+		$this->service->updateSettings([SettingsService::CREATION_GROUPS_KEY => 'not json']);
+		self::assertSame('["projectleiders"]', $stored[SettingsService::CREATION_GROUPS_KEY], 'a malformed list is refused');
+
+		$stored[SettingsService::CREATION_GROUPS_KEY] = '["projectleiders","gone"]';
+		self::assertSame(['gone'], $this->service->getSettings()['creationGroupsMissing']);
+	}//end testSavingThePolicyDropsUnknownValuesAndGroups()
+
+	/**
 	 * The reporting period behind the portfolio overview's out-of-date marker:
 	 * 30 days by default, a whole number of days from 1 to 365 when set, and
 	 * anything else is refused without touching the stored value.

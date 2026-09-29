@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "Rieżaminat fi",
         "When the request was approved or rejected.": "Meta t-talba ġiet approvata jew miċħuda.",
         "Review note": "Nota tar-rieżami",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Ir-raġuni ta’ min irrieżamina, li jara min għamel it-talba meta talba ma tiġix approvata."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Ir-raġuni ta’ min irrieżamina, li jara min għamel it-talba meta talba ma tiġix approvata.",
+        "Members of these groups": "Membri ta’ dawn il-gruppi",
+        "Groups that may create projects": "Gruppi li jistgħu joħolqu proġetti",
+        "The group {group} no longer exists. Save to remove it.": "Il-grupp {group} m’għadux jeżisti. Issejvja biex tneħħih."
     },
     "nplurals=2; plural=(n != 1);"
 )

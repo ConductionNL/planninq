@@ -64,7 +64,22 @@ class SettingsService {
 		RiskScaleService::CONFIG_KEY => RiskScaleService::DEFAULT_SCALE,
 		self::REPORT_PERIOD_KEY => '30',
 		self::FINANCE_CATEGORIES_KEY => '["Personnel","Hired staff","Materials","Other"]',
+		self::CREATION_GROUPS_KEY => '[]',
 	];
+
+	/**
+	 * The groups whose members may create projects under the `groups` policy, a JSON list of group ids.
+	 *
+	 * @var string
+	 */
+	public const CREATION_GROUPS_KEY = 'project_creation_groups';
+
+	/**
+	 * The values of `allow_project_creation`.
+	 *
+	 * @var array<int,string>
+	 */
+	public const CREATION_POLICIES = ['all', 'admins', 'groups'];
 
 	/**
 	 * Days after which a project's latest status report counts as out of date.
@@ -183,9 +198,110 @@ class SettingsService {
 			return $this->isCurrentUserAdmin();
 		}
 
+		if ($policy === 'groups') {
+			return $this->isCurrentUserAdmin() === true || $this->isInCreationGroup() === true;
+		}
+
 		// Default ('all'): any authenticated user may create.
 		return $this->userSession->getUser() !== null;
 	}//end canCurrentUserCreateProject()
+
+	/**
+	 * Whether the current user is in one of the groups that may create projects.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 */
+	private function isInCreationGroup(): bool {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return false;
+		}
+
+		foreach ($this->creationGroups() as $group) {
+			if ($this->groupManager->isInGroup($user->getUID(), $group) === true) {
+				return true;
+			}
+		}
+
+		return false;
+	}//end isInCreationGroup()
+
+	/**
+	 * The stored group ids of the `groups` creation policy.
+	 *
+	 * @return array<int,string>
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 */
+	public function creationGroups(): array {
+		$groups = json_decode($this->appConfig->getValueString(Application::APP_ID, self::CREATION_GROUPS_KEY, '[]'), true);
+		if (is_array($groups) === false) {
+			return [];
+		}
+
+		return array_values(array_filter($groups, static fn ($group): bool => is_string($group) === true && $group !== ''));
+	}//end creationGroups()
+
+	/**
+	 * A submitted setting as it is stored: name lists and creation policy checked; null to refuse it.
+	 *
+	 * @param string $key   The setting key.
+	 * @param string $value The submitted value.
+	 *
+	 * @return string|null
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 */
+	private function normalisedValue(string $key, string $value): ?string {
+		$listed = $this->validatedNameList(key: $key, raw: $value);
+		if ($listed === false) {
+			return null;
+		}
+
+		if ($listed !== null) {
+			$value = $listed;
+		}
+
+		return $this->creationPolicyValue(key: $key, value: $value);
+	}//end normalisedValue()
+
+	/**
+	 * A creation policy value to store, or null to refuse it.
+	 *
+	 * @param string $key   The setting key.
+	 * @param string $value The submitted value.
+	 *
+	 * @return string|null The value unchanged for other keys; the policy or the cleaned group list; null when refused.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 */
+	private function creationPolicyValue(string $key, string $value): ?string {
+		if ($key === 'allow_project_creation') {
+			if (in_array($value, self::CREATION_POLICIES, true) === false) {
+				return null;
+			}
+
+			return $value;
+		}
+
+		if ($key !== self::CREATION_GROUPS_KEY) {
+			return $value;
+		}
+
+		$groups = json_decode($value, true);
+		if (is_array($groups) === false) {
+			return null;
+		}
+
+		$known = array_filter(
+			$groups,
+			fn ($group): bool => is_string($group) === true && $this->groupManager->groupExists($group) === true
+		);
+
+		return (string)json_encode(array_values(array_unique($known)));
+	}//end creationPolicyValue()
 
 	/**
 	 * Retrieve all admin settings with defaults applied.
@@ -310,15 +426,13 @@ class SettingsService {
 
 			$value = (string)$settings[$key];
 
-			$listed = $this->validatedNameList(key: $key, raw: $value);
-			if ($listed === false) {
+			$normalised = $this->normalisedValue(key: $key, value: $value);
+			if ($normalised === null) {
 				$this->logger->warning('Planninq: invalid ' . $key . ' value rejected', ['raw' => $value]);
 				continue;
 			}
 
-			if ($listed !== null) {
-				$value = $listed;
-			}
+			$value = $normalised;
 
 			if ($key === self::REPORT_PERIOD_KEY) {
 				$days = $this->validateWholeNumber(raw: $value, min: 1, max: 365);
@@ -444,9 +558,30 @@ class SettingsService {
 			[
 				'openregisters' => $this->isOpenRegisterAvailable(),
 				'isAdmin' => $this->isCurrentUserAdmin(),
-			]
+				'canCreateProject' => $this->canCurrentUserCreateProject(),
+			],
+			$this->missingCreationGroups()
 		);
 	}//end getSettings()
+
+	/**
+	 * For an admin: the listed creation groups that no longer exist.
+	 *
+	 * @return array<string,array<int,string>>
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.2
+	 */
+	private function missingCreationGroups(): array {
+		if ($this->isCurrentUserAdmin() === false) {
+			return [];
+		}
+
+		return [
+			'creationGroupsMissing' => array_values(
+				array_filter($this->creationGroups(), fn (string $group): bool => $this->groupManager->groupExists($group) === false)
+			),
+		];
+	}//end missingCreationGroups()
 
 	/**
 	 * Update the current user's personal settings (notification toggles).

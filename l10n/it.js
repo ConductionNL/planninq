@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "Esaminato il",
         "When the request was approved or rejected.": "Quando la richiesta è stata approvata o respinta.",
         "Review note": "Nota di revisione",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Il motivo del revisore, mostrato al richiedente quando una richiesta non è approvata."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Il motivo del revisore, mostrato al richiedente quando una richiesta non è approvata.",
+        "Members of these groups": "Membri di questi gruppi",
+        "Groups that may create projects": "Gruppi che possono creare progetti",
+        "The group {group} no longer exists. Save to remove it.": "Il gruppo {group} non esiste più. Salva per rimuoverlo."
     },
     "nplurals=2; plural=(n != 1);"
 )

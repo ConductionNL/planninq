@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "Izskatīts",
         "When the request was approved or rejected.": "Kad pieprasījums tika apstiprināts vai noraidīts.",
         "Review note": "Izskatītāja piezīme",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Izskatītāja iemesls, ko pieprasītājs redz, ja pieprasījums nav apstiprināts."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Izskatītāja iemesls, ko pieprasītājs redz, ja pieprasījums nav apstiprināts.",
+        "Members of these groups": "Šo grupu dalībnieki",
+        "Groups that may create projects": "Grupas, kas drīkst veidot projektus",
+        "The group {group} no longer exists. Save to remove it.": "Grupa {group} vairs nepastāv. Saglabājiet, lai to noņemtu."
     },
     "nplurals=2; plural=(n != 1);"
 )

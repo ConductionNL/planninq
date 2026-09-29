@@ -736,7 +736,10 @@ OC.L10N.register(
         "Reviewed at": "Peržiūrėta",
         "When the request was approved or rejected.": "Kada prašymas buvo patvirtintas arba atmestas.",
         "Review note": "Peržiūrėtojo pastaba",
-        "The reviewer's reason, shown to the requester when a request is not approved.": "Peržiūrėtojo priežastis, kurią prašytojas mato, kai prašymas nepatvirtinamas."
+        "The reviewer's reason, shown to the requester when a request is not approved.": "Peržiūrėtojo priežastis, kurią prašytojas mato, kai prašymas nepatvirtinamas.",
+        "Members of these groups": "Šių grupių nariai",
+        "Groups that may create projects": "Grupės, kurios gali kurti projektus",
+        "The group {group} no longer exists. Save to remove it.": "Grupės {group} nebėra. Išsaugokite, kad ją pašalintumėte."
     },
     "nplurals=2; plural=(n != 1);"
 )
