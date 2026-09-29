@@ -197,6 +197,15 @@ class WorkItemKeyListener implements IEventListener {
 			$event->setModifiedData(array_merge($event->getModifiedData(), [WorkItemKeyService::COUNTER => $counter]));
 		}
 
+		// A write that leaves the key out (a PUT of other fields) keeps it.
+		if (array_key_exists('key', $data) === false) {
+			if ($oldKey !== '') {
+				$event->setModifiedData(array_merge($event->getModifiedData(), ['key' => $stored['key']]));
+			}
+
+			return;
+		}
+
 		if ($key === $oldKey) {
 			return;
 		}

@@ -261,6 +261,7 @@ export default {
 		 * @return {Array}
 		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-11
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-3.1
 		 */
 		// Client-side filter — uses useListView's searchTerm and local activeStatus.
 		filteredProjects() {
@@ -271,6 +272,7 @@ export default {
 			const term = (this.listView.searchTerm.value || '').trim().toLowerCase()
 			if (term) {
 				list = list.filter((p) => p.title?.toLowerCase().includes(term)
+					|| p.key?.toLowerCase().includes(term)
 					|| p.description?.toLowerCase().includes(term))
 			}
 			return filterByPortfolio(list, this.portfolioFilter?.id || '')

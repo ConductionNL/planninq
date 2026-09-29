@@ -258,6 +258,23 @@ class WorkItemKeyListenerTest extends TestCase {
 		);
 		$this->listener()->handle($same);
 		self::assertSame([], $same->getErrors(), 'keeping the key is not a change, and not a clash with itself');
+
+		$without = $old;
+		unset($without['key']);
+		$omitted = new ObjectUpdatingEvent(
+			$this->entity(slug: 'project', uuid: self::VERG, data: ['title' => 'Renamed'] + $without),
+			$this->entity(slug: 'project', uuid: self::VERG, data: $old)
+		);
+		$this->listener()->handle($omitted);
+		self::assertSame([], $omitted->getErrors(), 'a write that leaves the key out is not a change');
+		self::assertSame('VERG', $omitted->getModifiedData()['key'], 'and the stored key is kept');
+
+		$cleared = new ObjectUpdatingEvent(
+			$this->entity(slug: 'project', uuid: self::VERG, data: ['key' => null] + $old),
+			$this->entity(slug: 'project', uuid: self::VERG, data: $old)
+		);
+		$this->listener()->handle($cleared);
+		self::assertSame(WorkItemKeyListener::ERROR_FIXED, $cleared->getErrors()['code'] ?? null, 'clearing a used key is a change too');
 	}//end testTheKeyIsFixedOnceTasksCarryIt()
 
 	/**

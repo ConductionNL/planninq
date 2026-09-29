@@ -303,6 +303,24 @@ export const useProjectsStore = defineStore('projects', {
 			}
 		},
 
+		/**
+		 * Ask whether a project key is well formed and free (tasks-readable-keys).
+		 *
+		 * @param {string} key The normalised key.
+		 * @return {Promise<{valid: boolean, available: boolean}|null>} Null when the check failed.
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.2
+		 */
+		async checkProjectKey(key) {
+			try {
+				const url = generateUrl('/apps/planninq/api/projects/key-available') + '?key=' + encodeURIComponent(key)
+				const response = await fetch(url, { headers: buildHeaders() })
+				return response.ok ? await response.json() : null
+			} catch {
+				return null
+			}
+		},
+
 		// ── 2.4 createProject ─────────────────────────────────────────────
 
 		/**
