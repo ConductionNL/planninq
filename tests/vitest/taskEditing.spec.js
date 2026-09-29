@@ -79,6 +79,13 @@ describe('newLaneTask (task 3.1)', () => {
 		expect(validate(task), JSON.stringify(validate.errors)).toBe(true)
 	})
 
+	it('carries the responsible person and the people it is shared with, and still validates (tasks-assignment-priority-labels)', () => {
+		const task = newLaneTask({ title: 'Two people', assignedTo: 'bram', sharedWith: ['anna', 'bram'] }, project, null, [])
+		expect(task).toMatchObject({ assignedTo: 'bram', sharedWith: ['anna'] })
+		expect(validate(task), JSON.stringify(validate.errors)).toBe(true)
+		expect(newLaneTask({ title: 'Nobody' }, project, null, [])).not.toHaveProperty('sharedWith')
+	})
+
 	it('without a lane, the task goes to the backlog', () => {
 		expect(newLaneTask({ title: 'x' }, project, null, [])).toMatchObject({ column: null, status: 'open' })
 	})
@@ -94,6 +101,11 @@ describe('editPatch (task 2.1)', () => {
 
 	it('sends nothing when nothing changed, and treats a missing description as empty', () => {
 		expect(editPatch({ ...task, description: undefined }, { title: task.title, description: '', status: 'open', priority: 'normal' })).toEqual({})
+	})
+
+	it('sends a change of people (tasks-assignment-priority-labels)', () => {
+		expect(editPatch({ ...task, assignedTo: '', sharedWith: [] }, { title: task.title, description: '', status: 'open', priority: 'normal', assignedTo: 'bram', sharedWith: ['anna'] }))
+			.toEqual({ assignedTo: 'bram', sharedWith: ['anna'] })
 	})
 
 	it('sends a status and a description change', () => {

@@ -70,6 +70,41 @@
 					</p>
 				</section>
 
+				<!-- People, priority and labels (tasks-assignment-priority-labels) -->
+				<div class="task-detail__controls">
+					<NcSelect
+						:modelValue="responsibleOption"
+						:options="peopleOptions"
+						:inputLabel="t('planninq', 'Responsible')"
+						label="label"
+						data-testid="task-responsible"
+						@update:modelValue="onResponsible" />
+					<NcSelect
+						:modelValue="sharedOptions"
+						:options="sharerOptions"
+						:inputLabel="t('planninq', 'Also working on this')"
+						:multiple="true"
+						label="label"
+						data-testid="task-shared-with"
+						@update:modelValue="onShared" />
+					<NcSelect
+						:modelValue="priorityOption"
+						:options="priorityOptions"
+						:inputLabel="t('planninq', 'Priority')"
+						:clearable="false"
+						label="label"
+						data-testid="task-priority"
+						@update:modelValue="onPriority" />
+					<NcSelect
+						:modelValue="selectedLabels"
+						:options="labelOptions"
+						:inputLabel="t('planninq', 'Labels')"
+						:multiple="true"
+						label="label"
+						data-testid="task-labels"
+						@update:modelValue="onLabels" />
+				</div>
+
 				<dl class="task-detail__fields">
 					<!-- Vue 3 wants the key on the <template v-for> itself; the
 					     Vue 2 spelling put one on each child, which the Vue 3
@@ -186,6 +221,7 @@
 		<TaskFormDialog
 			v-if="editing && task"
 			:task="task"
+			:project="project"
 			@close="editing = false"
 			@saved="onTaskSaved" />
 		<TaskDeleteDialog
@@ -201,7 +237,8 @@
 <script>
 import { CnObjectSidebar } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
-import { NcActionButton, NcActions, NcButton, NcEmptyContent, NcLoadingIcon, NcRichText, NcTextField } from '@nextcloud/vue'
+import { showError } from '@nextcloud/dialogs'
+import { NcActionButton, NcActions, NcButton, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
@@ -220,6 +257,8 @@ import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
 import { canDeleteTask } from '../utils/taskEditing.js'
 import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
+import { labelsPatch, memberOptions, PRIORITIES, priorityPatch, responsiblePatch, sharedWithPatch } from '../utils/taskPeople.js'
+import { displayNames } from '../utils/userNames.js'
 import { taskHeading } from '../utils/workItemKeys.js'
 
 /**
@@ -242,6 +281,7 @@ export default {
 		NcEmptyContent,
 		NcLoadingIcon,
 		NcRichText,
+		NcSelect,
 		NcTextField,
 		CnObjectSidebar,
 		ArrowLeft,
@@ -268,6 +308,8 @@ export default {
 			editing: false,
 			deleting: false,
 			project: null,
+			names: {},
+			labels: [],
 			// Live-updates handle for the or-object-{uuid} subscription of the
 			// task being viewed. livePendingKey marks an in-flight subscribe so
 			// a concurrent same-key call doesn't double-subscribe; liveEpoch
@@ -329,10 +371,68 @@ export default {
 			const t = this.task || {}
 			return [
 				{ key: 'status', label: this.t('planninq', 'Status'), value: t.status },
-				{ key: 'priority', label: this.t('planninq', 'Priority'), value: t.priority },
-				{ key: 'assignedTo', label: this.t('planninq', 'Assigned to'), value: t.assignedTo },
 				{ key: 'dueDate', label: this.t('planninq', 'Due date'), value: t.dueDate },
 			]
+		},
+
+		/**
+		 * The project's members as picker options, by display name.
+		 *
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
+		 */
+		peopleOptions() {
+			return memberOptions(this.project, this.names)
+		},
+
+		/**
+		 * @spec exclude Display helper, the members who can share the task.
+		 */
+		sharerOptions() {
+			return this.peopleOptions.filter((option) => option.id !== this.task?.assignedTo)
+		},
+
+		/**
+		 * @spec exclude Display helper, the labels on the task.
+		 */
+		selectedLabels() {
+			return this.labelOptions.filter((option) => (this.task?.labels || []).includes(option.id))
+		},
+
+		/**
+		 * @spec exclude Display helper, the selected responsible person.
+		 */
+		responsibleOption() {
+			const uid = this.task?.assignedTo
+			return uid ? { id: uid, label: this.names[uid] || uid } : null
+		},
+
+		/**
+		 * @spec exclude Display helper, the people the task is shared with.
+		 */
+		sharedOptions() {
+			return (this.task?.sharedWith || []).map((uid) => ({ id: uid, label: this.names[uid] || uid }))
+		},
+
+		/**
+		 * @spec exclude Display helper, the priority choices.
+		 */
+		priorityOptions() {
+			const labels = { urgent: this.t('planninq', 'Urgent'), high: this.t('planninq', 'High'), normal: this.t('planninq', 'Normal'), low: this.t('planninq', 'Low') }
+			return PRIORITIES.map((id) => ({ id, label: labels[id] }))
+		},
+
+		/**
+		 * @spec exclude Display helper, the selected priority.
+		 */
+		priorityOption() {
+			return this.priorityOptions.find((option) => option.id === (this.task?.priority || 'normal'))
+		},
+
+		/**
+		 * @spec exclude Display helper, every label as a picker option.
+		 */
+		labelOptions() {
+			return this.labels.map((label) => ({ id: label.id ?? label['@self']?.id, label: label.title }))
 		},
 
 		/**
@@ -507,6 +607,64 @@ export default {
 			])
 			this.projectTasks = Array.isArray(tasks) ? tasks : []
 			this.project = project || null
+			const [names, labels] = await Promise.all([
+				displayNames([...new Set([...memberOptions(this.project).map((option) => option.id), ...(this.task?.sharedWith || []), this.task?.assignedTo].filter(Boolean))]),
+				this.projectsStore.fetchLabels(),
+			])
+			this.names = names
+			this.labels = labels
+		},
+
+		/**
+		 * @param {{id: string}|null} option The chosen member, or null for nobody.
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
+		 */
+		onResponsible(option) {
+			return this.saveTask(responsiblePatch(this.task, option ? option.id : ''))
+		},
+
+		/**
+		 * @param {Array<{id: string}>} options The chosen members.
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
+		 */
+		onShared(options) {
+			return this.saveTask(sharedWithPatch(this.task, (options || []).map((option) => option.id)))
+		},
+
+		/**
+		 * @param {{id: string}|null} option The chosen level.
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-3.1
+		 */
+		onPriority(option) {
+			return this.saveTask(priorityPatch(this.task, option ? option.id : ''))
+		},
+
+		/**
+		 * @param {Array<{id: string}>} options The chosen labels.
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-4.1
+		 */
+		onLabels(options) {
+			return this.saveTask(labelsPatch(this.task, (options || []).map((option) => option.id)))
+		},
+
+		/**
+		 * PATCH one change from the people, priority or label controls.
+		 *
+		 * @param {object} patch Only the changed fields; an empty patch does nothing.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
+		 */
+		async saveTask(patch) {
+			if (!this.task || !Object.keys(patch).length) {
+				return
+			}
+			const updated = await this.projectsStore.updateTask(this.task.id, patch)
+			if (!updated) {
+				showError(this.t('planninq', 'Could not save the task. Please try again.'))
+				return
+			}
+			this.projectsStore.activeTask = { ...this.task, ...patch, ...updated }
 		},
 
 		/**
@@ -796,6 +954,14 @@ export default {
 	margin-inline-end: 8px;
 	font-weight: 400;
 	color: var(--color-text-maxcontrast);
+}
+
+.task-detail__controls {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 12px 24px;
+	max-width: 640px;
+	margin-bottom: 24px;
 }
 
 .task-detail__fields {

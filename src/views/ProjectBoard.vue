@@ -273,6 +273,21 @@
 											</template>
 											{{ target.title }}
 										</NcActionButton>
+										<!-- Priority from the card (tasks-assignment-priority-labels) -->
+										<NcActionSeparator />
+										<NcActionCaption :name="t('planninq', 'Priority')" />
+										<NcActionButton
+											v-for="level in priorityLevels"
+											:key="level.id"
+											:closeAfterClick="true"
+											:data-testid="'set-priority-' + level.id"
+											:aria-pressed="(task.priority || 'normal') === level.id"
+											@click="setPriority(task, level.id)">
+											<template #icon>
+												<FlagOutline :size="20" />
+											</template>
+											{{ level.label }}
+										</NcActionButton>
 									</NcActions>
 								</div>
 							</div>
@@ -312,6 +327,7 @@
 					:projectId="project.id"
 					:column="columns[0] || null"
 					:laneTasks="columns.length ? tasksByColumn[columns[0].id] : []"
+					:project="project"
 					@close="creatingTask = false"
 					@saved="onTaskCreated" />
 				<ColumnEditDialog
@@ -355,11 +371,12 @@ import { showError } from '@nextcloud/dialogs'
  * @spec openspec/specs/kanban-board.md
  * @spec openspec/specs/admin-user-settings.md
  */
-import { NcActionButton, NcActions, NcButton, NcChip, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { NcActionButton, NcActionCaption, NcActions, NcActionSeparator, NcButton, NcChip, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 import ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
+import FlagOutline from 'vue-material-design-icons/FlagOutline.vue'
 import FormatListBulleted from 'vue-material-design-icons/FormatListBulleted.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
@@ -388,6 +405,7 @@ import { isReadOnlyFor } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
 import { newLaneTask } from '../utils/taskEditing.js'
 import { deriveBlockedTaskIds, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
+import { PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
 
 export default {
 	name: 'ProjectBoard',
@@ -395,6 +413,9 @@ export default {
 	components: {
 		NcActions,
 		NcActionButton,
+		NcActionCaption,
+		NcActionSeparator,
+		FlagOutline,
 		NcButton,
 		NcChip,
 		NcEmptyContent,
@@ -464,6 +485,17 @@ export default {
 		 */
 		requestBanner() {
 			return requestBanner(this.project)
+		},
+
+		/**
+		 * The priority levels for the card menu, most urgent first.
+		 *
+		 * @return {Array<{id: string, label: string}>}
+		 *
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-3.1
+		 */
+		priorityLevels() {
+			return PRIORITIES.map((id) => ({ id, label: this.priorityLabel(id) }))
 		},
 
 		/**
@@ -994,6 +1026,29 @@ export default {
 				urgent: this.t('planninq', 'Urgent'),
 			}
 			return labels[priority || 'normal'] || ''
+		},
+
+		/**
+		 * Set a card's priority from its action menu; the chip changes at once
+		 * and reverts when the save fails.
+		 *
+		 * @param {object} task     The card.
+		 * @param {string} priority The level.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-3.1
+		 */
+		async setPriority(task, priority) {
+			const patch = priorityPatch(task, priority)
+			if (!Object.keys(patch).length) {
+				return
+			}
+			const previous = this.tasks
+			this.tasks = this.tasks.map((other) => other.id === task.id ? { ...other, ...patch } : other)
+			if (!await this.projectsStore.updateTask(task.id, patch)) {
+				this.tasks = previous
+				showError(this.t('planninq', 'Could not change the priority. Please try again.'))
+			}
 		},
 
 		/**

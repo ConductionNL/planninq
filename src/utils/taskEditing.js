@@ -8,6 +8,7 @@
  * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-1.1
  */
 import { buildMovePatch } from './columnHelpers.js'
+import { responsiblePatch, sharedWithPatch } from './taskPeople.js'
 
 /** The fields the task dialog edits, in the order it shows them. */
 export const EDITABLE_FIELDS = ['title', 'description', 'status', 'priority']
@@ -30,13 +31,14 @@ export function withTaskDefaults(data = {}) {
 /**
  * A new task at the bottom of a board lane, or in the backlog when there is no lane.
  *
- * @param {{title: string, description?: string, priority?: string}} fields What was typed.
+ * @param {{title: string, description?: string, priority?: string, assignedTo?: string, sharedWith?: Array<string>}} fields What was typed.
  * @param {string}        projectId The project UUID.
  * @param {object|null}   column    The lane, or null.
  * @param {Array<object>} laneTasks The lane's cards.
  * @return {object}
  *
  * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-3.1
+ * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
  */
 export function newLaneTask(fields, projectId, column, laneTasks = []) {
 	const task = withTaskDefaults({ title: String(fields?.title ?? '').trim(), project: projectId })
@@ -46,6 +48,15 @@ export function newLaneTask(fields, projectId, column, laneTasks = []) {
 	if (fields?.priority) {
 		task.priority = fields.priority
 	}
+	if (fields?.assignedTo) {
+		task.assignedTo = String(fields.assignedTo)
+	}
+	if (fields?.sharedWith?.length) {
+		const shared = sharedWithPatch(task, fields.sharedWith).sharedWith
+		if (shared?.length) {
+			task.sharedWith = shared
+		}
+	}
 	if (!column) {
 		return { ...task, column: null }
 	}
@@ -53,13 +64,15 @@ export function newLaneTask(fields, projectId, column, laneTasks = []) {
 }
 
 /**
- * The PATCH body for an edit: only the fields that changed.
+ * The PATCH body for an edit: only the fields that changed. The people
+ * fields count only when the dialog showed them (`assignedTo` in the draft).
  *
  * @param {object} task  The stored task.
  * @param {object} draft The dialog's values.
  * @return {object}
  *
  * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-2.1
+ * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
  */
 export function editPatch(task, draft) {
 	const patch = {}
@@ -68,6 +81,10 @@ export function editPatch(task, draft) {
 		if (value !== (task?.[field] ?? '')) {
 			patch[field] = value
 		}
+	}
+	if (draft && 'assignedTo' in draft) {
+		Object.assign(patch, responsiblePatch(task, draft.assignedTo))
+		Object.assign(patch, sharedWithPatch({ ...task, ...patch }, draft.sharedWith || []))
 	}
 	return patch
 }

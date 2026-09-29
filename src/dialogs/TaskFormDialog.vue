@@ -55,6 +55,22 @@
 					label="label"
 					data-testid="task-form-priority" />
 
+				<template v-if="project">
+					<NcSelect
+						v-model="responsibleOption"
+						:options="peopleOptions"
+						:inputLabel="t('planninq', 'Responsible')"
+						label="label"
+						data-testid="task-form-responsible" />
+					<NcSelect
+						v-model="sharedOptions"
+						:options="peopleOptions.filter((option) => option.id !== draft.assignedTo)"
+						:inputLabel="t('planninq', 'Also working on this')"
+						:multiple="true"
+						label="label"
+						data-testid="task-form-shared-with" />
+				</template>
+
 				<div v-if="submitError" class="task-form-dialog__error" role="alert">
 					{{ submitError }}
 				</div>
@@ -93,6 +109,8 @@
 import { NcButton, NcDialog, NcLoadingIcon, NcRichText, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
 import { useProjectsStore } from '../store/projects.js'
 import { editPatch, newLaneTask } from '../utils/taskEditing.js'
+import { memberOptions } from '../utils/taskPeople.js'
+import { displayNames } from '../utils/userNames.js'
 
 export default {
 	name: 'TaskFormDialog',
@@ -131,18 +149,30 @@ export default {
 			type: Array,
 			default: () => [],
 		},
+
+		/** The task's project; when given, the dialog offers its members as people. */
+		project: {
+			type: Object,
+			default: null,
+		},
 	},
 
 	emits: ['close', 'saved'],
 
 	data() {
+		const draft = {
+			title: this.task?.title ?? '',
+			description: this.task?.description ?? '',
+			status: this.task?.status ?? 'open',
+			priority: this.task?.priority ?? 'normal',
+		}
+		if (this.project) {
+			draft.assignedTo = this.task?.assignedTo ?? ''
+			draft.sharedWith = [...(this.task?.sharedWith ?? [])]
+		}
 		return {
-			draft: {
-				title: this.task?.title ?? '',
-				description: this.task?.description ?? '',
-				status: this.task?.status ?? 'open',
-				priority: this.task?.priority ?? 'normal',
-			},
+			draft,
+			names: {},
 
 			preview: false,
 			saving: false,
@@ -151,6 +181,51 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * The project's members as picker options.
+		 *
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
+		 */
+		peopleOptions() {
+			return memberOptions(this.project, this.names)
+		},
+
+		responsibleOption: {
+			/**
+			 * @spec exclude Display helper, the selected responsible person.
+			 */
+			get() {
+				const uid = this.draft.assignedTo
+				return uid ? { id: uid, label: this.names[uid] || uid } : null
+			},
+
+			/**
+			 * @param {{id: string}|null} option The chosen member.
+			 * @spec exclude Display helper, stores the responsible person.
+			 */
+			set(option) {
+				this.draft.assignedTo = option?.id || ''
+				this.draft.sharedWith = this.draft.sharedWith.filter((uid) => uid !== this.draft.assignedTo)
+			},
+		},
+
+		sharedOptions: {
+			/**
+			 * @spec exclude Display helper, the people the task is shared with.
+			 */
+			get() {
+				return this.draft.sharedWith.map((uid) => ({ id: uid, label: this.names[uid] || uid }))
+			},
+
+			/**
+			 * @param {Array<{id: string}>} options The chosen members.
+			 * @spec exclude Display helper, stores the people.
+			 */
+			set(options) {
+				this.draft.sharedWith = (options || []).map((option) => option.id)
+			},
+		},
+
 		/**
 		 * @spec exclude Display helper, the status choices.
 		 */
@@ -209,6 +284,17 @@ export default {
 				this.draft.priority = option?.id || 'normal'
 			},
 		},
+	},
+
+	/**
+	 * Look up the display names of the project's members for the pickers.
+	 *
+	 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
+	 */
+	async mounted() {
+		if (this.project) {
+			this.names = await displayNames(memberOptions(this.project).map((option) => option.id))
+		}
 	},
 
 	methods: {
