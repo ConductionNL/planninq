@@ -298,6 +298,26 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testProjectRequestsNotifyTheRequester()
 
 	/**
+	 * A fresh install creates the five default labels and nothing else (ADR-111 rule 3).
+	 *
+	 * The sample projects, columns, tasks and time entries moved to the example
+	 * data the setup wizard loads on request.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/platform-demo-data/tasks.md#task-1.2
+	 */
+	public function testInstallSeedsOnlyDefaultLabels(): void {
+		$objects = $this->register['components']['objects'];
+		self::assertSame(['label'], array_values(array_unique(array_map(static fn (array $o): string => $o['@self']['schema'], $objects))));
+		self::assertSame(['Bug', 'Feature', 'Docs', 'Design', 'Infrastructure'], array_column($objects, 'title'));
+		foreach ($objects as $label) {
+			self::assertMatchesRegularExpression('/^#[0-9A-Fa-f]{6}$/', $label['color']);
+		}
+
+	}//end testInstallSeedsOnlyDefaultLabels()
+
+	/**
 	 * Register JSON must be valid JSON with the required top-level structure.
 	 *
 	 * @return void

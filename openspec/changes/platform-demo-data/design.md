@@ -32,6 +32,8 @@ The descriptor writes the placeholder `@operator` wherever a user id belongs: pr
 ### Decision 3: dates are relative to the load day
 The descriptor's `x-openregister` block names an `anchorDate`. `install()` shifts every `date` and `date-time` value in the objects by the difference between the anchor and today, so a task due "anchor plus three days" is due three days after loading, one is overdue by two days, and time entries fall in the current week.
 
+Amended at build: the ADR-111 generator rewrites `info` and `x-openregister` when it runs with `--keep`, so a regeneration drops `anchorDate`. `install()` then keeps the dates as written rather than guessing, and `DemoDatasetTest::testDescriptorNamesItsAnchorAndNoAccount` fails, so the loss cannot ship unnoticed. Without a signed-in user (`install()` called outside a request) the import is refused rather than written with no owner.
+
 ### Decision 4: the demo edges are valid edges
 The three dependency objects join different tasks of the same project and form no cycle, the rules `DependencyService` applies on the normal path. A PHPUnit test runs the descriptor through a copy of those rules, because the import path does not.
 

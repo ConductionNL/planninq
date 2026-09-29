@@ -43,8 +43,9 @@ export const PLANNINQ_ROOT = `${BASE_URL}/index.php/apps/planninq/`
  * Open the project list and click the SEEDED fixture project, landing on its
  * kanban board.
  *
- * Deliberately not "the first project": the register ships demo projects, so
- * the first row is `Client Portal v2`, whose tasks carry no due dates. Every
+ * Deliberately not "the first project": an instance may hold example projects
+ * (the setup wizard's example data, or the sample projects older installs
+ * received), whose tasks carry other due dates. Every
  * assertion in these specs is about the spread `fixtures/seed.ts` creates (one
  * task due tomorrow, one overdue, one far-future, one label), so the specs must
  * open the project that actually holds it.

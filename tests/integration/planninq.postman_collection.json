@@ -38,9 +38,9 @@
 		},
 		{
 			"key": "project_id",
-			"value": "00000000-0000-4000-a000-000000000001",
+			"value": "",
 			"type": "string",
-			"description": "Seeded project 'Client Portal v2' from lib/Settings/planninq_register.json. This variable was REFERENCED by every task-creation request but never defined anywhere, so Postman passed the literal string '{{project_id}}' through and the schema rejected it on format:uuid with a 400."
+			"description": "Set by 'Create the project the later requests use' in Health Check. A fresh install holds no projects since platform-demo-data (only the five default labels), so the collection makes its own instead of relying on a seeded 'Client Portal v2'."
 		}
 	],
 	"item": [
@@ -73,6 +73,44 @@
 									"});"
 								],
 								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Create the project the later requests use",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/project",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Newman base project\", \"status\": \"active\", \"owner\": \"{{admin_user}}\", \"members\": [\"{{admin_user}}\"]}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('project created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('project_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
 							}
 						}
 					]
