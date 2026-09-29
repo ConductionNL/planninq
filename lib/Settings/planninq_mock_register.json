@@ -629,6 +629,54 @@
         "managers": [],
         "order": 2,
         "riskScale": ""
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "financeLine",
+          "slug": "financeline-voorbeeld-1"
+        },
+        "project": "00000000-0000-4000-8000-000000000000",
+        "category": "Materials",
+        "kind": "budget",
+        "amount": 4000,
+        "date": "2026-03-01",
+        "description": "Voorbeeld kostenregel 1",
+        "source": "manual",
+        "financeReaders": [],
+        "projectOwner": null
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "financeLine",
+          "slug": "financeline-voorbeeld-2"
+        },
+        "project": "00000000-0000-4000-8000-000000000000",
+        "category": "Materials",
+        "kind": "actual",
+        "amount": 1500,
+        "date": "2026-03-02",
+        "description": "Voorbeeld kostenregel 2",
+        "source": "manual",
+        "financeReaders": [],
+        "projectOwner": null
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "financeLine",
+          "slug": "financeline-voorbeeld-3"
+        },
+        "project": "00000000-0000-4000-8000-000000000000",
+        "category": "Hired staff",
+        "kind": "commitment",
+        "amount": 2500,
+        "date": "2026-03-03",
+        "description": "Voorbeeld kostenregel 3",
+        "source": "manual",
+        "financeReaders": [],
+        "projectOwner": null
       }
     ]
   }
