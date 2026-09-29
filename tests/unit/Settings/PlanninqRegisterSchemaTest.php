@@ -207,6 +207,25 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testTaskIsSharedWithAListOfPeople()
 
 	/**
+	 * A task keeps a checklist of small steps: each item an id, a text and a done flag.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-1.1
+	 */
+	public function testTaskKeepsAChecklist(): void {
+		$checklist = ($this->register['components']['schemas']['task']['properties']['checklist'] ?? null);
+		self::assertIsArray($checklist, 'task declares checklist');
+		self::assertSame('array', $checklist['type']);
+		self::assertSame(['id', 'text', 'done'], $checklist['items']['required']);
+
+		$base = ['title' => 'Prepare the council decision', 'status' => 'open'];
+		$item = ['id' => 'c1', 'text' => 'Collect the advice', 'done' => false];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'task', payload: $base + ['checklist' => [$item, ['id' => 'c2', 'text' => 'Send it', 'done' => true]]]));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'task', payload: $base + ['checklist' => [['text' => 'No id']]]), 'control: an item needs its id and done flag');
+	}//end testTaskKeepsAChecklist()
+
+	/**
 	 * The project status moves only through declared transitions; approve and
 	 * reject belong to reviewers, archive and restore to whoever may update.
 	 *

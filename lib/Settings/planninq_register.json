@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.21.0"
+    "version": "0.22.0"
   },
   "x-openregister": {
     "type": "application",
@@ -46,7 +46,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedCircleOutline",
-        "version": "0.6.0",
+        "version": "0.7.0",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
@@ -308,6 +308,20 @@
             "format": "uuid",
             "nullable": true,
             "$ref": "task"
+          },
+          "checklist": {
+            "title": "Checklist",
+            "type": "array",
+            "description": "Small steps inside the task. Each item has an id, a text and whether it is done.",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "text",
+                "done"
+              ]
+            },
+            "default": []
           },
           "calendarEventUid": {
             "title": "Calendar Event UID",
