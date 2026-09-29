@@ -82,7 +82,7 @@ new TimetableSessionsQueryEvent(
 );
 ```
 
-Criteria keys: `cohortId`, `groupReference`, `teacherUserId`, `teacherReference` (at least one is required), `from`, `to` (optional ISO 8601 window; a session is included when it overlaps the window), `limit` (default 500, capped at 1,000), `includeCancelled` (default true).
+Criteria keys: `cohortId`, `groupReference`, `teacherUserId`, `teacherReference` (at least one is required), `from`, `to` (optional ISO 8601 window; a session is included when it overlaps the window), `limit` (default 500, capped at 1,000), `includeCancelled` (default true), `includeDrafts` (default false; added by timetable-draft-review, additive under version 1: without it no `draft` session is returned).
 
 Getters: `getSourceApp()`, `getCriteria()`, `isHandled()`, `getSessions(): ?array`, `getError(): ?string`. The listener calls `setSessions(array)` on success or `setError(string)` when the criteria are invalid; both mark the event handled. The read runs with OpenRegister RBAC off: the dispatching app MUST ask only for a cohort or teacher its user may see, because planninq holds no cohort membership to check (planninq#711).
 
@@ -144,6 +144,17 @@ Sessions are sorted by `startsAt` ascending.
 | 403  | Caller is not an admin (middleware, or the explicit check for a delegated settings admin). |
 | 503  | OpenRegister is not available. |
 
+### `POST /apps/planninq/api/timetable/sessions/publish`
+Added by timetable-draft-review (additive under version 1). Admins only, like the upsert: `#[AuthorizedAdminSetting]`, no `#[NoAdminRequired]`, and an explicit admin check.
+
+**Body:** `{"sourceSystem": "roster-zermelo", "from": "2026-10-05T00:00:00+02:00", "to": "2026-10-11T23:59:59+02:00"}`. Every `draft` session of that source overlapping the window becomes `scheduled`, saved whole with a fresh `importedAt`.
+
+**Response:** `{"contractVersion": 1, "sourceSystem": "roster-zermelo", "published": 5, "failed": []}`; `failed` lists the ids OpenRegister refused.
+
+**Errors:** 400 when `sourceSystem`, `from` or `to` is missing or the window is reversed; 403 for a non-admin; 503 without OpenRegister.
+
+A session's `status` may be `draft` (timetable-draft-review). The object read rule lets only the teacher it names (`teacherUserId`) and admins read a draft; the `planninq-timetable` group reads published lessons only. The GET endpoint takes `includeDrafts=true` to return the drafts the caller may read.
+
 ## Error Codes
 Row-level rejection codes in an upsert result:
 
@@ -151,7 +162,8 @@ Row-level rejection codes in an upsert result:
 |------|---------|-----------|
 | `missing-fields` | A required field is absent | `externalRef`, `subject`, `startsAt` or `endsAt` empty. |
 | `invalid-dates` | The times do not make a lesson | `startsAt` or `endsAt` unparseable, or `endsAt` not after `startsAt`. |
-| `invalid-status` | Unknown status | `status` present and not `scheduled` or `cancelled`. |
+| `invalid-status` | Unknown status | `status` present and not `draft`, `scheduled` or `cancelled`. |
+| `already-published` | A published lesson cannot become a draft again | `status` is `draft` and the stored session with the same key is `scheduled` or `cancelled`; nothing is saved (timetable-draft-review, additive). |
 | `duplicate-external-ref` | Same key twice in one batch | An earlier row with the same `externalRef`; the last one wins. |
 | `save-failed` | OpenRegister refused the write | The save threw or returned nothing. |
 

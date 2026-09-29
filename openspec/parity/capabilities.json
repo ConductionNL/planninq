@@ -10125,10 +10125,11 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/viewer 'Share draft schedules with teachers and department heads before publishing. Reviewers can see their upcoming timetable, flag concerns, and sign off'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'draft timetable|concept rooster': no implementation of this capability. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "timetableSession.status draft + read rule (planninq-timetable reads status $in [scheduled, cancelled]; teacherUserId = $userId; admin) in lib/Settings/planninq_register.json; TimetableSessionService upsert refuses already-published and publish() behind POST /api/timetable/sessions/publish (admin, TimetableController::publish); includeDrafts in TimetableSessionQuery. Tests: TimetableSessionServiceTest (draft, already-published, publish window/source, payloads validated against the real schema), TimetableSessionReadRuleTest::testDraftIsReadOnlyByItsTeacherAndAdmins, TimetableSessionQueryTest, TimetableSessionsQueryListenerTest::testConsumerThatDoesNotAskGetsNoDrafts, TimetableControllerTest::testPublishRefusesANonAdmin; read condition run through OpenRegister's OperatorEvaluator. The learniq half (showing a draft mark to teachers) is learniq's.",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/timetable-draft-review"
+        "change": "openspec/changes/archive/2026-09-29-timetable-draft-review",
+        "readOn": "2026-09-29"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
