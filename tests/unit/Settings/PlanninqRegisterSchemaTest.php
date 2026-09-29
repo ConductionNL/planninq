@@ -188,6 +188,25 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testProjectCarriesTheTaskCounter()
 
 	/**
+	 * A task names one responsible person and may be shared with more.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-1.1
+	 */
+	public function testTaskIsSharedWithAListOfPeople(): void {
+		$shared = ($this->register['components']['schemas']['task']['properties']['sharedWith'] ?? null);
+		self::assertIsArray($shared, 'task declares sharedWith');
+		self::assertSame('array', $shared['type']);
+		self::assertSame('string', $shared['items']['type']);
+
+		$base = ['title' => 'Draft the permit letter', 'status' => 'open', 'assignedTo' => 'bram'];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'task', payload: $base + ['sharedWith' => ['anna', 'carla']]));
+		self::assertSame([], $this->registerSchemaErrors(slug: 'task', payload: $base + ['sharedWith' => []]));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'task', payload: $base + ['sharedWith' => 'anna']), 'control: one string is not a list');
+	}//end testTaskIsSharedWithAListOfPeople()
+
+	/**
 	 * The project status moves only through declared transitions; approve and
 	 * reject belong to reviewers, archive and restore to whoever may update.
 	 *

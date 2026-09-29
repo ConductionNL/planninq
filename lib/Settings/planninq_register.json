@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.20.0"
+    "version": "0.21.0"
   },
   "x-openregister": {
     "type": "application",
@@ -46,7 +46,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedCircleOutline",
-        "version": "0.5.0",
+        "version": "0.6.0",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
@@ -248,6 +248,15 @@
             "title": "Assigned To",
             "type": "string",
             "description": "Nextcloud user UID of the assignee"
+          },
+          "sharedWith": {
+            "title": "Also working on this",
+            "type": "array",
+            "description": "Other project members who work on this task alongside the person responsible.",
+            "items": {
+              "type": "string"
+            },
+            "default": []
           },
           "contractorRef": {
             "title": "Contractor",
