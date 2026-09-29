@@ -41,6 +41,16 @@
 			"value": "",
 			"type": "string",
 			"description": "Set by 'Create the project the later requests use' in Health Check. A fresh install holds no projects since platform-demo-data (only the five default labels), so the collection makes its own instead of relying on a seeded 'Client Portal v2'."
+		},
+		{
+			"key": "release_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "release_task_id",
+			"value": "",
+			"type": "string"
 		}
 	],
 	"item": [
@@ -1460,6 +1470,228 @@
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('project removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Releases",
+			"description": "backlog-releases-roadmap: a release belongs to one project, a task is planned against it through task.release, and marking it released records releasedAt. Reads and writes are scoped to the project's members by the same rule as projectPhase (asserted by PHPUnit PlanninqRegisterSchemaTest::testProjectScopedSchemasMatchTheMembersList).",
+			"item": [
+				{
+					"name": "create a release",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectRelease",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Version 2.0 (newman)\", \"project\": \"{{project_id}}\", \"releaseDate\": \"2026-12-01\", \"status\": \"planned\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('release created, planned, members stamped', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.status).to.equal('planned');",
+									"    pm.expect(json.members || []).to.be.an('array').that.is.not.empty;",
+									"    pm.collectionVariables.set('release_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "plan a task against the release",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Export to CSV (newman)\", \"project\": \"{{project_id}}\", \"release\": \"{{release_id}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task references the release', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.release).to.equal(pm.collectionVariables.get('release_id'));",
+									"    pm.collectionVariables.set('release_task_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "the project's releases include it",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectRelease?project={{project_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('release listed for the project', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    const rows = pm.response.json().results || [];",
+									"    pm.expect(rows.map((r) => r.id || (r['@self'] || {}).id)).to.include(pm.collectionVariables.get('release_id'));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "mark the release as released",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectRelease/{{release_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"status\": \"released\", \"releasedAt\": \"2026-12-01T10:00:00+00:00\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('release released, title kept', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.status).to.equal('released');",
+									"    pm.expect(json.title).to.equal('Version 2.0 (newman)');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the task",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{release_task_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the release",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectRelease/{{release_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('release removed', function () {",
 									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
 									"});"
 								]
