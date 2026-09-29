@@ -22,6 +22,7 @@ export const PROJECT_TABS = [
 	{ id: 'phases', route: 'ProjectPhases' },
 	{ id: 'risks', route: 'ProjectRisks' },
 	{ id: 'status', route: 'ProjectStatus' },
+	{ id: 'finance', route: 'ProjectFinance' },
 	{ id: 'log', route: 'ProjectLog' },
 ]
 

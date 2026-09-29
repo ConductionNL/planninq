@@ -4,7 +4,7 @@
 
 ### Requirement: A project manager sets the delivery terms on screen
 
-A project owner or manager MUST be able to set whether a project is billable, its billing model (none, fixed price or hourly), its budget in hours and in money, its hourly rate and its planned start and end dates, from the project's Finance tab. A zero or empty budget MUST still mean "no budget agreed". Tier: V1 (docs/FEATURES.md, "Time report (estimated vs actual, per project)"; the terms are specified in this capability's requirement on delivery and billing terms).
+A project owner (the project's manager until projects-members-and-roles adds a manager role) MUST be able to set whether a project is billable, its billing model (none, fixed price or hourly), its budget in hours and in money, its hourly rate and its planned start and end dates, from the project's Finance tab. A zero or empty budget MUST still mean "no budget agreed". Tier: V1 (docs/FEATURES.md, "Time report (estimated vs actual, per project)"; the terms are specified in this capability's requirement on delivery and billing terms).
 
 #### Scenario: Setting a fixed-price budget
 
@@ -15,6 +15,7 @@ A project owner or manager MUST be able to set whether a project is billable, it
 
 #### Scenario: Members do not see the money
 
+@e2e exclude The e2e suite signs in as the admin only; asserted by PlanninqRegisterSchemaTest::testFinanceLineSchemaAndItsRules, FinanceLineListenerTest::testTheOwnersLineIsStampedForTheOwnerAndThePortfolioManagers and tests/vitest/finance.spec.js "owner, portfolio managers and admins see the amounts; members do not"
 - **GIVEN** a project member with the role "Member"
 - **WHEN** the member opens /projects/:id/finance
 - **THEN** the tab shows the billing model and the planned dates

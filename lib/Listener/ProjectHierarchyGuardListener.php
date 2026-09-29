@@ -49,6 +49,7 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Service\ProjectMembershipService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -82,12 +83,14 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 * Constructor.
 	 *
 	 * @param ProjectMembershipService $membership    Reads portfolios and projects, writes as the system.
+	 * @param FinanceLineService       $finance       Keeps the access copies on the projects' finance lines.
 	 * @param TaskScopeResolver        $scopeResolver Tells a planninq schema from any other object.
 	 * @param ContainerInterface       $container     Resolves OpenRegister's ObjectService for the system write.
 	 * @param LoggerInterface          $logger        The logger.
 	 */
 	public function __construct(
 		private ProjectMembershipService $membership,
+		private FinanceLineService $finance,
 		private TaskScopeResolver $scopeResolver,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
@@ -251,6 +254,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 
 		$field   = ProjectMembershipService::READERS_FIELD;
 		$written = $this->membership->syncProjectMembers(projectId: $projectId, members: ($data[$field] ?? []), field: $field);
+		$written += $this->finance->syncProject(projectId: $projectId);
 		$this->logger->info('Planninq: portfolio readers updated on a project and its objects', ['project' => $projectId, 'written' => $written]);
 	}//end writeProject()
 

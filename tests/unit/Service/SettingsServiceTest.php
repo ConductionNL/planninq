@@ -274,6 +274,46 @@ class SettingsServiceTest extends TestCase {
 	}//end testStatusReportPeriodDefaultsToThirtyAndAcceptsWholeDays()
 
 	/**
+	 * Task 1.2: the finance categories default to four and take any list of distinct names.
+	 *
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2
+	 *
+	 * @return void
+	 */
+	public function testFinanceCategoriesDefaultToFourAndTakeAListOfNames(): void {
+		$stored = [];
+		$this->appConfig->method('setValueString')
+			->willReturnCallback(
+				function (string $appId, string $key, string $value) use (&$stored): bool {
+					$stored[$key] = $value;
+					return true;
+				}
+			);
+		$this->appConfig->method('getValueString')
+			->willReturnCallback(
+				function (string $appId, string $key, string $default = '') use (&$stored): string {
+					return ($stored[$key] ?? $default);
+				}
+			);
+		$this->appManager->method('isInstalled')->willReturn(false);
+		$this->userSession->method('getUser')->willReturn(null);
+
+		self::assertSame(
+			expected: ['Personnel', 'Hired staff', 'Materials', 'Other'],
+			actual: json_decode($this->service->getAdminSettings()['finance_categories'], true)
+		);
+
+		foreach (['', '[]', 'Materials', '["Materials", ""]', '["Materials", "materials "]', '[1]'] as $refused) {
+			$this->service->updateSettings(['finance_categories' => $refused]);
+			self::assertArrayNotHasKey(key: 'finance_categories', array: $stored, message: 'stored ' . $refused);
+		}
+
+		$this->service->updateSettings(['finance_categories' => '[" Personeel ", "Inhuur", "Materiaal"]']);
+		self::assertSame(expected: '["Personeel","Inhuur","Materiaal"]', actual: $stored['finance_categories']);
+
+	}//end testFinanceCategoriesDefaultToFourAndTakeAListOfNames()
+
+	/**
 	 * Test isCurrentUserAdmin() returns true when user is in admin group.
 	 *
 	 * @return void

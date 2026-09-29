@@ -159,6 +159,7 @@ test.describe('visual baselines — planninq views', () => {
 		['ProjectPhases', 'phases', 'phases', 'project-phases.png'],
 		['ProjectRisks', 'risks', 'risks', 'project-risks.png'],
 		['ProjectStatus', 'status', 'status', 'project-status.png'],
+		['ProjectFinance', 'finance', 'finance', 'project-finance.png'],
 		['ProjectLog', 'log', 'log', 'project-log.png'],
 	]) {
 		test(`${component} renders from its project tab @visual`, async ({ page }) => {

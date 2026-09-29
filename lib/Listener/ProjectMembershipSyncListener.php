@@ -34,6 +34,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
+use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Service\ProjectMembershipService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -52,11 +53,13 @@ class ProjectMembershipSyncListener implements IEventListener {
 	 * Constructor.
 	 *
 	 * @param ProjectMembershipService $membership Computes and writes the members list.
+	 * @param FinanceLineService $finance Keeps the access copies on the project's finance lines.
 	 * @param TaskScopeResolver $scopeResolver Tells whether an object is a planninq project.
 	 * @param LoggerInterface $logger The logger.
 	 */
 	public function __construct(
 		private ProjectMembershipService $membership,
+		private FinanceLineService $finance,
 		private TaskScopeResolver $scopeResolver,
 		private LoggerInterface $logger,
 	) {
@@ -115,6 +118,8 @@ class ProjectMembershipSyncListener implements IEventListener {
 			if ($oldData === null || $this->membership->normalise(members: ($oldData[$field] ?? [])) !== $readers) {
 				$this->membership->syncProjectMembers(projectId: $projectId, members: $readers, field: $field);
 			}
+
+			$this->syncFinance(projectId: $projectId, data: $data, oldData: $oldData);
 		} catch (\Throwable $e) {
 			// The project write already happened and must not turn into an
 			// error. The objects keep the previous list until the next change
@@ -125,4 +130,43 @@ class ProjectMembershipSyncListener implements IEventListener {
 			);
 		}//end try
 	}//end handle()
+
+	/**
+	 * Copy the owner, portfolio and portfolio managers onto the project's finance lines when they changed.
+	 *
+	 * @param string                   $projectId The project UUID.
+	 * @param array<string,mixed>      $data      The saved project.
+	 * @param array<string,mixed>|null $oldData   The stored project before the change.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.3
+	 */
+	private function syncFinance(string $projectId, array $data, ?array $oldData): void {
+		if ($oldData === null || $this->financeCopiesChanged(data: $data, oldData: $oldData) === true) {
+			$this->finance->syncProject(projectId: $projectId);
+		}
+	}//end syncFinance()
+
+	/**
+	 * Whether a project change touches what its finance lines copy.
+	 *
+	 * @param array<string,mixed> $data    The saved project.
+	 * @param array<string,mixed> $oldData The stored project before the change.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.3
+	 */
+	private function financeCopiesChanged(array $data, array $oldData): bool {
+		$field = ProjectMembershipService::READERS_FIELD;
+		if ($this->membership->normalise(members: ($data[$field] ?? [])) !== $this->membership->normalise(members: ($oldData[$field] ?? []))) {
+			return true;
+		}
+
+		$now    = json_encode([($data['owner'] ?? null), ($data['portfolio'] ?? null)]);
+		$before = json_encode([($oldData['owner'] ?? null), ($oldData['portfolio'] ?? null)]);
+
+		return $now !== $before;
+	}//end financeCopiesChanged()
 }//end class

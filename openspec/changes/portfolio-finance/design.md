@@ -63,6 +63,15 @@ Write rights for imported lines go to a Nextcloud group `planninq-finance-import
 
 Alternative considered: a planninq import controller with a CSV upload. It would put integration plumbing in planninq, which ADR-001 rule 5 keeps in Beheer through the integration app, and every finance system would need its own parser here.
 
+## Amendments at build time (29 Sep 2026, code at 66ba8f8)
+
+- **Managers are the owner.** `projects-members-and-roles` is not built, so there is no manager role. The owner (and admins) set the terms and write manual lines; the owner and the portfolio managers (`project.portfolioReaders`) read the money. When the role lands, `FinanceLineService::keptFieldsFor()` and `src/utils/finance.js` `canSeeProjectMoney`/`canEditTerms` are the two places to widen.
+- **The access copies are named.** A line carries `financeReaders` (owner plus portfolio managers, never the members) for the read rule and `projectOwner` for update and delete, both hidden, kept by `FinanceLineService`. The rules: read `financeReaders $contains $userId`, the group `planninq-finance-import` and admins; create any signed-in user (OpenRegister checks create before the object exists, so the listener gates it); update and delete `projectOwner`, the import group and admins.
+- **The rules OpenRegister cannot express live in `FinanceLineListener`.** Manual lines need the project owner or an admin; imported lines (`source: import`) need the import group or an admin, which is the "property rule on amount" of decision 5 in its enforceable form: nobody else may change an imported line at all.
+- **Uniqueness is a refusal, not an upsert.** At HEAD, OpenRegister's named `uniqueConstraints` schema key is not on `Schema::validateConfigurationArray()`'s allowlist and is dropped on import, and its legacy `unique` key counts the object itself on update. So `FinanceLineListener` refuses a second imported line with the same `externalRef`, with the code `planninq-finance-line-exists` and the existing line's id as `conflictingObject`; the integration then updates that line. The finance-import scenario is worded accordingly.
+- **Decision 4 keeps `portfolio` in step from two places.** A project write by a person reaches the lines through `ProjectMembershipSyncListener` (owner, portfolio or managers changed), a portfolio's manager change or deletion through `ProjectHierarchyGuardListener::writeProject()`. Both call `FinanceLineService::syncProject()`.
+- **Labour is not split by phase.** Time entries name a task, not a phase, so the phase table holds finance lines only; labour is its own row in the category table.
+
 ## Risks / trade-offs
 
 - [The aggregation ignores a filter it cannot apply] -> Only equality on `portfolio` and on `project` is used, and the portfolio page cross-checks its total against the sum of the per-project rows it rendered.
