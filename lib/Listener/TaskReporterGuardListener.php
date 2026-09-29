@@ -161,7 +161,12 @@ class TaskReporterGuardListener implements IEventListener {
 		$projectId = $this->membership->projectIdFor(schemaSlug: 'task', data: $data);
 
 		if ($this->mayDelete(uid: $uid, reporter: $data['reporter'] ?? null, projectId: $projectId) === false) {
-			$this->refuse(event: $event, code: self::ERROR_NOT_ALLOWED, status: 403, message: 'Only the reporter, the project owner or an admin can delete this task.');
+			$this->refuse(
+				event: $event,
+				code: self::ERROR_NOT_ALLOWED,
+				status: 403,
+				message: 'Only the reporter, the project owner or an admin can delete this task.'
+			);
 			return;
 		}
 
