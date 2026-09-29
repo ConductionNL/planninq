@@ -3124,7 +3124,7 @@
       "area": "backlog",
       "name": "Plan tasks against a version or release.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "yes",
@@ -3142,11 +3142,12 @@
         "plane": "corpus: plane/round4/code-census.md §3 'Module is a scope grouping: start_date / target_date, status from ModuleStatus ... Membership is ModuleIssue'; no version object as such, a module with a target date stands in for a release ; source read at v1.4.2: apps/web/core/components/modules/modal.tsx:44 createModule; apps/api/plane/app/urls/module.py:20 modules route, apps/api/plane/app/views/module/base.py:295 create; apps/api/plane/db/models/module.py:67-74 Module with target_date and status. A module with a target date stands in for a release"
       },
       "built": {
-        "state": "specified",
-        "evidence": "No release/version field or planning concept exists in the task, project or any other schema (lib/Settings/planninq_register.json has no release/version property), and no UI references one.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json declares the project-scoped projectRelease schema (title, project, dates, status planned/released/archived, releasedAt; members rule, stamped and gated by lib/Listener/ProjectMemberAccessListener.php) and a nullable task.release; src/store/projects.js fetchReleases/saveRelease/shipRelease/setTaskRelease; src/dialogs/ReleaseEditDialog.vue and ReleaseShipDialog.vue (move, clear or keep unfinished tasks); release picker on src/views/TaskDetail.vue; progress per release in src/components/ProjectRoadmap.vue",
+        "reachedOn": "Project Timeline tab, Roadmap view /projects/:id/timeline?view=roadmap; task page Release field",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/backlog-releases-roadmap"
+        "change": "openspec/changes/archive/2026-09-29-backlog-releases-roadmap",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3158,7 +3159,7 @@
       "area": "backlog",
       "name": "Show a roadmap of epics or versions over time.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "partial",
@@ -3176,11 +3177,12 @@
         "plane": "source: apps/web/core/components/modules/modules-list-view.tsx:52 and modules/gantt-chart/modules-list-layout.tsx draw a project's modules on a timeline; epics are unreachable (corpus: plane/round4/journeys.md) and there is no cross-project roadmap ; source read at v1.4.2: apps/web/core/components/modules/modules-list-view.tsx:17,108 ModulesListGanttChartView draws a project's modules on a timeline; apps/api/plane/db/models/module.py:73 target_date. Per project only, no epics, no cross-project roadmap"
       },
       "built": {
-        "state": "specified",
-        "evidence": "The only 'roadmap' page in the app, FeaturesRoadmap (src/manifest.json, route /features-roadmap, type 'roadmap'), is the app's OWN development roadmap: its _note says it is 'Rendered by the shared CnFeaturesAndRoadmapView, which reads the committed docs/features.json and OpenRegister's GitHub proxy', it shows Planninq's own GitHub feature/issue roadmap, not a roadmap of the user's epics, projects or releases.",
-        "reachedOn": "FeaturesRoadmap page /features-roadmap, but it is the product's own roadmap, not a user-data roadmap",
+        "state": "built",
+        "evidence": "src/components/ProjectRoadmap.vue draws the project's releases as markers on their target date and its epics (tasks with issueType epic) as bars, an undated epic spanning its tasks (src/utils/roadmapHelpers.js epicSpan, roadmapLayout) and one with no dated task listed under 'Not scheduled yet', with release and epic lists as the keyboard equivalent; the product's own FeaturesRoadmap page is unchanged",
+        "reachedOn": "Project Timeline tab, Roadmap view /projects/:id/timeline?view=roadmap",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/backlog-releases-roadmap"
+        "change": "openspec/changes/archive/2026-09-29-backlog-releases-roadmap",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -11238,7 +11240,7 @@
       "area": "projects",
       "name": "Break a project into phases with their own start and end dates.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "partial",
@@ -11256,10 +11258,12 @@
         "plane": "corpus: plane/round4/code-census.md §3 'Module is a scope grouping: start_date / target_date' and 'Cycle is a time box', both off by default (project.py:93-94); scope units rather than sequential phases ; M1-column.md 8.8 partial"
       },
       "built": {
-        "state": "specified",
-        "evidence": "lib/Settings/planninq_register.json declares a full `projectPhase` schema (with start/end dates) and the `task` schema has a `phase` reference property, but grep across src/ and lib/ finds zero code reading or writing `projectPhase` anywhere outside the register JSON files (lib/Settings/planninq_register.json, lib/Settings/planninq_mock_register.json).",
-        "reachedOn": "nothing reaches it",
-        "owner": "ConductionNL/planninq"
+        "state": "built",
+        "evidence": "src/views/ProjectPhases.vue lists a project's phases with their start and end dates, add, edit, reorder and close (src/dialogs/PhaseEditDialog.vue, PhaseCloseDialog.vue); store fetchPhases/savePhase/reorderPhase/closePhase in src/store/projects.js; the projectPhase schema carries startDate and endDate",
+        "reachedOn": "Project Phases tab /projects/:id/phases",
+        "owner": "ConductionNL/planninq",
+        "change": "openspec/changes/archive/2026-09-29-planning-phase-gate-document",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

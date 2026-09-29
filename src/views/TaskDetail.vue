@@ -113,6 +113,28 @@
 						label="label"
 						data-testid="task-labels"
 						@update:modelValue="onLabels" />
+					<!-- Release and epic (backlog-releases-roadmap) -->
+					<NcSelect
+						:modelValue="releaseOption"
+						:options="releaseOptions"
+						:inputLabel="t('planninq', 'Release')"
+						label="label"
+						data-testid="task-release"
+						@update:modelValue="onRelease" />
+					<NcSelect v-if="!taskIsEpic"
+						:modelValue="epicOption"
+						:options="epicOptions"
+						:inputLabel="t('planninq', 'Epic')"
+						label="label"
+						data-testid="task-epic"
+						@update:modelValue="onEpic" />
+					<NcCheckboxRadioSwitch
+						:modelValue="taskIsEpic"
+						type="switch"
+						data-testid="task-is-epic"
+						@update:modelValue="onEpicSwitch">
+						{{ t('planninq', 'This task is an epic') }}
+					</NcCheckboxRadioSwitch>
 				</div>
 
 				<dl class="task-detail__fields">
@@ -354,6 +376,7 @@ import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
+import { EPIC_TYPE, epicChoices, isEpic, refId, releaseChoices } from '../utils/roadmapHelpers.js'
 import { addChecklistItem, checklistCount, moveChecklistItem, newSubtask, removeChecklistItem, subtaskProgress, subtaskRollup, toggleChecklistItem } from '../utils/taskBreakdown.js'
 import { canDeleteTask } from '../utils/taskEditing.js'
 import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
@@ -414,6 +437,7 @@ export default {
 			project: null,
 			names: {},
 			labels: [],
+			releases: [],
 			projectEntries: [],
 			newSubtaskTitle: '',
 			addingSubtask: false,
@@ -600,6 +624,47 @@ export default {
 		},
 
 		/**
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.4
+		 */
+		taskIsEpic() {
+			return isEpic(this.task)
+		},
+
+		/**
+		 * This project's planned releases, plus the task's current one.
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.4
+		 */
+		releaseOptions() {
+			return releaseChoices(this.task, this.releases).map((release) => ({ id: refId(release), label: release.title }))
+		},
+
+		/**
+		 * @spec exclude Display helper, the selected release.
+		 */
+		releaseOption() {
+			const id = refId(this.task?.release)
+			return id ? (this.releaseOptions.find((option) => option.id === id) || { id, label: id }) : null
+		},
+
+		/**
+		 * This project's epics, never the task itself.
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.4
+		 */
+		epicOptions() {
+			return epicChoices(this.task, this.projectTasks).map((epic) => ({ id: refId(epic), label: epic.title || epic.id }))
+		},
+
+		/**
+		 * @spec exclude Display helper, the selected epic (an imported epic of another project shows by id).
+		 */
+		epicOption() {
+			const id = refId(this.task?.epic)
+			return id ? (this.epicOptions.find((option) => option.id === id) || { id, label: id }) : null
+		},
+
+		/**
 		 * Whether "Delete task" shows: the reporter, the project owner or an admin.
 		 *
 		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-4.1
@@ -772,6 +837,7 @@ export default {
 			this.projectTasks = Array.isArray(tasks) ? tasks : []
 			this.project = project || null
 			this.projectEntries = projectId ? await this.projectsStore.fetchProjectTimeEntries(String(projectId)) : []
+			this.releases = projectId ? await this.projectsStore.fetchReleases(String(projectId)) : []
 			const [names, labels] = await Promise.all([
 				displayNames([...new Set([...memberOptions(this.project).map((option) => option.id), ...(this.task?.sharedWith || []), this.task?.assignedTo].filter(Boolean))]),
 				this.projectsStore.fetchLabels(),
@@ -802,6 +868,38 @@ export default {
 		 */
 		onPriority(option) {
 			return this.saveTask(priorityPatch(this.task, option ? option.id : ''))
+		},
+
+		/**
+		 * @param {{id: string}|null} option The chosen release, or null for none.
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.4
+		 */
+		onRelease(option) {
+			return this.saveTask({ release: option ? option.id : null })
+		},
+
+		/**
+		 * @param {{id: string}|null} option The chosen epic, or null for none.
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.4
+		 */
+		async onEpic(option) {
+			const epic = option ? this.projectTasks.find((task) => refId(task) === option.id) : null
+			const result = await this.projectsStore.setTaskEpic(this.task, epic || null)
+			if (!result.ok) {
+				showError(this.t('planninq', 'Could not save the task. Please try again.'))
+				return
+			}
+			this.projectsStore.activeTask = { ...this.task, epic: epic ? refId(epic) : null, ...result.task }
+		},
+
+		/**
+		 * Make the task an epic (an epic belongs to no epic) or a plain task again.
+		 *
+		 * @param {boolean} on Whether the task is an epic.
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.4
+		 */
+		onEpicSwitch(on) {
+			return this.saveTask(on ? { issueType: EPIC_TYPE, epic: null } : { issueType: 'task' })
 		},
 
 		/**

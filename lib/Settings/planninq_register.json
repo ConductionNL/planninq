@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.24.0"
+    "version": "0.25.0"
   },
   "x-openregister": {
     "type": "application",
@@ -33,7 +33,8 @@
           "projectStatusReport",
           "projectPortfolio",
           "financeLine",
-          "projectField"
+          "projectField",
+          "projectRelease"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -46,7 +47,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedCircleOutline",
-        "version": "0.7.0",
+        "version": "0.8.0",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
@@ -395,6 +396,14 @@
             "format": "uuid",
             "nullable": true,
             "$ref": "task"
+          },
+          "release": {
+            "title": "Release",
+            "type": "string",
+            "description": "The release this task is planned for",
+            "format": "uuid",
+            "nullable": true,
+            "$ref": "projectRelease"
           },
           "metadata": {
             "title": "Metadata",
@@ -2835,6 +2844,154 @@
             "x-enum-labels": {
               "project": "Projects"
             }
+          }
+        }
+      },
+      "projectRelease": {
+        "slug": "projectRelease",
+        "icon": "MapMarkerPath",
+        "version": "0.1.0",
+        "title": "Release",
+        "description": "A named, dated delivery of a project that its tasks are planned against.",
+        "x-schema-org": "schema:CreativeWork",
+        "type": "object",
+        "required": [
+          "title",
+          "project"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "portfolioReaders": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "Name of the release"
+          },
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project this release belongs to",
+            "format": "uuid",
+            "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "What this release delivers"
+          },
+          "startDate": {
+            "title": "Start date",
+            "type": "string",
+            "description": "When work on the release starts",
+            "format": "date",
+            "nullable": true
+          },
+          "releaseDate": {
+            "title": "Target date",
+            "type": "string",
+            "description": "The date the release is due",
+            "format": "date",
+            "nullable": true
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "Whether the release is planned, released or archived",
+            "enum": [
+              "planned",
+              "released",
+              "archived"
+            ],
+            "default": "planned",
+            "x-enum-labels": {
+              "planned": "Planned",
+              "released": "Released",
+              "archived": "Archived"
+            }
+          },
+          "releasedAt": {
+            "title": "Released on",
+            "type": "string",
+            "description": "When the release was marked as released",
+            "format": "date-time",
+            "nullable": true
           }
         }
       }

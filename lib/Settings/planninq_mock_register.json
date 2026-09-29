@@ -488,6 +488,57 @@
       {
         "@self": {
           "register": "planninq",
+          "schema": "projectRelease",
+          "slug": "demo-release-portal-2-0",
+          "id": "0000de00-0000-4000-8000-000f00000001"
+        },
+        "title": "Client Portal 2.0",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "description": "The new dashboard and the documented REST API.",
+        "startDate": "2026-09-21",
+        "releaseDate": "2026-10-30",
+        "status": "planned"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectRelease",
+          "slug": "demo-release-migration-cutover",
+          "id": "0000de00-0000-4000-8000-000f00000002"
+        },
+        "title": "Cluster cutover",
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "members": [
+          "@operator"
+        ],
+        "description": "Every service runs on the new cluster.",
+        "startDate": "2026-09-14",
+        "releaseDate": "2026-11-13",
+        "status": "planned"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectRelease",
+          "slug": "demo-release-onboarding-pilot",
+          "id": "0000de00-0000-4000-8000-000f00000003"
+        },
+        "title": "Onboarding pilot",
+        "project": "0000de00-0000-4000-8000-000100000003",
+        "members": [
+          "@operator"
+        ],
+        "description": "The automated onboarding flow for the first department.",
+        "startDate": "2026-09-28",
+        "releaseDate": "2026-10-23",
+        "status": "planned"
+      },
+      {
+        "@self": {
+          "register": "planninq",
           "schema": "task",
           "slug": "demo-design-dashboard-widgets",
           "id": "0000de00-0000-4000-8000-000300000001"
@@ -590,7 +641,8 @@
           }
         ],
         "priority": "normal",
-        "issueType": "task"
+        "issueType": "task",
+        "release": "0000de00-0000-4000-8000-000f00000001"
       },
       {
         "@self": {
@@ -618,7 +670,8 @@
         ],
         "estimatedDuration": 240,
         "priority": "normal",
-        "issueType": "task"
+        "issueType": "task",
+        "release": "0000de00-0000-4000-8000-000f00000001"
       },
       {
         "@self": {

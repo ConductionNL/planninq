@@ -618,7 +618,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the fourteen expected schemas.
+	 * The register MUST declare exactly the fifteen expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
 	 * over the project work breakdown structure pipelinq had built, and
@@ -626,14 +626,15 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * (school-timetable-target, decision D10), `projectLogEntry` and `risk`
 	 * (projects-overview-logs-risks) and `projectStatusReport`
 	 * (portfolio-status-overview) and `portfolio`
-	 * (projects-grouping-hierarchy-fields). `example` must not be present.
+	 * (projects-grouping-hierarchy-fields) and `projectRelease`
+	 * (backlog-releases-roadmap). `example` must not be present.
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/task-dependencies/specs/register-schemas/spec.md
+	 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-1.3
 	 */
-	public function testRegisterDeclaresExactlyFourteenSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField'];
+	public function testRegisterDeclaresExactlyFifteenSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -642,7 +643,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the fourteen expected schemas'
+			message: 'register schema list must be exactly the fifteen expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -650,7 +651,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the fourteen expected schemas'
+			message: 'components.schemas must define exactly the fifteen expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -659,7 +660,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyFourteenSchemas()
+	}//end testRegisterDeclaresExactlyFifteenSchemas()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -864,7 +865,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testProjectScopedSchemasCarryAHiddenMembersList(): void {
-		foreach (['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease'] as $slug) {
 			$schema = $this->register['components']['schemas'][$slug];
 			$members = ($schema['properties']['members'] ?? null);
 
@@ -892,7 +893,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testProjectScopedSchemasMatchTheMembersList(): void {
-		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk', 'projectStatusReport'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease'] as $slug) {
 			$authorization = $this->register['components']['schemas'][$slug]['authorization'];
 
 			self::assertSame(
@@ -934,7 +935,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testProjectScopedCreateIsGatedByTheListenerNotByAMatch(): void {
-		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk', 'projectStatusReport'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease'] as $slug) {
 			self::assertSame(
 				expected: [['group' => 'authenticated'], ['group' => 'admin']],
 				actual: $this->register['components']['schemas'][$slug]['authorization']['create'],
@@ -1216,4 +1217,56 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		);
 		self::assertSame(expected: ['admin'], actual: $this->register['components']['schemas']['timetableSession']['authorization']['update']);
 	}//end testDraftReadRuleNamesTheTeacher()
+
+	/**
+	 * A release belongs to one project, which OpenRegister's members rule scopes.
+	 *
+	 * It carries the hidden members list the other project-scoped schemas carry
+	 * (asserted by the two scoped-schema tests above), a status that starts at
+	 * planned, and nullable dates. A payload with a null release date and a
+	 * released one pass the real validator; an unknown status does not.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-1.1
+	 */
+	public function testReleaseSchemaIsProjectScoped(): void {
+		$schema = $this->register['components']['schemas']['projectRelease'];
+
+		self::assertSame(expected: ['title', 'project'], actual: $schema['required']);
+		self::assertSame(expected: 'project', actual: $schema['properties']['project']['$ref']);
+		self::assertSame(expected: ['planned', 'released', 'archived'], actual: $schema['properties']['status']['enum']);
+		self::assertSame(expected: 'planned', actual: $schema['properties']['status']['default']);
+		self::assertContains(needle: 'projectRelease', haystack: \OCA\Planninq\Service\ProjectMembershipService::SCOPED_SCHEMAS);
+
+		$planned = ['title' => 'Version 2.0', 'project' => '00000000-0000-4000-8000-000000000001', 'releaseDate' => '2026-12-01', 'startDate' => null, 'status' => 'planned', 'releasedAt' => null];
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'projectRelease', payload: $planned));
+
+		$released = ['status' => 'released', 'releasedAt' => '2026-12-01T10:00:00+00:00'] + $planned;
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'projectRelease', payload: $released));
+
+		self::assertNotSame(expected: [], actual: $this->registerSchemaErrors(slug: 'projectRelease', payload: ['status' => 'shipped'] + $planned));
+
+	}//end testReleaseSchemaIsProjectScoped()
+
+	/**
+	 * A task points at no release or at one release.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-1.2
+	 */
+	public function testTaskReleaseReferenceIsNullable(): void {
+		$release = $this->register['components']['schemas']['task']['properties']['release'];
+
+		self::assertSame(expected: 'projectRelease', actual: $release['$ref']);
+		self::assertTrue(condition: $release['nullable']);
+		self::assertSame(expected: 'string', actual: $release['type']);
+
+		$task = ['title' => 'Export to CSV', 'project' => '00000000-0000-4000-8000-000000000001', 'release' => null];
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'task', payload: $task));
+		$task['release'] = '00000000-0000-4000-8000-000000000002';
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'task', payload: $task));
+
+	}//end testTaskReleaseReferenceIsNullable()
 }//end class

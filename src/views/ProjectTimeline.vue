@@ -11,7 +11,7 @@
 				{{ projectTitle }}
 			</NcButton>
 			<span class="project-timeline__crumb-sep" aria-hidden="true">/</span>
-			<span>{{ t('planninq', 'Timeline') }}</span>
+			<span>{{ view === 'roadmap' ? t('planninq', 'Roadmap') : t('planninq', 'Timeline') }}</span>
 		</div>
 
 		<ProjectTabs :projectId="projectId" />
@@ -19,10 +19,26 @@
 		<!-- Header + zoom control -->
 		<div class="project-timeline__header">
 			<h2 class="project-timeline__title">
-				{{ t('planninq', 'Timeline') }}
+				{{ view === 'roadmap' ? t('planninq', 'Roadmap') : t('planninq', 'Timeline') }}
 			</h2>
 			<div class="project-timeline__zoom">
-				<NcButton v-if="isOwner"
+				<div class="project-timeline__view-switch"
+					role="group"
+					:aria-label="t('planninq', 'Tasks or roadmap')">
+					<NcButton :variant="view === 'tasks' ? 'primary' : 'tertiary'"
+						:aria-pressed="view === 'tasks'"
+						data-testid="timeline-view-tasks"
+						@click="setView('tasks')">
+						{{ t('planninq', 'Tasks') }}
+					</NcButton>
+					<NcButton :variant="view === 'roadmap' ? 'primary' : 'tertiary'"
+						:aria-pressed="view === 'roadmap'"
+						data-testid="timeline-view-roadmap"
+						@click="setView('roadmap')">
+						{{ t('planninq', 'Roadmap') }}
+					</NcButton>
+				</div>
+				<NcButton v-if="isOwner && view === 'tasks'"
 					data-testid="msproject-import-open"
 					@click="showImport = true">
 					<template #icon>
@@ -40,8 +56,13 @@
 			</div>
 		</div>
 
+		<!-- Roadmap view (backlog-releases-roadmap) -->
+		<ProjectRoadmap v-if="view === 'roadmap'"
+			:projectId="projectId"
+			:pxPerDay="pxPerDay" />
+
 		<!-- Loading -->
-		<div v-if="loading" class="project-timeline__loading">
+		<div v-else-if="loading" class="project-timeline__loading">
 			<NcLoadingIcon :size="32" />
 		</div>
 
@@ -172,6 +193,7 @@ import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue
 import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
 import ChartTimeline from 'vue-material-design-icons/ChartTimeline.vue'
 import FileImportOutline from 'vue-material-design-icons/FileImportOutline.vue'
+import ProjectRoadmap from '../components/ProjectRoadmap.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import MsProjectImportDialog from '../dialogs/MsProjectImportDialog.vue'
 import { fetchProjectTimeline } from '../api/timeline.js'
@@ -198,6 +220,7 @@ export default {
 		ChartTimeline,
 		FileImportOutline,
 		MsProjectImportDialog,
+		ProjectRoadmap,
 		ProjectTabs,
 	},
 
@@ -224,6 +247,18 @@ export default {
 		 */
 		projectId() {
 			return this.$route.params.id
+		},
+
+		/**
+		 * Which view the page shows: the task Gantt, or the roadmap of
+		 * releases and epics (?view=roadmap, so a link or reload keeps it).
+		 *
+		 * @return {string} 'tasks' or 'roadmap'.
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.1
+		 */
+		view() {
+			return this.$route.query?.view === 'roadmap' ? 'roadmap' : 'tasks'
 		},
 
 		/**
@@ -394,6 +429,20 @@ export default {
 
 	methods: {
 		/**
+		 * Switch between the task Gantt and the roadmap.
+		 *
+		 * @param {string} view 'tasks' or 'roadmap'.
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.1
+		 */
+		setView(view) {
+			if (view === this.view) {
+				return
+			}
+			this.$router.replace({ name: 'ProjectTimeline', params: { id: this.projectId }, query: view === 'roadmap' ? { view: 'roadmap' } : {} })
+		},
+
+		/**
 		 * Fetch the timeline payload for the current project (read-only).
 		 *
 		 * @return {Promise<void>}
@@ -511,6 +560,11 @@ export default {
 	align-items: flex-end;
 	gap: 8px;
 	min-width: 160px;
+}
+
+.project-timeline__view-switch {
+	display: flex;
+	gap: 4px;
 }
 
 .project-timeline__loading {
