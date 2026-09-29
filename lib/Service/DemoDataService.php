@@ -341,6 +341,19 @@ class DemoDataService {
 			return $value;
 		}
 
+		return $this->fitString(value: $value, operator: $operator, days: $days);
+	}//end fitValue()
+
+	/**
+	 * Replace the placeholder, or shift a date or date-time, in one string.
+	 *
+	 * @param string  $value    The string.
+	 * @param string  $operator The admin's uid.
+	 * @param integer $days     Days to add to a date.
+	 *
+	 * @return string The fitted string.
+	 */
+	private function fitString(string $value, string $operator, int $days): string {
 		if ($value === self::OPERATOR_PLACEHOLDER) {
 			return $operator;
 		}
@@ -351,7 +364,7 @@ class DemoDataService {
 		}
 
 		return $value;
-	}//end fitValue()
+	}//end fitString()
 
 	/**
 	 * Absolute path to the shipped descriptor.
