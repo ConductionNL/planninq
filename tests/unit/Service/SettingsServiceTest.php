@@ -139,7 +139,6 @@ class SettingsServiceTest extends TestCase {
 				groupManager: $this->groupManager,
 				userSession: $this->userSession,
 			),
-			boardViews: new BoardViewPreferenceService(config: $this->config),
 		);
 
 	}//end setUp()
