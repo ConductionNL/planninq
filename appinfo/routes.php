@@ -34,8 +34,8 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'dependency#destroy', 'url' => '/api/dependencies/{id}', 'verb' => 'DELETE', 'requirements' => ['id' => '[^/]+']],
 
     // Microsoft Project plan import: preview (writes nothing), then import. Owner or admin, checked per project.
-    ['name' => 'project_import#preview', 'url' => '/api/projects/{projectId}/import/msproject/preview', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
-    ['name' => 'project_import#import', 'url' => '/api/projects/{projectId}/import/msproject', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'projectImport#preview', 'url' => '/api/projects/{projectId}/import/msproject/preview', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'projectImport#import', 'url' => '/api/projects/{projectId}/import/msproject', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
 
     // Read-only per-project timeline (Gantt) — RBAC-scoped through OR ObjectService.
     ['name' => 'timeline#forProject', 'url' => '/api/projects/{projectId}/timeline', 'verb' => 'GET', 'requirements' => ['projectId' => '[^/]+']],
