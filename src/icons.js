@@ -25,6 +25,7 @@ import ChartTimeline from 'vue-material-design-icons/ChartTimeline.vue'
 import CheckboxMarkedCircleOutline from 'vue-material-design-icons/CheckboxMarkedCircleOutline.vue'
 import ClockOutline from 'vue-material-design-icons/ClockOutline.vue'
 import CloudUpload from 'vue-material-design-icons/CloudUpload.vue'
+import CurrencyEur from 'vue-material-design-icons/CurrencyEur.vue'
 import FolderMultipleOutline from 'vue-material-design-icons/FolderMultipleOutline.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
 import History from 'vue-material-design-icons/History.vue'
@@ -52,6 +53,7 @@ export default {
 	CheckboxMarkedCircleOutline,
 	ClockOutline,
 	CloudUpload,
+	CurrencyEur,
 	FolderMultipleOutline,
 	FolderOutline,
 	History,
