@@ -713,7 +713,15 @@
         "Remove link": "Выдаліць сувязь",
         "Link type": "Тып сувязі",
         "Relates to": "Звязана з",
-        "Duplicates": "Дублюе"
+        "Duplicates": "Дублюе",
+        "Project key": "Ключ праекта",
+        "Every task number starts with it, such as VERG-42.": "З яго пачынаецца кожны нумар задачы, напрыклад VERG-42.",
+        "This key is already used by another project.": "Гэты ключ ужо выкарыстоўвае іншы праект.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Выкарыстоўвайце ад 2 да 10 літар і лічбаў, пачынаючы з літары.",
+        "The key cannot change once tasks carry it.": "Ключ нельга змяніць, калі задачы ўжо яго маюць.",
+        "Project saved. The existing tasks get their numbers in the background.": "Праект захаваны. Існуючыя задачы атрымліваюць нумары ў фонавым рэжыме.",
+        "Next task number": "Нумар наступнай задачы",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Нумар, які наступная задача гэтага праекта атрымлівае ў сваім ключы. Яго запісвае толькі сістэма."
     },
     "plurals": {}
 }

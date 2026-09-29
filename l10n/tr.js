@@ -714,7 +714,15 @@ OC.L10N.register(
         "Remove link": "Bağlantıyı kaldır",
         "Link type": "Bağlantı türü",
         "Relates to": "İlgili olduğu",
-        "Duplicates": "Çoğaltır"
+        "Duplicates": "Çoğaltır",
+        "Project key": "Proje anahtarı",
+        "Every task number starts with it, such as VERG-42.": "Her görev numarası onunla başlar, örneğin VERG-42.",
+        "This key is already used by another project.": "Bu anahtar zaten başka bir proje tarafından kullanılıyor.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Bir harfle başlayan 2 ile 10 arası harf ve rakam kullanın.",
+        "The key cannot change once tasks carry it.": "Görevler taşıdıktan sonra anahtar değiştirilemez.",
+        "Project saved. The existing tasks get their numbers in the background.": "Proje kaydedildi. Mevcut görevler numaralarını arka planda alır.",
+        "Next task number": "Sonraki görev numarası",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Bu projenin bir sonraki görevinin anahtarında aldığı numara. Yalnızca sistem yazar."
     },
     "nplurals=2; plural=(n != 1);"
 )

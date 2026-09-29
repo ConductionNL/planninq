@@ -713,7 +713,15 @@
         "Remove link": "Treu l'enllaç",
         "Link type": "Tipus d'enllaç",
         "Relates to": "Relacionada amb",
-        "Duplicates": "Duplica"
+        "Duplicates": "Duplica",
+        "Project key": "Clau del projecte",
+        "Every task number starts with it, such as VERG-42.": "Cada número de tasca comença per ella, per exemple VERG-42.",
+        "This key is already used by another project.": "Un altre projecte ja fa servir aquesta clau.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Feu servir de 2 a 10 lletres i xifres, començant per una lletra.",
+        "The key cannot change once tasks carry it.": "La clau no pot canviar un cop les tasques la porten.",
+        "Project saved. The existing tasks get their numbers in the background.": "Projecte desat. Les tasques existents reben el número en segon pla.",
+        "Next task number": "Número de la tasca següent",
+        "The number the next task of this project gets in its key. Only the system writes it.": "El número que rep a la seva clau la tasca següent d’aquest projecte. Només el sistema l’escriu."
     },
     "plurals": null
 }

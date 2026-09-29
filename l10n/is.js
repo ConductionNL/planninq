@@ -714,7 +714,15 @@ OC.L10N.register(
         "Remove link": "Fjarlægja tengingu",
         "Link type": "Tegund tengingar",
         "Relates to": "Tengist",
-        "Duplicates": "Tvítekur"
+        "Duplicates": "Tvítekur",
+        "Project key": "Verkefnislykill",
+        "Every task number starts with it, such as VERG-42.": "Hvert verknúmer byrjar á honum, til dæmis VERG-42.",
+        "This key is already used by another project.": "Annað verkefni notar þegar þennan lykil.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Notaðu 2 til 10 stafi og tölustafi sem byrja á bókstaf.",
+        "The key cannot change once tasks carry it.": "Ekki er hægt að breyta lyklinum þegar verk bera hann.",
+        "Project saved. The existing tasks get their numbers in the background.": "Verkefni vistað. Núverandi verk fá númerin sín í bakgrunni.",
+        "Next task number": "Næsta verknúmer",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Númerið sem næsta verk þessa verkefnis fær í lykli sínum. Aðeins kerfið skrifar það."
     },
     "nplurals=2; plural=(n != 1);"
 )

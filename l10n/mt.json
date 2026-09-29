@@ -713,7 +713,15 @@
         "Remove link": "Neħħi l-link",
         "Link type": "Tip ta' link",
         "Relates to": "Relatat ma'",
-        "Duplicates": "Jidduplika"
+        "Duplicates": "Jidduplika",
+        "Project key": "Iċ-ċavetta tal-proġett",
+        "Every task number starts with it, such as VERG-42.": "Kull numru tal-kompitu jibda biha, pereżempju VERG-42.",
+        "This key is already used by another project.": "Din iċ-ċavetta diġà qed jużaha proġett ieħor.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Uża minn 2 sa 10 ittri u ċifri, li jibdew b’ittra.",
+        "The key cannot change once tasks carry it.": "Iċ-ċavetta ma tistax tinbidel ladarba kompiti jġorruha.",
+        "Project saved. The existing tasks get their numbers in the background.": "Il-proġett ġie ssejvjat. Il-kompiti eżistenti jiksbu n-numri tagħhom fl-isfond.",
+        "Next task number": "In-numru tal-kompitu li jmiss",
+        "The number the next task of this project gets in its key. Only the system writes it.": "In-numru li l-kompitu li jmiss ta’ dan il-proġett jieħu fiċ-ċavetta tiegħu. Is-sistema biss tiktbu."
     },
     "plurals": {}
 }

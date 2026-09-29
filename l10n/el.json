@@ -713,7 +713,15 @@
         "Remove link": "Αφαίρεση σύνδεσης",
         "Link type": "Είδος σύνδεσης",
         "Relates to": "Σχετίζεται με",
-        "Duplicates": "Αντιγράφει"
+        "Duplicates": "Αντιγράφει",
+        "Project key": "Κλειδί έργου",
+        "Every task number starts with it, such as VERG-42.": "Κάθε αριθμός εργασίας ξεκινά με αυτό, π.χ. VERG-42.",
+        "This key is already used by another project.": "Αυτό το κλειδί χρησιμοποιείται ήδη από άλλο έργο.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Χρησιμοποιήστε 2 έως 10 γράμματα και ψηφία, ξεκινώντας με γράμμα.",
+        "The key cannot change once tasks carry it.": "Το κλειδί δεν μπορεί να αλλάξει όταν το φέρουν εργασίες.",
+        "Project saved. The existing tasks get their numbers in the background.": "Το έργο αποθηκεύτηκε. Οι υπάρχουσες εργασίες παίρνουν τους αριθμούς τους στο παρασκήνιο.",
+        "Next task number": "Αριθμός επόμενης εργασίας",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Ο αριθμός που παίρνει στο κλειδί της η επόμενη εργασία αυτού του έργου. Τον γράφει μόνο το σύστημα."
     },
     "plurals": null
 }

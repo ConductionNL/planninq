@@ -713,7 +713,15 @@
         "Remove link": "Kapcsolat eltávolítása",
         "Link type": "Kapcsolat típusa",
         "Relates to": "Kapcsolódik ehhez",
-        "Duplicates": "Megkettőzi"
+        "Duplicates": "Megkettőzi",
+        "Project key": "Projektkulcs",
+        "Every task number starts with it, such as VERG-42.": "Minden feladatszám ezzel kezdődik, például VERG-42.",
+        "This key is already used by another project.": "Ezt a kulcsot már egy másik projekt használja.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Használjon 2–10 betűt és számjegyet, betűvel kezdve.",
+        "The key cannot change once tasks carry it.": "A kulcs nem változhat, ha már feladatok viselik.",
+        "Project saved. The existing tasks get their numbers in the background.": "A projekt mentve. A meglévő feladatok a háttérben kapják meg a számukat.",
+        "Next task number": "Következő feladatszám",
+        "The number the next task of this project gets in its key. Only the system writes it.": "A szám, amelyet a projekt következő feladata a kulcsában kap. Csak a rendszer írja."
     },
     "plurals": null
 }

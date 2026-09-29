@@ -714,7 +714,15 @@ OC.L10N.register(
         "Remove link": "Elimină legătura",
         "Link type": "Tipul legăturii",
         "Relates to": "Se leagă de",
-        "Duplicates": "Dublează"
+        "Duplicates": "Dublează",
+        "Project key": "Cheia proiectului",
+        "Every task number starts with it, such as VERG-42.": "Fiecare număr de sarcină începe cu ea, de exemplu VERG-42.",
+        "This key is already used by another project.": "Această cheie este deja folosită de alt proiect.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Folosiți între 2 și 10 litere și cifre, începând cu o literă.",
+        "The key cannot change once tasks carry it.": "Cheia nu se mai poate schimba după ce sarcinile o poartă.",
+        "Project saved. The existing tasks get their numbers in the background.": "Proiect salvat. Sarcinile existente își primesc numerele în fundal.",
+        "Next task number": "Numărul următoarei sarcini",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Numărul pe care următoarea sarcină a acestui proiect îl primește în cheia sa. Doar sistemul îl scrie."
     },
     "nplurals=2; plural=(n != 1);"
 )

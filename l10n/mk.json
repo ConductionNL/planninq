@@ -713,7 +713,15 @@
         "Remove link": "Отстрани врска",
         "Link type": "Вид врска",
         "Relates to": "Поврзано со",
-        "Duplicates": "Дуплира"
+        "Duplicates": "Дуплира",
+        "Project key": "Клуч на проектот",
+        "Every task number starts with it, such as VERG-42.": "Секој број на задача започнува со него, на пример VERG-42.",
+        "This key is already used by another project.": "Овој клуч веќе го користи друг проект.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Користете од 2 до 10 букви и цифри, почнувајќи со буква.",
+        "The key cannot change once tasks carry it.": "Клучот не може да се смени откако задачите го носат.",
+        "Project saved. The existing tasks get their numbers in the background.": "Проектот е зачуван. Постојните задачи ги добиваат своите броеви во позадина.",
+        "Next task number": "Број на следната задача",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Бројот што следната задача од овој проект го добива во својот клуч. Го запишува само системот."
     },
     "plurals": null
 }

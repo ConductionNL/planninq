@@ -735,7 +735,15 @@ OC.L10N.register(
         "Remove link": "Koppeling verwijderen",
         "Link type": "Soort koppeling",
         "Relates to": "Hangt samen met",
-        "Duplicates": "Dupliceert"
+        "Duplicates": "Dupliceert",
+        "Project key": "Projectsleutel",
+        "Every task number starts with it, such as VERG-42.": "Elk taaknummer begint ermee, zoals VERG-42.",
+        "This key is already used by another project.": "Deze sleutel wordt al door een ander project gebruikt.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Gebruik 2 tot 10 letters en cijfers, beginnend met een letter.",
+        "The key cannot change once tasks carry it.": "De sleutel kan niet meer veranderen zodra taken hem dragen.",
+        "Project saved. The existing tasks get their numbers in the background.": "Project opgeslagen. De bestaande taken krijgen op de achtergrond hun nummer.",
+        "Next task number": "Volgend taaknummer",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Het nummer dat de volgende taak van dit project in zijn sleutel krijgt. Alleen het systeem schrijft het."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -713,7 +713,15 @@
         "Remove link": "Bain an nasc",
         "Link type": "Cineál naisc",
         "Relates to": "Bainteach le",
-        "Duplicates": "Dúblaíonn"
+        "Duplicates": "Dúblaíonn",
+        "Project key": "Eochair an tionscadail",
+        "Every task number starts with it, such as VERG-42.": "Tosaíonn gach uimhir tasc léi, mar shampla VERG-42.",
+        "This key is already used by another project.": "Tá an eochair seo in úsáid cheana ag tionscadal eile.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Úsáid 2 go 10 litir agus digit, ag tosú le litir.",
+        "The key cannot change once tasks carry it.": "Ní féidir an eochair a athrú nuair atá sí ar thascanna.",
+        "Project saved. The existing tasks get their numbers in the background.": "Sábháladh an tionscadal. Faigheann na tascanna atá ann a n-uimhreacha sa chúlra.",
+        "Next task number": "Uimhir an chéad taisc eile",
+        "The number the next task of this project gets in its key. Only the system writes it.": "An uimhir a fhaigheann an chéad tasc eile den tionscadal seo ina eochair. Ní scríobhann ach an córas í."
     },
     "plurals": null
 }

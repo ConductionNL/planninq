@@ -713,7 +713,15 @@
         "Remove link": "Odstrani povezavo",
         "Link type": "Vrsta povezave",
         "Relates to": "Povezano z",
-        "Duplicates": "Podvaja"
+        "Duplicates": "Podvaja",
+        "Project key": "Ključ projekta",
+        "Every task number starts with it, such as VERG-42.": "Vsaka številka naloge se začne z njim, na primer VERG-42.",
+        "This key is already used by another project.": "Ta ključ že uporablja drug projekt.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Uporabite od 2 do 10 črk in števk, ki se začnejo s črko.",
+        "The key cannot change once tasks carry it.": "Ključa ni mogoče spremeniti, ko ga nosijo naloge.",
+        "Project saved. The existing tasks get their numbers in the background.": "Projekt je shranjen. Obstoječe naloge dobijo številke v ozadju.",
+        "Next task number": "Številka naslednje naloge",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Številka, ki jo naslednja naloga tega projekta dobi v svojem ključu. Piše jo samo sistem."
     },
     "plurals": null
 }

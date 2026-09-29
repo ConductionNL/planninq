@@ -713,7 +713,15 @@
         "Remove link": "Fjern lenke",
         "Link type": "Lenketype",
         "Relates to": "Relatert til",
-        "Duplicates": "Dupliserer"
+        "Duplicates": "Dupliserer",
+        "Project key": "Prosjektnøkkel",
+        "Every task number starts with it, such as VERG-42.": "Hvert oppgavenummer begynner med den, for eksempel VERG-42.",
+        "This key is already used by another project.": "Denne nøkkelen brukes allerede av et annet prosjekt.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Bruk 2 til 10 bokstaver og sifre, som begynner med en bokstav.",
+        "The key cannot change once tasks carry it.": "Nøkkelen kan ikke endres når oppgaver bærer den.",
+        "Project saved. The existing tasks get their numbers in the background.": "Prosjektet er lagret. De eksisterende oppgavene får numrene sine i bakgrunnen.",
+        "Next task number": "Neste oppgavenummer",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Nummeret den neste oppgaven i dette prosjektet får i nøkkelen sin. Bare systemet skriver det."
     },
     "plurals": {}
 }

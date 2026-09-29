@@ -713,7 +713,15 @@
         "Remove link": "Ta bort länk",
         "Link type": "Länktyp",
         "Relates to": "Relaterar till",
-        "Duplicates": "Duplicerar"
+        "Duplicates": "Duplicerar",
+        "Project key": "Projektnyckel",
+        "Every task number starts with it, such as VERG-42.": "Varje uppgiftsnummer börjar med den, till exempel VERG-42.",
+        "This key is already used by another project.": "Den här nyckeln används redan av ett annat projekt.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Använd 2 till 10 bokstäver och siffror som börjar med en bokstav.",
+        "The key cannot change once tasks carry it.": "Nyckeln kan inte ändras när uppgifter bär den.",
+        "Project saved. The existing tasks get their numbers in the background.": "Projektet sparat. De befintliga uppgifterna får sina nummer i bakgrunden.",
+        "Next task number": "Nästa uppgiftsnummer",
+        "The number the next task of this project gets in its key. Only the system writes it.": "Numret som nästa uppgift i det här projektet får i sin nyckel. Bara systemet skriver det."
     },
     "plurals": null
 }

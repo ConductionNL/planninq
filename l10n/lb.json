@@ -713,7 +713,15 @@
         "Remove link": "Link ewechhuelen",
         "Link type": "Linktyp",
         "Relates to": "Hänkt zesumme mat",
-        "Duplicates": "Dupliziert"
+        "Duplicates": "Dupliziert",
+        "Project key": "Projetsschlëssel",
+        "Every task number starts with it, such as VERG-42.": "All Aufgabennummer fänkt domat un, zum Beispill VERG-42.",
+        "This key is already used by another project.": "Dëse Schlëssel gëtt schonn vun engem anere Projet benotzt.",
+        "Use 2 to 10 letters and digits, starting with a letter.": "Benotzt 2 bis 10 Buschtawen an Zifferen, déi mat engem Buschtaf ufänken.",
+        "The key cannot change once tasks carry it.": "De Schlëssel kann net méi änneren, soubal Aufgaben en droen.",
+        "Project saved. The existing tasks get their numbers in the background.": "Projet gespäichert. Déi bestoend Aufgaben kréien hir Nummeren am Hannergrond.",
+        "Next task number": "Nächst Aufgabennummer",
+        "The number the next task of this project gets in its key. Only the system writes it.": "D’Nummer, déi déi nächst Aufgab vun dësem Projet an hirem Schlëssel kritt. Just de System schreift se."
     },
     "plurals": null
 }
