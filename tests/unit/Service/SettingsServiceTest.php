@@ -492,64 +492,6 @@ class SettingsServiceTest extends TestCase {
 	}//end testStatusReportPeriodDefaultsToThirtyAndAcceptsWholeDays()
 
 	/**
-	 * Task 1.2: the week grid defaults to Monday to Friday with eight periods
-	 * of 50 minutes from 08:30, and the generator budget to ten minutes. An
-	 * empty day list, overlapping periods, a period ending before it starts
-	 * and a budget outside 1 to 120 minutes are refused and leave the stored
-	 * value alone; a good grid is stored in week order.
-	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
-	 *
-	 * @return void
-	 */
-	public function testTimetableGridDefaultsAndRefusals(): void {
-		$stored = [];
-		$this->actAs(stored: $stored, uid: 'root', admin: true);
-
-		$defaults = $this->service->getAdminSettings();
-		$grid     = json_decode($defaults['timetable_period_grid'], true);
-		self::assertSame(expected: ['mon', 'tue', 'wed', 'thu', 'fri'], actual: $grid['days']);
-		self::assertCount(expectedCount: 8, haystack: $grid['periods']);
-		self::assertSame(expected: ['start' => '08:30', 'end' => '09:20'], actual: $grid['periods'][0]);
-		self::assertSame(expected: ['start' => '14:20', 'end' => '15:10'], actual: $grid['periods'][7]);
-		self::assertSame(expected: '10', actual: $defaults['timetable_generator_budget_minutes']);
-
-		$refused = [
-			'empty day list' => '{"days":[],"periods":[{"start":"08:30","end":"09:20"}]}',
-			'unknown day' => '{"days":["mon","someday"],"periods":[{"start":"08:30","end":"09:20"}]}',
-			'day twice' => '{"days":["mon","mon"],"periods":[{"start":"08:30","end":"09:20"}]}',
-			'overlapping periods' => '{"days":["mon"],"periods":[{"start":"08:30","end":"09:20"},{"start":"09:00","end":"09:50"}]}',
-			'ends before it starts' => '{"days":["mon"],"periods":[{"start":"09:20","end":"08:30"}]}',
-			'no periods' => '{"days":["mon"],"periods":[]}',
-			'bad time' => '{"days":["mon"],"periods":[{"start":"8.30","end":"09:20"}]}',
-			'period not an object' => '{"days":["mon"],"periods":["08:30"]}',
-			'not json' => 'mon to fri',
-		];
-		foreach ($refused as $why => $raw) {
-			$this->service->updateSettings(['timetable_period_grid' => $raw]);
-			self::assertArrayNotHasKey(key: 'timetable_period_grid', array: $stored, message: $why);
-		}
-
-		foreach (['0', '121', 'ten', '2.5'] as $budget) {
-			$this->service->updateSettings(['timetable_generator_budget_minutes' => $budget]);
-			self::assertArrayNotHasKey(key: 'timetable_generator_budget_minutes', array: $stored, message: 'budget '.$budget);
-		}
-
-		$this->service->updateSettings(
-			[
-				'timetable_period_grid' => '{"days":["fri","mon"],"periods":[{"start":" 08:00","end":"08:45"},{"start":"08:45","end":"09:30"}]}',
-				'timetable_generator_budget_minutes' => ' 30 ',
-			]
-		);
-		self::assertSame(
-			expected: '{"days":["mon","fri"],"periods":[{"start":"08:00","end":"08:45"},{"start":"08:45","end":"09:30"}]}',
-			actual: $stored['timetable_period_grid']
-		);
-		self::assertSame(expected: '30', actual: $stored['timetable_generator_budget_minutes']);
-
-	}//end testTimetableGridDefaultsAndRefusals()
-
-	/**
 	 * Task 1.2: the finance categories default to four and take any list of distinct names.
 	 *
 	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2

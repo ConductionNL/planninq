@@ -25,8 +25,13 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\Planninq\AppInfo\Application;
+use OCP\IAppConfig;
+
 /**
- * Validates and reads the week grid and the generator time budget.
+ * Reads, validates and stores the week grid and the generator time budget.
+ * The settings page reads and writes them through SettingsController, next to
+ * the other admin settings.
  *
  * A grid is JSON: {"days": ["mon", ...], "periods": [{"start": "08:30", "end": "09:20"}, ...]}.
  * A period key is the day and the period number from 1, as in `mon-3`.
@@ -80,6 +85,72 @@ class TimetableGridService {
 		.'{"start":"10:10","end":"11:00"},{"start":"11:00","end":"11:50"},'
 		.'{"start":"11:50","end":"12:40"},{"start":"12:40","end":"13:30"},'
 		.'{"start":"13:30","end":"14:20"},{"start":"14:20","end":"15:10"}]}';
+
+	/**
+	 * Constructor.
+	 *
+	 * @param IAppConfig $appConfig Holds the two settings.
+	 *
+	 * @return void
+	 */
+	public function __construct(
+		private readonly IAppConfig $appConfig,
+	) {
+	}//end __construct()
+
+	/**
+	 * Both settings, the defaults where nothing is stored.
+	 *
+	 * @return array<string,string>
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 */
+	public function settings(): array {
+		return [
+			self::GRID_KEY   => $this->appConfig->getValueString(Application::APP_ID, self::GRID_KEY, self::DEFAULT_GRID),
+			self::BUDGET_KEY => $this->appConfig->getValueString(Application::APP_ID, self::BUDGET_KEY, self::DEFAULT_BUDGET),
+		];
+	}//end settings()
+
+	/**
+	 * Store the grid and budget found in submitted settings; a refused value is not stored.
+	 *
+	 * @param array<string,mixed> $data The submitted settings.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 */
+	public function save(array $data): void {
+		$normalised = [
+			self::GRID_KEY   => $this->normaliseGrid(raw: (string)($data[self::GRID_KEY] ?? '')),
+			self::BUDGET_KEY => $this->normaliseBudget(raw: (string)($data[self::BUDGET_KEY] ?? '')),
+		];
+		foreach ($normalised as $key => $value) {
+			if (array_key_exists($key, $data) === true && $value !== null) {
+				$this->appConfig->setValueString(Application::APP_ID, $key, $value);
+			}
+		}
+	}//end save()
+
+	/**
+	 * The period keys of the stored grid, day by day, as in `mon-1`.
+	 *
+	 * @return array<int,string>
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 */
+	public function periodKeys(): array {
+		$grid = (array)json_decode(($this->normaliseGrid(raw: $this->settings()[self::GRID_KEY]) ?? self::DEFAULT_GRID), true);
+		$keys = [];
+		foreach ((array)$grid['days'] as $day) {
+			foreach (array_keys((array)$grid['periods']) as $index) {
+				$keys[] = $day.'-'.($index + 1);
+			}
+		}
+
+		return $keys;
+	}//end periodKeys()
 
 	/**
 	 * A submitted grid as it is stored, or null to refuse it.
