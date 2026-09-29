@@ -659,7 +659,7 @@ class Application extends App implements IBootstrap {
 				event: 'OCA\\OpenRegister\\Event\\' . $event,
 				listener: 'OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener',
 				registers: ['planninq'],
-				schemas: ['project', 'portfolio']
+				schemas: ['project', 'projectPortfolio']
 			);
 		}
 

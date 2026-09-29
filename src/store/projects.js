@@ -32,7 +32,7 @@ const LABEL_SCHEMA = 'label'
 const LOG_SCHEMA = 'projectLogEntry'
 const RISK_SCHEMA = 'risk'
 const STATUS_REPORT_SCHEMA = 'projectStatusReport'
-const PORTFOLIO_SCHEMA = 'portfolio'
+const PORTFOLIO_SCHEMA = 'projectPortfolio'
 
 /**
  * Largest page OpenRegister will return. Asking for more is silently capped.

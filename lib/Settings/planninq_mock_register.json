@@ -594,7 +594,7 @@
       {
         "@self": {
           "register": "planninq",
-          "schema": "portfolio",
+          "schema": "projectPortfolio",
           "slug": "portfolio-voorbeeld-1"
         },
         "title": "Ruimte",
@@ -607,7 +607,7 @@
       {
         "@self": {
           "register": "planninq",
-          "schema": "portfolio",
+          "schema": "projectPortfolio",
           "slug": "portfolio-voorbeeld-2"
         },
         "title": "Dienstverlening",
@@ -620,7 +620,7 @@
       {
         "@self": {
           "register": "planninq",
-          "schema": "portfolio",
+          "schema": "projectPortfolio",
           "slug": "portfolio-voorbeeld-3"
         },
         "title": "Bedrijfsvoering",

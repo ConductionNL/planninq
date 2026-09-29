@@ -31,7 +31,7 @@
           "projectLogEntry",
           "risk",
           "projectStatusReport",
-          "portfolio"
+          "projectPortfolio"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -483,7 +483,7 @@
             "type": "string",
             "description": "The portfolio this project belongs to",
             "format": "uuid",
-            "$ref": "portfolio",
+            "$ref": "projectPortfolio",
             "nullable": true
           },
           "members": {
@@ -2203,8 +2203,8 @@
           }
         }
       },
-      "portfolio": {
-        "slug": "portfolio",
+      "projectPortfolio": {
+        "slug": "projectPortfolio",
         "icon": "FolderMultipleOutline",
         "version": "0.1.0",
         "title": "Portfolio",

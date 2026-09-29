@@ -69,7 +69,7 @@ it belongs to.
 @e2e exclude Descriptor contents, asserted by PHPUnit (testRegisterDeclaresExactlyTwelveSchemas)
 - GIVEN the planninq register descriptor
 - WHEN its schema list is read
-- THEN it MUST be exactly task, project, projectPhase, column, plannedTimeEntry, label, dependency, timetableSession, projectLogEntry, risk, projectStatusReport and portfolio
+- THEN it MUST be exactly task, project, projectPhase, column, plannedTimeEntry, label, dependency, timetableSession, projectLogEntry, risk, projectStatusReport and projectPortfolio
 
 #### Scenario: An unphased project still works
 @e2e exclude Schema shape, asserted by PHPUnit against the register descriptor

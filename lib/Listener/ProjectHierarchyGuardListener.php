@@ -69,7 +69,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 *
 	 * @var string
 	 */
-	public const PORTFOLIO_SCHEMA = 'portfolio';
+	public const PORTFOLIO_SCHEMA = 'projectPortfolio';
 
 	/**
 	 * OpenRegister's system-operation scope, by name.

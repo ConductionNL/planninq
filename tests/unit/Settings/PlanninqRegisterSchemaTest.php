@@ -372,7 +372,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @spec openspec/changes/task-dependencies/specs/register-schemas/spec.md
 	 */
 	public function testRegisterDeclaresExactlyTwelveSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'portfolio'];
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -809,7 +809,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.1
 	 */
 	public function testPortfolioSchemaAndTheProjectReaderRule(): void {
-		$portfolio = $this->register['components']['schemas']['portfolio'];
+		$portfolio = $this->register['components']['schemas']['projectPortfolio'];
 		self::assertSame(expected: ['title'], actual: $portfolio['required']);
 		self::assertSame(expected: ['type' => 'string'], actual: $portfolio['properties']['managers']['items']);
 		self::assertSame(expected: 'integer', actual: $portfolio['properties']['order']['type']);
@@ -823,7 +823,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(expected: ['admin'], actual: $portfolio['authorization']['delete']);
 
 		$project = $this->register['components']['schemas']['project'];
-		self::assertSame(expected: 'portfolio', actual: $project['properties']['portfolio']['$ref']);
+		self::assertSame(expected: 'projectPortfolio', actual: $project['properties']['portfolio']['$ref']);
 		self::assertTrue(condition: $project['properties']['portfolio']['nullable']);
 		self::assertFalse(condition: $project['properties']['portfolioReaders']['visible']);
 		self::assertContains(needle: self::READER_RULE, haystack: $project['authorization']['read']);

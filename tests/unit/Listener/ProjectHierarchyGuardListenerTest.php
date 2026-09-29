@@ -56,8 +56,8 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->objects = new InMemoryObjectService();
-		$this->objects->seed('portfolio', self::RUIMTE, ['title' => 'Ruimte', 'managers' => ['mia']]);
-		$this->objects->seed('portfolio', self::DIENST, ['title' => 'Dienstverlening', 'managers' => ['dirk', 'eva']]);
+		$this->objects->seed('projectPortfolio', self::RUIMTE, ['title' => 'Ruimte', 'managers' => ['mia']]);
+		$this->objects->seed('projectPortfolio', self::DIENST, ['title' => 'Dienstverlening', 'managers' => ['dirk', 'eva']]);
 		$this->objects->seed('project', self::PROJECT, ['title' => 'Omgevingsvisie', 'status' => 'active', 'owner' => 'carol', 'members' => ['bob'], 'portfolio' => self::RUIMTE, 'portfolioReaders' => ['mia']]);
 		$this->objects->seed('task', self::TASK, ['title' => 'Draft', 'status' => 'todo', 'project' => self::PROJECT, 'members' => ['bob', 'carol'], 'portfolioReaders' => ['mia']]);
 	}//end setUp()
@@ -129,10 +129,10 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.3
 	 */
 	public function testAManagerChangeRewritesTheProjectsAndTheirObjects(): void {
-		$old = $this->stored(slug: 'portfolio', uuid: self::RUIMTE);
+		$old = $this->stored(slug: 'projectPortfolio', uuid: self::RUIMTE);
 		$event = new ObjectUpdatingEvent(
-			$this->entity(slug: 'portfolio', uuid: self::RUIMTE, data: ['managers' => ['noor']] + $old),
-			$this->entity(slug: 'portfolio', uuid: self::RUIMTE, data: $old)
+			$this->entity(slug: 'projectPortfolio', uuid: self::RUIMTE, data: ['managers' => ['noor']] + $old),
+			$this->entity(slug: 'projectPortfolio', uuid: self::RUIMTE, data: $old)
 		);
 
 		$this->listener()->handle($event);
@@ -148,7 +148,7 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.3
 	 */
 	public function testDeletingAPortfolioReleasesItsProjects(): void {
-		$this->listener()->handle(new ObjectDeletingEvent($this->entity(slug: 'portfolio', uuid: self::RUIMTE, data: $this->stored(slug: 'portfolio', uuid: self::RUIMTE))));
+		$this->listener()->handle(new ObjectDeletingEvent($this->entity(slug: 'projectPortfolio', uuid: self::RUIMTE, data: $this->stored(slug: 'projectPortfolio', uuid: self::RUIMTE))));
 
 		$project = $this->stored(slug: 'project', uuid: self::PROJECT);
 		self::assertNull($project['portfolio']);

@@ -71,7 +71,7 @@ trait MembershipFixture {
 		'16' => 'projectLogEntry',
 		'17' => 'risk',
 		'18' => 'projectStatusReport',
-		'19' => 'portfolio',
+		'19' => 'projectPortfolio',
 	];
 
 	/**

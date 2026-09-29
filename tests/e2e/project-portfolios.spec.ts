@@ -42,7 +42,7 @@ async function admin(): Promise<APIRequestContext> {
 }
 
 async function createPortfolio(api: APIRequestContext, title: string, extra: object = {}): Promise<string> {
-	const res = await api.post(`${OBJECTS}/portfolio`, { data: { title, managers: [], order: 0, ...extra } })
+	const res = await api.post(`${OBJECTS}/projectPortfolio`, { data: { title, managers: [], order: 0, ...extra } })
 	expect(res.ok(), `create portfolio ${title}`).toBe(true)
 	const body = await res.json()
 	return body.id ?? body['@self']?.id
@@ -58,7 +58,7 @@ test.describe('Portfolios', () => {
 
 	test.afterAll(async () => {
 		for (const id of created) {
-			await api.delete(`${OBJECTS}/portfolio/${id}`, { failOnStatusCode: false })
+			await api.delete(`${OBJECTS}/projectPortfolio/${id}`, { failOnStatusCode: false })
 		}
 		await api.dispose()
 	})
