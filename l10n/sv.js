@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Avbryt uppgift",
         "Only the reporter, the project owner or an admin can delete this task.": "Endast rapportören, projektägaren eller en administratör kan ta bort den här uppgiften.",
         "Could not delete the task. Please try again.": "Uppgiften kunde inte tas bort. Försök igen.",
-        "Could not cancel the task. Please try again.": "Uppgiften kunde inte avbrytas. Försök igen."
+        "Could not cancel the task. Please try again.": "Uppgiften kunde inte avbrytas. Försök igen.",
+        "Responsible": "Ansvarig",
+        "Also working on this": "Arbetar också med detta",
+        "Labels": "Etiketter",
+        "Could not change the priority. Please try again.": "Prioriteten kunde inte ändras. Försök igen.",
+        "Other project members who work on this task alongside the person responsible.": "Andra projektmedlemmar som arbetar med uppgiften tillsammans med den ansvariga."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -778,7 +778,12 @@
         "Cancel task": "Otkaži zadatak",
         "Only the reporter, the project owner or an admin can delete this task.": "Ovaj zadatak može izbrisati samo prijavilac, vlasnik projekta ili administrator.",
         "Could not delete the task. Please try again.": "Zadatak nije moguće izbrisati. Pokušajte ponovo.",
-        "Could not cancel the task. Please try again.": "Zadatak nije moguće otkazati. Pokušajte ponovo."
+        "Could not cancel the task. Please try again.": "Zadatak nije moguće otkazati. Pokušajte ponovo.",
+        "Responsible": "Odgovorna osoba",
+        "Also working on this": "Na ovome rade i",
+        "Labels": "Oznake",
+        "Could not change the priority. Please try again.": "Prioritet nije moguće promijeniti. Pokušajte ponovo.",
+        "Other project members who work on this task alongside the person responsible.": "Ostali članovi projekta koji na ovom zadatku rade zajedno s odgovornom osobom."
     },
     "plurals": null
 }

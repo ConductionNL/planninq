@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Annuller opgave",
         "Only the reporter, the project owner or an admin can delete this task.": "Kun den der oprettede den, projektejeren eller en administrator kan slette denne opgave.",
         "Could not delete the task. Please try again.": "Opgaven kunne ikke slettes. Prøv igen.",
-        "Could not cancel the task. Please try again.": "Opgaven kunne ikke annulleres. Prøv igen."
+        "Could not cancel the task. Please try again.": "Opgaven kunne ikke annulleres. Prøv igen.",
+        "Responsible": "Ansvarlig",
+        "Also working on this": "Arbejder også på dette",
+        "Labels": "Etiketter",
+        "Could not change the priority. Please try again.": "Prioriteten kunne ikke ændres. Prøv igen.",
+        "Other project members who work on this task alongside the person responsible.": "Andre projektmedlemmer, der arbejder på opgaven sammen med den ansvarlige."
     },
     "nplurals=2; plural=(n != 1);"
 )

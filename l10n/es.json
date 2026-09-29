@@ -778,7 +778,12 @@
         "Cancel task": "Cancelar tarea",
         "Only the reporter, the project owner or an admin can delete this task.": "Solo quien la informó, el propietario del proyecto o un administrador puede eliminar esta tarea.",
         "Could not delete the task. Please try again.": "No se pudo eliminar la tarea. Inténtalo de nuevo.",
-        "Could not cancel the task. Please try again.": "No se pudo cancelar la tarea. Inténtalo de nuevo."
+        "Could not cancel the task. Please try again.": "No se pudo cancelar la tarea. Inténtalo de nuevo.",
+        "Responsible": "Responsable",
+        "Also working on this": "También trabajan en esto",
+        "Labels": "Etiquetas",
+        "Could not change the priority. Please try again.": "No se pudo cambiar la prioridad. Inténtalo de nuevo.",
+        "Other project members who work on this task alongside the person responsible.": "Otros miembros del proyecto que trabajan en esta tarea junto a la persona responsable."
     },
     "plurals": null
 }

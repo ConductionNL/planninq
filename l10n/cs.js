@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Zrušit úkol",
         "Only the reporter, the project owner or an admin can delete this task.": "Tento úkol může smazat jen ten, kdo ho nahlásil, vlastník projektu nebo správce.",
         "Could not delete the task. Please try again.": "Úkol se nepodařilo smazat. Zkuste to znovu.",
-        "Could not cancel the task. Please try again.": "Úkol se nepodařilo zrušit. Zkuste to znovu."
+        "Could not cancel the task. Please try again.": "Úkol se nepodařilo zrušit. Zkuste to znovu.",
+        "Responsible": "Odpovědná osoba",
+        "Also working on this": "Pracují na tom také",
+        "Labels": "Štítky",
+        "Could not change the priority. Please try again.": "Prioritu se nepodařilo změnit. Zkuste to znovu.",
+        "Other project members who work on this task alongside the person responsible.": "Další členové projektu, kteří na úkolu pracují spolu s odpovědnou osobou."
     },
     "nplurals=2; plural=(n != 1);"
 )

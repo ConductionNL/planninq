@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Anulează sarcina",
         "Only the reporter, the project owner or an admin can delete this task.": "Doar cel care a raportat-o, proprietarul proiectului sau un administrator poate șterge această sarcină.",
         "Could not delete the task. Please try again.": "Sarcina nu a putut fi ștearsă. Încercați din nou.",
-        "Could not cancel the task. Please try again.": "Sarcina nu a putut fi anulată. Încercați din nou."
+        "Could not cancel the task. Please try again.": "Sarcina nu a putut fi anulată. Încercați din nou.",
+        "Responsible": "Responsabil",
+        "Also working on this": "Mai lucrează la asta",
+        "Labels": "Etichete",
+        "Could not change the priority. Please try again.": "Prioritatea nu a putut fi schimbată. Încercați din nou.",
+        "Other project members who work on this task alongside the person responsible.": "Alți membri ai proiectului care lucrează la această sarcină împreună cu responsabilul."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -778,7 +778,12 @@
         "Cancel task": "Avbryt oppgave",
         "Only the reporter, the project owner or an admin can delete this task.": "Bare den som meldte den, prosjekteieren eller en administrator kan slette denne oppgaven.",
         "Could not delete the task. Please try again.": "Oppgaven kunne ikke slettes. Prøv igjen.",
-        "Could not cancel the task. Please try again.": "Oppgaven kunne ikke avbrytes. Prøv igjen."
+        "Could not cancel the task. Please try again.": "Oppgaven kunne ikke avbrytes. Prøv igjen.",
+        "Responsible": "Ansvarlig",
+        "Also working on this": "Jobber også med dette",
+        "Labels": "Etiketter",
+        "Could not change the priority. Please try again.": "Prioriteten kunne ikke endres. Prøv igjen.",
+        "Other project members who work on this task alongside the person responsible.": "Andre prosjektmedlemmer som jobber med oppgaven sammen med den ansvarlige."
     },
     "plurals": {}
 }

@@ -800,7 +800,12 @@ OC.L10N.register(
         "Cancel task": "Taak annuleren",
         "Only the reporter, the project owner or an admin can delete this task.": "Alleen de melder, de projecteigenaar of een beheerder kan deze taak verwijderen.",
         "Could not delete the task. Please try again.": "De taak kon niet worden verwijderd. Probeer het opnieuw.",
-        "Could not cancel the task. Please try again.": "De taak kon niet worden geannuleerd. Probeer het opnieuw."
+        "Could not cancel the task. Please try again.": "De taak kon niet worden geannuleerd. Probeer het opnieuw.",
+        "Responsible": "Verantwoordelijk",
+        "Also working on this": "Werkt hier ook aan",
+        "Labels": "Labels",
+        "Could not change the priority. Please try again.": "De prioriteit kon niet worden gewijzigd. Probeer het opnieuw.",
+        "Other project members who work on this task alongside the person responsible.": "Andere projectleden die samen met de verantwoordelijke aan deze taak werken."
     },
     "nplurals=2; plural=(n != 1);"
 )

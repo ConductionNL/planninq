@@ -778,7 +778,12 @@
         "Cancel task": "Откажи ја задачата",
         "Only the reporter, the project owner or an admin can delete this task.": "Оваа задача може да ја избрише само пријавувачот, сопственикот на проектот или администратор.",
         "Could not delete the task. Please try again.": "Задачата не може да се избрише. Обидете се повторно.",
-        "Could not cancel the task. Please try again.": "Задачата не може да се откаже. Обидете се повторно."
+        "Could not cancel the task. Please try again.": "Задачата не може да се откаже. Обидете се повторно.",
+        "Responsible": "Одговорно лице",
+        "Also working on this": "На ова работат и",
+        "Labels": "Ознаки",
+        "Could not change the priority. Please try again.": "Приоритетот не може да се промени. Обидете се повторно.",
+        "Other project members who work on this task alongside the person responsible.": "Други членови на проектот кои работат на задачата заедно со одговорното лице."
     },
     "plurals": null
 }

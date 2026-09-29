@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Görevi iptal et",
         "Only the reporter, the project owner or an admin can delete this task.": "Bu görevi yalnızca bildiren kişi, proje sahibi veya bir yönetici silebilir.",
         "Could not delete the task. Please try again.": "Görev silinemedi. Lütfen yeniden deneyin.",
-        "Could not cancel the task. Please try again.": "Görev iptal edilemedi. Lütfen yeniden deneyin."
+        "Could not cancel the task. Please try again.": "Görev iptal edilemedi. Lütfen yeniden deneyin.",
+        "Responsible": "Sorumlu",
+        "Also working on this": "Bunun üzerinde çalışan diğerleri",
+        "Labels": "Etiketler",
+        "Could not change the priority. Please try again.": "Öncelik değiştirilemedi. Lütfen yeniden deneyin.",
+        "Other project members who work on this task alongside the person responsible.": "Sorumlu kişiyle birlikte bu görev üzerinde çalışan diğer proje üyeleri."
     },
     "nplurals=2; plural=(n != 1);"
 )

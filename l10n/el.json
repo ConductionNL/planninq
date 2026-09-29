@@ -778,7 +778,12 @@
         "Cancel task": "Ακύρωση εργασίας",
         "Only the reporter, the project owner or an admin can delete this task.": "Μόνο ο αναφέρων, ο κάτοχος του έργου ή ένας διαχειριστής μπορεί να διαγράψει αυτή την εργασία.",
         "Could not delete the task. Please try again.": "Δεν ήταν δυνατή η διαγραφή της εργασίας. Δοκιμάστε ξανά.",
-        "Could not cancel the task. Please try again.": "Δεν ήταν δυνατή η ακύρωση της εργασίας. Δοκιμάστε ξανά."
+        "Could not cancel the task. Please try again.": "Δεν ήταν δυνατή η ακύρωση της εργασίας. Δοκιμάστε ξανά.",
+        "Responsible": "Υπεύθυνος",
+        "Also working on this": "Εργάζονται επίσης σε αυτό",
+        "Labels": "Ετικέτες",
+        "Could not change the priority. Please try again.": "Δεν ήταν δυνατή η αλλαγή της προτεραιότητας. Δοκιμάστε ξανά.",
+        "Other project members who work on this task alongside the person responsible.": "Άλλα μέλη του έργου που εργάζονται σε αυτή την εργασία μαζί με τον υπεύθυνο."
     },
     "plurals": null
 }

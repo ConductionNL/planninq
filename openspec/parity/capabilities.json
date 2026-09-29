@@ -2120,7 +2120,7 @@
       "area": "tasks",
       "name": "Assign a task to a person.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -2139,11 +2139,12 @@
         "untis": "docs read 2026-09-27: https://help.untis.at/hc/de/articles/360015324359 'Die Aufgabe kann nun vom Sachbearbeiter mit einer Bemerkung versehen, einem anderen Benutzer zugewiesen ... werden' and staff can take a ticket for themselves"
       },
       "built": {
-        "state": "specified",
-        "evidence": "task.assignedTo is a plain string schema property (lib/Settings/planninq_register.json). It is only ever read for display: src/components/TaskCard.vue:65-66 and src/views/TaskDetail.vue:267 (fields()). No component, dialog or store action writes assignedTo anywhere in src/ (only read as a query filter in src/store/projects.js:642 getMemberTaskCount).",
-        "reachedOn": "nothing reaches it (display only)",
+        "state": "built",
+        "evidence": "src/views/TaskDetail.vue 'Responsible' picker (project members and owner, by display name, src/utils/taskPeople.js memberOptions/responsiblePatch) PATCHes task.assignedTo; the same picker in src/dialogs/TaskFormDialog.vue; src/components/TaskCard.vue shows avatar and display name",
+        "reachedOn": "TaskDetail; New task and Edit task dialogs; board card",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-assignment-priority-labels"
+        "change": "openspec/changes/archive/2026-09-29-tasks-assignment-priority-labels",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2155,7 +2156,7 @@
       "area": "tasks",
       "name": "Assign one task to several people.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "no",
       "plane": "yes",
@@ -2173,11 +2174,12 @@
         "plane": "corpus: plane/round4/code-census.md §2 'assignees M2M (:149)'; journeys.md 'assignees' plural set in the driven journey ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/default-properties.tsx:126-139 assignee_ids dropdown with multiple; apps/api/plane/db/models/issue.py:149 assignees ManyToManyField"
       },
       "built": {
-        "state": "specified",
-        "evidence": "assignedTo is declared type: string (single value), not an array (lib/Settings/planninq_register.json properties.assignedTo), and as tsk-assign shows there is no assignment UI at all.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "task.sharedWith (task schema 0.6.0, array of uids) set from 'Also working on this' on TaskDetail and in TaskFormDialog (sharedWithPatch keeps the responsible person out); card lists everyone, responsible first; lib/Listener/TaskActivityListener.php adds sharedWith to the activity audience",
+        "reachedOn": "TaskDetail; task dialog; board card",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-assignment-priority-labels"
+        "change": "openspec/changes/archive/2026-09-29-tasks-assignment-priority-labels",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2189,7 +2191,7 @@
       "area": "tasks",
       "name": "Give a task a priority.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "yes",
@@ -2207,11 +2209,12 @@
         "plane": "corpus: plane/round4/code-census.md §2 'priority from PRIORITY_CHOICES urgent/high/medium/low/none' ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/default-properties.tsx:109-119 PriorityDropdown; apps/api/plane/db/models/issue.py:107 PRIORITY_CHOICES and :141-143 priority field"
       },
       "built": {
-        "state": "specified",
-        "evidence": "priority is only displayed, never set: src/components/TaskCard.vue:32-36 (chip) and :189-211 (priorityLabel/priorityVariant), src/views/TaskDetail.vue:266 (fields()). No form or control anywhere writes task.priority.",
-        "reachedOn": "nothing reaches it (display only)",
+        "state": "built",
+        "evidence": "TaskDetail priority select and the board card menu's 'Priority' levels (src/views/ProjectBoard.vue setPriority, optimistic PATCH), src/utils/taskPeople.js priorityPatch",
+        "reachedOn": "TaskDetail; board card action menu",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-assignment-priority-labels"
+        "change": "openspec/changes/archive/2026-09-29-tasks-assignment-priority-labels",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2292,7 +2295,7 @@
       "area": "tasks",
       "name": "Tag tasks with coloured labels.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "no",
       "plane": "yes",
@@ -2310,14 +2313,12 @@
         "plane": "corpus: plane/round4/M1-column.md 2.8 'label.py:11 workspace-scoped with an optional project, a self-FK parent, color and sort_order' ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/default-properties.tsx:147-157 label_ids dropdown; apps/web/core/components/issues/issue-layouts/properties/labels.tsx:155 coloured chip; apps/api/plane/db/models/label.py:11-21 Label with parent and color; apps/api/plane/db/models/issue.py:543-545 IssueLabel"
       },
       "built": {
-        "state": "specified",
-        "evidence": "Labels are app-wide objects tasks reference by UUID array (task.labels), rendered and filterable on the board: src/views/ProjectBoard.vue:69-95 (filter chips), :439-441 (labelsForTask), src/components/TaskCard.vue:44-58 (label chips). But no UI anywhere lets a user add/remove a label ON a given task: the library's generic per-object tag tab is deliberately hidden, src/utils/taskHelpers.js:34 TASK_SIDEBAR_HIDDEN_TABS = ['tags', 'tasks'] applied at :59, and Planninq built no replacement tagging control on TaskDetail.",
-        "reachedOn": "ProjectBoard page (view/filter only); nothing reaches attaching a label to a task",
+        "state": "built",
+        "evidence": "TaskDetail 'Labels' multi-select of the app-wide labels writes task.labels (labelsPatch); chips on the card and the board label filter read them",
+        "reachedOn": "TaskDetail; board card chips and label filter",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/utils/taskHelpers.js:34 hides the generic CnTagsTab with a comment claiming Planninq has its own label concept, but no per-task label-attach UI exists to replace it"
-        ],
-        "change": "openspec/changes/tasks-assignment-priority-labels"
+        "change": "openspec/changes/archive/2026-09-29-tasks-assignment-priority-labels",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

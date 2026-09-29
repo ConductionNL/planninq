@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Atcelt uzdevumu",
         "Only the reporter, the project owner or an admin can delete this task.": "Šo uzdevumu var dzēst tikai ziņotājs, projekta īpašnieks vai administrators.",
         "Could not delete the task. Please try again.": "Uzdevumu neizdevās dzēst. Mēģiniet vēlreiz.",
-        "Could not cancel the task. Please try again.": "Uzdevumu neizdevās atcelt. Mēģiniet vēlreiz."
+        "Could not cancel the task. Please try again.": "Uzdevumu neizdevās atcelt. Mēģiniet vēlreiz.",
+        "Responsible": "Atbildīgais",
+        "Also working on this": "Pie šī strādā arī",
+        "Labels": "Etiķetes",
+        "Could not change the priority. Please try again.": "Prioritāti neizdevās mainīt. Mēģiniet vēlreiz.",
+        "Other project members who work on this task alongside the person responsible.": "Citi projekta dalībnieki, kas strādā pie šī uzdevuma kopā ar atbildīgo."
     },
     "nplurals=2; plural=(n != 1);"
 )

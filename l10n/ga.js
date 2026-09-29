@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Cealaigh an tasc",
         "Only the reporter, the project owner or an admin can delete this task.": "Ní féidir ach leis an tuairisceoir, le húinéir an tionscadail nó le riarthóir an tasc seo a scriosadh.",
         "Could not delete the task. Please try again.": "Níorbh fhéidir an tasc a scriosadh. Bain triail eile as.",
-        "Could not cancel the task. Please try again.": "Níorbh fhéidir an tasc a chealú. Bain triail eile as."
+        "Could not cancel the task. Please try again.": "Níorbh fhéidir an tasc a chealú. Bain triail eile as.",
+        "Responsible": "Freagrach",
+        "Also working on this": "Ag obair air seo freisin",
+        "Labels": "Lipéid",
+        "Could not change the priority. Please try again.": "Níorbh fhéidir an tosaíocht a athrú. Bain triail eile as.",
+        "Other project members who work on this task alongside the person responsible.": "Baill eile den tionscadal atá ag obair ar an tasc seo in éineacht leis an duine freagrach."
     },
     "nplurals=2; plural=(n != 1);"
 )

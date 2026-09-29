@@ -778,7 +778,12 @@
         "Cancel task": "Peru tehtävä",
         "Only the reporter, the project owner or an admin can delete this task.": "Vain ilmoittaja, projektin omistaja tai ylläpitäjä voi poistaa tämän tehtävän.",
         "Could not delete the task. Please try again.": "Tehtävää ei voitu poistaa. Yritä uudelleen.",
-        "Could not cancel the task. Please try again.": "Tehtävää ei voitu perua. Yritä uudelleen."
+        "Could not cancel the task. Please try again.": "Tehtävää ei voitu perua. Yritä uudelleen.",
+        "Responsible": "Vastuuhenkilö",
+        "Also working on this": "Työskentelee myös tämän parissa",
+        "Labels": "Tunnisteet",
+        "Could not change the priority. Please try again.": "Prioriteettia ei voitu muuttaa. Yritä uudelleen.",
+        "Other project members who work on this task alongside the person responsible.": "Muut projektin jäsenet, jotka työskentelevät tehtävän parissa vastuuhenkilön kanssa."
     },
     "plurals": null
 }

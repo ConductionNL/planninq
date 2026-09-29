@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Feladat visszavonása",
         "Only the reporter, the project owner or an admin can delete this task.": "Ezt a feladatot csak a bejelentő, a projekt tulajdonosa vagy egy rendszergazda törölheti.",
         "Could not delete the task. Please try again.": "A feladatot nem sikerült törölni. Próbálja újra.",
-        "Could not cancel the task. Please try again.": "A feladatot nem sikerült visszavonni. Próbálja újra."
+        "Could not cancel the task. Please try again.": "A feladatot nem sikerült visszavonni. Próbálja újra.",
+        "Responsible": "Felelős",
+        "Also working on this": "Szintén dolgoznak rajta",
+        "Labels": "Címkék",
+        "Could not change the priority. Please try again.": "A prioritást nem sikerült módosítani. Próbálja újra.",
+        "Other project members who work on this task alongside the person responsible.": "A projekt további tagjai, akik a felelőssel együtt dolgoznak ezen a feladaton."
     },
     "nplurals=2; plural=(n != 1);"
 )

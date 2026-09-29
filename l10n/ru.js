@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Отменить задачу",
         "Only the reporter, the project owner or an admin can delete this task.": "Удалить эту задачу может только автор, владелец проекта или администратор.",
         "Could not delete the task. Please try again.": "Не удалось удалить задачу. Попробуйте ещё раз.",
-        "Could not cancel the task. Please try again.": "Не удалось отменить задачу. Попробуйте ещё раз."
+        "Could not cancel the task. Please try again.": "Не удалось отменить задачу. Попробуйте ещё раз.",
+        "Responsible": "Ответственный",
+        "Also working on this": "Также работают над этим",
+        "Labels": "Метки",
+        "Could not change the priority. Please try again.": "Не удалось изменить приоритет. Попробуйте ещё раз.",
+        "Other project members who work on this task alongside the person responsible.": "Другие участники проекта, которые работают над задачей вместе с ответственным."
     },
     "nplurals=2; plural=(n != 1);"
 )

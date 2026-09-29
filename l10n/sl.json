@@ -778,7 +778,12 @@
         "Cancel task": "Prekliči nalogo",
         "Only the reporter, the project owner or an admin can delete this task.": "To nalogo lahko izbriše le prijavitelj, lastnik projekta ali skrbnik.",
         "Could not delete the task. Please try again.": "Naloge ni bilo mogoče izbrisati. Poskusite znova.",
-        "Could not cancel the task. Please try again.": "Naloge ni bilo mogoče preklicati. Poskusite znova."
+        "Could not cancel the task. Please try again.": "Naloge ni bilo mogoče preklicati. Poskusite znova.",
+        "Responsible": "Odgovorna oseba",
+        "Also working on this": "Pri tem sodelujejo tudi",
+        "Labels": "Oznake",
+        "Could not change the priority. Please try again.": "Prioritete ni bilo mogoče spremeniti. Poskusite znova.",
+        "Other project members who work on this task alongside the person responsible.": "Drugi člani projekta, ki pri tej nalogi sodelujejo z odgovorno osebo."
     },
     "plurals": null
 }

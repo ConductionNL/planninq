@@ -778,7 +778,12 @@
         "Cancel task": "Annullar il pensum",
         "Only the reporter, the project owner or an admin can delete this task.": "Mo la persuna che l'ha annunzià, il possessur dal project u in administratur po stizzar quest pensum.",
         "Could not delete the task. Please try again.": "Il pensum n'ha betg pudì vegnir stizzà. Emprova anc ina giada.",
-        "Could not cancel the task. Please try again.": "Il pensum n'ha betg pudì vegnir annullà. Emprova anc ina giada."
+        "Could not cancel the task. Please try again.": "Il pensum n'ha betg pudì vegnir annullà. Emprova anc ina giada.",
+        "Responsible": "Responsabel",
+        "Also working on this": "Lavuran era vi",
+        "Labels": "Etichettas",
+        "Could not change the priority. Please try again.": "La prioritad n'ha betg pudì vegnir midada. Emprova anc ina giada.",
+        "Other project members who work on this task alongside the person responsible.": "Auters commembers dal project che lavuran vi da quest pensum ensemen cun la persuna responsabla."
     },
     "plurals": null
 }

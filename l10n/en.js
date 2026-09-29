@@ -756,7 +756,12 @@ OC.L10N.register(
         "Only the reporter, the project owner or an admin can delete this task.": "Only the reporter, the project owner or an admin can delete this task.",
         "Could not delete the task. Please try again.": "Could not delete the task. Please try again.",
         "Could not cancel the task. Please try again.": "Could not cancel the task. Please try again.",
-        "In progress": "In progress"
+        "In progress": "In progress",
+        "Responsible": "Responsible",
+        "Also working on this": "Also working on this",
+        "Labels": "Labels",
+        "Could not change the priority. Please try again.": "Could not change the priority. Please try again.",
+        "Other project members who work on this task alongside the person responsible.": "Other project members who work on this task alongside the person responsible."
     },
     "nplurals=2; plural=(n != 1);"
 )

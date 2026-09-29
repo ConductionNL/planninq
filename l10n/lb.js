@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Aufgab annuléieren",
         "Only the reporter, the project owner or an admin can delete this task.": "Just déi Persoun déi se gemellt huet, de Projetsbesëtzer oder en Admin kann dës Aufgab läschen.",
         "Could not delete the task. Please try again.": "D'Aufgab konnt net geläscht ginn. Probéiert w.e.g. nach eng Kéier.",
-        "Could not cancel the task. Please try again.": "D'Aufgab konnt net annuléiert ginn. Probéiert w.e.g. nach eng Kéier."
+        "Could not cancel the task. Please try again.": "D'Aufgab konnt net annuléiert ginn. Probéiert w.e.g. nach eng Kéier.",
+        "Responsible": "Verantwortlech",
+        "Also working on this": "Schaffen och dorun",
+        "Labels": "Etiketten",
+        "Could not change the priority. Please try again.": "D'Prioritéit konnt net geännert ginn. Probéiert w.e.g. nach eng Kéier.",
+        "Other project members who work on this task alongside the person responsible.": "Aner Projetsmemberen, déi mat der verantwortlecher Persoun un dëser Aufgab schaffen."
     },
     "nplurals=2; plural=(n != 1);"
 )

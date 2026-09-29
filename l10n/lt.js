@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Atšaukti užduotį",
         "Only the reporter, the project owner or an admin can delete this task.": "Šią užduotį gali ištrinti tik pranešėjas, projekto savininkas arba administratorius.",
         "Could not delete the task. Please try again.": "Nepavyko ištrinti užduoties. Bandykite dar kartą.",
-        "Could not cancel the task. Please try again.": "Nepavyko atšaukti užduoties. Bandykite dar kartą."
+        "Could not cancel the task. Please try again.": "Nepavyko atšaukti užduoties. Bandykite dar kartą.",
+        "Responsible": "Atsakingas asmuo",
+        "Also working on this": "Prie to taip pat dirba",
+        "Labels": "Žymos",
+        "Could not change the priority. Please try again.": "Nepavyko pakeisti prioriteto. Bandykite dar kartą.",
+        "Other project members who work on this task alongside the person responsible.": "Kiti projekto nariai, kurie dirba prie šios užduoties kartu su atsakingu asmeniu."
     },
     "nplurals=2; plural=(n != 1);"
 )

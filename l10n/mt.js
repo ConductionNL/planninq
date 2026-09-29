@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Ikkanċella l-kompitu",
         "Only the reporter, the project owner or an admin can delete this task.": "Dan il-kompitu jista' jħassru biss min irrappurtah, is-sid tal-proġett jew amministratur.",
         "Could not delete the task. Please try again.": "Il-kompitu ma setax jitħassar. Erġa' pprova.",
-        "Could not cancel the task. Please try again.": "Il-kompitu ma setax jiġi kkanċellat. Erġa' pprova."
+        "Could not cancel the task. Please try again.": "Il-kompitu ma setax jiġi kkanċellat. Erġa' pprova.",
+        "Responsible": "Responsabbli",
+        "Also working on this": "Qed jaħdmu fuqu wkoll",
+        "Labels": "Tikketti",
+        "Could not change the priority. Please try again.": "Il-prijorità ma setgħetx tinbidel. Erġa' pprova.",
+        "Other project members who work on this task alongside the person responsible.": "Membri oħra tal-proġett li qed jaħdmu fuq dan il-kompitu flimkien mar-responsabbli."
     },
     "nplurals=2; plural=(n != 1);"
 )

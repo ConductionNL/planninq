@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Cancelar tarefa",
         "Only the reporter, the project owner or an admin can delete this task.": "Só quem a reportou, o proprietário do projeto ou um administrador pode eliminar esta tarefa.",
         "Could not delete the task. Please try again.": "Não foi possível eliminar a tarefa. Tente novamente.",
-        "Could not cancel the task. Please try again.": "Não foi possível cancelar a tarefa. Tente novamente."
+        "Could not cancel the task. Please try again.": "Não foi possível cancelar a tarefa. Tente novamente.",
+        "Responsible": "Responsável",
+        "Also working on this": "Também trabalham nisto",
+        "Labels": "Etiquetas",
+        "Could not change the priority. Please try again.": "Não foi possível alterar a prioridade. Tente novamente.",
+        "Other project members who work on this task alongside the person responsible.": "Outros membros do projeto que trabalham nesta tarefa com a pessoa responsável."
     },
     "nplurals=2; plural=(n != 1);"
 )

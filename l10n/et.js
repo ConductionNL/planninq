@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Tühista ülesanne",
         "Only the reporter, the project owner or an admin can delete this task.": "Seda ülesannet saab kustutada ainult teataja, projekti omanik või administraator.",
         "Could not delete the task. Please try again.": "Ülesannet ei õnnestunud kustutada. Proovi uuesti.",
-        "Could not cancel the task. Please try again.": "Ülesannet ei õnnestunud tühistada. Proovi uuesti."
+        "Could not cancel the task. Please try again.": "Ülesannet ei õnnestunud tühistada. Proovi uuesti.",
+        "Responsible": "Vastutaja",
+        "Also working on this": "Töötavad ka selle kallal",
+        "Labels": "Sildid",
+        "Could not change the priority. Please try again.": "Prioriteeti ei õnnestunud muuta. Proovi uuesti.",
+        "Other project members who work on this task alongside the person responsible.": "Teised projekti liikmed, kes töötavad selle ülesande kallal koos vastutajaga."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -778,7 +778,12 @@
         "Cancel task": "Hætta við verkefni",
         "Only the reporter, the project owner or an admin can delete this task.": "Aðeins sá sem tilkynnti það, eigandi verkefnisins eða stjórnandi getur eytt þessu verkefni.",
         "Could not delete the task. Please try again.": "Ekki tókst að eyða verkefninu. Reyndu aftur.",
-        "Could not cancel the task. Please try again.": "Ekki tókst að hætta við verkefnið. Reyndu aftur."
+        "Could not cancel the task. Please try again.": "Ekki tókst að hætta við verkefnið. Reyndu aftur.",
+        "Responsible": "Ábyrgðaraðili",
+        "Also working on this": "Vinnur líka að þessu",
+        "Labels": "Merki",
+        "Could not change the priority. Please try again.": "Ekki tókst að breyta forgangi. Reyndu aftur.",
+        "Other project members who work on this task alongside the person responsible.": "Aðrir meðlimir verkefnisins sem vinna að þessu verkefni með ábyrgðaraðilanum."
     },
     "plurals": {}
 }

@@ -778,7 +778,12 @@
         "Cancel task": "Anulo detyrën",
         "Only the reporter, the project owner or an admin can delete this task.": "Këtë detyrë mund ta fshijë vetëm raportuesi, pronari i projektit ose një administrator.",
         "Could not delete the task. Please try again.": "Detyra nuk u fshi dot. Provoni sërish.",
-        "Could not cancel the task. Please try again.": "Detyra nuk u anulua dot. Provoni sërish."
+        "Could not cancel the task. Please try again.": "Detyra nuk u anulua dot. Provoni sërish.",
+        "Responsible": "Përgjegjësi",
+        "Also working on this": "Punojnë gjithashtu për këtë",
+        "Labels": "Etiketa",
+        "Could not change the priority. Please try again.": "Përparësia nuk u ndryshua dot. Provoni sërish.",
+        "Other project members who work on this task alongside the person responsible.": "Anëtarë të tjerë të projektit që punojnë për këtë detyrë bashkë me përgjegjësin."
     },
     "plurals": {}
 }

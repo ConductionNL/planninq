@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Отказване на задачата",
         "Only the reporter, the project owner or an admin can delete this task.": "Само подателят, собственикът на проекта или администратор може да изтрие тази задача.",
         "Could not delete the task. Please try again.": "Задачата не можа да бъде изтрита. Опитайте отново.",
-        "Could not cancel the task. Please try again.": "Задачата не можа да бъде отказана. Опитайте отново."
+        "Could not cancel the task. Please try again.": "Задачата не можа да бъде отказана. Опитайте отново.",
+        "Responsible": "Отговорник",
+        "Also working on this": "Работят и по това",
+        "Labels": "Етикети",
+        "Could not change the priority. Please try again.": "Приоритетът не можа да бъде променен. Опитайте отново.",
+        "Other project members who work on this task alongside the person responsible.": "Други членове на проекта, които работят по задачата заедно с отговорника."
     },
     "nplurals=2; plural=(n != 1);"
 )

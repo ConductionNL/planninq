@@ -57,6 +57,21 @@ The generic `tags` tab stays hidden: it stores Nextcloud system tags, not planni
 `TaskActivityListener::resolveAudience` adds every uid in `sharedWith`, so the people sharing a
 task see its events.
 
+## Amendments at build time (29 Sep 2026, on top of tasks-create-edit-delete)
+
+- **Decision 3, the card menu:** the card's `NcActions` menu gains a "Priority" caption followed
+  by the four levels, not a nested submenu: the menu is already a flat list of move targets, and a
+  caption keeps every level one keypress away.
+- **Decision 2, who is offered:** the project's owner is offered with the members, since the owner
+  is not always in `members`.
+- **The task dialog** from tasks-create-edit-delete gets the two people pickers when it knows the
+  project (board header and task page both pass it).
+- **Vitest runs in the node environment**, so the "mount tests" of tasks 2.2 and 3.1 are tests of
+  the pure helpers in `src/utils/taskPeople.js` plus a source check of the board menu; the
+  browser behaviour is in `tests/e2e/task-people.spec.ts`.
+- `sharedWith` is not checked against the project's members on the server; the pickers offer
+  members only. A later server rule can refuse others if that matters.
+
 ## Risks / trade-offs
 
 - [Two people fields to read] -> the "my tasks" queries (`portfolio-my-work-dashboard`) match on

@@ -778,7 +778,12 @@
         "Cancel task": "Annuler la tâche",
         "Only the reporter, the project owner or an admin can delete this task.": "Seul le rapporteur, le propriétaire du projet ou un administrateur peut supprimer cette tâche.",
         "Could not delete the task. Please try again.": "Impossible de supprimer la tâche. Veuillez réessayer.",
-        "Could not cancel the task. Please try again.": "Impossible d'annuler la tâche. Veuillez réessayer."
+        "Could not cancel the task. Please try again.": "Impossible d'annuler la tâche. Veuillez réessayer.",
+        "Responsible": "Responsable",
+        "Also working on this": "Travaille aussi dessus",
+        "Labels": "Étiquettes",
+        "Could not change the priority. Please try again.": "Impossible de modifier la priorité. Veuillez réessayer.",
+        "Other project members who work on this task alongside the person responsible.": "Autres membres du projet qui travaillent sur cette tâche avec la personne responsable."
     },
     "plurals": null
 }

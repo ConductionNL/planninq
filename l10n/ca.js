@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Cancel·la la tasca",
         "Only the reporter, the project owner or an admin can delete this task.": "Només qui l'ha informada, el propietari del projecte o un administrador pot suprimir aquesta tasca.",
         "Could not delete the task. Please try again.": "No s'ha pogut suprimir la tasca. Torneu-ho a provar.",
-        "Could not cancel the task. Please try again.": "No s'ha pogut cancel·lar la tasca. Torneu-ho a provar."
+        "Could not cancel the task. Please try again.": "No s'ha pogut cancel·lar la tasca. Torneu-ho a provar.",
+        "Responsible": "Responsable",
+        "Also working on this": "També hi treballen",
+        "Labels": "Etiquetes",
+        "Could not change the priority. Please try again.": "No s'ha pogut canviar la prioritat. Torneu-ho a provar.",
+        "Other project members who work on this task alongside the person responsible.": "Altres membres del projecte que treballen en aquesta tasca amb la persona responsable."
     },
     "nplurals=2; plural=(n != 1);"
 )

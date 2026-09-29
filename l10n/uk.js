@@ -779,7 +779,12 @@ OC.L10N.register(
         "Cancel task": "Скасувати завдання",
         "Only the reporter, the project owner or an admin can delete this task.": "Видалити це завдання може лише автор, власник проєкту або адміністратор.",
         "Could not delete the task. Please try again.": "Не вдалося видалити завдання. Спробуйте ще раз.",
-        "Could not cancel the task. Please try again.": "Не вдалося скасувати завдання. Спробуйте ще раз."
+        "Could not cancel the task. Please try again.": "Не вдалося скасувати завдання. Спробуйте ще раз.",
+        "Responsible": "Відповідальний",
+        "Also working on this": "Також працюють над цим",
+        "Labels": "Мітки",
+        "Could not change the priority. Please try again.": "Не вдалося змінити пріоритет. Спробуйте ще раз.",
+        "Other project members who work on this task alongside the person responsible.": "Інші учасники проєкту, які працюють над завданням разом із відповідальним."
     },
     "nplurals=2; plural=(n != 1);"
 )
