@@ -36,8 +36,7 @@ use OCA\OpenRegister\Service\SystemOperationContext;
 use OCA\Planninq\Listener\ProjectHierarchyGuardListener;
 use OCA\Planninq\Listener\ProjectMemberAccessListener;
 use OCA\Planninq\Service\FinanceLineService;
-use OCA\Planninq\Service\ProjectFieldService;
-use OCA\Planninq\Service\ProjectTreeService;
+use OCA\Planninq\Service\ProjectRulesService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
 use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
@@ -72,8 +71,7 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 		return new ProjectHierarchyGuardListener(
 			membership: $membership,
 			finance: new FinanceLineService(membership: $membership, container: $this->container(), logger: $logger),
-			tree: new ProjectTreeService(membership: $membership),
-			fields: new ProjectFieldService(membership: $membership),
+			rules: new ProjectRulesService(membership: $membership),
 			scopeResolver: $this->scopeResolver(),
 			container: $this->container(),
 			logger: $logger

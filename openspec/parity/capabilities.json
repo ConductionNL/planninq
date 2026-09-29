@@ -1273,7 +1273,7 @@
       },
       "built": {
         "state": "built",
-        "evidence": "projectField schema (lib/Settings/planninq_register.json), admin index /project-fields; values in project.customFields checked by lib/Service/ProjectFieldService.php from ProjectHierarchyGuardListener; inputs in src/components/ProjectSettingsSidebar.vue, values on src/views/ProjectOverview.vue (src/utils/projectFields.js)",
+        "evidence": "projectField schema (lib/Settings/planninq_register.json), admin index /project-fields; values in project.customFields checked by lib/Service/ProjectRulesService.php from ProjectHierarchyGuardListener; inputs in src/components/ProjectSettingsSidebar.vue, values on src/views/ProjectOverview.vue (src/utils/projectFields.js)",
         "reachedOn": "Beheer, 'Project fields' /project-fields; project settings sidebar Details tab; project Overview tab",
         "owner": "ConductionNL/planninq",
         "change": "openspec/changes/archive/2026-09-29-projects-grouping-hierarchy-fields",
@@ -1308,7 +1308,7 @@
       },
       "built": {
         "state": "built",
-        "evidence": "project.parent with cycle and three-level checks in lib/Service/ProjectTreeService.php from ProjectHierarchyGuardListener; 'Part of' in the settings sidebar; subprojects and rolled-up progress on src/views/ProjectOverview.vue; indented, foldable src/views/ProjectList.vue (src/utils/projectTree.js)",
+        "evidence": "project.parent with cycle and three-level checks in lib/Service/ProjectRulesService.php from ProjectHierarchyGuardListener; 'Part of' in the settings sidebar; subprojects and rolled-up progress on src/views/ProjectOverview.vue; indented, foldable src/views/ProjectList.vue (src/utils/projectTree.js)",
         "reachedOn": "Project settings sidebar Details tab 'Part of'; project Overview tab; project list /projects",
         "owner": "ConductionNL/planninq",
         "change": "openspec/changes/archive/2026-09-29-projects-grouping-hierarchy-fields",

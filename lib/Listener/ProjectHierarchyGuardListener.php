@@ -50,9 +50,8 @@ use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Service\FinanceLineService;
-use OCA\Planninq\Service\ProjectFieldService;
 use OCA\Planninq\Service\ProjectMembershipService;
-use OCA\Planninq\Service\ProjectTreeService;
+use OCA\Planninq\Service\ProjectRulesService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Container\ContainerInterface;
@@ -107,8 +106,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 *
 	 * @param ProjectMembershipService $membership    Reads portfolios and projects, writes as the system.
 	 * @param FinanceLineService       $finance       Keeps the access copies on the projects' finance lines.
-	 * @param ProjectTreeService       $tree          Checks a new parent for cycles and depth.
-	 * @param ProjectFieldService      $fields        Checks custom field values against their definitions.
+	 * @param ProjectRulesService      $rules         Checks a new parent and custom field values.
 	 * @param TaskScopeResolver        $scopeResolver Tells a planninq schema from any other object.
 	 * @param ContainerInterface       $container     Resolves OpenRegister's ObjectService for the system write.
 	 * @param LoggerInterface          $logger        The logger.
@@ -116,8 +114,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	public function __construct(
 		private ProjectMembershipService $membership,
 		private FinanceLineService $finance,
-		private ProjectTreeService $tree,
-		private ProjectFieldService $fields,
+		private ProjectRulesService $rules,
 		private TaskScopeResolver $scopeResolver,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
@@ -223,7 +220,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			$stored = [];
 		}
 
-		$problem = $this->fields->problem(values: $values, stored: $stored);
+		$problem = $this->rules->problem(values: $values, stored: $stored);
 		if ($problem === null) {
 			return false;
 		}
@@ -256,13 +253,13 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			$projectId = '';
 		}
 
-		$refusal = $this->tree->refusal(projectId: $projectId, parentId: $parentId);
+		$refusal = $this->rules->refusal(projectId: $projectId, parentId: $parentId);
 		if ($refusal === null) {
 			return false;
 		}
 
 		$error = ['code' => self::ERROR_DEPTH, 'message' => 'Projects nest three levels deep at most: programme, project and subproject.'];
-		if ($refusal === ProjectTreeService::CYCLE) {
+		if ($refusal === ProjectRulesService::CYCLE) {
 			$error = ['code' => self::ERROR_CYCLE, 'message' => 'A project cannot sit under one of its own subprojects.'];
 		}
 
