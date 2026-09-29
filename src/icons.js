@@ -34,6 +34,7 @@ import MapMarkerPath from 'vue-material-design-icons/MapMarkerPath.vue'
 import SitemapOutline from 'vue-material-design-icons/SitemapOutline.vue'
 import StoreOutline from 'vue-material-design-icons/StoreOutline.vue'
 import TagOutline from 'vue-material-design-icons/TagOutline.vue'
+import TextBoxOutline from 'vue-material-design-icons/TextBoxOutline.vue'
 import TimelineOutline from 'vue-material-design-icons/TimelineOutline.vue'
 import TimerOutline from 'vue-material-design-icons/TimerOutline.vue'
 import VectorPolyline from 'vue-material-design-icons/VectorPolyline.vue'
@@ -62,6 +63,7 @@ export default {
 	SitemapOutline,
 	StoreOutline,
 	TagOutline,
+	TextBoxOutline,
 	TimelineOutline,
 	TimerOutline,
 	VectorPolyline,

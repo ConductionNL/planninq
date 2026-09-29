@@ -218,7 +218,12 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			return false;
 		}
 
-		$problem = $this->fields->problem(values: $values);
+		$stored = ($oldData['customFields'] ?? []);
+		if (is_array($stored) === false) {
+			$stored = [];
+		}
+
+		$problem = $this->fields->problem(values: $values, stored: $stored);
 		if ($problem === null) {
 			return false;
 		}

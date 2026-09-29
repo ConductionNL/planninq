@@ -54,16 +54,21 @@ class ProjectFieldService {
 	/**
 	 * The first problem with a set of values, or null when they fit their fields.
 	 *
+	 * A value whose field an admin removed may stay as it is stored, so a
+	 * removed field that comes back finds its values again (design, risks).
+	 *
 	 * @param array<string,mixed> $values The project's customFields.
+	 * @param array<string,mixed> $stored The stored customFields, [] on a create.
 	 *
 	 * @return string|null A message naming the field.
 	 *
 	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.2
 	 */
-	public function problem(array $values): ?string {
+	public function problem(array $values, array $stored=[]): ?string {
 		$fields = $this->definitions();
-		foreach (array_keys($values) as $key) {
-			if (isset($fields[(string)$key]) === false) {
+		foreach ($values as $key => $value) {
+			$kept = (array_key_exists($key, $stored) === true && $stored[$key] === $value);
+			if (isset($fields[(string)$key]) === false && $kept === false) {
 				return sprintf('There is no project field "%s".', (string)$key);
 			}
 		}

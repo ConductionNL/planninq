@@ -8,7 +8,7 @@ An admin MUST be able to define project fields with a label and a type: text, nu
 
 #### Scenario: Adding a choice field
 
-- **GIVEN** an admin in the custom fields section of the planninq admin settings
+- **GIVEN** an admin on Beheer, Project fields at /project-fields
 - **WHEN** the admin adds the field "Beleidsveld" of type "Choice" with the options "Wonen", "Mobiliteit" and "Economie", marked required
 - **AND** a project manager opens the Details tab of the project settings sidebar at /projects/:id
 - **THEN** the tab shows a "Beleidsveld" select with those three options

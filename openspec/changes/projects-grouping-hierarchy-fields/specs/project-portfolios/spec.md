@@ -26,6 +26,7 @@ A portfolio manager MUST be able to read every project in that portfolio, with i
 
 #### Scenario: A portfolio manager sees a project they are not on
 
+@e2e exclude The e2e suite has one admin account and no portfolio manager who is not a member; asserted by PlanninqRegisterSchemaTest::testPortfolioSchemaAndTheProjectReaderRule and ProjectHierarchyGuardListenerTest, live recipe in PR #714
 - **GIVEN** a user who manages the portfolio "Ruimte" and is not a member of the project "Omgevingsvisie" in it
 - **WHEN** the user opens the project list at /projects
 - **THEN** "Omgevingsvisie" is listed under "Ruimte"

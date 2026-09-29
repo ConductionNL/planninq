@@ -406,6 +406,11 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 		self::assertTrue($unknown->isPropagationStopped());
 		self::assertStringContainsString('kleur', $unknown->getErrors()['message']);
 
+		$this->objects->seed('project', self::PROJECT, array_merge($this->stored(slug: 'project', uuid: self::PROJECT), ['customFields' => ['beleidsveld' => 'Wonen', 'verwijderd' => 'x']]));
+		$kept = $this->fieldWrite(values: ['beleidsveld' => 'Mobiliteit', 'verwijderd' => 'x']);
+		$this->listener()->handle($kept);
+		self::assertFalse($kept->isPropagationStopped(), 'a stored value of a removed field may stay as it is');
+
 		$old     = $this->stored(slug: 'project', uuid: self::PROJECT);
 		$renamed = new ObjectUpdatingEvent(
 			$this->entity(slug: 'project', uuid: self::PROJECT, data: ['title' => 'Renamed'] + $old),

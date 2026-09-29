@@ -82,3 +82,10 @@ The board opens read-only for a portfolio manager who is not on the project: a n
 - The parent is picked in the settings sidebar's Details tab ("Part of"). The picker leaves out the project and its descendants (`parentOptions()` in `src/utils/projectTree.js`); the server check is the rule. The sidebar used to report "Project saved" even when the save failed, because `updateProject` returns null rather than throwing; it now shows the refusal.
 - The overview lists the direct subprojects the user can read, each with the progress of its own subtree, and adds them to the programme's progress with the words "including subprojects". A subproject the user cannot read is left out of both.
 - The project list folds per session only; the folded set is not stored.
+
+## Built at HEAD, section 3 (29 Sep 2026)
+
+- The schema slug is `projectField`, not `fieldDefinition`: slugs are global across the fleet (gate-106) and a generic name invites a collision. Admins keep it through OpenRegister (`create`, `update`, `delete` admin only); everyone signed in reads it.
+- Admins manage the fields in Beheer, "Project fields" (`/project-fields`), a declarative index with the schema's own form, not a section on the admin settings page.
+- `ProjectFieldService::problem()` checks the values when a write changes `customFields`: each value against its type (text, number, date as YYYY-MM-DD, a choice from the options, a person's user id, yes or no), an empty required field, and a key no field defines. A write that leaves the values alone is not held to a field added later, so creating or renaming a project never fails on a new required field. A stored value of a removed field may stay as it is (risk "a deleted field definition leaves values behind").
+- The Details tab renders one input per field with a visible label and checks the required fields before it saves; the overview lists the filled values under the dates.

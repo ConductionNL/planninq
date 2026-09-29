@@ -45,6 +45,12 @@
 						<dd data-testid="overview-end">
 							{{ project.endDate || t('planninq', 'Not set') }}
 						</dd>
+						<template v-for="field in filled" :key="field.key">
+							<dt>{{ field.label }}</dt>
+							<dd :data-testid="`overview-field-${field.key}`">
+								{{ fieldText(field) }}
+							</dd>
+						</template>
 					</dl>
 				</section>
 
@@ -161,6 +167,7 @@ import { NcAvatar, NcEmptyContent, NcLoadingIcon, NcProgressBar } from '@nextclo
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import { useProjectsStore } from '../store/projects.js'
+import { filledFields, sortFields } from '../utils/projectFields.js'
 import { latestLogEntries, projectPeople, projectProgress } from '../utils/projectOverview.js'
 import { descendantsOf, rollupProgress, subprojectsOf } from '../utils/projectTree.js'
 import { topOpenRisks } from '../utils/riskHelpers.js'
@@ -183,6 +190,7 @@ export default {
 			project: null,
 			tasks: [],
 			childProgress: [],
+			projectFields: [],
 			entries: [],
 			risks: [],
 			names: {},
@@ -208,6 +216,17 @@ export default {
 		 */
 		progress() {
 			return rollupProgress(projectProgress(this.tasks), this.childProgress.map((child) => child.subtree))
+		},
+
+		/**
+		 * The project's filled custom fields, in field order.
+		 *
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.3
+		 */
+		filled() {
+			return filledFields(this.projectFields, this.project)
 		},
 
 		/**
@@ -322,12 +341,28 @@ export default {
 				])
 				this.tasks = tasks
 				this.childProgress = await this.loadSubprojects(store)
+				this.projectFields = sortFields(await store.fetchProjectFields())
 				this.entries = entries
 				this.risks = risks
 				this.names = await displayNames(this.people)
 			} finally {
 				this.loading = false
 			}
+		},
+
+		/**
+		 * A filled custom field as text.
+		 *
+		 * @param {{type: string, value: (string|number|boolean)}} field The field with its value.
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.3
+		 */
+		fieldText(field) {
+			if (field.type === 'boolean') {
+				return field.value ? this.t('planninq', 'Yes') : this.t('planninq', 'No')
+			}
+			return String(field.value)
 		},
 
 		/**
