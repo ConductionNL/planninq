@@ -5662,16 +5662,12 @@
         "untis": "not checked: https://www.untis.at/webuntis-demo is a slideshow and trial access needs a form ; https://developer.untis.com/api-reference/api-overview/ offers a sandbox school 'with synthetic data' for API developers only"
       },
       "built": {
-        "state": "specified",
-        "evidence": "setup step 'load-demo-data' -> lib/Controller/SetupController.php runAction -> lib/Service/DemoDataService.php:46,202 imports lib/Settings/planninq_mock_register.json",
+        "state": "built",
+        "evidence": "setup wizard 'Example data' -> SetupController::loadDataset -> DemoDataService::install() fits lib/Settings/planninq_mock_register.json (59 curated objects, fixed ids, every reference resolving) to the loading admin (@operator) and the load day (anchorDate shift) before OpenRegister importFromApp; the real register seeds only the five labels",
         "reachedOn": "setup wizard, 'Load example data?' + 'Load the example data'",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "lib/Settings/planninq_mock_register.json:135,155,175 demo projects have \"members\": [], so src/store/projects.js:195 filters them out of Projects, Boards and Portfolio for every user (code reading, needs a live check)",
-          "lib/Settings/planninq_mock_register.json:123-140 demo objects are placeholder values ('Voorbeeld Title 1', owner 'Voorbeeld Owner 1') and their project/task references are 00000000-0000-4000-8000-00000000000N, which no demo project carries as its id",
-          "lib/Settings/planninq_mock_register.json:69-70 demo dependency edges have blocker == blocked, a self-dependency lib/Service/DependencyService.php:113 rejects on the normal path"
-        ],
-        "change": "openspec/changes/platform-demo-data"
+        "change": "openspec/changes/archive/2026-09-29-platform-demo-data",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
