@@ -21,6 +21,7 @@ import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelper
 import { canSeeProject } from '../utils/portfolioGrouping.js'
 import { actionNames, transitionRequest } from '../utils/projectLifecycle.js'
 import { duplicatePayload } from '../utils/taskBreakdown.js'
+import { epicPatch, shipPatches } from '../utils/roadmapHelpers.js'
 import { deleteRefusal, withTaskDefaults } from '../utils/taskEditing.js'
 import { useObjectStore } from './objectStore.js'
 
@@ -41,6 +42,7 @@ const PORTFOLIO_SCHEMA = 'projectPortfolio'
 const PHASE_SCHEMA = 'projectPhase'
 const FINANCE_LINE_SCHEMA = 'financeLine'
 const PROJECT_FIELD_SCHEMA = 'projectField'
+const RELEASE_SCHEMA = 'projectRelease'
 
 /**
  * Largest page OpenRegister will return. Asking for more is silently capped.
@@ -145,6 +147,9 @@ export const useProjectsStore = defineStore('projects', {
 			}
 			if (!store.objectTypeRegistry?.[FINANCE_LINE_SCHEMA]) {
 				store.registerObjectType(FINANCE_LINE_SCHEMA, FINANCE_LINE_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: FINANCE_LINE_SCHEMA })
+			}
+			if (!store.objectTypeRegistry?.[RELEASE_SCHEMA]) {
+				store.registerObjectType(RELEASE_SCHEMA, RELEASE_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: RELEASE_SCHEMA })
 			}
 			return store
 		},
@@ -842,6 +847,111 @@ export const useProjectsStore = defineStore('projects', {
 				console.error('fetchPortfolios error:', err)
 				return []
 			}
+		},
+
+		/**
+		 * Every release of a project, scoped by OpenRegister to its members.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The releases (empty array on error)
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.1
+		 */
+		async fetchReleases(projectId) {
+			try {
+				const releases = await fetchEvery(this._objectStore(), RELEASE_SCHEMA, { project: projectId })
+				return Array.isArray(releases) ? releases : []
+			} catch (err) {
+				console.error('fetchReleases error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Write a release: POST without an id, PATCH with one, so only the
+		 * fields given are sent.
+		 *
+		 * @param {object} release The release fields, with `id` for an existing one
+		 * @return {Promise<object|null>} The saved release, or null on failure
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.1
+		 */
+		async saveRelease(release) {
+			const { id, ...fields } = release
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/${RELEASE_SCHEMA}/${id}`)
+				: generateUrl(`/apps/openregister/api/objects/planninq/${RELEASE_SCHEMA}`)
+			try {
+				const response = await fetch(url, {
+					method: id ? 'PATCH' : 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(fields),
+				})
+				if (!response.ok) {
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				console.error('saveRelease error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Mark a release as released. The unfinished tasks are moved, cleared
+		 * or kept first, as the member chose; if one of those writes fails the
+		 * release is left planned, so nothing is marked shipped with work lost.
+		 *
+		 * @param {object} release The release
+		 * @param {Array<object>} tasks The project's tasks
+		 * @param {string} choice 'move', 'clear' or 'keep'
+		 * @param {string|null} targetId The release to move the tasks to
+		 * @return {Promise<{ok: boolean}>}
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.1
+		 */
+		async shipRelease(release, tasks, choice, targetId) {
+			const plan = shipPatches(release, tasks, choice, targetId)
+			for (const write of plan.tasks) {
+				if (!await this.setTaskRelease(write.id, write.patch.release)) {
+					return { ok: false }
+				}
+			}
+			const saved = await this.saveRelease({ id: release.id, ...plan.release })
+			return { ok: saved !== null }
+		},
+
+		/**
+		 * Plan a task against a release, or clear it with null. Sends only `release`.
+		 *
+		 * @param {string} taskId Task UUID
+		 * @param {string|null} releaseId Release UUID, or null
+		 * @return {Promise<object|null>} The updated task, or null on failure
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.1
+		 */
+		async setTaskRelease(taskId, releaseId) {
+			return this.updateTask(taskId, { release: releaseId || null })
+		},
+
+		/**
+		 * Link a task to an epic of its own project, or unlink it with null.
+		 * Another project's epic, or an epic under an epic, is refused here
+		 * and never sent.
+		 *
+		 * @param {object} task The task
+		 * @param {object|null} epic The epic, or null
+		 * @return {Promise<{ok: boolean, reason?: string, task?: object}>}
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.3
+		 */
+		async setTaskEpic(task, epic) {
+			const result = epicPatch(task, epic)
+			if (!result.ok) {
+				return result
+			}
+			const updated = await this.updateTask(task.id, result.patch)
+			return updated ? { ok: true, task: updated } : { ok: false, reason: 'other' }
 		},
 
 		/**
