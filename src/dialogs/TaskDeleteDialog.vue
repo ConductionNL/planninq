@@ -5,9 +5,14 @@
 				<p v-if="reason === 'has-time'" data-testid="task-delete-has-time">
 					{{ t('planninq', '"{title}" has logged time, so it cannot be deleted. You can cancel it instead: the time entries stay.', { title: task.title }) }}
 				</p>
-				<p v-else>
-					{{ t('planninq', 'Delete "{title}"? Its links to other tasks are removed too. This cannot be undone.', { title: task.title }) }}
-				</p>
+				<template v-else>
+					<p>
+						{{ t('planninq', 'Delete "{title}"? Its links to other tasks are removed too. This cannot be undone.', { title: task.title }) }}
+					</p>
+					<p v-if="subtasks.length" data-testid="task-delete-has-subtasks">
+						{{ n('planninq', 'This task has {count} subtask.', 'This task has {count} subtasks.', subtasks.length, { count: subtasks.length }) }}
+					</p>
+				</template>
 				<div v-if="submitError" class="task-delete-dialog__error" role="alert">
 					{{ submitError }}
 				</div>
@@ -26,12 +31,27 @@
 				@click="cancelTask">
 				{{ t('planninq', 'Cancel task') }}
 			</NcButton>
+			<template v-else-if="subtasks.length">
+				<NcButton
+					:disabled="busy"
+					data-testid="task-delete-keep-subtasks"
+					@click="confirm('detach')">
+					{{ t('planninq', 'Keep subtasks as separate tasks') }}
+				</NcButton>
+				<NcButton
+					variant="error"
+					:disabled="busy"
+					data-testid="task-delete-with-subtasks"
+					@click="confirm('delete')">
+					{{ t('planninq', 'Delete subtasks too') }}
+				</NcButton>
+			</template>
 			<NcButton
 				v-else
 				variant="error"
 				:disabled="busy"
 				data-testid="task-delete-confirm"
-				@click="confirm">
+				@click="confirm()">
 				<template v-if="busy" #icon>
 					<NcLoadingIcon :size="16" />
 				</template>
@@ -70,6 +90,12 @@ export default {
 			required: true,
 		},
 
+		/** The task's subtasks; the dialog then asks what happens to them. */
+		subtasks: {
+			type: Array,
+			default: () => [],
+		},
+
 		/** Whether the task has logged time; the dialog then offers to cancel it. */
 		hasTime: {
 			type: Boolean,
@@ -90,13 +116,18 @@ export default {
 	methods: {
 		/**
 		 * Delete the task, or switch to the logged-time branch when the server says so.
+		 * With subtasks, `mode` says whether they go too (`delete`) or stay (`detach`).
+		 *
+		 * @param {string} [mode] `delete` or `detach`, for a task with subtasks.
 		 *
 		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-2.2
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-5.2
 		 */
-		async confirm() {
+		async confirm(mode) {
 			this.busy = true
 			this.submitError = ''
-			const result = await useProjectsStore().deleteTask(this.task.id)
+			const store = useProjectsStore()
+			const result = mode ? await store.deleteTaskTree(this.task, this.subtasks, mode) : await store.deleteTask(this.task.id)
 			this.busy = false
 			if (result.deleted) {
 				this.$emit('deleted', this.task)

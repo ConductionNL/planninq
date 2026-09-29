@@ -19,6 +19,7 @@ import { defineStore } from 'pinia'
 import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelpers.js'
 import { canSeeProject } from '../utils/portfolioGrouping.js'
 import { actionNames, transitionRequest } from '../utils/projectLifecycle.js'
+import { duplicatePayload } from '../utils/taskBreakdown.js'
 import { deleteRefusal, withTaskDefaults } from '../utils/taskEditing.js'
 import { useObjectStore } from './objectStore.js'
 
@@ -1409,6 +1410,63 @@ export const useProjectsStore = defineStore('projects', {
 				console.error('deleteTask error:', err)
 				return { deleted: false, reason: 'failed' }
 			}
+		},
+
+		// ── 2.14d subtasks, duplicate, delete a parent ────────────────────
+
+		/**
+		 * Copy a task and its subtasks (duplicatePayload: no dates, people or time).
+		 *
+		 * @param {object}        task     The task.
+		 * @param {Array<object>} children Its subtasks.
+		 * @return {Promise<object|null>} The copy, or null when the copy itself failed
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-5.1
+		 */
+		async duplicateTask(task, children = []) {
+			const copy = await this.createTask(duplicatePayload(task, t('planninq', 'Copy of {title}', { title: '{title}' })))
+			const copyId = copy?.id ?? copy?.uuid ?? copy?.['@self']?.id
+			if (!copyId) {
+				return null
+			}
+			for (const child of children) {
+				if (!await this.createTask(duplicatePayload(child, '{title}', copyId))) {
+					showError(t('planninq', 'The task was copied, but not all of its subtasks. Please check the copy.'))
+					break
+				}
+			}
+			return copy
+		},
+
+		/**
+		 * Delete a parent task, deleting its subtasks too or keeping them as separate tasks.
+		 *
+		 * Nothing is deleted when any task that would go has logged time.
+		 *
+		 * @param {object}        task     The parent.
+		 * @param {Array<object>} children Its subtasks.
+		 * @param {string}        mode     `delete` or `detach`.
+		 * @return {Promise<{deleted: boolean, reason?: string}>}
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-5.2
+		 */
+		async deleteTaskTree(task, children, mode) {
+			const going = mode === 'delete' ? [...children, task] : [task]
+			for (const one of going) {
+				const entries = await fetchEvery(this._objectStore(), TIME_ENTRY_SCHEMA, { task: one.id })
+				if (entries.length > 0) {
+					return { deleted: false, reason: 'has-time' }
+				}
+			}
+			for (const child of children) {
+				const done = mode === 'delete'
+					? (await this.deleteTask(child.id)).deleted
+					: !!(await this.updateTask(child.id, { parent: null }))
+				if (!done) {
+					return { deleted: false, reason: 'failed' }
+				}
+			}
+			return this.deleteTask(task.id)
 		},
 
 		// ── 2.15 updateTask ────────────────────────────────────────────────

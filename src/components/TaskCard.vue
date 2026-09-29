@@ -14,6 +14,23 @@
 
 		<!-- Task metadata -->
 		<div class="task-card__meta">
+			<!-- Subtask of (tasks-subtasks-checklist) -->
+			<NcChip
+				v-if="parentTitle"
+				:text="t('planninq', 'Part of {title}', { title: parentTitle })"
+				variant="tertiary"
+				:noClose="true"
+				data-testid="task-card-parent" />
+
+			<!-- Checklist done count such as 3/5 -->
+			<NcChip
+				v-if="checklistText"
+				:text="checklistText"
+				:aria-label="t('planninq', 'Checklist: {count} done', { count: checklistText })"
+				variant="tertiary"
+				:noClose="true"
+				data-testid="task-card-checklist" />
+
 			<!-- Blocked by an unfinished task (planning-dependencies-on-task-page) -->
 			<BlockedBadge :blocked="blocked" :openBlockerCount="openBlockerCount" />
 
@@ -89,6 +106,7 @@ import { NcAvatar, NcChip } from '@nextcloud/vue'
 import BlockedBadge from './BlockedBadge.vue'
 import { formatDuration } from '../utils/durationParser.js'
 import { labelId } from '../utils/labelHelpers.js'
+import { checklistCount } from '../utils/taskBreakdown.js'
 import { descriptionExcerpt } from '../utils/taskEditing.js'
 import { dueDateStatus } from '../utils/taskHelpers.js'
 import { peopleOf } from '../utils/taskPeople.js'
@@ -113,6 +131,12 @@ export default {
 	components: { BlockedBadge, NcAvatar, NcChip },
 
 	props: {
+		/** The title of the task this one is a subtask of, if any. */
+		parentTitle: {
+			type: String,
+			default: '',
+		},
+
 		task: {
 			type: Object,
 			required: true,
@@ -159,6 +183,15 @@ export default {
 		 */
 		people() {
 			return peopleOf(this.task)
+		},
+
+		/**
+		 * The checklist's done count such as "3/5", or empty.
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		checklistText() {
+			return checklistCount(this.task.checklist)
 		},
 
 		/**

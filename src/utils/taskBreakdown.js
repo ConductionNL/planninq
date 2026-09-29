@@ -24,7 +24,7 @@ function newItemId() {
  *
  * @param {Array<object>} list  The checklist.
  * @param {string}        text  The item text.
- * @param {Function}      [id]  Makes the id (for tests).
+ * @param {() => string}  [id]  Makes the id (for tests).
  * @return {Array<object>}
  *
  * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1

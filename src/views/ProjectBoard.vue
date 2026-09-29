@@ -219,6 +219,7 @@
 								@drop.stop="onDrop(column, task)">
 								<TaskCard
 									:task="task"
+									:parentTitle="parentTitle(task)"
 									:labels="labelsForTask(task)"
 									:blocked="blockedIds.has(task.id)"
 									:openBlockerCount="openBlockerIds(task.id, dependenciesStore.edges, statusById).length" />
@@ -272,6 +273,15 @@
 												<ArrowRightIcon :size="20" />
 											</template>
 											{{ target.title }}
+										</NcActionButton>
+										<NcActionButton
+											:closeAfterClick="true"
+											data-testid="duplicate-task"
+											@click="duplicateTask(task)">
+											<template #icon>
+												<ContentCopy :size="20" />
+											</template>
+											{{ t('planninq', 'Duplicate') }}
 										</NcActionButton>
 										<!-- Priority from the card (tasks-assignment-priority-labels) -->
 										<NcActionSeparator />
@@ -376,6 +386,7 @@ import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 import ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import FlagOutline from 'vue-material-design-icons/FlagOutline.vue'
 import FormatListBulleted from 'vue-material-design-icons/FormatListBulleted.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
@@ -416,6 +427,7 @@ export default {
 		NcActionCaption,
 		NcActionSeparator,
 		FlagOutline,
+		ContentCopy,
 		NcButton,
 		NcChip,
 		NcEmptyContent,
@@ -1026,6 +1038,32 @@ export default {
 				urgent: this.t('planninq', 'Urgent'),
 			}
 			return labels[priority || 'normal'] || ''
+		},
+
+		/**
+		 * @param {object} task A card.
+		 * @return {string} The title of its parent task, or empty.
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-2.2
+		 */
+		parentTitle(task) {
+			return task.parent ? (this.tasks.find((other) => other.id === task.parent)?.title || '') : ''
+		},
+
+		/**
+		 * Copy a card with its checklist and subtasks; the copies appear on the board.
+		 *
+		 * @param {object} task The card.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-5.1
+		 */
+		async duplicateTask(task) {
+			const copy = await this.projectsStore.duplicateTask(task, this.tasks.filter((other) => other.parent === task.id))
+			if (!copy) {
+				showError(this.t('planninq', 'Could not copy the task. Please try again.'))
+				return
+			}
+			await this.loadTasks(this.project.id)
 		},
 
 		/**
