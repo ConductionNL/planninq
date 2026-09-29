@@ -350,8 +350,13 @@ class TimelineController extends Controller {
 		foreach ($tasks as $row) {
 			$first = ($row['startDate'] ?? $row['dueDate']);
 			$last = ($row['dueDate'] ?? $row['startDate']);
-			$firstStart = ($firstStart === null || $first < $firstStart) ? $first : $firstStart;
-			$lastDue = ($lastDue === null || $last > $lastDue) ? $last : $lastDue;
+			if ($firstStart === null || $first < $firstStart) {
+				$firstStart = $first;
+			}
+
+			if ($lastDue === null || $last > $lastDue) {
+				$lastDue = $last;
+			}
 		}
 
 		return [
