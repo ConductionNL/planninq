@@ -794,7 +794,7 @@
       "area": "projects",
       "name": "Create a project with a name, a short key and a description.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "yes",
       "plane": "yes",
@@ -812,14 +812,12 @@
         "plane": "corpus: plane/round4/journeys.md 'Create a workspace, create a project, create a work item' ; code-census.md §2 'project.py:76 identifier = models.CharField(max_length=12)', unique per workspace via ProjectIdentifier ; source: apps/web/core/components/project/card.tsx:285 renders project.description ; source read at v1.4.2: apps/web/core/components/project/create/common-attributes.tsx:89 identifier field (derived from name, max 10) and :132 description field in the create modal; apps/api/plane/app/views/project/base.py:257-258 create; apps/api/plane/db/models/project.py:70-76 name, description, identifier CharField(max_length=12)"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/dialogs/ProjectCreationDialog.vue:113-118 (form: title, description, color, icon; no key field) -> src/store/projects.js:328 createProject() -> lib/Controller/ProjectController.php:221 create()",
+        "state": "built",
+        "evidence": "src/dialogs/ProjectCreationDialog.vue: title, key (suggested from the title, format and availability checked), description, colour, icon -> src/store/projects.js createProject() -> lib/Controller/ProjectController.php create() (400 malformed key, 409 used key) -> lib/Listener/WorkItemKeyListener.php",
         "reachedOn": "ProjectList page, New project dialog",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/dialogs/ProjectCreationDialog.vue:113-118 no field for the schema's `key` property"
-        ],
-        "change": "openspec/changes/tasks-readable-keys"
+        "change": "openspec/changes/archive/2026-09-29-tasks-readable-keys",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6851,7 +6849,7 @@
         "kanboard": "source read at v1.2.54: app/Template/board/task_private.php:26 cards show a global '#id'; the project identifier exists, app/Model/ProjectModel.php:123, but no per project task number; the request has the most votes of the Ideas category (6)",
         "jira": "https://confluence.atlassian.com/adminjiraserver/creating-a-project-938846813.html 'The project key becomes the first part of that project's issue keys, e.g. DDT-1, DDT-2' (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "yes",
@@ -6862,12 +6860,12 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "Schema only: key on task and project, both described as import-preserved values. No key generation, no key on src/components/TaskCard.vue:1-68 or src/views/TaskDetail.vue:262-270, no key field on project create.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Listener/WorkItemKeyListener.php gives a new task {projectKey}-{n} from project.nextTaskNumber under a per-project lock (lib/Service/WorkItemKeyService.php) and keeps an incoming key; lib/BackgroundJob/NumberProjectTasks.php numbers existing tasks when a project first gets a key; shown on src/components/TaskCard.vue, the src/views/TaskDetail.vue header and the browser tab",
+        "reachedOn": "Board card, task page /projects/:id/tasks/:taskId",
         "owner": "ConductionNL/planninq",
-        "nearCredit": "the schema descriptions promise ABC-123 keys; no code produces or shows them",
-        "change": "openspec/changes/tasks-readable-keys"
+        "change": "openspec/changes/archive/2026-09-29-tasks-readable-keys",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
