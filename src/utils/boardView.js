@@ -80,6 +80,8 @@ export function cardEdge(task, labels, mode) {
  * @param {object} task The task.
  * @param {string} field 'assignee', 'priority' or 'epic'.
  * @return {string}
+ *
+ * @spec openspec/changes/boards-card-display/tasks.md#task-2.1
  */
 export function laneValue(task, field) {
 	if (field === 'assignee') {
