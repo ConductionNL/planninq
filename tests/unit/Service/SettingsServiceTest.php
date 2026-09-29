@@ -143,6 +143,84 @@ class SettingsServiceTest extends TestCase {
 	}//end setUp()
 
 	/**
+	 * A user's dashboard project order is stored as a JSON list of project ids
+	 * for that user only, without duplicates or non-string ids.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
+	 */
+	public function testDashboardProjectOrderIsStoredPerUser(): void {
+		$stored = [];
+		$this->config->method('setUserValue')->willReturnCallback(
+			function (string $userId, string $app, string $key, string $value) use (&$stored): void {
+				$stored[$userId.'/'.$app.'/'.$key] = $value;
+			}
+		);
+
+		$this->service->setDashboardProjectOrder(userId: 'anna', order: ['p-2', 'p-1', 'p-2', 7, '', 'p-3']);
+
+		self::assertSame(
+			expected: ['anna/'.Application::APP_ID.'/'.SettingsService::DASHBOARD_ORDER_KEY => '["p-2","p-1","p-3"]'],
+			actual: $stored
+		);
+
+	}//end testDashboardProjectOrderIsStoredPerUser()
+
+	/**
+	 * The stored order reads back as a list; a missing or broken value reads as empty.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
+	 */
+	public function testDashboardProjectOrderReadsBack(): void {
+		$this->config->method('getUserValue')->willReturnMap(
+			[
+				['anna', Application::APP_ID, SettingsService::DASHBOARD_ORDER_KEY, '[]', '["p-2","p-1"]'],
+				['bram', Application::APP_ID, SettingsService::DASHBOARD_ORDER_KEY, '[]', 'not json'],
+				['carl', Application::APP_ID, SettingsService::DASHBOARD_ORDER_KEY, '[]', '[]'],
+			]
+		);
+
+		self::assertSame(expected: ['p-2', 'p-1'], actual: $this->service->getDashboardProjectOrder(userId: 'anna'));
+		self::assertSame(expected: [], actual: $this->service->getDashboardProjectOrder(userId: 'bram'));
+		self::assertSame(expected: [], actual: $this->service->getDashboardProjectOrder(userId: 'carl'));
+
+	}//end testDashboardProjectOrderReadsBack()
+
+	/**
+	 * The user settings endpoint takes the order, as a list or as JSON text,
+	 * and leaves it alone when the request does not carry it.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
+	 */
+	public function testUpdateUserSettingsTakesTheDashboardOrder(): void {
+		$this->appManager->method('isInstalled')->willReturn(false);
+		$stored = [];
+		$this->config->method('setUserValue')->willReturnCallback(
+			function (string $userId, string $app, string $key, string $value) use (&$stored): void {
+				$stored[] = [$userId, $key, $value];
+			}
+		);
+
+		$this->service->updateUserSettings(userId: 'anna', data: ['dashboard_project_order' => ['p-1']]);
+		$this->service->updateUserSettings(userId: 'anna', data: ['dashboard_project_order' => '["p-4","p-3"]']);
+		$this->service->updateUserSettings(userId: 'anna', data: []);
+
+		self::assertSame(
+			expected: [
+				['anna', SettingsService::DASHBOARD_ORDER_KEY, '["p-1"]'],
+				['anna', SettingsService::DASHBOARD_ORDER_KEY, '["p-4","p-3"]'],
+			],
+			actual: $stored
+		);
+
+	}//end testUpdateUserSettingsTakesTheDashboardOrder()
+
+	/**
 	 * Test getAdminSettings() returns defaults when no values are stored.
 	 *
 	 * @return void

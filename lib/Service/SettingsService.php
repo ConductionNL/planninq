@@ -89,6 +89,21 @@ class SettingsService {
 	public const CREATION_POLICIES = ['all', 'admins', 'groups'];
 
 	/**
+	 * The user value holding a user's own order of pinned projects on the
+	 * dashboard, a JSON list of project ids (portfolio-my-work-dashboard).
+	 *
+	 * @var string
+	 */
+	public const DASHBOARD_ORDER_KEY = 'dashboard_project_order';
+
+	/**
+	 * The most projects a user can pin on the dashboard.
+	 *
+	 * @var integer
+	 */
+	public const DASHBOARD_ORDER_MAX = 50;
+
+	/**
 	 * Days after which a project's latest status report counts as out of date.
 	 *
 	 * @var string
@@ -479,6 +494,7 @@ class SettingsService {
 		$userSettings = [];
 		if ($user !== null) {
 			$userSettings['notify_due_reminder'] = $this->isNotifyDueReminderEnabled(userId: $user->getUID());
+			$userSettings[self::DASHBOARD_ORDER_KEY] = $this->getDashboardProjectOrder(userId: $user->getUID());
 		}
 
 		return array_merge(
@@ -514,8 +530,77 @@ class SettingsService {
 			$this->setNotifyDueReminder(userId: $userId, enabled: ($enabled !== false));
 		}
 
+		if (array_key_exists(self::DASHBOARD_ORDER_KEY, $data) === true) {
+			$order = $data[self::DASHBOARD_ORDER_KEY];
+			if (is_string($order) === true) {
+				$order = json_decode($order, true);
+			}
+
+			if (is_array($order) === true) {
+				$this->setDashboardProjectOrder(userId: $userId, order: $order);
+			}
+		}
+
 		return $this->getSettings();
 	}//end updateUserSettings()
+
+	/**
+	 * A user's own order of pinned dashboard projects.
+	 *
+	 * @param string $userId The user UID.
+	 *
+	 * @return array<int,string> Project ids, pinned first to last.
+	 *
+	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
+	 */
+	public function getDashboardProjectOrder(string $userId): array {
+		$raw     = $this->config->getUserValue($userId, Application::APP_ID, self::DASHBOARD_ORDER_KEY, '[]');
+		$decoded = json_decode((string) $raw, true);
+		if (is_array($decoded) === false) {
+			return [];
+		}
+
+		return $this->cleanProjectOrder(order: $decoded);
+	}//end getDashboardProjectOrder()
+
+	/**
+	 * Store a user's own order of pinned dashboard projects.
+	 *
+	 * @param string            $userId The user UID.
+	 * @param array<mixed,mixed> $order  Project ids, pinned first to last.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
+	 */
+	public function setDashboardProjectOrder(string $userId, array $order): void {
+		$this->config->setUserValue(
+			$userId,
+			Application::APP_ID,
+			self::DASHBOARD_ORDER_KEY,
+			(string) json_encode($this->cleanProjectOrder(order: $order))
+		);
+	}//end setDashboardProjectOrder()
+
+	/**
+	 * Non-empty string ids, first occurrence kept, at most DASHBOARD_ORDER_MAX.
+	 *
+	 * @param array<mixed,mixed> $order The ids as given.
+	 *
+	 * @return array<int,string>
+	 *
+	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
+	 */
+	private function cleanProjectOrder(array $order): array {
+		$clean = [];
+		foreach ($order as $id) {
+			if (is_string($id) === true && $id !== '' && in_array($id, $clean, true) === false) {
+				$clean[] = $id;
+			}
+		}
+
+		return array_slice($clean, 0, self::DASHBOARD_ORDER_MAX);
+	}//end cleanProjectOrder()
 
 	/**
 	 * Update settings with the provided data.
