@@ -112,6 +112,33 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testPhaseLifecycleRequiresConcludingDocumentGuard()
 
 	/**
+	 * A phase carries the declared `metadata` catch-all a task has, so a phase
+	 * imported from Microsoft Project keeps its Project UID and the re-import
+	 * can find it again. The schema version moves with it.
+	 *
+	 * @spec openspec/changes/integration-msproject-import/tasks.md#task-1.3
+	 *
+	 * @return void
+	 */
+	public function testPhaseHasMetadata(): void {
+		$phase    = $this->register['components']['schemas']['projectPhase'];
+		$metadata = ($phase['properties']['metadata'] ?? null);
+		self::assertIsArray($metadata, 'projectPhase declares metadata');
+		self::assertSame('object', $metadata['type']);
+		self::assertSame([], $metadata['default']);
+		self::assertTrue(version_compare($phase['version'], '0.5.0', '>='), 'projectPhase version moves past 0.4.0');
+
+		$payload = [
+			'title'    => 'Ruwbouw',
+			'project'  => '6f1d6c0e-1b2a-4c3d-8e9f-0a1b2c3d4e5f',
+			'metadata' => ['msProjectUid' => '1', 'msProjectFile' => 'Renovatie stadhuis.xml', 'msProjectSaveVersion' => '14'],
+		];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'projectPhase', payload: $payload));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'projectPhase', payload: ['metadata' => 'uid 1'] + $payload));
+
+	}//end testPhaseHasMetadata()
+
+	/**
 	 * Register JSON must be valid JSON with the required top-level structure.
 	 *
 	 * @return void

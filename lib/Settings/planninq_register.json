@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.11.0"
+    "version": "0.12.0"
   },
   "x-openregister": {
     "type": "application",
@@ -728,7 +728,7 @@
       "projectPhase": {
         "slug": "projectPhase",
         "icon": "TimelineOutline",
-        "version": "0.4.0",
+        "version": "0.5.0",
         "title": "Project Phase",
         "description": "A delivery stage within a project, such as discovery, build or hypercare. Phases carry their own budget and billable flag, and tasks hang off them. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -925,6 +925,12 @@
             "description": "Planned end of the phase (ISO 8601)",
             "format": "date",
             "nullable": true
+          },
+          "metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "description": "Declared catch-all for source-system fields: imported custom fields and provenance keys (e.g. jiraKey, jiraId, migratedAt). Declared explicitly so magic-table storage persists it.",
+            "default": {}
           }
         }
       },
