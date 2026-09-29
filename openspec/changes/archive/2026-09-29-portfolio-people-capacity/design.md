@@ -53,3 +53,10 @@ The manifest `_note` of the `Portfolio` page and the Capacity card description a
 ## Open questions
 
 - Availability per person (contract hours, part-time factors, leave) lives in humaniq. A follow-up change can add an "Available" column read from humaniq with `requiredApp: humaniq`, hidden when humaniq is absent, as the time move already does.
+
+## Amendments at build time (2026-09-29)
+
+- "Tasks without an estimate" is its own column with the count, not the sentence "9 tasks without an estimate": the catalogues carry no plural forms, and a column reads the same in every locale. The e2e test reads the column.
+- A uid whose display name does not resolve is shown as the uid. Nextcloud's autocomplete, which `src/utils/userNames.js` reads, answers the same for a removed account and an unmatched search, so "(no longer an account)" cannot be told apart reliably and is left out.
+- The portfolio picker and the project filter work together: the filter lists the projects of the chosen portfolio, and with no project chosen the report reads every project of the portfolio (or every project when "All portfolios" is chosen). Tasks are read once per project and kept while the filters change.
+- The per-project view now follows the same filters.

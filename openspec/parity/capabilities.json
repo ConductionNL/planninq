@@ -4205,7 +4205,7 @@
       "area": "portfolio",
       "name": "See how allocation is spread across the people working on projects.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "no",
@@ -4226,14 +4226,12 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/workload/workload 'See exactly how planned hours are distributed across teaching, research, and administration ... Individual and bulk views'. Workload suite"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/manifest.json:163 (Reports card 'Capacity') -> src/views/Portfolio.vue:134 fetchProjects({status:'active'}) + :137 fetchTasks(project.id) -> src/utils/portfolioHelpers.js:28 summariseProjectTasks(); columns Project/Members/Open/Overdue at src/views/Portfolio.vue:32-45",
-        "reachedOn": "Reports page /reports, 'Capacity' card -> Portfolio /portfolio",
+        "state": "built",
+        "evidence": "src/views/Portfolio.vue 'By person' view (default): one row per person with open, overdue, hours left (primary assignee only), tasks without an estimate, due in 14 days and shared, an Unassigned row, a disclosure per person with the per-project breakdown; 'By project' toggle (aria-pressed); portfolio picker and project filter. Grouping in src/utils/portfolioHelpers.js summariseByAssignee",
+        "reachedOn": "Reports card Capacity -> /portfolio",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/manifest.json:151 page _note and :163 card description claim 'one row per assignee' / 'spread across the people', but src/views/Portfolio.vue:139-147 builds one row per project (code reading, needs a live check)"
-        ],
-        "change": "openspec/changes/portfolio-people-capacity"
+        "change": "openspec/changes/archive/2026-09-29-portfolio-people-capacity",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
