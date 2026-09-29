@@ -62,6 +62,34 @@
 					label="label"
 					data-testid="project-parent" />
 
+				<!-- Project fields an admin defined (projects-grouping-hierarchy-fields) -->
+				<div
+					v-for="field in projectFields"
+					:key="field.key"
+					class="project-settings-sidebar__field"
+					:data-testid="`project-field-${field.key}`">
+					<NcSelect
+						v-if="field.type === 'choice'"
+						v-model="fieldForm[field.key]"
+						:options="field.options || []"
+						:inputLabel="field.required ? t('planninq', '{label} (required)', { label: field.label }) : field.label" />
+					<NcCheckboxRadioSwitch v-else-if="field.type === 'boolean'" v-model="fieldForm[field.key]">
+						{{ field.label }}
+					</NcCheckboxRadioSwitch>
+					<NcTextField
+						v-else
+						v-model="fieldForm[field.key]"
+						:type="field.type === 'number' ? 'number' : (field.type === 'date' ? 'date' : 'text')"
+						:label="field.required ? t('planninq', '{label} (required)', { label: field.label }) : field.label" />
+					<p
+						v-if="missingFields.includes(field.key)"
+						class="project-settings-sidebar__error"
+						role="alert"
+						:data-testid="`project-field-${field.key}-error`">
+						{{ t('planninq', '{label} is required', { label: field.label }) }}
+					</p>
+				</div>
+
 				<!-- Case reference (read-only) -->
 				<div v-if="project.caseReference" class="project-settings-sidebar__field">
 					<label class="project-settings-sidebar__label">
@@ -233,6 +261,7 @@ import {
 	NcAppSidebarTab,
 	NcAvatar,
 	NcButton,
+	NcCheckboxRadioSwitch,
 	NcLoadingIcon,
 	NcSelect,
 	NcTextArea,
@@ -250,6 +279,7 @@ import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
+import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
 import { parentIdOf, parentOptions, parentRefusal } from '../utils/projectTree.js'
 
 export default {
@@ -261,6 +291,7 @@ export default {
 		NcAppSidebarTab,
 		NcAvatar,
 		NcButton,
+		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
 		NcSelect,
 		NcTextField,
@@ -303,6 +334,10 @@ export default {
 				portfolio: null,
 				parent: null,
 			},
+
+			projectFields: [],
+			fieldForm: {},
+			missingFields: [],
 
 			portfolios: [],
 		}
@@ -377,6 +412,8 @@ export default {
 				this.form.icon = newVal.icon || ''
 				this.form.portfolio = this.portfolioOption(newVal)
 				this.form.parent = this.parentOption(newVal)
+				this.fieldForm = { ...(newVal.customFields || {}) }
+				this.missingFields = []
 			}
 		},
 	},
@@ -387,11 +424,14 @@ export default {
 	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
 	 */
 	async mounted() {
-		const [portfolios] = await Promise.all([
+		const [portfolios, fields] = await Promise.all([
 			this.projectsStore.fetchPortfolios(),
+			this.projectsStore.fetchProjectFields(),
 			this.projectsStore.projects.length ? Promise.resolve() : this.projectsStore.fetchProjects(),
 		])
 		this.portfolios = portfolios
+		this.projectFields = sortFields(fields)
+		this.fieldForm = { ...(this.project?.customFields || {}) }
 		this.form.portfolio = this.portfolioOption(this.project)
 		this.form.parent = this.parentOption(this.project)
 	},
@@ -429,6 +469,10 @@ export default {
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
 		 */
 		async saveDetails() {
+			this.missingFields = missingRequired(this.projectFields, this.fieldForm)
+			if (this.missingFields.length) {
+				return
+			}
 			this.saving = true
 			try {
 				const saved = await this.projectsStore.updateProject(this.project.id, {
@@ -438,6 +482,7 @@ export default {
 					icon: this.form.icon.trim() || undefined,
 					portfolio: this.form.portfolio?.id || null,
 					parent: this.form.parent?.id || null,
+					customFields: { ...(this.project.customFields || {}), ...this.clearedFields(), ...customFieldValues(this.projectFields, this.fieldForm) },
 					// Always include existing members and owner so a PATCH/PUT does not wipe them
 					members: Array.isArray(this.project.members) ? this.project.members : [],
 					owner: this.project.owner || undefined,
@@ -453,6 +498,17 @@ export default {
 			} finally {
 				this.saving = false
 			}
+		},
+
+		/**
+		 * The defined fields emptied in the form, so a cleared value is removed rather than kept.
+		 *
+		 * @return {object}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.3
+		 */
+		clearedFields() {
+			return Object.fromEntries(this.projectFields.map((field) => [field.key, undefined]))
 		},
 
 		/**
@@ -570,6 +626,11 @@ export default {
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
+}
+
+.project-settings-sidebar__error {
+	margin: 4px 0 0;
+	color: var(--color-error-text);
 }
 
 .project-settings-sidebar__label {

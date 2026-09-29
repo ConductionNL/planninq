@@ -36,6 +36,7 @@ const STATUS_REPORT_SCHEMA = 'projectStatusReport'
 const PORTFOLIO_SCHEMA = 'projectPortfolio'
 const PHASE_SCHEMA = 'projectPhase'
 const FINANCE_LINE_SCHEMA = 'financeLine'
+const PROJECT_FIELD_SCHEMA = 'projectField'
 
 /**
  * Largest page OpenRegister will return. Asking for more is silently capped.
@@ -720,6 +721,23 @@ export const useProjectsStore = defineStore('projects', {
 			} catch (err) {
 				console.error('fetchPortfolioMoney error:', err)
 				return { lines: [], entriesByProject: {} }
+			}
+		},
+
+		/**
+		 * The project fields an admin defined, for the Details tab and the overview.
+		 *
+		 * @return {Promise<Array>} The field definitions (empty array on error)
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.3
+		 */
+		async fetchProjectFields() {
+			try {
+				const fields = await fetchEvery(this._objectStore(), PROJECT_FIELD_SCHEMA, {})
+				return Array.isArray(fields) ? fields : []
+			} catch (err) {
+				console.error('fetchProjectFields error:', err)
+				return []
 			}
 		},
 

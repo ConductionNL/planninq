@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.15.0"
+    "version": "0.16.0"
   },
   "x-openregister": {
     "type": "application",
@@ -32,7 +32,8 @@
           "risk",
           "projectStatusReport",
           "projectPortfolio",
-          "financeLine"
+          "financeLine",
+          "projectField"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -383,7 +384,7 @@
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.8.0",
+        "version": "0.9.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -514,6 +515,12 @@
             "format": "uuid",
             "$ref": "project",
             "nullable": true
+          },
+          "customFields": {
+            "title": "Custom fields",
+            "type": "object",
+            "description": "The values of the project fields an admin defined, keyed by the field's key.",
+            "default": {}
           },
           "contractorRefs": {
             "title": "Contractors",
@@ -2550,6 +2557,106 @@
             "nullable": true,
             "visible": false,
             "x-notes": "Kept by planninq, never edited by a person. FinanceLineService writes it on every create and update and whenever the project's owner, portfolio or portfolio managers change (portfolio-finance, design decision 1)."
+          }
+        }
+      },
+      "projectField": {
+        "slug": "projectField",
+        "icon": "TextBoxOutline",
+        "version": "0.1.0",
+        "title": "Project field",
+        "description": "A field an admin adds to every project, such as a policy area or a contract value.",
+        "x-schema-org": "schema:PropertyValueSpecification",
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "type"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            "admin"
+          ],
+          "update": [
+            "admin"
+          ],
+          "delete": [
+            "admin"
+          ]
+        },
+        "properties": {
+          "key": {
+            "title": "Key",
+            "type": "string",
+            "description": "The stable name the value is stored under, in lower camel case. Keep it once projects use it.",
+            "pattern": "^[a-z][a-zA-Z0-9]*$"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string",
+            "description": "The name people see next to the field"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string",
+            "description": "What the field holds",
+            "enum": [
+              "text",
+              "number",
+              "date",
+              "choice",
+              "person",
+              "boolean"
+            ],
+            "x-enum-labels": {
+              "text": "Text",
+              "number": "Number",
+              "date": "Date",
+              "choice": "Choice",
+              "person": "Person",
+              "boolean": "Yes or no"
+            }
+          },
+          "options": {
+            "title": "Options",
+            "type": "array",
+            "description": "The choices of a choice field",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "required": {
+            "title": "Required",
+            "type": "boolean",
+            "description": "Whether a project must fill in the field",
+            "default": false
+          },
+          "order": {
+            "title": "Order",
+            "type": "integer",
+            "description": "Where the field appears, lowest first",
+            "default": 0
+          },
+          "appliesTo": {
+            "title": "Applies to",
+            "type": "string",
+            "description": "What the field is added to",
+            "enum": [
+              "project"
+            ],
+            "default": "project",
+            "x-enum-labels": {
+              "project": "Projects"
+            }
           }
         }
       }

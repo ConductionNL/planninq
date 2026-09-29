@@ -467,7 +467,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the thirteen expected schemas.
+	 * The register MUST declare exactly the fourteen expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
 	 * over the project work breakdown structure pipelinq had built, and
@@ -481,8 +481,8 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @spec openspec/changes/task-dependencies/specs/register-schemas/spec.md
 	 */
-	public function testRegisterDeclaresExactlyThirteenSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine'];
+	public function testRegisterDeclaresExactlyFourteenSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -491,7 +491,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the thirteen expected schemas'
+			message: 'register schema list must be exactly the fourteen expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -499,7 +499,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the thirteen expected schemas'
+			message: 'components.schemas must define exactly the fourteen expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -508,7 +508,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyThirteenSchemas()
+	}//end testRegisterDeclaresExactlyFourteenSchemas()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -984,4 +984,30 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'project', payload: $terms));
 
 	}//end testFinanceLineSchemaAndItsRules()
+
+	/**
+	 * A project field has a key, label and type from the six the change names;
+	 * admins write fields and everyone signed in reads them; projects carry the
+	 * values in customFields.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.1
+	 *
+	 * @return void
+	 */
+	public function testProjectFieldSchemaAndTheProjectValues(): void {
+		$field = $this->register['components']['schemas']['projectField'];
+		self::assertSame(expected: ['key', 'label', 'type'], actual: $field['required']);
+		self::assertSame(expected: ['text', 'number', 'date', 'choice', 'person', 'boolean'], actual: $field['properties']['type']['enum']);
+		self::assertSame(expected: ['admin'], actual: $field['authorization']['create']);
+		self::assertSame(expected: ['admin'], actual: $field['authorization']['update']);
+		self::assertSame(expected: ['admin'], actual: $field['authorization']['delete']);
+		self::assertContains(needle: ['group' => 'authenticated'], haystack: $field['authorization']['read']);
+
+		$choice = ['key' => 'beleidsveld', 'label' => 'Beleidsveld', 'type' => 'choice', 'options' => ['Wonen', 'Mobiliteit', 'Economie'], 'required' => true, 'order' => 1, 'appliesTo' => 'project'];
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'projectField', payload: $choice));
+		self::assertNotSame(expected: [], actual: $this->registerSchemaErrors(slug: 'projectField', payload: ['key' => 'Beleids veld', 'label' => 'X', 'type' => 'choice']));
+		self::assertNotSame(expected: [], actual: $this->registerSchemaErrors(slug: 'projectField', payload: ['key' => 'x', 'label' => 'X', 'type' => 'colour']));
+
+		self::assertSame(expected: 'object', actual: $this->register['components']['schemas']['project']['properties']['customFields']['type']);
+	}//end testProjectFieldSchemaAndTheProjectValues()
 }//end class

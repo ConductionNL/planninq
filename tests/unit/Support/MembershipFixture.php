@@ -73,6 +73,7 @@ trait MembershipFixture {
 		'18' => 'projectStatusReport',
 		'19' => 'projectPortfolio',
 		'20' => 'financeLine',
+		'21' => 'projectField',
 	];
 
 	/**

@@ -51,7 +51,7 @@ use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Service\ProjectMembershipService;
-use OCA\Planninq\Service\ProjectTreeService;
+use OCA\Planninq\Service\ProjectRulesService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Container\ContainerInterface;
@@ -95,11 +95,18 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	public const ERROR_DEPTH = 'planninq-project-too-deep';
 
 	/**
+	 * Error code of a custom field value that does not fit its field.
+	 *
+	 * @var string
+	 */
+	public const ERROR_FIELD = 'planninq-project-field';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ProjectMembershipService $membership    Reads portfolios and projects, writes as the system.
 	 * @param FinanceLineService       $finance       Keeps the access copies on the projects' finance lines.
-	 * @param ProjectTreeService       $tree          Checks a new parent for cycles and depth.
+	 * @param ProjectRulesService      $rules         Checks a new parent and custom field values.
 	 * @param TaskScopeResolver        $scopeResolver Tells a planninq schema from any other object.
 	 * @param ContainerInterface       $container     Resolves OpenRegister's ObjectService for the system write.
 	 * @param LoggerInterface          $logger        The logger.
@@ -107,7 +114,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	public function __construct(
 		private ProjectMembershipService $membership,
 		private FinanceLineService $finance,
-		private ProjectTreeService $tree,
+		private ProjectRulesService $rules,
 		private TaskScopeResolver $scopeResolver,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
@@ -165,6 +172,10 @@ class ProjectHierarchyGuardListener implements IEventListener {
 				return;
 			}
 
+			if ($this->refuseFields(event: $event, data: $data, oldData: $oldData) === true) {
+				return;
+			}
+
 			$this->deriveReaders(event: $event, data: $data);
 			return;
 		}
@@ -183,6 +194,42 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			$this->onManagersChange(portfolioId: $portfolioId, data: $data, oldData: $oldData);
 		}
 	}//end route()
+
+	/**
+	 * Refuse custom field values that do not fit their fields, when the write changes them.
+	 *
+	 * A write that leaves the values alone is not held to a field added later,
+	 * so creating or renaming a project never fails on a new required field.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event   The event.
+	 * @param array<string,mixed>                     $data    The project's new data.
+	 * @param array<string,mixed>|null                $oldData The stored project on an update.
+	 *
+	 * @return bool True when the write was refused.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.2
+	 */
+	private function refuseFields(ObjectCreatingEvent|ObjectUpdatingEvent $event, array $data, ?array $oldData): bool {
+		$values = ($data['customFields'] ?? null);
+		if (is_array($values) === false || $values === ($oldData['customFields'] ?? null)) {
+			return false;
+		}
+
+		$stored = ($oldData['customFields'] ?? []);
+		if (is_array($stored) === false) {
+			$stored = [];
+		}
+
+		$problem = $this->rules->problem(values: $values, stored: $stored);
+		if ($problem === null) {
+			return false;
+		}
+
+		$event->setErrors(['code' => self::ERROR_FIELD, 'message' => $problem]);
+		$event->stopPropagation();
+
+		return true;
+	}//end refuseFields()
 
 	/**
 	 * Refuse a new parent that makes a cycle or a chain deeper than three levels.
@@ -206,13 +253,13 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			$projectId = '';
 		}
 
-		$refusal = $this->tree->refusal(projectId: $projectId, parentId: $parentId);
+		$refusal = $this->rules->refusal(projectId: $projectId, parentId: $parentId);
 		if ($refusal === null) {
 			return false;
 		}
 
 		$error = ['code' => self::ERROR_DEPTH, 'message' => 'Projects nest three levels deep at most: programme, project and subproject.'];
-		if ($refusal === ProjectTreeService::CYCLE) {
+		if ($refusal === ProjectRulesService::CYCLE) {
 			$error = ['code' => self::ERROR_CYCLE, 'message' => 'A project cannot sit under one of its own subprojects.'];
 		}
 
