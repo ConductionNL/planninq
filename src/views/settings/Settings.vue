@@ -172,6 +172,29 @@
 			</form>
 		</CnSettingsSection>
 
+		<!-- Cost categories (portfolio-finance) -->
+		<CnSettingsSection
+			:name="t('planninq', 'Cost categories')"
+			:description="t('planninq', 'The categories every project splits its budget and costs into, one per line')">
+			<form novalidate data-testid="finance-categories-form" @submit.prevent="saveFinanceCategories">
+				<div class="form-group">
+					<label for="finance-categories">{{ t('planninq', 'Categories') }}</label>
+					<textarea
+						id="finance-categories"
+						v-model="financeCategories"
+						rows="5"
+						class="column-input"
+						data-testid="finance-categories" />
+				</div>
+				<div v-if="financeCategoriesMessage" :class="financeCategoriesOk ? 'success-message' : 'error-message'">
+					{{ financeCategoriesMessage }}
+				</div>
+				<NcButton variant="primary" type="submit" :disabled="savingFinanceCategories">
+					{{ savingFinanceCategories ? t('planninq', 'Saving…') : t('planninq', 'Save') }}
+				</NcButton>
+			</form>
+		</CnSettingsSection>
+
 		<!-- Risk scale (projects-overview-logs-risks) -->
 		<CnSettingsSection
 			:name="t('planninq', 'Risk scale')"
@@ -374,6 +397,7 @@ import LabelDeleteDialog from '../../dialogs/LabelDeleteDialog.vue'
 import LabelEditDialog from '../../dialogs/LabelEditDialog.vue'
 import { useLabelsStore } from '../../store/labels.js'
 import { useSettingsStore } from '../../store/modules/settings.js'
+import { categoriesValid, categoryLines, parseCategories } from '../../utils/finance.js'
 import { defaultThresholds, parseRiskScale } from '../../utils/riskHelpers.js'
 
 export default {
@@ -419,6 +443,11 @@ export default {
 			reportPeriodMessage: '',
 			reportPeriodOk: false,
 			savingReportPeriod: false,
+			// finance_categories
+			financeCategories: '',
+			financeCategoriesMessage: '',
+			financeCategoriesOk: false,
+			savingFinanceCategories: false,
 			riskScale: JSON.parse(JSON.stringify(parseRiskScale(''))),
 			savingRiskScale: false,
 			riskScaleSuccess: '',
@@ -471,6 +500,7 @@ export default {
 		this.leadHours = parseInt(settingsStore.settings?.due_reminder_lead_hours, 10) || 24
 		this.riskScale = JSON.parse(JSON.stringify(parseRiskScale(settingsStore.settings?.risk_scale)))
 		this.reportPeriod = parseInt(settingsStore.settings?.status_report_period_days, 10) || 30
+		this.financeCategories = parseCategories(settingsStore.settings?.finance_categories).join('\n')
 		this.loadColumnList(settingsStore.settings)
 		useLabelsStore().fetchLabels()
 	},
@@ -677,6 +707,32 @@ export default {
 				? this.t('planninq', 'Reporting period saved')
 				: this.t('planninq', 'The reporting period was not saved. Please try again.')
 			this.savingReportPeriod = false
+		},
+
+		/**
+		 * Save the cost categories, one per line.
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2
+		 */
+		async saveFinanceCategories() {
+			this.financeCategoriesMessage = ''
+			const names = categoryLines(this.financeCategories)
+			if (!categoriesValid(names)) {
+				this.financeCategoriesOk = false
+				this.financeCategoriesMessage = this.t('planninq', 'Give at least one category, each name once.')
+				return
+			}
+			this.savingFinanceCategories = true
+			const settingsStore = useSettingsStore()
+			const result = await settingsStore.saveSettings({ finance_categories: JSON.stringify(names) })
+			// saveSettings() keeps the POST answer as the settings; read them back.
+			await settingsStore.fetchSettings()
+			const stored = parseCategories(settingsStore.settings?.finance_categories)
+			this.financeCategoriesOk = !!result && JSON.stringify(stored) === JSON.stringify(names)
+			this.financeCategoriesMessage = this.financeCategoriesOk
+				? this.t('planninq', 'Cost categories saved')
+				: this.t('planninq', 'The cost categories were not saved. Please try again.')
+			this.savingFinanceCategories = false
 		},
 
 		/**

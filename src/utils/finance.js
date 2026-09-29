@@ -21,7 +21,7 @@ export const BILLING_MODELS = ['none', 'fixedPrice', 'hourly']
 /**
  * A number from a stored value or a form field; anything else is zero.
  *
- * @param {*} value The value.
+ * @param {number|string|null|undefined} value The value.
  * @return {number}
  */
 function amountOf(value) {
@@ -287,4 +287,46 @@ export function formatEuro(amount) {
 	} catch {
 		return String(Math.round(amount))
 	}
+}
+
+/**
+ * The cost categories stored in the admin setting, or none when it is unreadable.
+ *
+ * @param {string} raw The stored JSON list.
+ * @return {Array<string>}
+ *
+ * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2
+ */
+export function parseCategories(raw) {
+	try {
+		const parsed = JSON.parse(raw || '[]')
+		return Array.isArray(parsed) ? parsed.filter((name) => typeof name === 'string' && name.trim() !== '') : []
+	} catch {
+		return []
+	}
+}
+
+/**
+ * The category names typed one per line.
+ *
+ * @param {string} text The text.
+ * @return {Array<string>}
+ *
+ * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2
+ */
+export function categoryLines(text) {
+	return String(text || '').split('\n').map((line) => line.trim()).filter((line) => line !== '')
+}
+
+/**
+ * Whether a list of category names may be saved: at least one, each name once.
+ *
+ * @param {Array<string>} names The names.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2
+ */
+export function categoriesValid(names) {
+	const lower = names.map((name) => name.toLowerCase())
+	return names.length > 0 && new Set(lower).size === lower.length
 }

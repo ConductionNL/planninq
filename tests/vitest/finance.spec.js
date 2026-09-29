@@ -11,12 +11,15 @@ import addFormats from 'ajv-formats'
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import {
-	LABOUR_ROW,
 	canEditTerms,
 	canSeeProjectMoney,
+	categoriesValid,
+	categoryLines,
 	financeLinePayload,
 	financeTable,
 	laborCost,
+	LABOUR_ROW,
+	parseCategories,
 	termsForm,
 	termsPatch,
 } from '../../src/utils/finance.js'
@@ -179,5 +182,21 @@ describe('the payloads the Finance tab writes', () => {
 
 	it('control: the validator refuses a line of an unknown kind', () => {
 		expect(validateLine({ kind: 'spent', amount: 1 })).toBe(false)
+	})
+})
+
+describe('the cost categories setting (task 1.2)', () => {
+	it('reads the stored list and ignores what is not a name', () => {
+		expect(parseCategories('["Personnel","Materials"]')).toEqual(['Personnel', 'Materials'])
+		expect(parseCategories('not json')).toEqual([])
+		expect(parseCategories('[1, " ", "Other"]')).toEqual(['Other'])
+	})
+
+	it('takes one name per line, each once', () => {
+		const names = categoryLines(' Personeel \n\nInhuur\n')
+		expect(names).toEqual(['Personeel', 'Inhuur'])
+		expect(categoriesValid(names)).toBe(true)
+		expect(categoriesValid(['Inhuur', 'inhuur'])).toBe(false)
+		expect(categoriesValid([])).toBe(false)
 	})
 })

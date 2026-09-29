@@ -35,6 +35,7 @@ const RISK_SCHEMA = 'risk'
 const STATUS_REPORT_SCHEMA = 'projectStatusReport'
 const PORTFOLIO_SCHEMA = 'projectPortfolio'
 const PHASE_SCHEMA = 'projectPhase'
+const FINANCE_LINE_SCHEMA = 'financeLine'
 
 /**
  * Largest page OpenRegister will return. Asking for more is silently capped.
@@ -136,6 +137,9 @@ export const useProjectsStore = defineStore('projects', {
 			}
 			if (!store.objectTypeRegistry?.[RISK_SCHEMA]) {
 				store.registerObjectType(RISK_SCHEMA, RISK_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: RISK_SCHEMA })
+			}
+			if (!store.objectTypeRegistry?.[FINANCE_LINE_SCHEMA]) {
+				store.registerObjectType(FINANCE_LINE_SCHEMA, FINANCE_LINE_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: FINANCE_LINE_SCHEMA })
 			}
 			return store
 		},
@@ -620,6 +624,93 @@ export const useProjectsStore = defineStore('projects', {
 			} catch (err) {
 				console.error('saveRisk error:', err)
 				return null
+			}
+		},
+
+		/**
+		 * The finance lines of a project. OpenRegister returns them only to the
+		 * owner, the portfolio managers, the finance import and admins.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The lines (empty array on error)
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
+		 */
+		async fetchFinanceLines(projectId) {
+			try {
+				const lines = await fetchEvery(this._objectStore(), FINANCE_LINE_SCHEMA, { project: projectId })
+				return Array.isArray(lines) ? lines : []
+			} catch (err) {
+				console.error('fetchFinanceLines error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Write a manual finance line: POST without an id, PATCH with one.
+		 *
+		 * @param {object} line The line fields, with `id` for an existing one
+		 * @return {Promise<object|null>} The saved line, or null when refused
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
+		 */
+		async saveFinanceLine(line) {
+			const { id, ...fields } = line
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/${FINANCE_LINE_SCHEMA}/${id}`)
+				: generateUrl(`/apps/openregister/api/objects/planninq/${FINANCE_LINE_SCHEMA}`)
+			try {
+				const response = await fetch(url, {
+					method: id ? 'PATCH' : 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(fields),
+				})
+				if (!response.ok) {
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				console.error('saveFinanceLine error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Remove a manual finance line.
+		 *
+		 * @param {string} id The line UUID
+		 * @return {Promise<boolean>} Whether it was removed
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
+		 */
+		async deleteFinanceLine(id) {
+			try {
+				const response = await fetch(generateUrl(`/apps/openregister/api/objects/planninq/${FINANCE_LINE_SCHEMA}/${id}`), {
+					method: 'DELETE',
+					headers: buildHeaders(),
+				})
+				return response.ok
+			} catch (err) {
+				console.error('deleteFinanceLine error:', err)
+				return false
+			}
+		},
+
+		/**
+		 * Every time entry booked on a project, for its labour cost.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The entries (empty array on error)
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.1
+		 */
+		async fetchProjectTimeEntries(projectId) {
+			try {
+				const entries = await fetchEvery(this._objectStore(), TIME_ENTRY_SCHEMA, { project: projectId })
+				return Array.isArray(entries) ? entries : []
+			} catch (err) {
+				console.error('fetchProjectTimeEntries error:', err)
+				return []
 			}
 		},
 
