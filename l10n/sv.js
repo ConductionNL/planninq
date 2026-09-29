@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Om versionen är planerad, släppt eller arkiverad",
         "Released on": "Släppt den",
         "When the release was marked as released": "När versionen markerades som släppt",
-        "The release this task is planned for": "Den version som uppgiften är planerad för"
+        "The release this task is planned for": "Den version som uppgiften är planerad för",
+        "Board view options": "Visningsalternativ för tavlan",
+        "Colour cards": "Färglägg kort",
+        "No colour": "Ingen färg",
+        "By label": "Efter etikett",
+        "Swimlanes": "Simbanor",
+        "No swimlanes": "Inga simbanor",
+        "By assignee": "Efter ansvarig",
+        "By epic": "Efter epic",
+        "No assignee": "Inte tilldelad",
+        "No epic": "Ingen epic",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Kort stannar i sin epic-rad. Byt epic på uppgiftssidan.",
+        "Hand over to": "Lämna över till",
+        "Could not save your board view. It applies until you reload.": "Din tavelvy kunde inte sparas. Den gäller tills du laddar om."
     },
     "nplurals=2; plural=(n != 1);"
 )

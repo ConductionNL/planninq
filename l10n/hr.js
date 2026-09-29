@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Je li izdanje planirano, objavljeno ili arhivirano",
         "Released on": "Objavljeno",
         "When the release was marked as released": "Kada je izdanje označeno kao objavljeno",
-        "The release this task is planned for": "Izdanje za koje je ovaj zadatak planiran"
+        "The release this task is planned for": "Izdanje za koje je ovaj zadatak planiran",
+        "Board view options": "Mogućnosti prikaza ploče",
+        "Colour cards": "Oboji kartice",
+        "No colour": "Bez boje",
+        "By label": "Po oznaci",
+        "Swimlanes": "Plivaće staze",
+        "No swimlanes": "Bez plivaćih staza",
+        "By assignee": "Po dodijeljenoj osobi",
+        "By epic": "Po epicu",
+        "No assignee": "Nije dodijeljeno",
+        "No epic": "Bez epica",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Kartice ostaju u retku svog epica. Promijenite epic na stranici zadatka.",
+        "Hand over to": "Predaj osobi",
+        "Could not save your board view. It applies until you reload.": "Prikaz ploče nije spremljen. Vrijedi dok ne učitate stranicu ponovno."
     },
     "nplurals=2; plural=(n != 1);"
 )

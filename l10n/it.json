@@ -936,7 +936,21 @@
         "Whether the release is planned, released or archived": "Se la release è pianificata, rilasciata o archiviata",
         "Released on": "Rilasciata il",
         "When the release was marked as released": "Quando la release è stata segnata come rilasciata",
-        "The release this task is planned for": "La release per cui è pianificata questa attività"
+        "The release this task is planned for": "La release per cui è pianificata questa attività",
+        "Board view options": "Opzioni di visualizzazione della bacheca",
+        "Colour cards": "Colora le schede",
+        "No colour": "Nessun colore",
+        "By label": "Per etichetta",
+        "Swimlanes": "Corsie",
+        "No swimlanes": "Nessuna corsia",
+        "By assignee": "Per assegnatario",
+        "By epic": "Per epic",
+        "No assignee": "Non assegnata",
+        "No epic": "Nessuna epic",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Le schede restano nella riga della loro epic. Cambia l'epic nella pagina dell'attività.",
+        "Hand over to": "Passa a",
+        "Could not save your board view. It applies until you reload.": "Impossibile salvare la visualizzazione della bacheca. Vale fino al ricaricamento."
     },
     "plurals": null
 }

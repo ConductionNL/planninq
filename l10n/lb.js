@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Ob d'Versioun geplangt, verëffentlecht oder archivéiert ass",
         "Released on": "Verëffentlecht den",
         "When the release was marked as released": "Wéini d'Versioun als verëffentlecht markéiert gouf",
-        "The release this task is planned for": "D'Versioun, fir déi dës Aufgab geplangt ass"
+        "The release this task is planned for": "D'Versioun, fir déi dës Aufgab geplangt ass",
+        "Board view options": "Uweisungsoptiounen vum Board",
+        "Colour cards": "Kaarte fierwen",
+        "No colour": "Keng Faarf",
+        "By label": "No Label",
+        "Swimlanes": "Swimlanes",
+        "No swimlanes": "Keng Swimlanes",
+        "By assignee": "No zougewisener Persoun",
+        "By epic": "No Epic",
+        "No assignee": "Net zougewisen",
+        "No epic": "Keen Epic",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Kaarte bleiwen an der Zeil vun hirem Epic. Ännert den Epic op der Säit vun der Aufgab.",
+        "Hand over to": "Iwwerginn un",
+        "Could not save your board view. It applies until you reload.": "Är Board-Usiicht gouf net gespäichert. Se gëllt bis Dir nei lued."
     },
     "nplurals=2; plural=(n != 1);"
 )

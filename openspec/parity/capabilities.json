@@ -1913,7 +1913,7 @@
       "area": "boards",
       "name": "Split the board into swimlanes by assignee, priority or epic.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "yes",
@@ -1931,11 +1931,12 @@
         "plane": "source: apps/web/core/components/issues/issue-layouts/kanban/swimlanes.tsx ; packages/constants/src/issue/filter.ts:237 sub_group_by options state, priority, cycle, module, labels, assignees, created_by. No epic swimlane because epics are unreachable (corpus: plane/round4/journeys.md epics 404) ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/kanban/swimlanes.tsx:62 SubGroupSwimlaneHeader; packages/constants/src/issue/filter.ts:237 sub_group_by state, priority, cycle, module, labels, assignees, created_by; apps/api/plane/app/views/issue/base.py:159-162 server groups by sub_group_by. No epic option"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/views/ProjectBoard.vue has a single grid of column sections (:102-175), no swimlane grouping dimension; task.epic exists as a schema property but is never read in src/ (grep confirmed).",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue renders one row per assignee, priority or epic (groupTasksBySwimlane in src/utils/boardView.js), the no-value row last, each collapsible with '{name} ({count})'; a drop or 'Hand over to' in another row PATCHes assignedTo or priority (swimlanePatch), epic rows refuse; the view is kept per person and project by lib/Service/BoardViewPreferenceService.php",
+        "reachedOn": "Project board, View menu, Swimlanes",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/boards-card-display"
+        "change": "openspec/changes/archive/2026-09-29-boards-card-display",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1981,7 +1982,7 @@
       "area": "boards",
       "name": "Colour cards by label, type or category.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "yes",
       "plane": "partial",
@@ -1999,11 +2000,12 @@
         "plane": "corpus: plane/round4/code-census.md §2 labels and states carry color; source: ISSUE_DISPLAY_PROPERTIES shows label and state chips on the card, no setting colours the whole card by label or type (no types exist, journeys.md) ; source read at v1.4.2: apps/web/core/components/issues/issue-layouts/properties/labels.tsx:155 a label chip on the card takes the label colour; apps/api/plane/db/models/label.py:21 color; no display option colours the whole card, packages/constants/src/issue/common.ts:142-159 display keys have no card colour)"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/components/TaskCard.vue:229-237 the card background is a fixed `var(--color-surface)`; labels only render as a small circular swatch inside a chip (:56-59, 12px), not as the card's own colour, and there is no colour-by-type or colour-by-category option anywhere.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/components/TaskCard.vue edgeColour: a 4 pixel inline-start edge in the first label's colour or the priority token (urgent --color-error, high --color-warning), chosen by cardEdge() in src/utils/boardView.js; the label and priority chips stay on the card; View menu src/components/BoardViewMenu.vue on src/views/ProjectBoard.vue",
+        "reachedOn": "Project board, View menu, Colour cards",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/boards-card-display"
+        "change": "openspec/changes/archive/2026-09-29-boards-card-display",
+        "readOn": "2026-09-29"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

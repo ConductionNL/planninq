@@ -936,7 +936,21 @@
         "Whether the release is planned, released or archived": "Om versjonen er planlagt, utgitt eller arkivert",
         "Released on": "Utgitt",
         "When the release was marked as released": "Når versjonen ble merket som utgitt",
-        "The release this task is planned for": "Versjonen oppgaven er planlagt for"
+        "The release this task is planned for": "Versjonen oppgaven er planlagt for",
+        "Board view options": "Visningsvalg for tavlen",
+        "Colour cards": "Fargelegg kort",
+        "No colour": "Ingen farge",
+        "By label": "Etter etikett",
+        "Swimlanes": "Svømmebaner",
+        "No swimlanes": "Ingen svømmebaner",
+        "By assignee": "Etter ansvarlig",
+        "By epic": "Etter epic",
+        "No assignee": "Ikke tildelt",
+        "No epic": "Ingen epic",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Kort blir i sin epic-rad. Endre epic på oppgavesiden.",
+        "Hand over to": "Overlever til",
+        "Could not save your board view. It applies until you reload.": "Tavlevisningen kunne ikke lagres. Den gjelder til du laster inn på nytt."
     },
     "plurals": {}
 }

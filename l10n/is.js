@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Hvort útgáfan er áætluð, gefin út eða í geymslu",
         "Released on": "Gefin út",
         "When the release was marked as released": "Hvenær útgáfan var merkt sem gefin út",
-        "The release this task is planned for": "Útgáfan sem þetta verkefni er áætlað fyrir"
+        "The release this task is planned for": "Útgáfan sem þetta verkefni er áætlað fyrir",
+        "Board view options": "Birtingarvalkostir töflu",
+        "Colour cards": "Lita spjöld",
+        "No colour": "Enginn litur",
+        "By label": "Eftir merki",
+        "Swimlanes": "Brautir",
+        "No swimlanes": "Engar brautir",
+        "By assignee": "Eftir ábyrgðaraðila",
+        "By epic": "Eftir bálki",
+        "No assignee": "Óúthlutað",
+        "No epic": "Enginn bálkur",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Spjöld haldast í röð síns bálks. Breyttu bálkinum á síðu verkefnisins.",
+        "Hand over to": "Afhenda",
+        "Could not save your board view. It applies until you reload.": "Ekki tókst að vista töfluyfirlitið. Það gildir þar til þú endurhleður."
     },
     "nplurals=2; plural=(n != 1);"
 )

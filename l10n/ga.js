@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Cibé an bhfuil an eisiúint pleanáilte, eisithe nó cartlannaithe",
         "Released on": "Eisithe ar",
         "When the release was marked as released": "Cathain a marcáladh an eisiúint mar eisithe",
-        "The release this task is planned for": "An eisiúint a bhfuil an tasc seo pleanáilte di"
+        "The release this task is planned for": "An eisiúint a bhfuil an tasc seo pleanáilte di",
+        "Board view options": "Roghanna amhairc an chláir",
+        "Colour cards": "Dathaigh cártaí",
+        "No colour": "Gan dath",
+        "By label": "De réir lipéid",
+        "Swimlanes": "Lánaí",
+        "No swimlanes": "Gan lánaí",
+        "By assignee": "De réir sannaí",
+        "By epic": "De réir eipice",
+        "No assignee": "Gan sannadh",
+        "No epic": "Gan eipic",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Fanann cártaí i ró a n-eipice. Athraigh an eipic ar leathanach an tasc.",
+        "Hand over to": "Tabhair do",
+        "Could not save your board view. It applies until you reload.": "Níor sábháladh amharc an chláir. Tá sé i bhfeidhm go dtí go n-athlódálann tú."
     },
     "nplurals=2; plural=(n != 1);"
 )

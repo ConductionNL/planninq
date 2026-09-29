@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Дали версията е планирана, издадена или архивирана",
         "Released on": "Издадена на",
         "When the release was marked as released": "Кога версията е отбелязана като издадена",
-        "The release this task is planned for": "Версията, за която е планирана тази задача"
+        "The release this task is planned for": "Версията, за която е планирана тази задача",
+        "Board view options": "Опции за изгледа на таблото",
+        "Colour cards": "Оцветяване на картите",
+        "No colour": "Без цвят",
+        "By label": "По етикет",
+        "Swimlanes": "Ленти",
+        "No swimlanes": "Без ленти",
+        "By assignee": "По отговорник",
+        "By epic": "По епик",
+        "No assignee": "Без отговорник",
+        "No epic": "Без епик",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Картите остават в реда на своя епик. Променете епика на страницата на задачата.",
+        "Hand over to": "Предаване на",
+        "Could not save your board view. It applies until you reload.": "Изгледът на таблото не беше запазен. Важи до презареждане."
     },
     "nplurals=2; plural=(n != 1);"
 )

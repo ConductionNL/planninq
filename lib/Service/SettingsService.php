@@ -495,6 +495,7 @@ class SettingsService {
 		if ($user !== null) {
 			$userSettings['notify_due_reminder'] = $this->isNotifyDueReminderEnabled(userId: $user->getUID());
 			$userSettings[self::DASHBOARD_ORDER_KEY] = $this->getDashboardProjectOrder(userId: $user->getUID());
+			$userSettings[BoardViewPreferenceService::KEY] = $this->boardViews()->views(userId: $user->getUID());
 		}
 
 		return array_merge(
@@ -523,6 +524,7 @@ class SettingsService {
 	 * @return array<string,mixed> The updated settings.
 	 *
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+	 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
 	 */
 	public function updateUserSettings(string $userId, array $data): array {
 		if (array_key_exists('notify_due_reminder', $data) === true) {
@@ -541,8 +543,24 @@ class SettingsService {
 			}
 		}
 
+		$view = ($data['board_view'] ?? null);
+		if (is_array($view) === true && is_string($view['project'] ?? null) === true) {
+			$this->boardViews()->save(userId: $userId, projectId: $view['project'], view: $view);
+		}
+
 		return $this->getSettings();
 	}//end updateUserSettings()
+
+	/**
+	 * The per-person board view store, on this service's IConfig.
+	 *
+	 * @return BoardViewPreferenceService
+	 *
+	 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
+	 */
+	private function boardViews(): BoardViewPreferenceService {
+		return new BoardViewPreferenceService(config: $this->config);
+	}//end boardViews()
 
 	/**
 	 * A user's own order of pinned dashboard projects.

@@ -936,7 +936,21 @@
         "Whether the release is planned, released or archived": "Jekk ir-rilaxx huwiex ippjanat, rilaxxat jew arkivjat",
         "Released on": "Rilaxxat fi",
         "When the release was marked as released": "Meta r-rilaxx ġie mmarkat bħala rilaxxat",
-        "The release this task is planned for": "Ir-rilaxx li għalih huwa ppjanat dan il-kompitu"
+        "The release this task is planned for": "Ir-rilaxx li għalih huwa ppjanat dan il-kompitu",
+        "Board view options": "Għażliet tal-wiri tal-bord",
+        "Colour cards": "Ikkulura l-kards",
+        "No colour": "L-ebda kulur",
+        "By label": "Skont it-tikketta",
+        "Swimlanes": "Korsiji",
+        "No swimlanes": "L-ebda korsija",
+        "By assignee": "Skont l-assenjat",
+        "By epic": "Skont l-epic",
+        "No assignee": "Mhux assenjat",
+        "No epic": "L-ebda epic",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Il-kards jibqgħu fir-ringiela tal-epic tagħhom. Ibdel l-epic fil-paġna tal-kompitu.",
+        "Hand over to": "Għaddi lil",
+        "Could not save your board view. It applies until you reload.": "Il-wiri tal-bord ma ġiex issejvjat. Japplika sakemm terġa' ttella' l-paġna."
     },
     "plurals": {}
 }

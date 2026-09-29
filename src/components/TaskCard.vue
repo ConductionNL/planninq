@@ -1,5 +1,9 @@
 <template>
-	<div class="task-card">
+	<div
+		class="task-card"
+		:class="{ 'task-card--edged': !!edgeColour }"
+		:style="edgeColour ? { borderInlineStartColor: edgeColour } : null"
+		:data-edge="edgeColour || null">
 		<!-- Task title -->
 		<h3 class="task-card__title">
 			<!-- Readable key such as VERG-42 (tasks-readable-keys) -->
@@ -165,6 +169,16 @@ export default {
 		labels: {
 			type: Array,
 			default: () => [],
+		},
+
+		/**
+		 * The colour of the card's inline-start edge (boards-card-display), or
+		 * empty for none. Decoration only: the label or priority chip on the
+		 * card carries the same information in text.
+		 */
+		edgeColour: {
+			type: String,
+			default: '',
 		},
 	},
 
@@ -337,6 +351,10 @@ export default {
 	background: var(--color-surface);
 	border: 1px solid var(--color-border);
 	border-radius: 8px;
+}
+
+.task-card--edged {
+	border-inline-start-width: 4px;
 }
 
 .task-card__title {

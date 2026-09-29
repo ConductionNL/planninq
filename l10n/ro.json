@@ -936,7 +936,21 @@
         "Whether the release is planned, released or archived": "Dacă versiunea este planificată, lansată sau arhivată",
         "Released on": "Lansată la",
         "When the release was marked as released": "Când versiunea a fost marcată ca lansată",
-        "The release this task is planned for": "Versiunea pentru care este planificată această sarcină"
+        "The release this task is planned for": "Versiunea pentru care este planificată această sarcină",
+        "Board view options": "Opțiuni de afișare a tablei",
+        "Colour cards": "Colorează cardurile",
+        "No colour": "Fără culoare",
+        "By label": "După etichetă",
+        "Swimlanes": "Benzi",
+        "No swimlanes": "Fără benzi",
+        "By assignee": "După responsabil",
+        "By epic": "După epic",
+        "No assignee": "Neatribuit",
+        "No epic": "Fără epic",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Cardurile rămân pe rândul epicului lor. Schimbați epicul pe pagina sarcinii.",
+        "Hand over to": "Predă către",
+        "Could not save your board view. It applies until you reload.": "Afișarea tablei nu a fost salvată. Se aplică până la reîncărcare."
     },
     "plurals": {}
 }

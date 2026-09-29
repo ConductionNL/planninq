@@ -913,7 +913,22 @@
         "Whether the release is planned, released or archived": "Whether the release is planned, released or archived",
         "Released on": "Released on",
         "When the release was marked as released": "When the release was marked as released",
-        "The release this task is planned for": "The release this task is planned for"
+        "The release this task is planned for": "The release this task is planned for",
+        "Board view options": "Board view options",
+        "Colour cards": "Colour cards",
+        "No colour": "No colour",
+        "By label": "By label",
+        "By priority": "By priority",
+        "Swimlanes": "Swimlanes",
+        "No swimlanes": "No swimlanes",
+        "By assignee": "By assignee",
+        "By epic": "By epic",
+        "No assignee": "No assignee",
+        "No epic": "No epic",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Cards stay in their epic row. Change the epic on the task page.",
+        "Hand over to": "Hand over to",
+        "Could not save your board view. It applies until you reload.": "Could not save your board view. It applies until you reload."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

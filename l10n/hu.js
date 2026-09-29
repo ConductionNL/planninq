@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "A kiadás tervezett, kiadott vagy archivált",
         "Released on": "Kiadva ekkor",
         "When the release was marked as released": "Mikor jelölték a kiadást kiadottként",
-        "The release this task is planned for": "A kiadás, amelyre ez a feladat tervezve van"
+        "The release this task is planned for": "A kiadás, amelyre ez a feladat tervezve van",
+        "Board view options": "Tábla nézetbeállításai",
+        "Colour cards": "Kártyák színezése",
+        "No colour": "Nincs szín",
+        "By label": "Címke szerint",
+        "Swimlanes": "Sávok",
+        "No swimlanes": "Nincsenek sávok",
+        "By assignee": "Felelős szerint",
+        "By epic": "Epic szerint",
+        "No assignee": "Nincs felelős",
+        "No epic": "Nincs epic",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "A kártyák az epicjük sorában maradnak. Az epicet a feladat oldalán módosíthatja.",
+        "Hand over to": "Átadás neki",
+        "Could not save your board view. It applies until you reload.": "A tábla nézetét nem sikerült menteni. Az újratöltésig érvényes."
     },
     "nplurals=2; plural=(n != 1);"
 )

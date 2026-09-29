@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Nëse versioni është i planifikuar, i publikuar apo i arkivuar",
         "Released on": "Publikuar më",
         "When the release was marked as released": "Kur versioni u shënua si i publikuar",
-        "The release this task is planned for": "Versioni për të cilin është planifikuar kjo detyrë"
+        "The release this task is planned for": "Versioni për të cilin është planifikuar kjo detyrë",
+        "Board view options": "Opsionet e pamjes së tabelës",
+        "Colour cards": "Ngjyros kartat",
+        "No colour": "Pa ngjyrë",
+        "By label": "Sipas etiketës",
+        "Swimlanes": "Korsi",
+        "No swimlanes": "Pa korsi",
+        "By assignee": "Sipas të caktuarit",
+        "By epic": "Sipas epikës",
+        "No assignee": "Pa caktuar",
+        "No epic": "Pa epikë",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Kartat mbeten në rreshtin e epikës së tyre. Ndryshoni epikën në faqen e detyrës.",
+        "Hand over to": "Dorëzoja",
+        "Could not save your board view. It applies until you reload.": "Pamja e tabelës nuk u ruajt. Vlen derisa të ringarkoni faqen."
     },
     "nplurals=2; plural=(n != 1);"
 )

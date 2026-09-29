@@ -936,7 +936,21 @@
         "Whether the release is planned, released or archived": "Sche la versiun è planisada, publitgada u archivada",
         "Released on": "Publitgada ils",
         "When the release was marked as released": "Cura che la versiun è vegnida marcada sco publitgada",
-        "The release this task is planned for": "La versiun per la quala questa incumbensa è planisada"
+        "The release this task is planned for": "La versiun per la quala questa incumbensa è planisada",
+        "Board view options": "Opziuns da la vista da la tavla",
+        "Colour cards": "Colurar las cartas",
+        "No colour": "Nagina colur",
+        "By label": "Tenor etichetta",
+        "Swimlanes": "Lingias",
+        "No swimlanes": "Naginas lingias",
+        "By assignee": "Tenor persuna responsabla",
+        "By epic": "Tenor epic",
+        "No assignee": "Betg attribuì",
+        "No epic": "Nagin epic",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Las cartas restan en la lingia da lur epic. Midai l'epic sin la pagina da la lavur.",
+        "Hand over to": "Surdar a",
+        "Could not save your board view. It applies until you reload.": "Vossa vista da la tavla n'è betg vegnida memorisada. Ella vala fin che Vus chargiais da nov."
     },
     "plurals": null
 }

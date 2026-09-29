@@ -37,13 +37,17 @@ Epic names are read from the epic tasks' titles.
 ### Decision 3: dragging across swimlanes changes the field
 
 A drop in another row PATCHes the grouped field together with the column move: `assignedTo` for
-assignee rows, `priority` for priority rows. Epic rows refuse a cross-row drop with a short
+assignee rows, `priority` for priority rows. The assignee change goes through the existing `responsiblePatch`, so
+the new responsible person also leaves `sharedWith`. A card added with a row's quick add gets that
+row's value. Epic rows refuse a cross-row drop with a short
 message. The keyboard move menu offers the same targets.
 
 ### Decision 4: remember the view per user and project
 
-The choice is stored as a user preference `boardView.{projectId}` through the existing user
-settings endpoint, and applied on mount.
+The choice is stored through the existing user settings endpoint and applied on mount. Amended
+while building (29 Sep): one user value `board_views` holds a map of project id to view, kept by
+`BoardViewPreferenceService` (at most 100 boards per person, the least recently saved dropped
+first), because a key per project cannot be listed back by `getSettings()`.
 
 ## Risks / trade-offs
 

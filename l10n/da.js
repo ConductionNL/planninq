@@ -937,7 +937,21 @@ OC.L10N.register(
         "Whether the release is planned, released or archived": "Om udgivelsen er planlagt, udgivet eller arkiveret",
         "Released on": "Udgivet den",
         "When the release was marked as released": "Hvornår udgivelsen blev markeret som udgivet",
-        "The release this task is planned for": "Den udgivelse, opgaven er planlagt til"
+        "The release this task is planned for": "Den udgivelse, opgaven er planlagt til",
+        "Board view options": "Visningsindstillinger for tavlen",
+        "Colour cards": "Farv kort",
+        "No colour": "Ingen farve",
+        "By label": "Efter etiket",
+        "Swimlanes": "Svømmebaner",
+        "No swimlanes": "Ingen svømmebaner",
+        "By assignee": "Efter ansvarlig",
+        "By epic": "Efter epic",
+        "No assignee": "Ikke tildelt",
+        "No epic": "Intet epic",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Kort bliver i deres epic-række. Skift epic på opgavesiden.",
+        "Hand over to": "Overdrag til",
+        "Could not save your board view. It applies until you reload.": "Din tavlevisning kunne ikke gemmes. Den gælder, indtil du genindlæser."
     },
     "nplurals=2; plural=(n != 1);"
 )

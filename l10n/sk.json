@@ -936,7 +936,21 @@
         "Whether the release is planned, released or archived": "Či je vydanie plánované, vydané alebo archivované",
         "Released on": "Vydané dňa",
         "When the release was marked as released": "Kedy bolo vydanie označené ako vydané",
-        "The release this task is planned for": "Vydanie, pre ktoré je táto úloha naplánovaná"
+        "The release this task is planned for": "Vydanie, pre ktoré je táto úloha naplánovaná",
+        "Board view options": "Možnosti zobrazenia nástenky",
+        "Colour cards": "Zafarbiť karty",
+        "No colour": "Bez farby",
+        "By label": "Podľa štítka",
+        "Swimlanes": "Plavecké dráhy",
+        "No swimlanes": "Bez plaveckých dráh",
+        "By assignee": "Podľa riešiteľa",
+        "By epic": "Podľa eposu",
+        "No assignee": "Nepriradené",
+        "No epic": "Bez eposu",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Karty zostávajú v riadku svojho eposu. Epos zmeňte na stránke úlohy.",
+        "Hand over to": "Odovzdať",
+        "Could not save your board view. It applies until you reload.": "Zobrazenie nástenky sa nepodarilo uložiť. Platí do opätovného načítania."
     },
     "plurals": null
 }

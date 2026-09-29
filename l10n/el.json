@@ -936,7 +936,21 @@
         "Whether the release is planned, released or archived": "Αν η έκδοση είναι προγραμματισμένη, κυκλοφορημένη ή αρχειοθετημένη",
         "Released on": "Κυκλοφόρησε στις",
         "When the release was marked as released": "Πότε η έκδοση σημειώθηκε ως κυκλοφορημένη",
-        "The release this task is planned for": "Η έκδοση για την οποία έχει προγραμματιστεί αυτή η εργασία"
+        "The release this task is planned for": "Η έκδοση για την οποία έχει προγραμματιστεί αυτή η εργασία",
+        "Board view options": "Επιλογές προβολής πίνακα",
+        "Colour cards": "Χρωματισμός καρτών",
+        "No colour": "Χωρίς χρώμα",
+        "By label": "Κατά ετικέτα",
+        "Swimlanes": "Λωρίδες",
+        "No swimlanes": "Χωρίς λωρίδες",
+        "By assignee": "Κατά υπεύθυνο",
+        "By epic": "Κατά epic",
+        "No assignee": "Χωρίς υπεύθυνο",
+        "No epic": "Χωρίς epic",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Οι κάρτες μένουν στη γραμμή του epic τους. Αλλάξτε το epic στη σελίδα της εργασίας.",
+        "Hand over to": "Παράδοση σε",
+        "Could not save your board view. It applies until you reload.": "Η προβολή του πίνακα δεν αποθηκεύτηκε. Ισχύει μέχρι να ανανεώσετε τη σελίδα."
     },
     "plurals": null
 }

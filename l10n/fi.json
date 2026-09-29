@@ -936,7 +936,21 @@
         "Whether the release is planned, released or archived": "Onko julkaisu suunniteltu, julkaistu vai arkistoitu",
         "Released on": "Julkaistu",
         "When the release was marked as released": "Milloin julkaisu merkittiin julkaistuksi",
-        "The release this task is planned for": "Julkaisu, johon tämä tehtävä on suunniteltu"
+        "The release this task is planned for": "Julkaisu, johon tämä tehtävä on suunniteltu",
+        "Board view options": "Taulun näkymäasetukset",
+        "Colour cards": "Väritä kortit",
+        "No colour": "Ei väriä",
+        "By label": "Tunnisteen mukaan",
+        "Swimlanes": "Uimaradat",
+        "No swimlanes": "Ei uimaratoja",
+        "By assignee": "Vastuuhenkilön mukaan",
+        "By epic": "Eepoksen mukaan",
+        "No assignee": "Ei vastuuhenkilöä",
+        "No epic": "Ei eeposta",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Kortit pysyvät eepoksensa rivillä. Vaihda eepos tehtävän sivulla.",
+        "Hand over to": "Siirrä henkilölle",
+        "Could not save your board view. It applies until you reload.": "Taulun näkymää ei voitu tallentaa. Se on voimassa, kunnes lataat sivun uudelleen."
     },
     "plurals": null
 }

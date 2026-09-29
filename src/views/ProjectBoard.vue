@@ -40,6 +40,12 @@
 				</h2>
 
 				<div class="project-board__header-actions">
+					<BoardViewMenu
+						v-if="view === 'board' && !requestBanner"
+						:colour="boardView.colour"
+						:group="boardView.group"
+						@update:colour="setBoardView({ colour: $event })"
+						@update:group="setBoardView({ group: $event })" />
 					<div
 						class="project-board__view-switch"
 						role="group"
@@ -165,170 +171,213 @@
 				<!-- Kanban columns: one lane per column object of the project,
 			     in `order`. A task sits in the lane its `column` references;
 			     a task without one is in the backlog. -->
-				<div v-else class="project-board__columns" data-cy="kanban-board">
-					<section
-						v-for="(column, index) in columns"
-						:key="column.id"
-						class="kanban-column"
-						:data-column="column.title"
-						:data-column-id="column.id"
-						:aria-label="column.title"
-						:class="{ 'kanban-column--drop-target': dropTargetId === column.id }"
-						@dragover.prevent="onDragOver(column.id)"
-						@dragleave="onDragLeave(column.id)"
-						@drop="onDrop(column)">
-						<header
-							class="kanban-column__header"
-							:class="{ 'kanban-column__header--over': wipFor(column).over }"
-							:style="column.color ? { borderTopColor: column.color } : null">
-							<h3 class="kanban-column__title">
-								{{ column.title }}
-							</h3>
-							<span class="kanban-column__count" data-testid="column-count">
-								{{ wipFor(column).text }}
-								<template v-if="wipFor(column).over">
-									{{ t('planninq', 'over limit') }}
+				<div v-else class="project-board__swimlanes" data-cy="kanban-board">
+					<!-- Swimlanes (boards-card-display): one row per value of the
+					     grouped field, each holding every lane. Without grouping
+					     there is one row and no row header. -->
+					<div
+						v-for="(row, rowIndex) in swimlanes"
+						:key="'row-' + row.key"
+						class="project-board__swimlane"
+						data-testid="swimlane"
+						:data-swimlane="row.key">
+						<h3 v-if="grouped" class="project-board__swimlane-header">
+							<NcButton
+								variant="tertiary"
+								:aria-expanded="collapsedSwimlanes[row.key] ? 'false' : 'true'"
+								data-testid="swimlane-toggle"
+								@click="toggleSwimlane(row.key)">
+								<template #icon>
+									<ChevronRightIcon v-if="collapsedSwimlanes[row.key]" :size="20" />
+									<ChevronDownIcon v-else :size="20" />
 								</template>
-							</span>
-							<ColumnActions
-								v-if="isOwner"
-								:first="index === 0"
-								:last="index === columns.length - 1"
-								@edit="editingColumn = column"
-								@move="(direction) => moveColumn(column, direction)"
-								@remove="removingColumn = column" />
-						</header>
+								{{ swimlaneTitle(row) }}
+							</NcButton>
+						</h3>
+						<div v-if="!collapsedSwimlanes[row.key]" class="project-board__columns">
+							<section
+								v-for="(column, index) in columns"
+								:key="column.id"
+								class="kanban-column"
+								:data-column="column.title"
+								:data-column-id="column.id"
+								:aria-label="column.title"
+								:class="{ 'kanban-column--drop-target': dropTargetId === row.key + '|' + column.id }"
+								@dragover.prevent="onDragOver(row.key + '|' + column.id)"
+								@dragleave="onDragLeave(row.key + '|' + column.id)"
+								@drop="onDrop(column, null, row.key)">
+								<header
+									class="kanban-column__header"
+									:class="{ 'kanban-column__header--over': wipFor(column).over }"
+									:style="column.color ? { borderTopColor: column.color } : null">
+									<h3 class="kanban-column__title">
+										{{ column.title }}
+									</h3>
+									<span class="kanban-column__count" data-testid="column-count">
+										{{ wipFor(column).text }}
+										<template v-if="wipFor(column).over">
+											{{ t('planninq', 'over limit') }}
+										</template>
+									</span>
+									<ColumnActions
+										v-if="isOwner"
+										:first="index === 0"
+										:last="index === columns.length - 1"
+										@edit="editingColumn = column"
+										@move="(direction) => moveColumn(column, direction)"
+										@remove="removingColumn = column" />
+								</header>
 
-						<div class="kanban-column__body">
-							<!-- Task cards -->
-							<div
-								v-for="task in tasksByColumn[column.id]"
-								:key="task.id"
-								class="kanban-column__card"
-								:class="{ 'kanban-column__card--highlight': isHighlighted(task) }"
-								role="button"
-								tabindex="0"
-								:aria-label="task.title"
-								data-testid="task-card"
-								:draggable="readOnly ? 'false' : 'true'"
-								@click="navigateToTask(task)"
-								@keydown.enter="navigateToTask(task)"
-								@keydown.space.prevent="navigateToTask(task)"
-								@dragstart="onDragStart(task)"
-								@dragend="onDragEnd"
-								@drop.stop="onDrop(column, task)">
-								<TaskCard
-									:task="task"
-									:parentTitle="parentTitle(task)"
-									:labels="labelsForTask(task)"
-									:blocked="blockedIds.has(task.id)"
-									:openBlockerCount="openBlockerIds(task.id, dependenciesStore.edges, statusById).length" />
+								<div class="kanban-column__body">
+									<!-- Task cards -->
+									<div
+										v-for="task in rowLanes[row.key][column.id]"
+										:key="task.id"
+										class="kanban-column__card"
+										:class="{ 'kanban-column__card--highlight': isHighlighted(task) }"
+										role="button"
+										tabindex="0"
+										:aria-label="task.title"
+										data-testid="task-card"
+										:draggable="readOnly ? 'false' : 'true'"
+										@click="navigateToTask(task)"
+										@keydown.enter="navigateToTask(task)"
+										@keydown.space.prevent="navigateToTask(task)"
+										@dragstart="onDragStart(task)"
+										@dragend="onDragEnd"
+										@drop.stop="onDrop(column, task, row.key)">
+										<TaskCard
+											:task="task"
+											:edgeColour="edgeFor(task)"
+											:parentTitle="parentTitle(task)"
+											:labels="labelsForTask(task)"
+											:blocked="blockedIds.has(task.id)"
+											:openBlockerCount="openBlockerIds(task.id, dependenciesStore.edges, statusById).length" />
 
-								<!-- Keyboard-operable move: the accessible equivalent
+										<!-- Keyboard-operable move: the accessible equivalent
 							     of drag-and-drop, to another lane or a step up or
 							     down in this one. Not itself draggable, and stops
 							     click propagation so it never opens the task. -->
-								<div
-									v-if="!readOnly"
-									class="kanban-column__card-actions"
-									draggable="false"
-									@click.stop
-									@keydown.enter.stop
-									@keydown.space.stop
-									@dragstart.stop>
-									<NcActions
-										:aria-label="t('planninq', 'Move task to another column')"
-										:forceMenu="true">
-										<NcActionButton
-											:closeAfterClick="true"
-											@click="stepCard(task, column, -1)">
-											<template #icon>
-												<ArrowUpIcon :size="20" />
-											</template>
-											{{ t('planninq', 'Move up') }}
-										</NcActionButton>
-										<NcActionButton
-											:closeAfterClick="true"
-											@click="stepCard(task, column, 1)">
-											<template #icon>
-												<ArrowDownIcon :size="20" />
-											</template>
-											{{ t('planninq', 'Move down') }}
-										</NcActionButton>
-										<NcActionButton
-											:closeAfterClick="true"
-											data-testid="move-to-backlog"
-											@click="moveToBacklog(task)">
-											<template #icon>
-												<FormatListBulleted :size="20" />
-											</template>
-											{{ t('planninq', 'Move to backlog') }}
-										</NcActionButton>
-										<NcActionButton
-											v-for="target in otherColumns(column)"
-											:key="target.id"
-											:closeAfterClick="true"
-											@click="moveTask(task, target)">
-											<template #icon>
-												<ArrowRightIcon :size="20" />
-											</template>
-											{{ target.title }}
-										</NcActionButton>
-										<NcActionButton
-											:closeAfterClick="true"
-											data-testid="duplicate-task"
-											@click="duplicateTask(task)">
-											<template #icon>
-												<ContentCopy :size="20" />
-											</template>
-											{{ t('planninq', 'Duplicate') }}
-										</NcActionButton>
-										<!-- Priority from the card (tasks-assignment-priority-labels) -->
-										<NcActionSeparator />
-										<NcActionCaption :name="t('planninq', 'Priority')" />
-										<NcActionButton
-											v-for="level in priorityLevels"
-											:key="level.id"
-											:closeAfterClick="true"
-											:data-testid="'set-priority-' + level.id"
-											:aria-pressed="(task.priority || 'normal') === level.id"
-											@click="setPriority(task, level.id)">
-											<template #icon>
-												<FlagOutline :size="20" />
-											</template>
-											{{ level.label }}
-										</NcActionButton>
-									</NcActions>
+										<div
+											v-if="!readOnly"
+											class="kanban-column__card-actions"
+											draggable="false"
+											@click.stop
+											@keydown.enter.stop
+											@keydown.space.stop
+											@dragstart.stop>
+											<NcActions
+												:aria-label="t('planninq', 'Move task to another column')"
+												:forceMenu="true">
+												<NcActionButton
+													:closeAfterClick="true"
+													@click="stepCard(task, column, -1)">
+													<template #icon>
+														<ArrowUpIcon :size="20" />
+													</template>
+													{{ t('planninq', 'Move up') }}
+												</NcActionButton>
+												<NcActionButton
+													:closeAfterClick="true"
+													@click="stepCard(task, column, 1)">
+													<template #icon>
+														<ArrowDownIcon :size="20" />
+													</template>
+													{{ t('planninq', 'Move down') }}
+												</NcActionButton>
+												<NcActionButton
+													:closeAfterClick="true"
+													data-testid="move-to-backlog"
+													@click="moveToBacklog(task)">
+													<template #icon>
+														<FormatListBulleted :size="20" />
+													</template>
+													{{ t('planninq', 'Move to backlog') }}
+												</NcActionButton>
+												<NcActionButton
+													v-for="target in otherColumns(column)"
+													:key="target.id"
+													:closeAfterClick="true"
+													@click="moveTask(task, target)">
+													<template #icon>
+														<ArrowRightIcon :size="20" />
+													</template>
+													{{ target.title }}
+												</NcActionButton>
+												<!-- Hand over to another assignee row: the keyboard
+										     equivalent of a cross-row drop (boards-card-display). -->
+												<template v-if="boardView.group === 'assignee'">
+													<NcActionSeparator />
+													<NcActionCaption :name="t('planninq', 'Hand over to')" />
+													<NcActionButton
+														v-for="other in otherSwimlanes(row)"
+														:key="'hand-' + other.key"
+														:closeAfterClick="true"
+														:data-testid="'hand-over-' + (other.key || 'nobody')"
+														@click="moveToSwimlane(task, column, other.key)">
+														<template #icon>
+															<ArrowRightIcon :size="20" />
+														</template>
+														{{ swimlaneName(other) }}
+													</NcActionButton>
+												</template>
+												<NcActionButton
+													:closeAfterClick="true"
+													data-testid="duplicate-task"
+													@click="duplicateTask(task)">
+													<template #icon>
+														<ContentCopy :size="20" />
+													</template>
+													{{ t('planninq', 'Duplicate') }}
+												</NcActionButton>
+												<!-- Priority from the card (tasks-assignment-priority-labels) -->
+												<NcActionSeparator />
+												<NcActionCaption :name="t('planninq', 'Priority')" />
+												<NcActionButton
+													v-for="level in priorityLevels"
+													:key="level.id"
+													:closeAfterClick="true"
+													:data-testid="'set-priority-' + level.id"
+													:aria-pressed="(task.priority || 'normal') === level.id"
+													@click="setPriority(task, level.id)">
+													<template #icon>
+														<FlagOutline :size="20" />
+													</template>
+													{{ level.label }}
+												</NcActionButton>
+											</NcActions>
+										</div>
+									</div>
+
+									<!-- Empty column placeholder -->
+									<p v-if="rowLanes[row.key][column.id].length === 0" class="kanban-column__empty">
+										{{ t('planninq', 'No tasks') }}
+									</p>
 								</div>
-							</div>
 
-							<!-- Empty column placeholder -->
-							<p v-if="tasksByColumn[column.id].length === 0" class="kanban-column__empty">
-								{{ t('planninq', 'No tasks') }}
-							</p>
-						</div>
-
-						<!-- Quick add: Enter creates the task at the bottom of this lane
+								<!-- Quick add: Enter creates the task at the bottom of this lane
 						     and keeps focus for the next one (tasks-create-edit-delete). -->
-						<form
-							v-if="!readOnly"
-							class="kanban-column__quick-add"
-							@submit.prevent="quickAdd(column)">
-							<NcTextField
-								v-model="quickAddTitles[column.id]"
-								:label="t('planninq', 'Add a task')"
-								:disabled="quickAdding === column.id"
-								data-testid="quick-add" />
-						</form>
-					</section>
+								<form
+									v-if="!readOnly"
+									class="kanban-column__quick-add"
+									@submit.prevent="quickAdd(column, row.key)">
+									<NcTextField
+										v-model="quickAddTitles[row.key + '|' + column.id]"
+										:label="t('planninq', 'Add a task')"
+										:disabled="quickAdding === row.key + '|' + column.id"
+										data-testid="quick-add" />
+								</form>
+							</section>
 
-					<div v-if="isOwner" class="project-board__add-column">
-						<NcButton variant="secondary" data-testid="add-column" @click="editingColumn = {}">
-							<template #icon>
-								<PlusIcon :size="20" />
-							</template>
-							{{ t('planninq', 'Add column') }}
-						</NcButton>
+							<div v-if="isOwner && rowIndex === 0" class="project-board__add-column">
+								<NcButton variant="secondary" data-testid="add-column" @click="editingColumn = {}">
+									<template #icon>
+										<PlusIcon :size="20" />
+									</template>
+									{{ t('planninq', 'Add column') }}
+								</NcButton>
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -385,12 +434,15 @@ import { NcActionButton, NcActionCaption, NcActions, NcActionSeparator, NcButton
 import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 import ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'
+import ChevronDownIcon from 'vue-material-design-icons/ChevronDown.vue'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import FlagOutline from 'vue-material-design-icons/FlagOutline.vue'
 import FormatListBulleted from 'vue-material-design-icons/FormatListBulleted.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import BoardViewMenu from '../components/BoardViewMenu.vue'
 import ColumnActions from '../components/ColumnActions.vue'
 import ProjectRequestBanner from '../components/ProjectRequestBanner.vue'
 import ProjectSettingsSidebar from '../components/ProjectSettingsSidebar.vue'
@@ -400,8 +452,10 @@ import ColumnEditDialog from '../dialogs/ColumnEditDialog.vue'
 import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
 import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
 import { useDependenciesStore } from '../store/dependencies.js'
+import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
 import { backlogTasks, moveToBacklogPatch } from '../utils/backlogHelpers.js'
+import { cardEdge, epicTitles, groupTasksBySwimlane, newCardFields, normaliseView, swimlanePatch } from '../utils/boardView.js'
 import {
 	boardListRows,
 	buildMovePatch,
@@ -417,6 +471,7 @@ import { requestBanner } from '../utils/projectRequests.js'
 import { newLaneTask } from '../utils/taskEditing.js'
 import { deriveBlockedTaskIds, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
 import { PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
+import { displayNames } from '../utils/userNames.js'
 
 export default {
 	name: 'ProjectBoard',
@@ -435,6 +490,9 @@ export default {
 		ArrowDownIcon,
 		ArrowRightIcon,
 		ArrowUpIcon,
+		BoardViewMenu,
+		ChevronDownIcon,
+		ChevronRightIcon,
 		CogIcon,
 		ColumnActions,
 		FormatListBulleted,
@@ -484,6 +542,12 @@ export default {
 			quickAddTitles: {},
 			/** @type {string} Id of the lane whose quick add is saving. */
 			quickAdding: '',
+			/** @type {{colour: string, group: string}} This person's view of this board. */
+			boardView: normaliseView(null),
+			/** @type {object} Swimlane key to true while that row is folded. */
+			collapsedSwimlanes: {},
+			/** @type {object} User id to display name, for assignee rows. */
+			personNames: {},
 		}
 	},
 
@@ -581,6 +645,56 @@ export default {
 		 */
 		tasksByColumn() {
 			return groupTasksByColumn(this.visibleTasks, this.columns)
+		},
+
+		/**
+		 * Whether the board is split into swimlanes.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-2.2
+		 */
+		grouped() {
+			return this.boardView.group !== 'none'
+		},
+
+		/**
+		 * The board's rows: one per value of the grouped field, the row
+		 * without a value last; one row holding every card without grouping.
+		 *
+		 * @return {Array<{key: string, name: string, tasks: Array<object>}>}
+		 *
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-2.2
+		 */
+		swimlanes() {
+			const names = this.boardView.group === 'epic' ? epicTitles(this.tasks) : this.personNames
+			return groupTasksBySwimlane(this.visibleTasks, this.boardView.group, names)
+		},
+
+		/**
+		 * Per row, its cards grouped by lane.
+		 *
+		 * @return {object} Row key to {columnId: tasks}.
+		 *
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-2.2
+		 */
+		rowLanes() {
+			const lanes = {}
+			for (const row of this.swimlanes) {
+				lanes[row.key] = groupTasksByColumn(row.tasks, this.columns)
+			}
+			return lanes
+		},
+
+		/**
+		 * The labels by id, for the card edge.
+		 *
+		 * @return {Map<string, object>}
+		 *
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-1.1
+		 */
+		labelsById() {
+			return new Map(this.labels.map((label) => [labelId(label), label]))
 		},
 
 		/**
@@ -717,6 +831,7 @@ export default {
 		await this.loadColumns(id)
 		await this.loadTasks(id)
 		await this.loadLabels()
+		await this.loadBoardView(id)
 	},
 
 	beforeUnmount() {
@@ -744,29 +859,155 @@ export default {
 		 * Quick add: create a task with the typed title at the bottom of this
 		 * lane, clear the field and keep focus in it for the next one.
 		 *
-		 * @param {object} column The lane.
+		 * @param {object} column   The lane.
+		 * @param {string} [rowKey] The swimlane it is typed in.
 		 * @return {Promise<void>}
 		 *
 		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-3.1
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-2.3
 		 */
-		async quickAdd(column) {
-			const title = String(this.quickAddTitles[column.id] ?? '').trim()
+		async quickAdd(column, rowKey = '') {
+			const field = `${rowKey}|${column.id}`
+			const title = String(this.quickAddTitles[field] ?? '').trim()
 			if (title === '' || this.quickAdding) {
 				return
 			}
-			this.quickAdding = column.id
+			this.quickAdding = field
 			const lane = groupTasksByColumn(this.tasks, this.columns)[column.id] || []
-			const created = await this.projectsStore.createTask(newLaneTask({ title }, this.project.id, column, lane))
+			const fields = { title, ...newCardFields(this.boardView.group, rowKey) }
+			const created = await this.projectsStore.createTask(newLaneTask(fields, this.project.id, column, lane))
 			this.quickAdding = ''
 			if (!created) {
 				showError(this.t('planninq', 'Could not create the task. Please try again.'))
 				return
 			}
-			this.quickAddTitles = { ...this.quickAddTitles, [column.id]: '' }
+			this.quickAddTitles = { ...this.quickAddTitles, [field]: '' }
 			this.tasks = [...this.tasks, created]
 			this.$nextTick(() => {
-				this.$el.querySelector(`section[data-column-id="${column.id}"] [data-testid="quick-add"] input`)?.focus()
+				this.$el.querySelector(`[data-swimlane="${rowKey}"] section[data-column-id="${column.id}"] [data-testid="quick-add"] input`)?.focus()
 			})
+		},
+
+		/**
+		 * Read this person's view of this board from their settings.
+		 *
+		 * @param {string} projectId The project.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
+		 */
+		async loadBoardView(projectId) {
+			const store = useSettingsStore()
+			const settings = store.settings?.board_views ? store.settings : await store.fetchSettings()
+			this.boardView = normaliseView(settings?.board_views?.[projectId])
+			await this.loadPersonNames()
+		},
+
+		/**
+		 * Change the colour or grouping, show it at once and remember it for
+		 * this person and this project.
+		 *
+		 * @param {object} change `{colour}` or `{group}`.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
+		 */
+		async setBoardView(change) {
+			this.boardView = normaliseView({ ...this.boardView, ...change })
+			await this.loadPersonNames()
+			const saved = await useSettingsStore().saveUserSettings({ board_view: { project: this.project.id, ...this.boardView } })
+			if (!saved) {
+				showError(this.t('planninq', 'Could not save your board view. It applies until you reload.'))
+			}
+		},
+
+		/**
+		 * Look up the display names of the assignees, for assignee rows.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-2.2
+		 */
+		async loadPersonNames() {
+			if (this.boardView.group !== 'assignee') {
+				return
+			}
+			const uids = [...new Set(this.tasks.map((task) => task.assignedTo).filter(Boolean))]
+			this.personNames = uids.length ? await displayNames(uids) : {}
+		},
+
+		/**
+		 * Fold or unfold a swimlane.
+		 *
+		 * @param {string} key The row key.
+		 *
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-2.2
+		 */
+		toggleSwimlane(key) {
+			this.collapsedSwimlanes = { ...this.collapsedSwimlanes, [key]: !this.collapsedSwimlanes[key] }
+		},
+
+		/**
+		 * The name of a row: the person, priority or epic, or the no-value name.
+		 *
+		 * @param {{key: string, name: string}} row The row.
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-2.2
+		 */
+		swimlaneName(row) {
+			if (this.boardView.group === 'priority') {
+				return this.priorityLabel(row.key)
+			}
+			if (row.key === '') {
+				return this.boardView.group === 'epic' ? this.t('planninq', 'No epic') : this.t('planninq', 'No assignee')
+			}
+			return row.name || row.key
+		},
+
+		/**
+		 * @param {{key: string, name: string, tasks: Array}} row The row.
+		 * @return {string} Its header, name and card count.
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-2.2
+		 */
+		swimlaneTitle(row) {
+			return this.t('planninq', '{name} ({count})', { name: this.swimlaneName(row), count: row.tasks.length })
+		},
+
+		/**
+		 * @param {{key: string}} row The card's row.
+		 * @return {Array<object>} The other rows, the hand-over targets.
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-2.3
+		 */
+		otherSwimlanes(row) {
+			return this.swimlanes.filter((other) => other.key !== row.key)
+		},
+
+		/**
+		 * The colour of a card's edge in the current colour mode.
+		 *
+		 * @param {object} task The card.
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-1.1
+		 */
+		edgeFor(task) {
+			const labels = (task.labels || []).map((id) => this.labelsById.get(labelId(id))).filter(Boolean)
+			return cardEdge(task, labels, this.boardView.colour) || ''
+		},
+
+		/**
+		 * Keyboard hand-over: the same move as dropping the card in that row's lane.
+		 *
+		 * @param {object} task   The card.
+		 * @param {object} column Its lane.
+		 * @param {string} rowKey The target row.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-2.3
+		 */
+		async moveToSwimlane(task, column, rowKey) {
+			await this.applyMove(task, column, null, rowKey)
 		},
 
 		/**
@@ -913,18 +1154,20 @@ export default {
 		 *
 		 * @param {object}      column       The target column.
 		 * @param {object|null} [beforeTask] The card it was dropped on.
+		 * @param {string|null} [rowKey]     The swimlane it was dropped in.
 		 * @return {Promise<void>}
 		 *
 		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-2.3
 		 */
-		async onDrop(column, beforeTask = null) {
+		async onDrop(column, beforeTask = null, rowKey = null) {
 			const task = this.draggingTask
 			this.dropTargetId = null
 			this.draggingTask = null
 			if (!task || (beforeTask && beforeTask.id === task.id)) {
 				return
 			}
-			await this.applyMove(task, column, beforeTask)
+			await this.applyMove(task, column, beforeTask, rowKey)
 		},
 
 		/**
@@ -998,14 +1241,25 @@ export default {
 		 * @param {object}      task       The task to move.
 		 * @param {object}      column     The target column.
 		 * @param {object|null} beforeTask The card to land in front of.
+		 * @param {string|null} [rowKey]   The target swimlane; a drop there also changes the grouped field.
 		 * @return {Promise<void>}
 		 *
 		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2
+		 * @spec openspec/changes/boards-card-display/tasks.md#task-2.3
 		 */
-		async applyMove(task, column, beforeTask) {
+		async applyMove(task, column, beforeTask, rowKey = null) {
+			let rowFields = {}
+			if (rowKey !== null) {
+				const result = swimlanePatch(task, this.boardView.group, rowKey)
+				if (!result.ok) {
+					showError(this.t('planninq', 'Cards stay in their epic row. Change the epic on the task page.'))
+					return
+				}
+				rowFields = result.patch
+			}
 			const lane = this.tasksOfColumn(column).filter((card) => card.id !== task.id)
 			const patch = buildMovePatch(column, lane, beforeTask)
-			await this.patchTasks([{ id: task.id, ...patch }])
+			await this.patchTasks([{ id: task.id, ...patch, ...rowFields }])
 		},
 
 		/**
@@ -1275,6 +1529,22 @@ export default {
 	border-radius: 50%;
 	border: 1px solid var(--color-border);
 	background: var(--color-background-dark);
+}
+
+.project-board__swimlanes {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.project-board__swimlane + .project-board__swimlane {
+	border-top: 1px solid var(--color-border);
+	padding-top: 8px;
+}
+
+.project-board__swimlane-header {
+	margin: 0 0 8px;
+	font-size: inherit;
 }
 
 .project-board__columns {

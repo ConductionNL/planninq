@@ -936,7 +936,21 @@
         "Whether the release is planned, released or archived": "Дали изданието е планирано, објавено или архивирано",
         "Released on": "Објавено на",
         "When the release was marked as released": "Кога изданието е означено како објавено",
-        "The release this task is planned for": "Изданието за кое е планирана оваа задача"
+        "The release this task is planned for": "Изданието за кое е планирана оваа задача",
+        "Board view options": "Опции за приказ на таблата",
+        "Colour cards": "Обој ги картичките",
+        "No colour": "Без боја",
+        "By label": "По ознака",
+        "Swimlanes": "Патеки",
+        "No swimlanes": "Без патеки",
+        "By assignee": "По задолжено лице",
+        "By epic": "По епик",
+        "No assignee": "Недоделено",
+        "No epic": "Без епик",
+        "{name} ({count})": "{name} ({count})",
+        "Cards stay in their epic row. Change the epic on the task page.": "Картичките остануваат во редот на својот епик. Сменете го епикот на страницата на задачата.",
+        "Hand over to": "Предај на",
+        "Could not save your board view. It applies until you reload.": "Приказот на таблата не е зачуван. Важи до повторно вчитување."
     },
     "plurals": null
 }
