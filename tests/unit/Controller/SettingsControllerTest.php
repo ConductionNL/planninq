@@ -81,6 +81,13 @@ class SettingsControllerTest extends TestCase {
 	private RiskScaleService&MockObject $riskScale;
 
 	/**
+	 * The mocked export to Nextcloud Tasks.
+	 *
+	 * @var \OCA\Planninq\Service\TaskCalendarExportService&MockObject
+	 */
+	private \OCA\Planninq\Service\TaskCalendarExportService&MockObject $taskExport;
+
+	/**
 	 * Set up test fixtures.
 	 *
 	 * @return void
@@ -93,6 +100,7 @@ class SettingsControllerTest extends TestCase {
 		$this->registerImport = $this->createMock(originalClassName: RegisterImportService::class);
 		$this->userSession = $this->createMock(originalClassName: IUserSession::class);
 		$this->riskScale = $this->createMock(originalClassName: RiskScaleService::class);
+		$this->taskExport = $this->createMock(originalClassName: \OCA\Planninq\Service\TaskCalendarExportService::class);
 
 		$this->controller = new SettingsController(
 			request: $this->request,
@@ -102,6 +110,7 @@ class SettingsControllerTest extends TestCase {
 			riskScale: $this->riskScale,
 			timetableGrid: new TimetableGridService(appConfig: $this->appConfig()),
 			switches: $this->createMock(\OCA\Planninq\Service\NotificationSwitchService::class),
+			taskExport: $this->taskExport,
 		);
 
 	}//end setUp()
@@ -144,6 +153,28 @@ class SettingsControllerTest extends TestCase {
 		self::assertSame(expected: Http::STATUS_OK, actual: $response->getStatus());
 
 	}//end testUpdateUserDelegatesToService()
+
+	/**
+	 * Test that updateUser() applies the export switch and answers with its state (planning-calendar task 2.1).
+	 *
+	 * @return void
+	 */
+	public function testUpdateUserAppliesTheTaskExportSwitch(): void {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->request->method('getParams')->willReturn(['export_tasks_to_caldav' => true]);
+		$this->settingsService->method('updateUserSettings')->willReturn([]);
+
+		$this->taskExport->expects($this->once())->method('apply')->with('alice', ['export_tasks_to_caldav' => true]);
+		$this->taskExport->method('values')->willReturn(['export_tasks_to_caldav' => true, 'caldavAvailable' => true]);
+
+		$data = $this->controller->updateUser()->getData();
+
+		self::assertTrue($data['config']['export_tasks_to_caldav']);
+		self::assertTrue($data['config']['caldavAvailable']);
+
+	}//end testUpdateUserAppliesTheTaskExportSwitch()
 
 	/**
 	 * Test that index() returns a JSONResponse containing the settings from the service.

@@ -659,6 +659,19 @@ class Application extends App implements IBootstrap {
 			registers: ['planninq'],
 			schemas: ['forgeLink']
 		);
+
+		// Every task change rewrites the task's VTODO in the "Planninq" task
+		// list of each person on it who switched the export on
+		// (planning-calendar). Post-events: the save has happened.
+		foreach (['ObjectCreatedEvent', 'ObjectUpdatedEvent', 'ObjectDeletedEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\TaskCalendarExportListener',
+				registers: ['planninq'],
+				schemas: ['task']
+			);
+		}
 	}//end registerBoardColumnListeners()
 
 	/**
