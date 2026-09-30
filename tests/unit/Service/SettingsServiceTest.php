@@ -694,6 +694,56 @@ class SettingsServiceTest extends TestCase {
 	}//end testSetNotifyDueReminderOffWritesOverride()
 
 	/**
+	 * Task 1.2: switching assignment notifications off stores false and writes
+	 * the OpenRegister override for both assignment rules.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+	 */
+	public function testNotifyAssignedOffWritesOverrideForBothRules(): void {
+		$this->appManager->method('isInstalled')->with('openregister')->willReturn(true);
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('ben', Application::APP_ID, 'notify_assigned', 'false');
+		$prefService = new TestPreferenceServiceSpy();
+		$this->container->method('get')->willReturn($prefService);
+
+		$this->service->setNotifyAssigned(userId: 'ben', enabled: false);
+
+		self::assertSame(
+			[['ben', 'task', 'taskAssignedOnCreate', ['enabled' => false]], ['ben', 'task', 'taskAssigned', ['enabled' => false]]],
+			array_map(static fn (array $call): array => [$call['userId'], $call['schemaSlug'], $call['notificationKey'], $call['override']], $prefService->calls)
+		);
+
+	}//end testNotifyAssignedOffWritesOverrideForBothRules()
+
+	/**
+	 * Task 1.2: switching them on stores true and clears both overrides; the
+	 * default is on.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+	 */
+	public function testNotifyAssignedOnClearsOverride(): void {
+		$this->appManager->method('isInstalled')->with('openregister')->willReturn(true);
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('carl', Application::APP_ID, 'notify_assigned', 'true');
+		$this->config->method('getUserValue')->willReturnCallback(static fn (string $u, string $a, string $k, string $default = ''): string => $default);
+		$prefService = new TestPreferenceServiceSpy();
+		$this->container->method('get')->willReturn($prefService);
+
+		$this->service->setNotifyAssigned(userId: 'carl', enabled: true);
+
+		self::assertSame([null, null], array_column($prefService->calls, 'override'));
+		self::assertSame(['taskAssignedOnCreate', 'taskAssigned'], array_column($prefService->calls, 'notificationKey'));
+		self::assertTrue($this->service->isNotifyAssignedEnabled(userId: 'carl'), 'on by default');
+
+	}//end testNotifyAssignedOnClearsOverride()
+
+	/**
 	 * Test setNotifyDueReminder(true) stores true AND clears the OR override.
 	 *
 	 * @return void

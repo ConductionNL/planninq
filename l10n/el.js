@@ -1150,7 +1150,8 @@ OC.L10N.register(
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "Διαγραφή του \"{title}\"; Τα έργα και οι εργασίες τους μένουν ως έχουν.",
         "People see the tasks of the projects they are in, never more.": "Ο καθένας βλέπει μόνο τις εργασίες των έργων στα οποία συμμετέχει.",
         "No views yet. A view shows the tasks of several of your projects together.": "Δεν υπάρχουν ακόμη προβολές. Μια προβολή δείχνει μαζί τις εργασίες πολλών έργων σας.",
-        "Projects in view: {count}": "Έργα στην προβολή: {count}"
+        "Projects in view: {count}": "Έργα στην προβολή: {count}",
+        "Notify me when a task is assigned to me": "Ειδοποίησέ με όταν μου ανατίθεται μια εργασία"
     },
     "nplurals=2; plural=(n != 1);"
 )

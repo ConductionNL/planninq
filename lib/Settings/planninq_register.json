@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.29.0"
+    "version": "0.30.0"
   },
   "x-openregister": {
     "type": "application",
@@ -51,7 +51,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedCircleOutline",
-        "version": "0.8.0",
+        "version": "0.9.0",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
@@ -146,6 +146,48 @@
             "subject": {
               "en": "Task \"{{title}}\" is due soon",
               "nl": "Taak \"{{title}}\" moet binnenkort af"
+            }
+          },
+          "taskAssignedOnCreate": {
+            "trigger": {
+              "type": "created"
+            },
+            "enabled": true,
+            "channels": [
+              "nc-notification"
+            ],
+            "recipients": [
+              {
+                "kind": "field",
+                "field": "assignedTo"
+              }
+            ],
+            "subject": {
+              "en": "Task \"{{title}}\" was assigned to you",
+              "nl": "Taak \"{{title}}\" is aan jou toegewezen"
+            }
+          },
+          "taskAssigned": {
+            "trigger": {
+              "type": "updated",
+              "condition": {
+                "field": "assignedTo",
+                "operator": "changed"
+              }
+            },
+            "enabled": true,
+            "channels": [
+              "nc-notification"
+            ],
+            "recipients": [
+              {
+                "kind": "field",
+                "field": "assignedTo"
+              }
+            ],
+            "subject": {
+              "en": "Task \"{{title}}\" was assigned to you",
+              "nl": "Taak \"{{title}}\" is aan jou toegewezen"
             }
           }
         },

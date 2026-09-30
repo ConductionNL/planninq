@@ -1150,7 +1150,8 @@ OC.L10N.register(
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "Stizzar \"{title}\"? Ils projects e lur incumbensas restan sco ch'els èn.",
         "People see the tasks of the projects they are in, never more.": "Mintgin vesa mo las incumbensas dals projects nua ch'el è.",
         "No views yet. A view shows the tasks of several of your projects together.": "Anc naginas vistas. Ina vista mussa ensemen las incumbensas da plirs da tes projects.",
-        "Projects in view: {count}": "Projects en la vista: {count}"
+        "Projects in view: {count}": "Projects en la vista: {count}",
+        "Notify me when a task is assigned to me": "Ma avisar cura ch'ina incumbensa ma vegn attribuida"
     },
     "nplurals=2; plural=(n != 1);"
 )

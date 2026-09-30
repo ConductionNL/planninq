@@ -1149,7 +1149,8 @@
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "Slette \"{title}\"? Prosjektene og oppgavene deres forblir som de er.",
         "People see the tasks of the projects they are in, never more.": "Folk ser oppgavene i prosjektene de er med i, aldri mer.",
         "No views yet. A view shows the tasks of several of your projects together.": "Ingen visninger ennå. En visning viser oppgavene fra flere av prosjektene dine samlet.",
-        "Projects in view: {count}": "Prosjekter i visningen: {count}"
+        "Projects in view: {count}": "Prosjekter i visningen: {count}",
+        "Notify me when a task is assigned to me": "Varsle meg når en oppgave tildeles meg"
     },
     "plurals": {}
 }

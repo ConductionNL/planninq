@@ -1150,7 +1150,8 @@ OC.L10N.register(
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "\"{title}\" läschen? D'Projeten an hir Aufgabe bleiwe wéi se sinn.",
         "People see the tasks of the projects they are in, never more.": "Jiddereen gesäit just d'Aufgabe vun de Projeten, an deenen hien ass.",
         "No views yet. A view shows the tasks of several of your projects together.": "Nach keng Usiichten. Eng Usiicht weist d'Aufgabe vu méi Projete vun dir zesummen.",
-        "Projects in view: {count}": "Projeten an der Usiicht: {count}"
+        "Projects in view: {count}": "Projeten an der Usiicht: {count}",
+        "Notify me when a task is assigned to me": "Informéier mech, wann mir eng Aufgab zougedeelt gëtt"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1149,7 +1149,8 @@
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "Scrios \"{title}\"? Fanann na tionscadail agus a dtascanna mar atá siad.",
         "People see the tasks of the projects they are in, never more.": "Ní fheiceann duine ach tascanna na dtionscadal a bhfuil sé iontu.",
         "No views yet. A view shows the tasks of several of your projects together.": "Níl aon amharc fós. Taispeánann amharc tascanna roinnt de do thionscadail le chéile.",
-        "Projects in view: {count}": "Tionscadail san amharc: {count}"
+        "Projects in view: {count}": "Tionscadail san amharc: {count}",
+        "Notify me when a task is assigned to me": "Cuir in iúl dom nuair a shanntar tasc dom"
     },
     "plurals": null
 }

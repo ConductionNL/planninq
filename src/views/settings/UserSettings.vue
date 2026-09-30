@@ -10,6 +10,13 @@
 		     The old spelling neither reads nor writes — the switch renders
 		     permanently off and the handler never fires, silently. -->
 		<NcCheckboxRadioSwitch
+			:modelValue="notifyAssigned"
+			type="switch"
+			data-testid="notify-assigned"
+			@update:modelValue="onToggleAssigned">
+			{{ t('planninq', 'Notify me when a task is assigned to me') }}
+		</NcCheckboxRadioSwitch>
+		<NcCheckboxRadioSwitch
 			:modelValue="notifyDueReminder"
 			type="switch"
 			@update:modelValue="onToggleDueReminder">
@@ -43,6 +50,18 @@ export default {
 
 	computed: {
 		/**
+		 * Whether assignment notifications are on for the current user (default on).
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+		 */
+		notifyAssigned() {
+			const value = useSettingsStore().settings?.notify_assigned
+			return value !== false && value !== 'false'
+		},
+
+		/**
 		 * Whether due-date reminders are enabled for the current user.
 		 * Defaults to true (matches the backend default) when unset.
 		 *
@@ -64,6 +83,18 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Persist the assignment notification switch; the server writes it
+		 * through to OpenRegister's override of both assignment rules.
+		 *
+		 * @param {boolean} checked The new switch state
+		 *
+		 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+		 */
+		async onToggleAssigned(checked) {
+			await useSettingsStore().saveUserSettings({ notify_assigned: checked })
+		},
+
 		/**
 		 * Persist the due-date reminder toggle through saveUserSettings, which
 		 * writes the OpenRegister per-user notification override server-side.

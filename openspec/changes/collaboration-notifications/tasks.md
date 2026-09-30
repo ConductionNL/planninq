@@ -2,9 +2,9 @@
 
 ## 1. In-app assignment notification
 
-- [ ] 1.1 Declare `taskAssignedOnCreate` (trigger `created`) and `taskAssigned` (trigger `updated`, condition `assignedTo` changed) on the task schema in the canonical dialect, and bump the schema version. Verify: PHPUnit `PlanninqRegisterSchemaTest::testAssignmentRulesUseCanonicalDialect`; `hydra-gate-notification-dialect` passes on `lib/Settings/planninq_register.json`.
-- [ ] 1.2 `notify_assigned` user key and `SettingsService::setNotifyAssigned` writing the OpenRegister override for both rules; switch in `src/views/settings/UserSettings.vue`. Verify: PHPUnit `SettingsServiceTest::testNotifyAssignedOffWritesOverrideForBothRules` and `testNotifyAssignedOnClearsOverride`.
-- [ ] 1.3 Live check: assign a task to a second user and read their notifications. Verify: Playwright `tests/e2e/notifications.spec.ts` "assignee gets a notification with a link to the task", "a task created for someone notifies them", "clearing the assignee notifies nobody" and "switching assignment notifications off stops them".
+- [x] 1.1 Declare `taskAssignedOnCreate` (trigger `created`) and `taskAssigned` (trigger `updated`, condition `assignedTo` changed) on the task schema in the canonical dialect, and bump the schema version. Verify: PHPUnit `PlanninqRegisterSchemaTest::testAssignmentRulesUseCanonicalDialect`; `hydra-gate-notification-dialect` passes on `lib/Settings/planninq_register.json`. Also run through OpenRegister's NotificationAnnotationValidator (development 4abd834): 0 findings, control 1.
+- [x] 1.2 `notify_assigned` user key and `SettingsService::setNotifyAssigned` writing the OpenRegister override for both rules; switch in `src/views/settings/UserSettings.vue`. Verify: PHPUnit `SettingsServiceTest::testNotifyAssignedOffWritesOverrideForBothRules` and `testNotifyAssignedOnClearsOverride`.
+- [x] 1.3 Live check: assign a task to a second user and read their notifications. Verify: Playwright `tests/e2e/notifications.spec.ts` "assignee gets a notification with a link to the task", "a task created for someone notifies them", "clearing the assignee notifies nobody" and "switching assignment notifications off stops them". Written 30 Sep (lane 19) with the admin as assignee, since the e2e run has one account; runs in the nightly e2e job, not from the lane clone.
 
 ## 2. Email
 

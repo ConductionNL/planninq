@@ -1149,7 +1149,8 @@
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "¿Eliminar \"{title}\"? Los proyectos y sus tareas quedan como están.",
         "People see the tasks of the projects they are in, never more.": "Cada persona ve las tareas de los proyectos en los que está, nunca más.",
         "No views yet. A view shows the tasks of several of your projects together.": "Aún no hay vistas. Una vista muestra juntas las tareas de varios de tus proyectos.",
-        "Projects in view: {count}": "Proyectos en la vista: {count}"
+        "Projects in view: {count}": "Proyectos en la vista: {count}",
+        "Notify me when a task is assigned to me": "Avisarme cuando se me asigne una tarea"
     },
     "plurals": null
 }

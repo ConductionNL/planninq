@@ -1150,7 +1150,8 @@ OC.L10N.register(
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "Eyða \"{title}\"? Verkefnin og verk þeirra haldast óbreytt.",
         "People see the tasks of the projects they are in, never more.": "Fólk sér verk þeirra verkefna sem það er í, aldrei meira.",
         "No views yet. A view shows the tasks of several of your projects together.": "Engin yfirlit enn. Yfirlit sýnir verk úr nokkrum verkefnum þínum saman.",
-        "Projects in view: {count}": "Verkefni í yfirliti: {count}"
+        "Projects in view: {count}": "Verkefni í yfirliti: {count}",
+        "Notify me when a task is assigned to me": "Láttu mig vita þegar mér er úthlutað verki"
     },
     "nplurals=2; plural=(n != 1);"
 )

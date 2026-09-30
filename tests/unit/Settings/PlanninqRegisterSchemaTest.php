@@ -562,6 +562,41 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testTimeEntryAuthorizationRestrictsWriteToOwningUser()
 
 	/**
+	 * Task 1.1: assignment notifications are two declared rules in the
+	 * canonical dialect, one on create and one when `assignedTo` changes, both
+	 * to the assignee in the Nextcloud bell, never dispatched by planninq.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.1
+	 */
+	public function testAssignmentRulesUseCanonicalDialect(): void {
+		$task  = $this->register['components']['schemas']['task'];
+		$rules = $task['x-openregister-notifications'];
+		$to    = [['kind' => 'field', 'field' => 'assignedTo']];
+
+		self::assertSame(['type' => 'created'], $rules['taskAssignedOnCreate']['trigger']);
+		self::assertSame(['type' => 'updated', 'condition' => ['field' => 'assignedTo', 'operator' => 'changed']], $rules['taskAssigned']['trigger']);
+		foreach (['taskAssignedOnCreate', 'taskAssigned'] as $key) {
+			self::assertTrue($rules[$key]['enabled'], $key);
+			self::assertSame(['nc-notification'], $rules[$key]['channels'], $key);
+			self::assertSame($to, $rules[$key]['recipients'], $key);
+			self::assertSame('Task "{{title}}" was assigned to you', $rules[$key]['subject']['en'], $key);
+			self::assertSame('Taak "{{title}}" is aan jou toegewezen', $rules[$key]['subject']['nl'], $key);
+		}
+
+		self::assertSame(\OCA\Planninq\Service\NotificationSwitchService::ASSIGNED_RULES, ['taskAssignedOnCreate', 'taskAssigned']);
+		self::assertTrue(version_compare($task['version'], '0.9.0', '>='), 'task schema version bumped');
+
+		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(dirname(__DIR__, 3).'/lib', \FilesystemIterator::SKIP_DOTS));
+		foreach ($files as $file) {
+			$source = (string)file_get_contents($file->getPathname());
+			self::assertStringNotContainsString('OCP\\Notification\\IManager', $source, $file->getPathname().' dispatches notifications itself');
+		}
+
+	}//end testAssignmentRulesUseCanonicalDialect()
+
+	/**
 	 * The task schema MUST declare a canonical-dialect taskDueSoon rule.
 	 *
 	 * @return void
