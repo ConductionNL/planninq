@@ -1,5 +1,8 @@
 <template>
 	<div class="project-board">
+		<p class="hidden-visually" aria-live="polite" data-testid="board-announcement">
+			{{ rulesAnnouncement }}
+		</p>
 		<!-- Access denied state (403 or non-member) -->
 		<NcEmptyContent
 			v-if="accessDenied"
@@ -219,10 +222,21 @@
 											{{ t('planninq', 'over limit') }}
 										</template>
 									</span>
+									<span
+										v-if="ruleCount(column)"
+										class="kanban-column__rules"
+										role="img"
+										:aria-label="rulesLabel(column)"
+										:title="rulesLabel(column)"
+										data-testid="column-rules-icon">
+										<LightningBoltIcon :size="16" />
+									</span>
 									<ColumnActions
 										v-if="isOwner"
 										:first="index === 0"
 										:last="index === columns.length - 1"
+										:rules="true"
+										@rules="rulesColumn = column"
 										@edit="editingColumn = column"
 										@move="(direction) => moveColumn(column, direction)"
 										@remove="removingColumn = column" />
@@ -396,6 +410,13 @@
 					:nextOrder="nextColumnOrder"
 					@close="editingColumn = null"
 					@saved="onColumnsChanged" />
+				<ColumnRulesDialog
+					v-if="rulesColumn"
+					:column="rulesColumn"
+					:project="project"
+					:labels="labels"
+					@close="rulesColumn = null"
+					@saved="onColumnsChanged" />
 				<ColumnRemoveDialog
 					v-if="removingColumn"
 					:column="removingColumn"
@@ -440,6 +461,7 @@ import CogIcon from 'vue-material-design-icons/Cog.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import FlagOutline from 'vue-material-design-icons/FlagOutline.vue'
 import FormatListBulleted from 'vue-material-design-icons/FormatListBulleted.vue'
+import LightningBoltIcon from 'vue-material-design-icons/LightningBolt.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import BoardViewMenu from '../components/BoardViewMenu.vue'
@@ -450,12 +472,14 @@ import ProjectTabs from '../components/ProjectTabs.vue'
 import TaskCard from '../components/TaskCard.vue'
 import ColumnEditDialog from '../dialogs/ColumnEditDialog.vue'
 import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
+import ColumnRulesDialog from '../dialogs/ColumnRulesDialog.vue'
 import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
 import { backlogTasks, moveToBacklogPatch } from '../utils/backlogHelpers.js'
 import { cardEdge, epicTitles, groupTasksBySwimlane, newCardFields, normaliseView, swimlanePatch } from '../utils/boardView.js'
+import { columnRules, hasRuleEffects, ruleEffects } from '../utils/columnAutomation.js'
 import {
 	boardListRows,
 	buildMovePatch,
@@ -497,6 +521,8 @@ export default {
 		ColumnActions,
 		FormatListBulleted,
 		ColumnEditDialog,
+		ColumnRulesDialog,
+		LightningBoltIcon,
 		ColumnRemoveDialog,
 		LockOutline,
 		NcTextField,
@@ -532,6 +558,10 @@ export default {
 			editingColumn: null,
 			/** @type {object|null} The column being removed. */
 			removingColumn: null,
+			/** @type {object|null} The column whose rules are being edited. */
+			rulesColumn: null,
+			/** @type {string} What the last move's column rules changed, for screen readers. */
+			rulesAnnouncement: '',
 			/** @type {Array} Every app-wide label, for the card chips and the filter. */
 			labels: [],
 			/** @type {string|null} Id of the label the board is filtered by, null for all. */
@@ -1391,7 +1421,66 @@ export default {
 					showError(this.t('planninq', 'Could not move the task. Please try again.'))
 					return
 				}
+				await this.showRuleEffects(id, updated)
 			}
+		},
+
+		/**
+		 * Replace a moved card's rule-driven fields with what the server
+		 * stored, and announce what the column's rules changed.
+		 *
+		 * @param {string} id     The task id.
+		 * @param {object} stored The task the server returned.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/boards-column-automation/tasks.md#task-2.2
+		 */
+		async showRuleEffects(id, stored) {
+			const sent = this.tasks.find((task) => task.id === id)
+			const effects = ruleEffects(sent, stored)
+			if (!sent || !hasRuleEffects(effects)) {
+				return
+			}
+			const fields = {}
+			for (const field of ['assignedTo', 'sharedWith', 'priority', 'labels']) {
+				if (field in stored) {
+					fields[field] = stored[field]
+				}
+			}
+			this.tasks = this.tasks.map((task) => task.id === id ? { ...task, ...fields } : task)
+			const changes = []
+			if ('assignedTo' in effects) {
+				const name = effects.assignedTo ? ((await displayNames([effects.assignedTo]))[effects.assignedTo] || effects.assignedTo) : ''
+				changes.push(name ? this.t('planninq', 'assigned to {name}', { name }) : this.t('planninq', 'assignee removed'))
+			}
+			if ('priority' in effects) {
+				changes.push(this.t('planninq', 'priority {priority}', { priority: this.priorityLabel(effects.priority) }))
+			}
+			for (const added of effects.labelsAdded) {
+				changes.push(this.t('planninq', 'label {label}', { label: this.labelsById.get(added)?.title || added }))
+			}
+			this.rulesAnnouncement = this.t('planninq', 'Rules applied: {changes}', { changes: changes.join(', ') })
+		},
+
+		/**
+		 * @param {object} column A board column.
+		 * @return {number} How many rules it runs.
+		 * @spec openspec/changes/boards-column-automation/tasks.md#task-2.2
+		 */
+		ruleCount(column) {
+			return columnRules(column).length
+		},
+
+		/**
+		 * @param {object} column A board column.
+		 * @return {string} The accessible label of its rules icon.
+		 * @spec openspec/changes/boards-column-automation/tasks.md#task-2.2
+		 */
+		rulesLabel(column) {
+			const count = this.ruleCount(column)
+			return count === 1
+				? this.t('planninq', '1 rule runs when a card enters this column')
+				: this.t('planninq', '{count} rules run when a card enters this column', { count })
 		},
 
 		/**
@@ -1423,6 +1512,7 @@ export default {
 		async onColumnsChanged() {
 			this.editingColumn = null
 			this.removingColumn = null
+			this.rulesColumn = null
 			await this.loadColumns(this.project.id)
 			await this.loadTasks(this.project.id)
 		},
@@ -1598,6 +1688,12 @@ export default {
 	background: var(--color-background-hover);
 	border-radius: 12px;
 	padding: 1px 8px;
+}
+
+.kanban-column__rules {
+	display: inline-flex;
+	align-items: center;
+	color: var(--color-text-maxcontrast);
 }
 
 /* Over the WIP limit: warning colour AND the words "over limit", so colour

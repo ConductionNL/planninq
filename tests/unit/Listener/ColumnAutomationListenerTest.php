@@ -235,6 +235,15 @@ class ColumnAutomationListenerTest extends TestCase {
 		self::assertSame([], $column->getModifiedData(), 'not a task');
 	}//end testNoSessionSkipsAssignMoverAndOtherSchemasAreIgnored()
 
+	public function testTheMoverLeavesSharedWithWhenMadeResponsible(): void {
+		$event = $this->move(column: self::REVIEW, changes: ['sharedWith' => ['ben', 'olga']]);
+
+		$this->listener(actor: 'ben')->handle($event);
+
+		self::assertSame(['assignedTo' => 'ben', 'sharedWith' => ['olga']], $event->getModifiedData());
+		$this->assertStoredTaskIsValid(event: $event);
+	}//end testTheMoverLeavesSharedWithWhenMadeResponsible()
+
 	public function testPrioritiesMatchTheTaskSchema(): void {
 		$register = json_decode((string)file_get_contents(__DIR__ . '/../../../lib/Settings/planninq_register.json'), true);
 		self::assertSame($register['components']['schemas']['task']['properties']['priority']['enum'], ColumnAutomationListener::PRIORITIES);

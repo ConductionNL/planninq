@@ -61,6 +61,16 @@
 			"key": "tt_scenario_id",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "ca_column_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ca_task_id",
+			"value": "",
+			"type": "string"
 		}
 	],
 	"item": [
@@ -1985,6 +1995,230 @@
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('wish removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Column Automation",
+			"description": "boards-column-automation: a column's rules run in the same save that moves a task into it, whichever client sends the move (ColumnAutomationListener, PHPUnit ColumnAutomationListenerTest). Only the project owner or an admin changes a column (ColumnOwnerGuardListener); the collection runs as admin.",
+			"item": [
+				{
+					"name": "create a Blocked column with a priority rule",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/column",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Blocked (newman)\", \"project\": \"{{project_id}}\", \"order\": 9, \"automation\": [{\"action\": \"setPriority\", \"value\": \"high\"}]}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('column created with its rule', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.automation).to.deep.equal([{ action: 'setPriority', value: 'high' }]);",
+									"    pm.collectionVariables.set('ca_column_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create a task in the backlog",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Export to CSV (newman rules)\", \"project\": \"{{project_id}}\", \"priority\": \"normal\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task created with normal priority', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.priority).to.equal('normal');",
+									"    pm.collectionVariables.set('ca_task_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "moving a task into Blocked sets priority high",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{ca_task_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"column\": \"{{ca_column_id}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the column rule ran in the same save', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.column).to.equal(pm.collectionVariables.get('ca_column_id'));",
+									"    pm.expect(json.priority).to.equal('high');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "editing the title only keeps the priority",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{ca_task_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Export to CSV and XLSX (newman rules)\", \"priority\": \"low\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('no column change, no rule', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    pm.expect(pm.response.json().priority).to.equal('low');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the task",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{ca_task_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the column",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/column/{{ca_column_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('column removed', function () {",
 									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
 									"});"
 								]

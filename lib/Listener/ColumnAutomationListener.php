@@ -175,6 +175,8 @@ class ColumnAutomationListener implements IEventListener {
 			$changes = array_merge($changes, $change);
 		}
 
+		$changes = $this->keepResponsibleOutOfShared(changes: $changes, task: $task);
+
 		foreach ($changes as $field => $newValue) {
 			if (($task[$field] ?? null) === $newValue) {
 				unset($changes[$field]);
@@ -183,6 +185,26 @@ class ColumnAutomationListener implements IEventListener {
 
 		return $changes;
 	}//end run()
+
+	/**
+	 * The responsible person is never also in `sharedWith` (tasks-assignment-priority-labels).
+	 *
+	 * @param array<string,mixed> $changes The changes so far.
+	 * @param array<string,mixed> $task    The task as it will be saved without them.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function keepResponsibleOutOfShared(array $changes, array $task): array {
+		$responsible = ($changes['assignedTo'] ?? '');
+		$shared      = ($task['sharedWith'] ?? []);
+		if ($responsible === '' || is_array($shared) === false || in_array($responsible, $shared, true) === false) {
+			return $changes;
+		}
+
+		$changes['sharedWith'] = array_values(array_filter($shared, static fn ($uid): bool => $uid !== $responsible));
+
+		return $changes;
+	}//end keepResponsibleOutOfShared()
 
 	/**
 	 * The field one rule sets, or null when the rule cannot run.
