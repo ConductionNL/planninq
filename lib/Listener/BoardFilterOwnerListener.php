@@ -74,18 +74,29 @@ class BoardFilterOwnerListener implements IEventListener {
 		}
 
 		if ($event instanceof ObjectUpdatingEvent === true) {
-			$old = $event->getOldObject();
-			if ($old === null || $this->isBoardFilter(object: $event->getNewObject()) === false) {
-				return;
-			}
-
-			$stored = (((array)$old->getObject())['owner'] ?? null);
-			$sent   = (((array)$event->getNewObject()->getObject())['owner'] ?? null);
-			if (is_string($stored) === true && $stored !== '' && $sent !== $stored) {
-				$event->setModifiedData(array_merge($event->getModifiedData(), ['owner' => $stored]));
-			}
+			$this->keepOwner(event: $event);
 		}
 	}//end handle()
+
+	/**
+	 * Put the stored owner back when an update sends another one.
+	 *
+	 * @param ObjectUpdatingEvent $event The event.
+	 *
+	 * @return void
+	 */
+	private function keepOwner(ObjectUpdatingEvent $event): void {
+		$old = $event->getOldObject();
+		if ($old === null || $this->isBoardFilter(object: $event->getNewObject()) === false) {
+			return;
+		}
+
+		$stored = (((array)$old->getObject())['owner'] ?? null);
+		$sent   = (((array)$event->getNewObject()->getObject())['owner'] ?? null);
+		if (is_string($stored) === true && $stored !== '' && $sent !== $stored) {
+			$event->setModifiedData(array_merge($event->getModifiedData(), ['owner' => $stored]));
+		}
+	}//end keepOwner()
 
 	/**
 	 * Whether the object is a planninq saved filter.
