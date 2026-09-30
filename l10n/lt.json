@@ -1206,7 +1206,12 @@
         "My calendar": "Mano kalendorius",
         "Show as list": "Rodyti sąrašu",
         "Show as calendar": "Rodyti kalendoriuje",
-        "Open my calendar": "Atverti mano kalendorių"
+        "Open my calendar": "Atverti mano kalendorių",
+        "Nextcloud Tasks": "Nextcloud užduotys",
+        "Show my tasks in Nextcloud Tasks": "Rodyti mano užduotis Nextcloud užduotyse",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Jums priskirtos arba su jumis bendrinamos užduotys rodomos sąraše \"Planninq\" Nextcloud užduotyse ir kalendoriuje. Ten atlikti pakeitimai pakeičiami kitu Planninq pakeitimu.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Šis serveris negali rašyti į Nextcloud užduotis, todėl eksportas negalimas.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Tvarko Planninq. Čia atlikti pakeitimai pakeičiami kitu Planninq pakeitimu."
     },
     "plurals": null
 }

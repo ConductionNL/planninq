@@ -1206,7 +1206,12 @@
         "My calendar": "Calendarul meu",
         "Show as list": "Afișează ca listă",
         "Show as calendar": "Afișează în calendar",
-        "Open my calendar": "Deschide calendarul meu"
+        "Open my calendar": "Deschide calendarul meu",
+        "Nextcloud Tasks": "Sarcini Nextcloud",
+        "Show my tasks in Nextcloud Tasks": "Afișează sarcinile mele în Sarcini Nextcloud",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Sarcinile atribuite ție sau partajate cu tine apar într-o listă \"Planninq\" în Sarcini și Calendar Nextcloud. Modificările făcute acolo sunt înlocuite la următoarea modificare în Planninq.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Acest server nu poate scrie în Sarcini Nextcloud, așa că exportul nu este disponibil.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Gestionat de Planninq. Modificările făcute aici sunt înlocuite la următoarea modificare în Planninq."
     },
     "plurals": {}
 }

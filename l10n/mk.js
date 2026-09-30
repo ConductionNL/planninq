@@ -1207,7 +1207,12 @@ OC.L10N.register(
         "My calendar": "Мој календар",
         "Show as list": "Прикажи како листа",
         "Show as calendar": "Прикажи како календар",
-        "Open my calendar": "Отвори го мојот календар"
+        "Open my calendar": "Отвори го мојот календар",
+        "Nextcloud Tasks": "Nextcloud задачи",
+        "Show my tasks in Nextcloud Tasks": "Прикажи ги моите задачи во Nextcloud задачи",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Задачите доделени на вас или споделени со вас се појавуваат во листата \"Planninq\" во Nextcloud задачи и календар. Промените направени таму се заменуваат со следната промена во Planninq.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Овој сервер не може да запишува во Nextcloud задачи, па извозот не е достапен.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Управувано од Planninq. Промените направени тука се заменуваат со следната промена во Planninq."
     },
     "nplurals=2; plural=(n != 1);"
 )

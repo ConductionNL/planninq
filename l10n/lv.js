@@ -1207,7 +1207,12 @@ OC.L10N.register(
         "My calendar": "Mans kalendārs",
         "Show as list": "Rādīt kā sarakstu",
         "Show as calendar": "Rādīt kā kalendāru",
-        "Open my calendar": "Atvērt manu kalendāru"
+        "Open my calendar": "Atvērt manu kalendāru",
+        "Nextcloud Tasks": "Nextcloud uzdevumi",
+        "Show my tasks in Nextcloud Tasks": "Rādīt manus uzdevumus Nextcloud uzdevumos",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Jums piešķirtie vai ar jums kopīgotie uzdevumi parādās sarakstā \"Planninq\" Nextcloud uzdevumos un kalendārā. Tur veiktās izmaiņas tiek aizstātas ar nākamo izmaiņu Planninq.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Šis serveris nevar rakstīt Nextcloud uzdevumos, tāpēc eksports nav pieejams.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Pārvalda Planninq. Šeit veiktās izmaiņas tiek aizstātas ar nākamo izmaiņu Planninq."
     },
     "nplurals=2; plural=(n != 1);"
 )

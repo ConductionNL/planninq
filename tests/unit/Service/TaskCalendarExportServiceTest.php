@@ -66,7 +66,11 @@ class TaskCalendarExportServiceTest extends TestCase {
 	 * @return void
 	 */
 	public function testSwitchOnExportsExistingTasks(): void {
-		$export = $this->makeExport(assigned: ['t1' => self::TASK, 't2' => ['title' => 'Import from CSV', 'project' => 'p1', 'assignedTo' => 'alice']]);
+		$export = $this->makeExport(assigned: [
+			't1' => self::TASK,
+			't2' => ['title' => 'Import from CSV', 'project' => 'p1', 'assignedTo' => 'bob', 'sharedWith' => ['alice']],
+			't3' => ['title' => 'Plan demo', 'project' => 'p1', 'assignedTo' => 'bob'],
+		]);
 		$export->apply(userId: 'alice', data: [TaskCalendarExportService::SWITCH_KEY => true]);
 		$export->apply(userId: 'alice', data: [TaskCalendarExportService::SWITCH_KEY => 'true']);
 
@@ -75,7 +79,8 @@ class TaskCalendarExportServiceTest extends TestCase {
 
 		$job = new TaskCalendarBackfillJob($this->createMock(ITimeFactory::class), $export);
 		$this->assertSame(2, $job->backfill(argument: ['userId' => 'alice']));
-		$this->assertSame([['planninq', 'task', ['assignedTo' => 'alice']]], $this->objects->searches);
+		$this->assertSame([['planninq', 'task', []]], $this->objects->searches);
+		$this->assertNull($this->vtodo(user: 'alice', taskId: 't3'));
 		$this->assertSame([['principals/users/alice', 'planninq', ['components' => 'VTODO', '{DAV:}displayname' => 'Planninq']]], $this->backend->created);
 		$this->assertStringContainsString('SUMMARY:Export to CSV', (string)$this->vtodo(user: 'alice', taskId: 't1'));
 		$this->assertStringContainsString('SUMMARY:Import from CSV', (string)$this->vtodo(user: 'alice', taskId: 't2'));

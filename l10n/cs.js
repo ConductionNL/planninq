@@ -1207,7 +1207,12 @@ OC.L10N.register(
         "My calendar": "Můj kalendář",
         "Show as list": "Zobrazit jako seznam",
         "Show as calendar": "Zobrazit jako kalendář",
-        "Open my calendar": "Otevřít můj kalendář"
+        "Open my calendar": "Otevřít můj kalendář",
+        "Nextcloud Tasks": "Úkoly Nextcloud",
+        "Show my tasks in Nextcloud Tasks": "Zobrazit mé úkoly v Úkolech Nextcloud",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Úkoly přidělené vám nebo s vámi sdílené se zobrazí v seznamu \"Planninq\" v Úkolech a Kalendáři Nextcloud. Změny provedené tam se nahradí při další změně v Planninq.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Tento server nemůže zapisovat do Úkolů Nextcloud, proto export není k dispozici.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Spravováno aplikací Planninq. Změny provedené zde se nahradí při další změně v Planninq."
     },
     "nplurals=2; plural=(n != 1);"
 )

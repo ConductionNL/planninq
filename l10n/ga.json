@@ -1206,7 +1206,12 @@
         "My calendar": "Mo fhéilire",
         "Show as list": "Taispeáin mar liosta",
         "Show as calendar": "Taispeáin mar fhéilire",
-        "Open my calendar": "Oscail mo fhéilire"
+        "Open my calendar": "Oscail mo fhéilire",
+        "Nextcloud Tasks": "Tascanna Nextcloud",
+        "Show my tasks in Nextcloud Tasks": "Taispeáin mo thascanna i dTascanna Nextcloud",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Feictear na tascanna a sannadh duit nó a roinneadh leat i liosta \"Planninq\" i dTascanna agus i bhFéilire Nextcloud. Cuirtear an chéad athrú eile in Planninq in ionad athruithe a dhéantar ansin.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Ní féidir leis an bhfreastalaí seo scríobh chuig Tascanna Nextcloud, mar sin níl an easpórtáil ar fáil.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Á bhainistiú ag Planninq. Cuirtear an chéad athrú eile in Planninq in ionad athruithe a dhéantar anseo."
     },
     "plurals": null
 }

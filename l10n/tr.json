@@ -1206,7 +1206,12 @@
         "My calendar": "Takvimim",
         "Show as list": "Liste olarak göster",
         "Show as calendar": "Takvim olarak göster",
-        "Open my calendar": "Takvimimi aç"
+        "Open my calendar": "Takvimimi aç",
+        "Nextcloud Tasks": "Nextcloud Görevler",
+        "Show my tasks in Nextcloud Tasks": "Görevlerimi Nextcloud Görevler'de göster",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Size atanan veya sizinle paylaşılan görevler, Nextcloud Görevler ve Takvim'de \"Planninq\" listesinde görünür. Orada yapılan değişiklikler Planninq'teki bir sonraki değişiklikle değiştirilir.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Bu sunucu Nextcloud Görevler'e yazamıyor, bu yüzden dışa aktarma kullanılamıyor.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Planninq tarafından yönetilir. Burada yapılan değişiklikler Planninq'teki bir sonraki değişiklikle değiştirilir."
     },
     "plurals": {}
 }

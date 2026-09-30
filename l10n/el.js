@@ -1207,7 +1207,12 @@ OC.L10N.register(
         "My calendar": "Το ημερολόγιό μου",
         "Show as list": "Εμφάνιση ως λίστα",
         "Show as calendar": "Εμφάνιση ως ημερολόγιο",
-        "Open my calendar": "Άνοιγμα του ημερολογίου μου"
+        "Open my calendar": "Άνοιγμα του ημερολογίου μου",
+        "Nextcloud Tasks": "Εργασίες Nextcloud",
+        "Show my tasks in Nextcloud Tasks": "Εμφάνιση των εργασιών μου στις Εργασίες Nextcloud",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Οι εργασίες που σας έχουν ανατεθεί ή κοινοποιηθεί εμφανίζονται σε μια λίστα \"Planninq\" στις Εργασίες και στο Ημερολόγιο του Nextcloud. Οι αλλαγές που γίνονται εκεί αντικαθίστανται με την επόμενη αλλαγή στο Planninq.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Αυτός ο διακομιστής δεν μπορεί να γράψει στις Εργασίες Nextcloud, οπότε η εξαγωγή δεν είναι διαθέσιμη.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Διαχειρίζεται από το Planninq. Οι αλλαγές που γίνονται εδώ αντικαθίστανται με την επόμενη αλλαγή στο Planninq."
     },
     "nplurals=2; plural=(n != 1);"
 )

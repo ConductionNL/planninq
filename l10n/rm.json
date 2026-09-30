@@ -1206,7 +1206,12 @@
         "My calendar": "Mes chalender",
         "Show as list": "Mussar sco glista",
         "Show as calendar": "Mussar sco chalender",
-        "Open my calendar": "Avrir mes chalender"
+        "Open my calendar": "Avrir mes chalender",
+        "Nextcloud Tasks": "Incumbensas Nextcloud",
+        "Show my tasks in Nextcloud Tasks": "Mussar mias incumbensas en Incumbensas Nextcloud",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Las incumbensas attribuidas a tai u partidas cun tai cumparan en ina glista \"Planninq\" en Incumbensas e Chalender da Nextcloud. Midadas fatgas là vegnan remplazzadas da la proxima midada en Planninq.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Quest server na po betg scriver en Incumbensas Nextcloud, perquai n'è l'export betg disponibel.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Administrà da Planninq. Midadas fatgas qua vegnan remplazzadas da la proxima midada en Planninq."
     },
     "plurals": null
 }

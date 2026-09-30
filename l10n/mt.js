@@ -1207,7 +1207,12 @@ OC.L10N.register(
         "My calendar": "Il-kalendarju tiegħi",
         "Show as list": "Uri bħala lista",
         "Show as calendar": "Uri bħala kalendarju",
-        "Open my calendar": "Iftaħ il-kalendarju tiegħi"
+        "Open my calendar": "Iftaħ il-kalendarju tiegħi",
+        "Nextcloud Tasks": "Kompiti ta' Nextcloud",
+        "Show my tasks in Nextcloud Tasks": "Uri l-kompiti tiegħi fil-Kompiti ta' Nextcloud",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Il-kompiti assenjati lilek jew maqsuma miegħek jidhru f'lista \"Planninq\" fil-Kompiti u l-Kalendarju ta' Nextcloud. Il-bidliet li ssir hemm jiġu sostitwiti bil-bidla li jmiss fi Planninq.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Dan is-server ma jistax jikteb fil-Kompiti ta' Nextcloud, għalhekk l-esportazzjoni mhix disponibbli.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Immexxi minn Planninq. Il-bidliet li ssir hawn jiġu sostitwiti bil-bidla li jmiss fi Planninq."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1206,7 +1206,12 @@
         "My calendar": "Môj kalendár",
         "Show as list": "Zobraziť ako zoznam",
         "Show as calendar": "Zobraziť ako kalendár",
-        "Open my calendar": "Otvoriť môj kalendár"
+        "Open my calendar": "Otvoriť môj kalendár",
+        "Nextcloud Tasks": "Úlohy Nextcloud",
+        "Show my tasks in Nextcloud Tasks": "Zobraziť moje úlohy v Úlohách Nextcloud",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Úlohy pridelené vám alebo s vami zdieľané sa zobrazia v zozname \"Planninq\" v Úlohách a Kalendári Nextcloud. Zmeny urobené tam sa nahradia pri ďalšej zmene v Planninq.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Tento server nemôže zapisovať do Úloh Nextcloud, preto export nie je dostupný.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Spravované aplikáciou Planninq. Zmeny urobené tu sa nahradia pri ďalšej zmene v Planninq."
     },
     "plurals": null
 }

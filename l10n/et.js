@@ -1207,7 +1207,12 @@ OC.L10N.register(
         "My calendar": "Minu kalender",
         "Show as list": "Näita loendina",
         "Show as calendar": "Näita kalendrina",
-        "Open my calendar": "Ava minu kalender"
+        "Open my calendar": "Ava minu kalender",
+        "Nextcloud Tasks": "Nextcloudi ülesanded",
+        "Show my tasks in Nextcloud Tasks": "Näita minu ülesandeid Nextcloudi ülesannetes",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Sulle määratud või sinuga jagatud ülesanded ilmuvad loendis \"Planninq\" Nextcloudi ülesannetes ja kalendris. Seal tehtud muudatused asendatakse järgmise muudatusega Planninqis.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "See server ei saa Nextcloudi ülesannetesse kirjutada, seega eksport pole saadaval.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Haldab Planninq. Siin tehtud muudatused asendatakse järgmise muudatusega Planninqis."
     },
     "nplurals=2; plural=(n != 1);"
 )

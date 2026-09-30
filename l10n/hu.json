@@ -1206,7 +1206,12 @@
         "My calendar": "Saját naptár",
         "Show as list": "Megjelenítés listaként",
         "Show as calendar": "Megjelenítés naptárként",
-        "Open my calendar": "Saját naptár megnyitása"
+        "Open my calendar": "Saját naptár megnyitása",
+        "Nextcloud Tasks": "Nextcloud Feladatok",
+        "Show my tasks in Nextcloud Tasks": "A feladataim megjelenítése a Nextcloud Feladatokban",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "A neked kiosztott vagy veled megosztott feladatok egy \"Planninq\" listában jelennek meg a Nextcloud Feladatokban és Naptárban. Az ott végzett módosításokat a Planninq következő módosítása felülírja.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Ez a kiszolgáló nem tud írni a Nextcloud Feladatokba, ezért az exportálás nem érhető el.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "A Planninq kezeli. Az itt végzett módosításokat a Planninq következő módosítása felülírja."
     },
     "plurals": null
 }

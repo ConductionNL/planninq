@@ -1206,7 +1206,12 @@
         "My calendar": "Mäi Kalenner",
         "Show as list": "Als Lëscht weisen",
         "Show as calendar": "Am Kalenner weisen",
-        "Open my calendar": "Mäi Kalenner opmaachen"
+        "Open my calendar": "Mäi Kalenner opmaachen",
+        "Nextcloud Tasks": "Nextcloud Aufgaben",
+        "Show my tasks in Nextcloud Tasks": "Meng Aufgaben an Nextcloud Aufgaben weisen",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "D'Aufgaben, déi dir zougewisen oder mat dir gedeelt sinn, erschéngen an enger Lëscht \"Planninq\" an Nextcloud Aufgaben a Kalenner. Ännerungen do ginn duerch déi nächst Ännerung an Planninq ersat.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Dëse Server kann net an Nextcloud Aufgaben schreiwen, dofir ass den Export net disponibel.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Vu Planninq verwalt. Ännerungen hei ginn duerch déi nächst Ännerung an Planninq ersat."
     },
     "plurals": null
 }

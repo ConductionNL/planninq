@@ -293,10 +293,11 @@ class TaskCalendarExportService {
 	}//end removeList()
 
 	/**
-	 * Export every task assigned to a user once (the switch-on backfill).
+	 * Export every task assigned to or shared with a user once (the switch-on backfill).
 	 *
-	 * Tasks shared with the user arrive on their next change: OpenRegister
-	 * filters a list property by equality, not by membership.
+	 * OpenRegister filters a property by equality, so a list property such as
+	 * `sharedWith` cannot be searched for a member: the job reads the tasks as
+	 * the system and picks the user's own, as the My tasks page does.
 	 *
 	 * @param string $userId The user.
 	 *
@@ -310,7 +311,7 @@ class TaskCalendarExportService {
 		}
 
 		$written = 0;
-		foreach ($this->assignedTasks(userId: $userId) as $taskId => $task) {
+		foreach ($this->tasks(userId: $userId) as $taskId => $task) {
 			$written += $this->exportTask(taskId: $taskId, task: $task, users: [$userId]);
 		}
 
@@ -436,18 +437,18 @@ class TaskCalendarExportService {
 	}//end projectTitle()
 
 	/**
-	 * The tasks assigned to a user, keyed by uuid, read as the system.
+	 * The tasks assigned to or shared with a user, keyed by uuid, read as the system.
 	 *
 	 * @param string $userId The user.
 	 *
 	 * @return array<string,array<string,mixed>>
 	 */
-	private function assignedTasks(string $userId): array {
+	private function tasks(string $userId): array {
 		try {
 			$results = $this->container->get(self::OBJECT_SERVICE)->searchObjectsBySlug(
 				registerSlug: self::REGISTER,
 				schemaSlug: 'task',
-				filters: ['assignedTo' => $userId],
+				filters: [],
 				_rbac: false,
 				_multitenancy: false
 			);
@@ -468,13 +469,13 @@ class TaskCalendarExportService {
 				$id = (string)$row->getUuid();
 			}
 
-			if ($id !== '') {
+			if ($id !== '' && in_array($userId, $this->recipients(task: $data), true) === true) {
 				$tasks[$id] = $data;
 			}
 		}
 
 		return $tasks;
-	}//end assignedTasks()
+	}//end tasks()
 
 	/**
 	 * Store the VTODO UID on the task as a silent system write, so it raises no event.

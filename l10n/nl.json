@@ -1219,7 +1219,12 @@
         "My calendar": "Mijn kalender",
         "Show as list": "Als lijst tonen",
         "Show as calendar": "Als kalender tonen",
-        "Open my calendar": "Mijn kalender openen"
+        "Open my calendar": "Mijn kalender openen",
+        "Nextcloud Tasks": "Nextcloud Taken",
+        "Show my tasks in Nextcloud Tasks": "Mijn taken tonen in Nextcloud Taken",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "De taken die aan je zijn toegewezen of met je zijn gedeeld, staan in een lijst \"Planninq\" in Nextcloud Taken en Agenda. Wijzigingen die je daar maakt, worden vervangen bij de volgende wijziging in Planninq.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Deze server kan niet naar Nextcloud Taken schrijven, dus de export is niet beschikbaar.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Beheerd door Planninq. Wijzigingen die je hier maakt, worden vervangen bij de volgende wijziging in Planninq."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

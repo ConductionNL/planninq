@@ -3729,7 +3729,7 @@
       "area": "planning",
       "name": "See task due dates in the Nextcloud Calendar or another CalDAV client.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "no",
@@ -3751,11 +3751,12 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/viewer 'Subscribe to schedules via iCal, Google Calendar, and Outlook' ; https://www.academy.timeedit.com/guides-tutorials/microsoft-outlook-integration-configure-a-staff-or-student-outbound-sync 'automatically publishes reservations from TimeEdit to Microsoft 365 calendars'. Read-only iCal and a Microsoft 365 push, CalDAV is not mentioned"
       },
       "built": {
-        "state": "specified",
-        "evidence": "grep for 'caldav' across src/ and lib/ returns nothing",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Service/TaskCalendarExportService.php keeps a VTODO-only \"Planninq\" list per opted-in user through the DAV app's CalDavBackend (resolved by name; the switch is disabled when it is absent); lib/Service/TaskVtodoBuilder.php maps title, description with a managed note, status, priority, start, due, percent complete, completion time, project and a link back; lib/Listener/TaskCalendarExportListener.php rewrites, moves and removes it on every task create, update and delete; lib/BackgroundJob/TaskCalendarBackfillJob.php exports existing tasks on switch-on; task.calendarEventUid stores the UID",
+        "reachedOn": "personal settings, Nextcloud Tasks, 'Show my tasks in Nextcloud Tasks'; then the Tasks and Calendar apps and any CalDAV client",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/planning-calendar"
+        "change": "openspec/changes/planning-calendar",
+        "readOn": "2026-09-30"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

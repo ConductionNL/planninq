@@ -1207,7 +1207,12 @@ OC.L10N.register(
         "My calendar": "Dagatalið mitt",
         "Show as list": "Sýna sem lista",
         "Show as calendar": "Sýna sem dagatal",
-        "Open my calendar": "Opna dagatalið mitt"
+        "Open my calendar": "Opna dagatalið mitt",
+        "Nextcloud Tasks": "Nextcloud Verkefni",
+        "Show my tasks in Nextcloud Tasks": "Sýna verkefnin mín í Nextcloud Verkefnum",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Verkefni sem þér er úthlutað eða deilt með þér birtast á listanum \"Planninq\" í Verkefnum og Dagatali Nextcloud. Breytingum sem gerðar eru þar er skipt út við næstu breytingu í Planninq.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Þessi þjónn getur ekki skrifað í Nextcloud Verkefni, svo útflutningur er ekki í boði.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Stjórnað af Planninq. Breytingum sem gerðar eru hér er skipt út við næstu breytingu í Planninq."
     },
     "nplurals=2; plural=(n != 1);"
 )

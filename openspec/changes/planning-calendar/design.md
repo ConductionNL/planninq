@@ -48,6 +48,20 @@ Deck exposes each board as a read-only calendar through a Sabre calendar plugin,
 - [Backfill for a user with thousands of tasks] -> A queued background job, paged through `fetchEvery`-style reads, never the settings request itself.
 - [Drift after a failed write] -> Logged; the next change to the task rewrites the VTODO in full.
 
+## Task 2.2 outcome: the write path (decided at build, 30 Sep)
+
+Checked against Nextcloud server master (`apps/dav/lib/CalDAV/CalDavBackend.php`) and OCP 34:
+- `OCP\Calendar\IManager` with a writable calendar's `ICreateFromString::createFromString()` creates an object, but it is a Sabre create that refuses a URI already present, so it cannot replace a VTODO. OCP has no call to delete a calendar object and none to create a calendar.
+- `OCA\DAV\CalDAV\CalDavBackend` has all seven calls the export needs: `getCalendarByUri`, `createCalendar` (with `components => 'VTODO'`), `deleteCalendar`, `getCalendarObject`, `createCalendarObject`, `updateCalendarObject`, `deleteCalendarObject`. It is not a public API.
+
+Decision: `TaskCalendarExportService` resolves the backend by class name behind `class_exists()` and a probe of those seven methods, from the container, the way hermiq's task tools resolve it (`OCA\Hermiq\Service\NcNative\TaskLists::davBackend()`). When it is absent or has drifted, the export reports `caldavAvailable: false`, the personal settings show the switch disabled with the reason, and the listener writes nothing. Every backend call sits in that one class, so moving to a public API later touches one file.
+
+Also decided at build:
+- The switch lives in `TaskCalendarExportService` (`values()`, `apply()`), applied by `SettingsController` next to `NotificationSwitchService`, not in `SettingsService`, which is at phpmd's complexity and coupling limits.
+- The VTODO text is built by a separate pure class, `TaskVtodoBuilder`, so every mapping is tested without Nextcloud.
+- The backfill job reads every task as the system and keeps the user's own (assigned or shared), because OpenRegister filters a list property such as `sharedWith` by equality, not membership. This is the same read the My tasks page makes.
+- The object in the list is named `planninq-task-<task uuid>.ics`, so removal needs no UID lookup. The UID write-back is a silent system write (`SystemOperationContext`, `silent: true`), and the listener also ignores an update that changes only `calendarEventUid`.
+
 ## Open questions
 
-- Which write path does `TaskCalendarExportService` use? Nextcloud's public calendar API (`OCP\Calendar\IManager` with a writable calendar's create-from-string call) covers creating a VTODO; updating and deleting an existing object, and creating the "Planninq" list itself, may need the DAV app's CalDAV backend. The implementer confirms which calls the supported Nextcloud versions offer before task 2.2 starts; the rest of the design does not depend on the answer.
+- (Answered above, Task 2.2 outcome.) Which write path does `TaskCalendarExportService` use? Nextcloud's public calendar API (`OCP\Calendar\IManager` with a writable calendar's create-from-string call) covers creating a VTODO; updating and deleting an existing object, and creating the "Planninq" list itself, may need the DAV app's CalDAV backend. The implementer confirms which calls the supported Nextcloud versions offer before task 2.2 starts; the rest of the design does not depend on the answer.

@@ -1206,7 +1206,12 @@
         "My calendar": "Il mio calendario",
         "Show as list": "Mostra come elenco",
         "Show as calendar": "Mostra come calendario",
-        "Open my calendar": "Apri il mio calendario"
+        "Open my calendar": "Apri il mio calendario",
+        "Nextcloud Tasks": "Attività di Nextcloud",
+        "Show my tasks in Nextcloud Tasks": "Mostra le mie attività in Attività di Nextcloud",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Le attività assegnate a te o condivise con te compaiono in un elenco \"Planninq\" in Attività e Calendario di Nextcloud. Le modifiche fatte lì vengono sostituite alla modifica successiva in Planninq.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Questo server non può scrivere in Attività di Nextcloud, quindi l'esportazione non è disponibile.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Gestito da Planninq. Le modifiche fatte qui vengono sostituite alla modifica successiva in Planninq."
     },
     "plurals": null
 }

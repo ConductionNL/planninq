@@ -1206,7 +1206,12 @@
         "My calendar": "Moj kalendar",
         "Show as list": "Prikaži kao popis",
         "Show as calendar": "Prikaži kao kalendar",
-        "Open my calendar": "Otvori moj kalendar"
+        "Open my calendar": "Otvori moj kalendar",
+        "Nextcloud Tasks": "Nextcloud Zadaci",
+        "Show my tasks in Nextcloud Tasks": "Prikaži moje zadatke u Nextcloud Zadacima",
+        "The tasks assigned to you or shared with you appear in a \"Planninq\" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.": "Zadaci dodijeljeni vama ili podijeljeni s vama prikazuju se na popisu \"Planninq\" u Nextcloud Zadacima i Kalendaru. Promjene napravljene ondje zamjenjuju se sljedećom promjenom u Planninqu.",
+        "This server cannot write to Nextcloud Tasks, so the export is not available.": "Ovaj poslužitelj ne može pisati u Nextcloud Zadatke pa izvoz nije dostupan.",
+        "Managed by Planninq. Changes made here are replaced by the next change in Planninq.": "Upravlja Planninq. Promjene napravljene ovdje zamjenjuju se sljedećom promjenom u Planninqu."
     },
     "plurals": null
 }

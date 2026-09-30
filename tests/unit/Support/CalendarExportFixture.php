@@ -67,7 +67,7 @@ trait CalendarExportFixture {
 	 *
 	 * @param array<int,string>                  $on       Users who switched the export on.
 	 * @param bool                               $withDav  Whether the DAV backend resolves.
-	 * @param array<string,array<string,mixed>>  $assigned Tasks the backfill search returns, by uuid.
+	 * @param array<string,array<string,mixed>>  $assigned Tasks the backfill search returns (every task), by uuid.
 	 *
 	 * @return TaskCalendarExportService
 	 */
