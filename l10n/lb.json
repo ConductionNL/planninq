@@ -1123,7 +1123,14 @@
         "Shared with the project": "Mam Projet gedeelt",
         "Whether every project member sees and applies the filter": "Ob all Projetmember de Filter gesäit an uwende kann",
         "Criteria": "Critèren",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "De Filter: Zouweisung, Label, Prioritéit an Delai, all mat ass oder ass net an hire Wäerter"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "De Filter: Zouweisung, Label, Prioritéit an Delai, all mat ass oder ass net an hire Wäerter",
+        "Cross-project view": "Projetiwwergräifend Usiicht",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Eng gespäichert Auswiel vu Projeten, där hir Aufgaben zesummen a Statusspalte gewise ginn, gedeelt mat de Leit, déi se nennt.",
+        "Shared with": "Gedeelt mat",
+        "The name the view is listed under": "Den Numm, ënner deem d'Usiicht opgelëscht ass",
+        "Nextcloud user id of the person who saved the view": "Nextcloud-Benotzer-ID vun der Persoun, déi d'Usiicht gespäichert huet",
+        "Nextcloud user ids of the people the view is shared with": "Nextcloud-Benotzer-IDen vun de Leit, mat deenen d'Usiicht gedeelt ass",
+        "The projects whose tasks the view shows, at most twenty": "D'Projeten, där hir Aufgaben d'Usiicht weist, héchstens zwanzeg"
     },
     "plurals": null
 }

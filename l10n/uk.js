@@ -1124,7 +1124,14 @@ OC.L10N.register(
         "Shared with the project": "Спільний із проєктом",
         "Whether every project member sees and applies the filter": "Чи бачить кожен учасник проєкту фільтр і чи може його застосувати",
         "Criteria": "Критерії",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Фільтр: виконавець, мітка, пріоритет і термін, кожен з є або не і значеннями"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Фільтр: виконавець, мітка, пріоритет і термін, кожен з є або не і значеннями",
+        "Cross-project view": "Міжпроєктне подання",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Збережений набір проєктів, завдання яких показано разом у колонках за статусом, із доступом для вказаних людей.",
+        "Shared with": "Надано доступ",
+        "The name the view is listed under": "Назва, під якою подання вказано в списку",
+        "Nextcloud user id of the person who saved the view": "Ідентифікатор користувача Nextcloud того, хто зберіг подання",
+        "Nextcloud user ids of the people the view is shared with": "Ідентифікатори користувачів Nextcloud тих, кому надано доступ до подання",
+        "The projects whose tasks the view shows, at most twenty": "Проєкти, завдання яких показує подання, не більше двадцяти"
     },
     "nplurals=2; plural=(n != 1);"
 )

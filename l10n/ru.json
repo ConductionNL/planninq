@@ -1123,7 +1123,14 @@
         "Shared with the project": "Открыт проекту",
         "Whether every project member sees and applies the filter": "Видит ли каждый участник проекта фильтр и может ли его применить",
         "Criteria": "Критерии",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Фильтр: исполнитель, метка, приоритет и срок, каждый с есть или не и значениями"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Фильтр: исполнитель, метка, приоритет и срок, каждый с есть или не и значениями",
+        "Cross-project view": "Межпроектное представление",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Сохранённый набор проектов, задачи которых показываются вместе в колонках по статусу, с доступом для указанных людей.",
+        "Shared with": "Доступно для",
+        "The name the view is listed under": "Название, под которым представление указано в списке",
+        "Nextcloud user id of the person who saved the view": "Идентификатор пользователя Nextcloud того, кто сохранил представление",
+        "Nextcloud user ids of the people the view is shared with": "Идентификаторы пользователей Nextcloud тех, кому открыто представление",
+        "The projects whose tasks the view shows, at most twenty": "Проекты, задачи которых показывает представление, не более двадцати"
     },
     "plurals": {}
 }

@@ -1123,7 +1123,14 @@
         "Shared with the project": "Κοινόχρηστο με το έργο",
         "Whether every project member sees and applies the filter": "Αν κάθε μέλος του έργου βλέπει και μπορεί να εφαρμόσει το φίλτρο",
         "Criteria": "Κριτήρια",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Το φίλτρο: υπεύθυνος, ετικέτα, προτεραιότητα και προθεσμία, το καθένα με είναι ή δεν είναι και τις τιμές του"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Το φίλτρο: υπεύθυνος, ετικέτα, προτεραιότητα και προθεσμία, το καθένα με είναι ή δεν είναι και τις τιμές του",
+        "Cross-project view": "Προβολή πολλών έργων",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Μια αποθηκευμένη επιλογή έργων των οποίων οι εργασίες εμφανίζονται μαζί σε στήλες κατάστασης, κοινόχρηστη με τα άτομα που ορίζει.",
+        "Shared with": "Κοινή χρήση με",
+        "The name the view is listed under": "Το όνομα με το οποίο εμφανίζεται η προβολή",
+        "Nextcloud user id of the person who saved the view": "Αναγνωριστικό χρήστη Nextcloud του ατόμου που αποθήκευσε την προβολή",
+        "Nextcloud user ids of the people the view is shared with": "Αναγνωριστικά χρηστών Nextcloud των ατόμων με τα οποία μοιράζεται η προβολή",
+        "The projects whose tasks the view shows, at most twenty": "Τα έργα των οποίων τις εργασίες δείχνει η προβολή, έως είκοσι"
     },
     "plurals": null
 }

@@ -76,6 +76,7 @@ trait MembershipFixture {
 		'21' => 'projectField',
 		'22' => 'projectRelease',
 		'23' => 'boardFilter',
+		'24' => 'boardView',
 	];
 
 	/**

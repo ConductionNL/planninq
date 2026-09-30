@@ -1124,7 +1124,14 @@ OC.L10N.register(
         "Shared with the project": "Projeyle paylaşıldı",
         "Whether every project member sees and applies the filter": "Her proje üyesinin filtreyi görüp uygulayabilip uygulayamayacağı",
         "Criteria": "Ölçütler",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filtre: atanan kişi, etiket, öncelik ve son tarih; her biri eşittir veya değildir ve değerleriyle"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filtre: atanan kişi, etiket, öncelik ve son tarih; her biri eşittir veya değildir ve değerleriyle",
+        "Cross-project view": "Projeler arası görünüm",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Görevleri durum şeritlerinde birlikte gösterilen ve adı geçen kişilerle paylaşılan kayıtlı bir proje seçimi.",
+        "Shared with": "Paylaşılan kişiler",
+        "The name the view is listed under": "Görünümün listelendiği ad",
+        "Nextcloud user id of the person who saved the view": "Görünümü kaydeden kişinin Nextcloud kullanıcı kimliği",
+        "Nextcloud user ids of the people the view is shared with": "Görünümün paylaşıldığı kişilerin Nextcloud kullanıcı kimlikleri",
+        "The projects whose tasks the view shows, at most twenty": "Görünümün görevlerini gösterdiği projeler, en fazla yirmi"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1667,6 +1667,54 @@
             ]
           }
         }
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "boardView",
+          "slug": "demo-view-it-operations",
+          "id": "0000de00-0000-4000-8000-001300000001"
+        },
+        "title": "IT operations",
+        "owner": "@operator",
+        "members": [],
+        "projects": [
+          "0000de00-0000-4000-8000-000100000001",
+          "0000de00-0000-4000-8000-000100000002"
+        ]
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "boardView",
+          "slug": "demo-view-this-week",
+          "id": "0000de00-0000-4000-8000-001300000002"
+        },
+        "title": "My projects this week",
+        "owner": "@operator",
+        "members": [],
+        "projects": [
+          "0000de00-0000-4000-8000-000100000001",
+          "0000de00-0000-4000-8000-000100000002",
+          "0000de00-0000-4000-8000-000100000003"
+        ]
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "boardView",
+          "slug": "demo-view-shared-programme",
+          "id": "0000de00-0000-4000-8000-001300000003"
+        },
+        "title": "Programme overview",
+        "owner": "@operator",
+        "members": [
+          "@operator"
+        ],
+        "projects": [
+          "0000de00-0000-4000-8000-000100000002",
+          "0000de00-0000-4000-8000-000100000003"
+        ]
       }
     ]
   }

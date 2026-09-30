@@ -1124,7 +1124,14 @@ OC.L10N.register(
         "Shared with the project": "Bendrinamas su projektu",
         "Whether every project member sees and applies the filter": "Ar kiekvienas projekto narys mato filtrą ir gali jį taikyti",
         "Criteria": "Kriterijai",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filtras: atsakingas asmuo, žyma, prioritetas ir terminas, kiekvienas su yra arba nėra ir reikšmėmis"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filtras: atsakingas asmuo, žyma, prioritetas ir terminas, kiekvienas su yra arba nėra ir reikšmėmis",
+        "Cross-project view": "Kelių projektų rodinys",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Išsaugotas projektų rinkinys, kurio užduotys rodomos kartu būsenų juostose, bendrinamas su jame nurodytais žmonėmis.",
+        "Shared with": "Bendrinama su",
+        "The name the view is listed under": "Pavadinimas, kuriuo rodinys pateikiamas sąraše",
+        "Nextcloud user id of the person who saved the view": "Rodinį išsaugojusio asmens Nextcloud naudotojo ID",
+        "Nextcloud user ids of the people the view is shared with": "Žmonių, su kuriais bendrinamas rodinys, Nextcloud naudotojų ID",
+        "The projects whose tasks the view shows, at most twenty": "Projektai, kurių užduotis rodo rodinys, ne daugiau kaip dvidešimt"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1123,7 +1123,14 @@
         "Shared with the project": "Comhroinnte leis an tionscadal",
         "Whether every project member sees and applies the filter": "Cé acu a fheiceann gach ball den tionscadal an scagaire agus an féidir leo é a chur i bhfeidhm",
         "Criteria": "Critéir",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "An scagaire: sannaí, lipéad, tosaíocht agus dáta dlite, gach ceann le is nó níl agus a luachanna"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "An scagaire: sannaí, lipéad, tosaíocht agus dáta dlite, gach ceann le is nó níl agus a luachanna",
+        "Cross-project view": "Amharc trasna tionscadal",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Rogha shábháilte tionscadal a dtaispeántar a dtascanna le chéile i lánaí stádais, roinnte leis na daoine a ainmníonn sí.",
+        "Shared with": "Roinnte le",
+        "The name the view is listed under": "An t-ainm faoina liostaítear an t-amharc",
+        "Nextcloud user id of the person who saved the view": "Aitheantas úsáideora Nextcloud an duine a shábháil an t-amharc",
+        "Nextcloud user ids of the people the view is shared with": "Aitheantais úsáideora Nextcloud na ndaoine a bhfuil an t-amharc roinnte leo",
+        "The projects whose tasks the view shows, at most twenty": "Na tionscadail a dtaispeánann an t-amharc a dtascanna, fiche ar a mhéad"
     },
     "plurals": null
 }

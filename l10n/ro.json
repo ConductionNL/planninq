@@ -1123,7 +1123,14 @@
         "Shared with the project": "Partajat cu proiectul",
         "Whether every project member sees and applies the filter": "Dacă fiecare membru al proiectului vede și poate aplica filtrul",
         "Criteria": "Criterii",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filtrul: responsabil, etichetă, prioritate și termen, fiecare cu este sau nu este și valorile sale"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filtrul: responsabil, etichetă, prioritate și termen, fiecare cu este sau nu este și valorile sale",
+        "Cross-project view": "Vizualizare între proiecte",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "O selecție salvată de proiecte ale căror sarcini sunt afișate împreună pe coloane de stare, partajată cu persoanele pe care le numește.",
+        "Shared with": "Partajată cu",
+        "The name the view is listed under": "Numele sub care este listată vizualizarea",
+        "Nextcloud user id of the person who saved the view": "Id-ul de utilizator Nextcloud al persoanei care a salvat vizualizarea",
+        "Nextcloud user ids of the people the view is shared with": "Id-urile de utilizator Nextcloud ale persoanelor cu care este partajată vizualizarea",
+        "The projects whose tasks the view shows, at most twenty": "Proiectele ale căror sarcini le arată vizualizarea, cel mult douăzeci"
     },
     "plurals": {}
 }

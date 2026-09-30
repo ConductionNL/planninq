@@ -1124,7 +1124,14 @@ OC.L10N.register(
         "Shared with the project": "Kopīgots ar projektu",
         "Whether every project member sees and applies the filter": "Vai katrs projekta dalībnieks redz un var lietot filtru",
         "Criteria": "Kritēriji",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filtrs: atbildīgais, etiķete, prioritāte un termiņš, katrs ar ir vai nav un vērtībām"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filtrs: atbildīgais, etiķete, prioritāte un termiņš, katrs ar ir vai nav un vērtībām",
+        "Cross-project view": "Starpprojektu skats",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Saglabāta projektu izlase, kuras uzdevumi tiek rādīti kopā statusa joslās, kopīgota ar tajā nosauktajām personām.",
+        "Shared with": "Kopīgots ar",
+        "The name the view is listed under": "Nosaukums, ar kādu skats ir uzskaitīts",
+        "Nextcloud user id of the person who saved the view": "Tās personas Nextcloud lietotāja ID, kura saglabāja skatu",
+        "Nextcloud user ids of the people the view is shared with": "To personu Nextcloud lietotāju ID, ar kurām skats ir kopīgots",
+        "The projects whose tasks the view shows, at most twenty": "Projekti, kuru uzdevumus skats rāda, ne vairāk kā divdesmit"
     },
     "nplurals=2; plural=(n != 1);"
 )
