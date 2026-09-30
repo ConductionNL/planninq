@@ -3690,7 +3690,7 @@
       "area": "planning",
       "name": "See tasks with due dates in a calendar view.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "yes",
       "plane": "yes",
@@ -3712,11 +3712,12 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/products/core 'Adjust your scheduling views to represent how you prefer to look at the scheduling, whether by time, day or week' ; https://timeedit.com/platform/scheduling/viewer 'Graphical and list views' (timetable reservations, not tasks)"
       },
       "built": {
-        "state": "specified",
-        "evidence": "no calendar-view component found; grep for 'calendar' across src/ and lib/ returns only icon names",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/components/TaskCalendar.vue (month grid as a table with a caption, week row, dated list; Previous, Today, Next) over src/utils/calendarHelpers.js; src/views/ProjectCalendar.vue at /projects/:id/calendar from the Calendar project tab; src/views/MyCalendar.vue at /my-calendar over the My tasks query (assignedTo plus sharedWith) naming each task's project",
+        "reachedOn": "project tabs, Calendar; My tasks, Show as calendar; dashboard Quick actions, Open my calendar",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/planning-calendar"
+        "change": "openspec/changes/planning-calendar",
+        "readOn": "2026-09-30"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

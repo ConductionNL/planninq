@@ -2,10 +2,10 @@
 
 ## 1. Calendar view
 
-- [ ] 1.1 `src/components/TaskCalendar.vue` with month, week and list views, plus the pure helper `src/utils/calendarHelpers.js` (`tasksByDay`, month and week ranges). Verify: vitest `tests/vitest/calendarHelpers.spec.js` "places tasks on their due date", "start-only task sits on its start date" and "week range starts on Monday".
-- [ ] 1.2 `ProjectCalendar` page at `/projects/:id/calendar` in `src/manifest.json` and `src/registry.js`, Calendar tab in `ProjectTabs` (`PROJECT_TABS`; design Decision 2 amended). Verify: Playwright `tests/e2e/task-calendar.spec.ts` "member sees project tasks on their due dates", "member switches to week view" and "list view shows the same tasks".
-- [ ] 1.3 `MyCalendar` page at `/my-calendar` over the My tasks query (`assignedTo` plus `sharedWith`), with links from the My tasks page and the dashboard quick actions. Verify: Playwright `tests/e2e/task-calendar.spec.ts` "my calendar shows only my tasks across projects".
-- [ ] 1.4 Keyboard and screen-reader structure (table with caption, day cells, task links, Previous, Today, Next). Verify: Playwright `tests/e2e/task-calendar.spec.ts` "calendar is operable with the keyboard".
+- [x] 1.1 `src/components/TaskCalendar.vue` with month, week and list views, plus the pure helper `src/utils/calendarHelpers.js` (`tasksByDay`, month and week ranges). Verify: vitest `tests/vitest/calendarHelpers.spec.js` "places tasks on their due date", "start-only task sits on its start date" and "week range starts on Monday".
+- [x] 1.2 `ProjectCalendar` page at `/projects/:id/calendar` in `src/manifest.json` and `src/registry.js`, Calendar tab in `ProjectTabs` (`PROJECT_TABS`; design Decision 2 amended). Verify: Playwright `tests/e2e/task-calendar.spec.ts` "member sees project tasks on their due dates", "member switches to week view" and "list view shows the same tasks".
+- [x] 1.3 `MyCalendar` page at `/my-calendar` over the My tasks query (`assignedTo` plus `sharedWith`), with links from the My tasks page and the dashboard quick actions. Verify: Playwright `tests/e2e/task-calendar.spec.ts` "my calendar shows only my tasks across projects".
+- [x] 1.4 Keyboard and screen-reader structure (table with caption, day cells, task links, Previous, Today, Next). Verify: Playwright `tests/e2e/task-calendar.spec.ts` "calendar is operable with the keyboard".
 
 ## 2. CalDAV export
 
