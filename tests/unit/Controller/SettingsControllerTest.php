@@ -101,6 +101,7 @@ class SettingsControllerTest extends TestCase {
 			userSession: $this->userSession,
 			riskScale: $this->riskScale,
 			timetableGrid: new TimetableGridService(appConfig: $this->appConfig()),
+			switches: $this->createMock(\OCA\Planninq\Service\NotificationSwitchService::class),
 		);
 
 	}//end setUp()

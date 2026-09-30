@@ -1149,7 +1149,8 @@
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "Ștergi „{title}”? Proiectele și sarcinile lor rămân neschimbate.",
         "People see the tasks of the projects they are in, never more.": "Fiecare vede doar sarcinile proiectelor din care face parte.",
         "No views yet. A view shows the tasks of several of your projects together.": "Încă nu există vizualizări. O vizualizare arată împreună sarcinile mai multor proiecte ale tale.",
-        "Projects in view: {count}": "Proiecte în vizualizare: {count}"
+        "Projects in view: {count}": "Proiecte în vizualizare: {count}",
+        "Notify me when a task is assigned to me": "Anunță-mă când mi se atribuie o sarcină"
     },
     "plurals": {}
 }

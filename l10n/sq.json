@@ -1149,7 +1149,8 @@
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "Të fshihet \"{title}\"? Projektet dhe detyrat e tyre mbeten siç janë.",
         "People see the tasks of the projects they are in, never more.": "Secili sheh vetëm detyrat e projekteve ku bën pjesë.",
         "No views yet. A view shows the tasks of several of your projects together.": "Ende nuk ka pamje. Një pamje shfaq së bashku detyrat e disa projekteve të tua.",
-        "Projects in view: {count}": "Projekte në pamje: {count}"
+        "Projects in view: {count}": "Projekte në pamje: {count}",
+        "Notify me when a task is assigned to me": "Më njofto kur më caktohet një detyrë"
     },
     "plurals": {}
 }

@@ -1150,7 +1150,8 @@ OC.L10N.register(
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "Да се избрише „{title}“? Проектите и нивните задачи остануваат какви што се.",
         "People see the tasks of the projects they are in, never more.": "Секој ги гледа само задачите од проектите во кои е.",
         "No views yet. A view shows the tasks of several of your projects together.": "Сè уште нема прикази. Приказот ги прикажува задачите од повеќе ваши проекти заедно.",
-        "Projects in view: {count}": "Проекти во приказот: {count}"
+        "Projects in view: {count}": "Проекти во приказот: {count}",
+        "Notify me when a task is assigned to me": "Извести ме кога ќе ми биде доделена задача"
     },
     "nplurals=2; plural=(n != 1);"
 )

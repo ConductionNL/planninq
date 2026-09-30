@@ -1150,7 +1150,8 @@ OC.L10N.register(
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "Dzēst \"{title}\"? Projekti un to uzdevumi paliek nemainīti.",
         "People see the tasks of the projects they are in, never more.": "Katrs redz tikai to projektu uzdevumus, kuros piedalās.",
         "No views yet. A view shows the tasks of several of your projects together.": "Skatu vēl nav. Skats rāda vairāku tavu projektu uzdevumus kopā.",
-        "Projects in view: {count}": "Projekti skatā: {count}"
+        "Projects in view: {count}": "Projekti skatā: {count}",
+        "Notify me when a task is assigned to me": "Paziņot man, kad man tiek piešķirts uzdevums"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Controller;
 
 use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\NotificationSwitchService;
 use OCA\Planninq\Service\RegisterImportService;
 use OCA\Planninq\Service\RiskScaleService;
 use OCA\Planninq\Service\SettingsService;
@@ -50,6 +51,7 @@ class SettingsController extends Controller {
 	 * @param IUserSession $userSession The user session
 	 * @param RiskScaleService $riskScale Finds the risks a smaller risk scale would strand
 	 * @param TimetableGridService $timetableGrid The timetable week grid and generator budget
+	 * @param NotificationSwitchService $switches The user's notification switches (collaboration-notifications)
 	 *
 	 * @return void
 	 */
@@ -60,6 +62,7 @@ class SettingsController extends Controller {
 		private IUserSession $userSession,
 		private RiskScaleService $riskScale,
 		private TimetableGridService $timetableGrid,
+		private NotificationSwitchService $switches,
 	) {
 		parent::__construct(appName: Application::APP_ID, request: $request);
 	}//end __construct()
@@ -76,14 +79,16 @@ class SettingsController extends Controller {
 	 *
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
 	 */
 	public function index(): JSONResponse {
-		if ($this->userSession->getUser() === null) {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
 			return new JSONResponse(['error' => 'Not authenticated.'], Http::STATUS_UNAUTHORIZED);
 		}
 
 		return new JSONResponse(
-			array_merge($this->settingsService->getSettings(), $this->timetableGrid->settings())
+			array_merge($this->settingsService->getSettings(), $this->timetableGrid->settings(), $this->switches->values($user->getUID()))
 		);
 	}//end index()
 
@@ -196,6 +201,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 *
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
 	 */
 	public function updateUser(): JSONResponse {
 		$user = $this->userSession->getUser();
@@ -204,7 +210,8 @@ class SettingsController extends Controller {
 		}
 
 		$data = $this->request->getParams();
-		$config = $this->settingsService->updateUserSettings($user->getUID(), $data);
+		$this->switches->apply(userId: $user->getUID(), data: $data);
+		$config = array_merge($this->settingsService->updateUserSettings($user->getUID(), $data), $this->switches->values($user->getUID()));
 
 		return new JSONResponse(
 			[

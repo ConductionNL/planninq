@@ -1150,7 +1150,8 @@ OC.L10N.register(
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "Törlöd: \"{title}\"? A projektek és feladataik változatlanok maradnak.",
         "People see the tasks of the projects they are in, never more.": "Mindenki csak azoknak a projekteknek a feladatait látja, amelyekben benne van.",
         "No views yet. A view shows the tasks of several of your projects together.": "Még nincs nézet. Egy nézet több projekted feladatait mutatja együtt.",
-        "Projects in view: {count}": "Projektek a nézetben: {count}"
+        "Projects in view: {count}": "Projektek a nézetben: {count}",
+        "Notify me when a task is assigned to me": "Értesíts, ha feladatot kapok"
     },
     "nplurals=2; plural=(n != 1);"
 )

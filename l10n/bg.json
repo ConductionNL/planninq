@@ -1149,7 +1149,8 @@
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "Да се изтрие ли „{title}“? Проектите и задачите им остават непроменени.",
         "People see the tasks of the projects they are in, never more.": "Всеки вижда само задачите на проектите, в които участва.",
         "No views yet. A view shows the tasks of several of your projects together.": "Все още няма изгледи. Изгледът показва заедно задачите на няколко ваши проекта.",
-        "Projects in view: {count}": "Проекти в изгледа: {count}"
+        "Projects in view: {count}": "Проекти в изгледа: {count}",
+        "Notify me when a task is assigned to me": "Уведомявай ме, когато ми бъде възложена задача"
     },
     "plurals": null
 }

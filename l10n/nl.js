@@ -1163,7 +1163,8 @@ OC.L10N.register(
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "\"{title}\" verwijderen? De projecten en hun taken blijven zoals ze zijn.",
         "People see the tasks of the projects they are in, never more.": "Mensen zien de taken van de projecten waarin ze zitten, nooit meer.",
         "No views yet. A view shows the tasks of several of your projects together.": "Nog geen weergaven. Een weergave toont de taken van meerdere van je projecten samen.",
-        "Projects in view: {count}": "Projecten in weergave: {count}"
+        "Projects in view: {count}": "Projecten in weergave: {count}",
+        "Notify me when a task is assigned to me": "Stuur mij een melding als een taak aan mij wordt toegewezen"
     },
     "nplurals=2; plural=(n != 1);"
 )

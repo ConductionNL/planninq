@@ -1149,7 +1149,8 @@
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "Poistetaanko \"{title}\"? Projektit ja niiden tehtävät pysyvät ennallaan.",
         "People see the tasks of the projects they are in, never more.": "Kukin näkee vain niiden projektien tehtävät, joissa on mukana.",
         "No views yet. A view shows the tasks of several of your projects together.": "Ei vielä näkymiä. Näkymä näyttää useiden projektiesi tehtävät yhdessä.",
-        "Projects in view: {count}": "Projekteja näkymässä: {count}"
+        "Projects in view: {count}": "Projekteja näkymässä: {count}",
+        "Notify me when a task is assigned to me": "Ilmoita minulle, kun minulle annetaan tehtävä"
     },
     "plurals": null
 }

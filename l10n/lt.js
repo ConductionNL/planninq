@@ -1150,7 +1150,8 @@ OC.L10N.register(
         "Delete \"{title}\"? The projects and their tasks stay as they are.": "Ištrinti „{title}“? Projektai ir jų užduotys lieka tokie, kokie yra.",
         "People see the tasks of the projects they are in, never more.": "Kiekvienas mato tik tų projektų, kuriuose dalyvauja, užduotis.",
         "No views yet. A view shows the tasks of several of your projects together.": "Rodinių dar nėra. Rodinys rodo kelių jūsų projektų užduotis kartu.",
-        "Projects in view: {count}": "Projektų rodinyje: {count}"
+        "Projects in view: {count}": "Projektų rodinyje: {count}",
+        "Notify me when a task is assigned to me": "Pranešti man, kai man priskiriama užduotis"
     },
     "nplurals=2; plural=(n != 1);"
 )
