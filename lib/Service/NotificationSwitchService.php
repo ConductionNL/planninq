@@ -116,7 +116,7 @@ class NotificationSwitchService {
 	 *
 	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
 	 */
-	public function isAssignedOn(string $userId): bool {
+	private function isAssignedOn(string $userId): bool {
 		return $this->config->getUserValue($userId, Application::APP_ID, self::ASSIGNED_KEY, 'true') !== 'false';
 	}//end isAssignedOn()
 
