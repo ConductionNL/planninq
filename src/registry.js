@@ -16,11 +16,12 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  */
 
-import TimetableWishDialog from './dialogs/TimetableWishDialog.vue'
 // NOTE: the dashboard's DashboardPanels component is NOT registered here. A
 // dashboard widget TYPE resolves against the library's own widget catalog via
 // registerDashboardWidget() in main.js; this registry is for page components
 // and slot overrides only.
+import TimetableScenarioSections from './components/TimetableScenarioSections.vue'
+import TimetableWishDialog from './dialogs/TimetableWishDialog.vue'
 import Boards from './views/Boards.vue'
 import MyWork from './views/MyWork.vue'
 import Portfolio from './views/Portfolio.vue'
@@ -79,5 +80,6 @@ export default {
 	ProjectTimeline: page(ProjectTimeline),
 	TaskDetail: page(TaskDetail),
 	Timesheet: page(Timesheet),
+	TimetableScenarioSections: slot(TimetableScenarioSections),
 	TimetableWishDialog: slot(TimetableWishDialog),
 }

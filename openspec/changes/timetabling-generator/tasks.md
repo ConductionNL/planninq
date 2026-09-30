@@ -25,9 +25,9 @@ DECISIONS.md row 17). Sections 5 onward assume the solver answer recorded in des
 
 ## 5. Solver and the background run
 
-- [ ] 5.1 `TimetableSolver` interface, `SolverInput`/`SolverResult` value objects, `LocalSearchSolver` (greedy most-constrained-first, then simulated annealing on the scorer, seeded). Verify: PHPUnit: a feasible fixture places everything with 0 hard breaches; an infeasible hard wish leaves one lesson unplaced naming that wish; a soft wish is kept when it costs nothing; same seed gives the same result; a 600-lesson fixture finishes inside 60 seconds.
-- [ ] 5.2 `POST /api/timetable/scenarios/{id}/generate` (admin) and `GenerateTimetableScenario` queued job in 60-second steps up to the budget (design decision 6). Verify: PHPUnit on the job (re-queues while improving, stops at the budget, stores `failed` with the reason on an exception); controller refuses a non-admin.
-- [ ] 5.3 Scenario list and scenario page (status, progress, unplaced lessons with the blocking wish, broken soft wishes). Set `tt-hard-soft-wishes` built. Verify: Playwright "generate a scenario that respects a hard wish".
+- [x] 5.1 `TimetableSolver` interface, `SolverInput`/`SolverResult` value objects, `LocalSearchSolver` (greedy most-constrained-first, then simulated annealing on the scorer, seeded). Verify: PHPUnit: a feasible fixture places everything with 0 hard breaches; an infeasible hard wish leaves one lesson unplaced naming that wish; a soft wish is kept when it costs nothing; same seed gives the same result; a 600-lesson fixture finishes inside 60 seconds.
+- [x] 5.2 `POST /api/timetable/scenarios/{id}/generate` (admin) and `GenerateTimetableScenario` queued job in 60-second steps up to the budget (design decision 6). Verify: PHPUnit on the job (re-queues while improving, stops at the budget, stores `failed` with the reason on an exception); controller refuses a non-admin.
+- [x] 5.3 Scenario list and scenario page (status, progress, unplaced lessons with the blocking wish, broken soft wishes). Set `tt-hard-soft-wishes` built. Verify: Playwright "generate a scenario that respects a hard wish". Built (section 5 PR): index page `TimetableScenarios` and detail page `TimetableScenarioDetail`, whose `sections` slot is `src/components/TimetableScenarioSections.vue` (no new custom page); vitest `timetableScenarios.spec.js`.
 
 ## 6. Imported scenarios
 

@@ -56,7 +56,8 @@
     ] },
     { "id": "Timesheet", "label": "Timesheet", "icon": "ClockOutline", "route": "Timesheet", "order": 50 },
     { "id": "TimetableMenu", "label": "Timetable", "icon": "CalendarClock", "route": "TimetableWishes", "order": 55, "permission": "admin", "children": [
-      { "id": "TimetableWishesMenu", "label": "Wishes", "icon": "CalendarClock", "route": "TimetableWishes" }
+      { "id": "TimetableWishesMenu", "label": "Wishes", "icon": "CalendarClock", "route": "TimetableWishes" },
+      { "id": "TimetableScenariosMenu", "label": "Scenarios", "icon": "CalendarClock", "route": "TimetableScenarios" }
     ] },
     { "id": "Documentation", "label": "Documentation", "icon": "BookOpenVariantOutline", "href": "https://planix.conduction.nl", "section": "footer", "order": 90 },
     { "id": "StoreMenu", "label": "Store", "icon": "StoreOutline", "route": "Store", "section": "footer", "order": 92 },
@@ -254,6 +255,16 @@
       ],
       "defaultSort": [{ "field": "reference", "order": "asc" }]
     }, "slots": { "form-dialog": "TimetableWishDialog" } },
+    { "id": "TimetableScenarios", "_note": "The timetable scenarios, generated or taken from the current timetable, with their status and window. Admins create, edit and delete them, which OpenRegister enforces on the timetableScenario schema, so the page is a declarative index; a row opens TimetableScenarioDetail.", "route": "/timetable/scenarios", "type": "index", "title": "Timetable scenarios", "config": {
+      "register": "planninq",
+      "schema": "timetableScenario",
+      "columns": ["title", "source", "status", "windowFrom", "windowTo"],
+      "defaultSort": [{ "field": "windowFrom", "order": "desc" }]
+    } },
+    { "id": "TimetableScenarioDetail", "_note": "One timetable scenario: its fields through the declarative detail page, and in its sections slot the generator run (status, progress, Generate), the lessons without a place with the hard wish that blocked them, and the broken soft wishes.", "route": "/timetable/scenarios/:id", "type": "detail", "title": "Scenario", "config": {
+      "register": "planninq",
+      "schema": "timetableScenario"
+    }, "slots": { "sections": "TimetableScenarioSections" } },
     { "id": "Boards", "_note": "Board picker: the projects a user can open a board for, as entry points rather than records. The cards route to /projects/:id and expose no record actions.", "route": "/boards", "type": "custom", "title": "Boards", "component": "Boards", "config": {} },
     { "id": "PortfolioStatus", "_note": "One portfolio's projects with their lifecycle status, progress, dates, budget and six aspect statuses, under a roll-up per aspect with the worst state and a No report count. It combines the projects, their tasks and an admin setting into one table and a roll-up, which no index or dashboard widget expresses.", "route": "/portfolio/status", "type": "custom", "title": "Portfolio status", "component": "PortfolioStatus", "config": {} },
     { "id": "PortfolioFinance", "_note": "Money across one portfolio: a row per project with budget, commitments, actual cost including labour from booked time, forecast and what remains, and the totals, for the projects whose money the viewer may see. It combines finance lines, time entries and projects into computed rows and a cross-checked total, which no index or dashboard widget expresses.", "route": "/portfolio/finance", "type": "custom", "title": "Portfolio finance", "component": "PortfolioFinance", "config": {} },

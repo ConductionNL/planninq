@@ -55,4 +55,6 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'timetable#publish', 'url' => '/api/timetable/sessions/publish', 'verb' => 'POST'],
     // Admins upload the activities and rooms sheets for the timetable generator (timetabling-generator 2.2).
     ['name' => 'timetableInput#upload', 'url' => '/api/timetable/input/upload', 'verb' => 'POST'],
+    // Admins start a generator run for a timetable scenario (timetabling-generator 5.2).
+    ['name' => 'timetableScenario#generate', 'url' => '/api/timetable/scenarios/{id}/generate', 'verb' => 'POST'],
 ]);

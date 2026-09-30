@@ -40,8 +40,15 @@ Three ways to solve it were weighed:
 | B. Sidecar with OR-Tools CP-SAT | A Python ExApp (AppAPI) that takes the JSON input and returns placements | Much better results on tight rosters; proves infeasibility | Needs AppAPI and a deploy daemon on the instance; one more container to build, release and keep secure; not available on every customer instance |
 | C. An existing engine (FET) as a CLI | Planninq writes FET's XML and runs the binary | Mature for schools | A binary on the Nextcloud host, GPL-3 alongside EUPL, a file format we do not own |
 
-Chosen for this change: **A**, behind an interface. `TimetableSolver::solve(SolverInput $input,
-int $seconds): SolverResult` is the only thing the rest of the code calls. `SolverInput` is a plain
+Chosen for this change: **A**, behind an interface (Ruben, DECISIONS row 21: PHP local search now, a
+CP-SAT sidecar later, chosen per instance). `TimetableSolver::solve(SolverInput $input, int $seconds,
+int $seed, array $start = []): SolverResult` is the only thing the rest of the code calls (amended in
+the section 5 PR: the seed makes a run repeatable, and `start` lets each 60-second step continue from
+the best placements of the step before). The interface is bound in `Application::register`, which is
+where a second engine is chosen. A search step is bounded by a move count as well as the seconds, so
+the same seed gives the same result; the solver also counts every lesson that breaks a hard wish in its
+own cost and ends with a repair pass that takes such lessons off the grid, naming the wish, so a
+generated scenario never breaks a hard wish of any kind. `SolverInput` is a plain
 JSON-serialisable contract (periods, rooms, teachers, groups, lessons, wishes), so B can be added
 later as a second implementation without a data migration. Whether B should be built as well is a
 question for Ruben (below).
