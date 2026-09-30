@@ -255,12 +255,12 @@
       ],
       "defaultSort": [{ "field": "reference", "order": "asc" }]
     }, "slots": { "form-dialog": "TimetableWishDialog" } },
-    { "id": "TimetableScenarios", "_note": "The timetable scenarios, generated or taken from the current timetable, with their status and window. Admins create, edit and delete them, which OpenRegister enforces on the timetableScenario schema, so the page is a declarative index; a row opens TimetableScenarioDetail.", "route": "/timetable/scenarios", "type": "index", "title": "Timetable scenarios", "config": {
+    { "id": "TimetableScenarios", "_note": "The timetable scenarios, generated or taken from the current timetable, with their status and window. Admins create, edit and delete them, which OpenRegister enforces on the timetableScenario schema, so the page is a declarative index; a row opens TimetableScenarioDetail. Above the list, TimetableScenarioCompare (below-header slot) sets two or three finished scenarios side by side.", "route": "/timetable/scenarios", "type": "index", "title": "Timetable scenarios", "config": {
       "register": "planninq",
       "schema": "timetableScenario",
       "columns": ["title", "source", "status", "windowFrom", "windowTo"],
       "defaultSort": [{ "field": "windowFrom", "order": "desc" }]
-    } },
+    }, "slots": { "below-header": "TimetableScenarioCompare" } },
     { "id": "TimetableScenarioDetail", "_note": "One timetable scenario: its fields through the declarative detail page, and in its sections slot the generator run (status, progress, Generate), the lessons without a place with the hard wish that blocked them, and the broken soft wishes.", "route": "/timetable/scenarios/:id", "type": "detail", "title": "Scenario", "config": {
       "register": "planninq",
       "schema": "timetableScenario"

@@ -2,9 +2,11 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  * SPDX-License-Identifier: EUPL-1.2
  *
- * E2E coverage for a generator run (timetabling-generator, section 5).
+ * E2E coverage for a generator run (timetabling-generator, section 5) and the
+ * scenario comparison (section 7).
  *
  *   @e2e timetable-generator::generate-a-scenario-that-respects-a-hard-wish
+ *   @e2e timetable-generator::compare-a-generated-and-an-imported-scenario
  *
  * The run itself is a queued job, so the test starts it through the endpoint,
  * runs the background jobs with `occ background-job:worker` when the harness
@@ -88,5 +90,30 @@ test.describe('Timetable generator', () => {
 		await page.goto(`${PLANNINQ_ROOT}timetable/scenarios/${id}`)
 		await expect(page.getByTestId('scenario-sections')).toBeVisible()
 		await expect(page.getByTestId('scenario-status')).not.toBeEmpty()
+	})
+	test('compare a generated and an imported scenario', async ({ page }) => {
+		const base = { weekOf: '2026-10-05', windowFrom: '2026-10-05', windowTo: '2026-10-30', status: 'done' }
+		const scenarios = [
+			{ ...base, title: `Generated ${RUN}`, source: 'generated', metrics: { placed: 3, unplaced: 0, clashes: 0, hardWishesBroken: 0, softWishesBroken: 0, softPenalty: 0, teacherGaps: 1, teacherGapsWorst: 1, lessonsPerDayWorst: 2, roomUse: 0.1 }, placements: [{ lesson: '3A:English:1', period: 'mon-1', room: 'B12' }, { lesson: '3A:English:2', period: 'tue-1', room: 'B12' }] },
+			{ ...base, title: `Imported ${RUN}`, source: 'imported', metrics: { placed: 3, unplaced: 0, clashes: 0, hardWishesBroken: 1, softWishesBroken: 0, softPenalty: 0, teacherGaps: 3, teacherGapsWorst: 2, lessonsPerDayWorst: 2, roomUse: 0.1 }, placements: [{ lesson: '3A:English:1', period: 'mon-1', room: 'B12' }, { lesson: '3A:English:2', period: 'wed-6', room: 'B12' }] },
+		]
+		for (const data of scenarios) {
+			const response = await api.post(`${OBJECTS}/timetableScenario`, { data })
+			const body = await response.json()
+			created.push(`${OBJECTS}/timetableScenario/${body.id ?? body['@self']?.id}`)
+		}
+
+		await page.goto(`${PLANNINQ_ROOT}timetable/scenarios`)
+		const select = page.getByTestId('scenario-compare-select')
+		for (const data of scenarios) {
+			await select.click()
+			await page.keyboard.type(data.title)
+			await page.keyboard.press('Enter')
+		}
+
+		await expect(page.getByTestId('scenario-compare-metrics')).toBeVisible()
+		await expect(page.getByTestId('compare-hardWishesBroken-0')).toHaveClass(/scenario-compare__best/)
+		await expect(page.getByTestId('compare-hardWishesBroken-1')).not.toHaveClass(/scenario-compare__best/)
+		await expect(page.getByTestId('scenario-compare-diff')).toContainText('3A:English:2')
 	})
 })

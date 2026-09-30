@@ -1049,7 +1049,26 @@ OC.L10N.register(
         "Take the current timetable": "Преузми тренутни распоред",
         "Could not take the current timetable.": "Тренутни распоред није могуће преузети.",
         "Broken hard wishes": "Прекршене обавезне жеље",
-        "Not on a period of the week grid": "Није на часу недељне мреже"
+        "Not on a period of the week grid": "Није на часу недељне мреже",
+        "Compare scenarios": "Упореди сценарије",
+        "Scenarios to compare": "Сценарији за поређење",
+        "Choose two or three scenarios to compare them.": "Изаберите два или три сценарија за поређење.",
+        "Measure": "Мера",
+        "Best": "Најбоље",
+        "Lessons that differ": "Часови који се разликују",
+        "No lesson differs.": "Ниједан час се не разликује.",
+        "Not placed": "Није смештен",
+        "{period} in {room}": "{period} у {room}",
+        "Lessons placed": "Смештени часови",
+        "Lessons without a place": "Часови без места",
+        "Clashes": "Сукоби",
+        "Hard wishes broken": "Прекршене обавезне жеље",
+        "Soft wishes broken": "Прекршене флексибилне жеље",
+        "Soft wishes broken, weighted": "Прекршене флексибилне жеље, пондерисане",
+        "Free periods between lessons, all teachers": "Празни часови, сви наставници",
+        "Most free periods of one teacher": "Највише празних часова једног наставника",
+        "Most lessons of one group on a day": "Највише часова једне групе у дану",
+        "Room use": "Коришћење учионица"
     },
     "nplurals=2; plural=(n != 1);"
 )

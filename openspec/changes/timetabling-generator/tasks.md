@@ -35,7 +35,7 @@ DECISIONS.md row 17). Sections 5 onward assume the solver answer recorded in des
 
 ## 7. Compare
 
-- [ ] 7.1 Compare page: two or three scenarios, metrics side by side with the best value marked, and the list of lessons whose period or room differs. Set `tt-scenario-compare` built. Verify: vitest on `src/utils/scenarioCompare.js` (best-value marking, lesson diff); Playwright "compare a generated and an imported scenario".
+- [x] 7.1 Compare page: two or three scenarios, metrics side by side with the best value marked, and the list of lessons whose period or room differs. Set `tt-scenario-compare` built. Verify: vitest on `src/utils/scenarioCompare.js` (best-value marking, lesson diff); Playwright "compare a generated and an imported scenario". Built (section 7 PR): `src/components/TimetableScenarioCompare.vue` in the `below-header` slot of the `TimetableScenarios` index page (no new custom page, the gate-69 ratchet holds), helpers `src/utils/scenarioCompare.js`; vitest `scenarioCompare.spec.js`; Playwright case in `tests/e2e/timetable-generator.spec.ts`.
 
 ## 8. Publish
 

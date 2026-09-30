@@ -20,6 +20,7 @@
 // dashboard widget TYPE resolves against the library's own widget catalog via
 // registerDashboardWidget() in main.js; this registry is for page components
 // and slot overrides only.
+import TimetableScenarioCompare from './components/TimetableScenarioCompare.vue'
 import TimetableScenarioSections from './components/TimetableScenarioSections.vue'
 import TimetableWishDialog from './dialogs/TimetableWishDialog.vue'
 import Boards from './views/Boards.vue'
@@ -80,6 +81,7 @@ export default {
 	ProjectTimeline: page(ProjectTimeline),
 	TaskDetail: page(TaskDetail),
 	Timesheet: page(Timesheet),
+	TimetableScenarioCompare: slot(TimetableScenarioCompare),
 	TimetableScenarioSections: slot(TimetableScenarioSections),
 	TimetableWishDialog: slot(TimetableWishDialog),
 }

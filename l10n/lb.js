@@ -1049,7 +1049,26 @@ OC.L10N.register(
         "Take the current timetable": "Aktuelle Stonneplang iwwerhuelen",
         "Could not take the current timetable.": "Den aktuelle Stonneplang konnt net iwwerholl ginn.",
         "Broken hard wishes": "Verletzt haart Wënsch",
-        "Not on a period of the week grid": "Net op enger Stonn vum Wochegitter"
+        "Not on a period of the week grid": "Net op enger Stonn vum Wochegitter",
+        "Compare scenarios": "Szenarie vergläichen",
+        "Scenarios to compare": "Szenarien zum Vergläichen",
+        "Choose two or three scenarios to compare them.": "Wielt zwee oder dräi Szenarien fir se ze vergläichen.",
+        "Measure": "Moossgréisst",
+        "Best": "Beschte Wäert",
+        "Lessons that differ": "Stonnen, déi sech ënnerscheeden",
+        "No lesson differs.": "Keng Stonn ënnerscheet sech.",
+        "Not placed": "Net placéiert",
+        "{period} in {room}": "{period} am {room}",
+        "Lessons placed": "Placéiert Stonnen",
+        "Lessons without a place": "Stonnen ouni Plaz",
+        "Clashes": "Konflikter",
+        "Hard wishes broken": "Verletzt fix Wënsch",
+        "Soft wishes broken": "Verletzt flexibel Wënsch",
+        "Soft wishes broken, weighted": "Verletzt flexibel Wënsch, gewiicht",
+        "Free periods between lessons, all teachers": "Fräistonnen, all Enseignanten",
+        "Most free periods of one teacher": "Meeschte Fräistonne vun engem Enseignant",
+        "Most lessons of one group on a day": "Meeschte Stonne vun enger Grupp un engem Dag",
+        "Room use": "Sallbenotzung"
     },
     "nplurals=2; plural=(n != 1);"
 )

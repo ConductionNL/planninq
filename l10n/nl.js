@@ -1062,7 +1062,26 @@ OC.L10N.register(
         "Take the current timetable": "Huidig rooster overnemen",
         "Could not take the current timetable.": "Kon het huidige rooster niet overnemen.",
         "Broken hard wishes": "Geschonden harde wensen",
-        "Not on a period of the week grid": "Niet op een lesuur van het weekrooster"
+        "Not on a period of the week grid": "Niet op een lesuur van het weekrooster",
+        "Compare scenarios": "Scenario's vergelijken",
+        "Scenarios to compare": "Te vergelijken scenario's",
+        "Choose two or three scenarios to compare them.": "Kies twee of drie scenario's om ze te vergelijken.",
+        "Measure": "Meting",
+        "Best": "Beste",
+        "Lessons that differ": "Lessen die verschillen",
+        "No lesson differs.": "Geen les verschilt.",
+        "Not placed": "Niet geplaatst",
+        "{period} in {room}": "{period} in {room}",
+        "Lessons placed": "Geplaatste lessen",
+        "Lessons without a place": "Lessen zonder plek",
+        "Clashes": "Botsingen",
+        "Hard wishes broken": "Geschonden harde wensen",
+        "Soft wishes broken": "Geschonden zachte wensen",
+        "Soft wishes broken, weighted": "Geschonden zachte wensen, gewogen",
+        "Free periods between lessons, all teachers": "Tussenuren, alle docenten",
+        "Most free periods of one teacher": "Meeste tussenuren van één docent",
+        "Most lessons of one group on a day": "Meeste lessen van één groep op een dag",
+        "Room use": "Lokaalgebruik"
     },
     "nplurals=2; plural=(n != 1);"
 )

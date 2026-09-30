@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Λήψη του τρέχοντος ωρολογίου προγράμματος",
         "Could not take the current timetable.": "Δεν ήταν δυνατή η λήψη του τρέχοντος ωρολογίου προγράμματος.",
         "Broken hard wishes": "Υποχρεωτικές επιθυμίες που παραβιάστηκαν",
-        "Not on a period of the week grid": "Όχι σε ώρα του εβδομαδιαίου πλέγματος"
+        "Not on a period of the week grid": "Όχι σε ώρα του εβδομαδιαίου πλέγματος",
+        "Compare scenarios": "Σύγκριση σεναρίων",
+        "Scenarios to compare": "Σενάρια προς σύγκριση",
+        "Choose two or three scenarios to compare them.": "Επιλέξτε δύο ή τρία σενάρια για σύγκριση.",
+        "Measure": "Μέτρο",
+        "Best": "Καλύτερο",
+        "Lessons that differ": "Μαθήματα που διαφέρουν",
+        "No lesson differs.": "Κανένα μάθημα δεν διαφέρει.",
+        "Not placed": "Δεν τοποθετήθηκε",
+        "{period} in {room}": "{period} στην {room}",
+        "Lessons placed": "Τοποθετημένα μαθήματα",
+        "Lessons without a place": "Μαθήματα χωρίς θέση",
+        "Clashes": "Συγκρούσεις",
+        "Hard wishes broken": "Υποχρεωτικές επιθυμίες που δεν τηρήθηκαν",
+        "Soft wishes broken": "Ευέλικτες επιθυμίες που δεν τηρήθηκαν",
+        "Soft wishes broken, weighted": "Ευέλικτες επιθυμίες που δεν τηρήθηκαν, σταθμισμένες",
+        "Free periods between lessons, all teachers": "Κενά, όλοι οι εκπαιδευτικοί",
+        "Most free periods of one teacher": "Τα περισσότερα κενά ενός εκπαιδευτικού",
+        "Most lessons of one group on a day": "Τα περισσότερα μαθήματα μιας ομάδας σε μια ημέρα",
+        "Room use": "Χρήση αιθουσών"
     },
     "plurals": null
 }

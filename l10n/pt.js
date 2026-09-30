@@ -1049,7 +1049,26 @@ OC.L10N.register(
         "Take the current timetable": "Usar o horário atual",
         "Could not take the current timetable.": "Não foi possível usar o horário atual.",
         "Broken hard wishes": "Desejos obrigatórios não cumpridos",
-        "Not on a period of the week grid": "Não está num tempo da grelha semanal"
+        "Not on a period of the week grid": "Não está num tempo da grelha semanal",
+        "Compare scenarios": "Comparar cenários",
+        "Scenarios to compare": "Cenários a comparar",
+        "Choose two or three scenarios to compare them.": "Escolha dois ou três cenários para os comparar.",
+        "Measure": "Medida",
+        "Best": "Melhor",
+        "Lessons that differ": "Aulas que diferem",
+        "No lesson differs.": "Nenhuma aula difere.",
+        "Not placed": "Não colocada",
+        "{period} in {room}": "{period} em {room}",
+        "Lessons placed": "Aulas colocadas",
+        "Lessons without a place": "Aulas sem lugar",
+        "Clashes": "Conflitos",
+        "Hard wishes broken": "Desejos rígidos não cumpridos",
+        "Soft wishes broken": "Desejos flexíveis não cumpridos",
+        "Soft wishes broken, weighted": "Desejos flexíveis não cumpridos, ponderados",
+        "Free periods between lessons, all teachers": "Furos, todos os professores",
+        "Most free periods of one teacher": "Mais furos de um professor",
+        "Most lessons of one group on a day": "Mais aulas de um grupo num dia",
+        "Room use": "Ocupação das salas"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1049,7 +1049,26 @@ OC.L10N.register(
         "Take the current timetable": "Använd det nuvarande schemat",
         "Could not take the current timetable.": "Det gick inte att hämta det nuvarande schemat.",
         "Broken hard wishes": "Brutna hårda önskemål",
-        "Not on a period of the week grid": "Inte på en lektion i veckoschemat"
+        "Not on a period of the week grid": "Inte på en lektion i veckoschemat",
+        "Compare scenarios": "Jämför scenarier",
+        "Scenarios to compare": "Scenarier att jämföra",
+        "Choose two or three scenarios to compare them.": "Välj två eller tre scenarier att jämföra.",
+        "Measure": "Mått",
+        "Best": "Bäst",
+        "Lessons that differ": "Lektioner som skiljer sig",
+        "No lesson differs.": "Ingen lektion skiljer sig.",
+        "Not placed": "Inte placerad",
+        "{period} in {room}": "{period} i {room}",
+        "Lessons placed": "Placerade lektioner",
+        "Lessons without a place": "Lektioner utan plats",
+        "Clashes": "Krockar",
+        "Hard wishes broken": "Brutna hårda önskemål",
+        "Soft wishes broken": "Brutna mjuka önskemål",
+        "Soft wishes broken, weighted": "Brutna mjuka önskemål, viktade",
+        "Free periods between lessons, all teachers": "Håltimmar, alla lärare",
+        "Most free periods of one teacher": "Flest håltimmar för en lärare",
+        "Most lessons of one group on a day": "Flest lektioner för en grupp en dag",
+        "Room use": "Salsanvändning"
     },
     "nplurals=2; plural=(n != 1);"
 )

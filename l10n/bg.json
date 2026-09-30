@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Вземи текущото разписание",
         "Could not take the current timetable.": "Текущото разписание не можа да бъде взето.",
         "Broken hard wishes": "Нарушени задължителни желания",
-        "Not on a period of the week grid": "Не е в час от седмичната мрежа"
+        "Not on a period of the week grid": "Не е в час от седмичната мрежа",
+        "Compare scenarios": "Сравняване на сценарии",
+        "Scenarios to compare": "Сценарии за сравнение",
+        "Choose two or three scenarios to compare them.": "Изберете два или три сценария, за да ги сравните.",
+        "Measure": "Показател",
+        "Best": "Най-добър",
+        "Lessons that differ": "Часове с разлика",
+        "No lesson differs.": "Няма час с разлика.",
+        "Not placed": "Не е поставен",
+        "{period} in {room}": "{period} в {room}",
+        "Lessons placed": "Поставени часове",
+        "Lessons without a place": "Часове без място",
+        "Clashes": "Конфликти",
+        "Hard wishes broken": "Нарушени задължителни желания",
+        "Soft wishes broken": "Нарушени гъвкави желания",
+        "Soft wishes broken, weighted": "Нарушени гъвкави желания, претеглени",
+        "Free periods between lessons, all teachers": "Свободни часове, всички учители",
+        "Most free periods of one teacher": "Най-много свободни часове на един учител",
+        "Most lessons of one group on a day": "Най-много часове на една група за ден",
+        "Room use": "Използване на стаите"
     },
     "plurals": null
 }

@@ -1049,7 +1049,26 @@ OC.L10N.register(
         "Take the current timetable": "Převzít aktuální rozvrh",
         "Could not take the current timetable.": "Aktuální rozvrh se nepodařilo převzít.",
         "Broken hard wishes": "Porušená závazná přání",
-        "Not on a period of the week grid": "Není na hodině týdenní mřížky"
+        "Not on a period of the week grid": "Není na hodině týdenní mřížky",
+        "Compare scenarios": "Porovnat scénáře",
+        "Scenarios to compare": "Scénáře k porovnání",
+        "Choose two or three scenarios to compare them.": "Vyberte dva nebo tři scénáře k porovnání.",
+        "Measure": "Ukazatel",
+        "Best": "Nejlepší",
+        "Lessons that differ": "Hodiny, které se liší",
+        "No lesson differs.": "Žádná hodina se neliší.",
+        "Not placed": "Neumístěno",
+        "{period} in {room}": "{period} v {room}",
+        "Lessons placed": "Umístěné hodiny",
+        "Lessons without a place": "Hodiny bez místa",
+        "Clashes": "Kolize",
+        "Hard wishes broken": "Porušená pevná přání",
+        "Soft wishes broken": "Porušená měkká přání",
+        "Soft wishes broken, weighted": "Porušená měkká přání, vážená",
+        "Free periods between lessons, all teachers": "Volné hodiny, všichni učitelé",
+        "Most free periods of one teacher": "Nejvíc volných hodin jednoho učitele",
+        "Most lessons of one group on a day": "Nejvíc hodin jedné skupiny za den",
+        "Room use": "Využití učeben"
     },
     "nplurals=2; plural=(n != 1);"
 )

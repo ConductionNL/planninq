@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Brug det nuværende skema",
         "Could not take the current timetable.": "Det nuværende skema kunne ikke hentes.",
         "Broken hard wishes": "Brudte hårde ønsker",
-        "Not on a period of the week grid": "Ikke på en lektion i ugeskemaet"
+        "Not on a period of the week grid": "Ikke på en lektion i ugeskemaet",
+        "Compare scenarios": "Sammenlign scenarier",
+        "Scenarios to compare": "Scenarier at sammenligne",
+        "Choose two or three scenarios to compare them.": "Vælg to eller tre scenarier for at sammenligne dem.",
+        "Measure": "Måling",
+        "Best": "Bedst",
+        "Lessons that differ": "Lektioner der er forskellige",
+        "No lesson differs.": "Ingen lektion er forskellig.",
+        "Not placed": "Ikke placeret",
+        "{period} in {room}": "{period} i {room}",
+        "Lessons placed": "Placerede lektioner",
+        "Lessons without a place": "Lektioner uden plads",
+        "Clashes": "Konflikter",
+        "Hard wishes broken": "Brudte hårde ønsker",
+        "Soft wishes broken": "Brudte bløde ønsker",
+        "Soft wishes broken, weighted": "Brudte bløde ønsker, vægtet",
+        "Free periods between lessons, all teachers": "Mellemtimer, alle lærere",
+        "Most free periods of one teacher": "Flest mellemtimer for én lærer",
+        "Most lessons of one group on a day": "Flest lektioner for én gruppe på en dag",
+        "Room use": "Lokalebrug"
     },
     "plurals": null
 }

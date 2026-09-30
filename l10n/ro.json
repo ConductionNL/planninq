@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Preia orarul actual",
         "Could not take the current timetable.": "Nu s-a putut prelua orarul actual.",
         "Broken hard wishes": "Dorințe obligatorii încălcate",
-        "Not on a period of the week grid": "Nu este pe o oră din grila săptămânală"
+        "Not on a period of the week grid": "Nu este pe o oră din grila săptămânală",
+        "Compare scenarios": "Compară scenarii",
+        "Scenarios to compare": "Scenarii de comparat",
+        "Choose two or three scenarios to compare them.": "Alegeți două sau trei scenarii pentru a le compara.",
+        "Measure": "Măsură",
+        "Best": "Cel mai bun",
+        "Lessons that differ": "Ore care diferă",
+        "No lesson differs.": "Nicio oră nu diferă.",
+        "Not placed": "Neplasată",
+        "{period} in {room}": "{period} în {room}",
+        "Lessons placed": "Ore plasate",
+        "Lessons without a place": "Ore fără loc",
+        "Clashes": "Conflicte",
+        "Hard wishes broken": "Dorințe stricte încălcate",
+        "Soft wishes broken": "Dorințe flexibile încălcate",
+        "Soft wishes broken, weighted": "Dorințe flexibile încălcate, ponderate",
+        "Free periods between lessons, all teachers": "Ferestre, toți profesorii",
+        "Most free periods of one teacher": "Cele mai multe ferestre ale unui profesor",
+        "Most lessons of one group on a day": "Cele mai multe ore ale unei grupe într-o zi",
+        "Room use": "Utilizarea sălilor"
     },
     "plurals": {}
 }

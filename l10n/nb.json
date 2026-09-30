@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Bruk den gjeldende timeplanen",
         "Could not take the current timetable.": "Kunne ikke hente den gjeldende timeplanen.",
         "Broken hard wishes": "Brutte harde ønsker",
-        "Not on a period of the week grid": "Ikke på en time i ukerutenettet"
+        "Not on a period of the week grid": "Ikke på en time i ukerutenettet",
+        "Compare scenarios": "Sammenlign scenarier",
+        "Scenarios to compare": "Scenarier å sammenligne",
+        "Choose two or three scenarios to compare them.": "Velg to eller tre scenarier for å sammenligne dem.",
+        "Measure": "Mål",
+        "Best": "Best",
+        "Lessons that differ": "Timer som er ulike",
+        "No lesson differs.": "Ingen timer er ulike.",
+        "Not placed": "Ikke plassert",
+        "{period} in {room}": "{period} i {room}",
+        "Lessons placed": "Plasserte timer",
+        "Lessons without a place": "Timer uten plass",
+        "Clashes": "Kollisjoner",
+        "Hard wishes broken": "Brutte harde ønsker",
+        "Soft wishes broken": "Brutte myke ønsker",
+        "Soft wishes broken, weighted": "Brutte myke ønsker, vektet",
+        "Free periods between lessons, all teachers": "Hulltimer, alle lærere",
+        "Most free periods of one teacher": "Flest hulltimer for én lærer",
+        "Most lessons of one group on a day": "Flest timer for én gruppe på en dag",
+        "Room use": "Rombruk"
     },
     "plurals": {}
 }

@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Jelenlegi órarend átvétele",
         "Could not take the current timetable.": "Nem sikerült átvenni a jelenlegi órarendet.",
         "Broken hard wishes": "Megszegett kötelező kívánságok",
-        "Not on a period of the week grid": "Nem a heti rács egy óráján van"
+        "Not on a period of the week grid": "Nem a heti rács egy óráján van",
+        "Compare scenarios": "Forgatókönyvek összehasonlítása",
+        "Scenarios to compare": "Összehasonlítandó forgatókönyvek",
+        "Choose two or three scenarios to compare them.": "Válasszon két vagy három forgatókönyvet az összehasonlításhoz.",
+        "Measure": "Mérőszám",
+        "Best": "Legjobb",
+        "Lessons that differ": "Eltérő órák",
+        "No lesson differs.": "Egyik óra sem tér el.",
+        "Not placed": "Nincs elhelyezve",
+        "{period} in {room}": "{period}, {room}",
+        "Lessons placed": "Elhelyezett órák",
+        "Lessons without a place": "Hely nélküli órák",
+        "Clashes": "Ütközések",
+        "Hard wishes broken": "Megsértett kötelező kívánságok",
+        "Soft wishes broken": "Megsértett rugalmas kívánságok",
+        "Soft wishes broken, weighted": "Megsértett rugalmas kívánságok, súlyozva",
+        "Free periods between lessons, all teachers": "Lyukasórák, minden tanár",
+        "Most free periods of one teacher": "Egy tanár legtöbb lyukasórája",
+        "Most lessons of one group on a day": "Egy csoport legtöbb órája egy napon",
+        "Room use": "Teremkihasználtság"
     },
     "plurals": null
 }

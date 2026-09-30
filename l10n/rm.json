@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Surpigliar l'urari actual",
         "Could not take the current timetable.": "Impussibel da surpigliar l'urari actual.",
         "Broken hard wishes": "Giavischs obligatorics violads",
-        "Not on a period of the week grid": "Betg sin ina lecziun da la grilla da l'emna"
+        "Not on a period of the week grid": "Betg sin ina lecziun da la grilla da l'emna",
+        "Compare scenarios": "Cumparegliar scenaris",
+        "Scenarios to compare": "Scenaris da cumparegliar",
+        "Choose two or three scenarios to compare them.": "Tscherni dus u trais scenaris per als cumparegliar.",
+        "Measure": "Mesira",
+        "Best": "Il meglier",
+        "Lessons that differ": "Lecziuns che sa distinguan",
+        "No lesson differs.": "Nagina lecziun na sa distingua.",
+        "Not placed": "Betg plazzà",
+        "{period} in {room}": "{period} en {room}",
+        "Lessons placed": "Lecziuns plazzadas",
+        "Lessons without a place": "Lecziuns senza plaz",
+        "Clashes": "Conflicts",
+        "Hard wishes broken": "Giavischs obligatorics violads",
+        "Soft wishes broken": "Giavischs flexibels violads",
+        "Soft wishes broken, weighted": "Giavischs flexibels violads, ponderads",
+        "Free periods between lessons, all teachers": "Uras libras, tut ils magisters",
+        "Most free periods of one teacher": "Il pli bler uras libras d'in magister",
+        "Most lessons of one group on a day": "Il pli bler lecziuns d'ina gruppa en in di",
+        "Room use": "Utilisaziun da las stanzas"
     },
     "plurals": null
 }

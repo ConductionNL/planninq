@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Prevzemi trenutni urnik",
         "Could not take the current timetable.": "Trenutnega urnika ni bilo mogoče prevzeti.",
         "Broken hard wishes": "Kršene obvezne želje",
-        "Not on a period of the week grid": "Ni na uri tedenske mreže"
+        "Not on a period of the week grid": "Ni na uri tedenske mreže",
+        "Compare scenarios": "Primerjaj scenarije",
+        "Scenarios to compare": "Scenariji za primerjavo",
+        "Choose two or three scenarios to compare them.": "Izberite dva ali tri scenarije za primerjavo.",
+        "Measure": "Merilo",
+        "Best": "Najboljše",
+        "Lessons that differ": "Ure, ki se razlikujejo",
+        "No lesson differs.": "Nobena ura se ne razlikuje.",
+        "Not placed": "Ni umeščeno",
+        "{period} in {room}": "{period} v {room}",
+        "Lessons placed": "Umeščene ure",
+        "Lessons without a place": "Ure brez mesta",
+        "Clashes": "Spori",
+        "Hard wishes broken": "Kršene obvezne želje",
+        "Soft wishes broken": "Kršene prožne želje",
+        "Soft wishes broken, weighted": "Kršene prožne želje, utežene",
+        "Free periods between lessons, all teachers": "Proste ure, vsi učitelji",
+        "Most free periods of one teacher": "Največ prostih ur enega učitelja",
+        "Most lessons of one group on a day": "Največ ur ene skupine na dan",
+        "Room use": "Raba učilnic"
     },
     "plurals": null
 }

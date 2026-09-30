@@ -1049,7 +1049,26 @@ OC.L10N.register(
         "Take the current timetable": "Geçerli ders programını al",
         "Could not take the current timetable.": "Geçerli ders programı alınamadı.",
         "Broken hard wishes": "Çiğnenen zorunlu istekler",
-        "Not on a period of the week grid": "Haftalık tablonun bir dersinde değil"
+        "Not on a period of the week grid": "Haftalık tablonun bir dersinde değil",
+        "Compare scenarios": "Senaryoları karşılaştır",
+        "Scenarios to compare": "Karşılaştırılacak senaryolar",
+        "Choose two or three scenarios to compare them.": "Karşılaştırmak için iki veya üç senaryo seçin.",
+        "Measure": "Ölçü",
+        "Best": "En iyi",
+        "Lessons that differ": "Farklı olan dersler",
+        "No lesson differs.": "Hiçbir ders farklı değil.",
+        "Not placed": "Yerleştirilmedi",
+        "{period} in {room}": "{period}, {room}",
+        "Lessons placed": "Yerleştirilen dersler",
+        "Lessons without a place": "Yeri olmayan dersler",
+        "Clashes": "Çakışmalar",
+        "Hard wishes broken": "Uyulmayan kesin dilekler",
+        "Soft wishes broken": "Uyulmayan esnek dilekler",
+        "Soft wishes broken, weighted": "Uyulmayan esnek dilekler, ağırlıklı",
+        "Free periods between lessons, all teachers": "Boş saatler, tüm öğretmenler",
+        "Most free periods of one teacher": "Bir öğretmenin en çok boş saati",
+        "Most lessons of one group on a day": "Bir grubun bir günde en çok dersi",
+        "Room use": "Derslik kullanımı"
     },
     "nplurals=2; plural=(n != 1);"
 )

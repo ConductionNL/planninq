@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Agafa l'horari actual",
         "Could not take the current timetable.": "No s'ha pogut agafar l'horari actual.",
         "Broken hard wishes": "Desitjos obligatoris incomplerts",
-        "Not on a period of the week grid": "No és en una franja de la graella setmanal"
+        "Not on a period of the week grid": "No és en una franja de la graella setmanal",
+        "Compare scenarios": "Compara escenaris",
+        "Scenarios to compare": "Escenaris per comparar",
+        "Choose two or three scenarios to compare them.": "Trieu dos o tres escenaris per comparar-los.",
+        "Measure": "Mesura",
+        "Best": "El millor",
+        "Lessons that differ": "Classes que difereixen",
+        "No lesson differs.": "Cap classe no difereix.",
+        "Not placed": "Sense col·locar",
+        "{period} in {room}": "{period} a {room}",
+        "Lessons placed": "Classes col·locades",
+        "Lessons without a place": "Classes sense lloc",
+        "Clashes": "Conflictes",
+        "Hard wishes broken": "Desitjos estrictes incomplerts",
+        "Soft wishes broken": "Desitjos flexibles incomplerts",
+        "Soft wishes broken, weighted": "Desitjos flexibles incomplerts, ponderats",
+        "Free periods between lessons, all teachers": "Hores lliures, tots els docents",
+        "Most free periods of one teacher": "Més hores lliures d'un docent",
+        "Most lessons of one group on a day": "Més classes d'un grup en un dia",
+        "Room use": "Ús de les aules"
     },
     "plurals": null
 }

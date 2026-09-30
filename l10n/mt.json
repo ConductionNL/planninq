@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Ħu l-orarju attwali",
         "Could not take the current timetable.": "Ma setax jittieħed l-orarju attwali.",
         "Broken hard wishes": "Xewqat obbligatorji miksura",
-        "Not on a period of the week grid": "Mhux f'lezzjoni tal-grilja tal-ġimgħa"
+        "Not on a period of the week grid": "Mhux f'lezzjoni tal-grilja tal-ġimgħa",
+        "Compare scenarios": "Qabbel ix-xenarji",
+        "Scenarios to compare": "Xenarji biex jitqabblu",
+        "Choose two or three scenarios to compare them.": "Agħżel żewġ jew tliet xenarji biex tqabbilhom.",
+        "Measure": "Kejl",
+        "Best": "L-aħjar",
+        "Lessons that differ": "Lezzjonijiet li jvarjaw",
+        "No lesson differs.": "L-ebda lezzjoni ma tvarja.",
+        "Not placed": "Mhux imqiegħda",
+        "{period} in {room}": "{period} f'{room}",
+        "Lessons placed": "Lezzjonijiet imqiegħda",
+        "Lessons without a place": "Lezzjonijiet mingħajr post",
+        "Clashes": "Kunflitti",
+        "Hard wishes broken": "Xewqat iebsa miksura",
+        "Soft wishes broken": "Xewqat ratba miksura",
+        "Soft wishes broken, weighted": "Xewqat ratba miksura, peżati",
+        "Free periods between lessons, all teachers": "Perjodi ħielsa, l-għalliema kollha",
+        "Most free periods of one teacher": "L-aktar perjodi ħielsa ta' għalliem wieħed",
+        "Most lessons of one group on a day": "L-aktar lezzjonijiet ta' grupp wieħed f'ġurnata",
+        "Room use": "Użu tal-kmamar"
     },
     "plurals": {}
 }

@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Perimti dabartinį tvarkaraštį",
         "Could not take the current timetable.": "Nepavyko perimti dabartinio tvarkaraščio.",
         "Broken hard wishes": "Pažeisti privalomi pageidavimai",
-        "Not on a period of the week grid": "Ne savaitės tinklelio pamokoje"
+        "Not on a period of the week grid": "Ne savaitės tinklelio pamokoje",
+        "Compare scenarios": "Palyginti scenarijus",
+        "Scenarios to compare": "Lyginami scenarijai",
+        "Choose two or three scenarios to compare them.": "Pasirinkite du ar tris scenarijus palyginti.",
+        "Measure": "Rodiklis",
+        "Best": "Geriausias",
+        "Lessons that differ": "Besiskiriančios pamokos",
+        "No lesson differs.": "Jokia pamoka nesiskiria.",
+        "Not placed": "Neišdėstyta",
+        "{period} in {room}": "{period}, {room}",
+        "Lessons placed": "Išdėstytos pamokos",
+        "Lessons without a place": "Pamokos be vietos",
+        "Clashes": "Konfliktai",
+        "Hard wishes broken": "Pažeisti privalomi pageidavimai",
+        "Soft wishes broken": "Pažeisti lankstūs pageidavimai",
+        "Soft wishes broken, weighted": "Pažeisti lankstūs pageidavimai, pasverti",
+        "Free periods between lessons, all teachers": "Langai, visi mokytojai",
+        "Most free periods of one teacher": "Daugiausia vieno mokytojo langų",
+        "Most lessons of one group on a day": "Daugiausia vienos grupės pamokų per dieną",
+        "Room use": "Patalpų naudojimas"
     },
     "plurals": null
 }

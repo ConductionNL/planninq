@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Aktuellen Stundenplan übernehmen",
         "Could not take the current timetable.": "Der aktuelle Stundenplan konnte nicht übernommen werden.",
         "Broken hard wishes": "Verletzte harte Wünsche",
-        "Not on a period of the week grid": "Nicht auf einer Stunde des Wochenrasters"
+        "Not on a period of the week grid": "Nicht auf einer Stunde des Wochenrasters",
+        "Compare scenarios": "Szenarien vergleichen",
+        "Scenarios to compare": "Zu vergleichende Szenarien",
+        "Choose two or three scenarios to compare them.": "Wählen Sie zwei oder drei Szenarien zum Vergleich.",
+        "Measure": "Kennzahl",
+        "Best": "Bester Wert",
+        "Lessons that differ": "Abweichende Stunden",
+        "No lesson differs.": "Keine Stunde weicht ab.",
+        "Not placed": "Nicht platziert",
+        "{period} in {room}": "{period} in {room}",
+        "Lessons placed": "Platzierte Stunden",
+        "Lessons without a place": "Stunden ohne Platz",
+        "Clashes": "Konflikte",
+        "Hard wishes broken": "Verletzte harte Wünsche",
+        "Soft wishes broken": "Verletzte weiche Wünsche",
+        "Soft wishes broken, weighted": "Verletzte weiche Wünsche, gewichtet",
+        "Free periods between lessons, all teachers": "Freistunden, alle Lehrkräfte",
+        "Most free periods of one teacher": "Meiste Freistunden einer Lehrkraft",
+        "Most lessons of one group on a day": "Meiste Stunden einer Gruppe an einem Tag",
+        "Room use": "Raumnutzung"
     },
     "plurals": null
 }

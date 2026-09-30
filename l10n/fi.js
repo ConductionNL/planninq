@@ -1049,7 +1049,26 @@ OC.L10N.register(
         "Take the current timetable": "Ota nykyinen lukujärjestys",
         "Could not take the current timetable.": "Nykyistä lukujärjestystä ei voitu ottaa.",
         "Broken hard wishes": "Rikotut ehdottomat toiveet",
-        "Not on a period of the week grid": "Ei viikkoruudukon tunnilla"
+        "Not on a period of the week grid": "Ei viikkoruudukon tunnilla",
+        "Compare scenarios": "Vertaa skenaarioita",
+        "Scenarios to compare": "Verrattavat skenaariot",
+        "Choose two or three scenarios to compare them.": "Valitse kaksi tai kolme skenaariota verrattavaksi.",
+        "Measure": "Mittari",
+        "Best": "Paras",
+        "Lessons that differ": "Eroavat tunnit",
+        "No lesson differs.": "Mikään tunti ei eroa.",
+        "Not placed": "Ei sijoitettu",
+        "{period} in {room}": "{period} tilassa {room}",
+        "Lessons placed": "Sijoitetut tunnit",
+        "Lessons without a place": "Tunnit ilman paikkaa",
+        "Clashes": "Päällekkäisyydet",
+        "Hard wishes broken": "Rikotut ehdottomat toiveet",
+        "Soft wishes broken": "Rikotut joustavat toiveet",
+        "Soft wishes broken, weighted": "Rikotut joustavat toiveet, painotettu",
+        "Free periods between lessons, all teachers": "Hyppytunnit, kaikki opettajat",
+        "Most free periods of one teacher": "Yhden opettajan eniten hyppytunteja",
+        "Most lessons of one group on a day": "Yhden ryhmän eniten tunteja päivässä",
+        "Room use": "Tilojen käyttö"
     },
     "nplurals=2; plural=(n != 1);"
 )

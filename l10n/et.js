@@ -1049,7 +1049,26 @@ OC.L10N.register(
         "Take the current timetable": "Võta praegune tunniplaan",
         "Could not take the current timetable.": "Praegust tunniplaani ei õnnestunud võtta.",
         "Broken hard wishes": "Rikutud kohustuslikud soovid",
-        "Not on a period of the week grid": "Ei ole nädalavõrgu tunnil"
+        "Not on a period of the week grid": "Ei ole nädalavõrgu tunnil",
+        "Compare scenarios": "Võrdle stsenaariume",
+        "Scenarios to compare": "Võrreldavad stsenaariumid",
+        "Choose two or three scenarios to compare them.": "Valige võrdlemiseks kaks või kolm stsenaariumi.",
+        "Measure": "Näitaja",
+        "Best": "Parim",
+        "Lessons that differ": "Erinevad tunnid",
+        "No lesson differs.": "Ükski tund ei erine.",
+        "Not placed": "Paigutamata",
+        "{period} in {room}": "{period} ruumis {room}",
+        "Lessons placed": "Paigutatud tunnid",
+        "Lessons without a place": "Kohata tunnid",
+        "Clashes": "Kokkupõrked",
+        "Hard wishes broken": "Rikutud kohustuslikud soovid",
+        "Soft wishes broken": "Rikutud paindlikud soovid",
+        "Soft wishes broken, weighted": "Rikutud paindlikud soovid, kaalutud",
+        "Free periods between lessons, all teachers": "Aknatunnid, kõik õpetajad",
+        "Most free periods of one teacher": "Ühe õpetaja kõige rohkem aknatunde",
+        "Most lessons of one group on a day": "Ühe rühma kõige rohkem tunde päevas",
+        "Room use": "Ruumide kasutus"
     },
     "nplurals=2; plural=(n != 1);"
 )

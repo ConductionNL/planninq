@@ -1049,7 +1049,26 @@ OC.L10N.register(
         "Take the current timetable": "Узяць бягучы расклад",
         "Could not take the current timetable.": "Не ўдалося ўзяць бягучы расклад.",
         "Broken hard wishes": "Парушаныя абавязковыя пажаданні",
-        "Not on a period of the week grid": "Не на ўроку тыднёвай сеткі"
+        "Not on a period of the week grid": "Не на ўроку тыднёвай сеткі",
+        "Compare scenarios": "Параўнаць сцэнарыі",
+        "Scenarios to compare": "Сцэнарыі для параўнання",
+        "Choose two or three scenarios to compare them.": "Выберыце два ці тры сцэнарыі, каб параўнаць іх.",
+        "Measure": "Паказчык",
+        "Best": "Найлепшы",
+        "Lessons that differ": "Урокі, якія адрозніваюцца",
+        "No lesson differs.": "Ніводзін урок не адрозніваецца.",
+        "Not placed": "Не размешчаны",
+        "{period} in {room}": "{period}, {room}",
+        "Lessons placed": "Размешчаныя ўрокі",
+        "Lessons without a place": "Урокі без месца",
+        "Clashes": "Канфлікты",
+        "Hard wishes broken": "Парушаныя абавязковыя пажаданні",
+        "Soft wishes broken": "Парушаныя гнуткія пажаданні",
+        "Soft wishes broken, weighted": "Парушаныя гнуткія пажаданні, узважаныя",
+        "Free periods between lessons, all teachers": "Вокны, усе настаўнікі",
+        "Most free periods of one teacher": "Найбольш вокнаў у аднаго настаўніка",
+        "Most lessons of one group on a day": "Найбольш урокаў адной групы за дзень",
+        "Room use": "Выкарыстанне кабінетаў"
     },
     "nplurals=2; plural=(n != 1);"
 )

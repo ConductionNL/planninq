@@ -1049,7 +1049,26 @@ OC.L10N.register(
         "Take the current timetable": "Tóg an clár ama reatha",
         "Could not take the current timetable.": "Níorbh fhéidir an clár ama reatha a thógáil.",
         "Broken hard wishes": "Mianta éigeantacha briste",
-        "Not on a period of the week grid": "Ní ar thréimhse de ghreille na seachtaine"
+        "Not on a period of the week grid": "Ní ar thréimhse de ghreille na seachtaine",
+        "Compare scenarios": "Cuir cásanna i gcomparáid",
+        "Scenarios to compare": "Cásanna le cur i gcomparáid",
+        "Choose two or three scenarios to compare them.": "Roghnaigh dhá nó trí chás chun iad a chur i gcomparáid.",
+        "Measure": "Tomhas",
+        "Best": "Is fearr",
+        "Lessons that differ": "Ceachtanna atá difriúil",
+        "No lesson differs.": "Níl aon cheacht difriúil.",
+        "Not placed": "Gan chur",
+        "{period} in {room}": "{period} i {room}",
+        "Lessons placed": "Ceachtanna curtha",
+        "Lessons without a place": "Ceachtanna gan áit",
+        "Clashes": "Coimhlintí",
+        "Hard wishes broken": "Mianta docht briste",
+        "Soft wishes broken": "Mianta boga briste",
+        "Soft wishes broken, weighted": "Mianta boga briste, ualaithe",
+        "Free periods between lessons, all teachers": "Tréimhsí saora, gach múinteoir",
+        "Most free periods of one teacher": "Na tréimhsí saora is mó ag múinteoir amháin",
+        "Most lessons of one group on a day": "Na ceachtanna is mó ag grúpa amháin in aon lá",
+        "Room use": "Úsáid seomraí"
     },
     "nplurals=2; plural=(n != 1);"
 )

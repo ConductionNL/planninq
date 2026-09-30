@@ -1049,7 +1049,26 @@ OC.L10N.register(
         "Take the current timetable": "Merr orarin aktual",
         "Could not take the current timetable.": "Orari aktual nuk u mor dot.",
         "Broken hard wishes": "Dëshira të detyrueshme të shkelura",
-        "Not on a period of the week grid": "Nuk është në një orë të rrjetës javore"
+        "Not on a period of the week grid": "Nuk është në një orë të rrjetës javore",
+        "Compare scenarios": "Krahaso skenarët",
+        "Scenarios to compare": "Skenarët për krahasim",
+        "Choose two or three scenarios to compare them.": "Zgjidhni dy ose tre skenarë për t'i krahasuar.",
+        "Measure": "Masa",
+        "Best": "Më i miri",
+        "Lessons that differ": "Orë mësimi që ndryshojnë",
+        "No lesson differs.": "Asnjë orë mësimi nuk ndryshon.",
+        "Not placed": "E pavendosur",
+        "{period} in {room}": "{period} në {room}",
+        "Lessons placed": "Orë mësimi të vendosura",
+        "Lessons without a place": "Orë mësimi pa vend",
+        "Clashes": "Përplasje",
+        "Hard wishes broken": "Dëshira të detyrueshme të shkelura",
+        "Soft wishes broken": "Dëshira të buta të shkelura",
+        "Soft wishes broken, weighted": "Dëshira të buta të shkelura, të peshuara",
+        "Free periods between lessons, all teachers": "Orë bosh, të gjithë mësuesit",
+        "Most free periods of one teacher": "Më shumë orë bosh të një mësuesi",
+        "Most lessons of one group on a day": "Më shumë orë mësimi të një grupi në një ditë",
+        "Room use": "Përdorimi i sallave"
     },
     "nplurals=2; plural=(n != 1);"
 )

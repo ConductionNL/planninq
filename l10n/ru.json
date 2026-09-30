@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Взять текущее расписание",
         "Could not take the current timetable.": "Не удалось взять текущее расписание.",
         "Broken hard wishes": "Нарушенные обязательные пожелания",
-        "Not on a period of the week grid": "Не на уроке недельной сетки"
+        "Not on a period of the week grid": "Не на уроке недельной сетки",
+        "Compare scenarios": "Сравнить сценарии",
+        "Scenarios to compare": "Сценарии для сравнения",
+        "Choose two or three scenarios to compare them.": "Выберите два или три сценария, чтобы сравнить их.",
+        "Measure": "Показатель",
+        "Best": "Лучший",
+        "Lessons that differ": "Уроки, которые отличаются",
+        "No lesson differs.": "Ни один урок не отличается.",
+        "Not placed": "Не размещён",
+        "{period} in {room}": "{period}, {room}",
+        "Lessons placed": "Размещённые уроки",
+        "Lessons without a place": "Уроки без места",
+        "Clashes": "Конфликты",
+        "Hard wishes broken": "Нарушенные обязательные пожелания",
+        "Soft wishes broken": "Нарушенные гибкие пожелания",
+        "Soft wishes broken, weighted": "Нарушенные гибкие пожелания, взвешенные",
+        "Free periods between lessons, all teachers": "Окна, все учителя",
+        "Most free periods of one teacher": "Больше всего окон у одного учителя",
+        "Most lessons of one group on a day": "Больше всего уроков одной группы за день",
+        "Room use": "Использование кабинетов"
     },
     "plurals": {}
 }

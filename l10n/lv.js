@@ -1049,7 +1049,26 @@ OC.L10N.register(
         "Take the current timetable": "Pārņemt pašreizējo stundu sarakstu",
         "Could not take the current timetable.": "Neizdevās pārņemt pašreizējo stundu sarakstu.",
         "Broken hard wishes": "Pārkāptās obligātās vēlmes",
-        "Not on a period of the week grid": "Nav nedēļas režģa stundā"
+        "Not on a period of the week grid": "Nav nedēļas režģa stundā",
+        "Compare scenarios": "Salīdzināt scenārijus",
+        "Scenarios to compare": "Salīdzināmie scenāriji",
+        "Choose two or three scenarios to compare them.": "Izvēlieties divus vai trīs scenārijus salīdzināšanai.",
+        "Measure": "Rādītājs",
+        "Best": "Labākais",
+        "Lessons that differ": "Atšķirīgās stundas",
+        "No lesson differs.": "Neviena stunda neatšķiras.",
+        "Not placed": "Nav izvietota",
+        "{period} in {room}": "{period} telpā {room}",
+        "Lessons placed": "Izvietotās stundas",
+        "Lessons without a place": "Stundas bez vietas",
+        "Clashes": "Konflikti",
+        "Hard wishes broken": "Pārkāptās obligātās vēlmes",
+        "Soft wishes broken": "Pārkāptās elastīgās vēlmes",
+        "Soft wishes broken, weighted": "Pārkāptās elastīgās vēlmes, svērtas",
+        "Free periods between lessons, all teachers": "Brīvstundas, visi skolotāji",
+        "Most free periods of one teacher": "Viena skolotāja visvairāk brīvstundu",
+        "Most lessons of one group on a day": "Vienas grupas visvairāk stundu dienā",
+        "Room use": "Telpu izmantojums"
     },
     "nplurals=2; plural=(n != 1);"
 )

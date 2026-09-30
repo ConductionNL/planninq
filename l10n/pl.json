@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Przejmij obecny plan lekcji",
         "Could not take the current timetable.": "Nie udało się przejąć obecnego planu lekcji.",
         "Broken hard wishes": "Naruszone twarde życzenia",
-        "Not on a period of the week grid": "Nie na godzinie siatki tygodniowej"
+        "Not on a period of the week grid": "Nie na godzinie siatki tygodniowej",
+        "Compare scenarios": "Porównaj scenariusze",
+        "Scenarios to compare": "Scenariusze do porównania",
+        "Choose two or three scenarios to compare them.": "Wybierz dwa lub trzy scenariusze, aby je porównać.",
+        "Measure": "Miara",
+        "Best": "Najlepsza",
+        "Lessons that differ": "Lekcje, które się różnią",
+        "No lesson differs.": "Żadna lekcja się nie różni.",
+        "Not placed": "Nieumieszczona",
+        "{period} in {room}": "{period} w {room}",
+        "Lessons placed": "Umieszczone lekcje",
+        "Lessons without a place": "Lekcje bez miejsca",
+        "Clashes": "Konflikty",
+        "Hard wishes broken": "Niedotrzymane twarde życzenia",
+        "Soft wishes broken": "Niedotrzymane miękkie życzenia",
+        "Soft wishes broken, weighted": "Niedotrzymane miękkie życzenia, ważone",
+        "Free periods between lessons, all teachers": "Okienka, wszyscy nauczyciele",
+        "Most free periods of one teacher": "Najwięcej okienek jednego nauczyciela",
+        "Most lessons of one group on a day": "Najwięcej lekcji jednej grupy w dniu",
+        "Room use": "Wykorzystanie sal"
     },
     "plurals": {}
 }

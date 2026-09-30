@@ -1048,7 +1048,26 @@
         "Take the current timetable": "Taka núverandi stundaskrá",
         "Could not take the current timetable.": "Ekki tókst að taka núverandi stundaskrá.",
         "Broken hard wishes": "Brotnar skilyrðisóskir",
-        "Not on a period of the week grid": "Ekki á kennslustund í vikutöflunni"
+        "Not on a period of the week grid": "Ekki á kennslustund í vikutöflunni",
+        "Compare scenarios": "Bera saman sviðsmyndir",
+        "Scenarios to compare": "Sviðsmyndir til samanburðar",
+        "Choose two or three scenarios to compare them.": "Veldu tvær eða þrjár sviðsmyndir til að bera saman.",
+        "Measure": "Mælikvarði",
+        "Best": "Best",
+        "Lessons that differ": "Kennslustundir sem eru ólíkar",
+        "No lesson differs.": "Engin kennslustund er ólík.",
+        "Not placed": "Ekki raðað",
+        "{period} in {room}": "{period} í {room}",
+        "Lessons placed": "Raðaðar kennslustundir",
+        "Lessons without a place": "Kennslustundir án staðar",
+        "Clashes": "Árekstrar",
+        "Hard wishes broken": "Brotnar fastar óskir",
+        "Soft wishes broken": "Brotnar sveigjanlegar óskir",
+        "Soft wishes broken, weighted": "Brotnar sveigjanlegar óskir, vegnar",
+        "Free periods between lessons, all teachers": "Eyður, allir kennarar",
+        "Most free periods of one teacher": "Flestar eyður hjá einum kennara",
+        "Most lessons of one group on a day": "Flestar kennslustundir hjá einum hópi á dag",
+        "Room use": "Nýting stofa"
     },
     "plurals": {}
 }
