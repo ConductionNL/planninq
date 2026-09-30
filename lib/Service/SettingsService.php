@@ -494,7 +494,6 @@ class SettingsService {
 		$userSettings = [];
 		if ($user !== null) {
 			$userSettings['notify_due_reminder'] = $this->isNotifyDueReminderEnabled(userId: $user->getUID());
-			$userSettings[NotificationSwitchService::ASSIGNED_KEY] = $this->isNotifyAssignedEnabled(userId: $user->getUID());
 			$userSettings[self::DASHBOARD_ORDER_KEY] = $this->getDashboardProjectOrder(userId: $user->getUID());
 			$userSettings[BoardViewPreferenceService::KEY] = $this->boardViews()->views(userId: $user->getUID());
 		}
@@ -526,17 +525,11 @@ class SettingsService {
 	 *
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
 	 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
-	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
 	 */
 	public function updateUserSettings(string $userId, array $data): array {
 		if (array_key_exists('notify_due_reminder', $data) === true) {
 			$enabled = filter_var($data['notify_due_reminder'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 			$this->setNotifyDueReminder(userId: $userId, enabled: ($enabled !== false));
-		}
-
-		if (array_key_exists(NotificationSwitchService::ASSIGNED_KEY, $data) === true) {
-			$assigned = filter_var($data[NotificationSwitchService::ASSIGNED_KEY], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-			$this->setNotifyAssigned(userId: $userId, enabled: ($assigned !== false));
 		}
 
 		if (array_key_exists(self::DASHBOARD_ORDER_KEY, $data) === true) {
@@ -568,43 +561,6 @@ class SettingsService {
 	private function boardViews(): BoardViewPreferenceService {
 		return new BoardViewPreferenceService(config: $this->config);
 	}//end boardViews()
-
-	/**
-	 * Whether the user hears about tasks assigned to them (default on).
-	 *
-	 * @param string $userId The user UID.
-	 *
-	 * @return bool
-	 *
-	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
-	 */
-	public function isNotifyAssignedEnabled(string $userId): bool {
-		return $this->switches()->isAssignedOn(userId: $userId);
-	}//end isNotifyAssignedEnabled()
-
-	/**
-	 * Store the assignment notification switch and write it through to
-	 * OpenRegister's override of both assignment rules.
-	 *
-	 * @param string $userId  The user UID.
-	 * @param bool   $enabled Whether assignment notifications are on.
-	 *
-	 * @return void
-	 *
-	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
-	 */
-	public function setNotifyAssigned(string $userId, bool $enabled): void {
-		$this->switches()->setAssigned(userId: $userId, enabled: $enabled, preferences: $this->getNotificationPreferenceService());
-	}//end setNotifyAssigned()
-
-	/**
-	 * The per-person notification switches, on this service's IConfig.
-	 *
-	 * @return NotificationSwitchService
-	 */
-	private function switches(): NotificationSwitchService {
-		return new NotificationSwitchService(config: $this->config, logger: $this->logger);
-	}//end switches()
 
 	/**
 	 * A user's own order of pinned dashboard projects.
