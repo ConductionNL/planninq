@@ -37,6 +37,14 @@ Under 600 pixels the Timesheet shows each day as a list of entries with their ta
 ### Decision 5: a phone smoke suite on every pull request
 `tests/e2e/playwright.config.ts` gains two projects, `phone-android` (`devices['Pixel 7']`) and `phone-ios` (`devices['iPhone 14']`), that run only `tests/e2e/mobile.spec.ts`. The suite walks the named flows by tapping, asserts that `document.documentElement.scrollWidth` does not exceed the viewport on every page except inside the board scroller, and checks the tap-target size of the flows' buttons.
 
+## Amendments at build (30 Sep 2026)
+
+- **Decision 3, swipe.** Built without scroll snap: with swimlanes the board has one scroller per row, so a swipe in one row cannot agree with the switcher for the others. Under 600 pixels the columns wrap full width and every column but the switcher's pick is hidden (`kanban-column--off-phone`); the switcher is the one way between columns, which also keeps every move single-pointer (WCAG 2.5.1). The switcher and the picked column come from `src/utils/phoneBoard.js`.
+- **Decision 2, targets.** Nextcloud's buttons, action menus and inputs size themselves on `--default-clickable-area`; `src/assets/app.css` raises it to 44 pixels under 600 pixels on `:root`, because dialogs mount on `body`. The card's move menu no longer waits for hover on a phone or any touch screen (`@media (hover: none)`).
+- **Decision 4, timesheet.** The Timesheet was already a per-day list with the range total on top; on a phone its rows stack instead of a four-column grid.
+- **Decision 5, where it runs.** Both phone projects run on chromium with the device's viewport, touch and user agent, because CI installs chromium only (an iPhone profile defaults to WebKit). The shared workflow runs the end-to-end suite on the promotion path (pull requests into `beta` and `main`), not on every pull request into `development`, so "every pull request" reads "wherever the suite runs".
+- **The running timer** does not exist yet: it is built by `time-timer-and-work-type`, which now carries the phone timer scenario and its task (1.5).
+
 ## Risks / trade-offs
 
 - [Desktop regressions on phones] -> The phone projects run on every pull request.

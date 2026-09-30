@@ -161,6 +161,26 @@
 			     in `order`. A task sits in the lane its `column` references;
 			     a task without one is in the backlog. -->
 				<div v-else class="project-board__swimlanes" data-cy="kanban-board">
+					<!-- Phone column switcher (platform-mobile-web): under 600
+					     pixels the board shows one column, picked here; each
+					     button names the column and its card count. Hidden on
+					     wider screens by CSS. -->
+					<div
+						v-if="columns.length"
+						class="project-board__phone-switcher"
+						role="group"
+						:aria-label="t('planninq', 'Column')"
+						data-testid="phone-column-switcher">
+						<NcButton
+							v-for="item in phoneSwitcher"
+							:key="item.id"
+							:variant="item.id === phoneColumn ? 'primary' : 'secondary'"
+							:aria-pressed="item.id === phoneColumn"
+							data-testid="phone-column-button"
+							@click="phoneChosenColumn = item.id">
+							{{ item.title }} ({{ item.count }})
+						</NcButton>
+					</div>
 					<!-- Swimlanes (boards-card-display): one row per value of the
 					     grouped field, each holding every lane. Without grouping
 					     there is one row and no row header. -->
@@ -191,7 +211,10 @@
 								:data-column="column.title"
 								:data-column-id="column.id"
 								:aria-label="column.title"
-								:class="{ 'kanban-column--drop-target': dropTargetId === row.key + '|' + column.id }"
+								:class="{
+									'kanban-column--drop-target': dropTargetId === row.key + '|' + column.id,
+									'kanban-column--off-phone': column.id !== phoneColumn,
+								}"
 								@dragover.prevent="onDragOver(row.key + '|' + column.id)"
 								@dragleave="onDragLeave(row.key + '|' + column.id)"
 								@drop="onDrop(column, null, row.key)">
@@ -485,6 +508,7 @@ import {
 	swapColumnPatches,
 	wipState,
 } from '../utils/columnHelpers.js'
+import { columnSwitcher, phoneColumnId } from '../utils/phoneBoard.js'
 import { labelId, resolveTaskLabels } from '../utils/labelHelpers.js'
 import { isReadOnlyFor } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
@@ -580,6 +604,8 @@ export default {
 			collapsedSwimlanes: {},
 			/** @type {object} User id to display name, for assignee rows. */
 			personNames: {},
+			/** @type {string|null} The column a phone shows, as picked in the switcher. */
+			phoneChosenColumn: null,
 		}
 	},
 
@@ -677,6 +703,28 @@ export default {
 		 */
 		tasksByColumn() {
 			return groupTasksByColumn(this.visibleTasks, this.columns)
+		},
+
+		/**
+		 * The phone switcher's buttons: every column with its card count.
+		 *
+		 * @return {Array<{id: string, title: string, count: number}>}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-platform-mobile-web/tasks.md#task-1.1
+		 */
+		phoneSwitcher() {
+			return columnSwitcher(this.columns, this.tasksByColumn)
+		},
+
+		/**
+		 * The column a phone shows: the picked one, else the first.
+		 *
+		 * @return {string|null}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-platform-mobile-web/tasks.md#task-1.1
+		 */
+		phoneColumn() {
+			return phoneColumnId(this.columns, this.phoneChosenColumn)
 		},
 
 		/**
@@ -1837,5 +1885,60 @@ export default {
 .project-board__read-only {
 	margin: 0 0 12px;
 	color: var(--color-text-maxcontrast);
+}
+
+/* The column switcher is the phone's way between columns only. */
+.project-board__phone-switcher {
+	display: none;
+}
+
+/* Phone (platform-mobile-web, design Decision 3): one column at a time, the
+   header and its buttons wrap, and the card's move menu shows without hover. */
+@media (max-width: 600px) {
+	.project-board {
+		padding: 8px 0 24px;
+	}
+
+	.project-board__header,
+	.project-board__header-actions {
+		flex-wrap: wrap;
+	}
+
+	.project-board__title {
+		flex: 1 1 100%;
+		white-space: normal;
+	}
+
+	.project-board__phone-switcher {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.project-board__columns {
+		flex-wrap: wrap;
+		overflow-x: visible;
+	}
+
+	.kanban-column {
+		flex: 1 1 100%;
+		min-width: 0;
+		max-width: none;
+	}
+
+	.kanban-column--off-phone {
+		display: none;
+	}
+
+	.kanban-column__card-actions {
+		opacity: 1;
+	}
+}
+
+/* No action needs hover: on a touch screen the move menu is always shown. */
+@media (hover: none) {
+	.kanban-column__card-actions {
+		opacity: 1;
+	}
 }
 </style>

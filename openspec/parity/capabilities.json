@@ -5475,7 +5475,7 @@
       "area": "integration",
       "name": "Work on tasks from a mobile app.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "partial",
       "nextcloud-deck": "yes",
       "openproject": "partial",
       "plane": "no",
@@ -5497,11 +5497,12 @@
         "timeedit": "docs read 2026-09-27: https://apps.apple.com/gb/app/chippo/id6612032321 'Chippo is a modern attendance solution' by TimeEdit Presto Benelux B.V. ; https://timeedit.com/platform/scheduling/viewer 'Mobile-friendly views'. The native app covers attendance only, timetables are mobile web"
       },
       "built": {
-        "state": "specified",
-        "evidence": "no mobile client, PWA manifest or mobile API in the repo; only three components carry a @media rule (src/views/ProjectBoard.vue, src/components/DashboardPanels.vue, src/components/ProjectListItem.vue)",
-        "reachedOn": "nothing reaches it; the web UI in a phone browser is the only path",
+        "state": "built",
+        "evidence": "phone layouts under 600 CSS pixels, no mobile app: src/views/ProjectBoard.vue shows one column at a time with a column switcher (src/utils/phoneBoard.js) and the move menu without hover; src/views/MyWork.vue, TaskDetail.vue, Timesheet.vue stack on a phone; src/assets/app.css raises --default-clickable-area to 44px; tests/e2e/playwright.config.ts phone-android and phone-ios projects run tests/e2e/mobile.spec.ts",
+        "reachedOn": "planninq in a phone browser: My tasks, a task, Log time, Timesheet, a project board",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/platform-mobile-web"
+        "change": "openspec/changes/archive/2026-09-30-platform-mobile-web",
+        "readOn": "2026-09-30"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

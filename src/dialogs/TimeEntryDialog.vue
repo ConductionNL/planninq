@@ -7,6 +7,7 @@
 				<div class="time-entry-dialog__field">
 					<NcTextField
 						v-model="durationInput"
+						data-testid="time-entry-duration"
 						:label="t('planninq', 'Duration')"
 						:error="!!durationError"
 						:helperText="durationError || t('planninq', 'e.g. 2h 30m, 90m, 1.5h')"
@@ -38,12 +39,13 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
+			<NcButton :disabled="saving" data-testid="time-entry-cancel" @click="$emit('close')">
 				{{ t('planninq', 'Cancel') }}
 			</NcButton>
 			<NcButton
 				variant="primary"
 				:disabled="saving || !isValid"
+				data-testid="time-entry-save"
 				@click="save">
 				<template v-if="saving" #icon>
 					<NcLoadingIcon :size="16" />

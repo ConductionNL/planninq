@@ -1410,6 +1410,24 @@ export default {
 	margin: 0;
 }
 
+/* Phone (platform-mobile-web): narrower padding, labels above their values,
+   controls one per row. */
+@media (max-width: 600px) {
+	.task-detail__main {
+		padding: 12px;
+	}
+
+	.task-detail__fields,
+	.task-detail__controls {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.task-detail__fields dd {
+		margin-bottom: 8px;
+		overflow-wrap: anywhere;
+	}
+}
+
 .task-detail__time {
 	margin-top: 32px;
 	max-width: 640px;
