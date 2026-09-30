@@ -1023,7 +1023,11 @@ OC.L10N.register(
         "Could not start the run.": "Could not start the run.",
         "Scenarios": "Scenarios",
         "Timetable scenarios": "Timetable scenarios",
-        "Scenario": "Scenario"
+        "Scenario": "Scenario",
+        "Take the current timetable": "Take the current timetable",
+        "Could not take the current timetable.": "Could not take the current timetable.",
+        "Broken hard wishes": "Broken hard wishes",
+        "Not on a period of the week grid": "Not on a period of the week grid"
     },
     "nplurals=2; plural=(n != 1);"
 )

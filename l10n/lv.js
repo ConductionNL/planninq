@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Palaišanu neizdevās sākt.",
         "Scenarios": "Scenāriji",
         "Timetable scenarios": "Stundu saraksta scenāriji",
-        "Scenario": "Scenārijs"
+        "Scenario": "Scenārijs",
+        "Take the current timetable": "Pārņemt pašreizējo stundu sarakstu",
+        "Could not take the current timetable.": "Neizdevās pārņemt pašreizējo stundu sarakstu.",
+        "Broken hard wishes": "Pārkāptās obligātās vēlmes",
+        "Not on a period of the week grid": "Nav nedēļas režģa stundā"
     },
     "nplurals=2; plural=(n != 1);"
 )

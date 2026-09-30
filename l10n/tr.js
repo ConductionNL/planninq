@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Çalışma başlatılamadı.",
         "Scenarios": "Senaryolar",
         "Timetable scenarios": "Ders programı senaryoları",
-        "Scenario": "Senaryo"
+        "Scenario": "Senaryo",
+        "Take the current timetable": "Geçerli ders programını al",
+        "Could not take the current timetable.": "Geçerli ders programı alınamadı.",
+        "Broken hard wishes": "Çiğnenen zorunlu istekler",
+        "Not on a period of the week grid": "Haftalık tablonun bir dersinde değil"
     },
     "nplurals=2; plural=(n != 1);"
 )

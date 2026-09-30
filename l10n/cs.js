@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Běh se nepodařilo spustit.",
         "Scenarios": "Scénáře",
         "Timetable scenarios": "Scénáře rozvrhu",
-        "Scenario": "Scénář"
+        "Scenario": "Scénář",
+        "Take the current timetable": "Převzít aktuální rozvrh",
+        "Could not take the current timetable.": "Aktuální rozvrh se nepodařilo převzít.",
+        "Broken hard wishes": "Porušená závazná přání",
+        "Not on a period of the week grid": "Není na hodině týdenní mřížky"
     },
     "nplurals=2; plural=(n != 1);"
 )

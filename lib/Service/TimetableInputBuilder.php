@@ -96,7 +96,7 @@ class TimetableInputBuilder {
 	 */
 	public function build(string $academicYear, array $wishes): SolverInput {
 		$periods = $this->grid->periodKeys();
-		$wishes  = array_map(fn (array $wish): array => $this->wish(wish: $wish), array_values($wishes));
+		$wishes  = array_map(fn (array $wish): array => $this->solverWish(wish: $wish), array_values($wishes));
 
 		$event = new TimetableActivitiesQueryEvent(academicYear: $academicYear);
 		$this->dispatcher->dispatchTyped($event);
@@ -171,8 +171,9 @@ class TimetableInputBuilder {
 	 * @return array<string,mixed>
 	 *
 	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
 	 */
-	private function wish(array $wish): array {
+	public function solverWish(array $wish): array {
 		$out = ['id' => (string)($wish['id'] ?? ($wish['@self']['id'] ?? ''))];
 		foreach (self::WISH_FIELDS as $field) {
 			if (array_key_exists($field, $wish) === true) {
@@ -181,7 +182,7 @@ class TimetableInputBuilder {
 		}
 
 		return $out;
-	}//end wish()
+	}//end solverWish()
 
 	/**
 	 * A stored sheet, or an empty list.

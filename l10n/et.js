@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Käivitust ei saanud alustada.",
         "Scenarios": "Stsenaariumid",
         "Timetable scenarios": "Tunniplaani stsenaariumid",
-        "Scenario": "Stsenaarium"
+        "Scenario": "Stsenaarium",
+        "Take the current timetable": "Võta praegune tunniplaan",
+        "Could not take the current timetable.": "Praegust tunniplaani ei õnnestunud võtta.",
+        "Broken hard wishes": "Rikutud kohustuslikud soovid",
+        "Not on a period of the week grid": "Ei ole nädalavõrgu tunnil"
     },
     "nplurals=2; plural=(n != 1);"
 )

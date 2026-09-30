@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Ekki tókst að ræsa keyrsluna.",
         "Scenarios": "Sviðsmyndir",
         "Timetable scenarios": "Sviðsmyndir stundaskrár",
-        "Scenario": "Sviðsmynd"
+        "Scenario": "Sviðsmynd",
+        "Take the current timetable": "Taka núverandi stundaskrá",
+        "Could not take the current timetable.": "Ekki tókst að taka núverandi stundaskrá.",
+        "Broken hard wishes": "Brotnar skilyrðisóskir",
+        "Not on a period of the week grid": "Ekki á kennslustund í vikutöflunni"
     },
     "nplurals=2; plural=(n != 1);"
 )

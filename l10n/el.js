@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Δεν ήταν δυνατή η έναρξη της εκτέλεσης.",
         "Scenarios": "Σενάρια",
         "Timetable scenarios": "Σενάρια ωρολογίου προγράμματος",
-        "Scenario": "Σενάριο"
+        "Scenario": "Σενάριο",
+        "Take the current timetable": "Λήψη του τρέχοντος ωρολογίου προγράμματος",
+        "Could not take the current timetable.": "Δεν ήταν δυνατή η λήψη του τρέχοντος ωρολογίου προγράμματος.",
+        "Broken hard wishes": "Υποχρεωτικές επιθυμίες που παραβιάστηκαν",
+        "Not on a period of the week grid": "Όχι σε ώρα του εβδομαδιαίου πλέγματος"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -29,6 +29,7 @@ use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\BackgroundJob\GenerateTimetableScenario;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\TimetableGenerationService;
+use OCA\Planninq\Service\TimetableScenarioImporter;
 use OCA\Planninq\Settings\AdminSettings;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -38,9 +39,10 @@ use OCP\BackgroundJob\IJobList;
 use OCP\IRequest;
 
 /**
- * The generate endpoint of timetable scenarios.
+ * The generate and import endpoints of timetable scenarios.
  *
  * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
+ * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
  */
 class TimetableScenarioController extends Controller {
 
@@ -51,6 +53,7 @@ class TimetableScenarioController extends Controller {
 	 * @param TimetableGenerationService $generation      Queues the run.
 	 * @param IJobList                   $jobList         Runs it in the background.
 	 * @param SettingsService            $settingsService Tells whether the user is an admin.
+	 * @param TimetableScenarioImporter  $importer        Takes the current timetable into a scenario.
 	 *
 	 * @return void
 	 */
@@ -59,6 +62,7 @@ class TimetableScenarioController extends Controller {
 		private readonly TimetableGenerationService $generation,
 		private readonly IJobList $jobList,
 		private readonly SettingsService $settingsService,
+		private readonly TimetableScenarioImporter $importer,
 	) {
 		parent::__construct(appName: Application::APP_ID, request: $request);
 	}//end __construct()
@@ -88,4 +92,27 @@ class TimetableScenarioController extends Controller {
 
 		return new JSONResponse(['id' => $id, 'status' => $scenario['status'], 'lessons' => count($scenario['input']['lessons'])], Http::STATUS_ACCEPTED);
 	}//end generate()
+	/**
+	 * Fill an imported scenario from the scheduled lessons of its week, scored like a generated one.
+	 *
+	 * @param string $id The scenario id.
+	 *
+	 * @return JSONResponse
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+	 */
+	#[AuthorizedAdminSetting(settings: AdminSettings::class)]
+	public function importCurrent(string $id): JSONResponse {
+		if ($this->settingsService->isCurrentUserAdmin() === false) {
+			return new JSONResponse(['error' => 'Only an admin can take the current timetable into a scenario.'], Http::STATUS_FORBIDDEN);
+		}
+
+		try {
+			$scenario = $this->importer->importInto(id: $id);
+		} catch (InvalidArgumentException $e) {
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
+
+		return new JSONResponse(['id' => $id, 'status' => $scenario['status'], 'metrics' => $scenario['metrics']]);
+	}//end importCurrent()
 }//end class

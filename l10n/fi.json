@@ -1044,7 +1044,11 @@
         "Could not start the run.": "Ajoa ei voitu aloittaa.",
         "Scenarios": "Skenaariot",
         "Timetable scenarios": "Lukujärjestysskenaariot",
-        "Scenario": "Skenaario"
+        "Scenario": "Skenaario",
+        "Take the current timetable": "Ota nykyinen lukujärjestys",
+        "Could not take the current timetable.": "Nykyistä lukujärjestystä ei voitu ottaa.",
+        "Broken hard wishes": "Rikotut ehdottomat toiveet",
+        "Not on a period of the week grid": "Ei viikkoruudukon tunnilla"
     },
     "plurals": null
 }

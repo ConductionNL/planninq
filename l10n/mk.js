@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Извршувањето не може да започне.",
         "Scenarios": "Сценарија",
         "Timetable scenarios": "Сценарија за распоредот",
-        "Scenario": "Сценарио"
+        "Scenario": "Сценарио",
+        "Take the current timetable": "Преземи го тековниот распоред",
+        "Could not take the current timetable.": "Тековниот распоред не можеше да се преземе.",
+        "Broken hard wishes": "Прекршени задолжителни желби",
+        "Not on a period of the week grid": "Не е на час од неделната мрежа"
     },
     "nplurals=2; plural=(n != 1);"
 )

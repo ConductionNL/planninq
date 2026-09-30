@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Níorbh fhéidir an rith a thosú.",
         "Scenarios": "Cásanna",
         "Timetable scenarios": "Cásanna an chláir ama",
-        "Scenario": "Cás"
+        "Scenario": "Cás",
+        "Take the current timetable": "Tóg an clár ama reatha",
+        "Could not take the current timetable.": "Níorbh fhéidir an clár ama reatha a thógáil.",
+        "Broken hard wishes": "Mianta éigeantacha briste",
+        "Not on a period of the week grid": "Ní ar thréimhse de ghreille na seachtaine"
     },
     "nplurals=2; plural=(n != 1);"
 )

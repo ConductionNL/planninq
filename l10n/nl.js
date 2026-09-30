@@ -1058,7 +1058,11 @@ OC.L10N.register(
         "Could not start the run.": "Kon de run niet starten.",
         "Scenarios": "Scenario's",
         "Timetable scenarios": "Roosterscenario's",
-        "Scenario": "Scenario"
+        "Scenario": "Scenario",
+        "Take the current timetable": "Huidig rooster overnemen",
+        "Could not take the current timetable.": "Kon het huidige rooster niet overnemen.",
+        "Broken hard wishes": "Geschonden harde wensen",
+        "Not on a period of the week grid": "Niet op een lesuur van het weekrooster"
     },
     "nplurals=2; plural=(n != 1);"
 )

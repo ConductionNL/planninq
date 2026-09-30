@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "La lantschada n'ha betg pudì vegnir cumenzada.",
         "Scenarios": "Scenaris",
         "Timetable scenarios": "Scenaris dal plan d'uras",
-        "Scenario": "Scenari"
+        "Scenario": "Scenari",
+        "Take the current timetable": "Surpigliar l'urari actual",
+        "Could not take the current timetable.": "Impussibel da surpigliar l'urari actual.",
+        "Broken hard wishes": "Giavischs obligatorics violads",
+        "Not on a period of the week grid": "Betg sin ina lecziun da la grilla da l'emna"
     },
     "nplurals=2; plural=(n != 1);"
 )

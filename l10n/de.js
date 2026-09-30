@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Der Lauf konnte nicht gestartet werden.",
         "Scenarios": "Szenarien",
         "Timetable scenarios": "Stundenplanszenarien",
-        "Scenario": "Szenario"
+        "Scenario": "Szenario",
+        "Take the current timetable": "Aktuellen Stundenplan übernehmen",
+        "Could not take the current timetable.": "Der aktuelle Stundenplan konnte nicht übernommen werden.",
+        "Broken hard wishes": "Verletzte harte Wünsche",
+        "Not on a period of the week grid": "Nicht auf einer Stunde des Wochenrasters"
     },
     "nplurals=2; plural=(n != 1);"
 )

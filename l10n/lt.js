@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Vykdymo pradėti nepavyko.",
         "Scenarios": "Scenarijai",
         "Timetable scenarios": "Tvarkaraščio scenarijai",
-        "Scenario": "Scenarijus"
+        "Scenario": "Scenarijus",
+        "Take the current timetable": "Perimti dabartinį tvarkaraštį",
+        "Could not take the current timetable.": "Nepavyko perimti dabartinio tvarkaraščio.",
+        "Broken hard wishes": "Pažeisti privalomi pageidavimai",
+        "Not on a period of the week grid": "Ne savaitės tinklelio pamokoje"
     },
     "nplurals=2; plural=(n != 1);"
 )

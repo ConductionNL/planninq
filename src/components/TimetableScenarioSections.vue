@@ -30,6 +30,14 @@
 					@click="generate">
 					{{ scenario.status === 'done' || scenario.status === 'failed' ? t('planninq', 'Generate again') : t('planninq', 'Generate') }}
 				</NcButton>
+				<NcButton
+					v-if="canImport"
+					variant="primary"
+					:disabled="starting"
+					data-testid="scenario-import"
+					@click="takeCurrent">
+					{{ t('planninq', 'Take the current timetable') }}
+				</NcButton>
 				<p v-if="startError" class="timetable-scenario__error" role="alert">
 					{{ startError }}
 				</p>
@@ -55,7 +63,29 @@
 				<tbody>
 					<tr v-for="row in unplaced" :key="row.lesson">
 						<td>{{ row.lesson }}</td>
-						<td>{{ row.wish ? describe(row.wish) : t('planninq', 'No free period and room') }}</td>
+						<td>{{ blockedBy(row) }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+
+		<section v-if="brokenHard.length > 0" class="timetable-scenario__list">
+			<h3>{{ t('planninq', 'Broken hard wishes') }}</h3>
+			<table data-testid="scenario-broken-hard">
+				<thead>
+					<tr>
+						<th scope="col">
+							{{ t('planninq', 'Wish') }}
+						</th>
+						<th scope="col">
+							{{ t('planninq', 'Lessons') }}
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(row, index) in brokenHard" :key="index">
+						<td>{{ describe(row.wish) }}</td>
+						<td>{{ row.lessons.join(', ') }}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -100,15 +130,18 @@
  * sections slot): the run's status and progress, the Generate button for
  * admins, the lessons without a place with the hard wish that blocked them,
  * and the soft wishes the run broke. While a run is queued or running the
- * page reads the scenario again every five seconds.
+ * page reads the scenario again every five seconds. On an imported scenario
+ * an admin takes the current timetable instead, and its broken hard wishes
+ * are listed as well.
  *
  * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
+ * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
  */
 import { buildHeaders } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 import { NcButton, NcLoadingIcon, NcProgressBar } from '@nextcloud/vue'
-import { brokenSoftRows, isRunning, progressPercent, unplacedRows } from '../utils/timetableScenarios.js'
+import { brokenHardRows, brokenSoftRows, canTakeCurrentTimetable, isRunning, progressPercent, unplacedRows } from '../utils/timetableScenarios.js'
 
 const POLL_MS = 5000
 
@@ -195,6 +228,26 @@ export default {
 		},
 
 		/**
+		 * Whether this user may take the current timetable into this scenario.
+		 *
+		 * @return {boolean}
+		 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+		 */
+		canImport() {
+			return getCurrentUser()?.isAdmin === true && canTakeCurrentTimetable(this.scenario)
+		},
+
+		/**
+		 * The broken hard wishes (an imported timetable only).
+		 *
+		 * @return {Array}
+		 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+		 */
+		brokenHard() {
+			return brokenHardRows(this.scenario)
+		},
+
+		/**
 		 * The unplaced lessons.
 		 *
 		 * @return {Array}
@@ -273,6 +326,39 @@ export default {
 				return
 			}
 			await this.load()
+		},
+
+		/**
+		 * Take the scheduled lessons of the scenario's week into it.
+		 *
+		 * @return {Promise<void>}
+		 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+		 */
+		async takeCurrent() {
+			this.starting = true
+			this.startError = ''
+			const response = await fetch(generateUrl(`/apps/planninq/api/timetable/scenarios/${this.id}/import`), { method: 'POST', headers: buildHeaders() }).catch(() => null)
+			this.starting = false
+			if (!response?.ok) {
+				const body = await response?.json().catch(() => ({}))
+				this.startError = body?.error || this.t('planninq', 'Could not take the current timetable.')
+				return
+			}
+			await this.load()
+		},
+
+		/**
+		 * Why a lesson has no place: the hard wish, a time off the week grid, or no free period and room.
+		 *
+		 * @param {{wish: object|null, reason: string}} row The unplaced row.
+		 * @return {string}
+		 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+		 */
+		blockedBy(row) {
+			if (row.wish) {
+				return this.describe(row.wish)
+			}
+			return row.reason === 'offGrid' ? this.t('planninq', 'Not on a period of the week grid') : this.t('planninq', 'No free period and room')
 		},
 
 		/**

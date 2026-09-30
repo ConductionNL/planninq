@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Rularea nu a putut porni.",
         "Scenarios": "Scenarii",
         "Timetable scenarios": "Scenarii de orar",
-        "Scenario": "Scenariu"
+        "Scenario": "Scenariu",
+        "Take the current timetable": "Preia orarul actual",
+        "Could not take the current timetable.": "Nu s-a putut prelua orarul actual.",
+        "Broken hard wishes": "Dorințe obligatorii încălcate",
+        "Not on a period of the week grid": "Nu este pe o oră din grila săptămânală"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -4,7 +4,7 @@
  * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
  */
 import { describe, expect, it } from 'vitest'
-import { brokenSoftRows, isRunning, progressPercent, unplacedRows } from '../../src/utils/timetableScenarios.js'
+import { brokenHardRows, brokenSoftRows, canTakeCurrentTimetable, isRunning, progressPercent, unplacedRows } from '../../src/utils/timetableScenarios.js'
 
 const scenario = {
 	status: 'running',
@@ -57,5 +57,35 @@ describe('the lists (scenario: a lesson that cannot be placed is listed with its
 
 	it('keeps a wish that is no longer in the input readable by its id', () => {
 		expect(unplacedRows({ unplaced: [{ lesson: 'x', wish: 'gone' }] })[0].wish.reference).toBe('gone')
+	})
+})
+
+describe('an imported scenario (scenario: an imported timetable that breaks a hard wish shows that breach)', () => {
+	const imported = {
+		source: 'imported',
+		status: 'done',
+		input: scenario.input,
+		unplaced: [{ lesson: '3B:Maths:2', wish: null, reason: 'offGrid' }],
+		brokenWishes: [
+			{ wish: 'w-klaas', strength: 'hard', weight: null, lessons: ['3A:English:2'] },
+			{ wish: 'w-noor', strength: 'soft', weight: 1, lessons: ['3B:Maths:1'] },
+		],
+	}
+
+	it('lists the broken hard wishes apart from the soft ones', () => {
+		expect(brokenHardRows(imported)).toEqual([{ wish: { appliesTo: 'teacher', reference: 'klaas', kind: 'unavailable', periods: ['wed-5', 'wed-6'] }, lessons: ['3A:English:2'] }])
+		expect(brokenSoftRows(imported).map((row) => row.lessons)).toEqual([['3B:Maths:1']])
+		expect(brokenHardRows(scenario)).toEqual([])
+	})
+
+	it('keeps the reason of a lesson that is not on a period of the grid', () => {
+		expect(unplacedRows(imported)).toEqual([{ lesson: '3B:Maths:2', wish: null, reason: 'offGrid' }])
+	})
+
+	it('offers the current timetable only on an imported scenario that is not running or published', () => {
+		expect(canTakeCurrentTimetable(imported)).toBe(true)
+		expect(canTakeCurrentTimetable({ ...imported, status: 'published' })).toBe(false)
+		expect(canTakeCurrentTimetable({ ...imported, source: 'generated' })).toBe(false)
+		expect(canTakeCurrentTimetable(null)).toBe(false)
 	})
 })

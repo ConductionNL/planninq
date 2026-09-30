@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Impossible de lancer l'exécution.",
         "Scenarios": "Scénarios",
         "Timetable scenarios": "Scénarios d'emploi du temps",
-        "Scenario": "Scénario"
+        "Scenario": "Scénario",
+        "Take the current timetable": "Reprendre l'emploi du temps actuel",
+        "Could not take the current timetable.": "Impossible de reprendre l'emploi du temps actuel.",
+        "Broken hard wishes": "Souhaits stricts non respectés",
+        "Not on a period of the week grid": "Pas sur un créneau de la grille hebdomadaire"
     },
     "nplurals=2; plural=(n != 1);"
 )

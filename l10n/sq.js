@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Ekzekutimi nuk u nis dot.",
         "Scenarios": "Skenarë",
         "Timetable scenarios": "Skenarë orari",
-        "Scenario": "Skenar"
+        "Scenario": "Skenar",
+        "Take the current timetable": "Merr orarin aktual",
+        "Could not take the current timetable.": "Orari aktual nuk u mor dot.",
+        "Broken hard wishes": "Dëshira të detyrueshme të shkelura",
+        "Not on a period of the week grid": "Nuk është në një orë të rrjetës javore"
     },
     "nplurals=2; plural=(n != 1);"
 )

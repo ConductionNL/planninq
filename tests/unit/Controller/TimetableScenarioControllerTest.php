@@ -28,6 +28,7 @@ use OCA\Planninq\BackgroundJob\GenerateTimetableScenario;
 use OCA\Planninq\Controller\TimetableScenarioController;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\TimetableGenerationService;
+use OCA\Planninq\Service\TimetableScenarioImporter;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\BackgroundJob\IJobList;
@@ -36,9 +37,10 @@ use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 
 /**
- * The generate endpoint.
+ * The generate and import endpoints.
  *
  * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
+ * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
  */
 class TimetableScenarioControllerTest extends TestCase {
 
@@ -48,13 +50,20 @@ class TimetableScenarioControllerTest extends TestCase {
 	 * @param bool                       $admin      Whether the caller is an admin.
 	 * @param TimetableGenerationService $generation The generation service.
 	 * @param IJobList                   $jobList    The job list.
+	 * @param TimetableScenarioImporter  $importer   The importer, a stub when not given.
 	 *
 	 * @return TimetableScenarioController
 	 */
-	private function controller(bool $admin, TimetableGenerationService $generation, IJobList $jobList): TimetableScenarioController {
+	private function controller(bool $admin, TimetableGenerationService $generation, IJobList $jobList, ?TimetableScenarioImporter $importer=null): TimetableScenarioController {
 		$settings = $this->createMock(SettingsService::class);
 		$settings->method('isCurrentUserAdmin')->willReturn($admin);
-		return new TimetableScenarioController(request: $this->createMock(IRequest::class), generation: $generation, jobList: $jobList, settingsService: $settings);
+		return new TimetableScenarioController(
+			request: $this->createMock(IRequest::class),
+			generation: $generation,
+			jobList: $jobList,
+			settingsService: $settings,
+			importer: ($importer ?? $this->createMock(TimetableScenarioImporter::class))
+		);
 	}//end controller()
 
 	/**
@@ -107,4 +116,45 @@ class TimetableScenarioControllerTest extends TestCase {
 		self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $response->getStatus());
 		self::assertStringContainsString(needle: 'No activities', haystack: $response->getData()['error']);
 	}//end testARefusedScenarioAnswersBadRequest()
+	/**
+	 * A non-admin cannot take the current timetable into a scenario.
+	 *
+	 * @return void
+	 */
+	public function testANonAdminCannotImport(): void {
+		$importer = $this->createMock(TimetableScenarioImporter::class);
+		$importer->expects($this->never())->method('importInto');
+
+		$response = $this->controller(admin: false, generation: $this->createMock(TimetableGenerationService::class), jobList: $this->createMock(IJobList::class), importer: $importer)->importCurrent(id: 's-1');
+
+		self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $response->getStatus());
+		self::assertNotEmpty((new ReflectionMethod(TimetableScenarioController::class, 'importCurrent'))->getAttributes(AuthorizedAdminSetting::class));
+	}//end testANonAdminCannotImport()
+
+	/**
+	 * An admin's import answers with the scenario's status and metrics; a refused one with 400.
+	 *
+	 * @return void
+	 */
+	public function testAnAdminImportsOrIsToldWhyNot(): void {
+		$importer = $this->createMock(TimetableScenarioImporter::class);
+		$importer->method('importInto')->willReturnCallback(
+			static function (string $id): array {
+				if ($id === 's-2') {
+					throw new InvalidArgumentException('The week of this scenario has no scheduled lessons.');
+				}
+
+				return ['status' => 'done', 'metrics' => ['hardWishesBroken' => 1]];
+			}
+		);
+		$controller = $this->controller(admin: true, generation: $this->createMock(TimetableGenerationService::class), jobList: $this->createMock(IJobList::class), importer: $importer);
+
+		$response = $controller->importCurrent(id: 's-1');
+		self::assertSame(expected: Http::STATUS_OK, actual: $response->getStatus());
+		self::assertSame(expected: ['id' => 's-1', 'status' => 'done', 'metrics' => ['hardWishesBroken' => 1]], actual: $response->getData());
+
+		$refused = $controller->importCurrent(id: 's-2');
+		self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $refused->getStatus());
+		self::assertStringContainsString(needle: 'no scheduled lessons', haystack: $refused->getData()['error']);
+	}//end testAnAdminImportsOrIsToldWhyNot()
 }//end class

@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "De Laf konnt net gestart ginn.",
         "Scenarios": "Szenarien",
         "Timetable scenarios": "Stonneplangszenarien",
-        "Scenario": "Szenario"
+        "Scenario": "Szenario",
+        "Take the current timetable": "Aktuelle Stonneplang iwwerhuelen",
+        "Could not take the current timetable.": "Den aktuelle Stonneplang konnt net iwwerholl ginn.",
+        "Broken hard wishes": "Verletzt haart Wënsch",
+        "Not on a period of the week grid": "Net op enger Stonn vum Wochegitter"
     },
     "nplurals=2; plural=(n != 1);"
 )

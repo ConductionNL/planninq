@@ -1044,7 +1044,11 @@
         "Could not start the run.": "Извршувањето не може да започне.",
         "Scenarios": "Сценарија",
         "Timetable scenarios": "Сценарија за распоредот",
-        "Scenario": "Сценарио"
+        "Scenario": "Сценарио",
+        "Take the current timetable": "Преземи го тековниот распоред",
+        "Could not take the current timetable.": "Тековниот распоред не можеше да се преземе.",
+        "Broken hard wishes": "Прекршени задолжителни желби",
+        "Not on a period of the week grid": "Не е на час од неделната мрежа"
     },
     "plurals": null
 }

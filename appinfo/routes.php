@@ -57,4 +57,6 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'timetableInput#upload', 'url' => '/api/timetable/input/upload', 'verb' => 'POST'],
     // Admins start a generator run for a timetable scenario (timetabling-generator 5.2).
     ['name' => 'timetableScenario#generate', 'url' => '/api/timetable/scenarios/{id}/generate', 'verb' => 'POST'],
+    // Admins take the current timetable into an imported scenario (timetabling-generator 6.1).
+    ['name' => 'timetableScenario#importCurrent', 'url' => '/api/timetable/scenarios/{id}/import', 'verb' => 'POST'],
 ]);

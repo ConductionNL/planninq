@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Nie udało się uruchomić przebiegu.",
         "Scenarios": "Scenariusze",
         "Timetable scenarios": "Scenariusze planu lekcji",
-        "Scenario": "Scenariusz"
+        "Scenario": "Scenariusz",
+        "Take the current timetable": "Przejmij obecny plan lekcji",
+        "Could not take the current timetable.": "Nie udało się przejąć obecnego planu lekcji.",
+        "Broken hard wishes": "Naruszone twarde życzenia",
+        "Not on a period of the week grid": "Nie na godzinie siatki tygodniowej"
     },
     "nplurals=2; plural=(n != 1);"
 )

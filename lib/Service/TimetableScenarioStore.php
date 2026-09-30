@@ -55,6 +55,11 @@ class TimetableScenarioStore {
 	public const WISH = 'timetableWish';
 
 	/**
+	 * The lesson schema slug.
+	 */
+	public const SESSION = 'timetableSession';
+
+	/**
 	 * The most wishes one run reads.
 	 */
 	private const MAX_WISHES = 1000;
@@ -139,6 +144,38 @@ class TimetableScenarioStore {
 
 		return $wishes;
 	}//end wishes()
+
+	/**
+	 * The scheduled lessons that start in a window, as stored.
+	 *
+	 * @param string $from The first moment, ISO 8601.
+	 * @param string $to   The last moment, ISO 8601.
+	 *
+	 * @return array<int,array<string,mixed>>
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+	 */
+	public function scheduledLessons(string $from, string $to): array {
+		$results = $this->objectService()->searchObjectsBySlug(
+			registerSlug: self::REGISTER,
+			schemaSlug: self::SESSION,
+			filters: ['status' => 'scheduled', 'startsAt' => ['gte' => $from, 'lte' => $to], '_limit' => TimetableSessionQuery::MAX_LIMIT],
+			_rbac: false
+		);
+		$first   = strtotime($from);
+		$last    = strtotime($to);
+		$lessons = [];
+		foreach ((new TimetableSessionRows())->listOf(results: $results) as $row) {
+			$data   = (array)$this->dataOf(object: $row);
+			$starts = strtotime((string)($data['startsAt'] ?? ''));
+			// Re-checked here, so the snapshot never depends on OpenRegister applying every filter.
+			if (($data['status'] ?? '') === 'scheduled' && $starts !== false && $starts >= $first && $starts <= $last) {
+				$lessons[] = $data;
+			}
+		}
+
+		return $lessons;
+	}//end scheduledLessons()
 
 	/**
 	 * An object's data with its id, from an ObjectEntity or an array; null for anything else.

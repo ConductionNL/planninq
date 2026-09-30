@@ -31,7 +31,7 @@ DECISIONS.md row 17). Sections 5 onward assume the solver answer recorded in des
 
 ## 6. Imported scenarios
 
-- [ ] 6.1 "Make a scenario from the current timetable": snapshot the `timetableSession` rows of a window into a scenario with `source` `imported`, scored with the same scorer. Verify: PHPUnit: an imported timetable that breaks a hard wish shows that breach in `metrics`.
+- [x] 6.1 "Make a scenario from the current timetable": snapshot the `timetableSession` rows of a window into a scenario with `source` `imported`, scored with the same scorer. Verify: PHPUnit: an imported timetable that breaks a hard wish shows that breach in `metrics`. Built (section 6 PR): `TimetableScenarioImporter` takes the scheduled lessons of the scenario's week (`weekOf`) as a week pattern (a lesson off the grid's period times is unplaced with reason `offGrid`), `POST /api/timetable/scenarios/{id}/import` (admin), button "Take the current timetable" and a "Broken hard wishes" list on the scenario page; PHPUnit `TimetableScenarioImporterTest`, `TimetableScenarioControllerTest`, vitest `timetableScenarios.spec.js`.
 
 ## 7. Compare
 

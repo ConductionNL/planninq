@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Körningen kunde inte startas.",
         "Scenarios": "Scenarier",
         "Timetable scenarios": "Schemascenarier",
-        "Scenario": "Scenario"
+        "Scenario": "Scenario",
+        "Take the current timetable": "Använd det nuvarande schemat",
+        "Could not take the current timetable.": "Det gick inte att hämta det nuvarande schemat.",
+        "Broken hard wishes": "Brutna hårda önskemål",
+        "Not on a period of the week grid": "Inte på en lektion i veckoschemat"
     },
     "nplurals=2; plural=(n != 1);"
 )

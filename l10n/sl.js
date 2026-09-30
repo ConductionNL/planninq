@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Zagona ni bilo mogoče začeti.",
         "Scenarios": "Scenariji",
         "Timetable scenarios": "Scenariji urnika",
-        "Scenario": "Scenarij"
+        "Scenario": "Scenarij",
+        "Take the current timetable": "Prevzemi trenutni urnik",
+        "Could not take the current timetable.": "Trenutnega urnika ni bilo mogoče prevzeti.",
+        "Broken hard wishes": "Kršene obvezne želje",
+        "Not on a period of the week grid": "Ni na uri tedenske mreže"
     },
     "nplurals=2; plural=(n != 1);"
 )

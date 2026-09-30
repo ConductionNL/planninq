@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Не ўдалося пачаць запуск.",
         "Scenarios": "Сцэнарыі",
         "Timetable scenarios": "Сцэнарыі раскладу",
-        "Scenario": "Сцэнарый"
+        "Scenario": "Сцэнарый",
+        "Take the current timetable": "Узяць бягучы расклад",
+        "Could not take the current timetable.": "Не ўдалося ўзяць бягучы расклад.",
+        "Broken hard wishes": "Парушаныя абавязковыя пажаданні",
+        "Not on a period of the week grid": "Не на ўроку тыднёвай сеткі"
     },
     "nplurals=2; plural=(n != 1);"
 )

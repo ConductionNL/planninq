@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Kørslen kunne ikke startes.",
         "Scenarios": "Scenarier",
         "Timetable scenarios": "Skemascenarier",
-        "Scenario": "Scenarie"
+        "Scenario": "Scenarie",
+        "Take the current timetable": "Brug det nuværende skema",
+        "Could not take the current timetable.": "Det nuværende skema kunne ikke hentes.",
+        "Broken hard wishes": "Brudte hårde ønsker",
+        "Not on a period of the week grid": "Ikke på en lektion i ugeskemaet"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "A futtatás nem indítható.",
         "Scenarios": "Forgatókönyvek",
         "Timetable scenarios": "Órarendi forgatókönyvek",
-        "Scenario": "Forgatókönyv"
+        "Scenario": "Forgatókönyv",
+        "Take the current timetable": "Jelenlegi órarend átvétele",
+        "Could not take the current timetable.": "Nem sikerült átvenni a jelenlegi órarendet.",
+        "Broken hard wishes": "Megszegett kötelező kívánságok",
+        "Not on a period of the week grid": "Nem a heti rács egy óráján van"
     },
     "nplurals=2; plural=(n != 1);"
 )

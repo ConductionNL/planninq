@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "No s'ha pogut iniciar l'execució.",
         "Scenarios": "Escenaris",
         "Timetable scenarios": "Escenaris d'horari",
-        "Scenario": "Escenari"
+        "Scenario": "Escenari",
+        "Take the current timetable": "Agafa l'horari actual",
+        "Could not take the current timetable.": "No s'ha pogut agafar l'horari actual.",
+        "Broken hard wishes": "Desitjos obligatoris incomplerts",
+        "Not on a period of the week grid": "No és en una franja de la graella setmanal"
     },
     "nplurals=2; plural=(n != 1);"
 )

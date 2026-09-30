@@ -154,6 +154,31 @@ class TimetableGridService {
 	}//end periodKeys()
 
 	/**
+	 * Every period of the stored grid with its key, day, number, start and end, day by day.
+	 *
+	 * @return array<int,array{key:string,day:string,number:int,start:string,end:string}>
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+	 */
+	public function periodTimes(): array {
+		$grid  = (array)json_decode(($this->normaliseGrid(raw: $this->settings()[self::GRID_KEY]) ?? self::DEFAULT_GRID), true);
+		$times = [];
+		foreach ((array)$grid['days'] as $day) {
+			foreach (array_values((array)$grid['periods']) as $index => $period) {
+				$times[] = [
+					'key'    => $day.'-'.($index + 1),
+					'day'    => (string)$day,
+					'number' => ($index + 1),
+					'start'  => (string)$period['start'],
+					'end'    => (string)$period['end'],
+				];
+			}
+		}
+
+		return $times;
+	}//end periodTimes()
+
+	/**
 	 * A submitted grid as it is stored, or null to refuse it.
 	 *
 	 * Refused: not JSON, no days, a day that is not a week day or is listed

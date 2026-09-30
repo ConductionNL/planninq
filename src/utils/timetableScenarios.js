@@ -84,3 +84,29 @@ export function brokenSoftRows(scenario) {
 		.map((row) => ({ wish: wishSummary(wishes.get(String(row.wish)) ?? { reference: String(row.wish) }), weight: Number(row.weight ?? 1), lessons: row.lessons ?? [] }))
 		.sort((a, b) => (b.weight * b.lessons.length) - (a.weight * a.lessons.length))
 }
+
+/**
+ * The broken hard wishes with the lessons that break them. A generated scenario has none;
+ * an imported timetable can, and they are shown, not hidden.
+ *
+ * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+ * @param {object|null} scenario The scenario.
+ * @return {Array<{wish: object|null, lessons: string[]}>} One row per wish.
+ */
+export function brokenHardRows(scenario) {
+	const wishes = new Map((scenario?.input?.wishes ?? []).map((wish) => [String(wish.id), wish]))
+	return (scenario?.brokenWishes ?? [])
+		.filter((row) => row.strength === 'hard')
+		.map((row) => ({ wish: wishSummary(wishes.get(String(row.wish)) ?? { reference: String(row.wish) }), lessons: row.lessons ?? [] }))
+}
+
+/**
+ * Whether the current timetable can be taken into this scenario: an imported one that is not running or published.
+ *
+ * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+ * @param {object|null} scenario The scenario.
+ * @return {boolean}
+ */
+export function canTakeCurrentTimetable(scenario) {
+	return scenario?.source === 'imported' && !isRunning(scenario) && scenario?.status !== 'published'
+}

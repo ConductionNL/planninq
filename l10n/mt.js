@@ -1045,7 +1045,11 @@ OC.L10N.register(
         "Could not start the run.": "Ma setax jibda t-tħaddim.",
         "Scenarios": "Xenarji",
         "Timetable scenarios": "Xenarji tal-orarju",
-        "Scenario": "Xenarju"
+        "Scenario": "Xenarju",
+        "Take the current timetable": "Ħu l-orarju attwali",
+        "Could not take the current timetable.": "Ma setax jittieħed l-orarju attwali.",
+        "Broken hard wishes": "Xewqat obbligatorji miksura",
+        "Not on a period of the week grid": "Mhux f'lezzjoni tal-grilja tal-ġimgħa"
     },
     "nplurals=2; plural=(n != 1);"
 )
