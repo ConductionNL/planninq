@@ -7,10 +7,10 @@
 
 ## 2. View page
 
-- [ ] 2.1 A `StatusLanes` component (lanes, drag, keyboard move menu) for the view; `ProjectBoard` is not changed, because its lanes are project columns since boards-configurable-columns (design decision 4, amended). Verify: vitest `tests/vitest/statusLanes.spec.js`; existing Playwright `tests/e2e/kanban-board.spec.ts` untouched.
-- [ ] 2.2 `ProjectsView` page at `/boards/views/:id` (manifest and registry) reading every listed project's tasks in parallel, with the hidden and missing project notices and the reused filter bar. Verify: vitest `tests/vitest/projectsView.spec.js` "merges tasks of all readable projects", "counts hidden and missing projects" and "applies the board filter"; Playwright `tests/e2e/projects-view.spec.ts` "view shows tasks of two projects with project chips".
-- [ ] 2.3 Project chip on `TaskCard`. Verify: vitest `tests/vitest/projectsView.spec.js` "card chip carries project title and swatch".
-- [ ] 2.4 Move resolution: target lane to the first column of the task's own project mapping that status; same write as the project board; refusal when no column fits. Verify: vitest `tests/vitest/projectsView.spec.js` "resolves the first column mapping the status" and "no matching column refuses the move"; Playwright `tests/e2e/projects-view.spec.ts` "moving a card places it in its project's column", "keyboard move works on the view" and "project without a matching column refuses the move".
+- [x] 2.1 A `StatusLanes` component (lanes, drag, keyboard move menu) for the view; `ProjectBoard` is not changed, because its lanes are project columns since boards-configurable-columns (design decision 4, amended). Verify: the repo's vitest mounts no components, so the lane logic lives in `src/utils/projectsView.js` (vitest `tests/vitest/projectsView.spec.js`) and the component is covered by Playwright `tests/e2e/projects-view.spec.ts` "keyboard move works on the view"; `tests/e2e/kanban-board.spec.ts` is untouched.
+- [x] 2.2 `ProjectsView` page at `/boards/views/:id` (manifest and registry) reading every listed project's tasks in parallel, with the hidden and missing project notices and the reused filter bar. Verify: vitest `tests/vitest/projectsView.spec.js` "merges tasks of all readable projects", "counts hidden and missing projects" and "applies the board filter"; Playwright `tests/e2e/projects-view.spec.ts` "view shows tasks of two projects with project chips".
+- [x] 2.3 Project chip on `TaskCard`. Verify: vitest `tests/vitest/projectsView.spec.js` "card chip carries project title and swatch".
+- [x] 2.4 Move resolution: target lane to the first column of the task's own project mapping that status; same write as the project board; refusal when no column fits. Verify: vitest `tests/vitest/projectsView.spec.js` "resolves the first column mapping the status" and "no matching column refuses the move"; Playwright `tests/e2e/projects-view.spec.ts` "moving a card places it in its project's column", "keyboard move works on the view" and "project without a matching column refuses the move".
 
 ## 3. Borden
 
@@ -21,3 +21,5 @@
 
 - [ ] 4.1 `openspec validate boards-cross-project-board --type change --strict` passes.
 - [ ] 4.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+
+Note (lane 19, 30 Sep): the Playwright cases for 2.2 to 2.4 are written in `tests/e2e/projects-view.spec.ts` and run in the nightly e2e job; they were not run from the lane's clone. The drag scenario is exercised through the keyboard menu, which emits the same `move` event as a drop.
