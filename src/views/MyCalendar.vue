@@ -31,7 +31,7 @@ import { useProjectsStore } from '../store/projects.js'
  * projects, on their due dates with the project named (planning-calendar).
  * The same query as My tasks; `?date=YYYY-MM-DD` opens it on that day.
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.3
  */
 export default {
 	name: 'MyCalendar',
@@ -51,7 +51,7 @@ export default {
 
 	computed: {
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.3
 		 * @return {string} The day to open on, from ?date=
 		 */
 		initialDate() {
@@ -68,7 +68,7 @@ export default {
 		t,
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.3
 		 */
 		async load() {
 			this.loading = true

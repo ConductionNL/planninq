@@ -25,7 +25,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.2
  */
 
 declare(strict_types=1);
@@ -44,7 +44,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Writes and removes the VTODOs of the "Planninq" task list.
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.2
  */
 class TaskCalendarExportService {
 
@@ -107,7 +107,7 @@ class TaskCalendarExportService {
 	 *
 	 * @return array<string,bool>
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.1
 	 */
 	public function values(string $userId): array {
 		return [
@@ -124,7 +124,7 @@ class TaskCalendarExportService {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.4
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.4
 	 */
 	public function apply(string $userId, array $data): void {
 		if (array_key_exists(self::SWITCH_KEY, $data) === false) {
@@ -156,7 +156,7 @@ class TaskCalendarExportService {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.1
 	 */
 	public function isOn(string $userId): bool {
 		return $this->config->getUserValue($userId, Application::APP_ID, self::SWITCH_KEY, 'false') === 'true';
@@ -169,7 +169,7 @@ class TaskCalendarExportService {
 	 *
 	 * @return array<int,string> Distinct user ids.
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
 	 */
 	public function recipients(array $task): array {
 		$people = array_merge([($task['assignedTo'] ?? '')], (array)($task['sharedWith'] ?? []));
@@ -194,7 +194,7 @@ class TaskCalendarExportService {
 	 *
 	 * @return int How many lists were written.
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
 	 */
 	public function exportTask(string $taskId, array $task, array $users): int {
 		$users   = array_values(array_filter($users, fn (string $user): bool => $this->isOn(userId: $user)));
@@ -235,7 +235,7 @@ class TaskCalendarExportService {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
 	 */
 	public function removeTask(string $taskId, array $users): void {
 		$backend = $this->davBackend();
@@ -258,7 +258,7 @@ class TaskCalendarExportService {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.4
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.4
 	 */
 	public function removeList(string $userId): void {
 		$backend = $this->davBackend();
@@ -283,7 +283,7 @@ class TaskCalendarExportService {
 	 *
 	 * @return int How many tasks were written.
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.4
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.4
 	 */
 	public function backfill(string $userId): int {
 		if ($userId === '' || $this->isOn(userId: $userId) === false || $this->davBackend() === null) {
@@ -309,7 +309,7 @@ class TaskCalendarExportService {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
 	 */
 	public function uidFor(string $taskId): string {
 		return 'planninq-task-' . $taskId . '@' . $this->config->getSystemValueString('instanceid', 'planninq');
@@ -323,7 +323,7 @@ class TaskCalendarExportService {
 	 *
 	 * @return object|null
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.2
 	 */
 	public function davBackend(): ?object {
 		if (class_exists(self::DAV_BACKEND) === false) {

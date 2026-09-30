@@ -20,7 +20,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
  */
 
 declare(strict_types=1);
@@ -33,7 +33,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Task and project reads and the UID write-back for the export.
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
  */
 class TaskCalendarTaskStore {
 
@@ -71,7 +71,7 @@ class TaskCalendarTaskStore {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
 	 */
 	public function projectTitle(string $projectId): string {
 		if ($projectId === '') {
@@ -105,7 +105,7 @@ class TaskCalendarTaskStore {
 	 *
 	 * @return array<string,array<string,mixed>>
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
 	 */
 	public function tasksOf(string $userId): array {
 		try {
@@ -150,7 +150,7 @@ class TaskCalendarTaskStore {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
 	 */
 	public function storeUid(string $taskId, array $task, string $uid): void {
 		$class = self::OR_SYSTEM_CONTEXT;
@@ -204,7 +204,7 @@ class TaskCalendarTaskStore {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
 	 */
 	public function text(mixed $value): string {
 		if (is_scalar($value) === true) {

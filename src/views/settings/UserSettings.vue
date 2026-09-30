@@ -131,7 +131,7 @@ export default {
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.1
 		 */
 		exportToTasks() {
 			const value = useSettingsStore().settings?.export_tasks_to_caldav
@@ -143,7 +143,7 @@ export default {
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.1
 		 */
 		caldavAvailable() {
 			return useSettingsStore().settings?.caldavAvailable === true
@@ -187,7 +187,7 @@ export default {
 		 *
 		 * @param {boolean} checked The new switch state
 		 *
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.1
 		 */
 		async onToggleExport(checked) {
 			await useSettingsStore().saveUserSettings({ export_tasks_to_caldav: checked })

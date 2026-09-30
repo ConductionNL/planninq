@@ -18,7 +18,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-2.4
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.4
  */
 
 declare(strict_types=1);
@@ -32,7 +32,7 @@ use OCP\BackgroundJob\QueuedJob;
 /**
  * Exports one user's assigned tasks once.
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-2.4
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.4
  */
 class TaskCalendarBackfillJob extends QueuedJob {
 
@@ -56,7 +56,7 @@ class TaskCalendarBackfillJob extends QueuedJob {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.4
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.4
 	 */
 	protected function run($argument): void {
 		$this->backfill(argument: $argument);
@@ -69,7 +69,7 @@ class TaskCalendarBackfillJob extends QueuedJob {
 	 *
 	 * @return int How many tasks were written.
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.4
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.4
 	 */
 	public function backfill(mixed $argument): int {
 		$userId = '';

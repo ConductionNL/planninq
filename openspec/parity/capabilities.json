@@ -3719,7 +3719,7 @@
         "evidence": "src/components/TaskCalendar.vue (month grid as a table with a caption, week row, dated list; Previous, Today, Next) over src/utils/calendarHelpers.js; src/views/ProjectCalendar.vue at /projects/:id/calendar from the Calendar project tab; src/views/MyCalendar.vue at /my-calendar over the My tasks query (assignedTo plus sharedWith) naming each task's project",
         "reachedOn": "project tabs, Calendar; My tasks, Show as calendar; dashboard Quick actions, Open my calendar",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/planning-calendar",
+        "change": "openspec/changes/archive/2026-09-30-planning-calendar",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -3758,7 +3758,7 @@
         "evidence": "lib/Service/TaskCalendarExportService.php keeps a VTODO-only \"Planninq\" list per opted-in user through the DAV app's CalDavBackend (resolved by name; the switch is disabled when it is absent); lib/Service/TaskVtodoBuilder.php maps title, description with a managed note, status, priority, start, due, percent complete, completion time, project and a link back; lib/Listener/TaskCalendarExportListener.php rewrites, moves and removes it on every task create, update and delete; lib/BackgroundJob/TaskCalendarBackfillJob.php exports existing tasks on switch-on; task.calendarEventUid stores the UID",
         "reachedOn": "personal settings, Nextcloud Tasks, 'Show my tasks in Nextcloud Tasks'; then the Tasks and Calendar apps and any CalDAV client",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/planning-calendar",
+        "change": "openspec/changes/archive/2026-09-30-planning-calendar",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",

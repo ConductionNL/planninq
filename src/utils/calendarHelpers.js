@@ -7,7 +7,7 @@
  * Dates are handled as local `YYYY-MM-DD` keys, so a due date never moves a
  * day because of the viewer's time zone.
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
  */
 
 const pad = (n) => String(n).padStart(2, '0')
@@ -18,7 +18,7 @@ const pad = (n) => String(n).padStart(2, '0')
  *
  * @param {string|Date|null|undefined} value The date
  * @return {string} The key, or '' when there is no date
- * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
  */
 export function dateKey(value) {
 	if (value instanceof Date) {
@@ -45,7 +45,7 @@ function fromKey(key) {
  *
  * @param {object} task The task
  * @return {{date: string, starts: boolean}|null}
- * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
  */
 export function placement(task) {
 	const due = dateKey(task?.dueDate)
@@ -61,7 +61,7 @@ export function placement(task) {
  *
  * @param {Array<object>} tasks The tasks
  * @return {Map<string, Array<{task: object, starts: boolean}>>}
- * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
  */
 export function tasksByDay(tasks) {
 	const days = new Map()
@@ -86,7 +86,7 @@ export function tasksByDay(tasks) {
  *
  * @param {string} key A `YYYY-MM-DD` key
  * @return {Array<string>}
- * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
  */
 export function weekDays(key) {
 	const day = fromKey(key)
@@ -101,7 +101,7 @@ export function weekDays(key) {
  * @param {number} year The year
  * @param {number} month The month, 0 for January
  * @return {Array<Array<{date: string, inMonth: boolean}>>}
- * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
  */
 export function monthWeeks(year, month) {
 	const first = dateKey(new Date(year, month, 1))
@@ -126,7 +126,7 @@ export function monthWeeks(year, month) {
  * @param {number} month The month, 0 for January
  * @param {number} step Months to move, negative for back
  * @return {{year: number, month: number}}
- * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
  */
 export function shiftMonth(year, month, step) {
 	const date = new Date(year, month + step, 1)
@@ -141,7 +141,7 @@ export function shiftMonth(year, month, step) {
  * @param {string} from The first day key
  * @param {string} to The last day key
  * @return {Array<{date: string, items: Array<{task: object, starts: boolean}>}>}
- * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
  */
 export function listByDate(tasks, from, to) {
 	return [...tasksByDay(tasks).entries()]
