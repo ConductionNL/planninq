@@ -2,14 +2,14 @@
 
 ## 1. Working calendar
 
-- [ ] 1.1 Add `working_weekdays` and `non_working_days` to `SettingsService::ADMIN_CONFIG_DEFAULTS` with validation in `setAdminSettings`. Verify: PHPUnit `SettingsServiceTest::testNonWorkingDaysRejectsMalformedValue` and `testWorkingCalendarReadableByMember`.
-- [ ] 1.2 `src/utils/workingCalendar.js` (`isWorkingDay`, `nextWorkingDay`, `addWorkingDays`, `workingDaysBetween`, `dutchHolidays(year)`). Verify: vitest `tests/vitest/workingCalendar.spec.js` "skips weekends and listed holidays", "counts working days between two dates" and "Dutch holidays 2027 include Easter Monday 29 March".
-- [ ] 1.3 "Working days and holidays" section in `src/views/settings/Settings.vue`. Verify: Playwright `tests/e2e/working-calendar.spec.ts` "admin adds a holiday" and "admin fills in the Dutch holidays for a year".
-- [ ] 1.4 Timeline axis shades every non-working day and labels holidays. Verify: Playwright `tests/e2e/working-calendar.spec.ts` "holiday is shaded and named on the timeline".
+- [x] 1.1 Add `working_weekdays` and `non_working_days` in `WorkingCalendarService` (amended: `SettingsService` is at phpmd's limits; the keys are saved and read through `SettingsController` like `TimetableGridService`'s), with validation on save. Verify: PHPUnit `WorkingCalendarServiceTest::testNonWorkingDaysRejectsMalformedValue`, `testWorkingCalendarReadableByMember` and `SettingsControllerTest::testAMemberReadsTheWorkingCalendar`.
+- [x] 1.2 `src/utils/workingCalendar.js` (`isWorkingDay`, `nextWorkingDay`, `addWorkingDays`, `workingDaysBetween`, `dutchHolidays(year)`). Verify: vitest `tests/vitest/workingCalendar.spec.js` "skips weekends and listed holidays", "counts working days between two dates" and "Dutch holidays 2027 include Easter Monday 29 March".
+- [x] 1.3 "Working days and holidays" section, `src/components/WorkingCalendarSettings.vue`, shown in `src/views/settings/Settings.vue`. Verify: Playwright `tests/e2e/working-calendar.spec.ts` "admin adds a holiday" and "admin fills in the Dutch holidays for a year".
+- [x] 1.4 Timeline axis shades every non-working day and labels holidays. Verify: Playwright `tests/e2e/working-calendar.spec.ts` "holiday is shaded and named on the timeline".
 
 ## 2. Editing on the timeline
 
-- [ ] 2.1 `TimelineController::fetchProjectDependencies` returns each edge's `type`. Verify: PHPUnit `TimelineControllerTest::testEdgesCarryType` and `testTimelineEndpointWritesNothing`.
+- [x] 2.1 `TimelineController::fetchProjectDependencies` returns each edge's `type` (already built by `integration-msproject-import`, #732; this change adds the named tests). Verify: PHPUnit `TimelineControllerTest::testEdgesCarryType` and `testTimelineEndpointWritesNothing`.
 - [ ] 2.2 Bars become focusable buttons with move and resize by pointer, arrow keys and `src/dialogs/TaskDatesDialog.vue`; writes through `updateTask`, revert on failure, live-region announcement. Verify: Playwright `tests/e2e/project-timeline.spec.ts` "member drags a bar to move a task", "member resizes the due date", "member moves a task with the keyboard", "member sets dates in the dialog", "failed write puts the bar back" and "a dropped start on a holiday moves to the next working day".
 - [ ] 2.3 Non-blocking edge types drawn as dotted lines. Verify: vitest `tests/vitest/timelineHelpers.spec.js` "relates edge is styled as non-blocking"; Playwright `tests/e2e/project-timeline.spec.ts` "relates link moves nothing".
 

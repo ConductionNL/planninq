@@ -44,6 +44,9 @@ New `project.autoSchedule` boolean, default `false`, set by the project owner in
 `fetchProjectDependencies` adds `type` (default `blocks`) to each edge row. The timeline draws `blocks` edges as arrows, as today, and other types as dotted lines without arrowheads, so a member sees which links will move work.
 
 ### Decision 6: one app-wide working calendar in the admin settings
+
+Amended at build (30 Sep): the two keys live in `WorkingCalendarService`, saved and read through `SettingsController` next to `TimetableGridService`, not in `SettingsService::ADMIN_CONFIG_DEFAULTS`, because `SettingsService` is at phpmd's complexity and coupling limits. The admin section is its own component, `src/components/WorkingCalendarSettings.vue`. The Dutch holidays added are New Year's Day, Easter Sunday and Monday, King's Day (26 April when 27 April is a Sunday), Liberation Day, Ascension Day, Whit Sunday and Monday, Christmas Day and Boxing Day, each named in the admin's language.
+
 Two new admin keys: `working_weekdays` (JSON array of ISO weekday numbers, default `[1,2,3,4,5]`) and `non_working_days` (JSON array of `{ date, name }`, default `[]`), validated like `default_columns` (a malformed value is rejected and logged). They are returned by `GET /api/settings` to every signed-in user, so the timeline can read them without an admin call. The admin edits them in a new "Working days and holidays" section of `src/views/settings/Settings.vue`, which can also fill in the Dutch national holidays for a chosen year (a pure helper computing the fixed dates and the Easter-based ones). This sits in Beheer per ADR-001 rule 5. The alternative, a `workingCalendar` schema in the register, would put configuration among the business objects and make every member a potential writer.
 
 ### Decision 7: the working calendar drives every date the timeline computes

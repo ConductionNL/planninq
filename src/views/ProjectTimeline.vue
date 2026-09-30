@@ -85,6 +85,11 @@
 							:key="tick.iso"
 							class="project-timeline__tick"
 							:class="{ 'project-timeline__tick--weekend': tick.weekend }"
+							:role="tick.holiday ? 'img' : null"
+							:aria-label="tick.holiday || null"
+							:title="tick.holiday || null"
+							:data-date="tick.iso"
+							:data-non-working="tick.weekend ? 'true' : null"
 							:style="{ left: tick.x + 'px', width: pxPerDay + 'px' }">
 							<span class="project-timeline__tick-label">{{ tick.label }}</span>
 						</div>
@@ -197,6 +202,7 @@ import ProjectRoadmap from '../components/ProjectRoadmap.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import MsProjectImportDialog from '../dialogs/MsProjectImportDialog.vue'
 import { fetchProjectTimeline } from '../api/timeline.js'
+import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
 import { mayImport } from '../utils/msprojectImport.js'
 import {
@@ -206,6 +212,7 @@ import {
 	STATUS_COLORS,
 	toScheduled,
 } from '../utils/timelineHelpers.js'
+import { isWorkingDay, normaliseCalendar } from '../utils/workingCalendar.js'
 
 export default {
 	name: 'ProjectTimeline',
@@ -231,6 +238,7 @@ export default {
 			tasks: [],
 			unscheduled: [],
 			dependencies: [],
+			calendar: normaliseCalendar({}),
 			showImport: false,
 			zoom: { value: 'day', label: t('planninq', 'Day') },
 			zoomOptions: [
@@ -367,22 +375,24 @@ export default {
 		},
 
 		/**
-		 * Day axis ticks (one per day), labelled and weekend-flagged.
+		 * Day axis ticks (one per day), labelled, shaded on every non-working
+		 * day of the working calendar and named on a listed holiday.
 		 *
-		 * @return {Array<object>} Ticks with iso/label/x/weekend.
+		 * @return {Array<object>} Ticks with iso/label/x/weekend/holiday.
 		 *
-		 * @spec exclude Presentational axis derivation.
+		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.4
 		 */
 		axisTicks() {
 			const ticks = []
 			for (let d = 0; d < this.dayCount; d++) {
 				const date = new Date((this.minDay + d) * MS_PER_DAY)
-				const day = date.getUTCDay()
+				const iso = date.toISOString().slice(0, 10)
 				ticks.push({
-					iso: date.toISOString().slice(0, 10),
+					iso,
 					label: this.tickLabel(date, d),
 					x: d * this.pxPerDay,
-					weekend: day === 0 || day === 6,
+					weekend: !isWorkingDay(iso, this.calendar),
+					holiday: this.calendar.holidays.get(iso) || '',
 				})
 			}
 			return ticks
@@ -420,6 +430,10 @@ export default {
 	 * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md#requirement-a-projects-tasks-can-be-viewed-on-a-time-axis
 	 */
 	async mounted() {
+		const settings = useSettingsStore()
+		settings.fetchSettings().then(() => {
+			this.calendar = normaliseCalendar(settings.settings)
+		}).catch(() => {})
 		const store = useProjectsStore()
 		if (!store.activeProject || store.activeProject.id !== this.projectId) {
 			await store.fetchProject(this.projectId).catch(() => {})
