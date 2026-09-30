@@ -2017,7 +2017,7 @@
       "area": "boards",
       "name": "Have an action run automatically when a card enters a column, such as assigning it or closing it.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "partial",
       "plane": "no",
@@ -2035,11 +2035,12 @@
         "plane": "corpus: plane/round4/code-census.md §3 'The only automation engine in CE is two integer settings and one nightly job' (archive_in, close_in); 'Trigger And Action' (Pro) and 'Workflows + Approvals' (Business) are paid strings absent from Community (open-core.md) ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(settings)/settings/projects/[projectId]/automations/page.tsx holds only apps/web/core/components/automation/auto-archive-automation.tsx:27-50 and auto-close; apps/api/plane/db/models/project.py:110-111 archive_in and close_in; apps/api/plane/bgtasks/issue_automation_task.py:23 nightly job. No on-enter-column trigger"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/store/projects.js:835 updateTaskStatus() only PATCHes `status`; no listener or automation runs on a status/column change anywhere in lib/Listener or src/.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Listener/ColumnAutomationListener.php (registered for task creates and updates in Application::registerBoardColumnListeners) merges the entered column's rules into the save, each value checked (priority enum, project member, existing label), invalid rules skipped and logged; column.automation in lib/Settings/planninq_register.json; src/dialogs/ColumnRulesDialog.vue from the owner's column menu (src/components/ColumnActions.vue), rules icon and live-region announcement in src/views/ProjectBoard.vue",
+        "reachedOn": "Project board, column menu, Rules",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/boards-column-automation"
+        "change": "openspec/changes/archive/2026-09-30-boards-column-automation",
+        "readOn": "2026-09-30"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

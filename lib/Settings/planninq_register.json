@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.26.0"
+    "version": "0.27.0"
   },
   "x-openregister": {
     "type": "application",
@@ -1158,7 +1158,7 @@
       "column": {
         "slug": "column",
         "icon": "ViewColumnOutline",
-        "version": "0.4.0",
+        "version": "0.5.0",
         "title": "Column",
         "description": "A kanban column belonging to a project. Maps to schema:DefinedTerm.",
         "x-schema-org": "schema:DefinedTerm",
@@ -1300,6 +1300,39 @@
               "cancelled"
             ],
             "nullable": true
+          },
+          "automation": {
+            "title": "Rules",
+            "type": "array",
+            "description": "What happens to a card when it enters this column, applied in list order.",
+            "items": {
+              "type": "object",
+              "required": [
+                "action"
+              ],
+              "properties": {
+                "action": {
+                  "title": "Action",
+                  "description": "What the rule does to the card.",
+                  "type": "string",
+                  "enum": [
+                    "setPriority",
+                    "assign",
+                    "assignMover",
+                    "unassign",
+                    "addLabel"
+                  ]
+                },
+                "value": {
+                  "title": "Value",
+                  "description": "The priority, the user id or the label id the action uses; empty for actions without one.",
+                  "type": "string",
+                  "nullable": true
+                }
+              }
+            },
+            "default": [],
+            "x-notes": "Edited in the board's Rules dialog by the project owner (ColumnOwnerGuardListener). ColumnAutomationListener applies the rules in the same save that moves a task into this column, and checks every value itself because data merged by a pre-save listener is not validated again (boards-column-automation)."
           }
         }
       },

@@ -20,6 +20,8 @@ A project owner MUST be able to add, change and remove rules on a column of thei
 - **THEN** it offers no "Rules" entry
 - **AND** a PATCH of the column's `automation` from their client is refused by OpenRegister
 
+@e2e exclude needs a second, non-owner member account the CI e2e run does not have; the refused PATCH is covered by tests/unit/Listener/ColumnOwnerGuardListenerTest.php::testAMemberWhoIsNotTheOwnerCannotChangeTheRules on the real listener, and the menu entry is shown only when ProjectBoard.vue isOwner is true (ColumnActions `rules` prop)
+
 #### Scenario: The dialog offers only project members
 
 - **GIVEN** a project with members Anna and Ben, and a user Carl who is not a member

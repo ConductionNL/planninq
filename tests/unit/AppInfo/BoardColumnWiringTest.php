@@ -71,6 +71,11 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				[['ObjectCreatingEvent', ['column']], ['ObjectUpdatingEvent', ['column']], ['ObjectDeletingEvent', ['column']]],
 				$byListener['OCA\\Planninq\\Listener\\ColumnOwnerGuardListener']
 			);
+			self::assertSame(
+				[['ObjectCreatingEvent', ['task']], ['ObjectUpdatingEvent', ['task']]],
+				($byListener['OCA\\Planninq\\Listener\\ColumnAutomationListener'] ?? null),
+				'column rules run on task creates and updates (boards-column-automation task 1.2)'
+			);
 
 			$boot = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
 			self::assertStringContainsString('$this->registerBoardColumnListeners(dispatcher: $dispatcher);', $boot, 'boot() calls the registration');

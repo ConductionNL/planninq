@@ -207,6 +207,27 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testTaskIsSharedWithAListOfPeople()
 
 	/**
+	 * A column keeps its rules: each an action from the list and, for some actions, a value.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.1
+	 */
+	public function testColumnAutomationShape(): void {
+		$rules = ($this->register['components']['schemas']['column']['properties']['automation'] ?? null);
+		self::assertIsArray($rules, 'column declares automation');
+		self::assertSame('array', $rules['type']);
+		self::assertSame(['action'], $rules['items']['required']);
+
+		$base = ['title' => 'Review', 'project' => '5b0e8f3a-8d1c-4f7e-9a51-2f7c0b1d9e44', 'order' => 2];
+		$good = [['action' => 'assignMover'], ['action' => 'setPriority', 'value' => 'high'], ['action' => 'addLabel', 'value' => '9f1c7d2e-3b4a-4c5d-8e6f-7a8b9c0d1e2f']];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'column', payload: $base + ['automation' => $good]));
+		self::assertSame([], $this->registerSchemaErrors(slug: 'column', payload: $base + ['automation' => []]));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'column', payload: $base + ['automation' => [['value' => 'high']]]), 'control: a rule needs its action');
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'column', payload: $base + ['automation' => [['action' => 'closeTask']]]), 'control: an action outside the list');
+	}//end testColumnAutomationShape()
+
+	/**
 	 * A task keeps a checklist of small steps: each item an id, a text and a done flag.
 	 *
 	 * @return void
