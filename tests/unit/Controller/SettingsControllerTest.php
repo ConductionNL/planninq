@@ -501,7 +501,7 @@ class SettingsControllerTest extends TestCase {
 	/**
 	 * An admin saves a holiday and a member reads it back through GET /api/settings (planning-timeline-editing task 1.1).
 	 *
-	 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
 	 *
 	 * @return void
 	 */

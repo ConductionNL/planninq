@@ -11,13 +11,13 @@
 
 - [x] 2.1 `TimelineController::fetchProjectDependencies` returns each edge's `type` (already built by `integration-msproject-import`, #732; this change adds the named tests). Verify: PHPUnit `TimelineControllerTest::testEdgesCarryType` and `testTimelineEndpointWritesNothing`.
 - [x] 2.2 Bars become focusable buttons with move and resize by pointer, arrow keys and `src/dialogs/TaskDatesDialog.vue`; writes through `updateTask`, revert on failure, live-region announcement; the date sums in `src/utils/timelineEditing.js` (vitest `tests/vitest/timelineEditing.spec.js`). Verify: Playwright `tests/e2e/timeline-editing.spec.ts` (amended: its own file) "member drags a bar to move a task", "member resizes the due date", "member moves a task with the keyboard", "member sets dates in the dialog", "failed write puts the bar back" and "a dropped start on a holiday moves to the next working day".
-- [ ] 2.3 Non-blocking edge types drawn as dotted lines. Verify: vitest `tests/vitest/timelineHelpers.spec.js` "relates edge is styled as non-blocking"; Playwright `tests/e2e/project-timeline.spec.ts` "relates link moves nothing".
+- [x] 2.3 Non-blocking edge types drawn as dotted lines. Verify: vitest `tests/vitest/timelineHelpers.spec.js` "relates edge is styled as non-blocking"; Playwright `tests/e2e/timeline-autoschedule.spec.ts` (amended: its own file) "relates link moves nothing".
 
 ## 3. Auto-scheduling
 
-- [ ] 3.1 `project.autoSchedule` (boolean, default false) in the register and a switch in `ProjectSettingsSidebar` for the owner. Verify: PHPUnit `PlanninqRegisterSchemaTest::testProjectAutoScheduleDefaultsOff`; Playwright `tests/e2e/project-timeline.spec.ts` "without auto-scheduling only the dragged task moves".
-- [ ] 3.2 `cascade()` in `src/utils/scheduling.js` following `blocks` edges only, forward only, in working days. Verify: vitest `tests/vitest/scheduling.spec.js` "slip pushes a chain", "relates edge moves nothing", "earlier move pulls nothing" and "successor that already starts later stays".
-- [ ] 3.3 `src/dialogs/RescheduleDialog.vue` preview with "Move all", "Only this task" and "Cancel", sequential writes, stop and report on failure. Verify: Playwright `tests/e2e/project-timeline.spec.ts` "slip shows the preview and moves the chain" and "member moves only the task they dragged"; vitest `tests/vitest/scheduling.spec.js` "write run stops at the first failure and reports it".
+- [x] 3.1 `project.autoSchedule` (boolean, default false) in the register and a switch in `ProjectSettingsSidebar` for the owner. Verify: PHPUnit `PlanninqRegisterSchemaTest::testProjectAutoScheduleDefaultsOff`; Playwright `tests/e2e/timeline-autoschedule.spec.ts` "without auto-scheduling only the dragged task moves".
+- [x] 3.2 `cascade()` in `src/utils/scheduling.js` following `blocks` edges only, forward only, in working days. Verify: vitest `tests/vitest/scheduling.spec.js` "slip pushes a chain", "relates edge moves nothing", "earlier move pulls nothing" and "successor that already starts later stays".
+- [x] 3.3 `src/dialogs/RescheduleDialog.vue` preview with "Move all", "Only this task" and "Cancel", sequential writes, stop and report on failure. Verify: Playwright `tests/e2e/timeline-autoschedule.spec.ts` "slip shows the preview and moves the chain" and "member moves only the task they dragged"; vitest `tests/vitest/scheduling.spec.js` "write run stops at the first failure and reports it".
 
 ## 4. Specs and docs
 
@@ -25,5 +25,5 @@
 
 ## 5. Verification
 
-- [ ] 5.1 `openspec validate planning-timeline-editing --type change --strict` passes.
-- [ ] 5.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+- [x] 5.1 `openspec validate planning-timeline-editing --type change --strict` passes.
+- [x] 5.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.

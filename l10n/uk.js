@@ -1239,7 +1239,19 @@ OC.L10N.register(
         "The due date cannot be before the start date.": "Термін не може бути раніше дати початку.",
         "{title}, from {start} to {end}": "{title}, з {start} по {end}",
         "The dates could not be saved.": "Не вдалося зберегти дати.",
-        "{title} now runs from {start} to {end}": "{title} тепер триває з {start} по {end}"
+        "{title} now runs from {start} to {end}": "{title} тепер триває з {start} по {end}",
+        "Auto-scheduling": "Автоматичне планування",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Якщо ввімкнено, перенесення терміну на часовій шкалі пізніше пропонує зсунути й заблоковані ним завдання.",
+        "Move blocked tasks along when a task slips": "Зсувати заблоковані завдання, коли завдання затримується",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "На часовій шкалі пізніший термін пропонує зсунути заблоковані завдання. Враховуються лише зв'язки \"блокує\", і завдання зсуваються лише пізніше.",
+        "Move the tasks that wait for {title}?": "Зсунути завдання, які чекають {title}?",
+        "These tasks wait for it and would start after its new due date:": "Ці завдання чекають на нього й почнуться після нового терміну:",
+        "{count} tasks would move; the first {limit} are listed.": "Буде зсунуто завдань: {count}; показано перші {limit}.",
+        "Now": "Зараз",
+        "After the move": "Після зсуву",
+        "Only this task": "Лише це завдання",
+        "Move all": "Зсунути всі",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Зупинено на {title}: не вдалося зберегти дати. Завдання перед ним зсунуто."
     },
     "nplurals=2; plural=(n != 1);"
 )

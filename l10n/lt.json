@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Terminas negali būti anksčiau už pradžios datą.",
         "{title}, from {start} to {end}": "{title}, nuo {start} iki {end}",
         "The dates could not be saved.": "Nepavyko išsaugoti datų.",
-        "{title} now runs from {start} to {end}": "{title} dabar vyksta nuo {start} iki {end}"
+        "{title} now runs from {start} to {end}": "{title} dabar vyksta nuo {start} iki {end}",
+        "Auto-scheduling": "Automatinis planavimas",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Kai įjungta, termino nukėlimas vėliau laiko juostoje pasiūlo nukelti ir jo blokuojamas užduotis.",
+        "Move blocked tasks along when a task slips": "Nukelti blokuojamas užduotis, kai užduotis vėluoja",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Laiko juostoje vėlesnis terminas pasiūlo nukelti blokuojamas užduotis. Skaičiuojamos tik \"blokuoja\" sąsajos, o užduotys nukeliamos tik vėliau.",
+        "Move the tasks that wait for {title}?": "Nukelti užduotis, kurios laukia {title}?",
+        "These tasks wait for it and would start after its new due date:": "Šios užduotys jos laukia ir prasidėtų po naujo termino:",
+        "{count} tasks would move; the first {limit} are listed.": "Būtų nukelta užduočių: {count}; rodomos pirmosios {limit}.",
+        "Now": "Dabar",
+        "After the move": "Po nukėlimo",
+        "Only this task": "Tik ši užduotis",
+        "Move all": "Nukelti visas",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Sustota ties {title}: nepavyko išsaugoti datų. Ankstesnės užduotys nukeltos."
     },
     "plurals": null
 }

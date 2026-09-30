@@ -8,7 +8,7 @@
  * UTC, as the timeline axis reads them, so a date never shifts with the
  * browser's time zone.
  *
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.2
  */
 
 const DEFAULT_WEEKDAYS = [1, 2, 3, 4, 5]
@@ -37,7 +37,7 @@ function parse(value) {
  *
  * @param {object} settings The settings (working_weekdays, non_working_days)
  * @return {{weekdays: Array<number>, holidays: Map<string, string>}}
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.2
  */
 export function normaliseCalendar(settings = {}) {
 	const weekdays = parse(settings?.working_weekdays)
@@ -78,7 +78,7 @@ function key(ms) {
  * @param {string} date The `YYYY-MM-DD` key
  * @param {object} calendar From normaliseCalendar()
  * @return {boolean}
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.2
  */
 export function isWorkingDay(date, calendar) {
 	const day = String(date).slice(0, 10)
@@ -92,7 +92,7 @@ export function isWorkingDay(date, calendar) {
  * @param {string} date The `YYYY-MM-DD` key
  * @param {object} calendar From normaliseCalendar()
  * @return {string}
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.2
  */
 export function nextWorkingDay(date, calendar) {
 	let ms = time(date)
@@ -110,7 +110,7 @@ export function nextWorkingDay(date, calendar) {
  * @param {number} count Working days to add, 0 or more
  * @param {object} calendar From normaliseCalendar()
  * @return {string}
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.2
  */
 export function addWorkingDays(date, count, calendar) {
 	let day = nextWorkingDay(date, calendar)
@@ -128,7 +128,7 @@ export function addWorkingDays(date, count, calendar) {
  * @param {string} to The last `YYYY-MM-DD` key
  * @param {object} calendar From normaliseCalendar()
  * @return {number}
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.2
  */
 export function workingDaysBetween(from, to, calendar) {
 	let count = 0
@@ -171,7 +171,7 @@ function easter(year) {
  * @param {number} year The year
  * @param {function(string): string} translate English name to the name to store
  * @return {Array<{date: string, name: string}>}
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.2
  */
 export function dutchHolidays(year, translate = (name) => name) {
 	const sunday = easter(year)

@@ -1239,7 +1239,19 @@ OC.L10N.register(
         "The due date cannot be before the start date.": "Forfaldsdatoen kan ikke ligge før startdatoen.",
         "{title}, from {start} to {end}": "{title}, fra {start} til {end}",
         "The dates could not be saved.": "Datoerne kunne ikke gemmes.",
-        "{title} now runs from {start} to {end}": "{title} løber nu fra {start} til {end}"
+        "{title} now runs from {start} to {end}": "{title} løber nu fra {start} til {end}",
+        "Auto-scheduling": "Automatisk planlægning",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Når den er slået til, tilbyder en senere forfaldsdato på tidslinjen at flytte de opgaver, den blokerer, med.",
+        "Move blocked tasks along when a task slips": "Flyt blokerede opgaver med, når en opgave skrider",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "På tidslinjen tilbyder en senere forfaldsdato at flytte de blokerede opgaver med. Kun \"blokerer\"-links tæller, og opgaver flyttes kun senere.",
+        "Move the tasks that wait for {title}?": "Flyt de opgaver, der venter på {title}?",
+        "These tasks wait for it and would start after its new due date:": "Disse opgaver venter på den og ville starte efter den nye forfaldsdato:",
+        "{count} tasks would move; the first {limit} are listed.": "{count} opgaver ville blive flyttet; de første {limit} vises.",
+        "Now": "Nu",
+        "After the move": "Efter flytningen",
+        "Only this task": "Kun denne opgave",
+        "Move all": "Flyt alle",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Stoppet ved {title}: datoerne kunne ikke gemmes. Opgaverne før den blev flyttet."
     },
     "nplurals=2; plural=(n != 1);"
 )

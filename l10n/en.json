@@ -1217,7 +1217,19 @@
         "The due date cannot be before the start date.": "The due date cannot be before the start date.",
         "{title}, from {start} to {end}": "{title}, from {start} to {end}",
         "The dates could not be saved.": "The dates could not be saved.",
-        "{title} now runs from {start} to {end}": "{title} now runs from {start} to {end}"
+        "{title} now runs from {start} to {end}": "{title} now runs from {start} to {end}",
+        "Auto-scheduling": "Auto-scheduling",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.",
+        "Move blocked tasks along when a task slips": "Move blocked tasks along when a task slips",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.",
+        "Move the tasks that wait for {title}?": "Move the tasks that wait for {title}?",
+        "These tasks wait for it and would start after its new due date:": "These tasks wait for it and would start after its new due date:",
+        "{count} tasks would move; the first {limit} are listed.": "{count} tasks would move; the first {limit} are listed.",
+        "Now": "Now",
+        "After the move": "After the move",
+        "Only this task": "Only this task",
+        "Move all": "Move all",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Stopped at {title}: its dates could not be saved. The tasks before it were moved."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

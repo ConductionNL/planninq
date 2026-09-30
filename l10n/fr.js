@@ -1239,7 +1239,19 @@ OC.L10N.register(
         "The due date cannot be before the start date.": "La date d'échéance ne peut pas précéder la date de début.",
         "{title}, from {start} to {end}": "{title}, du {start} au {end}",
         "The dates could not be saved.": "Impossible d'enregistrer les dates.",
-        "{title} now runs from {start} to {end}": "{title} court maintenant du {start} au {end}"
+        "{title} now runs from {start} to {end}": "{title} court maintenant du {start} au {end}",
+        "Auto-scheduling": "Planification automatique",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Si activé, reporter une échéance sur la chronologie propose de décaler aussi les tâches qu'elle bloque.",
+        "Move blocked tasks along when a task slips": "Décaler les tâches bloquées quand une tâche prend du retard",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Sur la chronologie, une échéance plus tardive propose de décaler les tâches bloquées. Seuls les liens « bloque » comptent, et les tâches ne sont décalées que vers plus tard.",
+        "Move the tasks that wait for {title}?": "Décaler les tâches qui attendent {title} ?",
+        "These tasks wait for it and would start after its new due date:": "Ces tâches l'attendent et commenceraient après sa nouvelle échéance :",
+        "{count} tasks would move; the first {limit} are listed.": "{count} tâches seraient décalées ; les {limit} premières sont listées.",
+        "Now": "Maintenant",
+        "After the move": "Après le décalage",
+        "Only this task": "Seulement cette tâche",
+        "Move all": "Tout décaler",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Arrêté à {title} : ses dates n'ont pas pu être enregistrées. Les tâches précédentes ont été décalées."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Termín nemůže být před datem zahájení.",
         "{title}, from {start} to {end}": "{title}, od {start} do {end}",
         "The dates could not be saved.": "Data se nepodařilo uložit.",
-        "{title} now runs from {start} to {end}": "{title} nyní probíhá od {start} do {end}"
+        "{title} now runs from {start} to {end}": "{title} nyní probíhá od {start} do {end}",
+        "Auto-scheduling": "Automatické plánování",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Je-li zapnuto, posunutí termínu na časové ose nabídne posunout i úkoly, které blokuje.",
+        "Move blocked tasks along when a task slips": "Posouvat blokované úkoly, když se úkol zpozdí",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Na časové ose pozdější termín nabídne posunout blokované úkoly. Počítají se jen vazby \"blokuje\" a úkoly se posouvají jen později.",
+        "Move the tasks that wait for {title}?": "Posunout úkoly, které čekají na {title}?",
+        "These tasks wait for it and would start after its new due date:": "Tyto úkoly na něj čekají a začaly by po novém termínu:",
+        "{count} tasks would move; the first {limit} are listed.": "Posunulo by se {count} úkolů; zobrazeno je prvních {limit}.",
+        "Now": "Nyní",
+        "After the move": "Po posunutí",
+        "Only this task": "Jen tento úkol",
+        "Move all": "Posunout vše",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Zastaveno u {title}: data se nepodařilo uložit. Úkoly před ním byly posunuty."
     },
     "plurals": null
 }

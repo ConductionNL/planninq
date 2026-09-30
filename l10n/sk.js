@@ -1239,7 +1239,19 @@ OC.L10N.register(
         "The due date cannot be before the start date.": "Termín nemôže byť pred dátumom začiatku.",
         "{title}, from {start} to {end}": "{title}, od {start} do {end}",
         "The dates could not be saved.": "Dátumy sa nepodarilo uložiť.",
-        "{title} now runs from {start} to {end}": "{title} teraz prebieha od {start} do {end}"
+        "{title} now runs from {start} to {end}": "{title} teraz prebieha od {start} do {end}",
+        "Auto-scheduling": "Automatické plánovanie",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Ak je zapnuté, posunutie termínu na časovej osi ponúkne posunúť aj úlohy, ktoré blokuje.",
+        "Move blocked tasks along when a task slips": "Posúvať blokované úlohy, keď sa úloha oneskorí",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Na časovej osi neskorší termín ponúkne posunúť blokované úlohy. Počítajú sa len väzby \"blokuje\" a úlohy sa posúvajú len neskôr.",
+        "Move the tasks that wait for {title}?": "Posunúť úlohy, ktoré čakajú na {title}?",
+        "These tasks wait for it and would start after its new due date:": "Tieto úlohy naň čakajú a začali by sa po novom termíne:",
+        "{count} tasks would move; the first {limit} are listed.": "Posunulo by sa {count} úloh; zobrazených je prvých {limit}.",
+        "Now": "Teraz",
+        "After the move": "Po posunutí",
+        "Only this task": "Len táto úloha",
+        "Move all": "Posunúť všetky",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Zastavené pri {title}: dátumy sa nepodarilo uložiť. Úlohy pred ním boli posunuté."
     },
     "nplurals=2; plural=(n != 1);"
 )

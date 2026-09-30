@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Määräpäivä ei voi olla ennen aloituspäivää.",
         "{title}, from {start} to {end}": "{title}, {start}–{end}",
         "The dates could not be saved.": "Päivämääriä ei voitu tallentaa.",
-        "{title} now runs from {start} to {end}": "{title} kestää nyt {start}–{end}"
+        "{title} now runs from {start} to {end}": "{title} kestää nyt {start}–{end}",
+        "Auto-scheduling": "Automaattinen aikataulutus",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Kun tämä on päällä, määräpäivän siirtäminen myöhemmäksi aikajanalla tarjoaa siirtää myös sen estämät tehtävät.",
+        "Move blocked tasks along when a task slips": "Siirrä estetyt tehtävät, kun tehtävä myöhästyy",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Aikajanalla myöhempi määräpäivä tarjoaa siirtää estetyt tehtävät. Vain \"estää\"-linkit lasketaan, ja tehtävät siirtyvät vain myöhemmäksi.",
+        "Move the tasks that wait for {title}?": "Siirretäänkö tehtävät, jotka odottavat kohdetta {title}?",
+        "These tasks wait for it and would start after its new due date:": "Nämä tehtävät odottavat sitä ja alkaisivat uuden määräpäivän jälkeen:",
+        "{count} tasks would move; the first {limit} are listed.": "{count} tehtävää siirtyisi; ensimmäiset {limit} näytetään.",
+        "Now": "Nyt",
+        "After the move": "Siirron jälkeen",
+        "Only this task": "Vain tämä tehtävä",
+        "Move all": "Siirrä kaikki",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Pysähtyi kohtaan {title}: päivämääriä ei voitu tallentaa. Sitä edeltävät tehtävät siirrettiin."
     },
     "plurals": null
 }

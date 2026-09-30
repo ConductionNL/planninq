@@ -1239,7 +1239,19 @@ OC.L10N.register(
         "The due date cannot be before the start date.": "Rok ne može biti prije datuma početka.",
         "{title}, from {start} to {end}": "{title}, od {start} do {end}",
         "The dates could not be saved.": "Datume nije bilo moguće spremiti.",
-        "{title} now runs from {start} to {end}": "{title} sada traje od {start} do {end}"
+        "{title} now runs from {start} to {end}": "{title} sada traje od {start} do {end}",
+        "Auto-scheduling": "Automatsko planiranje",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Kad je uključeno, kasniji rok na vremenskoj crti nudi pomicanje zadataka koje blokira.",
+        "Move blocked tasks along when a task slips": "Pomakni blokirane zadatke kad zadatak kasni",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Na vremenskoj crti kasniji rok nudi pomicanje blokiranih zadataka. Broje se samo veze \"blokira\", a zadaci se pomiču samo kasnije.",
+        "Move the tasks that wait for {title}?": "Pomaknuti zadatke koji čekaju {title}?",
+        "These tasks wait for it and would start after its new due date:": "Ovi zadaci ga čekaju i počeli bi nakon novog roka:",
+        "{count} tasks would move; the first {limit} are listed.": "Pomaknulo bi se {count} zadataka; prikazano je prvih {limit}.",
+        "Now": "Sada",
+        "After the move": "Nakon pomaka",
+        "Only this task": "Samo ovaj zadatak",
+        "Move all": "Pomakni sve",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Zaustavljeno kod {title}: datume nije bilo moguće spremiti. Zadaci prije njega su pomaknuti."
     },
     "nplurals=2; plural=(n != 1);"
 )

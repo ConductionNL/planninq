@@ -3480,7 +3480,7 @@
       "area": "planning",
       "name": "Reschedule a task by dragging its bar on the timeline.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -3498,11 +3498,12 @@
         "plane": "source: apps/web/core/components/gantt-chart/helpers/draggable.tsx LeftResizable, RightResizable and onMouseDown handleBlockDrag(e, \"move\"); chart/timeline-drag-helper.tsx ; corpus: plane/round4/menu-tree.md gantt layout ; source read at v1.4.2: apps/web/core/components/gantt-chart/helpers/draggable.tsx:15-16,34 LeftResizable, RightResizable and handleBlockDrag move; apps/web/core/components/gantt-chart/chart/main-content.tsx:40 blockUpdateHandler; apps/api/plane/app/views/issue/base.py:628 partial_update stores start_date and target_date"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/views/ProjectTimeline.vue:140-150 doc comment states 'It is strictly read-only: it fetches once ... and never creates or mutates an object'; no drag handlers on .project-timeline__bar",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/ProjectTimeline.vue bars are buttons: drag to move, drag either end to resize, Left/Right (Shift for the due date) and Enter for src/dialogs/TaskDatesDialog.vue; src/utils/timelineEditing.js keeps the working length; writes through updateTask, puts the bar back on a refused write and announces the new dates",
+        "reachedOn": "project timeline, task bars",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/planning-timeline-editing"
+        "change": "openspec/changes/archive/2026-09-30-planning-timeline-editing",
+        "readOn": "2026-09-30"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3515,7 +3516,7 @@
       "area": "planning",
       "name": "Have dependent tasks move automatically when the task before them slips.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
@@ -3533,11 +3534,12 @@
         "plane": "source: gantt-chart/blocks/block.tsx:32 updateBlockDates(IBlockUpdateDependencyData[]) is a seam, but dependency handling is dropped in draggable.tsx (see pln-deps-on-timeline) and relation.py create changes no dates; corpus: plane/round4/code-census.md §8 'No other module computes a date' ; source read at v1.4.2: apps/web/core/components/gantt-chart/blocks/block.tsx:32,45 updateBlockDates is a typed seam, but apps/web/core/components/gantt-chart/helpers/draggable.tsx:30-38 drops enableDependency; apps/api/plane/app/views/issue/relation.py:229-245 creating a relation changes no dates"
       },
       "built": {
-        "state": "specified",
-        "evidence": "no code searched (rescheduling, cascade, slip) in src/ or lib/; ProjectTimeline.vue is read-only and dependency edges are display-only",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "project.autoSchedule (default off, owner or admin) in src/components/ProjectSettingsSidebar.vue; src/utils/scheduling.js cascade() follows blocks links forward in working days; src/dialogs/RescheduleDialog.vue previews the pushed tasks with Move all, Only this task and Cancel; writes stop at the first refusal",
+        "reachedOn": "project settings, Move blocked tasks along; project timeline, a later due date",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/planning-timeline-editing"
+        "change": "openspec/changes/archive/2026-09-30-planning-timeline-editing",
+        "readOn": "2026-09-30"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3651,7 +3653,7 @@
       "area": "planning",
       "name": "Plan against working days and public holidays rather than calendar days.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
@@ -3673,11 +3675,12 @@
         "timeedit": "docs read 2026-09-27: https://developer.timeedit.com/reference/get_holidays 'LIST Holidays ... Region from GET /holidays/regions' ; https://www.academy.timeedit.com/release-notes 'Don't allow bookings on holidays' setting in Preferences"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/views/ProjectTimeline.vue:56 only visually shades weekend columns (project-timeline__tick--weekend); there is no scheduling logic at all (the timeline is read-only) and no holiday calendar concept anywhere",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Service/WorkingCalendarService.php keeps working_weekdays and non_working_days (validated, read by every user through GET /api/settings); src/components/WorkingCalendarSettings.vue with the Dutch national holidays of a year; src/utils/workingCalendar.js; the timeline shades non-working days and names holidays",
+        "reachedOn": "admin settings, Working days and holidays; project timeline axis",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/planning-timeline-editing"
+        "change": "openspec/changes/archive/2026-09-30-planning-timeline-editing",
+        "readOn": "2026-09-30"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

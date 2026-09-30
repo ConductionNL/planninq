@@ -1239,7 +1239,19 @@ OC.L10N.register(
         "The due date cannot be before the start date.": "Tähtaeg ei saa olla enne alguskuupäeva.",
         "{title}, from {start} to {end}": "{title}, {start} kuni {end}",
         "The dates could not be saved.": "Kuupäevi ei õnnestunud salvestada.",
-        "{title} now runs from {start} to {end}": "{title} kestab nüüd {start} kuni {end}"
+        "{title} now runs from {start} to {end}": "{title} kestab nüüd {start} kuni {end}",
+        "Auto-scheduling": "Automaatne planeerimine",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Kui see on sees, pakub tähtaja hilisemaks nihutamine ajajoonel ka selle blokeeritud ülesannete nihutamist.",
+        "Move blocked tasks along when a task slips": "Nihuta blokeeritud ülesandeid, kui ülesanne hilineb",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Ajajoonel pakub hilisem tähtaeg blokeeritud ülesannete nihutamist. Arvesse lähevad ainult \"blokeerib\"-lingid ja ülesanded nihkuvad ainult hilisemaks.",
+        "Move the tasks that wait for {title}?": "Kas nihutada ülesandeid, mis ootavad ülesannet {title}?",
+        "These tasks wait for it and would start after its new due date:": "Need ülesanded ootavad seda ja algaksid pärast uut tähtaega:",
+        "{count} tasks would move; the first {limit} are listed.": "Nihutataks {count} ülesannet; näidatud on esimesed {limit}.",
+        "Now": "Praegu",
+        "After the move": "Pärast nihutamist",
+        "Only this task": "Ainult see ülesanne",
+        "Move all": "Nihuta kõik",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Peatus ülesande {title} juures: kuupäevi ei õnnestunud salvestada. Sellele eelnenud ülesanded nihutati."
     },
     "nplurals=2; plural=(n != 1);"
 )

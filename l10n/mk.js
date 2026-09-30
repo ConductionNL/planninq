@@ -1239,7 +1239,19 @@ OC.L10N.register(
         "The due date cannot be before the start date.": "Рокот не може да биде пред датумот на почеток.",
         "{title}, from {start} to {end}": "{title}, од {start} до {end}",
         "The dates could not be saved.": "Датумите не можеа да се зачуваат.",
-        "{title} now runs from {start} to {end}": "{title} сега трае од {start} до {end}"
+        "{title} now runs from {start} to {end}": "{title} сега трае од {start} до {end}",
+        "Auto-scheduling": "Автоматско планирање",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Кога е вклучено, подоцнежен рок на временската линија нуди поместување на задачите што ги блокира.",
+        "Move blocked tasks along when a task slips": "Помести ги блокираните задачи кога задача доцни",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "На временската линија подоцнежен рок нуди поместување на блокираните задачи. Се бројат само врските \"блокира\", а задачите се поместуваат само подоцна.",
+        "Move the tasks that wait for {title}?": "Да се поместат задачите што чекаат {title}?",
+        "These tasks wait for it and would start after its new due date:": "Овие задачи ја чекаат и би започнале по новиот рок:",
+        "{count} tasks would move; the first {limit} are listed.": "Би се поместиле {count} задачи; прикажани се првите {limit}.",
+        "Now": "Сега",
+        "After the move": "По поместувањето",
+        "Only this task": "Само оваа задача",
+        "Move all": "Помести ги сите",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Запрено кај {title}: датумите не можеа да се зачуваат. Задачите пред неа се поместени."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Η προθεσμία δεν μπορεί να είναι πριν από την ημερομηνία έναρξης.",
         "{title}, from {start} to {end}": "{title}, από {start} έως {end}",
         "The dates could not be saved.": "Δεν ήταν δυνατή η αποθήκευση των ημερομηνιών.",
-        "{title} now runs from {start} to {end}": "Το {title} διαρκεί τώρα από {start} έως {end}"
+        "{title} now runs from {start} to {end}": "Το {title} διαρκεί τώρα από {start} έως {end}",
+        "Auto-scheduling": "Αυτόματος προγραμματισμός",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Όταν είναι ενεργό, η μετάθεση μιας προθεσμίας αργότερα στη χρονογραμμή προτείνει να μετακινηθούν και οι εργασίες που μπλοκάρει.",
+        "Move blocked tasks along when a task slips": "Μετακίνηση των μπλοκαρισμένων εργασιών όταν μια εργασία καθυστερεί",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Στη χρονογραμμή, μια μεταγενέστερη προθεσμία προτείνει να μετακινηθούν οι μπλοκαρισμένες εργασίες. Μετρούν μόνο οι σύνδεσμοι \"μπλοκάρει\" και οι εργασίες μετακινούνται μόνο αργότερα.",
+        "Move the tasks that wait for {title}?": "Μετακίνηση των εργασιών που περιμένουν το {title};",
+        "These tasks wait for it and would start after its new due date:": "Αυτές οι εργασίες την περιμένουν και θα ξεκινούσαν μετά τη νέα προθεσμία:",
+        "{count} tasks would move; the first {limit} are listed.": "Θα μετακινούνταν {count} εργασίες· εμφανίζονται οι πρώτες {limit}.",
+        "Now": "Τώρα",
+        "After the move": "Μετά τη μετακίνηση",
+        "Only this task": "Μόνο αυτή η εργασία",
+        "Move all": "Μετακίνηση όλων",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Διακοπή στο {title}: δεν ήταν δυνατή η αποθήκευση των ημερομηνιών. Οι προηγούμενες εργασίες μετακινήθηκαν."
     },
     "plurals": null
 }

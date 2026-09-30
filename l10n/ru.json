@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Срок не может быть раньше даты начала.",
         "{title}, from {start} to {end}": "{title}, с {start} по {end}",
         "The dates could not be saved.": "Не удалось сохранить даты.",
-        "{title} now runs from {start} to {end}": "{title} теперь идёт с {start} по {end}"
+        "{title} now runs from {start} to {end}": "{title} теперь идёт с {start} по {end}",
+        "Auto-scheduling": "Автоматическое планирование",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Если включено, перенос срока на временной шкале на более позднюю дату предлагает сдвинуть и блокируемые задачи.",
+        "Move blocked tasks along when a task slips": "Сдвигать заблокированные задачи, когда задача задерживается",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "На временной шкале более поздний срок предлагает сдвинуть блокируемые задачи. Учитываются только связи \"блокирует\", и задачи сдвигаются только позже.",
+        "Move the tasks that wait for {title}?": "Сдвинуть задачи, которые ждут {title}?",
+        "These tasks wait for it and would start after its new due date:": "Эти задачи ждут её и начнутся после нового срока:",
+        "{count} tasks would move; the first {limit} are listed.": "Будет сдвинуто задач: {count}; показаны первые {limit}.",
+        "Now": "Сейчас",
+        "After the move": "После сдвига",
+        "Only this task": "Только эта задача",
+        "Move all": "Сдвинуть все",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Остановлено на {title}: не удалось сохранить даты. Задачи перед ней сдвинуты."
     },
     "plurals": {}
 }

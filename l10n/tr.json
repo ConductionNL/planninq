@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Bitiş tarihi başlangıç tarihinden önce olamaz.",
         "{title}, from {start} to {end}": "{title}, {start} ile {end} arası",
         "The dates could not be saved.": "Tarihler kaydedilemedi.",
-        "{title} now runs from {start} to {end}": "{title} artık {start} ile {end} arasında"
+        "{title} now runs from {start} to {end}": "{title} artık {start} ile {end} arasında",
+        "Auto-scheduling": "Otomatik planlama",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Açıkken, zaman çizelgesinde bir bitiş tarihini ileri almak engellediği görevleri de kaydırmayı önerir.",
+        "Move blocked tasks along when a task slips": "Bir görev geciktiğinde engellenen görevleri de kaydır",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Zaman çizelgesinde daha geç bir bitiş tarihi, engellenen görevleri kaydırmayı önerir. Yalnızca \"engeller\" bağlantıları sayılır ve görevler yalnızca ileri kayar.",
+        "Move the tasks that wait for {title}?": "{title} görevini bekleyen görevler kaydırılsın mı?",
+        "These tasks wait for it and would start after its new due date:": "Bu görevler onu bekliyor ve yeni bitiş tarihinden sonra başlayacak:",
+        "{count} tasks would move; the first {limit} are listed.": "{count} görev kayacak; ilk {limit} tanesi listeleniyor.",
+        "Now": "Şimdi",
+        "After the move": "Kaydırmadan sonra",
+        "Only this task": "Yalnızca bu görev",
+        "Move all": "Tümünü kaydır",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "{title} görevinde durdu: tarihler kaydedilemedi. Ondan önceki görevler kaydırıldı."
     },
     "plurals": {}
 }

@@ -1239,7 +1239,19 @@ OC.L10N.register(
         "The due date cannot be before the start date.": "La fecha de vencimiento no puede ser anterior a la de inicio.",
         "{title}, from {start} to {end}": "{title}, del {start} al {end}",
         "The dates could not be saved.": "No se pudieron guardar las fechas.",
-        "{title} now runs from {start} to {end}": "{title} ahora va del {start} al {end}"
+        "{title} now runs from {start} to {end}": "{title} ahora va del {start} al {end}",
+        "Auto-scheduling": "Planificación automática",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Si está activada, retrasar una fecha de vencimiento en la cronología ofrece mover también las tareas que bloquea.",
+        "Move blocked tasks along when a task slips": "Mover las tareas bloqueadas cuando una tarea se retrasa",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "En la cronología, una fecha de vencimiento posterior ofrece mover las tareas que bloquea. Solo cuentan los enlaces \"bloquea\", y las tareas solo se retrasan.",
+        "Move the tasks that wait for {title}?": "¿Mover las tareas que esperan a {title}?",
+        "These tasks wait for it and would start after its new due date:": "Estas tareas la esperan y empezarían después de su nueva fecha de vencimiento:",
+        "{count} tasks would move; the first {limit} are listed.": "Se moverían {count} tareas; se muestran las primeras {limit}.",
+        "Now": "Ahora",
+        "After the move": "Después del cambio",
+        "Only this task": "Solo esta tarea",
+        "Move all": "Mover todas",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Detenido en {title}: no se pudieron guardar sus fechas. Las tareas anteriores se movieron."
     },
     "nplurals=2; plural=(n != 1);"
 )

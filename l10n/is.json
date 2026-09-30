@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Skiladagur getur ekki verið á undan upphafsdegi.",
         "{title}, from {start} to {end}": "{title}, frá {start} til {end}",
         "The dates could not be saved.": "Ekki tókst að vista dagsetningarnar.",
-        "{title} now runs from {start} to {end}": "{title} stendur nú frá {start} til {end}"
+        "{title} now runs from {start} to {end}": "{title} stendur nú frá {start} til {end}",
+        "Auto-scheduling": "Sjálfvirk tímasetning",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Þegar kveikt er á þessu býðst til að færa verkin sem verk hindrar þegar skiladagur þess er færður aftar á tímalínunni.",
+        "Move blocked tasks along when a task slips": "Færa hindruð verk með þegar verk tefst",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Á tímalínunni býður seinni skiladagur upp á að færa hindruðu verkin. Aðeins \"hindrar\"-tengsl gilda og verk færast aðeins aftar.",
+        "Move the tasks that wait for {title}?": "Færa verkin sem bíða eftir {title}?",
+        "These tasks wait for it and would start after its new due date:": "Þessi verk bíða eftir því og myndu hefjast eftir nýja skiladaginn:",
+        "{count} tasks would move; the first {limit} are listed.": "{count} verk myndu færast; fyrstu {limit} eru sýnd.",
+        "Now": "Núna",
+        "After the move": "Eftir færsluna",
+        "Only this task": "Aðeins þetta verk",
+        "Move all": "Færa öll",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Stöðvaðist við {title}: ekki tókst að vista dagsetningarnar. Verkin á undan voru færð."
     },
     "plurals": {}
 }

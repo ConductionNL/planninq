@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Das Fälligkeitsdatum darf nicht vor dem Startdatum liegen.",
         "{title}, from {start} to {end}": "{title}, vom {start} bis {end}",
         "The dates could not be saved.": "Die Daten konnten nicht gespeichert werden.",
-        "{title} now runs from {start} to {end}": "{title} läuft jetzt vom {start} bis {end}"
+        "{title} now runs from {start} to {end}": "{title} läuft jetzt vom {start} bis {end}",
+        "Auto-scheduling": "Automatische Planung",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Wenn aktiv, bietet ein späteres Fälligkeitsdatum auf der Zeitleiste an, die davon blockierten Aufgaben mitzuverschieben.",
+        "Move blocked tasks along when a task slips": "Blockierte Aufgaben mitverschieben, wenn eine Aufgabe sich verzögert",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Auf der Zeitleiste bietet ein späteres Fälligkeitsdatum an, die blockierten Aufgaben mitzuverschieben. Nur \"blockiert\"-Verknüpfungen zählen, und Aufgaben werden nur nach hinten verschoben.",
+        "Move the tasks that wait for {title}?": "Die Aufgaben verschieben, die auf {title} warten?",
+        "These tasks wait for it and would start after its new due date:": "Diese Aufgaben warten darauf und würden nach dem neuen Fälligkeitsdatum beginnen:",
+        "{count} tasks would move; the first {limit} are listed.": "{count} Aufgaben würden verschoben; die ersten {limit} stehen hier.",
+        "Now": "Jetzt",
+        "After the move": "Nach dem Verschieben",
+        "Only this task": "Nur diese Aufgabe",
+        "Move all": "Alle verschieben",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Bei {title} angehalten: die Daten konnten nicht gespeichert werden. Die Aufgaben davor wurden verschoben."
     },
     "plurals": null
 }

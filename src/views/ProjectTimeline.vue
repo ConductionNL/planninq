@@ -204,6 +204,13 @@
 			{{ saveError }}
 		</p>
 
+		<RescheduleDialog v-if="reschedule"
+			:task="reschedule.task"
+			:moves="reschedule.moves"
+			@all="rescheduleAll"
+			@only="rescheduleOnly"
+			@cancel="reschedule = null" />
+
 		<TaskDatesDialog v-if="datesTask"
 			:task="datesTask"
 			@save="saveFromDialog"
@@ -242,11 +249,13 @@ import FileImportOutline from 'vue-material-design-icons/FileImportOutline.vue'
 import ProjectRoadmap from '../components/ProjectRoadmap.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import MsProjectImportDialog from '../dialogs/MsProjectImportDialog.vue'
+import RescheduleDialog from '../dialogs/RescheduleDialog.vue'
 import TaskDatesDialog from '../dialogs/TaskDatesDialog.vue'
 import { fetchProjectTimeline } from '../api/timeline.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
 import { mayImport } from '../utils/msprojectImport.js'
+import { cascade, writeRun } from '../utils/scheduling.js'
 import { keyStep, moveTo, resizeTo, shiftDays } from '../utils/timelineEditing.js'
 import {
 	buildLayout,
@@ -270,6 +279,7 @@ export default {
 		ChartTimeline,
 		FileImportOutline,
 		MsProjectImportDialog,
+		RescheduleDialog,
 		TaskDatesDialog,
 		ProjectRoadmap,
 		ProjectTabs,
@@ -288,6 +298,7 @@ export default {
 			announcement: '',
 			saveError: '',
 			suppressClick: false,
+			reschedule: null,
 			showImport: false,
 			zoom: { value: 'day', label: t('planninq', 'Day') },
 			zoomOptions: [
@@ -429,7 +440,7 @@ export default {
 		 *
 		 * @return {Array<object>} Ticks with iso/label/x/weekend/holiday.
 		 *
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.4
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.4
 		 */
 		axisTicks() {
 			const ticks = []
@@ -496,7 +507,7 @@ export default {
 		 *
 		 * @param {object} bar The bar
 		 * @return {object} The inline style
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
 		barStyle(bar) {
 			let left = bar.left
@@ -518,7 +529,7 @@ export default {
 		/**
 		 * @param {object} bar The bar
 		 * @return {string} The bar's accessible name: title and dates
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
 		barLabel(bar) {
 			const task = this.taskById(bar.id)
@@ -528,7 +539,7 @@ export default {
 		/**
 		 * @param {string} id The task id
 		 * @return {object|undefined} The task
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
 		taskById(id) {
 			return this.tasks.find((task) => task.id === id)
@@ -537,7 +548,7 @@ export default {
 		/**
 		 * @param {string} date A date
 		 * @return {string} Day and month in words
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
 		dayName(date) {
 			if (!date) {
@@ -550,7 +561,7 @@ export default {
 		 * @param {PointerEvent} event The pointer
 		 * @param {object} bar The bar
 		 * @param {'move'|'start'|'due'} mode What the drag changes
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
 		startDrag(event, bar, mode) {
 			if (event.button !== 0) {
@@ -562,7 +573,7 @@ export default {
 
 		/**
 		 * @param {PointerEvent} event The pointer
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
 		moveDrag(event) {
 			if (!this.drag) {
@@ -575,7 +586,7 @@ export default {
 		/**
 		 * Release: turn the distance into whole days and save.
 		 *
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
 		async endDrag() {
 			const drag = this.drag
@@ -598,7 +609,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
 		cancelDrag() {
 			this.drag = null
@@ -610,7 +621,7 @@ export default {
 		 * @param {object} bar The bar
 		 * @param {number} step 1 or -1
 		 * @param {boolean} dueOnly Whether Shift was held
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
 		async keyMove(bar, step, dueOnly) {
 			const task = this.taskById(bar.id)
@@ -624,7 +635,7 @@ export default {
 		 * A click (Enter, Space or a tap) opens the dates dialog; the end of a drag does not.
 		 *
 		 * @param {object} bar The bar
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
 		openDates(bar) {
 			if (this.suppressClick) {
@@ -636,7 +647,7 @@ export default {
 
 		/**
 		 * @param {{startDate: string, dueDate: string}} dates The dates from the dialog
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
 		async saveFromDialog(dates) {
 			const task = this.datesTask
@@ -649,7 +660,7 @@ export default {
 		/**
 		 * Close the dialog and give focus back to the bar.
 		 *
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
 		closeDates() {
 			const id = this.datesTask?.id
@@ -658,18 +669,40 @@ export default {
 		},
 
 		/**
-		 * Write a task's new dates: shown at once, put back when the write fails.
+		 * A task's new dates: on a project with auto-scheduling, a later due
+		 * date that pushes blocked tasks shows the preview first and writes
+		 * nothing yet; otherwise the task is written at once.
+		 *
+		 * @param {object} task The task
+		 * @param {{startDate: string, dueDate: string}} dates The new dates
+		 * @return {Promise<boolean>} Whether the task was written
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.3
+		 */
+		async saveDates(task, dates) {
+			if (task.startDate === dates.startDate && task.dueDate === dates.dueDate) {
+				return true
+			}
+			const auto = useProjectsStore().activeProject?.autoSchedule === true
+			if (auto && String(dates.dueDate) > String(task.dueDate).slice(0, 10)) {
+				const moves = cascade(this.tasks, this.dependencies, task.id, dates, this.calendar)
+				if (moves.length > 0) {
+					this.reschedule = { task, dates, moves }
+					return false
+				}
+			}
+			return this.writeDates(task, dates)
+		},
+
+		/**
+		 * Write one task's dates: shown at once, put back when the write fails.
 		 *
 		 * @param {object} task The task
 		 * @param {{startDate: string, dueDate: string}} dates The new dates
 		 * @return {Promise<boolean>} Whether the write succeeded
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
-		async saveDates(task, dates) {
+		async writeDates(task, dates) {
 			const old = { startDate: task.startDate, dueDate: task.dueDate }
-			if (old.startDate === dates.startDate && old.dueDate === dates.dueDate) {
-				return true
-			}
 			this.saveError = ''
 			Object.assign(task, dates)
 			const saved = await useProjectsStore().updateTask(task.id, dates)
@@ -680,6 +713,37 @@ export default {
 			}
 			this.announcement = t('planninq', '{title} now runs from {start} to {end}', { title: task.title, start: this.dayName(dates.startDate), end: this.dayName(dates.dueDate) })
 			return true
+		},
+
+		/**
+		 * Move all: the task, then every pushed task in order, stopping at the
+		 * first refused write; then read the timeline again.
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.3
+		 */
+		async rescheduleAll() {
+			const { task, dates, moves } = this.reschedule
+			this.reschedule = null
+			if (!(await this.writeDates(task, dates))) {
+				return
+			}
+			const store = useProjectsStore()
+			const result = await writeRun(moves, (id, to) => store.updateTask(id, to))
+			await this.load()
+			if (result.failed) {
+				this.saveError = t('planninq', 'Stopped at {title}: its dates could not be saved. The tasks before it were moved.', { title: result.failed.title })
+			}
+		},
+
+		/**
+		 * Only this task: write the dragged task and leave the others.
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.3
+		 */
+		async rescheduleOnly() {
+			const { task, dates } = this.reschedule
+			this.reschedule = null
+			await this.writeDates(task, dates)
 		},
 
 		/**

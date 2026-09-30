@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Termin nie może przypadać przed datą rozpoczęcia.",
         "{title}, from {start} to {end}": "{title}, od {start} do {end}",
         "The dates could not be saved.": "Nie udało się zapisać dat.",
-        "{title} now runs from {start} to {end}": "{title} trwa teraz od {start} do {end}"
+        "{title} now runs from {start} to {end}": "{title} trwa teraz od {start} do {end}",
+        "Auto-scheduling": "Automatyczne planowanie",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Gdy jest włączone, przesunięcie terminu na osi czasu na później proponuje przesunięcie blokowanych zadań.",
+        "Move blocked tasks along when a task slips": "Przesuwaj zablokowane zadania, gdy zadanie się opóźnia",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Na osi czasu późniejszy termin proponuje przesunięcie blokowanych zadań. Liczą się tylko powiązania \"blokuje\", a zadania przesuwają się tylko na później.",
+        "Move the tasks that wait for {title}?": "Przesunąć zadania czekające na {title}?",
+        "These tasks wait for it and would start after its new due date:": "Te zadania na nie czekają i zaczęłyby się po nowym terminie:",
+        "{count} tasks would move; the first {limit} are listed.": "Przesunięto by {count} zadań; pokazano pierwsze {limit}.",
+        "Now": "Teraz",
+        "After the move": "Po przesunięciu",
+        "Only this task": "Tylko to zadanie",
+        "Move all": "Przesuń wszystkie",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Zatrzymano przy {title}: nie udało się zapisać dat. Zadania przed nim zostały przesunięte."
     },
     "plurals": {}
 }

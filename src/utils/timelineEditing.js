@@ -6,7 +6,7 @@
  * section 2): moving a bar, resizing its ends and the keyboard steps, all in
  * the working calendar of src/utils/workingCalendar.js.
  *
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
  */
 import { addWorkingDays, isWorkingDay, nextWorkingDay, workingDaysBetween } from './workingCalendar.js'
 
@@ -18,7 +18,7 @@ const DAY_MS = 86400000
  * @param {string} date The `YYYY-MM-DD` key
  * @param {number} days Days, negative for earlier
  * @return {string}
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
  */
 export function shiftDays(date, days) {
 	return new Date(Date.parse(`${String(date).slice(0, 10)}T00:00:00Z`) + days * DAY_MS).toISOString().slice(0, 10)
@@ -32,7 +32,7 @@ export function shiftDays(date, days) {
  * @param {number} count Working days
  * @param {object} calendar From normaliseCalendar()
  * @return {string}
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
  */
 export function stepWorkingDays(date, count, calendar) {
 	if (count >= 0) {
@@ -54,7 +54,7 @@ export function stepWorkingDays(date, count, calendar) {
  * @param {object} task With startDate and dueDate
  * @param {object} calendar From normaliseCalendar()
  * @return {number}
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
  */
 export function workingLength(task, calendar) {
 	return Math.max(1, workingDaysBetween(String(task.startDate).slice(0, 10), String(task.dueDate).slice(0, 10), calendar))
@@ -68,7 +68,7 @@ export function workingLength(task, calendar) {
  * @param {string} start The day the bar was dropped on
  * @param {object} calendar From normaliseCalendar()
  * @return {{startDate: string, dueDate: string}}
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
  */
 export function moveTo(task, start, calendar) {
 	const length = workingLength(task, calendar)
@@ -85,7 +85,7 @@ export function moveTo(task, start, calendar) {
  * @param {'start'|'due'} edge Which end moved
  * @param {string} date The day it was dropped on
  * @return {{startDate: string, dueDate: string}}
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
  */
 export function resizeTo(task, edge, date) {
 	const startDate = String(task.startDate).slice(0, 10)
@@ -105,7 +105,7 @@ export function resizeTo(task, edge, date) {
  * @param {boolean} dueOnly Whether Shift was held
  * @param {object} calendar From normaliseCalendar()
  * @return {{startDate: string, dueDate: string}}
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
  */
 export function keyStep(task, step, dueOnly, calendar) {
 	if (dueOnly) {

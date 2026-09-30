@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Afati nuk mund të jetë para datës së fillimit.",
         "{title}, from {start} to {end}": "{title}, nga {start} deri më {end}",
         "The dates could not be saved.": "Datat nuk u ruajtën dot.",
-        "{title} now runs from {start} to {end}": "{title} tani zgjat nga {start} deri më {end}"
+        "{title} now runs from {start} to {end}": "{title} tani zgjat nga {start} deri më {end}",
+        "Auto-scheduling": "Planifikim automatik",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Kur është aktiv, shtyrja e një afati më vonë në kronologji propozon të zhvendosen edhe detyrat që bllokon.",
+        "Move blocked tasks along when a task slips": "Zhvendos detyrat e bllokuara kur një detyrë vonohet",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Në kronologji, një afat më i vonë propozon zhvendosjen e detyrave të bllokuara. Numërohen vetëm lidhjet \"bllokon\" dhe detyrat zhvendosen vetëm më vonë.",
+        "Move the tasks that wait for {title}?": "Të zhvendosen detyrat që presin {title}?",
+        "These tasks wait for it and would start after its new due date:": "Këto detyra e presin dhe do të fillonin pas afatit të ri:",
+        "{count} tasks would move; the first {limit} are listed.": "Do të zhvendoseshin {count} detyra; renditen {limit} të parat.",
+        "Now": "Tani",
+        "After the move": "Pas zhvendosjes",
+        "Only this task": "Vetëm këtë detyrë",
+        "Move all": "Zhvendosi të gjitha",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "U ndal te {title}: datat nuk u ruajtën dot. Detyrat para saj u zhvendosën."
     },
     "plurals": {}
 }

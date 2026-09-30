@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Rok ne more biti pred datumom začetka.",
         "{title}, from {start} to {end}": "{title}, od {start} do {end}",
         "The dates could not be saved.": "Datumov ni bilo mogoče shraniti.",
-        "{title} now runs from {start} to {end}": "{title} zdaj poteka od {start} do {end}"
+        "{title} now runs from {start} to {end}": "{title} zdaj poteka od {start} do {end}",
+        "Auto-scheduling": "Samodejno načrtovanje",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Ko je vklopljeno, poznejši rok na časovnici ponudi premik nalog, ki jih blokira.",
+        "Move blocked tasks along when a task slips": "Premakni blokirane naloge, ko naloga zamuja",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Na časovnici poznejši rok ponudi premik blokiranih nalog. Štejejo samo povezave \"blokira\", naloge pa se premikajo samo pozneje.",
+        "Move the tasks that wait for {title}?": "Premaknem naloge, ki čakajo na {title}?",
+        "These tasks wait for it and would start after its new due date:": "Te naloge čakajo nanjo in bi se začele po novem roku:",
+        "{count} tasks would move; the first {limit} are listed.": "Premaknilo bi se {count} nalog; prikazanih je prvih {limit}.",
+        "Now": "Zdaj",
+        "After the move": "Po premiku",
+        "Only this task": "Samo ta naloga",
+        "Move all": "Premakni vse",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Ustavljeno pri {title}: datumov ni bilo mogoče shraniti. Naloge pred njo so bile premaknjene."
     },
     "plurals": null
 }

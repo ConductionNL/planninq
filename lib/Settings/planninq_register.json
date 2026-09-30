@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.32.0"
+    "version": "0.33.0"
   },
   "x-openregister": {
     "type": "application",
@@ -535,7 +535,7 @@
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.12.0",
+        "version": "0.13.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -760,6 +760,12 @@
             "minimum": 1,
             "nullable": true,
             "description": "The number the next task of this project gets in its key. Only the system writes it."
+          },
+          "autoSchedule": {
+            "title": "Auto-scheduling",
+            "type": "boolean",
+            "default": false,
+            "description": "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along."
           },
           "client": {
             "title": "Client",

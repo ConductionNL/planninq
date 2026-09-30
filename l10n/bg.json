@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Крайният срок не може да е преди началната дата.",
         "{title}, from {start} to {end}": "{title}, от {start} до {end}",
         "The dates could not be saved.": "Датите не можаха да бъдат запазени.",
-        "{title} now runs from {start} to {end}": "{title} вече продължава от {start} до {end}"
+        "{title} now runs from {start} to {end}": "{title} вече продължава от {start} до {end}",
+        "Auto-scheduling": "Автоматично планиране",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Когато е включено, по-късен краен срок на времевата линия предлага да премести и задачите, които блокира.",
+        "Move blocked tasks along when a task slips": "Премествай блокираните задачи, когато задача закъснее",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "На времевата линия по-късен срок предлага да премести блокираните задачи. Броят се само връзките \"блокира\", а задачите се местят само напред.",
+        "Move the tasks that wait for {title}?": "Да се преместят ли задачите, които чакат {title}?",
+        "These tasks wait for it and would start after its new due date:": "Тези задачи я чакат и биха започнали след новия ѝ срок:",
+        "{count} tasks would move; the first {limit} are listed.": "Биха се преместили {count} задачи; показани са първите {limit}.",
+        "Now": "Сега",
+        "After the move": "След преместването",
+        "Only this task": "Само тази задача",
+        "Move all": "Премести всички",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Спряно при {title}: датите не можаха да бъдат запазени. Задачите преди нея бяха преместени."
     },
     "plurals": null
 }

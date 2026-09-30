@@ -1239,7 +1239,19 @@ OC.L10N.register(
         "The due date cannot be before the start date.": "A data limite não pode ser anterior à data de início.",
         "{title}, from {start} to {end}": "{title}, de {start} a {end}",
         "The dates could not be saved.": "Não foi possível guardar as datas.",
-        "{title} now runs from {start} to {end}": "{title} decorre agora de {start} a {end}"
+        "{title} now runs from {start} to {end}": "{title} decorre agora de {start} a {end}",
+        "Auto-scheduling": "Agendamento automático",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Quando ativo, adiar uma data limite na cronologia propõe mover também as tarefas que ela bloqueia.",
+        "Move blocked tasks along when a task slips": "Mover as tarefas bloqueadas quando uma tarefa atrasa",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Na cronologia, uma data limite posterior propõe mover as tarefas bloqueadas. Só contam as ligações \"bloqueia\", e as tarefas só avançam para mais tarde.",
+        "Move the tasks that wait for {title}?": "Mover as tarefas que esperam por {title}?",
+        "These tasks wait for it and would start after its new due date:": "Estas tarefas esperam por ela e começariam depois da nova data limite:",
+        "{count} tasks would move; the first {limit} are listed.": "{count} tarefas seriam movidas; as primeiras {limit} estão listadas.",
+        "Now": "Agora",
+        "After the move": "Depois da mudança",
+        "Only this task": "Só esta tarefa",
+        "Move all": "Mover todas",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Parado em {title}: não foi possível guardar as datas. As tarefas anteriores foram movidas."
     },
     "nplurals=2; plural=(n != 1);"
 )

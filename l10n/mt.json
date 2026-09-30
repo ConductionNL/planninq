@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Id-data tal-għeluq ma tistax tkun qabel id-data tal-bidu.",
         "{title}, from {start} to {end}": "{title}, minn {start} sa {end}",
         "The dates could not be saved.": "Id-dati ma setgħux jiġu ssejvjati.",
-        "{title} now runs from {start} to {end}": "{title} issa jdum minn {start} sa {end}"
+        "{title} now runs from {start} to {end}": "{title} issa jdum minn {start} sa {end}",
+        "Auto-scheduling": "Skedar awtomatiku",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Meta jkun mixgħul, iċċaqlaq data tal-għeluq aktar tard fuq il-kronoloġija joffri li jiċċaqilqu wkoll il-kompiti li timblokka.",
+        "Move blocked tasks along when a task slips": "Ċaqlaq il-kompiti mblukkati meta kompitu jdum",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Fuq il-kronoloġija, data tal-għeluq aktar tard toffri li jiċċaqilqu l-kompiti mblukkati. Jgħoddu biss ir-rabtiet \"jimblokka\", u l-kompiti jiċċaqilqu biss aktar tard.",
+        "Move the tasks that wait for {title}?": "Tiċċaqlaq il-kompiti li qed jistennew lil {title}?",
+        "These tasks wait for it and would start after its new due date:": "Dawn il-kompiti qed jistennewh u jibdew wara d-data l-ġdida:",
+        "{count} tasks would move; the first {limit} are listed.": "Jiċċaqilqu {count} kompiti; l-ewwel {limit} huma elenkati.",
+        "Now": "Issa",
+        "After the move": "Wara ċ-ċaqliq",
+        "Only this task": "Dan il-kompitu biss",
+        "Move all": "Ċaqlaq kollox",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Waqaf f'{title}: id-dati ma setgħux jiġu ssejvjati. Il-kompiti ta' qablu ġew iċċaqilqa."
     },
     "plurals": {}
 }

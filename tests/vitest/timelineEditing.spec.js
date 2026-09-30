@@ -1,7 +1,7 @@
 /**
  * Editing dates on the timeline (planning-timeline-editing task 2.2).
  *
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
  */
 import { describe, expect, it } from 'vitest'
 import { keyStep, moveTo, resizeTo, stepWorkingDays } from '../../src/utils/timelineEditing.js'

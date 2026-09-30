@@ -20,7 +20,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
  */
 
 declare(strict_types=1);
@@ -34,7 +34,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Reads, validates and stores the working weekdays and non-working days.
  *
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
  */
 class WorkingCalendarService {
 
@@ -75,7 +75,7 @@ class WorkingCalendarService {
 	 *
 	 * @return array<string,string>
 	 *
-	 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
 	 */
 	public function settings(): array {
 		return [
@@ -91,7 +91,7 @@ class WorkingCalendarService {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
 	 */
 	public function save(array $data): void {
 		$checks = [
@@ -120,7 +120,7 @@ class WorkingCalendarService {
 	 *
 	 * @return string|null
 	 *
-	 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
 	 */
 	public function normaliseWeekdays(mixed $raw): ?string {
 		$days = $this->decode(raw: $raw);
@@ -147,7 +147,7 @@ class WorkingCalendarService {
 	 *
 	 * @return string|null
 	 *
-	 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
 	 */
 	public function normaliseDays(mixed $raw): ?string {
 		$days = $this->decode(raw: $raw);

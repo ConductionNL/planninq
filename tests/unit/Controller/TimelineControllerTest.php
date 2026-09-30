@@ -284,7 +284,7 @@ class TimelineControllerTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.1
 	 */
 	public function testEdgesCarryType(): void {
 		$this->setUser('alice');
@@ -316,7 +316,7 @@ class TimelineControllerTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.1
 	 */
 	public function testTimelineEndpointWritesNothing(): void {
 		$this->setUser('alice');

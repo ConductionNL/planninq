@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Il termin na po betg esser avant la data da cumenzament.",
         "{title}, from {start} to {end}": "{title}, dals {start} fin ils {end}",
         "The dates could not be saved.": "Las datas n'han betg pudì vegnir memorisadas.",
-        "{title} now runs from {start} to {end}": "{title} dura ussa dals {start} fin ils {end}"
+        "{title} now runs from {start} to {end}": "{title} dura ussa dals {start} fin ils {end}",
+        "Auto-scheduling": "Planisaziun automatica",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Sche activà, porscha in termin pli tard sin la lingia da temp da spustar er las incumbensas ch'el blochescha.",
+        "Move blocked tasks along when a task slips": "Spustar incumbensas blocadas cur ch'ina incumbensa sa retarda",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Sin la lingia da temp porscha in termin pli tard da spustar las incumbensas blocadas. Mo colliaziuns \"blochescha\" quintan, e las incumbensas vegnan mo spustadas pli tard.",
+        "Move the tasks that wait for {title}?": "Spustar las incumbensas che spetgan {title}?",
+        "These tasks wait for it and would start after its new due date:": "Questas incumbensas spetgan sin quella e cumenzassan suenter il nov termin:",
+        "{count} tasks would move; the first {limit} are listed.": "{count} incumbensas vegnissan spustadas; las emprimas {limit} èn enumeradas.",
+        "Now": "Uss",
+        "After the move": "Suenter il spustament",
+        "Only this task": "Mo questa incumbensa",
+        "Move all": "Spustar tut",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Fermà tar {title}: las datas n'han betg pudì vegnir memorisadas. Las incumbensas avant èn vegnidas spustadas."
     },
     "plurals": null
 }

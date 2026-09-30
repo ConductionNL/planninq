@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "D'Fällegkeetsdatum däerf net virum Startdatum leien.",
         "{title}, from {start} to {end}": "{title}, vum {start} bis {end}",
         "The dates could not be saved.": "D'Datume konnten net gespäichert ginn.",
-        "{title} now runs from {start} to {end}": "{title} leeft elo vum {start} bis {end}"
+        "{title} now runs from {start} to {end}": "{title} leeft elo vum {start} bis {end}",
+        "Auto-scheduling": "Automatesch Planung",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Wann et un ass, bitt e méi spéit Fällegkeetsdatum op der Zäitlinn un, déi blockéiert Aufgaben matzeréckelen.",
+        "Move blocked tasks along when a task slips": "Blockéiert Aufgaben matréckelen, wann eng Aufgab sech verspéit",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Op der Zäitlinn bitt e méi spéit Fällegkeetsdatum un, déi blockéiert Aufgaben matzeréckelen. Nëmme \"blockéiert\"-Linke zielen, an Aufgabe réckele just no hannen.",
+        "Move the tasks that wait for {title}?": "D'Aufgaben, déi op {title} waarden, réckelen?",
+        "These tasks wait for it and would start after its new due date:": "Dës Aufgabe waarden drop a géifen nom neien Datum ufänken:",
+        "{count} tasks would move; the first {limit} are listed.": "{count} Aufgabe géife geréckelt; déi éischt {limit} stinn hei.",
+        "Now": "Elo",
+        "After the move": "Nom Réckelen",
+        "Only this task": "Just dës Aufgab",
+        "Move all": "All réckelen",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Bei {title} gestoppt: d'Datume konnten net gespäichert ginn. D'Aufgabe virdrun goufe geréckelt."
     },
     "plurals": null
 }

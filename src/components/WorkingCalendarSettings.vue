@@ -93,7 +93,7 @@ import { dutchHolidays, normaliseCalendar } from '../utils/workingCalendar.js'
  * days, with the Dutch national holidays of a year one button away. The
  * timeline reads both through GET /api/settings.
  *
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.3
  */
 export default {
 	name: 'WorkingCalendarSettings',
@@ -122,7 +122,7 @@ export default {
 		 * Monday to Sunday with their names in the user's language.
 		 *
 		 * @return {Array<{iso: number, label: string}>}
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.3
 		 */
 		weekdayOptions() {
 			return [1, 2, 3, 4, 5, 6, 7].map((iso) => ({
@@ -133,7 +133,7 @@ export default {
 	},
 
 	/**
-	 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.3
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.3
 	 */
 	async created() {
 		const store = useSettingsStore()
@@ -148,7 +148,7 @@ export default {
 		 * Take the stored calendar into the form.
 		 *
 		 * @param {object} settings The settings
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.3
 		 */
 		load(settings) {
 			const calendar = normaliseCalendar(settings || {})
@@ -159,7 +159,7 @@ export default {
 		/**
 		 * @param {number} iso ISO weekday
 		 * @param {boolean} on Whether it is a working day
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.3
 		 */
 		toggleWeekday(iso, on) {
 			const rest = this.weekdays.filter((day) => day !== iso)
@@ -170,7 +170,7 @@ export default {
 		 * Add or rename entries, keeping one per date in date order.
 		 *
 		 * @param {Array<{date: string, name: string}>} entries The entries
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.3
 		 */
 		merge(entries) {
 			const byDate = new Map(this.days.map((day) => [day.date, day]))
@@ -181,7 +181,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.3
 		 */
 		add() {
 			this.merge([{ date: this.newDate, name: this.newName.trim() }])
@@ -191,7 +191,7 @@ export default {
 
 		/**
 		 * @param {string} date The day to remove
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.3
 		 */
 		remove(date) {
 			this.days = this.days.filter((day) => day.date !== date)
@@ -200,7 +200,7 @@ export default {
 		/**
 		 * Add the Dutch national holidays of the chosen year, named in the admin's language.
 		 *
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.3
 		 */
 		addDutchHolidays() {
 			const names = {
@@ -224,7 +224,7 @@ export default {
 		/**
 		 * @param {string} date A `YYYY-MM-DD` key
 		 * @return {string} The date in words
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.3
 		 */
 		longDate(date) {
 			return new Date(`${date}T00:00:00Z`).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
@@ -233,7 +233,7 @@ export default {
 		/**
 		 * Save both keys, then read them back so the form shows what was stored.
 		 *
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.3
 		 */
 		async save() {
 			this.saving = true

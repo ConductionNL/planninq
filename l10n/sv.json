@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Förfallodatumet kan inte ligga före startdatumet.",
         "{title}, from {start} to {end}": "{title}, från {start} till {end}",
         "The dates could not be saved.": "Datumen kunde inte sparas.",
-        "{title} now runs from {start} to {end}": "{title} pågår nu från {start} till {end}"
+        "{title} now runs from {start} to {end}": "{title} pågår nu från {start} till {end}",
+        "Auto-scheduling": "Automatisk schemaläggning",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "När den är på erbjuder ett senare förfallodatum på tidslinjen att flytta de uppgifter den blockerar.",
+        "Move blocked tasks along when a task slips": "Flytta blockerade uppgifter när en uppgift blir försenad",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "På tidslinjen erbjuder ett senare förfallodatum att flytta de blockerade uppgifterna. Bara \"blockerar\"-länkar räknas, och uppgifter flyttas bara senare.",
+        "Move the tasks that wait for {title}?": "Flytta uppgifterna som väntar på {title}?",
+        "These tasks wait for it and would start after its new due date:": "De här uppgifterna väntar på den och skulle börja efter det nya förfallodatumet:",
+        "{count} tasks would move; the first {limit} are listed.": "{count} uppgifter skulle flyttas; de första {limit} visas.",
+        "Now": "Nu",
+        "After the move": "Efter flytten",
+        "Only this task": "Bara den här uppgiften",
+        "Move all": "Flytta alla",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Stoppade vid {title}: datumen kunde inte sparas. Uppgifterna före den flyttades."
     },
     "plurals": null
 }

@@ -1,7 +1,7 @@
 /**
  * The working calendar (planning-timeline-editing task 1.2).
  *
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.2
  */
 import { describe, expect, it } from 'vitest'
 import { addWorkingDays, dutchHolidays, isWorkingDay, nextWorkingDay, normaliseCalendar, workingDaysBetween } from '../../src/utils/workingCalendar.js'

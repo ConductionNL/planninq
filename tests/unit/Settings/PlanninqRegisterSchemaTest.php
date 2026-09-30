@@ -188,6 +188,29 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testProjectCarriesTheTaskCounter()
 
 	/**
+	 * A project carries autoSchedule, off by default; only the owner or an admin may update the project.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.1
+	 */
+	public function testProjectAutoScheduleDefaultsOff(): void {
+		$project = $this->register['components']['schemas']['project'];
+		$flag    = ($project['properties']['autoSchedule'] ?? null);
+		self::assertIsArray($flag, 'project declares autoSchedule');
+		self::assertSame('boolean', $flag['type']);
+		self::assertFalse($flag['default']);
+
+		$base = ['title' => 'Vergunningen Centrum', 'status' => 'active', 'owner' => 'carol'];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: $base + ['autoSchedule' => true]));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'project', payload: $base + ['autoSchedule' => 'yes']));
+		self::assertSame(
+			[['group' => 'authenticated', 'match' => ['owner' => '$userId']], ['group' => 'admin']],
+			$project['authorization']['update']
+		);
+	}//end testProjectAutoScheduleDefaultsOff()
+
+	/**
 	 * A task names one responsible person and may be shared with more.
 	 *
 	 * @return void

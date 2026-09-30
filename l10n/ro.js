@@ -1239,7 +1239,19 @@ OC.L10N.register(
         "The due date cannot be before the start date.": "Termenul nu poate fi înainte de data de început.",
         "{title}, from {start} to {end}": "{title}, de la {start} la {end}",
         "The dates could not be saved.": "Datele nu au putut fi salvate.",
-        "{title} now runs from {start} to {end}": "{title} se desfășoară acum de la {start} la {end}"
+        "{title} now runs from {start} to {end}": "{title} se desfășoară acum de la {start} la {end}",
+        "Auto-scheduling": "Planificare automată",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Când este activă, mutarea unui termen mai târziu pe cronologie propune mutarea și a sarcinilor pe care le blochează.",
+        "Move blocked tasks along when a task slips": "Mută sarcinile blocate când o sarcină întârzie",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Pe cronologie, un termen mai târziu propune mutarea sarcinilor blocate. Contează doar legăturile \"blochează\", iar sarcinile se mută doar mai târziu.",
+        "Move the tasks that wait for {title}?": "Muți sarcinile care așteaptă {title}?",
+        "These tasks wait for it and would start after its new due date:": "Aceste sarcini o așteaptă și ar începe după noul termen:",
+        "{count} tasks would move; the first {limit} are listed.": "S-ar muta {count} sarcini; sunt listate primele {limit}.",
+        "Now": "Acum",
+        "After the move": "După mutare",
+        "Only this task": "Doar această sarcină",
+        "Move all": "Mută toate",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Oprit la {title}: datele nu au putut fi salvate. Sarcinile dinaintea ei au fost mutate."
     },
     "nplurals=2; plural=(n != 1);"
 )

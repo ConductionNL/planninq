@@ -1252,7 +1252,19 @@ OC.L10N.register(
         "The due date cannot be before the start date.": "De vervaldatum kan niet voor de startdatum liggen.",
         "{title}, from {start} to {end}": "{title}, van {start} tot {end}",
         "The dates could not be saved.": "De datums konden niet worden opgeslagen.",
-        "{title} now runs from {start} to {end}": "{title} loopt nu van {start} tot {end}"
+        "{title} now runs from {start} to {end}": "{title} loopt nu van {start} tot {end}",
+        "Auto-scheduling": "Automatisch plannen",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Als dit aan staat, biedt het later zetten van een vervaldatum op de tijdlijn aan om de taken die erop wachten mee te schuiven.",
+        "Move blocked tasks along when a task slips": "Geblokkeerde taken meeschuiven als een taak uitloopt",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Op de tijdlijn biedt een latere vervaldatum aan om de taken die erop wachten mee te schuiven. Alleen \"blokkeert\"-koppelingen tellen, en taken schuiven alleen later.",
+        "Move the tasks that wait for {title}?": "De taken verschuiven die op {title} wachten?",
+        "These tasks wait for it and would start after its new due date:": "Deze taken wachten erop en zouden na de nieuwe vervaldatum beginnen:",
+        "{count} tasks would move; the first {limit} are listed.": "{count} taken zouden verschuiven; de eerste {limit} staan hier.",
+        "Now": "Nu",
+        "After the move": "Na het verschuiven",
+        "Only this task": "Alleen deze taak",
+        "Move all": "Alles verschuiven",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Gestopt bij {title}: de datums konden niet worden opgeslagen. De taken daarvoor zijn verschoven."
     },
     "nplurals=2; plural=(n != 1);"
 )

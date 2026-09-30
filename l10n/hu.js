@@ -1239,7 +1239,19 @@ OC.L10N.register(
         "The due date cannot be before the start date.": "A határidő nem lehet a kezdő dátum előtt.",
         "{title}, from {start} to {end}": "{title}, {start} – {end}",
         "The dates could not be saved.": "A dátumokat nem sikerült menteni.",
-        "{title} now runs from {start} to {end}": "{title} mostantól {start} – {end}"
+        "{title} now runs from {start} to {end}": "{title} mostantól {start} – {end}",
+        "Auto-scheduling": "Automatikus ütemezés",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Ha be van kapcsolva, egy határidő késleltetése az idővonalon felajánlja az általa blokkolt feladatok eltolását is.",
+        "Move blocked tasks along when a task slips": "Blokkolt feladatok eltolása, ha egy feladat csúszik",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Az idővonalon egy későbbi határidő felajánlja a blokkolt feladatok eltolását. Csak a \"blokkolja\" kapcsolatok számítanak, és a feladatok csak későbbre tolódnak.",
+        "Move the tasks that wait for {title}?": "Eltolod a(z) {title} feladatra váró feladatokat?",
+        "These tasks wait for it and would start after its new due date:": "Ezek a feladatok rá várnak, és az új határidő után kezdődnének:",
+        "{count} tasks would move; the first {limit} are listed.": "{count} feladat tolódna el; az első {limit} látható.",
+        "Now": "Most",
+        "After the move": "Az eltolás után",
+        "Only this task": "Csak ez a feladat",
+        "Move all": "Összes eltolása",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Megállt ennél: {title}: a dátumokat nem sikerült menteni. Az előtte lévő feladatok eltolódtak."
     },
     "nplurals=2; plural=(n != 1);"
 )

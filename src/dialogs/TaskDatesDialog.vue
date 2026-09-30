@@ -40,7 +40,7 @@ import { NcButton, NcDialog } from '@nextcloud/vue'
  * timeline. It edits nothing itself: it emits the chosen dates and the
  * timeline writes them.
  *
- * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
  */
 export default {
 	name: 'TaskDatesDialog',
@@ -70,7 +70,7 @@ export default {
 	computed: {
 		/**
 		 * @return {boolean} Whether the due date is before the start date
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
 		invalid() {
 			return !this.startDate || !this.dueDate || this.dueDate < this.startDate
@@ -81,7 +81,7 @@ export default {
 		t,
 
 		/**
-		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.2
 		 */
 		save() {
 			this.$emit('save', { startDate: this.startDate, dueDate: this.dueDate })

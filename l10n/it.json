@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "La scadenza non può precedere la data di inizio.",
         "{title}, from {start} to {end}": "{title}, dal {start} al {end}",
         "The dates could not be saved.": "Impossibile salvare le date.",
-        "{title} now runs from {start} to {end}": "{title} ora va dal {start} al {end}"
+        "{title} now runs from {start} to {end}": "{title} ora va dal {start} al {end}",
+        "Auto-scheduling": "Pianificazione automatica",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Se attiva, spostare più avanti una scadenza sulla cronologia propone di spostare anche le attività che blocca.",
+        "Move blocked tasks along when a task slips": "Sposta le attività bloccate quando un'attività slitta",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "Sulla cronologia, una scadenza successiva propone di spostare le attività bloccate. Contano solo i collegamenti \"blocca\" e le attività si spostano solo più avanti.",
+        "Move the tasks that wait for {title}?": "Spostare le attività che aspettano {title}?",
+        "These tasks wait for it and would start after its new due date:": "Queste attività la aspettano e inizierebbero dopo la nuova scadenza:",
+        "{count} tasks would move; the first {limit} are listed.": "{count} attività verrebbero spostate; sono elencate le prime {limit}.",
+        "Now": "Ora",
+        "After the move": "Dopo lo spostamento",
+        "Only this task": "Solo questa attività",
+        "Move all": "Sposta tutte",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Fermato a {title}: le sue date non sono state salvate. Le attività precedenti sono state spostate."
     },
     "plurals": null
 }

@@ -1238,7 +1238,19 @@
         "The due date cannot be before the start date.": "Рок не може бити пре датума почетка.",
         "{title}, from {start} to {end}": "{title}, од {start} до {end}",
         "The dates could not be saved.": "Датуме није било могуће сачувати.",
-        "{title} now runs from {start} to {end}": "{title} сада траје од {start} до {end}"
+        "{title} now runs from {start} to {end}": "{title} сада траје од {start} до {end}",
+        "Auto-scheduling": "Аутоматско планирање",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Када је укључено, каснији рок на временској линији нуди померање задатака које блокира.",
+        "Move blocked tasks along when a task slips": "Помери блокиране задатке када задатак касни",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "На временској линији каснији рок нуди померање блокираних задатака. Броје се само везе \"блокира\", а задаци се померају само касније.",
+        "Move the tasks that wait for {title}?": "Померити задатке који чекају {title}?",
+        "These tasks wait for it and would start after its new due date:": "Ови задаци га чекају и почели би после новог рока:",
+        "{count} tasks would move; the first {limit} are listed.": "Померило би се {count} задатака; приказано је првих {limit}.",
+        "Now": "Сада",
+        "After the move": "После померања",
+        "Only this task": "Само овај задатак",
+        "Move all": "Помери све",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Заустављено код {title}: датуме није било могуће сачувати. Задаци пре њега су померени."
     },
     "plurals": null
 }

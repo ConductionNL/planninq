@@ -1239,7 +1239,19 @@ OC.L10N.register(
         "The due date cannot be before the start date.": "La data de venciment no pot ser anterior a la d'inici.",
         "{title}, from {start} to {end}": "{title}, del {start} al {end}",
         "The dates could not be saved.": "No s'han pogut desar les dates.",
-        "{title} now runs from {start} to {end}": "{title} ara va del {start} al {end}"
+        "{title} now runs from {start} to {end}": "{title} ara va del {start} al {end}",
+        "Auto-scheduling": "Planificació automàtica",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Si està activada, endarrerir un venciment a la cronologia ofereix moure també les tasques que bloqueja.",
+        "Move blocked tasks along when a task slips": "Mou les tasques bloquejades quan una tasca s'endarrereix",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "A la cronologia, un venciment posterior ofereix moure les tasques bloquejades. Només compten els enllaços \"bloqueja\", i les tasques només es mouen més tard.",
+        "Move the tasks that wait for {title}?": "Voleu moure les tasques que esperen {title}?",
+        "These tasks wait for it and would start after its new due date:": "Aquestes tasques l'esperen i començarien després del nou venciment:",
+        "{count} tasks would move; the first {limit} are listed.": "Es mourien {count} tasques; es mostren les primeres {limit}.",
+        "Now": "Ara",
+        "After the move": "Després del canvi",
+        "Only this task": "Només aquesta tasca",
+        "Move all": "Mou-les totes",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Aturat a {title}: no s'han pogut desar les dates. Les tasques anteriors s'han mogut."
     },
     "nplurals=2; plural=(n != 1);"
 )

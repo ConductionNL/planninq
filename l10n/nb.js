@@ -1239,7 +1239,19 @@ OC.L10N.register(
         "The due date cannot be before the start date.": "Forfallsdatoen kan ikke være før startdatoen.",
         "{title}, from {start} to {end}": "{title}, fra {start} til {end}",
         "The dates could not be saved.": "Datoene kunne ikke lagres.",
-        "{title} now runs from {start} to {end}": "{title} går nå fra {start} til {end}"
+        "{title} now runs from {start} to {end}": "{title} går nå fra {start} til {end}",
+        "Auto-scheduling": "Automatisk planlegging",
+        "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along.": "Når den er på, tilbyr en senere forfallsdato på tidslinjen å flytte oppgavene den blokkerer.",
+        "Move blocked tasks along when a task slips": "Flytt blokkerte oppgaver når en oppgave blir forsinket",
+        "On the timeline, a later due date offers to move the tasks it blocks. Only \"blocks\" links count, and tasks only move later.": "På tidslinjen tilbyr en senere forfallsdato å flytte de blokkerte oppgavene. Bare \"blokkerer\"-lenker teller, og oppgaver flyttes bare senere.",
+        "Move the tasks that wait for {title}?": "Flytte oppgavene som venter på {title}?",
+        "These tasks wait for it and would start after its new due date:": "Disse oppgavene venter på den og ville starte etter den nye forfallsdatoen:",
+        "{count} tasks would move; the first {limit} are listed.": "{count} oppgaver ville blitt flyttet; de første {limit} vises.",
+        "Now": "Nå",
+        "After the move": "Etter flyttingen",
+        "Only this task": "Bare denne oppgaven",
+        "Move all": "Flytt alle",
+        "Stopped at {title}: its dates could not be saved. The tasks before it were moved.": "Stoppet ved {title}: datoene kunne ikke lagres. Oppgavene før den ble flyttet."
     },
     "nplurals=2; plural=(n != 1);"
 )
