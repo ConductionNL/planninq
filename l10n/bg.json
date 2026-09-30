@@ -1123,7 +1123,14 @@
         "Shared with the project": "Споделен с проекта",
         "Whether every project member sees and applies the filter": "Дали всеки член на проекта вижда и може да приложи филтъра",
         "Criteria": "Критерии",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Филтърът: отговорник, етикет, приоритет и срок, всеки с е или не е и стойностите си"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Филтърът: отговорник, етикет, приоритет и срок, всеки с е или не е и стойностите си",
+        "Cross-project view": "Междупроектен изглед",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Запазен избор от проекти, чиито задачи се показват заедно в колони по статус, споделен с посочените хора.",
+        "Shared with": "Споделено с",
+        "The name the view is listed under": "Името, под което е посочен изгледът",
+        "Nextcloud user id of the person who saved the view": "Nextcloud потребителски id на човека, който е запазил изгледа",
+        "Nextcloud user ids of the people the view is shared with": "Nextcloud потребителски id на хората, с които е споделен изгледът",
+        "The projects whose tasks the view shows, at most twenty": "Проектите, чиито задачи показва изгледът, най-много двадесет"
     },
     "plurals": null
 }

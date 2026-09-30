@@ -1124,7 +1124,14 @@ OC.L10N.register(
         "Shared with the project": "Jagatud projektiga",
         "Whether every project member sees and applies the filter": "Kas iga projekti liige näeb filtrit ja saab seda rakendada",
         "Criteria": "Kriteeriumid",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filter: täitja, silt, prioriteet ja tähtaeg, igaüks väärtusega on või ei ole ja oma väärtustega"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filter: täitja, silt, prioriteet ja tähtaeg, igaüks väärtusega on või ei ole ja oma väärtustega",
+        "Cross-project view": "Projektiülene vaade",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Salvestatud projektide valik, mille ülesandeid näidatakse koos olekuradadel ja mida jagatakse nimetatud inimestega.",
+        "Shared with": "Jagatud",
+        "The name the view is listed under": "Nimi, mille all vaade on loetletud",
+        "Nextcloud user id of the person who saved the view": "Vaate salvestanud inimese Nextcloudi kasutaja-ID",
+        "Nextcloud user ids of the people the view is shared with": "Nende inimeste Nextcloudi kasutaja-ID-d, kellega vaadet jagatakse",
+        "The projects whose tasks the view shows, at most twenty": "Projektid, mille ülesandeid vaade näitab, kõige rohkem kakskümmend"
     },
     "nplurals=2; plural=(n != 1);"
 )

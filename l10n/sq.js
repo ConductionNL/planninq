@@ -1124,7 +1124,14 @@ OC.L10N.register(
         "Shared with the project": "I ndarë me projektin",
         "Whether every project member sees and applies the filter": "Nëse çdo anëtar i projektit e sheh dhe mund ta zbatojë filtrin",
         "Criteria": "Kritere",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filtri: i caktuari, etiketa, përparësia dhe afati, secili me është ose nuk është dhe vlerat e tij"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filtri: i caktuari, etiketa, përparësia dhe afati, secili me është ose nuk është dhe vlerat e tij",
+        "Cross-project view": "Pamje ndërprojektuese",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Një përzgjedhje e ruajtur projektesh, detyrat e të cilave shfaqen së bashku në kolona sipas gjendjes, e ndarë me njerëzit që përmend.",
+        "Shared with": "E ndarë me",
+        "The name the view is listed under": "Emri me të cilin renditet pamja",
+        "Nextcloud user id of the person who saved the view": "ID-ja e përdoruesit Nextcloud e personit që e ruajti pamjen",
+        "Nextcloud user ids of the people the view is shared with": "ID-të e përdoruesve Nextcloud të njerëzve me të cilët ndahet pamja",
+        "The projects whose tasks the view shows, at most twenty": "Projektet, detyrat e të cilëve i shfaq pamja, jo më shumë se njëzet"
     },
     "nplurals=2; plural=(n != 1);"
 )

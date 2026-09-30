@@ -1124,7 +1124,14 @@ OC.L10N.register(
         "Shared with the project": "Delat med projektet",
         "Whether every project member sees and applies the filter": "Om varje projektmedlem ser och kan använda filtret",
         "Criteria": "Villkor",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filtret: ansvarig, etikett, prioritet och förfallodatum, var och en med är eller är inte och sina värden"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filtret: ansvarig, etikett, prioritet och förfallodatum, var och en med är eller är inte och sina värden",
+        "Cross-project view": "Projektövergripande vy",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Ett sparat urval av projekt vars uppgifter visas tillsammans i statusbanor, delat med de personer det nämner.",
+        "Shared with": "Delad med",
+        "The name the view is listed under": "Namnet som vyn listas under",
+        "Nextcloud user id of the person who saved the view": "Nextcloud-användar-id för personen som sparade vyn",
+        "Nextcloud user ids of the people the view is shared with": "Nextcloud-användar-id:n för personerna som vyn delas med",
+        "The projects whose tasks the view shows, at most twenty": "Projekten vars uppgifter vyn visar, högst tjugo"
     },
     "nplurals=2; plural=(n != 1);"
 )

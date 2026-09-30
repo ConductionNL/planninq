@@ -1102,7 +1102,14 @@
         "Shared with the project": "Shared with the project",
         "Whether every project member sees and applies the filter": "Whether every project member sees and applies the filter",
         "Criteria": "Criteria",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "The filter: assignee, label, priority and due date, each with is or is not and its values"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "The filter: assignee, label, priority and due date, each with is or is not and its values",
+        "Cross-project view": "Cross-project view",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.",
+        "Shared with": "Shared with",
+        "The name the view is listed under": "The name the view is listed under",
+        "Nextcloud user id of the person who saved the view": "Nextcloud user id of the person who saved the view",
+        "Nextcloud user ids of the people the view is shared with": "Nextcloud user ids of the people the view is shared with",
+        "The projects whose tasks the view shows, at most twenty": "The projects whose tasks the view shows, at most twenty"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

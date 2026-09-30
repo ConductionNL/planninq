@@ -1123,7 +1123,14 @@
         "Shared with the project": "Maqsum mal-proġett",
         "Whether every project member sees and applies the filter": "Jekk kull membru tal-proġett jarax u jistax japplika l-filtru",
         "Criteria": "Kriterji",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Il-filtru: assenjat, tikketta, prijorità u data tal-iskadenza, kull wieħed b'huwa jew mhux u l-valuri tiegħu"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Il-filtru: assenjat, tikketta, prijorità u data tal-iskadenza, kull wieħed b'huwa jew mhux u l-valuri tiegħu",
+        "Cross-project view": "Veduta bejn proġetti",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Għażla ssejvjata ta' proġetti li l-kompiti tagħhom jintwerew flimkien f'korsiji tal-istatus, maqsuma man-nies li ssemmi.",
+        "Shared with": "Maqsuma ma'",
+        "The name the view is listed under": "L-isem li taħtu titniżżel il-veduta",
+        "Nextcloud user id of the person who saved the view": "L-id tal-utent ta' Nextcloud tal-persuna li ssejvjat il-veduta",
+        "Nextcloud user ids of the people the view is shared with": "L-ids tal-utenti ta' Nextcloud tan-nies li magħhom hi maqsuma l-veduta",
+        "The projects whose tasks the view shows, at most twenty": "Il-proġetti li l-kompiti tagħhom turi l-veduta, mhux aktar minn għoxrin"
     },
     "plurals": {}
 }

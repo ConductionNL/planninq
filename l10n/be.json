@@ -1123,7 +1123,14 @@
         "Shared with the project": "Абагулены з праектам",
         "Whether every project member sees and applies the filter": "Ці бачыць кожны ўдзельнік праекта фільтр і ці можа яго ўжыць",
         "Criteria": "Крытэрыі",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Фільтр: выканаўца, метка, прыярытэт і тэрмін, кожны з ёсць або не і значэннямі"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Фільтр: выканаўца, метка, прыярытэт і тэрмін, кожны з ёсць або не і значэннямі",
+        "Cross-project view": "Міжпраектны выгляд",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Захаваны набор праектаў, задачы якіх паказваюцца разам у калонках па статусе, з доступам для названых людзей.",
+        "Shared with": "Даступна для",
+        "The name the view is listed under": "Назва, пад якой выгляд паказаны ў спісе",
+        "Nextcloud user id of the person who saved the view": "Ідэнтыфікатар карыстальніка Nextcloud таго, хто захаваў выгляд",
+        "Nextcloud user ids of the people the view is shared with": "Ідэнтыфікатары карыстальнікаў Nextcloud тых, каму адкрыты выгляд",
+        "The projects whose tasks the view shows, at most twenty": "Праекты, задачы якіх паказвае выгляд, не больш за дваццаць"
     },
     "plurals": {}
 }

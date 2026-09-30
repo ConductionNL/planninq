@@ -1124,7 +1124,14 @@ OC.L10N.register(
         "Shared with the project": "Deilt með verkefninu",
         "Whether every project member sees and applies the filter": "Hvort allir í verkefninu sjá síuna og geta notað hana",
         "Criteria": "Skilyrði",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Sían: ábyrgðaraðili, merki, forgangur og skiladagur, hvert með er eða er ekki og gildum sínum"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Sían: ábyrgðaraðili, merki, forgangur og skiladagur, hvert með er eða er ekki og gildum sínum",
+        "Cross-project view": "Yfirlit þvert á verkefni",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Vistað úrval verkefna þar sem verkin eru sýnd saman í stöðubrautum, deilt með fólkinu sem það nefnir.",
+        "Shared with": "Deilt með",
+        "The name the view is listed under": "Nafnið sem yfirlitið er skráð undir",
+        "Nextcloud user id of the person who saved the view": "Nextcloud-notandaauðkenni þess sem vistaði yfirlitið",
+        "Nextcloud user ids of the people the view is shared with": "Nextcloud-notandaauðkenni fólksins sem yfirlitinu er deilt með",
+        "The projects whose tasks the view shows, at most twenty": "Verkefnin sem yfirlitið sýnir verk úr, mest tuttugu"
     },
     "nplurals=2; plural=(n != 1);"
 )

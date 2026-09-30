@@ -76,6 +76,16 @@
 			"key": "bf_id",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "cpv_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "cpv_password",
+			"value": "",
+			"type": "string"
 		}
 	],
 	"item": [
@@ -2378,6 +2388,461 @@
 									"pm.test('saved filter removed', function () {",
 									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
 									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Cross-project Views",
+			"description": "boards-cross-project-board: a cross-project view belongs to whoever saved it (BoardFilterOwnerListener, PHPUnit BoardFilterOwnerListenerTest::testTheSaverOwnsANewViewAndKeepsIt); the people it is shared with read it and cannot change it, anyone else cannot read it (PlanninqRegisterSchemaTest::testBoardViewAuthorization). Two throwaway users are created and removed through the provisioning API.",
+			"item": [
+				{
+					"name": "prepare a password for the two test users",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/status.php",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set('cpv_password', 'Nm-' + Math.random().toString(36).slice(2) + '-Cpv-42!');",
+									"pm.test('server answers', function () { pm.expect(pm.response.code).to.equal(200); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create user newman-cpv-viewer",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userid\": \"newman-cpv-viewer\", \"password\": \"{{cpv_password}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('user exists', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create user newman-cpv-outsider",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userid\": \"newman-cpv-outsider\", \"password\": \"{{cpv_password}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('user exists', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "save a view shared with the viewer, claiming someone else as owner",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardView",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"IT operations (newman)\", \"owner\": \"somebody-else\", \"members\": [\"newman-cpv-viewer\"], \"projects\": [\"{{project_id}}\"]}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the saver owns the view, whatever was sent', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.owner).to.equal(pm.collectionVariables.get('admin_user'));",
+									"    pm.expect(json.projects).to.deep.equal([pm.collectionVariables.get('project_id')]);",
+									"    pm.collectionVariables.set('cpv_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "a view without projects is refused",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardView",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Empty (newman)\", \"projects\": []}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('refused by the schema', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "view member can read it",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardView/{{cpv_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "newman-cpv-viewer",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{cpv_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('shared with the viewer', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "non-member cannot read a cross-project view",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardView/{{cpv_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "newman-cpv-outsider",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{cpv_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('refused for someone it is not shared with', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([403, 404]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "view member cannot edit it",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardView/{{cpv_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Taken over (newman)\"}"
+						},
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "newman-cpv-viewer",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{cpv_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('only the owner changes the view', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([403, 404]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "the title is unchanged",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardView/{{cpv_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the member did not rename it', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    pm.expect(pm.response.json().title).to.equal('IT operations (newman)');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "the owner deletes the view",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardView/{{cpv_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('deleted', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove user newman-cpv-viewer",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users/newman-cpv-viewer",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 404]); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove user newman-cpv-outsider",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users/newman-cpv-outsider",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 404]); });"
 								]
 							}
 						}

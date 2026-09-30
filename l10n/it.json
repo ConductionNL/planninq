@@ -1123,7 +1123,14 @@
         "Shared with the project": "Condiviso con il progetto",
         "Whether every project member sees and applies the filter": "Se ogni membro del progetto vede e può applicare il filtro",
         "Criteria": "Criteri",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Il filtro: assegnatario, etichetta, priorità e scadenza, ciascuno con è o non è e i suoi valori"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Il filtro: assegnatario, etichetta, priorità e scadenza, ciascuno con è o non è e i suoi valori",
+        "Cross-project view": "Vista multiprogetto",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Una selezione salvata di progetti le cui attività sono mostrate insieme in corsie di stato, condivisa con le persone indicate.",
+        "Shared with": "Condivisa con",
+        "The name the view is listed under": "Il nome con cui la vista è elencata",
+        "Nextcloud user id of the person who saved the view": "Id utente Nextcloud della persona che ha salvato la vista",
+        "Nextcloud user ids of the people the view is shared with": "Id utente Nextcloud delle persone con cui la vista è condivisa",
+        "The projects whose tasks the view shows, at most twenty": "I progetti di cui la vista mostra le attività, al massimo venti"
     },
     "plurals": null
 }

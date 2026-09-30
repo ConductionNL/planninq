@@ -639,7 +639,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the eighteen expected schemas.
+	 * The register MUST declare exactly the nineteen expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
 	 * over the project work breakdown structure pipelinq had built, and
@@ -649,14 +649,15 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * (portfolio-status-overview) and `portfolio`
 	 * (projects-grouping-hierarchy-fields) and `projectRelease`
 	 * (backlog-releases-roadmap), `timetableWish` and `timetableScenario`
-	 * (timetabling-generator), `boardFilter` (boards-filters). `example` must not be present.
+	 * (timetabling-generator), `boardFilter` (boards-filters), `boardView`
+	 * (boards-cross-project-board). `example` must not be present.
 	 *
 	 * @return void
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
-	public function testRegisterDeclaresExactlyEighteenSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter'];
+	public function testRegisterDeclaresExactlyNineteenSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -665,7 +666,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the eighteen expected schemas'
+			message: 'register schema list must be exactly the nineteen expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -673,7 +674,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the eighteen expected schemas'
+			message: 'components.schemas must define exactly the nineteen expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -682,7 +683,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyEighteenSchemas()
+	}//end testRegisterDeclaresExactlyNineteenSchemas()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -1301,6 +1302,57 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame([], $this->registerSchemaErrors(slug: 'boardFilter', payload: $saved));
 		self::assertNotSame([], $this->registerSchemaErrors(slug: 'boardFilter', payload: ['shared' => 'yes'] + $saved), 'control: shared is a boolean');
 	}//end testBoardFilterSchemaIsOwnedAndSharedWithTheProject()
+
+	/**
+	 * Task 1.1: a cross-project view is a saved selection of projects and
+	 * people, never a board: no column, card order or task of its own. The
+	 * spec's view passes the real validator; no projects or twenty-one do not.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-1.1
+	 */
+	public function testBoardViewSchemaHoldsNoPlacement(): void {
+		$schema = ($this->register['components']['schemas']['boardView'] ?? null);
+		self::assertIsArray($schema, 'boardView is declared');
+		self::assertSame(['title', 'projects'], $schema['required']);
+		self::assertSame(['title', 'owner', 'members', 'projects'], array_keys($schema['properties']));
+		self::assertSame(1, $schema['properties']['projects']['minItems']);
+		self::assertSame(20, $schema['properties']['projects']['maxItems']);
+		self::assertNotContains('boardView', \OCA\Planninq\Service\ProjectMembershipService::SCOPED_SCHEMAS, 'a view spans projects: its members are the people it is shared with');
+
+		$projects = ['00000000-0000-4000-8000-000000000001', '00000000-0000-4000-8000-000000000002'];
+		$view     = ['title' => 'IT operations', 'owner' => 'anna', 'members' => ['ben'], 'projects' => $projects];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'boardView', payload: $view));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'boardView', payload: ['projects' => []] + $view), 'control: at least one project');
+
+		$many = [];
+		for ($i = 0; $i < 21; $i++) {
+			$many[] = sprintf('00000000-0000-4000-8000-%012d', $i);
+		}
+
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'boardView', payload: ['projects' => $many] + $view), 'control: at most twenty');
+		self::assertSame([], $this->registerSchemaErrors(slug: 'boardView', payload: ['projects' => array_slice($many, 0, 20)] + $view));
+	}//end testBoardViewSchemaHoldsNoPlacement()
+
+	/**
+	 * Task 1.1: the owner and the people a view is shared with read it; any
+	 * signed-in user creates one; only the owner and admins change or delete it.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-1.1
+	 */
+	public function testBoardViewAuthorization(): void {
+		$rules = $this->register['components']['schemas']['boardView']['authorization'];
+		$owner = ['group' => 'authenticated', 'match' => ['owner' => '$userId']];
+
+		self::assertSame([$owner, ['group' => 'authenticated', 'match' => ['members' => ['$contains' => '$userId']]], ['group' => 'admin']], $rules['read']);
+		self::assertSame([['group' => 'authenticated'], ['group' => 'admin']], $rules['create']);
+		foreach (['update', 'delete'] as $action) {
+			self::assertSame([$owner, ['group' => 'admin']], $rules[$action], $action);
+		}
+	}//end testBoardViewAuthorization()
 
 	/**
 	 * A task points at no release or at one release.

@@ -88,4 +88,21 @@ class BoardFilterOwnerListenerTest extends TestCase {
 		$this->listener(actor: 'bram')->handle($task);
 		self::assertSame([], $task->getModifiedData(), 'not a saved filter');
 	}//end testNoSessionAndOtherSchemasPass()
+
+	/**
+	 * A cross-project view belongs to whoever saved it, the same way.
+	 *
+	 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-1.1
+	 */
+	public function testTheSaverOwnsANewViewAndKeepsIt(): void {
+		$view  = ['title' => 'IT operations', 'owner' => 'anna', 'members' => ['ben'], 'projects' => ['00000000-0000-4000-8000-000000000001']];
+		$event = new ObjectCreatingEvent($this->filter(data: ['owner' => 'ben'] + $view, schema: 'boardView'));
+		$this->listener(actor: 'anna')->handle($event);
+		self::assertSame(['owner' => 'anna'], $event->getModifiedData());
+		self::assertSame([], $this->registerSchemaErrors(slug: 'boardView', payload: array_merge($view, $event->getModifiedData())));
+
+		$claim = new ObjectUpdatingEvent($this->filter(data: ['owner' => 'ben'] + $view, schema: 'boardView'), $this->filter(data: $view, schema: 'boardView'));
+		$this->listener(actor: 'ben')->handle($claim);
+		self::assertSame(['owner' => 'anna'], $claim->getModifiedData());
+	}//end testTheSaverOwnsANewViewAndKeepsIt()
 }//end class

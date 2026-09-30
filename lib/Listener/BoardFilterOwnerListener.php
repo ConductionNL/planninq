@@ -3,11 +3,11 @@
 /**
  * Planninq BoardFilterOwnerListener
  *
- * A saved board filter belongs to the person who saved it. On create the
- * listener sets `owner` to the caller, whatever the client sent; on update it
- * puts the stored owner back. The register's update and delete rules match
- * on `owner`, so this is what keeps a shared filter out of other members'
- * hands.
+ * A saved board filter and a cross-project view belong to the person who
+ * saved them. On create the listener sets `owner` to the caller, whatever the
+ * client sent; on update it puts the stored owner back. The register's update
+ * and delete rules match on `owner`, so this is what keeps a shared filter or
+ * view out of other people's hands.
  *
  * @category Listener
  * @package  OCA\Planninq\Listener
@@ -21,6 +21,7 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.1
+ * @spec openspec/changes/boards-cross-project-board/tasks.md#task-1.1
  */
 
 declare(strict_types=1);
@@ -34,18 +35,24 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\IUserSession;
 
 /**
- * Stamps and keeps the owner of a saved board filter.
+ * Stamps and keeps the owner of a saved board filter or cross-project view.
  *
  * @template-implements IEventListener<Event>
  *
  * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.1
+ * @spec openspec/changes/boards-cross-project-board/tasks.md#task-1.1
  */
 class BoardFilterOwnerListener implements IEventListener {
 
 	/**
+	 * The planninq schemas whose objects belong to the person who saved them.
+	 */
+	public const OWNED_SCHEMAS = ['boardFilter', 'boardView'];
+
+	/**
 	 * Constructor.
 	 *
-	 * @param TaskScopeResolver $scopeResolver Tells a planninq saved filter from any other object.
+	 * @param TaskScopeResolver $scopeResolver Tells a planninq saved filter or view from any other object.
 	 * @param IUserSession      $userSession   The caller.
 	 */
 	public function __construct(
@@ -62,11 +69,12 @@ class BoardFilterOwnerListener implements IEventListener {
 	 * @return void
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.1
+	 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-1.1
 	 */
 	public function handle(Event $event): void {
 		if ($event instanceof ObjectCreatingEvent === true) {
 			$user = $this->userSession->getUser();
-			if ($user !== null && $this->isBoardFilter(object: $event->getObject()) === true) {
+			if ($user !== null && $this->isOwnedObject(object: $event->getObject()) === true) {
 				$event->setModifiedData(array_merge($event->getModifiedData(), ['owner' => $user->getUID()]));
 			}
 
@@ -87,7 +95,7 @@ class BoardFilterOwnerListener implements IEventListener {
 	 */
 	private function keepOwner(ObjectUpdatingEvent $event): void {
 		$old = $event->getOldObject();
-		if ($old === null || $this->isBoardFilter(object: $event->getNewObject()) === false) {
+		if ($old === null || $this->isOwnedObject(object: $event->getNewObject()) === false) {
 			return;
 		}
 
@@ -99,16 +107,18 @@ class BoardFilterOwnerListener implements IEventListener {
 	}//end keepOwner()
 
 	/**
-	 * Whether the object is a planninq saved filter.
+	 * Whether the object is a planninq saved filter or cross-project view.
 	 *
 	 * @param object $object The object.
 	 *
 	 * @return bool
 	 */
-	private function isBoardFilter(object $object): bool {
-		return $this->scopeResolver->planninqSchemaSlug(
+	private function isOwnedObject(object $object): bool {
+		$slug = $this->scopeResolver->planninqSchemaSlug(
 			registerId: (string)($object->getRegister() ?? ''),
 			schemaId: (string)($object->getSchema() ?? '')
-		) === 'boardFilter';
-	}//end isBoardFilter()
+		);
+
+		return in_array($slug, self::OWNED_SCHEMAS, true);
+	}//end isOwnedObject()
 }//end class

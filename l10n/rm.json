@@ -1123,7 +1123,14 @@
         "Shared with the project": "Partì cun il project",
         "Whether every project member sees and applies the filter": "Sch'ils commembers dal project vesan il filter e pon applitgar el",
         "Criteria": "Criteris",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Il filter: persuna responsabla, etichetta, prioritad e termin, mintgin cun è u n'è betg e sias valurs"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Il filter: persuna responsabla, etichetta, prioritad e termin, mintgin cun è u n'è betg e sias valurs",
+        "Cross-project view": "Vista tranter projects",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Ina selecziun memorisada da projects, dals quals las incumbensas vegnan mussadas ensemen en colonnas da status, cundividida cun las persunas numnadas.",
+        "Shared with": "Cundividì cun",
+        "The name the view is listed under": "Il num sut il qual la vista è enumerada",
+        "Nextcloud user id of the person who saved the view": "ID d'utilisader Nextcloud da la persuna che ha memorisà la vista",
+        "Nextcloud user ids of the people the view is shared with": "IDs d'utilisaders Nextcloud da las persunas cun las qualas la vista è cundividida",
+        "The projects whose tasks the view shows, at most twenty": "Ils projects, da quals la vista mussa las incumbensas, maximalmain ventg"
     },
     "plurals": null
 }

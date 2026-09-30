@@ -1123,7 +1123,14 @@
         "Shared with the project": "Jaettu projektin kanssa",
         "Whether every project member sees and applies the filter": "Näkeekö jokainen projektin jäsen suodattimen ja voiko sitä käyttää",
         "Criteria": "Ehdot",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Suodatin: vastuuhenkilö, tunniste, prioriteetti ja määräpäivä, kukin ehdolla on tai ei ole ja arvoineen"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Suodatin: vastuuhenkilö, tunniste, prioriteetti ja määräpäivä, kukin ehdolla on tai ei ole ja arvoineen",
+        "Cross-project view": "Projektit ylittävä näkymä",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Tallennettu projektivalikoima, jonka tehtävät näytetään yhdessä tilasarakkeissa ja joka on jaettu siinä nimetyille henkilöille.",
+        "Shared with": "Jaettu henkilöille",
+        "The name the view is listed under": "Nimi, jolla näkymä luetellaan",
+        "Nextcloud user id of the person who saved the view": "Näkymän tallentaneen henkilön Nextcloud-käyttäjätunnus",
+        "Nextcloud user ids of the people the view is shared with": "Niiden henkilöiden Nextcloud-käyttäjätunnukset, joille näkymä on jaettu",
+        "The projects whose tasks the view shows, at most twenty": "Projektit, joiden tehtävät näkymä näyttää, enintään kaksikymmentä"
     },
     "plurals": null
 }

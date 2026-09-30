@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.28.0"
+    "version": "0.29.0"
   },
   "x-openregister": {
     "type": "application",
@@ -37,7 +37,8 @@
           "projectRelease",
           "timetableWish",
           "timetableScenario",
-          "boardFilter"
+          "boardFilter",
+          "boardView"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -3440,6 +3441,107 @@
             "default": [],
             "visible": false,
             "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
+          }
+        }
+      },
+      "boardView": {
+        "slug": "boardView",
+        "icon": "ViewDashboardOutline",
+        "version": "0.1.0",
+        "title": "Cross-project view",
+        "description": "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.",
+        "x-schema-org": "schema:ItemList",
+        "type": "object",
+        "required": [
+          "title",
+          "projects"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "title": {
+            "title": "Name",
+            "type": "string",
+            "description": "The name the view is listed under",
+            "minLength": 1
+          },
+          "owner": {
+            "title": "Owner",
+            "type": "string",
+            "description": "Nextcloud user id of the person who saved the view",
+            "visible": false,
+            "x-notes": "Set by BoardFilterOwnerListener on create and kept on every update; it is the update and delete rule."
+          },
+          "members": {
+            "title": "Shared with",
+            "type": "array",
+            "description": "Nextcloud user ids of the people the view is shared with",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "x-notes": "Chosen by the owner. Unlike the project-scoped `members` lists this one is not kept by planninq: boardView is not project-scoped. Sharing a view shares no task: tasks are read with the viewer's own rights."
+          },
+          "projects": {
+            "title": "Projects",
+            "type": "array",
+            "description": "The projects whose tasks the view shows, at most twenty",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "minItems": 1,
+            "maxItems": 20,
+            "x-notes": "Project ids only; the view holds no columns, card order or tasks (design decision 2)."
           }
         }
       }

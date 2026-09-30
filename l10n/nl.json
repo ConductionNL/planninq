@@ -1136,7 +1136,14 @@
         "Shared with the project": "Gedeeld met het project",
         "Whether every project member sees and applies the filter": "Of elk projectlid het filter ziet en kan toepassen",
         "Criteria": "Criteria",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Het filter: toegewezen aan, label, prioriteit en vervaldatum, elk met is of is niet en de waarden"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Het filter: toegewezen aan, label, prioriteit en vervaldatum, elk met is of is niet en de waarden",
+        "Cross-project view": "Projectoverstijgende weergave",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Een opgeslagen selectie van projecten waarvan de taken samen in statusbanen worden getoond, gedeeld met de mensen die erin staan.",
+        "Shared with": "Gedeeld met",
+        "The name the view is listed under": "De naam waaronder de weergave wordt vermeld",
+        "Nextcloud user id of the person who saved the view": "Nextcloud-gebruikers-id van de persoon die de weergave heeft opgeslagen",
+        "Nextcloud user ids of the people the view is shared with": "Nextcloud-gebruikers-id's van de mensen met wie de weergave is gedeeld",
+        "The projects whose tasks the view shows, at most twenty": "De projecten waarvan de weergave de taken toont, hooguit twintig"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

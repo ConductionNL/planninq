@@ -1124,7 +1124,14 @@ OC.L10N.register(
         "Shared with the project": "Deljeno s projektom",
         "Whether every project member sees and applies the filter": "Ali vsak član projekta vidi filter in ga lahko uporabi",
         "Criteria": "Merila",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filter: izvajalec, oznaka, prednost in rok, vsak z je ali ni in vrednostmi"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filter: izvajalec, oznaka, prednost in rok, vsak z je ali ni in vrednostmi",
+        "Cross-project view": "Medprojektni pogled",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Shranjen izbor projektov, katerih naloge so prikazane skupaj v stolpcih stanj, deljen z navedenimi ljudmi.",
+        "Shared with": "V skupni rabi z",
+        "The name the view is listed under": "Ime, pod katerim je pogled naveden",
+        "Nextcloud user id of the person who saved the view": "ID uporabnika Nextcloud osebe, ki je shranila pogled",
+        "Nextcloud user ids of the people the view is shared with": "ID-ji uporabnikov Nextcloud oseb, s katerimi je pogled v skupni rabi",
+        "The projects whose tasks the view shows, at most twenty": "Projekti, katerih naloge pogled prikazuje, največ dvajset"
     },
     "nplurals=2; plural=(n != 1);"
 )

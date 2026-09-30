@@ -1124,7 +1124,14 @@ OC.L10N.register(
         "Shared with the project": "Megosztva a projekttel",
         "Whether every project member sees and applies the filter": "Látja-e és alkalmazhatja-e a szűrőt minden projekttag",
         "Criteria": "Feltételek",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "A szűrő: felelős, címke, prioritás és határidő, mindegyik egyenlő vagy nem egyenlő feltétellel és értékekkel"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "A szűrő: felelős, címke, prioritás és határidő, mindegyik egyenlő vagy nem egyenlő feltétellel és értékekkel",
+        "Cross-project view": "Projekteken átívelő nézet",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Projektek mentett válogatása, amelyek feladatai együtt jelennek meg állapot szerinti sávokban, megosztva a megnevezett személyekkel.",
+        "Shared with": "Megosztva",
+        "The name the view is listed under": "A név, amelyen a nézet szerepel",
+        "Nextcloud user id of the person who saved the view": "A nézetet mentő személy Nextcloud felhasználói azonosítója",
+        "Nextcloud user ids of the people the view is shared with": "Azon személyek Nextcloud felhasználói azonosítói, akikkel a nézet meg van osztva",
+        "The projects whose tasks the view shows, at most twenty": "A projektek, amelyek feladatait a nézet mutatja, legfeljebb húsz"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1124,7 +1124,14 @@ OC.L10N.register(
         "Shared with the project": "Sdíleno s projektem",
         "Whether every project member sees and applies the filter": "Zda každý člen projektu filtr vidí a může jej použít",
         "Criteria": "Kritéria",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filtr: řešitel, štítek, priorita a termín, každý s je nebo není a hodnotami"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Filtr: řešitel, štítek, priorita a termín, každý s je nebo není a hodnotami",
+        "Cross-project view": "Meziprojektový pohled",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Uložený výběr projektů, jejichž úkoly se zobrazují společně ve sloupcích podle stavu, sdílený s uvedenými lidmi.",
+        "Shared with": "Sdíleno s",
+        "The name the view is listed under": "Název, pod kterým je pohled uveden",
+        "Nextcloud user id of the person who saved the view": "ID uživatele Nextcloud osoby, která pohled uložila",
+        "Nextcloud user ids of the people the view is shared with": "ID uživatelů Nextcloud osob, se kterými je pohled sdílen",
+        "The projects whose tasks the view shows, at most twenty": "Projekty, jejichž úkoly pohled zobrazuje, nejvýše dvacet"
     },
     "nplurals=2; plural=(n != 1);"
 )

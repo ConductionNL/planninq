@@ -1124,7 +1124,14 @@ OC.L10N.register(
         "Shared with the project": "Partagé avec le projet",
         "Whether every project member sees and applies the filter": "Si chaque membre du projet voit et peut appliquer le filtre",
         "Criteria": "Critères",
-        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Le filtre : responsable, étiquette, priorité et échéance, chacun avec est ou n'est pas et ses valeurs"
+        "The filter: assignee, label, priority and due date, each with is or is not and its values": "Le filtre : responsable, étiquette, priorité et échéance, chacun avec est ou n'est pas et ses valeurs",
+        "Cross-project view": "Vue multiprojet",
+        "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.": "Une sélection enregistrée de projets dont les tâches sont affichées ensemble par statut, partagée avec les personnes qu'elle nomme.",
+        "Shared with": "Partagée avec",
+        "The name the view is listed under": "Le nom sous lequel la vue est listée",
+        "Nextcloud user id of the person who saved the view": "Identifiant Nextcloud de la personne qui a enregistré la vue",
+        "Nextcloud user ids of the people the view is shared with": "Identifiants Nextcloud des personnes avec qui la vue est partagée",
+        "The projects whose tasks the view shows, at most twenty": "Les projets dont la vue affiche les tâches, vingt au maximum"
     },
     "nplurals=2; plural=(n != 1);"
 )
