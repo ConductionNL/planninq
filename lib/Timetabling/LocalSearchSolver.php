@@ -266,7 +266,7 @@ final class LocalSearchSolver implements TimetableSolver {
 	 */
 	private function cost(SolverInput $input, SearchState $state): int {
 		$score = $this->scorer->score(input: $input, placements: $state->placements());
-		$cost  = TimetableScorer::cost($score['metrics']);
+		$cost  = $this->scorer->costOf(metrics: $score['metrics']);
 		foreach ($score['brokenWishes'] as $broken) {
 			if ($broken['strength'] === 'hard') {
 				$cost += (count($broken['lessons']) * TimetableScorer::HARD_COST);
@@ -346,7 +346,7 @@ final class LocalSearchSolver implements TimetableSolver {
 			unplaced: $unplaced,
 			brokenWishes: $score['brokenWishes'],
 			metrics: $score['metrics'],
-			cost: TimetableScorer::cost($score['metrics']),
+			cost: $this->scorer->costOf(metrics: $score['metrics']),
 			iterations: $iterations
 		);
 	}//end result()

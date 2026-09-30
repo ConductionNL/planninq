@@ -60,6 +60,8 @@ class GenerateTimetableScenario extends QueuedJob {
 	 * @param mixed $argument `['scenario' => id]`.
 	 *
 	 * @return void
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
 	 */
 	protected function run($argument): void {
 		$this->runStep(argument: $argument);

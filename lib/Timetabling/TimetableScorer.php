@@ -126,6 +126,19 @@ final class TimetableScorer {
 	}//end cost()
 
 	/**
+	 * The same number as cost(), for callers that hold a scorer.
+	 *
+	 * @param array<string,mixed> $metrics The metrics of score().
+	 *
+	 * @return int
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+	 */
+	public function costOf(array $metrics): int {
+		return self::cost(metrics: $metrics);
+	}//end costOf()
+
+	/**
 	 * The placed lessons with the periods they take; a placement that cannot be laid out is a clash.
 	 *
 	 * @param SolverInput                     $input      The input.

@@ -35,12 +35,12 @@ final class SolverResult {
 	/**
 	 * Constructor.
 	 *
-	 * @param array<int,array{lesson:string,period:string,room:string}>        $placements   Each placed lesson with its start period and room.
-	 * @param array<int,array{lesson:string,wish:?string,reason:string}>       $unplaced     Each lesson without a place, with the hard wish that blocked it.
-	 * @param array<int,array<string,mixed>>                                    $brokenWishes The wishes the placements break.
-	 * @param array<string,mixed>                                               $metrics      The scorer's measures.
-	 * @param int                                                               $cost         The one number the search minimised.
-	 * @param int                                                               $iterations   How many moves the search tried.
+	 * @param array<int,array{lesson:string,period:string,room:string}>  $placements   Each placed lesson with its start period and room.
+	 * @param array<int,array{lesson:string,wish:?string,reason:string}> $unplaced     Each lesson without a place, with the hard wish that blocked it.
+	 * @param array<int,array<string,mixed>>                            $brokenWishes The wishes the placements break.
+	 * @param array<string,mixed>                                       $metrics      The scorer's measures.
+	 * @param int                                                       $cost         The one number the search minimised.
+	 * @param int                                                       $iterations   How many moves the search tried.
 	 *
 	 * @return void
 	 */

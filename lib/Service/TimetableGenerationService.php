@@ -163,13 +163,18 @@ class TimetableGenerationService {
 		$improved = ($previous === null || $result->cost < (int)$previous);
 		$more     = ($improved === true && $spent < $budget && $result->cost > 0);
 
+		$status = 'done';
+		if ($more === true) {
+			$status = 'running';
+		}
+
 		$this->store->save(
 			id: $id,
 			data: array_merge(
 				$scenario,
 				$result->toScenario(),
 				[
-					'status'  => ($more === true ? 'running' : 'done'),
+					'status'  => $status,
 					'metrics' => array_merge(
 						$result->metrics,
 						['cost' => $result->cost, 'secondsSpent' => $spent, 'steps' => ((int)($metrics['steps'] ?? 0) + 1), 'budgetSeconds' => $budget]
@@ -222,9 +227,16 @@ class TimetableGenerationService {
 	 * @return string As in `2026-2027`.
 	 */
 	private function academicYear(string $date): string {
-		$time  = (strtotime($date) ?: time());
-		$year  = (int)date('Y', $time);
-		$start = ((int)date('n', $time) >= 8) ? $year : ($year - 1);
+		$time = strtotime($date);
+		if ($time === false) {
+			$time = time();
+		}
+
+		$start = (int)date('Y', $time);
+		if ((int)date('n', $time) < 8) {
+			$start--;
+		}
+
 		return $start.'-'.($start + 1);
 	}//end academicYear()
 }//end class
