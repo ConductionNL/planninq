@@ -24,6 +24,7 @@ namespace OCA\Planninq\Tests\Unit\Support;
 
 use OCA\Planninq\Listener\TaskScopeResolver;
 use OCA\Planninq\Service\TaskCalendarExportService;
+use OCA\Planninq\Service\TaskCalendarTaskStore;
 use OCA\Planninq\Service\TaskVtodoBuilder;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
@@ -105,10 +106,13 @@ trait CalendarExportFixture {
 
 		$backend = $withDav ? $this->backend : null;
 
-		return new class($config, $container, $urls, $jobs, $l10n, new TaskVtodoBuilder(), $this->createMock(LoggerInterface::class), $backend) extends TaskCalendarExportService {
+		$logger = $this->createMock(LoggerInterface::class);
+		$store  = new TaskCalendarTaskStore($container, $logger);
+
+		return new class($config, $container, $urls, $jobs, $l10n, new TaskVtodoBuilder(), $store, $logger, $backend) extends TaskCalendarExportService {
 			// phpcs:disable
-			public function __construct($config, $container, $urls, $jobs, $l10n, $builder, $logger, private ?object $fake) {
-				parent::__construct($config, $container, $urls, $jobs, $l10n, $builder, $logger);
+			public function __construct($config, $container, $urls, $jobs, $l10n, $builder, $store, $logger, private ?object $fake) {
+				parent::__construct($config, $container, $urls, $jobs, $l10n, $builder, $store, $logger);
 			}
 			public function davBackend(): ?object {
 				return $this->fake;

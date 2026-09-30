@@ -66,32 +66,26 @@ class TaskCalendarExportService {
 	/**
 	 * The backend calls the export needs.
 	 */
-	private const DAV_METHODS = ['getCalendarByUri', 'createCalendar', 'deleteCalendar', 'getCalendarObject', 'createCalendarObject', 'updateCalendarObject', 'deleteCalendarObject'];
-
-	/**
-	 * OpenRegister's system scope for the calendarEventUid write-back.
-	 */
-	private const OR_SYSTEM_CONTEXT = 'OCA\\OpenRegister\\Service\\SystemOperationContext';
-
-	/**
-	 * OpenRegister's object service.
-	 */
-	private const OBJECT_SERVICE = 'OCA\\OpenRegister\\Service\\ObjectService';
-
-	/**
-	 * The planninq register slug.
-	 */
-	private const REGISTER = 'planninq';
+	private const DAV_METHODS = [
+		'getCalendarByUri',
+		'createCalendar',
+		'deleteCalendar',
+		'getCalendarObject',
+		'createCalendarObject',
+		'updateCalendarObject',
+		'deleteCalendarObject',
+	];
 
 	/**
 	 * Constructor.
 	 *
 	 * @param IConfig            $config    User values and the instance id.
-	 * @param ContainerInterface $container Lazy DAV backend and OpenRegister resolution.
+	 * @param ContainerInterface $container Lazy DAV backend resolution.
 	 * @param IURLGenerator      $urls      The task's address for the VTODO URL.
 	 * @param IJobList           $jobs      Queues the backfill on switch-on.
 	 * @param IL10N              $l10n      The managed note.
 	 * @param TaskVtodoBuilder   $builder   Task to VTODO.
+	 * @param TaskCalendarTaskStore $store  Task and project reads, and the UID write-back.
 	 * @param LoggerInterface    $logger    Diagnostics.
 	 */
 	public function __construct(
@@ -101,6 +95,7 @@ class TaskCalendarExportService {
 		private IJobList $jobs,
 		private IL10N $l10n,
 		private TaskVtodoBuilder $builder,
+		private TaskCalendarTaskStore $store,
 		private LoggerInterface $logger,
 	) {
 	}//end __construct()
@@ -208,40 +203,25 @@ class TaskCalendarExportService {
 			return 0;
 		}
 
-		$stored = $task['calendarEventUid'] ?? null;
-		$uid    = $this->uidFor(taskId: $taskId);
-		if (is_string($stored) === true && $stored !== '') {
-			$uid = $stored;
-		}
-
-		$ics = $this->builder->build(
+		$stored  = $task['calendarEventUid'] ?? null;
+		$uid     = $this->uidOf(taskId: $taskId, stored: $stored);
+		$project = $this->store->text(value: ($task['project'] ?? ''));
+		$ics     = $this->builder->build(
 			task: $task,
 			uid: $uid,
-			projectTitle: $this->projectTitle(projectId: $this->text(value: ($task['project'] ?? ''))),
-			url: $this->taskUrl(projectId: $this->text(value: ($task['project'] ?? '')), taskId: $taskId),
+			projectTitle: $this->store->projectTitle(projectId: $project),
+			url: $this->taskUrl(projectId: $project, taskId: $taskId),
 			managedNote: $this->l10n->t('Managed by Planninq. Changes made here are replaced by the next change in Planninq.'),
 			stamp: gmdate('Ymd\THis\Z')
 		);
 
 		$written = 0;
 		foreach ($users as $user) {
-			$listId = $this->listId(backend: $backend, userId: $user, create: true);
-			if ($listId === null) {
-				continue;
-			}
-
-			$uri = $this->objectUri(taskId: $taskId);
-			if ($backend->getCalendarObject($listId, $uri) === null) {
-				$backend->createCalendarObject($listId, $uri, $ics);
-			} else {
-				$backend->updateCalendarObject($listId, $uri, $ics);
-			}
-
-			$written++;
+			$written += $this->writeFor(backend: $backend, userId: $user, taskId: $taskId, ics: $ics);
 		}
 
 		if ($written > 0 && $uid !== $stored) {
-			$this->storeUid(taskId: $taskId, task: $task, uid: $uid);
+			$this->store->storeUid(taskId: $taskId, task: $task, uid: $uid);
 		}
 
 		return $written;
@@ -311,7 +291,11 @@ class TaskCalendarExportService {
 		}
 
 		$written = 0;
-		foreach ($this->tasks(userId: $userId) as $taskId => $task) {
+		foreach ($this->store->tasksOf(userId: $userId) as $taskId => $task) {
+			if (in_array($userId, $this->recipients(task: $task), true) === false) {
+				continue;
+			}
+
 			$written += $this->exportTask(taskId: $taskId, task: $task, users: [$userId]);
 		}
 
@@ -364,6 +348,49 @@ class TaskCalendarExportService {
 	}//end davBackend()
 
 	/**
+	 * The UID to use: the stored one, or a new one for a first export.
+	 *
+	 * @param string $taskId The task uuid.
+	 * @param mixed  $stored The task's calendarEventUid.
+	 *
+	 * @return string
+	 */
+	private function uidOf(string $taskId, mixed $stored): string {
+		if (is_string($stored) === true && $stored !== '') {
+			return $stored;
+		}
+
+		return $this->uidFor(taskId: $taskId);
+	}//end uidOf()
+
+	/**
+	 * Create or replace the VTODO in one user's list.
+	 *
+	 * @param object $backend The CalDAV backend.
+	 * @param string $userId  The user.
+	 * @param string $taskId  The task uuid.
+	 * @param string $ics     The VCALENDAR text.
+	 *
+	 * @return int 1 when written, 0 when the list could not be made.
+	 */
+	private function writeFor(object $backend, string $userId, string $taskId, string $ics): int {
+		$listId = $this->listId(backend: $backend, userId: $userId, create: true);
+		if ($listId === null) {
+			return 0;
+		}
+
+		$uri = $this->objectUri(taskId: $taskId);
+		if ($backend->getCalendarObject($listId, $uri) === null) {
+			$backend->createCalendarObject($listId, $uri, $ics);
+			return 1;
+		}
+
+		$backend->updateCalendarObject($listId, $uri, $ics);
+
+		return 1;
+	}//end writeFor()
+
+	/**
 	 * The id of a user's "Planninq" list, created on demand as a VTODO-only list.
 	 *
 	 * @param object $backend The CalDAV backend.
@@ -383,7 +410,9 @@ class TaskCalendarExportService {
 			return null;
 		}
 
-		return $backend->createCalendar($principal, self::LIST_URI, ['components' => 'VTODO', '{DAV:}displayname' => 'Planninq']);
+		$properties = ['components' => 'VTODO', '{DAV:}displayname' => 'Planninq'];
+
+		return $backend->createCalendar($principal, self::LIST_URI, $properties);
 	}//end listId()
 
 	/**
@@ -413,136 +442,4 @@ class TaskCalendarExportService {
 		return $this->urls->getAbsoluteURL('/index.php/apps/planninq/projects/' . rawurlencode($projectId) . '/tasks/' . rawurlencode($taskId));
 	}//end taskUrl()
 
-	/**
-	 * A project's title, read as the system; '' when it does not resolve.
-	 *
-	 * @param string $projectId The project uuid.
-	 *
-	 * @return string
-	 */
-	private function projectTitle(string $projectId): string {
-		if ($projectId === '') {
-			return '';
-		}
-
-		try {
-			$entity = $this->container->get(self::OBJECT_SERVICE)->find(id: $projectId, register: self::REGISTER, schema: 'project', _rbac: false, _multitenancy: false);
-		} catch (\Throwable $e) {
-			return '';
-		}
-
-		$data = $this->rowData(row: $entity);
-
-		return $this->text(value: ($data['title'] ?? ''));
-	}//end projectTitle()
-
-	/**
-	 * The tasks assigned to or shared with a user, keyed by uuid, read as the system.
-	 *
-	 * @param string $userId The user.
-	 *
-	 * @return array<string,array<string,mixed>>
-	 */
-	private function tasks(string $userId): array {
-		try {
-			$results = $this->container->get(self::OBJECT_SERVICE)->searchObjectsBySlug(
-				registerSlug: self::REGISTER,
-				schemaSlug: 'task',
-				filters: [],
-				_rbac: false,
-				_multitenancy: false
-			);
-		} catch (\Throwable $e) {
-			$this->logger->warning('Planninq: the task export backfill could not read tasks', ['user' => $userId, 'exception' => $e->getMessage()]);
-			return [];
-		}
-
-		if (is_array($results) === true && array_key_exists('results', $results) === true) {
-			$results = $results['results'];
-		}
-
-		$tasks = [];
-		foreach ((array)$results as $row) {
-			$data = $this->rowData(row: $row);
-			$id   = $this->text(value: ($data['id'] ?? ($data['@self']['id'] ?? '')));
-			if (is_object($row) === true && is_callable([$row, 'getUuid']) === true) {
-				$id = (string)$row->getUuid();
-			}
-
-			if ($id !== '' && in_array($userId, $this->recipients(task: $data), true) === true) {
-				$tasks[$id] = $data;
-			}
-		}
-
-		return $tasks;
-	}//end tasks()
-
-	/**
-	 * Store the VTODO UID on the task as a silent system write, so it raises no event.
-	 *
-	 * @param string              $taskId The task uuid.
-	 * @param array<string,mixed> $task   The task data.
-	 * @param string              $uid    The UID.
-	 *
-	 * @return void
-	 */
-	private function storeUid(string $taskId, array $task, string $uid): void {
-		$class = self::OR_SYSTEM_CONTEXT;
-		if (class_exists($class) === false) {
-			return;
-		}
-
-		unset($task['@self'], $task['id']);
-		$task['calendarEventUid'] = $uid;
-		try {
-			$objectService = $this->container->get(self::OBJECT_SERVICE);
-			$class::run(
-				static fn () => $objectService->saveObject(
-					object: $task,
-					register: self::REGISTER,
-					schema: 'task',
-					uuid: $taskId,
-					_rbac: false,
-					_multitenancy: false,
-					silent: true
-				)
-			);
-		} catch (\Throwable $e) {
-			$this->logger->warning('Planninq: could not store the calendar UID on a task', ['task' => $taskId, 'exception' => $e->getMessage()]);
-		}
-	}//end storeUid()
-
-	/**
-	 * The data of a search row or entity.
-	 *
-	 * @param mixed $row The row.
-	 *
-	 * @return array<string,mixed>
-	 */
-	private function rowData(mixed $row): array {
-		if (is_object($row) === true && is_callable([$row, 'getObject']) === true) {
-			return (array)$row->getObject();
-		}
-
-		if (is_object($row) === true && method_exists($row, 'jsonSerialize') === true) {
-			return (array)$row->jsonSerialize();
-		}
-
-		return (array)$row;
-	}//end rowData()
-
-	/**
-	 * A scalar as a string; anything else as ''.
-	 *
-	 * @param mixed $value The value.
-	 *
-	 * @return string
-	 */
-	private function text(mixed $value): string {
-		if (is_scalar($value) === true) {
-			return (string)$value;
-		}
-
-		return '';
-	}//end text()
 }//end class

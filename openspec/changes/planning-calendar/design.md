@@ -58,7 +58,7 @@ Decision: `TaskCalendarExportService` resolves the backend by class name behind 
 
 Also decided at build:
 - The switch lives in `TaskCalendarExportService` (`values()`, `apply()`), applied by `SettingsController` next to `NotificationSwitchService`, not in `SettingsService`, which is at phpmd's complexity and coupling limits.
-- The VTODO text is built by a separate pure class, `TaskVtodoBuilder`, so every mapping is tested without Nextcloud.
+- The VTODO text is built by a separate pure class, `TaskVtodoBuilder`, so every mapping is tested without Nextcloud; the OpenRegister reads and the UID write-back sit in `TaskCalendarTaskStore`, which keeps the export service under phpmd's class complexity limit.
 - The backfill job reads every task as the system and keeps the user's own (assigned or shared), because OpenRegister filters a list property such as `sharedWith` by equality, not membership. This is the same read the My tasks page makes.
 - The object in the list is named `planninq-task-<task uuid>.ics`, so removal needs no UID lookup. The UID write-back is a silent system write (`SystemOperationContext`, `silent: true`), and the listener also ignores an update that changes only `calendarEventUid`.
 
