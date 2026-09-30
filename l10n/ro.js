@@ -1131,7 +1131,26 @@ OC.L10N.register(
         "The name the view is listed under": "Numele sub care este listată vizualizarea",
         "Nextcloud user id of the person who saved the view": "Id-ul de utilizator Nextcloud al persoanei care a salvat vizualizarea",
         "Nextcloud user ids of the people the view is shared with": "Id-urile de utilizator Nextcloud ale persoanelor cu care este partajată vizualizarea",
-        "The projects whose tasks the view shows, at most twenty": "Proiectele ale căror sarcini le arată vizualizarea, cel mult douăzeci"
+        "The projects whose tasks the view shows, at most twenty": "Proiectele ale căror sarcini le arată vizualizarea, cel mult douăzeci",
+        "1 project in this view is hidden from you.": "1 proiect din această vizualizare îți este ascuns.",
+        "{count} projects in this view are hidden from you.": "{count} proiecte din această vizualizare îți sunt ascunse.",
+        "{project} has no column for {status}.": "{project} nu are o coloană pentru {status}.",
+        "This view does not exist or is not shared with you.": "Această vizualizare nu există sau nu este partajată cu tine.",
+        "\"{task}\" moved to {status}.": "\"{task}\" a fost mutată în {status}.",
+        "Project: {title}": "Proiect: {title}",
+        "Cross-project views": "Vizualizări între proiecte",
+        "New view": "Vizualizare nouă",
+        "Edit view": "Editează vizualizarea",
+        "Delete view": "Șterge vizualizarea",
+        "Give the view a name": "Dă-i un nume vizualizării",
+        "Pick at least one project": "Alege cel puțin un proiect",
+        "A view shows at most {max} projects": "O vizualizare arată cel mult {max} proiecte",
+        "Could not save the view. Please try again.": "Vizualizarea nu a putut fi salvată. Încearcă din nou.",
+        "Could not delete the view. Please try again.": "Vizualizarea nu a putut fi ștearsă. Încearcă din nou.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Ștergi „{title}”? Proiectele și sarcinile lor rămân neschimbate.",
+        "People see the tasks of the projects they are in, never more.": "Fiecare vede doar sarcinile proiectelor din care face parte.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Încă nu există vizualizări. O vizualizare arată împreună sarcinile mai multor proiecte ale tale.",
+        "Projects in view: {count}": "Proiecte în vizualizare: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

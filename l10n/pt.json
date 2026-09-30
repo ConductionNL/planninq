@@ -1130,7 +1130,26 @@
         "The name the view is listed under": "O nome com que a vista é listada",
         "Nextcloud user id of the person who saved the view": "Id de utilizador Nextcloud da pessoa que guardou a vista",
         "Nextcloud user ids of the people the view is shared with": "Ids de utilizador Nextcloud das pessoas com quem a vista é partilhada",
-        "The projects whose tasks the view shows, at most twenty": "Os projetos cujas tarefas a vista mostra, no máximo vinte"
+        "The projects whose tasks the view shows, at most twenty": "Os projetos cujas tarefas a vista mostra, no máximo vinte",
+        "1 project in this view is hidden from you.": "1 projeto desta vista está oculto para si.",
+        "{count} projects in this view are hidden from you.": "{count} projetos desta vista estão ocultos para si.",
+        "{project} has no column for {status}.": "{project} não tem coluna para {status}.",
+        "This view does not exist or is not shared with you.": "Esta vista não existe ou não foi partilhada consigo.",
+        "\"{task}\" moved to {status}.": "\"{task}\" movida para {status}.",
+        "Project: {title}": "Projeto: {title}",
+        "Cross-project views": "Vistas entre projetos",
+        "New view": "Nova vista",
+        "Edit view": "Editar vista",
+        "Delete view": "Eliminar vista",
+        "Give the view a name": "Dê um nome à vista",
+        "Pick at least one project": "Escolha pelo menos um projeto",
+        "A view shows at most {max} projects": "Uma vista mostra no máximo {max} projetos",
+        "Could not save the view. Please try again.": "Não foi possível guardar a vista. Tente novamente.",
+        "Could not delete the view. Please try again.": "Não foi possível eliminar a vista. Tente novamente.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Eliminar \"{title}\"? Os projetos e as suas tarefas ficam como estão.",
+        "People see the tasks of the projects they are in, never more.": "Cada pessoa vê as tarefas dos projetos em que está, nunca mais.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Ainda não há vistas. Uma vista mostra em conjunto as tarefas de vários dos seus projetos.",
+        "Projects in view: {count}": "Projetos na vista: {count}"
     },
     "plurals": {}
 }

@@ -1131,7 +1131,26 @@ OC.L10N.register(
         "The name the view is listed under": "Le nom sous lequel la vue est listée",
         "Nextcloud user id of the person who saved the view": "Identifiant Nextcloud de la personne qui a enregistré la vue",
         "Nextcloud user ids of the people the view is shared with": "Identifiants Nextcloud des personnes avec qui la vue est partagée",
-        "The projects whose tasks the view shows, at most twenty": "Les projets dont la vue affiche les tâches, vingt au maximum"
+        "The projects whose tasks the view shows, at most twenty": "Les projets dont la vue affiche les tâches, vingt au maximum",
+        "1 project in this view is hidden from you.": "1 projet de cette vue vous est masqué.",
+        "{count} projects in this view are hidden from you.": "{count} projets de cette vue vous sont masqués.",
+        "{project} has no column for {status}.": "{project} n'a pas de colonne pour {status}.",
+        "This view does not exist or is not shared with you.": "Cette vue n'existe pas ou n'est pas partagée avec vous.",
+        "\"{task}\" moved to {status}.": "« {task} » déplacée vers {status}.",
+        "Project: {title}": "Projet : {title}",
+        "Cross-project views": "Vues multiprojets",
+        "New view": "Nouvelle vue",
+        "Edit view": "Modifier la vue",
+        "Delete view": "Supprimer la vue",
+        "Give the view a name": "Donnez un nom à la vue",
+        "Pick at least one project": "Choisissez au moins un projet",
+        "A view shows at most {max} projects": "Une vue affiche au plus {max} projets",
+        "Could not save the view. Please try again.": "Impossible d'enregistrer la vue. Veuillez réessayer.",
+        "Could not delete the view. Please try again.": "Impossible de supprimer la vue. Veuillez réessayer.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Supprimer « {title} » ? Les projets et leurs tâches restent tels quels.",
+        "People see the tasks of the projects they are in, never more.": "Chacun voit les tâches des projets dont il fait partie, jamais plus.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Aucune vue pour l'instant. Une vue affiche ensemble les tâches de plusieurs de vos projets.",
+        "Projects in view: {count}": "Projets dans la vue : {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1310,7 +1310,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-1.1
 	 */
 	public function testBoardViewSchemaHoldsNoPlacement(): void {
 		$schema = ($this->register['components']['schemas']['boardView'] ?? null);
@@ -1341,7 +1341,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-1.1
 	 */
 	public function testBoardViewAuthorization(): void {
 		$rules = $this->register['components']['schemas']['boardView']['authorization'];

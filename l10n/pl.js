@@ -1131,7 +1131,26 @@ OC.L10N.register(
         "The name the view is listed under": "Nazwa, pod którą widok jest wymieniony",
         "Nextcloud user id of the person who saved the view": "Identyfikator użytkownika Nextcloud osoby, która zapisała widok",
         "Nextcloud user ids of the people the view is shared with": "Identyfikatory użytkowników Nextcloud osób, którym udostępniono widok",
-        "The projects whose tasks the view shows, at most twenty": "Projekty, których zadania pokazuje widok, najwyżej dwadzieścia"
+        "The projects whose tasks the view shows, at most twenty": "Projekty, których zadania pokazuje widok, najwyżej dwadzieścia",
+        "1 project in this view is hidden from you.": "1 projekt w tym widoku jest przed tobą ukryty.",
+        "{count} projects in this view are hidden from you.": "Projekty w tym widoku ukryte przed tobą: {count}.",
+        "{project} has no column for {status}.": "Projekt {project} nie ma kolumny dla statusu {status}.",
+        "This view does not exist or is not shared with you.": "Ten widok nie istnieje lub nie został ci udostępniony.",
+        "\"{task}\" moved to {status}.": "\"{task}\" przeniesiono do {status}.",
+        "Project: {title}": "Projekt: {title}",
+        "Cross-project views": "Widoki międzyprojektowe",
+        "New view": "Nowy widok",
+        "Edit view": "Edytuj widok",
+        "Delete view": "Usuń widok",
+        "Give the view a name": "Nadaj widokowi nazwę",
+        "Pick at least one project": "Wybierz co najmniej jeden projekt",
+        "A view shows at most {max} projects": "Widok pokazuje najwyżej {max} projektów",
+        "Could not save the view. Please try again.": "Nie udało się zapisać widoku. Spróbuj ponownie.",
+        "Could not delete the view. Please try again.": "Nie udało się usunąć widoku. Spróbuj ponownie.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Usunąć „{title}”? Projekty i ich zadania pozostaną bez zmian.",
+        "People see the tasks of the projects they are in, never more.": "Każdy widzi tylko zadania projektów, w których jest.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Brak widoków. Widok pokazuje razem zadania kilku twoich projektów.",
+        "Projects in view: {count}": "Projekty w widoku: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1130,7 +1130,26 @@
         "The name the view is listed under": "L-isem li taħtu titniżżel il-veduta",
         "Nextcloud user id of the person who saved the view": "L-id tal-utent ta' Nextcloud tal-persuna li ssejvjat il-veduta",
         "Nextcloud user ids of the people the view is shared with": "L-ids tal-utenti ta' Nextcloud tan-nies li magħhom hi maqsuma l-veduta",
-        "The projects whose tasks the view shows, at most twenty": "Il-proġetti li l-kompiti tagħhom turi l-veduta, mhux aktar minn għoxrin"
+        "The projects whose tasks the view shows, at most twenty": "Il-proġetti li l-kompiti tagħhom turi l-veduta, mhux aktar minn għoxrin",
+        "1 project in this view is hidden from you.": "Proġett 1 f'din il-veduta huwa moħbi minnek.",
+        "{count} projects in this view are hidden from you.": "Proġetti f'din il-veduta moħbija minnek: {count}.",
+        "{project} has no column for {status}.": "{project} m'għandux kolonna għal {status}.",
+        "This view does not exist or is not shared with you.": "Din il-veduta ma teżistix jew mhijiex maqsuma miegħek.",
+        "\"{task}\" moved to {status}.": "\"{task}\" ġie mċaqlaq għal {status}.",
+        "Project: {title}": "Proġett: {title}",
+        "Cross-project views": "Vedute bejn proġetti",
+        "New view": "Veduta ġdida",
+        "Edit view": "Editja l-veduta",
+        "Delete view": "Ħassar il-veduta",
+        "Give the view a name": "Agħti isem lill-veduta",
+        "Pick at least one project": "Agħżel mill-inqas proġett wieħed",
+        "A view shows at most {max} projects": "Veduta turi mhux aktar minn {max} proġetti",
+        "Could not save the view. Please try again.": "Il-veduta ma setgħetx tiġi ssejvjata. Erġa' pprova.",
+        "Could not delete the view. Please try again.": "Il-veduta ma setgħetx titħassar. Erġa' pprova.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Tħassar \"{title}\"? Il-proġetti u l-kompiti tagħhom jibqgħu kif inhuma.",
+        "People see the tasks of the projects they are in, never more.": "Kulħadd jara biss il-kompiti tal-proġetti li jkun fihom.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Għad m'hemmx vedute. Veduta turi flimkien il-kompiti ta' diversi proġetti tiegħek.",
+        "Projects in view: {count}": "Proġetti fil-veduta: {count}"
     },
     "plurals": {}
 }

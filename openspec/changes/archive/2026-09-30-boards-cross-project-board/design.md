@@ -40,7 +40,7 @@ Lanes are the task status values, the one vocabulary all projects share (project
 `TaskCard` gets an optional `project` prop; on the view it renders a chip with the project's title and its colour swatch next to the text, so colour is never the only signal. The filter bar of `boards-filters` is reused with its `matchesFilter` helper and query-string state; saved filters stay per project, as that change defines them.
 
 ### Decision 6: found on the Borden page
-`Boards.vue` gets a "Cross-project views" section above the project boards, listing views the user owns or that are shared with them, and a "New view" button that opens `ProjectsViewEditDialog` (in `src/dialogs/`): name, projects (a picker offering only the user's member projects) and people (`MemberSearch`, `src/components/MemberSearch.vue`). The owner edits and deletes from the view's header. Route `/boards/views/:id`, under Borden (ADR-001: "alle borden"), not a new menu.
+`Boards.vue` gets a "Cross-project views" section above the project boards, listing views the user owns or that are shared with them, and a "New view" button that opens `ProjectsViewEditDialog` (in `src/dialogs/`): name, projects (a picker offering only the user's member projects) and people. Amended 30 Sep at build time: `MemberSearch` adds the picked user to a project, so it cannot be reused here; the people picker offers the members of the picked projects instead, since a person in none of them would see no task on the view. The owner edits and deletes from the view's header. Route `/boards/views/:id`, under Borden (ADR-001: "alle borden"), not a new menu.
 
 ## Risks / trade-offs
 

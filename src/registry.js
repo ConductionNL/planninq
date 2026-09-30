@@ -38,6 +38,7 @@ import ProjectOverview from './views/ProjectOverview.vue'
 import ProjectPhases from './views/ProjectPhases.vue'
 import ProjectRisks from './views/ProjectRisks.vue'
 import ProjectStatus from './views/ProjectStatus.vue'
+import ProjectsView from './views/ProjectsView.vue'
 import ProjectTimeline from './views/ProjectTimeline.vue'
 import TaskDetail from './views/TaskDetail.vue'
 import Timesheet from './views/Timesheet.vue'
@@ -71,6 +72,7 @@ export default {
 	PortfolioTimeline: page(PortfolioTimeline),
 	ProjectBacklog: page(ProjectBacklog),
 	ProjectBoard: page(ProjectBoard),
+	ProjectsView: page(ProjectsView),
 	ProjectFinance: page(ProjectFinance),
 	ProjectList: page(ProjectList),
 	ProjectLog: page(ProjectLog),

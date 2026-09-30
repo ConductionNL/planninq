@@ -1131,7 +1131,26 @@ OC.L10N.register(
         "The name the view is listed under": "An t-ainm faoina liostaítear an t-amharc",
         "Nextcloud user id of the person who saved the view": "Aitheantas úsáideora Nextcloud an duine a shábháil an t-amharc",
         "Nextcloud user ids of the people the view is shared with": "Aitheantais úsáideora Nextcloud na ndaoine a bhfuil an t-amharc roinnte leo",
-        "The projects whose tasks the view shows, at most twenty": "Na tionscadail a dtaispeánann an t-amharc a dtascanna, fiche ar a mhéad"
+        "The projects whose tasks the view shows, at most twenty": "Na tionscadail a dtaispeánann an t-amharc a dtascanna, fiche ar a mhéad",
+        "1 project in this view is hidden from you.": "Tá 1 tionscadal san amharc seo i bhfolach ort.",
+        "{count} projects in this view are hidden from you.": "Tionscadail san amharc seo atá i bhfolach ort: {count}.",
+        "{project} has no column for {status}.": "Níl colún ag {project} do {status}.",
+        "This view does not exist or is not shared with you.": "Níl an t-amharc seo ann nó níl sé roinnte leat.",
+        "\"{task}\" moved to {status}.": "Bogadh \"{task}\" go {status}.",
+        "Project: {title}": "Tionscadal: {title}",
+        "Cross-project views": "Amharcanna trasna tionscadal",
+        "New view": "Amharc nua",
+        "Edit view": "Cuir an t-amharc in eagar",
+        "Delete view": "Scrios an t-amharc",
+        "Give the view a name": "Tabhair ainm don amharc",
+        "Pick at least one project": "Roghnaigh tionscadal amháin ar a laghad",
+        "A view shows at most {max} projects": "Taispeánann amharc {max} tionscadal ar a mhéad",
+        "Could not save the view. Please try again.": "Níorbh fhéidir an t-amharc a shábháil. Bain triail eile as.",
+        "Could not delete the view. Please try again.": "Níorbh fhéidir an t-amharc a scriosadh. Bain triail eile as.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Scrios \"{title}\"? Fanann na tionscadail agus a dtascanna mar atá siad.",
+        "People see the tasks of the projects they are in, never more.": "Ní fheiceann duine ach tascanna na dtionscadal a bhfuil sé iontu.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Níl aon amharc fós. Taispeánann amharc tascanna roinnt de do thionscadail le chéile.",
+        "Projects in view: {count}": "Tionscadail san amharc: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

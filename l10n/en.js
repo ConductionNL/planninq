@@ -1110,7 +1110,26 @@ OC.L10N.register(
         "The name the view is listed under": "The name the view is listed under",
         "Nextcloud user id of the person who saved the view": "Nextcloud user id of the person who saved the view",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud user ids of the people the view is shared with",
-        "The projects whose tasks the view shows, at most twenty": "The projects whose tasks the view shows, at most twenty"
+        "The projects whose tasks the view shows, at most twenty": "The projects whose tasks the view shows, at most twenty",
+        "1 project in this view is hidden from you.": "1 project in this view is hidden from you.",
+        "{count} projects in this view are hidden from you.": "{count} projects in this view are hidden from you.",
+        "{project} has no column for {status}.": "{project} has no column for {status}.",
+        "This view does not exist or is not shared with you.": "This view does not exist or is not shared with you.",
+        "\"{task}\" moved to {status}.": "\"{task}\" moved to {status}.",
+        "Project: {title}": "Project: {title}",
+        "Cross-project views": "Cross-project views",
+        "New view": "New view",
+        "Edit view": "Edit view",
+        "Delete view": "Delete view",
+        "Give the view a name": "Give the view a name",
+        "Pick at least one project": "Pick at least one project",
+        "A view shows at most {max} projects": "A view shows at most {max} projects",
+        "Could not save the view. Please try again.": "Could not save the view. Please try again.",
+        "Could not delete the view. Please try again.": "Could not delete the view. Please try again.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Delete \"{title}\"? The projects and their tasks stay as they are.",
+        "People see the tasks of the projects they are in, never more.": "People see the tasks of the projects they are in, never more.",
+        "No views yet. A view shows the tasks of several of your projects together.": "No views yet. A view shows the tasks of several of your projects together.",
+        "Projects in view: {count}": "Projects in view: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

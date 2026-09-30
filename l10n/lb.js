@@ -1131,7 +1131,26 @@ OC.L10N.register(
         "The name the view is listed under": "Den Numm, ënner deem d'Usiicht opgelëscht ass",
         "Nextcloud user id of the person who saved the view": "Nextcloud-Benotzer-ID vun der Persoun, déi d'Usiicht gespäichert huet",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud-Benotzer-IDen vun de Leit, mat deenen d'Usiicht gedeelt ass",
-        "The projects whose tasks the view shows, at most twenty": "D'Projeten, där hir Aufgaben d'Usiicht weist, héchstens zwanzeg"
+        "The projects whose tasks the view shows, at most twenty": "D'Projeten, där hir Aufgaben d'Usiicht weist, héchstens zwanzeg",
+        "1 project in this view is hidden from you.": "1 Projet an dëser Usiicht ass fir dech verstoppt.",
+        "{count} projects in this view are hidden from you.": "{count} Projeten an dëser Usiicht si fir dech verstoppt.",
+        "{project} has no column for {status}.": "{project} huet keng Spalt fir {status}.",
+        "This view does not exist or is not shared with you.": "Dës Usiicht gëtt et net oder se ass net mat dir gedeelt.",
+        "\"{task}\" moved to {status}.": "\"{task}\" op {status} geréckelt.",
+        "Project: {title}": "Projet: {title}",
+        "Cross-project views": "Projetiwwergräifend Usiichten",
+        "New view": "Nei Usiicht",
+        "Edit view": "Usiicht änneren",
+        "Delete view": "Usiicht läschen",
+        "Give the view a name": "Gëff der Usiicht en Numm",
+        "Pick at least one project": "Wiel mindestens ee Projet",
+        "A view shows at most {max} projects": "Eng Usiicht weist héchstens {max} Projeten",
+        "Could not save the view. Please try again.": "D'Usiicht konnt net gespäichert ginn. Prouf nach eng Kéier.",
+        "Could not delete the view. Please try again.": "D'Usiicht konnt net geläscht ginn. Prouf nach eng Kéier.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "\"{title}\" läschen? D'Projeten an hir Aufgabe bleiwe wéi se sinn.",
+        "People see the tasks of the projects they are in, never more.": "Jiddereen gesäit just d'Aufgabe vun de Projeten, an deenen hien ass.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Nach keng Usiichten. Eng Usiicht weist d'Aufgabe vu méi Projete vun dir zesummen.",
+        "Projects in view: {count}": "Projeten an der Usiicht: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

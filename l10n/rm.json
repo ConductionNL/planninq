@@ -1130,7 +1130,26 @@
         "The name the view is listed under": "Il num sut il qual la vista è enumerada",
         "Nextcloud user id of the person who saved the view": "ID d'utilisader Nextcloud da la persuna che ha memorisà la vista",
         "Nextcloud user ids of the people the view is shared with": "IDs d'utilisaders Nextcloud da las persunas cun las qualas la vista è cundividida",
-        "The projects whose tasks the view shows, at most twenty": "Ils projects, da quals la vista mussa las incumbensas, maximalmain ventg"
+        "The projects whose tasks the view shows, at most twenty": "Ils projects, da quals la vista mussa las incumbensas, maximalmain ventg",
+        "1 project in this view is hidden from you.": "1 project en questa vista è zuppà per tai.",
+        "{count} projects in this view are hidden from you.": "{count} projects en questa vista èn zuppads per tai.",
+        "{project} has no column for {status}.": "{project} n'ha nagina colonna per {status}.",
+        "This view does not exist or is not shared with you.": "Questa vista n'exista betg u n'è betg cundividida cun tai.",
+        "\"{task}\" moved to {status}.": "\"{task}\" spustà en {status}.",
+        "Project: {title}": "Project: {title}",
+        "Cross-project views": "Vistas tranter projects",
+        "New view": "Nova vista",
+        "Edit view": "Modifitgar la vista",
+        "Delete view": "Stizzar la vista",
+        "Give the view a name": "Dà in num a la vista",
+        "Pick at least one project": "Tscherna almain in project",
+        "A view shows at most {max} projects": "Ina vista mussa maximalmain {max} projects",
+        "Could not save the view. Please try again.": "Impussibel da memorisar la vista. Emprova anc ina giada.",
+        "Could not delete the view. Please try again.": "Impussibel da stizzar la vista. Emprova anc ina giada.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Stizzar \"{title}\"? Ils projects e lur incumbensas restan sco ch'els èn.",
+        "People see the tasks of the projects they are in, never more.": "Mintgin vesa mo las incumbensas dals projects nua ch'el è.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Anc naginas vistas. Ina vista mussa ensemen las incumbensas da plirs da tes projects.",
+        "Projects in view: {count}": "Projects en la vista: {count}"
     },
     "plurals": null
 }

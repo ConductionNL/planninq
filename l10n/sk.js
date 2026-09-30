@@ -1131,7 +1131,26 @@ OC.L10N.register(
         "The name the view is listed under": "Názov, pod ktorým je zobrazenie uvedené",
         "Nextcloud user id of the person who saved the view": "ID používateľa Nextcloud osoby, ktorá zobrazenie uložila",
         "Nextcloud user ids of the people the view is shared with": "ID používateľov Nextcloud osôb, s ktorými je zobrazenie zdieľané",
-        "The projects whose tasks the view shows, at most twenty": "Projekty, ktorých úlohy zobrazenie ukazuje, najviac dvadsať"
+        "The projects whose tasks the view shows, at most twenty": "Projekty, ktorých úlohy zobrazenie ukazuje, najviac dvadsať",
+        "1 project in this view is hidden from you.": "1 projekt v tomto zobrazení je pred vami skrytý.",
+        "{count} projects in this view are hidden from you.": "Projekty v tomto zobrazení skryté pred vami: {count}.",
+        "{project} has no column for {status}.": "Projekt {project} nemá stĺpec pre stav {status}.",
+        "This view does not exist or is not shared with you.": "Toto zobrazenie neexistuje alebo s vami nie je zdieľané.",
+        "\"{task}\" moved to {status}.": "\"{task}\" presunuté do {status}.",
+        "Project: {title}": "Projekt: {title}",
+        "Cross-project views": "Medziprojektové zobrazenia",
+        "New view": "Nové zobrazenie",
+        "Edit view": "Upraviť zobrazenie",
+        "Delete view": "Odstrániť zobrazenie",
+        "Give the view a name": "Pomenujte zobrazenie",
+        "Pick at least one project": "Vyberte aspoň jeden projekt",
+        "A view shows at most {max} projects": "Zobrazenie ukazuje najviac {max} projektov",
+        "Could not save the view. Please try again.": "Zobrazenie sa nepodarilo uložiť. Skúste to znova.",
+        "Could not delete the view. Please try again.": "Zobrazenie sa nepodarilo odstrániť. Skúste to znova.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Odstrániť „{title}“? Projekty a ich úlohy zostanú bez zmeny.",
+        "People see the tasks of the projects they are in, never more.": "Každý vidí iba úlohy projektov, v ktorých je.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Zatiaľ žiadne zobrazenia. Zobrazenie ukazuje úlohy viacerých vašich projektov spolu.",
+        "Projects in view: {count}": "Projekty v zobrazení: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

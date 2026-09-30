@@ -1130,7 +1130,26 @@
         "The name the view is listed under": "Název, pod kterým je pohled uveden",
         "Nextcloud user id of the person who saved the view": "ID uživatele Nextcloud osoby, která pohled uložila",
         "Nextcloud user ids of the people the view is shared with": "ID uživatelů Nextcloud osob, se kterými je pohled sdílen",
-        "The projects whose tasks the view shows, at most twenty": "Projekty, jejichž úkoly pohled zobrazuje, nejvýše dvacet"
+        "The projects whose tasks the view shows, at most twenty": "Projekty, jejichž úkoly pohled zobrazuje, nejvýše dvacet",
+        "1 project in this view is hidden from you.": "1 projekt v tomto pohledu je před vámi skrytý.",
+        "{count} projects in this view are hidden from you.": "Projekty v tomto pohledu skryté před vámi: {count}.",
+        "{project} has no column for {status}.": "Projekt {project} nemá sloupec pro stav {status}.",
+        "This view does not exist or is not shared with you.": "Tento pohled neexistuje nebo s vámi není sdílen.",
+        "\"{task}\" moved to {status}.": "\"{task}\" přesunuto do {status}.",
+        "Project: {title}": "Projekt: {title}",
+        "Cross-project views": "Meziprojektové pohledy",
+        "New view": "Nový pohled",
+        "Edit view": "Upravit pohled",
+        "Delete view": "Smazat pohled",
+        "Give the view a name": "Pojmenujte pohled",
+        "Pick at least one project": "Vyberte alespoň jeden projekt",
+        "A view shows at most {max} projects": "Pohled zobrazuje nejvýše {max} projektů",
+        "Could not save the view. Please try again.": "Pohled se nepodařilo uložit. Zkuste to znovu.",
+        "Could not delete the view. Please try again.": "Pohled se nepodařilo smazat. Zkuste to znovu.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Smazat „{title}“? Projekty a jejich úkoly zůstanou beze změny.",
+        "People see the tasks of the projects they are in, never more.": "Každý vidí jen úkoly projektů, ve kterých je.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Zatím žádné pohledy. Pohled zobrazuje úkoly několika vašich projektů společně.",
+        "Projects in view: {count}": "Projekty v pohledu: {count}"
     },
     "plurals": null
 }

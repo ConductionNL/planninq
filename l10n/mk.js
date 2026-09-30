@@ -1131,7 +1131,26 @@ OC.L10N.register(
         "The name the view is listed under": "Името под кое е наведен приказот",
         "Nextcloud user id of the person who saved the view": "Nextcloud кориснички ID на личноста што го зачувала приказот",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud кориснички ID на луѓето со кои е споделен приказот",
-        "The projects whose tasks the view shows, at most twenty": "Проектите чии задачи ги прикажува приказот, најмногу дваесет"
+        "The projects whose tasks the view shows, at most twenty": "Проектите чии задачи ги прикажува приказот, најмногу дваесет",
+        "1 project in this view is hidden from you.": "1 проект во овој приказ е скриен од вас.",
+        "{count} projects in this view are hidden from you.": "Проекти во овој приказ скриени од вас: {count}.",
+        "{project} has no column for {status}.": "Проектот {project} нема колона за статусот {status}.",
+        "This view does not exist or is not shared with you.": "Овој приказ не постои или не е споделен со вас.",
+        "\"{task}\" moved to {status}.": "\"{task}\" е преместено во {status}.",
+        "Project: {title}": "Проект: {title}",
+        "Cross-project views": "Меѓупроектни прикази",
+        "New view": "Нов приказ",
+        "Edit view": "Уреди приказ",
+        "Delete view": "Избриши приказ",
+        "Give the view a name": "Дајте му име на приказот",
+        "Pick at least one project": "Изберете барем еден проект",
+        "A view shows at most {max} projects": "Приказот прикажува најмногу {max} проекти",
+        "Could not save the view. Please try again.": "Приказот не може да се зачува. Обидете се повторно.",
+        "Could not delete the view. Please try again.": "Приказот не може да се избрише. Обидете се повторно.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Да се избрише „{title}“? Проектите и нивните задачи остануваат какви што се.",
+        "People see the tasks of the projects they are in, never more.": "Секој ги гледа само задачите од проектите во кои е.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Сè уште нема прикази. Приказот ги прикажува задачите од повеќе ваши проекти заедно.",
+        "Projects in view: {count}": "Проекти во приказот: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

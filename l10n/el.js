@@ -1131,7 +1131,26 @@ OC.L10N.register(
         "The name the view is listed under": "Το όνομα με το οποίο εμφανίζεται η προβολή",
         "Nextcloud user id of the person who saved the view": "Αναγνωριστικό χρήστη Nextcloud του ατόμου που αποθήκευσε την προβολή",
         "Nextcloud user ids of the people the view is shared with": "Αναγνωριστικά χρηστών Nextcloud των ατόμων με τα οποία μοιράζεται η προβολή",
-        "The projects whose tasks the view shows, at most twenty": "Τα έργα των οποίων τις εργασίες δείχνει η προβολή, έως είκοσι"
+        "The projects whose tasks the view shows, at most twenty": "Τα έργα των οποίων τις εργασίες δείχνει η προβολή, έως είκοσι",
+        "1 project in this view is hidden from you.": "1 έργο αυτής της προβολής είναι κρυφό για εσάς.",
+        "{count} projects in this view are hidden from you.": "{count} έργα αυτής της προβολής είναι κρυφά για εσάς.",
+        "{project} has no column for {status}.": "Το έργο {project} δεν έχει στήλη για {status}.",
+        "This view does not exist or is not shared with you.": "Αυτή η προβολή δεν υπάρχει ή δεν είναι κοινόχρηστη μαζί σας.",
+        "\"{task}\" moved to {status}.": "Η \"{task}\" μετακινήθηκε σε {status}.",
+        "Project: {title}": "Έργο: {title}",
+        "Cross-project views": "Προβολές πολλών έργων",
+        "New view": "Νέα προβολή",
+        "Edit view": "Επεξεργασία προβολής",
+        "Delete view": "Διαγραφή προβολής",
+        "Give the view a name": "Δώστε όνομα στην προβολή",
+        "Pick at least one project": "Επιλέξτε τουλάχιστον ένα έργο",
+        "A view shows at most {max} projects": "Μια προβολή δείχνει έως {max} έργα",
+        "Could not save the view. Please try again.": "Δεν ήταν δυνατή η αποθήκευση της προβολής. Δοκιμάστε ξανά.",
+        "Could not delete the view. Please try again.": "Δεν ήταν δυνατή η διαγραφή της προβολής. Δοκιμάστε ξανά.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Διαγραφή του \"{title}\"; Τα έργα και οι εργασίες τους μένουν ως έχουν.",
+        "People see the tasks of the projects they are in, never more.": "Ο καθένας βλέπει μόνο τις εργασίες των έργων στα οποία συμμετέχει.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Δεν υπάρχουν ακόμη προβολές. Μια προβολή δείχνει μαζί τις εργασίες πολλών έργων σας.",
+        "Projects in view: {count}": "Έργα στην προβολή: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

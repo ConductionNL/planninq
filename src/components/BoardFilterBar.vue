@@ -59,6 +59,7 @@
 			</div>
 
 			<NcActions
+				v-if="!hideSaved"
 				:aria-label="t('planninq', 'Saved filters')"
 				:menuName="t('planninq', 'Saved filters')"
 				data-testid="saved-filters">
@@ -218,6 +219,12 @@ export default {
 		notice: {
 			type: String,
 			default: '',
+		},
+
+		/** Hide the saved-filters menu: a cross-project view has none, saved filters stay per project. */
+		hideSaved: {
+			type: Boolean,
+			default: false,
 		},
 	},
 

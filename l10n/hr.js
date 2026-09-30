@@ -1131,7 +1131,26 @@ OC.L10N.register(
         "The name the view is listed under": "Naziv pod kojim je prikaz naveden",
         "Nextcloud user id of the person who saved the view": "Nextcloud korisnički ID osobe koja je spremila prikaz",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud korisnički ID-ovi osoba s kojima je prikaz podijeljen",
-        "The projects whose tasks the view shows, at most twenty": "Projekti čije zadatke prikaz prikazuje, najviše dvadeset"
+        "The projects whose tasks the view shows, at most twenty": "Projekti čije zadatke prikaz prikazuje, najviše dvadeset",
+        "1 project in this view is hidden from you.": "1 projekt u ovom prikazu skriven je od vas.",
+        "{count} projects in this view are hidden from you.": "Projekti u ovom prikazu skriveni od vas: {count}.",
+        "{project} has no column for {status}.": "Projekt {project} nema stupac za status {status}.",
+        "This view does not exist or is not shared with you.": "Ovaj prikaz ne postoji ili nije podijeljen s vama.",
+        "\"{task}\" moved to {status}.": "\"{task}\" premješteno u {status}.",
+        "Project: {title}": "Projekt: {title}",
+        "Cross-project views": "Međuprojektni prikazi",
+        "New view": "Novi prikaz",
+        "Edit view": "Uredi prikaz",
+        "Delete view": "Izbriši prikaz",
+        "Give the view a name": "Dajte prikazu naziv",
+        "Pick at least one project": "Odaberite barem jedan projekt",
+        "A view shows at most {max} projects": "Prikaz prikazuje najviše {max} projekata",
+        "Could not save the view. Please try again.": "Prikaz nije moguće spremiti. Pokušajte ponovno.",
+        "Could not delete the view. Please try again.": "Prikaz nije moguće izbrisati. Pokušajte ponovno.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Izbrisati \"{title}\"? Projekti i njihovi zadaci ostaju kakvi jesu.",
+        "People see the tasks of the projects they are in, never more.": "Svatko vidi samo zadatke projekata u kojima jest.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Još nema prikaza. Prikaz prikazuje zadatke više vaših projekata zajedno.",
+        "Projects in view: {count}": "Projekti u prikazu: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

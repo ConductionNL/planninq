@@ -1130,7 +1130,26 @@
         "The name the view is listed under": "Името, под което е посочен изгледът",
         "Nextcloud user id of the person who saved the view": "Nextcloud потребителски id на човека, който е запазил изгледа",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud потребителски id на хората, с които е споделен изгледът",
-        "The projects whose tasks the view shows, at most twenty": "Проектите, чиито задачи показва изгледът, най-много двадесет"
+        "The projects whose tasks the view shows, at most twenty": "Проектите, чиито задачи показва изгледът, най-много двадесет",
+        "1 project in this view is hidden from you.": "1 проект в този изглед е скрит от вас.",
+        "{count} projects in this view are hidden from you.": "Проекти в този изглед, скрити от вас: {count}.",
+        "{project} has no column for {status}.": "Проектът {project} няма колона за статус {status}.",
+        "This view does not exist or is not shared with you.": "Този изглед не съществува или не е споделен с вас.",
+        "\"{task}\" moved to {status}.": "\"{task}\" е преместена в {status}.",
+        "Project: {title}": "Проект: {title}",
+        "Cross-project views": "Междупроектни изгледи",
+        "New view": "Нов изглед",
+        "Edit view": "Редактиране на изгледа",
+        "Delete view": "Изтриване на изгледа",
+        "Give the view a name": "Дайте име на изгледа",
+        "Pick at least one project": "Изберете поне един проект",
+        "A view shows at most {max} projects": "Изгледът показва най-много {max} проекта",
+        "Could not save the view. Please try again.": "Изгледът не можа да бъде запазен. Опитайте отново.",
+        "Could not delete the view. Please try again.": "Изгледът не можа да бъде изтрит. Опитайте отново.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Да се изтрие ли „{title}“? Проектите и задачите им остават непроменени.",
+        "People see the tasks of the projects they are in, never more.": "Всеки вижда само задачите на проектите, в които участва.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Все още няма изгледи. Изгледът показва заедно задачите на няколко ваши проекта.",
+        "Projects in view: {count}": "Проекти в изгледа: {count}"
     },
     "plurals": null
 }

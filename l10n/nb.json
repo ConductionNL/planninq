@@ -1130,7 +1130,26 @@
         "The name the view is listed under": "Navnet visningen står oppført under",
         "Nextcloud user id of the person who saved the view": "Nextcloud-bruker-ID for personen som lagret visningen",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud-bruker-ID-er for personene visningen er delt med",
-        "The projects whose tasks the view shows, at most twenty": "Prosjektene som visningen viser oppgavene til, høyst tjue"
+        "The projects whose tasks the view shows, at most twenty": "Prosjektene som visningen viser oppgavene til, høyst tjue",
+        "1 project in this view is hidden from you.": "1 prosjekt i denne visningen er skjult for deg.",
+        "{count} projects in this view are hidden from you.": "{count} prosjekter i denne visningen er skjult for deg.",
+        "{project} has no column for {status}.": "{project} har ingen kolonne for {status}.",
+        "This view does not exist or is not shared with you.": "Denne visningen finnes ikke eller er ikke delt med deg.",
+        "\"{task}\" moved to {status}.": "\"{task}\" flyttet til {status}.",
+        "Project: {title}": "Prosjekt: {title}",
+        "Cross-project views": "Prosjektovergripende visninger",
+        "New view": "Ny visning",
+        "Edit view": "Rediger visning",
+        "Delete view": "Slett visning",
+        "Give the view a name": "Gi visningen et navn",
+        "Pick at least one project": "Velg minst ett prosjekt",
+        "A view shows at most {max} projects": "En visning viser høyst {max} prosjekter",
+        "Could not save the view. Please try again.": "Kunne ikke lagre visningen. Prøv igjen.",
+        "Could not delete the view. Please try again.": "Kunne ikke slette visningen. Prøv igjen.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Slette \"{title}\"? Prosjektene og oppgavene deres forblir som de er.",
+        "People see the tasks of the projects they are in, never more.": "Folk ser oppgavene i prosjektene de er med i, aldri mer.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Ingen visninger ennå. En visning viser oppgavene fra flere av prosjektene dine samlet.",
+        "Projects in view: {count}": "Prosjekter i visningen: {count}"
     },
     "plurals": {}
 }

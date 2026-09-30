@@ -1131,7 +1131,26 @@ OC.L10N.register(
         "The name the view is listed under": "Nimi, jolla näkymä luetellaan",
         "Nextcloud user id of the person who saved the view": "Näkymän tallentaneen henkilön Nextcloud-käyttäjätunnus",
         "Nextcloud user ids of the people the view is shared with": "Niiden henkilöiden Nextcloud-käyttäjätunnukset, joille näkymä on jaettu",
-        "The projects whose tasks the view shows, at most twenty": "Projektit, joiden tehtävät näkymä näyttää, enintään kaksikymmentä"
+        "The projects whose tasks the view shows, at most twenty": "Projektit, joiden tehtävät näkymä näyttää, enintään kaksikymmentä",
+        "1 project in this view is hidden from you.": "1 tämän näkymän projekti on piilotettu sinulta.",
+        "{count} projects in this view are hidden from you.": "{count} tämän näkymän projektia on piilotettu sinulta.",
+        "{project} has no column for {status}.": "Projektilla {project} ei ole saraketta tilalle {status}.",
+        "This view does not exist or is not shared with you.": "Tätä näkymää ei ole tai sitä ei ole jaettu sinulle.",
+        "\"{task}\" moved to {status}.": "\"{task}\" siirretty tilaan {status}.",
+        "Project: {title}": "Projekti: {title}",
+        "Cross-project views": "Projektit ylittävät näkymät",
+        "New view": "Uusi näkymä",
+        "Edit view": "Muokkaa näkymää",
+        "Delete view": "Poista näkymä",
+        "Give the view a name": "Anna näkymälle nimi",
+        "Pick at least one project": "Valitse vähintään yksi projekti",
+        "A view shows at most {max} projects": "Näkymä näyttää enintään {max} projektia",
+        "Could not save the view. Please try again.": "Näkymää ei voitu tallentaa. Yritä uudelleen.",
+        "Could not delete the view. Please try again.": "Näkymää ei voitu poistaa. Yritä uudelleen.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Poistetaanko \"{title}\"? Projektit ja niiden tehtävät pysyvät ennallaan.",
+        "People see the tasks of the projects they are in, never more.": "Kukin näkee vain niiden projektien tehtävät, joissa on mukana.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Ei vielä näkymiä. Näkymä näyttää useiden projektiesi tehtävät yhdessä.",
+        "Projects in view: {count}": "Projekteja näkymässä: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

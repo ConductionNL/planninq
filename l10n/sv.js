@@ -1131,7 +1131,26 @@ OC.L10N.register(
         "The name the view is listed under": "Namnet som vyn listas under",
         "Nextcloud user id of the person who saved the view": "Nextcloud-användar-id för personen som sparade vyn",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud-användar-id:n för personerna som vyn delas med",
-        "The projects whose tasks the view shows, at most twenty": "Projekten vars uppgifter vyn visar, högst tjugo"
+        "The projects whose tasks the view shows, at most twenty": "Projekten vars uppgifter vyn visar, högst tjugo",
+        "1 project in this view is hidden from you.": "1 projekt i den här vyn är dolt för dig.",
+        "{count} projects in this view are hidden from you.": "{count} projekt i den här vyn är dolda för dig.",
+        "{project} has no column for {status}.": "{project} har ingen kolumn för {status}.",
+        "This view does not exist or is not shared with you.": "Den här vyn finns inte eller är inte delad med dig.",
+        "\"{task}\" moved to {status}.": "\"{task}\" flyttad till {status}.",
+        "Project: {title}": "Projekt: {title}",
+        "Cross-project views": "Projektövergripande vyer",
+        "New view": "Ny vy",
+        "Edit view": "Redigera vy",
+        "Delete view": "Ta bort vy",
+        "Give the view a name": "Ge vyn ett namn",
+        "Pick at least one project": "Välj minst ett projekt",
+        "A view shows at most {max} projects": "En vy visar högst {max} projekt",
+        "Could not save the view. Please try again.": "Det gick inte att spara vyn. Försök igen.",
+        "Could not delete the view. Please try again.": "Det gick inte att ta bort vyn. Försök igen.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Ta bort \"{title}\"? Projekten och deras uppgifter förblir som de är.",
+        "People see the tasks of the projects they are in, never more.": "Var och en ser uppgifterna i de projekt de är med i, aldrig mer.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Inga vyer än. En vy visar uppgifterna från flera av dina projekt tillsammans.",
+        "Projects in view: {count}": "Projekt i vyn: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

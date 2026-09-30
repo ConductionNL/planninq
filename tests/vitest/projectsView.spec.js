@@ -1,7 +1,7 @@
 /**
  * Vitest unit tests for cross-project views (boards-cross-project-board).
  *
- * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
  */
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'

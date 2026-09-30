@@ -1131,7 +1131,26 @@ OC.L10N.register(
         "The name the view is listed under": "Nafnið sem yfirlitið er skráð undir",
         "Nextcloud user id of the person who saved the view": "Nextcloud-notandaauðkenni þess sem vistaði yfirlitið",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud-notandaauðkenni fólksins sem yfirlitinu er deilt með",
-        "The projects whose tasks the view shows, at most twenty": "Verkefnin sem yfirlitið sýnir verk úr, mest tuttugu"
+        "The projects whose tasks the view shows, at most twenty": "Verkefnin sem yfirlitið sýnir verk úr, mest tuttugu",
+        "1 project in this view is hidden from you.": "1 verkefni í þessu yfirliti er falið fyrir þér.",
+        "{count} projects in this view are hidden from you.": "{count} verkefni í þessu yfirliti eru falin fyrir þér.",
+        "{project} has no column for {status}.": "{project} hefur engan dálk fyrir {status}.",
+        "This view does not exist or is not shared with you.": "Þetta yfirlit er ekki til eða því hefur ekki verið deilt með þér.",
+        "\"{task}\" moved to {status}.": "\"{task}\" fært í {status}.",
+        "Project: {title}": "Verkefni: {title}",
+        "Cross-project views": "Yfirlit þvert á verkefni",
+        "New view": "Nýtt yfirlit",
+        "Edit view": "Breyta yfirliti",
+        "Delete view": "Eyða yfirliti",
+        "Give the view a name": "Gefðu yfirlitinu nafn",
+        "Pick at least one project": "Veldu að minnsta kosti eitt verkefni",
+        "A view shows at most {max} projects": "Yfirlit sýnir mest {max} verkefni",
+        "Could not save the view. Please try again.": "Ekki tókst að vista yfirlitið. Reyndu aftur.",
+        "Could not delete the view. Please try again.": "Ekki tókst að eyða yfirlitinu. Reyndu aftur.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Eyða \"{title}\"? Verkefnin og verk þeirra haldast óbreytt.",
+        "People see the tasks of the projects they are in, never more.": "Fólk sér verk þeirra verkefna sem það er í, aldrei meira.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Engin yfirlit enn. Yfirlit sýnir verk úr nokkrum verkefnum þínum saman.",
+        "Projects in view: {count}": "Verkefni í yfirliti: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

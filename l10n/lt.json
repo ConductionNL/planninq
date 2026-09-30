@@ -1130,7 +1130,26 @@
         "The name the view is listed under": "Pavadinimas, kuriuo rodinys pateikiamas sąraše",
         "Nextcloud user id of the person who saved the view": "Rodinį išsaugojusio asmens Nextcloud naudotojo ID",
         "Nextcloud user ids of the people the view is shared with": "Žmonių, su kuriais bendrinamas rodinys, Nextcloud naudotojų ID",
-        "The projects whose tasks the view shows, at most twenty": "Projektai, kurių užduotis rodo rodinys, ne daugiau kaip dvidešimt"
+        "The projects whose tasks the view shows, at most twenty": "Projektai, kurių užduotis rodo rodinys, ne daugiau kaip dvidešimt",
+        "1 project in this view is hidden from you.": "1 šio rodinio projektas nuo jūsų paslėptas.",
+        "{count} projects in this view are hidden from you.": "Šio rodinio projektų, paslėptų nuo jūsų: {count}.",
+        "{project} has no column for {status}.": "Projektas {project} neturi stulpelio būsenai {status}.",
+        "This view does not exist or is not shared with you.": "Šio rodinio nėra arba jis su jumis nebendrinamas.",
+        "\"{task}\" moved to {status}.": "\"{task}\" perkelta į {status}.",
+        "Project: {title}": "Projektas: {title}",
+        "Cross-project views": "Kelių projektų rodiniai",
+        "New view": "Naujas rodinys",
+        "Edit view": "Redaguoti rodinį",
+        "Delete view": "Ištrinti rodinį",
+        "Give the view a name": "Suteikite rodiniui pavadinimą",
+        "Pick at least one project": "Pasirinkite bent vieną projektą",
+        "A view shows at most {max} projects": "Rodinys rodo ne daugiau kaip {max} projektų",
+        "Could not save the view. Please try again.": "Nepavyko išsaugoti rodinio. Bandykite dar kartą.",
+        "Could not delete the view. Please try again.": "Nepavyko ištrinti rodinio. Bandykite dar kartą.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Ištrinti „{title}“? Projektai ir jų užduotys lieka tokie, kokie yra.",
+        "People see the tasks of the projects they are in, never more.": "Kiekvienas mato tik tų projektų, kuriuose dalyvauja, užduotis.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Rodinių dar nėra. Rodinys rodo kelių jūsų projektų užduotis kartu.",
+        "Projects in view: {count}": "Projektų rodinyje: {count}"
     },
     "plurals": null
 }

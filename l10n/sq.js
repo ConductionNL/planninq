@@ -1131,7 +1131,26 @@ OC.L10N.register(
         "The name the view is listed under": "Emri me të cilin renditet pamja",
         "Nextcloud user id of the person who saved the view": "ID-ja e përdoruesit Nextcloud e personit që e ruajti pamjen",
         "Nextcloud user ids of the people the view is shared with": "ID-të e përdoruesve Nextcloud të njerëzve me të cilët ndahet pamja",
-        "The projects whose tasks the view shows, at most twenty": "Projektet, detyrat e të cilëve i shfaq pamja, jo më shumë se njëzet"
+        "The projects whose tasks the view shows, at most twenty": "Projektet, detyrat e të cilëve i shfaq pamja, jo më shumë se njëzet",
+        "1 project in this view is hidden from you.": "1 projekt në këtë pamje është i fshehur për ju.",
+        "{count} projects in this view are hidden from you.": "{count} projekte në këtë pamje janë të fshehura për ju.",
+        "{project} has no column for {status}.": "{project} nuk ka kolonë për {status}.",
+        "This view does not exist or is not shared with you.": "Kjo pamje nuk ekziston ose nuk është ndarë me ju.",
+        "\"{task}\" moved to {status}.": "\"{task}\" u zhvendos te {status}.",
+        "Project: {title}": "Projekt: {title}",
+        "Cross-project views": "Pamje ndërprojektuese",
+        "New view": "Pamje e re",
+        "Edit view": "Ndrysho pamjen",
+        "Delete view": "Fshi pamjen",
+        "Give the view a name": "Jepi një emër pamjes",
+        "Pick at least one project": "Zgjidh të paktën një projekt",
+        "A view shows at most {max} projects": "Një pamje shfaq jo më shumë se {max} projekte",
+        "Could not save the view. Please try again.": "Pamja nuk u ruajt dot. Provo përsëri.",
+        "Could not delete the view. Please try again.": "Pamja nuk u fshi dot. Provo përsëri.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Të fshihet \"{title}\"? Projektet dhe detyrat e tyre mbeten siç janë.",
+        "People see the tasks of the projects they are in, never more.": "Secili sheh vetëm detyrat e projekteve ku bën pjesë.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Ende nuk ka pamje. Një pamje shfaq së bashku detyrat e disa projekteve të tua.",
+        "Projects in view: {count}": "Projekte në pamje: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

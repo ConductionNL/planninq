@@ -1131,7 +1131,26 @@ OC.L10N.register(
         "The name the view is listed under": "El nom amb què apareix la vista",
         "Nextcloud user id of the person who saved the view": "Id d'usuari de Nextcloud de la persona que va desar la vista",
         "Nextcloud user ids of the people the view is shared with": "Ids d'usuari de Nextcloud de les persones amb qui es comparteix la vista",
-        "The projects whose tasks the view shows, at most twenty": "Els projectes les tasques dels quals mostra la vista, com a màxim vint"
+        "The projects whose tasks the view shows, at most twenty": "Els projectes les tasques dels quals mostra la vista, com a màxim vint",
+        "1 project in this view is hidden from you.": "1 projecte d'aquesta vista t'és ocult.",
+        "{count} projects in this view are hidden from you.": "{count} projectes d'aquesta vista et són ocults.",
+        "{project} has no column for {status}.": "{project} no té cap columna per a {status}.",
+        "This view does not exist or is not shared with you.": "Aquesta vista no existeix o no s'ha compartit amb tu.",
+        "\"{task}\" moved to {status}.": "\"{task}\" s'ha mogut a {status}.",
+        "Project: {title}": "Projecte: {title}",
+        "Cross-project views": "Vistes entre projectes",
+        "New view": "Vista nova",
+        "Edit view": "Edita la vista",
+        "Delete view": "Suprimeix la vista",
+        "Give the view a name": "Posa un nom a la vista",
+        "Pick at least one project": "Tria almenys un projecte",
+        "A view shows at most {max} projects": "Una vista mostra com a màxim {max} projectes",
+        "Could not save the view. Please try again.": "No s'ha pogut desar la vista. Torna-ho a provar.",
+        "Could not delete the view. Please try again.": "No s'ha pogut suprimir la vista. Torna-ho a provar.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Vols suprimir \"{title}\"? Els projectes i les seves tasques queden com estan.",
+        "People see the tasks of the projects they are in, never more.": "Cadascú veu les tasques dels projectes on és, mai més.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Encara no hi ha vistes. Una vista mostra juntes les tasques de diversos dels teus projectes.",
+        "Projects in view: {count}": "Projectes a la vista: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

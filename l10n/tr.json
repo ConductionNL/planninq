@@ -1130,7 +1130,26 @@
         "The name the view is listed under": "Görünümün listelendiği ad",
         "Nextcloud user id of the person who saved the view": "Görünümü kaydeden kişinin Nextcloud kullanıcı kimliği",
         "Nextcloud user ids of the people the view is shared with": "Görünümün paylaşıldığı kişilerin Nextcloud kullanıcı kimlikleri",
-        "The projects whose tasks the view shows, at most twenty": "Görünümün görevlerini gösterdiği projeler, en fazla yirmi"
+        "The projects whose tasks the view shows, at most twenty": "Görünümün görevlerini gösterdiği projeler, en fazla yirmi",
+        "1 project in this view is hidden from you.": "Bu görünümdeki 1 proje sizden gizli.",
+        "{count} projects in this view are hidden from you.": "Bu görünümdeki {count} proje sizden gizli.",
+        "{project} has no column for {status}.": "{project} projesinin {status} için sütunu yok.",
+        "This view does not exist or is not shared with you.": "Bu görünüm yok ya da sizinle paylaşılmamış.",
+        "\"{task}\" moved to {status}.": "\"{task}\" {status} durumuna taşındı.",
+        "Project: {title}": "Proje: {title}",
+        "Cross-project views": "Projeler arası görünümler",
+        "New view": "Yeni görünüm",
+        "Edit view": "Görünümü düzenle",
+        "Delete view": "Görünümü sil",
+        "Give the view a name": "Görünüme bir ad verin",
+        "Pick at least one project": "En az bir proje seçin",
+        "A view shows at most {max} projects": "Bir görünüm en fazla {max} proje gösterir",
+        "Could not save the view. Please try again.": "Görünüm kaydedilemedi. Lütfen yeniden deneyin.",
+        "Could not delete the view. Please try again.": "Görünüm silinemedi. Lütfen yeniden deneyin.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "\"{title}\" silinsin mi? Projeler ve görevleri olduğu gibi kalır.",
+        "People see the tasks of the projects they are in, never more.": "Herkes yalnızca içinde olduğu projelerin görevlerini görür.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Henüz görünüm yok. Bir görünüm birkaç projenizin görevlerini birlikte gösterir.",
+        "Projects in view: {count}": "Görünümdeki projeler: {count}"
     },
     "plurals": {}
 }

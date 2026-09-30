@@ -1130,7 +1130,26 @@
         "The name the view is listed under": "Der Name, unter dem die Ansicht aufgeführt wird",
         "Nextcloud user id of the person who saved the view": "Nextcloud-Benutzer-ID der Person, die die Ansicht gespeichert hat",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud-Benutzer-IDs der Personen, mit denen die Ansicht geteilt ist",
-        "The projects whose tasks the view shows, at most twenty": "Die Projekte, deren Aufgaben die Ansicht zeigt, höchstens zwanzig"
+        "The projects whose tasks the view shows, at most twenty": "Die Projekte, deren Aufgaben die Ansicht zeigt, höchstens zwanzig",
+        "1 project in this view is hidden from you.": "1 Projekt in dieser Ansicht ist für dich verborgen.",
+        "{count} projects in this view are hidden from you.": "{count} Projekte in dieser Ansicht sind für dich verborgen.",
+        "{project} has no column for {status}.": "{project} hat keine Spalte für {status}.",
+        "This view does not exist or is not shared with you.": "Diese Ansicht existiert nicht oder ist nicht mit dir geteilt.",
+        "\"{task}\" moved to {status}.": "\"{task}\" wurde nach {status} verschoben.",
+        "Project: {title}": "Projekt: {title}",
+        "Cross-project views": "Projektübergreifende Ansichten",
+        "New view": "Neue Ansicht",
+        "Edit view": "Ansicht bearbeiten",
+        "Delete view": "Ansicht löschen",
+        "Give the view a name": "Gib der Ansicht einen Namen",
+        "Pick at least one project": "Wähle mindestens ein Projekt",
+        "A view shows at most {max} projects": "Eine Ansicht zeigt höchstens {max} Projekte",
+        "Could not save the view. Please try again.": "Die Ansicht konnte nicht gespeichert werden. Bitte versuche es erneut.",
+        "Could not delete the view. Please try again.": "Die Ansicht konnte nicht gelöscht werden. Bitte versuche es erneut.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "\"{title}\" löschen? Die Projekte und ihre Aufgaben bleiben, wie sie sind.",
+        "People see the tasks of the projects they are in, never more.": "Personen sehen die Aufgaben der Projekte, in denen sie sind, nie mehr.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Noch keine Ansichten. Eine Ansicht zeigt die Aufgaben mehrerer deiner Projekte zusammen.",
+        "Projects in view: {count}": "Projekte in der Ansicht: {count}"
     },
     "plurals": null
 }
