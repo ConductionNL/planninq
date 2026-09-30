@@ -224,6 +224,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame([], $this->registerSchemaErrors(slug: 'column', payload: $base + ['automation' => $good]));
 		self::assertSame([], $this->registerSchemaErrors(slug: 'column', payload: $base + ['automation' => []]));
 		self::assertNotSame([], $this->registerSchemaErrors(slug: 'column', payload: $base + ['automation' => [['value' => 'high']]]), 'control: a rule needs its action');
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'column', payload: $base + ['automation' => [['action' => 'closeTask']]]), 'control: an action outside the list');
 	}//end testColumnAutomationShape()
 
 	/**
