@@ -30,6 +30,7 @@ const PATTERNS = [
  * @param {string} value The pasted text
  * @return {{kind: string, url: string, repository: string, reference: string, externalId: string}|null}
  *   null when the text is not an http(s) address
+ * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.1
  */
 export function parseForgeUrl(value) {
 	let url
@@ -63,6 +64,7 @@ export function parseForgeUrl(value) {
  *
  * @param {Array<object>} links The forge links of a task
  * @return {Array<object>} A sorted copy
+ * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.1
  */
 export function sortForgeLinks(links) {
 	const at = (link) => Date.parse(link?.occurredAt || link?.['@self']?.created || '') || 0
@@ -77,6 +79,7 @@ export function sortForgeLinks(links) {
  * @param {object} link The link
  * @param {boolean} isAdmin Whether the viewer is an admin
  * @return {boolean}
+ * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.1
  */
 export function mayRemoveForgeLink(link, isAdmin) {
 	return isAdmin === true || (link?.source ?? 'manual') === 'manual'
@@ -88,6 +91,7 @@ export function mayRemoveForgeLink(link, isAdmin) {
  *
  * @param {object} body The error body OpenRegister answered with
  * @return {string} The refusal
+ * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.1
  */
 export function forgeLinkRefusal(body) {
 	const code = body?.code ?? body?.errors?.code ?? ''
