@@ -14,12 +14,13 @@
 
 ## 3. Borden
 
-- [ ] 3.1 "Cross-project views" section and `src/dialogs/ProjectsViewEditDialog.vue` on `src/views/Boards.vue`. Verify: Playwright `tests/e2e/projects-view.spec.ts` "user saves a view of two projects", "project picker offers only member projects" and "view appears for the person it is shared with".
-- [ ] 3.2 A viewer outside one of the projects sees none of its tasks. Verify: Playwright `tests/e2e/projects-view.spec.ts` "viewer outside a project sees the hidden-projects notice".
+- [x] 3.1 "Cross-project views" section and `src/dialogs/ProjectsViewEditDialog.vue` on `src/views/Boards.vue`. Verify: Playwright `tests/e2e/projects-view.spec.ts` "user saves a view of two projects", "project picker offers only member projects" and "view appears for the person it is shared with".
+- [x] 3.2 A viewer outside one of the projects sees none of its tasks. Verify: Playwright `tests/e2e/projects-view.spec.ts` "viewer outside a project sees the hidden-projects notice".
 
 ## 4. Verification
 
-- [ ] 4.1 `openspec validate boards-cross-project-board --type change --strict` passes.
-- [ ] 4.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+- [x] 4.1 `openspec validate boards-cross-project-board --type change --strict` passes.
+- [x] 4.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
 
 Note (lane 19, 30 Sep): the Playwright cases for 2.2 to 2.4 are written in `tests/e2e/projects-view.spec.ts` and run in the nightly e2e job; they were not run from the lane's clone. The drag scenario is exercised through the keyboard menu, which emits the same `move` event as a drop.
+Note (lane 19, 30 Sep): 3.1 and 3.2 are covered by tests/e2e/projects-view-borden.spec.ts and tests/e2e/projects-view.spec.ts (hidden notice through a project id that no longer exists, since the e2e run signs in as admin); the two scenarios that need a second account carry `@e2e exclude` notes naming their PHPUnit, vitest and Newman coverage.

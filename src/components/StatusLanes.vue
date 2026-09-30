@@ -80,7 +80,7 @@
  * through the task's own project columns. `ProjectBoard` does not use this:
  * its lanes are the project's own columns.
  *
- * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.1
  */
 import { NcActionButton, NcActions } from '@nextcloud/vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
@@ -162,7 +162,7 @@ export default {
 		 *
 		 * @param {string} status The lane dropped on.
 		 *
-		 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.4
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.4
 		 */
 		onDrop(status) {
 			const task = this.dragged

@@ -1137,7 +1137,20 @@ OC.L10N.register(
         "{project} has no column for {status}.": "{project} har ingen kolonne for {status}.",
         "This view does not exist or is not shared with you.": "Denne visning findes ikke eller er ikke delt med dig.",
         "\"{task}\" moved to {status}.": "\"{task}\" flyttet til {status}.",
-        "Project: {title}": "Projekt: {title}"
+        "Project: {title}": "Projekt: {title}",
+        "Cross-project views": "Tværgående projektvisninger",
+        "New view": "Ny visning",
+        "Edit view": "Rediger visning",
+        "Delete view": "Slet visning",
+        "Give the view a name": "Giv visningen et navn",
+        "Pick at least one project": "Vælg mindst ét projekt",
+        "A view shows at most {max} projects": "En visning viser højst {max} projekter",
+        "Could not save the view. Please try again.": "Kunne ikke gemme visningen. Prøv igen.",
+        "Could not delete the view. Please try again.": "Kunne ikke slette visningen. Prøv igen.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Slet \"{title}\"? Projekterne og deres opgaver forbliver, som de er.",
+        "People see the tasks of the projects they are in, never more.": "Folk ser opgaverne i de projekter, de er med i, aldrig mere.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Ingen visninger endnu. En visning viser opgaverne fra flere af dine projekter samlet.",
+        "Projects in view: {count}": "Projekter i visningen: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

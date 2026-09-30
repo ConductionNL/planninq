@@ -29,6 +29,14 @@
 						{{ view.title }}
 					</h2>
 				</div>
+				<div v-if="manageable" class="projects-view__actions">
+					<NcButton data-testid="view-edit" @click="openEditor">
+						{{ t('planninq', 'Edit') }}
+					</NcButton>
+					<NcButton variant="error" data-testid="view-delete" @click="deleting = true">
+						{{ t('planninq', 'Delete') }}
+					</NcButton>
+				</div>
 			</header>
 
 			<NcNoteCard v-if="hidden > 0" type="info" data-testid="hidden-projects">
@@ -50,6 +58,19 @@
 				:movable="canMove"
 				@move="moveTask"
 				@open="openTask" />
+
+			<ProjectsViewEditDialog
+				v-if="editing"
+				:view="view"
+				:projects="pickable"
+				:uid="uid"
+				@close="editing = false"
+				@saved="onSaved" />
+			<ProjectsViewDeleteDialog
+				v-if="deleting"
+				:view="view"
+				@close="deleting = false"
+				@deleted="$router.push({ name: 'Boards' })" />
 		</template>
 	</div>
 </template>
@@ -64,7 +85,7 @@
  * through the task's own project columns (resolveViewMove), the same write
  * a move on that project's board makes.
  *
- * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
  */
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
@@ -72,15 +93,17 @@ import { NcButton, NcEmptyContent, NcLoadingIcon, NcNoteCard } from '@nextcloud/
 import ViewDashboardOutline from 'vue-material-design-icons/ViewDashboardOutline.vue'
 import BoardFilterBar from '../components/BoardFilterBar.vue'
 import StatusLanes from '../components/StatusLanes.vue'
+import ProjectsViewDeleteDialog from '../dialogs/ProjectsViewDeleteDialog.vue'
+import ProjectsViewEditDialog from '../dialogs/ProjectsViewEditDialog.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { decodeFilter, matchesFilter, withFilterQuery } from '../utils/boardFilter.js'
-import { mergeViewResults, resolveViewMove, viewLanes } from '../utils/projectsView.js'
+import { canManageView, mergeViewResults, pickableProjects, resolveViewMove, viewLanes } from '../utils/projectsView.js'
 import { memberOptions } from '../utils/taskPeople.js'
 
 export default {
 	name: 'ProjectsView',
 
-	components: { BoardFilterBar, NcButton, NcEmptyContent, NcLoadingIcon, NcNoteCard, StatusLanes, ViewDashboardOutline },
+	components: { BoardFilterBar, NcButton, NcEmptyContent, NcLoadingIcon, NcNoteCard, ProjectsViewDeleteDialog, ProjectsViewEditDialog, StatusLanes, ViewDashboardOutline },
 
 	data() {
 		return {
@@ -92,6 +115,8 @@ export default {
 			hidden: 0,
 			labels: [],
 			announcement: '',
+			editing: false,
+			deleting: false,
 		}
 	},
 
@@ -104,8 +129,26 @@ export default {
 		},
 
 		/**
+		 * Whether the viewer may edit or delete the view: its owner or an admin.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
+		 */
+		manageable() {
+			return canManageView(this.view, { uid: this.uid, isAdmin: getCurrentUser()?.isAdmin === true })
+		},
+
+		/**
+		 * @spec exclude Store passthrough — the projects the editor may add.
+		 */
+		pickable() {
+			return pickableProjects(this.projectsStore.projects, this.uid)
+		},
+
+		/**
 		 * @return {object} The filter in the page address.
-		 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
 		 */
 		filter() {
 			return decodeFilter(this.$route.query)
@@ -113,7 +156,7 @@ export default {
 
 		/**
 		 * @return {object} The filtered tasks by status.
-		 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
 		 */
 		lanes() {
 			return viewLanes(this.tasks, this.filter, this.uid)
@@ -128,7 +171,7 @@ export default {
 
 		/**
 		 * @return {Array<{id: string, label: string}>} Everyone in the view's readable projects.
-		 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
 		 */
 		people() {
 			const byId = {}
@@ -142,7 +185,7 @@ export default {
 
 		/**
 		 * @return {string} How many projects the viewer cannot see, never which.
-		 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-3.2
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.2
 		 */
 		hiddenText() {
 			return this.hidden === 1
@@ -174,7 +217,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
 		 */
 		async load() {
 			this.loading = true
@@ -198,7 +241,7 @@ export default {
 
 		/**
 		 * @param {object} filter The new filter.
-		 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
 		 */
 		setFilter(filter) {
 			this.$router.replace({ query: withFilterQuery(this.$route.query, filter) })
@@ -210,7 +253,7 @@ export default {
 		 * @param {object} task The card.
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.4
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.4
 		 */
 		canMove(task) {
 			const project = this.projectsById[task.project]
@@ -225,7 +268,7 @@ export default {
 		 * @param {string} status The target lane.
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.4
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.4
 		 */
 		async moveTask(task, status) {
 			const project = this.projectsById[task.project]
@@ -263,6 +306,33 @@ export default {
 		},
 
 		/**
+		 * Open the editor, reading the user's projects first when the page was
+		 * opened directly.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
+		 */
+		async openEditor() {
+			if (!this.projectsStore.projects.length) {
+				await this.projectsStore.fetchProjects({ status: 'active' })
+			}
+			this.editing = true
+		},
+
+		/**
+		 * The view is saved: read it again with its projects.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
+		 */
+		async onSaved() {
+			this.editing = false
+			await this.load()
+		},
+
+		/**
 		 * @param {object} task The card.
 		 * @spec exclude Navigation glue — opens the task in its own project.
 		 */
@@ -295,6 +365,11 @@ export default {
 .projects-view__kind {
 	font-size: 12px;
 	color: var(--color-text-maxcontrast);
+}
+
+.projects-view__actions {
+	display: flex;
+	gap: 8px;
 }
 
 .projects-view__title {

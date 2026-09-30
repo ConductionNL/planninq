@@ -1137,7 +1137,20 @@ OC.L10N.register(
         "{project} has no column for {status}.": "{project} non ha una colonna per {status}.",
         "This view does not exist or is not shared with you.": "Questa vista non esiste o non è condivisa con te.",
         "\"{task}\" moved to {status}.": "\"{task}\" spostata in {status}.",
-        "Project: {title}": "Progetto: {title}"
+        "Project: {title}": "Progetto: {title}",
+        "Cross-project views": "Viste multiprogetto",
+        "New view": "Nuova vista",
+        "Edit view": "Modifica vista",
+        "Delete view": "Elimina vista",
+        "Give the view a name": "Dai un nome alla vista",
+        "Pick at least one project": "Scegli almeno un progetto",
+        "A view shows at most {max} projects": "Una vista mostra al massimo {max} progetti",
+        "Could not save the view. Please try again.": "Impossibile salvare la vista. Riprova.",
+        "Could not delete the view. Please try again.": "Impossibile eliminare la vista. Riprova.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Eliminare \"{title}\"? I progetti e le loro attività restano come sono.",
+        "People see the tasks of the projects they are in, never more.": "Ognuno vede le attività dei progetti di cui fa parte, mai di più.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Ancora nessuna vista. Una vista mostra insieme le attività di più tuoi progetti.",
+        "Projects in view: {count}": "Progetti nella vista: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

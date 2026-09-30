@@ -1137,7 +1137,20 @@ OC.L10N.register(
         "{project} has no column for {status}.": "Проєкт {project} не має колонки для статусу {status}.",
         "This view does not exist or is not shared with you.": "Це подання не існує або вам не надано доступу.",
         "\"{task}\" moved to {status}.": "\"{task}\" переміщено до {status}.",
-        "Project: {title}": "Проєкт: {title}"
+        "Project: {title}": "Проєкт: {title}",
+        "Cross-project views": "Міжпроєктні подання",
+        "New view": "Нове подання",
+        "Edit view": "Змінити подання",
+        "Delete view": "Видалити подання",
+        "Give the view a name": "Дайте поданню назву",
+        "Pick at least one project": "Виберіть принаймні один проєкт",
+        "A view shows at most {max} projects": "Подання показує не більше {max} проєктів",
+        "Could not save the view. Please try again.": "Не вдалося зберегти подання. Спробуйте ще раз.",
+        "Could not delete the view. Please try again.": "Не вдалося видалити подання. Спробуйте ще раз.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Видалити «{title}»? Проєкти та їхні завдання залишаться без змін.",
+        "People see the tasks of the projects they are in, never more.": "Кожен бачить лише завдання проєктів, у яких бере участь.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Подань ще немає. Подання показує завдання кількох ваших проєктів разом.",
+        "Projects in view: {count}": "Проєктів у поданні: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

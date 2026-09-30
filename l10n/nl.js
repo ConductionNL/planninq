@@ -1150,7 +1150,20 @@ OC.L10N.register(
         "{project} has no column for {status}.": "{project} heeft geen kolom voor {status}.",
         "This view does not exist or is not shared with you.": "Deze weergave bestaat niet of is niet met je gedeeld.",
         "\"{task}\" moved to {status}.": "\"{task}\" is verplaatst naar {status}.",
-        "Project: {title}": "Project: {title}"
+        "Project: {title}": "Project: {title}",
+        "Cross-project views": "Projectoverstijgende weergaven",
+        "New view": "Nieuwe weergave",
+        "Edit view": "Weergave bewerken",
+        "Delete view": "Weergave verwijderen",
+        "Give the view a name": "Geef de weergave een naam",
+        "Pick at least one project": "Kies minstens één project",
+        "A view shows at most {max} projects": "Een weergave toont hooguit {max} projecten",
+        "Could not save the view. Please try again.": "Kon de weergave niet opslaan. Probeer het opnieuw.",
+        "Could not delete the view. Please try again.": "Kon de weergave niet verwijderen. Probeer het opnieuw.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "\"{title}\" verwijderen? De projecten en hun taken blijven zoals ze zijn.",
+        "People see the tasks of the projects they are in, never more.": "Mensen zien de taken van de projecten waarin ze zitten, nooit meer.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Nog geen weergaven. Een weergave toont de taken van meerdere van je projecten samen.",
+        "Projects in view: {count}": "Projecten in weergave: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1136,7 +1136,20 @@
         "{project} has no column for {status}.": "Projekt {project} nie ma kolumny dla statusu {status}.",
         "This view does not exist or is not shared with you.": "Ten widok nie istnieje lub nie został ci udostępniony.",
         "\"{task}\" moved to {status}.": "\"{task}\" przeniesiono do {status}.",
-        "Project: {title}": "Projekt: {title}"
+        "Project: {title}": "Projekt: {title}",
+        "Cross-project views": "Widoki międzyprojektowe",
+        "New view": "Nowy widok",
+        "Edit view": "Edytuj widok",
+        "Delete view": "Usuń widok",
+        "Give the view a name": "Nadaj widokowi nazwę",
+        "Pick at least one project": "Wybierz co najmniej jeden projekt",
+        "A view shows at most {max} projects": "Widok pokazuje najwyżej {max} projektów",
+        "Could not save the view. Please try again.": "Nie udało się zapisać widoku. Spróbuj ponownie.",
+        "Could not delete the view. Please try again.": "Nie udało się usunąć widoku. Spróbuj ponownie.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Usunąć „{title}”? Projekty i ich zadania pozostaną bez zmian.",
+        "People see the tasks of the projects they are in, never more.": "Każdy widzi tylko zadania projektów, w których jest.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Brak widoków. Widok pokazuje razem zadania kilku twoich projektów.",
+        "Projects in view: {count}": "Projekty w widoku: {count}"
     },
     "plurals": {}
 }

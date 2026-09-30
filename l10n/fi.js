@@ -1137,7 +1137,20 @@ OC.L10N.register(
         "{project} has no column for {status}.": "Projektilla {project} ei ole saraketta tilalle {status}.",
         "This view does not exist or is not shared with you.": "Tätä näkymää ei ole tai sitä ei ole jaettu sinulle.",
         "\"{task}\" moved to {status}.": "\"{task}\" siirretty tilaan {status}.",
-        "Project: {title}": "Projekti: {title}"
+        "Project: {title}": "Projekti: {title}",
+        "Cross-project views": "Projektit ylittävät näkymät",
+        "New view": "Uusi näkymä",
+        "Edit view": "Muokkaa näkymää",
+        "Delete view": "Poista näkymä",
+        "Give the view a name": "Anna näkymälle nimi",
+        "Pick at least one project": "Valitse vähintään yksi projekti",
+        "A view shows at most {max} projects": "Näkymä näyttää enintään {max} projektia",
+        "Could not save the view. Please try again.": "Näkymää ei voitu tallentaa. Yritä uudelleen.",
+        "Could not delete the view. Please try again.": "Näkymää ei voitu poistaa. Yritä uudelleen.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Poistetaanko \"{title}\"? Projektit ja niiden tehtävät pysyvät ennallaan.",
+        "People see the tasks of the projects they are in, never more.": "Kukin näkee vain niiden projektien tehtävät, joissa on mukana.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Ei vielä näkymiä. Näkymä näyttää useiden projektiesi tehtävät yhdessä.",
+        "Projects in view: {count}": "Projekteja näkymässä: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

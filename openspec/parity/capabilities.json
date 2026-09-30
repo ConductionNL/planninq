@@ -2054,7 +2054,7 @@
       "area": "boards",
       "name": "Work tasks from several projects on one shared board.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "partial",
       "plane": "partial",
@@ -2072,11 +2072,12 @@
         "plane": "source: packages/constants/src/issue/filter.ts my_issues layouts spreadsheet and list only (used by apps/web/core/components/workspace/views/form.tsx:148); profile_issues has kanban grouped by project for one person's items. Cross-project work is list-shaped, not a shared board ; source read at v1.4.2: packages/constants/src/issue/filter.ts:170-195 workspace views (my_issues) offer spreadsheet and list layouts only, no kanban, used at apps/web/core/components/workspace/views/form.tsx:137; packages/constants/src/issue/filter.ts:128-131 profile kanban grouped by project covers one person's items only"
       },
       "built": {
-        "state": "specified",
-        "evidence": "src/views/ProjectBoard.vue is mounted per project (route /projects/:id, fetchTasks(projectId) at src/store/projects.js:775, filtered to one `project` id); there is no board that aggregates tasks across multiple projects.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/views/ProjectsView.vue at /boards/views/:id with src/components/StatusLanes.vue: the tasks of every project in a saved boardView (lib/Settings/planninq_register.json), read with the viewer's rights, in one lane per status with a project chip on each card (TaskCard project prop) and the board filter bar; a move resolves to the first column of the task's own project mapping the lane's status (resolveViewMove in src/utils/projectsView.js); src/views/Boards.vue 'Cross-project views' section and src/dialogs/ProjectsViewEditDialog.vue save and share a view; owner stamped by BoardFilterOwnerListener",
+        "reachedOn": "Boards, Cross-project views, New view",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/boards-cross-project-board"
+        "change": "openspec/changes/archive/2026-09-30-boards-cross-project-board",
+        "readOn": "2026-09-30"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

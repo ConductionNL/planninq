@@ -1137,7 +1137,20 @@ OC.L10N.register(
         "{project} has no column for {status}.": "Níl colún ag {project} do {status}.",
         "This view does not exist or is not shared with you.": "Níl an t-amharc seo ann nó níl sé roinnte leat.",
         "\"{task}\" moved to {status}.": "Bogadh \"{task}\" go {status}.",
-        "Project: {title}": "Tionscadal: {title}"
+        "Project: {title}": "Tionscadal: {title}",
+        "Cross-project views": "Amharcanna trasna tionscadal",
+        "New view": "Amharc nua",
+        "Edit view": "Cuir an t-amharc in eagar",
+        "Delete view": "Scrios an t-amharc",
+        "Give the view a name": "Tabhair ainm don amharc",
+        "Pick at least one project": "Roghnaigh tionscadal amháin ar a laghad",
+        "A view shows at most {max} projects": "Taispeánann amharc {max} tionscadal ar a mhéad",
+        "Could not save the view. Please try again.": "Níorbh fhéidir an t-amharc a shábháil. Bain triail eile as.",
+        "Could not delete the view. Please try again.": "Níorbh fhéidir an t-amharc a scriosadh. Bain triail eile as.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Scrios \"{title}\"? Fanann na tionscadail agus a dtascanna mar atá siad.",
+        "People see the tasks of the projects they are in, never more.": "Ní fheiceann duine ach tascanna na dtionscadal a bhfuil sé iontu.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Níl aon amharc fós. Taispeánann amharc tascanna roinnt de do thionscadail le chéile.",
+        "Projects in view: {count}": "Tionscadail san amharc: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

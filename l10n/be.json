@@ -1136,7 +1136,20 @@
         "{project} has no column for {status}.": "У праекта {project} няма калонкі для статусу {status}.",
         "This view does not exist or is not shared with you.": "Гэты выгляд не існуе або вам не адкрыты.",
         "\"{task}\" moved to {status}.": "\"{task}\" перамешчана ў {status}.",
-        "Project: {title}": "Праект: {title}"
+        "Project: {title}": "Праект: {title}",
+        "Cross-project views": "Міжпраектныя выгляды",
+        "New view": "Новы выгляд",
+        "Edit view": "Змяніць выгляд",
+        "Delete view": "Выдаліць выгляд",
+        "Give the view a name": "Дайце выгляду назву",
+        "Pick at least one project": "Выберыце хаця б адзін праект",
+        "A view shows at most {max} projects": "Выгляд паказвае не больш за {max} праектаў",
+        "Could not save the view. Please try again.": "Не ўдалося захаваць выгляд. Паспрабуйце яшчэ раз.",
+        "Could not delete the view. Please try again.": "Не ўдалося выдаліць выгляд. Паспрабуйце яшчэ раз.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Выдаліць «{title}»? Праекты і іх задачы застануцца без змен.",
+        "People see the tasks of the projects they are in, never more.": "Кожны бачыць толькі задачы праектаў, у якіх удзельнічае.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Выглядаў пакуль няма. Выгляд паказвае задачы некалькіх вашых праектаў разам.",
+        "Projects in view: {count}": "Праектаў у выглядзе: {count}"
     },
     "plurals": {}
 }

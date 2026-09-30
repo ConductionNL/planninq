@@ -1,6 +1,9 @@
-# cross-project-view delta for boards-cross-project-board
+# cross-project-view Specification
 
-## ADDED Requirements
+## Purpose
+A cross-project view is a saved selection of up to twenty projects whose tasks are shown together in status lanes. It holds no columns, card order or tasks of its own: every project keeps its one board, reads and writes run with the viewer's own rights, and a move goes through the task's own project columns. Built by change 2026-09-30-boards-cross-project-board.
+
+## Requirements
 
 ### Requirement: A user can save a view across several of their projects
 
@@ -30,11 +33,15 @@ The owner MUST be able to add and remove people on a view. A person it is shared
 - **THEN** "IT operations" is listed under "Cross-project views" for Ben
 - **AND** Ben's view page offers no "Edit" or "Delete"
 
+@e2e exclude needs a second account the CI e2e run does not have; the member read rule is asserted by tests/unit/Settings/PlanninqRegisterSchemaTest.php::testBoardViewAuthorization and the Newman request "view member can read it", the hidden Edit and Delete by tests/vitest/projectsView.spec.js "only the owner and admins manage a view", and the member's refused PATCH by the Newman request "view member cannot edit it"
+
 #### Scenario: A person the view is not shared with cannot read it
 
 - **GIVEN** the view "IT operations" and a user who is neither its owner nor shared on it
 - **WHEN** their client requests GET /apps/openregister/api/objects/planninq/boardView/{id}
 - **THEN** OpenRegister refuses the read
+
+@e2e exclude an API refusal for a second account; asserted by tests/unit/Settings/PlanninqRegisterSchemaTest.php::testBoardViewAuthorization and the Newman request "non-member cannot read a cross-project view" in tests/integration/planninq.postman_collection.json
 
 ### Requirement: A view shows its projects' tasks in status lanes
 

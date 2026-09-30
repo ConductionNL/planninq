@@ -1136,7 +1136,20 @@
         "{project} has no column for {status}.": "A(z) {project} projektnek nincs oszlopa ehhez: {status}.",
         "This view does not exist or is not shared with you.": "Ez a nézet nem létezik, vagy nincs megosztva veled.",
         "\"{task}\" moved to {status}.": "\"{task}\" áthelyezve ide: {status}.",
-        "Project: {title}": "Projekt: {title}"
+        "Project: {title}": "Projekt: {title}",
+        "Cross-project views": "Projekteken átívelő nézetek",
+        "New view": "Új nézet",
+        "Edit view": "Nézet szerkesztése",
+        "Delete view": "Nézet törlése",
+        "Give the view a name": "Adj nevet a nézetnek",
+        "Pick at least one project": "Válassz legalább egy projektet",
+        "A view shows at most {max} projects": "Egy nézet legfeljebb {max} projektet mutat",
+        "Could not save the view. Please try again.": "A nézetet nem sikerült menteni. Próbáld újra.",
+        "Could not delete the view. Please try again.": "A nézetet nem sikerült törölni. Próbáld újra.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Törlöd: \"{title}\"? A projektek és feladataik változatlanok maradnak.",
+        "People see the tasks of the projects they are in, never more.": "Mindenki csak azoknak a projekteknek a feladatait látja, amelyekben benne van.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Még nincs nézet. Egy nézet több projekted feladatait mutatja együtt.",
+        "Projects in view: {count}": "Projektek a nézetben: {count}"
     },
     "plurals": null
 }

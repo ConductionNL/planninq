@@ -1137,7 +1137,20 @@ OC.L10N.register(
         "{project} has no column for {status}.": "Το έργο {project} δεν έχει στήλη για {status}.",
         "This view does not exist or is not shared with you.": "Αυτή η προβολή δεν υπάρχει ή δεν είναι κοινόχρηστη μαζί σας.",
         "\"{task}\" moved to {status}.": "Η \"{task}\" μετακινήθηκε σε {status}.",
-        "Project: {title}": "Έργο: {title}"
+        "Project: {title}": "Έργο: {title}",
+        "Cross-project views": "Προβολές πολλών έργων",
+        "New view": "Νέα προβολή",
+        "Edit view": "Επεξεργασία προβολής",
+        "Delete view": "Διαγραφή προβολής",
+        "Give the view a name": "Δώστε όνομα στην προβολή",
+        "Pick at least one project": "Επιλέξτε τουλάχιστον ένα έργο",
+        "A view shows at most {max} projects": "Μια προβολή δείχνει έως {max} έργα",
+        "Could not save the view. Please try again.": "Δεν ήταν δυνατή η αποθήκευση της προβολής. Δοκιμάστε ξανά.",
+        "Could not delete the view. Please try again.": "Δεν ήταν δυνατή η διαγραφή της προβολής. Δοκιμάστε ξανά.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Διαγραφή του \"{title}\"; Τα έργα και οι εργασίες τους μένουν ως έχουν.",
+        "People see the tasks of the projects they are in, never more.": "Ο καθένας βλέπει μόνο τις εργασίες των έργων στα οποία συμμετέχει.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Δεν υπάρχουν ακόμη προβολές. Μια προβολή δείχνει μαζί τις εργασίες πολλών έργων σας.",
+        "Projects in view: {count}": "Έργα στην προβολή: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

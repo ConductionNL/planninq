@@ -8,7 +8,7 @@ import { matchesFilter } from './boardFilter.js'
  * written with the viewer's own rights, and a move on the view goes through
  * the task's own project columns, so every project keeps its one board.
  *
- * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
  */
 import { buildMovePatch, mappedStatus, sortColumns } from './columnHelpers.js'
 import { BOARD_STATUSES, groupTasksByStatus } from './taskHelpers.js'
@@ -43,7 +43,7 @@ function distinct(values) {
  * @param {Array}  draft.members  User ids the view is shared with.
  * @return {{title: string, projects: string[], members: string[]}}
  *
- * @spec openspec/changes/boards-cross-project-board/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
  */
 export function viewPayload({ title, projects, members } = {}) {
 	return {
@@ -59,7 +59,7 @@ export function viewPayload({ title, projects, members } = {}) {
  * @param {object} payload A viewPayload() result.
  * @return {string[]}
  *
- * @spec openspec/changes/boards-cross-project-board/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
  */
 export function viewProblems(payload) {
 	const problems = []
@@ -82,7 +82,7 @@ export function viewProblems(payload) {
  * @param {{uid: string, isAdmin?: boolean}} user The current user.
  * @return {boolean}
  *
- * @spec openspec/changes/boards-cross-project-board/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
  */
 export function canManageView(view, user) {
 	if (!view || !user?.uid) {
@@ -98,7 +98,7 @@ export function canManageView(view, user) {
  * @param {string}        uid      The user.
  * @return {Array<object>}
  *
- * @spec openspec/changes/boards-cross-project-board/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
  */
 export function pickableProjects(projects, uid) {
 	return (projects || []).filter((project) => project && (project.owner === uid || (Array.isArray(project.members) && project.members.includes(uid))))
@@ -113,7 +113,7 @@ export function pickableProjects(projects, uid) {
  * @param {Array<{projectId: string, project: object|null, tasks: Array<object>}>} results One per project in the view.
  * @return {{tasks: Array<object>, projectsById: object, hidden: number}}
  *
- * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
  */
 export function mergeViewResults(results) {
 	const tasks = []
@@ -147,7 +147,7 @@ export function mergeViewResults(results) {
  * @param {Date}          [today] Today.
  * @return {{[status: string]: Array<object>}}
  *
- * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
  */
 export function viewLanes(tasks, filter, uid, today = new Date()) {
 	return groupTasksByStatus((tasks || []).filter((task) => matchesFilter(task, filter, uid, today)), BOARD_STATUSES)
@@ -165,7 +165,7 @@ export function viewLanes(tasks, filter, uid, today = new Date()) {
  * @param {Array<object>} projectTasks The task's project tasks.
  * @return {{ok: true, patch: object}|{ok: false}}
  *
- * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.4
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.4
  */
 export function resolveViewMove(task, status, columns, projectTasks) {
 	const column = sortColumns(columns).find((candidate) => mappedStatus(candidate) === status)

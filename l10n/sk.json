@@ -1136,7 +1136,20 @@
         "{project} has no column for {status}.": "Projekt {project} nemá stĺpec pre stav {status}.",
         "This view does not exist or is not shared with you.": "Toto zobrazenie neexistuje alebo s vami nie je zdieľané.",
         "\"{task}\" moved to {status}.": "\"{task}\" presunuté do {status}.",
-        "Project: {title}": "Projekt: {title}"
+        "Project: {title}": "Projekt: {title}",
+        "Cross-project views": "Medziprojektové zobrazenia",
+        "New view": "Nové zobrazenie",
+        "Edit view": "Upraviť zobrazenie",
+        "Delete view": "Odstrániť zobrazenie",
+        "Give the view a name": "Pomenujte zobrazenie",
+        "Pick at least one project": "Vyberte aspoň jeden projekt",
+        "A view shows at most {max} projects": "Zobrazenie ukazuje najviac {max} projektov",
+        "Could not save the view. Please try again.": "Zobrazenie sa nepodarilo uložiť. Skúste to znova.",
+        "Could not delete the view. Please try again.": "Zobrazenie sa nepodarilo odstrániť. Skúste to znova.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Odstrániť „{title}“? Projekty a ich úlohy zostanú bez zmeny.",
+        "People see the tasks of the projects they are in, never more.": "Každý vidí iba úlohy projektov, v ktorých je.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Zatiaľ žiadne zobrazenia. Zobrazenie ukazuje úlohy viacerých vašich projektov spolu.",
+        "Projects in view: {count}": "Projekty v zobrazení: {count}"
     },
     "plurals": null
 }

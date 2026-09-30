@@ -61,7 +61,7 @@ const MAX_PAGE = 1000
  * @param {string} id     The object UUID.
  * @return {Promise<object|null>} The object, or null when it is not readable.
  *
- * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
  */
 async function readObject(schema, id) {
 	if (!id) {
@@ -177,6 +177,9 @@ export const useProjectsStore = defineStore('projects', {
 			}
 			if (!store.objectTypeRegistry?.[BOARD_FILTER_SCHEMA]) {
 				store.registerObjectType(BOARD_FILTER_SCHEMA, BOARD_FILTER_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: BOARD_FILTER_SCHEMA })
+			}
+			if (!store.objectTypeRegistry?.[BOARD_VIEW_SCHEMA]) {
+				store.registerObjectType(BOARD_VIEW_SCHEMA, BOARD_VIEW_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: BOARD_VIEW_SCHEMA })
 			}
 			return store
 		},
@@ -963,7 +966,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} id The view UUID
 		 * @return {Promise<object|null>}
 		 *
-		 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
 		 */
 		async fetchBoardView(id) {
 			return readObject(BOARD_VIEW_SCHEMA, id)
@@ -977,10 +980,70 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} id The project UUID
 		 * @return {Promise<object|null>}
 		 *
-		 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
 		 */
 		async readProject(id) {
 			return readObject(PROJECT_SCHEMA, id)
+		},
+
+		/**
+		 * The cross-project views the user owns or that are shared with them
+		 * (the register's read rule decides).
+		 *
+		 * @return {Promise<Array<object>>}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
+		 */
+		async fetchBoardViews() {
+			try {
+				const views = await fetchEvery(this._objectStore(), BOARD_VIEW_SCHEMA)
+				return Array.isArray(views) ? views : []
+			} catch (err) {
+				console.error('fetchBoardViews error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Save a view: POST without an id, PATCH with one. The server sets the
+		 * owner and refuses a change by anyone else.
+		 *
+		 * @param {object} view The fields, with `id` for an existing view
+		 * @return {Promise<object|null>} The saved view, or null on failure
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
+		 */
+		async saveBoardView(view) {
+			const { id, ...fields } = view
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_VIEW_SCHEMA}/${id}`)
+				: generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_VIEW_SCHEMA}`)
+			try {
+				const response = await fetch(url, { method: id ? 'PATCH' : 'POST', headers: buildHeaders(), body: JSON.stringify(fields) })
+				return response.ok ? await response.json() : null
+			} catch (err) {
+				console.error('saveBoardView error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Delete a view; its projects and tasks stay.
+		 *
+		 * @param {string} id The view UUID
+		 * @return {Promise<boolean>} Whether it is gone
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
+		 */
+		async deleteBoardView(id) {
+			try {
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_VIEW_SCHEMA}/${id}`)
+				const response = await fetch(url, { method: 'DELETE', headers: buildHeaders() })
+				return response.ok
+			} catch (err) {
+				console.error('deleteBoardView error:', err)
+				return false
+			}
 		},
 
 		/**

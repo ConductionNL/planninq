@@ -1137,7 +1137,20 @@ OC.L10N.register(
         "{project} has no column for {status}.": "Projektil {project} pole veergu olekule {status}.",
         "This view does not exist or is not shared with you.": "Seda vaadet pole olemas või seda pole sinuga jagatud.",
         "\"{task}\" moved to {status}.": "\"{task}\" viidi olekusse {status}.",
-        "Project: {title}": "Projekt: {title}"
+        "Project: {title}": "Projekt: {title}",
+        "Cross-project views": "Projektiülesed vaated",
+        "New view": "Uus vaade",
+        "Edit view": "Muuda vaadet",
+        "Delete view": "Kustuta vaade",
+        "Give the view a name": "Anna vaatele nimi",
+        "Pick at least one project": "Vali vähemalt üks projekt",
+        "A view shows at most {max} projects": "Vaade näitab kõige rohkem {max} projekti",
+        "Could not save the view. Please try again.": "Vaadet ei õnnestunud salvestada. Proovi uuesti.",
+        "Could not delete the view. Please try again.": "Vaadet ei õnnestunud kustutada. Proovi uuesti.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Kas kustutada \"{title}\"? Projektid ja nende ülesanded jäävad samaks.",
+        "People see the tasks of the projects they are in, never more.": "Igaüks näeb ainult nende projektide ülesandeid, kus ta osaleb.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Vaateid veel pole. Vaade näitab mitme sinu projekti ülesandeid koos.",
+        "Projects in view: {count}": "Projekte vaates: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

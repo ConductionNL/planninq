@@ -1137,7 +1137,20 @@ OC.L10N.register(
         "{project} has no column for {status}.": "Пројекат {project} нема колону за статус {status}.",
         "This view does not exist or is not shared with you.": "Овај приказ не постоји или није подељен са вама.",
         "\"{task}\" moved to {status}.": "\"{task}\" премештено у {status}.",
-        "Project: {title}": "Пројекат: {title}"
+        "Project: {title}": "Пројекат: {title}",
+        "Cross-project views": "Међупројектни прикази",
+        "New view": "Нови приказ",
+        "Edit view": "Уреди приказ",
+        "Delete view": "Обриши приказ",
+        "Give the view a name": "Дајте приказу назив",
+        "Pick at least one project": "Изаберите бар један пројекат",
+        "A view shows at most {max} projects": "Приказ приказује највише {max} пројеката",
+        "Could not save the view. Please try again.": "Приказ није могуће сачувати. Покушајте поново.",
+        "Could not delete the view. Please try again.": "Приказ није могуће обрисати. Покушајте поново.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Обрисати „{title}”? Пројекти и њихови задаци остају какви јесу.",
+        "People see the tasks of the projects they are in, never more.": "Свако види само задатке пројеката у којима је.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Још нема приказа. Приказ приказује задатке више ваших пројеката заједно.",
+        "Projects in view: {count}": "Пројекти у приказу: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

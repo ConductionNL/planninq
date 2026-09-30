@@ -1137,7 +1137,20 @@ OC.L10N.register(
         "{project} has no column for {status}.": "У проекта {project} нет колонки для статуса {status}.",
         "This view does not exist or is not shared with you.": "Это представление не существует или недоступно вам.",
         "\"{task}\" moved to {status}.": "\"{task}\" перемещена в {status}.",
-        "Project: {title}": "Проект: {title}"
+        "Project: {title}": "Проект: {title}",
+        "Cross-project views": "Межпроектные представления",
+        "New view": "Новое представление",
+        "Edit view": "Изменить представление",
+        "Delete view": "Удалить представление",
+        "Give the view a name": "Дайте представлению название",
+        "Pick at least one project": "Выберите хотя бы один проект",
+        "A view shows at most {max} projects": "Представление показывает не более {max} проектов",
+        "Could not save the view. Please try again.": "Не удалось сохранить представление. Попробуйте ещё раз.",
+        "Could not delete the view. Please try again.": "Не удалось удалить представление. Попробуйте ещё раз.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Удалить «{title}»? Проекты и их задачи останутся без изменений.",
+        "People see the tasks of the projects they are in, never more.": "Каждый видит только задачи проектов, в которых участвует.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Представлений пока нет. Представление показывает задачи нескольких ваших проектов вместе.",
+        "Projects in view: {count}": "Проектов в представлении: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

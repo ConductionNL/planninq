@@ -1137,7 +1137,20 @@ OC.L10N.register(
         "{project} has no column for {status}.": "Projekt {project} nima stolpca za stanje {status}.",
         "This view does not exist or is not shared with you.": "Ta pogled ne obstaja ali ni v skupni rabi z vami.",
         "\"{task}\" moved to {status}.": "\"{task}\" premaknjeno v {status}.",
-        "Project: {title}": "Projekt: {title}"
+        "Project: {title}": "Projekt: {title}",
+        "Cross-project views": "Medprojektni pogledi",
+        "New view": "Nov pogled",
+        "Edit view": "Uredi pogled",
+        "Delete view": "Izbriši pogled",
+        "Give the view a name": "Poimenujte pogled",
+        "Pick at least one project": "Izberite vsaj en projekt",
+        "A view shows at most {max} projects": "Pogled prikaže največ {max} projektov",
+        "Could not save the view. Please try again.": "Pogleda ni bilo mogoče shraniti. Poskusite znova.",
+        "Could not delete the view. Please try again.": "Pogleda ni bilo mogoče izbrisati. Poskusite znova.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Izbrišem »{title}«? Projekti in njihove naloge ostanejo, kot so.",
+        "People see the tasks of the projects they are in, never more.": "Vsak vidi le naloge projektov, v katerih je.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Pogledov še ni. Pogled prikaže naloge več vaših projektov skupaj.",
+        "Projects in view: {count}": "Projekti v pogledu: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

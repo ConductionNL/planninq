@@ -1137,7 +1137,20 @@ OC.L10N.register(
         "{project} has no column for {status}.": "{project} n'ha nagina colonna per {status}.",
         "This view does not exist or is not shared with you.": "Questa vista n'exista betg u n'è betg cundividida cun tai.",
         "\"{task}\" moved to {status}.": "\"{task}\" spustà en {status}.",
-        "Project: {title}": "Project: {title}"
+        "Project: {title}": "Project: {title}",
+        "Cross-project views": "Vistas tranter projects",
+        "New view": "Nova vista",
+        "Edit view": "Modifitgar la vista",
+        "Delete view": "Stizzar la vista",
+        "Give the view a name": "Dà in num a la vista",
+        "Pick at least one project": "Tscherna almain in project",
+        "A view shows at most {max} projects": "Ina vista mussa maximalmain {max} projects",
+        "Could not save the view. Please try again.": "Impussibel da memorisar la vista. Emprova anc ina giada.",
+        "Could not delete the view. Please try again.": "Impussibel da stizzar la vista. Emprova anc ina giada.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Stizzar \"{title}\"? Ils projects e lur incumbensas restan sco ch'els èn.",
+        "People see the tasks of the projects they are in, never more.": "Mintgin vesa mo las incumbensas dals projects nua ch'el è.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Anc naginas vistas. Ina vista mussa ensemen las incumbensas da plirs da tes projects.",
+        "Projects in view: {count}": "Projects en la vista: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

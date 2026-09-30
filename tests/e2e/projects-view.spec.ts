@@ -8,6 +8,7 @@
  *   @e2e cross-project-view::moving-a-card-places-it-in-its-projects-column
  *   @e2e cross-project-view::the-keyboard-move-works-on-the-view
  *   @e2e cross-project-view::a-project-without-a-matching-column-refuses-the-move
+ *   @e2e cross-project-view::a-viewer-outside-a-project-sees-the-hidden-projects-notice
  *
  * The suite signs in as the admin only, and an admin reads every project, so
  * the hidden-projects notice is reached here through a project id that no

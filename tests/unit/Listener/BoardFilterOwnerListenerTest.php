@@ -92,7 +92,7 @@ class BoardFilterOwnerListenerTest extends TestCase {
 	/**
 	 * A cross-project view belongs to whoever saved it, the same way.
 	 *
-	 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-1.1
 	 */
 	public function testTheSaverOwnsANewViewAndKeepsIt(): void {
 		$view  = ['title' => 'IT operations', 'owner' => 'anna', 'members' => ['ben'], 'projects' => ['00000000-0000-4000-8000-000000000001']];

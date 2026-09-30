@@ -1137,7 +1137,20 @@ OC.L10N.register(
         "{project} has no column for {status}.": "Projektas {project} neturi stulpelio būsenai {status}.",
         "This view does not exist or is not shared with you.": "Šio rodinio nėra arba jis su jumis nebendrinamas.",
         "\"{task}\" moved to {status}.": "\"{task}\" perkelta į {status}.",
-        "Project: {title}": "Projektas: {title}"
+        "Project: {title}": "Projektas: {title}",
+        "Cross-project views": "Kelių projektų rodiniai",
+        "New view": "Naujas rodinys",
+        "Edit view": "Redaguoti rodinį",
+        "Delete view": "Ištrinti rodinį",
+        "Give the view a name": "Suteikite rodiniui pavadinimą",
+        "Pick at least one project": "Pasirinkite bent vieną projektą",
+        "A view shows at most {max} projects": "Rodinys rodo ne daugiau kaip {max} projektų",
+        "Could not save the view. Please try again.": "Nepavyko išsaugoti rodinio. Bandykite dar kartą.",
+        "Could not delete the view. Please try again.": "Nepavyko ištrinti rodinio. Bandykite dar kartą.",
+        "Delete \"{title}\"? The projects and their tasks stay as they are.": "Ištrinti „{title}“? Projektai ir jų užduotys lieka tokie, kokie yra.",
+        "People see the tasks of the projects they are in, never more.": "Kiekvienas mato tik tų projektų, kuriuose dalyvauja, užduotis.",
+        "No views yet. A view shows the tasks of several of your projects together.": "Rodinių dar nėra. Rodinys rodo kelių jūsų projektų užduotis kartu.",
+        "Projects in view: {count}": "Projektų rodinyje: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )
