@@ -167,8 +167,8 @@ class TimetableScenarioPublisher {
 			'externalRef'    => $id.':'.$lesson['key'].':'.$date->format('Y-m-d'),
 			'subject'        => (string)$lesson['subject'],
 			'title'          => (string)$lesson['subject'].' '.(string)$lesson['group'],
-			'startsAt'       => $this->at(date: $date, time: $first['start']),
-			'endsAt'         => $this->at(date: $date, time: $last['end']),
+			'startsAt'       => $this->atTime(date: $date, time: $first['start']),
+			'endsAt'         => $this->atTime(date: $date, time: $last['end']),
 			'groupReference' => (string)$lesson['group'],
 			'teacherUserId'  => (string)$lesson['teacher'],
 			'roomReference'  => (string)$placement['room'],
@@ -186,10 +186,10 @@ class TimetableScenarioPublisher {
 	 *
 	 * @return string
 	 */
-	private function at(DateTimeImmutable $date, string $time): string {
+	private function atTime(DateTimeImmutable $date, string $time): string {
 		[$hour, $minute] = array_map('intval', explode(':', $time, 2));
 		return $date->setTime($hour, $minute)->format(DATE_ATOM);
-	}//end at()
+	}//end atTime()
 
 	/**
 	 * The window of a scenario: its first day at midnight and its last day just before midnight.
@@ -199,13 +199,13 @@ class TimetableScenarioPublisher {
 	 * @return array{0:DateTimeImmutable,1:DateTimeImmutable}
 	 */
 	private function window(array $scenario): array {
-		$from = DateTimeImmutable::createFromFormat('!Y-m-d', (string)($scenario['windowFrom'] ?? ''));
-		$to   = DateTimeImmutable::createFromFormat('!Y-m-d', (string)($scenario['windowTo'] ?? ''));
-		if ($from === false || $to === false || $to < $from) {
+		$from = (string)($scenario['windowFrom'] ?? '');
+		$to   = (string)($scenario['windowTo'] ?? '');
+		if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $from) !== 1 || preg_match('/^\d{4}-\d{2}-\d{2}$/', $to) !== 1 || $to < $from) {
 			throw new InvalidArgumentException('The scenario needs a window with a start before its end.');
 		}
 
-		return [$from, $to->setTime(23, 59, 59)];
+		return [new DateTimeImmutable($from.' 00:00:00'), new DateTimeImmutable($to.' 23:59:59')];
 	}//end window()
 
 	/**
