@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Pünkösdvasárnap",
         "Whit Monday": "Pünkösdhétfő",
         "Christmas Day": "Karácsony",
-        "Boxing Day": "Karácsony másnapja"
+        "Boxing Day": "Karácsony másnapja",
+        "Dates of {title}": "{title} dátumai",
+        "The due date cannot be before the start date.": "A határidő nem lehet a kezdő dátum előtt.",
+        "{title}, from {start} to {end}": "{title}, {start} – {end}",
+        "The dates could not be saved.": "A dátumokat nem sikerült menteni.",
+        "{title} now runs from {start} to {end}": "{title} mostantól {start} – {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

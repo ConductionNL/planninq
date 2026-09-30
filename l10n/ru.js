@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Троица",
         "Whit Monday": "Духов день",
         "Christmas Day": "Рождество",
-        "Boxing Day": "Второй день Рождества"
+        "Boxing Day": "Второй день Рождества",
+        "Dates of {title}": "Даты задачи {title}",
+        "The due date cannot be before the start date.": "Срок не может быть раньше даты начала.",
+        "{title}, from {start} to {end}": "{title}, с {start} по {end}",
+        "The dates could not be saved.": "Не удалось сохранить даты.",
+        "{title} now runs from {start} to {end}": "{title} теперь идёт с {start} по {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

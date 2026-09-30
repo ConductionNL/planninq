@@ -1233,7 +1233,12 @@
         "Whit Sunday": "Трійця",
         "Whit Monday": "Духів день",
         "Christmas Day": "Різдво",
-        "Boxing Day": "Другий день Різдва"
+        "Boxing Day": "Другий день Різдва",
+        "Dates of {title}": "Дати завдання {title}",
+        "The due date cannot be before the start date.": "Термін не може бути раніше дати початку.",
+        "{title}, from {start} to {end}": "{title}, з {start} по {end}",
+        "The dates could not be saved.": "Не вдалося зберегти дати.",
+        "{title} now runs from {start} to {end}": "{title} тепер триває з {start} по {end}"
     },
     "plurals": {}
 }

@@ -1233,7 +1233,12 @@
         "Whit Sunday": "Nelipühade 1. päev",
         "Whit Monday": "Nelipühade 2. päev",
         "Christmas Day": "Esimene jõulupüha",
-        "Boxing Day": "Teine jõulupüha"
+        "Boxing Day": "Teine jõulupüha",
+        "Dates of {title}": "Ülesande {title} kuupäevad",
+        "The due date cannot be before the start date.": "Tähtaeg ei saa olla enne alguskuupäeva.",
+        "{title}, from {start} to {end}": "{title}, {start} kuni {end}",
+        "The dates could not be saved.": "Kuupäevi ei õnnestunud salvestada.",
+        "{title} now runs from {start} to {end}": "{title} kestab nüüd {start} kuni {end}"
     },
     "plurals": null
 }

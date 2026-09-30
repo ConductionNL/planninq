@@ -1247,7 +1247,12 @@ OC.L10N.register(
         "Whit Sunday": "Eerste pinksterdag",
         "Whit Monday": "Tweede pinksterdag",
         "Christmas Day": "Eerste kerstdag",
-        "Boxing Day": "Tweede kerstdag"
+        "Boxing Day": "Tweede kerstdag",
+        "Dates of {title}": "Datums van {title}",
+        "The due date cannot be before the start date.": "De vervaldatum kan niet voor de startdatum liggen.",
+        "{title}, from {start} to {end}": "{title}, van {start} tot {end}",
+        "The dates could not be saved.": "De datums konden niet worden opgeslagen.",
+        "{title} now runs from {start} to {end}": "{title} loopt nu van {start} tot {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

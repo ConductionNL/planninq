@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Pfingstsonntag",
         "Whit Monday": "Pfingstmontag",
         "Christmas Day": "Erster Weihnachtstag",
-        "Boxing Day": "Zweiter Weihnachtstag"
+        "Boxing Day": "Zweiter Weihnachtstag",
+        "Dates of {title}": "Daten von {title}",
+        "The due date cannot be before the start date.": "Das Fälligkeitsdatum darf nicht vor dem Startdatum liegen.",
+        "{title}, from {start} to {end}": "{title}, vom {start} bis {end}",
+        "The dates could not be saved.": "Die Daten konnten nicht gespeichert werden.",
+        "{title} now runs from {start} to {end}": "{title} läuft jetzt vom {start} bis {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

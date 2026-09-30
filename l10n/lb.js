@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Péngschtsonndeg",
         "Whit Monday": "Péngschtméindeg",
         "Christmas Day": "Chrëschtdag",
-        "Boxing Day": "Stiefesdag"
+        "Boxing Day": "Stiefesdag",
+        "Dates of {title}": "Datume vun {title}",
+        "The due date cannot be before the start date.": "D'Fällegkeetsdatum däerf net virum Startdatum leien.",
+        "{title}, from {start} to {end}": "{title}, vum {start} bis {end}",
+        "The dates could not be saved.": "D'Datume konnten net gespäichert ginn.",
+        "{title} now runs from {start} to {end}": "{title} leeft elo vum {start} bis {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

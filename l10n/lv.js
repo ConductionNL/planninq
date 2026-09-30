@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Vasarsvētki",
         "Whit Monday": "Otrie Vasarsvētki",
         "Christmas Day": "Ziemassvētki",
-        "Boxing Day": "Otrie Ziemassvētki"
+        "Boxing Day": "Otrie Ziemassvētki",
+        "Dates of {title}": "{title} datumi",
+        "The due date cannot be before the start date.": "Termiņš nevar būt pirms sākuma datuma.",
+        "{title}, from {start} to {end}": "{title}, no {start} līdz {end}",
+        "The dates could not be saved.": "Datumus neizdevās saglabāt.",
+        "{title} now runs from {start} to {end}": "{title} tagad ilgst no {start} līdz {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

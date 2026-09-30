@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Diumenge de Pentecosta",
         "Whit Monday": "Dilluns de Pentecosta",
         "Christmas Day": "Nadal",
-        "Boxing Day": "Sant Esteve"
+        "Boxing Day": "Sant Esteve",
+        "Dates of {title}": "Dates de {title}",
+        "The due date cannot be before the start date.": "La data de venciment no pot ser anterior a la d'inici.",
+        "{title}, from {start} to {end}": "{title}, del {start} al {end}",
+        "The dates could not be saved.": "No s'han pogut desar les dates.",
+        "{title} now runs from {start} to {end}": "{title} ara va del {start} al {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

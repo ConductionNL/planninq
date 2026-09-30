@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Domhnach Cincíse",
         "Whit Monday": "Luan Cincíse",
         "Christmas Day": "Lá Nollag",
-        "Boxing Day": "Lá Fhéile Stiofáin"
+        "Boxing Day": "Lá Fhéile Stiofáin",
+        "Dates of {title}": "Dátaí {title}",
+        "The due date cannot be before the start date.": "Ní féidir leis an dáta dlite a bheith roimh an dáta tosaigh.",
+        "{title}, from {start} to {end}": "{title}, ó {start} go {end}",
+        "The dates could not be saved.": "Níorbh fhéidir na dátaí a shábháil.",
+        "{title} now runs from {start} to {end}": "Tá {title} ar siúl anois ó {start} go {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

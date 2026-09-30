@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Dumengia da Tschuncaisma",
         "Whit Monday": "Glindesdi da Tschuncaisma",
         "Christmas Day": "Nadal",
-        "Boxing Day": "Segund di da Nadal"
+        "Boxing Day": "Segund di da Nadal",
+        "Dates of {title}": "Datas da {title}",
+        "The due date cannot be before the start date.": "Il termin na po betg esser avant la data da cumenzament.",
+        "{title}, from {start} to {end}": "{title}, dals {start} fin ils {end}",
+        "The dates could not be saved.": "Las datas n'han betg pudì vegnir memorisadas.",
+        "{title} now runs from {start} to {end}": "{title} dura ussa dals {start} fin ils {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

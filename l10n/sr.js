@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Духови",
         "Whit Monday": "Духовски понедељак",
         "Christmas Day": "Божић",
-        "Boxing Day": "Други дан Божића"
+        "Boxing Day": "Други дан Божића",
+        "Dates of {title}": "Датуми за {title}",
+        "The due date cannot be before the start date.": "Рок не може бити пре датума почетка.",
+        "{title}, from {start} to {end}": "{title}, од {start} до {end}",
+        "The dates could not be saved.": "Датуме није било могуће сачувати.",
+        "{title} now runs from {start} to {end}": "{title} сада траје од {start} до {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

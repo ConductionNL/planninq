@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Hvítasunnudagur",
         "Whit Monday": "Annar í hvítasunnu",
         "Christmas Day": "Jóladagur",
-        "Boxing Day": "Annar í jólum"
+        "Boxing Day": "Annar í jólum",
+        "Dates of {title}": "Dagsetningar {title}",
+        "The due date cannot be before the start date.": "Skiladagur getur ekki verið á undan upphafsdegi.",
+        "{title}, from {start} to {end}": "{title}, frá {start} til {end}",
+        "The dates could not be saved.": "Ekki tókst að vista dagsetningarnar.",
+        "{title} now runs from {start} to {end}": "{title} stendur nú frá {start} til {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

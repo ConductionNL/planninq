@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Helluntaipäivä",
         "Whit Monday": "2. helluntaipäivä",
         "Christmas Day": "Joulupäivä",
-        "Boxing Day": "Tapaninpäivä"
+        "Boxing Day": "Tapaninpäivä",
+        "Dates of {title}": "Kohteen {title} päivämäärät",
+        "The due date cannot be before the start date.": "Määräpäivä ei voi olla ennen aloituspäivää.",
+        "{title}, from {start} to {end}": "{title}, {start}–{end}",
+        "The dates could not be saved.": "Päivämääriä ei voitu tallentaa.",
+        "{title} now runs from {start} to {end}": "{title} kestää nyt {start}–{end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

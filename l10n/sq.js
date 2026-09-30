@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Rrëshajët",
         "Whit Monday": "E hëna e Rrëshajëve",
         "Christmas Day": "Krishtlindja",
-        "Boxing Day": "Dita e dytë e Krishtlindjes"
+        "Boxing Day": "Dita e dytë e Krishtlindjes",
+        "Dates of {title}": "Datat e {title}",
+        "The due date cannot be before the start date.": "Afati nuk mund të jetë para datës së fillimit.",
+        "{title}, from {start} to {end}": "{title}, nga {start} deri më {end}",
+        "The dates could not be saved.": "Datat nuk u ruajtën dot.",
+        "{title} now runs from {start} to {end}": "{title} tani zgjat nga {start} deri më {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

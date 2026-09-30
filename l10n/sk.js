@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Turíce",
         "Whit Monday": "Svätodušný pondelok",
         "Christmas Day": "1. sviatok vianočný",
-        "Boxing Day": "2. sviatok vianočný"
+        "Boxing Day": "2. sviatok vianočný",
+        "Dates of {title}": "Dátumy úlohy {title}",
+        "The due date cannot be before the start date.": "Termín nemôže byť pred dátumom začiatku.",
+        "{title}, from {start} to {end}": "{title}, od {start} do {end}",
+        "The dates could not be saved.": "Dátumy sa nepodarilo uložiť.",
+        "{title} now runs from {start} to {end}": "{title} teraz prebieha od {start} do {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

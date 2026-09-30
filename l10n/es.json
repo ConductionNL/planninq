@@ -1233,7 +1233,12 @@
         "Whit Sunday": "Domingo de Pentecostés",
         "Whit Monday": "Lunes de Pentecostés",
         "Christmas Day": "Navidad",
-        "Boxing Day": "San Esteban"
+        "Boxing Day": "San Esteban",
+        "Dates of {title}": "Fechas de {title}",
+        "The due date cannot be before the start date.": "La fecha de vencimiento no puede ser anterior a la de inicio.",
+        "{title}, from {start} to {end}": "{title}, del {start} al {end}",
+        "The dates could not be saved.": "No se pudieron guardar las fechas.",
+        "{title} now runs from {start} to {end}": "{title} ahora va del {start} al {end}"
     },
     "plurals": null
 }

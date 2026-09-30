@@ -1213,7 +1213,12 @@ OC.L10N.register(
         "Whit Sunday": "Whit Sunday",
         "Whit Monday": "Whit Monday",
         "Christmas Day": "Christmas Day",
-        "Boxing Day": "Boxing Day"
+        "Boxing Day": "Boxing Day",
+        "Dates of {title}": "Dates of {title}",
+        "The due date cannot be before the start date.": "The due date cannot be before the start date.",
+        "{title}, from {start} to {end}": "{title}, from {start} to {end}",
+        "The dates could not be saved.": "The dates could not be saved.",
+        "{title} now runs from {start} to {end}": "{title} now runs from {start} to {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

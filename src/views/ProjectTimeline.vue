@@ -133,13 +133,34 @@
 						</svg>
 
 						<!-- Task bars -->
-						<div v-for="bar in taskBars"
+						<button v-for="bar in taskBars"
 							:key="bar.id"
+							:ref="`bar-${bar.id}`"
+							type="button"
 							class="project-timeline__bar"
-							:style="{ left: bar.left + 'px', width: bar.width + 'px', top: bar.top + 'px', backgroundColor: bar.color }"
-							:title="bar.tooltip">
+							:class="{ 'project-timeline__bar--dragging': drag && drag.id === bar.id }"
+							:style="barStyle(bar)"
+							:title="bar.tooltip"
+							:aria-label="barLabel(bar)"
+							:data-task-id="bar.id"
+							data-testid="timeline-bar"
+							@pointerdown="startDrag($event, bar, 'move')"
+							@pointermove="moveDrag"
+							@pointerup="endDrag"
+							@pointercancel="cancelDrag"
+							@keydown.left.prevent="keyMove(bar, -1, $event.shiftKey)"
+							@keydown.right.prevent="keyMove(bar, 1, $event.shiftKey)"
+							@click="openDates(bar)">
+							<span class="project-timeline__handle project-timeline__handle--start"
+								data-testid="timeline-bar-start"
+								aria-hidden="true"
+								@pointerdown.stop="startDrag($event, bar, 'start')" />
 							<span class="project-timeline__bar-label">{{ bar.title }}</span>
-						</div>
+							<span class="project-timeline__handle project-timeline__handle--due"
+								data-testid="timeline-bar-due"
+								aria-hidden="true"
+								@pointerdown.stop="startDrag($event, bar, 'due')" />
+						</button>
 					</div>
 				</div>
 			</div>
@@ -171,6 +192,23 @@
 			</div>
 		</template>
 
+		<p class="hidden-visually"
+			aria-live="polite"
+			data-testid="timeline-announcement">
+			{{ announcement }}
+		</p>
+		<p v-if="saveError"
+			class="project-timeline__save-error"
+			role="alert"
+			data-testid="timeline-save-error">
+			{{ saveError }}
+		</p>
+
+		<TaskDatesDialog v-if="datesTask"
+			:task="datesTask"
+			@save="saveFromDialog"
+			@close="closeDates" />
+
 		<MsProjectImportDialog v-if="showImport"
 			:projectId="projectId"
 			@imported="load"
@@ -180,14 +218,17 @@
 
 <script>
 /**
- * ProjectTimeline view — read-only Gantt / timeline for a project.
+ * ProjectTimeline view — Gantt / timeline for a project.
  *
  * Renders the project's scheduled tasks as bars on a horizontal day axis
  * (day/week/month zoom), draws dependency arrows sourced from the existing
  * stored links, lists dateless tasks in an "unscheduled" rail, and marks today.
- * It is strictly read-only: it fetches once via the stateless timeline API and
- * never creates or mutates an object (the dependency edges are rendered, not
- * re-derived). All strings go through t(); no DOM data reads.
+ * It reads through the stateless, read-only timeline API; the view itself
+ * edits one thing, the existing startDate and dueDate of a task, through the
+ * same object PATCH (`updateTask`) and member rights the board uses, by
+ * dragging a bar or its ends, with Left and Right, or in TaskDatesDialog
+ * (planning-timeline-editing). It creates nothing and adds no schema; the
+ * dependency edges are rendered, not re-derived. All strings go through t(); no DOM data reads.
  *
  * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md
  */
@@ -201,10 +242,12 @@ import FileImportOutline from 'vue-material-design-icons/FileImportOutline.vue'
 import ProjectRoadmap from '../components/ProjectRoadmap.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import MsProjectImportDialog from '../dialogs/MsProjectImportDialog.vue'
+import TaskDatesDialog from '../dialogs/TaskDatesDialog.vue'
 import { fetchProjectTimeline } from '../api/timeline.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
 import { mayImport } from '../utils/msprojectImport.js'
+import { keyStep, moveTo, resizeTo, shiftDays } from '../utils/timelineEditing.js'
 import {
 	buildLayout,
 	MS_PER_DAY,
@@ -227,6 +270,7 @@ export default {
 		ChartTimeline,
 		FileImportOutline,
 		MsProjectImportDialog,
+		TaskDatesDialog,
 		ProjectRoadmap,
 		ProjectTabs,
 	},
@@ -239,6 +283,11 @@ export default {
 			unscheduled: [],
 			dependencies: [],
 			calendar: normaliseCalendar({}),
+			drag: null,
+			datesTask: null,
+			announcement: '',
+			saveError: '',
+			suppressClick: false,
 			showImport: false,
 			zoom: { value: 'day', label: t('planninq', 'Day') },
 			zoomOptions: [
@@ -442,6 +491,197 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * A bar's position, shifted while it is being dragged.
+		 *
+		 * @param {object} bar The bar
+		 * @return {object} The inline style
+		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 */
+		barStyle(bar) {
+			let left = bar.left
+			let width = bar.width
+			if (this.drag && this.drag.id === bar.id) {
+				const dx = this.drag.dx
+				if (this.drag.mode === 'move') {
+					left += dx
+				} else if (this.drag.mode === 'start') {
+					left += Math.min(dx, width - this.pxPerDay)
+					width -= Math.min(dx, width - this.pxPerDay)
+				} else {
+					width = Math.max(this.pxPerDay, width + dx)
+				}
+			}
+			return { left: left + 'px', width: width + 'px', top: bar.top + 'px', backgroundColor: bar.color }
+		},
+
+		/**
+		 * @param {object} bar The bar
+		 * @return {string} The bar's accessible name: title and dates
+		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 */
+		barLabel(bar) {
+			const task = this.taskById(bar.id)
+			return t('planninq', '{title}, from {start} to {end}', { title: bar.title, start: this.dayName(task?.startDate), end: this.dayName(task?.dueDate) })
+		},
+
+		/**
+		 * @param {string} id The task id
+		 * @return {object|undefined} The task
+		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 */
+		taskById(id) {
+			return this.tasks.find((task) => task.id === id)
+		},
+
+		/**
+		 * @param {string} date A date
+		 * @return {string} Day and month in words
+		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 */
+		dayName(date) {
+			if (!date) {
+				return ''
+			}
+			return new Date(`${String(date).slice(0, 10)}T00:00:00Z`).toLocaleDateString(undefined, { day: 'numeric', month: 'long', timeZone: 'UTC' })
+		},
+
+		/**
+		 * @param {PointerEvent} event The pointer
+		 * @param {object} bar The bar
+		 * @param {'move'|'start'|'due'} mode What the drag changes
+		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 */
+		startDrag(event, bar, mode) {
+			if (event.button !== 0) {
+				return
+			}
+			this.drag = { id: bar.id, mode, x: event.clientX, dx: 0, moved: false }
+			this.$refs[`bar-${bar.id}`]?.[0]?.setPointerCapture?.(event.pointerId)
+		},
+
+		/**
+		 * @param {PointerEvent} event The pointer
+		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 */
+		moveDrag(event) {
+			if (!this.drag) {
+				return
+			}
+			this.drag.dx = event.clientX - this.drag.x
+			this.drag.moved = this.drag.moved || Math.abs(this.drag.dx) > 3
+		},
+
+		/**
+		 * Release: turn the distance into whole days and save.
+		 *
+		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 */
+		async endDrag() {
+			const drag = this.drag
+			if (!drag) {
+				return
+			}
+			this.suppressClick = drag.moved
+			this.drag = null
+			const days = Math.round(drag.dx / this.pxPerDay)
+			const task = this.taskById(drag.id)
+			if (!drag.moved || days === 0 || !task) {
+				return
+			}
+			const start = String(task.startDate).slice(0, 10)
+			const due = String(task.dueDate).slice(0, 10)
+			const dates = drag.mode === 'move'
+				? moveTo(task, shiftDays(start, days), this.calendar)
+				: resizeTo(task, drag.mode, shiftDays(drag.mode === 'start' ? start : due, days))
+			await this.saveDates(task, dates)
+		},
+
+		/**
+		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 */
+		cancelDrag() {
+			this.drag = null
+		},
+
+		/**
+		 * Left or Right: one working day; with Shift only the due date.
+		 *
+		 * @param {object} bar The bar
+		 * @param {number} step 1 or -1
+		 * @param {boolean} dueOnly Whether Shift was held
+		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 */
+		async keyMove(bar, step, dueOnly) {
+			const task = this.taskById(bar.id)
+			if (task) {
+				await this.saveDates(task, keyStep(task, step, dueOnly, this.calendar))
+				this.$nextTick(() => this.$refs[`bar-${bar.id}`]?.[0]?.focus())
+			}
+		},
+
+		/**
+		 * A click (Enter, Space or a tap) opens the dates dialog; the end of a drag does not.
+		 *
+		 * @param {object} bar The bar
+		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 */
+		openDates(bar) {
+			if (this.suppressClick) {
+				this.suppressClick = false
+				return
+			}
+			this.datesTask = this.taskById(bar.id) || null
+		},
+
+		/**
+		 * @param {{startDate: string, dueDate: string}} dates The dates from the dialog
+		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 */
+		async saveFromDialog(dates) {
+			const task = this.datesTask
+			this.closeDates()
+			if (task) {
+				await this.saveDates(task, dates)
+			}
+		},
+
+		/**
+		 * Close the dialog and give focus back to the bar.
+		 *
+		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 */
+		closeDates() {
+			const id = this.datesTask?.id
+			this.datesTask = null
+			this.$nextTick(() => this.$refs[`bar-${id}`]?.[0]?.focus())
+		},
+
+		/**
+		 * Write a task's new dates: shown at once, put back when the write fails.
+		 *
+		 * @param {object} task The task
+		 * @param {{startDate: string, dueDate: string}} dates The new dates
+		 * @return {Promise<boolean>} Whether the write succeeded
+		 * @spec openspec/changes/planning-timeline-editing/tasks.md#task-2.2
+		 */
+		async saveDates(task, dates) {
+			const old = { startDate: task.startDate, dueDate: task.dueDate }
+			if (old.startDate === dates.startDate && old.dueDate === dates.dueDate) {
+				return true
+			}
+			this.saveError = ''
+			Object.assign(task, dates)
+			const saved = await useProjectsStore().updateTask(task.id, dates)
+			if (!saved) {
+				Object.assign(task, old)
+				this.saveError = t('planninq', 'The dates could not be saved.')
+				return false
+			}
+			this.announcement = t('planninq', '{title} now runs from {start} to {end}', { title: task.title, start: this.dayName(dates.startDate), end: this.dayName(dates.dueDate) })
+			return true
+		},
+
 		/**
 		 * Switch between the task Gantt and the roadmap.
 		 *
@@ -703,5 +943,45 @@ export default {
 	height: 8px;
 	border-radius: 50%;
 	flex: 0 0 auto;
+}
+
+.project-timeline__bar {
+	border: none;
+	padding: 0;
+	font: inherit;
+	color: inherit;
+	text-align: start;
+	cursor: grab;
+	touch-action: none;
+}
+
+.project-timeline__bar:focus-visible {
+	outline: 2px solid var(--color-main-text);
+	outline-offset: 2px;
+}
+
+.project-timeline__bar--dragging {
+	cursor: grabbing;
+	opacity: 0.8;
+}
+
+.project-timeline__handle {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 8px;
+	cursor: ew-resize;
+}
+
+.project-timeline__handle--start {
+	inset-inline-start: 0;
+}
+
+.project-timeline__handle--due {
+	inset-inline-end: 0;
+}
+
+.project-timeline__save-error {
+	color: var(--color-error-text);
 }
 </style>

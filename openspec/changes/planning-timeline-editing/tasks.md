@@ -10,7 +10,7 @@
 ## 2. Editing on the timeline
 
 - [x] 2.1 `TimelineController::fetchProjectDependencies` returns each edge's `type` (already built by `integration-msproject-import`, #732; this change adds the named tests). Verify: PHPUnit `TimelineControllerTest::testEdgesCarryType` and `testTimelineEndpointWritesNothing`.
-- [ ] 2.2 Bars become focusable buttons with move and resize by pointer, arrow keys and `src/dialogs/TaskDatesDialog.vue`; writes through `updateTask`, revert on failure, live-region announcement. Verify: Playwright `tests/e2e/project-timeline.spec.ts` "member drags a bar to move a task", "member resizes the due date", "member moves a task with the keyboard", "member sets dates in the dialog", "failed write puts the bar back" and "a dropped start on a holiday moves to the next working day".
+- [x] 2.2 Bars become focusable buttons with move and resize by pointer, arrow keys and `src/dialogs/TaskDatesDialog.vue`; writes through `updateTask`, revert on failure, live-region announcement; the date sums in `src/utils/timelineEditing.js` (vitest `tests/vitest/timelineEditing.spec.js`). Verify: Playwright `tests/e2e/timeline-editing.spec.ts` (amended: its own file) "member drags a bar to move a task", "member resizes the due date", "member moves a task with the keyboard", "member sets dates in the dialog", "failed write puts the bar back" and "a dropped start on a holiday moves to the next working day".
 - [ ] 2.3 Non-blocking edge types drawn as dotted lines. Verify: vitest `tests/vitest/timelineHelpers.spec.js` "relates edge is styled as non-blocking"; Playwright `tests/e2e/project-timeline.spec.ts` "relates link moves nothing".
 
 ## 3. Auto-scheduling
@@ -21,7 +21,7 @@
 
 ## 4. Specs and docs
 
-- [ ] 4.1 Update the doc comments of `src/views/ProjectTimeline.vue` and `src/api/timeline.js` that call the timeline read-only, to say the endpoint is read-only and the view edits dates. Verify: reviewer reads the diff.
+- [x] 4.1 Update the doc comments of `src/views/ProjectTimeline.vue` and `src/api/timeline.js` that call the timeline read-only, to say the endpoint is read-only and the view edits dates. Verify: reviewer reads the diff.
 
 ## 5. Verification
 

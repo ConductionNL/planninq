@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Rusaliile",
         "Whit Monday": "A doua zi de Rusalii",
         "Christmas Day": "Crăciunul",
-        "Boxing Day": "A doua zi de Crăciun"
+        "Boxing Day": "A doua zi de Crăciun",
+        "Dates of {title}": "Datele pentru {title}",
+        "The due date cannot be before the start date.": "Termenul nu poate fi înainte de data de început.",
+        "{title}, from {start} to {end}": "{title}, de la {start} la {end}",
+        "The dates could not be saved.": "Datele nu au putut fi salvate.",
+        "{title} now runs from {start} to {end}": "{title} se desfășoară acum de la {start} la {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

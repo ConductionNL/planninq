@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Domingo de Pentecostes",
         "Whit Monday": "Segunda-feira de Pentecostes",
         "Christmas Day": "Dia de Natal",
-        "Boxing Day": "Segundo dia de Natal"
+        "Boxing Day": "Segundo dia de Natal",
+        "Dates of {title}": "Datas de {title}",
+        "The due date cannot be before the start date.": "A data limite não pode ser anterior à data de início.",
+        "{title}, from {start} to {end}": "{title}, de {start} a {end}",
+        "The dates could not be saved.": "Não foi possível guardar as datas.",
+        "{title} now runs from {start} to {end}": "{title} decorre agora de {start} a {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

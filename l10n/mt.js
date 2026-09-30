@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Għid il-Ħamsin",
         "Whit Monday": "It-Tnejn ta' wara Għid il-Ħamsin",
         "Christmas Day": "Il-Milied",
-        "Boxing Day": "It-tieni jum tal-Milied"
+        "Boxing Day": "It-tieni jum tal-Milied",
+        "Dates of {title}": "Id-dati ta' {title}",
+        "The due date cannot be before the start date.": "Id-data tal-għeluq ma tistax tkun qabel id-data tal-bidu.",
+        "{title}, from {start} to {end}": "{title}, minn {start} sa {end}",
+        "The dates could not be saved.": "Id-dati ma setgħux jiġu ssejvjati.",
+        "{title} now runs from {start} to {end}": "{title} issa jdum minn {start} sa {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

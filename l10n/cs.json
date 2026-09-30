@@ -1233,7 +1233,12 @@
         "Whit Sunday": "Letnice",
         "Whit Monday": "Svatodušní pondělí",
         "Christmas Day": "1. svátek vánoční",
-        "Boxing Day": "2. svátek vánoční"
+        "Boxing Day": "2. svátek vánoční",
+        "Dates of {title}": "Data úkolu {title}",
+        "The due date cannot be before the start date.": "Termín nemůže být před datem zahájení.",
+        "{title}, from {start} to {end}": "{title}, od {start} do {end}",
+        "The dates could not be saved.": "Data se nepodařilo uložit.",
+        "{title} now runs from {start} to {end}": "{title} nyní probíhá od {start} do {end}"
     },
     "plurals": null
 }

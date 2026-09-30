@@ -1,8 +1,10 @@
 /**
  * Timeline API — stateless read functions for the project Gantt view.
  *
- * Deliberately NOT a Pinia store: the timeline is a read-only surface, so it
- * needs no shared reactive state. Each call hits the Planninq read-only endpoint
+ * Deliberately NOT a Pinia store: it needs no shared reactive state. The
+ * endpoint is read-only; the timeline view edits task dates through the
+ * object API (`updateTask`), not through here (planning-timeline-editing).
+ * Each call hits the Planninq read-only endpoint
  * `GET /api/projects/{projectId}/timeline`, which returns the project's tasks
  * (scheduled + unscheduled) and its existing dependency links, RBAC-scoped by
  * OpenRegister server-side. Nothing here creates or mutates an object.

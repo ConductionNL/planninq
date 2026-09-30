@@ -1233,7 +1233,12 @@
         "Whit Sunday": "Første pinsedag",
         "Whit Monday": "Andre pinsedag",
         "Christmas Day": "Første juledag",
-        "Boxing Day": "Andre juledag"
+        "Boxing Day": "Andre juledag",
+        "Dates of {title}": "Datoer for {title}",
+        "The due date cannot be before the start date.": "Forfallsdatoen kan ikke være før startdatoen.",
+        "{title}, from {start} to {end}": "{title}, fra {start} til {end}",
+        "The dates could not be saved.": "Datoene kunne ikke lagres.",
+        "{title} now runs from {start} to {end}": "{title} går nå fra {start} til {end}"
     },
     "plurals": {}
 }

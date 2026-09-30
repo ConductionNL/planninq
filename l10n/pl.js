@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Zielone Świątki",
         "Whit Monday": "Drugi dzień Zielonych Świątek",
         "Christmas Day": "Boże Narodzenie",
-        "Boxing Day": "Drugi dzień Bożego Narodzenia"
+        "Boxing Day": "Drugi dzień Bożego Narodzenia",
+        "Dates of {title}": "Daty zadania {title}",
+        "The due date cannot be before the start date.": "Termin nie może przypadać przed datą rozpoczęcia.",
+        "{title}, from {start} to {end}": "{title}, od {start} do {end}",
+        "The dates could not be saved.": "Nie udało się zapisać dat.",
+        "{title} now runs from {start} to {end}": "{title} trwa teraz od {start} do {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

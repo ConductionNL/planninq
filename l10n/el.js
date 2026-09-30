@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Πεντηκοστή",
         "Whit Monday": "Αγίου Πνεύματος",
         "Christmas Day": "Χριστούγεννα",
-        "Boxing Day": "Δεύτερη ημέρα των Χριστουγέννων"
+        "Boxing Day": "Δεύτερη ημέρα των Χριστουγέννων",
+        "Dates of {title}": "Ημερομηνίες του {title}",
+        "The due date cannot be before the start date.": "Η προθεσμία δεν μπορεί να είναι πριν από την ημερομηνία έναρξης.",
+        "{title}, from {start} to {end}": "{title}, από {start} έως {end}",
+        "The dates could not be saved.": "Δεν ήταν δυνατή η αποθήκευση των ημερομηνιών.",
+        "{title} now runs from {start} to {end}": "Το {title} διαρκεί τώρα από {start} έως {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

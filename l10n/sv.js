@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Pingstdagen",
         "Whit Monday": "Annandag pingst",
         "Christmas Day": "Juldagen",
-        "Boxing Day": "Annandag jul"
+        "Boxing Day": "Annandag jul",
+        "Dates of {title}": "Datum för {title}",
+        "The due date cannot be before the start date.": "Förfallodatumet kan inte ligga före startdatumet.",
+        "{title}, from {start} to {end}": "{title}, från {start} till {end}",
+        "The dates could not be saved.": "Datumen kunde inte sparas.",
+        "{title} now runs from {start} to {end}": "{title} pågår nu från {start} till {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Binkoštna nedelja",
         "Whit Monday": "Binkoštni ponedeljek",
         "Christmas Day": "Božič",
-        "Boxing Day": "Štefanovo"
+        "Boxing Day": "Štefanovo",
+        "Dates of {title}": "Datumi za {title}",
+        "The due date cannot be before the start date.": "Rok ne more biti pred datumom začetka.",
+        "{title}, from {start} to {end}": "{title}, od {start} do {end}",
+        "The dates could not be saved.": "Datumov ni bilo mogoče shraniti.",
+        "{title} now runs from {start} to {end}": "{title} zdaj poteka od {start} do {end}"
     },
     "nplurals=2; plural=(n != 1);"
 )

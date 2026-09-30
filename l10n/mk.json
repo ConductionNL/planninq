@@ -1233,7 +1233,12 @@
         "Whit Sunday": "Духовден",
         "Whit Monday": "Духовски понеделник",
         "Christmas Day": "Божиќ",
-        "Boxing Day": "Втор ден Божиќ"
+        "Boxing Day": "Втор ден Божиќ",
+        "Dates of {title}": "Датуми за {title}",
+        "The due date cannot be before the start date.": "Рокот не може да биде пред датумот на почеток.",
+        "{title}, from {start} to {end}": "{title}, од {start} до {end}",
+        "The dates could not be saved.": "Датумите не можеа да се зачуваат.",
+        "{title} now runs from {start} to {end}": "{title} сега трае од {start} до {end}"
     },
     "plurals": null
 }

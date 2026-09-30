@@ -1234,7 +1234,12 @@ OC.L10N.register(
         "Whit Sunday": "Pentekost Pazarı",
         "Whit Monday": "Pentekost Pazartesisi",
         "Christmas Day": "Noel",
-        "Boxing Day": "Noel'in ikinci günü"
+        "Boxing Day": "Noel'in ikinci günü",
+        "Dates of {title}": "{title} tarihleri",
+        "The due date cannot be before the start date.": "Bitiş tarihi başlangıç tarihinden önce olamaz.",
+        "{title}, from {start} to {end}": "{title}, {start} ile {end} arası",
+        "The dates could not be saved.": "Tarihler kaydedilemedi.",
+        "{title} now runs from {start} to {end}": "{title} artık {start} ile {end} arasında"
     },
     "nplurals=2; plural=(n != 1);"
 )
