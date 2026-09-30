@@ -1196,7 +1196,17 @@
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Í GitHub skaltu bæta vefkróki við hirsluna með þessu vistfangi og sama leyndarmáli. Veldu efnistegundina application/json og atburðina push og pull request:",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Nefndu verklykilinn, t.d. VC-12, í commit-skilaboðum, heiti greinar eða titli pull request. Tengillinn birtist þá á því verki.",
         "Without Integriq, project members can still paste a link on the task page.": "Án Integriq geta verkefnismeðlimir samt límt tengil á síðu verksins.",
-        "Download the Integriq configuration": "Sækja stillingar fyrir Integriq"
+        "Download the Integriq configuration": "Sækja stillingar fyrir Integriq",
+        "Calendar": "Dagatal",
+        "Previous": "Fyrri",
+        "Calendar view": "Dagatalsyfirlit",
+        "Starts:": "Hefst:",
+        "No tasks with a date in this month.": "Engin verk með dagsetningu í þessum mánuði.",
+        "Week of {start} to {end}": "Vika frá {start} til {end}",
+        "My calendar": "Dagatalið mitt",
+        "Show as list": "Sýna sem lista",
+        "Show as calendar": "Sýna sem dagatal",
+        "Open my calendar": "Opna dagatalið mitt"
     },
     "plurals": {}
 }

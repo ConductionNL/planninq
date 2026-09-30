@@ -1197,7 +1197,17 @@ OC.L10N.register(
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Lisa GitHubis hoidlale selle aadressi ja sama saladusega webhook. Vali sisutüübiks application/json ning sündmused push ja pull request:",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Nimeta ülesande võti, näiteks VC-12, kommiti sõnumis, haru nimes või pull requesti pealkirjas. Link ilmub siis selle ülesande juurde.",
         "Without Integriq, project members can still paste a link on the task page.": "Ilma Integriqita saavad projekti liikmed ikka lingi ülesande lehele kleepida.",
-        "Download the Integriq configuration": "Laadi alla Integriqi seadistus"
+        "Download the Integriq configuration": "Laadi alla Integriqi seadistus",
+        "Calendar": "Kalender",
+        "Previous": "Eelmine",
+        "Calendar view": "Kalendrivaade",
+        "Starts:": "Algab:",
+        "No tasks with a date in this month.": "Selles kuus pole kuupäevaga ülesandeid.",
+        "Week of {start} to {end}": "Nädal {start} kuni {end}",
+        "My calendar": "Minu kalender",
+        "Show as list": "Näita loendina",
+        "Show as calendar": "Näita kalendrina",
+        "Open my calendar": "Ava minu kalender"
     },
     "nplurals=2; plural=(n != 1);"
 )

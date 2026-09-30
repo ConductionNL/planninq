@@ -24,6 +24,7 @@ import TimetableScenarioCompare from './components/TimetableScenarioCompare.vue'
 import TimetableScenarioSections from './components/TimetableScenarioSections.vue'
 import TimetableWishDialog from './dialogs/TimetableWishDialog.vue'
 import Boards from './views/Boards.vue'
+import MyCalendar from './views/MyCalendar.vue'
 import MyWork from './views/MyWork.vue'
 import Portfolio from './views/Portfolio.vue'
 import PortfolioFinance from './views/PortfolioFinance.vue'
@@ -31,6 +32,7 @@ import PortfolioStatus from './views/PortfolioStatus.vue'
 import PortfolioTimeline from './views/PortfolioTimeline.vue'
 import ProjectBacklog from './views/ProjectBacklog.vue'
 import ProjectBoard from './views/ProjectBoard.vue'
+import ProjectCalendar from './views/ProjectCalendar.vue'
 import ProjectFinance from './views/ProjectFinance.vue'
 import ProjectList from './views/ProjectList.vue'
 import ProjectLog from './views/ProjectLog.vue'
@@ -65,6 +67,7 @@ function slot(component) {
 
 export default {
 	Boards: page(Boards),
+	MyCalendar: page(MyCalendar),
 	MyWork: page(MyWork),
 	Portfolio: page(Portfolio),
 	PortfolioFinance: page(PortfolioFinance),
@@ -72,6 +75,7 @@ export default {
 	PortfolioTimeline: page(PortfolioTimeline),
 	ProjectBacklog: page(ProjectBacklog),
 	ProjectBoard: page(ProjectBoard),
+	ProjectCalendar: page(ProjectCalendar),
 	ProjectsView: page(ProjectsView),
 	ProjectFinance: page(ProjectFinance),
 	ProjectList: page(ProjectList),

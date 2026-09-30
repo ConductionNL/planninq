@@ -1197,7 +1197,17 @@ OC.L10N.register(
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Στο GitHub, προσθέστε στο αποθετήριο ένα webhook με αυτή τη διεύθυνση και το ίδιο μυστικό. Επιλέξτε τύπο περιεχομένου application/json και τα συμβάντα push και pull request:",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Αναφέρετε το κλειδί εργασίας, π.χ. VC-12, σε μήνυμα commit, όνομα κλάδου ή τίτλο pull request. Ο σύνδεσμος εμφανίζεται τότε σε αυτή την εργασία.",
         "Without Integriq, project members can still paste a link on the task page.": "Χωρίς το Integriq, τα μέλη του έργου μπορούν ακόμη να επικολλήσουν σύνδεσμο στη σελίδα της εργασίας.",
-        "Download the Integriq configuration": "Λήψη της διαμόρφωσης Integriq"
+        "Download the Integriq configuration": "Λήψη της διαμόρφωσης Integriq",
+        "Calendar": "Ημερολόγιο",
+        "Previous": "Προηγούμενο",
+        "Calendar view": "Προβολή ημερολογίου",
+        "Starts:": "Ξεκινά:",
+        "No tasks with a date in this month.": "Δεν υπάρχουν εργασίες με ημερομηνία αυτόν τον μήνα.",
+        "Week of {start} to {end}": "Εβδομάδα από {start} έως {end}",
+        "My calendar": "Το ημερολόγιό μου",
+        "Show as list": "Εμφάνιση ως λίστα",
+        "Show as calendar": "Εμφάνιση ως ημερολόγιο",
+        "Open my calendar": "Άνοιγμα του ημερολογίου μου"
     },
     "nplurals=2; plural=(n != 1);"
 )

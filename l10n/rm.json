@@ -1196,7 +1196,17 @@
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Agiuntai en GitHub al repositori in webhook cun questa adressa ed il medem secret. Tschernai il tip da cuntegn application/json ed ils eveniments push e pull request:",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Numnai la clav da l'incumbensa, p.ex. VC-12, en in messadi da commit, in num da rom u il titel d'in pull request. La colliaziun cumpara lura tar quella incumbensa.",
         "Without Integriq, project members can still paste a link on the task page.": "Senza Integriq pon ils commembers dal project anc adina encollar ina colliaziun sin la pagina da l'incumbensa.",
-        "Download the Integriq configuration": "Chargiar giu la configuraziun d'Integriq"
+        "Download the Integriq configuration": "Chargiar giu la configuraziun d'Integriq",
+        "Calendar": "Chalender",
+        "Previous": "Precedent",
+        "Calendar view": "Vista dal chalender",
+        "Starts:": "Cumenza:",
+        "No tasks with a date in this month.": "Naginas incumbensas cun data quest mais.",
+        "Week of {start} to {end}": "Emna da {start} fin {end}",
+        "My calendar": "Mes chalender",
+        "Show as list": "Mussar sco glista",
+        "Show as calendar": "Mussar sco chalender",
+        "Open my calendar": "Avrir mes chalender"
     },
     "plurals": null
 }

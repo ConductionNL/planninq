@@ -1197,7 +1197,17 @@ OC.L10N.register(
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "A GitHubban adjon a tárolóhoz webhookot ezzel a címmel és ugyanazzal a titokkal. Válassza az application/json tartalomtípust és a push és pull request eseményeket:",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Írja a feladatkulcsot, például VC-12, egy commit üzenetébe, egy ág nevébe vagy egy pull request címébe. A hivatkozás ekkor megjelenik annál a feladatnál.",
         "Without Integriq, project members can still paste a link on the task page.": "Integriq nélkül a projekttagok továbbra is beilleszthetnek hivatkozást a feladat oldalán.",
-        "Download the Integriq configuration": "Az Integriq-konfiguráció letöltése"
+        "Download the Integriq configuration": "Az Integriq-konfiguráció letöltése",
+        "Calendar": "Naptár",
+        "Previous": "Előző",
+        "Calendar view": "Naptárnézet",
+        "Starts:": "Kezdés:",
+        "No tasks with a date in this month.": "Ebben a hónapban nincs dátummal rendelkező feladat.",
+        "Week of {start} to {end}": "Hét: {start} – {end}",
+        "My calendar": "Saját naptár",
+        "Show as list": "Megjelenítés listaként",
+        "Show as calendar": "Megjelenítés naptárként",
+        "Open my calendar": "Saját naptár megnyitása"
     },
     "nplurals=2; plural=(n != 1);"
 )

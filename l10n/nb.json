@@ -1196,7 +1196,17 @@
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Legg i GitHub til en webhook i repositoryet med denne adressen og samme hemmelighet. Velg innholdstypen application/json og hendelsene push og pull request:",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Nevn oppgavenøkkelen, for eksempel VC-12, i en commit-melding, et grennavn eller tittelen på en pull request. Lenken vises da på den oppgaven.",
         "Without Integriq, project members can still paste a link on the task page.": "Uten Integriq kan prosjektmedlemmer fortsatt lime inn en lenke på oppgavesiden.",
-        "Download the Integriq configuration": "Last ned Integriq-konfigurasjonen"
+        "Download the Integriq configuration": "Last ned Integriq-konfigurasjonen",
+        "Calendar": "Kalender",
+        "Previous": "Forrige",
+        "Calendar view": "Kalendervisning",
+        "Starts:": "Starter:",
+        "No tasks with a date in this month.": "Ingen oppgaver med dato denne måneden.",
+        "Week of {start} to {end}": "Uke fra {start} til {end}",
+        "My calendar": "Min kalender",
+        "Show as list": "Vis som liste",
+        "Show as calendar": "Vis som kalender",
+        "Open my calendar": "Åpne kalenderen min"
     },
     "plurals": {}
 }

@@ -1196,7 +1196,17 @@
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Në GitHub, shtoni te depoja një webhook me këtë adresë dhe të njëjtin sekret. Zgjidhni llojin e përmbajtjes application/json dhe ngjarjet push dhe pull request:",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Përmendni çelësin e detyrës, p.sh. VC-12, në një mesazh commit-i, emër dege ose titull pull request-i. Lidhja shfaqet atëherë te ajo detyrë.",
         "Without Integriq, project members can still paste a link on the task page.": "Pa Integriq, anëtarët e projektit mund të ngjitin ende një lidhje në faqen e detyrës.",
-        "Download the Integriq configuration": "Shkarko konfigurimin e Integriq"
+        "Download the Integriq configuration": "Shkarko konfigurimin e Integriq",
+        "Calendar": "Kalendari",
+        "Previous": "I mëparshmi",
+        "Calendar view": "Pamja e kalendarit",
+        "Starts:": "Fillon:",
+        "No tasks with a date in this month.": "Nuk ka detyra me datë këtë muaj.",
+        "Week of {start} to {end}": "Java nga {start} deri më {end}",
+        "My calendar": "Kalendari im",
+        "Show as list": "Shfaq si listë",
+        "Show as calendar": "Shfaq si kalendar",
+        "Open my calendar": "Hap kalendarin tim"
     },
     "plurals": {}
 }

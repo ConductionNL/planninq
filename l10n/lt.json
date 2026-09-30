@@ -1196,7 +1196,17 @@
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "GitHub saugyklai pridėkite webhook su šiuo adresu ir ta pačia paslaptimi. Pasirinkite turinio tipą application/json ir įvykius push bei pull request:",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Nurodykite užduoties raktą, pvz., VC-12, įsipareigojimo pranešime, šakos pavadinime ar pull request pavadinime. Tada nuoroda atsiras prie tos užduoties.",
         "Without Integriq, project members can still paste a link on the task page.": "Be Integriq projekto nariai vis tiek gali įklijuoti nuorodą užduoties puslapyje.",
-        "Download the Integriq configuration": "Atsisiųsti Integriq konfigūraciją"
+        "Download the Integriq configuration": "Atsisiųsti Integriq konfigūraciją",
+        "Calendar": "Kalendorius",
+        "Previous": "Ankstesnis",
+        "Calendar view": "Kalendoriaus rodinys",
+        "Starts:": "Prasideda:",
+        "No tasks with a date in this month.": "Šį mėnesį nėra užduočių su data.",
+        "Week of {start} to {end}": "Savaitė nuo {start} iki {end}",
+        "My calendar": "Mano kalendorius",
+        "Show as list": "Rodyti sąrašu",
+        "Show as calendar": "Rodyti kalendoriuje",
+        "Open my calendar": "Atverti mano kalendorių"
     },
     "plurals": null
 }

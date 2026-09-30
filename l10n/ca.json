@@ -1196,7 +1196,17 @@
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "A GitHub, afegeix al repositori un webhook amb aquesta adreça i el mateix secret. Tria el tipus de contingut application/json i els esdeveniments push i pull request:",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Esmenta la clau de la tasca, com VC-12, en un missatge de commit, un nom de branca o el títol d'una pull request. L'enllaç apareix llavors a aquesta tasca.",
         "Without Integriq, project members can still paste a link on the task page.": "Sense Integriq, els membres del projecte encara poden enganxar un enllaç a la pàgina de la tasca.",
-        "Download the Integriq configuration": "Baixa la configuració d'Integriq"
+        "Download the Integriq configuration": "Baixa la configuració d'Integriq",
+        "Calendar": "Calendari",
+        "Previous": "Anterior",
+        "Calendar view": "Vista del calendari",
+        "Starts:": "Comença:",
+        "No tasks with a date in this month.": "No hi ha tasques amb data aquest mes.",
+        "Week of {start} to {end}": "Setmana del {start} al {end}",
+        "My calendar": "El meu calendari",
+        "Show as list": "Mostra com a llista",
+        "Show as calendar": "Mostra com a calendari",
+        "Open my calendar": "Obre el meu calendari"
     },
     "plurals": null
 }

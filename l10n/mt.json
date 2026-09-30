@@ -1196,7 +1196,17 @@
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "F'GitHub, żid webhook mar-repożitorju b'dan l-indirizz u l-istess sigriet. Agħżel it-tip ta' kontenut application/json u l-avvenimenti push u pull request:",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Semmi ċ-ċavetta tal-kompitu, bħal VC-12, f'messaġġ ta' commit, f'isem ta' fergħa jew fit-titlu ta' pull request. Il-link imbagħad jidher fuq dak il-kompitu.",
         "Without Integriq, project members can still paste a link on the task page.": "Mingħajr Integriq, il-membri tal-proġett xorta jistgħu jwaħħlu link fil-paġna tal-kompitu.",
-        "Download the Integriq configuration": "Niżżel il-konfigurazzjoni ta' Integriq"
+        "Download the Integriq configuration": "Niżżel il-konfigurazzjoni ta' Integriq",
+        "Calendar": "Kalendarju",
+        "Previous": "Ta' qabel",
+        "Calendar view": "Veduta tal-kalendarju",
+        "Starts:": "Jibda:",
+        "No tasks with a date in this month.": "L-ebda kompitu b'data dan ix-xahar.",
+        "Week of {start} to {end}": "Ġimgħa minn {start} sa {end}",
+        "My calendar": "Il-kalendarju tiegħi",
+        "Show as list": "Uri bħala lista",
+        "Show as calendar": "Uri bħala kalendarju",
+        "Open my calendar": "Iftaħ il-kalendarju tiegħi"
     },
     "plurals": {}
 }

@@ -65,7 +65,7 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 
 ## Impact
 
-- Components and views: a new `src/components/TaskCalendar.vue`, a project calendar page `ProjectCalendar` at `/projects/:id/calendar`, a personal page `MyCalendar` at `/my-calendar`, manifest and `src/registry.js` entries, a Calendar button in the `ProjectBoard` header.
+- Components and views: a new `src/components/TaskCalendar.vue`, a project calendar page `ProjectCalendar` at `/projects/:id/calendar`, a personal page `MyCalendar` at `/my-calendar`, manifest and `src/registry.js` entries, a Calendar tab in `src/components/ProjectTabs.vue` (`PROJECT_TABS`), which the board and every project page show.
 - Backend: a new `lib/Listener/TaskCalendarExportListener.php` on OpenRegister's object events and a new `lib/Service/TaskCalendarExportService.php` that builds and writes the VTODO through Nextcloud's calendar layer.
 - Settings: a new per-user key `export_tasks_to_caldav` (default off) in `lib/Service/SettingsService.php` and a switch in `src/views/settings/UserSettings.vue`.
 - Schema: none. `calendarEventUid` already exists.

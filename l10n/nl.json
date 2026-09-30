@@ -1209,7 +1209,17 @@
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Voeg in GitHub een webhook aan de repository toe met dit adres en hetzelfde geheim. Kies inhoudstype application/json en de gebeurtenissen push en pull request:",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Noem de taaksleutel, zoals VC-12, in een commitbericht, branchnaam of titel van een pull request. De koppeling verschijnt dan bij die taak.",
         "Without Integriq, project members can still paste a link on the task page.": "Zonder Integriq kunnen projectleden nog steeds een koppeling plakken op de taakpagina.",
-        "Download the Integriq configuration": "Integriq-configuratie downloaden"
+        "Download the Integriq configuration": "Integriq-configuratie downloaden",
+        "Calendar": "Kalender",
+        "Previous": "Vorige",
+        "Calendar view": "Kalenderweergave",
+        "Starts:": "Begint:",
+        "No tasks with a date in this month.": "Geen taken met een datum in deze maand.",
+        "Week of {start} to {end}": "Week van {start} tot {end}",
+        "My calendar": "Mijn kalender",
+        "Show as list": "Als lijst tonen",
+        "Show as calendar": "Als kalender tonen",
+        "Open my calendar": "Mijn kalender openen"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

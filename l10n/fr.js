@@ -1197,7 +1197,17 @@ OC.L10N.register(
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Dans GitHub, ajoutez au dépôt un webhook avec cette adresse et le même secret. Choisissez le type de contenu application/json et les événements push et pull request :",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Citez la clé de tâche, par exemple VC-12, dans un message de commit, un nom de branche ou le titre d'une pull request. Le lien apparaît alors sur cette tâche.",
         "Without Integriq, project members can still paste a link on the task page.": "Sans Integriq, les membres du projet peuvent toujours coller un lien sur la page de la tâche.",
-        "Download the Integriq configuration": "Télécharger la configuration Integriq"
+        "Download the Integriq configuration": "Télécharger la configuration Integriq",
+        "Calendar": "Calendrier",
+        "Previous": "Précédent",
+        "Calendar view": "Vue du calendrier",
+        "Starts:": "Commence :",
+        "No tasks with a date in this month.": "Aucune tâche datée ce mois-ci.",
+        "Week of {start} to {end}": "Semaine du {start} au {end}",
+        "My calendar": "Mon calendrier",
+        "Show as list": "Afficher en liste",
+        "Show as calendar": "Afficher en calendrier",
+        "Open my calendar": "Ouvrir mon calendrier"
     },
     "nplurals=2; plural=(n != 1);"
 )

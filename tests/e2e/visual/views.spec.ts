@@ -169,6 +169,7 @@ test.describe('visual baselines — planninq views', () => {
 	for (const [component, tab, path, file] of [
 		['ProjectBacklog', 'backlog', 'backlog', 'project-backlog.png'],
 		['ProjectTimeline', 'timeline', 'timeline', 'project-timeline.png'],
+		['ProjectCalendar', 'calendar', 'calendar', 'project-calendar.png'],
 		['ProjectOverview', 'overview', 'overview', 'project-overview.png'],
 		['ProjectPhases', 'phases', 'phases', 'project-phases.png'],
 		['ProjectRisks', 'risks', 'risks', 'project-risks.png'],

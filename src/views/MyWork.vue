@@ -3,6 +3,9 @@
 	<div class="my-work">
 		<div class="my-work__header">
 			<h2>{{ t('planninq', 'My tasks') }}</h2>
+			<RouterLink :to="{ name: 'MyCalendar' }" data-testid="my-work-as-calendar">
+				{{ t('planninq', 'Show as calendar') }}
+			</RouterLink>
 			<p v-if="figure" class="my-work__figure" data-testid="my-work-figure">
 				<span>{{ figureLabel }}</span>
 				<NcButton variant="tertiary" data-testid="my-work-show-all" @click="showAll">

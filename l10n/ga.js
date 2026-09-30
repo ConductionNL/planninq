@@ -1197,7 +1197,17 @@ OC.L10N.register(
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "In GitHub, cuir webhook leis an stór leis an seoladh seo agus an rún céanna. Roghnaigh an cineál ábhair application/json agus na himeachtaí push agus pull request:",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Luaigh eochair an taisc, mar shampla VC-12, i dteachtaireacht commit, in ainm brainse nó i dteideal pull request. Ansin feictear an nasc ar an tasc sin.",
         "Without Integriq, project members can still paste a link on the task page.": "Gan Integriq, is féidir le baill an tionscadail nasc a ghreamú ar leathanach an taisc fós.",
-        "Download the Integriq configuration": "Íoslódáil cumraíocht Integriq"
+        "Download the Integriq configuration": "Íoslódáil cumraíocht Integriq",
+        "Calendar": "Féilire",
+        "Previous": "Roimhe seo",
+        "Calendar view": "Amharc féilire",
+        "Starts:": "Tosaíonn:",
+        "No tasks with a date in this month.": "Níl aon tascanna le dáta an mhí seo.",
+        "Week of {start} to {end}": "Seachtain ó {start} go {end}",
+        "My calendar": "Mo fhéilire",
+        "Show as list": "Taispeáin mar liosta",
+        "Show as calendar": "Taispeáin mar fhéilire",
+        "Open my calendar": "Oscail mo fhéilire"
     },
     "nplurals=2; plural=(n != 1);"
 )

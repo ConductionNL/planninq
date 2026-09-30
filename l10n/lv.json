@@ -1196,7 +1196,17 @@
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "GitHub pievienojiet repozitorijam webhook ar šo adresi un to pašu noslēpumu. Izvēlieties satura tipu application/json un notikumus push un pull request:",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Nosauciet uzdevuma atslēgu, piemēram, VC-12, komita ziņojumā, zara nosaukumā vai pull request virsrakstā. Saite tad parādās pie šī uzdevuma.",
         "Without Integriq, project members can still paste a link on the task page.": "Bez Integriq projekta dalībnieki joprojām var ielīmēt saiti uzdevuma lapā.",
-        "Download the Integriq configuration": "Lejupielādēt Integriq konfigurāciju"
+        "Download the Integriq configuration": "Lejupielādēt Integriq konfigurāciju",
+        "Calendar": "Kalendārs",
+        "Previous": "Iepriekšējais",
+        "Calendar view": "Kalendāra skats",
+        "Starts:": "Sākas:",
+        "No tasks with a date in this month.": "Šajā mēnesī nav uzdevumu ar datumu.",
+        "Week of {start} to {end}": "Nedēļa no {start} līdz {end}",
+        "My calendar": "Mans kalendārs",
+        "Show as list": "Rādīt kā sarakstu",
+        "Show as calendar": "Rādīt kā kalendāru",
+        "Open my calendar": "Atvērt manu kalendāru"
     },
     "plurals": null
 }

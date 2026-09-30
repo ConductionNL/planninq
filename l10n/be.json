@@ -1196,7 +1196,17 @@
         "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "У GitHub дадайце да рэпазіторыя webhook з гэтым адрасам і тым жа сакрэтам. Выберыце тып змесціва application/json і падзеі push і pull request:",
         "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Назавіце ключ задання, напрыклад VC-12, у паведамленні каміта, назве галіны або загалоўку pull request. Спасылка тады з'явіцца ў гэтым заданні.",
         "Without Integriq, project members can still paste a link on the task page.": "Без Integriq удзельнікі праекта ўсё роўна могуць уставіць спасылку на старонцы задання.",
-        "Download the Integriq configuration": "Спампаваць канфігурацыю Integriq"
+        "Download the Integriq configuration": "Спампаваць канфігурацыю Integriq",
+        "Calendar": "Каляндар",
+        "Previous": "Назад",
+        "Calendar view": "Выгляд каляндара",
+        "Starts:": "Пачатак:",
+        "No tasks with a date in this month.": "У гэтым месяцы няма заданняў з датай.",
+        "Week of {start} to {end}": "Тыдзень з {start} па {end}",
+        "My calendar": "Мой каляндар",
+        "Show as list": "Паказаць спісам",
+        "Show as calendar": "Паказаць у каляндары",
+        "Open my calendar": "Адкрыць мой каляндар"
     },
     "plurals": {}
 }
