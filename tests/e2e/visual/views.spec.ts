@@ -209,6 +209,14 @@ test.describe('visual baselines — planninq views', () => {
 		await shoot(page, 'my-work.png')
 	})
 
+	test('MyCalendar renders my calendar @visual', async ({ page }) => {
+		// Reached from "Show as calendar" on My tasks; it has no menu entry.
+		await navigateTo(page, 'My tasks')
+		await page.getByTestId('my-work-as-calendar').click()
+		await expect(page).toHaveURL(/\/my-calendar$/)
+		await shoot(page, 'my-calendar.png')
+	})
+
 	test('Portfolio renders capacity @visual', async ({ page }) => {
 		// Reached by its card, labelled "Capacity" on the Reports page. The
 		// nav entry this used to click was retired when the report was carded.
