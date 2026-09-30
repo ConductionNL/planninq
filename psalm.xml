@@ -87,6 +87,7 @@
                 <referencedClass name="OCA\OpenRegister\Db\ObjectEntity"/>
                 <referencedClass name="OCA\OpenRegister\Lifecycle\GuardResult"/>
                 <referencedClass name="OCA\OpenRegister\Lifecycle\LifecycleGuardInterface"/>
+                <referencedClass name="OCA\OpenRegister\Service\Notification\RecipientResolverInterface"/>
                 <referencedClass name="OCA\OpenRegister\Db\RegisterMapper"/>
                 <referencedClass name="OCA\OpenRegister\Db\SchemaMapper"/>
                 <referencedClass name="OCA\OpenRegister\Event\DeepLinkRegistrationEvent"/>

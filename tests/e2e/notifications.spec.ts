@@ -8,6 +8,7 @@
  *   @e2e assignment-notification::a-task-created-for-someone-notifies-them
  *   @e2e assignment-notification::clearing-the-assignee-notifies-nobody
  *   @e2e assignment-notification::switching-assignment-notifications-off-stops-them
+ *   @e2e email-notifications::the-email-switch-is-disabled-without-an-email-address
  *
  * The suite signs in as the admin only, so the admin is the assignee.
  * OpenRegister delivers the notification (the rules are declared on the task
@@ -17,6 +18,7 @@
 import type { APIRequestContext } from '@playwright/test'
 
 import { expect, test } from '@playwright/test'
+import { PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
@@ -82,6 +84,21 @@ test.describe('Assignment notifications', () => {
 		} finally {
 			await setSwitch(api, true)
 			await removeObjects(api, made)
+		}
+	})
+
+	test('the email switch is disabled, with a hint, while the account has no email address', async ({ page }) => {
+		const api = await adminApi()
+		const account = await (await api.get(`/ocs/v2.php/cloud/users/${ADMIN_USER}?format=json`)).json()
+		const email = String(account?.ocs?.data?.email ?? '')
+		try {
+			await api.put(`/ocs/v2.php/cloud/users/${ADMIN_USER}`, { data: { key: 'email', value: '' } })
+			await page.goto(new URL('.', PLANNINQ_ROOT).toString())
+			await page.getByTestId('cn-nav-personal-settings').click()
+			await expect(page.getByTestId('notify-by-email-hint')).toHaveText('Add an email address in your Nextcloud personal settings to get mail.')
+			await expect(page.getByTestId('notify-by-email').locator('input')).toBeDisabled()
+		} finally {
+			await api.put(`/ocs/v2.php/cloud/users/${ADMIN_USER}`, { data: { key: 'email', value: email } })
 		}
 	})
 })

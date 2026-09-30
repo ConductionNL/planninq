@@ -1150,7 +1150,9 @@
         "People see the tasks of the projects they are in, never more.": "Cada persona ve las tareas de los proyectos en los que está, nunca más.",
         "No views yet. A view shows the tasks of several of your projects together.": "Aún no hay vistas. Una vista muestra juntas las tareas de varios de tus proyectos.",
         "Projects in view: {count}": "Proyectos en la vista: {count}",
-        "Notify me when a task is assigned to me": "Avisarme cuando se me asigne una tarea"
+        "Notify me when a task is assigned to me": "Avisarme cuando se me asigne una tarea",
+        "Also send these to me by email": "Enviarme también estos avisos por correo",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Añade una dirección de correo en tus ajustes personales de Nextcloud para recibir correo."
     },
     "plurals": null
 }

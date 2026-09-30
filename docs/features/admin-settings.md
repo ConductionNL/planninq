@@ -30,6 +30,7 @@ Accessible from the gear icon in the Planninq navigation bar, the user settings 
 |---------|---------|-------------|
 | Notify when a task is assigned to me | On | Nextcloud notification on task assignment |
 | Remind me 1 day before a task's due date | On | Due-date reminder notification |
+| Also send these to me by email | Off | The assignment and due-date notifications also arrive by email; each one follows its own switch above. Disabled while the account has no email address |
 
 ### Display Preferences
 

@@ -1151,7 +1151,9 @@ OC.L10N.register(
         "People see the tasks of the projects they are in, never more.": "Ο καθένας βλέπει μόνο τις εργασίες των έργων στα οποία συμμετέχει.",
         "No views yet. A view shows the tasks of several of your projects together.": "Δεν υπάρχουν ακόμη προβολές. Μια προβολή δείχνει μαζί τις εργασίες πολλών έργων σας.",
         "Projects in view: {count}": "Έργα στην προβολή: {count}",
-        "Notify me when a task is assigned to me": "Ειδοποίησέ με όταν μου ανατίθεται μια εργασία"
+        "Notify me when a task is assigned to me": "Ειδοποίησέ με όταν μου ανατίθεται μια εργασία",
+        "Also send these to me by email": "Στείλε μου αυτά και με email",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Προσθέστε μια διεύθυνση email στις προσωπικές ρυθμίσεις του Nextcloud για να λαμβάνετε email."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1150,7 +1150,9 @@
         "People see the tasks of the projects they are in, never more.": "Mintgin vesa mo las incumbensas dals projects nua ch'el è.",
         "No views yet. A view shows the tasks of several of your projects together.": "Anc naginas vistas. Ina vista mussa ensemen las incumbensas da plirs da tes projects.",
         "Projects in view: {count}": "Projects en la vista: {count}",
-        "Notify me when a task is assigned to me": "Ma avisar cura ch'ina incumbensa ma vegn attribuida"
+        "Notify me when a task is assigned to me": "Ma avisar cura ch'ina incumbensa ma vegn attribuida",
+        "Also send these to me by email": "Ma trametter quai era per e-mail",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Agiunta ina adressa dad e-mail en tes parameters persunals da Nextcloud per retschaiver e-mails."
     },
     "plurals": null
 }

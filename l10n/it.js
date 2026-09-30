@@ -1151,7 +1151,9 @@ OC.L10N.register(
         "People see the tasks of the projects they are in, never more.": "Ognuno vede le attività dei progetti di cui fa parte, mai di più.",
         "No views yet. A view shows the tasks of several of your projects together.": "Ancora nessuna vista. Una vista mostra insieme le attività di più tuoi progetti.",
         "Projects in view: {count}": "Progetti nella vista: {count}",
-        "Notify me when a task is assigned to me": "Avvisami quando mi viene assegnata un'attività"
+        "Notify me when a task is assigned to me": "Avvisami quando mi viene assegnata un'attività",
+        "Also send these to me by email": "Inviami questi avvisi anche per e-mail",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Aggiungi un indirizzo e-mail nelle impostazioni personali di Nextcloud per ricevere e-mail."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1151,7 +1151,9 @@ OC.L10N.register(
         "People see the tasks of the projects they are in, never more.": "Igaüks näeb ainult nende projektide ülesandeid, kus ta osaleb.",
         "No views yet. A view shows the tasks of several of your projects together.": "Vaateid veel pole. Vaade näitab mitme sinu projekti ülesandeid koos.",
         "Projects in view: {count}": "Projekte vaates: {count}",
-        "Notify me when a task is assigned to me": "Teavita mind, kui mulle määratakse ülesanne"
+        "Notify me when a task is assigned to me": "Teavita mind, kui mulle määratakse ülesanne",
+        "Also send these to me by email": "Saada need mulle ka e-postiga",
+        "Add an email address in your Nextcloud personal settings to get mail.": "E-kirjade saamiseks lisa Nextcloudi isiklikes seadetes e-posti aadress."
     },
     "nplurals=2; plural=(n != 1);"
 )

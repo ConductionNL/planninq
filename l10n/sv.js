@@ -1151,7 +1151,9 @@ OC.L10N.register(
         "People see the tasks of the projects they are in, never more.": "Var och en ser uppgifterna i de projekt de är med i, aldrig mer.",
         "No views yet. A view shows the tasks of several of your projects together.": "Inga vyer än. En vy visar uppgifterna från flera av dina projekt tillsammans.",
         "Projects in view: {count}": "Projekt i vyn: {count}",
-        "Notify me when a task is assigned to me": "Meddela mig när en uppgift tilldelas mig"
+        "Notify me when a task is assigned to me": "Meddela mig när en uppgift tilldelas mig",
+        "Also send these to me by email": "Skicka dem även till mig via e-post",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Lägg till en e-postadress i dina personliga Nextcloud-inställningar för att få e-post."
     },
     "nplurals=2; plural=(n != 1);"
 )

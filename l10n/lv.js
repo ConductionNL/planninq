@@ -1151,7 +1151,9 @@ OC.L10N.register(
         "People see the tasks of the projects they are in, never more.": "Katrs redz tikai to projektu uzdevumus, kuros piedalās.",
         "No views yet. A view shows the tasks of several of your projects together.": "Skatu vēl nav. Skats rāda vairāku tavu projektu uzdevumus kopā.",
         "Projects in view: {count}": "Projekti skatā: {count}",
-        "Notify me when a task is assigned to me": "Paziņot man, kad man tiek piešķirts uzdevums"
+        "Notify me when a task is assigned to me": "Paziņot man, kad man tiek piešķirts uzdevums",
+        "Also send these to me by email": "Sūtīt tos man arī e-pastā",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Pievieno e-pasta adresi savos Nextcloud personiskajos iestatījumos, lai saņemtu e-pastu."
     },
     "nplurals=2; plural=(n != 1);"
 )

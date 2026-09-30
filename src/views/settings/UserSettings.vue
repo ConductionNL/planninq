@@ -22,6 +22,22 @@
 			@update:modelValue="onToggleDueReminder">
 			{{ t('planninq', 'Notify me 1 day before a task\'s due date') }}
 		</NcCheckboxRadioSwitch>
+		<NcCheckboxRadioSwitch
+			:modelValue="notifyByEmail && hasEmail"
+			:disabled="!hasEmail"
+			type="switch"
+			aria-describedby="planninq-email-hint"
+			data-testid="notify-by-email"
+			@update:modelValue="onToggleEmail">
+			{{ t('planninq', 'Also send these to me by email') }}
+		</NcCheckboxRadioSwitch>
+		<p
+			v-if="!hasEmail"
+			id="planninq-email-hint"
+			class="user-settings__hint"
+			data-testid="notify-by-email-hint">
+			{{ t('planninq', 'Add an email address in your Nextcloud personal settings to get mail.') }}
+		</p>
 	</NcAppSettingsSection>
 </template>
 
@@ -54,11 +70,34 @@ export default {
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+		 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
 		 */
 		notifyAssigned() {
 			const value = useSettingsStore().settings?.notify_assigned
 			return value !== false && value !== 'false'
+		},
+
+		/**
+		 * Whether planninq notifications also come by email (default off).
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-2.3
+		 */
+		notifyByEmail() {
+			const value = useSettingsStore().settings?.notify_by_email
+			return value === true || value === 'true'
+		},
+
+		/**
+		 * Whether the account has an email address; without one the email switch is disabled.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-2.3
+		 */
+		hasEmail() {
+			return useSettingsStore().settings?.hasEmail === true
 		},
 
 		/**
@@ -84,12 +123,23 @@ export default {
 
 	methods: {
 		/**
+		 * Persist the email switch; the email rules' resolver reads it on every dispatch.
+		 *
+		 * @param {boolean} checked The new switch state
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-2.3
+		 */
+		async onToggleEmail(checked) {
+			await useSettingsStore().saveUserSettings({ notify_by_email: checked })
+		},
+
+		/**
 		 * Persist the assignment notification switch; the server writes it
 		 * through to OpenRegister's override of both assignment rules.
 		 *
 		 * @param {boolean} checked The new switch state
 		 *
-		 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+		 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
 		 */
 		async onToggleAssigned(checked) {
 			await useSettingsStore().saveUserSettings({ notify_assigned: checked })
@@ -109,3 +159,10 @@ export default {
 	},
 }
 </script>
+
+<style scoped>
+.user-settings__hint {
+	margin: 0 0 8px;
+	color: var(--color-text-maxcontrast);
+}
+</style>

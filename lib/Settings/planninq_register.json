@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.30.0"
+    "version": "0.31.0"
   },
   "x-openregister": {
     "type": "application",
@@ -51,7 +51,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedCircleOutline",
-        "version": "0.9.0",
+        "version": "0.10.0",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
@@ -188,6 +188,78 @@
             "subject": {
               "en": "Task \"{{title}}\" was assigned to you",
               "nl": "Taak \"{{title}}\" is aan jou toegewezen"
+            }
+          },
+          "taskAssignedOnCreateEmail": {
+            "trigger": {
+              "type": "created"
+            },
+            "enabled": true,
+            "channels": [
+              "email"
+            ],
+            "recipients": [
+              {
+                "kind": "expression",
+                "resolver": "OCA\\Planninq\\Notification\\AssignmentEmailRecipientResolver"
+              }
+            ],
+            "subject": {
+              "en": "Task \"{{title}}\" was assigned to you",
+              "nl": "Taak \"{{title}}\" is aan jou toegewezen"
+            }
+          },
+          "taskAssignedEmail": {
+            "trigger": {
+              "type": "updated",
+              "condition": {
+                "field": "assignedTo",
+                "operator": "changed"
+              }
+            },
+            "enabled": true,
+            "channels": [
+              "email"
+            ],
+            "recipients": [
+              {
+                "kind": "expression",
+                "resolver": "OCA\\Planninq\\Notification\\AssignmentEmailRecipientResolver"
+              }
+            ],
+            "subject": {
+              "en": "Task \"{{title}}\" was assigned to you",
+              "nl": "Taak \"{{title}}\" is aan jou toegewezen"
+            }
+          },
+          "taskDueSoonEmail": {
+            "trigger": {
+              "type": "scheduled",
+              "intervalSec": 3600,
+              "filter": {
+                "dueDate": {
+                  "operator": "withinNext",
+                  "value": "PT24H"
+                },
+                "status": {
+                  "operator": "notEquals",
+                  "value": "done"
+                }
+              }
+            },
+            "enabled": true,
+            "channels": [
+              "email"
+            ],
+            "recipients": [
+              {
+                "kind": "expression",
+                "resolver": "OCA\\Planninq\\Notification\\DueSoonEmailRecipientResolver"
+              }
+            ],
+            "subject": {
+              "en": "Task \"{{title}}\" is due soon",
+              "nl": "Taak \"{{title}}\" moet binnenkort af"
             }
           }
         },

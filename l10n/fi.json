@@ -1150,7 +1150,9 @@
         "People see the tasks of the projects they are in, never more.": "Kukin näkee vain niiden projektien tehtävät, joissa on mukana.",
         "No views yet. A view shows the tasks of several of your projects together.": "Ei vielä näkymiä. Näkymä näyttää useiden projektiesi tehtävät yhdessä.",
         "Projects in view: {count}": "Projekteja näkymässä: {count}",
-        "Notify me when a task is assigned to me": "Ilmoita minulle, kun minulle annetaan tehtävä"
+        "Notify me when a task is assigned to me": "Ilmoita minulle, kun minulle annetaan tehtävä",
+        "Also send these to me by email": "Lähetä nämä minulle myös sähköpostilla",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Lisää sähköpostiosoite Nextcloudin henkilökohtaisiin asetuksiin saadaksesi sähköpostia."
     },
     "plurals": null
 }

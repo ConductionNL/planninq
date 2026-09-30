@@ -568,7 +568,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.1
 	 */
 	public function testAssignmentRulesUseCanonicalDialect(): void {
 		$task  = $this->register['components']['schemas']['task'];
@@ -595,6 +595,35 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		}
 
 	}//end testAssignmentRulesUseCanonicalDialect()
+
+	/**
+	 * Task 2.1: each email rule mirrors its in-app twin's trigger and subject,
+	 * sends by `email` only, and addresses the opt-in resolver, named by class.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-2.1
+	 */
+	public function testEmailRulesMirrorInAppRules(): void {
+		$rules = $this->register['components']['schemas']['task']['x-openregister-notifications'];
+		$pairs = [
+			'taskAssignedOnCreateEmail' => ['taskAssignedOnCreate', \OCA\Planninq\Notification\AssignmentEmailRecipientResolver::class],
+			'taskAssignedEmail'         => ['taskAssigned', \OCA\Planninq\Notification\AssignmentEmailRecipientResolver::class],
+			'taskDueSoonEmail'          => ['taskDueSoon', \OCA\Planninq\Notification\DueSoonEmailRecipientResolver::class],
+		];
+		foreach ($pairs as $mail => [$twin, $resolver]) {
+			self::assertSame($rules[$twin]['trigger'], $rules[$mail]['trigger'], $mail);
+			self::assertSame($rules[$twin]['subject'], $rules[$mail]['subject'], $mail);
+			self::assertSame(['email'], $rules[$mail]['channels'], $mail);
+			self::assertSame([['kind' => 'expression', 'resolver' => $resolver]], $rules[$mail]['recipients'], $mail);
+			self::assertTrue(is_subclass_of($resolver, \OCA\OpenRegister\Service\Notification\RecipientResolverInterface::class), $resolver);
+		}
+
+		foreach (['taskAssignedOnCreate', 'taskAssigned', 'taskDueSoon'] as $inApp) {
+			self::assertSame(['nc-notification'], $rules[$inApp]['channels'], $inApp.' mails nobody itself');
+		}
+
+	}//end testEmailRulesMirrorInAppRules()
 
 	/**
 	 * The task schema MUST declare a canonical-dialect taskDueSoon rule.
