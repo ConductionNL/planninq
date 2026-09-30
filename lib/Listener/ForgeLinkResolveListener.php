@@ -19,7 +19,7 @@
  * to a task wins, and the link keeps that key.
  *
  * The membership gate (ProjectMemberAccessListener) reads the project from
- * the task through the same ProjectMembershipService::linkedTask(), so the
+ * the task through the same ForgeLinkService::linkedTask(), so the
  * order in which the two run does not matter.
  *
  * @category Listener
@@ -41,7 +41,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Service\ForgeLinkService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
@@ -74,7 +74,7 @@ class ForgeLinkResolveListener implements IEventListener {
 	 *
 	 * @var string
 	 */
-	private const SCHEMA = 'forgeLink';
+	private const SCHEMA = ForgeLinkService::SCHEMA;
 
 	/**
 	 * The `source` of a link the integration writes.
@@ -86,12 +86,12 @@ class ForgeLinkResolveListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership    Finds the task and reads planninq objects as the system.
+	 * @param ForgeLinkService         $forgeLinks    Finds the task and the repeats of a link.
 	 * @param TaskScopeResolver        $scopeResolver Tells a code link from any other object.
 	 * @param LoggerInterface          $logger        The logger.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ForgeLinkService $forgeLinks,
 		private TaskScopeResolver $scopeResolver,
 		private LoggerInterface $logger,
 	) {
@@ -121,30 +121,27 @@ class ForgeLinkResolveListener implements IEventListener {
 		}
 
 		$data = (array)$object->getObject();
-		$task = $this->membership->linkedTask(data: $data);
+		$task = $this->forgeLinks->linkedTask(data: $data);
 		if ($task === null) {
 			$this->refuse(event: $event, message: 'No task has this key.', code: self::ERROR_NO_TASK, data: $data);
 			return;
 		}
 
-		$externalId = trim((string)($data['externalId'] ?? ''));
-		if ($externalId !== '') {
-			$repeats = $this->membership->rows(schema: self::SCHEMA, filters: ['task' => $task['id'], 'externalId' => $externalId]);
-			if ($repeats !== [] && ($data['source'] ?? '') !== self::INTEGRATION) {
-				$this->refuse(event: $event, message: 'This link is already on the task.', code: self::ERROR_DUPLICATE, data: $data);
-				return;
-			}
+		$repeats = $this->forgeLinks->repeats(taskId: $task['id'], externalId: trim((string)($data['externalId'] ?? '')));
+		if ($repeats !== [] && ($data['source'] ?? '') !== self::INTEGRATION) {
+			$this->refuse(event: $event, message: 'This link is already on the task.', code: self::ERROR_DUPLICATE, data: $data);
+			return;
+		}
 
-			// A later forge event about the same item replaces the integration's
-			// link, so its state follows the forge and no second link appears.
-			foreach ($repeats as $repeat) {
-				$this->membership->removeObject(schema: self::SCHEMA, id: $repeat['id']);
-			}
+		// A later forge event about the same item replaces the integration's
+		// link, so its state follows the forge and no second link appears.
+		foreach ($repeats as $repeat) {
+			$this->forgeLinks->remove(id: $repeat['id']);
 		}
 
 		$changes = [
 			'task'    => $task['id'],
-			'project' => $this->membership->projectIdFor(schemaSlug: 'task', data: $task['data']),
+			'project' => $task['project'],
 			'taskKey' => (string)($task['data']['key'] ?? ''),
 		];
 		if (in_array(($data['source'] ?? null), ['manual', self::INTEGRATION], true) === false) {

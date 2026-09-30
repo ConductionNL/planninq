@@ -111,14 +111,6 @@ class ProjectMembershipService {
 	private const FORGE_LINK_SCHEMA = 'forgeLink';
 
 	/**
-	 * A task key in forge text: a project key (a letter, then one to nine
-	 * letters or digits), a hyphen and a number (tasks-readable-keys).
-	 *
-	 * @var string
-	 */
-	private const TASK_KEY_PATTERN = '/(?<![A-Z0-9])[A-Z][A-Z0-9]{1,9}-[0-9]+(?![0-9])/';
-
-	/**
 	 * Largest `IN` list sent in one search, below the 1000-item cap some databases enforce.
 	 *
 	 * @var integer
@@ -220,9 +212,7 @@ class ProjectMembershipService {
 	public function projectIdFor(string $schemaSlug, array $data): string {
 		if ($schemaSlug === self::FORGE_LINK_SCHEMA) {
 			// Always the task's project: a code link may not claim another one.
-			$task = $this->linkedTask(data: $data);
-
-			return $this->referenceId(value: ($task['data']['project'] ?? null));
+			return (string)($this->container->get('OCA\\Planninq\\Service\\ForgeLinkService')->linkedTask(data: $data)['project'] ?? '');
 		}
 
 		$projectId = $this->referenceId(value: ($data['project'] ?? null));
@@ -239,39 +229,6 @@ class ProjectMembershipService {
 
 		return $this->referenceId(value: ($task['project'] ?? null));
 	}//end projectIdFor()
-
-	/**
-	 * The task a code link belongs to: by `task` id when a person adds it, else
-	 * by the first task key found in `taskKey` (any case), which the integration
-	 * fills with the forge text it read: a commit message, branch name or title.
-	 *
-	 * @param array<string,mixed> $data The link data.
-	 *
-	 * @return array{id:string,data:array<string,mixed>}|null The task, or null when none resolves.
-	 *
-	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
-	 */
-	public function linkedTask(array $data): ?array {
-		$taskId = $this->referenceId(value: ($data['task'] ?? null));
-		if ($taskId !== '') {
-			$task = $this->findData(schema: 'task', id: $taskId);
-			if ($task === null) {
-				return null;
-			}
-
-			return ['id' => $taskId, 'data' => $task];
-		}
-
-		preg_match_all(self::TASK_KEY_PATTERN, strtoupper((string)($data['taskKey'] ?? '')), $matches);
-		foreach (array_unique($matches[0]) as $key) {
-			$row = ($this->rows(schema: 'task', filters: ['key' => $key])[0] ?? null);
-			if ($row !== null) {
-				return $row;
-			}
-		}
-
-		return null;
-	}//end linkedTask()
 
 	/**
 	 * The members list of a project, cached for the request.
@@ -339,34 +296,6 @@ class ProjectMembershipService {
 
 		return $this->findData(schema: $schema, id: $id);
 	}//end objectData()
-
-	/**
-	 * Delete one planninq object as the system; false when OpenRegister refuses.
-	 *
-	 * @param string $schema The schema slug.
-	 * @param string $id     The UUID.
-	 *
-	 * @return bool
-	 *
-	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
-	 */
-	public function removeObject(string $schema, string $id): bool {
-		try {
-			return (bool)$this->objectService()->deleteObject(
-				uuid: $id,
-				register: self::REGISTER,
-				schema: $schema,
-				_rbac: false,
-				_multitenancy: false
-			);
-		} catch (\Throwable $e) {
-			$this->logger->warning(
-				'Planninq: could not delete a planninq object',
-				['schema' => $schema, 'object' => $id, 'exception' => $e->getMessage()]
-			);
-			return false;
-		}
-	}//end removeObject()
 
 	/**
 	 * Every planninq object of one schema matching the filters, read with RBAC off.

@@ -74,7 +74,7 @@ class ForgeLinkResolveListenerTest extends TestCase {
 
 	private function listener(): ForgeLinkResolveListener {
 		return new ForgeLinkResolveListener(
-			membership: $this->membershipService(),
+			forgeLinks: $this->forgeLinkService(),
 			scopeResolver: $this->scopeResolver(),
 			logger: $this->createMock(originalClassName: LoggerInterface::class)
 		);
