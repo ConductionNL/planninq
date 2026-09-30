@@ -14,6 +14,8 @@ The task page MUST show a "Code" section that lists the task's linked commits, b
 
 #### Scenario: A non-member cannot read the links
 
+@e2e exclude API read rule; asserted by Newman "non-member cannot read a forge link" and PHPUnit PlanninqRegisterSchemaTest::testForgeLinkIsProjectScoped
+
 - **GIVEN** a user who is not a member of the project of VC-12
 - **WHEN** their client lists `forgeLink` objects through the OpenRegister API
 - **THEN** no link of VC-12 is returned
@@ -36,15 +38,19 @@ A project member MUST be able to paste a URL onto a task as a code link; the sys
 
 #### Scenario: A member cannot remove an integration link
 
+@e2e exclude The e2e run has one account, the admin; asserted by PHPUnit PlanninqRegisterSchemaTest::testForgeLinkIsProjectScoped (update and delete rules) and vitest forgeUrl.spec.js "a member removes only a link added by hand"
+
 - **GIVEN** a link written by integriq on VC-12
 - **WHEN** a project member who is not an admin opens its menu
 - **THEN** it offers no "Remove"
 
 ### Requirement: Forge activity that names a task key is linked through integriq
 
-When an admin has imported planninq's integriq configuration and connected a forge, a commit, branch or merge request whose message, name or title contains a task key MUST be linked to the task with that key, and a later event about the same merge request SHALL update its state instead of adding a second link. Planninq SHALL make no call to the forge; the task SHALL be resolved from the key by planninq, and an unknown key SHALL create no link. Tier: V1.
+When an admin has imported planninq's integriq configuration and connected a GitHub repository, a commit, branch or merge request whose message, name or title contains a task key MUST be linked to the task with that key, and a later event about the same merge request SHALL update its state instead of adding a second link. Planninq SHALL make no call to the forge; the task SHALL be resolved from the key by planninq, and an unknown key SHALL create no link. Tier: V1.
 
 #### Scenario: A pushed commit naming the key appears on the task
+
+@e2e exclude CI runs no integriq and no GitHub; asserted by PHPUnit IntegriqConfigurationTest::testAPushMapsItsHeadCommit and ForgeLinkResolveListenerTest::testKeyInForgeTextResolves
 
 - **GIVEN** integriq connected to the GitHub repository acme/portal with planninq's configuration
 - **WHEN** a developer pushes a commit "VC-12 handle paper jams"
@@ -52,11 +58,15 @@ When an admin has imported planninq's integriq configuration and connected a for
 
 #### Scenario: A merged pull request shows merged
 
+@e2e exclude CI runs no integriq and no GitHub; asserted by PHPUnit IntegriqConfigurationTest::testAMergedPullRequestMapsToAValidLink and ForgeLinkResolveListenerTest::testLaterIntegriqEventReplacesTheLink
+
 - **GIVEN** a linked pull request of VC-12 in state open
 - **WHEN** it is merged on GitHub and the event reaches integriq
 - **THEN** the same link shows "Merged" and no second link is added
 
 #### Scenario: An unknown key links nothing
+
+@e2e exclude Server refusal; asserted by PHPUnit ForgeLinkResolveListenerTest::testUnknownKeyIsRejected and Newman "a link naming an unknown key is refused"
 
 - **GIVEN** no task has the key ZZ-9
 - **WHEN** a commit "ZZ-9 cleanup" is pushed

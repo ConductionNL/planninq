@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "Pašalinti nuorodą {title}",
         "The link could not be added.": "Nuorodos nepavyko pridėti.",
         "The link could not be removed.": "Nuorodos nepavyko pašalinti.",
-        "This link is already on the task.": "Ši nuoroda jau yra prie užduoties."
+        "This link is already on the task.": "Ši nuoroda jau yra prie užduoties.",
+        "Code forges": "Kodo platformos",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Susiekite GitHub įsipareigojimus ir pull request su užduotimis. Integriq gauna įvykius; planninq niekada nesikreipia į GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Atsisiųskite konfigūraciją ir importuokite ją į Integriq. Tada įrašykite paslaptį taisyklėje \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "GitHub saugyklai pridėkite webhook su šiuo adresu ir ta pačia paslaptimi. Pasirinkite turinio tipą application/json ir įvykius push bei pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Nurodykite užduoties raktą, pvz., VC-12, įsipareigojimo pranešime, šakos pavadinime ar pull request pavadinime. Tada nuoroda atsiras prie tos užduoties.",
+        "Without Integriq, project members can still paste a link on the task page.": "Be Integriq projekto nariai vis tiek gali įklijuoti nuorodą užduoties puslapyje.",
+        "Download the Integriq configuration": "Atsisiųsti Integriq konfigūraciją"
     },
     "nplurals=2; plural=(n != 1);"
 )

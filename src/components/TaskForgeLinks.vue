@@ -66,7 +66,7 @@
  * lets a project member paste a link or remove one added by hand. Links
  * written by the integration are removed by an admin only.
  *
- * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
  */
 import { getCurrentUser } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
@@ -111,7 +111,7 @@ export default {
 
 	computed: {
 		/**
-		 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
 		 * @return {Array<object>} The links, newest first
 		 */
 		sorted() {
@@ -119,7 +119,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
 		 * @return {string} The empty-state hint, naming the task key when there is one
 		 */
 		emptyText() {
@@ -131,7 +131,7 @@ export default {
 
 	watch: {
 		/**
-		 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
 		 */
 		'task.id': function() {
 			this.load()
@@ -146,7 +146,7 @@ export default {
 		t,
 
 		/**
-		 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
 		 */
 		async load() {
 			if (!this.task?.id) {
@@ -158,7 +158,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
 		 * @param {string} kind The link kind
 		 * @return {object} The icon component
 		 */
@@ -167,7 +167,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
 		 * @param {string} kind The link kind
 		 * @return {string} The kind in words
 		 */
@@ -181,7 +181,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
 		 * @param {string} state The forge state
 		 * @return {string} The state in words
 		 */
@@ -190,7 +190,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
 		 * @param {string} value An ISO date
 		 * @return {string} The local date
 		 */
@@ -200,7 +200,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
 		 * @param {object} link The link
 		 * @return {boolean} Whether the viewer may remove it
 		 */
@@ -209,7 +209,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
 		 */
 		async add() {
 			this.errorMessage = ''
@@ -240,7 +240,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
 		 * @param {object} link The link to remove
 		 */
 		async remove(link) {

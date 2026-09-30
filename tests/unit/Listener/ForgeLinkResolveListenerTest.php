@@ -19,7 +19,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/integration-code-forge-links/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
  */
 
 declare(strict_types=1);
@@ -43,7 +43,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 /**
- * @spec openspec/changes/integration-code-forge-links/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
  */
 class ForgeLinkResolveListenerTest extends TestCase {
 	use MembershipFixture;

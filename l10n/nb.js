@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "Fjern lenken {title}",
         "The link could not be added.": "Lenken kunne ikke legges til.",
         "The link could not be removed.": "Lenken kunne ikke fjernes.",
-        "This link is already on the task.": "Denne lenken er allerede på oppgaven."
+        "This link is already on the task.": "Denne lenken er allerede på oppgaven.",
+        "Code forges": "Kodeplattformer",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Koble GitHub-commits og pull requests til oppgaver. Integriq mottar hendelsene; planninq kaller aldri GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Last ned konfigurasjonen og importer den i Integriq. Fyll deretter inn en hemmelighet i regelen \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Legg i GitHub til en webhook i repositoryet med denne adressen og samme hemmelighet. Velg innholdstypen application/json og hendelsene push og pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Nevn oppgavenøkkelen, for eksempel VC-12, i en commit-melding, et grennavn eller tittelen på en pull request. Lenken vises da på den oppgaven.",
+        "Without Integriq, project members can still paste a link on the task page.": "Uten Integriq kan prosjektmedlemmer fortsatt lime inn en lenke på oppgavesiden.",
+        "Download the Integriq configuration": "Last ned Integriq-konfigurasjonen"
     },
     "nplurals=2; plural=(n != 1);"
 )

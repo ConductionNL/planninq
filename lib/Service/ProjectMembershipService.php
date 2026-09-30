@@ -249,7 +249,7 @@ class ProjectMembershipService {
 	 *
 	 * @return array{id:string,data:array<string,mixed>}|null The task, or null when none resolves.
 	 *
-	 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
 	 */
 	public function linkedTask(array $data): ?array {
 		$taskId = $this->referenceId(value: ($data['task'] ?? null));
@@ -348,7 +348,7 @@ class ProjectMembershipService {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
 	 */
 	public function removeObject(string $schema, string $id): bool {
 		try {

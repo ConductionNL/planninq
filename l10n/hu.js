@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "A(z) {title} hivatkozás eltávolítása",
         "The link could not be added.": "A hivatkozást nem sikerült hozzáadni.",
         "The link could not be removed.": "A hivatkozást nem sikerült eltávolítani.",
-        "This link is already on the task.": "Ez a hivatkozás már a feladaton van."
+        "This link is already on the task.": "Ez a hivatkozás már a feladaton van.",
+        "Code forges": "Kódplatformok",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Kapcsolja a GitHub commitjait és pull requestjeit feladatokhoz. Az Integriq fogadja az eseményeket; a planninq sosem hívja a GitHubot.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Töltse le a konfigurációt, és importálja az Integriqbe. Ezután adjon meg egy titkot a \"Check the GitHub signature\" szabályban.",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "A GitHubban adjon a tárolóhoz webhookot ezzel a címmel és ugyanazzal a titokkal. Válassza az application/json tartalomtípust és a push és pull request eseményeket:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Írja a feladatkulcsot, például VC-12, egy commit üzenetébe, egy ág nevébe vagy egy pull request címébe. A hivatkozás ekkor megjelenik annál a feladatnál.",
+        "Without Integriq, project members can still paste a link on the task page.": "Integriq nélkül a projekttagok továbbra is beilleszthetnek hivatkozást a feladat oldalán.",
+        "Download the Integriq configuration": "Az Integriq-konfiguráció letöltése"
     },
     "nplurals=2; plural=(n != 1);"
 )

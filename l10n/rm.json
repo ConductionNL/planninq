@@ -1189,7 +1189,14 @@
         "Remove link {title}": "Allontanar la colliaziun {title}",
         "The link could not be added.": "La colliaziun n'ha betg pudì vegnir agiuntada.",
         "The link could not be removed.": "La colliaziun n'ha betg pudì vegnir allontanada.",
-        "This link is already on the task.": "Questa colliaziun è gia tar l'incumbensa."
+        "This link is already on the task.": "Questa colliaziun è gia tar l'incumbensa.",
+        "Code forges": "Plattafurmas da code",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Colliai commits e pull requests da GitHub cun incumbensas. Integriq retschaiva ils eveniments; planninq na clama mai GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Chargiai giu la configuraziun ed importai ella en Integriq. Inscrivi lura in secret en la regla \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Agiuntai en GitHub al repositori in webhook cun questa adressa ed il medem secret. Tschernai il tip da cuntegn application/json ed ils eveniments push e pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Numnai la clav da l'incumbensa, p.ex. VC-12, en in messadi da commit, in num da rom u il titel d'in pull request. La colliaziun cumpara lura tar quella incumbensa.",
+        "Without Integriq, project members can still paste a link on the task page.": "Senza Integriq pon ils commembers dal project anc adina encollar ina colliaziun sin la pagina da l'incumbensa.",
+        "Download the Integriq configuration": "Chargiar giu la configuraziun d'Integriq"
     },
     "plurals": null
 }

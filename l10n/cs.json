@@ -1189,7 +1189,14 @@
         "Remove link {title}": "Odebrat odkaz {title}",
         "The link could not be added.": "Odkaz se nepodařilo přidat.",
         "The link could not be removed.": "Odkaz se nepodařilo odebrat.",
-        "This link is already on the task.": "Tento odkaz už u úkolu je."
+        "This link is already on the task.": "Tento odkaz už u úkolu je.",
+        "Code forges": "Platformy pro kód",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Propojte commity a pull requesty z GitHubu s úkoly. Integriq přijímá události; planninq GitHub nikdy nevolá.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Stáhněte konfiguraci a importujte ji do Integriq. Potom vyplňte tajemství v pravidle \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "V GitHubu přidejte do repozitáře webhook s touto adresou a stejným tajemstvím. Zvolte typ obsahu application/json a události push a pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Uveďte klíč úkolu, například VC-12, ve zprávě commitu, názvu větve nebo názvu pull requestu. Odkaz se pak zobrazí u tohoto úkolu.",
+        "Without Integriq, project members can still paste a link on the task page.": "Bez Integriq mohou členové projektu stále vložit odkaz na stránce úkolu.",
+        "Download the Integriq configuration": "Stáhnout konfiguraci Integriq"
     },
     "plurals": null
 }

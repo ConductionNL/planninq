@@ -16,7 +16,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/integration-code-forge-links/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-3.1
  */
 
 declare(strict_types=1);
@@ -31,7 +31,7 @@ use Twig\Loader\ArrayLoader;
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
 /**
- * @spec openspec/changes/integration-code-forge-links/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-3.1
  */
 class IntegriqConfigurationTest extends TestCase {
 	use RegisterSchemaValidation;

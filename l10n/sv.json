@@ -1189,7 +1189,14 @@
         "Remove link {title}": "Ta bort länken {title}",
         "The link could not be added.": "Länken kunde inte läggas till.",
         "The link could not be removed.": "Länken kunde inte tas bort.",
-        "This link is already on the task.": "Den här länken finns redan på uppgiften."
+        "This link is already on the task.": "Den här länken finns redan på uppgiften.",
+        "Code forges": "Kodplattformar",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Länka GitHub-commits och pull requests till uppgifter. Integriq tar emot händelserna; planninq anropar aldrig GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Ladda ner konfigurationen och importera den i Integriq. Fyll sedan i en hemlighet i regeln \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Lägg i GitHub till en webhook i repositoryt med den här adressen och samma hemlighet. Välj innehållstypen application/json och händelserna push och pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Nämn uppgiftsnyckeln, till exempel VC-12, i ett commit-meddelande, ett grennamn eller titeln på en pull request. Länken visas då på den uppgiften.",
+        "Without Integriq, project members can still paste a link on the task page.": "Utan Integriq kan projektmedlemmar fortfarande klistra in en länk på uppgiftssidan.",
+        "Download the Integriq configuration": "Ladda ner Integriq-konfigurationen"
     },
     "plurals": null
 }

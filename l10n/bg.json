@@ -1189,7 +1189,14 @@
         "Remove link {title}": "Премахни връзката {title}",
         "The link could not be added.": "Връзката не можа да бъде добавена.",
         "The link could not be removed.": "Връзката не можа да бъде премахната.",
-        "This link is already on the task.": "Тази връзка вече е към задачата."
+        "This link is already on the task.": "Тази връзка вече е към задачата.",
+        "Code forges": "Платформи за код",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Свържете commit-и и pull request-и от GitHub със задачи. Integriq получава събитията; planninq никога не извиква GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Изтеглете конфигурацията и я импортирайте в Integriq. След това въведете тайна в правилото \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "В GitHub добавете към хранилището webhook с този адрес и същата тайна. Изберете тип съдържание application/json и събитията push и pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Посочете ключа на задачата, напр. VC-12, в съобщение на commit, име на клон или заглавие на pull request. Връзката тогава се появява при тази задача.",
+        "Without Integriq, project members can still paste a link on the task page.": "Без Integriq членовете на проекта пак могат да поставят връзка на страницата на задачата.",
+        "Download the Integriq configuration": "Изтегляне на конфигурацията за Integriq"
     },
     "plurals": null
 }

@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "Fjarlægja tengilinn {title}",
         "The link could not be added.": "Ekki tókst að bæta tenglinum við.",
         "The link could not be removed.": "Ekki tókst að fjarlægja tengilinn.",
-        "This link is already on the task.": "Þessi tengill er þegar á verkinu."
+        "This link is already on the task.": "Þessi tengill er þegar á verkinu.",
+        "Code forges": "Kóðavettvangar",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Tengdu commit og pull requests úr GitHub við verk. Integriq tekur við atburðunum; planninq kallar aldrei á GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Sæktu stillingarnar og fluttu þær inn í Integriq. Fylltu svo inn leyndarmál í regluna \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Í GitHub skaltu bæta vefkróki við hirsluna með þessu vistfangi og sama leyndarmáli. Veldu efnistegundina application/json og atburðina push og pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Nefndu verklykilinn, t.d. VC-12, í commit-skilaboðum, heiti greinar eða titli pull request. Tengillinn birtist þá á því verki.",
+        "Without Integriq, project members can still paste a link on the task page.": "Án Integriq geta verkefnismeðlimir samt límt tengil á síðu verksins.",
+        "Download the Integriq configuration": "Sækja stillingar fyrir Integriq"
     },
     "nplurals=2; plural=(n != 1);"
 )

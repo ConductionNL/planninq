@@ -8,15 +8,17 @@
  *   @e2e code-forge-links::a-task-lists-its-linked-merge-request
  *   @e2e code-forge-links::a-member-pastes-a-merge-request-link
  *   @e2e code-forge-links::a-member-removes-a-manual-link
+ *   @e2e code-forge-links::the-admin-finds-the-setup-steps-and-the-file
  *
  * The suite signs in as the admin only. "A member cannot remove an
  * integration link" needs a second, non-admin account; it is asserted by
  * PHPUnit testForgeLinkIsProjectScoped (the update and delete rules) and by
  * vitest forgeUrl.spec.js "a member removes only a link added by hand".
  *
- * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
  */
 import { expect, test } from '@playwright/test'
+import { BASE_URL } from './base-url.ts'
 import { PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
 
@@ -73,5 +75,16 @@ test.describe('Code links on the task page', () => {
 		} finally {
 			await removeObjects(api, made.reverse())
 		}
+	})
+
+	test('the admin finds the setup steps and the file', async ({ page }) => {
+		await page.goto(new URL('/index.php/settings/admin/planninq', BASE_URL).toString())
+		const section = page.getByTestId('code-forge-settings')
+		await expect(section).toContainText('Code forges')
+		await expect(section.locator('ol > li')).toHaveCount(3)
+		await expect(section.getByTestId('code-forge-webhook-url')).toContainText('/apps/integriq/api/endpoint/planninq/code-forge/github')
+		const download = page.waitForEvent('download')
+		await section.getByTestId('code-forge-download').click()
+		expect((await download).suggestedFilename()).toBe('planninq-code-forge.json')
 	})
 })

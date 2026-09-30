@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "Отстрани ја врската {title}",
         "The link could not be added.": "Врската не можеше да се додаде.",
         "The link could not be removed.": "Врската не можеше да се отстрани.",
-        "This link is already on the task.": "Оваа врска веќе е на задачата."
+        "This link is already on the task.": "Оваа врска веќе е на задачата.",
+        "Code forges": "Платформи за код",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Поврзете ги commit-ите и pull request-ите од GitHub со задачи. Integriq ги прима настаните; planninq никогаш не го повикува GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Преземете ја конфигурацијата и увезете ја во Integriq. Потоа внесете тајна во правилото \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Во GitHub додајте webhook на складиштето со оваа адреса и истата тајна. Изберете тип на содржина application/json и настаните push и pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Наведете го клучот на задачата, на пр. VC-12, во порака на commit, име на гранка или наслов на pull request. Врската тогаш се појавува на таа задача.",
+        "Without Integriq, project members can still paste a link on the task page.": "Без Integriq, членовите на проектот сè уште можат да залепат врска на страницата на задачата.",
+        "Download the Integriq configuration": "Преземи ја конфигурацијата за Integriq"
     },
     "nplurals=2; plural=(n != 1);"
 )

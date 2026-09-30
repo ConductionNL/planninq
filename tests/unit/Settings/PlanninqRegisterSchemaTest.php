@@ -1344,7 +1344,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.1
 	 */
 	public function testForgeLinkIsProjectScoped(): void {
 		$schema = ($this->register['components']['schemas']['forgeLink'] ?? null);

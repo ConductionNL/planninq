@@ -1203,7 +1203,14 @@ OC.L10N.register(
         "Remove link {title}": "Koppeling {title} verwijderen",
         "The link could not be added.": "De koppeling kon niet worden toegevoegd.",
         "The link could not be removed.": "De koppeling kon niet worden verwijderd.",
-        "This link is already on the task.": "Deze koppeling staat al bij de taak."
+        "This link is already on the task.": "Deze koppeling staat al bij de taak.",
+        "Code forges": "Codeplatforms",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Koppel GitHub-commits en pull requests aan taken. Integriq ontvangt de gebeurtenissen; planninq roept GitHub nooit aan.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Download de configuratie en importeer die in Integriq. Vul daarna een geheim in bij de regel \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Voeg in GitHub een webhook aan de repository toe met dit adres en hetzelfde geheim. Kies inhoudstype application/json en de gebeurtenissen push en pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Noem de taaksleutel, zoals VC-12, in een commitbericht, branchnaam of titel van een pull request. De koppeling verschijnt dan bij die taak.",
+        "Without Integriq, project members can still paste a link on the task page.": "Zonder Integriq kunnen projectleden nog steeds een koppeling plakken op de taakpagina.",
+        "Download the Integriq configuration": "Integriq-configuratie downloaden"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -4,7 +4,7 @@
     "title": "Planninq code forge links",
     "description": "Links GitHub commits and pull requests to planninq tasks. Import it in integriq, then add the webhook URL and secret in GitHub. Integriq writes a forgeLink with the forge text in taskKey; planninq finds the task key in it. See planninq's admin settings, Code forges.",
     "version": "1.0.0",
-    "x-planninq-change": "openspec/changes/integration-code-forge-links"
+    "x-planninq-change": "openspec/changes/archive/2026-09-30-integration-code-forge-links"
   },
   "components": {
     "mappings": {

@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "Elimină legătura {title}",
         "The link could not be added.": "Legătura nu a putut fi adăugată.",
         "The link could not be removed.": "Legătura nu a putut fi eliminată.",
-        "This link is already on the task.": "Această legătură este deja la sarcină."
+        "This link is already on the task.": "Această legătură este deja la sarcină.",
+        "Code forges": "Platforme de cod",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Leagă commit-urile și pull request-urile din GitHub de sarcini. Integriq primește evenimentele; planninq nu apelează niciodată GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Descarcă configurația și import-o în Integriq. Apoi completează un secret în regula \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "În GitHub, adaugă depozitului un webhook cu această adresă și același secret. Alege tipul de conținut application/json și evenimentele push și pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Menționează cheia sarcinii, de exemplu VC-12, într-un mesaj de commit, un nume de ramură sau titlul unui pull request. Legătura apare apoi la acea sarcină.",
+        "Without Integriq, project members can still paste a link on the task page.": "Fără Integriq, membrii proiectului pot lipi în continuare o legătură pe pagina sarcinii.",
+        "Download the Integriq configuration": "Descarcă configurația Integriq"
     },
     "nplurals=2; plural=(n != 1);"
 )

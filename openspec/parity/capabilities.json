@@ -5434,7 +5434,7 @@
       "area": "integration",
       "name": "Link tasks to commits and merge requests in a code forge.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
@@ -5452,11 +5452,12 @@
         "plane": "corpus: plane/round4/code-census.md §12 'The GitHub and Slack integrations are unreachable dead tables in CE'; 'Popular integrations' is a Pro string. Only 'Copy branch name' exists in the web app ; source read at v1.4.2: apps/api/plane/db/models/integration/github.py:14,54 GithubRepository and GithubIssueSync have no route: searched apps/api/plane/app/urls for 'github', 'gitlab': none; packages/i18n/src/locales/en/common.json:610 'Copy branch name' is the only forge touch"
       },
       "built": {
-        "state": "specified",
-        "evidence": "no forge, commit or merge-request reference in any schema of lib/Settings/planninq_register.json or in src/ and lib/",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json schema forgeLink (project-scoped read, manual-only member edits); lib/Listener/ForgeLinkResolveListener.php finds the task by id or by the first task key in the forge text and replaces a repeat from the integration; src/components/TaskForgeLinks.vue on src/views/TaskDetail.vue lists, adds (src/utils/forgeUrl.js reads GitHub, GitLab and Gitea addresses) and removes links; lib/Settings/integriq/planninq-code-forge.json is a signed GitHub webhook endpoint and mapping for integriq; src/components/CodeForgeSettings.vue in the admin settings",
+        "reachedOn": "task page, Code section; admin settings, Code forges; GitHub through integriq (GitLab and Gitea by pasted link)",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/integration-code-forge-links"
+        "change": "openspec/changes/archive/2026-09-30-integration-code-forge-links",
+        "readOn": "2026-09-30"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

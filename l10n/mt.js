@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "Neħħi l-link {title}",
         "The link could not be added.": "Il-link ma setax jiżdied.",
         "The link could not be removed.": "Il-link ma setax jitneħħa.",
-        "This link is already on the task.": "Dan il-link diġà jinsab fuq il-kompitu."
+        "This link is already on the task.": "Dan il-link diġà jinsab fuq il-kompitu.",
+        "Code forges": "Pjattaformi tal-kodiċi",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Orbot il-commits u l-pull requests ta' GitHub mal-kompiti. Integriq jirċievi l-avvenimenti; planninq qatt ma jċempel lil GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Niżżel il-konfigurazzjoni u importaha f'Integriq. Imbagħad imla sigriet fir-regola \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "F'GitHub, żid webhook mar-repożitorju b'dan l-indirizz u l-istess sigriet. Agħżel it-tip ta' kontenut application/json u l-avvenimenti push u pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Semmi ċ-ċavetta tal-kompitu, bħal VC-12, f'messaġġ ta' commit, f'isem ta' fergħa jew fit-titlu ta' pull request. Il-link imbagħad jidher fuq dak il-kompitu.",
+        "Without Integriq, project members can still paste a link on the task page.": "Mingħajr Integriq, il-membri tal-proġett xorta jistgħu jwaħħlu link fil-paġna tal-kompitu.",
+        "Download the Integriq configuration": "Niżżel il-konfigurazzjoni ta' Integriq"
     },
     "nplurals=2; plural=(n != 1);"
 )

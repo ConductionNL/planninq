@@ -968,7 +968,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} taskId The task UUID
 		 * @return {Promise<Array>} The links (empty array on error)
 		 *
-		 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
 		 */
 		async fetchForgeLinks(taskId) {
 			try {
@@ -987,7 +987,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {object} link The link fields, with `task`
 		 * @return {Promise<{ok: boolean, duplicate: boolean}>} The outcome
 		 *
-		 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
 		 */
 		async saveForgeLink(link) {
 			try {
@@ -1013,7 +1013,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} id The link UUID
 		 * @return {Promise<boolean>} Whether it is gone
 		 *
-		 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
 		 */
 		async deleteForgeLink(id) {
 			try {

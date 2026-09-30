@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "Удалить ссылку {title}",
         "The link could not be added.": "Не удалось добавить ссылку.",
         "The link could not be removed.": "Не удалось удалить ссылку.",
-        "This link is already on the task.": "Эта ссылка уже есть у задачи."
+        "This link is already on the task.": "Эта ссылка уже есть у задачи.",
+        "Code forges": "Сервисы кода",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Связывайте коммиты и pull request из GitHub с задачами. Integriq получает события; planninq никогда не обращается к GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Скачайте конфигурацию и импортируйте её в Integriq. Затем укажите секрет в правиле \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "В GitHub добавьте к репозиторию webhook с этим адресом и тем же секретом. Выберите тип содержимого application/json и события push и pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Укажите ключ задачи, например VC-12, в сообщении коммита, имени ветки или заголовке pull request. Ссылка тогда появится у этой задачи.",
+        "Without Integriq, project members can still paste a link on the task page.": "Без Integriq участники проекта всё равно могут вставить ссылку на странице задачи.",
+        "Download the Integriq configuration": "Скачать конфигурацию Integriq"
     },
     "nplurals=2; plural=(n != 1);"
 )

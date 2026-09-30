@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "Treu l'enllaç {title}",
         "The link could not be added.": "No s'ha pogut afegir l'enllaç.",
         "The link could not be removed.": "No s'ha pogut treure l'enllaç.",
-        "This link is already on the task.": "Aquest enllaç ja és a la tasca."
+        "This link is already on the task.": "Aquest enllaç ja és a la tasca.",
+        "Code forges": "Forges de codi",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Enllaça commits i pull requests de GitHub amb tasques. Integriq rep els esdeveniments; planninq mai no crida GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Baixa la configuració i importa-la a Integriq. Després escriu un secret a la regla \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "A GitHub, afegeix al repositori un webhook amb aquesta adreça i el mateix secret. Tria el tipus de contingut application/json i els esdeveniments push i pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Esmenta la clau de la tasca, com VC-12, en un missatge de commit, un nom de branca o el títol d'una pull request. L'enllaç apareix llavors a aquesta tasca.",
+        "Without Integriq, project members can still paste a link on the task page.": "Sense Integriq, els membres del projecte encara poden enganxar un enllaç a la pàgina de la tasca.",
+        "Download the Integriq configuration": "Baixa la configuració d'Integriq"
     },
     "nplurals=2; plural=(n != 1);"
 )

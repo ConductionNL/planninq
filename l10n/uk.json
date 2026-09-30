@@ -1189,7 +1189,14 @@
         "Remove link {title}": "Вилучити посилання {title}",
         "The link could not be added.": "Не вдалося додати посилання.",
         "The link could not be removed.": "Не вдалося вилучити посилання.",
-        "This link is already on the task.": "Це посилання вже є в завданні."
+        "This link is already on the task.": "Це посилання вже є в завданні.",
+        "Code forges": "Сервіси коду",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Пов'язуйте коміти та pull request з GitHub із завданнями. Integriq отримує події; planninq ніколи не звертається до GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Завантажте конфігурацію та імпортуйте її в Integriq. Потім вкажіть секрет у правилі \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "У GitHub додайте до репозиторію webhook з цією адресою і тим самим секретом. Виберіть тип вмісту application/json та події push і pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Вкажіть ключ завдання, наприклад VC-12, у повідомленні коміту, назві гілки або заголовку pull request. Посилання тоді з'явиться в цьому завданні.",
+        "Without Integriq, project members can still paste a link on the task page.": "Без Integriq учасники проєкту все одно можуть вставити посилання на сторінці завдання.",
+        "Download the Integriq configuration": "Завантажити конфігурацію Integriq"
     },
     "plurals": {}
 }

@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "Odstrániť odkaz {title}",
         "The link could not be added.": "Odkaz sa nepodarilo pridať.",
         "The link could not be removed.": "Odkaz sa nepodarilo odstrániť.",
-        "This link is already on the task.": "Tento odkaz už pri úlohe je."
+        "This link is already on the task.": "Tento odkaz už pri úlohe je.",
+        "Code forges": "Platformy pre kód",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Prepojte commity a pull requesty z GitHubu s úlohami. Integriq prijíma udalosti; planninq GitHub nikdy nevolá.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Stiahnite konfiguráciu a importujte ju do Integriq. Potom vyplňte tajomstvo v pravidle \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "V GitHube pridajte do repozitára webhook s touto adresou a rovnakým tajomstvom. Zvoľte typ obsahu application/json a udalosti push a pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Uveďte kľúč úlohy, napríklad VC-12, v správe commitu, názve vetvy alebo názve pull requestu. Odkaz sa potom zobrazí pri tejto úlohe.",
+        "Without Integriq, project members can still paste a link on the task page.": "Bez Integriq môžu členovia projektu stále vložiť odkaz na stránke úlohy.",
+        "Download the Integriq configuration": "Stiahnuť konfiguráciu Integriq"
     },
     "nplurals=2; plural=(n != 1);"
 )

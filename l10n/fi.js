@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "Poista linkki {title}",
         "The link could not be added.": "Linkkiä ei voitu lisätä.",
         "The link could not be removed.": "Linkkiä ei voitu poistaa.",
-        "This link is already on the task.": "Tämä linkki on jo tehtävässä."
+        "This link is already on the task.": "Tämä linkki on jo tehtävässä.",
+        "Code forges": "Koodialustat",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Linkitä GitHubin commitit ja pull requestit tehtäviin. Integriq vastaanottaa tapahtumat; planninq ei koskaan kutsu GitHubia.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Lataa määritys ja tuo se Integriqiin. Täytä sitten salaisuus sääntöön \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Lisää GitHubissa repositorioon webhook tällä osoitteella ja samalla salaisuudella. Valitse sisältötyypiksi application/json sekä tapahtumat push ja pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Mainitse tehtäväavain, esimerkiksi VC-12, commit-viestissä, haaran nimessä tai pull requestin otsikossa. Linkki näkyy silloin kyseisessä tehtävässä.",
+        "Without Integriq, project members can still paste a link on the task page.": "Ilman Integriqiä projektin jäsenet voivat silti liittää linkin tehtäväsivulle.",
+        "Download the Integriq configuration": "Lataa Integriq-määritys"
     },
     "nplurals=2; plural=(n != 1);"
 )

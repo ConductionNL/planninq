@@ -12,10 +12,13 @@
 
 ## 3. Integriq configuration and Beheer
 
-- [ ] 3.1 `lib/Settings/integriq/planninq-code-forge.json` (GitHub and GitLab endpoints, mappings, key rule). Verify: PHPUnit `IntegriqConfigurationTest::testTargetsOnlyForgeLinkFields`; live check with integriq installed: import with preview, send a recorded GitHub push event with "VC-12" in the message to the endpoint, and see the link. Verify: Playwright `tests/e2e/forge-links.spec.ts` "a pushed commit naming the key appears on the task" and "a merged pull request shows merged".
-- [ ] 3.2 "Code forges" section in the admin settings with the steps and the file. Verify: Playwright `tests/e2e/forge-links.spec.ts` "admin finds the setup steps and the file".
+- [x] 3.1 `lib/Settings/integriq/planninq-code-forge.json` (GitHub endpoint, mapping, signature rule; GitLab waits on integriq, see design Decision 3). Verify: PHPUnit `IntegriqConfigurationTest::testTargetsOnlyForgeLinkFields`.
+- [ ] 3.3 Live check with integriq installed: import with preview, send a recorded GitHub push event with "VC-12" in the message to the endpoint, and see the link. Verify: Playwright `tests/e2e/forge-links.spec.ts` "a pushed commit naming the key appears on the task" and "a merged pull request shows merged".
+- [x] 3.2 "Code forges" section in the admin settings with the steps and the file. Verify: Playwright `tests/e2e/forge-links.spec.ts` "admin finds the setup steps and the file".
 
 ## 4. Verification
 
-- [ ] 4.1 `openspec validate integration-code-forge-links --type change --strict` passes.
-- [ ] 4.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+- [x] 4.1 `openspec validate integration-code-forge-links --type change --strict` passes.
+- [x] 4.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+
+Note (lane 20, 30 Sep): 3.1 is verified by PHPUnit `IntegriqConfigurationTest` (the file parses, targets only forgeLink fields, and its mapping, rendered with Twig over recorded GitHub push and pull request deliveries, validates against the forgeLink schema) and `ForgeLinkResolveListenerTest::testKeyInForgeTextResolves` and `testLaterIntegriqEventReplacesTheLink`. 3.3 stays open: the live check with integriq installed and the two Playwright tests for it were not run: CI has no integriq and no GitHub, so those scenarios carry `@e2e exclude` notes. The live-check recipe is in the PR body.

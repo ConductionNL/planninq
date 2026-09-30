@@ -33,7 +33,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/integration-code-forge-links/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
  */
 
 declare(strict_types=1);
@@ -51,7 +51,7 @@ use Psr\Log\LoggerInterface;
  *
  * @template-implements IEventListener<Event>
  *
- * @spec openspec/changes/integration-code-forge-links/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
  */
 class ForgeLinkResolveListener implements IEventListener {
 
@@ -104,7 +104,7 @@ class ForgeLinkResolveListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
 	 */
 	public function handle(Event $event): void {
 		if ($event instanceof ObjectCreatingEvent === false) {

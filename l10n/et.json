@@ -1189,7 +1189,14 @@
         "Remove link {title}": "Eemalda link {title}",
         "The link could not be added.": "Linki ei õnnestunud lisada.",
         "The link could not be removed.": "Linki ei õnnestunud eemaldada.",
-        "This link is already on the task.": "See link on ülesandel juba olemas."
+        "This link is already on the task.": "See link on ülesandel juba olemas.",
+        "Code forges": "Koodiplatvormid",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Seo GitHubi kommitid ja pull requestid ülesannetega. Integriq võtab sündmused vastu; planninq ei pöördu kunagi GitHubi poole.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Laadi seadistus alla ja impordi see Integriqi. Seejärel sisesta saladus reeglisse \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Lisa GitHubis hoidlale selle aadressi ja sama saladusega webhook. Vali sisutüübiks application/json ning sündmused push ja pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Nimeta ülesande võti, näiteks VC-12, kommiti sõnumis, haru nimes või pull requesti pealkirjas. Link ilmub siis selle ülesande juurde.",
+        "Without Integriq, project members can still paste a link on the task page.": "Ilma Integriqita saavad projekti liikmed ikka lingi ülesande lehele kleepida.",
+        "Download the Integriq configuration": "Laadi alla Integriqi seadistus"
     },
     "plurals": null
 }

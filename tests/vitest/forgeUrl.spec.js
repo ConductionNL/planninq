@@ -1,7 +1,7 @@
 /**
  * Reading a pasted code forge address (integration-code-forge-links task 2.1).
  *
- * @spec openspec/changes/integration-code-forge-links/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.1
  */
 import { describe, expect, it } from 'vitest'
 import { forgeLinkRefusal, mayRemoveForgeLink, parseForgeUrl, sortForgeLinks } from '../../src/utils/forgeUrl.js'

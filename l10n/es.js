@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "Quitar el enlace {title}",
         "The link could not be added.": "No se pudo añadir el enlace.",
         "The link could not be removed.": "No se pudo quitar el enlace.",
-        "This link is already on the task.": "Este enlace ya está en la tarea."
+        "This link is already on the task.": "Este enlace ya está en la tarea.",
+        "Code forges": "Forjas de código",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Enlaza commits y pull requests de GitHub con tareas. Integriq recibe los eventos; planninq nunca llama a GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Descarga la configuración e impórtala en Integriq. Después escribe un secreto en la regla \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "En GitHub, añade al repositorio un webhook con esta dirección y el mismo secreto. Elige el tipo de contenido application/json y los eventos push y pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Nombra la clave de la tarea, como VC-12, en un mensaje de commit, un nombre de rama o el título de una pull request. El enlace aparece entonces en esa tarea.",
+        "Without Integriq, project members can still paste a link on the task page.": "Sin Integriq, los miembros del proyecto pueden seguir pegando un enlace en la página de la tarea.",
+        "Download the Integriq configuration": "Descargar la configuración de Integriq"
     },
     "nplurals=2; plural=(n != 1);"
 )

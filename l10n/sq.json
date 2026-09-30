@@ -1189,7 +1189,14 @@
         "Remove link {title}": "Hiq lidhjen {title}",
         "The link could not be added.": "Lidhja nuk mund të shtohej.",
         "The link could not be removed.": "Lidhja nuk mund të hiqej.",
-        "This link is already on the task.": "Kjo lidhje është tashmë te detyra."
+        "This link is already on the task.": "Kjo lidhje është tashmë te detyra.",
+        "Code forges": "Platforma kodi",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Lidhni commit-et dhe pull request-et e GitHub me detyrat. Integriq merr ngjarjet; planninq nuk thërret kurrë GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Shkarkoni konfigurimin dhe importojeni në Integriq. Pastaj plotësoni një sekret te rregulli \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Në GitHub, shtoni te depoja një webhook me këtë adresë dhe të njëjtin sekret. Zgjidhni llojin e përmbajtjes application/json dhe ngjarjet push dhe pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Përmendni çelësin e detyrës, p.sh. VC-12, në një mesazh commit-i, emër dege ose titull pull request-i. Lidhja shfaqet atëherë te ajo detyrë.",
+        "Without Integriq, project members can still paste a link on the task page.": "Pa Integriq, anëtarët e projektit mund të ngjitin ende një lidhje në faqen e detyrës.",
+        "Download the Integriq configuration": "Shkarko konfigurimin e Integriq"
     },
     "plurals": {}
 }

@@ -1189,7 +1189,14 @@
         "Remove link {title}": "Usuń link {title}",
         "The link could not be added.": "Nie udało się dodać linku.",
         "The link could not be removed.": "Nie udało się usunąć linku.",
-        "This link is already on the task.": "Ten link jest już przy zadaniu."
+        "This link is already on the task.": "Ten link jest już przy zadaniu.",
+        "Code forges": "Serwisy z kodem",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Łącz commity i pull requesty z GitHuba z zadaniami. Integriq odbiera zdarzenia; planninq nigdy nie wywołuje GitHuba.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Pobierz konfigurację i zaimportuj ją w Integriq. Następnie wpisz sekret w regule \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "W GitHubie dodaj do repozytorium webhook z tym adresem i tym samym sekretem. Wybierz typ treści application/json oraz zdarzenia push i pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Wpisz klucz zadania, np. VC-12, w opisie commita, nazwie gałęzi lub tytule pull requesta. Link pojawi się wtedy przy tym zadaniu.",
+        "Without Integriq, project members can still paste a link on the task page.": "Bez Integriq członkowie projektu nadal mogą wkleić link na stronie zadania.",
+        "Download the Integriq configuration": "Pobierz konfigurację Integriq"
     },
     "plurals": {}
 }

@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "Выдаліць спасылку {title}",
         "The link could not be added.": "Не ўдалося дадаць спасылку.",
         "The link could not be removed.": "Не ўдалося выдаліць спасылку.",
-        "This link is already on the task.": "Гэтая спасылка ўжо ёсць у заданні."
+        "This link is already on the task.": "Гэтая спасылка ўжо ёсць у заданні.",
+        "Code forges": "Сэрвісы кода",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Звязвайце каміты і pull request з GitHub з заданнямі. Integriq атрымлівае падзеі; planninq ніколі не звяртаецца да GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Спампуйце канфігурацыю і імпартуйце яе ў Integriq. Потым укажыце сакрэт у правіле \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "У GitHub дадайце да рэпазіторыя webhook з гэтым адрасам і тым жа сакрэтам. Выберыце тып змесціва application/json і падзеі push і pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Назавіце ключ задання, напрыклад VC-12, у паведамленні каміта, назве галіны або загалоўку pull request. Спасылка тады з'явіцца ў гэтым заданні.",
+        "Without Integriq, project members can still paste a link on the task page.": "Без Integriq удзельнікі праекта ўсё роўна могуць уставіць спасылку на старонцы задання.",
+        "Download the Integriq configuration": "Спампаваць канфігурацыю Integriq"
     },
     "nplurals=2; plural=(n != 1);"
 )

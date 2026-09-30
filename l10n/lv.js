@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "Noņemt saiti {title}",
         "The link could not be added.": "Saiti neizdevās pievienot.",
         "The link could not be removed.": "Saiti neizdevās noņemt.",
-        "This link is already on the task.": "Šī saite jau ir pie uzdevuma."
+        "This link is already on the task.": "Šī saite jau ir pie uzdevuma.",
+        "Code forges": "Koda platformas",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Piesaistiet GitHub komitus un pull request uzdevumiem. Integriq saņem notikumus; planninq nekad neizsauc GitHub.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Lejupielādējiet konfigurāciju un importējiet to Integriq. Pēc tam ierakstiet noslēpumu noteikumā \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "GitHub pievienojiet repozitorijam webhook ar šo adresi un to pašu noslēpumu. Izvēlieties satura tipu application/json un notikumus push un pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Nosauciet uzdevuma atslēgu, piemēram, VC-12, komita ziņojumā, zara nosaukumā vai pull request virsrakstā. Saite tad parādās pie šī uzdevuma.",
+        "Without Integriq, project members can still paste a link on the task page.": "Bez Integriq projekta dalībnieki joprojām var ielīmēt saiti uzdevuma lapā.",
+        "Download the Integriq configuration": "Lejupielādēt Integriq konfigurāciju"
     },
     "nplurals=2; plural=(n != 1);"
 )

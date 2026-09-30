@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "Link {title} ewechhuelen",
         "The link could not be added.": "De Link konnt net dobäigesat ginn.",
         "The link could not be removed.": "De Link konnt net ewechgeholl ginn.",
-        "This link is already on the task.": "Dëse Link ass schonn un der Aufgab."
+        "This link is already on the task.": "Dëse Link ass schonn un der Aufgab.",
+        "Code forges": "Code-Plattformen",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Verlinkt GitHub-Commits a Pull Requests mat Aufgaben. Integriq kritt d'Evenementer; planninq rifft GitHub ni op.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Luet d'Konfiguratioun erof an importéiert se an Integriq. Setzt dann e Geheimnis an der Regel \"Check the GitHub signature\" an.",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "Setzt am GitHub dem Repository e Webhook mat dëser Adress an deemselwechte Geheimnis bäi. Wielt den Inhaltstyp application/json an d'Evenementer push a pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Nennt den Aufgabeschlëssel, z. B. VC-12, an enger Commit-Noriicht, engem Branchennumm oder dem Titel vun engem Pull Request. De Link erschéngt dann bei där Aufgab.",
+        "Without Integriq, project members can still paste a link on the task page.": "Ouni Integriq kënnen d'Projetsmemberen ëmmer nach e Link op der Aufgabesäit pechen.",
+        "Download the Integriq configuration": "Integriq-Konfiguratioun eroflueden"
     },
     "nplurals=2; plural=(n != 1);"
 )

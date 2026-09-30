@@ -1190,7 +1190,14 @@ OC.L10N.register(
         "Remove link {title}": "{title} bağlantısını kaldır",
         "The link could not be added.": "Bağlantı eklenemedi.",
         "The link could not be removed.": "Bağlantı kaldırılamadı.",
-        "This link is already on the task.": "Bu bağlantı görevde zaten var."
+        "This link is already on the task.": "Bu bağlantı görevde zaten var.",
+        "Code forges": "Kod platformları",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "GitHub commit'lerini ve pull request'lerini görevlere bağlayın. Olayları Integriq alır; planninq GitHub'ı hiç çağırmaz.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Yapılandırmayı indirip Integriq'e aktarın. Ardından \"Check the GitHub signature\" kuralına bir gizli anahtar girin.",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "GitHub'da depoya bu adres ve aynı gizli anahtarla bir webhook ekleyin. İçerik türü olarak application/json'u ve push ile pull request olaylarını seçin:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Görev anahtarını, örneğin VC-12, bir commit mesajında, dal adında veya pull request başlığında anın. Bağlantı o zaman o görevde görünür.",
+        "Without Integriq, project members can still paste a link on the task page.": "Integriq olmadan da proje üyeleri görev sayfasına bir bağlantı yapıştırabilir.",
+        "Download the Integriq configuration": "Integriq yapılandırmasını indir"
     },
     "nplurals=2; plural=(n != 1);"
 )

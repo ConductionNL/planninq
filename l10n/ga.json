@@ -1189,7 +1189,14 @@
         "Remove link {title}": "Bain an nasc {title}",
         "The link could not be added.": "Níorbh fhéidir an nasc a chur leis.",
         "The link could not be removed.": "Níorbh fhéidir an nasc a bhaint.",
-        "This link is already on the task.": "Tá an nasc seo ar an tasc cheana."
+        "This link is already on the task.": "Tá an nasc seo ar an tasc cheana.",
+        "Code forges": "Ardáin chóid",
+        "Link GitHub commits and pull requests to tasks. Integriq receives the events; planninq never calls GitHub.": "Nasc commits agus pull requests GitHub le tascanna. Faigheann Integriq na himeachtaí; ní ghlaonn planninq ar GitHub riamh.",
+        "Download the configuration and import it in Integriq. Then fill in a secret on the rule \"Check the GitHub signature\".": "Íoslódáil an chumraíocht agus iompórtáil isteach in Integriq í. Ansin líon rún isteach sa riail \"Check the GitHub signature\".",
+        "In GitHub, add a webhook to the repository with this address and the same secret. Choose content type application/json and the push and pull request events:": "In GitHub, cuir webhook leis an stór leis an seoladh seo agus an rún céanna. Roghnaigh an cineál ábhair application/json agus na himeachtaí push agus pull request:",
+        "Name the task key, such as VC-12, in a commit message, branch name or pull request title. The link then appears on that task.": "Luaigh eochair an taisc, mar shampla VC-12, i dteachtaireacht commit, in ainm brainse nó i dteideal pull request. Ansin feictear an nasc ar an tasc sin.",
+        "Without Integriq, project members can still paste a link on the task page.": "Gan Integriq, is féidir le baill an tionscadail nasc a ghreamú ar leathanach an taisc fós.",
+        "Download the Integriq configuration": "Íoslódáil cumraíocht Integriq"
     },
     "plurals": null
 }
