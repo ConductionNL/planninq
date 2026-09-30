@@ -8818,10 +8818,11 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/scenario-planning 'Create unlimited what-if scenarios ... Compare scenarios across key metrics like room utilization, student satisfaction, and staff workload distribution'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "Nothing in planninq or learniq generates a timetable: planninq stores lessons delivered by a rostering system (lib/Service/TimetableSessionService.php upsert, drafts and publish) and places none. Ruben decided on 29 Sep 2026 to build a generator in planninq (build-all DECISIONS.md row 17), reversing the 28 Sep decided-no and the learniq non-goal; learniq decided no in ConductionNL/learniq#1493 before that decision.",
+        "state": "built",
+        "evidence": "Compare: src/components/TimetableScenarioCompare.vue on the TimetableScenarios index page (below-header slot) sets two or three finished scenarios, generated or taken from the current timetable (TimetableScenarioImporter, POST /api/timetable/scenarios/{id}/import), side by side on the metrics TimetableScorer stored on each (lessons placed and unplaced, clashes, hard and soft wishes broken, weighted soft penalty, teacher gaps, lessons per day, room use), marks the best value per line and lists the lessons whose period or room differs (src/utils/scenarioCompare.js). Tests: vitest scenarioCompare.spec.js, PHPUnit TimetableScenarioImporterTest (an imported timetable that breaks a hard wish shows it in metrics), Playwright timetable-generator.spec.ts compare case.",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/timetabling-generator"
+        "change": "openspec/changes/timetabling-generator",
+        "readOn": "2026-09-30"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
