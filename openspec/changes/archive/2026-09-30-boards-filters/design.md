@@ -51,3 +51,9 @@ Each dimension is an `NcSelect` with `inputLabel` and a toggle button "is" or "i
 
 - [A saved filter referencing a deleted label] -> unknown values are dropped when the filter is
   applied and the menu marks the filter as changed.
+
+## Notes from the build (30 Sep 2026)
+
+- The label chips stay, as the label dimension of the bar: a chip toggles its label in the filter and "All labels" clears it, so the existing label-filter e2e cases keep working. The other three dimensions are `NcSelect`s. Each dimension has an "is not" toggle button with `aria-pressed` (NcButton `pressed`).
+- `boardFilter` is a project-scoped schema: `ProjectMemberAccessListener` keeps its hidden `members` list and refuses a save into a project the caller is not in, so the create rule stays `authenticated`. `BoardFilterOwnerListener` sets `owner` on create and keeps it on update; the read rule is `owner` OR (`members` contains the user AND `shared`), which OpenRegister ANDs within one match (MagicRbacHandler::buildMatchConditions).
+- Assignee means the one person responsible (`assignedTo`), as the "My tasks" scenario reads; "Due this week" is today up to and including Sunday, the same window as My tasks.

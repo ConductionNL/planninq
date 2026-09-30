@@ -7,7 +7,7 @@
  * out. `matchesFilter` is pure; "me" resolves to the current user and
  * "unassigned" matches a task nobody is responsible for.
  *
- * @spec openspec/changes/boards-filters/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-1.1
  */
 import { isOverdue } from './myWork.js'
 
@@ -26,7 +26,7 @@ export const UNASSIGNED = 'unassigned'
  *
  * @return {object}
  *
- * @spec openspec/changes/boards-filters/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-1.1
  */
 export function emptyFilter() {
 	return Object.fromEntries(FILTER_DIMENSIONS.map((dimension) => [dimension, { op: 'is', values: [] }]))
@@ -39,7 +39,7 @@ export function emptyFilter() {
  * @param {object} value A stored or decoded filter.
  * @return {object}
  *
- * @spec openspec/changes/boards-filters/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-1.1
  */
 export function normaliseFilter(value) {
 	const filter = emptyFilter()
@@ -62,7 +62,7 @@ export function normaliseFilter(value) {
  * @param {object} filter The filter.
  * @return {number}
  *
- * @spec openspec/changes/boards-filters/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-1.1
  */
 export function activeDimensions(filter) {
 	return FILTER_DIMENSIONS.filter((dimension) => (filter?.[dimension]?.values || []).length > 0).length
@@ -93,7 +93,7 @@ function dayOf(value) {
  * @param {Date}   today Today.
  * @return {string}
  *
- * @spec openspec/changes/boards-filters/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-1.1
  */
 export function dueValue(task, today = new Date()) {
 	const due = dayOf(task?.dueDate)
@@ -120,19 +120,19 @@ export function dueValue(task, today = new Date()) {
  */
 function taskValues(task, dimension, uid, today) {
 	switch (dimension) {
-	case 'assignee': {
-		const responsible = String(task?.assignedTo ?? '')
-		if (responsible === '') {
-			return [UNASSIGNED]
+		case 'assignee': {
+			const responsible = String(task?.assignedTo ?? '')
+			if (responsible === '') {
+				return [UNASSIGNED]
+			}
+			return responsible === uid ? [responsible, ME] : [responsible]
 		}
-		return responsible === uid ? [responsible, ME] : [responsible]
-	}
-	case 'label':
-		return Array.isArray(task?.labels) ? task.labels.map((id) => String(id ?? '')) : []
-	case 'priority':
-		return [task?.priority || 'normal']
-	default:
-		return [dueValue(task, today)]
+		case 'label':
+			return Array.isArray(task?.labels) ? task.labels.map((id) => String(id ?? '')) : []
+		case 'priority':
+			return [task?.priority || 'normal']
+		default:
+			return [dueValue(task, today)]
 	}
 }
 
@@ -146,7 +146,7 @@ function taskValues(task, dimension, uid, today) {
  * @param {Date}   [today] Today.
  * @return {boolean}
  *
- * @spec openspec/changes/boards-filters/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-1.1
  */
 export function matchesFilter(task, filter, uid, today = new Date()) {
 	for (const dimension of FILTER_DIMENSIONS) {
@@ -168,7 +168,7 @@ export function matchesFilter(task, filter, uid, today = new Date()) {
  * @param {object} filter The filter.
  * @return {object} Query parameters.
  *
- * @spec openspec/changes/boards-filters/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-1.1
  */
 export function encodeFilter(filter) {
 	const query = {}
@@ -187,7 +187,7 @@ export function encodeFilter(filter) {
  * @param {object} query The route query.
  * @return {object}
  *
- * @spec openspec/changes/boards-filters/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-1.1
  */
 export function decodeFilter(query) {
 	const raw = {}
@@ -209,7 +209,7 @@ export function decodeFilter(query) {
  * @param {object} filter The new filter.
  * @return {object}
  *
- * @spec openspec/changes/boards-filters/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-2.1
  */
 export function withFilterQuery(query, filter) {
 	const next = { ...query }
@@ -218,4 +218,56 @@ export function withFilterQuery(query, filter) {
 		delete next[dimension + '!']
 	}
 	return { ...next, ...encodeFilter(filter) }
+}
+
+/**
+ * The fields a saved filter is written with.
+ *
+ * @param {object}  input         The dialog input.
+ * @param {string}  input.name    The name.
+ * @param {boolean} input.shared  Whether project members see it.
+ * @param {object}  input.filter  The active filter.
+ * @param {string}  input.project The project UUID.
+ * @return {object}
+ *
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
+ */
+export function savedFilterPayload({ name, shared, filter, project }) {
+	return { name: String(name ?? '').trim(), shared: !!shared, project, criteria: normaliseFilter(filter) }
+}
+
+/**
+ * Whether a user may rename or delete a saved filter: its owner or an admin.
+ * The server enforces the same rule.
+ *
+ * @param {object}      saved The saved filter.
+ * @param {object|null} user  The current user (`uid`, `isAdmin`).
+ * @return {boolean}
+ *
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
+ */
+export function canManageSavedFilter(saved, user) {
+	if (!user?.uid) {
+		return false
+	}
+	return user.isAdmin === true || saved?.owner === user.uid
+}
+
+/**
+ * The filter a saved filter applies, with labels that no longer exist
+ * dropped, and whether anything was dropped.
+ *
+ * @param {object}        saved    The saved filter.
+ * @param {Array<string>} labelIds The ids of the existing labels.
+ * @return {{filter: object, changed: boolean}}
+ *
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
+ */
+export function applySavedFilter(saved, labelIds) {
+	const filter = normaliseFilter(saved?.criteria)
+	const known = new Set(labelIds || [])
+	const kept = filter.label.values.filter((id) => known.has(id))
+	const changed = kept.length !== filter.label.values.length
+	filter.label = { ...filter.label, values: kept }
+	return { filter, changed }
 }

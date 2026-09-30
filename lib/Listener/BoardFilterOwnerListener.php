@@ -20,7 +20,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/boards-filters/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.1
  */
 
 declare(strict_types=1);
@@ -38,7 +38,7 @@ use OCP\IUserSession;
  *
  * @template-implements IEventListener<Event>
  *
- * @spec openspec/changes/boards-filters/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.1
  */
 class BoardFilterOwnerListener implements IEventListener {
 
@@ -61,7 +61,7 @@ class BoardFilterOwnerListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/boards-filters/tasks.md#task-3.1
+	 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.1
 	 */
 	public function handle(Event $event): void {
 		if ($event instanceof ObjectCreatingEvent === true) {

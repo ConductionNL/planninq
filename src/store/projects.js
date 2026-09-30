@@ -43,6 +43,7 @@ const PHASE_SCHEMA = 'projectPhase'
 const FINANCE_LINE_SCHEMA = 'financeLine'
 const PROJECT_FIELD_SCHEMA = 'projectField'
 const RELEASE_SCHEMA = 'projectRelease'
+const BOARD_FILTER_SCHEMA = 'boardFilter'
 
 /**
  * Largest page OpenRegister will return. Asking for more is silently capped.
@@ -150,6 +151,9 @@ export const useProjectsStore = defineStore('projects', {
 			}
 			if (!store.objectTypeRegistry?.[RELEASE_SCHEMA]) {
 				store.registerObjectType(RELEASE_SCHEMA, RELEASE_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: RELEASE_SCHEMA })
+			}
+			if (!store.objectTypeRegistry?.[BOARD_FILTER_SCHEMA]) {
+				store.registerObjectType(BOARD_FILTER_SCHEMA, BOARD_FILTER_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: BOARD_FILTER_SCHEMA })
 			}
 			return store
 		},
@@ -864,6 +868,68 @@ export const useProjectsStore = defineStore('projects', {
 			} catch (err) {
 				console.error('fetchReleases error:', err)
 				return []
+			}
+		},
+
+		/**
+		 * The saved filters of a project the user may read: their own, and the
+		 * ones shared with the project (the register's read rule decides).
+		 *
+		 * @param {string} projectId Project UUID
+		 * @return {Promise<Array<object>>}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
+		 */
+		async fetchBoardFilters(projectId) {
+			try {
+				const filters = await fetchEvery(this._objectStore(), BOARD_FILTER_SCHEMA, { project: projectId })
+				return Array.isArray(filters) ? filters : []
+			} catch (err) {
+				console.error('fetchBoardFilters error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Save a filter: POST without an id, PATCH with one. The server sets
+		 * the owner (BoardFilterOwnerListener) and refuses a change by anyone
+		 * else.
+		 *
+		 * @param {object} filter The fields, with `id` for an existing filter
+		 * @return {Promise<object|null>} The saved filter, or null on failure
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
+		 */
+		async saveBoardFilter(filter) {
+			const { id, ...fields } = filter
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_FILTER_SCHEMA}/${id}`)
+				: generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_FILTER_SCHEMA}`)
+			try {
+				const response = await fetch(url, { method: id ? 'PATCH' : 'POST', headers: buildHeaders(), body: JSON.stringify(fields) })
+				return response.ok ? await response.json() : null
+			} catch (err) {
+				console.error('saveBoardFilter error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Delete a saved filter.
+		 *
+		 * @param {string} id The filter UUID
+		 * @return {Promise<boolean>} Whether it is gone
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
+		 */
+		async deleteBoardFilter(id) {
+			try {
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_FILTER_SCHEMA}/${id}`)
+				const response = await fetch(url, { method: 'DELETE', headers: buildHeaders() })
+				return response.ok
+			} catch (err) {
+				console.error('deleteBoardFilter error:', err)
+				return false
 			}
 		},
 

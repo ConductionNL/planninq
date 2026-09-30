@@ -1,17 +1,20 @@
 /**
  * Vitest tests for the board filter model (boards-filters).
  *
- * @spec openspec/changes/boards-filters/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-1.1
  */
 import { describe, expect, it } from 'vitest'
 import {
 	activeDimensions,
+	applySavedFilter,
+	canManageSavedFilter,
 	decodeFilter,
 	dueValue,
 	emptyFilter,
 	encodeFilter,
 	matchesFilter,
 	normaliseFilter,
+	savedFilterPayload,
 	withFilterQuery,
 } from '../../src/utils/boardFilter.js'
 
@@ -82,5 +85,39 @@ describe('the page address (scenario: send the view to a colleague)', () => {
 	it('ignores empty and unknown values', () => {
 		expect(decodeFilter({ label: '', colour: 'red', 'due!': 'none,,none' })).toEqual({ ...emptyFilter(), due: { op: 'isNot', values: ['none'] } })
 		expect(normaliseFilter({ priority: { op: 'weird', values: ['high', null] } }).priority).toEqual({ op: 'is', values: ['high'] })
+	})
+})
+
+describe('saved filters (scenarios: a shared saved filter, a private saved filter)', () => {
+	it('builds a payload that passes the real boardFilter schema', async () => {
+		const { readFileSync } = await import('node:fs')
+		const { default: Ajv } = await import('ajv')
+		const { default: addFormats } = await import('ajv-formats')
+		const register = JSON.parse(readFileSync(new URL('../../lib/Settings/planninq_register.json', import.meta.url), 'utf8'))
+		const schema = register.components.schemas.boardFilter
+		const properties = Object.fromEntries(Object.entries(schema.properties).map(([name, { $ref, visible, ...rest }]) => [name, Object.fromEntries(Object.entries(rest).filter(([key]) => !key.startsWith('x-')))]))
+		const ajv = new Ajv({ strict: false })
+		addFormats(ajv)
+		const validate = ajv.compile({ type: 'object', required: schema.required, properties })
+		const payload = savedFilterPayload({ name: ' Overdue legal work ', shared: 1, filter: filter('due', 'is', ['overdue']), project: '00000000-0000-4000-8000-000000000001' })
+		expect(payload).toEqual({ name: 'Overdue legal work', shared: true, project: '00000000-0000-4000-8000-000000000001', criteria: normaliseFilter(filter('due', 'is', ['overdue'])) })
+		expect(validate(payload), JSON.stringify(validate.errors)).toBe(true)
+		expect(validate({ ...payload, shared: 'yes' })).toBe(false)
+	})
+
+	it('only the owner or an admin renames or deletes a saved filter', () => {
+		expect(canManageSavedFilter({ owner: 'anna' }, { uid: 'anna' })).toBe(true)
+		expect(canManageSavedFilter({ owner: 'anna' }, { uid: 'bram' })).toBe(false)
+		expect(canManageSavedFilter({ owner: 'anna' }, { uid: 'root', isAdmin: true })).toBe(true)
+		expect(canManageSavedFilter({ owner: 'anna' }, null)).toBe(false)
+	})
+
+	it('drops a deleted label when applied and says the filter changed', () => {
+		const saved = { criteria: { label: { op: 'is', values: ['jur', 'gone'] }, priority: { op: 'is', values: ['high'] } } }
+		const { filter: applied, changed } = applySavedFilter(saved, ['jur'])
+		expect(applied.label.values).toEqual(['jur'])
+		expect(applied.priority.values).toEqual(['high'])
+		expect(changed).toBe(true)
+		expect(applySavedFilter({ criteria: { label: { op: 'is', values: ['jur'] } } }, ['jur']).changed).toBe(false)
 	})
 })

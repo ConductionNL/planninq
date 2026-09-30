@@ -1278,7 +1278,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/boards-filters/tasks.md#task-3.1
+	 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.1
 	 */
 	public function testBoardFilterSchemaIsOwnedAndSharedWithTheProject(): void {
 		$schema = ($this->register['components']['schemas']['boardFilter'] ?? null);
