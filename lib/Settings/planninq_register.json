@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.27.0"
+    "version": "0.28.0"
   },
   "x-openregister": {
     "type": "application",
@@ -36,7 +36,8 @@
           "projectField",
           "projectRelease",
           "timetableWish",
-          "timetableScenario"
+          "timetableScenario",
+          "boardFilter"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -3318,6 +3319,127 @@
             "nullable": true,
             "format": "date-time",
             "description": "When the scenario was written out as draft lessons"
+          }
+        }
+      },
+      "boardFilter": {
+        "slug": "boardFilter",
+        "icon": "FilterVariant",
+        "version": "0.1.0",
+        "title": "Saved filter",
+        "description": "A named board filter of one project, private to the person who saved it unless shared with the project.",
+        "x-schema-org": "schema:SearchAction",
+        "type": "object",
+        "required": [
+          "project",
+          "name"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                },
+                "shared": true
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project whose board the filter applies to",
+            "format": "uuid",
+            "$ref": "project"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "description": "The name the filter is listed under"
+          },
+          "owner": {
+            "title": "Saved by",
+            "type": "string",
+            "description": "Nextcloud user id of the person who saved the filter",
+            "visible": false,
+            "x-notes": "Set by BoardFilterOwnerListener on create and kept on every update; it is the update and delete rule."
+          },
+          "shared": {
+            "title": "Shared with the project",
+            "type": "boolean",
+            "description": "Whether every project member sees and applies the filter",
+            "default": false
+          },
+          "criteria": {
+            "title": "Criteria",
+            "type": "object",
+            "description": "The filter: assignee, label, priority and due date, each with is or is not and its values",
+            "visible": false,
+            "x-notes": "Shape of src/utils/boardFilter.js normaliseFilter(); unknown values are dropped when applied."
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
           }
         }
       }

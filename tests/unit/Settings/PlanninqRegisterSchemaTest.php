@@ -639,7 +639,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the seventeen expected schemas.
+	 * The register MUST declare exactly the eighteen expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
 	 * over the project work breakdown structure pipelinq had built, and
@@ -649,14 +649,14 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * (portfolio-status-overview) and `portfolio`
 	 * (projects-grouping-hierarchy-fields) and `projectRelease`
 	 * (backlog-releases-roadmap), `timetableWish` and `timetableScenario`
-	 * (timetabling-generator). `example` must not be present.
+	 * (timetabling-generator), `boardFilter` (boards-filters). `example` must not be present.
 	 *
 	 * @return void
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
-	public function testRegisterDeclaresExactlySeventeenSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario'];
+	public function testRegisterDeclaresExactlyEighteenSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -665,7 +665,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the seventeen expected schemas'
+			message: 'register schema list must be exactly the eighteen expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -673,7 +673,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the seventeen expected schemas'
+			message: 'components.schemas must define exactly the eighteen expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -682,7 +682,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlySeventeenSchemas()
+	}//end testRegisterDeclaresExactlyEighteenSchemas()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -887,7 +887,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testProjectScopedSchemasCarryAHiddenMembersList(): void {
-		foreach (['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease', 'boardFilter'] as $slug) {
 			$schema = $this->register['components']['schemas'][$slug];
 			$members = ($schema['properties']['members'] ?? null);
 
@@ -1270,6 +1270,37 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertNotSame(expected: [], actual: $this->registerSchemaErrors(slug: 'projectRelease', payload: ['status' => 'shipped'] + $planned));
 
 	}//end testReleaseSchemaIsProjectScoped()
+
+	/**
+	 * A saved board filter: a name and criteria for one project, private to its
+	 * owner unless shared, when every project member reads it. Only the owner
+	 * or an admin changes or deletes it.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.1
+	 */
+	public function testBoardFilterSchemaIsOwnedAndSharedWithTheProject(): void {
+		$schema = ($this->register['components']['schemas']['boardFilter'] ?? null);
+		self::assertIsArray($schema, 'boardFilter is declared');
+		self::assertSame(['project', 'name'], $schema['required']);
+		self::assertSame('project', $schema['properties']['project']['$ref']);
+		self::assertContains('boardFilter', \OCA\Planninq\Service\ProjectMembershipService::SCOPED_SCHEMAS);
+
+		$owner = ['group' => 'authenticated', 'match' => ['owner' => '$userId']];
+		self::assertSame(
+			[$owner, ['group' => 'authenticated', 'match' => ['members' => ['$contains' => '$userId'], 'shared' => true]], ['group' => 'admin']],
+			$schema['authorization']['read']
+		);
+		self::assertSame([['group' => 'authenticated'], ['group' => 'admin']], $schema['authorization']['create']);
+		foreach (['update', 'delete'] as $action) {
+			self::assertSame([$owner, ['group' => 'admin']], $schema['authorization'][$action], $action);
+		}
+
+		$saved = ['project' => '00000000-0000-4000-8000-000000000001', 'name' => 'Overdue legal work', 'owner' => 'anna', 'shared' => true, 'criteria' => ['label' => ['op' => 'is', 'values' => ['jur']], 'due' => ['op' => 'is', 'values' => ['overdue']]]];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'boardFilter', payload: $saved));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'boardFilter', payload: ['shared' => 'yes'] + $saved), 'control: shared is a boolean');
+	}//end testBoardFilterSchemaIsOwnedAndSharedWithTheProject()
 
 	/**
 	 * A task points at no release or at one release.

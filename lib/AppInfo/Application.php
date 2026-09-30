@@ -597,7 +597,8 @@ class Application extends App implements IBootstrap {
 	 * column create, update and delete to the project owner and admins, a rule
 	 * OpenRegister cannot express because it matches no field across schemas.
 	 * ColumnAutomationListener runs the rules of the column a task enters, in
-	 * the same save (boards-column-automation).
+	 * the same save (boards-column-automation). BoardFilterOwnerListener
+	 * stamps and keeps the owner of a saved board filter (boards-filters).
 	 * Class names are literal strings for the same coupling reason as above.
 	 *
 	 * @param IEventDispatcher $dispatcher The event dispatcher.
@@ -606,6 +607,7 @@ class Application extends App implements IBootstrap {
 	 *
 	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2b
 	 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.1
 	 */
 	private function registerBoardColumnListeners(IEventDispatcher $dispatcher): void {
 		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
@@ -633,6 +635,16 @@ class Application extends App implements IBootstrap {
 				listener: 'OCA\\Planninq\\Listener\\ColumnOwnerGuardListener',
 				registers: ['planninq'],
 				schemas: ['column']
+			);
+		}
+
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\BoardFilterOwnerListener',
+				registers: ['planninq'],
+				schemas: ['boardFilter']
 			);
 		}
 	}//end registerBoardColumnListeners()
@@ -733,7 +745,7 @@ class Application extends App implements IBootstrap {
 				registers: ['planninq'],
 				// Must equal ProjectMembershipService::SCOPED_SCHEMAS (asserted by
 				// BoardColumnWiringTest): a schema missing here is never stamped.
-				schemas: ['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease']
+				schemas: ['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease', 'boardFilter']
 			);
 		}
 

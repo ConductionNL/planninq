@@ -92,6 +92,7 @@ class ProjectMembershipService {
 		'risk',
 		'projectStatusReport',
 		'projectRelease',
+		'boardFilter',
 	];
 
 	/**

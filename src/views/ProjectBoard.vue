@@ -98,36 +98,22 @@
 					{{ t('planninq', 'You read this project as a manager of its portfolio. Only its members change it.') }}
 				</p>
 
-				<!-- Label filter chips. Same idiom as the project list's status
-			     filter: one chip per value, the active one primary, pressed
-			     state exposed through aria-pressed. -->
-				<div
-					v-if="labels.length"
-					class="project-board__filters"
-					role="group"
-					:aria-label="t('planninq', 'Filter tasks by label')">
-					<NcChip
-						v-for="chip in labelFilterChips"
-						:key="chip.key"
-						:text="chip.title"
-						:variant="activeLabelId === chip.value ? 'primary' : 'secondary'"
-						:noClose="true"
-						class="project-board__filter-chip"
-						data-testid="label-filter-chip"
-						role="button"
-						tabindex="0"
-						:aria-pressed="activeLabelId === chip.value"
-						@click="setLabelFilter(chip.value)"
-						@keydown.enter="setLabelFilter(chip.value)"
-						@keydown.space.prevent="setLabelFilter(chip.value)">
-						<template v-if="chip.color" #icon>
-							<span
-								class="project-board__filter-swatch"
-								:style="{ backgroundColor: chip.color }"
-								aria-hidden="true" />
-						</template>
-					</NcChip>
-				</div>
+				<!-- Filter bar: assignee, label, priority and due date, kept in
+			     the page address (boards-filters). -->
+				<BoardFilterBar
+					:filter="boardFilter"
+					:labels="labels"
+					:people="filterPeople"
+					:savedFilters="savedFilters"
+					:manageable="manageableFilters"
+					:shown="visibleTasks.length"
+					:total="tasks.length"
+					:notice="filterNotice"
+					@update:filter="setFilter"
+					@save="savingFilter = { saved: null }"
+					@rename="(saved) => savingFilter = { saved }"
+					@apply="applySaved"
+					@delete="deleteSaved" />
 
 				<!-- Board loading overlay (tasks fetch) -->
 				<div v-if="tasksLoading" class="project-board__loading">
@@ -410,6 +396,13 @@
 					:nextOrder="nextColumnOrder"
 					@close="editingColumn = null"
 					@saved="onColumnsChanged" />
+				<BoardFilterSaveDialog
+					v-if="savingFilter"
+					:saved="savingFilter.saved"
+					:filter="boardFilter"
+					:projectId="project.id"
+					@close="savingFilter = null"
+					@saved="onFilterSaved" />
 				<ColumnRulesDialog
 					v-if="rulesColumn"
 					:column="rulesColumn"
@@ -451,7 +444,7 @@ import { showError } from '@nextcloud/dialogs'
  * @spec openspec/specs/kanban-board.md
  * @spec openspec/specs/admin-user-settings.md
  */
-import { NcActionButton, NcActionCaption, NcActions, NcActionSeparator, NcButton, NcChip, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { NcActionButton, NcActionCaption, NcActions, NcActionSeparator, NcButton, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 import ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'
@@ -464,12 +457,14 @@ import FormatListBulleted from 'vue-material-design-icons/FormatListBulleted.vue
 import LightningBoltIcon from 'vue-material-design-icons/LightningBolt.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import BoardFilterBar from '../components/BoardFilterBar.vue'
 import BoardViewMenu from '../components/BoardViewMenu.vue'
 import ColumnActions from '../components/ColumnActions.vue'
 import ProjectRequestBanner from '../components/ProjectRequestBanner.vue'
 import ProjectSettingsSidebar from '../components/ProjectSettingsSidebar.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import TaskCard from '../components/TaskCard.vue'
+import BoardFilterSaveDialog from '../dialogs/BoardFilterSaveDialog.vue'
 import ColumnEditDialog from '../dialogs/ColumnEditDialog.vue'
 import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
 import ColumnRulesDialog from '../dialogs/ColumnRulesDialog.vue'
@@ -478,6 +473,7 @@ import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
 import { backlogTasks, moveToBacklogPatch } from '../utils/backlogHelpers.js'
+import { applySavedFilter, canManageSavedFilter, decodeFilter, matchesFilter, withFilterQuery } from '../utils/boardFilter.js'
 import { cardEdge, epicTitles, groupTasksBySwimlane, newCardFields, normaliseView, swimlanePatch } from '../utils/boardView.js'
 import { columnRules, hasRuleEffects, ruleEffects } from '../utils/columnAutomation.js'
 import {
@@ -489,12 +485,12 @@ import {
 	swapColumnPatches,
 	wipState,
 } from '../utils/columnHelpers.js'
-import { filterTasksByLabel, labelId, resolveTaskLabels, sortLabelsByTitle } from '../utils/labelHelpers.js'
+import { labelId, resolveTaskLabels } from '../utils/labelHelpers.js'
 import { isReadOnlyFor } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
 import { newLaneTask } from '../utils/taskEditing.js'
 import { deriveBlockedTaskIds, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
-import { PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
+import { memberOptions, PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
 
 export default {
@@ -508,7 +504,6 @@ export default {
 		FlagOutline,
 		ContentCopy,
 		NcButton,
-		NcChip,
 		NcEmptyContent,
 		NcLoadingIcon,
 		ArrowDownIcon,
@@ -520,6 +515,8 @@ export default {
 		CogIcon,
 		ColumnActions,
 		FormatListBulleted,
+		BoardFilterBar,
+		BoardFilterSaveDialog,
 		ColumnEditDialog,
 		ColumnRulesDialog,
 		LightningBoltIcon,
@@ -565,7 +562,12 @@ export default {
 			/** @type {Array} Every app-wide label, for the card chips and the filter. */
 			labels: [],
 			/** @type {string|null} Id of the label the board is filtered by, null for all. */
-			activeLabelId: null,
+			/** @type {Array} The saved filters of this project the user may read. */
+			savedFilters: [],
+			/** @type {object|null} `{ saved }` while the save or rename dialog is open. */
+			savingFilter: null,
+			/** @type {string} A line the filter bar announces, such as a saved filter that changed. */
+			filterNotice: '',
 			/** @type {boolean} Whether the New task dialog is open. */
 			creatingTask: false,
 			/** @type {object} Column id to the title typed in that lane's quick add. */
@@ -796,30 +798,37 @@ export default {
 		 * @spec openspec/specs/kanban-board.md
 		 */
 		visibleTasks() {
-			return filterTasksByLabel(this.tasks, this.activeLabelId)
+			const uid = getCurrentUser()?.uid || ''
+			const filter = this.boardFilter
+			return this.tasks.filter((task) => matchesFilter(task, filter, uid))
 		},
 
 		/**
-		 * The label filter's chips: an "All labels" reset first, then one chip
-		 * per label in title order, each carrying its own colour.
+		 * The active filter, read from the page address so a reload or a
+		 * shared link opens the same view.
 		 *
-		 * Every label is offered, not only the ones this board's tasks happen to
-		 * use, so a freshly created label is selectable here straight away.
+		 * @return {object}
 		 *
-		 * @return {Array<{key: string, value: string|null, title: string, color: string}>}
-		 *
-		 * @spec openspec/specs/admin-user-settings.md
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-2.1
 		 */
-		labelFilterChips() {
-			return [
-				{ key: 'all', value: null, title: this.t('planninq', 'All labels'), color: '' },
-				...sortLabelsByTitle(this.labels).map((label) => ({
-					key: labelId(label),
-					value: labelId(label),
-					title: label.title,
-					color: label.color,
-				})),
-			]
+		boardFilter() {
+			return decodeFilter(this.$route.query)
+		},
+
+		/**
+		 * @return {Array<{id: string, label: string}>} The project's people for the assignee filter.
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-2.1
+		 */
+		filterPeople() {
+			return memberOptions(this.project, this.personNames)
+		},
+
+		/**
+		 * @return {Array<object>} The saved filters the user may rename or delete.
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
+		 */
+		manageableFilters() {
+			return this.savedFilters.filter((saved) => canManageSavedFilter(saved, getCurrentUser()))
 		},
 
 		/**
@@ -861,6 +870,7 @@ export default {
 		await this.loadColumns(id)
 		await this.loadTasks(id)
 		await this.loadLabels()
+		await this.loadSavedFilters(id)
 		await this.loadBoardView(id)
 	},
 
@@ -1123,15 +1133,73 @@ export default {
 		},
 
 		/**
-		 * Set the board's label filter, or clear it when the active chip is
-		 * pressed again.
+		 * Put a filter in the page address; the board follows it.
 		 *
-		 * @param {string|null} id The label id to filter by, null for all labels.
+		 * @param {object} filter The new filter.
 		 *
-		 * @spec openspec/specs/admin-user-settings.md
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-2.1
 		 */
-		setLabelFilter(id) {
-			this.activeLabelId = (id !== null && id === this.activeLabelId) ? null : id
+		setFilter(filter) {
+			this.filterNotice = ''
+			this.$router.replace({ query: withFilterQuery(this.$route.query, filter) })
+		},
+
+		/**
+		 * Read the project's saved filters.
+		 *
+		 * @param {string} projectId The project UUID.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
+		 */
+		async loadSavedFilters(projectId) {
+			if (this.accessDenied) {
+				return
+			}
+			this.savedFilters = await this.projectsStore.fetchBoardFilters(projectId)
+		},
+
+		/**
+		 * Apply a saved filter, leaving out labels that no longer exist.
+		 *
+		 * @param {object} saved The saved filter.
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
+		 */
+		applySaved(saved) {
+			const { filter, changed } = applySavedFilter(saved, this.labels.map((label) => labelId(label)))
+			this.setFilter(filter)
+			if (changed) {
+				this.filterNotice = this.t('planninq', 'Some labels in "{name}" no longer exist and were left out.', { name: saved.name })
+			}
+		},
+
+		/**
+		 * Delete a saved filter the user owns.
+		 *
+		 * @param {object} saved The saved filter.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
+		 */
+		async deleteSaved(saved) {
+			if (!(await this.projectsStore.deleteBoardFilter(saved.id))) {
+				showError(this.t('planninq', 'Could not delete the filter. Please try again.'))
+				return
+			}
+			await this.loadSavedFilters(this.project.id)
+		},
+
+		/**
+		 * Close the save dialog and reread the list.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
+		 */
+		async onFilterSaved() {
+			this.savingFilter = null
+			await this.loadSavedFilters(this.project.id)
 		},
 
 		/**
@@ -1587,38 +1655,6 @@ export default {
 	display: flex;
 	justify-content: center;
 	padding: 60px;
-}
-
-.project-board__filters {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: 6px;
-	margin-bottom: 16px;
-}
-
-.project-board__filter-chip {
-	cursor: pointer;
-}
-
-/* Perceivable keyboard focus (WCAG 2.4.7) — the chip is role="button". */
-.project-board__filter-chip:focus-visible {
-	outline: 2px solid var(--color-primary-element);
-	outline-offset: 2px;
-}
-
-/* The label's own colour is DATA, so it arrives inline on the swatch, exactly
-   like the project accent bar above. The surrounding chip stays on the theme
-   tokens, and the chip text carries the name so colour is never the sole
-   signal (WCAG 1.4.1). */
-.project-board__filter-swatch {
-	display: block;
-	width: 12px;
-	height: 12px;
-	margin-inline-start: 4px;
-	border-radius: 50%;
-	border: 1px solid var(--color-border);
-	background: var(--color-background-dark);
 }
 
 .project-board__swimlanes {

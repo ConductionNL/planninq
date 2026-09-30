@@ -28,6 +28,7 @@ import ClipboardCheckOutline from 'vue-material-design-icons/ClipboardCheckOutli
 import ClockOutline from 'vue-material-design-icons/ClockOutline.vue'
 import CloudUpload from 'vue-material-design-icons/CloudUpload.vue'
 import CurrencyEur from 'vue-material-design-icons/CurrencyEur.vue'
+import FilterVariant from 'vue-material-design-icons/FilterVariant.vue'
 import FolderMultipleOutline from 'vue-material-design-icons/FolderMultipleOutline.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
 import History from 'vue-material-design-icons/History.vue'
@@ -64,6 +65,7 @@ export default {
 	FolderOutline,
 	History,
 	Home,
+	FilterVariant,
 	MapMarkerPath,
 	NotebookOutline,
 	SitemapOutline,

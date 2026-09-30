@@ -71,6 +71,11 @@
 			"key": "ca_task_id",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "bf_id",
+			"value": "",
+			"type": "string"
 		}
 	],
 	"item": [
@@ -2219,6 +2224,158 @@
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('column removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Board Filters",
+			"description": "boards-filters: a saved board filter belongs to whoever saved it (BoardFilterOwnerListener, PHPUnit BoardFilterOwnerListenerTest); project members read it only when shared, by the register read rule (PlanninqRegisterSchemaTest::testBoardFilterSchemaIsOwnedAndSharedWithTheProject).",
+			"item": [
+				{
+					"name": "save a shared filter, claiming someone else as owner",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardFilter",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"project\": \"{{project_id}}\", \"name\": \"Overdue legal work (newman)\", \"owner\": \"somebody-else\", \"shared\": true, \"criteria\": {\"due\": {\"op\": \"is\", \"values\": [\"overdue\"]}}}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the saver owns the filter, whatever was sent', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.owner).to.equal(pm.collectionVariables.get('admin_user'));",
+									"    pm.expect(json.shared).to.equal(true);",
+									"    pm.expect(json.members || []).to.be.an('array').that.is.not.empty;",
+									"    pm.collectionVariables.set('bf_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "the project's saved filters include it",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardFilter?project={{project_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('listed for the project', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    const rows = pm.response.json().results || [];",
+									"    pm.expect(rows.map((r) => r.id || (r['@self'] || {}).id)).to.include(pm.collectionVariables.get('bf_id'));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "a rename keeps the owner",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardFilter/{{bf_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Legal, overdue (newman)\", \"owner\": \"somebody-else\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('renamed, owner kept', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.name).to.equal('Legal, overdue (newman)');",
+									"    pm.expect(json.owner).to.equal(pm.collectionVariables.get('admin_user'));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the saved filter",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardFilter/{{bf_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('saved filter removed', function () {",
 									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
 									"});"
 								]

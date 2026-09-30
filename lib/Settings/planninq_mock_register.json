@@ -1592,6 +1592,81 @@
         "title": "Autumn, second run",
         "status": "queued",
         "seed": 2
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "boardFilter",
+          "slug": "demo-filter-overdue-legal",
+          "id": "0000de00-0000-4000-8000-001200000001"
+        },
+        "name": "Overdue legal work",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "owner": "@operator",
+        "shared": true,
+        "members": [
+          "@operator"
+        ],
+        "criteria": {
+          "due": {
+            "op": "is",
+            "values": [
+              "overdue"
+            ]
+          }
+        }
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "boardFilter",
+          "slug": "demo-filter-my-urgent",
+          "id": "0000de00-0000-4000-8000-001200000002"
+        },
+        "name": "My urgent tasks",
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "owner": "@operator",
+        "shared": false,
+        "members": [
+          "@operator"
+        ],
+        "criteria": {
+          "assignee": {
+            "op": "is",
+            "values": [
+              "me"
+            ]
+          },
+          "priority": {
+            "op": "is",
+            "values": [
+              "urgent"
+            ]
+          }
+        }
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "boardFilter",
+          "slug": "demo-filter-unassigned",
+          "id": "0000de00-0000-4000-8000-001200000003"
+        },
+        "name": "Nobody on it yet",
+        "project": "0000de00-0000-4000-8000-000100000003",
+        "owner": "@operator",
+        "shared": true,
+        "members": [
+          "@operator"
+        ],
+        "criteria": {
+          "assignee": {
+            "op": "is",
+            "values": [
+              "unassigned"
+            ]
+          }
+        }
       }
     ]
   }

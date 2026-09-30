@@ -75,6 +75,7 @@ trait MembershipFixture {
 		'20' => 'financeLine',
 		'21' => 'projectField',
 		'22' => 'projectRelease',
+		'23' => 'boardFilter',
 	];
 
 	/**

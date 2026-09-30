@@ -1,9 +1,9 @@
-# board-filters delta for boards-filters
+# board-filters Specification
 
-Extends the flat main spec `openspec/specs/kanban-board.md` and the "Task priority filter on
-board" scenario of `openspec/specs/tasks.md`.
+## Purpose
+A project member narrows the board by assignee, label, priority and due date, each "is" or "is not", keeps the filter in the page address, and saves it privately or for the project. Built by change `openspec/changes/archive/2026-09-30-boards-filters`.
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: A member can filter the board by assignee, label, priority and due date
 
@@ -58,8 +58,12 @@ change or delete it. Tier: V1.
 - **THEN** he sees "Overdue legal work" and applying it filters his board
 - **AND** he is offered no rename or delete for it
 
+@e2e exclude needs a second member account the CI e2e run does not have; the read rule (owner, or members when shared) and the owner-only update and delete rules are asserted by tests/unit/Settings/PlanninqRegisterSchemaTest.php::testBoardFilterSchemaIsOwnedAndSharedWithTheProject, the owner stamp by tests/unit/Listener/BoardFilterOwnerListenerTest.php, the hidden rename and delete by tests/vitest/boardFilter.spec.js "only the owner or an admin renames or deletes a saved filter", and save, apply, rename and delete as the owner by tests/e2e/board-filters.spec.ts
+
 #### Scenario: A private saved filter
 
 - **GIVEN** Anna saved "My follow-ups" without sharing
 - **WHEN** Bram opens the saved filters menu
 - **THEN** "My follow-ups" is not listed
+
+@e2e exclude needs a second member account the CI e2e run does not have; the read rule that lists a private filter only to its owner is asserted by tests/unit/Settings/PlanninqRegisterSchemaTest.php::testBoardFilterSchemaIsOwnedAndSharedWithTheProject
