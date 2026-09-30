@@ -36,6 +36,7 @@ import Home from 'vue-material-design-icons/Home.vue'
 import MapMarkerPath from 'vue-material-design-icons/MapMarkerPath.vue'
 import NotebookOutline from 'vue-material-design-icons/NotebookOutline.vue'
 import SitemapOutline from 'vue-material-design-icons/SitemapOutline.vue'
+import SourceBranch from 'vue-material-design-icons/SourceBranch.vue'
 import StoreOutline from 'vue-material-design-icons/StoreOutline.vue'
 import TagOutline from 'vue-material-design-icons/TagOutline.vue'
 import TextBoxOutline from 'vue-material-design-icons/TextBoxOutline.vue'
@@ -69,6 +70,7 @@ export default {
 	MapMarkerPath,
 	NotebookOutline,
 	SitemapOutline,
+	SourceBranch,
 	StoreOutline,
 	TagOutline,
 	TextBoxOutline,

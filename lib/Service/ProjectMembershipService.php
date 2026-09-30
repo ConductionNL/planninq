@@ -93,6 +93,7 @@ class ProjectMembershipService {
 		'projectStatusReport',
 		'projectRelease',
 		'boardFilter',
+		'forgeLink',
 	];
 
 	/**
@@ -101,6 +102,13 @@ class ProjectMembershipService {
 	 * @var string
 	 */
 	private const TIME_ENTRY_SCHEMA = 'plannedTimeEntry';
+
+	/**
+	 * The scoped schema whose project is always its task's (integration-code-forge-links).
+	 *
+	 * @var string
+	 */
+	private const FORGE_LINK_SCHEMA = 'forgeLink';
 
 	/**
 	 * Largest `IN` list sent in one search, below the 1000-item cap some databases enforce.
@@ -202,6 +210,13 @@ class ProjectMembershipService {
 	 * @spec openspec/specs/projects.md
 	 */
 	public function projectIdFor(string $schemaSlug, array $data): string {
+		if ($schemaSlug === self::FORGE_LINK_SCHEMA) {
+			// Always the task's project: a code link may not claim another one.
+			$task = $this->linkedTask(data: $data);
+
+			return $this->referenceId(value: ($task['data']['project'] ?? null));
+		}
+
 		$projectId = $this->referenceId(value: ($data['project'] ?? null));
 		if ($projectId !== '' || $schemaSlug !== self::TIME_ENTRY_SCHEMA) {
 			return $projectId;
@@ -216,6 +231,35 @@ class ProjectMembershipService {
 
 		return $this->referenceId(value: ($task['project'] ?? null));
 	}//end projectIdFor()
+
+	/**
+	 * The task a code link belongs to: by `task` id when a person adds it, else
+	 * by `taskKey` (any case) when the integration names the key it read.
+	 *
+	 * @param array<string,mixed> $data The link data.
+	 *
+	 * @return array{id:string,data:array<string,mixed>}|null The task, or null when none resolves.
+	 *
+	 * @spec openspec/changes/integration-code-forge-links/tasks.md#task-1.2
+	 */
+	public function linkedTask(array $data): ?array {
+		$taskId = $this->referenceId(value: ($data['task'] ?? null));
+		if ($taskId !== '') {
+			$task = $this->findData(schema: 'task', id: $taskId);
+			if ($task === null) {
+				return null;
+			}
+
+			return ['id' => $taskId, 'data' => $task];
+		}
+
+		$key = strtoupper(trim((string)($data['taskKey'] ?? '')));
+		if ($key === '') {
+			return null;
+		}
+
+		return ($this->rows(schema: 'task', filters: ['key' => $key])[0] ?? null);
+	}//end linkedTask()
 
 	/**
 	 * The members list of a project, cached for the request.

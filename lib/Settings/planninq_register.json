@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.31.0"
+    "version": "0.32.0"
   },
   "x-openregister": {
     "type": "application",
@@ -38,7 +38,8 @@
           "timetableWish",
           "timetableScenario",
           "boardFilter",
-          "boardView"
+          "boardView",
+          "forgeLink"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -3656,6 +3657,197 @@
             "minItems": 1,
             "maxItems": 20,
             "x-notes": "Project ids only; the view holds no columns, card order or tasks (design decision 2)."
+          }
+        }
+      },
+      "forgeLink": {
+        "slug": "forgeLink",
+        "icon": "SourceBranch",
+        "version": "0.1.0",
+        "title": "Code link",
+        "description": "A commit, branch, merge request or issue in a code forge that works on a task.",
+        "x-schema-org": "schema:SoftwareSourceCode",
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "portfolioReaders": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                },
+                "source": "manual"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                },
+                "source": "manual"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "task": {
+            "title": "Task",
+            "type": "string",
+            "description": "The task the link belongs to",
+            "format": "uuid",
+            "$ref": "task",
+            "x-notes": "Resolved by ForgeLinkResolveListener from taskKey when the integration writes the link; sent by the task page for a link added by hand."
+          },
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project of the task",
+            "format": "uuid",
+            "$ref": "project",
+            "x-notes": "Copied from the task by ForgeLinkResolveListener; it scopes the read rule through `members`."
+          },
+          "taskKey": {
+            "title": "Task key",
+            "type": "string",
+            "description": "The task key the forge text named, such as VC-12",
+            "maxLength": 32
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string",
+            "description": "What the link points at",
+            "enum": [
+              "commit",
+              "branch",
+              "mergeRequest",
+              "issue",
+              "link"
+            ],
+            "default": "link"
+          },
+          "url": {
+            "title": "Link",
+            "type": "string",
+            "description": "The address of the item in the forge",
+            "format": "uri",
+            "maxLength": 2048
+          },
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "The commit message, branch name or merge request title",
+            "maxLength": 500
+          },
+          "repository": {
+            "title": "Repository",
+            "type": "string",
+            "description": "The repository, such as acme/portal",
+            "maxLength": 255
+          },
+          "externalId": {
+            "title": "Forge id",
+            "type": "string",
+            "description": "The forge's own id for the item, such as github:acme/portal#42 or a commit hash",
+            "maxLength": 255,
+            "x-notes": "Unique per task: ForgeLinkResolveListener refuses a second link with the same id on the same task, so a webhook retry adds nothing."
+          },
+          "state": {
+            "title": "State",
+            "type": "string",
+            "description": "The state of a merge request or issue",
+            "enum": [
+              "",
+              "open",
+              "merged",
+              "closed"
+            ],
+            "default": ""
+          },
+          "author": {
+            "title": "Author",
+            "type": "string",
+            "description": "Who made the commit or opened the merge request",
+            "maxLength": 255
+          },
+          "occurredAt": {
+            "title": "Date",
+            "type": "string",
+            "description": "When the commit was made or the merge request last changed",
+            "format": "date-time"
+          },
+          "source": {
+            "title": "Added by",
+            "type": "string",
+            "description": "Whether a person added the link or the integration wrote it",
+            "enum": [
+              "manual",
+              "integriq"
+            ],
+            "default": "manual",
+            "x-notes": "Members may change or remove a manual link only; an integration link is removed by an admin, because the next forge event would write it again."
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner, written by ProjectMemberAccessListener and ProjectMembershipSyncListener. It is this object's access rule (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, copied from the project by ProjectMemberAccessListener (projects-grouping-hierarchy-fields)."
           }
         }
       }

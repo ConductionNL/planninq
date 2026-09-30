@@ -86,6 +86,31 @@
 			"key": "cpv_password",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "fl_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "fl_task_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "fl_task_key",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "fl_task_key_lower",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "fl_link_id",
+			"value": "",
+			"type": "string"
 		}
 	],
 	"item": [
@@ -2823,6 +2848,369 @@
 					"request": {
 						"method": "DELETE",
 						"url": "{{base_url}}/ocs/v2.php/cloud/users/newman-cpv-outsider",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 404]); });"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Code Links",
+			"item": [
+				{
+					"name": "prepare a password for the test user",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/status.php",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set('fl_password', 'Nm-' + Math.random().toString(36).slice(2) + '-Fl-42!');",
+									"pm.test('server answers', function () { pm.expect(pm.response.code).to.equal(200); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create user newman-fl-outsider",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userid\": \"newman-fl-outsider\", \"password\": \"{{fl_password}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('user exists', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create a task that gets a key",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Printer driver (newman)\", \"project\": \"{{project_id}}\", \"status\": \"todo\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the task has a key', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.key).to.match(/^[A-Z][A-Z0-9]{1,9}-[0-9]+$/);",
+									"    pm.collectionVariables.set('fl_task_id', json.id || (json['@self'] || {}).id);",
+									"    pm.collectionVariables.set('fl_task_key', json.key);",
+									"    pm.collectionVariables.set('fl_task_key_lower', json.key.toLowerCase());",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "an integration link naming the key finds the task and its project",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/forgeLink",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"taskKey\": \"{{fl_task_key_lower}}\", \"kind\": \"mergeRequest\", \"url\": \"https://github.com/acme/portal/pull/42\", \"title\": \"{{fl_task_key}} fix printer driver\", \"repository\": \"acme/portal\", \"externalId\": \"github:acme/portal#42-{{fl_task_id}}\", \"state\": \"open\", \"source\": \"integriq\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('linked to the task of that key', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.task).to.equal(pm.collectionVariables.get('fl_task_id'));",
+									"    pm.expect(json.project).to.equal(pm.collectionVariables.get('project_id'));",
+									"    pm.expect(json.taskKey).to.equal(pm.collectionVariables.get('fl_task_key'));",
+									"    pm.collectionVariables.set('fl_link_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "the same forge item again is refused",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/forgeLink",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"taskKey\": \"{{fl_task_key_lower}}\", \"kind\": \"mergeRequest\", \"url\": \"https://github.com/acme/portal/pull/42\", \"title\": \"{{fl_task_key}} fix printer driver\", \"repository\": \"acme/portal\", \"externalId\": \"github:acme/portal#42-{{fl_task_id}}\", \"state\": \"open\", \"source\": \"integriq\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('no second link', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 409, 422]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "a link naming an unknown key is refused",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/forgeLink",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"taskKey\": \"ZZ-999999\", \"kind\": \"commit\", \"url\": \"https://github.com/acme/portal/commit/3f2a9c1d8e7b6a5f4c3d2e1f0a9b8c7d6e5f4a3b\", \"externalId\": \"3f2a9c1d8e7b6a5f4c3d2e1f0a9b8c7d6e5f4a3b\", \"source\": \"integriq\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('no link without a task', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "non-member cannot read a forge link",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/forgeLink/{{fl_link_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "newman-fl-outsider",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{fl_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('refused for someone outside the project', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([403, 404]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the link",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/forgeLink/{{fl_link_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 204]); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the task",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{fl_task_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 204]); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove user newman-fl-outsider",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users/newman-fl-outsider",
 						"header": [
 							{
 								"key": "OCS-APIRequest",

@@ -1715,6 +1715,75 @@
           "0000de00-0000-4000-8000-000100000002",
           "0000de00-0000-4000-8000-000100000003"
         ]
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "forgeLink",
+          "slug": "demo-code-login-redirect-mr",
+          "id": "0000de00-0000-4000-8000-001400000001"
+        },
+        "task": "0000de00-0000-4000-8000-000300000002",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "taskKey": "EXPORTAL-2",
+        "kind": "mergeRequest",
+        "url": "https://github.com/example/portal/pull/42",
+        "title": "EXPORTAL-2 fix the redirect after login",
+        "repository": "example/portal",
+        "externalId": "github:example/portal#42",
+        "state": "merged",
+        "author": "@operator",
+        "occurredAt": "2026-09-21T10:00:00+00:00",
+        "source": "integriq",
+        "members": [
+          "@operator"
+        ]
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "forgeLink",
+          "slug": "demo-code-login-redirect-commit",
+          "id": "0000de00-0000-4000-8000-001400000002"
+        },
+        "task": "0000de00-0000-4000-8000-000300000002",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "taskKey": "EXPORTAL-2",
+        "kind": "commit",
+        "url": "https://github.com/example/portal/commit/3f2a9c1d8e7b6a5f4c3d2e1f0a9b8c7d6e5f4a3b",
+        "title": "EXPORTAL-2 keep the target page through the login form",
+        "repository": "example/portal",
+        "externalId": "3f2a9c1d8e7b6a5f4c3d2e1f0a9b8c7d6e5f4a3b",
+        "state": "",
+        "author": "@operator",
+        "occurredAt": "2026-09-22T10:00:00+00:00",
+        "source": "integriq",
+        "members": [
+          "@operator"
+        ]
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "forgeLink",
+          "slug": "demo-code-widgets-branch",
+          "id": "0000de00-0000-4000-8000-001400000003"
+        },
+        "task": "0000de00-0000-4000-8000-000300000003",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "taskKey": "EXPORTAL-3",
+        "kind": "branch",
+        "url": "https://gitlab.example.org/example/portal/-/tree/EXPORTAL-3-widgets",
+        "title": "EXPORTAL-3-widgets",
+        "repository": "example/portal",
+        "externalId": "gitlab.example.org:example/portal:branch:EXPORTAL-3-widgets",
+        "state": "",
+        "author": "@operator",
+        "occurredAt": "2026-09-23T10:00:00+00:00",
+        "source": "manual",
+        "members": [
+          "@operator"
+        ]
       }
     ]
   }

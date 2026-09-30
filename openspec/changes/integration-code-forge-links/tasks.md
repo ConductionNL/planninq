@@ -2,13 +2,13 @@
 
 ## 1. Schema and listener
 
-- [ ] 1.1 Add the `forgeLink` schema with the project-scoped read and write rules, list it in the register, bump versions and the exact schema count test. Verify: PHPUnit `PlanninqRegisterSchemaTest::testForgeLinkIsProjectScoped`; Newman request "non-member cannot read a forge link" in `tests/integration/planninq.postman_collection.json`.
-- [ ] 1.2 `lib/Listener/ForgeLinkResolveListener.php` on `ObjectCreatingEvent`. Verify: PHPUnit `ForgeLinkResolveListenerTest::testKeyResolvesTaskAndProject`, `testUnknownKeyIsRejected`, `testDuplicateExternalIdIsRejected` and `testManualLinkGetsProjectFromTask`.
+- [x] 1.1 Add the `forgeLink` schema with the project-scoped read and write rules, list it in the register, bump versions and the exact schema count test. Verify: PHPUnit `PlanninqRegisterSchemaTest::testForgeLinkIsProjectScoped`; Newman request "non-member cannot read a forge link" in `tests/integration/planninq.postman_collection.json`.
+- [x] 1.2 `lib/Listener/ForgeLinkResolveListener.php` on `ObjectCreatingEvent`. Verify: PHPUnit `ForgeLinkResolveListenerTest::testKeyResolvesTaskAndProject`, `testUnknownKeyIsRejected`, `testDuplicateExternalIdIsRejected` and `testManualLinkGetsProjectFromTask`.
 
 ## 2. Task page
 
-- [ ] 2.1 `src/components/TaskForgeLinks.vue` with the pure helper `src/utils/forgeUrl.js` (kind, repository and number from GitHub, GitLab and Gitea URLs). Verify: vitest `tests/vitest/forgeUrl.spec.js` "GitHub pull request", "GitLab merge request", "Gitea commit" and "unknown host is a plain link".
-- [ ] 2.2 List, add and remove on `TaskDetail`. Verify: Playwright `tests/e2e/forge-links.spec.ts` "task lists its linked merge request", "member pastes a merge request link", "member removes a manual link" and "member cannot remove an integriq link".
+- [x] 2.1 `src/components/TaskForgeLinks.vue` with the pure helper `src/utils/forgeUrl.js` (kind, repository and number from GitHub, GitLab and Gitea URLs). Verify: vitest `tests/vitest/forgeUrl.spec.js` "GitHub pull request", "GitLab merge request", "Gitea commit" and "unknown host is a plain link".
+- [x] 2.2 List, add and remove on `TaskDetail`. Verify: Playwright `tests/e2e/forge-links.spec.ts` "task lists its linked merge request", "member pastes a merge request link", "member removes a manual link" and "member cannot remove an integriq link". Written 30 Sep (lane 20) as one test with the admin, since the e2e run has one account; the "cannot remove" case is asserted by PHPUnit `testForgeLinkIsProjectScoped` (update and delete rules) and vitest `forgeUrl.spec.js` "a member removes only a link added by hand".
 
 ## 3. Integriq configuration and Beheer
 

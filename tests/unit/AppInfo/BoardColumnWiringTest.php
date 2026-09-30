@@ -81,6 +81,11 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				($byListener['OCA\\Planninq\\Listener\\BoardFilterOwnerListener'] ?? null),
 				'a saved filter keeps its owner (boards-filters task 3.1)'
 			);
+			self::assertSame(
+				[['ObjectCreatingEvent', ['forgeLink']]],
+				($byListener['OCA\\Planninq\\Listener\\ForgeLinkResolveListener'] ?? null),
+				'a new code link finds its task (integration-code-forge-links task 1.2)'
+			);
 
 			$boot = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
 			self::assertStringContainsString('$this->registerBoardColumnListeners(dispatcher: $dispatcher);', $boot, 'boot() calls the registration');
