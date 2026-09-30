@@ -703,7 +703,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the nineteen expected schemas.
+	 * The register MUST declare exactly the twenty expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
 	 * over the project work breakdown structure pipelinq had built, and
@@ -720,8 +720,8 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
-	public function testRegisterDeclaresExactlyNineteenSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView'];
+	public function testRegisterDeclaresExactlyTwentySchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -730,7 +730,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the nineteen expected schemas'
+			message: 'register schema list must be exactly the twenty expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -738,7 +738,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the nineteen expected schemas'
+			message: 'components.schemas must define exactly the twenty expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -747,7 +747,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyNineteenSchemas()
+	}//end testRegisterDeclaresExactlyTwentySchemas()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -952,7 +952,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testProjectScopedSchemasCarryAHiddenMembersList(): void {
-		foreach (['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease', 'boardFilter'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease', 'boardFilter', 'forgeLink'] as $slug) {
 			$schema = $this->register['components']['schemas'][$slug];
 			$members = ($schema['properties']['members'] ?? null);
 
@@ -1335,6 +1335,39 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertNotSame(expected: [], actual: $this->registerSchemaErrors(slug: 'projectRelease', payload: ['status' => 'shipped'] + $planned));
 
 	}//end testReleaseSchemaIsProjectScoped()
+
+	/**
+	 * Task 1.1: a code link is readable by the members of its task's project,
+	 * the portfolio readers and admins; members change or remove only a link
+	 * added by hand; the membership listeners stamp it like every
+	 * project-scoped schema.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.1
+	 */
+	public function testForgeLinkIsProjectScoped(): void {
+		$schema = ($this->register['components']['schemas']['forgeLink'] ?? null);
+		self::assertIsArray($schema, 'forgeLink is declared');
+		self::assertSame(['url'], $schema['required']);
+		self::assertSame('task', $schema['properties']['task']['$ref']);
+		self::assertSame('project', $schema['properties']['project']['$ref']);
+		self::assertContains('forgeLink', \OCA\Planninq\Service\ProjectMembershipService::SCOPED_SCHEMAS);
+
+		$members = ['group' => 'authenticated', 'match' => ['members' => ['$contains' => '$userId']]];
+		$readers = ['group' => 'authenticated', 'match' => ['portfolioReaders' => ['$contains' => '$userId']]];
+		$manual  = ['group' => 'authenticated', 'match' => ['members' => ['$contains' => '$userId'], 'source' => 'manual']];
+		self::assertSame([$members, $readers, ['group' => 'admin']], $schema['authorization']['read']);
+		self::assertSame([['group' => 'authenticated'], ['group' => 'admin']], $schema['authorization']['create']);
+		foreach (['update', 'delete'] as $action) {
+			self::assertSame([$manual, ['group' => 'admin']], $schema['authorization'][$action], $action);
+		}
+
+		$link = ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-000000000001', 'taskKey' => 'VC-12', 'kind' => 'mergeRequest', 'url' => 'https://gitlab.example.org/acme/portal/-/merge_requests/42', 'title' => '!42', 'repository' => 'acme/portal', 'externalId' => 'gitlab.example.org:acme/portal:mergeRequest:!42', 'state' => 'merged', 'author' => 'anna', 'occurredAt' => '2026-09-30T10:00:00+00:00', 'source' => 'manual', 'members' => ['anna'], 'portfolioReaders' => []];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'forgeLink', payload: $link));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'forgeLink', payload: ['kind' => 'pullRequest'] + $link), 'control: kind is an enum');
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'forgeLink', payload: ['source' => 'robot'] + $link), 'control: source is an enum');
+	}//end testForgeLinkIsProjectScoped()
 
 	/**
 	 * A saved board filter: a name and criteria for one project, private to its

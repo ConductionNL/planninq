@@ -93,6 +93,7 @@ class ProjectMembershipService {
 		'projectStatusReport',
 		'projectRelease',
 		'boardFilter',
+		'forgeLink',
 	];
 
 	/**
@@ -101,6 +102,13 @@ class ProjectMembershipService {
 	 * @var string
 	 */
 	private const TIME_ENTRY_SCHEMA = 'plannedTimeEntry';
+
+	/**
+	 * The scoped schema whose project is always its task's (integration-code-forge-links).
+	 *
+	 * @var string
+	 */
+	private const FORGE_LINK_SCHEMA = 'forgeLink';
 
 	/**
 	 * Largest `IN` list sent in one search, below the 1000-item cap some databases enforce.
@@ -202,6 +210,11 @@ class ProjectMembershipService {
 	 * @spec openspec/specs/projects.md
 	 */
 	public function projectIdFor(string $schemaSlug, array $data): string {
+		if ($schemaSlug === self::FORGE_LINK_SCHEMA) {
+			// Always the task's project: a code link may not claim another one.
+			return (string)($this->container->get('OCA\\Planninq\\Service\\ForgeLinkService')->linkedTask(data: $data)['project'] ?? '');
+		}
+
 		$projectId = $this->referenceId(value: ($data['project'] ?? null));
 		if ($projectId !== '' || $schemaSlug !== self::TIME_ENTRY_SCHEMA) {
 			return $projectId;

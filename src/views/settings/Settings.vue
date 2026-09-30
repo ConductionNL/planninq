@@ -338,6 +338,8 @@
 		</CnSettingsSection>
 
 		<!-- Register setup -->
+		<CodeForgeSettings />
+
 		<CnSettingsSection
 			:name="t('planninq', 'Register setup')"
 			:description="t('planninq', 'OpenRegister schema and register initialization for Planninq')">
@@ -420,6 +422,7 @@ import { generateOcsUrl, generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  */
 import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
+import CodeForgeSettings from '../../components/CodeForgeSettings.vue'
 import LabelDeleteDialog from '../../dialogs/LabelDeleteDialog.vue'
 import LabelEditDialog from '../../dialogs/LabelEditDialog.vue'
 import { useLabelsStore } from '../../store/labels.js'
@@ -431,6 +434,7 @@ import { defaultThresholds, parseRiskScale } from '../../utils/riskHelpers.js'
 export default {
 	name: 'Settings',
 	components: {
+		CodeForgeSettings,
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,

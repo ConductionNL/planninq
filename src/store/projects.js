@@ -16,6 +16,7 @@ import { generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  */
 import { defineStore } from 'pinia'
+import { forgeLinkRefusal } from '../utils/forgeUrl.js'
 import { isMine } from '../utils/myWork.js'
 import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelpers.js'
 import { canSeeProject } from '../utils/portfolioGrouping.js'
@@ -45,6 +46,7 @@ const PROJECT_FIELD_SCHEMA = 'projectField'
 const RELEASE_SCHEMA = 'projectRelease'
 const BOARD_FILTER_SCHEMA = 'boardFilter'
 const BOARD_VIEW_SCHEMA = 'boardView'
+const FORGE_LINK_SCHEMA = 'forgeLink'
 
 /**
  * Largest page OpenRegister will return. Asking for more is silently capped.
@@ -955,6 +957,73 @@ export const useProjectsStore = defineStore('projects', {
 				return response.ok
 			} catch (err) {
 				console.error('deleteBoardFilter error:', err)
+				return false
+			}
+		},
+
+		/**
+		 * The code links of a task (integration-code-forge-links). OpenRegister
+		 * returns them only to members of the task's project and admins.
+		 *
+		 * @param {string} taskId The task UUID
+		 * @return {Promise<Array>} The links (empty array on error)
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
+		 */
+		async fetchForgeLinks(taskId) {
+			try {
+				const links = await fetchEvery(this._objectStore(), FORGE_LINK_SCHEMA, { task: taskId })
+				return Array.isArray(links) ? links : []
+			} catch (err) {
+				console.error('fetchForgeLinks error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Add a code link by hand. The server fills the project from the task
+		 * and refuses a second link to the same forge item on the task.
+		 *
+		 * @param {object} link The link fields, with `task`
+		 * @return {Promise<{ok: boolean, duplicate: boolean}>} The outcome
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
+		 */
+		async saveForgeLink(link) {
+			try {
+				const response = await fetch(generateUrl(`/apps/openregister/api/objects/planninq/${FORGE_LINK_SCHEMA}`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(link),
+				})
+				if (response.ok) {
+					return { ok: true, duplicate: false }
+				}
+				const body = await response.json().catch(() => ({}))
+				return { ok: false, duplicate: forgeLinkRefusal(body) === 'duplicate' }
+			} catch (err) {
+				console.error('saveForgeLink error:', err)
+				return { ok: false, duplicate: false }
+			}
+		},
+
+		/**
+		 * Remove a code link.
+		 *
+		 * @param {string} id The link UUID
+		 * @return {Promise<boolean>} Whether it is gone
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
+		 */
+		async deleteForgeLink(id) {
+			try {
+				const response = await fetch(generateUrl(`/apps/openregister/api/objects/planninq/${FORGE_LINK_SCHEMA}/${id}`), {
+					method: 'DELETE',
+					headers: buildHeaders(),
+				})
+				return response.ok
+			} catch (err) {
+				console.error('deleteForgeLink error:', err)
 				return false
 			}
 		},

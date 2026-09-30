@@ -65,11 +65,11 @@ project.
 project-scoped schemas, because a phase is exactly as sensitive as the project
 it belongs to.
 
-#### Scenario: The register declares exactly nineteen schemas
-@e2e exclude Descriptor contents, asserted by PHPUnit (testRegisterDeclaresExactlyNineteenSchemas)
+#### Scenario: The register declares exactly twenty schemas
+@e2e exclude Descriptor contents, asserted by PHPUnit (testRegisterDeclaresExactlyTwentySchemas)
 - GIVEN the planninq register descriptor
 - WHEN its schema list is read
-- THEN it MUST be exactly task, project, projectPhase, column, plannedTimeEntry, label, dependency, timetableSession, projectLogEntry, risk, projectStatusReport, projectPortfolio, financeLine, projectField, projectRelease, timetableWish, timetableScenario, boardFilter and boardView
+- THEN it MUST be exactly task, project, projectPhase, column, plannedTimeEntry, label, dependency, timetableSession, projectLogEntry, risk, projectStatusReport, projectPortfolio, financeLine, projectField, projectRelease, timetableWish, timetableScenario, boardFilter, boardView and forgeLink
 
 #### Scenario: An unphased project still works
 @e2e exclude Schema shape, asserted by PHPUnit against the register descriptor

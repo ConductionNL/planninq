@@ -184,6 +184,25 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	}//end saveObject()
 
 	/**
+	 * Delete an object, with OpenRegister's parameter names.
+	 *
+	 * @param mixed $uuid          The uuid.
+	 * @param mixed $register      The register.
+	 * @param mixed $schema        The schema slug.
+	 * @param bool  $_rbac         Whether RBAC applies.
+	 * @param bool  $_multitenancy Whether multitenancy applies.
+	 *
+	 * @return bool
+	 */
+	public function deleteObject(mixed $uuid, mixed $register = null, mixed $schema = null, bool $_rbac = true, bool $_multitenancy = true): bool {
+		foreach (array_keys($this->rows) as $slug) {
+			unset($this->rows[$slug][(string)$uuid]);
+		}
+
+		return true;
+	}//end deleteObject()
+
+	/**
 	 * Build an ObjectEntity whose magic accessors are real methods.
 	 *
 	 * ObjectEntity's getUuid/getRegister/getSchema are `__call` accessors, which

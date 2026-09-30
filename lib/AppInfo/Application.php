@@ -608,6 +608,7 @@ class Application extends App implements IBootstrap {
 	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2b
 	 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.2
 	 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.1
+	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
 	 */
 	private function registerBoardColumnListeners(IEventDispatcher $dispatcher): void {
 		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
@@ -647,6 +648,17 @@ class Application extends App implements IBootstrap {
 				schemas: ['boardFilter']
 			);
 		}
+
+		// A new code link finds its task by key or id and takes the task's
+		// project; a repeat of the same forge item is refused
+		// (integration-code-forge-links).
+		$this->registerFilteredObjectListener(
+			dispatcher: $dispatcher,
+			event: 'OCA\\OpenRegister\\Event\\ObjectCreatingEvent',
+			listener: 'OCA\\Planninq\\Listener\\ForgeLinkResolveListener',
+			registers: ['planninq'],
+			schemas: ['forgeLink']
+		);
 	}//end registerBoardColumnListeners()
 
 	/**
@@ -745,7 +757,18 @@ class Application extends App implements IBootstrap {
 				registers: ['planninq'],
 				// Must equal ProjectMembershipService::SCOPED_SCHEMAS (asserted by
 				// BoardColumnWiringTest): a schema missing here is never stamped.
-				schemas: ['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease', 'boardFilter']
+				schemas: [
+					'task',
+					'column',
+					'projectPhase',
+					'plannedTimeEntry',
+					'projectLogEntry',
+					'risk',
+					'projectStatusReport',
+					'projectRelease',
+					'boardFilter',
+					'forgeLink',
+				]
 			);
 		}
 

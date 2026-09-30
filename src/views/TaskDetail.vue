@@ -309,6 +309,9 @@
 
 				<!-- Links to other tasks of the project (planning-dependencies-on-task-page) -->
 				<TaskDependencies :task="task" :projectTasks="projectTasks" />
+
+				<!-- Commits, branches and merge requests (integration-code-forge-links) -->
+				<TaskForgeLinks :task="task" />
 			</div>
 
 			<!-- Collaboration sidebar: comments (notes), files, audit trail.
@@ -367,6 +370,7 @@ import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import TaskDependencies from '../components/TaskDependencies.vue'
+import TaskForgeLinks from '../components/TaskForgeLinks.vue'
 import TaskDeleteDialog from '../dialogs/TaskDeleteDialog.vue'
 import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
 import TimeEntryDialog from '../dialogs/TimeEntryDialog.vue'
@@ -417,6 +421,7 @@ export default {
 		PencilIcon,
 		DeleteIcon,
 		TaskDependencies,
+		TaskForgeLinks,
 		TaskDeleteDialog,
 		TaskFormDialog,
 		TimeEntryDialog,
