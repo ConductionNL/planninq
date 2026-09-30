@@ -76,6 +76,11 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				($byListener['OCA\\Planninq\\Listener\\ColumnAutomationListener'] ?? null),
 				'column rules run on task creates and updates (boards-column-automation task 1.2)'
 			);
+			self::assertSame(
+				[['ObjectCreatingEvent', ['boardFilter']], ['ObjectUpdatingEvent', ['boardFilter']]],
+				($byListener['OCA\\Planninq\\Listener\\BoardFilterOwnerListener'] ?? null),
+				'a saved filter keeps its owner (boards-filters task 3.1)'
+			);
 
 			$boot = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
 			self::assertStringContainsString('$this->registerBoardColumnListeners(dispatcher: $dispatcher);', $boot, 'boot() calls the registration');

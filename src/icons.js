@@ -32,6 +32,7 @@ import FolderMultipleOutline from 'vue-material-design-icons/FolderMultipleOutli
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
 import History from 'vue-material-design-icons/History.vue'
 import Home from 'vue-material-design-icons/Home.vue'
+import FilterVariant from 'vue-material-design-icons/FilterVariant.vue'
 import MapMarkerPath from 'vue-material-design-icons/MapMarkerPath.vue'
 import NotebookOutline from 'vue-material-design-icons/NotebookOutline.vue'
 import SitemapOutline from 'vue-material-design-icons/SitemapOutline.vue'
@@ -64,6 +65,7 @@ export default {
 	FolderOutline,
 	History,
 	Home,
+	FilterVariant,
 	MapMarkerPath,
 	NotebookOutline,
 	SitemapOutline,
