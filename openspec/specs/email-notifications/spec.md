@@ -1,6 +1,9 @@
-# email-notifications delta for collaboration-notifications
+# email-notifications Specification
 
-## ADDED Requirements
+## Purpose
+A person who asks for it also gets assignment and due-date notifications by email, through email rules declared on the task schema whose recipient resolvers honour the email switch, the matching in-app switch and the account's address. Built by change 2026-09-30-collaboration-notifications.
+
+## Requirements
 
 ### Requirement: A user can get planninq notifications by email
 
@@ -13,17 +16,23 @@ The planninq personal settings MUST offer the switch "Also send these to me by e
 - **THEN** Ben receives an email naming "Export to CSV" with a link to the task
 - **AND** Ben also gets the Nextcloud notification
 
+@e2e exclude needs a mail catcher the CI e2e run does not have (task 2.4 stays open until one exists); the rule shape is asserted by tests/unit/Settings/PlanninqRegisterSchemaTest.php::testEmailRulesMirrorInAppRules and who receives the mail by tests/unit/Notification/EmailOptInRecipientResolverTest.php::testOptedInAssigneeIsReturned
+
 #### Scenario: Without opting in no mail is sent
 
 - **GIVEN** Carl with an email address who never switched email on
 - **WHEN** a task is assigned to Carl and later comes within a day of its due date
 - **THEN** Carl receives no email from planninq
 
+@e2e exclude needs a mail catcher the CI e2e run does not have (task 2.4 stays open until one exists); the rule shape is asserted by tests/unit/Settings/PlanninqRegisterSchemaTest.php::testEmailRulesMirrorInAppRules and who receives the mail by tests/unit/Notification/EmailOptInRecipientResolverTest.php::testOptedOutAssigneeIsNotReturned
+
 #### Scenario: A due-date reminder arrives by mail
 
 - **GIVEN** Ben with email switched on and the task "Export to CSV" assigned to him, due tomorrow and not done
 - **WHEN** OpenRegister's hourly due-soon run passes
 - **THEN** Ben receives an email that "Export to CSV" is due soon
+
+@e2e exclude needs a mail catcher the CI e2e run does not have (task 2.4 stays open until one exists); the rule shape is asserted by tests/unit/Settings/PlanninqRegisterSchemaTest.php::testEmailRulesMirrorInAppRules and who receives the mail by tests/unit/Notification/EmailOptInRecipientResolverTest.php::testOptedInAssigneeIsReturned (DueSoonEmailRecipientResolver)
 
 ### Requirement: The email follows the user's in-app choices
 
@@ -34,6 +43,8 @@ The system MUST NOT email a user about assignments when their assignment notific
 - **GIVEN** Ben with email switched on and "Notify me when a task is assigned to me" switched off
 - **WHEN** Anna assigns a task to Ben
 - **THEN** Ben receives neither a notification nor an email for it
+
+@e2e exclude needs a mail catcher the CI e2e run does not have (task 2.4 stays open until one exists); the rule shape is asserted by tests/unit/Settings/PlanninqRegisterSchemaTest.php::testEmailRulesMirrorInAppRules and who receives the mail by tests/unit/Notification/EmailOptInRecipientResolverTest.php::testInAppSwitchOffSilencesMatchingMail, and the in-app half by tests/e2e/notifications.spec.ts
 
 ### Requirement: The email switch explains a missing address
 

@@ -20,7 +20,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
  */
 
 declare(strict_types=1);
@@ -30,13 +30,14 @@ namespace OCA\Planninq\Service;
 use OCA\Planninq\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\IConfig;
+use OCP\IUserManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
  * Reads and writes the assignment notification switch.
  *
- * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
  */
 class NotificationSwitchService {
 
@@ -55,6 +56,20 @@ class NotificationSwitchService {
 	public const ASSIGNED_RULES = ['taskAssignedOnCreate', 'taskAssigned'];
 
 	/**
+	 * The user value for email, off unless `true` (collaboration-notifications task 2.3).
+	 *
+	 * @var string
+	 */
+	public const EMAIL_KEY = 'notify_by_email';
+
+	/**
+	 * The due-date reminder switch (kept by SettingsService); off silences the reminder mail too.
+	 *
+	 * @var string
+	 */
+	public const DUE_REMINDER_KEY = 'notify_due_reminder';
+
+	/**
 	 * OpenRegister's per-user notification preference service.
 	 *
 	 * @var string
@@ -68,12 +83,14 @@ class NotificationSwitchService {
 	 * @param IAppManager        $appManager Tells whether OpenRegister is installed.
 	 * @param ContainerInterface $container  Resolves OpenRegister's preference service.
 	 * @param LoggerInterface    $logger     Logs a skipped or failed override write.
+	 * @param IUserManager       $users      Tells whether the account has an email address.
 	 */
 	public function __construct(
 		private IConfig $config,
 		private IAppManager $appManager,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
+		private IUserManager $users,
 	) {
 	}//end __construct()
 
@@ -84,10 +101,16 @@ class NotificationSwitchService {
 	 *
 	 * @return array<string,bool>
 	 *
-	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-2.3
 	 */
 	public function values(string $userId): array {
-		return [self::ASSIGNED_KEY => $this->isAssignedOn(userId: $userId)];
+		$user = $this->users->get($userId);
+		return [
+			self::ASSIGNED_KEY => $this->isAssignedOn(userId: $userId),
+			self::EMAIL_KEY    => $this->config->getUserValue($userId, Application::APP_ID, self::EMAIL_KEY, 'false') === 'true',
+			'hasEmail'         => $user !== null && (string)$user->getEMailAddress() !== '',
+		];
 	}//end values()
 
 	/**
@@ -98,12 +121,23 @@ class NotificationSwitchService {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-2.3
 	 */
 	public function apply(string $userId, array $data): void {
 		if (array_key_exists(self::ASSIGNED_KEY, $data) === true) {
 			$enabled = filter_var($data[self::ASSIGNED_KEY], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 			$this->setAssigned(userId: $userId, enabled: ($enabled !== false));
+		}
+
+		if (array_key_exists(self::EMAIL_KEY, $data) === true) {
+			$byEmail = filter_var($data[self::EMAIL_KEY], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+			$stored  = 'false';
+			if ($byEmail === true) {
+				$stored = 'true';
+			}
+
+			$this->config->setUserValue($userId, Application::APP_ID, self::EMAIL_KEY, $stored);
 		}
 	}//end apply()
 
@@ -114,7 +148,7 @@ class NotificationSwitchService {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
 	 */
 	private function isAssignedOn(string $userId): bool {
 		return $this->config->getUserValue($userId, Application::APP_ID, self::ASSIGNED_KEY, 'true') !== 'false';
@@ -131,7 +165,7 @@ class NotificationSwitchService {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
 	 */
 	public function setAssigned(string $userId, bool $enabled): void {
 		$stored   = 'false';

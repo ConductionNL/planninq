@@ -46,6 +46,9 @@ parameters:
         # class implements cannot be ignored, only supplied.
         - tests/stubs/openregister/Lifecycle/LifecycleGuardInterface.php
         - tests/stubs/openregister/Lifecycle/GuardResult.php
+        # OpenRegister's recipient resolver contract, a verbatim copy of
+        # lib/Service/Notification/RecipientResolverInterface.php (collaboration-notifications).
+        - tests/stubs/openregister/Service/Notification/RecipientResolverInterface.php
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         # Nextcloud server internals (\OC, OC_App, OC\) not stubbed in nextcloud/ocp

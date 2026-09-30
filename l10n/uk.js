@@ -1151,7 +1151,9 @@ OC.L10N.register(
         "People see the tasks of the projects they are in, never more.": "Кожен бачить лише завдання проєктів, у яких бере участь.",
         "No views yet. A view shows the tasks of several of your projects together.": "Подань ще немає. Подання показує завдання кількох ваших проєктів разом.",
         "Projects in view: {count}": "Проєктів у поданні: {count}",
-        "Notify me when a task is assigned to me": "Сповіщати мене, коли мені призначають завдання"
+        "Notify me when a task is assigned to me": "Сповіщати мене, коли мені призначають завдання",
+        "Also send these to me by email": "Також надсилати їх мені поштою",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Додайте адресу електронної пошти в особистих налаштуваннях Nextcloud, щоб отримувати листи."
     },
     "nplurals=2; plural=(n != 1);"
 )

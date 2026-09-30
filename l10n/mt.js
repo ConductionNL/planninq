@@ -1151,7 +1151,9 @@ OC.L10N.register(
         "People see the tasks of the projects they are in, never more.": "Kulħadd jara biss il-kompiti tal-proġetti li jkun fihom.",
         "No views yet. A view shows the tasks of several of your projects together.": "Għad m'hemmx vedute. Veduta turi flimkien il-kompiti ta' diversi proġetti tiegħek.",
         "Projects in view: {count}": "Proġetti fil-veduta: {count}",
-        "Notify me when a task is assigned to me": "Innotifikani meta jiġi assenjat lili kompitu"
+        "Notify me when a task is assigned to me": "Innotifikani meta jiġi assenjat lili kompitu",
+        "Also send these to me by email": "Ibgħatomli wkoll bl-email",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Żid indirizz tal-email fis-settings personali ta' Nextcloud biex tirċievi l-email."
     },
     "nplurals=2; plural=(n != 1);"
 )

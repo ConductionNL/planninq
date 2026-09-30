@@ -1150,7 +1150,9 @@
         "People see the tasks of the projects they are in, never more.": "Кожны бачыць толькі задачы праектаў, у якіх удзельнічае.",
         "No views yet. A view shows the tasks of several of your projects together.": "Выглядаў пакуль няма. Выгляд паказвае задачы некалькіх вашых праектаў разам.",
         "Projects in view: {count}": "Праектаў у выглядзе: {count}",
-        "Notify me when a task is assigned to me": "Паведамляць мне, калі мне прызначаюць задачу"
+        "Notify me when a task is assigned to me": "Паведамляць мне, калі мне прызначаюць задачу",
+        "Also send these to me by email": "Таксама дасылаць іх мне па пошце",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Дадайце адрас электроннай пошты ў асабістых наладах Nextcloud, каб атрымліваць лісты."
     },
     "plurals": {}
 }

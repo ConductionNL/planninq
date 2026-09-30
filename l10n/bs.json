@@ -1150,7 +1150,9 @@
         "People see the tasks of the projects they are in, never more.": "Svako vidi samo zadatke projekata u kojima je.",
         "No views yet. A view shows the tasks of several of your projects together.": "Još nema prikaza. Prikaz prikazuje zadatke više vaših projekata zajedno.",
         "Projects in view: {count}": "Projekti u prikazu: {count}",
-        "Notify me when a task is assigned to me": "Obavijesti me kad mi se dodijeli zadatak"
+        "Notify me when a task is assigned to me": "Obavijesti me kad mi se dodijeli zadatak",
+        "Also send these to me by email": "Šalji mi ih i e-poštom",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Dodajte adresu e-pošte u ličnim postavkama Nextclouda da biste primali e-poštu."
     },
     "plurals": null
 }

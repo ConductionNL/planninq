@@ -4862,7 +4862,7 @@
       "area": "collaboration",
       "name": "Get notified when a task is assigned to you.",
       "origin": "competitor-derived",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -4881,11 +4881,12 @@
         "untis": "docs read 2026-09-27: https://www.untis.at/produkte/webuntis/online-vertretungsplanung 'Die ausgewählte Vertretungslehrkraft wird umgehend mithilfe einer Push-Benachrichtigung am Smartphone via Untis Mobile App bei einer neuen Vertretung benachrichtigt' ; https://help.untis.at/hc/de/articles/360014966620 option 'Benachrichtigung des Aufgaben- und Ticketsystems erhalten' for new tickets"
       },
       "built": {
-        "state": "specified",
-        "evidence": "lib/Listener/TaskActivityListener.php:182 selectSubject emits task_assigned_activity on an assignee change -> :225 resolveAudience adds the assignee -> :258 publish to the Activity stream",
-        "reachedOn": "Nextcloud Activity app only; no notification",
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json task x-openregister-notifications taskAssignedOnCreate (trigger created) and taskAssigned (trigger updated, condition assignedTo changed), channel nc-notification to the assignee, delivered by OpenRegister; switch notify_assigned in src/views/settings/UserSettings.vue written through to OpenRegister's per-user override by lib/Service/NotificationSwitchService.php",
+        "reachedOn": "Nextcloud notifications; Personal settings > Notifications",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/collaboration-notifications"
+        "change": "openspec/changes/archive/2026-09-30-collaboration-notifications",
+        "readOn": "2026-09-30"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4933,7 +4934,7 @@
       "area": "collaboration",
       "name": "Receive notifications by email.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -4955,11 +4956,12 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/guides-tutorials/te-reserve-how-to-book-request-a-room 'If you decide to reject the requests, it will remove the entry, and send an email back to the booker' ; https://www.academy.timeedit.com/product-updates/230991642 'emails sent from Viewer ... Now, Viewer sends individual emails per recipient ... also applied for Core, Reserve and Plan'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "the only declared notification channel is 'nc-notification' (lib/Settings/planninq_register.json taskDueSoon.channels); lib/Activity registers a Filter and Provider but no activity Setting, so the Activity app offers no mail option for planninq events",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json taskAssignedOnCreateEmail, taskAssignedEmail and taskDueSoonEmail (channel email) with recipient expression resolvers lib/Notification/AssignmentEmailRecipientResolver.php and DueSoonEmailRecipientResolver.php (assignee only when notify_by_email is on, the matching in-app switch is on and the account has an address); switch 'Also send these to me by email' in src/views/settings/UserSettings.vue, disabled without an address",
+        "reachedOn": "Personal settings > Notifications, email",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/collaboration-notifications"
+        "change": "openspec/changes/archive/2026-09-30-collaboration-notifications",
+        "readOn": "2026-09-30"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

@@ -1150,7 +1150,9 @@
         "People see the tasks of the projects they are in, never more.": "Folk ser oppgavene i prosjektene de er med i, aldri mer.",
         "No views yet. A view shows the tasks of several of your projects together.": "Ingen visninger ennå. En visning viser oppgavene fra flere av prosjektene dine samlet.",
         "Projects in view: {count}": "Prosjekter i visningen: {count}",
-        "Notify me when a task is assigned to me": "Varsle meg når en oppgave tildeles meg"
+        "Notify me when a task is assigned to me": "Varsle meg når en oppgave tildeles meg",
+        "Also send these to me by email": "Send dem også til meg på e-post",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Legg til en e-postadresse i de personlige Nextcloud-innstillingene dine for å få e-post."
     },
     "plurals": {}
 }

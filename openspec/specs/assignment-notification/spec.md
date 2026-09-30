@@ -1,6 +1,9 @@
-# assignment-notification delta for collaboration-notifications
+# assignment-notification Specification
 
-## ADDED Requirements
+## Purpose
+A person hears in the Nextcloud bell when a task is assigned to them, through rules declared on the task schema that OpenRegister delivers, and can switch that off for themselves. Built by change 2026-09-30-collaboration-notifications.
+
+## Requirements
 
 ### Requirement: A person is notified when a task is assigned to them
 
@@ -31,6 +34,8 @@ The task schema MUST declare, in the `x-openregister-notifications` dialect, a r
 - **WHEN** the hydra gate `notification-dialect` runs on it
 - **THEN** it finds the assignment rules in the canonical dialect
 - **AND** planninq's `lib/` holds no call to Nextcloud's notification manager for task events
+
+@e2e exclude a property of the register file and the source tree, asserted by tests/unit/Settings/PlanninqRegisterSchemaTest.php::testAssignmentRulesUseCanonicalDialect and the hydra gate-18 notification-dialect
 
 ### Requirement: A user can switch assignment notifications off
 

@@ -1150,7 +1150,9 @@
         "People see the tasks of the projects they are in, never more.": "Ní fheiceann duine ach tascanna na dtionscadal a bhfuil sé iontu.",
         "No views yet. A view shows the tasks of several of your projects together.": "Níl aon amharc fós. Taispeánann amharc tascanna roinnt de do thionscadail le chéile.",
         "Projects in view: {count}": "Tionscadail san amharc: {count}",
-        "Notify me when a task is assigned to me": "Cuir in iúl dom nuair a shanntar tasc dom"
+        "Notify me when a task is assigned to me": "Cuir in iúl dom nuair a shanntar tasc dom",
+        "Also send these to me by email": "Seol iad seo chugam i ríomhphost freisin",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Cuir seoladh ríomhphoist le do shocruithe pearsanta Nextcloud chun ríomhphost a fháil."
     },
     "plurals": null
 }

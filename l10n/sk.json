@@ -1150,7 +1150,9 @@
         "People see the tasks of the projects they are in, never more.": "Každý vidí iba úlohy projektov, v ktorých je.",
         "No views yet. A view shows the tasks of several of your projects together.": "Zatiaľ žiadne zobrazenia. Zobrazenie ukazuje úlohy viacerých vašich projektov spolu.",
         "Projects in view: {count}": "Projekty v zobrazení: {count}",
-        "Notify me when a task is assigned to me": "Upozorniť ma, keď mi bude pridelená úloha"
+        "Notify me when a task is assigned to me": "Upozorniť ma, keď mi bude pridelená úloha",
+        "Also send these to me by email": "Posielať mi ich aj e-mailom",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Ak chcete dostávať e-maily, pridajte e-mailovú adresu v osobných nastaveniach Nextcloud."
     },
     "plurals": null
 }

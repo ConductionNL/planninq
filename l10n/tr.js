@@ -1151,7 +1151,9 @@ OC.L10N.register(
         "People see the tasks of the projects they are in, never more.": "Herkes yalnızca içinde olduğu projelerin görevlerini görür.",
         "No views yet. A view shows the tasks of several of your projects together.": "Henüz görünüm yok. Bir görünüm birkaç projenizin görevlerini birlikte gösterir.",
         "Projects in view: {count}": "Görünümdeki projeler: {count}",
-        "Notify me when a task is assigned to me": "Bana bir görev atandığında bildir"
+        "Notify me when a task is assigned to me": "Bana bir görev atandığında bildir",
+        "Also send these to me by email": "Bunları bana e-postayla da gönder",
+        "Add an email address in your Nextcloud personal settings to get mail.": "E-posta almak için Nextcloud kişisel ayarlarınıza bir e-posta adresi ekleyin."
     },
     "nplurals=2; plural=(n != 1);"
 )

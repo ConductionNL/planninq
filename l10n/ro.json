@@ -1150,7 +1150,9 @@
         "People see the tasks of the projects they are in, never more.": "Fiecare vede doar sarcinile proiectelor din care face parte.",
         "No views yet. A view shows the tasks of several of your projects together.": "Încă nu există vizualizări. O vizualizare arată împreună sarcinile mai multor proiecte ale tale.",
         "Projects in view: {count}": "Proiecte în vizualizare: {count}",
-        "Notify me when a task is assigned to me": "Anunță-mă când mi se atribuie o sarcină"
+        "Notify me when a task is assigned to me": "Anunță-mă când mi se atribuie o sarcină",
+        "Also send these to me by email": "Trimite-mi-le și prin e-mail",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Adaugă o adresă de e-mail în setările personale Nextcloud pentru a primi e-mailuri."
     },
     "plurals": {}
 }

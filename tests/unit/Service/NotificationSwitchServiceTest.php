@@ -15,7 +15,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
  */
 
 declare(strict_types=1);
@@ -31,7 +31,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
  */
 class NotificationSwitchServiceTest extends TestCase {
 
@@ -61,13 +61,22 @@ class NotificationSwitchServiceTest extends TestCase {
 		$container = $this->createMock(ContainerInterface::class);
 		$container->method('get')->willReturn($preferences);
 
-		return new NotificationSwitchService(config: $config, appManager: $apps, container: $container, logger: $this->createMock(LoggerInterface::class));
+		$users = $this->createMock(\OCP\IUserManager::class);
+		$users->method('get')->willReturnCallback(
+			function (string $uid): ?\OCP\IUser {
+				$user = $this->createMock(\OCP\IUser::class);
+				$user->method('getEMailAddress')->willReturn($uid === 'ben' ? 'ben@example.org' : null);
+				return $user;
+			}
+		);
+
+		return new NotificationSwitchService(config: $config, appManager: $apps, container: $container, logger: $this->createMock(LoggerInterface::class), users: $users);
 	}//end service()
 
 	/**
 	 * Task 1.2: off stores false and writes `{"enabled": false}` for both assignment rules.
 	 *
-	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
 	 */
 	public function testNotifyAssignedOffWritesOverrideForBothRules(): void {
 		$stored = [];
@@ -84,13 +93,13 @@ class NotificationSwitchServiceTest extends TestCase {
 	/**
 	 * Task 1.2: on stores true and clears both overrides; it is on by default.
 	 *
-	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
 	 */
 	public function testNotifyAssignedOnClearsOverride(): void {
 		$stored  = [];
 		$spy     = new SwitchPreferenceSpy();
 		$service = $this->service(stored: $stored, preferences: $spy);
-		self::assertSame(['notify_assigned' => true], $service->values(userId: 'carl'), 'on by default');
+		self::assertTrue($service->values(userId: 'carl')['notify_assigned'], 'on by default');
 
 		$service->apply(userId: 'carl', data: ['notify_assigned' => true]);
 
@@ -103,7 +112,7 @@ class NotificationSwitchServiceTest extends TestCase {
 	 * Without OpenRegister the value is stored and nothing else happens; a
 	 * save without the key changes nothing.
 	 *
-	 * @spec openspec/changes/collaboration-notifications/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
 	 */
 	public function testWithoutOpenRegisterOnlyTheValueIsStored(): void {
 		$stored  = [];
@@ -113,8 +122,27 @@ class NotificationSwitchServiceTest extends TestCase {
 
 		$service->apply(userId: 'dave', data: ['notify_assigned' => false]);
 		self::assertSame(['dave/notify_assigned' => 'false'], $stored);
-		self::assertSame(['notify_assigned' => false], $service->values(userId: 'dave'));
+		self::assertFalse($service->values(userId: 'dave')['notify_assigned']);
 	}//end testWithoutOpenRegisterOnlyTheValueIsStored()
+
+	/**
+	 * Task 2.3: email is off by default, the switch stores it, and the
+	 * settings say whether the account has an address.
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-2.3
+	 */
+	public function testNotifyByEmailDefaultsOff(): void {
+		$stored  = [];
+		$service = $this->service(stored: $stored, preferences: null);
+		self::assertSame(['notify_assigned' => true, 'notify_by_email' => false, 'hasEmail' => true], $service->values(userId: 'ben'));
+		self::assertFalse($service->values(userId: 'carl')['hasEmail'], 'no address');
+
+		$service->apply(userId: 'ben', data: ['notify_by_email' => true]);
+		self::assertSame(['ben/notify_by_email' => 'true'], $stored);
+		self::assertTrue($service->values(userId: 'ben')['notify_by_email']);
+		$service->apply(userId: 'ben', data: ['notify_by_email' => 'nonsense']);
+		self::assertSame('false', $stored['ben/notify_by_email']);
+	}//end testNotifyByEmailDefaultsOff()
 }//end class
 
 /**

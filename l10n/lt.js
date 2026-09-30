@@ -1151,7 +1151,9 @@ OC.L10N.register(
         "People see the tasks of the projects they are in, never more.": "Kiekvienas mato tik tų projektų, kuriuose dalyvauja, užduotis.",
         "No views yet. A view shows the tasks of several of your projects together.": "Rodinių dar nėra. Rodinys rodo kelių jūsų projektų užduotis kartu.",
         "Projects in view: {count}": "Projektų rodinyje: {count}",
-        "Notify me when a task is assigned to me": "Pranešti man, kai man priskiriama užduotis"
+        "Notify me when a task is assigned to me": "Pranešti man, kai man priskiriama užduotis",
+        "Also send these to me by email": "Siųsti juos man ir el. paštu",
+        "Add an email address in your Nextcloud personal settings to get mail.": "Kad gautumėte el. laiškus, pridėkite el. pašto adresą savo asmeniniuose Nextcloud nustatymuose."
     },
     "nplurals=2; plural=(n != 1);"
 )

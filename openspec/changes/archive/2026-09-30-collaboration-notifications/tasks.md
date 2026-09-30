@@ -8,12 +8,14 @@
 
 ## 2. Email
 
-- [ ] 2.1 Declare `taskAssignedOnCreateEmail`, `taskAssignedEmail` and `taskDueSoonEmail` (channel `email`, recipient `expression` `planninq.recipients.emailOptIn`). Verify: PHPUnit `PlanninqRegisterSchemaTest::testEmailRulesMirrorInAppRules`.
-- [ ] 2.2 `lib/Notification/EmailOptInRecipientResolver.php` registered under `planninq.recipients.emailOptIn`. Verify: PHPUnit `EmailOptInRecipientResolverTest::testOptedInAssigneeIsReturned`, `testOptedOutAssigneeIsNotReturned`, `testUserWithoutEmailIsNotReturned` and `testInAppSwitchOffSilencesMatchingMail`.
-- [ ] 2.3 `notify_by_email` user key (default off), `hasEmail` in `GET /api/settings`, and the switch with its hint. Verify: PHPUnit `SettingsServiceTest::testNotifyByEmailDefaultsOff`; Playwright `tests/e2e/notifications.spec.ts` "email switch is disabled without an email address".
+- [x] 2.1 Declare `taskAssignedOnCreateEmail`, `taskAssignedEmail` and `taskDueSoonEmail` (channel `email`, recipient `expression` `planninq.recipients.emailOptIn`). Verify: PHPUnit `PlanninqRegisterSchemaTest::testEmailRulesMirrorInAppRules`.
+- [x] 2.2 `lib/Notification/EmailOptInRecipientResolver.php` with `AssignmentEmailRecipientResolver` and `DueSoonEmailRecipientResolver`, named by class in the rules (design decision 3, amended). Verify: PHPUnit `EmailOptInRecipientResolverTest::testOptedInAssigneeIsReturned`, `testOptedOutAssigneeIsNotReturned`, `testUserWithoutEmailIsNotReturned` and `testInAppSwitchOffSilencesMatchingMail`.
+- [x] 2.3 `notify_by_email` user key (default off), `hasEmail` in `GET /api/settings`, and the switch with its hint. Verify: PHPUnit `NotificationSwitchServiceTest::testNotifyByEmailDefaultsOff`; Playwright `tests/e2e/notifications.spec.ts` "email switch is disabled without an email address".
 - [ ] 2.4 Live check with the CI mail catcher: an opted-in assignee gets a mail, an opted-out one does not. Verify: Playwright `tests/e2e/notifications.spec.ts` "opted-in assignee gets an assignment mail", "without opting in no mail is sent" and "due-date reminder arrives by mail" (the due-soon run triggered with `occ background-job:execute` on OpenRegister's scheduled notification job).
 
 ## 3. Verification
 
-- [ ] 3.1 `openspec validate collaboration-notifications --type change --strict` passes.
-- [ ] 3.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+- [x] 3.1 `openspec validate collaboration-notifications --type change --strict` passes.
+- [x] 3.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+
+Note (lane 19, 30 Sep): 2.4 stays open. The CI e2e run has no mail catcher, so the three mail scenarios carry `@e2e exclude` notes naming the PHPUnit tests that assert the rules and the recipients.

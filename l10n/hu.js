@@ -1151,7 +1151,9 @@ OC.L10N.register(
         "People see the tasks of the projects they are in, never more.": "Mindenki csak azoknak a projekteknek a feladatait látja, amelyekben benne van.",
         "No views yet. A view shows the tasks of several of your projects together.": "Még nincs nézet. Egy nézet több projekted feladatait mutatja együtt.",
         "Projects in view: {count}": "Projektek a nézetben: {count}",
-        "Notify me when a task is assigned to me": "Értesíts, ha feladatot kapok"
+        "Notify me when a task is assigned to me": "Értesíts, ha feladatot kapok",
+        "Also send these to me by email": "Küldd el ezeket e-mailben is",
+        "Add an email address in your Nextcloud personal settings to get mail.": "E-mailek fogadásához adj meg e-mail-címet a Nextcloud személyes beállításaiban."
     },
     "nplurals=2; plural=(n != 1);"
 )
