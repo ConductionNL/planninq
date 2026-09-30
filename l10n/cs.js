@@ -1131,7 +1131,13 @@ OC.L10N.register(
         "The name the view is listed under": "Název, pod kterým je pohled uveden",
         "Nextcloud user id of the person who saved the view": "ID uživatele Nextcloud osoby, která pohled uložila",
         "Nextcloud user ids of the people the view is shared with": "ID uživatelů Nextcloud osob, se kterými je pohled sdílen",
-        "The projects whose tasks the view shows, at most twenty": "Projekty, jejichž úkoly pohled zobrazuje, nejvýše dvacet"
+        "The projects whose tasks the view shows, at most twenty": "Projekty, jejichž úkoly pohled zobrazuje, nejvýše dvacet",
+        "1 project in this view is hidden from you.": "1 projekt v tomto pohledu je před vámi skrytý.",
+        "{count} projects in this view are hidden from you.": "Projekty v tomto pohledu skryté před vámi: {count}.",
+        "{project} has no column for {status}.": "Projekt {project} nemá sloupec pro stav {status}.",
+        "This view does not exist or is not shared with you.": "Tento pohled neexistuje nebo s vámi není sdílen.",
+        "\"{task}\" moved to {status}.": "\"{task}\" přesunuto do {status}.",
+        "Project: {title}": "Projekt: {title}"
     },
     "nplurals=2; plural=(n != 1);"
 )

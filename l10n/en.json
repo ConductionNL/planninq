@@ -1109,7 +1109,13 @@
         "The name the view is listed under": "The name the view is listed under",
         "Nextcloud user id of the person who saved the view": "Nextcloud user id of the person who saved the view",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud user ids of the people the view is shared with",
-        "The projects whose tasks the view shows, at most twenty": "The projects whose tasks the view shows, at most twenty"
+        "The projects whose tasks the view shows, at most twenty": "The projects whose tasks the view shows, at most twenty",
+        "1 project in this view is hidden from you.": "1 project in this view is hidden from you.",
+        "{count} projects in this view are hidden from you.": "{count} projects in this view are hidden from you.",
+        "{project} has no column for {status}.": "{project} has no column for {status}.",
+        "This view does not exist or is not shared with you.": "This view does not exist or is not shared with you.",
+        "\"{task}\" moved to {status}.": "\"{task}\" moved to {status}.",
+        "Project: {title}": "Project: {title}"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

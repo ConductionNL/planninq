@@ -18,6 +18,23 @@
 
 		<!-- Task metadata -->
 		<div class="task-card__meta">
+			<!-- The task's project on a cross-project view (boards-cross-project-board):
+			     the name in text beside the project's colour, so colour is never the only signal. -->
+			<NcChip
+				v-if="project"
+				:text="project.title"
+				:aria-label="t('planninq', 'Project: {title}', { title: project.title })"
+				:noClose="true"
+				class="task-card__project-badge"
+				data-testid="task-card-project">
+				<template #icon>
+					<span
+						class="task-card__label-swatch"
+						:style="{ backgroundColor: project.color || 'var(--color-primary-element)' }"
+						aria-hidden="true" />
+				</template>
+			</NcChip>
+
 			<!-- Subtask of (tasks-subtasks-checklist) -->
 			<NcChip
 				v-if="parentTitle"
@@ -179,6 +196,15 @@ export default {
 		edgeColour: {
 			type: String,
 			default: '',
+		},
+
+		/**
+		 * The task's project, shown as a chip on a cross-project view; null on
+		 * a project's own board, where every card is of that project.
+		 */
+		project: {
+			type: Object,
+			default: null,
 		},
 	},
 

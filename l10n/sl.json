@@ -1130,7 +1130,13 @@
         "The name the view is listed under": "Ime, pod katerim je pogled naveden",
         "Nextcloud user id of the person who saved the view": "ID uporabnika Nextcloud osebe, ki je shranila pogled",
         "Nextcloud user ids of the people the view is shared with": "ID-ji uporabnikov Nextcloud oseb, s katerimi je pogled v skupni rabi",
-        "The projects whose tasks the view shows, at most twenty": "Projekti, katerih naloge pogled prikazuje, največ dvajset"
+        "The projects whose tasks the view shows, at most twenty": "Projekti, katerih naloge pogled prikazuje, največ dvajset",
+        "1 project in this view is hidden from you.": "1 projekt v tem pogledu je pred vami skrit.",
+        "{count} projects in this view are hidden from you.": "Projekti v tem pogledu, skriti pred vami: {count}.",
+        "{project} has no column for {status}.": "Projekt {project} nima stolpca za stanje {status}.",
+        "This view does not exist or is not shared with you.": "Ta pogled ne obstaja ali ni v skupni rabi z vami.",
+        "\"{task}\" moved to {status}.": "\"{task}\" premaknjeno v {status}.",
+        "Project: {title}": "Projekt: {title}"
     },
     "plurals": null
 }

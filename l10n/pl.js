@@ -1131,7 +1131,13 @@ OC.L10N.register(
         "The name the view is listed under": "Nazwa, pod którą widok jest wymieniony",
         "Nextcloud user id of the person who saved the view": "Identyfikator użytkownika Nextcloud osoby, która zapisała widok",
         "Nextcloud user ids of the people the view is shared with": "Identyfikatory użytkowników Nextcloud osób, którym udostępniono widok",
-        "The projects whose tasks the view shows, at most twenty": "Projekty, których zadania pokazuje widok, najwyżej dwadzieścia"
+        "The projects whose tasks the view shows, at most twenty": "Projekty, których zadania pokazuje widok, najwyżej dwadzieścia",
+        "1 project in this view is hidden from you.": "1 projekt w tym widoku jest przed tobą ukryty.",
+        "{count} projects in this view are hidden from you.": "Projekty w tym widoku ukryte przed tobą: {count}.",
+        "{project} has no column for {status}.": "Projekt {project} nie ma kolumny dla statusu {status}.",
+        "This view does not exist or is not shared with you.": "Ten widok nie istnieje lub nie został ci udostępniony.",
+        "\"{task}\" moved to {status}.": "\"{task}\" przeniesiono do {status}.",
+        "Project: {title}": "Projekt: {title}"
     },
     "nplurals=2; plural=(n != 1);"
 )

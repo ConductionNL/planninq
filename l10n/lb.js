@@ -1131,7 +1131,13 @@ OC.L10N.register(
         "The name the view is listed under": "Den Numm, ënner deem d'Usiicht opgelëscht ass",
         "Nextcloud user id of the person who saved the view": "Nextcloud-Benotzer-ID vun der Persoun, déi d'Usiicht gespäichert huet",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud-Benotzer-IDen vun de Leit, mat deenen d'Usiicht gedeelt ass",
-        "The projects whose tasks the view shows, at most twenty": "D'Projeten, där hir Aufgaben d'Usiicht weist, héchstens zwanzeg"
+        "The projects whose tasks the view shows, at most twenty": "D'Projeten, där hir Aufgaben d'Usiicht weist, héchstens zwanzeg",
+        "1 project in this view is hidden from you.": "1 Projet an dëser Usiicht ass fir dech verstoppt.",
+        "{count} projects in this view are hidden from you.": "{count} Projeten an dëser Usiicht si fir dech verstoppt.",
+        "{project} has no column for {status}.": "{project} huet keng Spalt fir {status}.",
+        "This view does not exist or is not shared with you.": "Dës Usiicht gëtt et net oder se ass net mat dir gedeelt.",
+        "\"{task}\" moved to {status}.": "\"{task}\" op {status} geréckelt.",
+        "Project: {title}": "Projet: {title}"
     },
     "nplurals=2; plural=(n != 1);"
 )

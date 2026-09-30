@@ -1131,7 +1131,13 @@ OC.L10N.register(
         "The name the view is listed under": "A név, amelyen a nézet szerepel",
         "Nextcloud user id of the person who saved the view": "A nézetet mentő személy Nextcloud felhasználói azonosítója",
         "Nextcloud user ids of the people the view is shared with": "Azon személyek Nextcloud felhasználói azonosítói, akikkel a nézet meg van osztva",
-        "The projects whose tasks the view shows, at most twenty": "A projektek, amelyek feladatait a nézet mutatja, legfeljebb húsz"
+        "The projects whose tasks the view shows, at most twenty": "A projektek, amelyek feladatait a nézet mutatja, legfeljebb húsz",
+        "1 project in this view is hidden from you.": "A nézet 1 projektje rejtve van előled.",
+        "{count} projects in this view are hidden from you.": "A nézet {count} projektje rejtve van előled.",
+        "{project} has no column for {status}.": "A(z) {project} projektnek nincs oszlopa ehhez: {status}.",
+        "This view does not exist or is not shared with you.": "Ez a nézet nem létezik, vagy nincs megosztva veled.",
+        "\"{task}\" moved to {status}.": "\"{task}\" áthelyezve ide: {status}.",
+        "Project: {title}": "Projekt: {title}"
     },
     "nplurals=2; plural=(n != 1);"
 )

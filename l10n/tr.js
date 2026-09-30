@@ -1131,7 +1131,13 @@ OC.L10N.register(
         "The name the view is listed under": "Görünümün listelendiği ad",
         "Nextcloud user id of the person who saved the view": "Görünümü kaydeden kişinin Nextcloud kullanıcı kimliği",
         "Nextcloud user ids of the people the view is shared with": "Görünümün paylaşıldığı kişilerin Nextcloud kullanıcı kimlikleri",
-        "The projects whose tasks the view shows, at most twenty": "Görünümün görevlerini gösterdiği projeler, en fazla yirmi"
+        "The projects whose tasks the view shows, at most twenty": "Görünümün görevlerini gösterdiği projeler, en fazla yirmi",
+        "1 project in this view is hidden from you.": "Bu görünümdeki 1 proje sizden gizli.",
+        "{count} projects in this view are hidden from you.": "Bu görünümdeki {count} proje sizden gizli.",
+        "{project} has no column for {status}.": "{project} projesinin {status} için sütunu yok.",
+        "This view does not exist or is not shared with you.": "Bu görünüm yok ya da sizinle paylaşılmamış.",
+        "\"{task}\" moved to {status}.": "\"{task}\" {status} durumuna taşındı.",
+        "Project: {title}": "Proje: {title}"
     },
     "nplurals=2; plural=(n != 1);"
 )

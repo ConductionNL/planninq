@@ -25,6 +25,7 @@ import type { Page } from '@playwright/test'
 import { expect, test } from '@playwright/test'
 import { FIXTURE } from '../fixtures/seed.ts'
 import { openFixtureProjectBoard, PLANNINQ_ROOT } from '../nav.ts'
+import { adminApi, createObject, removeObjects } from '../portfolio-api.ts'
 
 /**
  * Elements whose content is time-dependent and would churn every run.
@@ -146,6 +147,19 @@ test.describe('visual baselines — planninq views', () => {
 		await openFixtureProjectBoard(page)
 		await expect(page).toHaveURL(/\/projects\/[^/?#]+$/)
 		await shoot(page, 'project-board.png')
+	})
+
+	test('ProjectsView renders a cross-project view @visual', async ({ page }) => {
+		const project = await openFixtureProjectBoard(page)
+		const api = await adminApi()
+		const view = await createObject(api, 'boardView', { title: 'Visual baseline view', members: [], projects: [project] })
+		try {
+			await page.goto(new URL(`boards/views/${view}`, PLANNINQ_ROOT).toString())
+			await expect(page.getByTestId('status-lanes')).toBeVisible()
+			await shoot(page, 'projects-view.png')
+		} finally {
+			await removeObjects(api, [['boardView', view]])
+		}
 	})
 
 	// The project pages are reached through the shared row of project tabs

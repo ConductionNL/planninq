@@ -1130,7 +1130,13 @@
         "The name the view is listed under": "Назва, під якою подання вказано в списку",
         "Nextcloud user id of the person who saved the view": "Ідентифікатор користувача Nextcloud того, хто зберіг подання",
         "Nextcloud user ids of the people the view is shared with": "Ідентифікатори користувачів Nextcloud тих, кому надано доступ до подання",
-        "The projects whose tasks the view shows, at most twenty": "Проєкти, завдання яких показує подання, не більше двадцяти"
+        "The projects whose tasks the view shows, at most twenty": "Проєкти, завдання яких показує подання, не більше двадцяти",
+        "1 project in this view is hidden from you.": "1 проєкт у цьому поданні приховано від вас.",
+        "{count} projects in this view are hidden from you.": "Проєкти в цьому поданні, приховані від вас: {count}.",
+        "{project} has no column for {status}.": "Проєкт {project} не має колонки для статусу {status}.",
+        "This view does not exist or is not shared with you.": "Це подання не існує або вам не надано доступу.",
+        "\"{task}\" moved to {status}.": "\"{task}\" переміщено до {status}.",
+        "Project: {title}": "Проєкт: {title}"
     },
     "plurals": {}
 }

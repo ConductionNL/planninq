@@ -1130,7 +1130,13 @@
         "The name the view is listed under": "Emri me të cilin renditet pamja",
         "Nextcloud user id of the person who saved the view": "ID-ja e përdoruesit Nextcloud e personit që e ruajti pamjen",
         "Nextcloud user ids of the people the view is shared with": "ID-të e përdoruesve Nextcloud të njerëzve me të cilët ndahet pamja",
-        "The projects whose tasks the view shows, at most twenty": "Projektet, detyrat e të cilëve i shfaq pamja, jo më shumë se njëzet"
+        "The projects whose tasks the view shows, at most twenty": "Projektet, detyrat e të cilëve i shfaq pamja, jo më shumë se njëzet",
+        "1 project in this view is hidden from you.": "1 projekt në këtë pamje është i fshehur për ju.",
+        "{count} projects in this view are hidden from you.": "{count} projekte në këtë pamje janë të fshehura për ju.",
+        "{project} has no column for {status}.": "{project} nuk ka kolonë për {status}.",
+        "This view does not exist or is not shared with you.": "Kjo pamje nuk ekziston ose nuk është ndarë me ju.",
+        "\"{task}\" moved to {status}.": "\"{task}\" u zhvendos te {status}.",
+        "Project: {title}": "Projekt: {title}"
     },
     "plurals": {}
 }

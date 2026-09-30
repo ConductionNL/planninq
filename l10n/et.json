@@ -1130,7 +1130,13 @@
         "The name the view is listed under": "Nimi, mille all vaade on loetletud",
         "Nextcloud user id of the person who saved the view": "Vaate salvestanud inimese Nextcloudi kasutaja-ID",
         "Nextcloud user ids of the people the view is shared with": "Nende inimeste Nextcloudi kasutaja-ID-d, kellega vaadet jagatakse",
-        "The projects whose tasks the view shows, at most twenty": "Projektid, mille ülesandeid vaade näitab, kõige rohkem kakskümmend"
+        "The projects whose tasks the view shows, at most twenty": "Projektid, mille ülesandeid vaade näitab, kõige rohkem kakskümmend",
+        "1 project in this view is hidden from you.": "1 selle vaate projekt on sinu eest peidetud.",
+        "{count} projects in this view are hidden from you.": "{count} selle vaate projekti on sinu eest peidetud.",
+        "{project} has no column for {status}.": "Projektil {project} pole veergu olekule {status}.",
+        "This view does not exist or is not shared with you.": "Seda vaadet pole olemas või seda pole sinuga jagatud.",
+        "\"{task}\" moved to {status}.": "\"{task}\" viidi olekusse {status}.",
+        "Project: {title}": "Projekt: {title}"
     },
     "plurals": null
 }

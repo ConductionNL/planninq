@@ -1131,7 +1131,13 @@ OC.L10N.register(
         "The name the view is listed under": "Назив под којим је приказ наведен",
         "Nextcloud user id of the person who saved the view": "Nextcloud кориснички ID особе која је сачувала приказ",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud кориснички ID-ови особа са којима је приказ подељен",
-        "The projects whose tasks the view shows, at most twenty": "Пројекти чије задатке приказ приказује, највише двадесет"
+        "The projects whose tasks the view shows, at most twenty": "Пројекти чије задатке приказ приказује, највише двадесет",
+        "1 project in this view is hidden from you.": "1 пројекат у овом приказу је скривен од вас.",
+        "{count} projects in this view are hidden from you.": "Пројекти у овом приказу скривени од вас: {count}.",
+        "{project} has no column for {status}.": "Пројекат {project} нема колону за статус {status}.",
+        "This view does not exist or is not shared with you.": "Овај приказ не постоји или није подељен са вама.",
+        "\"{task}\" moved to {status}.": "\"{task}\" премештено у {status}.",
+        "Project: {title}": "Пројекат: {title}"
     },
     "nplurals=2; plural=(n != 1);"
 )

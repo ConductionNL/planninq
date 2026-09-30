@@ -1130,7 +1130,13 @@
         "The name the view is listed under": "Numele sub care este listată vizualizarea",
         "Nextcloud user id of the person who saved the view": "Id-ul de utilizator Nextcloud al persoanei care a salvat vizualizarea",
         "Nextcloud user ids of the people the view is shared with": "Id-urile de utilizator Nextcloud ale persoanelor cu care este partajată vizualizarea",
-        "The projects whose tasks the view shows, at most twenty": "Proiectele ale căror sarcini le arată vizualizarea, cel mult douăzeci"
+        "The projects whose tasks the view shows, at most twenty": "Proiectele ale căror sarcini le arată vizualizarea, cel mult douăzeci",
+        "1 project in this view is hidden from you.": "1 proiect din această vizualizare îți este ascuns.",
+        "{count} projects in this view are hidden from you.": "{count} proiecte din această vizualizare îți sunt ascunse.",
+        "{project} has no column for {status}.": "{project} nu are o coloană pentru {status}.",
+        "This view does not exist or is not shared with you.": "Această vizualizare nu există sau nu este partajată cu tine.",
+        "\"{task}\" moved to {status}.": "\"{task}\" a fost mutată în {status}.",
+        "Project: {title}": "Proiect: {title}"
     },
     "plurals": {}
 }

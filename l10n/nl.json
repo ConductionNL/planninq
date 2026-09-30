@@ -1143,7 +1143,13 @@
         "The name the view is listed under": "De naam waaronder de weergave wordt vermeld",
         "Nextcloud user id of the person who saved the view": "Nextcloud-gebruikers-id van de persoon die de weergave heeft opgeslagen",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud-gebruikers-id's van de mensen met wie de weergave is gedeeld",
-        "The projects whose tasks the view shows, at most twenty": "De projecten waarvan de weergave de taken toont, hooguit twintig"
+        "The projects whose tasks the view shows, at most twenty": "De projecten waarvan de weergave de taken toont, hooguit twintig",
+        "1 project in this view is hidden from you.": "1 project in deze weergave is voor jou verborgen.",
+        "{count} projects in this view are hidden from you.": "{count} projecten in deze weergave zijn voor jou verborgen.",
+        "{project} has no column for {status}.": "{project} heeft geen kolom voor {status}.",
+        "This view does not exist or is not shared with you.": "Deze weergave bestaat niet of is niet met je gedeeld.",
+        "\"{task}\" moved to {status}.": "\"{task}\" is verplaatst naar {status}.",
+        "Project: {title}": "Project: {title}"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

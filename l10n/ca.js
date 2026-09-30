@@ -1131,7 +1131,13 @@ OC.L10N.register(
         "The name the view is listed under": "El nom amb què apareix la vista",
         "Nextcloud user id of the person who saved the view": "Id d'usuari de Nextcloud de la persona que va desar la vista",
         "Nextcloud user ids of the people the view is shared with": "Ids d'usuari de Nextcloud de les persones amb qui es comparteix la vista",
-        "The projects whose tasks the view shows, at most twenty": "Els projectes les tasques dels quals mostra la vista, com a màxim vint"
+        "The projects whose tasks the view shows, at most twenty": "Els projectes les tasques dels quals mostra la vista, com a màxim vint",
+        "1 project in this view is hidden from you.": "1 projecte d'aquesta vista t'és ocult.",
+        "{count} projects in this view are hidden from you.": "{count} projectes d'aquesta vista et són ocults.",
+        "{project} has no column for {status}.": "{project} no té cap columna per a {status}.",
+        "This view does not exist or is not shared with you.": "Aquesta vista no existeix o no s'ha compartit amb tu.",
+        "\"{task}\" moved to {status}.": "\"{task}\" s'ha mogut a {status}.",
+        "Project: {title}": "Projecte: {title}"
     },
     "nplurals=2; plural=(n != 1);"
 )

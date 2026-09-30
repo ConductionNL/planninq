@@ -1130,7 +1130,13 @@
         "The name the view is listed under": "Името под кое е наведен приказот",
         "Nextcloud user id of the person who saved the view": "Nextcloud кориснички ID на личноста што го зачувала приказот",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud кориснички ID на луѓето со кои е споделен приказот",
-        "The projects whose tasks the view shows, at most twenty": "Проектите чии задачи ги прикажува приказот, најмногу дваесет"
+        "The projects whose tasks the view shows, at most twenty": "Проектите чии задачи ги прикажува приказот, најмногу дваесет",
+        "1 project in this view is hidden from you.": "1 проект во овој приказ е скриен од вас.",
+        "{count} projects in this view are hidden from you.": "Проекти во овој приказ скриени од вас: {count}.",
+        "{project} has no column for {status}.": "Проектот {project} нема колона за статусот {status}.",
+        "This view does not exist or is not shared with you.": "Овој приказ не постои или не е споделен со вас.",
+        "\"{task}\" moved to {status}.": "\"{task}\" е преместено во {status}.",
+        "Project: {title}": "Проект: {title}"
     },
     "plurals": null
 }

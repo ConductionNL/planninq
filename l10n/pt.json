@@ -1130,7 +1130,13 @@
         "The name the view is listed under": "O nome com que a vista é listada",
         "Nextcloud user id of the person who saved the view": "Id de utilizador Nextcloud da pessoa que guardou a vista",
         "Nextcloud user ids of the people the view is shared with": "Ids de utilizador Nextcloud das pessoas com quem a vista é partilhada",
-        "The projects whose tasks the view shows, at most twenty": "Os projetos cujas tarefas a vista mostra, no máximo vinte"
+        "The projects whose tasks the view shows, at most twenty": "Os projetos cujas tarefas a vista mostra, no máximo vinte",
+        "1 project in this view is hidden from you.": "1 projeto desta vista está oculto para si.",
+        "{count} projects in this view are hidden from you.": "{count} projetos desta vista estão ocultos para si.",
+        "{project} has no column for {status}.": "{project} não tem coluna para {status}.",
+        "This view does not exist or is not shared with you.": "Esta vista não existe ou não foi partilhada consigo.",
+        "\"{task}\" moved to {status}.": "\"{task}\" movida para {status}.",
+        "Project: {title}": "Projeto: {title}"
     },
     "plurals": {}
 }

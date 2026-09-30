@@ -1130,7 +1130,13 @@
         "The name the view is listed under": "Pavadinimas, kuriuo rodinys pateikiamas sąraše",
         "Nextcloud user id of the person who saved the view": "Rodinį išsaugojusio asmens Nextcloud naudotojo ID",
         "Nextcloud user ids of the people the view is shared with": "Žmonių, su kuriais bendrinamas rodinys, Nextcloud naudotojų ID",
-        "The projects whose tasks the view shows, at most twenty": "Projektai, kurių užduotis rodo rodinys, ne daugiau kaip dvidešimt"
+        "The projects whose tasks the view shows, at most twenty": "Projektai, kurių užduotis rodo rodinys, ne daugiau kaip dvidešimt",
+        "1 project in this view is hidden from you.": "1 šio rodinio projektas nuo jūsų paslėptas.",
+        "{count} projects in this view are hidden from you.": "Šio rodinio projektų, paslėptų nuo jūsų: {count}.",
+        "{project} has no column for {status}.": "Projektas {project} neturi stulpelio būsenai {status}.",
+        "This view does not exist or is not shared with you.": "Šio rodinio nėra arba jis su jumis nebendrinamas.",
+        "\"{task}\" moved to {status}.": "\"{task}\" perkelta į {status}.",
+        "Project: {title}": "Projektas: {title}"
     },
     "plurals": null
 }

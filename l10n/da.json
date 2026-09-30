@@ -1130,7 +1130,13 @@
         "The name the view is listed under": "Navnet visningen står under",
         "Nextcloud user id of the person who saved the view": "Nextcloud-bruger-id for den person, der gemte visningen",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud-bruger-id'er for de personer, visningen er delt med",
-        "The projects whose tasks the view shows, at most twenty": "De projekter, hvis opgaver visningen viser, højst tyve"
+        "The projects whose tasks the view shows, at most twenty": "De projekter, hvis opgaver visningen viser, højst tyve",
+        "1 project in this view is hidden from you.": "1 projekt i denne visning er skjult for dig.",
+        "{count} projects in this view are hidden from you.": "{count} projekter i denne visning er skjult for dig.",
+        "{project} has no column for {status}.": "{project} har ingen kolonne for {status}.",
+        "This view does not exist or is not shared with you.": "Denne visning findes ikke eller er ikke delt med dig.",
+        "\"{task}\" moved to {status}.": "\"{task}\" flyttet til {status}.",
+        "Project: {title}": "Projekt: {title}"
     },
     "plurals": null
 }

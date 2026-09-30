@@ -1130,7 +1130,13 @@
         "The name the view is listed under": "Namnet som vyn listas under",
         "Nextcloud user id of the person who saved the view": "Nextcloud-användar-id för personen som sparade vyn",
         "Nextcloud user ids of the people the view is shared with": "Nextcloud-användar-id:n för personerna som vyn delas med",
-        "The projects whose tasks the view shows, at most twenty": "Projekten vars uppgifter vyn visar, högst tjugo"
+        "The projects whose tasks the view shows, at most twenty": "Projekten vars uppgifter vyn visar, högst tjugo",
+        "1 project in this view is hidden from you.": "1 projekt i den här vyn är dolt för dig.",
+        "{count} projects in this view are hidden from you.": "{count} projekt i den här vyn är dolda för dig.",
+        "{project} has no column for {status}.": "{project} har ingen kolumn för {status}.",
+        "This view does not exist or is not shared with you.": "Den här vyn finns inte eller är inte delad med dig.",
+        "\"{task}\" moved to {status}.": "\"{task}\" flyttad till {status}.",
+        "Project: {title}": "Projekt: {title}"
     },
     "plurals": null
 }

@@ -1131,7 +1131,13 @@ OC.L10N.register(
         "The name the view is listed under": "Nosaukums, ar kādu skats ir uzskaitīts",
         "Nextcloud user id of the person who saved the view": "Tās personas Nextcloud lietotāja ID, kura saglabāja skatu",
         "Nextcloud user ids of the people the view is shared with": "To personu Nextcloud lietotāju ID, ar kurām skats ir kopīgots",
-        "The projects whose tasks the view shows, at most twenty": "Projekti, kuru uzdevumus skats rāda, ne vairāk kā divdesmit"
+        "The projects whose tasks the view shows, at most twenty": "Projekti, kuru uzdevumus skats rāda, ne vairāk kā divdesmit",
+        "1 project in this view is hidden from you.": "1 šī skata projekts tev ir paslēpts.",
+        "{count} projects in this view are hidden from you.": "{count} šī skata projekti tev ir paslēpti.",
+        "{project} has no column for {status}.": "Projektam {project} nav kolonnas statusam {status}.",
+        "This view does not exist or is not shared with you.": "Šis skats nepastāv vai nav kopīgots ar tevi.",
+        "\"{task}\" moved to {status}.": "\"{task}\" pārvietots uz {status}.",
+        "Project: {title}": "Projekts: {title}"
     },
     "nplurals=2; plural=(n != 1);"
 )

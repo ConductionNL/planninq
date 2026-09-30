@@ -44,6 +44,7 @@ const FINANCE_LINE_SCHEMA = 'financeLine'
 const PROJECT_FIELD_SCHEMA = 'projectField'
 const RELEASE_SCHEMA = 'projectRelease'
 const BOARD_FILTER_SCHEMA = 'boardFilter'
+const BOARD_VIEW_SCHEMA = 'boardView'
 
 /**
  * Largest page OpenRegister will return. Asking for more is silently capped.
@@ -52,6 +53,28 @@ const BOARD_FILTER_SCHEMA = 'boardFilter'
  * as a property filter, which matches nothing and returns an empty collection.
  */
 const MAX_PAGE = 1000
+
+/**
+ * GET one planninq object with the caller's rights.
+ *
+ * @param {string} schema The schema slug.
+ * @param {string} id     The object UUID.
+ * @return {Promise<object|null>} The object, or null when it is not readable.
+ *
+ * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+ */
+async function readObject(schema, id) {
+	if (!id) {
+		return null
+	}
+	try {
+		const response = await fetch(generateUrl(`/apps/openregister/api/objects/planninq/${schema}/${id}`), { headers: buildHeaders() })
+		return response.ok ? await response.json() : null
+	} catch (err) {
+		console.error('readObject error:', err)
+		return null
+	}
+}
 
 /**
  * Read an ENTIRE collection, following pages until it is exhausted.
@@ -931,6 +954,33 @@ export const useProjectsStore = defineStore('projects', {
 				console.error('deleteBoardFilter error:', err)
 				return false
 			}
+		},
+
+		/**
+		 * Read one cross-project view with the user's rights: null when it
+		 * does not exist or is not shared with them.
+		 *
+		 * @param {string} id The view UUID
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+		 */
+		async fetchBoardView(id) {
+			return readObject(BOARD_VIEW_SCHEMA, id)
+		},
+
+		/**
+		 * Read one project with the user's rights and without touching the
+		 * active project: null when they may not read it or it is gone
+		 * (OpenRegister answers both with 404).
+		 *
+		 * @param {string} id The project UUID
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/boards-cross-project-board/tasks.md#task-2.2
+		 */
+		async readProject(id) {
+			return readObject(PROJECT_SCHEMA, id)
 		},
 
 		/**

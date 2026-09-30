@@ -1131,7 +1131,13 @@ OC.L10N.register(
         "The name the view is listed under": "Το όνομα με το οποίο εμφανίζεται η προβολή",
         "Nextcloud user id of the person who saved the view": "Αναγνωριστικό χρήστη Nextcloud του ατόμου που αποθήκευσε την προβολή",
         "Nextcloud user ids of the people the view is shared with": "Αναγνωριστικά χρηστών Nextcloud των ατόμων με τα οποία μοιράζεται η προβολή",
-        "The projects whose tasks the view shows, at most twenty": "Τα έργα των οποίων τις εργασίες δείχνει η προβολή, έως είκοσι"
+        "The projects whose tasks the view shows, at most twenty": "Τα έργα των οποίων τις εργασίες δείχνει η προβολή, έως είκοσι",
+        "1 project in this view is hidden from you.": "1 έργο αυτής της προβολής είναι κρυφό για εσάς.",
+        "{count} projects in this view are hidden from you.": "{count} έργα αυτής της προβολής είναι κρυφά για εσάς.",
+        "{project} has no column for {status}.": "Το έργο {project} δεν έχει στήλη για {status}.",
+        "This view does not exist or is not shared with you.": "Αυτή η προβολή δεν υπάρχει ή δεν είναι κοινόχρηστη μαζί σας.",
+        "\"{task}\" moved to {status}.": "Η \"{task}\" μετακινήθηκε σε {status}.",
+        "Project: {title}": "Έργο: {title}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1130,7 +1130,13 @@
         "The name the view is listed under": "L-isem li taħtu titniżżel il-veduta",
         "Nextcloud user id of the person who saved the view": "L-id tal-utent ta' Nextcloud tal-persuna li ssejvjat il-veduta",
         "Nextcloud user ids of the people the view is shared with": "L-ids tal-utenti ta' Nextcloud tan-nies li magħhom hi maqsuma l-veduta",
-        "The projects whose tasks the view shows, at most twenty": "Il-proġetti li l-kompiti tagħhom turi l-veduta, mhux aktar minn għoxrin"
+        "The projects whose tasks the view shows, at most twenty": "Il-proġetti li l-kompiti tagħhom turi l-veduta, mhux aktar minn għoxrin",
+        "1 project in this view is hidden from you.": "Proġett 1 f'din il-veduta huwa moħbi minnek.",
+        "{count} projects in this view are hidden from you.": "Proġetti f'din il-veduta moħbija minnek: {count}.",
+        "{project} has no column for {status}.": "{project} m'għandux kolonna għal {status}.",
+        "This view does not exist or is not shared with you.": "Din il-veduta ma teżistix jew mhijiex maqsuma miegħek.",
+        "\"{task}\" moved to {status}.": "\"{task}\" ġie mċaqlaq għal {status}.",
+        "Project: {title}": "Proġett: {title}"
     },
     "plurals": {}
 }
