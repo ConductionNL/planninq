@@ -39,8 +39,8 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 /**
- * @spec openspec/changes/boards-column-automation/tasks.md#task-1.2
- * @spec openspec/changes/boards-column-automation/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.3
  */
 class ColumnAutomationListenerTest extends TestCase {
 	use MembershipFixture;

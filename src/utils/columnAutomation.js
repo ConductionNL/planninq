@@ -7,7 +7,7 @@
  * move; these helpers only prepare the rules dialog and describe what a move
  * changed, so the board can say so.
  *
- * @spec openspec/changes/boards-column-automation/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
  */
 
 /** The actions a rule can take, in the column schema's order. */
@@ -25,7 +25,7 @@ export const RULE_PRIORITIES = ['low', 'normal', 'high', 'urgent']
  * @param {string} action The action.
  * @return {boolean}
  *
- * @spec openspec/changes/boards-column-automation/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
  */
 export function actionNeedsValue(action) {
 	return VALUE_ACTIONS.includes(action)
@@ -37,7 +37,7 @@ export function actionNeedsValue(action) {
  * @param {object|null} column The column.
  * @return {Array<{action: string, value?: string}>}
  *
- * @spec openspec/changes/boards-column-automation/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.2
  */
 export function columnRules(column) {
 	return Array.isArray(column?.automation) ? column.automation.filter((rule) => rule && typeof rule.action === 'string') : []
@@ -49,7 +49,7 @@ export function columnRules(column) {
  * @param {Array<object>} rules The rules in the dialog.
  * @return {Array<{action: string, value?: string}>}
  *
- * @spec openspec/changes/boards-column-automation/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
  */
 export function rulesPayload(rules) {
 	return (rules || [])
@@ -65,7 +65,7 @@ export function rulesPayload(rules) {
  * @param {object} rule The rule.
  * @return {boolean}
  *
- * @spec openspec/changes/boards-column-automation/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
  */
 export function ruleIsComplete(rule) {
 	if (!RULE_ACTIONS.includes(rule?.action)) {
@@ -83,7 +83,7 @@ export function ruleIsComplete(rule) {
  * @param {Array<string>} labelIds The ids of the existing labels.
  * @return {'formerMember'|'missingLabel'|null}
  *
- * @spec openspec/changes/boards-column-automation/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
  */
 export function ruleProblem(rule, members, labelIds) {
 	if (rule?.action === 'assign' && rule.value && !(members || []).includes(rule.value)) {
@@ -103,7 +103,7 @@ export function ruleProblem(rule, members, labelIds) {
  * @param {object} stored The task the server returned.
  * @return {{assignedTo?: string, priority?: string, labelsAdded: Array<string>}}
  *
- * @spec openspec/changes/boards-column-automation/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.2
  */
 export function ruleEffects(sent, stored) {
 	const effects = { labelsAdded: [] }
@@ -127,7 +127,7 @@ export function ruleEffects(sent, stored) {
  * @param {object} effects The result of ruleEffects().
  * @return {boolean}
  *
- * @spec openspec/changes/boards-column-automation/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.2
  */
 export function hasRuleEffects(effects) {
 	return 'assignedTo' in effects || 'priority' in effects || effects.labelsAdded.length > 0

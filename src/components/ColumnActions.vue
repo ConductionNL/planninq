@@ -43,7 +43,7 @@
  * header and in the settings sidebar's Columns tab.
  *
  * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
- * @spec openspec/changes/boards-column-automation/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
  */
 import { NcActionButton, NcActions } from '@nextcloud/vue'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'

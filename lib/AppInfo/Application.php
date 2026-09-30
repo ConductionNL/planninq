@@ -605,7 +605,7 @@ class Application extends App implements IBootstrap {
 	 * @return void
 	 *
 	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2b
-	 * @spec openspec/changes/boards-column-automation/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.2
 	 */
 	private function registerBoardColumnListeners(IEventDispatcher $dispatcher): void {
 		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {

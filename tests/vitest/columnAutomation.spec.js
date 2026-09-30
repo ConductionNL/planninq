@@ -3,8 +3,8 @@ import addFormats from 'ajv-formats'
 /**
  * Vitest tests for column rules (boards-column-automation).
  *
- * @spec openspec/changes/boards-column-automation/tasks.md#task-2.1
- * @spec openspec/changes/boards-column-automation/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.2
  */
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'

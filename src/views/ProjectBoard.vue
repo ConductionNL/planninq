@@ -1433,7 +1433,7 @@ export default {
 		 * @param {object} stored The task the server returned.
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/boards-column-automation/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.2
 		 */
 		async showRuleEffects(id, stored) {
 			const sent = this.tasks.find((task) => task.id === id)
@@ -1465,7 +1465,7 @@ export default {
 		/**
 		 * @param {object} column A board column.
 		 * @return {number} How many rules it runs.
-		 * @spec openspec/changes/boards-column-automation/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.2
 		 */
 		ruleCount(column) {
 			return columnRules(column).length
@@ -1474,7 +1474,7 @@ export default {
 		/**
 		 * @param {object} column A board column.
 		 * @return {string} The accessible label of its rules icon.
-		 * @spec openspec/changes/boards-column-automation/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.2
 		 */
 		rulesLabel(column) {
 			const count = this.ruleCount(column)

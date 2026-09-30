@@ -94,7 +94,7 @@
  * column's `automation`, which the server refuses unless the caller owns the
  * project or is an admin (ColumnOwnerGuardListener).
  *
- * @spec openspec/changes/boards-column-automation/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
  */
 import { NcButton, NcDialog, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
@@ -160,7 +160,7 @@ export default {
 		/**
 		 * The project's members and owner, the only people a rule may assign.
 		 *
-		 * @spec openspec/changes/boards-column-automation/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
 		 */
 		peopleOptions() {
 			return memberOptions(this.project, this.names)
@@ -235,7 +235,7 @@ export default {
 		 * @param {object} rule A rule.
 		 * @return {string}
 		 *
-		 * @spec openspec/changes/boards-column-automation/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
 		 */
 		problemText(rule) {
 			const problem = ruleProblem(rule, this.peopleOptions.map((option) => option.id), this.labelOptions.map((option) => option.id))
@@ -266,7 +266,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/boards-column-automation/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
 		 */
 		async save() {
 			if (!this.isValid) {

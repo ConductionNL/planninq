@@ -22,7 +22,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/boards-column-automation/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.2
  */
 
 declare(strict_types=1);
@@ -42,7 +42,7 @@ use Psr\Log\LoggerInterface;
  *
  * @template-implements IEventListener<Event>
  *
- * @spec openspec/changes/boards-column-automation/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.2
  */
 class ColumnAutomationListener implements IEventListener {
 
@@ -83,7 +83,7 @@ class ColumnAutomationListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/boards-column-automation/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.2
 	 */
 	public function handle(Event $event): void {
 		if ($event instanceof ObjectCreatingEvent === true) {
@@ -111,7 +111,7 @@ class ColumnAutomationListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/boards-column-automation/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.2
 	 */
 	private function apply(ObjectCreatingEvent|ObjectUpdatingEvent $event, object $object, string $oldColumn): void {
 		$slug = $this->scopeResolver->planninqSchemaSlug(
@@ -148,7 +148,7 @@ class ColumnAutomationListener implements IEventListener {
 	 *
 	 * @return array<string,mixed> The fields to merge; only those whose value changes.
 	 *
-	 * @spec openspec/changes/boards-column-automation/tasks.md#task-1.3
+	 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.3
 	 */
 	private function run(array $rules, array $task, string $column): array {
 		$changes = [];
@@ -215,7 +215,7 @@ class ColumnAutomationListener implements IEventListener {
 	 *
 	 * @return array<string,mixed>|null
 	 *
-	 * @spec openspec/changes/boards-column-automation/tasks.md#task-1.3
+	 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.3
 	 */
 	private function ruleChange(string $action, string $value, array $task): ?array {
 		return match ($action) {

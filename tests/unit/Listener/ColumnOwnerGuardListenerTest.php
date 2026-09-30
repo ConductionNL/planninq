@@ -80,6 +80,25 @@ class ColumnOwnerGuardListenerTest extends TestCase {
 		self::assertSame(ColumnOwnerGuardListener::ERROR_CODE, $event->getErrors()['code']);
 	}//end testAMemberWhoIsNotTheOwnerCannotRenameAColumn()
 
+	/**
+	 * Scenario "A member who is not the owner cannot change rules" (boards-column-automation):
+	 * a PATCH of `automation` is refused; the owner's is not.
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
+	 */
+	public function testAMemberWhoIsNotTheOwnerCannotChangeTheRules(): void {
+		$rules = ['automation' => [['action' => 'assignMover']]] + self::COLUMN;
+
+		$member = new ObjectUpdatingEvent($this->column(data: $rules), $this->column(data: self::COLUMN));
+		$this->listener(actor: 'bob')->handle($member);
+		self::assertTrue($member->isPropagationStopped());
+		self::assertSame(ColumnOwnerGuardListener::ERROR_CODE, $member->getErrors()['code']);
+
+		$owner = new ObjectUpdatingEvent($this->column(data: $rules), $this->column(data: self::COLUMN));
+		$this->listener(actor: 'carol')->handle($owner);
+		self::assertFalse($owner->isPropagationStopped());
+	}//end testAMemberWhoIsNotTheOwnerCannotChangeTheRules()
+
 	public function testAMemberCannotAddOrRemoveAColumn(): void {
 		$create = new ObjectCreatingEvent($this->column(data: self::COLUMN));
 		$this->listener(actor: 'bob')->handle($create);

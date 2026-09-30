@@ -211,7 +211,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/boards-column-automation/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.1
 	 */
 	public function testColumnAutomationShape(): void {
 		$rules = ($this->register['components']['schemas']['column']['properties']['automation'] ?? null);
