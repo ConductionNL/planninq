@@ -1,0 +1,68 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Planninq code forge links",
+    "description": "Links GitHub commits and pull requests to planninq tasks. Import it in integriq, then add the webhook URL and secret in GitHub. Integriq writes a forgeLink with the forge text in taskKey; planninq finds the task key in it. See planninq's admin settings, Code forges.",
+    "version": "1.0.0",
+    "x-planninq-change": "openspec/changes/integration-code-forge-links"
+  },
+  "components": {
+    "mappings": {
+      "planninq-github-forge-link": {
+        "name": "GitHub event to planninq code link",
+        "slug": "planninq-github-forge-link",
+        "description": "A push (its head commit) or a pull request event becomes one planninq forgeLink. A later event about the same pull request carries the same externalId, and planninq replaces the older link.",
+        "version": "1.0.0",
+        "mapping": {
+          "taskKey": "{% if pull_request is defined %}{{ pull_request.title }} {{ pull_request.head.ref }}{% else %}{{ head_commit.message }} {{ ref }}{% endif %}",
+          "kind": "{% if pull_request is defined %}mergeRequest{% else %}commit{% endif %}",
+          "url": "{% if pull_request is defined %}{{ pull_request.html_url }}{% else %}{{ head_commit.url }}{% endif %}",
+          "title": "{% if pull_request is defined %}{{ pull_request.title }}{% else %}{{ head_commit.message|split(\"\\n\")|first }}{% endif %}",
+          "repository": "{{ repository.full_name }}",
+          "externalId": "{% if pull_request is defined %}github:{{ repository.full_name }}#{{ pull_request.number }}{% else %}{{ head_commit.id }}{% endif %}",
+          "state": "{% if pull_request is defined %}{% if pull_request.merged %}merged{% else %}{{ pull_request.state }}{% endif %}{% endif %}",
+          "author": "{% if pull_request is defined %}{{ pull_request.user.login }}{% else %}{{ head_commit.author.username|default(head_commit.author.name) }}{% endif %}",
+          "occurredAt": "{% if pull_request is defined %}{{ pull_request.updated_at }}{% else %}{{ head_commit.timestamp }}{% endif %}",
+          "source": "integriq"
+        },
+        "unset": [],
+        "cast": {},
+        "passThrough": false
+      }
+    },
+    "rules": {
+      "planninq-github-signature": {
+        "name": "Check the GitHub signature",
+        "slug": "planninq-github-signature",
+        "description": "Refuses a delivery whose X-Hub-Signature-256 does not match the secret. Fill in the secret after the import; it is the one you enter in GitHub.",
+        "version": "1.0.0",
+        "type": "webhook_signature",
+        "action": "verify",
+        "timing": "before",
+        "order": 0,
+        "conditions": {},
+        "configuration": {
+          "scheme": "github",
+          "header": "X-Hub-Signature-256",
+          "secret": ""
+        }
+      }
+    },
+    "endpoints": {
+      "planninq-github-webhook": {
+        "name": "GitHub webhook for planninq",
+        "slug": "planninq-github-webhook",
+        "description": "Receives GitHub push and pull request events and writes planninq code links.",
+        "version": "1.0.0",
+        "endpoint": "planninq/code-forge/github",
+        "method": "POST",
+        "targetType": "register/schema",
+        "targetId": "planninq/forgeLink",
+        "inputMapping": "planninq-github-forge-link",
+        "rules": [
+          "planninq-github-signature"
+        ]
+      }
+    }
+  }
+}

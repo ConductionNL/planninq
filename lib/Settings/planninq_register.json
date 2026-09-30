@@ -3751,7 +3751,8 @@
             "title": "Task key",
             "type": "string",
             "description": "The task key the forge text named, such as VC-12",
-            "maxLength": 32
+            "maxLength": 1000,
+            "x-notes": "The integration may send the whole forge text (commit message, branch name or title); ForgeLinkResolveListener keeps the first key in it that belongs to a task, such as VC-12."
           },
           "kind": {
             "title": "Kind",

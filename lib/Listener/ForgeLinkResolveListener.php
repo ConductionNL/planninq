@@ -8,8 +8,15 @@
  * when a person adds it on the task page. Before the link is stored this
  * listener finds the task, and writes the task, the task's project and the
  * task's key onto the link, whatever the client sent for them. It refuses a
- * link whose task does not resolve, and a second link with the same forge
- * id on the same task, so a webhook retry adds nothing.
+ * link whose task does not resolve, and a second link added by hand with the
+ * same forge id on the same task. A repeat from the integration (a later event
+ * about the same merge request) replaces the older link instead, so the state
+ * follows the forge, a webhook retry adds nothing, and the forge never sees a
+ * refused delivery.
+ *
+ * Integriq has no text functions to cut a key out of a commit message, so it
+ * may put the whole forge text in `taskKey`; the first key in it that belongs
+ * to a task wins, and the link keeps that key.
  *
  * The membership gate (ProjectMemberAccessListener) reads the project from
  * the task through the same ProjectMembershipService::linkedTask(), so the
@@ -70,6 +77,13 @@ class ForgeLinkResolveListener implements IEventListener {
 	private const SCHEMA = 'forgeLink';
 
 	/**
+	 * The `source` of a link the integration writes.
+	 *
+	 * @var string
+	 */
+	private const INTEGRATION = 'integriq';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ProjectMembershipService $membership    Finds the task and reads planninq objects as the system.
@@ -114,11 +128,18 @@ class ForgeLinkResolveListener implements IEventListener {
 		}
 
 		$externalId = trim((string)($data['externalId'] ?? ''));
-		if ($externalId !== ''
-			&& $this->membership->rows(schema: self::SCHEMA, filters: ['task' => $task['id'], 'externalId' => $externalId]) !== []
-		) {
-			$this->refuse(event: $event, message: 'This link is already on the task.', code: self::ERROR_DUPLICATE, data: $data);
-			return;
+		if ($externalId !== '') {
+			$repeats = $this->membership->rows(schema: self::SCHEMA, filters: ['task' => $task['id'], 'externalId' => $externalId]);
+			if ($repeats !== [] && ($data['source'] ?? '') !== self::INTEGRATION) {
+				$this->refuse(event: $event, message: 'This link is already on the task.', code: self::ERROR_DUPLICATE, data: $data);
+				return;
+			}
+
+			// A later forge event about the same item replaces the integration's
+			// link, so its state follows the forge and no second link appears.
+			foreach ($repeats as $repeat) {
+				$this->membership->removeObject(schema: self::SCHEMA, id: $repeat['id']);
+			}
 		}
 
 		$changes = [
@@ -126,7 +147,7 @@ class ForgeLinkResolveListener implements IEventListener {
 			'project' => $this->membership->projectIdFor(schemaSlug: 'task', data: $task['data']),
 			'taskKey' => (string)($task['data']['key'] ?? ''),
 		];
-		if (in_array(($data['source'] ?? null), ['manual', 'integriq'], true) === false) {
+		if (in_array(($data['source'] ?? null), ['manual', self::INTEGRATION], true) === false) {
 			$changes['source'] = 'manual';
 		}
 

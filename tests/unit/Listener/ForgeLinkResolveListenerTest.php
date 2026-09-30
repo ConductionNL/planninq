@@ -105,16 +105,16 @@ class ForgeLinkResolveListenerTest extends TestCase {
 	}//end testUnknownKeyIsRejected()
 
 	public function testDuplicateExternalIdIsRejected(): void {
-		$this->objects->seed('forgeLink', 'fl-0', ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => 'github:acme/portal#42', 'url' => 'https://github.com/acme/portal/pull/42']);
+		$this->objects->seed('forgeLink', 'fl-0', ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => 'github:acme/portal#42', 'url' => 'https://github.com/acme/portal/pull/42', 'source' => 'manual']);
 
-		$event = new ObjectCreatingEvent($this->link(data: self::LINK));
+		$event = new ObjectCreatingEvent($this->link(data: ['source' => 'manual'] + self::LINK));
 		$this->listener()->handle($event);
 
 		self::assertTrue($event->isPropagationStopped());
 		self::assertSame(ForgeLinkResolveListener::ERROR_DUPLICATE, ($event->getErrors()['code'] ?? null));
 
 		// The same forge id on another task is a link of its own.
-		$other = new ObjectCreatingEvent($this->link(data: ['taskKey' => 'OPS-1'] + self::LINK));
+		$other = new ObjectCreatingEvent($this->link(data: ['taskKey' => 'OPS-1', 'source' => 'manual'] + self::LINK));
 		$this->listener()->handle($other);
 		self::assertFalse($other->isPropagationStopped());
 	}//end testDuplicateExternalIdIsRejected()
@@ -151,4 +151,29 @@ class ForgeLinkResolveListenerTest extends TestCase {
 
 		self::assertTrue($event->isPropagationStopped(), 'dave is no member of proj-a, the project of VC-12');
 	}//end testMemberGateUsesTheTasksProjectNotTheSentOne()
+	/**
+	 * Integriq hands over the forge text; planninq finds the key in it.
+	 */
+	public function testKeyInForgeTextResolves(): void {
+		$event = new ObjectCreatingEvent($this->link(data: ['taskKey' => 'Merge branch feature/vc-12-printer (see SHA-256 notes)'] + self::LINK));
+
+		$this->listener()->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		self::assertSame(['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'taskKey' => 'VC-12'], $event->getModifiedData());
+	}//end testKeyInForgeTextResolves()
+
+	/**
+	 * A later event about the same merge request replaces the integration's
+	 * link, so its state follows the forge and no second link appears.
+	 */
+	public function testLaterIntegriqEventReplacesTheLink(): void {
+		$this->objects->seed('forgeLink', 'fl-0', ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => 'github:acme/portal#42', 'url' => 'https://github.com/acme/portal/pull/42', 'state' => 'open', 'source' => 'integriq']);
+
+		$event = new ObjectCreatingEvent($this->link(data: ['state' => 'merged'] + self::LINK));
+		$this->listener()->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		self::assertSame([], $this->objects->searchObjectsBySlug(registerSlug: 'planninq', schemaSlug: 'forgeLink', filters: ['externalId' => 'github:acme/portal#42']));
+	}//end testLaterIntegriqEventReplacesTheLink()
 }//end class
