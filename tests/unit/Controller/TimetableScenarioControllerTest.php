@@ -29,6 +29,7 @@ use OCA\Planninq\Controller\TimetableScenarioController;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\TimetableGenerationService;
 use OCA\Planninq\Service\TimetableScenarioImporter;
+use OCA\Planninq\Service\TimetableScenarioPublisher;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\BackgroundJob\IJobList;
@@ -37,10 +38,11 @@ use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 
 /**
- * The generate and import endpoints.
+ * The generate, import and publish endpoints.
  *
  * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
  * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+ * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
  */
 class TimetableScenarioControllerTest extends TestCase {
 
@@ -51,10 +53,11 @@ class TimetableScenarioControllerTest extends TestCase {
 	 * @param TimetableGenerationService $generation The generation service.
 	 * @param IJobList                   $jobList    The job list.
 	 * @param TimetableScenarioImporter  $importer   The importer, a stub when not given.
+	 * @param TimetableScenarioPublisher $publisher  The publisher, a stub when not given.
 	 *
 	 * @return TimetableScenarioController
 	 */
-	private function controller(bool $admin, TimetableGenerationService $generation, IJobList $jobList, ?TimetableScenarioImporter $importer=null): TimetableScenarioController {
+	private function controller(bool $admin, TimetableGenerationService $generation, IJobList $jobList, ?TimetableScenarioImporter $importer=null, ?TimetableScenarioPublisher $publisher=null): TimetableScenarioController {
 		$settings = $this->createMock(SettingsService::class);
 		$settings->method('isCurrentUserAdmin')->willReturn($admin);
 		return new TimetableScenarioController(
@@ -62,7 +65,8 @@ class TimetableScenarioControllerTest extends TestCase {
 			generation: $generation,
 			jobList: $jobList,
 			settingsService: $settings,
-			importer: ($importer ?? $this->createMock(TimetableScenarioImporter::class))
+			importer: ($importer ?? $this->createMock(TimetableScenarioImporter::class)),
+			publisher: ($publisher ?? $this->createMock(TimetableScenarioPublisher::class))
 		);
 	}//end controller()
 
@@ -157,4 +161,45 @@ class TimetableScenarioControllerTest extends TestCase {
 		self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $refused->getStatus());
 		self::assertStringContainsString(needle: 'no scheduled lessons', haystack: $refused->getData()['error']);
 	}//end testAnAdminImportsOrIsToldWhyNot()
+	/**
+	 * A non-admin cannot publish a scenario as drafts.
+	 *
+	 * @return void
+	 */
+	public function testANonAdminCannotPublish(): void {
+		$publisher = $this->createMock(TimetableScenarioPublisher::class);
+		$publisher->expects($this->never())->method('publishDrafts');
+
+		$response = $this->controller(admin: false, generation: $this->createMock(TimetableGenerationService::class), jobList: $this->createMock(IJobList::class), publisher: $publisher)->publishDrafts(id: 's-1');
+
+		self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $response->getStatus());
+		self::assertNotEmpty((new ReflectionMethod(TimetableScenarioController::class, 'publishDrafts'))->getAttributes(AuthorizedAdminSetting::class));
+	}//end testANonAdminCannotPublish()
+
+	/**
+	 * An admin gets the counts; a window already published is refused with 400 and the reason.
+	 *
+	 * @return void
+	 */
+	public function testAnAdminPublishesOrIsToldWhyNot(): void {
+		$publisher = $this->createMock(TimetableScenarioPublisher::class);
+		$publisher->method('publishDrafts')->willReturnCallback(
+			static function (string $id): array {
+				if ($id === 's-2') {
+					throw new InvalidArgumentException('Lessons of this window are already published from the generator. Nothing was written.');
+				}
+
+				return ['created' => 4, 'updated' => 0, 'unchanged' => 0, 'removed' => 0, 'rejected' => 0];
+			}
+		);
+		$controller = $this->controller(admin: true, generation: $this->createMock(TimetableGenerationService::class), jobList: $this->createMock(IJobList::class), publisher: $publisher);
+
+		$response = $controller->publishDrafts(id: 's-1');
+		self::assertSame(expected: Http::STATUS_OK, actual: $response->getStatus());
+		self::assertSame(expected: 4, actual: $response->getData()['created']);
+
+		$refused = $controller->publishDrafts(id: 's-2');
+		self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $refused->getStatus());
+		self::assertStringContainsString(needle: 'already published', haystack: $refused->getData()['error']);
+	}//end testAnAdminPublishesOrIsToldWhyNot()
 }//end class

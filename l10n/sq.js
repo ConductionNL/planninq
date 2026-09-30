@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Orë bosh, të gjithë mësuesit",
         "Most free periods of one teacher": "Më shumë orë bosh të një mësuesi",
         "Most lessons of one group on a day": "Më shumë orë mësimi të një grupi në një ditë",
-        "Room use": "Përdorimi i sallave"
+        "Room use": "Përdorimi i sallave",
+        "Publish as draft lessons": "Publiko si orë draft",
+        "Draft lessons written: {count}": "Orë draft të shkruara: {count}",
+        "Could not publish the scenario.": "Skenari nuk u publikua dot."
     },
     "nplurals=2; plural=(n != 1);"
 )

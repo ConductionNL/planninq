@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Hyppytunnit, kaikki opettajat",
         "Most free periods of one teacher": "Yhden opettajan eniten hyppytunteja",
         "Most lessons of one group on a day": "Yhden ryhmän eniten tunteja päivässä",
-        "Room use": "Tilojen käyttö"
+        "Room use": "Tilojen käyttö",
+        "Publish as draft lessons": "Julkaise luonnostunteina",
+        "Draft lessons written: {count}": "Luonnostunteja kirjoitettu: {count}",
+        "Could not publish the scenario.": "Skenaariota ei voitu julkaista."
     },
     "nplurals=2; plural=(n != 1);"
 )

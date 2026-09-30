@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Eyður, allir kennarar",
         "Most free periods of one teacher": "Flestar eyður hjá einum kennara",
         "Most lessons of one group on a day": "Flestar kennslustundir hjá einum hópi á dag",
-        "Room use": "Nýting stofa"
+        "Room use": "Nýting stofa",
+        "Publish as draft lessons": "Birta sem drög að kennslustundum",
+        "Draft lessons written: {count}": "Drög að kennslustundum skrifuð: {count}",
+        "Could not publish the scenario.": "Ekki tókst að birta sviðsmyndina."
     },
     "nplurals=2; plural=(n != 1);"
 )

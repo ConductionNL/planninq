@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Uras libras, tut ils magisters",
         "Most free periods of one teacher": "Il pli bler uras libras d'in magister",
         "Most lessons of one group on a day": "Il pli bler lecziuns d'ina gruppa en in di",
-        "Room use": "Utilisaziun da las stanzas"
+        "Room use": "Utilisaziun da las stanzas",
+        "Publish as draft lessons": "Publitgar sco lecziuns sbozs",
+        "Draft lessons written: {count}": "Lecziuns sbozs scrittas: {count}",
+        "Could not publish the scenario.": "Impussibel da publitgar il scenari."
     },
     "nplurals=2; plural=(n != 1);"
 )

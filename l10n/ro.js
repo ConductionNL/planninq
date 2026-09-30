@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Ferestre, toți profesorii",
         "Most free periods of one teacher": "Cele mai multe ferestre ale unui profesor",
         "Most lessons of one group on a day": "Cele mai multe ore ale unei grupe într-o zi",
-        "Room use": "Utilizarea sălilor"
+        "Room use": "Utilizarea sălilor",
+        "Publish as draft lessons": "Publică drept ore ciornă",
+        "Draft lessons written: {count}": "Ore ciornă scrise: {count}",
+        "Could not publish the scenario.": "Scenariul nu a putut fi publicat."
     },
     "nplurals=2; plural=(n != 1);"
 )

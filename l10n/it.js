@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Ore buche, tutti i docenti",
         "Most free periods of one teacher": "Più ore buche di un docente",
         "Most lessons of one group on a day": "Più lezioni di un gruppo in un giorno",
-        "Room use": "Uso delle aule"
+        "Room use": "Uso delle aule",
+        "Publish as draft lessons": "Pubblica come lezioni in bozza",
+        "Draft lessons written: {count}": "Lezioni in bozza scritte: {count}",
+        "Could not publish the scenario.": "Impossibile pubblicare lo scenario."
     },
     "nplurals=2; plural=(n != 1);"
 )

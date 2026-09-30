@@ -1067,7 +1067,10 @@
         "Free periods between lessons, all teachers": "Perjodi ħielsa, l-għalliema kollha",
         "Most free periods of one teacher": "L-aktar perjodi ħielsa ta' għalliem wieħed",
         "Most lessons of one group on a day": "L-aktar lezzjonijiet ta' grupp wieħed f'ġurnata",
-        "Room use": "Użu tal-kmamar"
+        "Room use": "Użu tal-kmamar",
+        "Publish as draft lessons": "Ippubblika bħala lezzjonijiet abbozz",
+        "Draft lessons written: {count}": "Lezzjonijiet abbozz miktuba: {count}",
+        "Could not publish the scenario.": "Ix-xenarju ma setax jiġi ppubblikat."
     },
     "plurals": {}
 }

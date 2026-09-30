@@ -1046,7 +1046,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Free periods between lessons, all teachers",
         "Most free periods of one teacher": "Most free periods of one teacher",
         "Most lessons of one group on a day": "Most lessons of one group on a day",
-        "Room use": "Room use"
+        "Room use": "Room use",
+        "Publish as draft lessons": "Publish as draft lessons",
+        "Draft lessons written: {count}": "Draft lessons written: {count}",
+        "Could not publish the scenario.": "Could not publish the scenario."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Brīvstundas, visi skolotāji",
         "Most free periods of one teacher": "Viena skolotāja visvairāk brīvstundu",
         "Most lessons of one group on a day": "Vienas grupas visvairāk stundu dienā",
-        "Room use": "Telpu izmantojums"
+        "Room use": "Telpu izmantojums",
+        "Publish as draft lessons": "Publicēt kā melnraksta stundas",
+        "Draft lessons written: {count}": "Uzrakstītas melnraksta stundas: {count}",
+        "Could not publish the scenario.": "Neizdevās publicēt scenāriju."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -38,6 +38,16 @@
 					@click="takeCurrent">
 					{{ t('planninq', 'Take the current timetable') }}
 				</NcButton>
+				<NcButton
+					v-if="canPublish"
+					:disabled="starting"
+					data-testid="scenario-publish"
+					@click="publish">
+					{{ t('planninq', 'Publish as draft lessons') }}
+				</NcButton>
+				<p v-if="published !== null" role="status" data-testid="scenario-published">
+					{{ t('planninq', 'Draft lessons written: {count}', { count: published }) }}
+				</p>
 				<p v-if="startError" class="timetable-scenario__error" role="alert">
 					{{ startError }}
 				</p>
@@ -136,12 +146,13 @@
  *
  * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
  * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+ * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
  */
 import { buildHeaders } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 import { NcButton, NcLoadingIcon, NcProgressBar } from '@nextcloud/vue'
-import { brokenHardRows, brokenSoftRows, canTakeCurrentTimetable, isRunning, progressPercent, unplacedRows } from '../utils/timetableScenarios.js'
+import { brokenHardRows, brokenSoftRows, canPublishDrafts, canTakeCurrentTimetable, isRunning, progressPercent, unplacedRows } from '../utils/timetableScenarios.js'
 
 const POLL_MS = 5000
 
@@ -160,6 +171,7 @@ export default {
 			loadError: '',
 			starting: false,
 			startError: '',
+			published: null,
 			timer: null,
 		}
 	},
@@ -235,6 +247,16 @@ export default {
 		 */
 		canImport() {
 			return getCurrentUser()?.isAdmin === true && canTakeCurrentTimetable(this.scenario)
+		},
+
+		/**
+		 * Whether this user may publish this scenario as draft lessons.
+		 *
+		 * @return {boolean}
+		 * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+		 */
+		canPublish() {
+			return getCurrentUser()?.isAdmin === true && canPublishDrafts(this.scenario)
 		},
 
 		/**
@@ -344,6 +366,26 @@ export default {
 				this.startError = body?.error || this.t('planninq', 'Could not take the current timetable.')
 				return
 			}
+			await this.load()
+		},
+
+		/**
+		 * Write the placements as draft lessons for every week of the window; teachers review them in the draft review.
+		 *
+		 * @return {Promise<void>}
+		 * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+		 */
+		async publish() {
+			this.starting = true
+			this.startError = ''
+			const response = await fetch(generateUrl(`/apps/planninq/api/timetable/scenarios/${this.id}/publish-drafts`), { method: 'POST', headers: buildHeaders() }).catch(() => null)
+			this.starting = false
+			const body = await response?.json().catch(() => ({}))
+			if (!response?.ok) {
+				this.startError = body?.error || this.t('planninq', 'Could not publish the scenario.')
+				return
+			}
+			this.published = Number(body?.created ?? 0) + Number(body?.updated ?? 0) + Number(body?.unchanged ?? 0)
 			await this.load()
 		},
 

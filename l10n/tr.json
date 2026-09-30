@@ -1067,7 +1067,10 @@
         "Free periods between lessons, all teachers": "Boş saatler, tüm öğretmenler",
         "Most free periods of one teacher": "Bir öğretmenin en çok boş saati",
         "Most lessons of one group on a day": "Bir grubun bir günde en çok dersi",
-        "Room use": "Derslik kullanımı"
+        "Room use": "Derslik kullanımı",
+        "Publish as draft lessons": "Taslak ders olarak yayımla",
+        "Draft lessons written: {count}": "Yazılan taslak dersler: {count}",
+        "Could not publish the scenario.": "Senaryo yayımlanamadı."
     },
     "plurals": {}
 }

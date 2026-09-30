@@ -30,6 +30,7 @@ use OCA\Planninq\BackgroundJob\GenerateTimetableScenario;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\TimetableGenerationService;
 use OCA\Planninq\Service\TimetableScenarioImporter;
+use OCA\Planninq\Service\TimetableScenarioPublisher;
 use OCA\Planninq\Settings\AdminSettings;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -39,10 +40,11 @@ use OCP\BackgroundJob\IJobList;
 use OCP\IRequest;
 
 /**
- * The generate and import endpoints of timetable scenarios.
+ * The generate, import and publish endpoints of timetable scenarios.
  *
  * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
  * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+ * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
  */
 class TimetableScenarioController extends Controller {
 
@@ -54,6 +56,7 @@ class TimetableScenarioController extends Controller {
 	 * @param IJobList                   $jobList         Runs it in the background.
 	 * @param SettingsService            $settingsService Tells whether the user is an admin.
 	 * @param TimetableScenarioImporter  $importer        Takes the current timetable into a scenario.
+	 * @param TimetableScenarioPublisher $publisher       Writes a scenario as draft lessons.
 	 *
 	 * @return void
 	 */
@@ -63,6 +66,7 @@ class TimetableScenarioController extends Controller {
 		private readonly IJobList $jobList,
 		private readonly SettingsService $settingsService,
 		private readonly TimetableScenarioImporter $importer,
+		private readonly TimetableScenarioPublisher $publisher,
 	) {
 		parent::__construct(appName: Application::APP_ID, request: $request);
 	}//end __construct()
@@ -115,4 +119,27 @@ class TimetableScenarioController extends Controller {
 
 		return new JSONResponse(['id' => $id, 'status' => $scenario['status'], 'metrics' => $scenario['metrics']]);
 	}//end importCurrent()
+	/**
+	 * Write a finished scenario's placements as draft lessons for every week of its window.
+	 *
+	 * @param string $id The scenario id.
+	 *
+	 * @return JSONResponse
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+	 */
+	#[AuthorizedAdminSetting(settings: AdminSettings::class)]
+	public function publishDrafts(string $id): JSONResponse {
+		if ($this->settingsService->isCurrentUserAdmin() === false) {
+			return new JSONResponse(['error' => 'Only an admin can publish a timetable scenario.'], Http::STATUS_FORBIDDEN);
+		}
+
+		try {
+			$result = $this->publisher->publishDrafts(id: $id);
+		} catch (InvalidArgumentException $e) {
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
+
+		return new JSONResponse(array_merge(['id' => $id], $result));
+	}//end publishDrafts()
 }//end class

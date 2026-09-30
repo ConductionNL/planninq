@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Okienka, wszyscy nauczyciele",
         "Most free periods of one teacher": "Najwięcej okienek jednego nauczyciela",
         "Most lessons of one group on a day": "Najwięcej lekcji jednej grupy w dniu",
-        "Room use": "Wykorzystanie sal"
+        "Room use": "Wykorzystanie sal",
+        "Publish as draft lessons": "Opublikuj jako lekcje robocze",
+        "Draft lessons written: {count}": "Zapisane lekcje robocze: {count}",
+        "Could not publish the scenario.": "Nie udało się opublikować scenariusza."
     },
     "nplurals=2; plural=(n != 1);"
 )

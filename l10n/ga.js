@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Tréimhsí saora, gach múinteoir",
         "Most free periods of one teacher": "Na tréimhsí saora is mó ag múinteoir amháin",
         "Most lessons of one group on a day": "Na ceachtanna is mó ag grúpa amháin in aon lá",
-        "Room use": "Úsáid seomraí"
+        "Room use": "Úsáid seomraí",
+        "Publish as draft lessons": "Foilsigh mar dhréachtcheachtanna",
+        "Draft lessons written: {count}": "Dréachtcheachtanna scríofa: {count}",
+        "Could not publish the scenario.": "Níorbh fhéidir an cás a fhoilsiú."
     },
     "nplurals=2; plural=(n != 1);"
 )

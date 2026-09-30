@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Aknatunnid, kõik õpetajad",
         "Most free periods of one teacher": "Ühe õpetaja kõige rohkem aknatunde",
         "Most lessons of one group on a day": "Ühe rühma kõige rohkem tunde päevas",
-        "Room use": "Ruumide kasutus"
+        "Room use": "Ruumide kasutus",
+        "Publish as draft lessons": "Avalda mustandtundidena",
+        "Draft lessons written: {count}": "Mustandtunde kirjutatud: {count}",
+        "Could not publish the scenario.": "Stsenaariumi ei õnnestunud avaldada."
     },
     "nplurals=2; plural=(n != 1);"
 )

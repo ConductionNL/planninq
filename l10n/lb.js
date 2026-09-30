@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Fräistonnen, all Enseignanten",
         "Most free periods of one teacher": "Meeschte Fräistonne vun engem Enseignant",
         "Most lessons of one group on a day": "Meeschte Stonne vun enger Grupp un engem Dag",
-        "Room use": "Sallbenotzung"
+        "Room use": "Sallbenotzung",
+        "Publish as draft lessons": "Als Entworfsstonne publizéieren",
+        "Draft lessons written: {count}": "Entworfsstonne geschriwwen: {count}",
+        "Could not publish the scenario.": "De Szenario konnt net publizéiert ginn."
     },
     "nplurals=2; plural=(n != 1);"
 )

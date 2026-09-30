@@ -39,7 +39,7 @@ DECISIONS.md row 17). Sections 5 onward assume the solver answer recorded in des
 
 ## 8. Publish
 
-- [ ] 8.1 `POST /api/timetable/scenarios/{id}/publish-drafts` (admin): upsert the placements as draft lessons for every week of the window (design decision 7). Verify: PHPUnit: every payload validated against the real `timetableSession` fragment; a second scenario for the same window replaces unpublished drafts and is refused when lessons are already published from `planninq-generator`.
+- [x] 8.1 `POST /api/timetable/scenarios/{id}/publish-drafts` (admin): upsert the placements as draft lessons for every week of the window (design decision 7). Verify: PHPUnit: every payload validated against the real `timetableSession` fragment; a second scenario for the same window replaces unpublished drafts and is refused when lessons are already published from `planninq-generator`. Built (section 8 PR): `TimetableScenarioPublisher` (only a finished generated scenario; drafts of another scenario in the window removed first; the upsert through `TimetableSessionService`), endpoint in `TimetableScenarioController::publishDrafts`, button "Publish as draft lessons" on the scenario page; PHPUnit `TimetableScenarioPublisherTest` (4, the real session service and every payload validated with Opis), `TimetableScenarioControllerTest`, vitest `canPublishDrafts`.
 
 ## 9. Docs and verification
 

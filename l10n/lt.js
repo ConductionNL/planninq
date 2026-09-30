@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Langai, visi mokytojai",
         "Most free periods of one teacher": "Daugiausia vieno mokytojo langų",
         "Most lessons of one group on a day": "Daugiausia vienos grupės pamokų per dieną",
-        "Room use": "Patalpų naudojimas"
+        "Room use": "Patalpų naudojimas",
+        "Publish as draft lessons": "Paskelbti kaip juodraštines pamokas",
+        "Draft lessons written: {count}": "Įrašyta juodraštinių pamokų: {count}",
+        "Could not publish the scenario.": "Nepavyko paskelbti scenarijaus."
     },
     "nplurals=2; plural=(n != 1);"
 )

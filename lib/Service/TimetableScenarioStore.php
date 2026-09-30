@@ -178,6 +178,49 @@ class TimetableScenarioStore {
 	}//end scheduledLessons()
 
 	/**
+	 * The lessons from one source that start in a window, drafts and scheduled, with their ids.
+	 *
+	 * @param string $source The source system.
+	 * @param string $from   The first moment, ISO 8601.
+	 * @param string $to     The last moment, ISO 8601.
+	 *
+	 * @return array<int,array<string,mixed>>
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+	 */
+	public function lessonsFrom(string $source, string $from, string $to): array {
+		$results = $this->objectService()->searchObjectsBySlug(
+			registerSlug: self::REGISTER,
+			schemaSlug: self::SESSION,
+			filters: ['sourceSystem' => $source, 'startsAt' => ['gte' => $from, 'lte' => $to], '_limit' => TimetableSessionQuery::MAX_LIMIT],
+			_rbac: false
+		);
+		$lessons = [];
+		foreach ((new TimetableSessionRows())->listOf(results: $results) as $row) {
+			$data   = (array)$this->dataOf(object: $row);
+			$starts = strtotime((string)($data['startsAt'] ?? ''));
+			if (($data['sourceSystem'] ?? '') === $source && $starts !== false && $starts >= strtotime($from) && $starts <= strtotime($to)) {
+				$lessons[] = $data;
+			}
+		}
+
+		return $lessons;
+	}//end lessonsFrom()
+
+	/**
+	 * Delete one lesson.
+	 *
+	 * @param string $id The lesson id.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+	 */
+	public function deleteLesson(string $id): void {
+		$this->objectService()->deleteObject(uuid: $id, register: self::REGISTER, schema: self::SESSION, _rbac: false);
+	}//end deleteLesson()
+
+	/**
 	 * An object's data with its id, from an ObjectEntity or an array; null for anything else.
 	 *
 	 * @param mixed $object The object.

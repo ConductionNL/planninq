@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Håltimmar, alla lärare",
         "Most free periods of one teacher": "Flest håltimmar för en lärare",
         "Most lessons of one group on a day": "Flest lektioner för en grupp en dag",
-        "Room use": "Salsanvändning"
+        "Room use": "Salsanvändning",
+        "Publish as draft lessons": "Publicera som utkastlektioner",
+        "Draft lessons written: {count}": "Utkastlektioner skrivna: {count}",
+        "Could not publish the scenario.": "Det gick inte att publicera scenariot."
     },
     "nplurals=2; plural=(n != 1);"
 )

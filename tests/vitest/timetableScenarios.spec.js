@@ -4,7 +4,7 @@
  * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
  */
 import { describe, expect, it } from 'vitest'
-import { brokenHardRows, brokenSoftRows, canTakeCurrentTimetable, isRunning, progressPercent, unplacedRows } from '../../src/utils/timetableScenarios.js'
+import { brokenHardRows, brokenSoftRows, canPublishDrafts, canTakeCurrentTimetable, isRunning, progressPercent, unplacedRows } from '../../src/utils/timetableScenarios.js'
 
 const scenario = {
 	status: 'running',
@@ -87,5 +87,17 @@ describe('an imported scenario (scenario: an imported timetable that breaks a ha
 		expect(canTakeCurrentTimetable({ ...imported, status: 'published' })).toBe(false)
 		expect(canTakeCurrentTimetable({ ...imported, source: 'generated' })).toBe(false)
 		expect(canTakeCurrentTimetable(null)).toBe(false)
+	})
+})
+
+describe('publishing (scenario: publish a scenario as drafts)', () => {
+	it('offers publishing only for a finished generated scenario with placements', () => {
+		const done = { source: 'generated', status: 'done', placements: [{ lesson: 'a', period: 'mon-1', room: 'B12' }] }
+		expect(canPublishDrafts(done)).toBe(true)
+		expect(canPublishDrafts({ ...done, source: 'imported' })).toBe(false)
+		expect(canPublishDrafts({ ...done, placements: [] })).toBe(false)
+		expect(canPublishDrafts({ ...done, status: 'running' })).toBe(false)
+		expect(canPublishDrafts({ ...done, status: 'published' })).toBe(false)
+		expect(canPublishDrafts(null)).toBe(false)
 	})
 })

@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Furos, todos os professores",
         "Most free periods of one teacher": "Mais furos de um professor",
         "Most lessons of one group on a day": "Mais aulas de um grupo num dia",
-        "Room use": "Ocupação das salas"
+        "Room use": "Ocupação das salas",
+        "Publish as draft lessons": "Publicar como aulas em rascunho",
+        "Draft lessons written: {count}": "Aulas em rascunho escritas: {count}",
+        "Could not publish the scenario.": "Não foi possível publicar o cenário."
     },
     "nplurals=2; plural=(n != 1);"
 )

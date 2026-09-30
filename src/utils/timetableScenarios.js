@@ -110,3 +110,15 @@ export function brokenHardRows(scenario) {
 export function canTakeCurrentTimetable(scenario) {
 	return scenario?.source === 'imported' && !isRunning(scenario) && scenario?.status !== 'published'
 }
+
+/**
+ * Whether a scenario can be published as draft lessons: a finished generated one with placements.
+ * A scenario taken from the current timetable is already the timetable.
+ *
+ * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+ * @param {object|null} scenario The scenario.
+ * @return {boolean}
+ */
+export function canPublishDrafts(scenario) {
+	return scenario?.source === 'generated' && scenario?.status === 'done' && (scenario?.placements ?? []).length > 0
+}

@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Lyukasórák, minden tanár",
         "Most free periods of one teacher": "Egy tanár legtöbb lyukasórája",
         "Most lessons of one group on a day": "Egy csoport legtöbb órája egy napon",
-        "Room use": "Teremkihasználtság"
+        "Room use": "Teremkihasználtság",
+        "Publish as draft lessons": "Közzététel óratervezetként",
+        "Draft lessons written: {count}": "Megírt óratervezetek: {count}",
+        "Could not publish the scenario.": "Nem sikerült közzétenni a forgatókönyvet."
     },
     "nplurals=2; plural=(n != 1);"
 )

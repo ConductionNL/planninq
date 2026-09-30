@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Prazni časovi, svi nastavnici",
         "Most free periods of one teacher": "Najviše praznih časova jednog nastavnika",
         "Most lessons of one group on a day": "Najviše časova jedne grupe u danu",
-        "Room use": "Korištenje učionica"
+        "Room use": "Korištenje učionica",
+        "Publish as draft lessons": "Objavi kao nacrte časova",
+        "Draft lessons written: {count}": "Zapisani nacrti časova: {count}",
+        "Could not publish the scenario.": "Scenarij nije moguće objaviti."
     },
     "nplurals=2; plural=(n != 1);"
 )

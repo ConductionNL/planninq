@@ -1068,7 +1068,10 @@ OC.L10N.register(
         "Free periods between lessons, all teachers": "Κενά, όλοι οι εκπαιδευτικοί",
         "Most free periods of one teacher": "Τα περισσότερα κενά ενός εκπαιδευτικού",
         "Most lessons of one group on a day": "Τα περισσότερα μαθήματα μιας ομάδας σε μια ημέρα",
-        "Room use": "Χρήση αιθουσών"
+        "Room use": "Χρήση αιθουσών",
+        "Publish as draft lessons": "Δημοσίευση ως πρόχειρα μαθήματα",
+        "Draft lessons written: {count}": "Πρόχειρα μαθήματα που γράφτηκαν: {count}",
+        "Could not publish the scenario.": "Δεν ήταν δυνατή η δημοσίευση του σεναρίου."
     },
     "nplurals=2; plural=(n != 1);"
 )
