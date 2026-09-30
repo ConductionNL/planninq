@@ -2,11 +2,14 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  * SPDX-License-Identifier: EUPL-1.2
  *
- * E2E coverage for a generator run (timetabling-generator, section 5) and the
- * scenario comparison (section 7).
+ * E2E coverage for a generator run (timetabling-generator, section 5), the
+ * scenario page's lists, the scenario comparison (section 7) and publishing as
+ * drafts (section 8).
  *
  *   @e2e timetable-generator::generate-a-scenario-that-respects-a-hard-wish
  *   @e2e timetable-generator::compare-a-generated-and-an-imported-scenario
+ *   @e2e timetable-generator::a-lesson-that-cannot-be-placed-is-listed-with-its-reason
+ *   @e2e timetable-generator::publish-a-scenario-as-drafts
  *
  * The run itself is a queued job, so the test starts it through the endpoint,
  * runs the background jobs with `occ background-job:worker` when the harness
@@ -115,5 +118,62 @@ test.describe('Timetable generator', () => {
 		await expect(page.getByTestId('compare-hardWishesBroken-0')).toHaveClass(/scenario-compare__best/)
 		await expect(page.getByTestId('compare-hardWishesBroken-1')).not.toHaveClass(/scenario-compare__best/)
 		await expect(page.getByTestId('scenario-compare-diff')).toContainText('3A:English:2')
+	})
+	test('a lesson that cannot be placed is listed with its reason', async ({ page }) => {
+		const response = await api.post(`${OBJECTS}/timetableScenario`, {
+			data: {
+				title: `Unplaced ${RUN}`,
+				source: 'generated',
+				weekOf: '2026-10-05',
+				windowFrom: '2026-10-05',
+				windowTo: '2026-10-09',
+				status: 'done',
+				input: { periods: ['mon-1'], rooms: [], lessons: [{ key: '3A:English:3', activity: '3A:English', group: '3A', subject: 'English', teacher: `klaas-${RUN}`, roomType: 'classroom', length: 1 }], wishes: [{ id: 'w-klaas', appliesTo: 'teacher', reference: `klaas-${RUN}`, kind: 'unavailable', periods: ['mon-1'], strength: 'hard' }], source: 'csv' },
+				placements: [],
+				unplaced: [{ lesson: '3A:English:3', wish: 'w-klaas', reason: 'hardWishPeriods' }],
+				brokenWishes: [],
+				metrics: { lessons: 1, placed: 0, unplaced: 1 },
+			},
+		})
+		const body = await response.json()
+		const id = body.id ?? body['@self']?.id
+		created.push(`${OBJECTS}/timetableScenario/${id}`)
+
+		await page.goto(`${PLANNINQ_ROOT}timetable/scenarios/${id}`)
+		const unplaced = page.getByTestId('scenario-unplaced')
+		await expect(unplaced).toContainText('3A:English:3')
+		await expect(unplaced).toContainText(`klaas-${RUN}`)
+	})
+
+	test('publish a scenario as drafts', async ({ page }) => {
+		const response = await api.post(`${OBJECTS}/timetableScenario`, {
+			data: {
+				title: `Publish ${RUN}`,
+				source: 'generated',
+				weekOf: '2027-03-01',
+				windowFrom: '2027-03-01',
+				windowTo: '2027-03-12',
+				status: 'done',
+				input: { periods: ['mon-1'], rooms: [], lessons: [{ key: `G${RUN}:Art:1`, activity: `G${RUN}:Art`, group: `G${RUN}`, subject: 'Art', teacher: `piet-${RUN}`, roomType: 'classroom', length: 1 }], wishes: [], source: 'csv' },
+				placements: [{ lesson: `G${RUN}:Art:1`, period: 'mon-1', room: 'B12' }],
+				unplaced: [],
+				brokenWishes: [],
+				metrics: { lessons: 1, placed: 1, unplaced: 0 },
+			},
+		})
+		const body = await response.json()
+		const id = body.id ?? body['@self']?.id
+		created.push(`${OBJECTS}/timetableScenario/${id}`)
+
+		await page.goto(`${PLANNINQ_ROOT}timetable/scenarios/${id}`)
+		await page.getByTestId('scenario-publish').click()
+		await expect(page.getByTestId('scenario-published')).toContainText('2')
+
+		const drafts = await (await api.get(`${OBJECTS}/timetableSession?sourceSystem=planninq-generator&_limit=100`)).json()
+		const mine = (drafts.results ?? []).filter((row: { externalRef?: string }) => String(row.externalRef ?? '').startsWith(`${id}:`))
+		expect(mine.map((row: { status: string }) => row.status)).toEqual(['draft', 'draft'])
+		for (const row of mine) {
+			created.push(`${OBJECTS}/timetableSession/${row.id ?? row['@self']?.id}`)
+		}
 	})
 })

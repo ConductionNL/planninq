@@ -43,5 +43,5 @@ DECISIONS.md row 17). Sections 5 onward assume the solver answer recorded in des
 
 ## 9. Docs and verification
 
-- [ ] 9.1 `docs/features/timetable-generator.md`, strings in all 36 locales, Newman folder "Timetable generator". Verify: `npm run check:l10n`, Newman.
-- [ ] 9.2 `openspec validate timetabling-generator --type change --strict` passes, and every scenario is covered by a test named above or carries an `@e2e exclude <reason>` note.
+- [x] 9.1 `docs/features/timetable-generator.md`, strings in all 36 locales, Newman folder "Timetable generator". Verify: `npm run check:l10n`, Newman. Built (section 9 PR): `docs/features/timetable-generator.md` (and a row in the features README), Newman folder "Timetable generator" (8 requests); every string of sections 3 to 8 is in all 36 locales (`npm run check:l10n` 0).
+- [x] 9.2 `openspec validate timetabling-generator --type change --strict` passes, and every scenario is covered by a test named above or carries an `@e2e exclude <reason>` note. Done in the section 9 PR: `openspec validate timetabling-generator --type change --strict` passes; every scenario has a Playwright case in `tests/e2e/timetable-wishes.spec.ts` or `tests/e2e/timetable-generator.spec.ts` (hydra gate-19) besides the unit tests named above.
