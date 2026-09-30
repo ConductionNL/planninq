@@ -31,7 +31,7 @@ namespace OCA\Planninq\Timetabling;
  * A placed lesson (a slot) is: `lesson` (the input lesson), `room`, `periods`
  * (the period keys it takes), `day` and `order` (the grid position of its first period).
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-4.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
  */
 final class WishChecker {
 
@@ -53,7 +53,7 @@ final class WishChecker {
 	 *
 	 * @return array<int,string>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-4.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
 	 */
 	public function breakingLessons(array $wish, array $slots, WeekGrid $grid): array {
 		$mine = array_values(
@@ -82,7 +82,7 @@ final class WishChecker {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-4.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
 	 */
 	public function forbids(array $wish, array $lesson, array $periods, string $room): bool {
 		if (in_array(($wish['kind'] ?? ''), ['unavailable', 'avoid'], true) === false) {
@@ -101,7 +101,7 @@ final class WishChecker {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-4.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
 	 */
 	public function applies(array $wish, array $lesson, string $room): bool {
 		$reference = (string)($wish['reference'] ?? '');

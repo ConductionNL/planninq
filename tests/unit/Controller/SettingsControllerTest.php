@@ -431,7 +431,7 @@ class SettingsControllerTest extends TestCase {
 	/**
 	 * Task 1.2: the settings carry the week grid and budget, and an admin saves them; a refused grid is not stored.
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 *
 	 * @return void
 	 */

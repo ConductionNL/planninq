@@ -40,7 +40,7 @@ use Psr\Container\ContainerInterface;
 /**
  * The real store over an in-memory ObjectService holding lessons, a wish and a scenario.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
  */
 class TimetableScenarioImporterTest extends TestCase {
 	use RegisterSchemaValidation;

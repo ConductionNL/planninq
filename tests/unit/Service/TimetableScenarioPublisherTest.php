@@ -41,7 +41,7 @@ use Psr\Log\LoggerInterface;
 /**
  * The real publisher, store and session service over an in-memory ObjectService.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
  */
 class TimetableScenarioPublisherTest extends TestCase {
 	use RegisterSchemaValidation;

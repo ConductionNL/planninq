@@ -33,7 +33,7 @@ use OCP\BackgroundJob\QueuedJob;
 /**
  * Runs one step of a timetable scenario run.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
  */
 class GenerateTimetableScenario extends QueuedJob {
 
@@ -61,7 +61,7 @@ class GenerateTimetableScenario extends QueuedJob {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
 	 */
 	protected function run($argument): void {
 		$this->runStep(argument: $argument);
@@ -74,7 +74,7 @@ class GenerateTimetableScenario extends QueuedJob {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
 	 */
 	public function runStep(mixed $argument): bool {
 		$id = '';

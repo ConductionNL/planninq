@@ -28,7 +28,7 @@ namespace OCA\Planninq\Timetabling;
 /**
  * The outcome of one solver run.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
  */
 final class SolverResult {
 
@@ -59,7 +59,7 @@ final class SolverResult {
 	 *
 	 * @return array{placements:array<int,array<string,string>>,unplaced:array<int,array<string,mixed>>,brokenWishes:array<int,array<string,mixed>>,metrics:array<string,mixed>}
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
 	 */
 	public function toScenario(): array {
 		return [

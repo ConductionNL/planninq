@@ -35,7 +35,7 @@ class TimetableCsvParserTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	public function testAGoodSheetBecomesRows(): void {
 		$parser = new TimetableCsvParser();
@@ -56,7 +56,7 @@ class TimetableCsvParserTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	public function testAWrongHeaderIsRefused(): void {
 		$result = (new TimetableCsvParser())->parseActivities(csv: "group,subject,teacher,hours\n3A,English,klaas,3\n", roomTypes: ['classroom']);
@@ -73,7 +73,7 @@ class TimetableCsvParserTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	public function testEachRefusalNamesItsLine(): void {
 		$csv = implode(
@@ -109,7 +109,7 @@ class TimetableCsvParserTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	public function testARoomCapacityMustBeAWholeNumber(): void {
 		$result = (new TimetableCsvParser())->parseRooms(csv: "reference,capacity,type\nr-101,thirty,classroom\n");

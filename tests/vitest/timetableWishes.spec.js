@@ -1,7 +1,7 @@
 /**
  * Vitest tests for the timetable wish editor helpers (timetabling-generator, section 3).
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
  */
 import Ajv from 'ajv'
 import { readFileSync } from 'node:fs'

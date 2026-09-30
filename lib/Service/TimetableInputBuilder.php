@@ -36,7 +36,7 @@ use OCP\IAppConfig;
 /**
  * Builds the SolverInput of a generator run.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
  */
 class TimetableInputBuilder {
 
@@ -92,7 +92,7 @@ class TimetableInputBuilder {
 	 *
 	 * @return SolverInput
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
 	 */
 	public function build(string $academicYear, array $wishes): SolverInput {
 		$periods = $this->grid->periodKeys();
@@ -126,7 +126,7 @@ class TimetableInputBuilder {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	public function storeUpload(array $rooms, array $activities): void {
 		$this->appConfig->setValueString(Application::APP_ID, self::CSV_ROOMS_KEY, (string)json_encode(array_values($rooms)), lazy: true);
@@ -140,7 +140,7 @@ class TimetableInputBuilder {
 	 *
 	 * @return array<int,array<string,mixed>>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
 	 */
 	private function lessons(array $activities): array {
 		$lessons = [];
@@ -170,8 +170,8 @@ class TimetableInputBuilder {
 	 *
 	 * @return array<string,mixed>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
 	 */
 	public function solverWish(array $wish): array {
 		$out = ['id' => (string)($wish['id'] ?? ($wish['@self']['id'] ?? ''))];
@@ -191,7 +191,7 @@ class TimetableInputBuilder {
 	 *
 	 * @return array<int,array<string,mixed>>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	private function stored(string $key): array {
 		$rows = json_decode($this->appConfig->getValueString(Application::APP_ID, $key, '[]', lazy: true), true);

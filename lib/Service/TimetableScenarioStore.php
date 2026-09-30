@@ -35,7 +35,7 @@ use Throwable;
  * Written with RBAC off: the store is reached only from the admin-only
  * generate endpoint and from the queued job, which runs without a user.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
  */
 class TimetableScenarioStore {
 
@@ -88,7 +88,7 @@ class TimetableScenarioStore {
 	 *
 	 * @return array<string,mixed>|null
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
 	 */
 	public function load(string $id): ?array {
 		try {
@@ -110,7 +110,7 @@ class TimetableScenarioStore {
 	 *
 	 * @throws RuntimeException When OpenRegister refuses it.
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
 	 */
 	public function save(string $id, array $data): void {
 		unset($data['@self'], $data['id']);
@@ -125,7 +125,7 @@ class TimetableScenarioStore {
 	 *
 	 * @return array<int,array<string,mixed>>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
 	 */
 	public function wishes(): array {
 		$results = $this->objectService()->searchObjectsBySlug(
@@ -153,7 +153,7 @@ class TimetableScenarioStore {
 	 *
 	 * @return array<int,array<string,mixed>>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
 	 */
 	public function scheduledLessons(string $from, string $to): array {
 		$results = $this->objectService()->searchObjectsBySlug(
@@ -186,7 +186,7 @@ class TimetableScenarioStore {
 	 *
 	 * @return array<int,array<string,mixed>>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
 	 */
 	public function lessonsFrom(string $source, string $from, string $to): array {
 		$results = $this->objectService()->searchObjectsBySlug(
@@ -214,7 +214,7 @@ class TimetableScenarioStore {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
 	 */
 	public function deleteLesson(string $id): void {
 		$this->objectService()->deleteObject(uuid: $id, register: self::REGISTER, schema: self::SESSION, _rbac: false);

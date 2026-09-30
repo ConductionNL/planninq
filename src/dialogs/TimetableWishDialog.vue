@@ -136,7 +136,7 @@
  * `timetable_period_grid` setting. Saving goes through the page's own save
  * path (`confirm`), so the list refreshes as after any other edit.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
  */
 import { getDayNames } from '@nextcloud/l10n'
 import { NcButton, NcCheckboxRadioSwitch, NcDialog, NcLoadingIcon, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
@@ -195,7 +195,7 @@ export default {
 		 * The week grid from the settings, the default grid until they are read.
 		 *
 		 * @return {object}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
 		 */
 		grid() {
 			return readGrid(useSettingsStore().settings?.timetable_period_grid ?? null)
@@ -205,7 +205,7 @@ export default {
 		 * The rows of the period picker.
 		 *
 		 * @return {Array}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
 		 */
 		rows() {
 			return gridRows(this.grid, this.form.periods)
@@ -215,7 +215,7 @@ export default {
 		 * Whether the chosen kind names periods.
 		 *
 		 * @return {boolean}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
 		 */
 		namesPeriods() {
 			return PERIOD_KINDS.includes(this.form.kind)
@@ -225,7 +225,7 @@ export default {
 		 * The problems, shown once the user tried to save.
 		 *
 		 * @return {Array}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
 		 */
 		shownProblems() {
 			return this.tried ? wishProblems(this.form) : []
@@ -235,7 +235,7 @@ export default {
 		 * The label of the reference field for what the wish applies to.
 		 *
 		 * @return {string}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
 		 */
 		referenceLabel() {
 			return {
@@ -250,7 +250,7 @@ export default {
 		 * The choices for what a wish applies to.
 		 *
 		 * @return {Array}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
 		 */
 		appliesToOptions() {
 			return [
@@ -265,7 +265,7 @@ export default {
 		 * The wish kinds.
 		 *
 		 * @return {Array}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
 		 */
 		kindOptions() {
 			return [
@@ -284,7 +284,7 @@ export default {
 		 *
 		 * @param {boolean} show Whether the dialog opens.
 		 * @return {void}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
 		 */
 		show(show) {
 			if (show) {
@@ -298,7 +298,7 @@ export default {
 	 * Read the settings once, for the week grid.
 	 *
 	 * @return {void}
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
 	 */
 	created() {
 		const settings = useSettingsStore()
@@ -313,7 +313,7 @@ export default {
 		 *
 		 * @param {string} key The period key.
 		 * @return {void}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
 		 */
 		togglePeriod(key) {
 			this.form.periods = togglePeriod(this.form.periods, key)
@@ -324,7 +324,7 @@ export default {
 		 *
 		 * @param {string} field The field.
 		 * @return {boolean}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
 		 */
 		hasProblem(field) {
 			return this.shownProblems.some((problem) => problem.field === field)
@@ -335,7 +335,7 @@ export default {
 		 *
 		 * @param {string} day The day key.
 		 * @return {string}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
 		 */
 		dayLabel(day) {
 			const index = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].indexOf(day)
@@ -346,7 +346,7 @@ export default {
 		 * Save the wish through the page, then close.
 		 *
 		 * @return {Promise<void>}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
 		 */
 		async save() {
 			this.tried = true

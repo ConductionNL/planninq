@@ -63,7 +63,7 @@ class TimetableGridServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 */
 	public function testTheDefaults(): void {
 		$settings = $this->service()->settings();
@@ -82,7 +82,7 @@ class TimetableGridServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 */
 	public function testRefusedValuesAreNotStored(): void {
 		$refused = [
@@ -115,7 +115,7 @@ class TimetableGridServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 */
 	public function testAGoodGridIsStoredInWeekOrder(): void {
 		$this->service()->save(

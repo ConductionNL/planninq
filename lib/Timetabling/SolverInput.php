@@ -29,7 +29,7 @@ namespace OCA\Planninq\Timetabling;
 /**
  * The input of one generator run.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
  */
 final class SolverInput {
 
@@ -60,7 +60,7 @@ final class SolverInput {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
 	 */
 	public function isEmpty(): bool {
 		return $this->lessons === [];
@@ -71,7 +71,7 @@ final class SolverInput {
 	 *
 	 * @return array{periods:array<int,string>,rooms:array<int,array<string,mixed>>,lessons:array<int,array<string,mixed>>,wishes:array<int,array<string,mixed>>,source:string}
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
 	 */
 	public function toArray(): array {
 		return [

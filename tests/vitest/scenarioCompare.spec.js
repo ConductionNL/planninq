@@ -1,7 +1,7 @@
 /**
  * Vitest tests for comparing timetable scenarios (timetabling-generator, section 7).
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-7.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-7.1
  */
 import { describe, expect, it } from 'vitest'
 import { bestPositions, compareRows, lessonDiff } from '../../src/utils/scenarioCompare.js'

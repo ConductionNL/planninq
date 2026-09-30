@@ -28,7 +28,7 @@ namespace OCA\Planninq\Timetabling;
 /**
  * Places the lessons of a solver input on the week grid.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
  */
 interface TimetableSolver {
 
@@ -42,7 +42,7 @@ interface TimetableSolver {
 	 *
 	 * @return SolverResult
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
 	 */
 	public function solve(SolverInput $input, int $seconds, int $seed, array $start=[]): SolverResult;
 }//end interface

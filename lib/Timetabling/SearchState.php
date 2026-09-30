@@ -28,7 +28,7 @@ namespace OCA\Planninq\Timetabling;
 /**
  * The placements of a search and the periods they keep busy.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
  */
 final class SearchState {
 
@@ -71,7 +71,7 @@ final class SearchState {
 	 *
 	 * @return bool Whether it was placed.
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
 	 */
 	public function place(string $key, array $option): bool {
 		if ($this->fits(key: $key, option: $option) === false) {
@@ -98,7 +98,7 @@ final class SearchState {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
 	 */
 	public function fits(string $key, array $option): bool {
 		foreach ($this->marks(key: $key, option: $option) as $mark) {
@@ -117,7 +117,7 @@ final class SearchState {
 	 *
 	 * @return array{period:string,room:string,periods:array<int,string>}|null The option it had.
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
 	 */
 	public function remove(string $key): ?array {
 		$option = ($this->placed[$key] ?? null);
@@ -144,7 +144,7 @@ final class SearchState {
 	 *
 	 * @return array{period:string,room:string,periods:array<int,string>}|null
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
 	 */
 	public function option(string $key): ?array {
 		return ($this->placed[$key] ?? null);
@@ -159,7 +159,7 @@ final class SearchState {
 	 *
 	 * @return int
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
 	 */
 	public function onDay(string $field, string $reference, string $day): int {
 		return ($this->days[$field."\n".$reference."\n".$day] ?? 0);
@@ -170,7 +170,7 @@ final class SearchState {
 	 *
 	 * @return array<int,array{lesson:string,period:string,room:string}>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
 	 */
 	public function placements(): array {
 		$list = [];

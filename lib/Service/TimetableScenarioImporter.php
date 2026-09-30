@@ -36,7 +36,7 @@ use Throwable;
 /**
  * Snapshot the current timetable into a scenario.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
  */
 class TimetableScenarioImporter {
 
@@ -67,7 +67,7 @@ class TimetableScenarioImporter {
 	 *
 	 * @throws InvalidArgumentException When the scenario does not exist, is not imported, or its week has no lessons.
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
 	 */
 	public function importInto(string $id): array {
 		$scenario = $this->store->load(id: $id);

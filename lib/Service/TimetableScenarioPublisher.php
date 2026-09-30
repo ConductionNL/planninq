@@ -32,7 +32,7 @@ use InvalidArgumentException;
 /**
  * Publish a scenario as draft lessons.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
  */
 class TimetableScenarioPublisher {
 
@@ -75,7 +75,7 @@ class TimetableScenarioPublisher {
 	 *
 	 * @throws InvalidArgumentException When the scenario cannot be published.
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
 	 */
 	public function publishDrafts(string $id): array {
 		$scenario = $this->store->load(id: $id);
@@ -125,7 +125,7 @@ class TimetableScenarioPublisher {
 	 *
 	 * @return array<int,array<string,string>>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
 	 */
 	public function rows(string $id, array $scenario, DateTimeImmutable $from, DateTimeImmutable $to): array {
 		$lessons = array_column((array)($scenario['input']['lessons'] ?? []), null, 'key');

@@ -40,7 +40,7 @@ use OCP\EventDispatcher\Event;
  * An activity row: group, subject, teacher (a Nextcloud user id), lessonsPerWeek,
  * lessonLength (in periods) and roomType. A room row: reference, capacity, type.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
  */
 class TimetableActivitiesQueryEvent extends Event {
 
@@ -90,7 +90,7 @@ class TimetableActivitiesQueryEvent extends Event {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
 	 */
 	public function getAcademicYear(): string {
 		return $this->academicYear;
@@ -105,7 +105,7 @@ class TimetableActivitiesQueryEvent extends Event {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
 	 */
 	public function answer(string $app, array $activities, array $rooms): void {
 		$this->answeredBy = $app;
@@ -118,7 +118,7 @@ class TimetableActivitiesQueryEvent extends Event {
 	 *
 	 * @return array<int,array<string,mixed>>|null
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
 	 */
 	public function getActivities(): ?array {
 		return $this->activities;
@@ -129,7 +129,7 @@ class TimetableActivitiesQueryEvent extends Event {
 	 *
 	 * @return array<int,array<string,mixed>>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
 	 */
 	public function getRooms(): array {
 		return $this->rooms;
@@ -140,7 +140,7 @@ class TimetableActivitiesQueryEvent extends Event {
 	 *
 	 * @return string|null
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
 	 */
 	public function getAnsweredBy(): ?string {
 		return $this->answeredBy;

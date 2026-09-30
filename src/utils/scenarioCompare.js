@@ -33,7 +33,7 @@ export const MAX_COMPARED = 3
  * One row per metric line with each scenario's value and the positions holding the best value.
  * A missing value is null and never the best; when every value is equal no value is marked.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-7.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-7.1
  * @param {object[]} scenarios Two or three scenarios.
  * @return {Array<{key: string, values: Array<number|null>, best: number[]}>} The rows.
  */
@@ -50,7 +50,7 @@ export function compareRows(scenarios) {
 /**
  * The positions of the best value, or none when there is no direction or no difference.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-7.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-7.1
  * @param {Array<number|null>} values The values.
  * @param {string|null} better `low`, `high` or null.
  * @return {number[]} The positions.
@@ -68,7 +68,7 @@ export function bestPositions(values, better) {
  * The lessons whose period or room differs between the scenarios, in lesson order; a lesson a
  * scenario did not place shows null in that scenario's cell.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-7.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-7.1
  * @param {object[]} scenarios Two or three scenarios.
  * @return {Array<{lesson: string, cells: Array<{period: string, room: string}|null>}>} The differing lessons.
  */

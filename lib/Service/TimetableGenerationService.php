@@ -34,7 +34,7 @@ use Throwable;
 /**
  * Queue and step a generated timetable scenario.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
  */
 class TimetableGenerationService {
 
@@ -75,7 +75,7 @@ class TimetableGenerationService {
 	 *
 	 * @throws InvalidArgumentException When the scenario does not exist, is imported or published, or has no activities.
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
 	 */
 	public function queue(string $id): array {
 		$scenario = $this->store->load(id: $id);
@@ -120,7 +120,7 @@ class TimetableGenerationService {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
 	 */
 	public function step(string $id): bool {
 		$scenario = $this->store->load(id: $id);

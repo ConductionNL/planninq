@@ -39,7 +39,7 @@ use OCP\IRequest;
 /**
  * Takes the uploaded rooms and activities sheets.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
  */
 class TimetableInputController extends Controller {
 
@@ -71,7 +71,7 @@ class TimetableInputController extends Controller {
 	 *
 	 * @return JSONResponse 200 with the counts; 400 with the refused lines; 403 for a non-admin.
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	#[AuthorizedAdminSetting(settings: AdminSettings::class)]
 	public function upload(): JSONResponse {

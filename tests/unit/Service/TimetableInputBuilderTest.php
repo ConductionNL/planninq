@@ -97,7 +97,7 @@ class TimetableInputBuilderTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
 	 */
 	public function testAnAnsweredEventBecomesLessons(): void {
 		[$activities, $rooms] = $this->hourPlan();
@@ -138,7 +138,7 @@ class TimetableInputBuilderTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
 	 */
 	public function testAnUnansweredEventWithoutUploadGivesTheReason(): void {
 		$input = $this->builder(listener: null)->build(academicYear: '2026-2027', wishes: []);
@@ -154,7 +154,7 @@ class TimetableInputBuilderTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	public function testUploadedSheetsAreTheFallback(): void {
 		[$activities, $rooms] = $this->hourPlan();
@@ -172,7 +172,7 @@ class TimetableInputBuilderTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
 	 */
 	public function testThePeriodsFollowTheStoredGrid(): void {
 		$this->stored['timetable_period_grid'] = '{"days":["mon","wed"],"periods":[{"start":"08:00","end":"08:45"},{"start":"08:45","end":"09:30"}]}';

@@ -144,9 +144,9 @@
  * an admin takes the current timetable instead, and its broken hard wishes
  * are listed as well.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
- * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
- * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
  */
 import { buildHeaders } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -181,7 +181,7 @@ export default {
 		 * The scenario id from the route.
 		 *
 		 * @return {string}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3
 		 */
 		id() {
 			return String(this.$route?.params?.id ?? '')
@@ -191,7 +191,7 @@ export default {
 		 * Whether a run is going.
 		 *
 		 * @return {boolean}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3
 		 */
 		running() {
 			return isRunning(this.scenario)
@@ -201,7 +201,7 @@ export default {
 		 * The share of the time budget used.
 		 *
 		 * @return {number}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3
 		 */
 		percent() {
 			return progressPercent(this.scenario)
@@ -211,7 +211,7 @@ export default {
 		 * The status in words.
 		 *
 		 * @return {string}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3
 		 */
 		statusText() {
 			const status = this.scenario?.status
@@ -230,7 +230,7 @@ export default {
 		 * Whether this user may start a run: an admin, on a generated scenario that is not running or published.
 		 *
 		 * @return {boolean}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3
 		 */
 		canGenerate() {
 			return getCurrentUser()?.isAdmin === true
@@ -243,7 +243,7 @@ export default {
 		 * Whether this user may take the current timetable into this scenario.
 		 *
 		 * @return {boolean}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
 		 */
 		canImport() {
 			return getCurrentUser()?.isAdmin === true && canTakeCurrentTimetable(this.scenario)
@@ -253,7 +253,7 @@ export default {
 		 * Whether this user may publish this scenario as draft lessons.
 		 *
 		 * @return {boolean}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
 		 */
 		canPublish() {
 			return getCurrentUser()?.isAdmin === true && canPublishDrafts(this.scenario)
@@ -263,7 +263,7 @@ export default {
 		 * The broken hard wishes (an imported timetable only).
 		 *
 		 * @return {Array}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
 		 */
 		brokenHard() {
 			return brokenHardRows(this.scenario)
@@ -273,7 +273,7 @@ export default {
 		 * The unplaced lessons.
 		 *
 		 * @return {Array}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3
 		 */
 		unplaced() {
 			return unplacedRows(this.scenario)
@@ -283,7 +283,7 @@ export default {
 		 * The broken soft wishes.
 		 *
 		 * @return {Array}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3
 		 */
 		broken() {
 			return brokenSoftRows(this.scenario)
@@ -294,7 +294,7 @@ export default {
 	 * Read the scenario.
 	 *
 	 * @return {void}
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3
 	 */
 	mounted() {
 		this.load()
@@ -304,7 +304,7 @@ export default {
 	 * Stop reading.
 	 *
 	 * @return {void}
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3
 	 */
 	beforeUnmount() {
 		clearTimeout(this.timer)
@@ -315,7 +315,7 @@ export default {
 		 * Read the scenario, and again in five seconds while a run is going.
 		 *
 		 * @return {Promise<void>}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3
 		 */
 		async load() {
 			clearTimeout(this.timer)
@@ -335,7 +335,7 @@ export default {
 		 * Start a run.
 		 *
 		 * @return {Promise<void>}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3
 		 */
 		async generate() {
 			this.starting = true
@@ -354,7 +354,7 @@ export default {
 		 * Take the scheduled lessons of the scenario's week into it.
 		 *
 		 * @return {Promise<void>}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
 		 */
 		async takeCurrent() {
 			this.starting = true
@@ -373,7 +373,7 @@ export default {
 		 * Write the placements as draft lessons for every week of the window; teachers review them in the draft review.
 		 *
 		 * @return {Promise<void>}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
 		 */
 		async publish() {
 			this.starting = true
@@ -394,7 +394,7 @@ export default {
 		 *
 		 * @param {{wish: object|null, reason: string}} row The unplaced row.
 		 * @return {string}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
 		 */
 		blockedBy(row) {
 			if (row.wish) {
@@ -408,7 +408,7 @@ export default {
 		 *
 		 * @param {object|null} wish The wish summary.
 		 * @return {string}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3
 		 */
 		describe(wish) {
 			const kinds = {

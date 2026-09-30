@@ -33,7 +33,7 @@ namespace OCA\Planninq\Service;
  * `header`, `empty`, `whole-number`, `unknown-room-type`. The header check
  * ignores case and surrounding spaces; a comma or a semicolon separates columns.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
  */
 class TimetableCsvParser {
 
@@ -72,7 +72,7 @@ class TimetableCsvParser {
 	 *
 	 * @return array{rows:array<int,array{reference:string,capacity:int,type:string}>,errors:array<int,array{line:int,field:string,code:string,message:string}>}
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	public function parseRooms(string $csv): array {
 		$rows   = [];
@@ -97,7 +97,7 @@ class TimetableCsvParser {
 	 *
 	 * @return array{rows:array<int,array<string,string|int>>,errors:array<int,array{line:int,field:string,code:string,message:string}>}
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	public function parseActivities(string $csv, array $roomTypes): array {
 		$rows   = [];
@@ -133,7 +133,7 @@ class TimetableCsvParser {
 	 *
 	 * @return array<int,array<string,string>>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	private function records(string $csv, array $columns, array &$errors): array {
 		$lines = preg_split('/\r\n|\r|\n/', trim($csv));
@@ -167,7 +167,7 @@ class TimetableCsvParser {
 	 *
 	 * @return array<int,string>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	private function cells(string $line): array {
 		$separator = ',';
@@ -187,7 +187,7 @@ class TimetableCsvParser {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	private function filled(array $cells, int $line, array &$errors): bool {
 		$filled = true;
@@ -211,7 +211,7 @@ class TimetableCsvParser {
 	 *
 	 * @return int|null
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	private function wholeNumber(string $value, int $line, string $field, array &$errors): ?int {
 		if (preg_match('/^\d+$/', $value) === 1 && (int)$value >= 1) {
@@ -235,7 +235,7 @@ class TimetableCsvParser {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	private function knownRoomType(string $type, array $roomTypes, int $line, array &$errors): bool {
 		if ($type === '' || in_array($type, $roomTypes, true) === true) {
@@ -257,7 +257,7 @@ class TimetableCsvParser {
 	 *
 	 * @return array{line:int,field:string,code:string,message:string}
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	private function error(int $line, string $field, string $code, string $message): array {
 		return ['line' => $line, 'field' => $field, 'code' => $code, 'message' => $message];

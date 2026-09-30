@@ -1,7 +1,7 @@
 /**
  * Vitest tests for the timetable scenario page helpers (timetabling-generator, section 5.3).
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-5.3
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3
  */
 import { describe, expect, it } from 'vitest'
 import { brokenHardRows, brokenSoftRows, canPublishDrafts, canTakeCurrentTimetable, isRunning, progressPercent, unplacedRows } from '../../src/utils/timetableScenarios.js'

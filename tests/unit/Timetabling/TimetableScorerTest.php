@@ -33,7 +33,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Hand-made placements on a two-day, four-period week.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-4.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
  */
 class TimetableScorerTest extends TestCase {
 	use RegisterSchemaValidation;

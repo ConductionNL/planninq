@@ -98,7 +98,7 @@ class TimetableInputControllerTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	public function testAnAdminUploadIsKept(): void {
 		$response = $this->controller(body: $this->sheets(), admin: true)->upload();
@@ -114,7 +114,7 @@ class TimetableInputControllerTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	public function testANonAdminIsRefused(): void {
 		$response = $this->controller(body: $this->sheets(), admin: false)->upload();
@@ -129,7 +129,7 @@ class TimetableInputControllerTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	public function testARefusedLineKeepsNothing(): void {
 		$body = ['activities' => "group,subject,teacher,lessons per week,lesson length,room type\n3A,Swimming,piet,1,1,pool\n"] + $this->sheets();

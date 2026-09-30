@@ -28,7 +28,7 @@ namespace OCA\Planninq\Timetabling;
 /**
  * Days and period numbers of a list of period keys such as `mon-3`.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-4.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
  */
 final class WeekGrid {
 
@@ -57,7 +57,7 @@ final class WeekGrid {
 	 *
 	 * @return array<int,string>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-4.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
 	 */
 	public function keys(): array {
 		return $this->periods;
@@ -71,7 +71,7 @@ final class WeekGrid {
 	 *
 	 * @return array<int,string>|null
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-4.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
 	 */
 	public function span(string $start, int $length): ?array {
 		$day    = $this->day(key: $start);
@@ -96,7 +96,7 @@ final class WeekGrid {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-4.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
 	 */
 	public function day(string $key): string {
 		return explode('-', $key, 2)[0];
@@ -109,7 +109,7 @@ final class WeekGrid {
 	 *
 	 * @return int
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-4.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
 	 */
 	public function number(string $key): int {
 		return (int)(explode('-', $key, 2)[1] ?? 0);
@@ -122,7 +122,7 @@ final class WeekGrid {
 	 *
 	 * @return int
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-4.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
 	 */
 	public function gaps(array $numbers): int {
 		if ($numbers === []) {

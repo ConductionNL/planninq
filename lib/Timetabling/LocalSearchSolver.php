@@ -30,7 +30,7 @@ namespace OCA\Planninq\Timetabling;
 /**
  * Greedy construction, simulated annealing, and a repair pass for hard wishes.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
  */
 final class LocalSearchSolver implements TimetableSolver {
 
@@ -72,7 +72,7 @@ final class LocalSearchSolver implements TimetableSolver {
 	 *
 	 * @return SolverResult
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
 	 */
 	public function solve(SolverInput $input, int $seconds, int $seed, array $start=[]): SolverResult {
 		$deadline = (microtime(true) + max(1, $seconds));

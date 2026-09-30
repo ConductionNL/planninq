@@ -42,9 +42,9 @@ use OCP\IRequest;
 /**
  * The generate, import and publish endpoints of timetable scenarios.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
- * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
- * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
  */
 class TimetableScenarioController extends Controller {
 
@@ -78,7 +78,7 @@ class TimetableScenarioController extends Controller {
 	 *
 	 * @return JSONResponse
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
 	 */
 	#[AuthorizedAdminSetting(settings: AdminSettings::class)]
 	public function generate(string $id): JSONResponse {
@@ -103,7 +103,7 @@ class TimetableScenarioController extends Controller {
 	 *
 	 * @return JSONResponse
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
 	 */
 	#[AuthorizedAdminSetting(settings: AdminSettings::class)]
 	public function importCurrent(string $id): JSONResponse {
@@ -126,7 +126,7 @@ class TimetableScenarioController extends Controller {
 	 *
 	 * @return JSONResponse
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-8.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
 	 */
 	#[AuthorizedAdminSetting(settings: AdminSettings::class)]
 	public function publishDrafts(string $id): JSONResponse {

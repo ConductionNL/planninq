@@ -81,7 +81,7 @@
  * side by side with the best value per line marked, then the lessons whose
  * period or room differs.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-7.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-7.1
  */
 import { buildHeaders } from '@conduction/nextcloud-vue'
 import { generateUrl } from '@nextcloud/router'
@@ -108,7 +108,7 @@ export default {
 		 * The metric rows.
 		 *
 		 * @return {Array}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-7.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-7.1
 		 */
 		rows() {
 			return compareRows(this.chosen)
@@ -118,7 +118,7 @@ export default {
 		 * The lessons that differ.
 		 *
 		 * @return {Array}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-7.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-7.1
 		 */
 		diff() {
 			return lessonDiff(this.chosen)
@@ -129,7 +129,7 @@ export default {
 	 * Read the scenarios that have a result.
 	 *
 	 * @return {Promise<void>}
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-7.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-7.1
 	 */
 	async mounted() {
 		const response = await fetch(generateUrl('/apps/openregister/api/objects/planninq/timetableScenario?_limit=100'), { headers: buildHeaders() }).catch(() => null)
@@ -143,7 +143,7 @@ export default {
 		 *
 		 * @param {string} key The metric.
 		 * @return {string}
-		 * @spec openspec/changes/timetabling-generator/tasks.md#task-7.1
+		 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-7.1
 		 */
 		lineLabel(key) {
 			return {

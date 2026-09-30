@@ -48,7 +48,7 @@ use RuntimeException;
 /**
  * The real store over an in-memory ObjectService, the real input builder over uploaded sheets, the real solver.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-5.2
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
  */
 class TimetableGenerationServiceTest extends TestCase {
 	use RegisterSchemaValidation;

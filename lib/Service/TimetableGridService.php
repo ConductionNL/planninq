@@ -36,7 +36,7 @@ use OCP\IAppConfig;
  * A grid is JSON: {"days": ["mon", ...], "periods": [{"start": "08:30", "end": "09:20"}, ...]}.
  * A period key is the day and the period number from 1, as in `mon-3`.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
  */
 class TimetableGridService {
 
@@ -103,7 +103,7 @@ class TimetableGridService {
 	 *
 	 * @return array<string,string>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 */
 	public function settings(): array {
 		return [
@@ -119,7 +119,7 @@ class TimetableGridService {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 */
 	public function save(array $data): void {
 		$normalised = [
@@ -138,7 +138,7 @@ class TimetableGridService {
 	 *
 	 * @return array<int,string>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.1
 	 */
 	public function periodKeys(): array {
 		$grid = (array)json_decode(($this->normaliseGrid(raw: $this->settings()[self::GRID_KEY]) ?? self::DEFAULT_GRID), true);
@@ -158,7 +158,7 @@ class TimetableGridService {
 	 *
 	 * @return array<int,array{key:string,day:string,number:int,start:string,end:string}>
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-6.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
 	 */
 	public function periodTimes(): array {
 		$grid  = (array)json_decode(($this->normaliseGrid(raw: $this->settings()[self::GRID_KEY]) ?? self::DEFAULT_GRID), true);
@@ -189,7 +189,7 @@ class TimetableGridService {
 	 *
 	 * @return string|null
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 */
 	public function normaliseGrid(string $raw): ?string {
 		$grid = json_decode($raw, true);
@@ -213,7 +213,7 @@ class TimetableGridService {
 	 *
 	 * @return string|null
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 */
 	public function normaliseBudget(string $raw): ?string {
 		$trimmed = trim($raw);
@@ -236,7 +236,7 @@ class TimetableGridService {
 	 *
 	 * @return array<int,string>|null
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 */
 	private function days(mixed $value): ?array {
 		if (is_array($value) === false || $value === []) {
@@ -263,7 +263,7 @@ class TimetableGridService {
 	 *
 	 * @return array<int,array{start:string,end:string}>|null
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 */
 	private function periods(mixed $value): ?array {
 		if (is_array($value) === false || $value === []) {
@@ -297,7 +297,7 @@ class TimetableGridService {
 	 *
 	 * @return string|null
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 */
 	private function time(mixed $value): ?string {
 		if (is_string($value) === false || preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', trim($value)) !== 1) {

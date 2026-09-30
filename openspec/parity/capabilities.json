@@ -8821,7 +8821,7 @@
         "state": "built",
         "evidence": "Compare: src/components/TimetableScenarioCompare.vue on the TimetableScenarios index page (below-header slot) sets two or three finished scenarios, generated or taken from the current timetable (TimetableScenarioImporter, POST /api/timetable/scenarios/{id}/import), side by side on the metrics TimetableScorer stored on each (lessons placed and unplaced, clashes, hard and soft wishes broken, weighted soft penalty, teacher gaps, lessons per day, room use), marks the best value per line and lists the lessons whose period or room differs (src/utils/scenarioCompare.js). Tests: vitest scenarioCompare.spec.js, PHPUnit TimetableScenarioImporterTest (an imported timetable that breaks a hard wish shows it in metrics), Playwright timetable-generator.spec.ts compare case.",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/timetabling-generator",
+        "change": "openspec/changes/archive/2026-09-30-timetabling-generator",
         "readOn": "2026-09-30"
       },
       "provider": "learniq",
@@ -9016,7 +9016,7 @@
         "state": "built",
         "evidence": "Wishes: timetableWish schema (appliesTo, reference, kind, periods, limit, strength hard or soft, weight 1 to 3) edited on the TimetableWishes index page with src/dialogs/TimetableWishDialog.vue (period picker on the week grid). Generator: lib/Timetabling/LocalSearchSolver.php behind TimetableSolver (greedy most-constrained-first, simulated annealing on TimetableScorer, a repair pass so a generated scenario never breaks a hard wish; a lesson it cannot place names the blocking hard wish), run by POST /api/timetable/scenarios/{id}/generate and the GenerateTimetableScenario queued job in 60-second steps up to the time budget; TimetableScenarioDetail page shows unplaced lessons and broken soft wishes. Tests: LocalSearchSolverTest (feasible week keeps the hard wish, impossible hard wish names itself, hard limit never broken, free soft wish kept, same seed same result, 600 lessons inside 60 seconds validated against the real timetableScenario fragment), TimetableGenerationServiceTest, TimetableScenarioControllerTest, vitest timetableWishes and timetableScenarios.",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/timetabling-generator",
+        "change": "openspec/changes/archive/2026-09-30-timetabling-generator",
         "readOn": "2026-09-30"
       },
       "provider": "learniq",

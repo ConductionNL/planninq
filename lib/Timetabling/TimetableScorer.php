@@ -34,7 +34,7 @@ namespace OCA\Planninq\Timetabling;
  * and `outOfGrid` (a lesson that starts outside the grid or runs off the day).
  * A broken soft wish costs its weight (1 when unset) for every lesson that breaks it.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-4.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
  */
 final class TimetableScorer {
 
@@ -83,7 +83,7 @@ final class TimetableScorer {
 	 *
 	 * @return array{metrics:array<string,mixed>,brokenWishes:array<int,array<string,mixed>>,clashes:array<int,array<string,mixed>>}
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-4.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
 	 */
 	public function score(SolverInput $input, array $placements): array {
 		$grid    = new WeekGrid(periods: $input->periods);
@@ -115,7 +115,7 @@ final class TimetableScorer {
 	 *
 	 * @return int
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-4.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
 	 */
 	public static function cost(array $metrics): int {
 		return ((int)$metrics['clashes'] * self::CLASH_COST)
@@ -132,7 +132,7 @@ final class TimetableScorer {
 	 *
 	 * @return int
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
 	 */
 	public function costOf(array $metrics): int {
 		return self::cost(metrics: $metrics);

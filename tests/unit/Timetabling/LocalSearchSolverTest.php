@@ -38,7 +38,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * The solver on small hand-made weeks and one generated school week.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
  */
 class LocalSearchSolverTest extends TestCase {
 	use RegisterSchemaValidation;

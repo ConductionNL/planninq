@@ -28,7 +28,7 @@ namespace OCA\Planninq\Timetabling;
 /**
  * Deterministic pseudo-random numbers from a seed.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
  */
 final class SeededRandom {
 
@@ -62,7 +62,7 @@ final class SeededRandom {
 	 *
 	 * @return int
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
 	 */
 	public function below(int $max): int {
 		return ($this->next() % max(1, $max));
@@ -73,7 +73,7 @@ final class SeededRandom {
 	 *
 	 * @return float
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
 	 */
 	public function fraction(): float {
 		return (($this->next() - 1) / (self::MODULUS - 1));

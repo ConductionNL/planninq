@@ -29,7 +29,7 @@ namespace OCA\Planninq\Timetabling;
 /**
  * The options of every lesson, and the hard wishes that narrowed them.
  *
- * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
  */
 final class PlacementOptions {
 
@@ -52,7 +52,7 @@ final class PlacementOptions {
 	 *
 	 * @return array{options:array<string,array<int,array{period:string,room:string,periods:array<int,string>}>>,blockers:array<string,array<int,string>>}
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
 	 */
 	public function build(SolverInput $input): array {
 		$grid     = new WeekGrid(periods: $input->periods);
