@@ -86,7 +86,13 @@ class TimetableScenarioImporter {
 
 		$week   = $this->weekOf(sessions: $sessions);
 		$wishes = array_map(fn (array $wish): array => $this->inputBuilder->solverWish(wish: $wish), $this->store->wishes());
-		$input  = new SolverInput(periods: $this->grid->periodKeys(), rooms: $week['rooms'], lessons: $week['lessons'], wishes: $wishes, source: 'imported');
+		$input  = new SolverInput(
+			periods: $this->grid->periodKeys(),
+			rooms: $week['rooms'],
+			lessons: $week['lessons'],
+			wishes: $wishes,
+			source: 'imported'
+		);
 		$score  = $this->scorer->score(input: $input, placements: $week['placements']);
 
 		$scenario = array_merge(
