@@ -86,6 +86,11 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				($byListener['OCA\\Planninq\\Listener\\ForgeLinkResolveListener'] ?? null),
 				'a new code link finds its task (integration-code-forge-links task 1.2)'
 			);
+			self::assertSame(
+				[['ObjectCreatedEvent', ['task']], ['ObjectUpdatedEvent', ['task']], ['ObjectDeletedEvent', ['task']]],
+				($byListener['OCA\\Planninq\\Listener\\TaskCalendarExportListener'] ?? null),
+				'task changes keep the Planninq task lists in step (planning-calendar task 2.3)'
+			);
 
 			$boot = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
 			self::assertStringContainsString('$this->registerBoardColumnListeners(dispatcher: $dispatcher);', $boot, 'boot() calls the registration');

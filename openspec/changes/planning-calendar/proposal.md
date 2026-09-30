@@ -65,9 +65,9 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 
 ## Impact
 
-- Components and views: a new `src/components/TaskCalendar.vue`, a project calendar page `ProjectCalendar` at `/projects/:id/calendar`, a personal page `MyCalendar` at `/my-calendar`, manifest and `src/registry.js` entries, a Calendar button in the `ProjectBoard` header.
-- Backend: a new `lib/Listener/TaskCalendarExportListener.php` on OpenRegister's object events and a new `lib/Service/TaskCalendarExportService.php` that builds and writes the VTODO through Nextcloud's calendar layer.
-- Settings: a new per-user key `export_tasks_to_caldav` (default off) in `lib/Service/SettingsService.php` and a switch in `src/views/settings/UserSettings.vue`.
+- Components and views: a new `src/components/TaskCalendar.vue`, a project calendar page `ProjectCalendar` at `/projects/:id/calendar`, a personal page `MyCalendar` at `/my-calendar`, manifest and `src/registry.js` entries, a Calendar tab in `src/components/ProjectTabs.vue` (`PROJECT_TABS`), which the board and every project page show.
+- Backend: a new `lib/Listener/TaskCalendarExportListener.php` on OpenRegister's object events and a new `lib/Service/TaskCalendarExportService.php` that writes the VTODO through the DAV app's CalDAV backend (see design.md, Task 2.2 outcome), `lib/Service/TaskVtodoBuilder.php` that builds it, and `lib/BackgroundJob/TaskCalendarBackfillJob.php`.
+- Settings: a new per-user key `export_tasks_to_caldav` (default off), read and written by `lib/Service/TaskCalendarExportService.php` through `SettingsController` (amended at build: `SettingsService` is at phpmd's limits), and a switch in `src/views/settings/UserSettings.vue`.
 - Schema: none. `calendarEventUid` already exists.
 - Depends on: `boards-configurable-columns` (stamps `completedAt` on the server; the VTODO's COMPLETED time is read from it); `portfolio-my-work-dashboard` (lane A) for the Mijn werk surface the personal calendar hangs under; `tasks-assignment-priority-labels` (lane A), whose `sharedWith` list the calendar and the export read next to `assignedTo`.
 

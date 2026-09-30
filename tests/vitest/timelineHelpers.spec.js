@@ -88,6 +88,16 @@ describe('buildLayout', () => {
 		},
 	])
 
+	it('relates edge is styled as non-blocking', () => {
+		// planning-timeline-editing task 2.3: only a blocks link (or one without a type) is an arrow.
+		const layout = buildLayout(scheduled, [
+			{ id: 'e1', blocker: 'a', blocked: 'b', type: 'relates' },
+			{ id: 'e2', blocker: 'a', blocked: 'b', type: 'blocks' },
+			{ id: 'e3', blocker: 'a', blocked: 'b' },
+		], PX_PER_DAY.day)
+		expect(layout.edgeLines.map((line) => line.related)).toEqual([true, false, false])
+	})
+
 	it('positions bars relative to the earliest day', () => {
 		const layout = buildLayout(scheduled, [], PX_PER_DAY.day)
 		expect(layout.bars).toHaveLength(2)

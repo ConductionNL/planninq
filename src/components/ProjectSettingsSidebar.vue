@@ -75,6 +75,18 @@
 					label="label"
 					data-testid="project-parent" />
 
+				<!-- Auto-scheduling on the timeline (planning-timeline-editing); the schema lets only the owner or an admin save it -->
+				<NcCheckboxRadioSwitch
+					v-model="form.autoSchedule"
+					type="switch"
+					aria-describedby="project-auto-schedule-hint"
+					data-testid="project-auto-schedule">
+					{{ t('planninq', 'Move blocked tasks along when a task slips') }}
+				</NcCheckboxRadioSwitch>
+				<p id="project-auto-schedule-hint" class="project-settings-sidebar__hint">
+					{{ t('planninq', 'On the timeline, a later due date offers to move the tasks it blocks. Only "blocks" links count, and tasks only move later.') }}
+				</p>
+
 				<!-- Project fields an admin defined (projects-grouping-hierarchy-fields) -->
 				<div
 					v-for="field in projectFields"
@@ -357,6 +369,7 @@ export default {
 				icon: this.project?.icon || '',
 				portfolio: null,
 				parent: null,
+				autoSchedule: this.project?.autoSchedule === true,
 			},
 
 			projectFields: [],
@@ -461,6 +474,7 @@ export default {
 				this.form.icon = newVal.icon || ''
 				this.form.portfolio = this.portfolioOption(newVal)
 				this.form.parent = this.parentOption(newVal)
+				this.form.autoSchedule = newVal.autoSchedule === true
 				this.fieldForm = { ...(newVal.customFields || {}) }
 				this.missingFields = []
 				this.loadActions()
@@ -543,6 +557,7 @@ export default {
 		 * Persist title/description/color/icon edits via updateProject.
 		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.1
 		 */
 		async saveDetails() {
 			this.missingFields = missingRequired(this.projectFields, this.fieldForm)
@@ -561,6 +576,7 @@ export default {
 					icon: this.form.icon.trim() || undefined,
 					portfolio: this.form.portfolio?.id || null,
 					parent: this.form.parent?.id || null,
+					autoSchedule: this.form.autoSchedule === true,
 					customFields: { ...(this.project.customFields || {}), ...this.clearedFields(), ...customFieldValues(this.projectFields, this.fieldForm) },
 					// Always include existing members and owner so a PATCH/PUT does not wipe them
 					members: Array.isArray(this.project.members) ? this.project.members : [],
@@ -794,5 +810,10 @@ export default {
 	align-items: center;
 	gap: 8px;
 	flex-wrap: wrap;
+}
+
+.project-settings-sidebar__hint {
+	margin: 0 0 calc(var(--default-grid-baseline) * 2);
+	color: var(--color-text-maxcontrast);
 }
 </style>

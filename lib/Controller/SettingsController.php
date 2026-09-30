@@ -26,6 +26,8 @@ namespace OCA\Planninq\Controller;
 
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\NotificationSwitchService;
+use OCA\Planninq\Service\TaskCalendarExportService;
+use OCA\Planninq\Service\WorkingCalendarService;
 use OCA\Planninq\Service\RegisterImportService;
 use OCA\Planninq\Service\RiskScaleService;
 use OCA\Planninq\Service\SettingsService;
@@ -52,6 +54,8 @@ class SettingsController extends Controller {
 	 * @param RiskScaleService $riskScale Finds the risks a smaller risk scale would strand
 	 * @param TimetableGridService $timetableGrid The timetable week grid and generator budget
 	 * @param NotificationSwitchService $switches The user's notification switches (collaboration-notifications)
+	 * @param TaskCalendarExportService $taskExport The user's export to Nextcloud Tasks (planning-calendar)
+	 * @param WorkingCalendarService $workingCalendar The working weekdays and non-working days (planning-timeline-editing)
 	 *
 	 * @return void
 	 */
@@ -63,6 +67,8 @@ class SettingsController extends Controller {
 		private RiskScaleService $riskScale,
 		private TimetableGridService $timetableGrid,
 		private NotificationSwitchService $switches,
+		private TaskCalendarExportService $taskExport,
+		private WorkingCalendarService $workingCalendar,
 	) {
 		parent::__construct(appName: Application::APP_ID, request: $request);
 	}//end __construct()
@@ -80,6 +86,8 @@ class SettingsController extends Controller {
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
+	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
 	 */
 	public function index(): JSONResponse {
 		$user = $this->userSession->getUser();
@@ -88,7 +96,13 @@ class SettingsController extends Controller {
 		}
 
 		return new JSONResponse(
-			array_merge($this->settingsService->getSettings(), $this->timetableGrid->settings(), $this->switches->values($user->getUID()))
+			array_merge(
+				$this->settingsService->getSettings(),
+				$this->timetableGrid->settings(),
+				$this->workingCalendar->settings(),
+				$this->switches->values($user->getUID()),
+				$this->taskExport->values(userId: $user->getUID())
+			)
 		);
 	}//end index()
 
@@ -102,6 +116,7 @@ class SettingsController extends Controller {
 	 *
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
 	 */
 	public function create(): JSONResponse {
 		if ($this->settingsService->isCurrentUserAdmin() === false) {
@@ -124,7 +139,8 @@ class SettingsController extends Controller {
 		}
 
 		$this->timetableGrid->save(data: $data);
-		$config = array_merge($this->settingsService->updateSettings($data), $this->timetableGrid->settings());
+		$this->workingCalendar->save(data: $data);
+		$config = array_merge($this->settingsService->updateSettings($data), $this->timetableGrid->settings(), $this->workingCalendar->settings());
 
 		return new JSONResponse(
 			[
@@ -202,6 +218,7 @@ class SettingsController extends Controller {
 	 *
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
 	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
+	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.1
 	 */
 	public function updateUser(): JSONResponse {
 		$user = $this->userSession->getUser();
@@ -211,7 +228,12 @@ class SettingsController extends Controller {
 
 		$data = $this->request->getParams();
 		$this->switches->apply(userId: $user->getUID(), data: $data);
-		$config = array_merge($this->settingsService->updateUserSettings($user->getUID(), $data), $this->switches->values($user->getUID()));
+		$this->taskExport->apply(userId: $user->getUID(), data: $data);
+		$config = array_merge(
+			$this->settingsService->updateUserSettings($user->getUID(), $data),
+			$this->switches->values($user->getUID()),
+			$this->taskExport->values(userId: $user->getUID())
+		);
 
 		return new JSONResponse(
 			[

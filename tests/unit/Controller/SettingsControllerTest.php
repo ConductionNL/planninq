@@ -81,6 +81,20 @@ class SettingsControllerTest extends TestCase {
 	private RiskScaleService&MockObject $riskScale;
 
 	/**
+	 * The mocked export to Nextcloud Tasks.
+	 *
+	 * @var \OCA\Planninq\Service\TaskCalendarExportService&MockObject
+	 */
+	private \OCA\Planninq\Service\TaskCalendarExportService&MockObject $taskExport;
+
+	/**
+	 * The real working calendar over an in-memory app config.
+	 *
+	 * @var \OCA\Planninq\Service\WorkingCalendarService
+	 */
+	private \OCA\Planninq\Service\WorkingCalendarService $workingCalendar;
+
+	/**
 	 * Set up test fixtures.
 	 *
 	 * @return void
@@ -93,6 +107,8 @@ class SettingsControllerTest extends TestCase {
 		$this->registerImport = $this->createMock(originalClassName: RegisterImportService::class);
 		$this->userSession = $this->createMock(originalClassName: IUserSession::class);
 		$this->riskScale = $this->createMock(originalClassName: RiskScaleService::class);
+		$this->taskExport = $this->createMock(originalClassName: \OCA\Planninq\Service\TaskCalendarExportService::class);
+		$this->workingCalendar = new \OCA\Planninq\Service\WorkingCalendarService($this->appConfig(), $this->createMock(originalClassName: \Psr\Log\LoggerInterface::class));
 
 		$this->controller = new SettingsController(
 			request: $this->request,
@@ -102,6 +118,8 @@ class SettingsControllerTest extends TestCase {
 			riskScale: $this->riskScale,
 			timetableGrid: new TimetableGridService(appConfig: $this->appConfig()),
 			switches: $this->createMock(\OCA\Planninq\Service\NotificationSwitchService::class),
+			taskExport: $this->taskExport,
+			workingCalendar: $this->workingCalendar,
 		);
 
 	}//end setUp()
@@ -146,6 +164,28 @@ class SettingsControllerTest extends TestCase {
 	}//end testUpdateUserDelegatesToService()
 
 	/**
+	 * Test that updateUser() applies the export switch and answers with its state (planning-calendar task 2.1).
+	 *
+	 * @return void
+	 */
+	public function testUpdateUserAppliesTheTaskExportSwitch(): void {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->request->method('getParams')->willReturn(['export_tasks_to_caldav' => true]);
+		$this->settingsService->method('updateUserSettings')->willReturn([]);
+
+		$this->taskExport->expects($this->once())->method('apply')->with('alice', ['export_tasks_to_caldav' => true]);
+		$this->taskExport->method('values')->willReturn(['export_tasks_to_caldav' => true, 'caldavAvailable' => true]);
+
+		$data = $this->controller->updateUser()->getData();
+
+		self::assertTrue($data['config']['export_tasks_to_caldav']);
+		self::assertTrue($data['config']['caldavAvailable']);
+
+	}//end testUpdateUserAppliesTheTaskExportSwitch()
+
+	/**
 	 * Test that index() returns a JSONResponse containing the settings from the service.
 	 *
 	 * @return void
@@ -171,7 +211,7 @@ class SettingsControllerTest extends TestCase {
 
 		self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
 		self::assertSame(
-			expected: $settings + ['timetable_period_grid' => TimetableGridService::DEFAULT_GRID, 'timetable_generator_budget_minutes' => '10'],
+			expected: $settings + ['timetable_period_grid' => TimetableGridService::DEFAULT_GRID, 'timetable_generator_budget_minutes' => '10', 'working_weekdays' => '[1,2,3,4,5]', 'non_working_days' => '[]'],
 			actual: $result->getData()
 		);
 
@@ -457,4 +497,25 @@ class SettingsControllerTest extends TestCase {
 		self::assertSame(expected: '{"days":["mon","tue"],"periods":[{"start":"08:00","end":"08:45"}]}', actual: $saved['timetable_period_grid']);
 		self::assertSame(expected: '20', actual: $saved['timetable_generator_budget_minutes']);
 	}//end testTheSettingsCarryTheTimetableGrid()
+
+	/**
+	 * An admin saves a holiday and a member reads it back through GET /api/settings (planning-timeline-editing task 1.1).
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
+	 *
+	 * @return void
+	 */
+	public function testAMemberReadsTheWorkingCalendar(): void {
+		$this->userSession->method('getUser')->willReturn($this->createMock(originalClassName: \OCP\IUser::class));
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->settingsService->method('updateSettings')->willReturn([]);
+		$this->settingsService->method('getSettings')->willReturn(['isAdmin' => false]);
+		$this->request->method('getParams')->willReturn(['non_working_days' => '[{"date":"2026-12-25","name":"Christmas Day"}]']);
+
+		$this->controller->create();
+		$read = $this->controller->index()->getData();
+
+		self::assertSame(expected: '[{"date":"2026-12-25","name":"Christmas Day"}]', actual: $read['non_working_days']);
+		self::assertSame(expected: '[1,2,3,4,5]', actual: $read['working_weekdays']);
+	}//end testAMemberReadsTheWorkingCalendar()
 }//end class

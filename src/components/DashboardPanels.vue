@@ -82,6 +82,9 @@
 			<NcButton variant="primary" @click="$router.push({ name: 'Projects' })">
 				{{ t('planninq', 'Go to projects') }}
 			</NcButton>
+			<NcButton variant="secondary" data-testid="dashboard-open-my-calendar" @click="$router.push({ name: 'MyCalendar' })">
+				{{ t('planninq', 'Open my calendar') }}
+			</NcButton>
 		</CnConfigurationCard>
 	</div>
 </template>

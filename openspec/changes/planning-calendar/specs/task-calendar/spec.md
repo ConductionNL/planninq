@@ -4,12 +4,12 @@
 
 ### Requirement: A project member can see a project's tasks on a calendar
 
-Each project MUST have a calendar page at /projects/:id/calendar, reached from the project board header, that shows the project's tasks on their due date in a month view and a week view. A task with a start date and no due date SHALL be shown on its start date and marked as starting. Tasks without either date SHALL NOT be shown on the calendar. Tier: V1 (docs/FEATURES.md, kanban board; this change adds the row).
+Each project MUST have a calendar page at /projects/:id/calendar, reached from the Calendar tab in the row of project tabs the board and every project page share, that shows the project's tasks on their due date in a month view and a week view. A task with a start date and no due date SHALL be shown on its start date and marked as starting. Tasks without either date SHALL NOT be shown on the calendar. Tier: V1 (docs/FEATURES.md, kanban board; this change adds the row).
 
 #### Scenario: A member sees project tasks on their due dates
 
 - **GIVEN** a project member and a project with the task "Export to CSV" due 2026-10-16 and the task "Import from CSV" due 2026-10-23
-- **WHEN** they press "Calendar" on the project board and the calendar opens on October 2026
+- **WHEN** they press the "Calendar" tab on the project board and the calendar opens on October 2026
 - **THEN** "Export to CSV" is listed on 16 October and "Import from CSV" on 23 October
 - **AND** choosing "Export to CSV" opens its task page
 

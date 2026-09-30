@@ -39,6 +39,30 @@
 			{{ t('planninq', 'Add an email address in your Nextcloud personal settings to get mail.') }}
 		</p>
 	</NcAppSettingsSection>
+	<NcAppSettingsSection
+		id="nextcloud-tasks"
+		:name="t('planninq', 'Nextcloud Tasks')">
+		<template #icon>
+			<CalendarCheckOutlineIcon :size="20" />
+		</template>
+		<NcCheckboxRadioSwitch
+			:modelValue="exportToTasks && caldavAvailable"
+			:disabled="!caldavAvailable"
+			type="switch"
+			aria-describedby="planninq-tasks-export-hint"
+			data-testid="export-to-tasks"
+			@update:modelValue="onToggleExport">
+			{{ t('planninq', 'Show my tasks in Nextcloud Tasks') }}
+		</NcCheckboxRadioSwitch>
+		<p id="planninq-tasks-export-hint" class="user-settings__hint" data-testid="export-to-tasks-hint">
+			<template v-if="caldavAvailable">
+				{{ t('planninq', 'The tasks assigned to you or shared with you appear in a "Planninq" list in Nextcloud Tasks and Calendar. Changes made there are replaced by the next change in Planninq.') }}
+			</template>
+			<template v-else>
+				{{ t('planninq', 'This server cannot write to Nextcloud Tasks, so the export is not available.') }}
+			</template>
+		</p>
+	</NcAppSettingsSection>
 </template>
 
 <script>
@@ -54,6 +78,7 @@
  */
 import { NcAppSettingsSection, NcCheckboxRadioSwitch } from '@nextcloud/vue'
 import BellIcon from 'vue-material-design-icons/Bell.vue'
+import CalendarCheckOutlineIcon from 'vue-material-design-icons/CalendarCheckOutline.vue'
 import { useSettingsStore } from '../../store/modules/settings.js'
 
 export default {
@@ -62,6 +87,7 @@ export default {
 		NcAppSettingsSection,
 		NcCheckboxRadioSwitch,
 		BellIcon,
+		CalendarCheckOutlineIcon,
 	},
 
 	computed: {
@@ -101,6 +127,29 @@ export default {
 		},
 
 		/**
+		 * Whether the user's tasks are exported to Nextcloud Tasks (default off).
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/planning-calendar/tasks.md#task-2.1
+		 */
+		exportToTasks() {
+			const value = useSettingsStore().settings?.export_tasks_to_caldav
+			return value === true || value === 'true'
+		},
+
+		/**
+		 * Whether this server can write to Nextcloud Tasks (the DAV backend resolves).
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/planning-calendar/tasks.md#task-2.1
+		 */
+		caldavAvailable() {
+			return useSettingsStore().settings?.caldavAvailable === true
+		},
+
+		/**
 		 * Whether due-date reminders are enabled for the current user.
 		 * Defaults to true (matches the backend default) when unset.
 		 *
@@ -131,6 +180,17 @@ export default {
 		 */
 		async onToggleEmail(checked) {
 			await useSettingsStore().saveUserSettings({ notify_by_email: checked })
+		},
+
+		/**
+		 * Persist the export switch; on queues the export of the user's tasks, off removes the list.
+		 *
+		 * @param {boolean} checked The new switch state
+		 *
+		 * @spec openspec/changes/planning-calendar/tasks.md#task-2.1
+		 */
+		async onToggleExport(checked) {
+			await useSettingsStore().saveUserSettings({ export_tasks_to_caldav: checked })
 		},
 
 		/**
