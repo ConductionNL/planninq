@@ -75,7 +75,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 *
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 */
 	public function index(): JSONResponse {
 		if ($this->userSession->getUser() === null) {
@@ -96,7 +96,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 *
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 */
 	public function create(): JSONResponse {
 		if ($this->settingsService->isCurrentUserAdmin() === false) {

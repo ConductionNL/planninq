@@ -51,6 +51,16 @@
 			"key": "release_task_id",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "tt_wish_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "tt_scenario_id",
+			"value": "",
+			"type": "string"
 		}
 	],
 	"item": [
@@ -1692,6 +1702,289 @@
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('release removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Timetable generator",
+			"description": "timetabling-generator: the input sheets, a hard wish, a generated scenario whose run is queued with the uploaded lessons, and the refusals of import on a generated scenario and of publish on an unfinished one. The run itself is a background job, so its result is covered by PHPUnit (LocalSearchSolverTest, TimetableGenerationServiceTest) and the nightly Playwright run.",
+			"item": [
+				{
+					"name": "upload the rooms and activities sheets",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/timetable/input/upload",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"rooms\": \"reference,capacity,type\\nNWM-B12,30,classroom\", \"activities\": \"group,subject,teacher,lessons per week,lesson length,room type\\nNWM-3A,English,newman-klaas,2,1,classroom\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('sheets stored', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "add a hard wish",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/timetableWish",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"appliesTo\": \"teacher\", \"reference\": \"newman-klaas\", \"kind\": \"unavailable\", \"periods\": [\"wed-5\", \"wed-6\"], \"strength\": \"hard\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('wish created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('tt_wish_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "add a generated scenario",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/timetableScenario",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Newman generated\", \"source\": \"generated\", \"weekOf\": \"2026-10-05\", \"windowFrom\": \"2026-10-05\", \"windowTo\": \"2026-10-16\", \"status\": \"queued\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('scenario created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('tt_scenario_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "generate starts a background run",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/timetable/scenarios/{{tt_scenario_id}}/generate",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('run queued with the uploaded lessons', function () {",
+									"    pm.expect(pm.response.code).to.eql(202);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.status).to.eql('queued');",
+									"    pm.expect(json.lessons).to.be.above(0);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "a generated scenario does not take the current timetable",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/timetable/scenarios/{{tt_scenario_id}}/import",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('refused with the reason', function () {",
+									"    pm.expect(pm.response.code).to.eql(400);",
+									"    pm.expect(pm.response.json().error).to.include('imported scenario');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "a scenario that is not finished is not published",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/timetable/scenarios/{{tt_scenario_id}}/publish-drafts",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('refused with the reason', function () {",
+									"    pm.expect(pm.response.code).to.eql(400);",
+									"    pm.expect(pm.response.json().error).to.include('finished generated scenario');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the scenario",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/timetableScenario/{{tt_scenario_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('scenario removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the wish",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/timetableWish/{{tt_wish_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('wish removed', function () {",
 									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
 									"});"
 								]

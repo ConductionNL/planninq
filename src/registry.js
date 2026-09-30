@@ -20,6 +20,9 @@
 // dashboard widget TYPE resolves against the library's own widget catalog via
 // registerDashboardWidget() in main.js; this registry is for page components
 // and slot overrides only.
+import TimetableScenarioCompare from './components/TimetableScenarioCompare.vue'
+import TimetableScenarioSections from './components/TimetableScenarioSections.vue'
+import TimetableWishDialog from './dialogs/TimetableWishDialog.vue'
 import Boards from './views/Boards.vue'
 import MyWork from './views/MyWork.vue'
 import Portfolio from './views/Portfolio.vue'
@@ -49,6 +52,16 @@ function page(component) {
 	return { kind: 'page', component }
 }
 
+/**
+ * A component a manifest page mounts in one of its slots (page.slots).
+ *
+ * @param {object} component The Vue component.
+ * @return {object} Kind-tagged registry entry.
+ */
+function slot(component) {
+	return { kind: 'slot', component }
+}
+
 export default {
 	Boards: page(Boards),
 	MyWork: page(MyWork),
@@ -68,4 +81,7 @@ export default {
 	ProjectTimeline: page(ProjectTimeline),
 	TaskDetail: page(TaskDetail),
 	Timesheet: page(Timesheet),
+	TimetableScenarioCompare: slot(TimetableScenarioCompare),
+	TimetableScenarioSections: slot(TimetableScenarioSections),
+	TimetableWishDialog: slot(TimetableWishDialog),
 }

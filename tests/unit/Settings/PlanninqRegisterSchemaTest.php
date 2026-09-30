@@ -632,7 +632,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
 	public function testRegisterDeclaresExactlySeventeenSchemas(): void {
 		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario'];
@@ -1279,7 +1279,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
 	public function testTimetableWishSchemaAndItsRules(): void {
 		$schema = $this->register['components']['schemas']['timetableWish'];
@@ -1316,7 +1316,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
 	public function testTimetableScenarioKeepsItsInputAndResult(): void {
 		$schema = $this->register['components']['schemas']['timetableScenario'];
@@ -1355,7 +1355,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/timetabling-generator/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
 	public function testMockRegisterCarriesTimetableGeneratorDemoRows(): void {
 		$mock = json_decode((string)file_get_contents(__DIR__ . '/../../../lib/Settings/planninq_mock_register.json'), true, 512, JSON_THROW_ON_ERROR);

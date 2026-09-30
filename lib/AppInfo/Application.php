@@ -33,6 +33,8 @@ use OCA\Planninq\Listener\TaskActivityListener;
 use OCA\Planninq\Listener\TimetableSessionsQueryListener;
 use OCA\Planninq\Listener\TimetableUpsertRequestedListener;
 use OCA\Planninq\Settings\AdminSettings;
+use OCA\Planninq\Timetabling\LocalSearchSolver;
+use OCA\Planninq\Timetabling\TimetableSolver;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -97,6 +99,10 @@ class Application extends App implements IBootstrap {
 		// with per-user due-reminder logic, Repair\InitializeSettings register
 		// import, the kanban Project/Dependency/Label controllers) are kept.
 		$this->registerAppHost(context: $context);
+
+		// The timetable generator's engine (timetabling-generator design decision 1, DECISIONS row 21):
+		// the PHP local search now; a CP-SAT sidecar can be bound here per instance later.
+		$context->registerServiceAlias(TimetableSolver::class, LocalSearchSolver::class);
 
 		// Publish the projects leaf on OpenRegister's integration registry, so
 		// sibling apps render planninq's projects instead of querying for them.
