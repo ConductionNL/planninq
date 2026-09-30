@@ -1007,7 +1007,23 @@
         "Reason": "Põhjus",
         "Why the run failed": "Miks käivitus ebaõnnestus",
         "Published at": "Avaldatud",
-        "When the scenario was written out as draft lessons": "Millal stsenaarium kirjutati mustandtundideks"
+        "When the scenario was written out as draft lessons": "Millal stsenaarium kirjutati mustandtundideks",
+        "Edit wish": "Muuda soovi",
+        "New wish": "Uus soov",
+        "Hard: the generator always keeps it": "Kohustuslik: generaator peab sellest alati kinni",
+        "Soft: the generator keeps it where it can": "Paindlik: generaator peab sellest kinni, kui saab",
+        "Weight (1 to 3)": "Kaal (1 kuni 3)",
+        "Most lessons a day": "Kõige rohkem tunde päevas",
+        "Period": "Tund",
+        "{day} period {number}": "{day} tund {number}",
+        "Teacher (user name)": "Õpetaja (kasutajanimi)",
+        "Activity (group:subject)": "Tegevus (rühm:aine)",
+        "Say who or what the wish is about.": "Märkige, kelle või mille kohta soov on.",
+        "Choose at least one period.": "Valige vähemalt üks tund.",
+        "The limit is a whole number of 1 or more.": "Piirang on täisarv 1 või rohkem.",
+        "Timetable": "Tunniplaan",
+        "Wishes": "Soovid",
+        "Timetable wishes": "Tunniplaani soovid"
     },
     "plurals": null
 }

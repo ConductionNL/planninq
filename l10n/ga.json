@@ -1007,7 +1007,23 @@
         "Reason": "Cúis",
         "Why the run failed": "Cén fáth ar theip ar an rith",
         "Published at": "Foilsithe ar",
-        "When the scenario was written out as draft lessons": "Cathain a scríobhadh an cás mar dhréachtcheachtanna"
+        "When the scenario was written out as draft lessons": "Cathain a scríobhadh an cás mar dhréachtcheachtanna",
+        "Edit wish": "Cuir mian in eagar",
+        "New wish": "Mian nua",
+        "Hard: the generator always keeps it": "Docht: coinníonn an gineadóir i gcónaí é",
+        "Soft: the generator keeps it where it can": "Bog: coinníonn an gineadóir é nuair is féidir",
+        "Weight (1 to 3)": "Meáchan (1 go 3)",
+        "Most lessons a day": "Uasmhéid ceachtanna in aghaidh an lae",
+        "Period": "Tréimhse",
+        "{day} period {number}": "{day} tréimhse {number}",
+        "Teacher (user name)": "Múinteoir (ainm úsáideora)",
+        "Activity (group:subject)": "Gníomhaíocht (grúpa:ábhar)",
+        "Say who or what the wish is about.": "Luaigh cé nó cad lena mbaineann an mian.",
+        "Choose at least one period.": "Roghnaigh tréimhse amháin ar a laghad.",
+        "The limit is a whole number of 1 or more.": "Is slánuimhir 1 nó níos mó an teorainn.",
+        "Timetable": "Clár ama",
+        "Wishes": "Mianta",
+        "Timetable wishes": "Mianta an chláir ama"
     },
     "plurals": null
 }

@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Grund",
         "Why the run failed": "Warum der Lauf fehlschlug",
         "Published at": "Veröffentlicht am",
-        "When the scenario was written out as draft lessons": "Wann das Szenario als Entwurfsstunden geschrieben wurde"
+        "When the scenario was written out as draft lessons": "Wann das Szenario als Entwurfsstunden geschrieben wurde",
+        "Edit wish": "Wunsch bearbeiten",
+        "New wish": "Neuer Wunsch",
+        "Hard: the generator always keeps it": "Hart: der Generator hält ihn immer ein",
+        "Soft: the generator keeps it where it can": "Weich: der Generator hält ihn ein, wo er kann",
+        "Weight (1 to 3)": "Gewicht (1 bis 3)",
+        "Most lessons a day": "Höchstens Stunden pro Tag",
+        "Period": "Stunde",
+        "{day} period {number}": "{day} Stunde {number}",
+        "Teacher (user name)": "Lehrkraft (Benutzername)",
+        "Activity (group:subject)": "Aktivität (Gruppe:Fach)",
+        "Say who or what the wish is about.": "Geben Sie an, wen oder was der Wunsch betrifft.",
+        "Choose at least one period.": "Wählen Sie mindestens eine Stunde.",
+        "The limit is a whole number of 1 or more.": "Das Limit ist eine ganze Zahl ab 1.",
+        "Timetable": "Stundenplan",
+        "Wishes": "Wünsche",
+        "Timetable wishes": "Stundenplanwünsche"
     },
     "nplurals=2; plural=(n != 1);"
 )

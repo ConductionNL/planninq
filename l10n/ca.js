@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Motiu",
         "Why the run failed": "Per què ha fallat l'execució",
         "Published at": "Publicat el",
-        "When the scenario was written out as draft lessons": "Quan es va escriure l'escenari com a classes esborrany"
+        "When the scenario was written out as draft lessons": "Quan es va escriure l'escenari com a classes esborrany",
+        "Edit wish": "Edita el desig",
+        "New wish": "Desig nou",
+        "Hard: the generator always keeps it": "Estricte: el generador sempre el respecta",
+        "Soft: the generator keeps it where it can": "Flexible: el generador el respecta quan pot",
+        "Weight (1 to 3)": "Pes (d'1 a 3)",
+        "Most lessons a day": "Màxim de classes al dia",
+        "Period": "Franja",
+        "{day} period {number}": "{day} franja {number}",
+        "Teacher (user name)": "Docent (nom d'usuari)",
+        "Activity (group:subject)": "Activitat (grup:assignatura)",
+        "Say who or what the wish is about.": "Indiqueu a qui o a què es refereix el desig.",
+        "Choose at least one period.": "Trieu almenys una franja.",
+        "The limit is a whole number of 1 or more.": "El límit és un nombre enter d'1 o més.",
+        "Timetable": "Horari",
+        "Wishes": "Desitjos",
+        "Timetable wishes": "Desitjos d'horari"
     },
     "nplurals=2; plural=(n != 1);"
 )

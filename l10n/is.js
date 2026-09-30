@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Ástæða",
         "Why the run failed": "Hvers vegna keyrslan mistókst",
         "Published at": "Birt",
-        "When the scenario was written out as draft lessons": "Hvenær drögin voru skrifuð út sem drög að kennslustundum"
+        "When the scenario was written out as draft lessons": "Hvenær drögin voru skrifuð út sem drög að kennslustundum",
+        "Edit wish": "Breyta ósk",
+        "New wish": "Ný ósk",
+        "Hard: the generator always keeps it": "Föst: rafallinn virðir hana alltaf",
+        "Soft: the generator keeps it where it can": "Sveigjanleg: rafallinn virðir hana þar sem hann getur",
+        "Weight (1 to 3)": "Vægi (1 til 3)",
+        "Most lessons a day": "Mest kennslustundir á dag",
+        "Period": "Kennslustund",
+        "{day} period {number}": "{day} kennslustund {number}",
+        "Teacher (user name)": "Kennari (notandanafn)",
+        "Activity (group:subject)": "Verkefni (hópur:fag)",
+        "Say who or what the wish is about.": "Tilgreindu hvern eða hvað óskin varðar.",
+        "Choose at least one period.": "Veldu að minnsta kosti eina kennslustund.",
+        "The limit is a whole number of 1 or more.": "Takmarkið er heiltala, 1 eða hærri.",
+        "Timetable": "Stundaskrá",
+        "Wishes": "Óskir",
+        "Timetable wishes": "Óskir um stundaskrá"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Årsak",
         "Why the run failed": "Hvorfor kjøringen mislyktes",
         "Published at": "Publisert",
-        "When the scenario was written out as draft lessons": "Når scenarioet ble skrevet ut som utkasttimer"
+        "When the scenario was written out as draft lessons": "Når scenarioet ble skrevet ut som utkasttimer",
+        "Edit wish": "Rediger ønske",
+        "New wish": "Nytt ønske",
+        "Hard: the generator always keeps it": "Hardt: generatoren følger det alltid",
+        "Soft: the generator keeps it where it can": "Mykt: generatoren følger det der den kan",
+        "Weight (1 to 3)": "Vekt (1 til 3)",
+        "Most lessons a day": "Høyst antall timer per dag",
+        "Period": "Time",
+        "{day} period {number}": "{day} time {number}",
+        "Teacher (user name)": "Lærer (brukernavn)",
+        "Activity (group:subject)": "Aktivitet (gruppe:fag)",
+        "Say who or what the wish is about.": "Oppgi hvem eller hva ønsket gjelder.",
+        "Choose at least one period.": "Velg minst én time.",
+        "The limit is a whole number of 1 or more.": "Grensen er et heltall på 1 eller mer.",
+        "Timetable": "Timeplan",
+        "Wishes": "Ønsker",
+        "Timetable wishes": "Timeplanønsker"
     },
     "nplurals=2; plural=(n != 1);"
 )

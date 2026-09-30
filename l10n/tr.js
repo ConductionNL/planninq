@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Neden",
         "Why the run failed": "Çalıştırmanın neden başarısız olduğu",
         "Published at": "Yayımlanma zamanı",
-        "When the scenario was written out as draft lessons": "Senaryonun taslak ders olarak ne zaman yazıldığı"
+        "When the scenario was written out as draft lessons": "Senaryonun taslak ders olarak ne zaman yazıldığı",
+        "Edit wish": "Dileği düzenle",
+        "New wish": "Yeni dilek",
+        "Hard: the generator always keeps it": "Kesin: oluşturucu her zaman uyar",
+        "Soft: the generator keeps it where it can": "Esnek: oluşturucu elinden geldiğince uyar",
+        "Weight (1 to 3)": "Ağırlık (1 ile 3 arası)",
+        "Most lessons a day": "Günde en fazla ders",
+        "Period": "Ders saati",
+        "{day} period {number}": "{day} {number}. ders saati",
+        "Teacher (user name)": "Öğretmen (kullanıcı adı)",
+        "Activity (group:subject)": "Etkinlik (grup:ders)",
+        "Say who or what the wish is about.": "Dileğin kimi veya neyi kapsadığını belirtin.",
+        "Choose at least one period.": "En az bir ders saati seçin.",
+        "The limit is a whole number of 1 or more.": "Sınır 1 veya daha büyük bir tam sayıdır.",
+        "Timetable": "Ders programı",
+        "Wishes": "Dilekler",
+        "Timetable wishes": "Ders programı dilekleri"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Dôvod",
         "Why the run failed": "Prečo beh zlyhal",
         "Published at": "Zverejnené",
-        "When the scenario was written out as draft lessons": "Kedy bol scenár zapísaný ako koncepty hodín"
+        "When the scenario was written out as draft lessons": "Kedy bol scenár zapísaný ako koncepty hodín",
+        "Edit wish": "Upraviť želanie",
+        "New wish": "Nové želanie",
+        "Hard: the generator always keeps it": "Pevné: generátor ho vždy dodrží",
+        "Soft: the generator keeps it where it can": "Mäkké: generátor ho dodrží, kde sa dá",
+        "Weight (1 to 3)": "Váha (1 až 3)",
+        "Most lessons a day": "Najviac hodín denne",
+        "Period": "Hodina",
+        "{day} period {number}": "{day} hodina {number}",
+        "Teacher (user name)": "Učiteľ (používateľské meno)",
+        "Activity (group:subject)": "Aktivita (skupina:predmet)",
+        "Say who or what the wish is about.": "Uveďte, koho alebo čoho sa želanie týka.",
+        "Choose at least one period.": "Vyberte aspoň jednu hodinu.",
+        "The limit is a whole number of 1 or more.": "Limit je celé číslo 1 alebo viac.",
+        "Timetable": "Rozvrh",
+        "Wishes": "Želania",
+        "Timetable wishes": "Želania k rozvrhu"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Priežastis",
         "Why the run failed": "Kodėl paleidimas nepavyko",
         "Published at": "Paskelbta",
-        "When the scenario was written out as draft lessons": "Kada scenarijus buvo įrašytas kaip juodraštinės pamokos"
+        "When the scenario was written out as draft lessons": "Kada scenarijus buvo įrašytas kaip juodraštinės pamokos",
+        "Edit wish": "Redaguoti pageidavimą",
+        "New wish": "Naujas pageidavimas",
+        "Hard: the generator always keeps it": "Privalomas: generatorius jo visada laikosi",
+        "Soft: the generator keeps it where it can": "Lankstus: generatorius jo laikosi, kai gali",
+        "Weight (1 to 3)": "Svoris (nuo 1 iki 3)",
+        "Most lessons a day": "Daugiausia pamokų per dieną",
+        "Period": "Pamoka",
+        "{day} period {number}": "{day} {number} pamoka",
+        "Teacher (user name)": "Mokytojas (naudotojo vardas)",
+        "Activity (group:subject)": "Veikla (grupė:dalykas)",
+        "Say who or what the wish is about.": "Nurodykite, ko pageidavimas liečia.",
+        "Choose at least one period.": "Pasirinkite bent vieną pamoką.",
+        "The limit is a whole number of 1 or more.": "Riba yra sveikasis skaičius, 1 ar daugiau.",
+        "Timetable": "Tvarkaraštis",
+        "Wishes": "Pageidavimai",
+        "Timetable wishes": "Tvarkaraščio pageidavimai"
     },
     "nplurals=2; plural=(n != 1);"
 )

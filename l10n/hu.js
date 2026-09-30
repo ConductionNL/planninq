@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Ok",
         "Why the run failed": "Miért volt sikertelen a futás",
         "Published at": "Közzétéve",
-        "When the scenario was written out as draft lessons": "Mikor íródott ki a forgatókönyv piszkozatórákként"
+        "When the scenario was written out as draft lessons": "Mikor íródott ki a forgatókönyv piszkozatórákként",
+        "Edit wish": "Kívánság szerkesztése",
+        "New wish": "Új kívánság",
+        "Hard: the generator always keeps it": "Kötelező: a generátor mindig betartja",
+        "Soft: the generator keeps it where it can": "Rugalmas: a generátor betartja, ahol tudja",
+        "Weight (1 to 3)": "Súly (1-től 3-ig)",
+        "Most lessons a day": "Legfeljebb ennyi óra naponta",
+        "Period": "Óra",
+        "{day} period {number}": "{day} {number}. óra",
+        "Teacher (user name)": "Tanár (felhasználónév)",
+        "Activity (group:subject)": "Tevékenység (csoport:tantárgy)",
+        "Say who or what the wish is about.": "Adja meg, kire vagy mire vonatkozik a kívánság.",
+        "Choose at least one period.": "Válasszon legalább egy órát.",
+        "The limit is a whole number of 1 or more.": "A korlát legalább 1 egész szám.",
+        "Timetable": "Órarend",
+        "Wishes": "Kívánságok",
+        "Timetable wishes": "Órarendi kívánságok"
     },
     "nplurals=2; plural=(n != 1);"
 )

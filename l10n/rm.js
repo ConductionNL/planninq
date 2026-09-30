@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Motiv",
         "Why the run failed": "Pertge ch'il currer è fallì",
         "Published at": "Publitgà ils",
-        "When the scenario was written out as draft lessons": "Cura ch'il scenari è vegnì scrit sco lecziuns sbozz"
+        "When the scenario was written out as draft lessons": "Cura ch'il scenari è vegnì scrit sco lecziuns sbozz",
+        "Edit wish": "Modifitgar il giavisch",
+        "New wish": "Nov giavisch",
+        "Hard: the generator always keeps it": "Obligatoric: il generatur al resguarda adina",
+        "Soft: the generator keeps it where it can": "Flexibel: il generatur al resguarda nua ch'el po",
+        "Weight (1 to 3)": "Paisa (1 fin 3)",
+        "Most lessons a day": "Il pli bler lecziuns per di",
+        "Period": "Ura",
+        "{day} period {number}": "{day} ura {number}",
+        "Teacher (user name)": "Magister (num d'utilisader)",
+        "Activity (group:subject)": "Activitad (gruppa:rom)",
+        "Say who or what the wish is about.": "Inditgai per tgi u tge ch'il giavisch vala.",
+        "Choose at least one period.": "Tscherni almain ina ura.",
+        "The limit is a whole number of 1 or more.": "La limita è in dumber entir da 1 u dapli.",
+        "Timetable": "Plan d'uras",
+        "Wishes": "Giavischs",
+        "Timetable wishes": "Giavischs per il plan d'uras"
     },
     "nplurals=2; plural=(n != 1);"
 )

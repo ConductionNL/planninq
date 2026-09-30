@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Razlog",
         "Why the run failed": "Zakaj zagon ni uspel",
         "Published at": "Objavljeno",
-        "When the scenario was written out as draft lessons": "Kdaj je bil scenarij zapisan kot osnutki ur"
+        "When the scenario was written out as draft lessons": "Kdaj je bil scenarij zapisan kot osnutki ur",
+        "Edit wish": "Uredi željo",
+        "New wish": "Nova želja",
+        "Hard: the generator always keeps it": "Obvezna: generator jo vedno upošteva",
+        "Soft: the generator keeps it where it can": "Prožna: generator jo upošteva, kjer lahko",
+        "Weight (1 to 3)": "Utež (od 1 do 3)",
+        "Most lessons a day": "Največ ur na dan",
+        "Period": "Ura",
+        "{day} period {number}": "{day} ura {number}",
+        "Teacher (user name)": "Učitelj (uporabniško ime)",
+        "Activity (group:subject)": "Dejavnost (skupina:predmet)",
+        "Say who or what the wish is about.": "Navedite, na koga ali kaj se želja nanaša.",
+        "Choose at least one period.": "Izberite vsaj eno uro.",
+        "The limit is a whole number of 1 or more.": "Omejitev je celo število 1 ali več.",
+        "Timetable": "Urnik",
+        "Wishes": "Želje",
+        "Timetable wishes": "Želje za urnik"
     },
     "nplurals=2; plural=(n != 1);"
 )

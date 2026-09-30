@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Причина",
         "Why the run failed": "Зошто извршувањето не успеа",
         "Published at": "Објавено на",
-        "When the scenario was written out as draft lessons": "Кога сценариото е запишано како нацрт-часови"
+        "When the scenario was written out as draft lessons": "Кога сценариото е запишано како нацрт-часови",
+        "Edit wish": "Уреди желба",
+        "New wish": "Нова желба",
+        "Hard: the generator always keeps it": "Задолжителна: генераторот секогаш ја почитува",
+        "Soft: the generator keeps it where it can": "Флексибилна: генераторот ја почитува каде што може",
+        "Weight (1 to 3)": "Тежина (од 1 до 3)",
+        "Most lessons a day": "Најмногу часови дневно",
+        "Period": "Час",
+        "{day} period {number}": "{day} час {number}",
+        "Teacher (user name)": "Наставник (корисничко име)",
+        "Activity (group:subject)": "Активност (група:предмет)",
+        "Say who or what the wish is about.": "Наведете на кого или на што се однесува желбата.",
+        "Choose at least one period.": "Изберете барем еден час.",
+        "The limit is a whole number of 1 or more.": "Ограничувањето е цел број 1 или повеќе.",
+        "Timetable": "Распоред",
+        "Wishes": "Желби",
+        "Timetable wishes": "Желби за распоредот"
     },
     "nplurals=2; plural=(n != 1);"
 )

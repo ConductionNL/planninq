@@ -1007,7 +1007,23 @@
         "Reason": "Motivo",
         "Why the run failed": "Perché l'esecuzione è fallita",
         "Published at": "Pubblicato il",
-        "When the scenario was written out as draft lessons": "Quando lo scenario è stato scritto come lezioni bozza"
+        "When the scenario was written out as draft lessons": "Quando lo scenario è stato scritto come lezioni bozza",
+        "Edit wish": "Modifica desiderio",
+        "New wish": "Nuovo desiderio",
+        "Hard: the generator always keeps it": "Vincolante: il generatore lo rispetta sempre",
+        "Soft: the generator keeps it where it can": "Flessibile: il generatore lo rispetta quando può",
+        "Weight (1 to 3)": "Peso (da 1 a 3)",
+        "Most lessons a day": "Massimo di lezioni al giorno",
+        "Period": "Ora",
+        "{day} period {number}": "{day} ora {number}",
+        "Teacher (user name)": "Docente (nome utente)",
+        "Activity (group:subject)": "Attività (gruppo:materia)",
+        "Say who or what the wish is about.": "Indica chi o cosa riguarda il desiderio.",
+        "Choose at least one period.": "Scegli almeno un'ora.",
+        "The limit is a whole number of 1 or more.": "Il limite è un numero intero pari o superiore a 1.",
+        "Timetable": "Orario",
+        "Wishes": "Desideri",
+        "Timetable wishes": "Desideri per l'orario"
     },
     "plurals": null
 }

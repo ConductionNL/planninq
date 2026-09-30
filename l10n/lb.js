@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Grond",
         "Why the run failed": "Firwat de Laf feelgeschloen ass",
         "Published at": "Publizéiert den",
-        "When the scenario was written out as draft lessons": "Wéini d'Szenario als Entworfsstonne geschriwwe gouf"
+        "When the scenario was written out as draft lessons": "Wéini d'Szenario als Entworfsstonne geschriwwe gouf",
+        "Edit wish": "Wonsch änneren",
+        "New wish": "Neie Wonsch",
+        "Hard: the generator always keeps it": "Fix: de Generator hält sech ëmmer drun",
+        "Soft: the generator keeps it where it can": "Flexibel: de Generator hält sech drun, wou e kann",
+        "Weight (1 to 3)": "Gewiicht (1 bis 3)",
+        "Most lessons a day": "Héchstens Stonnen den Dag",
+        "Period": "Stonn",
+        "{day} period {number}": "{day} Stonn {number}",
+        "Teacher (user name)": "Enseignant (Benotzernumm)",
+        "Activity (group:subject)": "Aktivitéit (Grupp:Fach)",
+        "Say who or what the wish is about.": "Gitt un, wien oder wat de Wonsch betrëfft.",
+        "Choose at least one period.": "Wielt mindestens eng Stonn.",
+        "The limit is a whole number of 1 or more.": "D'Limit ass eng ganz Zuel vun 1 oder méi.",
+        "Timetable": "Stonneplang",
+        "Wishes": "Wënsch",
+        "Timetable wishes": "Stonneplangwënsch"
     },
     "nplurals=2; plural=(n != 1);"
 )

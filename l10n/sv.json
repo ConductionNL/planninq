@@ -1007,7 +1007,23 @@
         "Reason": "Orsak",
         "Why the run failed": "Varför körningen misslyckades",
         "Published at": "Publicerat",
-        "When the scenario was written out as draft lessons": "När scenariot skrevs ut som utkastlektioner"
+        "When the scenario was written out as draft lessons": "När scenariot skrevs ut som utkastlektioner",
+        "Edit wish": "Redigera önskemål",
+        "New wish": "Nytt önskemål",
+        "Hard: the generator always keeps it": "Hårt: generatorn följer det alltid",
+        "Soft: the generator keeps it where it can": "Mjukt: generatorn följer det där den kan",
+        "Weight (1 to 3)": "Vikt (1 till 3)",
+        "Most lessons a day": "Högst antal lektioner per dag",
+        "Period": "Lektion",
+        "{day} period {number}": "{day} lektion {number}",
+        "Teacher (user name)": "Lärare (användarnamn)",
+        "Activity (group:subject)": "Aktivitet (grupp:ämne)",
+        "Say who or what the wish is about.": "Ange vem eller vad önskemålet gäller.",
+        "Choose at least one period.": "Välj minst en lektion.",
+        "The limit is a whole number of 1 or more.": "Gränsen är ett heltal på 1 eller mer.",
+        "Timetable": "Schema",
+        "Wishes": "Önskemål",
+        "Timetable wishes": "Schemaönskemål"
     },
     "plurals": null
 }

@@ -16,8 +16,8 @@ DECISIONS.md row 17). Sections 5 onward assume the solver answer recorded in des
 
 ## 3. Wishes
 
-- [ ] 3.1 Wish editor page (Timetable, Wishes): list by teacher, group, room or activity; add, edit, delete; hard or soft with weight; period picker on the week grid. Verify: vitest on `src/utils/timetableWishes.js` (period key round trip, weight only for soft); Playwright "a timetabler marks a wish as hard".
-- [ ] 3.2 Row `tt-hard-soft-wishes` is not set built here: it is built when section 5 respects the wishes.
+- [x] 3.1 Wish editor page (Timetable, Wishes): list by teacher, group, room or activity; add, edit, delete; hard or soft with weight; period picker on the week grid. Verify: vitest on `src/utils/timetableWishes.js` (period key round trip, weight only for soft); Playwright "a timetabler marks a wish as hard". Built (section 3 PR): a declarative index page `TimetableWishes` (`/timetable/wishes`, quick filters per teacher, group, room, activity) whose create and edit dialog is replaced through the `form-dialog` slot by `src/dialogs/TimetableWishDialog.vue`; no new custom page, so the gate-69 ratchet holds.
+- [x] 3.2 Row `tt-hard-soft-wishes` is not set built here: it is built when section 5 respects the wishes.
 
 ## 4. Scorer
 

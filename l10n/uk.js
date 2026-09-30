@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Причина",
         "Why the run failed": "Чому запуск не вдався",
         "Published at": "Опубліковано",
-        "When the scenario was written out as draft lessons": "Коли сценарій записано як чернеткові уроки"
+        "When the scenario was written out as draft lessons": "Коли сценарій записано як чернеткові уроки",
+        "Edit wish": "Змінити побажання",
+        "New wish": "Нове побажання",
+        "Hard: the generator always keeps it": "Обов'язкове: генератор завжди його дотримується",
+        "Soft: the generator keeps it where it can": "Гнучке: генератор дотримується його, де може",
+        "Weight (1 to 3)": "Вага (від 1 до 3)",
+        "Most lessons a day": "Не більше уроків на день",
+        "Period": "Урок",
+        "{day} period {number}": "{day} урок {number}",
+        "Teacher (user name)": "Учитель (ім'я користувача)",
+        "Activity (group:subject)": "Заняття (група:предмет)",
+        "Say who or what the wish is about.": "Вкажіть, кого чи чого стосується побажання.",
+        "Choose at least one period.": "Виберіть хоча б один урок.",
+        "The limit is a whole number of 1 or more.": "Ліміт: ціле число від 1.",
+        "Timetable": "Розклад",
+        "Wishes": "Побажання",
+        "Timetable wishes": "Побажання до розкладу"
     },
     "nplurals=2; plural=(n != 1);"
 )

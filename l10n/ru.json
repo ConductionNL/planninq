@@ -1007,7 +1007,23 @@
         "Reason": "Причина",
         "Why the run failed": "Почему запуск не удался",
         "Published at": "Опубликован",
-        "When the scenario was written out as draft lessons": "Когда сценарий записан как черновые уроки"
+        "When the scenario was written out as draft lessons": "Когда сценарий записан как черновые уроки",
+        "Edit wish": "Изменить пожелание",
+        "New wish": "Новое пожелание",
+        "Hard: the generator always keeps it": "Обязательное: генератор всегда его соблюдает",
+        "Soft: the generator keeps it where it can": "Гибкое: генератор соблюдает его, где может",
+        "Weight (1 to 3)": "Вес (от 1 до 3)",
+        "Most lessons a day": "Не больше уроков в день",
+        "Period": "Урок",
+        "{day} period {number}": "{day} урок {number}",
+        "Teacher (user name)": "Учитель (имя пользователя)",
+        "Activity (group:subject)": "Занятие (группа:предмет)",
+        "Say who or what the wish is about.": "Укажите, кого или что касается пожелание.",
+        "Choose at least one period.": "Выберите хотя бы один урок.",
+        "The limit is a whole number of 1 or more.": "Лимит: целое число от 1.",
+        "Timetable": "Расписание",
+        "Wishes": "Пожелания",
+        "Timetable wishes": "Пожелания к расписанию"
     },
     "plurals": {}
 }

@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Razlog",
         "Why the run failed": "Zašto pokretanje nije uspjelo",
         "Published at": "Objavljeno",
-        "When the scenario was written out as draft lessons": "Kada je scenarij zapisan kao nacrti sati"
+        "When the scenario was written out as draft lessons": "Kada je scenarij zapisan kao nacrti sati",
+        "Edit wish": "Uredi želju",
+        "New wish": "Nova želja",
+        "Hard: the generator always keeps it": "Obavezno: generator je uvijek poštuje",
+        "Soft: the generator keeps it where it can": "Fleksibilno: generator je poštuje gdje može",
+        "Weight (1 to 3)": "Težina (1 do 3)",
+        "Most lessons a day": "Najviše sati dnevno",
+        "Period": "Sat",
+        "{day} period {number}": "{day} sat {number}",
+        "Teacher (user name)": "Nastavnik (korisničko ime)",
+        "Activity (group:subject)": "Aktivnost (grupa:predmet)",
+        "Say who or what the wish is about.": "Navedite na koga ili što se želja odnosi.",
+        "Choose at least one period.": "Odaberite barem jedan sat.",
+        "The limit is a whole number of 1 or more.": "Ograničenje je cijeli broj od 1 ili više.",
+        "Timetable": "Raspored",
+        "Wishes": "Želje",
+        "Timetable wishes": "Želje za raspored"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1007,7 +1007,23 @@
         "Reason": "Arsyeja",
         "Why the run failed": "Pse dështoi ekzekutimi",
         "Published at": "Publikuar më",
-        "When the scenario was written out as draft lessons": "Kur u shkrua skenari si orë draft"
+        "When the scenario was written out as draft lessons": "Kur u shkrua skenari si orë draft",
+        "Edit wish": "Ndrysho dëshirën",
+        "New wish": "Dëshirë e re",
+        "Hard: the generator always keeps it": "E detyrueshme: gjeneratori e respekton gjithmonë",
+        "Soft: the generator keeps it where it can": "E butë: gjeneratori e respekton kur mundet",
+        "Weight (1 to 3)": "Pesha (nga 1 deri në 3)",
+        "Most lessons a day": "Së shumti orë mësimi në ditë",
+        "Period": "Orë",
+        "{day} period {number}": "{day} ora {number}",
+        "Teacher (user name)": "Mësues (emri i përdoruesit)",
+        "Activity (group:subject)": "Aktivitet (grup:lëndë)",
+        "Say who or what the wish is about.": "Tregoni për kë ose për çfarë është dëshira.",
+        "Choose at least one period.": "Zgjidhni të paktën një orë.",
+        "The limit is a whole number of 1 or more.": "Kufiri është numër i plotë 1 ose më shumë.",
+        "Timetable": "Orari",
+        "Wishes": "Dëshirat",
+        "Timetable wishes": "Dëshirat për orarin"
     },
     "plurals": {}
 }

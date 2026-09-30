@@ -1007,7 +1007,23 @@
         "Reason": "Syy",
         "Why the run failed": "Miksi ajo epäonnistui",
         "Published at": "Julkaistu",
-        "When the scenario was written out as draft lessons": "Milloin skenaario kirjoitettiin luonnostunneiksi"
+        "When the scenario was written out as draft lessons": "Milloin skenaario kirjoitettiin luonnostunneiksi",
+        "Edit wish": "Muokkaa toivetta",
+        "New wish": "Uusi toive",
+        "Hard: the generator always keeps it": "Ehdoton: generaattori noudattaa sitä aina",
+        "Soft: the generator keeps it where it can": "Joustava: generaattori noudattaa sitä, kun voi",
+        "Weight (1 to 3)": "Paino (1-3)",
+        "Most lessons a day": "Enintään tunteja päivässä",
+        "Period": "Tunti",
+        "{day} period {number}": "{day} tunti {number}",
+        "Teacher (user name)": "Opettaja (käyttäjänimi)",
+        "Activity (group:subject)": "Toiminta (ryhmä:aine)",
+        "Say who or what the wish is about.": "Kerro, ketä tai mitä toive koskee.",
+        "Choose at least one period.": "Valitse vähintään yksi tunti.",
+        "The limit is a whole number of 1 or more.": "Raja on kokonaisluku 1 tai enemmän.",
+        "Timetable": "Lukujärjestys",
+        "Wishes": "Toiveet",
+        "Timetable wishes": "Lukujärjestystoiveet"
     },
     "plurals": null
 }

@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Αιτία",
         "Why the run failed": "Γιατί απέτυχε η εκτέλεση",
         "Published at": "Δημοσιεύτηκε στις",
-        "When the scenario was written out as draft lessons": "Πότε γράφτηκε το σενάριο ως πρόχειρα μαθήματα"
+        "When the scenario was written out as draft lessons": "Πότε γράφτηκε το σενάριο ως πρόχειρα μαθήματα",
+        "Edit wish": "Επεξεργασία επιθυμίας",
+        "New wish": "Νέα επιθυμία",
+        "Hard: the generator always keeps it": "Υποχρεωτική: η γεννήτρια την τηρεί πάντα",
+        "Soft: the generator keeps it where it can": "Ευέλικτη: η γεννήτρια την τηρεί όπου μπορεί",
+        "Weight (1 to 3)": "Βάρος (1 έως 3)",
+        "Most lessons a day": "Το πολύ μαθήματα την ημέρα",
+        "Period": "Ώρα",
+        "{day} period {number}": "{day} ώρα {number}",
+        "Teacher (user name)": "Εκπαιδευτικός (όνομα χρήστη)",
+        "Activity (group:subject)": "Δραστηριότητα (ομάδα:μάθημα)",
+        "Say who or what the wish is about.": "Δηλώστε ποιον ή τι αφορά η επιθυμία.",
+        "Choose at least one period.": "Επιλέξτε τουλάχιστον μία ώρα.",
+        "The limit is a whole number of 1 or more.": "Το όριο είναι ακέραιος αριθμός 1 ή μεγαλύτερος.",
+        "Timetable": "Ωρολόγιο πρόγραμμα",
+        "Wishes": "Επιθυμίες",
+        "Timetable wishes": "Επιθυμίες ωρολογίου προγράμματος"
     },
     "nplurals=2; plural=(n != 1);"
 )

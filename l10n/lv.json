@@ -1007,7 +1007,23 @@
         "Reason": "Iemesls",
         "Why the run failed": "Kāpēc palaišana neizdevās",
         "Published at": "Publicēts",
-        "When the scenario was written out as draft lessons": "Kad scenārijs tika ierakstīts kā melnraksta stundas"
+        "When the scenario was written out as draft lessons": "Kad scenārijs tika ierakstīts kā melnraksta stundas",
+        "Edit wish": "Rediģēt vēlmi",
+        "New wish": "Jauna vēlme",
+        "Hard: the generator always keeps it": "Obligāta: ģenerators to vienmēr ievēro",
+        "Soft: the generator keeps it where it can": "Elastīga: ģenerators to ievēro, kur var",
+        "Weight (1 to 3)": "Svars (no 1 līdz 3)",
+        "Most lessons a day": "Ne vairāk stundu dienā",
+        "Period": "Stunda",
+        "{day} period {number}": "{day} {number}. stunda",
+        "Teacher (user name)": "Skolotājs (lietotājvārds)",
+        "Activity (group:subject)": "Aktivitāte (grupa:priekšmets)",
+        "Say who or what the wish is about.": "Norādiet, uz ko vēlme attiecas.",
+        "Choose at least one period.": "Izvēlieties vismaz vienu stundu.",
+        "The limit is a whole number of 1 or more.": "Ierobežojums ir vesels skaitlis, 1 vai vairāk.",
+        "Timetable": "Stundu saraksts",
+        "Wishes": "Vēlmes",
+        "Timetable wishes": "Stundu saraksta vēlmes"
     },
     "plurals": null
 }

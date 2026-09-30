@@ -1008,7 +1008,23 @@ OC.L10N.register(
         "Reason": "Прычына",
         "Why the run failed": "Чаму запуск не ўдаўся",
         "Published at": "Апублікаваны",
-        "When the scenario was written out as draft lessons": "Калі сцэнарый запісаны як чарнавыя ўрокі"
+        "When the scenario was written out as draft lessons": "Калі сцэнарый запісаны як чарнавыя ўрокі",
+        "Edit wish": "Рэдагаваць пажаданне",
+        "New wish": "Новае пажаданне",
+        "Hard: the generator always keeps it": "Абавязковае: генератар заўсёды яго выконвае",
+        "Soft: the generator keeps it where it can": "Гнуткае: генератар выконвае яго, калі можа",
+        "Weight (1 to 3)": "Вага (ад 1 да 3)",
+        "Most lessons a day": "Не больш за столькі ўрокаў у дзень",
+        "Period": "Урок",
+        "{day} period {number}": "{day} урок {number}",
+        "Teacher (user name)": "Настаўнік (імя карыстальніка)",
+        "Activity (group:subject)": "Заняткі (група:прадмет)",
+        "Say who or what the wish is about.": "Пазначце, каго ці чаго датычыць пажаданне.",
+        "Choose at least one period.": "Выберыце хаця б адзін урок.",
+        "The limit is a whole number of 1 or more.": "Ліміт: цэлы лік ад 1.",
+        "Timetable": "Расклад",
+        "Wishes": "Пажаданні",
+        "Timetable wishes": "Пажаданні да раскладу"
     },
     "nplurals=2; plural=(n != 1);"
 )

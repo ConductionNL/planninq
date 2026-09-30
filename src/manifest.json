@@ -55,6 +55,9 @@
       { "id": "PortfolioIndexMenu", "label": "Portfolios", "icon": "FolderMultipleOutline", "route": "PortfolioIndex" }
     ] },
     { "id": "Timesheet", "label": "Timesheet", "icon": "ClockOutline", "route": "Timesheet", "order": 50 },
+    { "id": "TimetableMenu", "label": "Timetable", "icon": "CalendarClock", "route": "TimetableWishes", "order": 55, "permission": "admin", "children": [
+      { "id": "TimetableWishesMenu", "label": "Wishes", "icon": "CalendarClock", "route": "TimetableWishes" }
+    ] },
     { "id": "Documentation", "label": "Documentation", "icon": "BookOpenVariantOutline", "href": "https://planix.conduction.nl", "section": "footer", "order": 90 },
     { "id": "StoreMenu", "label": "Store", "icon": "StoreOutline", "route": "Store", "section": "footer", "order": 92 },
     { "id": "ReportsMenu", "label": "Reports", "icon": "ChartBoxOutline", "route": "Reports", "section": "footer", "order": 95 },
@@ -238,6 +241,19 @@
     { "id": "ProjectLog", "_note": "The project log: issues, lessons, meetings and decisions with type filters, plus an Actions filter over the project's tasks with issueType action, and an Add action that creates such a task. The mix of two schemas under one filter row is what makes it custom.", "route": "/projects/:id/log", "type": "custom", "title": "Log", "component": "ProjectLog", "config": {} },
     { "id": "TaskDetail", "_note": "Task detail that combines a CnObjectSidebar with an inline time-entry log written against the same task. A detail page renders the record; the embedded logging surface is what makes this custom.", "route": "/projects/:id/tasks/:taskId", "type": "custom", "title": "Task", "component": "TaskDetail", "config": {} },
     { "id": "Timesheet", "_note": "Week timesheet: entries grouped per day with inline edit and a project selector. A grouped, editable grid over time entries, which no v2 list primitive expresses.", "route": "/timesheet", "type": "custom", "title": "Timesheet", "component": "Timesheet", "config": {} },
+    { "id": "TimetableWishes", "_note": "The wishes the timetable generator weighs, listed by teacher, group, room or activity. Admins add, edit and delete them, which OpenRegister enforces on the timetableWish schema, so the page is a declarative index; only its create and edit dialog is replaced (form-dialog slot) so the periods are picked on the school week grid.", "route": "/timetable/wishes", "type": "index", "title": "Timetable wishes", "config": {
+      "register": "planninq",
+      "schema": "timetableWish",
+      "columns": ["appliesTo", "reference", "kind", "strength", "weight", "note"],
+      "quickFilters": [
+        { "label": "All", "filter": {}, "default": true },
+        { "label": "Teacher", "filter": { "appliesTo": "teacher" } },
+        { "label": "Group", "filter": { "appliesTo": "group" } },
+        { "label": "Room", "filter": { "appliesTo": "room" } },
+        { "label": "Activity", "filter": { "appliesTo": "activity" } }
+      ],
+      "defaultSort": [{ "field": "reference", "order": "asc" }]
+    }, "slots": { "form-dialog": "TimetableWishDialog" } },
     { "id": "Boards", "_note": "Board picker: the projects a user can open a board for, as entry points rather than records. The cards route to /projects/:id and expose no record actions.", "route": "/boards", "type": "custom", "title": "Boards", "component": "Boards", "config": {} },
     { "id": "PortfolioStatus", "_note": "One portfolio's projects with their lifecycle status, progress, dates, budget and six aspect statuses, under a roll-up per aspect with the worst state and a No report count. It combines the projects, their tasks and an admin setting into one table and a roll-up, which no index or dashboard widget expresses.", "route": "/portfolio/status", "type": "custom", "title": "Portfolio status", "component": "PortfolioStatus", "config": {} },
     { "id": "PortfolioFinance", "_note": "Money across one portfolio: a row per project with budget, commitments, actual cost including labour from booked time, forecast and what remains, and the totals, for the projects whose money the viewer may see. It combines finance lines, time entries and projects into computed rows and a cross-checked total, which no index or dashboard widget expresses.", "route": "/portfolio/finance", "type": "custom", "title": "Portfolio finance", "component": "PortfolioFinance", "config": {} },

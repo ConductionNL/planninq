@@ -1007,7 +1007,23 @@
         "Reason": "Motiv",
         "Why the run failed": "De ce a eșuat rularea",
         "Published at": "Publicat la",
-        "When the scenario was written out as draft lessons": "Când a fost scris scenariul ca ore ciornă"
+        "When the scenario was written out as draft lessons": "Când a fost scris scenariul ca ore ciornă",
+        "Edit wish": "Editează dorința",
+        "New wish": "Dorință nouă",
+        "Hard: the generator always keeps it": "Strictă: generatorul o respectă mereu",
+        "Soft: the generator keeps it where it can": "Flexibilă: generatorul o respectă unde poate",
+        "Weight (1 to 3)": "Pondere (de la 1 la 3)",
+        "Most lessons a day": "Cel mult ore pe zi",
+        "Period": "Oră",
+        "{day} period {number}": "{day} ora {number}",
+        "Teacher (user name)": "Profesor (nume de utilizator)",
+        "Activity (group:subject)": "Activitate (grupă:materie)",
+        "Say who or what the wish is about.": "Indicați la cine sau la ce se referă dorința.",
+        "Choose at least one period.": "Alegeți cel puțin o oră.",
+        "The limit is a whole number of 1 or more.": "Limita este un număr întreg de cel puțin 1.",
+        "Timetable": "Orar",
+        "Wishes": "Dorințe",
+        "Timetable wishes": "Dorințe pentru orar"
     },
     "plurals": {}
 }
