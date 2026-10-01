@@ -331,10 +331,10 @@ import CaseHandoverSection from './CaseHandoverSection.vue'
 import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import { useProjectsStore } from '../store/projects.js'
+import { memberEntries } from '../utils/memberSearch.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
 import { lifecycleButtons } from '../utils/projectLifecycle.js'
-import { memberEntries } from '../utils/memberSearch.js'
 import { parentIdOf, parentOptions, parentRefusal } from '../utils/projectTree.js'
 import { displayNames, groupNames } from '../utils/userNames.js'
 import { keyEditable, keyRefusal, normaliseProjectKey } from '../utils/workItemKeys.js'
@@ -511,13 +511,15 @@ export default {
 	},
 
 	watch: {
-		/**
-		 * Resolve the names on the Members tab whenever its lists change.
-		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
-		 */
 		memberRows: {
 			immediate: true,
+			/**
+			 * Resolve the names on the Members tab whenever its lists change.
+			 *
+			 * @param {Array<object>} rows The Members tab rows.
+			 *
+			 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+			 */
 			async handler(rows) {
 				const users = rows.filter((row) => row.type === 'user' && !(row.id in this.memberNames)).map((row) => row.id)
 				const groups = rows.filter((row) => row.type === 'group' && !(row.id in this.memberGroupNames)).map((row) => row.id)

@@ -9,7 +9,9 @@
  *   @e2e project-membership::the-admins-search-limits-apply
  */
 
-import { type Browser, expect, request, test } from '@playwright/test'
+import type { Browser } from '@playwright/test'
+
+import { expect, request, test } from '@playwright/test'
 import { BASE_URL } from './base-url.ts'
 import { PLANNINQ_ROOT } from './nav.ts'
 import { adminApi, OBJECTS } from './portfolio-api.ts'
