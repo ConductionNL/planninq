@@ -1334,7 +1334,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "De gebruiker aan wie een taak moet zijn toegewezen",
         "A label a task must carry": "Een label dat een taak moet dragen",
         "The board column a task must be in": "De bordkolom waarin een taak moet staan",
-        "The issue type a task must have": "Het soort issue dat een taak moet hebben"
+        "The issue type a task must have": "Het soort issue dat een taak moet hebben",
+        "Manager groups": "Beheerdersgroepen",
+        "Member groups": "Ledengroepen",
+        "Viewer groups": "Lezersgroepen",
+        "Viewers": "Lezers",
+        "Owning group": "Eigenaarsgroep",
+        "Nextcloud groups whose members manage the project": "Nextcloud-groepen waarvan de leden het project beheren",
+        "Nextcloud groups whose members work on the project": "Nextcloud-groepen waarvan de leden aan het project werken",
+        "Nextcloud groups whose members may read the project": "Nextcloud-groepen waarvan de leden het project mogen lezen",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Nextcloud-gebruikers die het project beheren: instellingen, leden en werk",
+        "Nextcloud user ids who may read the project and its work but not change it": "Nextcloud-gebruikers die het project en het werk mogen lezen maar niet wijzigen",
+        "The Nextcloud group that owns the project with its creator, at most one": "De Nextcloud-groep die het project samen met de maker bezit, hooguit één",
+        "Nextcloud user ids who may read this through the project": "Nextcloud-gebruikers die dit via het project mogen lezen",
+        "Nextcloud groups whose members may change this through the project": "Nextcloud-groepen waarvan de leden dit via het project mogen wijzigen",
+        "Nextcloud groups whose members may read this through the project": "Nextcloud-groepen waarvan de leden dit via het project mogen lezen"
     },
     "nplurals=2; plural=(n != 1);"
 )

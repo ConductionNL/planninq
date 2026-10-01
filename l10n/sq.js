@@ -1321,7 +1321,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "Përdoruesi të cilit duhet t'i jetë caktuar një detyrë",
         "A label a task must carry": "Një etiketë që duhet të mbajë një detyrë",
         "The board column a task must be in": "Kolona e tabelës ku duhet të jetë një detyrë",
-        "The issue type a task must have": "Lloji i çështjes që duhet të ketë një detyrë"
+        "The issue type a task must have": "Lloji i çështjes që duhet të ketë një detyrë",
+        "Manager groups": "Grupet e menaxherëve",
+        "Member groups": "Grupet e anëtarëve",
+        "Viewer groups": "Grupet e lexuesve",
+        "Viewers": "Lexuesit",
+        "Owning group": "Grupi pronar",
+        "Nextcloud groups whose members manage the project": "Grupet Nextcloud anëtarët e të cilave menaxhojnë projektin",
+        "Nextcloud groups whose members work on the project": "Grupet Nextcloud anëtarët e të cilave punojnë në projekt",
+        "Nextcloud groups whose members may read the project": "Grupet Nextcloud anëtarët e të cilave mund ta lexojnë projektin",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Përdoruesit Nextcloud që menaxhojnë projektin: cilësimet, anëtarët dhe punën",
+        "Nextcloud user ids who may read the project and its work but not change it": "Përdoruesit Nextcloud që mund të lexojnë projektin dhe punën e tij, por jo ta ndryshojnë",
+        "The Nextcloud group that owns the project with its creator, at most one": "Grupi Nextcloud që e zotëron projektin bashkë me krijuesin e tij, më së shumti një",
+        "Nextcloud user ids who may read this through the project": "Përdoruesit Nextcloud që mund ta lexojnë këtë përmes projektit",
+        "Nextcloud groups whose members may change this through the project": "Grupet Nextcloud anëtarët e të cilave mund ta ndryshojnë këtë përmes projektit",
+        "Nextcloud groups whose members may read this through the project": "Grupet Nextcloud anëtarët e të cilave mund ta lexojnë këtë përmes projektit"
     },
     "nplurals=2; plural=(n != 1);"
 )

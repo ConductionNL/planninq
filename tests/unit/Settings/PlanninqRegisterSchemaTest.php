@@ -205,7 +205,13 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: $base + ['autoSchedule' => true]));
 		self::assertNotSame([], $this->registerSchemaErrors(slug: 'project', payload: $base + ['autoSchedule' => 'yes']));
 		self::assertSame(
-			[['group' => 'authenticated', 'match' => ['owner' => '$userId']], ['group' => 'admin']],
+			[
+				['group' => 'authenticated', 'match' => ['owner' => '$userId']],
+				['group' => 'authenticated', 'match' => ['ownerGroups' => ['$contains' => '$user.groups']]],
+				['group' => 'authenticated', 'match' => ['managers' => ['$contains' => '$userId']]],
+				['group' => 'authenticated', 'match' => ['managerGroups' => ['$contains' => '$user.groups']]],
+				['group' => 'admin'],
+			],
 			$project['authorization']['update']
 		);
 	}//end testProjectAutoScheduleDefaultsOff()
@@ -965,6 +971,30 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	];
 
 	/**
+	 * The project's viewers read (projects-members-and-roles).
+	 */
+	private const VIEWER_RULE = [
+		'group' => 'authenticated',
+		'match' => ['viewers' => ['$contains' => '$userId']],
+	];
+
+	/**
+	 * The owning, manager and member groups write (projects-members-and-roles).
+	 */
+	private const MEMBER_GROUP_RULE = [
+		'group' => 'authenticated',
+		'match' => ['memberGroups' => ['$contains' => '$user.groups']],
+	];
+
+	/**
+	 * The viewer groups read (projects-members-and-roles).
+	 */
+	private const VIEWER_GROUP_RULE = [
+		'group' => 'authenticated',
+		'match' => ['viewerGroups' => ['$contains' => '$user.groups']],
+	];
+
+	/**
 	 * Task, column, phase and planned time entry carry a hidden, system-kept members list.
 	 *
 	 * `visible: false` hides it from every form, widget and table, which is the
@@ -1007,13 +1037,13 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			$authorization = $this->register['components']['schemas'][$slug]['authorization'];
 
 			self::assertSame(
-				expected: [self::MEMBER_RULE, self::READER_RULE, ['group' => 'admin']],
+				expected: [self::MEMBER_RULE, self::VIEWER_RULE, self::MEMBER_GROUP_RULE, self::VIEWER_GROUP_RULE, self::READER_RULE, ['group' => 'admin']],
 				actual: $authorization['read'],
 				message: "{$slug}.read: members, the portfolio's managers, and admins"
 			);
 			foreach (['update', 'delete'] as $action) {
 				self::assertSame(
-					expected: [self::MEMBER_RULE, ['group' => 'admin']],
+					expected: [self::MEMBER_RULE, self::MEMBER_GROUP_RULE, ['group' => 'admin']],
 					actual: $authorization[$action],
 					message: "{$slug}.{$action}: portfolio managers read only"
 				);
@@ -1024,6 +1054,9 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			expected: [
 				['group' => 'authenticated', 'match' => ['user' => '$userId']],
 				self::MEMBER_RULE,
+				self::VIEWER_RULE,
+				self::MEMBER_GROUP_RULE,
+				self::VIEWER_GROUP_RULE,
 				self::READER_RULE,
 				['group' => 'admin'],
 			],
@@ -1380,10 +1413,10 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		$members = ['group' => 'authenticated', 'match' => ['members' => ['$contains' => '$userId']]];
 		$readers = ['group' => 'authenticated', 'match' => ['portfolioReaders' => ['$contains' => '$userId']]];
 		$manual  = ['group' => 'authenticated', 'match' => ['members' => ['$contains' => '$userId'], 'source' => 'manual']];
-		self::assertSame([$members, $readers, ['group' => 'admin']], $schema['authorization']['read']);
+		self::assertSame([$members, self::VIEWER_RULE, self::MEMBER_GROUP_RULE, self::VIEWER_GROUP_RULE, $readers, ['group' => 'admin']], $schema['authorization']['read']);
 		self::assertSame([['group' => 'authenticated'], ['group' => 'admin']], $schema['authorization']['create']);
 		foreach (['update', 'delete'] as $action) {
-			self::assertSame([$manual, ['group' => 'admin']], $schema['authorization'][$action], $action);
+			self::assertSame([$manual, ['group' => 'authenticated', 'match' => ['memberGroups' => ['$contains' => '$user.groups'], 'source' => 'manual']], ['group' => 'admin']], $schema['authorization'][$action], $action);
 		}
 
 		$link = ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-000000000001', 'taskKey' => 'VC-12', 'kind' => 'mergeRequest', 'url' => 'https://gitlab.example.org/acme/portal/-/merge_requests/42', 'title' => '!42', 'repository' => 'acme/portal', 'externalId' => 'gitlab.example.org:acme/portal:mergeRequest:!42', 'state' => 'merged', 'author' => 'anna', 'occurredAt' => '2026-09-30T10:00:00+00:00', 'source' => 'manual', 'members' => ['anna'], 'portfolioReaders' => []];
@@ -1410,7 +1443,14 @@ class PlanninqRegisterSchemaTest extends TestCase {
 
 		$owner = ['group' => 'authenticated', 'match' => ['owner' => '$userId']];
 		self::assertSame(
-			[$owner, ['group' => 'authenticated', 'match' => ['members' => ['$contains' => '$userId'], 'shared' => true]], ['group' => 'admin']],
+			[
+				$owner,
+				['group' => 'authenticated', 'match' => ['members' => ['$contains' => '$userId'], 'shared' => true]],
+				['group' => 'authenticated', 'match' => ['viewers' => ['$contains' => '$userId'], 'shared' => true]],
+				['group' => 'authenticated', 'match' => ['memberGroups' => ['$contains' => '$user.groups'], 'shared' => true]],
+				['group' => 'authenticated', 'match' => ['viewerGroups' => ['$contains' => '$user.groups'], 'shared' => true]],
+				['group' => 'admin'],
+			],
 			$schema['authorization']['read']
 		);
 		self::assertSame([['group' => 'authenticated'], ['group' => 'admin']], $schema['authorization']['create']);

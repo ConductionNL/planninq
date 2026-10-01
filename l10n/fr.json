@@ -1320,7 +1320,21 @@
         "The user a task must be assigned to": "L'utilisateur auquel une tâche doit être assignée",
         "A label a task must carry": "Une étiquette qu'une tâche doit porter",
         "The board column a task must be in": "La colonne du tableau où une tâche doit se trouver",
-        "The issue type a task must have": "Le type de ticket qu'une tâche doit avoir"
+        "The issue type a task must have": "Le type de ticket qu'une tâche doit avoir",
+        "Manager groups": "Groupes gestionnaires",
+        "Member groups": "Groupes membres",
+        "Viewer groups": "Groupes lecteurs",
+        "Viewers": "Lecteurs",
+        "Owning group": "Groupe propriétaire",
+        "Nextcloud groups whose members manage the project": "Groupes Nextcloud dont les membres gèrent le projet",
+        "Nextcloud groups whose members work on the project": "Groupes Nextcloud dont les membres travaillent sur le projet",
+        "Nextcloud groups whose members may read the project": "Groupes Nextcloud dont les membres peuvent lire le projet",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Utilisateurs Nextcloud qui gèrent le projet : paramètres, membres et travail",
+        "Nextcloud user ids who may read the project and its work but not change it": "Utilisateurs Nextcloud qui peuvent lire le projet et son travail sans le modifier",
+        "The Nextcloud group that owns the project with its creator, at most one": "Le groupe Nextcloud qui possède le projet avec son créateur, un au plus",
+        "Nextcloud user ids who may read this through the project": "Utilisateurs Nextcloud qui peuvent lire ceci via le projet",
+        "Nextcloud groups whose members may change this through the project": "Groupes Nextcloud dont les membres peuvent modifier ceci via le projet",
+        "Nextcloud groups whose members may read this through the project": "Groupes Nextcloud dont les membres peuvent lire ceci via le projet"
     },
     "plurals": null
 }

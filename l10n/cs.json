@@ -1320,7 +1320,21 @@
         "The user a task must be assigned to": "Uživatel, kterému musí být úkol přidělen",
         "A label a task must carry": "Štítek, který musí úkol mít",
         "The board column a task must be in": "Sloupec tabule, ve kterém musí úkol být",
-        "The issue type a task must have": "Typ požadavku, který musí úkol mít"
+        "The issue type a task must have": "Typ požadavku, který musí úkol mít",
+        "Manager groups": "Skupiny správců",
+        "Member groups": "Skupiny členů",
+        "Viewer groups": "Skupiny čtenářů",
+        "Viewers": "Čtenáři",
+        "Owning group": "Vlastnická skupina",
+        "Nextcloud groups whose members manage the project": "Skupiny Nextcloud, jejichž členové spravují projekt",
+        "Nextcloud groups whose members work on the project": "Skupiny Nextcloud, jejichž členové na projektu pracují",
+        "Nextcloud groups whose members may read the project": "Skupiny Nextcloud, jejichž členové mohou projekt číst",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Uživatelé Nextcloud, kteří spravují projekt: nastavení, členy a práci",
+        "Nextcloud user ids who may read the project and its work but not change it": "Uživatelé Nextcloud, kteří mohou číst projekt a jeho práci, ale ne měnit",
+        "The Nextcloud group that owns the project with its creator, at most one": "Skupina Nextcloud, která vlastní projekt spolu s jeho tvůrcem, nejvýše jedna",
+        "Nextcloud user ids who may read this through the project": "Uživatelé Nextcloud, kteří to mohou číst přes projekt",
+        "Nextcloud groups whose members may change this through the project": "Skupiny Nextcloud, jejichž členové to mohou měnit přes projekt",
+        "Nextcloud groups whose members may read this through the project": "Skupiny Nextcloud, jejichž členové to mohou číst přes projekt"
     },
     "plurals": null
 }

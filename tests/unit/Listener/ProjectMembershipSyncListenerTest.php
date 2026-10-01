@@ -287,4 +287,28 @@ class ProjectMembershipSyncListenerTest extends TestCase {
 		self::assertSame('pf-1', $line['portfolio']);
 		self::assertSame(['alice', 'bob'], $this->objects->rows['task']['t1']['members'], 'the finance copies do not touch members');
 	}//end testANewOwnerOrPortfolioReachesTheFinanceLines()
+
+	/**
+	 * A manager, a viewer and three groups reach every child as the lists
+	 * OpenRegister evaluates: managers write (in `members`), viewers only
+	 * read, and the owning, manager and member groups write as one list.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 */
+	public function testRolesAndGroupsReachEveryChild(): void {
+		$old = ['title' => 'A', 'members' => ['alice', 'bob'], 'owner' => 'alice'];
+		$new = $old + ['managers' => ['erin'], 'viewers' => ['vic'], 'managerGroups' => ['leads'], 'memberGroups' => ['devs'], 'ownerGroups' => ['pmo'], 'viewerGroups' => ['audit']];
+
+		$this->listener()->handle($this->projectUpdate(old: $old, new: $new));
+
+		$task = $this->objects->rows['task']['t1'];
+		self::assertSame(['alice', 'bob', 'erin'], $task['members']);
+		self::assertSame(['vic'], $task['viewers']);
+		self::assertSame(['devs', 'leads', 'pmo'], $task['memberGroups']);
+		self::assertSame(['audit'], $task['viewerGroups']);
+		self::assertSame(['audit'], $this->objects->rows['plannedTimeEntry']['te-by-task']['viewerGroups'], 'an entry found through its task too');
+		self::assertArrayNotHasKey('viewers', $this->objects->rows['task']['other'], 'another project is untouched');
+	}//end testRolesAndGroupsReachEveryChild()
 }//end class

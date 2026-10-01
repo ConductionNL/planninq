@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.34.0"
+    "version": "0.35.0"
   },
   "x-openregister": {
     "type": "application",
@@ -53,7 +53,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedCircleOutline",
-        "version": "0.10.0",
+        "version": "0.11.0",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
@@ -69,6 +69,30 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -102,6 +126,14 @@
               }
             },
             {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
               "group": "admin"
             }
           ],
@@ -111,6 +143,14 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -530,13 +570,46 @@
             "type": "object",
             "description": "Declared catch-all for source-system fields: imported custom fields and provenance keys (e.g. jiraKey, jiraId, migratedAt). Declared explicitly so magic-table storage persists it.",
             "default": {}
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
         }
       },
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.13.0",
+        "version": "0.14.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -558,8 +631,56 @@
             {
               "group": "authenticated",
               "match": {
+                "managers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
                 "portfolioReaders": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "managerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "ownerGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -578,6 +699,30 @@
               }
             },
             {
+              "group": "authenticated",
+              "match": {
+                "ownerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "managers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "managerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
               "group": "admin"
             }
           ],
@@ -586,6 +731,14 @@
               "group": "authenticated",
               "match": {
                 "owner": "$userId"
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "ownerGroups": {
+                  "$contains": "$user.groups"
+                }
               }
             },
             {
@@ -657,7 +810,28 @@
           "owner": {
             "title": "Owner",
             "type": "string",
-            "description": "Nextcloud user UID of the project creator. Set automatically on creation; used for delete authorization and creator-based RBAC."
+            "description": "Nextcloud user UID of the project creator. Set automatically on creation; used for delete authorization and creator-based RBAC.",
+            "authorization": {
+              "update": [
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "owner": "$userId"
+                  }
+                },
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "ownerGroups": {
+                      "$contains": "$user.groups"
+                    }
+                  }
+                },
+                {
+                  "group": "admin"
+                }
+              ]
+            }
           },
           "portfolio": {
             "title": "Portfolio",
@@ -962,6 +1136,83 @@
             "type": "object",
             "description": "Declared catch-all for source-system fields and provenance keys (e.g. jiraProjectId, migratedAt). Declared explicitly so magic-table storage persists it.",
             "default": {}
+          },
+          "managers": {
+            "title": "Managers",
+            "type": "array",
+            "description": "Nextcloud user ids who manage the project: its settings, its members and its work",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read the project and its work but not change it",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "managerGroups": {
+            "title": "Manager groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members manage the project",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members work on the project",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read the project",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "ownerGroups": {
+            "title": "Owning group",
+            "type": "array",
+            "description": "The Nextcloud group that owns the project with its creator, at most one",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "maxItems": 1,
+            "authorization": {
+              "update": [
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "owner": "$userId"
+                  }
+                },
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "ownerGroups": {
+                      "$contains": "$user.groups"
+                    }
+                  }
+                },
+                {
+                  "group": "admin"
+                }
+              ]
+            },
+            "x-notes": "A list of at most one, not a string: OpenRegister resolves $user.groups only under $contains on its list query ($in fails closed there), so the owning group is matched with {\"ownerGroups\": {\"$contains\": \"$user.groups\"}}."
           }
         },
         "x-openregister-lifecycle": {
@@ -1073,7 +1324,7 @@
       "projectPhase": {
         "slug": "projectPhase",
         "icon": "TimelineOutline",
-        "version": "0.5.0",
+        "version": "0.6.0",
         "title": "Project Phase",
         "description": "A delivery stage within a project, such as discovery, build or hypercare. Phases carry their own budget and billable flag, and tasks hang off them. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -1089,6 +1340,30 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -1122,6 +1397,14 @@
               }
             },
             {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
               "group": "admin"
             }
           ],
@@ -1131,6 +1414,14 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -1276,13 +1567,46 @@
             "type": "object",
             "description": "Declared catch-all for source-system fields: imported custom fields and provenance keys (e.g. jiraKey, jiraId, migratedAt). Declared explicitly so magic-table storage persists it.",
             "default": {}
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
         }
       },
       "column": {
         "slug": "column",
         "icon": "ViewColumnOutline",
-        "version": "0.5.0",
+        "version": "0.6.0",
         "title": "Column",
         "description": "A kanban column belonging to a project. Maps to schema:DefinedTerm.",
         "x-schema-org": "schema:DefinedTerm",
@@ -1299,6 +1623,30 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -1332,6 +1680,14 @@
               }
             },
             {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
               "group": "admin"
             }
           ],
@@ -1341,6 +1697,14 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -1457,13 +1821,46 @@
             },
             "default": [],
             "x-notes": "Edited in the board's Rules dialog by the project owner (ColumnOwnerGuardListener). ColumnAutomationListener applies the rules in the same save that moves a task into this column, and checks every value itself because data merged by a pre-save listener is not validated again (boards-column-automation)."
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
         }
       },
       "plannedTimeEntry": {
         "slug": "plannedTimeEntry",
         "icon": "TimerOutline",
-        "version": "0.4.0",
+        "version": "0.5.0",
         "title": "Time Entry",
         "description": "Time logged by a user against a task. Maps to schema:QuantitativeValue.",
         "x-schema-org": "schema:QuantitativeValue",
@@ -1487,6 +1884,30 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -1623,6 +2044,39 @@
             "type": "number",
             "description": "Rate applied to this entry. Zero or empty falls back to the project rate.",
             "default": 0
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
         }
       },
@@ -1877,7 +2331,7 @@
       "projectLogEntry": {
         "slug": "projectLogEntry",
         "icon": "NotebookOutline",
-        "version": "0.2.0",
+        "version": "0.3.0",
         "title": "Log entry",
         "description": "An issue, lesson learned, meeting or decision recorded in a project's log.",
         "x-schema-org": "schema:Comment",
@@ -1895,6 +2349,30 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -1928,6 +2406,14 @@
               }
             },
             {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
               "group": "admin"
             }
           ],
@@ -1937,6 +2423,14 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -2042,13 +2536,46 @@
             },
             "default": [],
             "x-notes": "Ids of task objects with issueType 'action' in the same project. The author and the time of an entry are OpenRegister's own object metadata (@self.owner, @self.created), so a client cannot set them (projects-overview-logs-risks, design decision 2)."
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
         }
       },
       "risk": {
         "slug": "risk",
         "icon": "AlertOutline",
-        "version": "0.2.0",
+        "version": "0.3.0",
         "title": "Risk",
         "description": "A risk to a project, scored on likelihood and impact, with an owner, a response and its countermeasures.",
         "x-schema-org": "schema:Thing",
@@ -2066,6 +2593,30 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -2099,6 +2650,14 @@
               }
             },
             {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
               "group": "admin"
             }
           ],
@@ -2108,6 +2667,14 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -2248,13 +2815,46 @@
             "type": "string",
             "description": "When to look at this risk again",
             "format": "date"
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
         }
       },
       "projectStatusReport": {
         "slug": "projectStatusReport",
         "icon": "ClipboardCheckOutline",
-        "version": "0.2.0",
+        "version": "0.3.0",
         "title": "Project status report",
         "description": "A dated report on how a project stands on money, organisation, time, information, quality and risk (the GROTIK aspects), each with a note.",
         "x-schema-org": "schema:Report",
@@ -2276,6 +2876,30 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -2309,6 +2933,14 @@
               }
             },
             {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
               "group": "admin"
             }
           ],
@@ -2318,6 +2950,14 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -2648,6 +3288,39 @@
               "offTrack": "Off track"
             },
             "x-notes": "Materialised by OpenRegister from x-openregister-calculations on every save; an overall a client sends is overwritten (portfolio-status-overview, design decision 1)."
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
         }
       },
@@ -3009,7 +3682,7 @@
       "projectRelease": {
         "slug": "projectRelease",
         "icon": "MapMarkerPath",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "title": "Release",
         "description": "A named, dated delivery of a project that its tasks are planned against.",
         "x-schema-org": "schema:CreativeWork",
@@ -3025,6 +3698,30 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -3058,6 +3755,14 @@
               }
             },
             {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
               "group": "admin"
             }
           ],
@@ -3067,6 +3772,14 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -3151,6 +3864,39 @@
             "description": "When the release was marked as released",
             "format": "date-time",
             "nullable": true
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
         }
       },
@@ -3448,7 +4194,7 @@
       "boardFilter": {
         "slug": "boardFilter",
         "icon": "FilterVariant",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "title": "Saved filter",
         "description": "A named board filter of one project, private to the person who saved it unless shared with the project.",
         "x-schema-org": "schema:SearchAction",
@@ -3470,6 +4216,33 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                },
+                "shared": true
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                },
+                "shared": true
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                },
+                "shared": true
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
                 },
                 "shared": true
               }
@@ -3563,6 +4336,39 @@
             "default": [],
             "visible": false,
             "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
         }
       },
@@ -3670,7 +4476,7 @@
       "forgeLink": {
         "slug": "forgeLink",
         "icon": "SourceBranch",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "title": "Code link",
         "description": "A commit, branch, merge request or issue in a code forge that works on a task.",
         "x-schema-org": "schema:SoftwareSourceCode",
@@ -3685,6 +4491,30 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -3719,6 +4549,15 @@
               }
             },
             {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                },
+                "source": "manual"
+              }
+            },
+            {
               "group": "admin"
             }
           ],
@@ -3728,6 +4567,15 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                },
+                "source": "manual"
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
                 },
                 "source": "manual"
               }
@@ -3856,6 +4704,39 @@
             "default": [],
             "visible": false,
             "x-notes": "Kept by planninq, copied from the project by ProjectMemberAccessListener (projects-grouping-hierarchy-fields)."
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
         }
       },

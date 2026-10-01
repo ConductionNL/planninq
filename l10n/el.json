@@ -1320,7 +1320,21 @@
         "The user a task must be assigned to": "Ο χρήστης στον οποίο πρέπει να έχει ανατεθεί μια εργασία",
         "A label a task must carry": "Μια ετικέτα που πρέπει να φέρει μια εργασία",
         "The board column a task must be in": "Η στήλη του πίνακα στην οποία πρέπει να βρίσκεται μια εργασία",
-        "The issue type a task must have": "Ο τύπος αιτήματος που πρέπει να έχει μια εργασία"
+        "The issue type a task must have": "Ο τύπος αιτήματος που πρέπει να έχει μια εργασία",
+        "Manager groups": "Ομάδες διαχειριστών",
+        "Member groups": "Ομάδες μελών",
+        "Viewer groups": "Ομάδες αναγνωστών",
+        "Viewers": "Αναγνώστες",
+        "Owning group": "Ομάδα ιδιοκτήτη",
+        "Nextcloud groups whose members manage the project": "Ομάδες Nextcloud των οποίων τα μέλη διαχειρίζονται το έργο",
+        "Nextcloud groups whose members work on the project": "Ομάδες Nextcloud των οποίων τα μέλη δουλεύουν στο έργο",
+        "Nextcloud groups whose members may read the project": "Ομάδες Nextcloud των οποίων τα μέλη μπορούν να διαβάζουν το έργο",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Χρήστες Nextcloud που διαχειρίζονται το έργο: ρυθμίσεις, μέλη και εργασία",
+        "Nextcloud user ids who may read the project and its work but not change it": "Χρήστες Nextcloud που μπορούν να διαβάζουν το έργο και την εργασία του αλλά όχι να τα αλλάζουν",
+        "The Nextcloud group that owns the project with its creator, at most one": "Η ομάδα Nextcloud που κατέχει το έργο μαζί με τον δημιουργό του, το πολύ μία",
+        "Nextcloud user ids who may read this through the project": "Χρήστες Nextcloud που μπορούν να διαβάζουν αυτό μέσω του έργου",
+        "Nextcloud groups whose members may change this through the project": "Ομάδες Nextcloud των οποίων τα μέλη μπορούν να αλλάζουν αυτό μέσω του έργου",
+        "Nextcloud groups whose members may read this through the project": "Ομάδες Nextcloud των οποίων τα μέλη μπορούν να διαβάζουν αυτό μέσω του έργου"
     },
     "plurals": null
 }

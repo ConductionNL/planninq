@@ -1320,7 +1320,21 @@
         "The user a task must be assigned to": "El usuario al que debe estar asignada una tarea",
         "A label a task must carry": "Una etiqueta que debe llevar una tarea",
         "The board column a task must be in": "La columna del tablero en la que debe estar una tarea",
-        "The issue type a task must have": "El tipo de incidencia que debe tener una tarea"
+        "The issue type a task must have": "El tipo de incidencia que debe tener una tarea",
+        "Manager groups": "Grupos gestores",
+        "Member groups": "Grupos miembros",
+        "Viewer groups": "Grupos lectores",
+        "Viewers": "Lectores",
+        "Owning group": "Grupo propietario",
+        "Nextcloud groups whose members manage the project": "Grupos de Nextcloud cuyos miembros gestionan el proyecto",
+        "Nextcloud groups whose members work on the project": "Grupos de Nextcloud cuyos miembros trabajan en el proyecto",
+        "Nextcloud groups whose members may read the project": "Grupos de Nextcloud cuyos miembros pueden leer el proyecto",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Usuarios de Nextcloud que gestionan el proyecto: ajustes, miembros y trabajo",
+        "Nextcloud user ids who may read the project and its work but not change it": "Usuarios de Nextcloud que pueden leer el proyecto y su trabajo sin cambiarlo",
+        "The Nextcloud group that owns the project with its creator, at most one": "El grupo de Nextcloud que posee el proyecto con su creador, como máximo uno",
+        "Nextcloud user ids who may read this through the project": "Usuarios de Nextcloud que pueden leer esto a través del proyecto",
+        "Nextcloud groups whose members may change this through the project": "Grupos de Nextcloud cuyos miembros pueden cambiar esto a través del proyecto",
+        "Nextcloud groups whose members may read this through the project": "Grupos de Nextcloud cuyos miembros pueden leer esto a través del proyecto"
     },
     "plurals": null
 }

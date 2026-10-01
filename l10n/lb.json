@@ -1320,7 +1320,21 @@
         "The user a task must be assigned to": "De Benotzer, deem eng Aufgab muss zougewise sinn",
         "A label a task must carry": "E Label, deen eng Aufgab muss droen",
         "The board column a task must be in": "D'Kolonn vum Board, an där eng Aufgab muss stoen",
-        "The issue type a task must have": "Den Tickettyp, deen eng Aufgab muss hunn"
+        "The issue type a task must have": "Den Tickettyp, deen eng Aufgab muss hunn",
+        "Manager groups": "Verwaltungsgruppen",
+        "Member groups": "Membergruppen",
+        "Viewer groups": "Lieser-Gruppen",
+        "Viewers": "Lieser",
+        "Owning group": "Besëtzer-Grupp",
+        "Nextcloud groups whose members manage the project": "Nextcloud-Gruppen, deenen hir Memberen de Projet verwalten",
+        "Nextcloud groups whose members work on the project": "Nextcloud-Gruppen, deenen hir Memberen um Projet schaffen",
+        "Nextcloud groups whose members may read the project": "Nextcloud-Gruppen, deenen hir Memberen de Projet liese dierfen",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Nextcloud-Benotzer, déi de Projet verwalten: Astellungen, Memberen an Aarbecht",
+        "Nextcloud user ids who may read the project and its work but not change it": "Nextcloud-Benotzer, déi de Projet a seng Aarbecht liesen, awer net änneren dierfen",
+        "The Nextcloud group that owns the project with its creator, at most one": "D'Nextcloud-Grupp, där de Projet mat sengem Ersteller gehéiert, héchstens eng",
+        "Nextcloud user ids who may read this through the project": "Nextcloud-Benotzer, déi dat iwwer de Projet liese dierfen",
+        "Nextcloud groups whose members may change this through the project": "Nextcloud-Gruppen, deenen hir Memberen dat iwwer de Projet ännere dierfen",
+        "Nextcloud groups whose members may read this through the project": "Nextcloud-Gruppen, deenen hir Memberen dat iwwer de Projet liese dierfen"
     },
     "plurals": null
 }

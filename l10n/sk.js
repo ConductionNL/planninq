@@ -1321,7 +1321,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "Používateľ, ktorému musí byť úloha pridelená",
         "A label a task must carry": "Štítok, ktorý musí úloha mať",
         "The board column a task must be in": "Stĺpec tabule, v ktorom musí úloha byť",
-        "The issue type a task must have": "Typ požiadavky, ktorý musí úloha mať"
+        "The issue type a task must have": "Typ požiadavky, ktorý musí úloha mať",
+        "Manager groups": "Skupiny správcov",
+        "Member groups": "Skupiny členov",
+        "Viewer groups": "Skupiny čitateľov",
+        "Viewers": "Čitatelia",
+        "Owning group": "Vlastnícka skupina",
+        "Nextcloud groups whose members manage the project": "Skupiny Nextcloud, ktorých členovia spravujú projekt",
+        "Nextcloud groups whose members work on the project": "Skupiny Nextcloud, ktorých členovia na projekte pracujú",
+        "Nextcloud groups whose members may read the project": "Skupiny Nextcloud, ktorých členovia môžu projekt čítať",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Používatelia Nextcloud, ktorí spravujú projekt: nastavenia, členov a prácu",
+        "Nextcloud user ids who may read the project and its work but not change it": "Používatelia Nextcloud, ktorí môžu čítať projekt a jeho prácu, ale nie meniť",
+        "The Nextcloud group that owns the project with its creator, at most one": "Skupina Nextcloud, ktorá vlastní projekt spolu s jeho tvorcom, najviac jedna",
+        "Nextcloud user ids who may read this through the project": "Používatelia Nextcloud, ktorí to môžu čítať cez projekt",
+        "Nextcloud groups whose members may change this through the project": "Skupiny Nextcloud, ktorých členovia to môžu meniť cez projekt",
+        "Nextcloud groups whose members may read this through the project": "Skupiny Nextcloud, ktorých členovia to môžu čítať cez projekt"
     },
     "nplurals=2; plural=(n != 1);"
 )

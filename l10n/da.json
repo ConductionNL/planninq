@@ -1320,7 +1320,21 @@
         "The user a task must be assigned to": "Den bruger en opgave skal være tildelt",
         "A label a task must carry": "En etiket en opgave skal have",
         "The board column a task must be in": "Den tavlekolonne en opgave skal stå i",
-        "The issue type a task must have": "Den sagstype en opgave skal have"
+        "The issue type a task must have": "Den sagstype en opgave skal have",
+        "Manager groups": "Ledergrupper",
+        "Member groups": "Medlemsgrupper",
+        "Viewer groups": "Læsergrupper",
+        "Viewers": "Læsere",
+        "Owning group": "Ejergruppe",
+        "Nextcloud groups whose members manage the project": "Nextcloud-grupper hvis medlemmer leder projektet",
+        "Nextcloud groups whose members work on the project": "Nextcloud-grupper hvis medlemmer arbejder på projektet",
+        "Nextcloud groups whose members may read the project": "Nextcloud-grupper hvis medlemmer må læse projektet",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Nextcloud-brugere der leder projektet: indstillinger, medlemmer og arbejde",
+        "Nextcloud user ids who may read the project and its work but not change it": "Nextcloud-brugere der må læse projektet og dets arbejde, men ikke ændre det",
+        "The Nextcloud group that owns the project with its creator, at most one": "Den Nextcloud-gruppe der ejer projektet sammen med dets opretter, højst én",
+        "Nextcloud user ids who may read this through the project": "Nextcloud-brugere der må læse dette gennem projektet",
+        "Nextcloud groups whose members may change this through the project": "Nextcloud-grupper hvis medlemmer må ændre dette gennem projektet",
+        "Nextcloud groups whose members may read this through the project": "Nextcloud-grupper hvis medlemmer må læse dette gennem projektet"
     },
     "plurals": null
 }

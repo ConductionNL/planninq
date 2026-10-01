@@ -1321,7 +1321,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "L-utent li lilu għandu jkun assenjat kompitu",
         "A label a task must carry": "Tikketta li għandu jkollu kompitu",
         "The board column a task must be in": "Il-kolonna tal-bord li fiha għandu jkun kompitu",
-        "The issue type a task must have": "It-tip ta' talba li għandu jkollu kompitu"
+        "The issue type a task must have": "It-tip ta' talba li għandu jkollu kompitu",
+        "Manager groups": "Gruppi tal-maniġers",
+        "Member groups": "Gruppi tal-membri",
+        "Viewer groups": "Gruppi tal-qarrejja",
+        "Viewers": "Qarrejja",
+        "Owning group": "Grupp sid",
+        "Nextcloud groups whose members manage the project": "Gruppi Nextcloud li l-membri tagħhom jimmaniġġjaw il-proġett",
+        "Nextcloud groups whose members work on the project": "Gruppi Nextcloud li l-membri tagħhom jaħdmu fuq il-proġett",
+        "Nextcloud groups whose members may read the project": "Gruppi Nextcloud li l-membri tagħhom jistgħu jaqraw il-proġett",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Utenti Nextcloud li jimmaniġġjaw il-proġett: settings, membri u xogħol",
+        "Nextcloud user ids who may read the project and its work but not change it": "Utenti Nextcloud li jistgħu jaqraw il-proġett u x-xogħol tiegħu iżda mhux ibiddluhom",
+        "The Nextcloud group that owns the project with its creator, at most one": "Il-grupp Nextcloud li għandu l-proġett flimkien ma' min ħolqu, l-aktar wieħed",
+        "Nextcloud user ids who may read this through the project": "Utenti Nextcloud li jistgħu jaqraw dan permezz tal-proġett",
+        "Nextcloud groups whose members may change this through the project": "Gruppi Nextcloud li l-membri tagħhom jistgħu jbiddlu dan permezz tal-proġett",
+        "Nextcloud groups whose members may read this through the project": "Gruppi Nextcloud li l-membri tagħhom jistgħu jaqraw dan permezz tal-proġett"
     },
     "nplurals=2; plural=(n != 1);"
 )

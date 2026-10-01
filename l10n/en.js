@@ -1300,7 +1300,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "The user a task must be assigned to",
         "A label a task must carry": "A label a task must carry",
         "The board column a task must be in": "The board column a task must be in",
-        "The issue type a task must have": "The issue type a task must have"
+        "The issue type a task must have": "The issue type a task must have",
+        "Manager groups": "Manager groups",
+        "Member groups": "Member groups",
+        "Viewer groups": "Viewer groups",
+        "Viewers": "Viewers",
+        "Owning group": "Owning group",
+        "Nextcloud groups whose members manage the project": "Nextcloud groups whose members manage the project",
+        "Nextcloud groups whose members work on the project": "Nextcloud groups whose members work on the project",
+        "Nextcloud groups whose members may read the project": "Nextcloud groups whose members may read the project",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Nextcloud user ids who manage the project: its settings, its members and its work",
+        "Nextcloud user ids who may read the project and its work but not change it": "Nextcloud user ids who may read the project and its work but not change it",
+        "The Nextcloud group that owns the project with its creator, at most one": "The Nextcloud group that owns the project with its creator, at most one",
+        "Nextcloud user ids who may read this through the project": "Nextcloud user ids who may read this through the project",
+        "Nextcloud groups whose members may change this through the project": "Nextcloud groups whose members may change this through the project",
+        "Nextcloud groups whose members may read this through the project": "Nextcloud groups whose members may read this through the project"
     },
     "nplurals=2; plural=(n != 1);"
 )

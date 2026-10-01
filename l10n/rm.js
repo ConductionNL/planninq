@@ -1321,7 +1321,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "L'utilisader al qual ina lavur sto esser attribuida",
         "A label a task must carry": "Ina etichetta che ina lavur sto purtar",
         "The board column a task must be in": "La colonna da la tavla en la quala ina lavur sto esser",
-        "The issue type a task must have": "Il tip da dumonda che ina lavur sto avair"
+        "The issue type a task must have": "Il tip da dumonda che ina lavur sto avair",
+        "Manager groups": "Gruppas da manaschers",
+        "Member groups": "Gruppas da commembers",
+        "Viewer groups": "Gruppas da lecturs",
+        "Viewers": "Lecturs",
+        "Owning group": "Gruppa da possessur",
+        "Nextcloud groups whose members manage the project": "Gruppas Nextcloud dals quals ils commembers mainan il project",
+        "Nextcloud groups whose members work on the project": "Gruppas Nextcloud dals quals ils commembers lavuran vi dal project",
+        "Nextcloud groups whose members may read the project": "Gruppas Nextcloud dals quals ils commembers dastgan leger il project",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Utilisaders Nextcloud che mainan il project: parameters, commembers e lavur",
+        "Nextcloud user ids who may read the project and its work but not change it": "Utilisaders Nextcloud che dastgan leger il project e sia lavur, ma betg midar",
+        "The Nextcloud group that owns the project with its creator, at most one": "La gruppa Nextcloud che possede il project ensemen cun ses creader, maximalmain ina",
+        "Nextcloud user ids who may read this through the project": "Utilisaders Nextcloud che dastgan leger quai tras il project",
+        "Nextcloud groups whose members may change this through the project": "Gruppas Nextcloud dals quals ils commembers dastgan midar quai tras il project",
+        "Nextcloud groups whose members may read this through the project": "Gruppas Nextcloud dals quals ils commembers dastgan leger quai tras il project"
     },
     "nplurals=2; plural=(n != 1);"
 )

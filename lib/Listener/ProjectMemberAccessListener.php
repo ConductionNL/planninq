@@ -145,6 +145,7 @@ class ProjectMemberAccessListener implements IEventListener {
 	 * @param array<string,mixed>|null $oldData The stored data on an update, null on a create.
 	 *
 	 * @return void
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
 	private function apply(ObjectCreatingEvent|ObjectUpdatingEvent $event, object $object, ?array $oldData): void {
 		$schemaSlug = $this->scopeResolver->planninqSchemaSlug(
@@ -157,9 +158,17 @@ class ProjectMemberAccessListener implements IEventListener {
 
 		$data = (array)$object->getObject();
 		$projectId = $this->membership->projectIdFor(schemaSlug: $schemaSlug, data: $data);
-		$members = $this->membership->membersOfProject(projectId: $projectId);
+		$project = null;
+		if ($projectId !== '') {
+			$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		}
 
-		if ($this->mayWrite(schemaSlug: $schemaSlug, projectId: $projectId, members: $members, oldData: $oldData) === false) {
+		$lists = null;
+		if ($project !== null) {
+			$lists = $this->membership->childLists(project: $project);
+		}
+
+		if ($this->mayWrite(schemaSlug: $schemaSlug, projectId: $projectId, lists: $lists, oldData: $oldData) === false) {
 			$event->setErrors(
 				[
 					'message' => 'You are not a member of this project.',
@@ -175,16 +184,16 @@ class ProjectMemberAccessListener implements IEventListener {
 			return;
 		}
 
-		$lists = [
-			'members'                                 => ($members ?? []),
-			ProjectMembershipService::READERS_FIELD => $this->readersOf(projectId: $projectId),
-		];
+		$lists = ($lists ?? ['members' => []]);
+		$lists[ProjectMembershipService::READERS_FIELD] = $this->membership->normalise(
+			members: ($project[ProjectMembershipService::READERS_FIELD] ?? [])
+		);
 		$changes = [];
 		foreach ($lists as $field => $values) {
 			// Leave a list that is already in step untouched: OpenRegister's
 			// batched soft delete falls back to a full-row save for every
-			// object a pre-update hook modifies. A missing readers list reads
-			// as empty, so objects outside any portfolio are never rewritten.
+			// object a pre-update hook modifies. A missing readers or role list reads
+			// as empty, so objects outside any portfolio or role are never rewritten.
 			$inStep = $this->membership->normalise(members: ($data[$field] ?? null)) === $values;
 			if ($field === 'members') {
 				$inStep = (array_key_exists('members', $data) === true && $inStep === true);
@@ -201,19 +210,6 @@ class ProjectMemberAccessListener implements IEventListener {
 	}//end apply()
 
 	/**
-	 * The managers of the project's portfolio, as the project carries them.
-	 *
-	 * @param string $projectId The project UUID.
-	 *
-	 * @return array<int,string>
-	 */
-	private function readersOf(string $projectId): array {
-		$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
-
-		return $this->membership->normalise(members: ($project[ProjectMembershipService::READERS_FIELD] ?? []));
-	}//end readersOf()
-
-	/**
 	 * Whether the acting user may put this object in its project.
 	 *
 	 * Asked on a create, and on an update that changes the project. An update
@@ -222,12 +218,13 @@ class ProjectMemberAccessListener implements IEventListener {
 	 *
 	 * @param string $schemaSlug The schema slug.
 	 * @param string $projectId The target project uuid.
-	 * @param array<int,string>|null $members The target project's members list, null when it does not resolve.
+	 * @param array<string,array<int,string>>|null $lists The target project's role lists, null when it does not resolve.
 	 * @param array<string,mixed>|null $oldData The stored data on an update, null on a create.
 	 *
 	 * @return bool
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
-	private function mayWrite(string $schemaSlug, string $projectId, ?array $members, ?array $oldData): bool {
+	private function mayWrite(string $schemaSlug, string $projectId, ?array $lists, ?array $oldData): bool {
 		if (in_array($schemaSlug, self::GATED_SCHEMAS, true) === false) {
 			return true;
 		}
@@ -249,7 +246,16 @@ class ProjectMemberAccessListener implements IEventListener {
 			return true;
 		}
 
-		return ($members !== null && in_array($uid, $members, true) === true);
+		if ($lists === null) {
+			return false;
+		}
+
+		if (in_array($uid, $lists['members'], true) === true) {
+			return true;
+		}
+
+		// A member through a group: the owning, manager or member groups.
+		return array_intersect($this->groupManager->getUserGroupIds($user), $lists['memberGroups']) !== [];
 	}//end mayWrite()
 
 	/**

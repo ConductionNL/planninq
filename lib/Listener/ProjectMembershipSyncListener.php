@@ -80,6 +80,7 @@ class ProjectMembershipSyncListener implements IEventListener {
 	 * @return void
 	 *
 	 * @spec openspec/specs/projects.md
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function handle(Event $event): void {
 		if ($event instanceof ObjectUpdatedEvent === false) {
@@ -104,14 +105,7 @@ class ProjectMembershipSyncListener implements IEventListener {
 				$oldData = (array)$old->getObject();
 			}
 
-			$members = $this->membership->membersFromProject(project: $data);
-			if ($oldData === null || $this->membership->membersFromProject(project: $oldData) !== $members) {
-				$written = $this->membership->syncProjectMembers(projectId: $projectId, members: $members);
-				$this->logger->info(
-					'Planninq: project membership changed; members list updated on its objects',
-					['project' => $projectId, 'written' => $written]
-				);
-			}
+			$this->syncRoleLists(projectId: $projectId, data: $data, oldData: $oldData);
 
 			$field   = ProjectMembershipService::READERS_FIELD;
 			$readers = $this->membership->normalise(members: ($data[$field] ?? []));
@@ -130,6 +124,37 @@ class ProjectMembershipSyncListener implements IEventListener {
 			);
 		}//end try
 	}//end handle()
+
+	/**
+	 * Copy each role list that changed (members, viewers, member and viewer
+	 * groups) to every object of the project.
+	 *
+	 * @param string                   $projectId The project.
+	 * @param array<string,mixed>      $data      The saved project.
+	 * @param array<string,mixed>|null $oldData   The stored project, null when unknown.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 */
+	private function syncRoleLists(string $projectId, array $data, ?array $oldData): void {
+		$before = [];
+		if ($oldData !== null) {
+			$before = $this->membership->childLists(project: $oldData);
+		}
+
+		foreach ($this->membership->childLists(project: $data) as $field => $values) {
+			if ($oldData !== null && $before[$field] === $values) {
+				continue;
+			}
+
+			$written = $this->membership->syncProjectMembers(projectId: $projectId, members: $values, field: $field);
+			$this->logger->info(
+				'Planninq: project roles changed; a role list updated on its objects',
+				['project' => $projectId, 'field' => $field, 'written' => $written]
+			);
+		}
+	}//end syncRoleLists()
 
 	/**
 	 * Copy the owner, portfolio and portfolio managers onto the project's finance lines when they changed.

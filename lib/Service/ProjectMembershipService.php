@@ -79,6 +79,13 @@ class ProjectMembershipService {
 	public const READERS_FIELD = 'portfolioReaders';
 
 	/**
+	 * The role lists every project-scoped object carries besides `members`
+	 * (projects-members-and-roles): users who only read, the groups who
+	 * write (owning, manager and member groups) and the groups who only read.
+	 */
+	public const ROLE_FIELDS = ['viewers', 'memberGroups', 'viewerGroups'];
+
+	/**
 	 * Schemas that carry a copy of their project's members.
 	 *
 	 * @var array<int,string>
@@ -151,24 +158,67 @@ class ProjectMembershipService {
 	}//end isAvailable()
 
 	/**
-	 * The members list a project hands down: its members plus its owner, sorted and distinct.
+	 * The members list a project hands down: the people who write its work,
+	 * its members, its managers and its owner, sorted and distinct.
 	 *
 	 * @param array<string,mixed> $project The project data.
 	 *
 	 * @return array<int,string> The user ids.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function membersFromProject(array $project): array {
-		$members = ($project['members'] ?? []);
-		if (is_array($members) === false) {
-			$members = [];
-		}
-
+		$members   = $this->listOf(project: $project, field: 'members');
+		$members   = array_merge($members, $this->listOf(project: $project, field: 'managers'));
 		$members[] = ($project['owner'] ?? '');
 
 		return $this->normalise(members: $members);
 	}//end membersFromProject()
+
+	/**
+	 * Every list a project hands down to its objects, keyed by the field the
+	 * objects carry it in: `members` (users who write), `viewers` (users who
+	 * read), `memberGroups` (the owning, manager and member groups, who write)
+	 * and `viewerGroups` (groups who read).
+	 *
+	 * @param array<string,mixed> $project The project data.
+	 *
+	 * @return array<string,array<int,string>> Field to sorted, distinct ids.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 */
+	public function childLists(array $project): array {
+		$writerGroups = array_merge(
+			$this->listOf(project: $project, field: 'ownerGroups'),
+			$this->listOf(project: $project, field: 'managerGroups'),
+			$this->listOf(project: $project, field: 'memberGroups')
+		);
+
+		return [
+			'members'      => $this->membersFromProject(project: $project),
+			'viewers'      => $this->normalise(members: $this->listOf(project: $project, field: 'viewers')),
+			'memberGroups' => $this->normalise(members: $writerGroups),
+			'viewerGroups' => $this->normalise(members: $this->listOf(project: $project, field: 'viewerGroups')),
+		];
+	}//end childLists()
+
+	/**
+	 * One list field of a project, or none when it is missing or not a list.
+	 *
+	 * @param array<string,mixed> $project The project data.
+	 * @param string              $field   The list field.
+	 *
+	 * @return array<int|string,mixed>
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 */
+	private function listOf(array $project, string $field): array {
+		$values = ($project[$field] ?? []);
+		if (is_array($values) === false) {
+			return [];
+		}
+
+		return $values;
+	}//end listOf()
 
 	/**
 	 * A stored `members` value as a sorted, distinct list, for comparison.
@@ -375,6 +425,7 @@ class ProjectMembershipService {
 	 * @return array{projects: int, written: int} Projects visited and objects written.
 	 *
 	 * @spec openspec/specs/projects.md
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function syncAll(): array {
 		$objectService = $this->objectService();
@@ -382,10 +433,10 @@ class ProjectMembershipService {
 		$written = 0;
 		foreach ($this->search(objectService: $objectService, schema: self::PROJECT_SCHEMA, filters: []) as $project) {
 			$projects++;
-			$written += $this->syncProjectMembers(
-				projectId: $project['id'],
-				members: $this->membersFromProject(project: $project['data'])
-			);
+			foreach ($this->childLists(project: $project['data']) as $field => $values) {
+				$written += $this->syncProjectMembers(projectId: $project['id'], members: $values, field: $field);
+			}
+
 			$written += $this->syncProjectMembers(
 				projectId: $project['id'],
 				members: $this->normalise(members: ($project['data'][self::READERS_FIELD] ?? [])),
