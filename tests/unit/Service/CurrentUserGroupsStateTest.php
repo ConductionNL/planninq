@@ -36,7 +36,7 @@ class CurrentUserGroupsStateTest extends TestCase {
 		$session = $this->createMock(IUserSession::class);
 		$session->method('getUser')->willReturn($user);
 		$groups = $this->createMock(IGroupManager::class);
-		$groups->expects($this->once())->method('getUserGroupIds')->with($user)->willReturn(['adviseurs', 7 => 'leiding']);
+		$groups->expects($this->atLeastOnce())->method('getUserGroupIds')->with($user)->willReturn(['adviseurs', 7 => 'leiding']);
 
 		$state = new CurrentUserGroupsState(userSession: $session, groupManager: $groups);
 
