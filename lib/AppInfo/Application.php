@@ -645,7 +645,7 @@ class Application extends App implements IBootstrap {
 				event: 'OCA\\OpenRegister\\Event\\' . $event,
 				listener: 'OCA\\Planninq\\Listener\\BoardFilterOwnerListener',
 				registers: ['planninq'],
-				schemas: ['boardFilter']
+				schemas: \OCA\Planninq\Listener\BoardFilterOwnerListener::OWNED_SCHEMAS
 			);
 		}
 
