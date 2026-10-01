@@ -146,11 +146,14 @@
 			</template>
 
 			<div class="project-settings-sidebar__section">
+				<p v-if="project && !mayManageMembers" class="project-settings-sidebar__hint" data-testid="members-read-only">
+					{{ t('planninq', 'Only the owner and managers change who is on this project.') }}
+				</p>
 				<MemberSearch
-					v-if="project"
+					v-if="project && mayManageMembers"
 					:projectId="project.id"
-					:existingMembers="currentProject.members || []"
-					:existingGroups="currentProject.memberGroups || []"
+					:existingMembers="onProjectUsers"
+					:existingGroups="onProjectGroups"
 					@added="onMemberAdded" />
 
 				<ul class="project-settings-sidebar__members" role="list" data-testid="project-members">
@@ -173,6 +176,18 @@
 							</span>
 						</span>
 						<div class="project-settings-sidebar__member-actions">
+							<NcSelect
+								v-if="mayManageMembers && entry.role !== 'owner'"
+								:modelValue="roleOption(entry.role)"
+								:options="roleOptions"
+								:inputLabel="t('planninq', 'Role of {name}', { name: entry.name })"
+								:labelOutside="false"
+								:clearable="false"
+								:searchable="false"
+								class="project-settings-sidebar__role"
+								:data-testid="`member-role-${entry.key}`"
+								@update:modelValue="(option) => changeRole(entry, option)" />
+							<span v-else class="project-settings-sidebar__role-name">{{ roleLabel(entry.role) }}</span>
 							<!-- Leave project (current user) -->
 							<NcButton
 								v-if="entry.type === 'user' && entry.id === currentUid"
@@ -183,7 +198,7 @@
 							</NcButton>
 							<!-- Remove a group -->
 							<NcButton
-								v-else-if="entry.type === 'group'"
+								v-else-if="mayManageMembers && entry.role !== 'owner' && entry.type === 'group'"
 								variant="tertiary-no-background"
 								:aria-label="t('planninq', 'Remove {name}', { name: entry.name })"
 								@click="removeGroup(entry.id)">
@@ -193,7 +208,7 @@
 							</NcButton>
 							<!-- Remove member (other users) -->
 							<NcButton
-								v-else
+								v-else-if="mayManageMembers && entry.role !== 'owner'"
 								variant="tertiary-no-background"
 								:aria-label="t('planninq', 'Remove {name}', { name: entry.name })"
 								@click="confirmRemoveMember(entry.id)">
@@ -332,6 +347,7 @@ import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { memberEntries } from '../utils/memberSearch.js'
+import { ASSIGNABLE_ROLES, canManageMembers, currentGroupIds, projectRole } from '../utils/projectRole.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
 import { lifecycleButtons } from '../utils/projectLifecycle.js'
@@ -431,6 +447,51 @@ export default {
 		 */
 		memberRows() {
 			return memberEntries(this.currentProject, this.memberNames, this.memberGroupNames)
+		},
+
+		/**
+		 * Whether the caller may change who is on the project: the owner, a
+		 * manager (directly or through a group) or an admin.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 */
+		mayManageMembers() {
+			return getCurrentUser()?.isAdmin === true || canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
+		},
+
+		/**
+		 * Everyone already on the project in person, whatever their role.
+		 *
+		 * @return {Array<string>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 */
+		onProjectUsers() {
+			return this.memberRows.filter((row) => row.type === 'user').map((row) => row.id)
+		},
+
+		/**
+		 * Every group already on the project, whatever its role.
+		 *
+		 * @return {Array<string>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 */
+		onProjectGroups() {
+			return this.memberRows.filter((row) => row.type === 'group').map((row) => row.id)
+		},
+
+		/**
+		 * The roles a manager hands out, as picker options.
+		 *
+		 * @return {Array<{id: string, label: string}>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 */
+		roleOptions() {
+			return ASSIGNABLE_ROLES.map((role) => ({ id: role, label: this.roleLabel(role) }))
 		},
 
 		/**
@@ -719,6 +780,53 @@ export default {
 		},
 
 		/**
+		 * The word for a role.
+		 *
+		 * @param {string} role A role.
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 */
+		roleLabel(role) {
+			return {
+				owner: this.t('planninq', 'Owner'),
+				manager: this.t('planninq', 'Manager'),
+				member: this.t('planninq', 'Member'),
+				viewer: this.t('planninq', 'Viewer'),
+			}[role] || role
+		},
+
+		/**
+		 * The picker option for a role.
+		 *
+		 * @param {string} role A role.
+		 * @return {{id: string, label: string}}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 */
+		roleOption(role) {
+			return { id: role, label: this.roleLabel(role) }
+		},
+
+		/**
+		 * Give a person or a group another role.
+		 *
+		 * @param {object} entry The Members tab row.
+		 * @param {{id: string}|null} option The picked role.
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.4
+		 */
+		async changeRole(entry, option) {
+			if (!option || option.id === entry.role) {
+				return
+			}
+			const updated = await this.projectsStore.setMemberRole(this.project.id, entry.id, entry.type, option.id)
+			if (!updated) {
+				showError(this.t('planninq', 'Could not change the role'))
+			}
+		},
+
+		/**
 		 * Stop sharing the project with a group.
 		 *
 		 * @param {string} gid The group id.
@@ -727,7 +835,7 @@ export default {
 		 */
 		async removeGroup(gid) {
 			try {
-				await this.projectsStore.removeMemberGroup(this.project.id, gid)
+				await this.projectsStore.setMemberRole(this.project.id, gid, 'group', null)
 			} catch {
 				showError(this.t('planninq', 'Could not remove the group'))
 			}
@@ -874,6 +982,20 @@ export default {
 	flex: 1;
 	flex-direction: column;
 	font-size: 14px;
+}
+
+.project-settings-sidebar__hint {
+	margin: 0 0 8px;
+	color: var(--color-text-maxcontrast);
+}
+
+.project-settings-sidebar__role {
+	min-width: 140px;
+}
+
+.project-settings-sidebar__role-name {
+	font-size: 13px;
+	color: var(--color-text-maxcontrast);
 }
 
 .project-settings-sidebar__member-note {

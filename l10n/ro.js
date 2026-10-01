@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Tastează cel puțin două caractere",
         "Everyone in this group": "Toată lumea din acest grup",
         "Could not search for people. Please try again.": "Căutarea persoanelor a eșuat. Încearcă din nou.",
-        "Could not remove the group": "Grupul nu a putut fi eliminat"
+        "Could not remove the group": "Grupul nu a putut fi eliminat",
+        "Only the owner and managers change who is on this project.": "Doar proprietarul și managerii schimbă cine face parte din acest proiect.",
+        "Role of {name}": "Rolul lui {name}",
+        "Manager": "Manager",
+        "Member": "Membru",
+        "Viewer": "Cititor",
+        "Could not change the role": "Rolul nu a putut fi schimbat"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Skriv minst to tegn",
         "Everyone in this group": "Alle i denne gruppen",
         "Could not search for people. Please try again.": "Kunne ikke søke etter personer. Prøv igjen.",
-        "Could not remove the group": "Kunne ikke fjerne gruppen"
+        "Could not remove the group": "Kunne ikke fjerne gruppen",
+        "Only the owner and managers change who is on this project.": "Bare eieren og forvalterne endrer hvem som er med i dette prosjektet.",
+        "Role of {name}": "Rolle for {name}",
+        "Manager": "Forvalter",
+        "Member": "Medlem",
+        "Viewer": "Leser",
+        "Could not change the role": "Kunne ikke endre rollen"
     },
     "nplurals=2; plural=(n != 1);"
 )

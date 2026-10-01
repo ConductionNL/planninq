@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Clóscríobh dhá charachtar ar a laghad",
         "Everyone in this group": "Gach duine sa ghrúpa seo",
         "Could not search for people. Please try again.": "Níorbh fhéidir daoine a chuardach. Bain triail eile as.",
-        "Could not remove the group": "Níorbh fhéidir an grúpa a bhaint"
+        "Could not remove the group": "Níorbh fhéidir an grúpa a bhaint",
+        "Only the owner and managers change who is on this project.": "Ní athraíonn ach an t-úinéir agus na bainisteoirí cé atá ar an tionscadal seo.",
+        "Role of {name}": "Ról {name}",
+        "Manager": "Bainisteoir",
+        "Member": "Ball",
+        "Viewer": "Léitheoir",
+        "Could not change the role": "Níorbh fhéidir an ról a athrú"
     },
     "nplurals=2; plural=(n != 1);"
 )

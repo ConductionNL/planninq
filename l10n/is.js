@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Sláðu inn að minnsta kosti tvo stafi",
         "Everyone in this group": "Allir í þessum hópi",
         "Could not search for people. Please try again.": "Ekki tókst að leita að fólki. Reyndu aftur.",
-        "Could not remove the group": "Ekki tókst að fjarlægja hópinn"
+        "Could not remove the group": "Ekki tókst að fjarlægja hópinn",
+        "Only the owner and managers change who is on this project.": "Aðeins eigandinn og stjórnendur breyta því hverjir eru í þessu verkefni.",
+        "Role of {name}": "Hlutverk {name}",
+        "Manager": "Stjórnandi",
+        "Member": "Meðlimur",
+        "Viewer": "Lesandi",
+        "Could not change the role": "Ekki tókst að breyta hlutverkinu"
     },
     "nplurals=2; plural=(n != 1);"
 )

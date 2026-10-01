@@ -1354,7 +1354,13 @@ OC.L10N.register(
         "Type at least two characters": "Typ minstens twee tekens",
         "Everyone in this group": "Iedereen in deze groep",
         "Could not search for people. Please try again.": "Zoeken naar personen is mislukt. Probeer het opnieuw.",
-        "Could not remove the group": "De groep kon niet worden verwijderd"
+        "Could not remove the group": "De groep kon niet worden verwijderd",
+        "Only the owner and managers change who is on this project.": "Alleen de eigenaar en beheerders bepalen wie er op dit project staat.",
+        "Role of {name}": "Rol van {name}",
+        "Manager": "Beheerder",
+        "Member": "Lid",
+        "Viewer": "Lezer",
+        "Could not change the role": "De rol kon niet worden gewijzigd"
     },
     "nplurals=2; plural=(n != 1);"
 )

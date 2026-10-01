@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Ikteb mill-inqas żewġ karattri",
         "Everyone in this group": "Kulħadd f'dan il-grupp",
         "Could not search for people. Please try again.": "It-tfittxija għal persuni ma rnexxietx. Erġa' pprova.",
-        "Could not remove the group": "Il-grupp ma setax jitneħħa"
+        "Could not remove the group": "Il-grupp ma setax jitneħħa",
+        "Only the owner and managers change who is on this project.": "Is-sid u l-maniġers biss ibiddlu min hu f'dan il-proġett.",
+        "Role of {name}": "Ir-rwol ta' {name}",
+        "Manager": "Maniġer",
+        "Member": "Membru",
+        "Viewer": "Qarrej",
+        "Could not change the role": "Ir-rwol ma setax jinbidel"
     },
     "nplurals=2; plural=(n != 1);"
 )

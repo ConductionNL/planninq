@@ -1340,7 +1340,13 @@
         "Type at least two characters": "Vnesite vsaj dva znaka",
         "Everyone in this group": "Vsi v tej skupini",
         "Could not search for people. Please try again.": "Iskanje oseb ni uspelo. Poskusite znova.",
-        "Could not remove the group": "Skupine ni bilo mogoče odstraniti"
+        "Could not remove the group": "Skupine ni bilo mogoče odstraniti",
+        "Only the owner and managers change who is on this project.": "Kdo je v tem projektu, spreminjata samo lastnik in upravitelji.",
+        "Role of {name}": "Vloga: {name}",
+        "Manager": "Upravitelj",
+        "Member": "Član",
+        "Viewer": "Bralec",
+        "Could not change the role": "Vloge ni bilo mogoče spremeniti"
     },
     "plurals": null
 }

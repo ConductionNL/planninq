@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Ievadi vismaz divas rakstzīmes",
         "Everyone in this group": "Visi šajā grupā",
         "Could not search for people. Please try again.": "Neizdevās meklēt personas. Mēģini vēlreiz.",
-        "Could not remove the group": "Neizdevās noņemt grupu"
+        "Could not remove the group": "Neizdevās noņemt grupu",
+        "Only the owner and managers change who is on this project.": "Tikai īpašnieks un pārvaldnieki maina, kas ir šajā projektā.",
+        "Role of {name}": "{name} loma",
+        "Manager": "Pārvaldnieks",
+        "Member": "Dalībnieks",
+        "Viewer": "Lasītājs",
+        "Could not change the role": "Neizdevās mainīt lomu"
     },
     "nplurals=2; plural=(n != 1);"
 )

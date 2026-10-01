@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Escriu almenys dos caràcters",
         "Everyone in this group": "Tothom en aquest grup",
         "Could not search for people. Please try again.": "No s'han pogut cercar persones. Torna-ho a provar.",
-        "Could not remove the group": "No s'ha pogut treure el grup"
+        "Could not remove the group": "No s'ha pogut treure el grup",
+        "Only the owner and managers change who is on this project.": "Només el propietari i els gestors canvien qui és en aquest projecte.",
+        "Role of {name}": "Rol de {name}",
+        "Manager": "Gestor",
+        "Member": "Membre",
+        "Viewer": "Lector",
+        "Could not change the role": "No s'ha pogut canviar el rol"
     },
     "nplurals=2; plural=(n != 1);"
 )

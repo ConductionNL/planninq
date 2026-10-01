@@ -1340,7 +1340,13 @@
         "Type at least two characters": "Въведете поне два знака",
         "Everyone in this group": "Всички в тази група",
         "Could not search for people. Please try again.": "Търсенето на хора не бе успешно. Опитайте отново.",
-        "Could not remove the group": "Групата не можа да бъде премахната"
+        "Could not remove the group": "Групата не можа да бъде премахната",
+        "Only the owner and managers change who is on this project.": "Само собственикът и управителите променят кой е в този проект.",
+        "Role of {name}": "Роля: {name}",
+        "Manager": "Управител",
+        "Member": "Член",
+        "Viewer": "Читател",
+        "Could not change the role": "Ролята не можа да бъде променена"
     },
     "plurals": null
 }

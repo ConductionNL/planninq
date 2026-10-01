@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Endatescha almain dus caracters",
         "Everyone in this group": "Tuts en questa gruppa",
         "Could not search for people. Please try again.": "Betg reussì da tschertgar persunas. Emprova anc ina giada.",
-        "Could not remove the group": "Betg reussì dad allontanar la gruppa"
+        "Could not remove the group": "Betg reussì dad allontanar la gruppa",
+        "Only the owner and managers change who is on this project.": "Mo il possessur ed ils administraturs midan tgi che è en quest project.",
+        "Role of {name}": "Rolla da {name}",
+        "Manager": "Administratur",
+        "Member": "Commember",
+        "Viewer": "Lectur",
+        "Could not change the role": "Betg reussì da midar la rolla"
     },
     "nplurals=2; plural=(n != 1);"
 )

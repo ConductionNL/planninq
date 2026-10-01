@@ -1340,7 +1340,13 @@
         "Type at least two characters": "Sisesta vähemalt kaks märki",
         "Everyone in this group": "Kõik selles grupis",
         "Could not search for people. Please try again.": "Inimeste otsimine ebaõnnestus. Proovi uuesti.",
-        "Could not remove the group": "Gruppi ei õnnestunud eemaldada"
+        "Could not remove the group": "Gruppi ei õnnestunud eemaldada",
+        "Only the owner and managers change who is on this project.": "Ainult omanik ja haldurid muudavad, kes selles projektis on.",
+        "Role of {name}": "Kasutaja {name} roll",
+        "Manager": "Haldur",
+        "Member": "Liige",
+        "Viewer": "Lugeja",
+        "Could not change the role": "Rolli ei õnnestunud muuta"
     },
     "plurals": null
 }

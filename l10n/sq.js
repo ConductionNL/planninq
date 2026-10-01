@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Shkruani të paktën dy karaktere",
         "Everyone in this group": "Të gjithë në këtë grup",
         "Could not search for people. Please try again.": "Kërkimi i personave dështoi. Provoni përsëri.",
-        "Could not remove the group": "Grupi nuk mund të hiqej"
+        "Could not remove the group": "Grupi nuk mund të hiqej",
+        "Only the owner and managers change who is on this project.": "Vetëm pronari dhe menaxherët ndryshojnë se kush është në këtë projekt.",
+        "Role of {name}": "Roli i {name}",
+        "Manager": "Menaxher",
+        "Member": "Anëtar",
+        "Viewer": "Lexues",
+        "Could not change the role": "Roli nuk mund të ndryshohej"
     },
     "nplurals=2; plural=(n != 1);"
 )

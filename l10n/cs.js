@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Zadejte alespoň dva znaky",
         "Everyone in this group": "Všichni v této skupině",
         "Could not search for people. Please try again.": "Hledání osob se nezdařilo. Zkuste to znovu.",
-        "Could not remove the group": "Skupinu se nepodařilo odebrat"
+        "Could not remove the group": "Skupinu se nepodařilo odebrat",
+        "Only the owner and managers change who is on this project.": "Kdo je v tomto projektu, mění jen vlastník a správci.",
+        "Role of {name}": "Role: {name}",
+        "Manager": "Správce",
+        "Member": "Člen",
+        "Viewer": "Čtenář",
+        "Could not change the role": "Roli se nepodařilo změnit"
     },
     "nplurals=2; plural=(n != 1);"
 )

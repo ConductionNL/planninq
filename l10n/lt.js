@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Įveskite bent du simbolius",
         "Everyone in this group": "Visi šioje grupėje",
         "Could not search for people. Please try again.": "Nepavyko ieškoti žmonių. Bandykite dar kartą.",
-        "Could not remove the group": "Nepavyko pašalinti grupės"
+        "Could not remove the group": "Nepavyko pašalinti grupės",
+        "Only the owner and managers change who is on this project.": "Tik savininkas ir valdytojai keičia, kas yra šiame projekte.",
+        "Role of {name}": "{name} vaidmuo",
+        "Manager": "Valdytojas",
+        "Member": "Narys",
+        "Viewer": "Skaitytojas",
+        "Could not change the role": "Nepavyko pakeisti vaidmens"
     },
     "nplurals=2; plural=(n != 1);"
 )

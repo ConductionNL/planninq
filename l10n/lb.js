@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Gëff mindestens zwee Zeeche an",
         "Everyone in this group": "All an dësem Grupp",
         "Could not search for people. Please try again.": "D'Sich no Persoune huet net geklappt. Probéier nach eng Kéier.",
-        "Could not remove the group": "De Grupp konnt net ewechgeholl ginn"
+        "Could not remove the group": "De Grupp konnt net ewechgeholl ginn",
+        "Only the owner and managers change who is on this project.": "Nëmmen de Besëtzer an d'Verwalter änneren, wien op dësem Projet ass.",
+        "Role of {name}": "Roll vu(n) {name}",
+        "Manager": "Verwalter",
+        "Member": "Member",
+        "Viewer": "Lieser",
+        "Could not change the role": "D'Roll konnt net geännert ginn"
     },
     "nplurals=2; plural=(n != 1);"
 )

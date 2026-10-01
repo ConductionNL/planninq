@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Írj be legalább két karaktert",
         "Everyone in this group": "Mindenki ebben a csoportban",
         "Could not search for people. Please try again.": "Nem sikerült személyeket keresni. Próbáld újra.",
-        "Could not remove the group": "Nem sikerült eltávolítani a csoportot"
+        "Could not remove the group": "Nem sikerült eltávolítani a csoportot",
+        "Only the owner and managers change who is on this project.": "Csak a tulajdonos és a kezelők módosítják, ki van a projektben.",
+        "Role of {name}": "{name} szerepe",
+        "Manager": "Kezelő",
+        "Member": "Tag",
+        "Viewer": "Olvasó",
+        "Could not change the role": "Nem sikerült módosítani a szerepet"
     },
     "nplurals=2; plural=(n != 1);"
 )

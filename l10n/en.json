@@ -1319,7 +1319,13 @@
         "Type at least two characters": "Type at least two characters",
         "Everyone in this group": "Everyone in this group",
         "Could not search for people. Please try again.": "Could not search for people. Please try again.",
-        "Could not remove the group": "Could not remove the group"
+        "Could not remove the group": "Could not remove the group",
+        "Only the owner and managers change who is on this project.": "Only the owner and managers change who is on this project.",
+        "Role of {name}": "Role of {name}",
+        "Manager": "Manager",
+        "Member": "Member",
+        "Viewer": "Viewer",
+        "Could not change the role": "Could not change the role"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"
