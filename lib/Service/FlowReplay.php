@@ -365,6 +365,7 @@ class FlowReplay {
 
 		return [
 			'id' => (string)$task['id'],
+			'projectId' => (string)($task['project'] ?? ''),
 			'title' => (string)($task['title'] ?? ''),
 			'key' => ($task['key'] ?? null),
 			'createdAt' => gmdate('c', $created),

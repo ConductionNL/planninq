@@ -119,7 +119,7 @@ class FlowController extends Controller {
 			return $this->badWindow();
 		}
 
-		if ($this->readable(objectService: $objectService, schema: 'project', id: $projectId) === null) {
+		if ($this->canReadObject(objectService: $objectService, schema: 'project', id: $projectId) === null) {
 			return new JSONResponse(['error' => 'Project not found or not accessible.'], Http::STATUS_FORBIDDEN);
 		}
 
@@ -155,7 +155,7 @@ class FlowController extends Controller {
 			return $this->badWindow();
 		}
 
-		if ($this->readable(objectService: $objectService, schema: 'projectPortfolio', id: $portfolioId) === null) {
+		if ($this->canReadObject(objectService: $objectService, schema: 'projectPortfolio', id: $portfolioId) === null) {
 			return new JSONResponse(['error' => 'Portfolio not found or not accessible.'], Http::STATUS_FORBIDDEN);
 		}
 
@@ -207,7 +207,8 @@ class FlowController extends Controller {
 	}//end begin()
 
 	/**
-	 * Read one object with RBAC on; null when it is missing or not readable.
+	 * Whether the caller can read an object: the object read with RBAC on, or
+	 * null when it is missing or not readable.
 	 *
 	 * @param object $objectService OpenRegister's ObjectService
 	 * @param string $schema        Schema slug
@@ -215,13 +216,13 @@ class FlowController extends Controller {
 	 *
 	 * @return mixed
 	 */
-	private function readable(object $objectService, string $schema, string $id): mixed {
+	private function canReadObject(object $objectService, string $schema, string $id): mixed {
 		try {
 			return $objectService->find(id: $id, register: self::REGISTER, schema: $schema, _rbac: true);
 		} catch (\Throwable $e) {
 			return null;
 		}
-	}//end readable()
+	}//end canReadObject()
 
 	/**
 	 * The portfolio's projects the caller can read, as id and title.
