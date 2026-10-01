@@ -1334,7 +1334,13 @@
         "The Nextcloud group that owns the project with its creator, at most one": "Il gruppo Nextcloud che possiede il progetto con chi l'ha creato, al massimo uno",
         "Nextcloud user ids who may read this through the project": "Utenti Nextcloud che possono leggere questo tramite il progetto",
         "Nextcloud groups whose members may change this through the project": "Gruppi Nextcloud i cui membri possono modificare questo tramite il progetto",
-        "Nextcloud groups whose members may read this through the project": "Gruppi Nextcloud i cui membri possono leggere questo tramite il progetto"
+        "Nextcloud groups whose members may read this through the project": "Gruppi Nextcloud i cui membri possono leggere questo tramite il progetto",
+        "Search for a person or a group…": "Cerca una persona o un gruppo…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Nessuno trovato. Le impostazioni di condivisione del tuo amministratore decidono chi puoi trovare.",
+        "Type at least two characters": "Digita almeno due caratteri",
+        "Everyone in this group": "Tutti in questo gruppo",
+        "Could not search for people. Please try again.": "Impossibile cercare persone. Riprova.",
+        "Could not remove the group": "Impossibile rimuovere il gruppo"
     },
     "plurals": null
 }

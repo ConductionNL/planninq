@@ -1334,7 +1334,13 @@
         "The Nextcloud group that owns the project with its creator, at most one": "Nextcloud-gruppen som eier prosjektet sammen med den som opprettet det, høyst én",
         "Nextcloud user ids who may read this through the project": "Nextcloud-brukere som kan lese dette gjennom prosjektet",
         "Nextcloud groups whose members may change this through the project": "Nextcloud-grupper der medlemmene kan endre dette gjennom prosjektet",
-        "Nextcloud groups whose members may read this through the project": "Nextcloud-grupper der medlemmene kan lese dette gjennom prosjektet"
+        "Nextcloud groups whose members may read this through the project": "Nextcloud-grupper der medlemmene kan lese dette gjennom prosjektet",
+        "Search for a person or a group…": "Søk etter en person eller en gruppe…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Ingen funnet. Administratorens delingsinnstillinger bestemmer hvem du kan finne.",
+        "Type at least two characters": "Skriv minst to tegn",
+        "Everyone in this group": "Alle i denne gruppen",
+        "Could not search for people. Please try again.": "Kunne ikke søke etter personer. Prøv igjen.",
+        "Could not remove the group": "Kunne ikke fjerne gruppen"
     },
     "plurals": {}
 }

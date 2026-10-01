@@ -1334,7 +1334,13 @@
         "The Nextcloud group that owns the project with its creator, at most one": "Nextcloud групата што го поседува проектот заедно со неговиот автор, најмногу една",
         "Nextcloud user ids who may read this through the project": "Nextcloud корисници што смеат да го читаат ова преку проектот",
         "Nextcloud groups whose members may change this through the project": "Nextcloud групи чии членови смеат да го менуваат ова преку проектот",
-        "Nextcloud groups whose members may read this through the project": "Nextcloud групи чии членови смеат да го читаат ова преку проектот"
+        "Nextcloud groups whose members may read this through the project": "Nextcloud групи чии членови смеат да го читаат ова преку проектот",
+        "Search for a person or a group…": "Барај личност или група…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Никој не е пронајден. Поставките за споделување на вашиот администратор одлучуваат кого можете да најдете.",
+        "Type at least two characters": "Внесете најмалку два знака",
+        "Everyone in this group": "Сите во оваа група",
+        "Could not search for people. Please try again.": "Пребарувањето луѓе не успеа. Обидете се повторно.",
+        "Could not remove the group": "Групата не можеше да се отстрани"
     },
     "plurals": null
 }

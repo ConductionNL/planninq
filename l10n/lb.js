@@ -1335,7 +1335,13 @@ OC.L10N.register(
         "The Nextcloud group that owns the project with its creator, at most one": "D'Nextcloud-Grupp, där de Projet mat sengem Ersteller gehéiert, héchstens eng",
         "Nextcloud user ids who may read this through the project": "Nextcloud-Benotzer, déi dat iwwer de Projet liese dierfen",
         "Nextcloud groups whose members may change this through the project": "Nextcloud-Gruppen, deenen hir Memberen dat iwwer de Projet ännere dierfen",
-        "Nextcloud groups whose members may read this through the project": "Nextcloud-Gruppen, deenen hir Memberen dat iwwer de Projet liese dierfen"
+        "Nextcloud groups whose members may read this through the project": "Nextcloud-Gruppen, deenen hir Memberen dat iwwer de Projet liese dierfen",
+        "Search for a person or a group…": "No enger Persoun oder engem Grupp sichen…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Keen fonnt. D'Deelastellunge vun denger Administratioun entscheeden, wien s du fanne kanns.",
+        "Type at least two characters": "Gëff mindestens zwee Zeeche an",
+        "Everyone in this group": "All an dësem Grupp",
+        "Could not search for people. Please try again.": "D'Sich no Persoune huet net geklappt. Probéier nach eng Kéier.",
+        "Could not remove the group": "De Grupp konnt net ewechgeholl ginn"
     },
     "nplurals=2; plural=(n != 1);"
 )

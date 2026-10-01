@@ -1335,7 +1335,13 @@ OC.L10N.register(
         "The Nextcloud group that owns the project with its creator, at most one": "Il-grupp Nextcloud li għandu l-proġett flimkien ma' min ħolqu, l-aktar wieħed",
         "Nextcloud user ids who may read this through the project": "Utenti Nextcloud li jistgħu jaqraw dan permezz tal-proġett",
         "Nextcloud groups whose members may change this through the project": "Gruppi Nextcloud li l-membri tagħhom jistgħu jbiddlu dan permezz tal-proġett",
-        "Nextcloud groups whose members may read this through the project": "Gruppi Nextcloud li l-membri tagħhom jistgħu jaqraw dan permezz tal-proġett"
+        "Nextcloud groups whose members may read this through the project": "Gruppi Nextcloud li l-membri tagħhom jistgħu jaqraw dan permezz tal-proġett",
+        "Search for a person or a group…": "Fittex persuna jew grupp…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Ħadd ma nstab. L-issettjar tal-qsim tal-amministratur tiegħek jiddeċiedi lil min tista' ssib.",
+        "Type at least two characters": "Ikteb mill-inqas żewġ karattri",
+        "Everyone in this group": "Kulħadd f'dan il-grupp",
+        "Could not search for people. Please try again.": "It-tfittxija għal persuni ma rnexxietx. Erġa' pprova.",
+        "Could not remove the group": "Il-grupp ma setax jitneħħa"
     },
     "nplurals=2; plural=(n != 1);"
 )

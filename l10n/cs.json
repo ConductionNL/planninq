@@ -1334,7 +1334,13 @@
         "The Nextcloud group that owns the project with its creator, at most one": "Skupina Nextcloud, která vlastní projekt spolu s jeho tvůrcem, nejvýše jedna",
         "Nextcloud user ids who may read this through the project": "Uživatelé Nextcloud, kteří to mohou číst přes projekt",
         "Nextcloud groups whose members may change this through the project": "Skupiny Nextcloud, jejichž členové to mohou měnit přes projekt",
-        "Nextcloud groups whose members may read this through the project": "Skupiny Nextcloud, jejichž členové to mohou číst přes projekt"
+        "Nextcloud groups whose members may read this through the project": "Skupiny Nextcloud, jejichž členové to mohou číst přes projekt",
+        "Search for a person or a group…": "Hledat osobu nebo skupinu…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Nikdo nenalezen. Nastavení sdílení vašeho správce určuje, koho můžete najít.",
+        "Type at least two characters": "Zadejte alespoň dva znaky",
+        "Everyone in this group": "Všichni v této skupině",
+        "Could not search for people. Please try again.": "Hledání osob se nezdařilo. Zkuste to znovu.",
+        "Could not remove the group": "Skupinu se nepodařilo odebrat"
     },
     "plurals": null
 }

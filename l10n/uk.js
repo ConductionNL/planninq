@@ -1335,7 +1335,13 @@ OC.L10N.register(
         "The Nextcloud group that owns the project with its creator, at most one": "Група Nextcloud, що володіє проєктом разом з його автором, не більше однієї",
         "Nextcloud user ids who may read this through the project": "Користувачі Nextcloud, які можуть читати це через проєкт",
         "Nextcloud groups whose members may change this through the project": "Групи Nextcloud, учасники яких можуть змінювати це через проєкт",
-        "Nextcloud groups whose members may read this through the project": "Групи Nextcloud, учасники яких можуть читати це через проєкт"
+        "Nextcloud groups whose members may read this through the project": "Групи Nextcloud, учасники яких можуть читати це через проєкт",
+        "Search for a person or a group…": "Знайти особу або групу…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Нікого не знайдено. Кого ви можете знайти, визначають налаштування спільного доступу вашого адміністратора.",
+        "Type at least two characters": "Введіть щонайменше два символи",
+        "Everyone in this group": "Усі в цій групі",
+        "Could not search for people. Please try again.": "Не вдалося знайти людей. Спробуйте ще раз.",
+        "Could not remove the group": "Не вдалося вилучити групу"
     },
     "nplurals=2; plural=(n != 1);"
 )

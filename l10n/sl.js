@@ -1335,7 +1335,13 @@ OC.L10N.register(
         "The Nextcloud group that owns the project with its creator, at most one": "Skupina Nextcloud, ki ima projekt v lasti skupaj z ustvarjalcem, največ ena",
         "Nextcloud user ids who may read this through the project": "Uporabniki Nextcloud, ki lahko to berejo prek projekta",
         "Nextcloud groups whose members may change this through the project": "Skupine Nextcloud, katerih člani lahko to spreminjajo prek projekta",
-        "Nextcloud groups whose members may read this through the project": "Skupine Nextcloud, katerih člani lahko to berejo prek projekta"
+        "Nextcloud groups whose members may read this through the project": "Skupine Nextcloud, katerih člani lahko to berejo prek projekta",
+        "Search for a person or a group…": "Poišči osebo ali skupino…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Nihče ni bil najden. Nastavitve deljenja vašega skrbnika določajo, koga lahko najdete.",
+        "Type at least two characters": "Vnesite vsaj dva znaka",
+        "Everyone in this group": "Vsi v tej skupini",
+        "Could not search for people. Please try again.": "Iskanje oseb ni uspelo. Poskusite znova.",
+        "Could not remove the group": "Skupine ni bilo mogoče odstraniti"
     },
     "nplurals=2; plural=(n != 1);"
 )

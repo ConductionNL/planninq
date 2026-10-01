@@ -51,3 +51,47 @@ export async function displayNames(uids = []) {
 	const names = await Promise.all((uids || []).map((uid) => displayName(uid)))
 	return Object.fromEntries((uids || []).map((uid, i) => [uid, names[i]]))
 }
+
+const groupCache = new Map()
+
+/**
+ * The name of one Nextcloud group, through the same autocomplete endpoint
+ * (share type 1), falling back to the group id.
+ *
+ * @param {string} gid The group id.
+ * @return {Promise<string>}
+ *
+ * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+ */
+export async function groupName(gid) {
+	if (!gid) {
+		return ''
+	}
+	if (!groupCache.has(gid)) {
+		groupCache.set(gid, (async () => {
+			try {
+				const url = generateOcsUrl('/core/autocomplete/get') + '?' + new URLSearchParams({ search: gid, itemType: '', itemId: '', 'shareTypes[]': '1', limit: '10', format: 'json' })
+				const response = await fetch(url, { headers: { 'OCS-APIRequest': 'true', Accept: 'application/json' } })
+				const body = response.ok ? await response.json() : null
+				const match = (body?.ocs?.data || []).find((group) => group?.id === gid && group?.source === 'groups')
+				return match?.label || gid
+			} catch {
+				return gid
+			}
+		})())
+	}
+	return groupCache.get(gid)
+}
+
+/**
+ * Names for a list of groups, keyed by group id.
+ *
+ * @param {Array<string>} gids The group ids.
+ * @return {Promise<object>}
+ *
+ * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+ */
+export async function groupNames(gids = []) {
+	const names = await Promise.all((gids || []).map((gid) => groupName(gid)))
+	return Object.fromEntries((gids || []).map((gid, i) => [gid, names[i]]))
+}

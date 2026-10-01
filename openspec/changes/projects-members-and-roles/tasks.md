@@ -13,8 +13,8 @@
 
 ## 3. Search and member list (MVP)
 
-- [ ] 3.1 Replace the OCS provisioning call in `src/components/MemberSearch.vue` with `/ocs/v2.php/core/autocomplete/get` through `generateOcsUrl`, for users and groups, rendered in an `NcSelect` with `inputLabel`. Verify: `tests/vitest/memberSearch.spec.js` mocks the endpoint and asserts the request parameters and the rendered options.
-- [ ] 3.2 Show display names and group names in the Members tab of `ProjectSettingsSidebar.vue` instead of raw ids. Verify: `tests/e2e/project-members.spec.ts` "a regular owner adds a colleague by name", run as a non-admin user, and "the admin's search limits apply" with `shareapi_restrict_user_enumeration_to_group` set.
+- [x] 3.1 Replace the OCS provisioning call in `src/components/MemberSearch.vue` with `/ocs/v2.php/core/autocomplete/get` through `generateOcsUrl`, for users and groups, rendered in an `NcSelect` with `inputLabel`. Verify: `tests/vitest/memberSearch.spec.js` mocks the endpoint and asserts the request parameters and the rendered options.
+- [ ] 3.2 Show display names and group names in the Members tab of `ProjectSettingsSidebar.vue` instead of raw ids. Verify: `tests/e2e/project-members.spec.ts` "a regular owner adds a colleague by name", run as a non-admin user, and "the admin's search limits apply" with `shareapi_restrict_user_enumeration_to_group` set. Built 2 Oct (lane 25): the Members tab lists people by display name and groups by name with "Everyone in this group" (`memberEntries`, `groupName`, covered in `tests/vitest/memberSearch.spec.js`); a group picked in the search joins `memberGroups`. Open: the two e2e cases are written in `tests/e2e/project-members.spec.ts` and have not run yet (no instance in the lane).
 
 ## 4. Roles in the interface (Enterprise)
 

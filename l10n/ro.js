@@ -1335,7 +1335,13 @@ OC.L10N.register(
         "The Nextcloud group that owns the project with its creator, at most one": "Grupul Nextcloud care deține proiectul împreună cu creatorul lui, cel mult unul",
         "Nextcloud user ids who may read this through the project": "Utilizatori Nextcloud care pot citi asta prin proiect",
         "Nextcloud groups whose members may change this through the project": "Grupuri Nextcloud ai căror membri pot schimba asta prin proiect",
-        "Nextcloud groups whose members may read this through the project": "Grupuri Nextcloud ai căror membri pot citi asta prin proiect"
+        "Nextcloud groups whose members may read this through the project": "Grupuri Nextcloud ai căror membri pot citi asta prin proiect",
+        "Search for a person or a group…": "Caută o persoană sau un grup…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Nu a fost găsit nimeni. Setările de partajare ale administratorului decid pe cine poți găsi.",
+        "Type at least two characters": "Tastează cel puțin două caractere",
+        "Everyone in this group": "Toată lumea din acest grup",
+        "Could not search for people. Please try again.": "Căutarea persoanelor a eșuat. Încearcă din nou.",
+        "Could not remove the group": "Grupul nu a putut fi eliminat"
     },
     "nplurals=2; plural=(n != 1);"
 )
