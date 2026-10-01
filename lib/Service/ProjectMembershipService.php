@@ -167,7 +167,7 @@ class ProjectMembershipService {
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
-	public function membersFromProject(array $project): array {
+	private function membersFromProject(array $project): array {
 		$members   = $this->listOf(project: $project, field: 'members');
 		$members   = array_merge($members, $this->listOf(project: $project, field: 'managers'));
 		$members[] = ($project['owner'] ?? '');

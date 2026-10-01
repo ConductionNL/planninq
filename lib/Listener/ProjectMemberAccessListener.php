@@ -188,6 +188,23 @@ class ProjectMemberAccessListener implements IEventListener {
 		$lists[ProjectMembershipService::READERS_FIELD] = $this->membership->normalise(
 			members: ($project[ProjectMembershipService::READERS_FIELD] ?? [])
 		);
+		$changes = $this->changedLists(data: $data, lists: $lists);
+		if ($changes !== []) {
+			$event->setModifiedData(array_merge($event->getModifiedData(), $changes));
+		}
+	}//end apply()
+
+	/**
+	 * The lists that are not yet in step on the object.
+	 *
+	 * @param array<string,mixed>             $data  The object data.
+	 * @param array<string,array<int,string>> $lists Field to the project's list.
+	 *
+	 * @return array<string,array<int,string>> The fields to write.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 */
+	private function changedLists(array $data, array $lists): array {
 		$changes = [];
 		foreach ($lists as $field => $values) {
 			// Leave a list that is already in step untouched: OpenRegister's
@@ -204,10 +221,8 @@ class ProjectMemberAccessListener implements IEventListener {
 			}
 		}
 
-		if ($changes !== []) {
-			$event->setModifiedData(array_merge($event->getModifiedData(), $changes));
-		}
-	}//end apply()
+		return $changes;
+	}//end changedLists()
 
 	/**
 	 * Whether the acting user may put this object in its project.

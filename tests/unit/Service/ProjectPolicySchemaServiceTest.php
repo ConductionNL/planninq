@@ -183,7 +183,8 @@ class ProjectPolicySchemaServiceTest extends TestCase {
 
 		$service->apply(groups: []);
 		self::assertSame(['admin'], $live->getConfiguration()['x-openregister-lifecycle']['transitions']['reject']['authorization']);
-		self::assertCount(3, $live->getAuthorization()['read'], 'the three rules of the register file, nothing more');
+		$register = json_decode((string)file_get_contents(__DIR__ . '/../../../lib/Settings/planninq_register.json'), true);
+		self::assertCount(count($register['components']['schemas']['project']['authorization']['read']), $live->getAuthorization()['read'], 'the rules of the register file, nothing more');
 	}//end testASecondSaveReplacesTheReviewers()
 
 	/**
