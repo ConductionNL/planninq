@@ -59,7 +59,7 @@ class ProjectRoles {
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.4
 	 */
-	public static function mayWrite(array $project, string $uid, array $groupIds): bool {
+	public function mayWrite(array $project, string $uid, array $groupIds): bool {
 		if ($uid === '') {
 			return false;
 		}
@@ -69,13 +69,13 @@ class ProjectRoles {
 		}
 
 		foreach (self::WRITER_USERS as $field) {
-			if (in_array($uid, self::listOf(project: $project, field: $field), true) === true) {
+			if (in_array($uid, $this->listOf(project: $project, field: $field), true) === true) {
 				return true;
 			}
 		}
 
 		foreach (self::WRITER_GROUPS as $field) {
-			if (array_intersect(self::listOf(project: $project, field: $field), $groupIds) !== []) {
+			if (array_intersect($this->listOf(project: $project, field: $field), $groupIds) !== []) {
 				return true;
 			}
 		}
@@ -100,7 +100,7 @@ class ProjectRoles {
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
 	 */
-	public static function holdsUser(array $project, string $uid): bool {
+	public function holdsUser(array $project, string $uid): bool {
 		if ($uid === '') {
 			return false;
 		}
@@ -110,7 +110,7 @@ class ProjectRoles {
 		}
 
 		foreach (self::USER_LISTS as $field) {
-			if (in_array($uid, self::listOf(project: $project, field: $field), true) === true) {
+			if (in_array($uid, $this->listOf(project: $project, field: $field), true) === true) {
 				return true;
 			}
 		}
@@ -131,9 +131,9 @@ class ProjectRoles {
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
 	 */
-	public static function withoutUser(array $project, string $uid): array {
+	public function withoutUser(array $project, string $uid): array {
 		foreach (self::USER_LISTS as $field) {
-			$list = self::listOf(project: $project, field: $field);
+			$list = $this->listOf(project: $project, field: $field);
 			if (in_array($uid, $list, true) === true) {
 				$project[$field] = array_values(array_filter($list, static fn (string $entry): bool => $entry !== $uid));
 			}
@@ -144,7 +144,7 @@ class ProjectRoles {
 		}
 
 		foreach (['managers', 'members'] as $field) {
-			$candidates = self::listOf(project: $project, field: $field);
+			$candidates = $this->listOf(project: $project, field: $field);
 			if ($candidates !== []) {
 				sort($candidates);
 				$project['owner'] = $candidates[0];
@@ -164,9 +164,9 @@ class ProjectRoles {
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
 	 */
-	public static function hasWriters(array $project): bool {
+	public function hasWriters(array $project): bool {
 		foreach (self::WRITER_USERS as $field) {
-			if (self::listOf(project: $project, field: $field) !== []) {
+			if ($this->listOf(project: $project, field: $field) !== []) {
 				return true;
 			}
 		}
@@ -182,7 +182,7 @@ class ProjectRoles {
 	 *
 	 * @return array<int,string>
 	 */
-	private static function listOf(array $project, string $field): array {
+	private function listOf(array $project, string $field): array {
 		$value = ($project[$field] ?? []);
 		if (is_array($value) === false) {
 			return [];

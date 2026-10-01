@@ -480,7 +480,7 @@ class DependencyService {
 			$groupIds = $this->groupManager->getUserGroupIds($user);
 		}
 
-		if (ProjectRoles::mayWrite(project: $project, uid: $uid, groupIds: $groupIds) === false) {
+		if ((new ProjectRoles())->mayWrite(project: $project, uid: $uid, groupIds: $groupIds) === false) {
 			throw new DependencyValidationException(
 				message: 'You are not a member of this project.',
 				code: DependencyValidationException::CODE_FORBIDDEN

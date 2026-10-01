@@ -462,8 +462,10 @@ class ProjectController extends Controller {
 
 		$project = $entity->getObject();
 
+		$roles = new ProjectRoles();
+
 		// Guard: the caller must be on the project, in any role.
-		if (ProjectRoles::holdsUser(project: $project, uid: $uid) === false) {
+		if ($roles->holdsUser(project: $project, uid: $uid) === false) {
 			return new JSONResponse(
 				['error' => 'You are not a member of this project.'],
 				Http::STATUS_FORBIDDEN
@@ -472,10 +474,10 @@ class ProjectController extends Controller {
 
 		// Off every user list; an owner who leaves hands over to a manager first, else a member
 		// (projects-members-and-roles task 5.2), so the project is never owner-less.
-		$updated = ProjectRoles::withoutUser(project: $project, uid: $uid);
+		$updated = $roles->withoutUser(project: $project, uid: $uid);
 
 		// Guard: refuse to orphan the project.
-		if (ProjectRoles::hasWriters(project: $updated) === false) {
+		if ($roles->hasWriters(project: $updated) === false) {
 			return new JSONResponse(
 				['error' => 'Cannot leave a project with no remaining members. Delete the project instead.'],
 				Http::STATUS_UNPROCESSABLE_ENTITY
