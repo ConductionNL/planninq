@@ -1320,7 +1320,21 @@
         "The user a task must be assigned to": "Uporabnik, ki mu mora biti opravilo dodeljeno",
         "A label a task must carry": "Oznaka, ki jo mora imeti opravilo",
         "The board column a task must be in": "Stolpec table, v katerem mora biti opravilo",
-        "The issue type a task must have": "Vrsta zahtevka, ki jo mora imeti opravilo"
+        "The issue type a task must have": "Vrsta zahtevka, ki jo mora imeti opravilo",
+        "Manager groups": "Skupine upraviteljev",
+        "Member groups": "Skupine članov",
+        "Viewer groups": "Skupine bralcev",
+        "Viewers": "Bralci",
+        "Owning group": "Lastniška skupina",
+        "Nextcloud groups whose members manage the project": "Skupine Nextcloud, katerih člani upravljajo projekt",
+        "Nextcloud groups whose members work on the project": "Skupine Nextcloud, katerih člani delajo na projektu",
+        "Nextcloud groups whose members may read the project": "Skupine Nextcloud, katerih člani lahko berejo projekt",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Uporabniki Nextcloud, ki upravljajo projekt: nastavitve, člane in delo",
+        "Nextcloud user ids who may read the project and its work but not change it": "Uporabniki Nextcloud, ki lahko berejo projekt in njegovo delo, ne morejo pa ga spreminjati",
+        "The Nextcloud group that owns the project with its creator, at most one": "Skupina Nextcloud, ki ima projekt v lasti skupaj z ustvarjalcem, največ ena",
+        "Nextcloud user ids who may read this through the project": "Uporabniki Nextcloud, ki lahko to berejo prek projekta",
+        "Nextcloud groups whose members may change this through the project": "Skupine Nextcloud, katerih člani lahko to spreminjajo prek projekta",
+        "Nextcloud groups whose members may read this through the project": "Skupine Nextcloud, katerih člani lahko to berejo prek projekta"
     },
     "plurals": null
 }

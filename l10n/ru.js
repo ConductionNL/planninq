@@ -1321,7 +1321,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "Пользователь, которому должна быть назначена задача",
         "A label a task must carry": "Метка, которую должна иметь задача",
         "The board column a task must be in": "Колонка доски, в которой должна быть задача",
-        "The issue type a task must have": "Тип задачи, который она должна иметь"
+        "The issue type a task must have": "Тип задачи, который она должна иметь",
+        "Manager groups": "Группы руководителей",
+        "Member groups": "Группы участников",
+        "Viewer groups": "Группы читателей",
+        "Viewers": "Читатели",
+        "Owning group": "Группа-владелец",
+        "Nextcloud groups whose members manage the project": "Группы Nextcloud, участники которых управляют проектом",
+        "Nextcloud groups whose members work on the project": "Группы Nextcloud, участники которых работают над проектом",
+        "Nextcloud groups whose members may read the project": "Группы Nextcloud, участники которых могут читать проект",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Пользователи Nextcloud, управляющие проектом: настройками, участниками и работой",
+        "Nextcloud user ids who may read the project and its work but not change it": "Пользователи Nextcloud, которые могут читать проект и его работу, но не менять их",
+        "The Nextcloud group that owns the project with its creator, at most one": "Группа Nextcloud, владеющая проектом вместе с его автором, не более одной",
+        "Nextcloud user ids who may read this through the project": "Пользователи Nextcloud, которые могут читать это через проект",
+        "Nextcloud groups whose members may change this through the project": "Группы Nextcloud, участники которых могут менять это через проект",
+        "Nextcloud groups whose members may read this through the project": "Группы Nextcloud, участники которых могут читать это через проект"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1320,7 +1320,21 @@
         "The user a task must be assigned to": "An t-úsáideoir nach mór tasc a bheith sannta dó",
         "A label a task must carry": "Lipéad nach mór a bheith ar thasc",
         "The board column a task must be in": "An colún cláir nach mór tasc a bheith ann",
-        "The issue type a task must have": "An cineál ceisteanna nach mór a bheith ag tasc"
+        "The issue type a task must have": "An cineál ceisteanna nach mór a bheith ag tasc",
+        "Manager groups": "Grúpaí bainisteoirí",
+        "Member groups": "Grúpaí ball",
+        "Viewer groups": "Grúpaí léitheoirí",
+        "Viewers": "Léitheoirí",
+        "Owning group": "Grúpa úinéara",
+        "Nextcloud groups whose members manage the project": "Grúpaí Nextcloud a bhainistíonn a gcuid ball an tionscadal",
+        "Nextcloud groups whose members work on the project": "Grúpaí Nextcloud a n-oibríonn a gcuid ball ar an tionscadal",
+        "Nextcloud groups whose members may read the project": "Grúpaí Nextcloud ar féidir lena gcuid ball an tionscadal a léamh",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Úsáideoirí Nextcloud a bhainistíonn an tionscadal: socruithe, baill agus obair",
+        "Nextcloud user ids who may read the project and its work but not change it": "Úsáideoirí Nextcloud ar féidir leo an tionscadal agus a chuid oibre a léamh ach gan iad a athrú",
+        "The Nextcloud group that owns the project with its creator, at most one": "An grúpa Nextcloud ar leis an tionscadal in éineacht lena chruthaitheoir, ceann amháin ar a mhéad",
+        "Nextcloud user ids who may read this through the project": "Úsáideoirí Nextcloud ar féidir leo é seo a léamh tríd an tionscadal",
+        "Nextcloud groups whose members may change this through the project": "Grúpaí Nextcloud ar féidir lena gcuid ball é seo a athrú tríd an tionscadal",
+        "Nextcloud groups whose members may read this through the project": "Grúpaí Nextcloud ar féidir lena gcuid ball é seo a léamh tríd an tionscadal"
     },
     "plurals": null
 }

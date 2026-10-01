@@ -1321,7 +1321,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "Naudotojas, kuriam turi būti priskirta užduotis",
         "A label a task must carry": "Žyma, kurią turi turėti užduotis",
         "The board column a task must be in": "Lentos stulpelis, kuriame turi būti užduotis",
-        "The issue type a task must have": "Užklausos tipas, kurį turi turėti užduotis"
+        "The issue type a task must have": "Užklausos tipas, kurį turi turėti užduotis",
+        "Manager groups": "Vadovų grupės",
+        "Member groups": "Narių grupės",
+        "Viewer groups": "Skaitytojų grupės",
+        "Viewers": "Skaitytojai",
+        "Owning group": "Savininkų grupė",
+        "Nextcloud groups whose members manage the project": "Nextcloud grupės, kurių nariai valdo projektą",
+        "Nextcloud groups whose members work on the project": "Nextcloud grupės, kurių nariai dirba projekte",
+        "Nextcloud groups whose members may read the project": "Nextcloud grupės, kurių nariai gali skaityti projektą",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Nextcloud naudotojai, valdantys projektą: nustatymus, narius ir darbą",
+        "Nextcloud user ids who may read the project and its work but not change it": "Nextcloud naudotojai, galintys skaityti projektą ir jo darbą, bet ne keisti",
+        "The Nextcloud group that owns the project with its creator, at most one": "Nextcloud grupė, kuriai projektas priklauso kartu su jo kūrėju, ne daugiau kaip viena",
+        "Nextcloud user ids who may read this through the project": "Nextcloud naudotojai, galintys tai skaityti per projektą",
+        "Nextcloud groups whose members may change this through the project": "Nextcloud grupės, kurių nariai gali tai keisti per projektą",
+        "Nextcloud groups whose members may read this through the project": "Nextcloud grupės, kurių nariai gali tai skaityti per projektą"
     },
     "nplurals=2; plural=(n != 1);"
 )

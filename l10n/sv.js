@@ -1321,7 +1321,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "Den användare en uppgift måste vara tilldelad",
         "A label a task must carry": "En etikett en uppgift måste ha",
         "The board column a task must be in": "Den tavlkolumn en uppgift måste stå i",
-        "The issue type a task must have": "Den ärendetyp en uppgift måste ha"
+        "The issue type a task must have": "Den ärendetyp en uppgift måste ha",
+        "Manager groups": "Ledargrupper",
+        "Member groups": "Medlemsgrupper",
+        "Viewer groups": "Läsargrupper",
+        "Viewers": "Läsare",
+        "Owning group": "Ägargrupp",
+        "Nextcloud groups whose members manage the project": "Nextcloud-grupper vars medlemmar leder projektet",
+        "Nextcloud groups whose members work on the project": "Nextcloud-grupper vars medlemmar arbetar i projektet",
+        "Nextcloud groups whose members may read the project": "Nextcloud-grupper vars medlemmar får läsa projektet",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Nextcloud-användare som leder projektet: inställningar, medlemmar och arbete",
+        "Nextcloud user ids who may read the project and its work but not change it": "Nextcloud-användare som får läsa projektet och dess arbete men inte ändra det",
+        "The Nextcloud group that owns the project with its creator, at most one": "Nextcloud-gruppen som äger projektet tillsammans med den som skapade det, högst en",
+        "Nextcloud user ids who may read this through the project": "Nextcloud-användare som får läsa detta via projektet",
+        "Nextcloud groups whose members may change this through the project": "Nextcloud-grupper vars medlemmar får ändra detta via projektet",
+        "Nextcloud groups whose members may read this through the project": "Nextcloud-grupper vars medlemmar får läsa detta via projektet"
     },
     "nplurals=2; plural=(n != 1);"
 )

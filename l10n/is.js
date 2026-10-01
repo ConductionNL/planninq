@@ -1321,7 +1321,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "Notandinn sem verk þarf að vera úthlutað",
         "A label a task must carry": "Merki sem verk þarf að bera",
         "The board column a task must be in": "Töfludálkurinn sem verk þarf að vera í",
-        "The issue type a task must have": "Tegund máls sem verk þarf að hafa"
+        "The issue type a task must have": "Tegund máls sem verk þarf að hafa",
+        "Manager groups": "Stjórnendahópar",
+        "Member groups": "Meðlimahópar",
+        "Viewer groups": "Lesendahópar",
+        "Viewers": "Lesendur",
+        "Owning group": "Eigandahópur",
+        "Nextcloud groups whose members manage the project": "Nextcloud-hópar sem stýra verkefninu",
+        "Nextcloud groups whose members work on the project": "Nextcloud-hópar sem vinna að verkefninu",
+        "Nextcloud groups whose members may read the project": "Nextcloud-hópar sem mega lesa verkefnið",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Nextcloud-notendur sem stýra verkefninu: stillingum, meðlimum og vinnu",
+        "Nextcloud user ids who may read the project and its work but not change it": "Nextcloud-notendur sem mega lesa verkefnið og vinnu þess en ekki breyta",
+        "The Nextcloud group that owns the project with its creator, at most one": "Nextcloud-hópurinn sem á verkefnið ásamt þeim sem stofnaði það, mest einn",
+        "Nextcloud user ids who may read this through the project": "Nextcloud-notendur sem mega lesa þetta í gegnum verkefnið",
+        "Nextcloud groups whose members may change this through the project": "Nextcloud-hópar sem mega breyta þessu í gegnum verkefnið",
+        "Nextcloud groups whose members may read this through the project": "Nextcloud-hópar sem mega lesa þetta í gegnum verkefnið"
     },
     "nplurals=2; plural=(n != 1);"
 )

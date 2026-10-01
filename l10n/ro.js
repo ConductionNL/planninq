@@ -1321,7 +1321,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "Utilizatorul căruia trebuie să îi fie atribuită o sarcină",
         "A label a task must carry": "O etichetă pe care trebuie să o aibă o sarcină",
         "The board column a task must be in": "Coloana tablei în care trebuie să fie o sarcină",
-        "The issue type a task must have": "Tipul de tichet pe care trebuie să îl aibă o sarcină"
+        "The issue type a task must have": "Tipul de tichet pe care trebuie să îl aibă o sarcină",
+        "Manager groups": "Grupuri de manageri",
+        "Member groups": "Grupuri de membri",
+        "Viewer groups": "Grupuri de cititori",
+        "Viewers": "Cititori",
+        "Owning group": "Grup proprietar",
+        "Nextcloud groups whose members manage the project": "Grupuri Nextcloud ai căror membri gestionează proiectul",
+        "Nextcloud groups whose members work on the project": "Grupuri Nextcloud ai căror membri lucrează la proiect",
+        "Nextcloud groups whose members may read the project": "Grupuri Nextcloud ai căror membri pot citi proiectul",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Utilizatori Nextcloud care gestionează proiectul: setări, membri și lucru",
+        "Nextcloud user ids who may read the project and its work but not change it": "Utilizatori Nextcloud care pot citi proiectul și lucrul lui, dar nu îl pot schimba",
+        "The Nextcloud group that owns the project with its creator, at most one": "Grupul Nextcloud care deține proiectul împreună cu creatorul lui, cel mult unul",
+        "Nextcloud user ids who may read this through the project": "Utilizatori Nextcloud care pot citi asta prin proiect",
+        "Nextcloud groups whose members may change this through the project": "Grupuri Nextcloud ai căror membri pot schimba asta prin proiect",
+        "Nextcloud groups whose members may read this through the project": "Grupuri Nextcloud ai căror membri pot citi asta prin proiect"
     },
     "nplurals=2; plural=(n != 1);"
 )

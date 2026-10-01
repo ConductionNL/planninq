@@ -1320,7 +1320,21 @@
         "The user a task must be assigned to": "Користувач, якому має бути призначене завдання",
         "A label a task must carry": "Мітка, яку має мати завдання",
         "The board column a task must be in": "Стовпець дошки, у якому має бути завдання",
-        "The issue type a task must have": "Тип, який має мати завдання"
+        "The issue type a task must have": "Тип, який має мати завдання",
+        "Manager groups": "Групи керівників",
+        "Member groups": "Групи учасників",
+        "Viewer groups": "Групи читачів",
+        "Viewers": "Читачі",
+        "Owning group": "Група-власник",
+        "Nextcloud groups whose members manage the project": "Групи Nextcloud, учасники яких керують проєктом",
+        "Nextcloud groups whose members work on the project": "Групи Nextcloud, учасники яких працюють над проєктом",
+        "Nextcloud groups whose members may read the project": "Групи Nextcloud, учасники яких можуть читати проєкт",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Користувачі Nextcloud, які керують проєктом: налаштуваннями, учасниками й роботою",
+        "Nextcloud user ids who may read the project and its work but not change it": "Користувачі Nextcloud, які можуть читати проєкт і його роботу, але не змінювати",
+        "The Nextcloud group that owns the project with its creator, at most one": "Група Nextcloud, що володіє проєктом разом з його автором, не більше однієї",
+        "Nextcloud user ids who may read this through the project": "Користувачі Nextcloud, які можуть читати це через проєкт",
+        "Nextcloud groups whose members may change this through the project": "Групи Nextcloud, учасники яких можуть змінювати це через проєкт",
+        "Nextcloud groups whose members may read this through the project": "Групи Nextcloud, учасники яких можуть читати це через проєкт"
     },
     "plurals": {}
 }

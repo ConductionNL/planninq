@@ -1321,7 +1321,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "Korisnik kojem zadatak mora biti dodijeljen",
         "A label a task must carry": "Oznaka koju zadatak mora imati",
         "The board column a task must be in": "Stupac ploče u kojem zadatak mora biti",
-        "The issue type a task must have": "Vrsta zahtjeva koju zadatak mora imati"
+        "The issue type a task must have": "Vrsta zahtjeva koju zadatak mora imati",
+        "Manager groups": "Grupe voditelja",
+        "Member groups": "Grupe članova",
+        "Viewer groups": "Grupe čitatelja",
+        "Viewers": "Čitatelji",
+        "Owning group": "Vlasnička grupa",
+        "Nextcloud groups whose members manage the project": "Nextcloud grupe čiji članovi vode projekt",
+        "Nextcloud groups whose members work on the project": "Nextcloud grupe čiji članovi rade na projektu",
+        "Nextcloud groups whose members may read the project": "Nextcloud grupe čiji članovi smiju čitati projekt",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Nextcloud korisnici koji vode projekt: postavke, članove i rad",
+        "Nextcloud user ids who may read the project and its work but not change it": "Nextcloud korisnici koji smiju čitati projekt i njegov rad, ali ga ne mijenjati",
+        "The Nextcloud group that owns the project with its creator, at most one": "Nextcloud grupa koja posjeduje projekt zajedno s njegovim autorom, najviše jedna",
+        "Nextcloud user ids who may read this through the project": "Nextcloud korisnici koji ovo smiju čitati kroz projekt",
+        "Nextcloud groups whose members may change this through the project": "Nextcloud grupe čiji članovi ovo smiju mijenjati kroz projekt",
+        "Nextcloud groups whose members may read this through the project": "Nextcloud grupe čiji članovi ovo smiju čitati kroz projekt"
     },
     "nplurals=2; plural=(n != 1);"
 )

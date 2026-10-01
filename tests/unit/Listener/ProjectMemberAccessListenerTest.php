@@ -77,10 +77,11 @@ class ProjectMemberAccessListenerTest extends TestCase {
 	 *
 	 * @param string $actor The acting uid, or '' for no session (cron, occ, repair).
 	 * @param bool $isAdmin Whether IGroupManager calls the actor an admin.
+	 * @param array<int,string> $groupIds The actor's Nextcloud groups.
 	 *
 	 * @return ProjectMemberAccessListener
 	 */
-	private function listener(string $actor, bool $isAdmin = false): ProjectMemberAccessListener {
+	private function listener(string $actor, bool $isAdmin = false, array $groupIds = []): ProjectMemberAccessListener {
 		$user = $this->createMock(originalClassName: IUser::class);
 		$user->method('getUID')->willReturn($actor);
 		$session = $this->createMock(originalClassName: IUserSession::class);
@@ -88,6 +89,7 @@ class ProjectMemberAccessListenerTest extends TestCase {
 
 		$groups = $this->createMock(originalClassName: IGroupManager::class);
 		$groups->method('isAdmin')->willReturnCallback(static fn (string $uid): bool => ($isAdmin === true && $uid === $actor));
+		$groups->method('getUserGroupIds')->willReturn($groupIds);
 
 		return new ProjectMemberAccessListener(
 			membership: $this->membershipService(),
@@ -399,4 +401,28 @@ class ProjectMemberAccessListenerTest extends TestCase {
 		self::assertFalse($projectReads[0]['_rbac']);
 		self::assertSame('planninq', $projectReads[0]['register']);
 	}//end testReadsTheProjectAsTheSystem()
+
+	/**
+	 * Someone in a member group writes a task and it carries every role list;
+	 * a viewer is refused.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 */
+	public function testAGroupMemberWritesAndAViewerIsRefused(): void {
+		$this->objects->seed('project', 'proj-c', ['title' => 'C', 'members' => [], 'owner' => 'carol', 'managers' => ['erin'], 'viewers' => ['vic'], 'memberGroups' => ['devs'], 'ownerGroups' => ['pmo'], 'viewerGroups' => ['audit']]);
+
+		$event = new ObjectCreatingEvent($this->object(schema: 'task', data: ['title' => 'New', 'project' => 'proj-c']));
+		$this->listener(actor: 'gina', groupIds: ['devs'])->handle($event);
+		self::assertFalse($event->isPropagationStopped(), 'a member group may write');
+		self::assertSame(
+			['members' => ['carol', 'erin'], 'viewers' => ['vic'], 'memberGroups' => ['devs', 'pmo'], 'viewerGroups' => ['audit']],
+			$event->getModifiedData()
+		);
+
+		$event = new ObjectCreatingEvent($this->object(schema: 'task', data: ['title' => 'New', 'project' => 'proj-c']));
+		$this->listener(actor: 'vic', groupIds: ['audit'])->handle($event);
+		self::assertTrue($event->isPropagationStopped(), 'a viewer, alone or through a viewer group, may not write');
+	}//end testAGroupMemberWritesAndAViewerIsRefused()
 }//end class

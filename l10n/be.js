@@ -1321,7 +1321,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "Карыстальнік, якому мусіць быць прызначана задача",
         "A label a task must carry": "Метка, якую мусіць мець задача",
         "The board column a task must be in": "Слупок дошкі, у якім мусіць быць задача",
-        "The issue type a task must have": "Тып, які мусіць мець задача"
+        "The issue type a task must have": "Тып, які мусіць мець задача",
+        "Manager groups": "Групы кіраўнікоў",
+        "Member groups": "Групы ўдзельнікаў",
+        "Viewer groups": "Групы чытачоў",
+        "Viewers": "Чытачы",
+        "Owning group": "Група-ўладальнік",
+        "Nextcloud groups whose members manage the project": "Групы Nextcloud, удзельнікі якіх кіруюць праектам",
+        "Nextcloud groups whose members work on the project": "Групы Nextcloud, удзельнікі якіх працуюць над праектам",
+        "Nextcloud groups whose members may read the project": "Групы Nextcloud, удзельнікі якіх могуць чытаць праект",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Карыстальнікі Nextcloud, якія кіруюць праектам: наладамі, удзельнікамі і працай",
+        "Nextcloud user ids who may read the project and its work but not change it": "Карыстальнікі Nextcloud, якія могуць чытаць праект і яго працу, але не змяняць",
+        "The Nextcloud group that owns the project with its creator, at most one": "Група Nextcloud, якая валодае праектам разам з яго аўтарам, не больш за адну",
+        "Nextcloud user ids who may read this through the project": "Карыстальнікі Nextcloud, якія могуць чытаць гэта праз праект",
+        "Nextcloud groups whose members may change this through the project": "Групы Nextcloud, удзельнікі якіх могуць змяняць гэта праз праект",
+        "Nextcloud groups whose members may read this through the project": "Групы Nextcloud, удзельнікі якіх могуць чытаць гэта праз праект"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1321,7 +1321,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "L'usuari a qui ha d'estar assignada una tasca",
         "A label a task must carry": "Una etiqueta que ha de portar una tasca",
         "The board column a task must be in": "La columna del tauler on ha de ser una tasca",
-        "The issue type a task must have": "El tipus d'incidència que ha de tenir una tasca"
+        "The issue type a task must have": "El tipus d'incidència que ha de tenir una tasca",
+        "Manager groups": "Grups gestors",
+        "Member groups": "Grups membres",
+        "Viewer groups": "Grups lectors",
+        "Viewers": "Lectors",
+        "Owning group": "Grup propietari",
+        "Nextcloud groups whose members manage the project": "Grups de Nextcloud els membres dels quals gestionen el projecte",
+        "Nextcloud groups whose members work on the project": "Grups de Nextcloud els membres dels quals treballen en el projecte",
+        "Nextcloud groups whose members may read the project": "Grups de Nextcloud els membres dels quals poden llegir el projecte",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Usuaris de Nextcloud que gestionen el projecte: configuració, membres i feina",
+        "Nextcloud user ids who may read the project and its work but not change it": "Usuaris de Nextcloud que poden llegir el projecte i la seva feina però no canviar-los",
+        "The Nextcloud group that owns the project with its creator, at most one": "El grup de Nextcloud que posseeix el projecte amb qui l'ha creat, com a màxim un",
+        "Nextcloud user ids who may read this through the project": "Usuaris de Nextcloud que poden llegir això a través del projecte",
+        "Nextcloud groups whose members may change this through the project": "Grups de Nextcloud els membres dels quals poden canviar això a través del projecte",
+        "Nextcloud groups whose members may read this through the project": "Grups de Nextcloud els membres dels quals poden llegir això a través del projecte"
     },
     "nplurals=2; plural=(n != 1);"
 )

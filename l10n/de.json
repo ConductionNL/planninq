@@ -1320,7 +1320,21 @@
         "The user a task must be assigned to": "Die Person, der eine Aufgabe zugewiesen sein muss",
         "A label a task must carry": "Ein Label, das eine Aufgabe tragen muss",
         "The board column a task must be in": "Die Board-Spalte, in der eine Aufgabe stehen muss",
-        "The issue type a task must have": "Der Vorgangstyp, den eine Aufgabe haben muss"
+        "The issue type a task must have": "Der Vorgangstyp, den eine Aufgabe haben muss",
+        "Manager groups": "Verwaltungsgruppen",
+        "Member groups": "Mitgliedsgruppen",
+        "Viewer groups": "Lesegruppen",
+        "Viewers": "Lesende",
+        "Owning group": "Besitzende Gruppe",
+        "Nextcloud groups whose members manage the project": "Nextcloud-Gruppen, deren Mitglieder das Projekt verwalten",
+        "Nextcloud groups whose members work on the project": "Nextcloud-Gruppen, deren Mitglieder am Projekt arbeiten",
+        "Nextcloud groups whose members may read the project": "Nextcloud-Gruppen, deren Mitglieder das Projekt lesen dürfen",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Nextcloud-Personen, die das Projekt verwalten: Einstellungen, Mitglieder und Arbeit",
+        "Nextcloud user ids who may read the project and its work but not change it": "Nextcloud-Personen, die das Projekt und seine Arbeit lesen, aber nicht ändern dürfen",
+        "The Nextcloud group that owns the project with its creator, at most one": "Die Nextcloud-Gruppe, der das Projekt mit seiner Erstellerin oder seinem Ersteller gehört, höchstens eine",
+        "Nextcloud user ids who may read this through the project": "Nextcloud-Personen, die dies über das Projekt lesen dürfen",
+        "Nextcloud groups whose members may change this through the project": "Nextcloud-Gruppen, deren Mitglieder dies über das Projekt ändern dürfen",
+        "Nextcloud groups whose members may read this through the project": "Nextcloud-Gruppen, deren Mitglieder dies über das Projekt lesen dürfen"
     },
     "plurals": null
 }

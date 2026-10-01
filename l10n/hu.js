@@ -1321,7 +1321,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "A felhasználó, akihez a feladatot hozzá kell rendelni",
         "A label a task must carry": "Egy címke, amelyet a feladatnak viselnie kell",
         "The board column a task must be in": "A tábla oszlopa, amelyben a feladatnak lennie kell",
-        "The issue type a task must have": "A jegytípus, amellyel a feladatnak rendelkeznie kell"
+        "The issue type a task must have": "A jegytípus, amellyel a feladatnak rendelkeznie kell",
+        "Manager groups": "Vezetői csoportok",
+        "Member groups": "Tagcsoportok",
+        "Viewer groups": "Olvasói csoportok",
+        "Viewers": "Olvasók",
+        "Owning group": "Tulajdonos csoport",
+        "Nextcloud groups whose members manage the project": "Nextcloud-csoportok, amelyek tagjai a projektet vezetik",
+        "Nextcloud groups whose members work on the project": "Nextcloud-csoportok, amelyek tagjai a projekten dolgoznak",
+        "Nextcloud groups whose members may read the project": "Nextcloud-csoportok, amelyek tagjai olvashatják a projektet",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Nextcloud-felhasználók, akik a projektet vezetik: beállítások, tagok és munka",
+        "Nextcloud user ids who may read the project and its work but not change it": "Nextcloud-felhasználók, akik olvashatják a projektet és munkáját, de nem módosíthatják",
+        "The Nextcloud group that owns the project with its creator, at most one": "A Nextcloud-csoport, amely a létrehozóval együtt birtokolja a projektet, legfeljebb egy",
+        "Nextcloud user ids who may read this through the project": "Nextcloud-felhasználók, akik ezt a projekten keresztül olvashatják",
+        "Nextcloud groups whose members may change this through the project": "Nextcloud-csoportok, amelyek tagjai ezt a projekten keresztül módosíthatják",
+        "Nextcloud groups whose members may read this through the project": "Nextcloud-csoportok, amelyek tagjai ezt a projekten keresztül olvashatják"
     },
     "nplurals=2; plural=(n != 1);"
 )

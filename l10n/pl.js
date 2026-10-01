@@ -1321,7 +1321,21 @@ OC.L10N.register(
         "The user a task must be assigned to": "Użytkownik, do którego musi być przypisane zadanie",
         "A label a task must carry": "Etykieta, którą musi mieć zadanie",
         "The board column a task must be in": "Kolumna tablicy, w której musi być zadanie",
-        "The issue type a task must have": "Typ zgłoszenia, jaki musi mieć zadanie"
+        "The issue type a task must have": "Typ zgłoszenia, jaki musi mieć zadanie",
+        "Manager groups": "Grupy menedżerów",
+        "Member groups": "Grupy członków",
+        "Viewer groups": "Grupy czytelników",
+        "Viewers": "Czytelnicy",
+        "Owning group": "Grupa właścicielska",
+        "Nextcloud groups whose members manage the project": "Grupy Nextcloud, których członkowie zarządzają projektem",
+        "Nextcloud groups whose members work on the project": "Grupy Nextcloud, których członkowie pracują nad projektem",
+        "Nextcloud groups whose members may read the project": "Grupy Nextcloud, których członkowie mogą czytać projekt",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Użytkownicy Nextcloud zarządzający projektem: ustawieniami, członkami i pracą",
+        "Nextcloud user ids who may read the project and its work but not change it": "Użytkownicy Nextcloud, którzy mogą czytać projekt i jego pracę, ale nie zmieniać",
+        "The Nextcloud group that owns the project with its creator, at most one": "Grupa Nextcloud, która jest właścicielem projektu razem z jego twórcą, najwyżej jedna",
+        "Nextcloud user ids who may read this through the project": "Użytkownicy Nextcloud, którzy mogą czytać to przez projekt",
+        "Nextcloud groups whose members may change this through the project": "Grupy Nextcloud, których członkowie mogą zmieniać to przez projekt",
+        "Nextcloud groups whose members may read this through the project": "Grupy Nextcloud, których członkowie mogą czytać to przez projekt"
     },
     "nplurals=2; plural=(n != 1);"
 )

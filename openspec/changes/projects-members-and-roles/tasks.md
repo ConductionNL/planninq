@@ -6,9 +6,9 @@
 
 ## 2. Schema and authorization (MVP to Enterprise)
 
-- [ ] 2.1 Add `managers`, `viewers`, `managerGroups`, `memberGroups`, `viewerGroups` (arrays of strings, default `[]`) and `ownerGroup` (nullable string) to the `project` schema, and bump its version. Verify: `tests/unit/Settings/PlanninqRegisterSchemaTest.php` asserts each property and its default.
-- [ ] 2.2 Extend the `project` read, update and delete rules as in design.md Decision 3, and add property-level update rules to `owner` and `ownerGroup`. Verify: new PHPUnit cases in `PlanninqRegisterSchemaTest.php` next to `testProjectUpdateAuthorizationEnforcesOwner`, one per role.
-- [ ] 2.3 Give `task`, `projectPhase` and `column` read rules for all six lists and write rules for managers and members, and `plannedTimeEntry` read rules for all six lists. Verify: PHPUnit cases in `PlanninqRegisterSchemaTest.php`, plus a live check as a viewer that a task PUT answers 403.
+- [x] 2.1 Add `managers`, `viewers`, `managerGroups`, `memberGroups`, `viewerGroups` (arrays of strings, default `[]`) and `ownerGroups` (a list of at most one group; design amendment) to the `project` schema, and bump its version. Verify: `tests/unit/Settings/ProjectRolesSchemaTest.php` asserts each property and its default, and validates a project with every list against the real schema.
+- [x] 2.2 Extend the `project` read, update and delete rules as in design.md Decision 3, and add property-level update rules to `owner` and `ownerGroups`. Verify: `tests/unit/Settings/ProjectRolesSchemaTest.php` testTheProjectRulesPerRole and testOnlyTheOwnerOrTheOwningGroupRewritesOwnership.
+- [ ] 2.3 Give `task`, `projectPhase` and `column` read rules for all six lists and write rules for managers and members, and `plannedTimeEntry` read rules for all six lists. Verify: PHPUnit cases in `PlanninqRegisterSchemaTest.php`, plus a live check as a viewer that a task PUT answers 403. Built 2 Oct (lane 24) on every project-scoped schema through copied lists (design amendment): `ProjectRolesSchemaTest::testScopedSchemasReadForEveryRoleAndWriteForMembers`, `ProjectMembershipSyncListenerTest::testRolesAndGroupsReachEveryChild`, `ProjectMemberAccessListenerTest::testAGroupMemberWritesAndAViewerIsRefused`. Open: the live check as a viewer (no instance in the lane).
 - [ ] 2.4 Measure the board load for a project with 200 tasks before and after 2.3. Verify: both timings recorded in the PR body; the second is within 20 percent of the first.
 
 ## 3. Search and member list (MVP)

@@ -1320,7 +1320,21 @@
         "The user a task must be assigned to": "Bir görevin atanmış olması gereken kullanıcı",
         "A label a task must carry": "Bir görevin taşıması gereken etiket",
         "The board column a task must be in": "Bir görevin bulunması gereken pano sütunu",
-        "The issue type a task must have": "Bir görevin sahip olması gereken kayıt türü"
+        "The issue type a task must have": "Bir görevin sahip olması gereken kayıt türü",
+        "Manager groups": "Yönetici grupları",
+        "Member groups": "Üye grupları",
+        "Viewer groups": "Okuyucu grupları",
+        "Viewers": "Okuyucular",
+        "Owning group": "Sahip grup",
+        "Nextcloud groups whose members manage the project": "Üyeleri projeyi yöneten Nextcloud grupları",
+        "Nextcloud groups whose members work on the project": "Üyeleri projede çalışan Nextcloud grupları",
+        "Nextcloud groups whose members may read the project": "Üyeleri projeyi okuyabilen Nextcloud grupları",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Projeyi yöneten Nextcloud kullanıcıları: ayarlar, üyeler ve iş",
+        "Nextcloud user ids who may read the project and its work but not change it": "Projeyi ve işini okuyabilen ama değiştiremeyen Nextcloud kullanıcıları",
+        "The Nextcloud group that owns the project with its creator, at most one": "Projeye oluşturanla birlikte sahip olan Nextcloud grubu, en fazla bir",
+        "Nextcloud user ids who may read this through the project": "Bunu proje üzerinden okuyabilen Nextcloud kullanıcıları",
+        "Nextcloud groups whose members may change this through the project": "Üyeleri bunu proje üzerinden değiştirebilen Nextcloud grupları",
+        "Nextcloud groups whose members may read this through the project": "Üyeleri bunu proje üzerinden okuyabilen Nextcloud grupları"
     },
     "plurals": {}
 }

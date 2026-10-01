@@ -1320,7 +1320,21 @@
         "The user a task must be assigned to": "Käyttäjä, jolle tehtävä on oltava osoitettu",
         "A label a task must carry": "Tunniste, joka tehtävällä on oltava",
         "The board column a task must be in": "Taulun sarake, jossa tehtävän on oltava",
-        "The issue type a task must have": "Tikettityyppi, joka tehtävällä on oltava"
+        "The issue type a task must have": "Tikettityyppi, joka tehtävällä on oltava",
+        "Manager groups": "Hallinnoijaryhmät",
+        "Member groups": "Jäsenryhmät",
+        "Viewer groups": "Lukijaryhmät",
+        "Viewers": "Lukijat",
+        "Owning group": "Omistajaryhmä",
+        "Nextcloud groups whose members manage the project": "Nextcloud-ryhmät, joiden jäsenet hallinnoivat projektia",
+        "Nextcloud groups whose members work on the project": "Nextcloud-ryhmät, joiden jäsenet työskentelevät projektissa",
+        "Nextcloud groups whose members may read the project": "Nextcloud-ryhmät, joiden jäsenet voivat lukea projektia",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Nextcloud-käyttäjät, jotka hallinnoivat projektia: asetukset, jäsenet ja työ",
+        "Nextcloud user ids who may read the project and its work but not change it": "Nextcloud-käyttäjät, jotka voivat lukea projektia ja sen työtä mutta eivät muuttaa sitä",
+        "The Nextcloud group that owns the project with its creator, at most one": "Nextcloud-ryhmä, joka omistaa projektin sen luojan kanssa, enintään yksi",
+        "Nextcloud user ids who may read this through the project": "Nextcloud-käyttäjät, jotka voivat lukea tämän projektin kautta",
+        "Nextcloud groups whose members may change this through the project": "Nextcloud-ryhmät, joiden jäsenet voivat muuttaa tätä projektin kautta",
+        "Nextcloud groups whose members may read this through the project": "Nextcloud-ryhmät, joiden jäsenet voivat lukea tämän projektin kautta"
     },
     "plurals": null
 }

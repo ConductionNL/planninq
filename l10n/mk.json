@@ -1320,7 +1320,21 @@
         "The user a task must be assigned to": "Корисникот на кого задачата мора да биде доделена",
         "A label a task must carry": "Ознака што задачата мора да ја има",
         "The board column a task must be in": "Колоната на таблата во која задачата мора да биде",
-        "The issue type a task must have": "Видот на барање што задачата мора да го има"
+        "The issue type a task must have": "Видот на барање што задачата мора да го има",
+        "Manager groups": "Групи на раководители",
+        "Member groups": "Групи на членови",
+        "Viewer groups": "Групи на читатели",
+        "Viewers": "Читатели",
+        "Owning group": "Сопственичка група",
+        "Nextcloud groups whose members manage the project": "Nextcloud групи чии членови го водат проектот",
+        "Nextcloud groups whose members work on the project": "Nextcloud групи чии членови работат на проектот",
+        "Nextcloud groups whose members may read the project": "Nextcloud групи чии членови смеат да го читаат проектот",
+        "Nextcloud user ids who manage the project: its settings, its members and its work": "Nextcloud корисници што го водат проектот: поставки, членови и работа",
+        "Nextcloud user ids who may read the project and its work but not change it": "Nextcloud корисници што смеат да го читаат проектот и неговата работа, но не да ги менуваат",
+        "The Nextcloud group that owns the project with its creator, at most one": "Nextcloud групата што го поседува проектот заедно со неговиот автор, најмногу една",
+        "Nextcloud user ids who may read this through the project": "Nextcloud корисници што смеат да го читаат ова преку проектот",
+        "Nextcloud groups whose members may change this through the project": "Nextcloud групи чии членови смеат да го менуваат ова преку проектот",
+        "Nextcloud groups whose members may read this through the project": "Nextcloud групи чии членови смеат да го читаат ова преку проектот"
     },
     "plurals": null
 }
