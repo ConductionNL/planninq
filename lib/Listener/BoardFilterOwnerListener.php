@@ -47,7 +47,7 @@ class BoardFilterOwnerListener implements IEventListener {
 	/**
 	 * The planninq schemas whose objects belong to the person who saved them.
 	 */
-	public const OWNED_SCHEMAS = ['boardFilter', 'boardView'];
+	public const OWNED_SCHEMAS = ['boardFilter', 'boardView', 'report'];
 
 	/**
 	 * Constructor.

@@ -28,6 +28,7 @@ import MyCalendar from './views/MyCalendar.vue'
 import MyWork from './views/MyWork.vue'
 import Portfolio from './views/Portfolio.vue'
 import PortfolioFinance from './views/PortfolioFinance.vue'
+import MyReports from './views/MyReports.vue'
 import PortfolioFlow from './views/PortfolioFlow.vue'
 import PortfolioStatus from './views/PortfolioStatus.vue'
 import PortfolioTimeline from './views/PortfolioTimeline.vue'
@@ -36,6 +37,7 @@ import ProjectBoard from './views/ProjectBoard.vue'
 import ProjectCalendar from './views/ProjectCalendar.vue'
 import ProjectFinance from './views/ProjectFinance.vue'
 import ProjectFlow from './views/ProjectFlow.vue'
+import ReportPage from './views/ReportPage.vue'
 import ProjectList from './views/ProjectList.vue'
 import ProjectLog from './views/ProjectLog.vue'
 import ProjectOverview from './views/ProjectOverview.vue'
@@ -74,7 +76,9 @@ export default {
 	Portfolio: page(Portfolio),
 	PortfolioFinance: page(PortfolioFinance),
 	PortfolioStatus: page(PortfolioStatus),
+	MyReports: page(MyReports),
 	PortfolioFlow: page(PortfolioFlow),
+	ReportPage: page(ReportPage),
 	PortfolioTimeline: page(PortfolioTimeline),
 	ProjectBacklog: page(ProjectBacklog),
 	ProjectBoard: page(ProjectBoard),

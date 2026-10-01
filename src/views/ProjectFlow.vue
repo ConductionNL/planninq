@@ -42,7 +42,7 @@ import { flowPeriods, periodWindow } from '../utils/flowChart.js'
  * The Flow tab of a project: the cumulative flow diagram and the lead and
  * cycle time of its finished tasks over a chosen period.
  *
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
  */
 export default {
 	name: 'ProjectFlow',
@@ -61,7 +61,7 @@ export default {
 	computed: {
 		/**
 		 * @return {string} The project's UUID from the route.
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
 		 */
 		projectId() {
 			return this.$route.params.id
@@ -72,7 +72,7 @@ export default {
 		/**
 		 * Reload on another project.
 		 *
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
 		 */
 		projectId() {
 			this.load()
@@ -88,7 +88,7 @@ export default {
 		 * Switch to another period and reload.
 		 *
 		 * @param {{days: number}} option The picked period
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
 		 */
 		pickPeriod(option) {
 			if (option) {
@@ -101,7 +101,7 @@ export default {
 		 * Read the flow for the chosen period.
 		 *
 		 * @return {Promise<void>}
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
 		 */
 		async load() {
 			this.loading = true

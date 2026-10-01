@@ -1784,6 +1784,68 @@
         "members": [
           "@operator"
         ]
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "report",
+          "slug": "demo-report-open-work",
+          "id": "0000de00-0000-4000-8000-001500000001"
+        },
+        "title": "Open work per person",
+        "owner": "@operator",
+        "shared": "readers",
+        "projects": [
+          "0000de00-0000-4000-8000-000100000001",
+          "0000de00-0000-4000-8000-000100000002"
+        ],
+        "filters": {
+          "status": "open"
+        },
+        "groupBy": "assignedTo",
+        "metric": "count",
+        "display": "bar"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "report",
+          "slug": "demo-report-priorities",
+          "id": "0000de00-0000-4000-8000-001500000002"
+        },
+        "title": "Open tasks by priority",
+        "owner": "@operator",
+        "shared": "private",
+        "projects": [
+          "0000de00-0000-4000-8000-000100000001",
+          "0000de00-0000-4000-8000-000100000002",
+          "0000de00-0000-4000-8000-000100000003"
+        ],
+        "filters": {
+          "status": "open"
+        },
+        "groupBy": "priority",
+        "metric": "count",
+        "display": "donut"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "report",
+          "slug": "demo-report-points",
+          "id": "0000de00-0000-4000-8000-001500000003"
+        },
+        "title": "Story points per column",
+        "owner": "@operator",
+        "shared": "private",
+        "projects": [
+          "0000de00-0000-4000-8000-000100000001"
+        ],
+        "filters": {},
+        "groupBy": "column",
+        "metric": "sum",
+        "display": "table",
+        "sumField": "storyPoints"
       }
     ]
   }

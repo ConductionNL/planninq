@@ -726,7 +726,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the twenty expected schemas.
+	 * The register MUST declare exactly the twenty-one expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
 	 * over the project work breakdown structure pipelinq had built, and
@@ -737,14 +737,14 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * (projects-grouping-hierarchy-fields) and `projectRelease`
 	 * (backlog-releases-roadmap), `timetableWish` and `timetableScenario`
 	 * (timetabling-generator), `boardFilter` (boards-filters), `boardView`
-	 * (boards-cross-project-board). `example` must not be present.
+	 * (boards-cross-project-board), `report` (portfolio-flow-reports). `example` must not be present.
 	 *
 	 * @return void
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
-	public function testRegisterDeclaresExactlyTwentySchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink'];
+	public function testRegisterDeclaresExactlyTwentyOneSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'report'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -753,7 +753,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the twenty expected schemas'
+			message: 'register schema list must be exactly the twenty-one expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -761,7 +761,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the twenty expected schemas'
+			message: 'components.schemas must define exactly the twenty-one expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -770,7 +770,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyTwentySchemas()
+	}//end testRegisterDeclaresExactlyTwentyOneSchemas()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
