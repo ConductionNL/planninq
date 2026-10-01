@@ -100,8 +100,22 @@ export default defineConfig({
 				'**/global-setup.ts',
 				'**/fixtures/**',
 				'**/docs-screenshots.spec.ts',
+				'**/mobile.spec.ts',
 			],
 			use: { ...devices['Desktop Chrome'] },
+		},
+		// Phone smoke suite (platform-mobile-web): the daily flows at a phone's
+		// width with touch. Both run on chromium, the only browser CI installs,
+		// with the device's viewport, pixel ratio, touch and user agent.
+		{
+			name: 'phone-android',
+			testMatch: '**/mobile.spec.ts',
+			use: { ...devices['Pixel 7'] },
+		},
+		{
+			name: 'phone-ios',
+			testMatch: '**/mobile.spec.ts',
+			use: { ...devices['iPhone 14'], browserName: 'chromium' },
 		},
 	],
 })

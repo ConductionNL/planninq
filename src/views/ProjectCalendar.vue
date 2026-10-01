@@ -26,7 +26,7 @@ import { useProjectsStore } from '../store/projects.js'
  * ProjectCalendar: a project's tasks on their due dates, in a month, week or
  * list view (planning-calendar). `?date=YYYY-MM-DD` opens it on that day.
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.2
  */
 export default {
 	name: 'ProjectCalendar',
@@ -46,7 +46,7 @@ export default {
 
 	computed: {
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.2
 		 * @return {string} The project id from the route
 		 */
 		projectId() {
@@ -54,7 +54,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.2
 		 * @return {string} The day to open on, from ?date=
 		 */
 		initialDate() {
@@ -67,7 +67,7 @@ export default {
 		projectId: {
 			immediate: true,
 			/**
-			 * @spec openspec/changes/planning-calendar/tasks.md#task-1.2
+			 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.2
 			 */
 			handler() {
 				this.load()
@@ -79,7 +79,7 @@ export default {
 		t,
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.2
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.2
 		 */
 		async load() {
 			this.loading = true

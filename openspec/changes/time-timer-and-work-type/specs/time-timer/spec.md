@@ -25,6 +25,13 @@ A signed-in person MUST be able to start a timer on a task they can see, from th
 - **WHEN** she presses "Start timer" on "Printer 2nd floor"
 - **THEN** she is asked "A timer is running on Export to CSV. Stop it and start one on Printer 2nd floor?"
 
+#### Scenario: Start and stop a timer on a phone
+
+- **GIVEN** a user on a task page in a phone browser 360 pixels wide
+- **WHEN** they tap "Start timer", later tap "Stop" and save the prefilled form
+- **THEN** the time is booked on the task
+- **AND** the timer's buttons are at least 44 by 44 CSS pixels and the page does not scroll sideways
+
 ### Requirement: Stopping a timer prepares a time entry the person confirms
 
 Stopping a timer MUST open the time entry form for that task with the elapsed time rounded up to whole minutes, at least one, and today's date, and SHALL book nothing until the person saves. Cancelling the form SHALL book nothing. When the timer ran longer than 12 hours, the form MUST warn before saving. Discarding a timer SHALL clear it without booking. The saved entry SHALL go through the same write path as a manually logged entry. Tier: V1.

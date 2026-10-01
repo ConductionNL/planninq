@@ -1,10 +1,13 @@
-# mobile-web delta for platform-mobile-web
+# mobile-web Specification
 
-## ADDED Requirements
+## Purpose
+Planninq's daily flows in a phone browser: My tasks, the task page, logging time, the timesheet and a one-column board with a column switcher, with 44 pixel targets and no sideways scroll, kept so by the phone projects of the Playwright suite.
+
+## Requirements
 
 ### Requirement: The daily flows work in a phone browser
 
-On a screen 360 CSS pixels wide with touch only, a user MUST be able to open My tasks, open a task, read and add comments and attachments, change the task's status, log time and start and stop a timer, and read their timesheet, without the page scrolling sideways and without any action that needs hover. Every button and link in these flows SHALL be at least 44 by 44 CSS pixels. Tier: V1 (docs/FEATURES.md, platform; this change adds the row).
+On a screen 360 CSS pixels wide with touch only, a user MUST be able to open My tasks, open a task, read and add comments and attachments, change the task's status, log time, and read their timesheet, without the page scrolling sideways and without any action that needs hover. Every button and link in these flows SHALL be at least 44 by 44 CSS pixels. Tier: V1 (docs/FEATURES.md, platform; this change adds the row).
 
 #### Scenario: My tasks on a phone opens a task
 
@@ -18,12 +21,6 @@ On a screen 360 CSS pixels wide with touch only, a user MUST be able to open My 
 - **GIVEN** the same user on a task page
 - **WHEN** they tap "Log time", enter 30 minutes and save
 - **THEN** the entry is saved and shown on their timesheet
-
-#### Scenario: Start and stop a timer on a phone
-
-- **GIVEN** the same user on a task page
-- **WHEN** they tap "Start timer", later tap "Stop" and save the prefilled form
-- **THEN** the time is booked on the task
 
 #### Scenario: The timesheet shows a day list on a phone
 
@@ -50,7 +47,7 @@ On screens narrower than 600 CSS pixels the project board MUST show one column a
 
 ### Requirement: Phone layouts are tested on every change
 
-The end-to-end suite MUST run the phone flows in an Android and an iPhone device profile on every pull request, and SHALL fail when a page in those flows scrolls sideways or a flow's action cannot be reached by tapping. Tier: V1.
+The end-to-end suite MUST run the phone flows in an Android and an iPhone device profile wherever the suite runs, and SHALL fail when a page in those flows scrolls sideways or a flow's action cannot be reached by tapping. Tier: V1.
 
 #### Scenario: A sideways scroll fails the suite
 

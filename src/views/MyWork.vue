@@ -376,4 +376,27 @@ export default {
 .my-work__status {
 	min-width: 180px;
 }
+
+/* Phone (platform-mobile-web): the status control moves under the task, and
+   the title is a full-height target. */
+@media (max-width: 600px) {
+	.my-work {
+		padding: 12px;
+	}
+
+	.my-work__row {
+		flex-wrap: wrap;
+	}
+
+	.my-work__status {
+		flex: 1 1 100%;
+		min-width: 0;
+	}
+
+	.my-work__title {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+	}
+}
 </style>

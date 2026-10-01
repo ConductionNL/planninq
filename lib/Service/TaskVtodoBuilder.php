@@ -18,7 +18,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.2
  */
 
 declare(strict_types=1);
@@ -31,7 +31,7 @@ use DateTimeZone;
 /**
  * Builds the VTODO text for a task.
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.2
  */
 class TaskVtodoBuilder {
 
@@ -68,7 +68,7 @@ class TaskVtodoBuilder {
 	 *
 	 * @return string The iCalendar text, CRLF line ends, folded at 75 octets.
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.2
 	 */
 	public function build(array $task, string $uid, string $projectTitle, string $url, string $managedNote, string $stamp): string {
 		$lines = [

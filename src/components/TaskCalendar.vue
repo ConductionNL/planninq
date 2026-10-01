@@ -87,7 +87,7 @@ import { translate as t } from '@nextcloud/l10n'
  * dated list. The grid is a table with a caption naming the period; every
  * task is a link to its task page, so Tab reaches it and Enter opens it.
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
  */
 import { NcButton } from '@nextcloud/vue'
 import { dateKey, listByDate, monthWeeks, shiftMonth, tasksByDay, weekDays } from '../utils/calendarHelpers.js'
@@ -136,7 +136,7 @@ export default {
 
 	computed: {
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
 		 * @return {Array<object>} The view choices
 		 */
 		modes() {
@@ -148,7 +148,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
 		 * @return {Map} Tasks per day
 		 */
 		byDay() {
@@ -156,7 +156,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
 		 * @return {{year: number, month: number}} The focused month
 		 */
 		month() {
@@ -165,7 +165,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
 		 * @return {Array<Array<object>>} The weeks shown
 		 */
 		visibleWeeks() {
@@ -176,7 +176,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
 		 * @return {Array<string>} Monday to Sunday, in the user's language
 		 */
 		weekdayNames() {
@@ -184,7 +184,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.4
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.4
 		 * @return {string} The period the grid or list shows
 		 */
 		caption() {
@@ -196,7 +196,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
 		 * @return {Array<object>} The month's tasks grouped by date
 		 */
 		listGroups() {
@@ -210,7 +210,7 @@ export default {
 		t,
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
 		 * @param {string} key A day key
 		 * @return {Date}
 		 */
@@ -220,7 +220,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
 		 * @param {string} key A day key
 		 * @return {number} The day of the month
 		 */
@@ -229,7 +229,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
 		 * @param {string} key A day key
 		 * @return {string} The date in words
 		 */
@@ -238,7 +238,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.4
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.4
 		 * @param {number} step One period forward, or back when negative
 		 */
 		move(step) {
@@ -252,14 +252,14 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.4
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.4
 		 */
 		goToday() {
 			this.focus = dateKey(new Date())
 		},
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
 		 * @param {object} task The task
 		 * @return {object} The route to its task page
 		 */
@@ -269,7 +269,7 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/changes/planning-calendar/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.3
 		 * @param {object} task The task
 		 * @return {string} Its project's title, when known
 		 */

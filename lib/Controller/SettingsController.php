@@ -86,7 +86,7 @@ class SettingsController extends Controller {
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.1
 	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
 	 */
 	public function index(): JSONResponse {
@@ -218,7 +218,7 @@ class SettingsController extends Controller {
 	 *
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
 	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.1
 	 */
 	public function updateUser(): JSONResponse {
 		$user = $this->userSession->getUser();

@@ -1,7 +1,7 @@
 /**
  * Placing tasks on a calendar (planning-calendar task 1.1).
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1
  */
 import { describe, expect, it } from 'vitest'
 import { dateKey, listByDate, monthWeeks, placement, shiftMonth, tasksByDay, weekDays } from '../../src/utils/calendarHelpers.js'

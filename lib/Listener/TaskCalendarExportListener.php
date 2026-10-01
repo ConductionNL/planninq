@@ -21,7 +21,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
  */
 
 declare(strict_types=1);
@@ -41,7 +41,7 @@ use Psr\Log\LoggerInterface;
  *
  * @template-implements IEventListener<Event>
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
  */
 class TaskCalendarExportListener implements IEventListener {
 
@@ -66,7 +66,7 @@ class TaskCalendarExportListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/planning-calendar/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
 	 */
 	public function handle(Event $event): void {
 		try {

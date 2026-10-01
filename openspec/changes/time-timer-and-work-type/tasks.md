@@ -6,6 +6,7 @@
 - [ ] 1.2 `startTimer`, `stopTimer` and `discardTimer` in `src/store/timeEntries.js`, with the pure helper `src/utils/timer.js` (elapsed minutes rounded up, at least one, the 12-hour warning). Verify: vitest `tests/vitest/timer.spec.js` "rounds up to whole minutes", "never books zero minutes" and "warns after twelve hours".
 - [ ] 1.3 `src/components/RunningTimer.vue` on My tasks, the Timesheet and the task page; "Start timer" on `TaskDetail` and on the Timesheet with a task picker; the second-timer question. Verify: Playwright `tests/e2e/timer.spec.ts` "person starts a timer on a task and sees it on My tasks", "timer survives a reload", "starting a second timer asks first" and "discard books nothing".
 - [ ] 1.4 Stop opens `TimeEntryDialog` prefilled; cancel books nothing; save books through `timeEntries.create`. Verify: Playwright `tests/e2e/timer.spec.ts` "stopping opens the form with the measured time" and "cancelling the form books nothing".
+- [ ] 1.5 The running timer on a phone (moved here from platform-mobile-web, which was built before the timer existed): start and stop by tapping at 360 pixels, 44 pixel targets. Verify: Playwright `tests/e2e/mobile.spec.ts` "start and stop a timer on a phone" (phone-android and phone-ios projects).
 
 ## 2. Work type
 

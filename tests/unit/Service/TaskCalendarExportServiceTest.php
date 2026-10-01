@@ -10,7 +10,7 @@
  * @copyright 2026 Conduction B.V.
  * @license   EUPL-1.2 https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  *
- * @spec openspec/changes/planning-calendar/tasks.md#task-2.4
+ * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.4
  */
 
 declare(strict_types=1);
