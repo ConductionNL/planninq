@@ -31,6 +31,7 @@ namespace OCA\Planninq\Service;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -64,6 +65,13 @@ class FlowHistoryService {
 	 * @var int
 	 */
 	public const MAX_HISTORY = 1000;
+
+	/**
+	 * Days in the window when none is given.
+	 *
+	 * @var int
+	 */
+	public const DEFAULT_DAYS = 30;
 
 	private const REGISTER = 'planninq';
 
@@ -117,14 +125,73 @@ class FlowHistoryService {
 			if ($to >= $today) {
 				$days = array_merge($days, $this->today(columns: $columns, tasks: $tasks, today: $today, now: $now, previous: end($cached)));
 			}
-		} else {
-			$histories = $this->histories(tasks: $tasks);
-			$days = $this->replay->replay(columns: $columns, tasks: $tasks, histories: $histories, from: $from, to: $to, now: $now);
-			$this->storeDays(cache: $cache, projectId: $projectId, days: $days, today: $today);
+
+			return $this->shape(projectId: $projectId, columns: $columns, days: $days, fromCache: count($cached));
 		}
 
-		return $this->shape(projectId: $projectId, columns: $columns, days: $days, fromCache: count($cached) === count($pastDays) ? count($cached) : 0);
+		$histories = $this->histories(tasks: $tasks);
+		$days = $this->replay->replay(columns: $columns, tasks: $tasks, histories: $histories, from: $from, to: $to, now: $now);
+		$this->storeDays(cache: $cache, projectId: $projectId, days: $days, today: $today);
+
+		return $this->shape(projectId: $projectId, columns: $columns, days: $days, fromCache: 0);
 	}//end forProject()
+
+	/**
+	 * The window as two UTC midnights, or null when a date is unreadable, the
+	 * window is reversed or it is longer than MAX_DAYS days. Without dates it
+	 * is the last DEFAULT_DAYS days up to today.
+	 *
+	 * @param string|null $from First day, Y-m-d
+	 * @param string|null $to   Last day, Y-m-d
+	 *
+	 * @return DateTimeImmutable[]|null
+	 *
+	 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.2
+	 */
+	public function window(?string $from, ?string $to): ?array {
+		$today = (new DateTimeImmutable('@' . $this->timeFactory->now()->getTimestamp()))->setTime(0, 0);
+		$end = $this->date(value: $to, fallback: $today);
+		$start = null;
+		if ($end !== null) {
+			$start = $this->date(value: $from, fallback: $end->modify('-' . (self::DEFAULT_DAYS - 1) . ' days'));
+		}
+
+		if ($start === null || $end === null || $start > $end) {
+			return null;
+		}
+
+		if ((int)$start->diff($end)->days + 1 > self::MAX_DAYS) {
+			return null;
+		}
+
+		return [$start, $end];
+	}//end window()
+
+	/**
+	 * A Y-m-d date as a UTC midnight; the fallback when empty; null when it
+	 * is not a calendar date.
+	 *
+	 * @param string|null       $value    The value
+	 * @param DateTimeImmutable $fallback Used when the value is empty
+	 *
+	 * @return DateTimeImmutable|null
+	 */
+	private function date(?string $value, DateTimeImmutable $fallback): ?DateTimeImmutable {
+		if ($value === null || $value === '') {
+			return $fallback;
+		}
+
+		$parts = [];
+		if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value, $parts) !== 1) {
+			return null;
+		}
+
+		if (checkdate((int)$parts[2], (int)$parts[3], (int)$parts[1]) === false) {
+			return null;
+		}
+
+		return new DateTimeImmutable($value . ' 00:00:00', new DateTimeZone('UTC'));
+	}//end date()
 
 	/**
 	 * Average, 85th percentile and slowest tasks over several projects' finished tasks.
@@ -166,7 +233,11 @@ class FlowHistoryService {
 		return [
 			'projectId' => $projectId,
 			'columns' => array_map(
-				static fn (array $column): array => ['id' => (string)$column['id'], 'title' => (string)($column['title'] ?? ''), 'color' => ($column['color'] ?? null)],
+				static fn (array $column): array => [
+					'id' => (string)$column['id'],
+					'title' => (string)($column['title'] ?? ''),
+					'color' => ($column['color'] ?? null),
+				],
 				$columns
 			),
 			'days' => $list,
@@ -243,7 +314,11 @@ class FlowHistoryService {
 		$found = [];
 		foreach ($days as $date) {
 			$value = $cache->get($projectId . ':' . $date);
-			$entry = is_string($value) === true ? json_decode($value, true) : null;
+			if (is_string($value) === false) {
+				continue;
+			}
+
+			$entry = json_decode($value, true);
 			if (is_array($entry) === true) {
 				$found[$date] = $entry;
 			}
@@ -319,7 +394,7 @@ class FlowHistoryService {
 
 		$rows = [];
 		foreach ((array)$results as $result) {
-			$row = $this->plain(result: $result);
+			$row = $this->plainRow(result: $result);
 			if ($row['id'] !== '') {
 				$rows[] = $row;
 			}
@@ -337,14 +412,12 @@ class FlowHistoryService {
 	 * @param mixed $result The row
 	 *
 	 * @return array<string,mixed>
+	 *
+	 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.2
 	 */
-	private function plain(mixed $result): array {
+	public function plainRow(mixed $result): array {
 		if (is_object($result) === true) {
-			$data = is_callable([$result, 'getObject']) === true ? (array)$result->getObject() : [];
-			$data['id'] = is_callable([$result, 'getUuid']) === true ? (string)$result->getUuid() : (string)($data['id'] ?? '');
-			$created = is_callable([$result, 'getCreated']) === true ? $result->getCreated() : null;
-			$data['created'] = $created instanceof DateTimeInterface ? $created->format('c') : null;
-			return $data;
+			return $this->plainEntity(entity: $result);
 		}
 
 		$data = (array)$result;
@@ -352,5 +425,36 @@ class FlowHistoryService {
 		$data['created'] = ($data['@self']['created'] ?? null);
 
 		return $data;
-	}//end plain()
+	}//end plainRow()
+
+	/**
+	 * An ObjectEntity as a plain array with `id` and `created`.
+	 *
+	 * @param object $entity The entity
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function plainEntity(object $entity): array {
+		$data = [];
+		if (is_callable([$entity, 'getObject']) === true) {
+			$data = (array)$entity->getObject();
+		}
+
+		$data['id'] = (string)($data['id'] ?? '');
+		if (is_callable([$entity, 'getUuid']) === true) {
+			$data['id'] = (string)$entity->getUuid();
+		}
+
+		$data['created'] = null;
+		$created = null;
+		if (is_callable([$entity, 'getCreated']) === true) {
+			$created = $entity->getCreated();
+		}
+
+		if ($created instanceof DateTimeInterface) {
+			$data['created'] = $created->format('c');
+		}
+
+		return $data;
+	}//end plainEntity()
 }//end class

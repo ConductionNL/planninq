@@ -102,7 +102,6 @@ class FlowControllerTest extends TestCase {
 			userSession: $session,
 			container: $container,
 			flow: new FlowHistoryService(container: $container, cacheFactory: $factory, timeFactory: $time, replay: new FlowReplay(), logger: $logger),
-			timeFactory: $time,
 			logger: $logger,
 		);
 	}//end controller()

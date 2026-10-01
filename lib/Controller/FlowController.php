@@ -26,8 +26,6 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use DateTimeImmutable;
-use DateTimeZone;
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\FlowHistoryService;
 use OCP\AppFramework\Controller;
@@ -35,7 +33,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
 use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
@@ -61,13 +58,6 @@ class FlowController extends Controller {
 	 */
 	public const MAX_PROJECTS = 50;
 
-	/**
-	 * Days in the window when none is given.
-	 *
-	 * @var int
-	 */
-	public const DEFAULT_DAYS = 30;
-
 	private const REGISTER = 'planninq';
 
 	private const OR_OBJECT_SERVICE = 'OCA\\OpenRegister\\Service\\ObjectService';
@@ -79,7 +69,6 @@ class FlowController extends Controller {
 	 * @param IUserSession       $userSession The signed-in user
 	 * @param ContainerInterface $container   Resolves OpenRegister's ObjectService
 	 * @param FlowHistoryService $flow        The flow reader
-	 * @param ITimeFactory       $timeFactory Today, for the default window
 	 * @param LoggerInterface    $logger      Logger
 	 */
 	public function __construct(
@@ -87,7 +76,6 @@ class FlowController extends Controller {
 		private IUserSession $userSession,
 		private ContainerInterface $container,
 		private FlowHistoryService $flow,
-		private ITimeFactory $timeFactory,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct(appName: Application::APP_ID, request: $request);
@@ -114,7 +102,7 @@ class FlowController extends Controller {
 			return $objectService;
 		}
 
-		$window = $this->window(from: $from, to: $to);
+		$window = $this->flow->window(from: $from, to: $to);
 		if ($window === null) {
 			return $this->badWindow();
 		}
@@ -150,7 +138,7 @@ class FlowController extends Controller {
 			return $objectService;
 		}
 
-		$window = $this->window(from: $from, to: $to);
+		$window = $this->flow->window(from: $from, to: $to);
 		if ($window === null) {
 			return $this->badWindow();
 		}
@@ -244,63 +232,14 @@ class FlowController extends Controller {
 
 		$projects = [];
 		foreach ((array)$results as $row) {
-			$data = is_object($row) === true && is_callable([$row, 'getObject']) === true ? (array)$row->getObject() : (array)$row;
-			$id = is_object($row) === true && is_callable([$row, 'getUuid']) === true ? (string)$row->getUuid() : (string)($data['@self']['id'] ?? ($data['id'] ?? ''));
-			if ($id !== '') {
-				$projects[] = ['id' => $id, 'title' => (string)($data['title'] ?? '')];
+			$project = $this->flow->plainRow(result: $row);
+			if ($project['id'] !== '') {
+				$projects[] = ['id' => $project['id'], 'title' => (string)($project['title'] ?? '')];
 			}
 		}
 
 		return $projects;
 	}//end portfolioProjects()
-
-	/**
-	 * The window as two UTC midnights, or null when it is unreadable,
-	 * reversed or longer than FlowHistoryService::MAX_DAYS days.
-	 *
-	 * @param string|null $from First day, Y-m-d
-	 * @param string|null $to   Last day, Y-m-d
-	 *
-	 * @return DateTimeImmutable[]|null
-	 */
-	private function window(?string $from, ?string $to): ?array {
-		$utc = new DateTimeZone('UTC');
-		$today = (new DateTimeImmutable('@' . $this->timeFactory->now()->getTimestamp()))->setTime(0, 0);
-		$end = $this->date(value: $to, fallback: $today, utc: $utc);
-		$start = $this->date(value: $from, fallback: $end?->modify('-' . (self::DEFAULT_DAYS - 1) . ' days'), utc: $utc);
-		if ($start === null || $end === null || $start > $end) {
-			return null;
-		}
-
-		if ((int)$start->diff($end)->days + 1 > FlowHistoryService::MAX_DAYS) {
-			return null;
-		}
-
-		return [$start, $end];
-	}//end window()
-
-	/**
-	 * A Y-m-d date as a UTC midnight; the fallback when the value is empty,
-	 * null when it is not a date.
-	 *
-	 * @param string|null            $value    The value
-	 * @param DateTimeImmutable|null $fallback Used when the value is empty
-	 * @param DateTimeZone           $utc      UTC
-	 *
-	 * @return DateTimeImmutable|null
-	 */
-	private function date(?string $value, ?DateTimeImmutable $fallback, DateTimeZone $utc): ?DateTimeImmutable {
-		if ($value === null || $value === '') {
-			return $fallback;
-		}
-
-		$date = DateTimeImmutable::createFromFormat('!Y-m-d', $value, $utc);
-		if ($date === false || $date->format('Y-m-d') !== $value) {
-			return null;
-		}
-
-		return $date;
-	}//end date()
 
 	/**
 	 * The answer to a bad window.

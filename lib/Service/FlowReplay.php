@@ -344,7 +344,7 @@ class FlowReplay {
 		$finished = $this->seconds(value: $task['completedAt'] ?? null);
 		$estimated = false;
 		if ($finished === null && ($task['status'] ?? null) === 'done') {
-			$finished = $this->firstMomentWhere(states: $states, test: static fn (array $values): bool => $values['status'] === 'done', last: true);
+			$finished = $this->lastMomentWhere(states: $states, test: static fn (array $values): bool => $values['status'] === 'done');
 			$estimated = true;
 		}
 
@@ -378,32 +378,56 @@ class FlowReplay {
 	}//end timing()
 
 	/**
-	 * The moment of the first (or, with `$last`, the last) state where the
-	 * test turned true after being false.
+	 * The moment of the first state where the test turned true after being false.
 	 *
 	 * @param array<int,array{at: int, values: array<string,mixed>}> $states The states
 	 * @param callable                                              $test   Test on a state's values
-	 * @param bool                                                  $last   Return the last such moment
 	 *
 	 * @return int|null
 	 */
-	private function firstMomentWhere(array $states, callable $test, bool $last = false): ?int {
-		$found = null;
+	private function firstMomentWhere(array $states, callable $test): ?int {
+		return ($this->momentsWhere(states: $states, test: $test)[0] ?? null);
+	}//end firstMomentWhere()
+
+	/**
+	 * The moment of the last state where the test turned true after being false.
+	 *
+	 * @param array<int,array{at: int, values: array<string,mixed>}> $states The states
+	 * @param callable                                              $test   Test on a state's values
+	 *
+	 * @return int|null
+	 */
+	private function lastMomentWhere(array $states, callable $test): ?int {
+		$moments = $this->momentsWhere(states: $states, test: $test);
+		if ($moments === []) {
+			return null;
+		}
+
+		return $moments[count($moments) - 1];
+	}//end lastMomentWhere()
+
+	/**
+	 * Every moment at which the test turned true after being false.
+	 *
+	 * @param array<int,array{at: int, values: array<string,mixed>}> $states The states
+	 * @param callable                                              $test   Test on a state's values
+	 *
+	 * @return int[]
+	 */
+	private function momentsWhere(array $states, callable $test): array {
+		$moments = [];
 		$before = false;
 		foreach ($states as $state) {
 			$now = (bool)$test($state['values']);
 			if ($now === true && $before === false) {
-				$found = $state['at'];
-				if ($last === false) {
-					return $found;
-				}
+				$moments[] = $state['at'];
 			}
 
 			$before = $now;
 		}
 
-		return $found;
-	}//end firstMomentWhere()
+		return $moments;
+	}//end momentsWhere()
 
 	/**
 	 * The mean of a list, two decimals; 0 for an empty list.
