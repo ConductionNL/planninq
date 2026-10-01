@@ -508,8 +508,8 @@ import {
 	swapColumnPatches,
 	wipState,
 } from '../utils/columnHelpers.js'
-import { columnSwitcher, phoneColumnId } from '../utils/phoneBoard.js'
 import { labelId, resolveTaskLabels } from '../utils/labelHelpers.js'
+import { columnSwitcher, phoneColumnId } from '../utils/phoneBoard.js'
 import { isReadOnlyFor } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
 import { newLaneTask } from '../utils/taskEditing.js'

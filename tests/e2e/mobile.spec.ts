@@ -19,9 +19,11 @@
  * and links are at least 44 by 44 CSS pixels.
  */
 
-import { expect, test, type Page } from '@playwright/test'
+import type { Page } from '@playwright/test'
+
+import { expect, test } from '@playwright/test'
 import { PLANNINQ_ROOT } from './nav.ts'
-import { ADMIN_USER, OBJECTS, adminApi, createObject, removeObjects } from './portfolio-api.ts'
+import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
 const MIN_TARGET = 44

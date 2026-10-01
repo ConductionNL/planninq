@@ -6,7 +6,7 @@
  * PHONE_MAX_WIDTH the board shows one column at a time, chosen from a
  * switcher that names every column with its card count.
  *
- * @spec openspec/changes/platform-mobile-web/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-platform-mobile-web/tasks.md#task-1.1
  */
 
 /**
@@ -23,7 +23,7 @@ export const PHONE_MAX_WIDTH = 600
  * @param {Array<{id: string, title: string}>} columns The board's columns, in order
  * @param {{[columnId: string]: Array}} lanes Column id to the cards it shows
  * @return {Array<{id: string, title: string, count: number}>} One entry per column
- * @spec openspec/changes/platform-mobile-web/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-platform-mobile-web/tasks.md#task-1.1
  */
 export function columnSwitcher(columns, lanes) {
 	return (columns || []).map((column) => ({
@@ -39,7 +39,7 @@ export function columnSwitcher(columns, lanes) {
  * @param {Array<{id: string}>} columns The board's columns, in order
  * @param {string|null} chosenId The column the user picked, if any
  * @return {string|null} The column id, or null on a board without columns
- * @spec openspec/changes/platform-mobile-web/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-platform-mobile-web/tasks.md#task-1.1
  */
 export function phoneColumnId(columns, chosenId) {
 	const list = columns || []

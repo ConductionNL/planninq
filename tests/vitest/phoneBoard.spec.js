@@ -2,10 +2,10 @@
  * The phone board's column switcher (platform-mobile-web task 1.1): every
  * column named with its card count, and the column the phone shows.
  *
- * @spec openspec/changes/platform-mobile-web/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-09-30-platform-mobile-web/tasks.md#task-1.1
  */
 import { describe, expect, it } from 'vitest'
-import { PHONE_MAX_WIDTH, columnSwitcher, phoneColumnId } from '../../src/utils/phoneBoard.js'
+import { columnSwitcher, PHONE_MAX_WIDTH, phoneColumnId } from '../../src/utils/phoneBoard.js'
 
 const columns = [
 	{ id: 'c1', title: 'To do' },
