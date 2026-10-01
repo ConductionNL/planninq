@@ -98,8 +98,12 @@ describe('memberSearch', () => {
 	it('lists each person and group once, with the highest role they hold', () => {
 		const project = { owner: 'olga', ownerGroups: ['bestuur'], managers: ['mark'], members: ['olga', 'mark', 'mies'], viewers: ['vera'], viewerGroups: ['lezers', 'bestuur'] }
 		expect(memberEntries(project).map((row) => `${row.key}=${row.role}`)).toEqual([
-			'user:olga=owner', 'user:mark=manager', 'user:mies=member', 'user:vera=viewer',
-			'group:bestuur=owner', 'group:lezers=viewer',
+			'user:olga=owner',
+			'user:mark=manager',
+			'user:mies=member',
+			'user:vera=viewer',
+			'group:bestuur=owner',
+			'group:lezers=viewer',
 		])
 	})
 })
