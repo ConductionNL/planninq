@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Πληκτρολογήστε τουλάχιστον δύο χαρακτήρες",
         "Everyone in this group": "Όλοι σε αυτή την ομάδα",
         "Could not search for people. Please try again.": "Η αναζήτηση ατόμων απέτυχε. Δοκιμάστε ξανά.",
-        "Could not remove the group": "Δεν ήταν δυνατή η αφαίρεση της ομάδας"
+        "Could not remove the group": "Δεν ήταν δυνατή η αφαίρεση της ομάδας",
+        "Only the owner and managers change who is on this project.": "Μόνο ο κάτοχος και οι διαχειριστές αλλάζουν ποιοι συμμετέχουν σε αυτό το έργο.",
+        "Role of {name}": "Ρόλος: {name}",
+        "Manager": "Διαχειριστής",
+        "Member": "Μέλος",
+        "Viewer": "Αναγνώστης",
+        "Could not change the role": "Δεν ήταν δυνατή η αλλαγή του ρόλου"
     },
     "nplurals=2; plural=(n != 1);"
 )

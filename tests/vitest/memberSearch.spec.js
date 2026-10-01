@@ -89,9 +89,21 @@ describe('memberSearch', () => {
 	it('lists the members tab by name: people first, then groups', () => {
 		const project = { members: ['ada', 'bram'], memberGroups: ['adviseurs'] }
 		expect(memberEntries(project, { ada: 'Ada Jansen' }, { adviseurs: 'Adviseurs' })).toEqual([
-			{ key: 'user:ada', id: 'ada', type: 'user', name: 'Ada Jansen' },
-			{ key: 'user:bram', id: 'bram', type: 'user', name: 'bram' },
-			{ key: 'group:adviseurs', id: 'adviseurs', type: 'group', name: 'Adviseurs' },
+			{ key: 'user:ada', id: 'ada', type: 'user', role: 'member', name: 'Ada Jansen' },
+			{ key: 'user:bram', id: 'bram', type: 'user', role: 'member', name: 'bram' },
+			{ key: 'group:adviseurs', id: 'adviseurs', type: 'group', role: 'member', name: 'Adviseurs' },
+		])
+	})
+
+	it('lists each person and group once, with the highest role they hold', () => {
+		const project = { owner: 'olga', ownerGroups: ['bestuur'], managers: ['mark'], members: ['olga', 'mark', 'mies'], viewers: ['vera'], viewerGroups: ['lezers', 'bestuur'] }
+		expect(memberEntries(project).map((row) => `${row.key}=${row.role}`)).toEqual([
+			'user:olga=owner',
+			'user:mark=manager',
+			'user:mies=member',
+			'user:vera=viewer',
+			'group:bestuur=owner',
+			'group:lezers=viewer',
 		])
 	})
 })

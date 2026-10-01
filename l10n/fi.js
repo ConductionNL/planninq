@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Kirjoita vähintään kaksi merkkiä",
         "Everyone in this group": "Kaikki tässä ryhmässä",
         "Could not search for people. Please try again.": "Henkilöiden haku epäonnistui. Yritä uudelleen.",
-        "Could not remove the group": "Ryhmää ei voitu poistaa"
+        "Could not remove the group": "Ryhmää ei voitu poistaa",
+        "Only the owner and managers change who is on this project.": "Vain omistaja ja hallinnoijat muuttavat, keitä projektissa on.",
+        "Role of {name}": "Käyttäjän {name} rooli",
+        "Manager": "Hallinnoija",
+        "Member": "Jäsen",
+        "Viewer": "Lukija",
+        "Could not change the role": "Roolia ei voitu muuttaa"
     },
     "nplurals=2; plural=(n != 1);"
 )

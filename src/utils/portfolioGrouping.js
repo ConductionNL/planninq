@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: EUPL-1.2
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  */
+import { projectRole } from './projectRole.js'
 import { parseRiskScale } from './riskHelpers.js'
 
 /** The group and filter value for projects outside any portfolio. */
@@ -28,17 +29,18 @@ export function portfolioIdOf(project) {
 }
 
 /**
- * Whether a user sees a project in the lists: as a member or as a manager of its portfolio.
+ * Whether a user sees a project in the lists: any role on it, directly or
+ * through one of their groups, or as a manager of its portfolio.
  *
  * @param {object} project The project.
  * @param {string} uid The user id.
+ * @param {Array<string>} groupIds The user's group ids.
  * @return {boolean}
  *
- * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
+ * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
  */
-export function canSeeProject(project, uid) {
-	const listed = (field) => Array.isArray(project?.[field]) && project[field].includes(uid)
-	return listed('members') || listed('portfolioReaders')
+export function canSeeProject(project, uid, groupIds = []) {
+	return projectRole(project, uid, groupIds) !== 'none'
 }
 
 /**
@@ -95,23 +97,22 @@ export function filterByPortfolio(projects = [], portfolioId = '') {
 }
 
 /**
- * Whether a board opens read-only: the user reads the project as a manager of
- * its portfolio and is neither on it nor an admin. The server refuses their
- * writes the same way.
+ * Whether a board opens read-only: the user only reads the project (a viewer,
+ * directly or through a group, or a manager of its portfolio) and is not an
+ * admin. The server refuses their writes the same way.
  *
  * @param {object|null} project The project.
  * @param {{uid: string, isAdmin?: boolean}|null} user The current user.
+ * @param {Array<string>} groupIds The user's group ids.
  * @return {boolean}
  *
- * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.6
+ * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
  */
-export function isReadOnlyFor(project, user) {
-	if (!project || !user || user.isAdmin === true || project.owner === user.uid) {
+export function isReadOnlyFor(project, user, groupIds = []) {
+	if (!project || !user || user.isAdmin === true) {
 		return false
 	}
-	const members = Array.isArray(project.members) ? project.members : []
-	const readers = Array.isArray(project.portfolioReaders) ? project.portfolioReaders : []
-	return !members.includes(user.uid) && readers.includes(user.uid)
+	return projectRole(project, user.uid, groupIds) === 'viewer'
 }
 
 /**

@@ -32,6 +32,7 @@ use OCA\Planninq\Listener\RegisterProjectsLeafListener;
 use OCA\Planninq\Listener\TaskActivityListener;
 use OCA\Planninq\Listener\TimetableSessionsQueryListener;
 use OCA\Planninq\Listener\TimetableUpsertRequestedListener;
+use OCA\Planninq\Service\CurrentUserGroupsState;
 use OCA\Planninq\Settings\AdminSettings;
 use OCA\Planninq\Timetabling\LocalSearchSolver;
 use OCA\Planninq\Timetabling\TimetableSolver;
@@ -103,6 +104,9 @@ class Application extends App implements IBootstrap {
 		// The timetable generator's engine (timetabling-generator design decision 1, DECISIONS row 21):
 		// the PHP local search now; a CP-SAT sidecar can be bound here per instance later.
 		$context->registerServiceAlias(TimetableSolver::class, LocalSearchSolver::class);
+
+		// The caller's group ids for the browser's role helper (projects-members-and-roles task 4.1).
+		$context->registerInitialStateProvider(CurrentUserGroupsState::class);
 
 		// Publish the projects leaf on OpenRegister's integration registry, so
 		// sibling apps render planninq's projects instead of querying for them.

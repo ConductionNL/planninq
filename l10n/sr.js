@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Унесите најмање два знака",
         "Everyone in this group": "Сви у овој групи",
         "Could not search for people. Please try again.": "Претрага особа није успела. Покушајте поново.",
-        "Could not remove the group": "Групу није могуће уклонити"
+        "Could not remove the group": "Групу није могуће уклонити",
+        "Only the owner and managers change who is on this project.": "Само власник и управитељи мењају ко је на овом пројекту.",
+        "Role of {name}": "Улога: {name}",
+        "Manager": "Управитељ",
+        "Member": "Члан",
+        "Viewer": "Читалац",
+        "Could not change the role": "Улогу није могуће променити"
     },
     "nplurals=2; plural=(n != 1);"
 )

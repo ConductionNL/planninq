@@ -1341,7 +1341,13 @@ OC.L10N.register(
         "Type at least two characters": "Введите не менее двух символов",
         "Everyone in this group": "Все в этой группе",
         "Could not search for people. Please try again.": "Не удалось найти людей. Попробуйте ещё раз.",
-        "Could not remove the group": "Не удалось удалить группу"
+        "Could not remove the group": "Не удалось удалить группу",
+        "Only the owner and managers change who is on this project.": "Только владелец и руководители меняют состав этого проекта.",
+        "Role of {name}": "Роль: {name}",
+        "Manager": "Руководитель",
+        "Member": "Участник",
+        "Viewer": "Читатель",
+        "Could not change the role": "Не удалось изменить роль"
     },
     "nplurals=2; plural=(n != 1);"
 )

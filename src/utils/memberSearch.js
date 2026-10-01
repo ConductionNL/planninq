@@ -96,21 +96,42 @@ export async function searchMembers(term, { members = [], groups = [], groupSubn
 	return toMemberOptions(body?.ocs?.data, { members, groups, groupSubname })
 }
 
+/** The user list and the group list behind each role, highest first. */
+const ROLE_SOURCES = [
+	['owner', 'ownerGroups'],
+	['manager', 'managers', 'managerGroups'],
+	['member', 'members', 'memberGroups'],
+	['viewer', 'viewers', 'viewerGroups'],
+]
+
 /**
- * The rows of the Members tab: people by display name, then groups by name.
+ * The rows of the Members tab: people by display name, then groups by name,
+ * each once with the highest role it holds.
  *
  * @param {object} project The project.
  * @param {object} userNames Display names keyed by user id.
  * @param {object} groupNames Group names keyed by group id.
  * @return {Array<object>}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+ * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
  */
 export function memberEntries(project, userNames = {}, groupNames = {}) {
-	const users = Array.isArray(project?.members) ? project.members : []
-	const groups = Array.isArray(project?.memberGroups) ? project.memberGroups : []
+	const list = (field) => (Array.isArray(project?.[field]) ? project[field] : [])
+	const people = new Map()
+	const groups = new Map()
+	if (project?.owner) {
+		people.set(project.owner, 'owner')
+	}
+	for (const [role, users, groupField] of ROLE_SOURCES) {
+		if (role === 'owner') {
+			list(users).forEach((gid) => groups.has(gid) || groups.set(gid, role))
+			continue
+		}
+		list(users).forEach((uid) => people.has(uid) || people.set(uid, role))
+		list(groupField).forEach((gid) => groups.has(gid) || groups.set(gid, role))
+	}
 	return [
-		...users.map((id) => ({ key: `user:${id}`, id, type: 'user', name: userNames[id] || id })),
-		...groups.map((id) => ({ key: `group:${id}`, id, type: 'group', name: groupNames[id] || id })),
+		...[...people].map(([id, role]) => ({ key: `user:${id}`, id, type: 'user', role, name: userNames[id] || id })),
+		...[...groups].map(([id, role]) => ({ key: `group:${id}`, id, type: 'group', role, name: groupNames[id] || id })),
 	]
 }

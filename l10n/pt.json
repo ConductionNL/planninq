@@ -1340,7 +1340,13 @@
         "Type at least two characters": "Escreva pelo menos dois caracteres",
         "Everyone in this group": "Todos neste grupo",
         "Could not search for people. Please try again.": "Não foi possível procurar pessoas. Tente novamente.",
-        "Could not remove the group": "Não foi possível remover o grupo"
+        "Could not remove the group": "Não foi possível remover o grupo",
+        "Only the owner and managers change who is on this project.": "Só o proprietário e os gestores mudam quem está neste projeto.",
+        "Role of {name}": "Função de {name}",
+        "Manager": "Gestor",
+        "Member": "Membro",
+        "Viewer": "Leitor",
+        "Could not change the role": "Não foi possível alterar a função"
     },
     "plurals": {}
 }

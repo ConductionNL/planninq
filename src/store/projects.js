@@ -21,6 +21,7 @@ import { isMine } from '../utils/myWork.js'
 import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelpers.js'
 import { canSeeProject } from '../utils/portfolioGrouping.js'
 import { actionNames, transitionRequest } from '../utils/projectLifecycle.js'
+import { currentGroupIds, rolePatch } from '../utils/projectRole.js'
 import { epicPatch, shipPatches } from '../utils/roadmapHelpers.js'
 import { duplicatePayload } from '../utils/taskBreakdown.js'
 import { deleteRefusal, withTaskDefaults } from '../utils/taskEditing.js'
@@ -230,7 +231,7 @@ export const useProjectsStore = defineStore('projects', {
 				// Client-side guard: only projects the user is on or reads as a portfolio manager.
 				// Members, and the managers of the project's portfolio (portfolioReaders).
 				this.projects = uid
-					? results.filter((p) => canSeeProject(p, uid))
+					? results.filter((p) => canSeeProject(p, uid, currentGroupIds()))
 					: results
 
 				return this.projects
@@ -260,7 +261,7 @@ export const useProjectsStore = defineStore('projects', {
 			const uid = this._currentUid()
 			const list = Array.isArray(results) ? results : []
 			this.projects = uid
-				? list.filter((p) => canSeeProject(p, uid))
+				? list.filter((p) => canSeeProject(p, uid, currentGroupIds()))
 				: list
 			return this.projects
 		},
@@ -1495,6 +1496,30 @@ export const useProjectsStore = defineStore('projects', {
 		},
 
 		/**
+		 * Give a person or a group a role on the project, or take it away
+		 * (role null). PATCHes only the lists that change.
+		 *
+		 * @param {string} projectId Project ID
+		 * @param {string} id User or group id
+		 * @param {'user'|'group'} type Whether the id is a user or a group
+		 * @param {'manager'|'member'|'viewer'|null} role The new role
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.4
+		 */
+		async setMemberRole(projectId, id, type, role) {
+			const project = await this.fetchProject(projectId)
+			if (!project) {
+				return null
+			}
+			const patch = rolePatch(project, id, type, role)
+			if (Object.keys(patch).length === 0) {
+				return project
+			}
+			return this.patchProject(projectId, patch)
+		},
+
+		/**
 		 * Stop sharing a project with a group. PATCHes only `memberGroups`.
 		 *
 		 * @param {string} projectId Project ID
@@ -1565,15 +1590,15 @@ export const useProjectsStore = defineStore('projects', {
 				return null
 			}
 
-			const members = (Array.isArray(project.members) ? project.members : []).filter((uid) => uid !== userUid)
+			const patch = rolePatch(project, userUid, 'user', null)
 
 			// Refuse to leave a project with no remaining members — an orphaned
 			// project is inaccessible and unrecoverable without admin intervention.
-			if (members.length === 0) {
+			if (Array.isArray(patch.members) && patch.members.length === 0) {
 				throw new Error('Cannot remove the last member from a project')
 			}
 
-			return this.patchProject(projectId, { members })
+			return Object.keys(patch).length ? this.patchProject(projectId, patch) : project
 		},
 
 		// ── 2.12 leaveProject ────────────────────────────────────────────

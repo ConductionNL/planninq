@@ -1340,7 +1340,13 @@
         "Type at least two characters": "Unesite najmanje dva znaka",
         "Everyone in this group": "Svi u ovoj grupi",
         "Could not search for people. Please try again.": "Pretraga osoba nije uspjela. Pokušajte ponovo.",
-        "Could not remove the group": "Grupu nije moguće ukloniti"
+        "Could not remove the group": "Grupu nije moguće ukloniti",
+        "Only the owner and managers change who is on this project.": "Samo vlasnik i upravitelji mijenjaju ko je na ovom projektu.",
+        "Role of {name}": "Uloga: {name}",
+        "Manager": "Upravitelj",
+        "Member": "Član",
+        "Viewer": "Čitalac",
+        "Could not change the role": "Ulogu nije moguće promijeniti"
     },
     "plurals": null
 }

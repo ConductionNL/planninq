@@ -164,6 +164,7 @@ import { useProjectsStore } from '../store/projects.js'
 import { creationPrefill as prefillFromQuery } from '../utils/caseBridge.js'
 import { canCreateFrom } from '../utils/creationPolicy.js'
 import { filterByPortfolio, groupByPortfolio, NO_PORTFOLIO, sortPortfolios } from '../utils/portfolioGrouping.js'
+import { canManageMembers, currentGroupIds, projectRole } from '../utils/projectRole.js'
 import { treeRows } from '../utils/projectTree.js'
 
 export default {
@@ -484,17 +485,18 @@ export default {
 		},
 
 		/**
-		 * Whether the viewer may restore a project: its owner or an admin, the
-		 * project's update rule that the restore transition checks.
+		 * Whether the viewer may restore a project: its owner or a manager
+		 * (directly or through a group) or an admin, the project's update rule
+		 * that the restore transition checks.
 		 *
 		 * @param {object} project The project.
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.4
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
 		 */
 		mayRestore(project) {
 			const user = getCurrentUser()
-			return user?.isAdmin === true || (!!user?.uid && project?.owner === user.uid)
+			return user?.isAdmin === true || canManageMembers(projectRole(project, user?.uid, currentGroupIds()))
 		},
 
 		/**

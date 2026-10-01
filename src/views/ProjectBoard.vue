@@ -512,6 +512,7 @@ import { labelId, resolveTaskLabels } from '../utils/labelHelpers.js'
 import { columnSwitcher, phoneColumnId } from '../utils/phoneBoard.js'
 import { isReadOnlyFor } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
+import { currentGroupIds, projectRole } from '../utils/projectRole.js'
 import { newLaneTask } from '../utils/taskEditing.js'
 import { deriveBlockedTaskIds, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
 import { memberOptions, PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
@@ -813,16 +814,16 @@ export default {
 		},
 
 		/**
-		 * Whether the board is read-only for the current user: a manager of the
-		 * project's portfolio who is not on the project. The server refuses
-		 * their writes the same way.
+		 * Whether the board is read-only for the current user: a viewer, in person
+		 * or through a group, or a manager of the project's portfolio who is not
+		 * on the project. The server refuses their writes the same way.
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.6
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
 		 */
 		readOnly() {
-			return isReadOnlyFor(this.project, getCurrentUser())
+			return isReadOnlyFor(this.project, getCurrentUser(), currentGroupIds())
 		},
 
 		/**
@@ -880,13 +881,13 @@ export default {
 		},
 
 		/**
-		 * Whether the current user is denied access to the project — true on a
-		 * stored 403 (`forbidden`) or when the loaded project's members array
-		 * does not include the current user's UID.
+		 * Whether the current user is denied access to the project: true on a
+		 * stored 403 (`forbidden`) or when the user holds no role on the loaded
+		 * project, in person or through a group.
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
 		 */
 		accessDenied() {
 			const store = this.projectsStore
@@ -895,7 +896,7 @@ export default {
 			}
 			if (!store.loading && store.activeProject) {
 				const uid = getCurrentUser()?.uid
-				return !!uid && !store.activeProject.members?.includes(uid)
+				return !!uid && projectRole(store.activeProject, uid, currentGroupIds()) === 'none'
 			}
 			return false
 		},

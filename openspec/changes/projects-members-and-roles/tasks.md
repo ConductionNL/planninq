@@ -18,10 +18,10 @@
 
 ## 4. Roles in the interface (Enterprise)
 
-- [ ] 4.1 Add a role helper `projectRole(project, uid, groupIds)` in `src/utils/` and provide the caller's group ids through `IInitialState`. Verify: `tests/vitest/projectRole.spec.js` covers owner, manager, member, viewer, each group list and the highest-role rule.
-- [ ] 4.2 Use the helper in `fetchProjects` and `applyLiveProjects` (`src/store/projects.js:194-197`, `:222-229`), in `ProjectBoard.vue:356-366` and in `ProjectList.vue`. Verify: `tests/vitest/projectRole.spec.js` asserts a group-shared project survives the store filter; e2e "a group member sees a project shared with the group".
-- [ ] 4.3 Add a role picker per row on the Members tab for managers, hide member management from members and viewers, and render the board read-only for viewers. Verify: e2e "a viewer reads the board and cannot change it" and "a member cannot manage members".
-- [ ] 4.4 Add `setMemberRole` to `src/store/projects.js`, writing only the affected lists through `patchProject`. Verify: vitest on the store action with a mocked PATCH body.
+- [x] 4.1 Add a role helper `projectRole(project, uid, groupIds)` in `src/utils/` and provide the caller's group ids through `IInitialState`. Verify: `tests/vitest/projectRole.spec.js` covers owner, manager, member, viewer, each group list and the highest-role rule.
+- [ ] 4.2 Use the helper in `fetchProjects` and `applyLiveProjects` (`src/store/projects.js:194-197`, `:222-229`), in `ProjectBoard.vue:356-366` and in `ProjectList.vue`. Verify: `tests/vitest/projectRole.spec.js` asserts a group-shared project survives the store filter; e2e "a group member sees a project shared with the group". Built 2 Oct (lane 25): `canSeeProject` and `isReadOnlyFor` delegate to `projectRole`; the board's access check and `ProjectList` restore use it (`tests/vitest/projectRole.spec.js` "the store and the board use the role"). Open: the e2e case in `tests/e2e/project-roles.spec.ts` is written and has not run yet (no instance in the lane).
+- [ ] 4.3 Add a role picker per row on the Members tab for managers, hide member management from members and viewers, and render the board read-only for viewers. Verify: e2e "a viewer reads the board and cannot change it" and "a member cannot manage members". Built 2 Oct (lane 25): role picker per row for the owner and managers, management hidden with a note for members and viewers, the board read-only for viewers. Open: both e2e cases are written in `tests/e2e/project-roles.spec.ts` and have not run yet.
+- [x] 4.4 Add `setMemberRole` to `src/store/projects.js`, writing only the affected lists through `patchProject`. Verify: vitest on the store action with a mocked PATCH body.
 
 ## 5. Groups and ownership (V1)
 
