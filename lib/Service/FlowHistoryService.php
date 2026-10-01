@@ -22,7 +22,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
  */
 
 declare(strict_types=1);
@@ -41,7 +41,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Cumulative flow and task timings of a project, from its audit trail.
  *
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
  */
 class FlowHistoryService {
 
@@ -107,7 +107,7 @@ class FlowHistoryService {
 	 *
 	 * @return array<string,mixed> columns, days, finished, summary, withoutHistory, fromCache
 	 *
-	 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
 	 */
 	public function forProject(object $objectService, string $projectId, DateTimeImmutable $from, DateTimeImmutable $to): array {
 		$now = $this->timeFactory->now();
@@ -146,7 +146,7 @@ class FlowHistoryService {
 	 *
 	 * @return DateTimeImmutable[]|null
 	 *
-	 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
 	 */
 	public function window(?string $from, ?string $to): ?array {
 		$today = (new DateTimeImmutable('@' . $this->timeFactory->now()->getTimestamp()))->setTime(0, 0);
@@ -200,7 +200,7 @@ class FlowHistoryService {
 	 *
 	 * @return array<string,mixed>
 	 *
-	 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
 	 */
 	public function summarise(array $finished): array {
 		return $this->replay->summarise(finished: $finished);
@@ -413,7 +413,7 @@ class FlowHistoryService {
 	 *
 	 * @return array<string,mixed>
 	 *
-	 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
 	 */
 	public function plainRow(mixed $result): array {
 		if (is_object($result) === true) {

@@ -4644,7 +4644,7 @@
         "evidence": "lib/Service/FlowHistoryService.php replays each task's OpenRegister audit trail into tasks per column per day (lib/Service/FlowReplay.php), served by GET /api/projects/{id}/flow and /api/portfolios/{id}/flow (lib/Controller/FlowController.php); src/components/FlowCharts.vue draws the stacked bands with a table view",
         "reachedOn": "a project's Flow tab (/projects/:id/flow); Reports, Portfolio flow (/portfolio/flow)",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/portfolio-flow-reports"
+        "change": "openspec/changes/archive/2026-10-01-portfolio-flow-reports"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4678,7 +4678,7 @@
         "evidence": "lib/Service/FlowReplay.php computes lead time (created to completedAt, or the last change to done as estimated) and cycle time (first move off the first column, or first in_progress) with average, 85th percentile and the ten slowest; src/components/FlowCharts.vue shows the scatter and the slowest tasks",
         "reachedOn": "a project's Flow tab (/projects/:id/flow); Reports, Portfolio flow (/portfolio/flow)",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/portfolio-flow-reports"
+        "change": "openspec/changes/archive/2026-10-01-portfolio-flow-reports"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4726,7 +4726,7 @@
       "area": "portfolio",
       "name": "Build your own report or saved query over tasks.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "partial",
@@ -4748,11 +4748,11 @@
         "timeedit": "docs read 2026-09-27: https://www.academy.timeedit.com/products/reporting 'Our custom report capabilities will let you create institution specific reports' ; https://timeedit.com/platform/curriculum/curriculum 'Standard and custom report building'. Reporting is its own product"
       },
       "built": {
-        "state": "specified",
-        "evidence": "the Reports page offers three fixed cards (src/manifest.json:161-165) whose dashboards are declared in the manifest; no report builder, saved query or saved filter anywhere in src/",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json schema `taskReport` (owner-only write, read for the owner or everyone when shared is readers; owner stamped by lib/Listener/BoardFilterOwnerListener.php); src/dialogs/ReportBuilderDialog.vue builds equality filters only (src/utils/reportBuilder.js); src/views/ReportPage.vue runs OpenRegister's grouped aggregation per readable project and counts the projects the viewer cannot see",
+        "reachedOn": "Reports, Your reports (/reports/custom); a saved report at /reports/custom/:id",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/portfolio-flow-reports"
+        "change": "openspec/changes/archive/2026-10-01-portfolio-flow-reports"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

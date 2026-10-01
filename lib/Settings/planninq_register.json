@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.33.0"
+    "version": "0.34.0"
   },
   "x-openregister": {
     "type": "application",
@@ -39,7 +39,8 @@
           "timetableScenario",
           "boardFilter",
           "boardView",
-          "forgeLink"
+          "forgeLink",
+          "taskReport"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -3855,6 +3856,223 @@
             "default": [],
             "visible": false,
             "x-notes": "Kept by planninq, copied from the project by ProjectMemberAccessListener (projects-grouping-hierarchy-fields)."
+          }
+        }
+      },
+      "taskReport": {
+        "slug": "taskReport",
+        "icon": "ChartBar",
+        "version": "0.1.0",
+        "title": "Report",
+        "description": "A saved query over tasks: which projects, which filters, grouped by what, counted or summed, and shown as a table or a chart.",
+        "x-schema-org": "schema:Report",
+        "type": "object",
+        "required": [
+          "title",
+          "groupBy",
+          "metric",
+          "display"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "shared": "readers"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "title": {
+            "title": "Name",
+            "type": "string",
+            "description": "The name the report is listed under",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "What the report shows and who it is for",
+            "nullable": true
+          },
+          "owner": {
+            "title": "Owner",
+            "type": "string",
+            "description": "Nextcloud user id of the person who saved the report",
+            "visible": false,
+            "x-notes": "Set by BoardFilterOwnerListener on create and kept on every update; it is the update and delete rule."
+          },
+          "shared": {
+            "title": "Shared",
+            "type": "string",
+            "description": "Who can open the report",
+            "enum": [
+              "private",
+              "readers"
+            ],
+            "default": "private",
+            "x-enum-labels": {
+              "private": "Only me",
+              "readers": "Everyone who can read its projects"
+            },
+            "x-notes": "A shared report stores a query, not results: every viewer runs it with their own rights (design decision 3)."
+          },
+          "projects": {
+            "title": "Projects",
+            "type": "array",
+            "description": "The projects the report covers, at most fifty",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "default": [],
+            "maxItems": 50
+          },
+          "filters": {
+            "title": "Filters",
+            "type": "object",
+            "description": "Task fields and the value each must equal; empty when the report covers every task",
+            "additionalProperties": false,
+            "properties": {
+              "status": {
+                "title": "Status",
+                "description": "The status a task must have",
+                "type": "string"
+              },
+              "priority": {
+                "title": "Priority",
+                "description": "The priority a task must have",
+                "type": "string"
+              },
+              "assignedTo": {
+                "title": "Assignee",
+                "description": "The user a task must be assigned to",
+                "type": "string"
+              },
+              "labels": {
+                "title": "Label",
+                "description": "A label a task must carry",
+                "type": "string"
+              },
+              "column": {
+                "title": "Column",
+                "description": "The board column a task must be in",
+                "type": "string"
+              },
+              "issueType": {
+                "title": "Issue type",
+                "description": "The issue type a task must have",
+                "type": "string"
+              }
+            },
+            "x-notes": "Equality only: OpenRegister's aggregation ignores any other operator.",
+            "nullable": true
+          },
+          "groupBy": {
+            "title": "Group by",
+            "type": "string",
+            "description": "The task field the report groups on",
+            "enum": [
+              "status",
+              "priority",
+              "assignedTo",
+              "labels",
+              "project",
+              "column"
+            ],
+            "x-enum-labels": {
+              "status": "Status",
+              "priority": "Priority",
+              "assignedTo": "Assignee",
+              "labels": "Label",
+              "project": "Project",
+              "column": "Column"
+            }
+          },
+          "metric": {
+            "title": "Measure",
+            "type": "string",
+            "description": "Count the tasks, or add up a number on them",
+            "enum": [
+              "count",
+              "sum"
+            ],
+            "default": "count",
+            "x-enum-labels": {
+              "count": "Number of tasks",
+              "sum": "Sum"
+            }
+          },
+          "sumField": {
+            "title": "Sum of",
+            "type": "string",
+            "description": "The number added up when the measure is a sum",
+            "enum": [
+              "storyPoints",
+              "estimatedDuration"
+            ],
+            "nullable": true,
+            "x-enum-labels": {
+              "storyPoints": "Story points",
+              "estimatedDuration": "Estimated duration"
+            }
+          },
+          "display": {
+            "title": "Display",
+            "type": "string",
+            "description": "How the report is shown",
+            "enum": [
+              "table",
+              "bar",
+              "donut"
+            ],
+            "default": "bar",
+            "x-enum-labels": {
+              "table": "Table",
+              "bar": "Bar",
+              "donut": "Donut"
+            }
           }
         }
       }

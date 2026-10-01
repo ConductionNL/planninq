@@ -186,6 +186,21 @@ test.describe('visual baselines — planninq views', () => {
 		})
 	}
 
+	test('ReportPage renders a saved report @visual', async ({ page }) => {
+		const api = await adminApi()
+		const made: Array<[string, string]> = []
+		try {
+			const report = await createObject(api, 'taskReport', { title: 'Visual report', projects: [], groupBy: 'status', metric: 'count', display: 'bar', shared: 'private' })
+			made.push(['taskReport', report])
+			await page.goto(new URL(`reports/custom/${report}`, PLANNINQ_ROOT).toString())
+			await expect(page.getByRole('heading', { name: 'Visual report' })).toBeVisible({ timeout: 30_000 })
+			await shoot(page, 'report-page.png')
+		} finally {
+			await removeObjects(api, made)
+			await api.dispose()
+		}
+	})
+
 	test('TaskDetail renders a task @visual', async ({ page }) => {
 		const id = await openFixtureProjectBoard(page)
 		await page
@@ -230,6 +245,7 @@ test.describe('visual baselines — planninq views', () => {
 		['PortfolioStatus', 'Portfolio status', 'portfolio/status', 'portfolio-status.png'],
 		['PortfolioTimeline', 'Portfolio timeline', 'portfolio/timeline', 'portfolio-timeline.png'],
 		['PortfolioFlow', 'Portfolio flow', 'portfolio/flow', 'portfolio-flow.png'],
+		['MyReports', 'Your reports', 'reports/custom', 'my-reports.png'],
 		['PortfolioFinance', 'Portfolio finance', 'portfolio/finance', 'portfolio-finance.png'],
 	]) {
 		test(`${component} renders from its report card @visual`, async ({ page }) => {

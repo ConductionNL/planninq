@@ -6,7 +6,7 @@
  * stacked bands of the cumulative flow diagram, its table rows, and the
  * scatter of finished tasks. No DOM; the views draw the SVG.
  *
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
  */
 
 /**
@@ -16,7 +16,7 @@
  * @param {Array<{id: string, title: string}>} columns Columns in board order
  * @param {Array<{date: string, counts: object}>} days Days from the flow endpoint
  * @return {Array<{id: string, title: string, points: Array<{date: string, low: number, high: number}>}>}
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
  */
 export function stackBands(columns, days) {
 	const list = columns || []
@@ -38,7 +38,7 @@ export function stackBands(columns, days) {
  *
  * @param {Array<{counts: object}>} days Days from the flow endpoint
  * @return {number}
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
  */
 export function stackMax(days) {
 	return Math.max(1, ...(days || []).map((day) => Object.values(day.counts || {}).reduce((sum, n) => sum + Number(n || 0), 0)))
@@ -52,7 +52,7 @@ export function stackMax(days) {
  * @param {number} height Chart height
  * @param {number} max The highest stack
  * @return {string}
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
  */
 export function bandPath(points, width, height, max) {
 	if (!points || points.length === 0) {
@@ -72,7 +72,7 @@ export function bandPath(points, width, height, max) {
  * @param {Array<{id: string}>} columns Columns in board order
  * @param {Array<{date: string, counts: object}>} days Days
  * @return {Array<{date: string, cells: number[]}>}
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
  */
 export function flowTable(columns, days) {
 	return (days || []).map((day) => ({
@@ -87,7 +87,7 @@ export function flowTable(columns, days) {
  *
  * @param {number[]} values Days
  * @return {{average: number, p85: number}}
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
  */
 export function averageAndP85(values) {
 	const list = (values || []).map(Number).sort((a, b) => a - b)
@@ -107,7 +107,7 @@ export function averageAndP85(values) {
  * @param {number} width Chart width
  * @param {number} height Chart height
  * @return {Array<{id: string, x: number, y: number}>}
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
  */
 export function scatterPoints(finished, width, height) {
 	const list = finished || []
@@ -134,7 +134,7 @@ export const FLOW_PERIOD_DAYS = [14, 30, 90, 180]
  *
  * @param {(app: string, text: string, vars: object) => string} t The translator
  * @return {Array<{id: number, days: number, label: string}>}
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
  */
 export function flowPeriods(t) {
 	return FLOW_PERIOD_DAYS.map((days) => ({ id: days, days, label: t('planninq', 'Last {days} days', { days }) }))
@@ -146,7 +146,7 @@ export function flowPeriods(t) {
  * @param {number} days Days in the period, today included
  * @param {Date} today Today
  * @return {{from: string, to: string}}
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
  */
 export function periodWindow(days, today) {
 	const end = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()))
@@ -162,7 +162,7 @@ export function periodWindow(days, today) {
  *
  * @param {Array<object>} projects Per-project flows from the portfolio endpoint
  * @return {{columns: Array, days: Array, finished: Array, summary: object, withoutHistory: number}}
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
  */
 export function combineProjectFlows(projects) {
 	const titles = []

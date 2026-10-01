@@ -77,9 +77,12 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				'column rules run on task creates and updates (boards-column-automation task 1.2)'
 			);
 			self::assertSame(
-				[['ObjectCreatingEvent', ['boardFilter']], ['ObjectUpdatingEvent', ['boardFilter']]],
+				[
+					['ObjectCreatingEvent', \OCA\Planninq\Listener\BoardFilterOwnerListener::OWNED_SCHEMAS],
+					['ObjectUpdatingEvent', \OCA\Planninq\Listener\BoardFilterOwnerListener::OWNED_SCHEMAS],
+				],
 				($byListener['OCA\\Planninq\\Listener\\BoardFilterOwnerListener'] ?? null),
-				'a saved filter keeps its owner (boards-filters task 3.1)'
+				'a saved filter or view keeps its owner (boards-filters task 3.1)'
 			);
 			self::assertSame(
 				[['ObjectCreatingEvent', ['forgeLink']]],
@@ -209,5 +212,32 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 			);
 			self::assertNotContains('financeLine', $scoped, 'members must not be stamped onto money');
 		}//end testBootSubscribesTheMembershipAndStatusListenersForEveryScopedSchema()
+
+		/**
+		 * The owner listener runs for every schema it owns: a saved
+		 * cross-project view (`boardView`) was listed in OWNED_SCHEMAS and
+		 * covered by the listener's own tests, but boot subscribed the
+		 * listener for `boardFilter` only, so a view was saved without an
+		 * owner and its owner-only read and update rules matched nobody.
+		 *
+		 * @return void
+		 */
+		public function testBootSubscribesTheOwnerListenerForEveryOwnedSchema(): void {
+			ObjectEventSubscription::$calls = [];
+			$app    = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			$method = new \ReflectionMethod(Application::class, 'registerBoardColumnListeners');
+			$method->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
+
+			$owned = [];
+			foreach (ObjectEventSubscription::$calls as $call) {
+				if ($call['listener'] === 'OCA\\Planninq\\Listener\\BoardFilterOwnerListener') {
+					$owned[] = [substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
+				}
+			}
+
+			$schemas = \OCA\Planninq\Listener\BoardFilterOwnerListener::OWNED_SCHEMAS;
+			self::assertContains('boardView', $schemas);
+			self::assertSame([['ObjectCreatingEvent', $schemas], ['ObjectUpdatingEvent', $schemas]], $owned);
+		}//end testBootSubscribesTheOwnerListenerForEveryOwnedSchema()
 	}//end class
 }

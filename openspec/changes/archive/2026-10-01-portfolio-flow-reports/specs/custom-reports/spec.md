@@ -4,14 +4,14 @@
 
 ### Requirement: A user builds and saves a report over tasks
 
-A signed-in user MUST be able to build a report by choosing its projects or portfolio, equality filters on task fields, a grouping, a count or a sum, and a table, bar or donut display, and MUST be able to save it under a title. Saved reports MUST be listed on the Reports page for their owner. Tier: V1 (docs/FEATURES.md, "Team workload report (tasks per user)" and "Label/category distribution chart"; no dedicated row for a builder).
+A signed-in user MUST be able to build a report by choosing its projects, equality filters on task fields, a grouping, a count or a sum, and a table, bar or donut display, and MUST be able to save it under a title. Saved reports MUST be listed for their owner on Your reports, which the Reports page links to. Tier: V1 (docs/FEATURES.md, "Team workload report (tasks per user)" and "Label/category distribution chart"; no dedicated row for a builder).
 
 #### Scenario: Open tasks per assignee across two projects
 
 - **GIVEN** a user on the projects "Omgevingsvisie" and "Wegbeheer"
-- **WHEN** the user presses "New report" on the Reports page at /reports, picks both projects, filters status "open", groups by assignee, counts tasks, picks "Bar" and saves it as "Open work per person"
+- **WHEN** the user presses "New report" on Your reports at /reports/custom (a card on the Reports page), picks both projects, filters status "open", groups by assignee, counts tasks, picks "Bar" and saves it as "Open work per person"
 - **THEN** the report page at /reports/custom/:id shows a bar per assignee with their number of open tasks across both projects
-- **AND** "Open work per person" appears under "My reports" on /reports
+- **AND** "Open work per person" appears under "My reports" on /reports/custom
 
 ### Requirement: A shared report never shows more than the viewer may read
 

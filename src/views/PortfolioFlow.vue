@@ -67,7 +67,7 @@ import { combineProjectFlows, flowPeriods, periodWindow } from '../utils/flowCha
  * Flow across a portfolio: every project the viewer can read, with a filter
  * per project that recalculates the charts and times without a reload.
  *
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.2
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
  */
 export default {
 	name: 'PortfolioFlow',
@@ -80,7 +80,7 @@ export default {
 	computed: {
 		/**
 		 * @return {Array<{id: string, label: string}>} The portfolios to pick from.
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
 		 */
 		portfolioOptions() {
 			return this.portfolios.map((portfolio) => ({ id: portfolio.id ?? portfolio['@self']?.id, label: portfolio.title || portfolio.name || '' }))
@@ -88,7 +88,7 @@ export default {
 
 		/**
 		 * @return {object|null} The picked portfolio's option.
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
 		 */
 		selectedOption() {
 			return this.portfolioOptions.find((option) => option.id === this.$route.query.portfolio) || null
@@ -96,7 +96,7 @@ export default {
 
 		/**
 		 * @return {object} The ticked projects' flows added up.
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
 		 */
 		combined() {
 			return combineProjectFlows((this.flow?.projects || []).filter((project) => !this.excluded.includes(project.projectId)))
@@ -107,7 +107,7 @@ export default {
 		/**
 		 * Reload on another portfolio.
 		 *
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
 		 */
 		'$route.query.portfolio': function() {
 			this.load()
@@ -133,7 +133,7 @@ export default {
 	methods: {
 		/**
 		 * @param {{id: string}} option The picked portfolio
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
 		 */
 		pick(option) {
 			if (option?.id && option.id !== this.$route.query.portfolio) {
@@ -143,7 +143,7 @@ export default {
 
 		/**
 		 * @param {{days: number}} option The picked period
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
 		 */
 		pickPeriod(option) {
 			if (option) {
@@ -154,7 +154,7 @@ export default {
 
 		/**
 		 * @param {string} id A project to leave out or take back in
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
 		 */
 		toggle(id) {
 			this.excluded = this.excluded.includes(id) ? this.excluded.filter((one) => one !== id) : [...this.excluded, id]
@@ -162,7 +162,7 @@ export default {
 
 		/**
 		 * @return {Promise<void>}
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.2
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
 		 */
 		async load() {
 			const portfolioId = this.$route.query.portfolio

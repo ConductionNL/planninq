@@ -25,6 +25,7 @@ import TimetableScenarioSections from './components/TimetableScenarioSections.vu
 import TimetableWishDialog from './dialogs/TimetableWishDialog.vue'
 import Boards from './views/Boards.vue'
 import MyCalendar from './views/MyCalendar.vue'
+import MyReports from './views/MyReports.vue'
 import MyWork from './views/MyWork.vue'
 import Portfolio from './views/Portfolio.vue'
 import PortfolioFinance from './views/PortfolioFinance.vue'
@@ -44,6 +45,7 @@ import ProjectRisks from './views/ProjectRisks.vue'
 import ProjectStatus from './views/ProjectStatus.vue'
 import ProjectsView from './views/ProjectsView.vue'
 import ProjectTimeline from './views/ProjectTimeline.vue'
+import ReportPage from './views/ReportPage.vue'
 import TaskDetail from './views/TaskDetail.vue'
 import Timesheet from './views/Timesheet.vue'
 
@@ -74,7 +76,9 @@ export default {
 	Portfolio: page(Portfolio),
 	PortfolioFinance: page(PortfolioFinance),
 	PortfolioStatus: page(PortfolioStatus),
+	MyReports: page(MyReports),
 	PortfolioFlow: page(PortfolioFlow),
+	ReportPage: page(ReportPage),
 	PortfolioTimeline: page(PortfolioTimeline),
 	ProjectBacklog: page(ProjectBacklog),
 	ProjectBoard: page(ProjectBoard),

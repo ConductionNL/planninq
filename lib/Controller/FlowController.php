@@ -19,7 +19,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
  */
 
 declare(strict_types=1);
@@ -47,7 +47,7 @@ use Psr\Log\LoggerInterface;
  * (gate-7 no-admin-idor). A portfolio covers only the projects the caller
  * can read, because those are found with RBAC on as well.
  *
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
  */
 class FlowController extends Controller {
 
@@ -92,7 +92,7 @@ class FlowController extends Controller {
 	 *                      401 signed out; 403 when the project is not readable;
 	 *                      503 without OpenRegister.
 	 *
-	 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
@@ -128,7 +128,7 @@ class FlowController extends Controller {
 	 * @return JSONResponse 200 with per-project flows and one combined
 	 *                      summary; 400, 401, 403 and 503 as forProject().
 	 *
-	 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]

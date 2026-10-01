@@ -1,7 +1,7 @@
 /**
  * The Flow tab's pure helpers (portfolio-flow-reports 2.1, 2.2).
  *
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
  */
 import { describe, expect, it } from 'vitest'
 import { averageAndP85, bandPath, combineProjectFlows, flowTable, periodWindow, scatterPoints, stackBands, stackMax } from '../../src/utils/flowChart.js'

@@ -20,7 +20,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
  */
 
 declare(strict_types=1);

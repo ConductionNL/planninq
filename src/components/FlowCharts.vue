@@ -140,7 +140,7 @@ import { bandPath, flowTable, scatterPoints, stackBands, stackMax } from '../uti
  * The cumulative flow diagram (with its table view) and the lead and cycle
  * time of finished tasks, for one project or a portfolio.
  *
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
  */
 export default {
 	name: 'FlowCharts',
@@ -165,7 +165,7 @@ export default {
 	computed: {
 		/**
 		 * @return {Array<object>} The stacked bands.
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
 		 */
 		bands() {
 			return stackBands(this.columns, this.flowDays)
@@ -173,7 +173,7 @@ export default {
 
 		/**
 		 * @return {number} The highest stack.
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
 		 */
 		max() {
 			return stackMax(this.flowDays)
@@ -181,7 +181,7 @@ export default {
 
 		/**
 		 * @return {Array<object>} The table rows.
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
 		 */
 		table() {
 			return flowTable(this.columns, this.flowDays)
@@ -189,7 +189,7 @@ export default {
 
 		/**
 		 * @return {Array<object>} The finished tasks as scatter points.
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
 		 */
 		scatter() {
 			return scatterPoints(this.finished, this.width, this.height)
@@ -203,7 +203,7 @@ export default {
 		 *
 		 * @param {number} index The column's place
 		 * @return {string}
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
 		 */
 		bandColour(index) {
 			const share = this.columns.length > 1 ? 30 + Math.round((index / (this.columns.length - 1)) * 70) : 100
@@ -215,7 +215,7 @@ export default {
 		 *
 		 * @param {number} value Days
 		 * @return {number}
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
 		 */
 		scatterY(value) {
 			const top = Math.max(1, ...this.finished.map((row) => Number(row.cycleDays)))
@@ -227,7 +227,7 @@ export default {
 		 *
 		 * @param {number} value Days
 		 * @return {string}
-		 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
 		 */
 		days(value) {
 			return this.t('planninq', '{days} days', { days: Number(value || 0) })

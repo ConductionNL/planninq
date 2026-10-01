@@ -20,7 +20,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
  */
 
 declare(strict_types=1);
@@ -37,7 +37,7 @@ use DateTimeZone;
  * returns: rows `{created: 'Y-m-d H:i:s', changed: {field: {old, new}}}`,
  * oldest first. Only `column`, `status` and `completedAt` are read.
  *
- * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
  */
 class FlowReplay {
 
@@ -72,7 +72,7 @@ class FlowReplay {
 	 *
 	 * @return array<string,array{counts: array<string,int>, finished: array<int,array<string,mixed>>, withoutHistory: int}> Keyed by Y-m-d
 	 *
-	 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
 	 */
 	public function replay(
 		array $columns,
@@ -120,7 +120,7 @@ class FlowReplay {
 	 *
 	 * @return array<string,mixed> finished, estimated, lead and cycle (average, p85), slowest
 	 *
-	 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
 	 */
 	public function summarise(array $finished): array {
 		$lead = array_map(static fn (array $row): float => (float)$row['leadDays'], $finished);
@@ -144,7 +144,7 @@ class FlowReplay {
 	 *
 	 * @return int|null Unix seconds, or null when empty or unreadable
 	 *
-	 * @spec openspec/changes/portfolio-flow-reports/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
 	 */
 	public function seconds(mixed $value): ?int {
 		if (is_string($value) === false || trim($value) === '') {
