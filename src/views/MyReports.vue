@@ -55,6 +55,7 @@ export default {
 	data() {
 		return { reports: [], projects: [], loading: true, building: false }
 	},
+
 	computed: {
 		/**
 		 * @return {Array<object>} My reports, then shared reports.
@@ -68,6 +69,7 @@ export default {
 			]
 		},
 	},
+
 	/**
 	 * @spec exclude Lifecycle glue: loads the reports and the projects to pick from.
 	 */
@@ -81,6 +83,7 @@ export default {
 			this.loading = false
 		}
 	},
+
 	methods: {
 		/**
 		 * Open the report just saved.

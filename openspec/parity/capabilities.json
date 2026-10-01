@@ -4749,7 +4749,7 @@
       },
       "built": {
         "state": "built",
-        "evidence": "lib/Settings/planninq_register.json schema `report` (owner-only write, read for the owner or everyone when shared is readers; owner stamped by lib/Listener/BoardFilterOwnerListener.php); src/dialogs/ReportBuilderDialog.vue builds equality filters only (src/utils/reportBuilder.js); src/views/ReportPage.vue runs OpenRegister's grouped aggregation per readable project and counts the projects the viewer cannot see",
+        "evidence": "lib/Settings/planninq_register.json schema `taskReport` (owner-only write, read for the owner or everyone when shared is readers; owner stamped by lib/Listener/BoardFilterOwnerListener.php); src/dialogs/ReportBuilderDialog.vue builds equality filters only (src/utils/reportBuilder.js); src/views/ReportPage.vue runs OpenRegister's grouped aggregation per readable project and counts the projects the viewer cannot see",
         "reachedOn": "Reports, Your reports (/reports/custom); a saved report at /reports/custom/:id",
         "owner": "ConductionNL/planninq",
         "change": "openspec/changes/archive/2026-10-01-portfolio-flow-reports"

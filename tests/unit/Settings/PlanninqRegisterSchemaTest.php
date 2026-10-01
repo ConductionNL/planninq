@@ -737,14 +737,14 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * (projects-grouping-hierarchy-fields) and `projectRelease`
 	 * (backlog-releases-roadmap), `timetableWish` and `timetableScenario`
 	 * (timetabling-generator), `boardFilter` (boards-filters), `boardView`
-	 * (boards-cross-project-board), `report` (portfolio-flow-reports). `example` must not be present.
+	 * (boards-cross-project-board), `taskReport` (portfolio-flow-reports). `example` must not be present.
 	 *
 	 * @return void
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
 	public function testRegisterDeclaresExactlyTwentyOneSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'report'];
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'taskReport'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);

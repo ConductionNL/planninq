@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The `report` schema (portfolio-flow-reports 3.1): its properties, its
+ * The `taskReport` schema (portfolio-flow-reports 3.1): its properties, its
  * owner-only write and owner-or-shared read, and a saved report's exact
  * payload validated against the real register fragment with Opis.
  *
@@ -62,14 +62,14 @@ class ReportSchemaTest extends TestCase {
 	}//end payload()
 
 	/**
-	 * The register lists `report` and declares its properties.
+	 * The register lists `taskReport` and declares its properties.
 	 *
 	 * @return void
 	 */
 	public function testTheRegisterDeclaresTheReportSchema(): void {
 		$register = $this->register();
-		self::assertContains('report', $register['components']['registers']['planninq']['schemas']);
-		$schema = $register['components']['schemas']['report'];
+		self::assertContains('taskReport', $register['components']['registers']['planninq']['schemas']);
+		$schema = $register['components']['schemas']['taskReport'];
 		self::assertSame(
 			['title', 'description', 'owner', 'shared', 'projects', 'filters', 'groupBy', 'metric', 'sumField', 'display'],
 			array_keys($schema['properties'])
@@ -87,7 +87,7 @@ class ReportSchemaTest extends TestCase {
 	 * @return void
 	 */
 	public function testOwnerOnlyWriteAndOwnerOrSharedRead(): void {
-		$rules = $this->register()['components']['schemas']['report']['authorization'];
+		$rules = $this->register()['components']['schemas']['taskReport']['authorization'];
 		self::assertSame(
 			[
 				['group' => 'authenticated', 'match' => ['owner' => '$userId']],
@@ -100,7 +100,7 @@ class ReportSchemaTest extends TestCase {
 			self::assertSame([['group' => 'authenticated', 'match' => ['owner' => '$userId']], ['group' => 'admin']], $rules[$verb]);
 		}
 
-		self::assertContains('report', BoardFilterOwnerListener::OWNED_SCHEMAS);
+		self::assertContains('taskReport', BoardFilterOwnerListener::OWNED_SCHEMAS);
 	}//end testOwnerOnlyWriteAndOwnerOrSharedRead()
 
 	/**
@@ -111,10 +111,14 @@ class ReportSchemaTest extends TestCase {
 	 */
 	public function testASavedReportValidatesAgainstTheRealSchema(): void {
 		$payload = $this->payload();
-		self::assertSame([], $this->registerSchemaErrors(slug: 'report', payload: $payload));
-		self::assertSame([], $this->registerSchemaErrors(slug: 'report', payload: ['owner' => 'ann', 'shared' => 'readers', 'metric' => 'sum', 'sumField' => 'storyPoints'] + $payload));
-		self::assertNotSame([], $this->registerSchemaErrors(slug: 'report', payload: ['filters' => ['status' => ['$ne' => 'done']]] + $payload), 'control: an operator is not an equality filter');
-		self::assertNotSame([], $this->registerSchemaErrors(slug: 'report', payload: ['filters' => ['dueDate' => '2026-01-01']] + $payload), 'control: an unknown filter field');
-		self::assertNotSame([], $this->registerSchemaErrors(slug: 'report', payload: ['display' => 'pie'] + $payload), 'control: an unknown display');
+		self::assertSame([], $this->registerSchemaErrors(slug: 'taskReport', payload: $payload));
+		self::assertSame([], $this->registerSchemaErrors(slug: 'taskReport', payload: ['owner' => 'ann', 'shared' => 'readers', 'metric' => 'sum', 'sumField' => 'storyPoints'] + $payload));
+		// A report over every task sends no filters: null, never an empty object,
+		// which PHP decodes to an empty array that a type object refuses.
+		self::assertSame([], $this->registerSchemaErrors(slug: 'taskReport', payload: ['filters' => null] + $payload));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'taskReport', payload: ['filters' => []] + $payload), 'control: an empty filter list is refused');
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'taskReport', payload: ['filters' => ['status' => ['$ne' => 'done']]] + $payload), 'control: an operator is not an equality filter');
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'taskReport', payload: ['filters' => ['dueDate' => '2026-01-01']] + $payload), 'control: an unknown filter field');
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'taskReport', payload: ['display' => 'pie'] + $payload), 'control: an unknown display');
 	}//end testASavedReportValidatesAgainstTheRealSchema()
 }//end class

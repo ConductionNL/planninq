@@ -40,7 +40,7 @@
           "boardFilter",
           "boardView",
           "forgeLink",
-          "report"
+          "taskReport"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -3859,8 +3859,8 @@
           }
         }
       },
-      "report": {
-        "slug": "report",
+      "taskReport": {
+        "slug": "taskReport",
         "icon": "ChartBar",
         "version": "0.1.0",
         "title": "Report",
@@ -3972,30 +3972,42 @@
           "filters": {
             "title": "Filters",
             "type": "object",
-            "description": "Task fields and the value each must equal",
-            "default": {},
+            "description": "Task fields and the value each must equal; empty when the report covers every task",
             "additionalProperties": false,
             "properties": {
               "status": {
+                "title": "Status",
+                "description": "The status a task must have",
                 "type": "string"
               },
               "priority": {
+                "title": "Priority",
+                "description": "The priority a task must have",
                 "type": "string"
               },
               "assignedTo": {
+                "title": "Assignee",
+                "description": "The user a task must be assigned to",
                 "type": "string"
               },
               "labels": {
+                "title": "Label",
+                "description": "A label a task must carry",
                 "type": "string"
               },
               "column": {
+                "title": "Column",
+                "description": "The board column a task must be in",
                 "type": "string"
               },
               "issueType": {
+                "title": "Issue type",
+                "description": "The issue type a task must have",
                 "type": "string"
               }
             },
-            "x-notes": "Equality only: OpenRegister's aggregation ignores any other operator."
+            "x-notes": "Equality only: OpenRegister's aggregation ignores any other operator.",
+            "nullable": true
           },
           "groupBy": {
             "title": "Group by",

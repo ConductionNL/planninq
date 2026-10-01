@@ -190,8 +190,8 @@ test.describe('visual baselines — planninq views', () => {
 		const api = await adminApi()
 		const made: Array<[string, string]> = []
 		try {
-			const report = await createObject(api, 'report', { title: 'Visual report', projects: [], groupBy: 'status', metric: 'count', display: 'bar', shared: 'private' })
-			made.push(['report', report])
+			const report = await createObject(api, 'taskReport', { title: 'Visual report', projects: [], groupBy: 'status', metric: 'count', display: 'bar', shared: 'private' })
+			made.push(['taskReport', report])
 			await page.goto(new URL(`reports/custom/${report}`, PLANNINQ_ROOT).toString())
 			await expect(page.getByRole('heading', { name: 'Visual report' })).toBeVisible({ timeout: 30_000 })
 			await shoot(page, 'report-page.png')

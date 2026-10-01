@@ -108,6 +108,7 @@ export default {
 		/** The projects the user can pick from: id, title. */
 		projects: { type: Array, default: () => [] },
 	},
+
 	emits: ['close', 'saved'],
 	data() {
 		return {
@@ -125,6 +126,7 @@ export default {
 			},
 		}
 	},
+
 	computed: {
 		/**
 		 * @return {Array<object>} Project options.
@@ -133,6 +135,7 @@ export default {
 		projectOptions() {
 			return this.projects.map((project) => ({ id: project.id, label: project.title }))
 		},
+
 		/**
 		 * @return {Array<object>} Status options.
 		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.2
@@ -145,6 +148,7 @@ export default {
 				{ id: 'done', label: this.t('planninq', 'Done') },
 			]
 		},
+
 		/**
 		 * @return {Array<object>} Priority options.
 		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.2
@@ -157,6 +161,7 @@ export default {
 				{ id: 'urgent', label: this.t('planninq', 'Urgent') },
 			]
 		},
+
 		/**
 		 * @return {Array<object>} Grouping options.
 		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.2
@@ -172,6 +177,7 @@ export default {
 			}
 			return REPORT_GROUP_BY.map((id) => ({ id, label: labels[id] }))
 		},
+
 		/**
 		 * @return {Array<object>} Measure options.
 		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.2
@@ -179,6 +185,7 @@ export default {
 		metricOptions() {
 			return [{ id: 'count', label: this.t('planninq', 'Number of tasks') }]
 		},
+
 		/**
 		 * @return {Array<object>} Display options.
 		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.2
@@ -187,6 +194,7 @@ export default {
 			const labels = { table: this.t('planninq', 'Table'), bar: this.t('planninq', 'Bar'), donut: this.t('planninq', 'Donut') }
 			return REPORT_DISPLAYS.map((id) => ({ id, label: labels[id] }))
 		},
+
 		/**
 		 * @return {boolean} Whether the report can be saved.
 		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.2
@@ -195,6 +203,7 @@ export default {
 			return this.draft.title.trim() !== '' && this.draft.projects.length > 0
 		},
 	},
+
 	methods: {
 		/**
 		 * Save and hand the saved report back.
@@ -206,9 +215,11 @@ export default {
 			this.saving = true
 			this.error = ''
 			try {
-				const saved = await saveReport({ ...(this.report.id ? { id: this.report.id } : {}), ...this.draft, title: this.draft.title.trim(), filters: equalityFilters(this.draft.filters) })
+				const filters = equalityFilters(this.draft.filters)
+				// No filters is null: an empty object reaches the server as an empty array, which the schema refuses.
+				const saved = await saveReport({ ...(this.report.id ? { id: this.report.id } : {}), ...this.draft, title: this.draft.title.trim(), filters: Object.keys(filters).length ? filters : null })
 				this.$emit('saved', saved)
-			} catch (e) {
+			} catch {
 				this.error = this.t('planninq', 'The report could not be saved.')
 			} finally {
 				this.saving = false

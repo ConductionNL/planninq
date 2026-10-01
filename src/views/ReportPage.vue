@@ -65,7 +65,10 @@
 				</ul>
 			</div>
 			<ul v-else class="report-page__bars" data-testid="report-bars">
-				<li v-for="bucket in buckets" :key="bucket.key" class="report-page__bar-row" data-testid="report-bar">
+				<li v-for="bucket in buckets"
+					:key="bucket.key"
+					class="report-page__bar-row"
+					data-testid="report-bar">
 					<span class="report-page__bar-label">{{ bucket.key || t('planninq', 'None') }}</span>
 					<span class="report-page__bar" :style="{ width: barWidth(bucket.value) }" />
 					<span class="report-page__bar-value">{{ bucket.value }}</span>
@@ -102,6 +105,7 @@ export default {
 	data() {
 		return { report: {}, projects: [], buckets: [], loading: true, error: '', editing: false }
 	},
+
 	computed: {
 		/**
 		 * @return {{hidden: number, total: number, visible: string[]}} The report's projects split by visibility.
@@ -110,6 +114,7 @@ export default {
 		visibility() {
 			return visibleProjects(this.report.projects || [], this.projects.map((project) => project.id))
 		},
+
 		/**
 		 * @return {boolean} Whether the viewer owns the report.
 		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.3
@@ -117,6 +122,7 @@ export default {
 		isOwner() {
 			return !!this.report.owner && this.report.owner === getCurrentUser()?.uid
 		},
+
 		/**
 		 * @return {Array<object>} The donut's segments.
 		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.3
@@ -124,6 +130,7 @@ export default {
 		segments() {
 			return donutSegments(this.buckets)
 		},
+
 		/**
 		 * @return {string} The grouping's column header.
 		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.3
@@ -140,22 +147,25 @@ export default {
 			return labels[this.report.groupBy] || ''
 		},
 	},
+
 	watch: {
 		/**
 		 * Reload on another report.
 		 *
 		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.3
 		 */
-		'$route.params.id'() {
+		'$route.params.id': function() {
 			this.load()
 		},
 	},
+
 	/**
 	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.3
 	 */
 	mounted() {
 		this.load()
 	},
+
 	methods: {
 		/**
 		 * Read the report and the viewer's projects, then run it.
@@ -172,12 +182,13 @@ export default {
 				this.report = report
 				this.projects = (store.projects || []).map((project) => ({ id: project.id ?? project['@self']?.id, title: project.title }))
 				this.buckets = await runReport(this.report, this.visibility.visible)
-			} catch (e) {
+			} catch {
 				this.error = this.t('planninq', 'Could not load this report.')
 			} finally {
 				this.loading = false
 			}
 		},
+
 		/**
 		 * @param {object} saved The saved report
 		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.3
@@ -187,6 +198,7 @@ export default {
 			this.report = { ...this.report, ...saved }
 			this.load()
 		},
+
 		/**
 		 * @param {number} index A segment's place
 		 * @return {string} Its colour, a ramp of the primary colour
@@ -196,6 +208,7 @@ export default {
 			const share = this.segments.length > 1 ? 30 + Math.round((index / (this.segments.length - 1)) * 70) : 100
 			return `color-mix(in srgb, var(--color-primary-element) ${share}%, var(--color-main-background))`
 		},
+
 		/**
 		 * @param {number} value A bucket's value
 		 * @return {string} Its bar's width

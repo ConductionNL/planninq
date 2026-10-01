@@ -48,7 +48,7 @@ test.describe('Custom reports', () => {
 			await expect(page.getByTestId('reports-mine')).toContainText(`Open work per person ${RUN}`)
 			const id = page.url().split('/').pop() ?? ''
 			if (id) {
-				made.push(['report', id])
+				made.push(['taskReport', id])
 			}
 		} finally {
 			await removeObjects(api, made)
@@ -69,8 +69,8 @@ test.describe('Custom reports', () => {
 			// Three project ids the admin's own project list does not hold stand in for
 			// projects a viewer cannot read; the page counts them as not visible.
 			const unseen = ['0000de00-0000-4000-8000-0000ffff0001', '0000de00-0000-4000-8000-0000ffff0002', '0000de00-0000-4000-8000-0000ffff0003']
-			const report = await createObject(api, 'report', { title: `Gedeeld ${RUN}`, projects: [...projects, ...unseen], groupBy: 'status', metric: 'count', display: 'table', shared: 'readers' })
-			made.push(['report', report])
+			const report = await createObject(api, 'taskReport', { title: `Gedeeld ${RUN}`, projects: [...projects, ...unseen], groupBy: 'status', metric: 'count', display: 'table', shared: 'readers' })
+			made.push(['taskReport', report])
 
 			await page.goto(new URL(`reports/custom/${report}`, PLANNINQ_ROOT).toString())
 			await expect(page.getByTestId('report-hidden')).toContainText('3 of 5 projects in this report are not visible to you', { timeout: 30_000 })

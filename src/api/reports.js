@@ -1,5 +1,5 @@
 /**
- * Reports API (portfolio-flow-reports section 3): saved reports are `report`
+ * Reports API (portfolio-flow-reports section 3): saved reports are `taskReport`
  * objects in OpenRegister, read with the viewer's rights; a report's numbers
  * come from OpenRegister's grouped aggregation, one call per project the
  * viewer can read, so a shared report never shows more than they may see.
@@ -10,7 +10,7 @@ import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import { groupedParams, mergeBuckets, reportDataSource } from '../utils/reportBuilder.js'
 
-const REPORTS = '/apps/openregister/api/objects/planninq/report'
+const REPORTS = '/apps/openregister/api/objects/planninq/taskReport'
 
 /**
  * Every report the viewer can read (their own and shared ones).

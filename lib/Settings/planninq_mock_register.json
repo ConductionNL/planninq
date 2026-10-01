@@ -1788,7 +1788,7 @@
       {
         "@self": {
           "register": "planninq",
-          "schema": "report",
+          "schema": "taskReport",
           "slug": "demo-report-open-work",
           "id": "0000de00-0000-4000-8000-001500000001"
         },
@@ -1809,7 +1809,7 @@
       {
         "@self": {
           "register": "planninq",
-          "schema": "report",
+          "schema": "taskReport",
           "slug": "demo-report-priorities",
           "id": "0000de00-0000-4000-8000-001500000002"
         },
@@ -1831,7 +1831,7 @@
       {
         "@self": {
           "register": "planninq",
-          "schema": "report",
+          "schema": "taskReport",
           "slug": "demo-report-points",
           "id": "0000de00-0000-4000-8000-001500000003"
         },
@@ -1841,7 +1841,6 @@
         "projects": [
           "0000de00-0000-4000-8000-000100000001"
         ],
-        "filters": {},
         "groupBy": "column",
         "metric": "sum",
         "display": "table",
