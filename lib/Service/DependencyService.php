@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use OCA\Planninq\Exception\DependencyValidationException;
+use OCP\IGroupManager;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
@@ -84,6 +85,7 @@ class DependencyService {
 	 * @param DependencyGraph $graph The pure cycle-detection algorithms.
 	 * @param IUserSession $userSession The current user session (membership guard).
 	 * @param LoggerInterface $logger The logger.
+	 * @param IGroupManager|null $groupManager The caller's groups, for a project shared with a group.
 	 *
 	 * @return void
 	 */
@@ -92,6 +94,7 @@ class DependencyService {
 		private DependencyGraph $graph,
 		private IUserSession $userSession,
 		private LoggerInterface $logger,
+		private ?IGroupManager $groupManager=null,
 	) {
 
 	}//end __construct()
@@ -438,7 +441,8 @@ class DependencyService {
 	}//end removeEdgesForTask()
 
 	/**
-	 * Assert the current user is a member of the given project; throw otherwise.
+	 * Assert the current user may change the given project's work (owner,
+	 * manager or member, in person or through a group); throw otherwise.
 	 *
 	 * @param object $objectService The OR ObjectService.
 	 * @param string $projectId UUID of the project.
@@ -446,6 +450,8 @@ class DependencyService {
 	 * @return void
 	 *
 	 * @throws DependencyValidationException When unauthenticated or not a member.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.4
 	 */
 	private function assertProjectMember(object $objectService, string $projectId): void {
 		$user = $this->userSession->getUser();
@@ -468,9 +474,13 @@ class DependencyService {
 			);
 		}
 
-		$project = $entity->getObject();
-		$members = (array)($project['members'] ?? []);
-		if (in_array($uid, $members, true) === false) {
+		$project  = $entity->getObject();
+		$groupIds = [];
+		if ($this->groupManager !== null) {
+			$groupIds = $this->groupManager->getUserGroupIds($user);
+		}
+
+		if (ProjectRoles::mayWrite(project: $project, uid: $uid, groupIds: $groupIds) === false) {
 			throw new DependencyValidationException(
 				message: 'You are not a member of this project.',
 				code: DependencyValidationException::CODE_FORBIDDEN

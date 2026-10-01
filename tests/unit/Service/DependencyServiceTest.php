@@ -34,6 +34,7 @@ use OCA\Planninq\Service\DependencyGraph;
 use OCA\Planninq\Service\DependencyRepository;
 use OCA\Planninq\Service\DependencyService;
 use OCP\App\IAppManager;
+use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -62,6 +63,11 @@ class DependencyServiceTest extends TestCase {
 	 * @var IUserSession&MockObject
 	 */
 	private IUserSession&MockObject $userSession;
+
+	/**
+	 * @var IGroupManager&MockObject
+	 */
+	private IGroupManager&MockObject $groupManager;
 
 	/**
 	 * Mock logger.
@@ -97,6 +103,7 @@ class DependencyServiceTest extends TestCase {
 		parent::setUp();
 		$this->container = $this->createMock(originalClassName: ContainerInterface::class);
 		$this->userSession = $this->createMock(originalClassName: IUserSession::class);
+		$this->groupManager = $this->createMock(originalClassName: IGroupManager::class);
 		$this->logger = $this->createMock(originalClassName: LoggerInterface::class);
 		$this->appManager = $this->createMock(originalClassName: IAppManager::class);
 		$this->appManager->method('isInstalled')->willReturn(true);
@@ -123,6 +130,7 @@ class DependencyServiceTest extends TestCase {
 			graph: $this->graph,
 			userSession: $this->userSession,
 			logger: $this->logger,
+			groupManager: $this->groupManager,
 		);
 	}//end service()
 
@@ -329,6 +337,69 @@ class DependencyServiceTest extends TestCase {
 			throw $e;
 		}
 	}//end testCreateRejectsNonMember()
+
+	/**
+	 * Task 5.4: a viewer of the project may not link its tasks.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.4
+	 *
+	 * @return void
+	 */
+	public function testCreateRefusesAViewer(): void {
+		$objectService = $this->makeObjectService(
+			tasks: [
+				'A' => ['project' => 'P1'],
+				'B' => ['project' => 'P1'],
+			],
+			projects: ['P1' => ['owner' => 'olga', 'members' => ['olga'], 'viewers' => ['alice']]],
+		);
+		$this->container->method('get')->willReturn($objectService);
+		$this->setUser('alice');
+
+		$this->expectException(DependencyValidationException::class);
+		try {
+			$this->service()->create('A', 'B');
+		} catch (DependencyValidationException $e) {
+			self::assertSame(DependencyValidationException::CODE_FORBIDDEN, $e->getCode());
+			throw $e;
+		}
+	}//end testCreateRefusesAViewer()
+
+	/**
+	 * Task 5.4: a member through a group may link its tasks.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.4
+	 *
+	 * @return void
+	 */
+	public function testCreateAllowsAGroupMember(): void {
+		$saved = new class {
+			/**
+			 * @return array<string,mixed>
+			 */
+			public function jsonSerialize(): array {
+				return ['id' => 'new-edge', 'blocker' => 'A', 'blocked' => 'C'];
+			}//end jsonSerialize()
+		};
+
+		$objectService = $this->makeObjectService(
+			tasks: [
+				'A' => ['project' => 'P1'],
+				'C' => ['project' => 'P1'],
+			],
+			projects: ['P1' => ['owner' => 'olga', 'members' => ['olga'], 'managers' => ['mark'], 'memberGroups' => ['adviseurs']]],
+			projectTaskIds: ['A', 'C'],
+			edges: [],
+			saveReturn: $saved,
+		);
+		$this->container->method('get')->willReturn($objectService);
+		$this->setUser('alice');
+		$this->groupManager->method('getUserGroupIds')->willReturnCallback(
+			static fn (IUser $user): array => $user->getUID() === 'alice' ? ['adviseurs'] : []
+		);
+
+		self::assertSame('new-edge', $this->service()->create('A', 'C')['id']);
+	}//end testCreateAllowsAGroupMember()
 
 	/**
 	 * Duplicate edge is rejected.
