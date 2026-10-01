@@ -2,9 +2,9 @@
 
 ## 1. Flow history (V1)
 
-- [ ] 1.1 Add `FlowHistoryService` that finds the project with RBAC on, reads its tasks' audit trail entries for `column`, `status` and `completedAt` server-side, and replays them into daily column counts and task timings. Verify: `tests/unit/Service/FlowHistoryServiceTest.php` replays a fixed history into known counts, lead and cycle times, and the "estimated" fallback.
-- [ ] 1.2 Add `FlowController` with `GET /api/projects/{id}/flow` and `GET /api/portfolios/{id}/flow` in `appinfo/routes.php`, with the 180-day and 50-project limits and a per-day cache. Verify: `tests/unit/Controller/FlowControllerTest.php` for 403 on an unreadable project, the limits and a cached past day.
-- [ ] 1.3 Measure a project of 1,000 tasks over 180 days, cold and cached. Verify: both timings in the PR body; the cold one under five seconds.
+- [x] 1.1 Add `FlowHistoryService` that finds the project with RBAC on, reads its tasks' audit trail entries for `column`, `status` and `completedAt` server-side, and replays them into daily column counts and task timings. Verify: `tests/unit/Service/FlowHistoryServiceTest.php` replays a fixed history into known counts, lead and cycle times, and the "estimated" fallback.
+- [x] 1.2 Add `FlowController` with `GET /api/projects/{id}/flow` and `GET /api/portfolios/{id}/flow` in `appinfo/routes.php`, with the 180-day and 50-project limits and a per-day cache. Verify: `tests/unit/Controller/FlowControllerTest.php` for 403 on an unreadable project, the limits and a cached past day.
+- [ ] 1.3 Measure a project of 1,000 tasks over 180 days, cold and cached. Verify: both timings in the PR body; the cold one under five seconds. Open (1 Oct, lane 23): the replay itself was timed synthetically (`lane23/flow-bench.php`: 1,000 tasks with seven audit rows each over 180 days); the cold read on a live instance, which adds one audit-trail query per task, is owed by the first lane with an instance of its own.
 
 ## 2. Flow screens (V1 and Enterprise)
 
