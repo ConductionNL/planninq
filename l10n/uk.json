@@ -1312,7 +1312,15 @@
         "The number added up when the measure is a sum": "Число, яке додається, коли міра це сума",
         "Story points": "Бали історій",
         "Estimated duration": "Орієнтовна тривалість",
-        "How the report is shown": "Як показується звіт"
+        "How the report is shown": "Як показується звіт",
+        "Issue type": "Тип завдання",
+        "Task fields and the value each must equal; empty when the report covers every task": "Поля завдання і значення, якому має відповідати кожне; порожньо, якщо звіт охоплює всі завдання",
+        "The status a task must have": "Статус, який має мати завдання",
+        "The priority a task must have": "Пріоритет, який має мати завдання",
+        "The user a task must be assigned to": "Користувач, якому має бути призначене завдання",
+        "A label a task must carry": "Мітка, яку має мати завдання",
+        "The board column a task must be in": "Стовпець дошки, у якому має бути завдання",
+        "The issue type a task must have": "Тип, який має мати завдання"
     },
     "plurals": {}
 }

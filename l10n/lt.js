@@ -1313,7 +1313,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "Skaičius, sumuojamas, kai matas yra suma",
         "Story points": "Istorijos taškai",
         "Estimated duration": "Numatoma trukmė",
-        "How the report is shown": "Kaip ataskaita rodoma"
+        "How the report is shown": "Kaip ataskaita rodoma",
+        "Issue type": "Užklausos tipas",
+        "Task fields and the value each must equal; empty when the report covers every task": "Užduoties laukai ir reikšmė, kurią kiekvienas turi turėti; tuščia, kai ataskaita apima visas užduotis",
+        "The status a task must have": "Būsena, kurią turi turėti užduotis",
+        "The priority a task must have": "Prioritetas, kurį turi turėti užduotis",
+        "The user a task must be assigned to": "Naudotojas, kuriam turi būti priskirta užduotis",
+        "A label a task must carry": "Žyma, kurią turi turėti užduotis",
+        "The board column a task must be in": "Lentos stulpelis, kuriame turi būti užduotis",
+        "The issue type a task must have": "Užklausos tipas, kurį turi turėti užduotis"
     },
     "nplurals=2; plural=(n != 1);"
 )

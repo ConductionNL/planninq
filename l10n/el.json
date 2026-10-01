@@ -1312,7 +1312,15 @@
         "The number added up when the measure is a sum": "Ο αριθμός που αθροίζεται όταν το μέτρο είναι άθροισμα",
         "Story points": "Πόντοι ιστορίας",
         "Estimated duration": "Εκτιμώμενη διάρκεια",
-        "How the report is shown": "Πώς εμφανίζεται η αναφορά"
+        "How the report is shown": "Πώς εμφανίζεται η αναφορά",
+        "Issue type": "Τύπος αιτήματος",
+        "Task fields and the value each must equal; empty when the report covers every task": "Πεδία εργασίας και η τιμή που πρέπει να έχει το καθένα· κενό όταν η αναφορά καλύπτει όλες τις εργασίες",
+        "The status a task must have": "Η κατάσταση που πρέπει να έχει μια εργασία",
+        "The priority a task must have": "Η προτεραιότητα που πρέπει να έχει μια εργασία",
+        "The user a task must be assigned to": "Ο χρήστης στον οποίο πρέπει να έχει ανατεθεί μια εργασία",
+        "A label a task must carry": "Μια ετικέτα που πρέπει να φέρει μια εργασία",
+        "The board column a task must be in": "Η στήλη του πίνακα στην οποία πρέπει να βρίσκεται μια εργασία",
+        "The issue type a task must have": "Ο τύπος αιτήματος που πρέπει να έχει μια εργασία"
     },
     "plurals": null
 }

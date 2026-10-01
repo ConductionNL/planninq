@@ -1312,7 +1312,15 @@
         "The number added up when the measure is a sum": "Talet som summeras när måttet är en summa",
         "Story points": "Story points",
         "Estimated duration": "Uppskattad varaktighet",
-        "How the report is shown": "Hur rapporten visas"
+        "How the report is shown": "Hur rapporten visas",
+        "Issue type": "Ärendetyp",
+        "Task fields and the value each must equal; empty when the report covers every task": "Uppgiftsfält och värdet vart och ett måste ha; tomt när rapporten omfattar alla uppgifter",
+        "The status a task must have": "Den status en uppgift måste ha",
+        "The priority a task must have": "Den prioritet en uppgift måste ha",
+        "The user a task must be assigned to": "Den användare en uppgift måste vara tilldelad",
+        "A label a task must carry": "En etikett en uppgift måste ha",
+        "The board column a task must be in": "Den tavlkolumn en uppgift måste stå i",
+        "The issue type a task must have": "Den ärendetyp en uppgift måste ha"
     },
     "plurals": null
 }

@@ -1312,7 +1312,15 @@
         "The number added up when the measure is a sum": "Arv, mis liidetakse, kui mõõt on summa",
         "Story points": "Lugupunktid",
         "Estimated duration": "Hinnanguline kestus",
-        "How the report is shown": "Kuidas aruannet näidatakse"
+        "How the report is shown": "Kuidas aruannet näidatakse",
+        "Issue type": "Pileti tüüp",
+        "Task fields and the value each must equal; empty when the report covers every task": "Ülesande väljad ja väärtus, mis igaühel peab olema; tühi, kui aruanne hõlmab kõiki ülesandeid",
+        "The status a task must have": "Olek, mis ülesandel peab olema",
+        "The priority a task must have": "Prioriteet, mis ülesandel peab olema",
+        "The user a task must be assigned to": "Kasutaja, kellele ülesanne peab olema määratud",
+        "A label a task must carry": "Silt, mis ülesandel peab olema",
+        "The board column a task must be in": "Tahvli veerg, kus ülesanne peab olema",
+        "The issue type a task must have": "Pileti tüüp, mis ülesandel peab olema"
     },
     "plurals": null
 }

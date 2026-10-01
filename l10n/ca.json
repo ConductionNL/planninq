@@ -1312,7 +1312,15 @@
         "The number added up when the measure is a sum": "El nombre que se suma quan la mesura és una suma",
         "Story points": "Punts d'història",
         "Estimated duration": "Durada estimada",
-        "How the report is shown": "Com es mostra l'informe"
+        "How the report is shown": "Com es mostra l'informe",
+        "Issue type": "Tipus d'incidència",
+        "Task fields and the value each must equal; empty when the report covers every task": "Camps de la tasca i el valor que ha de tenir cadascun; buit si l'informe abasta totes les tasques",
+        "The status a task must have": "L'estat que ha de tenir una tasca",
+        "The priority a task must have": "La prioritat que ha de tenir una tasca",
+        "The user a task must be assigned to": "L'usuari a qui ha d'estar assignada una tasca",
+        "A label a task must carry": "Una etiqueta que ha de portar una tasca",
+        "The board column a task must be in": "La columna del tauler on ha de ser una tasca",
+        "The issue type a task must have": "El tipus d'incidència que ha de tenir una tasca"
     },
     "plurals": null
 }

@@ -1312,7 +1312,15 @@
         "The number added up when the measure is a sum": "Бројот што се собира кога мерката е збир",
         "Story points": "Поени на приказна",
         "Estimated duration": "Проценето траење",
-        "How the report is shown": "Како се прикажува извештајот"
+        "How the report is shown": "Како се прикажува извештајот",
+        "Issue type": "Вид на барање",
+        "Task fields and the value each must equal; empty when the report covers every task": "Полиња на задачата и вредноста што секое мора да ја има; празно кога извештајот ги опфаќа сите задачи",
+        "The status a task must have": "Статусот што задачата мора да го има",
+        "The priority a task must have": "Приоритетот што задачата мора да го има",
+        "The user a task must be assigned to": "Корисникот на кого задачата мора да биде доделена",
+        "A label a task must carry": "Ознака што задачата мора да ја има",
+        "The board column a task must be in": "Колоната на таблата во која задачата мора да биде",
+        "The issue type a task must have": "Видот на барање што задачата мора да го има"
     },
     "plurals": null
 }

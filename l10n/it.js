@@ -1313,7 +1313,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "Il numero sommato quando la misura è una somma",
         "Story points": "Story point",
         "Estimated duration": "Durata stimata",
-        "How the report is shown": "Come viene mostrato il rapporto"
+        "How the report is shown": "Come viene mostrato il rapporto",
+        "Issue type": "Tipo di issue",
+        "Task fields and the value each must equal; empty when the report covers every task": "Campi dell'attività e il valore che ciascuno deve avere; vuoto se il rapporto copre tutte le attività",
+        "The status a task must have": "Lo stato che un'attività deve avere",
+        "The priority a task must have": "La priorità che un'attività deve avere",
+        "The user a task must be assigned to": "L'utente a cui un'attività deve essere assegnata",
+        "A label a task must carry": "Un'etichetta che un'attività deve avere",
+        "The board column a task must be in": "La colonna della bacheca in cui deve trovarsi un'attività",
+        "The issue type a task must have": "Il tipo di issue che un'attività deve avere"
     },
     "nplurals=2; plural=(n != 1);"
 )

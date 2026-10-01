@@ -1313,7 +1313,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "Skaitlis, ko summē, ja mērs ir summa",
         "Story points": "Stāsta punkti",
         "Estimated duration": "Paredzamais ilgums",
-        "How the report is shown": "Kā atskaite tiek rādīta"
+        "How the report is shown": "Kā atskaite tiek rādīta",
+        "Issue type": "Pieteikuma veids",
+        "Task fields and the value each must equal; empty when the report covers every task": "Uzdevuma lauki un vērtība, kāda katram jābūt; tukšs, ja atskaite aptver visus uzdevumus",
+        "The status a task must have": "Statuss, kāds uzdevumam jābūt",
+        "The priority a task must have": "Prioritāte, kāda uzdevumam jābūt",
+        "The user a task must be assigned to": "Lietotājs, kuram uzdevumam jābūt piešķirtam",
+        "A label a task must carry": "Etiķete, kāda uzdevumam jābūt",
+        "The board column a task must be in": "Dēļa kolonna, kurā uzdevumam jābūt",
+        "The issue type a task must have": "Pieteikuma veids, kāds uzdevumam jābūt"
     },
     "nplurals=2; plural=(n != 1);"
 )

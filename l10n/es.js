@@ -1313,7 +1313,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "El número que se suma cuando la medida es una suma",
         "Story points": "Puntos de historia",
         "Estimated duration": "Duración estimada",
-        "How the report is shown": "Cómo se muestra el informe"
+        "How the report is shown": "Cómo se muestra el informe",
+        "Issue type": "Tipo de incidencia",
+        "Task fields and the value each must equal; empty when the report covers every task": "Campos de tarea y el valor que cada uno debe tener; vacío si el informe abarca todas las tareas",
+        "The status a task must have": "El estado que debe tener una tarea",
+        "The priority a task must have": "La prioridad que debe tener una tarea",
+        "The user a task must be assigned to": "El usuario al que debe estar asignada una tarea",
+        "A label a task must carry": "Una etiqueta que debe llevar una tarea",
+        "The board column a task must be in": "La columna del tablero en la que debe estar una tarea",
+        "The issue type a task must have": "El tipo de incidencia que debe tener una tarea"
     },
     "nplurals=2; plural=(n != 1);"
 )

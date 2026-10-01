@@ -1313,7 +1313,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "Numărul adunat când măsura este o sumă",
         "Story points": "Puncte de poveste",
         "Estimated duration": "Durată estimată",
-        "How the report is shown": "Cum este afișat raportul"
+        "How the report is shown": "Cum este afișat raportul",
+        "Issue type": "Tip de tichet",
+        "Task fields and the value each must equal; empty when the report covers every task": "Câmpurile sarcinii și valoarea pe care trebuie să o aibă fiecare; gol când raportul cuprinde toate sarcinile",
+        "The status a task must have": "Starea pe care trebuie să o aibă o sarcină",
+        "The priority a task must have": "Prioritatea pe care trebuie să o aibă o sarcină",
+        "The user a task must be assigned to": "Utilizatorul căruia trebuie să îi fie atribuită o sarcină",
+        "A label a task must carry": "O etichetă pe care trebuie să o aibă o sarcină",
+        "The board column a task must be in": "Coloana tablei în care trebuie să fie o sarcină",
+        "The issue type a task must have": "Tipul de tichet pe care trebuie să îl aibă o sarcină"
     },
     "nplurals=2; plural=(n != 1);"
 )

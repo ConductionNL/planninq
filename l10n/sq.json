@@ -1312,7 +1312,15 @@
         "The number added up when the measure is a sum": "Numri që mblidhet kur masa është shumë",
         "Story points": "Pikë historie",
         "Estimated duration": "Kohëzgjatje e vlerësuar",
-        "How the report is shown": "Si shfaqet raporti"
+        "How the report is shown": "Si shfaqet raporti",
+        "Issue type": "Lloji i çështjes",
+        "Task fields and the value each must equal; empty when the report covers every task": "Fushat e detyrës dhe vlera që duhet të ketë secila; bosh kur raporti përfshin të gjitha detyrat",
+        "The status a task must have": "Statusi që duhet të ketë një detyrë",
+        "The priority a task must have": "Përparësia që duhet të ketë një detyrë",
+        "The user a task must be assigned to": "Përdoruesi të cilit duhet t'i jetë caktuar një detyrë",
+        "A label a task must carry": "Një etiketë që duhet të mbajë një detyrë",
+        "The board column a task must be in": "Kolona e tabelës ku duhet të jetë një detyrë",
+        "The issue type a task must have": "Lloji i çështjes që duhet të ketë një detyrë"
     },
     "plurals": {}
 }

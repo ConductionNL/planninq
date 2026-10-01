@@ -1312,7 +1312,15 @@
         "The number added up when the measure is a sum": "Az összegzett szám, ha a mérték összeg",
         "Story points": "Sztoripontok",
         "Estimated duration": "Becsült időtartam",
-        "How the report is shown": "Hogyan jelenik meg a jelentés"
+        "How the report is shown": "Hogyan jelenik meg a jelentés",
+        "Issue type": "Jegytípus",
+        "Task fields and the value each must equal; empty when the report covers every task": "A feladat mezői és az érték, amellyel mindegyiknek egyeznie kell; üres, ha a jelentés minden feladatra kiterjed",
+        "The status a task must have": "Az állapot, amellyel a feladatnak rendelkeznie kell",
+        "The priority a task must have": "A prioritás, amellyel a feladatnak rendelkeznie kell",
+        "The user a task must be assigned to": "A felhasználó, akihez a feladatot hozzá kell rendelni",
+        "A label a task must carry": "Egy címke, amelyet a feladatnak viselnie kell",
+        "The board column a task must be in": "A tábla oszlopa, amelyben a feladatnak lennie kell",
+        "The issue type a task must have": "A jegytípus, amellyel a feladatnak rendelkeznie kell"
     },
     "plurals": null
 }

@@ -1313,7 +1313,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "Broj koji se sabira kada je mjera zbir",
         "Story points": "Bodovi priče",
         "Estimated duration": "Procijenjeno trajanje",
-        "How the report is shown": "Kako se izvještaj prikazuje"
+        "How the report is shown": "Kako se izvještaj prikazuje",
+        "Issue type": "Vrsta zahtjeva",
+        "Task fields and the value each must equal; empty when the report covers every task": "Polja zadatka i vrijednost koju svako mora imati; prazno kad izvještaj obuhvata sve zadatke",
+        "The status a task must have": "Status koji zadatak mora imati",
+        "The priority a task must have": "Prioritet koji zadatak mora imati",
+        "The user a task must be assigned to": "Korisnik kojem zadatak mora biti dodijeljen",
+        "A label a task must carry": "Oznaka koju zadatak mora imati",
+        "The board column a task must be in": "Kolona table u kojoj zadatak mora biti",
+        "The issue type a task must have": "Vrsta zahtjeva koju zadatak mora imati"
     },
     "nplurals=2; plural=(n != 1);"
 )

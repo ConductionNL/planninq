@@ -1313,7 +1313,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "Il dumber che vegn summà, sch'la mesira è ina summa",
         "Story points": "Puncts d'istorgia",
         "Estimated duration": "Durada stimada",
-        "How the report is shown": "Co ch'il rapport vegn mussà"
+        "How the report is shown": "Co ch'il rapport vegn mussà",
+        "Issue type": "Tip da dumonda",
+        "Task fields and the value each must equal; empty when the report covers every task": "Champs da la lavur e la valur che mintga champ sto avair; vid sch'il rapport cumpiglia tut las lavurs",
+        "The status a task must have": "Il status che ina lavur sto avair",
+        "The priority a task must have": "La prioritad che ina lavur sto avair",
+        "The user a task must be assigned to": "L'utilisader al qual ina lavur sto esser attribuida",
+        "A label a task must carry": "Ina etichetta che ina lavur sto purtar",
+        "The board column a task must be in": "La colonna da la tavla en la quala ina lavur sto esser",
+        "The issue type a task must have": "Il tip da dumonda che ina lavur sto avair"
     },
     "nplurals=2; plural=(n != 1);"
 )

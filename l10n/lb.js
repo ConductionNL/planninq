@@ -1313,7 +1313,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "D'Zuel, déi summéiert gëtt, wann d'Mooss eng Summ ass",
         "Story points": "Story Points",
         "Estimated duration": "Geschate Dauer",
-        "How the report is shown": "Wéi de Bericht gewise gëtt"
+        "How the report is shown": "Wéi de Bericht gewise gëtt",
+        "Issue type": "Tickettyp",
+        "Task fields and the value each must equal; empty when the report covers every task": "Felder vun der Aufgab an de Wäert, deen all Feld muss hunn; eidel, wann de Bericht all Aufgabe ëmfaasst",
+        "The status a task must have": "De Status, deen eng Aufgab muss hunn",
+        "The priority a task must have": "D'Prioritéit, déi eng Aufgab muss hunn",
+        "The user a task must be assigned to": "De Benotzer, deem eng Aufgab muss zougewise sinn",
+        "A label a task must carry": "E Label, deen eng Aufgab muss droen",
+        "The board column a task must be in": "D'Kolonn vum Board, an där eng Aufgab muss stoen",
+        "The issue type a task must have": "Den Tickettyp, deen eng Aufgab muss hunn"
     },
     "nplurals=2; plural=(n != 1);"
 )

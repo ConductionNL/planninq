@@ -1312,7 +1312,15 @@
         "The number added up when the measure is a sum": "Tallet der lægges sammen, når målet er en sum",
         "Story points": "Story points",
         "Estimated duration": "Anslået varighed",
-        "How the report is shown": "Hvordan rapporten vises"
+        "How the report is shown": "Hvordan rapporten vises",
+        "Issue type": "Sagstype",
+        "Task fields and the value each must equal; empty when the report covers every task": "Opgavefelter og den værdi, hvert felt skal have; tom når rapporten dækker alle opgaver",
+        "The status a task must have": "Den status en opgave skal have",
+        "The priority a task must have": "Den prioritet en opgave skal have",
+        "The user a task must be assigned to": "Den bruger en opgave skal være tildelt",
+        "A label a task must carry": "En etiket en opgave skal have",
+        "The board column a task must be in": "Den tavlekolonne en opgave skal stå i",
+        "The issue type a task must have": "Den sagstype en opgave skal have"
     },
     "plurals": null
 }

@@ -1292,7 +1292,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "The number added up when the measure is a sum",
         "Story points": "Story points",
         "Estimated duration": "Estimated duration",
-        "How the report is shown": "How the report is shown"
+        "How the report is shown": "How the report is shown",
+        "Issue type": "Issue type",
+        "Task fields and the value each must equal; empty when the report covers every task": "Task fields and the value each must equal; empty when the report covers every task",
+        "The status a task must have": "The status a task must have",
+        "The priority a task must have": "The priority a task must have",
+        "The user a task must be assigned to": "The user a task must be assigned to",
+        "A label a task must carry": "A label a task must carry",
+        "The board column a task must be in": "The board column a task must be in",
+        "The issue type a task must have": "The issue type a task must have"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1312,7 +1312,15 @@
         "The number added up when the measure is a sum": "Лік, які складваецца, калі мера гэта сума",
         "Story points": "Балы гісторый",
         "Estimated duration": "Ацэначная працягласць",
-        "How the report is shown": "Як паказваецца справаздача"
+        "How the report is shown": "Як паказваецца справаздача",
+        "Issue type": "Тып задачы",
+        "Task fields and the value each must equal; empty when the report covers every task": "Палі задачы і значэнне, якому мусіць адпавядаць кожнае; пуста, калі справаздача ахоплівае ўсе задачы",
+        "The status a task must have": "Статус, які мусіць мець задача",
+        "The priority a task must have": "Прыярытэт, які мусіць мець задача",
+        "The user a task must be assigned to": "Карыстальнік, якому мусіць быць прызначана задача",
+        "A label a task must carry": "Метка, якую мусіць мець задача",
+        "The board column a task must be in": "Слупок дошкі, у якім мусіць быць задача",
+        "The issue type a task must have": "Тып, які мусіць мець задача"
     },
     "plurals": {}
 }

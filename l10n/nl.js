@@ -1326,7 +1326,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "Het getal dat wordt opgeteld als de maat een som is",
         "Story points": "Storypoints",
         "Estimated duration": "Geschatte duur",
-        "How the report is shown": "Hoe het rapport wordt getoond"
+        "How the report is shown": "Hoe het rapport wordt getoond",
+        "Issue type": "Soort issue",
+        "Task fields and the value each must equal; empty when the report covers every task": "Taakvelden en de waarde waaraan elk moet voldoen; leeg als het rapport alle taken omvat",
+        "The status a task must have": "De status die een taak moet hebben",
+        "The priority a task must have": "De prioriteit die een taak moet hebben",
+        "The user a task must be assigned to": "De gebruiker aan wie een taak moet zijn toegewezen",
+        "A label a task must carry": "Een label dat een taak moet dragen",
+        "The board column a task must be in": "De bordkolom waarin een taak moet staan",
+        "The issue type a task must have": "Het soort issue dat een taak moet hebben"
     },
     "nplurals=2; plural=(n != 1);"
 )

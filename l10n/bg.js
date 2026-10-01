@@ -1313,7 +1313,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "Числото, което се сумира, когато мярката е сума",
         "Story points": "Точки за история",
         "Estimated duration": "Очаквана продължителност",
-        "How the report is shown": "Как се показва отчетът"
+        "How the report is shown": "Как се показва отчетът",
+        "Issue type": "Вид заявка",
+        "Task fields and the value each must equal; empty when the report covers every task": "Полета на задачата и стойността, която всяко трябва да има; празно, когато отчетът обхваща всички задачи",
+        "The status a task must have": "Статусът, който задачата трябва да има",
+        "The priority a task must have": "Приоритетът, който задачата трябва да има",
+        "The user a task must be assigned to": "Потребителят, на когото задачата трябва да е възложена",
+        "A label a task must carry": "Етикет, който задачата трябва да носи",
+        "The board column a task must be in": "Колоната на таблото, в която задачата трябва да е",
+        "The issue type a task must have": "Видът заявка, който задачата трябва да има"
     },
     "nplurals=2; plural=(n != 1);"
 )

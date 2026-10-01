@@ -1312,7 +1312,15 @@
         "The number added up when the measure is a sum": "Liczba sumowana, gdy miarą jest suma",
         "Story points": "Punkty historyjki",
         "Estimated duration": "Szacowany czas trwania",
-        "How the report is shown": "Jak raport jest pokazywany"
+        "How the report is shown": "Jak raport jest pokazywany",
+        "Issue type": "Typ zgłoszenia",
+        "Task fields and the value each must equal; empty when the report covers every task": "Pola zadania i wartość, jaką każde musi mieć; puste, gdy raport obejmuje wszystkie zadania",
+        "The status a task must have": "Status, jaki musi mieć zadanie",
+        "The priority a task must have": "Priorytet, jaki musi mieć zadanie",
+        "The user a task must be assigned to": "Użytkownik, do którego musi być przypisane zadanie",
+        "A label a task must carry": "Etykieta, którą musi mieć zadanie",
+        "The board column a task must be in": "Kolumna tablicy, w której musi być zadanie",
+        "The issue type a task must have": "Typ zgłoszenia, jaki musi mieć zadanie"
     },
     "plurals": {}
 }

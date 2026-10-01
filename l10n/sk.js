@@ -1313,7 +1313,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "Číslo, ktoré sa sčíta, keď je miera súčet",
         "Story points": "Body príbehu",
         "Estimated duration": "Odhadovaná doba",
-        "How the report is shown": "Ako sa prehľad zobrazuje"
+        "How the report is shown": "Ako sa prehľad zobrazuje",
+        "Issue type": "Typ požiadavky",
+        "Task fields and the value each must equal; empty when the report covers every task": "Polia úlohy a hodnota, ktorú musí každé mať; prázdne, keď prehľad zahŕňa všetky úlohy",
+        "The status a task must have": "Stav, ktorý musí úloha mať",
+        "The priority a task must have": "Priorita, ktorú musí úloha mať",
+        "The user a task must be assigned to": "Používateľ, ktorému musí byť úloha pridelená",
+        "A label a task must carry": "Štítok, ktorý musí úloha mať",
+        "The board column a task must be in": "Stĺpec tabule, v ktorom musí úloha byť",
+        "The issue type a task must have": "Typ požiadavky, ktorý musí úloha mať"
     },
     "nplurals=2; plural=(n != 1);"
 )

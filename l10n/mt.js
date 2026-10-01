@@ -1313,7 +1313,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "In-numru li jinġabar meta l-kejl ikun somma",
         "Story points": "Punti tal-istorja",
         "Estimated duration": "Tul stmat",
-        "How the report is shown": "Kif jintwera r-rapport"
+        "How the report is shown": "Kif jintwera r-rapport",
+        "Issue type": "Tip ta' talba",
+        "Task fields and the value each must equal; empty when the report covers every task": "Il-qasam tal-kompitu u l-valur li għandu jkollu kull wieħed; vojt meta r-rapport ikopri l-kompiti kollha",
+        "The status a task must have": "L-istatus li għandu jkollu kompitu",
+        "The priority a task must have": "Il-prijorità li għandu jkollu kompitu",
+        "The user a task must be assigned to": "L-utent li lilu għandu jkun assenjat kompitu",
+        "A label a task must carry": "Tikketta li għandu jkollu kompitu",
+        "The board column a task must be in": "Il-kolonna tal-bord li fiha għandu jkun kompitu",
+        "The issue type a task must have": "It-tip ta' talba li għandu jkollu kompitu"
     },
     "nplurals=2; plural=(n != 1);"
 )

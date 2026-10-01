@@ -1313,7 +1313,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "An uimhir a shuimítear nuair is suim an tomhas",
         "Story points": "Pointí scéil",
         "Estimated duration": "Fad measta",
-        "How the report is shown": "Conas a thaispeántar an tuarascáil"
+        "How the report is shown": "Conas a thaispeántar an tuarascáil",
+        "Issue type": "Cineál ceisteanna",
+        "Task fields and the value each must equal; empty when the report covers every task": "Réimsí tasc agus an luach nach mór a bheith ag gach ceann; folamh nuair a chlúdaíonn an tuarascáil gach tasc",
+        "The status a task must have": "An stádas nach mór a bheith ag tasc",
+        "The priority a task must have": "An tosaíocht nach mór a bheith ag tasc",
+        "The user a task must be assigned to": "An t-úsáideoir nach mór tasc a bheith sannta dó",
+        "A label a task must carry": "Lipéad nach mór a bheith ar thasc",
+        "The board column a task must be in": "An colún cláir nach mór tasc a bheith ann",
+        "The issue type a task must have": "An cineál ceisteanna nach mór a bheith ag tasc"
     },
     "nplurals=2; plural=(n != 1);"
 )

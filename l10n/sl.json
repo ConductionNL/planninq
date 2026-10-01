@@ -1312,7 +1312,15 @@
         "The number added up when the measure is a sum": "Število, ki se sešteje, ko je mera vsota",
         "Story points": "Točke zgodbe",
         "Estimated duration": "Ocenjeno trajanje",
-        "How the report is shown": "Kako je poročilo prikazano"
+        "How the report is shown": "Kako je poročilo prikazano",
+        "Issue type": "Vrsta zahtevka",
+        "Task fields and the value each must equal; empty when the report covers every task": "Polja opravila in vrednost, ki jo mora imeti vsako; prazno, ko poročilo zajema vsa opravila",
+        "The status a task must have": "Stanje, ki ga mora imeti opravilo",
+        "The priority a task must have": "Prednost, ki jo mora imeti opravilo",
+        "The user a task must be assigned to": "Uporabnik, ki mu mora biti opravilo dodeljeno",
+        "A label a task must carry": "Oznaka, ki jo mora imeti opravilo",
+        "The board column a task must be in": "Stolpec table, v katerem mora biti opravilo",
+        "The issue type a task must have": "Vrsta zahtevka, ki jo mora imeti opravilo"
     },
     "plurals": null
 }

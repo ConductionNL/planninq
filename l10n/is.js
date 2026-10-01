@@ -1313,7 +1313,15 @@ OC.L10N.register(
         "The number added up when the measure is a sum": "Talan sem er lögð saman þegar mælikvarðinn er summa",
         "Story points": "Sögustig",
         "Estimated duration": "Áætlaður tími",
-        "How the report is shown": "Hvernig skýrslan er sýnd"
+        "How the report is shown": "Hvernig skýrslan er sýnd",
+        "Issue type": "Tegund máls",
+        "Task fields and the value each must equal; empty when the report covers every task": "Reitir verks og gildið sem hvert þarf að hafa; autt þegar skýrslan nær yfir öll verk",
+        "The status a task must have": "Staðan sem verk þarf að hafa",
+        "The priority a task must have": "Forgangurinn sem verk þarf að hafa",
+        "The user a task must be assigned to": "Notandinn sem verk þarf að vera úthlutað",
+        "A label a task must carry": "Merki sem verk þarf að bera",
+        "The board column a task must be in": "Töfludálkurinn sem verk þarf að vera í",
+        "The issue type a task must have": "Tegund máls sem verk þarf að hafa"
     },
     "nplurals=2; plural=(n != 1);"
 )

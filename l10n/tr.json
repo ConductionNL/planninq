@@ -1312,7 +1312,15 @@
         "The number added up when the measure is a sum": "Ölçü toplam olduğunda toplanan sayı",
         "Story points": "Hikâye puanı",
         "Estimated duration": "Tahmini süre",
-        "How the report is shown": "Raporun nasıl gösterildiği"
+        "How the report is shown": "Raporun nasıl gösterildiği",
+        "Issue type": "Kayıt türü",
+        "Task fields and the value each must equal; empty when the report covers every task": "Görev alanları ve her birinin taşıması gereken değer; rapor tüm görevleri kapsıyorsa boş",
+        "The status a task must have": "Bir görevin sahip olması gereken durum",
+        "The priority a task must have": "Bir görevin sahip olması gereken öncelik",
+        "The user a task must be assigned to": "Bir görevin atanmış olması gereken kullanıcı",
+        "A label a task must carry": "Bir görevin taşıması gereken etiket",
+        "The board column a task must be in": "Bir görevin bulunması gereken pano sütunu",
+        "The issue type a task must have": "Bir görevin sahip olması gereken kayıt türü"
     },
     "plurals": {}
 }
