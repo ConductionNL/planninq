@@ -20,6 +20,7 @@ import AlertOutline from 'vue-material-design-icons/AlertOutline.vue'
 import BookOpenVariantOutline from 'vue-material-design-icons/BookOpenVariantOutline.vue'
 import BriefcaseOutline from 'vue-material-design-icons/BriefcaseOutline.vue'
 import CalendarClock from 'vue-material-design-icons/CalendarClock.vue'
+import ChartAreaspline from 'vue-material-design-icons/ChartAreaspline.vue'
 import ChartBar from 'vue-material-design-icons/ChartBar.vue'
 import ChartBoxOutline from 'vue-material-design-icons/ChartBoxOutline.vue'
 import ChartTimeline from 'vue-material-design-icons/ChartTimeline.vue'
@@ -54,6 +55,7 @@ export default {
 	BookOpenVariantOutline,
 	BriefcaseOutline,
 	CalendarClock,
+	ChartAreaspline,
 	ChartBar,
 	ChartBoxOutline,
 	ChartTimeline,

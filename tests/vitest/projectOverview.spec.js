@@ -80,7 +80,7 @@ describe('project tabs', () => {
 		for (const tab of PROJECT_TABS) {
 			expect(pages[tab.route]?.route, tab.route).toMatch(/^\/projects\/:id(\/|$)/)
 		}
-		expect(PROJECT_TABS.map((tab) => tab.id)).toEqual(['overview', 'board', 'backlog', 'timeline', 'calendar', 'phases', 'risks', 'status', 'finance', 'log'])
+		expect(PROJECT_TABS.map((tab) => tab.id)).toEqual(['overview', 'board', 'backlog', 'timeline', 'calendar', 'flow', 'phases', 'risks', 'status', 'finance', 'log'])
 	})
 })
 

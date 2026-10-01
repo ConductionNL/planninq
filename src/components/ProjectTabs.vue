@@ -51,6 +51,7 @@ export default {
 				backlog: this.t('planninq', 'Backlog'),
 				timeline: this.t('planninq', 'Timeline'),
 				calendar: this.t('planninq', 'Calendar'),
+				flow: this.t('planninq', 'Flow'),
 				phases: this.t('planninq', 'Phases'),
 				risks: this.t('planninq', 'Risks'),
 				status: this.t('planninq', 'Status'),

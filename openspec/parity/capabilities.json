@@ -4622,7 +4622,7 @@
       "area": "portfolio",
       "name": "See a cumulative flow diagram of the board.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
@@ -4640,9 +4640,9 @@
         "plane": "corpus: plane/round4/code-census.md §10 analytics are two-dimensional counts; source: grep -rliE 'cumulative' in packages/i18n/src/locales/en returns nothing ; source read at v1.4.2: searched packages/i18n/src/locales/en and apps/web/core for 'cumulative': only the swimlane prop isSubGroupCumulative at apps/web/core/components/issues/issue-layouts/kanban/swimlanes.tsx:41, no flow chart; apps/api/plane/app/views/analytic/advance.py:289-308 is a two-dimensional count"
       },
       "built": {
-        "state": "specified",
-        "evidence": "no status-history aggregation anywhere; the only charts are the status and priority donuts of the current state in src/manifest.json:179-180",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Service/FlowHistoryService.php replays each task's OpenRegister audit trail into tasks per column per day (lib/Service/FlowReplay.php), served by GET /api/projects/{id}/flow and /api/portfolios/{id}/flow (lib/Controller/FlowController.php); src/components/FlowCharts.vue draws the stacked bands with a table view",
+        "reachedOn": "a project's Flow tab (/projects/:id/flow); Reports, Portfolio flow (/portfolio/flow)",
         "owner": "ConductionNL/planninq",
         "change": "openspec/changes/portfolio-flow-reports"
       },
@@ -4656,7 +4656,7 @@
       "area": "portfolio",
       "name": "See lead time and cycle time of finished tasks.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
@@ -4674,9 +4674,9 @@
         "plane": "corpus: plane/round4/M1-column.md 10.4 'no duration recorded anywhere'; completed_at exists (issue.py:236-249) but no lead or cycle time report ; source read at v1.4.2: apps/api/plane/db/models/issue.py:159 completed_at is stored but searched apps/api/plane --include=*.py for 'lead.?time', 'cycle.?time': none, no report computes it"
       },
       "built": {
-        "state": "specified",
-        "evidence": "task.completedAt and task.resolvedAt exist in lib/Settings/planninq_register.json but nothing in src/, lib/Service or lib/Controller reads or writes them (grep returns no hits)",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "lib/Service/FlowReplay.php computes lead time (created to completedAt, or the last change to done as estimated) and cycle time (first move off the first column, or first in_progress) with average, 85th percentile and the ten slowest; src/components/FlowCharts.vue shows the scatter and the slowest tasks",
+        "reachedOn": "a project's Flow tab (/projects/:id/flow); Reports, Portfolio flow (/portfolio/flow)",
         "owner": "ConductionNL/planninq",
         "change": "openspec/changes/portfolio-flow-reports"
       },
