@@ -26,7 +26,7 @@
 ## 5. Groups and ownership (V1)
 
 - [ ] 5.1 Let a manager add a group with a role, and let the owner or owning group set "Owned by group". Verify: e2e "a colleague in the owning group manages the project after the creator leaves".
-- [ ] 5.2 Make `ProjectController::leaveProject` remove the caller from every user list and prefer a manager when handing over ownership. Verify: new cases in `tests/unit/Controller/ProjectControllerTest.php`.
+- [x] 5.2 Make `ProjectController::leaveProject` remove the caller from every user list and prefer a manager when handing over ownership. Verify: new cases in `tests/unit/Controller/ProjectControllerTest.php`.
 - [ ] 5.3 Add `ProjectPrincipalCleanupListener` for `UserDeletedEvent` and `GroupDeletedEvent`, registered in `Application.php`. Verify: `tests/unit/Listener/ProjectPrincipalCleanupListenerTest.php` constructs the real Nextcloud event classes and covers the owner handover; one live account deletion on the dev instance before hand-back.
 - [x] 5.4 Move the membership guard in `lib/Service/DependencyService.php:365` to a PHP role helper with the schema's rules. Verify: `tests/unit/Service/DependencyServiceTest.php` cases for a viewer (refused) and a group member (allowed).
 

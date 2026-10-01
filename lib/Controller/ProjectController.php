@@ -26,6 +26,7 @@ namespace OCA\Planninq\Controller;
 
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\BoardColumnService;
+use OCA\Planninq\Service\ProjectRoles;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\WorkItemKeyService;
 use OCP\AppFramework\Controller;
@@ -460,40 +461,31 @@ class ProjectController extends Controller {
 		}
 
 		$project = $entity->getObject();
-		$members = (array)($project['members'] ?? []);
 
-		// Guard: caller must be a member.
-		if (in_array($uid, $members, strict: true) === false) {
+		// Guard: the caller must be on the project, in any role.
+		if (ProjectRoles::holdsUser(project: $project, uid: $uid) === false) {
 			return new JSONResponse(
 				['error' => 'You are not a member of this project.'],
 				Http::STATUS_FORBIDDEN
 			);
 		}
 
+		// Off every user list; an owner who leaves hands over to a manager first, else a member
+		// (projects-members-and-roles task 5.2), so the project is never owner-less.
+		$updated = ProjectRoles::withoutUser(project: $project, uid: $uid);
+
 		// Guard: refuse to orphan the project.
-		$remainingMembers = array_values(array_filter($members, static fn ($member) => $member !== $uid));
-		if (count($remainingMembers) === 0) {
+		if (ProjectRoles::hasWriters(project: $updated) === false) {
 			return new JSONResponse(
 				['error' => 'Cannot leave a project with no remaining members. Delete the project instead.'],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
 
-		// WF2 fix: when the owner leaves, transfer ownership to the alphabetically
-		// first remaining member so the project is never in an owner-less state.
-		// Alphabetical sort is deterministic and requires no extra user input.
-		$updated = $project;
-		$updated['members'] = $remainingMembers;
-
-		$currentOwner = ($project['owner'] ?? '');
-		if ($currentOwner === $uid) {
-			$candidateMembers = $remainingMembers;
-			sort($candidateMembers);
-			$newOwner = $candidateMembers[0];
-			$updated['owner'] = $newOwner;
+		if (($project['owner'] ?? '') === $uid) {
 			$this->logger->info(
 				'Planninq: ownership transferred on owner leave',
-				['fromUid' => $uid, 'toUid' => $newOwner, 'projectId' => $projectId]
+				['fromUid' => $uid, 'toUid' => ($updated['owner'] ?? ''), 'projectId' => $projectId]
 			);
 		}
 

@@ -84,6 +84,97 @@ class ProjectRoles {
 	}//end mayWrite()
 
 	/**
+	 * The user lists a person can be on.
+	 *
+	 * @var array<int,string>
+	 */
+	public const USER_LISTS = ['managers', 'members', 'viewers'];
+
+	/**
+	 * Whether a person is on the project at all: its owner or on a user list.
+	 *
+	 * @param array<string,mixed> $project The project's data.
+	 * @param string              $uid     The user id.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 */
+	public static function holdsUser(array $project, string $uid): bool {
+		if ($uid === '') {
+			return false;
+		}
+
+		if (($project['owner'] ?? null) === $uid) {
+			return true;
+		}
+
+		foreach (self::USER_LISTS as $field) {
+			if (in_array($uid, self::listOf(project: $project, field: $field), true) === true) {
+				return true;
+			}
+		}
+
+		return false;
+	}//end holdsUser()
+
+	/**
+	 * The project without one person: off every user list, and when they owned
+	 * it, ownership passes to the first remaining manager in alphabetical
+	 * order, else to the first remaining member. Only the lists that held the
+	 * person, and `owner` when it moves, are returned changed.
+	 *
+	 * @param array<string,mixed> $project The project's data.
+	 * @param string              $uid     The user id.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 */
+	public static function withoutUser(array $project, string $uid): array {
+		foreach (self::USER_LISTS as $field) {
+			$list = self::listOf(project: $project, field: $field);
+			if (in_array($uid, $list, true) === true) {
+				$project[$field] = array_values(array_filter($list, static fn (string $entry): bool => $entry !== $uid));
+			}
+		}
+
+		if (($project['owner'] ?? null) !== $uid) {
+			return $project;
+		}
+
+		foreach (['managers', 'members'] as $field) {
+			$candidates = self::listOf(project: $project, field: $field);
+			if ($candidates !== []) {
+				sort($candidates);
+				$project['owner'] = $candidates[0];
+				break;
+			}
+		}
+
+		return $project;
+	}//end withoutUser()
+
+	/**
+	 * Whether anyone who writes the project's work is left in person.
+	 *
+	 * @param array<string,mixed> $project The project's data.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 */
+	public static function hasWriters(array $project): bool {
+		foreach (self::WRITER_USERS as $field) {
+			if (self::listOf(project: $project, field: $field) !== []) {
+				return true;
+			}
+		}
+
+		return false;
+	}//end hasWriters()
+
+	/**
 	 * One list of a project as strings, or an empty list.
 	 *
 	 * @param array<string,mixed> $project The project's data.

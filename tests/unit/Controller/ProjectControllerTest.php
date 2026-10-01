@@ -400,6 +400,92 @@ class ProjectControllerTest extends TestCase {
 	}//end testLeaveProjectReturnsServiceUnavailableWhenORUnavailable()
 
 	/**
+	 * Run leaveProject as `$uid` on a project and return the status and the saved payload.
+	 *
+	 * @param string              $uid     The caller.
+	 * @param array<string,mixed> $project The stored project.
+	 *
+	 * @return array{0:int,1:array<string,mixed>|null}
+	 */
+	private function leaveAs(string $uid, array $project): array {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn($uid);
+		$this->userSession->method('getUser')->willReturn($user);
+
+		$entity = new class($project) {
+			/**
+			 * @param array<string,mixed> $project The project.
+			 */
+			public function __construct(private array $project) {
+			}//end __construct()
+
+			/**
+			 * @return array<string,mixed>
+			 */
+			public function getObject(): array {
+				return $this->project;
+			}//end getObject()
+
+			/**
+			 * @return array<string,mixed>
+			 */
+			public function jsonSerialize(): array {
+				return $this->project;
+			}//end jsonSerialize()
+		};
+
+		$saved = null;
+		$objectService = $this->createMock(originalClassName: ObjectServiceDouble::class);
+		$objectService->method('find')->willReturn($entity);
+		$objectService->method('saveObject')->willReturnCallback(
+			function () use ($entity, &$saved) {
+				$saved = (func_get_args()[0] ?? null);
+				return $entity;
+			}
+		);
+		$this->container->method('get')->willReturn($objectService);
+
+		$result = $this->controller->leaveProject('project-uuid-1');
+		return [$result->getStatus(), $saved];
+	}//end leaveAs()
+
+	/**
+	 * Task 5.2: the owner who leaves is taken off every list, and a manager takes over before a member.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 *
+	 * @return void
+	 */
+	public function testLeaveProjectClearsEveryListAndPrefersAManager(): void {
+		[$status, $saved] = $this->leaveAs(
+			uid: 'alice',
+			project: ['owner' => 'alice', 'managers' => ['alice', 'zed'], 'members' => ['alice', 'bob', 'carol'], 'viewers' => ['alice', 'vera']]
+		);
+
+		self::assertSame(Http::STATUS_OK, $status);
+		self::assertSame('zed', ($saved['owner'] ?? null));
+		self::assertSame(['zed'], $saved['managers']);
+		self::assertSame(['bob', 'carol'], $saved['members']);
+		self::assertSame(['vera'], $saved['viewers']);
+	}//end testLeaveProjectClearsEveryListAndPrefersAManager()
+
+	/**
+	 * Task 5.2: a viewer, who is on no members list, can leave too.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 *
+	 * @return void
+	 */
+	public function testAViewerLeavesTheProject(): void {
+		[$status, $saved] = $this->leaveAs(uid: 'vera', project: ['owner' => 'olga', 'members' => ['olga'], 'viewers' => ['vera']]);
+
+		self::assertSame(Http::STATUS_OK, $status);
+		self::assertSame('olga', $saved['owner']);
+		self::assertSame(['olga'], $saved['members']);
+		self::assertSame([], $saved['viewers']);
+	}//end testAViewerLeavesTheProject()
+
+	/**
 	 * WF2: When the project owner leaves, ownership transfers to the
 	 * alphabetically-first remaining member.
 	 *
