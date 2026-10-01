@@ -46,6 +46,9 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'timeline#forProject', 'url' => '/api/projects/{projectId}/timeline', 'verb' => 'GET', 'requirements' => ['projectId' => '[^/]+']],
     // Several projects on one axis (portfolio timeline), same RBAC-scoped read per project.
     ['name' => 'timeline#forProjects', 'url' => '/api/timeline', 'verb' => 'GET'],
+    // Cumulative flow and lead/cycle time, replayed from the audit trail (portfolio-flow-reports).
+    ['name' => 'flow#forProject', 'url' => '/api/projects/{projectId}/flow', 'verb' => 'GET', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'flow#forPortfolio', 'url' => '/api/portfolios/{portfolioId}/flow', 'verb' => 'GET', 'requirements' => ['portfolioId' => '[^/]+']],
 
     // School timetable (school-timetable-target, decision D10): signed-in users
     // read a cohort's, group's or teacher's sessions; admins upsert a batch by hand.
