@@ -170,6 +170,7 @@ test.describe('visual baselines — planninq views', () => {
 		['ProjectBacklog', 'backlog', 'backlog', 'project-backlog.png'],
 		['ProjectTimeline', 'timeline', 'timeline', 'project-timeline.png'],
 		['ProjectCalendar', 'calendar', 'calendar', 'project-calendar.png'],
+		['ProjectFlow', 'flow', 'flow', 'project-flow.png'],
 		['ProjectOverview', 'overview', 'overview', 'project-overview.png'],
 		['ProjectPhases', 'phases', 'phases', 'project-phases.png'],
 		['ProjectRisks', 'risks', 'risks', 'project-risks.png'],
@@ -228,6 +229,7 @@ test.describe('visual baselines — planninq views', () => {
 	for (const [component, label, path, file] of [
 		['PortfolioStatus', 'Portfolio status', 'portfolio/status', 'portfolio-status.png'],
 		['PortfolioTimeline', 'Portfolio timeline', 'portfolio/timeline', 'portfolio-timeline.png'],
+		['PortfolioFlow', 'Portfolio flow', 'portfolio/flow', 'portfolio-flow.png'],
 		['PortfolioFinance', 'Portfolio finance', 'portfolio/finance', 'portfolio-finance.png'],
 	]) {
 		test(`${component} renders from its report card @visual`, async ({ page }) => {

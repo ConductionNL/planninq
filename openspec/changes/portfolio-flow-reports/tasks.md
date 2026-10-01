@@ -8,8 +8,8 @@
 
 ## 2. Flow screens (V1 and Enterprise)
 
-- [ ] 2.1 Add the Flow tab (`/projects/:id/flow`) to `ProjectTabs` with the stacked area chart, its table view, the period picker and the lead and cycle time scatter with the slowest tasks. Verify: `tests/e2e/project-flow.spec.ts` "a queue growing before review" and "cycle time of finished tasks" on seeded audit history.
-- [ ] 2.2 Add the portfolio flow page (`/portfolio/flow`) with a project filter. Verify: e2e "cycle time across a portfolio".
+- [x] 2.1 Add the Flow tab (`/projects/:id/flow`) to `ProjectTabs` with the stacked area chart, its table view, the period picker and the lead and cycle time scatter with the slowest tasks. Verify: `tests/e2e/project-flow.spec.ts` "a queue growing before review" and "cycle time of finished tasks" on seeded audit history.
+- [x] 2.2 Add the portfolio flow page (`/portfolio/flow`) with a project filter. Verify: e2e "cycle time across a portfolio".
 
 ## 3. Custom reports (V1)
 

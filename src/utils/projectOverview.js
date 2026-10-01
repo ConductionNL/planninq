@@ -20,6 +20,7 @@ export const PROJECT_TABS = [
 	{ id: 'backlog', route: 'ProjectBacklog' },
 	{ id: 'timeline', route: 'ProjectTimeline' },
 	{ id: 'calendar', route: 'ProjectCalendar' },
+	{ id: 'flow', route: 'ProjectFlow' },
 	{ id: 'phases', route: 'ProjectPhases' },
 	{ id: 'risks', route: 'ProjectRisks' },
 	{ id: 'status', route: 'ProjectStatus' },
