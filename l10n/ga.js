@@ -1335,7 +1335,13 @@ OC.L10N.register(
         "The Nextcloud group that owns the project with its creator, at most one": "An grúpa Nextcloud ar leis an tionscadal in éineacht lena chruthaitheoir, ceann amháin ar a mhéad",
         "Nextcloud user ids who may read this through the project": "Úsáideoirí Nextcloud ar féidir leo é seo a léamh tríd an tionscadal",
         "Nextcloud groups whose members may change this through the project": "Grúpaí Nextcloud ar féidir lena gcuid ball é seo a athrú tríd an tionscadal",
-        "Nextcloud groups whose members may read this through the project": "Grúpaí Nextcloud ar féidir lena gcuid ball é seo a léamh tríd an tionscadal"
+        "Nextcloud groups whose members may read this through the project": "Grúpaí Nextcloud ar féidir lena gcuid ball é seo a léamh tríd an tionscadal",
+        "Search for a person or a group…": "Cuardaigh duine nó grúpa…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Níor aimsíodh aon duine. Socruithe comhroinnte do riarthóra a shocraíonn cé atá le fáil agat.",
+        "Type at least two characters": "Clóscríobh dhá charachtar ar a laghad",
+        "Everyone in this group": "Gach duine sa ghrúpa seo",
+        "Could not search for people. Please try again.": "Níorbh fhéidir daoine a chuardach. Bain triail eile as.",
+        "Could not remove the group": "Níorbh fhéidir an grúpa a bhaint"
     },
     "nplurals=2; plural=(n != 1);"
 )

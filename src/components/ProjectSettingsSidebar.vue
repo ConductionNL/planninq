@@ -149,34 +149,54 @@
 				<MemberSearch
 					v-if="project"
 					:projectId="project.id"
-					:existingMembers="project.members || []"
+					:existingMembers="currentProject.members || []"
+					:existingGroups="currentProject.memberGroups || []"
 					@added="onMemberAdded" />
 
-				<ul class="project-settings-sidebar__members" role="list">
+				<ul class="project-settings-sidebar__members" role="list" data-testid="project-members">
 					<li
-						v-for="uid in (project ? project.members : [])"
-						:key="uid"
-						class="project-settings-sidebar__member">
+						v-for="entry in memberRows"
+						:key="entry.key"
+						class="project-settings-sidebar__member"
+						:data-testid="`project-member-${entry.key}`">
 						<NcAvatar
-							:user="uid"
+							v-if="entry.type === 'user'"
+							:user="entry.id"
+							:displayName="entry.name"
 							:size="32"
-							:aria-label="uid" />
-						<span class="project-settings-sidebar__member-name">{{ uid }}</span>
+							:aria-label="entry.name" />
+						<AccountGroupOutline v-else :size="32" />
+						<span class="project-settings-sidebar__member-name">
+							{{ entry.name }}
+							<span v-if="entry.type === 'group'" class="project-settings-sidebar__member-note">
+								{{ t('planninq', 'Everyone in this group') }}
+							</span>
+						</span>
 						<div class="project-settings-sidebar__member-actions">
 							<!-- Leave project (current user) -->
 							<NcButton
-								v-if="uid === currentUid"
+								v-if="entry.type === 'user' && entry.id === currentUid"
 								variant="tertiary"
 								:aria-label="t('planninq', 'Leave project')"
 								@click="showLeaveDialog = true">
 								{{ t('planninq', 'Leave project') }}
 							</NcButton>
+							<!-- Remove a group -->
+							<NcButton
+								v-else-if="entry.type === 'group'"
+								variant="tertiary-no-background"
+								:aria-label="t('planninq', 'Remove {name}', { name: entry.name })"
+								@click="removeGroup(entry.id)">
+								<template #icon>
+									<CloseIcon :size="16" />
+								</template>
+							</NcButton>
 							<!-- Remove member (other users) -->
 							<NcButton
 								v-else
 								variant="tertiary-no-background"
-								:aria-label="t('planninq', 'Remove {name}', { name: uid })"
-								@click="confirmRemoveMember(uid)">
+								:aria-label="t('planninq', 'Remove {name}', { name: entry.name })"
+								@click="confirmRemoveMember(entry.id)">
 								<template #icon>
 									<CloseIcon :size="16" />
 								</template>
@@ -311,10 +331,12 @@ import CaseHandoverSection from './CaseHandoverSection.vue'
 import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import { useProjectsStore } from '../store/projects.js'
+import { memberEntries } from '../utils/memberSearch.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
 import { lifecycleButtons } from '../utils/projectLifecycle.js'
 import { parentIdOf, parentOptions, parentRefusal } from '../utils/projectTree.js'
+import { displayNames, groupNames } from '../utils/userNames.js'
 import { keyEditable, keyRefusal, normaliseProjectKey } from '../utils/workItemKeys.js'
 
 export default {
@@ -379,10 +401,38 @@ export default {
 			missingFields: [],
 
 			portfolios: [],
+
+			// Display names of the people and names of the groups on the Members tab.
+			memberNames: {},
+			memberGroupNames: {},
 		}
 	},
 
 	computed: {
+		/**
+		 * The project as the store holds it now, so a member added or removed
+		 * shows at once; the prop is the object the sidebar was opened with.
+		 *
+		 * @return {object}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+		 */
+		currentProject() {
+			const active = this.projectsStore.activeProject
+			return active && this.project && active.id === this.project.id ? active : (this.project || {})
+		},
+
+		/**
+		 * The Members tab rows: people by display name, then groups by name.
+		 *
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+		 */
+		memberRows() {
+			return memberEntries(this.currentProject, this.memberNames, this.memberGroupNames)
+		},
+
 		/**
 		 * @spec exclude Store passthrough — returns the projects Pinia store.
 		 */
@@ -461,6 +511,27 @@ export default {
 	},
 
 	watch: {
+		memberRows: {
+			immediate: true,
+			/**
+			 * Resolve the names on the Members tab whenever its lists change.
+			 *
+			 * @param {Array<object>} rows The Members tab rows.
+			 *
+			 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+			 */
+			async handler(rows) {
+				const users = rows.filter((row) => row.type === 'user' && !(row.id in this.memberNames)).map((row) => row.id)
+				const groups = rows.filter((row) => row.type === 'group' && !(row.id in this.memberGroupNames)).map((row) => row.id)
+				if (users.length) {
+					this.memberNames = { ...this.memberNames, ...(await displayNames(users)) }
+				}
+				if (groups.length) {
+					this.memberGroupNames = { ...this.memberGroupNames, ...(await groupNames(groups)) }
+				}
+			},
+		},
+
 		/**
 		 * @spec exclude Framework glue — syncs the project prop into the edit form on change.
 		 * @param {object} newVal The updated project object.
@@ -632,10 +703,34 @@ export default {
 		},
 
 		/**
-		 * @spec exclude Event-wiring glue — refreshes the project after a member is added.
+		 * Remember the picked name and refresh the project after a member is added.
+		 *
+		 * @param {object} option The person or group added.
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
 		 */
-		onMemberAdded() {
+		onMemberAdded(option) {
+			if (option?.type === 'group') {
+				this.memberGroupNames = { ...this.memberGroupNames, [option.id]: option.displayName }
+			} else if (option?.id) {
+				this.memberNames = { ...this.memberNames, [option.id]: option.displayName }
+			}
 			this.projectsStore.fetchProject(this.project.id)
+		},
+
+		/**
+		 * Stop sharing the project with a group.
+		 *
+		 * @param {string} gid The group id.
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+		 */
+		async removeGroup(gid) {
+			try {
+				await this.projectsStore.removeMemberGroup(this.project.id, gid)
+			} catch {
+				showError(this.t('planninq', 'Could not remove the group'))
+			}
 		},
 
 		/**
@@ -775,8 +870,15 @@ export default {
 }
 
 .project-settings-sidebar__member-name {
+	display: flex;
 	flex: 1;
+	flex-direction: column;
 	font-size: 14px;
+}
+
+.project-settings-sidebar__member-note {
+	font-size: 13px;
+	color: var(--color-text-maxcontrast);
 }
 
 .project-settings-sidebar__member-actions {

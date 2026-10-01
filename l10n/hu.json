@@ -1334,7 +1334,13 @@
         "The Nextcloud group that owns the project with its creator, at most one": "A Nextcloud-csoport, amely a létrehozóval együtt birtokolja a projektet, legfeljebb egy",
         "Nextcloud user ids who may read this through the project": "Nextcloud-felhasználók, akik ezt a projekten keresztül olvashatják",
         "Nextcloud groups whose members may change this through the project": "Nextcloud-csoportok, amelyek tagjai ezt a projekten keresztül módosíthatják",
-        "Nextcloud groups whose members may read this through the project": "Nextcloud-csoportok, amelyek tagjai ezt a projekten keresztül olvashatják"
+        "Nextcloud groups whose members may read this through the project": "Nextcloud-csoportok, amelyek tagjai ezt a projekten keresztül olvashatják",
+        "Search for a person or a group…": "Személy vagy csoport keresése…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Senki sem található. A rendszergazda megosztási beállításai döntik el, kiket találhatsz meg.",
+        "Type at least two characters": "Írj be legalább két karaktert",
+        "Everyone in this group": "Mindenki ebben a csoportban",
+        "Could not search for people. Please try again.": "Nem sikerült személyeket keresni. Próbáld újra.",
+        "Could not remove the group": "Nem sikerült eltávolítani a csoportot"
     },
     "plurals": null
 }

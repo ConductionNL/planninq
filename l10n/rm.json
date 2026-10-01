@@ -1334,7 +1334,13 @@
         "The Nextcloud group that owns the project with its creator, at most one": "La gruppa Nextcloud che possede il project ensemen cun ses creader, maximalmain ina",
         "Nextcloud user ids who may read this through the project": "Utilisaders Nextcloud che dastgan leger quai tras il project",
         "Nextcloud groups whose members may change this through the project": "Gruppas Nextcloud dals quals ils commembers dastgan midar quai tras il project",
-        "Nextcloud groups whose members may read this through the project": "Gruppas Nextcloud dals quals ils commembers dastgan leger quai tras il project"
+        "Nextcloud groups whose members may read this through the project": "Gruppas Nextcloud dals quals ils commembers dastgan leger quai tras il project",
+        "Search for a person or a group…": "Tschertgar ina persuna u ina gruppa…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Nagin chattà. Las configuraziuns da cundivisiun da tes administratur decidan tgi che ti pos chattar.",
+        "Type at least two characters": "Endatescha almain dus caracters",
+        "Everyone in this group": "Tuts en questa gruppa",
+        "Could not search for people. Please try again.": "Betg reussì da tschertgar persunas. Emprova anc ina giada.",
+        "Could not remove the group": "Betg reussì dad allontanar la gruppa"
     },
     "plurals": null
 }

@@ -1335,7 +1335,13 @@ OC.L10N.register(
         "The Nextcloud group that owns the project with its creator, at most one": "Nextcloud-ryhmä, joka omistaa projektin sen luojan kanssa, enintään yksi",
         "Nextcloud user ids who may read this through the project": "Nextcloud-käyttäjät, jotka voivat lukea tämän projektin kautta",
         "Nextcloud groups whose members may change this through the project": "Nextcloud-ryhmät, joiden jäsenet voivat muuttaa tätä projektin kautta",
-        "Nextcloud groups whose members may read this through the project": "Nextcloud-ryhmät, joiden jäsenet voivat lukea tämän projektin kautta"
+        "Nextcloud groups whose members may read this through the project": "Nextcloud-ryhmät, joiden jäsenet voivat lukea tämän projektin kautta",
+        "Search for a person or a group…": "Hae henkilöä tai ryhmää…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Ketään ei löytynyt. Ylläpitäjän jakoasetukset määräävät, keitä voit löytää.",
+        "Type at least two characters": "Kirjoita vähintään kaksi merkkiä",
+        "Everyone in this group": "Kaikki tässä ryhmässä",
+        "Could not search for people. Please try again.": "Henkilöiden haku epäonnistui. Yritä uudelleen.",
+        "Could not remove the group": "Ryhmää ei voitu poistaa"
     },
     "nplurals=2; plural=(n != 1);"
 )

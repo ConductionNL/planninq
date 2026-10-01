@@ -1335,7 +1335,13 @@ OC.L10N.register(
         "The Nextcloud group that owns the project with its creator, at most one": "Nextcloud-hópurinn sem á verkefnið ásamt þeim sem stofnaði það, mest einn",
         "Nextcloud user ids who may read this through the project": "Nextcloud-notendur sem mega lesa þetta í gegnum verkefnið",
         "Nextcloud groups whose members may change this through the project": "Nextcloud-hópar sem mega breyta þessu í gegnum verkefnið",
-        "Nextcloud groups whose members may read this through the project": "Nextcloud-hópar sem mega lesa þetta í gegnum verkefnið"
+        "Nextcloud groups whose members may read this through the project": "Nextcloud-hópar sem mega lesa þetta í gegnum verkefnið",
+        "Search for a person or a group…": "Leita að manneskju eða hópi…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Enginn fannst. Deilingarstillingar kerfisstjórans ráða hverja þú getur fundið.",
+        "Type at least two characters": "Sláðu inn að minnsta kosti tvo stafi",
+        "Everyone in this group": "Allir í þessum hópi",
+        "Could not search for people. Please try again.": "Ekki tókst að leita að fólki. Reyndu aftur.",
+        "Could not remove the group": "Ekki tókst að fjarlægja hópinn"
     },
     "nplurals=2; plural=(n != 1);"
 )

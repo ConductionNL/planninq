@@ -1335,7 +1335,13 @@ OC.L10N.register(
         "The Nextcloud group that owns the project with its creator, at most one": "Projeye oluşturanla birlikte sahip olan Nextcloud grubu, en fazla bir",
         "Nextcloud user ids who may read this through the project": "Bunu proje üzerinden okuyabilen Nextcloud kullanıcıları",
         "Nextcloud groups whose members may change this through the project": "Üyeleri bunu proje üzerinden değiştirebilen Nextcloud grupları",
-        "Nextcloud groups whose members may read this through the project": "Üyeleri bunu proje üzerinden okuyabilen Nextcloud grupları"
+        "Nextcloud groups whose members may read this through the project": "Üyeleri bunu proje üzerinden okuyabilen Nextcloud grupları",
+        "Search for a person or a group…": "Bir kişi ya da grup ara…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Kimse bulunamadı. Kimleri bulabileceğinizi yöneticinizin paylaşım ayarları belirler.",
+        "Type at least two characters": "En az iki karakter yazın",
+        "Everyone in this group": "Bu gruptaki herkes",
+        "Could not search for people. Please try again.": "Kişiler aranamadı. Lütfen yeniden deneyin.",
+        "Could not remove the group": "Grup kaldırılamadı"
     },
     "nplurals=2; plural=(n != 1);"
 )

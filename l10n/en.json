@@ -1313,7 +1313,13 @@
         "The Nextcloud group that owns the project with its creator, at most one": "The Nextcloud group that owns the project with its creator, at most one",
         "Nextcloud user ids who may read this through the project": "Nextcloud user ids who may read this through the project",
         "Nextcloud groups whose members may change this through the project": "Nextcloud groups whose members may change this through the project",
-        "Nextcloud groups whose members may read this through the project": "Nextcloud groups whose members may read this through the project"
+        "Nextcloud groups whose members may read this through the project": "Nextcloud groups whose members may read this through the project",
+        "Search for a person or a group…": "Search for a person or a group…",
+        "No one found. Your admin's sharing settings decide who you can find.": "No one found. Your admin's sharing settings decide who you can find.",
+        "Type at least two characters": "Type at least two characters",
+        "Everyone in this group": "Everyone in this group",
+        "Could not search for people. Please try again.": "Could not search for people. Please try again.",
+        "Could not remove the group": "Could not remove the group"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

@@ -1471,6 +1471,47 @@ export const useProjectsStore = defineStore('projects', {
 			return this.patchProject(projectId, { members })
 		},
 
+		/**
+		 * Share a project with a Nextcloud group as members: everyone in the
+		 * group reads and writes its tasks. PATCHes only `memberGroups`.
+		 *
+		 * @param {string} projectId Project ID
+		 * @param {string} groupId Nextcloud group id
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
+		 */
+		async addMemberGroup(projectId, groupId) {
+			const project = await this.fetchProject(projectId)
+			if (!project) {
+				return null
+			}
+			const memberGroups = Array.isArray(project.memberGroups) ? [...project.memberGroups] : []
+			if (memberGroups.includes(groupId)) {
+				return project
+			}
+			memberGroups.push(groupId)
+			return this.patchProject(projectId, { memberGroups })
+		},
+
+		/**
+		 * Stop sharing a project with a group. PATCHes only `memberGroups`.
+		 *
+		 * @param {string} projectId Project ID
+		 * @param {string} groupId Nextcloud group id
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+		 */
+		async removeMemberGroup(projectId, groupId) {
+			const project = await this.fetchProject(projectId)
+			if (!project) {
+				return null
+			}
+			const memberGroups = (Array.isArray(project.memberGroups) ? project.memberGroups : []).filter((gid) => gid !== groupId)
+			return this.patchProject(projectId, { memberGroups })
+		},
+
 		// ── 2.10 getMemberTaskCount ───────────────────────────────────────
 
 		/**

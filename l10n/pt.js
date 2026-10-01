@@ -1335,7 +1335,13 @@ OC.L10N.register(
         "The Nextcloud group that owns the project with its creator, at most one": "O grupo Nextcloud que detém o projeto com quem o criou, no máximo um",
         "Nextcloud user ids who may read this through the project": "Utilizadores Nextcloud que podem ler isto através do projeto",
         "Nextcloud groups whose members may change this through the project": "Grupos Nextcloud cujos membros podem alterar isto através do projeto",
-        "Nextcloud groups whose members may read this through the project": "Grupos Nextcloud cujos membros podem ler isto através do projeto"
+        "Nextcloud groups whose members may read this through the project": "Grupos Nextcloud cujos membros podem ler isto através do projeto",
+        "Search for a person or a group…": "Procurar uma pessoa ou um grupo…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Ninguém encontrado. As definições de partilha do seu administrador decidem quem pode encontrar.",
+        "Type at least two characters": "Escreva pelo menos dois caracteres",
+        "Everyone in this group": "Todos neste grupo",
+        "Could not search for people. Please try again.": "Não foi possível procurar pessoas. Tente novamente.",
+        "Could not remove the group": "Não foi possível remover o grupo"
     },
     "nplurals=2; plural=(n != 1);"
 )

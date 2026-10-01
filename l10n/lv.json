@@ -1334,7 +1334,13 @@
         "The Nextcloud group that owns the project with its creator, at most one": "Nextcloud grupa, kurai projekts pieder kopā ar tā izveidotāju, ne vairāk kā viena",
         "Nextcloud user ids who may read this through the project": "Nextcloud lietotāji, kas drīkst lasīt šo caur projektu",
         "Nextcloud groups whose members may change this through the project": "Nextcloud grupas, kuru dalībnieki drīkst mainīt šo caur projektu",
-        "Nextcloud groups whose members may read this through the project": "Nextcloud grupas, kuru dalībnieki drīkst lasīt šo caur projektu"
+        "Nextcloud groups whose members may read this through the project": "Nextcloud grupas, kuru dalībnieki drīkst lasīt šo caur projektu",
+        "Search for a person or a group…": "Meklēt personu vai grupu…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Neviens netika atrasts. Tava administratora koplietošanas iestatījumi nosaka, ko vari atrast.",
+        "Type at least two characters": "Ievadi vismaz divas rakstzīmes",
+        "Everyone in this group": "Visi šajā grupā",
+        "Could not search for people. Please try again.": "Neizdevās meklēt personas. Mēģini vēlreiz.",
+        "Could not remove the group": "Neizdevās noņemt grupu"
     },
     "plurals": null
 }

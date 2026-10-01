@@ -1334,7 +1334,13 @@
         "The Nextcloud group that owns the project with its creator, at most one": "Nextcloud grupė, kuriai projektas priklauso kartu su jo kūrėju, ne daugiau kaip viena",
         "Nextcloud user ids who may read this through the project": "Nextcloud naudotojai, galintys tai skaityti per projektą",
         "Nextcloud groups whose members may change this through the project": "Nextcloud grupės, kurių nariai gali tai keisti per projektą",
-        "Nextcloud groups whose members may read this through the project": "Nextcloud grupės, kurių nariai gali tai skaityti per projektą"
+        "Nextcloud groups whose members may read this through the project": "Nextcloud grupės, kurių nariai gali tai skaityti per projektą",
+        "Search for a person or a group…": "Ieškoti asmens ar grupės…",
+        "No one found. Your admin's sharing settings decide who you can find.": "Nieko nerasta. Jūsų administratoriaus bendrinimo nustatymai lemia, ką galite rasti.",
+        "Type at least two characters": "Įveskite bent du simbolius",
+        "Everyone in this group": "Visi šioje grupėje",
+        "Could not search for people. Please try again.": "Nepavyko ieškoti žmonių. Bandykite dar kartą.",
+        "Could not remove the group": "Nepavyko pašalinti grupės"
     },
     "plurals": null
 }
