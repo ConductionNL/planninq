@@ -28,6 +28,7 @@ use OCA\OpenRegister\Event\ObjectUpdatedEvent;
 use OCA\Planninq\Event\TimetableSessionsQueryEvent;
 use OCA\Planninq\Event\TimetableUpsertRequestedEvent;
 use OCA\Planninq\Listener\DeepLinkRegistrationListener;
+use OCA\Planninq\Listener\ProjectPrincipalCleanupListener;
 use OCA\Planninq\Listener\RegisterProjectsLeafListener;
 use OCA\Planninq\Listener\TaskActivityListener;
 use OCA\Planninq\Listener\TimetableSessionsQueryListener;
@@ -41,6 +42,8 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\GroupDeletedEvent;
+use OCP\User\Events\UserDeletedEvent;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -117,6 +120,11 @@ class Application extends App implements IBootstrap {
 		// Both events are planninq's own classes, so no load-order hazard.
 		$context->registerEventListener(event: TimetableUpsertRequestedEvent::class, listener: TimetableUpsertRequestedListener::class);
 		$context->registerEventListener(event: TimetableSessionsQueryEvent::class, listener: TimetableSessionsQueryListener::class);
+
+		// A deleted account or group leaves every project (projects-members-and-roles task 5.3).
+		// Both are OCP events, so no load-order hazard.
+		$context->registerEventListener(event: UserDeletedEvent::class, listener: ProjectPrincipalCleanupListener::class);
+		$context->registerEventListener(event: GroupDeletedEvent::class, listener: ProjectPrincipalCleanupListener::class);
 
 		// NOTE: the task-lifecycle Activity listener is subscribed from boot(),
 		// not here — see registerFilteredObjectListener().
