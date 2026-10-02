@@ -221,7 +221,7 @@ class RegisterImportService {
 	private function forgetCachedRegister(): void {
 		try {
 			$mapper = $this->container->get('OCA\OpenRegister\Db\RegisterMapper');
-			if (method_exists($mapper, 'clearFindCache') === false) {
+			if (is_object($mapper) === false || method_exists($mapper, 'clearFindCache') === false) {
 				return;
 			}
 
