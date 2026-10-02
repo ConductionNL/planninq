@@ -1347,7 +1347,15 @@ OC.L10N.register(
         "Manager": "Administrator",
         "Member": "Medlem",
         "Viewer": "Læser",
-        "Could not change the role": "Kunne ikke ændre rollen"
+        "Could not change the role": "Kunne ikke ændre rollen",
+        "Owned by group: {name}": "Ejet af gruppen: {name}",
+        "No group owns this project.": "Ingen gruppe ejer dette projekt.",
+        "Owned by group": "Ejet af gruppe",
+        "Search for a group…": "Søg efter en gruppe…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Ingen gruppe fundet. Din administrators delingsindstillinger bestemmer, hvilke grupper du kan finde.",
+        "No owning group": "Ingen ejergruppe",
+        "Could not search for groups. Please try again.": "Kunne ikke søge efter grupper. Prøv igen.",
+        "Could not change the owning group": "Kunne ikke ændre ejergruppen"
     },
     "nplurals=2; plural=(n != 1);"
 )

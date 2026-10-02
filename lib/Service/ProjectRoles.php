@@ -121,8 +121,10 @@ class ProjectRoles {
 	/**
 	 * The project without one person: off every user list, and when they owned
 	 * it, ownership passes to the first remaining manager in alphabetical
-	 * order, else to the first remaining member. Only the lists that held the
-	 * person, and `owner` when it moves, are returned changed.
+	 * order, else to the first remaining member. With nobody left in person
+	 * but an owning group, `owner` becomes empty and the group carries on.
+	 * Only the lists that held the person, and `owner` when it moves, are
+	 * returned changed.
 	 *
 	 * @param array<string,mixed> $project The project's data.
 	 * @param string              $uid     The user id.
@@ -130,6 +132,7 @@ class ProjectRoles {
 	 * @return array<string,mixed>
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
 	 */
 	public function withoutUser(array $project, string $uid): array {
 		foreach (self::USER_LISTS as $field) {
@@ -148,23 +151,36 @@ class ProjectRoles {
 			if ($candidates !== []) {
 				sort($candidates);
 				$project['owner'] = $candidates[0];
-				break;
+				return $project;
 			}
+		}
+
+		// Nobody to hand over to, but a group owns the project: the person keeps
+		// no owner rights, the owning group carries on (task 5.1).
+		if ($this->listOf(project: $project, field: 'ownerGroups') !== []) {
+			$project['owner'] = '';
 		}
 
 		return $project;
 	}//end withoutUser()
 
 	/**
-	 * Whether anyone who writes the project's work is left in person.
+	 * Whether the project is still looked after: a group owns it, or anyone
+	 * who writes the project's work is left in person.
 	 *
 	 * @param array<string,mixed> $project The project's data.
 	 *
 	 * @return bool
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
 	 */
 	public function hasWriters(array $project): bool {
+		// An owning group keeps the project managed without any one person (task 5.1).
+		if ($this->listOf(project: $project, field: 'ownerGroups') !== []) {
+			return true;
+		}
+
 		foreach (self::WRITER_USERS as $field) {
 			if ($this->listOf(project: $project, field: $field) !== []) {
 				return true;

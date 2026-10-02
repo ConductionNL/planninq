@@ -1347,7 +1347,15 @@ OC.L10N.register(
         "Manager": "Hallinnoija",
         "Member": "Jäsen",
         "Viewer": "Lukija",
-        "Could not change the role": "Roolia ei voitu muuttaa"
+        "Could not change the role": "Roolia ei voitu muuttaa",
+        "Owned by group: {name}": "Ryhmän omistama: {name}",
+        "No group owns this project.": "Mikään ryhmä ei omista tätä projektia.",
+        "Owned by group": "Ryhmän omistama",
+        "Search for a group…": "Etsi ryhmää…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Ryhmää ei löytynyt. Ylläpitäjäsi jakoasetukset määräävät, mitkä ryhmät voit löytää.",
+        "No owning group": "Ei omistajaryhmää",
+        "Could not search for groups. Please try again.": "Ryhmien haku epäonnistui. Yritä uudelleen.",
+        "Could not change the owning group": "Omistajaryhmää ei voitu muuttaa"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -149,6 +149,13 @@
 				<p v-if="project && !mayManageMembers" class="project-settings-sidebar__hint" data-testid="members-read-only">
 					{{ t('planninq', 'Only the owner and managers change who is on this project.') }}
 				</p>
+				<OwnerGroupPicker
+					v-if="project"
+					:projectId="project.id"
+					:ownerGroup="ownerGroup"
+					:groupName="ownerGroup ? (memberGroupNames[ownerGroup] || '') : ''"
+					:canChange="mayChangeOwnerGroup"
+					@changed="onOwnerGroupChanged" />
 				<MemberSearch
 					v-if="project && mayManageMembers"
 					:projectId="project.id"
@@ -345,12 +352,13 @@ import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
 import CaseHandoverSection from './CaseHandoverSection.vue'
 import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
+import OwnerGroupPicker from './OwnerGroupPicker.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { memberEntries } from '../utils/memberSearch.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
 import { lifecycleButtons } from '../utils/projectLifecycle.js'
-import { ASSIGNABLE_ROLES, canManageMembers, currentGroupIds, projectRole } from '../utils/projectRole.js'
+import { ASSIGNABLE_ROLES, canManageMembers, canSetOwnerGroup, currentGroupIds, ownerGroupOf, projectRole } from '../utils/projectRole.js'
 import { parentIdOf, parentOptions, parentRefusal } from '../utils/projectTree.js'
 import { displayNames, groupNames } from '../utils/userNames.js'
 import { keyEditable, keyRefusal, normaliseProjectKey } from '../utils/workItemKeys.js'
@@ -376,6 +384,7 @@ export default {
 		ViewColumnOutline,
 		ColumnSettingsList,
 		MemberSearch,
+		OwnerGroupPicker,
 		ProjectLeaveDialog,
 		ProjectDeleteDialog,
 	},
@@ -447,6 +456,29 @@ export default {
 		 */
 		memberRows() {
 			return memberEntries(this.currentProject, this.memberNames, this.memberGroupNames)
+		},
+
+		/**
+		 * Whether the caller may set or clear the owning group: the owner,
+		 * anyone in the owning group, or an admin.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 */
+		mayChangeOwnerGroup() {
+			return getCurrentUser()?.isAdmin === true || canSetOwnerGroup(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
+		},
+
+		/**
+		 * The group that owns the project, or null.
+		 *
+		 * @return {string|null}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 */
+		ownerGroup() {
+			return ownerGroupOf(this.currentProject)
 		},
 
 		/**
@@ -764,12 +796,27 @@ export default {
 		},
 
 		/**
+		 * Remember the owning group's name and refresh the project after it changes.
+		 *
+		 * @param {object} group The group picked, `{ id, name }`, with id null when cleared.
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 */
+		onOwnerGroupChanged(group) {
+			if (group?.id && group.name) {
+				this.memberGroupNames = { ...this.memberGroupNames, [group.id]: group.name }
+			}
+			this.projectsStore.fetchProject(this.project.id)
+		},
+
+		/**
 		 * Remember the picked name and refresh the project after a member is added.
 		 *
 		 * @param {object} option The person or group added.
 		 *
 		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
 		 */
+
 		onMemberAdded(option) {
 			if (option?.type === 'group') {
 				this.memberGroupNames = { ...this.memberGroupNames, [option.id]: option.displayName }

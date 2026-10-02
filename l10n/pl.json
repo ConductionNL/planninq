@@ -1346,7 +1346,15 @@
         "Manager": "Menedżer",
         "Member": "Członek",
         "Viewer": "Czytelnik",
-        "Could not change the role": "Nie udało się zmienić roli"
+        "Could not change the role": "Nie udało się zmienić roli",
+        "Owned by group: {name}": "Własność grupy: {name}",
+        "No group owns this project.": "Żadna grupa nie jest właścicielem tego projektu.",
+        "Owned by group": "Własność grupy",
+        "Search for a group…": "Wyszukaj grupę…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Nie znaleziono grupy. Ustawienia udostępniania administratora decydują, które grupy możesz znaleźć.",
+        "No owning group": "Brak grupy właściciela",
+        "Could not search for groups. Please try again.": "Nie udało się wyszukać grup. Spróbuj ponownie.",
+        "Could not change the owning group": "Nie udało się zmienić grupy właściciela"
     },
     "plurals": {}
 }

@@ -1326,7 +1326,15 @@ OC.L10N.register(
         "Manager": "Manager",
         "Member": "Member",
         "Viewer": "Viewer",
-        "Could not change the role": "Could not change the role"
+        "Could not change the role": "Could not change the role",
+        "Owned by group: {name}": "Owned by group: {name}",
+        "No group owns this project.": "No group owns this project.",
+        "Owned by group": "Owned by group",
+        "Search for a group…": "Search for a group…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "No group found. Your admin's sharing settings decide which groups you can find.",
+        "No owning group": "No owning group",
+        "Could not search for groups. Please try again.": "Could not search for groups. Please try again.",
+        "Could not change the owning group": "Could not change the owning group"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -486,6 +486,37 @@ class ProjectControllerTest extends TestCase {
 	}//end testAViewerLeavesTheProject()
 
 	/**
+	 * Task 5.1: a project owned by a group outlives its creator. The owner may
+	 * leave though no other person is on it, and keeps no owner rights.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+	 *
+	 * @return void
+	 */
+	public function testTheOwnerLeavesAProjectTheirGroupOwns(): void {
+		[$status, $saved] = $this->leaveAs(uid: 'alice', project: ['owner' => 'alice', 'members' => ['alice'], 'ownerGroups' => ['infra']]);
+
+		self::assertSame(Http::STATUS_OK, $status);
+		self::assertSame('', $saved['owner']);
+		self::assertSame([], $saved['members']);
+		self::assertSame(['infra'], $saved['ownerGroups']);
+	}//end testTheOwnerLeavesAProjectTheirGroupOwns()
+
+	/**
+	 * Task 5.1: with an owning group and a manager, the manager still takes over.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+	 *
+	 * @return void
+	 */
+	public function testAManagerStillTakesOverAGroupOwnedProject(): void {
+		[$status, $saved] = $this->leaveAs(uid: 'alice', project: ['owner' => 'alice', 'managers' => ['zed'], 'members' => ['alice'], 'ownerGroups' => ['infra']]);
+
+		self::assertSame(Http::STATUS_OK, $status);
+		self::assertSame('zed', $saved['owner']);
+	}//end testAManagerStillTakesOverAGroupOwnedProject()
+
+	/**
 	 * WF2: When the project owner leaves, ownership transfers to the
 	 * alphabetically-first remaining member.
 	 *

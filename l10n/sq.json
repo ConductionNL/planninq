@@ -1346,7 +1346,15 @@
         "Manager": "Menaxher",
         "Member": "Anëtar",
         "Viewer": "Lexues",
-        "Could not change the role": "Roli nuk mund të ndryshohej"
+        "Could not change the role": "Roli nuk mund të ndryshohej",
+        "Owned by group: {name}": "Në pronësi të grupit: {name}",
+        "No group owns this project.": "Asnjë grup nuk e zotëron këtë projekt.",
+        "Owned by group": "Në pronësi të grupit",
+        "Search for a group…": "Kërko një grup…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Nuk u gjet asnjë grup. Cilësimet e ndarjes së administratorit tuaj vendosin cilat grupe mund të gjeni.",
+        "No owning group": "Pa grup pronar",
+        "Could not search for groups. Please try again.": "Grupet nuk mund të kërkoheshin. Provoni përsëri.",
+        "Could not change the owning group": "Grupi pronar nuk mund të ndryshohej"
     },
     "plurals": {}
 }
