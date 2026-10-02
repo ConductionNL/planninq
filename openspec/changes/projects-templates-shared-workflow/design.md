@@ -48,6 +48,10 @@ A failure deletes what step 2 to 5 wrote. Copied tasks start with the status `op
 
 "New project from template" calls the same endpoint with the template as source.
 
+Who may copy (settled while building, 2 Oct): the requirement names the project owner or manager, so step 1's read check is that: the owner, a manager, a member of an owning or manager group, or an admin. A template is open to anyone who may create a project, and a `read` rule `{"group": "authenticated", "match": {"isTemplate": true}}` lets every signed-in user see it in the picker; updating and deleting it keep the project rules. When columns are not chosen the copy gets the admin's default columns, so its board is never empty, and its tasks land in the backlog. With no requested start date the dates are kept as they are.
+
+The dashboard figures filter `isTemplate: false`. A project stored before the flag has no value and scalar equality would drop it, so the repair step `BackfillProjectTemplateFlag` writes `false` on every project without one.
+
 This is not a pass-through controller (ADR-022): it enforces the creation policy and does work the object API cannot do in one call.
 
 Alternative considered: copying in the browser through the object store. It would take one request per object, leave a half copy on a closed tab, and put the id remapping in client code.

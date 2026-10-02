@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.36.0"
+    "version": "0.37.0"
   },
   "x-openregister": {
     "type": "application",
@@ -644,7 +644,7 @@
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.14.0",
+        "version": "0.15.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -717,6 +717,12 @@
                 "ownerGroups": {
                   "$contains": "$user.groups"
                 }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "isTemplate": true
               }
             },
             {
@@ -805,6 +811,12 @@
               "rejected"
             ],
             "default": "active"
+          },
+          "isTemplate": {
+            "title": "Template",
+            "type": "boolean",
+            "description": "A template is a project others start new projects from. It is listed under Templates, not with the working projects, and anyone who may create a project can read it and start from it.",
+            "default": false
           },
           "requestReason": {
             "title": "Request reason",

@@ -21,6 +21,7 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'project#keyAvailable', 'url' => '/api/projects/key-available', 'verb' => 'GET'],
     ['name' => 'project#create', 'url' => '/api/projects', 'verb' => 'POST'],
     // Leave-project proxy — C3: allows non-owner members to remove themselves (_rbac: false).
+    ['name' => 'projectCopy#copy', 'url' => '/api/projects/{projectId}/copy', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
     ['name' => 'project#leaveProject', 'url' => '/api/projects/{projectId}/leave', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
 
     // Label management (admin-only) — usage listing + cascade delete.

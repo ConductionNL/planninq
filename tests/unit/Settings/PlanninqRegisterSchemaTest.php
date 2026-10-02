@@ -1665,4 +1665,65 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		}
 
 	}//end testMockRegisterCarriesTimetableGeneratorDemoRows()
+	/**
+	 * A project is a template by a flag, and a template is readable by every
+	 * signed-in user, so anyone who may create a project can start from it.
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+	 *
+	 * @return void
+	 */
+	public function testAProjectCanBeATemplateThatEverySignedInUserReads(): void {
+		$project = $this->register['components']['schemas']['project'];
+		self::assertSame('boolean', $project['properties']['isTemplate']['type']);
+		self::assertFalse($project['properties']['isTemplate']['default']);
+		self::assertContains(['group' => 'authenticated', 'match' => ['isTemplate' => true]], $project['authorization']['read']);
+		self::assertNotContains(['group' => 'authenticated', 'match' => ['isTemplate' => true]], $project['authorization']['update'], 'reading a template is not editing it');
+
+		$base = ['title' => 'Aanbesteding', 'status' => 'active'];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: $base + ['isTemplate' => true]));
+		self::assertNotSame([], $this->registerSchemaErrors(slug: 'project', payload: $base + ['isTemplate' => 'yes']), 'control: a string is not a flag');
+	}//end testAProjectCanBeATemplateThatEverySignedInUserReads()
+
+	/**
+	 * The dashboard's project figures leave templates out with scalar equality,
+	 * the only filter OpenRegister's aggregation applies.
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+	 *
+	 * @return void
+	 */
+	public function testTheProjectFiguresLeaveTemplatesOut(): void {
+		$manifest = json_decode((string)file_get_contents(__DIR__ . '/../../../src/manifest.json'), true);
+		$found    = $this->projectFigureFilters(node: $manifest);
+		self::assertNotSame([], $found);
+		foreach ($found as $id => $filter) {
+			self::assertFalse($filter['isTemplate'] ?? null, $id . ' leaves templates out');
+		}
+	}//end testTheProjectFiguresLeaveTemplatesOut()
+
+	/**
+	 * Every stat widget counting projects, with its filter, by widget id.
+	 *
+	 * @param mixed $node A manifest node.
+	 *
+	 * @return array<string,array<string,mixed>>
+	 */
+	private function projectFigureFilters(mixed $node): array {
+		if (is_array($node) === false) {
+			return [];
+		}
+
+		$found  = [];
+		$source = ($node['content']['source'] ?? null);
+		if (is_array($source) === true && ($source['schema'] ?? '') === 'project' && ($source['metric'] ?? '') === 'count') {
+			$found[(string)($node['id'] ?? '?')] = (array)($source['filter'] ?? []);
+		}
+
+		foreach ($node as $child) {
+			$found += $this->projectFigureFilters(node: $child);
+		}
+
+		return $found;
+	}//end projectFigureFilters()
 }//end class

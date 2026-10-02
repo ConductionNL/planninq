@@ -42,7 +42,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
 
 **Ondersteuning:** Voor ondersteuning, neem contact op via support@conduction.nl.
     ]]></description>
-    <version>0.2.23-unstable.20261002120000</version>
+    <version>0.2.23-unstable.20261002130000</version>
     <licence>EUPL-1.2</licence>
     <author mail="info@conduction.nl" homepage="https://www.conduction.nl/">Conduction</author>
     <namespace>Planninq</namespace>
@@ -200,6 +200,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
                  rewrites the project schema, so the reviewers of project
                  requests are written back in. Never throws. -->
             <step>OCA\Planninq\Repair\ApplyProjectPolicy</step>
+            <step>OCA\Planninq\Repair\BackfillProjectTemplateFlag</step>
             <step>OCA\Planninq\Repair\ReconcileDueReminderOverrides</step>
         </post-migration>
         <install>
@@ -223,6 +224,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
             <step>OCA\Planninq\Repair\BackfillProjectMembers</step>
             <step>OCA\Planninq\Repair\AssignBoardColumns</step>
             <step>OCA\Planninq\Repair\ApplyProjectPolicy</step>
+            <step>OCA\Planninq\Repair\BackfillProjectTemplateFlag</step>
         </install>
     </repair-steps>
 
