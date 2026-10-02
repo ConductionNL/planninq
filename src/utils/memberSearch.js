@@ -21,18 +21,22 @@ export const SHARE_TYPE_GROUP = 1
 export const MIN_SEARCH_LENGTH = 2
 
 /**
- * The autocomplete URL for a search term, asking for users and groups.
+ * The autocomplete URL for a search term, asking for users and groups, or
+ * for the share types given.
  *
  * @param {string} term What the person typed.
  * @param {number} limit The most results to return.
+ * @param {Array<number>} shareTypes The share types to ask for.
  * @return {string}
  *
  * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
+ * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
  */
-export function autocompleteUrl(term, limit = 10) {
+export function autocompleteUrl(term, limit = 10, shareTypes = [SHARE_TYPE_USER, SHARE_TYPE_GROUP]) {
 	const params = new URLSearchParams({ search: term, itemType: '', itemId: '' })
-	params.append('shareTypes[]', String(SHARE_TYPE_USER))
-	params.append('shareTypes[]', String(SHARE_TYPE_GROUP))
+	for (const shareType of shareTypes) {
+		params.append('shareTypes[]', String(shareType))
+	}
 	params.append('limit', String(limit))
 	params.append('format', 'json')
 	return generateOcsUrl('/core/autocomplete/get') + '?' + params.toString()
@@ -76,16 +80,18 @@ export function toMemberOptions(data, { members = [], groups = [], groupSubname 
  * @param {Array<string>} options.members User ids already on the project.
  * @param {Array<string>} options.groups Group ids already on the project.
  * @param {string} options.groupSubname The second line under a group.
+ * @param {Array<number>} options.shareTypes The share types to ask for (users and groups by default).
  * @param {AbortSignal} options.signal Cancels the request.
  * @return {Promise<Array<object>>}
  *
  * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
+ * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
  */
-export async function searchMembers(term, { members = [], groups = [], groupSubname = '', signal } = {}) {
+export async function searchMembers(term, { members = [], groups = [], groupSubname = '', shareTypes = [SHARE_TYPE_USER, SHARE_TYPE_GROUP], signal } = {}) {
 	if (typeof term !== 'string' || term.trim().length < MIN_SEARCH_LENGTH) {
 		return []
 	}
-	const response = await fetch(autocompleteUrl(term.trim()), {
+	const response = await fetch(autocompleteUrl(term.trim(), 10, shareTypes), {
 		signal,
 		headers: { 'OCS-APIRequest': 'true', Accept: 'application/json' },
 	})

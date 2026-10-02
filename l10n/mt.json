@@ -1346,7 +1346,15 @@
         "Manager": "Maniġer",
         "Member": "Membru",
         "Viewer": "Qarrej",
-        "Could not change the role": "Ir-rwol ma setax jinbidel"
+        "Could not change the role": "Ir-rwol ma setax jinbidel",
+        "Owned by group: {name}": "Proprjetà tal-grupp: {name}",
+        "No group owns this project.": "L-ebda grupp ma huwa sid ta' dan il-proġett.",
+        "Owned by group": "Proprjetà tal-grupp",
+        "Search for a group…": "Fittex grupp…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Ma nstab l-ebda grupp. Is-settings tal-qsim tal-amministratur tiegħek jiddeċiedu liema gruppi tista' ssib.",
+        "No owning group": "L-ebda grupp sid",
+        "Could not search for groups. Please try again.": "Ma setgħux jiġu mfittxija gruppi. Erġa' pprova.",
+        "Could not change the owning group": "Il-grupp sid ma setax jinbidel"
     },
     "plurals": {}
 }

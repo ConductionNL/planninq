@@ -1346,7 +1346,15 @@
         "Manager": "Verwalter",
         "Member": "Member",
         "Viewer": "Lieser",
-        "Could not change the role": "D'Roll konnt net geännert ginn"
+        "Could not change the role": "D'Roll konnt net geännert ginn",
+        "Owned by group: {name}": "Am Besëtz vum Grupp: {name}",
+        "No group owns this project.": "Kee Grupp besëtzt dëse Projet.",
+        "Owned by group": "Am Besëtz vum Grupp",
+        "Search for a group…": "No engem Grupp sichen…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Kee Grupp fonnt. D'Deelastellunge vun denger Administratioun bestëmmen, wéi eng Gruppen s du fanne kanns.",
+        "No owning group": "Kee Besëtzergrupp",
+        "Could not search for groups. Please try again.": "Gruppe konnten net gesicht ginn. Probéier nach eng Kéier.",
+        "Could not change the owning group": "De Besëtzergrupp konnt net geännert ginn"
     },
     "plurals": null
 }

@@ -1347,7 +1347,15 @@ OC.L10N.register(
         "Manager": "Bainisteoir",
         "Member": "Ball",
         "Viewer": "Léitheoir",
-        "Could not change the role": "Níorbh fhéidir an ról a athrú"
+        "Could not change the role": "Níorbh fhéidir an ról a athrú",
+        "Owned by group: {name}": "Faoi úinéireacht an ghrúpa: {name}",
+        "No group owns this project.": "Níl aon ghrúpa ina úinéir ar an tionscadal seo.",
+        "Owned by group": "Faoi úinéireacht grúpa",
+        "Search for a group…": "Cuardaigh grúpa…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Níor aimsíodh aon ghrúpa. Socruithe comhroinnte do riarthóra a shocraíonn na grúpaí is féidir leat a aimsiú.",
+        "No owning group": "Gan grúpa úinéara",
+        "Could not search for groups. Please try again.": "Níorbh fhéidir grúpaí a chuardach. Bain triail eile as.",
+        "Could not change the owning group": "Níorbh fhéidir an grúpa úinéara a athrú"
     },
     "nplurals=2; plural=(n != 1);"
 )

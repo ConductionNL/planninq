@@ -1347,7 +1347,15 @@ OC.L10N.register(
         "Manager": "Pārvaldnieks",
         "Member": "Dalībnieks",
         "Viewer": "Lasītājs",
-        "Could not change the role": "Neizdevās mainīt lomu"
+        "Could not change the role": "Neizdevās mainīt lomu",
+        "Owned by group: {name}": "Pieder grupai: {name}",
+        "No group owns this project.": "Neviena grupa nav šī projekta īpašniece.",
+        "Owned by group": "Pieder grupai",
+        "Search for a group…": "Meklēt grupu…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Grupa netika atrasta. Jūsu administratora koplietošanas iestatījumi nosaka, kuras grupas varat atrast.",
+        "No owning group": "Nav īpašnieku grupas",
+        "Could not search for groups. Please try again.": "Neizdevās meklēt grupas. Mēģiniet vēlreiz.",
+        "Could not change the owning group": "Neizdevās mainīt īpašnieku grupu"
     },
     "nplurals=2; plural=(n != 1);"
 )

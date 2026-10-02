@@ -1346,7 +1346,15 @@
         "Manager": "Valdytojas",
         "Member": "Narys",
         "Viewer": "Skaitytojas",
-        "Could not change the role": "Nepavyko pakeisti vaidmens"
+        "Could not change the role": "Nepavyko pakeisti vaidmens",
+        "Owned by group: {name}": "Priklauso grupei: {name}",
+        "No group owns this project.": "Šis projektas nepriklauso jokiai grupei.",
+        "Owned by group": "Priklauso grupei",
+        "Search for a group…": "Ieškoti grupės…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Grupė nerasta. Jūsų administratoriaus bendrinimo nustatymai lemia, kokias grupes galite rasti.",
+        "No owning group": "Nėra savininkės grupės",
+        "Could not search for groups. Please try again.": "Nepavyko ieškoti grupių. Bandykite dar kartą.",
+        "Could not change the owning group": "Nepavyko pakeisti savininkės grupės"
     },
     "plurals": null
 }

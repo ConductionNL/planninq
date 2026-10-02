@@ -1359,7 +1359,15 @@
         "Manager": "Beheerder",
         "Member": "Lid",
         "Viewer": "Lezer",
-        "Could not change the role": "De rol kon niet worden gewijzigd"
+        "Could not change the role": "De rol kon niet worden gewijzigd",
+        "Owned by group: {name}": "Eigendom van groep: {name}",
+        "No group owns this project.": "Geen groep is eigenaar van dit project.",
+        "Owned by group": "Eigendom van groep",
+        "Search for a group…": "Zoek een groep…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Geen groep gevonden. De deelinstellingen van je beheerder bepalen welke groepen je kunt vinden.",
+        "No owning group": "Geen eigenaar-groep",
+        "Could not search for groups. Please try again.": "Kon niet naar groepen zoeken. Probeer het opnieuw.",
+        "Could not change the owning group": "De eigenaar-groep kon niet worden gewijzigd"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

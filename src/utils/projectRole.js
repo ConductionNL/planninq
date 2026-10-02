@@ -114,6 +114,32 @@ export function canManageMembers(role) {
 }
 
 /**
+ * Whether a role may set or clear the owning group: the owner, which includes
+ * everyone in the owning group, as the schema's `ownerGroups` update rule does.
+ *
+ * @param {string} role A role from projectRole.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+ */
+export function canSetOwnerGroup(role) {
+	return role === 'owner'
+}
+
+/**
+ * The group that owns the project, or null.
+ *
+ * @param {object} project The project.
+ * @return {string|null}
+ *
+ * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+ */
+export function ownerGroupOf(project) {
+	const gid = listOf(project, 'ownerGroups')[0]
+	return typeof gid === 'string' && gid !== '' ? gid : null
+}
+
+/**
  * The PATCH body that gives one person or group a role: it names only the
  * lists that change, so nothing else on the project is rewritten.
  *

@@ -1346,7 +1346,15 @@
         "Manager": "Správca",
         "Member": "Člen",
         "Viewer": "Čitateľ",
-        "Could not change the role": "Rolu sa nepodarilo zmeniť"
+        "Could not change the role": "Rolu sa nepodarilo zmeniť",
+        "Owned by group: {name}": "Vo vlastníctve skupiny: {name}",
+        "No group owns this project.": "Tento projekt nevlastní žiadna skupina.",
+        "Owned by group": "Vo vlastníctve skupiny",
+        "Search for a group…": "Hľadať skupinu…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Nenašla sa žiadna skupina. Nastavenia zdieľania vášho správcu určujú, ktoré skupiny môžete nájsť.",
+        "No owning group": "Žiadna vlastnícka skupina",
+        "Could not search for groups. Please try again.": "Skupiny sa nepodarilo vyhľadať. Skúste to znova.",
+        "Could not change the owning group": "Vlastnícku skupinu sa nepodarilo zmeniť"
     },
     "plurals": null
 }

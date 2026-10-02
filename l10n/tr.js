@@ -1347,7 +1347,15 @@ OC.L10N.register(
         "Manager": "Yönetici",
         "Member": "Üye",
         "Viewer": "Okuyucu",
-        "Could not change the role": "Rol değiştirilemedi"
+        "Could not change the role": "Rol değiştirilemedi",
+        "Owned by group: {name}": "Grubun sahipliğinde: {name}",
+        "No group owns this project.": "Bu projenin sahibi olan bir grup yok.",
+        "Owned by group": "Grubun sahipliğinde",
+        "Search for a group…": "Grup ara…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Grup bulunamadı. Yöneticinizin paylaşım ayarları hangi grupları bulabileceğinizi belirler.",
+        "No owning group": "Sahip grup yok",
+        "Could not search for groups. Please try again.": "Gruplar aranamadı. Lütfen yeniden deneyin.",
+        "Could not change the owning group": "Sahip grup değiştirilemedi"
     },
     "nplurals=2; plural=(n != 1);"
 )

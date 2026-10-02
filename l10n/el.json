@@ -1346,7 +1346,15 @@
         "Manager": "Διαχειριστής",
         "Member": "Μέλος",
         "Viewer": "Αναγνώστης",
-        "Could not change the role": "Δεν ήταν δυνατή η αλλαγή του ρόλου"
+        "Could not change the role": "Δεν ήταν δυνατή η αλλαγή του ρόλου",
+        "Owned by group: {name}": "Ιδιοκτησία της ομάδας: {name}",
+        "No group owns this project.": "Καμία ομάδα δεν κατέχει αυτό το έργο.",
+        "Owned by group": "Ιδιοκτησία ομάδας",
+        "Search for a group…": "Αναζήτηση ομάδας…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Δεν βρέθηκε ομάδα. Οι ρυθμίσεις κοινής χρήσης του διαχειριστή σας ορίζουν ποιες ομάδες μπορείτε να βρείτε.",
+        "No owning group": "Χωρίς ομάδα ιδιοκτήτη",
+        "Could not search for groups. Please try again.": "Η αναζήτηση ομάδων απέτυχε. Δοκιμάστε ξανά.",
+        "Could not change the owning group": "Δεν ήταν δυνατή η αλλαγή της ομάδας ιδιοκτήτη"
     },
     "plurals": null
 }
