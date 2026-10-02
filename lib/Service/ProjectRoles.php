@@ -175,6 +175,34 @@ class ProjectRoles {
 	}//end hasWriters()
 
 	/**
+	 * The group lists a group can be on.
+	 *
+	 * @var array<int,string>
+	 */
+	public const GROUP_LISTS = ['ownerGroups', 'managerGroups', 'memberGroups', 'viewerGroups'];
+
+	/**
+	 * The project without one group: off every group list it was on.
+	 *
+	 * @param array<string,mixed> $project The project's data.
+	 * @param string              $gid     The group id.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.3
+	 */
+	public function withoutGroup(array $project, string $gid): array {
+		foreach (self::GROUP_LISTS as $field) {
+			$list = $this->listOf(project: $project, field: $field);
+			if (in_array($gid, $list, true) === true) {
+				$project[$field] = array_values(array_filter($list, static fn (string $entry): bool => $entry !== $gid));
+			}
+		}
+
+		return $project;
+	}//end withoutGroup()
+
+	/**
 	 * One list of a project as strings, or an empty list.
 	 *
 	 * @param array<string,mixed> $project The project's data.
