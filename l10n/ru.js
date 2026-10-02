@@ -1355,7 +1355,8 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Группа не найдена. Настройки общего доступа вашего администратора определяют, какие группы вы можете найти.",
         "No owning group": "Без группы-владельца",
         "Could not search for groups. Please try again.": "Не удалось найти группы. Попробуйте ещё раз.",
-        "Could not change the owning group": "Не удалось изменить группу-владельца"
+        "Could not change the owning group": "Не удалось изменить группу-владельца",
+        "You can read this project. Only its members change it.": "Вы можете читать этот проект. Изменяют его только его участники."
     },
     "nplurals=2; plural=(n != 1);"
 )

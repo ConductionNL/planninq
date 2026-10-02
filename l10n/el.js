@@ -1355,7 +1355,8 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Δεν βρέθηκε ομάδα. Οι ρυθμίσεις κοινής χρήσης του διαχειριστή σας ορίζουν ποιες ομάδες μπορείτε να βρείτε.",
         "No owning group": "Χωρίς ομάδα ιδιοκτήτη",
         "Could not search for groups. Please try again.": "Η αναζήτηση ομάδων απέτυχε. Δοκιμάστε ξανά.",
-        "Could not change the owning group": "Δεν ήταν δυνατή η αλλαγή της ομάδας ιδιοκτήτη"
+        "Could not change the owning group": "Δεν ήταν δυνατή η αλλαγή της ομάδας ιδιοκτήτη",
+        "You can read this project. Only its members change it.": "Μπορείτε να διαβάσετε αυτό το έργο. Μόνο τα μέλη του το αλλάζουν."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1355,7 +1355,8 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "No s'ha trobat cap grup. La configuració de compartició del vostre administrador decideix quins grups podeu trobar.",
         "No owning group": "Sense grup propietari",
         "Could not search for groups. Please try again.": "No s'han pogut cercar grups. Torneu-ho a provar.",
-        "Could not change the owning group": "No s'ha pogut canviar el grup propietari"
+        "Could not change the owning group": "No s'ha pogut canviar el grup propietari",
+        "You can read this project. Only its members change it.": "Pots llegir aquest projecte. Només els seus membres el canvien."
     },
     "nplurals=2; plural=(n != 1);"
 )
