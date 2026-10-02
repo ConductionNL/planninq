@@ -1347,7 +1347,15 @@ OC.L10N.register(
         "Manager": "Управител",
         "Member": "Член",
         "Viewer": "Читател",
-        "Could not change the role": "Улогата не можеше да се промени"
+        "Could not change the role": "Улогата не можеше да се промени",
+        "Owned by group: {name}": "Во сопственост на групата: {name}",
+        "No group owns this project.": "Ниедна група не е сопственик на овој проект.",
+        "Owned by group": "Во сопственост на група",
+        "Search for a group…": "Пребарај група…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Не е пронајдена група. Поставките за споделување на вашиот администратор одредуваат кои групи можете да ги најдете.",
+        "No owning group": "Без група сопственик",
+        "Could not search for groups. Please try again.": "Пребарувањето групи не успеа. Обидете се повторно.",
+        "Could not change the owning group": "Групата сопственик не може да се промени"
     },
     "nplurals=2; plural=(n != 1);"
 )

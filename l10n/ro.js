@@ -1347,7 +1347,15 @@ OC.L10N.register(
         "Manager": "Manager",
         "Member": "Membru",
         "Viewer": "Cititor",
-        "Could not change the role": "Rolul nu a putut fi schimbat"
+        "Could not change the role": "Rolul nu a putut fi schimbat",
+        "Owned by group: {name}": "Deținut de grupul: {name}",
+        "No group owns this project.": "Niciun grup nu deține acest proiect.",
+        "Owned by group": "Deținut de grup",
+        "Search for a group…": "Caută un grup…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Niciun grup găsit. Setările de partajare ale administratorului decid ce grupuri poți găsi.",
+        "No owning group": "Fără grup proprietar",
+        "Could not search for groups. Please try again.": "Nu s-au putut căuta grupuri. Încearcă din nou.",
+        "Could not change the owning group": "Grupul proprietar nu a putut fi schimbat"
     },
     "nplurals=2; plural=(n != 1);"
 )

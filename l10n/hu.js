@@ -1347,7 +1347,15 @@ OC.L10N.register(
         "Manager": "Kezelő",
         "Member": "Tag",
         "Viewer": "Olvasó",
-        "Could not change the role": "Nem sikerült módosítani a szerepet"
+        "Could not change the role": "Nem sikerült módosítani a szerepet",
+        "Owned by group: {name}": "A csoport tulajdona: {name}",
+        "No group owns this project.": "Egy csoport sem tulajdonosa ennek a projektnek.",
+        "Owned by group": "Csoport tulajdona",
+        "Search for a group…": "Csoport keresése…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Nem található csoport. A rendszergazda megosztási beállításai döntik el, mely csoportokat találhatod meg.",
+        "No owning group": "Nincs tulajdonos csoport",
+        "Could not search for groups. Please try again.": "Nem sikerült csoportokat keresni. Próbáld újra.",
+        "Could not change the owning group": "Nem sikerült módosítani a tulajdonos csoportot"
     },
     "nplurals=2; plural=(n != 1);"
 )

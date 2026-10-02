@@ -1347,7 +1347,15 @@ OC.L10N.register(
         "Manager": "Haldur",
         "Member": "Liige",
         "Viewer": "Lugeja",
-        "Could not change the role": "Rolli ei õnnestunud muuta"
+        "Could not change the role": "Rolli ei õnnestunud muuta",
+        "Owned by group: {name}": "Grupi omandis: {name}",
+        "No group owns this project.": "Ükski grupp ei oma seda projekti.",
+        "Owned by group": "Grupi omandis",
+        "Search for a group…": "Otsi gruppi…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Gruppi ei leitud. Sinu administraatori jagamisseaded määravad, milliseid gruppe saad leida.",
+        "No owning group": "Omanikgruppi pole",
+        "Could not search for groups. Please try again.": "Gruppide otsimine ebaõnnestus. Proovi uuesti.",
+        "Could not change the owning group": "Omanikgruppi ei õnnestunud muuta"
     },
     "nplurals=2; plural=(n != 1);"
 )

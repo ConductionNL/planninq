@@ -1347,7 +1347,15 @@ OC.L10N.register(
         "Manager": "Gestor",
         "Member": "Membro",
         "Viewer": "Leitor",
-        "Could not change the role": "Não foi possível alterar a função"
+        "Could not change the role": "Não foi possível alterar a função",
+        "Owned by group: {name}": "Propriedade do grupo: {name}",
+        "No group owns this project.": "Nenhum grupo é proprietário deste projeto.",
+        "Owned by group": "Propriedade do grupo",
+        "Search for a group…": "Procurar um grupo…",
+        "No group found. Your admin's sharing settings decide which groups you can find.": "Nenhum grupo encontrado. As definições de partilha do seu administrador decidem que grupos pode encontrar.",
+        "No owning group": "Sem grupo proprietário",
+        "Could not search for groups. Please try again.": "Não foi possível procurar grupos. Tente novamente.",
+        "Could not change the owning group": "Não foi possível alterar o grupo proprietário"
     },
     "nplurals=2; plural=(n != 1);"
 )

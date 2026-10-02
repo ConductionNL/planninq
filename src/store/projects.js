@@ -1496,6 +1496,29 @@ export const useProjectsStore = defineStore('projects', {
 		},
 
 		/**
+		 * Hand the project to a group, or take it back (gid null). PATCHes only
+		 * `ownerGroups`, a list of at most one group.
+		 *
+		 * @param {string} projectId Project ID
+		 * @param {string|null} gid Nextcloud group id, or null for no owning group
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 */
+		async setOwnerGroup(projectId, gid) {
+			const project = await this.fetchProject(projectId)
+			if (!project) {
+				return null
+			}
+			const ownerGroups = gid ? [gid] : []
+			const before = Array.isArray(project.ownerGroups) ? project.ownerGroups : []
+			if (before.length === ownerGroups.length && before.every((entry, index) => entry === ownerGroups[index])) {
+				return project
+			}
+			return this.patchProject(projectId, { ownerGroups })
+		},
+
+		/**
 		 * Give a person or a group a role on the project, or take it away
 		 * (role null). PATCHes only the lists that change.
 		 *
