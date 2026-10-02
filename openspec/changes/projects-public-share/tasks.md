@@ -2,7 +2,7 @@
 
 ## 1. Data and rules (V1)
 
-- [ ] 1.1 Add property-level read rules for the `authenticated` group to `assignedTo`, `reporter`, `watchers`, `contractorRef` and `description` on `task`. Verify: `tests/unit/Settings/PlanninqRegisterSchemaTest.php` asserts each rule; the existing board and TaskDetail e2e specs still pass for a member.
+- [ ] 1.1 Add property-level read rules for the `authenticated` group to `assignedTo`, `reporter`, `watchers`, `contractorRef` and `description` on `task`. Verify: `tests/unit/Settings/PlanninqRegisterSchemaTest.php` asserts each rule; the existing board and TaskDetail e2e specs still pass for a member. Built 2 Oct (lane 27): the five properties carry `{"read": [{"group": "authenticated"}]}` (task schema 0.12.0, register 0.36.0); `PlanninqRegisterSchemaTest::testTaskPeopleAndFreeTextStayOutOfAccessLinks` asserts each rule, that title, status, due date, labels, column and project stay unruled, and that a task with every field still validates. Open: the board and TaskDetail e2e runs for a member (no instance in the lane).
 - [ ] 1.2 Create the project's OpenRegister view and mint a `read` link on it from the store, and check the raw answer of `GET /apps/openregister/api/public/links/{anchor}` without a session. Verify: new requests in the Newman collection `tests/integration/planninq.postman_collection.json` assert none of the five properties appear, and that a revoked and an expired anchor both answer 404.
 
 ## 2. Public board (V1)

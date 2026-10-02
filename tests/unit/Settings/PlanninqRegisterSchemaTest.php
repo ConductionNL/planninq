@@ -236,6 +236,33 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testTaskIsSharedWithAListOfPeople()
 
 	/**
+	 * People and free text on a task are read by signed-in users only, so an
+	 * OpenRegister access link (whose holder is not signed in) never serves
+	 * them. No update rule is added: members keep writing them.
+	 *
+	 * @spec openspec/changes/projects-public-share/tasks.md#task-1.1
+	 *
+	 * @return void
+	 */
+	public function testTaskPeopleAndFreeTextStayOutOfAccessLinks(): void {
+		$properties = $this->register['components']['schemas']['task']['properties'];
+		foreach (['assignedTo', 'reporter', 'watchers', 'contractorRef', 'description'] as $name) {
+			self::assertSame(
+				['read' => [['group' => 'authenticated']]],
+				($properties[$name]['authorization'] ?? null),
+				$name . ' is read by signed-in users only'
+			);
+		}
+
+		foreach (['title', 'status', 'dueDate', 'labels', 'column', 'project'] as $name) {
+			self::assertArrayNotHasKey('authorization', $properties[$name], $name . ' stays on the public board');
+		}
+
+		$task = ['title' => 'Draft the permit letter', 'status' => 'open', 'assignedTo' => 'bram', 'reporter' => 'anna', 'watchers' => ['carla'], 'description' => 'Ask the council'];
+		self::assertSame([], $this->registerSchemaErrors(slug: 'task', payload: $task));
+	}//end testTaskPeopleAndFreeTextStayOutOfAccessLinks()
+
+	/**
 	 * A column keeps its rules: each an action from the list and, for some actions, a value.
 	 *
 	 * @return void
