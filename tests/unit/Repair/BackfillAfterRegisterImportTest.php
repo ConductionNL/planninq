@@ -99,7 +99,7 @@ class BackfillAfterRegisterImportTest extends TestCase {
 			public function __construct(array $schemas) {
 				$this->stored = $schemas;
 			}
-			public function find(int|string $id, ?array $_extend = [], ?bool $published = null, bool $_rbac = true, bool $_multitenancy = true): object {
+			public function find(string|int $id, bool $_rbac = true, bool $_multitenancy = true): object {
 				$key = strtolower((string)$id) . ':' . (int)$_rbac . ':' . (int)$_multitenancy;
 				if (isset($this->findCache[$key]) === false) {
 					$this->findCache[$key] = new class(21, 'planninq', $this->stored) {

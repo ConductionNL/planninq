@@ -176,6 +176,8 @@ class RegisterImportService {
 				force: $force
 			);
 
+			$this->forgetCachedRegister();
+
 			if (empty($result) === false) {
 				$this->logger->info('Planninq: register configuration imported successfully');
 				return [
@@ -201,4 +203,35 @@ class RegisterImportService {
 		}//end try
 
 	}//end import()
+
+	/**
+	 * Drop OpenRegister's request-scoped copies of the planninq register.
+	 *
+	 * RegisterMapper::find() caches a register per slug and RBAC/tenancy flags
+	 * for the rest of the request, and the import updates the register through
+	 * another copy. A step that reads the register later in the same request
+	 * (the members back-fill during `occ upgrade`) then got the pre-import
+	 * schema list and refused every new schema (live pass P1, 2 Oct).
+	 * Never throws: the import already succeeded.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 */
+	private function forgetCachedRegister(): void {
+		try {
+			$mapper = $this->container->get('OCA\OpenRegister\Db\RegisterMapper');
+			if (method_exists($mapper, 'clearFindCache') === false) {
+				return;
+			}
+
+			$register = $mapper->find(id: ProjectMembershipService::REGISTER, _rbac: false, _multitenancy: false);
+			$mapper->clearFindCache(registerId: (int)$register->getId());
+		} catch (\Throwable $e) {
+			$this->logger->warning(
+				'Planninq: could not refresh the cached register after the import',
+				['exception' => $e->getMessage()]
+			);
+		}
+	}//end forgetCachedRegister()
 }//end class
