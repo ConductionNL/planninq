@@ -55,7 +55,7 @@
 import { showError } from '@nextcloud/dialogs'
 import { NcButton, NcSelect } from '@nextcloud/vue'
 import { useProjectsStore } from '../store/projects.js'
-import { MIN_SEARCH_LENGTH, SHARE_TYPE_GROUP, searchMembers } from '../utils/memberSearch.js'
+import { MIN_SEARCH_LENGTH, searchMembers, SHARE_TYPE_GROUP } from '../utils/memberSearch.js'
 
 export default {
 	name: 'OwnerGroupPicker',
@@ -98,6 +98,11 @@ export default {
 		}
 	},
 
+	/**
+	 * Stop a pending search when the tab closes.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+	 */
 	beforeUnmount() {
 		clearTimeout(this.debounceTimer)
 		this.abortController?.abort()

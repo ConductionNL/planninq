@@ -7,7 +7,7 @@
  *   @e2e project-membership::a-colleague-in-the-owning-group-manages-the-project-after-the-creator-leaves
  */
 
-import type { Browser } from '@playwright/test'
+import type { Browser, Page } from '@playwright/test'
 
 import { expect, test } from '@playwright/test'
 import { BASE_URL } from './base-url.ts'
@@ -40,7 +40,7 @@ async function signedInPage(browser: Browser, username: string) {
  * @param page The page.
  * @param project The project uuid.
  */
-async function openMembers(page: import('@playwright/test').Page, project: string) {
+async function openMembers(page: Page, project: string) {
 	await page.goto(new URL(`projects/${project}`, PLANNINQ_ROOT).toString())
 	await page.getByRole('button', { name: 'Project settings' }).click()
 	await page.getByRole('tab', { name: 'Members' }).click()

@@ -32,5 +32,5 @@
 
 ## 6. Verification
 
-- [ ] 6.1 `openspec validate projects-members-and-roles --type change --strict` passes.
-- [ ] 6.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+- [x] 6.1 `openspec validate projects-members-and-roles --type change --strict` passes. Ran 2 Oct (lane 27): "Change 'projects-members-and-roles' is valid".
+- [x] 6.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note. Checked 2 Oct (lane 27): seven scenarios carry an `@e2e project-membership::<scenario>` tag in `tests/e2e/project-members.spec.ts`, `project-roles.spec.ts` or `project-owning-group.spec.ts`; the other two carry `@e2e exclude` with the PHPUnit test named. Whether those e2e cases pass is tracked on 3.2, 4.2, 4.3 and 5.1.
