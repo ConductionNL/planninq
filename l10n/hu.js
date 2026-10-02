@@ -1355,7 +1355,9 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Nem található csoport. A rendszergazda megosztási beállításai döntik el, mely csoportokat találhatod meg.",
         "No owning group": "Nincs tulajdonos csoport",
         "Could not search for groups. Please try again.": "Nem sikerült csoportokat keresni. Próbáld újra.",
-        "Could not change the owning group": "Nem sikerült módosítani a tulajdonos csoportot"
+        "Could not change the owning group": "Nem sikerült módosítani a tulajdonos csoportot",
+        "Template": "Sablon",
+        "A project people start new projects from. Every signed-in user can read a template.": "Projekt, amelyből új projekteket indítanak. Minden bejelentkezett felhasználó olvashatja a sablont."
     },
     "nplurals=2; plural=(n != 1);"
 )

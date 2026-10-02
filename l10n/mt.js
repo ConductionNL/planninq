@@ -1355,7 +1355,9 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Ma nstab l-ebda grupp. Is-settings tal-qsim tal-amministratur tiegħek jiddeċiedu liema gruppi tista' ssib.",
         "No owning group": "L-ebda grupp sid",
         "Could not search for groups. Please try again.": "Ma setgħux jiġu mfittxija gruppi. Erġa' pprova.",
-        "Could not change the owning group": "Il-grupp sid ma setax jinbidel"
+        "Could not change the owning group": "Il-grupp sid ma setax jinbidel",
+        "Template": "Mudell",
+        "A project people start new projects from. Every signed-in user can read a template.": "Proġett li minnu jinbdew proġetti ġodda. Kull utent li daħal jista' jaqra mudell."
     },
     "nplurals=2; plural=(n != 1);"
 )

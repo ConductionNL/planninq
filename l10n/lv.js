@@ -1355,7 +1355,9 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Grupa netika atrasta. Jūsu administratora koplietošanas iestatījumi nosaka, kuras grupas varat atrast.",
         "No owning group": "Nav īpašnieku grupas",
         "Could not search for groups. Please try again.": "Neizdevās meklēt grupas. Mēģiniet vēlreiz.",
-        "Could not change the owning group": "Neizdevās mainīt īpašnieku grupu"
+        "Could not change the owning group": "Neizdevās mainīt īpašnieku grupu",
+        "Template": "Veidne",
+        "A project people start new projects from. Every signed-in user can read a template.": "Projekts, no kura sāk jaunus projektus. Ikviens pieteicies lietotājs var lasīt veidni."
     },
     "nplurals=2; plural=(n != 1);"
 )

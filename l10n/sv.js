@@ -1355,7 +1355,9 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Ingen grupp hittades. Din administratörs delningsinställningar avgör vilka grupper du kan hitta.",
         "No owning group": "Ingen ägargrupp",
         "Could not search for groups. Please try again.": "Det gick inte att söka efter grupper. Försök igen.",
-        "Could not change the owning group": "Det gick inte att ändra ägargruppen"
+        "Could not change the owning group": "Det gick inte att ändra ägargruppen",
+        "Template": "Mall",
+        "A project people start new projects from. Every signed-in user can read a template.": "Ett projekt som nya projekt startas från. Alla inloggade användare kan läsa en mall."
     },
     "nplurals=2; plural=(n != 1);"
 )

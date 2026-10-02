@@ -815,7 +815,7 @@
           "isTemplate": {
             "title": "Template",
             "type": "boolean",
-            "description": "A template is a project others start new projects from. It is listed under Templates, not with the working projects, and anyone who may create a project can read it and start from it.",
+            "description": "A project people start new projects from. Every signed-in user can read a template.",
             "default": false
           },
           "requestReason": {

@@ -1354,7 +1354,9 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Ryhmää ei löytynyt. Ylläpitäjäsi jakoasetukset määräävät, mitkä ryhmät voit löytää.",
         "No owning group": "Ei omistajaryhmää",
         "Could not search for groups. Please try again.": "Ryhmien haku epäonnistui. Yritä uudelleen.",
-        "Could not change the owning group": "Omistajaryhmää ei voitu muuttaa"
+        "Could not change the owning group": "Omistajaryhmää ei voitu muuttaa",
+        "Template": "Malli",
+        "A project people start new projects from. Every signed-in user can read a template.": "Projekti, josta aloitetaan uusia projekteja. Jokainen kirjautunut käyttäjä voi lukea mallin."
     },
     "plurals": null
 }

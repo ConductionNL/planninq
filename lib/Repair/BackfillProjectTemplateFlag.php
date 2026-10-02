@@ -84,7 +84,10 @@ class BackfillProjectTemplateFlag implements IRepairStep {
 			$output->info(sprintf('Marked %d project(s) as not a template.', $this->backfill()));
 		} catch (\Throwable $e) {
 			$output->warning('Could not mark Planninq projects as not a template: ' . $e->getMessage());
-			$this->logger->error('Planninq: template flag back-fill failed; those projects drop out of the dashboard figures until it runs again', ['exception' => $e->getMessage()]);
+			$this->logger->error(
+				'Planninq: template flag back-fill failed; those projects drop out of the dashboard figures until it runs again',
+				['exception' => $e->getMessage()]
+			);
 		}
 	}//end run()
 

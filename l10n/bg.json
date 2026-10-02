@@ -1354,7 +1354,9 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Не е намерена група. Настройките за споделяне на администратора определят кои групи можете да намерите.",
         "No owning group": "Без група собственик",
         "Could not search for groups. Please try again.": "Търсенето на групи не бе успешно. Опитайте отново.",
-        "Could not change the owning group": "Групата собственик не можа да бъде променена"
+        "Could not change the owning group": "Групата собственик не можа да бъде променена",
+        "Template": "Шаблон",
+        "A project people start new projects from. Every signed-in user can read a template.": "Проект, от който се започват нови проекти. Всеки влязъл потребител може да чете шаблон."
     },
     "plurals": null
 }

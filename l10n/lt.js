@@ -1355,7 +1355,9 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Grupė nerasta. Jūsų administratoriaus bendrinimo nustatymai lemia, kokias grupes galite rasti.",
         "No owning group": "Nėra savininkės grupės",
         "Could not search for groups. Please try again.": "Nepavyko ieškoti grupių. Bandykite dar kartą.",
-        "Could not change the owning group": "Nepavyko pakeisti savininkės grupės"
+        "Could not change the owning group": "Nepavyko pakeisti savininkės grupės",
+        "Template": "Šablonas",
+        "A project people start new projects from. Every signed-in user can read a template.": "Projektas, iš kurio pradedami nauji projektai. Kiekvienas prisijungęs naudotojas gali skaityti šabloną."
     },
     "nplurals=2; plural=(n != 1);"
 )

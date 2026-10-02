@@ -27,9 +27,11 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use DateTimeImmutable;
 use OCA\Planninq\Exception\ProjectCopyException;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * Copies a project with its structure.
@@ -240,7 +242,13 @@ class ProjectCopyService {
 			$step = 'columns';
 			$counts['columns'] = $this->copyColumns(objects: $objects, sourceId: $sourceId, newId: $newId, include: in_array('columns', $parts, true));
 			$step = 'phases';
-			$counts['phases'] = $this->copyChildren(objects: $objects, schema: 'projectPhase', sourceId: $sourceId, newId: $newId, include: in_array('phases', $parts, true));
+			$counts['phases'] = $this->copyChildren(
+				objects: $objects,
+				schema: 'projectPhase',
+				sourceId: $sourceId,
+				newId: $newId,
+				include: in_array('phases', $parts, true)
+			);
 			$step = 'tasks';
 			$counts['tasks'] = $this->copyTasks(objects: $objects, sourceId: $sourceId, newId: $newId, request: $request);
 			$step = 'dependencies';
@@ -255,7 +263,12 @@ class ProjectCopyService {
 		} catch (\Throwable $e) {
 			$this->rollBack(objects: $objects);
 			$this->logger->error('Planninq: a project copy failed and was removed', ['source' => $sourceId, 'step' => $step, 'exception' => $e->getMessage()]);
-			throw new ProjectCopyException(status: 500, reason: 'planninq-copy-failed', message: 'The copy failed while copying ' . $step . '; nothing was kept.', step: $step);
+			throw new ProjectCopyException(
+				status: 500,
+				reason: 'planninq-copy-failed',
+				message: 'The copy failed while copying ' . $step . '; nothing was kept.',
+				step: $step
+			);
 		}//end try
 
 		return ['id' => $newId, 'project' => ['id' => $newId] + $project, 'counts' => $counts];
@@ -298,7 +311,11 @@ class ProjectCopyService {
 
 		$parts = array_values(array_map('strval', (array)$raw));
 		if (array_diff($parts, self::PARTS) !== []) {
-			throw new ProjectCopyException(status: 400, reason: 'planninq-copy-parts', message: 'A copy takes columns, tasks, phases, dependencies and people.');
+			throw new ProjectCopyException(
+				status: 400,
+				reason: 'planninq-copy-parts',
+				message: 'A copy takes columns, tasks, phases, dependencies and people.'
+			);
 		}
 
 		return $parts;
@@ -318,7 +335,11 @@ class ProjectCopyService {
 		}
 
 		if ($this->keys->isValidFormat(key: $key) === false) {
-			throw new ProjectCopyException(status: 400, reason: 'planninq-project-key-format', message: 'A key has 2 to 10 letters and digits and starts with a letter.');
+			throw new ProjectCopyException(
+				status: 400,
+				reason: 'planninq-project-key-format',
+				message: 'A key has 2 to 10 letters and digits and starts with a letter.'
+			);
 		}
 
 		if ($this->keys->isTaken(key: $key) === true) {
@@ -619,7 +640,7 @@ class ProjectCopyService {
 				continue;
 			}
 
-			$data[$field] = (new \DateTimeImmutable($value))->modify(sprintf('%+d days', $this->shift))->format('Y-m-d');
+			$data[$field] = (new DateTimeImmutable($value))->modify(sprintf('%+d days', $this->shift))->format('Y-m-d');
 		}
 
 		return $data;
@@ -643,7 +664,7 @@ class ProjectCopyService {
 			return null;
 		}
 
-		return (int)(new \DateTimeImmutable($from))->diff(new \DateTimeImmutable($to))->format('%r%a');
+		return (int)(new DateTimeImmutable($from))->diff(new DateTimeImmutable($to))->format('%r%a');
 	}//end shiftDays()
 
 	/**
@@ -674,7 +695,7 @@ class ProjectCopyService {
 		$entity = $objects->saveObject(object: $data, register: self::REGISTER, schema: $schema, _rbac: false, _multitenancy: false);
 		$id     = (string)($entity?->getUuid() ?? '');
 		if ($id === '') {
-			throw new \RuntimeException('OpenRegister returned no id for a new ' . $schema);
+			throw new RuntimeException('OpenRegister returned no id for a new ' . $schema);
 		}
 
 		$this->written[$schema][] = $id;
@@ -694,7 +715,10 @@ class ProjectCopyService {
 				try {
 					$objects->deleteObject(uuid: $id, register: self::REGISTER, schema: $schema, _rbac: false, _multitenancy: false);
 				} catch (\Throwable $e) {
-					$this->logger->error('Planninq: could not remove part of a failed project copy', ['schema' => $schema, 'object' => $id, 'exception' => $e->getMessage()]);
+					$this->logger->error(
+						'Planninq: could not remove part of a failed project copy',
+						['schema' => $schema, 'object' => $id, 'exception' => $e->getMessage()]
+					);
 				}
 			}
 		}

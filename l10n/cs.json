@@ -1354,7 +1354,9 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Žádná skupina nenalezena. Nastavení sdílení vašeho správce určuje, které skupiny můžete najít.",
         "No owning group": "Žádná vlastnická skupina",
         "Could not search for groups. Please try again.": "Skupiny se nepodařilo vyhledat. Zkuste to znovu.",
-        "Could not change the owning group": "Vlastnickou skupinu se nepodařilo změnit"
+        "Could not change the owning group": "Vlastnickou skupinu se nepodařilo změnit",
+        "Template": "Šablona",
+        "A project people start new projects from. Every signed-in user can read a template.": "Projekt, ze kterého se zakládají nové projekty. Každý přihlášený uživatel může šablonu číst."
     },
     "plurals": null
 }

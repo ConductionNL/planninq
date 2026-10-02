@@ -1354,7 +1354,9 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Keine Gruppe gefunden. Die Freigabeeinstellungen deiner Administration bestimmen, welche Gruppen du finden kannst.",
         "No owning group": "Keine besitzende Gruppe",
         "Could not search for groups. Please try again.": "Gruppensuche fehlgeschlagen. Bitte versuche es erneut.",
-        "Could not change the owning group": "Die besitzende Gruppe konnte nicht geändert werden"
+        "Could not change the owning group": "Die besitzende Gruppe konnte nicht geändert werden",
+        "Template": "Vorlage",
+        "A project people start new projects from. Every signed-in user can read a template.": "Ein Projekt, aus dem neue Projekte gestartet werden. Alle angemeldeten Benutzer können eine Vorlage lesen."
     },
     "plurals": null
 }

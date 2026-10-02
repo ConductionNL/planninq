@@ -1368,7 +1368,9 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Geen groep gevonden. De deelinstellingen van je beheerder bepalen welke groepen je kunt vinden.",
         "No owning group": "Geen eigenaar-groep",
         "Could not search for groups. Please try again.": "Kon niet naar groepen zoeken. Probeer het opnieuw.",
-        "Could not change the owning group": "De eigenaar-groep kon niet worden gewijzigd"
+        "Could not change the owning group": "De eigenaar-groep kon niet worden gewijzigd",
+        "Template": "Sjabloon",
+        "A project people start new projects from. Every signed-in user can read a template.": "Een project waarmee mensen nieuwe projecten starten. Elke aangemelde gebruiker kan een sjabloon lezen."
     },
     "nplurals=2; plural=(n != 1);"
 )

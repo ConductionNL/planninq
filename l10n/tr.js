@@ -1355,7 +1355,9 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Grup bulunamadı. Yöneticinizin paylaşım ayarları hangi grupları bulabileceğinizi belirler.",
         "No owning group": "Sahip grup yok",
         "Could not search for groups. Please try again.": "Gruplar aranamadı. Lütfen yeniden deneyin.",
-        "Could not change the owning group": "Sahip grup değiştirilemedi"
+        "Could not change the owning group": "Sahip grup değiştirilemedi",
+        "Template": "Şablon",
+        "A project people start new projects from. Every signed-in user can read a template.": "Yeni projelerin başlatıldığı bir proje. Oturum açmış her kullanıcı bir şablonu okuyabilir."
     },
     "nplurals=2; plural=(n != 1);"
 )

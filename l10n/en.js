@@ -1334,7 +1334,9 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "No group found. Your admin's sharing settings decide which groups you can find.",
         "No owning group": "No owning group",
         "Could not search for groups. Please try again.": "Could not search for groups. Please try again.",
-        "Could not change the owning group": "Could not change the owning group"
+        "Could not change the owning group": "Could not change the owning group",
+        "Template": "Template",
+        "A project people start new projects from. Every signed-in user can read a template.": "A project people start new projects from. Every signed-in user can read a template."
     },
     "nplurals=2; plural=(n != 1);"
 )

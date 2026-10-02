@@ -1354,7 +1354,9 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Nije pronađena nijedna grupa. Postavke dijeljenja vašeg administratora određuju koje grupe možete pronaći.",
         "No owning group": "Bez grupe vlasnika",
         "Could not search for groups. Please try again.": "Pretraga grupa nije uspjela. Pokušajte ponovo.",
-        "Could not change the owning group": "Grupu vlasnika nije moguće promijeniti"
+        "Could not change the owning group": "Grupu vlasnika nije moguće promijeniti",
+        "Template": "Šablon",
+        "A project people start new projects from. Every signed-in user can read a template.": "Projekat iz kojeg se pokreću novi projekti. Svaki prijavljeni korisnik može čitati šablon."
     },
     "plurals": null
 }

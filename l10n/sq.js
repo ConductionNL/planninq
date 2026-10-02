@@ -1355,7 +1355,9 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Nuk u gjet asnjë grup. Cilësimet e ndarjes së administratorit tuaj vendosin cilat grupe mund të gjeni.",
         "No owning group": "Pa grup pronar",
         "Could not search for groups. Please try again.": "Grupet nuk mund të kërkoheshin. Provoni përsëri.",
-        "Could not change the owning group": "Grupi pronar nuk mund të ndryshohej"
+        "Could not change the owning group": "Grupi pronar nuk mund të ndryshohej",
+        "Template": "Shabllon",
+        "A project people start new projects from. Every signed-in user can read a template.": "Një projekt nga i cili nisen projekte të reja. Çdo përdorues i identifikuar mund të lexojë një shabllon."
     },
     "nplurals=2; plural=(n != 1);"
 )

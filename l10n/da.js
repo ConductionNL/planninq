@@ -1355,7 +1355,9 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Ingen gruppe fundet. Din administrators delingsindstillinger bestemmer, hvilke grupper du kan finde.",
         "No owning group": "Ingen ejergruppe",
         "Could not search for groups. Please try again.": "Kunne ikke søge efter grupper. Prøv igen.",
-        "Could not change the owning group": "Kunne ikke ændre ejergruppen"
+        "Could not change the owning group": "Kunne ikke ændre ejergruppen",
+        "Template": "Skabelon",
+        "A project people start new projects from. Every signed-in user can read a template.": "Et projekt, som nye projekter startes ud fra. Alle loggede brugere kan læse en skabelon."
     },
     "nplurals=2; plural=(n != 1);"
 )

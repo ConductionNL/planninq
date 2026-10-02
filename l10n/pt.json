@@ -1354,7 +1354,9 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Nenhum grupo encontrado. As definições de partilha do seu administrador decidem que grupos pode encontrar.",
         "No owning group": "Sem grupo proprietário",
         "Could not search for groups. Please try again.": "Não foi possível procurar grupos. Tente novamente.",
-        "Could not change the owning group": "Não foi possível alterar o grupo proprietário"
+        "Could not change the owning group": "Não foi possível alterar o grupo proprietário",
+        "Template": "Modelo",
+        "A project people start new projects from. Every signed-in user can read a template.": "Um projeto a partir do qual se iniciam novos projetos. Qualquer utilizador com sessão iniciada pode ler um modelo."
     },
     "plurals": {}
 }
