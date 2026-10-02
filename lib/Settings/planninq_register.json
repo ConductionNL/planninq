@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.35.0"
+    "version": "0.36.0"
   },
   "x-openregister": {
     "type": "application",
@@ -53,7 +53,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedCircleOutline",
-        "version": "0.11.0",
+        "version": "0.12.0",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
@@ -314,7 +314,14 @@
           "description": {
             "title": "Description",
             "type": "string",
-            "description": "Detailed description"
+            "description": "Detailed description",
+            "authorization": {
+              "read": [
+                {
+                  "group": "authenticated"
+                }
+              ]
+            }
           },
           "status": {
             "title": "Status",
@@ -408,7 +415,14 @@
           "assignedTo": {
             "title": "Assigned To",
             "type": "string",
-            "description": "Nextcloud user UID of the assignee"
+            "description": "Nextcloud user UID of the assignee",
+            "authorization": {
+              "read": [
+                {
+                  "group": "authenticated"
+                }
+              ]
+            }
           },
           "sharedWith": {
             "title": "Also working on this",
@@ -425,7 +439,14 @@
             "description": "UUID reference to the contractor contact/domain object — the portal-subject scoping key; distinct from assignedTo which is the Nextcloud user id",
             "format": "uuid",
             "nullable": true,
-            "x-external-register": "openregister"
+            "x-external-register": "openregister",
+            "authorization": {
+              "read": [
+                {
+                  "group": "authenticated"
+                }
+              ]
+            }
           },
           "dueDate": {
             "title": "Due Date",
@@ -513,7 +534,14 @@
             "title": "Reporter",
             "type": "string",
             "description": "Nextcloud user UID (or imported identity) of the person who reported or created the work item",
-            "nullable": true
+            "nullable": true,
+            "authorization": {
+              "read": [
+                {
+                  "group": "authenticated"
+                }
+              ]
+            }
           },
           "resolution": {
             "title": "Resolution",
@@ -547,7 +575,14 @@
             "items": {
               "type": "string"
             },
-            "default": []
+            "default": [],
+            "authorization": {
+              "read": [
+                {
+                  "group": "authenticated"
+                }
+              ]
+            }
           },
           "epic": {
             "title": "Epic",
