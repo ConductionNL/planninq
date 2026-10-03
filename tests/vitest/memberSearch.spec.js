@@ -8,6 +8,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 vi.mock('@nextcloud/router', () => ({ generateOcsUrl: (path) => `/ocs/v2.php${path}` }))
+// userNames.js reads the caller's own name from the session; the node test
+// environment has no window for @nextcloud/auth to read it from.
+vi.mock('@nextcloud/auth', () => ({ getCurrentUser: () => null }))
 
 const { autocompleteUrl, memberEntries, searchMembers, toMemberOptions } = await import('../../src/utils/memberSearch.js')
 const { groupName } = await import('../../src/utils/userNames.js')
