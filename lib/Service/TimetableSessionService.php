@@ -106,14 +106,6 @@ class TimetableSessionService {
 	];
 
 	/**
-	 * Optional fields an empty value clears (stored as null) rather than
-	 * storing an empty string their format would refuse (contract v2).
-	 *
-	 * @var string[]
-	 */
-	private const CLEARABLE_FIELDS = ['courseId', 'onlineMeetingUrl'];
-
-	/**
 	 * The fields compared as moments in time rather than as strings.
 	 *
 	 * @var string[]
@@ -499,13 +491,7 @@ class TimetableSessionService {
 			}
 		}
 
-		foreach (self::CLEARABLE_FIELDS as $field) {
-			if (array_key_exists($field, $raw) === true && ($row[$field] ?? '') === '') {
-				$row[$field] = null;
-			}
-		}
-
-		return $row;
+		return $this->rows->withClearedFields(row: $row, raw: $raw);
 	}//end normalise()
 
 	/**
@@ -537,33 +523,8 @@ class TimetableSessionService {
 			return ['code' => 'invalid-status', 'message' => 'Status must be draft, scheduled or cancelled.'];
 		}
 
-		return $this->validateCourseAndLink(row: $row);
+		return $this->rows->courseOrLinkError(row: $row);
 	}//end validate()
-
-	/**
-	 * Check a row's course id and online link, which the schema stores as a
-	 * uuid and an address: a value OpenRegister would refuse is rejected here,
-	 * with its own code, before anything is written.
-	 *
-	 * @param array<string,mixed> $row The normalised row.
-	 *
-	 * @return array{code:string,message:string}|null The problem, or null.
-	 *
-	 * @spec openspec/changes/timetable-course-query/specs/school-timetable/spec.md#requirement-another-app-reads-a-courses-lessons-and-their-online-link-req-007
-	 */
-	private function validateCourseAndLink(array $row): ?array {
-		$course = $row['courseId'] ?? null;
-		if ($course !== null && preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', (string)$course) !== 1) {
-			return ['code' => 'invalid-course-id', 'message' => 'The course id must be the uuid of a course.'];
-		}
-
-		$link = $row['onlineMeetingUrl'] ?? null;
-		if ($link !== null && (filter_var((string)$link, FILTER_VALIDATE_URL) === false || parse_url((string)$link, PHP_URL_HOST) === null)) {
-			return ['code' => 'invalid-link', 'message' => 'The online meeting link must be a full web address.'];
-		}
-
-		return null;
-	}//end validateCourseAndLink()
 
 	/**
 	 * Find the stored session for a (source, occurrence id) pair.

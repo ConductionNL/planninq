@@ -50,7 +50,24 @@ class TimetableSessionRows {
 	 *
 	 * @var string[]
 	 */
-	private const OPTIONAL_FIELDS = ['groupReference', 'cohortId', 'teacherReference', 'teacherUserId', 'roomReference', 'roomLabel', 'courseId', 'onlineMeetingUrl'];
+	private const OPTIONAL_FIELDS = [
+		'groupReference',
+		'cohortId',
+		'teacherReference',
+		'teacherUserId',
+		'roomReference',
+		'roomLabel',
+		'courseId',
+		'onlineMeetingUrl',
+	];
+
+	/**
+	 * Optional fields an empty value clears (stored as null) rather than
+	 * storing an empty string their format would refuse (contract v2).
+	 *
+	 * @var string[]
+	 */
+	private const CLEARABLE_FIELDS = ['courseId', 'onlineMeetingUrl'];
 
 	/**
 	 * Normalise an ObjectService result set to a plain list of rows.
@@ -223,4 +240,49 @@ class TimetableSessionRows {
 
 		return '';
 	}//end entityId()
+
+	/**
+	 * Set a clearable field the caller sent empty (or null) to null.
+	 *
+	 * @param array<string,mixed> $row The normalised row.
+	 * @param array<string,mixed> $raw The row as delivered.
+	 *
+	 * @return array<string,mixed> The row.
+	 *
+	 * @spec openspec/changes/timetable-course-query/specs/school-timetable/spec.md#requirement-another-app-reads-a-courses-lessons-and-their-online-link-req-007
+	 */
+	public function withClearedFields(array $row, array $raw): array {
+		foreach (self::CLEARABLE_FIELDS as $field) {
+			if (array_key_exists($field, $raw) === true && ($row[$field] ?? '') === '') {
+				$row[$field] = null;
+			}
+		}
+
+		return $row;
+	}//end withClearedFields()
+
+	/**
+	 * Check a row's course id and online link, which the schema stores as a
+	 * uuid and an address: a value OpenRegister would refuse is rejected
+	 * before anything is written, with its own code.
+	 *
+	 * @param array<string,mixed> $row The normalised row.
+	 *
+	 * @return array{code:string,message:string}|null The problem, or null.
+	 *
+	 * @spec openspec/changes/timetable-course-query/specs/school-timetable/spec.md#requirement-another-app-reads-a-courses-lessons-and-their-online-link-req-007
+	 */
+	public function courseOrLinkError(array $row): ?array {
+		$course = $row['courseId'] ?? null;
+		if ($course !== null && preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', (string)$course) !== 1) {
+			return ['code' => 'invalid-course-id', 'message' => 'The course id must be the uuid of a course.'];
+		}
+
+		$link = $row['onlineMeetingUrl'] ?? null;
+		if ($link !== null && (filter_var((string)$link, FILTER_VALIDATE_URL) === false || parse_url((string)$link, PHP_URL_HOST) === null)) {
+			return ['code' => 'invalid-link', 'message' => 'The online meeting link must be a full web address.'];
+		}
+
+		return null;
+	}//end courseOrLinkError()
 }//end class
