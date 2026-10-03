@@ -169,3 +169,32 @@ export function rolePatch(project, id, type, role) {
 	}
 	return patch
 }
+
+/**
+ * Whether the board shows the no-access message.
+ *
+ * OpenRegister answers 404, not 403, for a project its read rules hide (a
+ * project you left, or were never on), so a `not-found` from the project
+ * fetch means the same thing to the reader. A loaded project the person holds
+ * no role on is denied too. A not-found from another fetch while the project
+ * is shown is not.
+ *
+ * @param {{error: (string|null), loading: boolean, activeProject: (object|null)}} store The projects store.
+ * @param {string|undefined} uid The current user id.
+ * @param {Array<string>} groupIds The current user's group ids.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+ */
+export function boardAccessDenied(store, uid, groupIds = []) {
+	if (!store || store.loading) {
+		return false
+	}
+	if (store.error === 'forbidden') {
+		return true
+	}
+	if (!store.activeProject) {
+		return store.error === 'not-found'
+	}
+	return !!uid && projectRole(store.activeProject, uid, groupIds) === 'none'
+}

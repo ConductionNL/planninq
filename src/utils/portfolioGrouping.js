@@ -116,6 +116,27 @@ export function isReadOnlyFor(project, user, groupIds = []) {
 }
 
 /**
+ * Why a board opens read-only, so it can say so in the right words: `viewer`
+ * for someone on the project's viewer lists (in person or through a group),
+ * `portfolio` for a manager of its portfolio who is on no list, null when the
+ * board is not read-only.
+ *
+ * @param {object|null} project The project.
+ * @param {{uid: string, isAdmin?: boolean}|null} user The current user.
+ * @param {Array<string>} groupIds The user's group ids.
+ * @return {'viewer'|'portfolio'|null}
+ *
+ * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+ */
+export function readOnlyReason(project, user, groupIds = []) {
+	if (!isReadOnlyFor(project, user, groupIds)) {
+		return null
+	}
+	const withoutPortfolio = { ...project, portfolioReaders: [] }
+	return projectRole(withoutPortfolio, user.uid, groupIds) === 'viewer' ? 'viewer' : 'portfolio'
+}
+
+/**
  * The risk scale of a project: its portfolio's own scale when set, else the app-wide one.
  *
  * @param {object} project The project.

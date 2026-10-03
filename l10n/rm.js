@@ -1355,7 +1355,8 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Chattà nagina gruppa. Las configuraziuns da cundivisiun da tes administratur decidan tge gruppas che ti pos chattar.",
         "No owning group": "Nagina gruppa possessura",
         "Could not search for groups. Please try again.": "Impussibel da tschertgar gruppas. Emprova anc ina giada.",
-        "Could not change the owning group": "Impussibel da midar la gruppa possessura"
+        "Could not change the owning group": "Impussibel da midar la gruppa possessura",
+        "You can read this project. Only its members change it.": "Ti pos leger quest project. Mo ses commembers al midan."
     },
     "nplurals=2; plural=(n != 1);"
 )

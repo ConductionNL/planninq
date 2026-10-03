@@ -1354,7 +1354,8 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Niciun grup găsit. Setările de partajare ale administratorului decid ce grupuri poți găsi.",
         "No owning group": "Fără grup proprietar",
         "Could not search for groups. Please try again.": "Nu s-au putut căuta grupuri. Încearcă din nou.",
-        "Could not change the owning group": "Grupul proprietar nu a putut fi schimbat"
+        "Could not change the owning group": "Grupul proprietar nu a putut fi schimbat",
+        "You can read this project. Only its members change it.": "Poți citi acest proiect. Doar membrii lui îl modifică."
     },
     "plurals": {}
 }

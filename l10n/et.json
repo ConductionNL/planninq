@@ -1354,7 +1354,8 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Gruppi ei leitud. Sinu administraatori jagamisseaded määravad, milliseid gruppe saad leida.",
         "No owning group": "Omanikgruppi pole",
         "Could not search for groups. Please try again.": "Gruppide otsimine ebaõnnestus. Proovi uuesti.",
-        "Could not change the owning group": "Omanikgruppi ei õnnestunud muuta"
+        "Could not change the owning group": "Omanikgruppi ei õnnestunud muuta",
+        "You can read this project. Only its members change it.": "Saad seda projekti lugeda. Muudavad seda ainult selle liikmed."
     },
     "plurals": null
 }

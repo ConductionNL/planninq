@@ -1355,7 +1355,8 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Ryhmää ei löytynyt. Ylläpitäjäsi jakoasetukset määräävät, mitkä ryhmät voit löytää.",
         "No owning group": "Ei omistajaryhmää",
         "Could not search for groups. Please try again.": "Ryhmien haku epäonnistui. Yritä uudelleen.",
-        "Could not change the owning group": "Omistajaryhmää ei voitu muuttaa"
+        "Could not change the owning group": "Omistajaryhmää ei voitu muuttaa",
+        "You can read this project. Only its members change it.": "Voit lukea tätä projektia. Vain sen jäsenet muuttavat sitä."
     },
     "nplurals=2; plural=(n != 1);"
 )

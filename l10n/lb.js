@@ -1355,7 +1355,8 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Kee Grupp fonnt. D'Deelastellunge vun denger Administratioun bestëmmen, wéi eng Gruppen s du fanne kanns.",
         "No owning group": "Kee Besëtzergrupp",
         "Could not search for groups. Please try again.": "Gruppe konnten net gesicht ginn. Probéier nach eng Kéier.",
-        "Could not change the owning group": "De Besëtzergrupp konnt net geännert ginn"
+        "Could not change the owning group": "De Besëtzergrupp konnt net geännert ginn",
+        "You can read this project. Only its members change it.": "Du kanns dëse Projet liesen. Nëmme seng Memberen änneren en."
     },
     "nplurals=2; plural=(n != 1);"
 )

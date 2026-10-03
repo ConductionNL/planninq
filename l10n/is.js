@@ -1355,7 +1355,8 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Enginn hópur fannst. Deilingarstillingar kerfisstjórans ráða hvaða hópa þú getur fundið.",
         "No owning group": "Enginn eigandahópur",
         "Could not search for groups. Please try again.": "Ekki tókst að leita að hópum. Reyndu aftur.",
-        "Could not change the owning group": "Ekki tókst að breyta eigandahópnum"
+        "Could not change the owning group": "Ekki tókst að breyta eigandahópnum",
+        "You can read this project. Only its members change it.": "Þú getur lesið þetta verkefni. Aðeins meðlimir þess breyta því."
     },
     "nplurals=2; plural=(n != 1);"
 )
