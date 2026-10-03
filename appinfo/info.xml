@@ -42,7 +42,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
 
 **Ondersteuning:** Voor ondersteuning, neem contact op via support@conduction.nl.
     ]]></description>
-    <version>0.2.17</version>
+    <version>0.2.23-unstable.20261003100000</version>
     <licence>EUPL-1.2</licence>
     <author mail="info@conduction.nl" homepage="https://www.conduction.nl/">Conduction</author>
     <namespace>Planninq</namespace>
@@ -161,7 +161,45 @@ Vrij en open source onder de EUPL-1.2-licentie.
             <step>OCA\Planninq\Repair\MigrateAppConfigKeys</step>
             <step>OCA\Planninq\Repair\MigrateUserPreferences</step>
             <step>OCA\Planninq\Repair\MigrateRegisterSlug</step>
+            <!--
+                ONE LEVEL DOWN FROM MigrateRegisterSlug, AND THE SAME TRAP.
+                `timeEntry` is a slug three apps declared — humaniq's HR
+                booking, pipelinq's billing record and this app's project
+                booking — and a slug is global per organisation, so
+                SchemaMapper::find() answered whichever row it reached first.
+                humaniq owns the hours; this record is the PLANNING side of one,
+                and keeps a `timeEntry` reference to the humaniq booking.
+
+                Renaming the row BEFORE InitializeSettings is what makes it a
+                rename: the import matches by (application, slug) and its
+                not-found branch CREATES a second schema, orphaning every
+                existing entry silently while the app reads an empty list.
+            -->
+            <step>OCA\Planninq\Repair\RenameTimeEntrySchemaSlug</step>
             <step>OCA\Planninq\Repair\InitializeSettings</step>
+            <!--
+                AFTER InitializeSettings, in BOTH blocks (planninq#681). The
+                import adds the `members` property that task, column,
+                projectPhase and plannedTimeEntry are now scoped by; before it
+                there is no column to fill. Rows stored before this release
+                have no list, and the new rule hides them from every member
+                until this step has run. Idempotent and never throws.
+            -->
+            <step>OCA\Planninq\Repair\BackfillProjectMembers</step>
+            <!--
+                AFTER InitializeSettings and BackfillProjectMembers, in BOTH
+                blocks (boards-configurable-columns). The board groups cards by
+                column now, and a task stored before this release has none, so
+                it would drop off the board. The import adds the column's
+                `status`; this step then creates default columns where a
+                project has none and places each column-less, not cancelled
+                task. Idempotent and never throws.
+            -->
+            <step>OCA\Planninq\Repair\AssignBoardColumns</step>
+            <!-- AFTER InitializeSettings (projects-lifecycle-policy): the import
+                 rewrites the project schema, so the reviewers of project
+                 requests are written back in. Never throws. -->
+            <step>OCA\Planninq\Repair\ApplyProjectPolicy</step>
             <step>OCA\Planninq\Repair\ReconcileDueReminderOverrides</step>
         </post-migration>
         <install>
@@ -178,7 +216,13 @@ Vrij en open source onder de EUPL-1.2-licentie.
                 happen here or the import below forks a second, empty register.
             -->
             <step>OCA\Planninq\Repair\MigrateRegisterSlug</step>
+            <!-- See the note in <post-migration>. -->
+            <step>OCA\Planninq\Repair\RenameTimeEntrySchemaSlug</step>
             <step>OCA\Planninq\Repair\InitializeSettings</step>
+            <!-- See the note in <post-migration>. -->
+            <step>OCA\Planninq\Repair\BackfillProjectMembers</step>
+            <step>OCA\Planninq\Repair\AssignBoardColumns</step>
+            <step>OCA\Planninq\Repair\ApplyProjectPolicy</step>
         </install>
     </repair-steps>
 

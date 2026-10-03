@@ -301,7 +301,7 @@ The OpenRegister gate check MUST occur in the App root component (`App.vue`) bef
 
 > Added by the `retrofit-2026-05-24-reverse-spec-projects-backlog` change — retroactively specifies the existing `/projects/:id/backlog` placeholder route.
 
-The system MUST provide a navigable Backlog route per project that renders inside the project context (breadcrumb back to project board) and shows a placeholder until task management ships.
+The system MUST provide a navigable Backlog route per project that renders inside the project context (breadcrumb back to project board) and lists the project's backlog (see `openspec/specs/backlog/spec.md`).
 
 #### Scenario: Navigate to backlog route
 - GIVEN the user is authenticated and a project exists with id `:id`
@@ -315,14 +315,14 @@ The system MUST provide a navigable Backlog route per project that renders insid
 - WHEN the `ProjectBacklog` view mounts
 - THEN the view MUST call `projectsStore.fetchProject(:id)` so the breadcrumb title resolves to the project title rather than the raw UUID
 
-#### Scenario: Placeholder until task management is implemented
+#### Scenario: The backlog lists the project's tasks
 - GIVEN the `ProjectBacklog` view has rendered
-- WHEN there is no task-management implementation yet
-- THEN the view MUST show an `NcEmptyContent` with name "Backlog view coming soon" and description "Task management will be available in a future update."
-- AND the placeholder MUST use the `FormatListBulleted` MDI icon so the feature intent is recognisable
+- WHEN the project has tasks without a board column
+- THEN the view MUST list them as the working backlog described in `openspec/specs/backlog/spec.md`
+- AND the former "Backlog view coming soon" placeholder MUST NOT show
 
 #### Notes
-- The placeholder copy is deliberate. It MUST stay aligned with the unimplemented `tasks#REQ-Task-CRUD` and `kanban-board#REQ-Kanban-Board-View` REQs (currently Bucket 3b — planned, never started). When task management lands, this REQ should either be retired in favour of a real backlog REQ or rewritten to describe the populated list view.
+- The placeholder was retired on 2026-09-28 by the `backlog-list` change; the backlog's behaviour lives in `openspec/specs/backlog/spec.md`.
 - The view does not own loading or error states beyond what the projects store provides — those are covered by `Requirement: Loading and Error States` above.
 
 ---

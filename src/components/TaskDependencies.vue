@@ -54,28 +54,64 @@
 			</p>
 		</div>
 
-		<!-- Same-project task picker to add a "Blocked by" edge. -->
+		<!-- Related links: they never block (planning-dependencies-on-task-page). -->
+		<div v-if="relatedTasks.length > 0" class="task-dependencies__group" data-testid="task-links-related">
+			<h4>{{ t('planninq', 'Related') }}</h4>
+			<ul class="task-dependencies__list">
+				<li v-for="item in relatedTasks" :key="item.edgeId" class="task-dependencies__item">
+					<span class="task-dependencies__status" :class="`is-${item.status}`" />
+					<span class="task-dependencies__title">{{ typeLabel(item.type) }}: {{ item.title }}</span>
+					<NcButton
+						variant="tertiary"
+						:aria-label="t('planninq', 'Remove link')"
+						@click="remove(item.edgeId)">
+						<template #icon>
+							<CloseIcon :size="16" />
+						</template>
+					</NcButton>
+				</li>
+			</ul>
+		</div>
+
+		<!-- Same-project task picker to add a link. -->
 		<div class="task-dependencies__add">
+			<NcSelect
+				v-model="linkType"
+				:options="typeOptions"
+				:clearable="false"
+				:inputLabel="t('planninq', 'Link type')"
+				label="label"
+				:disabled="saving"
+				data-testid="task-link-type" />
 			<NcSelect
 				v-model="selected"
 				:options="pickerOptions"
-				:input-label="t('planninq', 'Add a blocking task')"
+				:inputLabel="t('planninq', 'Add a blocking task')"
 				:placeholder="t('planninq', 'Pick a task that must finish first')"
 				label="title"
-				:disabled="saving" />
-			<NcButton variant="secondary" :disabled="!selected || saving" @click="addBlockedBy">
+				:disabled="saving"
+				data-testid="task-link-picker" />
+			<NcButton
+				variant="secondary"
+				:disabled="!selected || saving"
+				data-testid="task-link-add"
+				@click="addBlockedBy">
 				{{ t('planninq', 'Add') }}
 			</NcButton>
 		</div>
 
 		<!-- Inline validation error (cycle / duplicate / cross-project). -->
-		<p v-if="errorMessage" class="task-dependencies__error" role="alert">
+		<p v-if="errorMessage"
+			class="task-dependencies__error"
+			role="alert"
+			data-testid="task-link-error">
 			{{ errorMessage }}
 		</p>
 	</section>
 </template>
 
 <script>
+import { translate as t } from '@nextcloud/l10n'
 /**
  * TaskDependencies — task-detail section showing the two dependency directions
  * ("Blocked by" / "Blocks") with a same-project task picker and inline
@@ -89,12 +125,10 @@
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
  */
 import { NcButton, NcSelect } from '@nextcloud/vue'
-import { translate as t } from '@nextcloud/l10n'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
-
 import { useDependenciesStore } from '../store/dependencies.js'
-import { openBlockerIds, statusMapFromTasks, dependencyPickerCandidates } from '../utils/taskHelpers.js'
+import { dependencyPickerCandidates, linkGroups, newLinkFor, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
 
 export default {
 	name: 'TaskDependencies',
@@ -129,6 +163,7 @@ export default {
 		return {
 			selected: null,
 			saving: false,
+			linkType: null,
 		}
 	},
 
@@ -202,9 +237,7 @@ export default {
 		 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
 		 */
 		blockedByTasks() {
-			return this.dependenciesStore.edges
-				.filter((edge) => edge.blocked === this.taskId)
-				.map((edge) => this.toListItem(edge, edge.blocker))
+			return linkGroups(this.taskId, this.dependenciesStore.edges).blockedBy.map((link) => this.toListItem(link))
 		},
 
 		/**
@@ -215,9 +248,27 @@ export default {
 		 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
 		 */
 		blocksTasks() {
-			return this.dependenciesStore.edges
-				.filter((edge) => edge.blocker === this.taskId)
-				.map((edge) => this.toListItem(edge, edge.blocked))
+			return linkGroups(this.taskId, this.dependenciesStore.edges).blocks.map((link) => this.toListItem(link))
+		},
+
+		/**
+		 * Links that do not block, in either direction.
+		 *
+		 * @return {Array<object>}
+		 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.2
+		 */
+		relatedTasks() {
+			return linkGroups(this.taskId, this.dependenciesStore.edges).related.map((link) => this.toListItem(link))
+		},
+
+		/**
+		 * The link types the picker offers: "Blocked by" first.
+		 *
+		 * @return {Array<{id: string, label: string}>}
+		 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.2
+		 */
+		typeOptions() {
+			return ['blocks', 'relates', 'duplicates'].map((id) => ({ id, label: this.typeLabel(id) }))
 		},
 
 		/**
@@ -229,11 +280,9 @@ export default {
 		 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
 		 */
 		pickerOptions() {
-			const alreadyBlocking = new Set(
-				this.dependenciesStore.edges
-					.filter((edge) => edge.blocked === this.taskId)
-					.map((edge) => edge.blocker),
-			)
+			const alreadyBlocking = new Set(this.dependenciesStore.edges
+				.filter((edge) => edge.blocked === this.taskId)
+				.map((edge) => edge.blocker))
 			return dependencyPickerCandidates(this.task, this.projectTasks)
 				.filter((task) => !alreadyBlocking.has(task.id || task['@self']?.id))
 				.map((task) => ({ id: task.id || task['@self']?.id, title: task.title }))
@@ -244,18 +293,31 @@ export default {
 		t,
 
 		/**
-		 * @param {object} edge        The dependency edge object (carries its own id).
-		 * @param {string} otherTaskId UUID of the task at the far end of the edge.
-		 * @return {{edgeId: string, title: string, status: string}} Display row.
+		 * @param {{edgeId: string, otherId: string, type: string}} link The link from linkGroups().
+		 * @return {{edgeId: string, type: string, title: string, status: string}} Display row.
 		 * @spec exclude View glue — builds a display row for a linked edge.
 		 */
-		toListItem(edge, otherTaskId) {
-			const other = this.taskById[otherTaskId]
+		toListItem(link) {
+			const other = this.taskById[link.otherId]
 			return {
-				edgeId: edge.id,
-				title: other?.title || otherTaskId,
+				edgeId: link.edgeId,
+				type: link.type,
+				title: other?.title || link.otherId,
 				status: other?.status || 'unknown',
 			}
+		},
+
+		/**
+		 * @param {string} type The link type.
+		 * @return {string}
+		 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.2
+		 */
+		typeLabel(type) {
+			return {
+				blocks: this.t('planninq', 'Blocked by'),
+				relates: this.t('planninq', 'Relates to'),
+				duplicates: this.t('planninq', 'Duplicates'),
+			}[type] || type
 		},
 
 		/**
@@ -271,9 +333,10 @@ export default {
 			}
 			this.saving = true
 			try {
-				await this.dependenciesStore.createEdge(this.selected.id, this.taskId)
+				const link = newLinkFor(this.taskId, this.selected.id, this.linkType?.id || 'blocks')
+				await this.dependenciesStore.createEdge(link.blocker, link.blocked, link.type)
 				this.selected = null
-			} catch (err) {
+			} catch {
 				// Error is surfaced via the store's `error` → errorMessage banner.
 			} finally {
 				this.saving = false
@@ -291,7 +354,7 @@ export default {
 		async remove(edgeId) {
 			try {
 				await this.dependenciesStore.deleteEdge(edgeId)
-			} catch (err) {
+			} catch {
 				// Error surfaced via the store's `error` banner.
 			}
 		},

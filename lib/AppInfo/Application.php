@@ -21,23 +21,40 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\AppInfo;
 
+use OCA\OpenRegister\AppHost\Bootstrap;
 use OCA\OpenRegister\Event\ObjectCreatedEvent;
 use OCA\OpenRegister\Event\ObjectDeletedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
+use OCA\Planninq\Event\TimetableSessionsQueryEvent;
+use OCA\Planninq\Event\TimetableUpsertRequestedEvent;
 use OCA\Planninq\Listener\DeepLinkRegistrationListener;
+use OCA\Planninq\Listener\ProjectPrincipalCleanupListener;
+use OCA\Planninq\Listener\RegisterProjectsLeafListener;
 use OCA\Planninq\Listener\TaskActivityListener;
+use OCA\Planninq\Listener\TimetableSessionsQueryListener;
+use OCA\Planninq\Listener\TimetableUpsertRequestedListener;
+use OCA\Planninq\Service\CurrentUserGroupsState;
 use OCA\Planninq\Settings\AdminSettings;
+use OCA\Planninq\Timetabling\LocalSearchSolver;
+use OCA\Planninq\Timetabling\TimetableSolver;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\GroupDeletedEvent;
+use OCP\User\Events\UserDeletedEvent;
 use Psr\Container\ContainerInterface;
 
 /**
  * Main application class for the Planninq Nextcloud app.
  *
  * @spec openspec/specs/app-metadata/spec.md
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) This IS the composition
+ * root: its job is to name every class the app wires together, so the count
+ * measures the size of the app rather than a design fault. The wiring is
+ * already split into per-concern register* methods one layer down.
  */
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'planninq';
@@ -86,6 +103,28 @@ class Application extends App implements IBootstrap {
 		// with per-user due-reminder logic, Repair\InitializeSettings register
 		// import, the kanban Project/Dependency/Label controllers) are kept.
 		$this->registerAppHost(context: $context);
+
+		// The timetable generator's engine (timetabling-generator design decision 1, DECISIONS row 21):
+		// the PHP local search now; a CP-SAT sidecar can be bound here per instance later.
+		$context->registerServiceAlias(TimetableSolver::class, LocalSearchSolver::class);
+
+		// The caller's group ids for the browser's role helper (projects-members-and-roles task 4.1).
+		$context->registerInitialStateProvider(CurrentUserGroupsState::class);
+
+		// Publish the projects leaf on OpenRegister's integration registry, so
+		// sibling apps render planninq's projects instead of querying for them.
+		$this->registerProjectsLeaf(context: $context);
+
+		// The school timetable doors (ADR-041, school-timetable-target): the
+		// integriq rostering adapter delivers a batch, learniq reads sessions.
+		// Both events are planninq's own classes, so no load-order hazard.
+		$context->registerEventListener(event: TimetableUpsertRequestedEvent::class, listener: TimetableUpsertRequestedListener::class);
+		$context->registerEventListener(event: TimetableSessionsQueryEvent::class, listener: TimetableSessionsQueryListener::class);
+
+		// A deleted account or group leaves every project (projects-members-and-roles task 5.3).
+		// Both are OCP events, so no load-order hazard.
+		$context->registerEventListener(event: UserDeletedEvent::class, listener: ProjectPrincipalCleanupListener::class);
+		$context->registerEventListener(event: GroupDeletedEvent::class, listener: ProjectPrincipalCleanupListener::class);
 
 		// NOTE: the task-lifecycle Activity listener is subscribed from boot(),
 		// not here — see registerFilteredObjectListener().
@@ -160,6 +199,13 @@ class Application extends App implements IBootstrap {
 	 * @var string
 	 */
 	private const OR_DEEPLINK_REGISTRATION_EVENT = 'OCA\\OpenRegister\\Event\\DeepLinkRegistrationEvent';
+
+	/**
+	 * OpenRegister's leaf-provider collect-event name (ADR-066).
+	 *
+	 * @var string
+	 */
+	private const OR_LEAF_REGISTRATION_EVENT = 'OCA\\OpenRegister\\Event\\RegisterLeafProvidersEvent';
 
 	/**
 	 * Leaf DI service id for the AppHost dashboard SPA controller.
@@ -239,7 +285,61 @@ class Application extends App implements IBootstrap {
 		$this->registerAppHostObservability(context: $context);
 		$this->registerAppHostSettings(context: $context);
 		$this->registerAppHostDeepLinks(context: $context);
+		$this->registerAppHostStore(context: $context);
 	}//end registerAppHost()
+
+	/**
+	 * Bind the store controller the adopted route table already declares.
+	 *
+	 * 🔴 THIS ROUTE ARRIVES WHETHER THE APP WANTS IT OR NOT.
+	 *
+	 * `Routes::standard()`, which appinfo/routes.php adopts, declares
+	 * `/api/store/items`. The binding normally comes from
+	 * `Bootstrap::register()`, and planninq does not call that: it aliases the
+	 * plumbing classes it wants, one at a time, and keeps its own settings and
+	 * kanban controllers. The store controller was never on that list.
+	 *
+	 * So the route matched a controller class that does not exist, and every
+	 * request to it returned HTTP 500 rather than 404. Measured on a running
+	 * instance 2026-09-03, alongside decidiq and filinq.
+	 *
+	 * The engine owns the controller's constructor argument list, which is why
+	 * this calls the shared helper rather than adding a ninth hand-written
+	 * factory beside the others: that argument list gained a parameter the
+	 * same day this defect was found, and a hand-written copy would have
+	 * broken instead of adapting.
+	 *
+	 * @param IRegistrationContext $context The registration context.
+	 *
+	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.StaticAccess) OCA\OpenRegister\AppHost\Bootstrap
+	 * is a cross-app static entry point in a SIBLING app that may be absent or
+	 * unloadable here — the call is guarded by class_exists() and wrapped in a
+	 * catch(\Throwable) for exactly that reason. It cannot be injected: this
+	 * runs at the composition root, so there is no container to resolve an
+	 * adapter from.
+	 */
+	private function registerAppHostStore(IRegistrationContext $context): void {
+		// The class_exists() guard MUST stay in this method: it is also the
+		// assertion psalm relies on to accept the Bootstrap call below, and
+		// psalm does not carry that narrowing across a call. register() has
+		// already run OpenRegisterAutoloader::register() above.
+		if (class_exists(Bootstrap::class) === true) {
+			try {
+				Bootstrap::aliasStoreController(
+					context: $context,
+					appId: self::APP_ID,
+					controllerNs: 'OCA\\Planninq\\Controller'
+				);
+			} catch (\Throwable) {
+				// An OpenRegister older than the helper, or present but
+				// unloadable. The store route is then no worse off than it is
+				// today, and every registration around this one still runs.
+			}
+		}
+
+	}//end registerAppHostStore()
 
 	/**
 	 * Alias the dashboard SPA and per-user preferences controllers.
@@ -398,6 +498,40 @@ class Application extends App implements IBootstrap {
 	}//end registerAppHostDeepLinks()
 
 	/**
+	 * Subscribe the `planninq-projects` leaf to OpenRegister's collect-event.
+	 *
+	 * Planninq owns the project entity, so sibling apps render it through this
+	 * leaf rather than reading planninq's register from their own manifests.
+	 * Pipelinq did the latter and, on an install without the owning app, showed
+	 * an empty table that looked exactly like a client with no projects.
+	 *
+	 * The event NAME is a plain string for the same reason every OpenRegister
+	 * FQCN in this class is: IEventDispatcher keys on the string, so nothing
+	 * here needs OpenRegister to be autoloadable at bootstrap. The listener
+	 * class itself is only constructed when OpenRegister dispatches, which it
+	 * can only do when it is installed.
+	 *
+	 * @param IRegistrationContext $context The registration context.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/project-delivery/spec.md#requirement-both-halves-of-the-projects-leaf-agree
+	 */
+	private function registerProjectsLeaf(IRegistrationContext $context): void {
+		$context->registerService(
+			RegisterProjectsLeafListener::class,
+			static fn (ContainerInterface $c): RegisterProjectsLeafListener => new RegisterProjectsLeafListener(
+				l10n: $c->get('OCP\\IL10N'),
+				logger: $c->get('Psr\\Log\\LoggerInterface')
+			)
+		);
+		$context->registerEventListener(
+			event: self::OR_LEAF_REGISTRATION_EVENT,
+			listener: RegisterProjectsLeafListener::class
+		);
+	}//end registerProjectsLeaf()
+
+	/**
 	 * Boot the application.
 	 *
 	 * @param IBootContext $context The boot context
@@ -437,6 +571,9 @@ class Application extends App implements IBootstrap {
 			);
 		}
 
+		// The reporter guard first: a delete it refuses must not lose the edges.
+		$this->registerTaskGuardListeners(dispatcher: $dispatcher);
+
 		// Dependency-edge cascade, on the PRE-delete event.
 		//
 		// ADR-078 / gate-61 forbid a synchronous write in a POST-event listener
@@ -458,5 +595,252 @@ class Application extends App implements IBootstrap {
 			registers: ['planninq'],
 			schemas: ['task']
 		);
+
+		$this->registerMembershipListeners(dispatcher: $dispatcher);
+		$this->registerBoardColumnListeners(dispatcher: $dispatcher);
+		$this->registerWorkItemKeyListeners(dispatcher: $dispatcher);
 	}//end boot()
+
+	/**
+	 * Register the two board-column listeners (boards-configurable-columns).
+	 *
+	 * TaskCompletionListener stamps `completedAt` in the save that moves a task
+	 * to `done`, whichever client moved it. ColumnOwnerGuardListener keeps
+	 * column create, update and delete to the project owner and admins, a rule
+	 * OpenRegister cannot express because it matches no field across schemas.
+	 * ColumnAutomationListener runs the rules of the column a task enters, in
+	 * the same save (boards-column-automation). BoardFilterOwnerListener
+	 * stamps and keeps the owner of a saved board filter (boards-filters).
+	 * Class names are literal strings for the same coupling reason as above.
+	 *
+	 * @param IEventDispatcher $dispatcher The event dispatcher.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2b
+	 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.1
+	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
+	 */
+	private function registerBoardColumnListeners(IEventDispatcher $dispatcher): void {
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\TaskCompletionListener',
+				registers: ['planninq'],
+				schemas: ['task']
+			);
+
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\ColumnAutomationListener',
+				registers: ['planninq'],
+				schemas: ['task']
+			);
+		}
+
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\ColumnOwnerGuardListener',
+				registers: ['planninq'],
+				schemas: ['column']
+			);
+		}
+
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\BoardFilterOwnerListener',
+				registers: ['planninq'],
+				schemas: \OCA\Planninq\Listener\BoardFilterOwnerListener::OWNED_SCHEMAS
+			);
+		}
+
+		// A new code link finds its task by key or id and takes the task's
+		// project; a repeat of the same forge item is refused
+		// (integration-code-forge-links).
+		$this->registerFilteredObjectListener(
+			dispatcher: $dispatcher,
+			event: 'OCA\\OpenRegister\\Event\\ObjectCreatingEvent',
+			listener: 'OCA\\Planninq\\Listener\\ForgeLinkResolveListener',
+			registers: ['planninq'],
+			schemas: ['forgeLink']
+		);
+
+		// Every task change rewrites the task's VTODO in the "Planninq" task
+		// list of each person on it who switched the export on
+		// (planning-calendar). Post-events: the save has happened.
+		foreach (['ObjectCreatedEvent', 'ObjectUpdatedEvent', 'ObjectDeletedEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\TaskCalendarExportListener',
+				registers: ['planninq'],
+				schemas: ['task']
+			);
+		}
+	}//end registerBoardColumnListeners()
+
+	/**
+	 * Register the task reporter guard (tasks-create-edit-delete).
+	 *
+	 * TaskReporterGuardListener stamps the creator as `reporter`, keeps it on
+	 * every update, and holds a task delete to the reporter, the project owner
+	 * and admins, refusing a task with logged time. It is subscribed before
+	 * TaskDependencyCleanupListener, so a refused delete stops before the
+	 * edges are removed. The class name is a literal string for the coupling
+	 * reason given in boot().
+	 *
+	 * @param IEventDispatcher $dispatcher The event dispatcher.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-5.1
+	 */
+	private function registerTaskGuardListeners(IEventDispatcher $dispatcher): void {
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\TaskReporterGuardListener',
+				registers: ['planninq'],
+				schemas: ['task']
+			);
+		}
+	}//end registerTaskGuardListeners()
+
+	/**
+	 * Register the key listener (tasks-readable-keys).
+	 *
+	 * WorkItemKeyListener gives a new task the next key of its project and
+	 * holds project writes to the key rules. It must be a pre-event listener
+	 * to set the key in the same save and to refuse a used key. The class
+	 * name is a literal string for the coupling reason given in boot().
+	 *
+	 * @param IEventDispatcher $dispatcher The event dispatcher.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-2.2
+	 */
+	private function registerWorkItemKeyListeners(IEventDispatcher $dispatcher): void {
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\WorkItemKeyListener',
+				registers: ['planninq'],
+				schemas: ['project', 'task']
+			);
+		}
+
+		// Project requests (projects-lifecycle-policy): a review is stamped in
+		// its own save, and an approved request gets its board afterwards.
+		foreach (['ObjectUpdatingEvent', 'ObjectUpdatedEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\ProjectReviewListener',
+				registers: ['planninq'],
+				schemas: ['project']
+			);
+		}
+	}//end registerWorkItemKeyListeners()
+
+	/**
+	 * Subscribe the listeners that keep project membership on project objects (planninq#681).
+	 *
+	 * `task`, `column`, `projectPhase` and `plannedTimeEntry` are scoped by
+	 * their own `members` list. ProjectMemberAccessListener writes it on every
+	 * create and update, and refuses a create or a move into a project the
+	 * caller is not a member of; it has to be a PRE-event listener to change
+	 * the data and to veto. ProjectMembershipSyncListener copies a project's
+	 * changed membership to its objects after the project is saved.
+	 * ProjectStatusListener keeps status reports to the project owner and
+	 * copies the newest one onto its project.
+	 *
+	 * Class names are literal strings for the reason given in boot(): each
+	 * import adds to this class's PHPMD coupling count.
+	 *
+	 * @param IEventDispatcher $dispatcher The live event dispatcher.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/projects.md
+	 */
+	private function registerMembershipListeners(IEventDispatcher $dispatcher): void {
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\ProjectMemberAccessListener',
+				registers: ['planninq'],
+				// Must equal ProjectMembershipService::SCOPED_SCHEMAS (asserted by
+				// BoardColumnWiringTest): a schema missing here is never stamped.
+				schemas: [
+					'task',
+					'column',
+					'projectPhase',
+					'plannedTimeEntry',
+					'projectLogEntry',
+					'risk',
+					'projectStatusReport',
+					'projectRelease',
+					'boardFilter',
+					'forgeLink',
+				]
+			);
+		}
+
+		// Portfolios: a project's readers are the managers of its portfolio,
+		// derived on every project write and pushed out when a portfolio's
+		// managers change or it is deleted (projects-grouping-hierarchy-fields).
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener',
+				registers: ['planninq'],
+				schemas: ['project', 'projectPortfolio']
+			);
+		}
+
+		// Status reports: owner-only writes, and the newest report copied onto
+		// its project inside the report's own save (portfolio-status-overview).
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\ProjectStatusListener',
+				registers: ['planninq'],
+				schemas: ['project', 'projectStatusReport']
+			);
+		}
+
+		// Finance lines: hand-entered money is the project owner's, imported
+		// money the finance import's, and each line carries who may read it
+		// (portfolio-finance).
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\FinanceLineListener',
+				registers: ['planninq'],
+				schemas: ['financeLine']
+			);
+		}
+
+		$this->registerFilteredObjectListener(
+			dispatcher: $dispatcher,
+			event: 'OCA\\OpenRegister\\Event\\ObjectUpdatedEvent',
+			listener: 'OCA\\Planninq\\Listener\\ProjectMembershipSyncListener',
+			registers: ['planninq'],
+			schemas: ['project']
+		);
+	}//end registerMembershipListeners()
 }//end class

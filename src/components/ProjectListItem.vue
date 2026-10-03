@@ -7,9 +7,27 @@
 		role="option"
 		tabindex="0"
 		:aria-selected="false"
+		:style="depth ? { paddingInlineStart: `${depth * 28}px` } : null"
+		:data-depth="depth"
 		@click="$emit('click', project)"
 		@keydown.enter="$emit('click', project)"
 		@keydown.space.prevent="$emit('click', project)">
+		<!-- Subprojects (projects-grouping-hierarchy-fields): folds the rows below -->
+		<NcButton
+			v-if="hasChildren"
+			variant="tertiary"
+			class="project-list-item__toggle"
+			:aria-expanded="folded ? 'false' : 'true'"
+			:aria-label="folded ? t('planninq', 'Show the subprojects of {title}', { title: project.title }) : t('planninq', 'Hide the subprojects of {title}', { title: project.title })"
+			data-testid="project-subprojects-toggle"
+			@click.stop="$emit('toggle', project)"
+			@keydown.enter.stop
+			@keydown.space.stop>
+			<template #icon>
+				<ChevronRight v-if="folded" :size="20" />
+				<ChevronDown v-else :size="20" />
+			</template>
+		</NcButton>
 		<!-- Color swatch -->
 		<span
 			class="project-list-item__swatch"
@@ -36,32 +54,83 @@
 			{{ memberCount }} {{ t('planninq', 'members') }}
 		</span>
 
+		<!-- Billable and budget. Only shown when the project actually carries
+		     them, so internal work does not grow empty money columns. -->
+		<span v-if="project.billable" class="project-list-item__badge">
+			{{ t('planninq', 'Billable') }}
+		</span>
+		<span
+			v-if="hasBudget"
+			class="project-list-item__badge"
+			:aria-label="t('planninq', 'Budget: {amount}', { amount: budgetLabel })">
+			{{ budgetLabel }}
+		</span>
+
+		<!-- Restore an archived project (projects-lifecycle-policy) -->
+		<NcButton
+			v-if="canRestore && project.status === 'archived'"
+			variant="secondary"
+			class="project-list-item__restore"
+			:aria-label="t('planninq', 'Restore {title}', { title: project.title })"
+			data-testid="project-restore"
+			@click.stop="$emit('restore', project)"
+			@keydown.enter.stop
+			@keydown.space.stop>
+			{{ t('planninq', 'Restore') }}
+		</NcButton>
+
 		<!-- Status chip -->
 		<NcChip
 			class="project-list-item__status"
 			:text="statusLabel"
 			:variant="statusVariant"
-			:no-close="true" />
+			:noClose="true" />
 	</li>
 </template>
 
 <script>
 // @nextcloud/vue@9 removed the `dist/Components/*.js` layout; the package now
 // publishes only an `exports` map (root barrel + `./components/<Name>`).
-import { NcChip } from '@nextcloud/vue'
+import { NcButton, NcChip } from '@nextcloud/vue'
+import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
+import ChevronRight from 'vue-material-design-icons/ChevronRight.vue'
 
 export default {
 	name: 'ProjectListItem',
-	components: { NcChip },
+	components: { ChevronDown, ChevronRight, NcButton, NcChip },
 
 	props: {
 		project: {
 			type: Object,
 			required: true,
 		},
+
+		/** How deep the project sits under its parents: 0 for a top row. */
+		depth: {
+			type: Number,
+			default: 0,
+		},
+
+		/** Whether subprojects follow this row. */
+		hasChildren: {
+			type: Boolean,
+			default: false,
+		},
+
+		/** Whether those subprojects are hidden. */
+		folded: {
+			type: Boolean,
+			default: false,
+		},
+
+		/** Whether the viewer may restore the project (its owner or an admin). */
+		canRestore: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
-	emits: ['click'],
+	emits: ['click', 'toggle', 'restore'],
 
 	computed: {
 		/**
@@ -79,6 +148,9 @@ export default {
 				active: this.t('planninq', 'Active'),
 				archived: this.t('planninq', 'Archived'),
 				completed: this.t('planninq', 'Completed'),
+				cancelled: this.t('planninq', 'Cancelled'),
+				requested: this.t('planninq', 'Requested'),
+				rejected: this.t('planninq', 'Not approved'),
 			}
 			return map[this.project.status] || this.project.status || this.t('planninq', 'Active')
 		},
@@ -91,8 +163,47 @@ export default {
 			// code returned 'default', which was never a valid NcChip value in
 			// either major — it only ever tripped the prop validator and fell
 			// through to the base styling.
-			const map = { active: 'success', archived: 'warning', completed: 'secondary' }
+			const map = {
+				active: 'success',
+				archived: 'warning',
+				completed: 'secondary',
+				cancelled: 'error',
+			}
 			return map[this.project.status] || 'secondary'
+		},
+
+		/**
+		 * Whether this project carries an agreed budget worth showing.
+		 *
+		 * Zero is the schema default and means "no budget was agreed", so it is
+		 * not rendered — a `€ 0` budget reads as a decision nobody made.
+		 *
+		 * @return {boolean} Whether to render the budget.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-a-project-carries-its-delivery-and-billing-terms-v1
+		 */
+		hasBudget() {
+			return Number(this.project.budgetAmount) > 0
+		},
+
+		/**
+		 * The agreed budget, formatted for the reader's locale.
+		 *
+		 * @return {string} The budget, without cents.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-a-project-carries-its-delivery-and-billing-terms-v1
+		 */
+		budgetLabel() {
+			const amount = Number(this.project.budgetAmount) || 0
+			try {
+				return new Intl.NumberFormat(undefined, {
+					style: 'currency',
+					currency: 'EUR',
+					maximumFractionDigits: 0,
+				}).format(amount)
+			} catch {
+				return String(Math.round(amount))
+			}
 		},
 	},
 }

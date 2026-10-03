@@ -21,7 +21,10 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 
 use OCA\Planninq\Controller\SettingsController;
 use OCA\Planninq\Service\RegisterImportService;
+use OCA\Planninq\Service\RiskScaleService;
 use OCA\Planninq\Service\SettingsService;
+use OCA\Planninq\Service\TimetableGridService;
+use OCP\IAppConfig;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
@@ -71,6 +74,27 @@ class SettingsControllerTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 
 	/**
+	 * The mocked risk scale service.
+	 *
+	 * @var RiskScaleService&MockObject
+	 */
+	private RiskScaleService&MockObject $riskScale;
+
+	/**
+	 * The mocked export to Nextcloud Tasks.
+	 *
+	 * @var \OCA\Planninq\Service\TaskCalendarExportService&MockObject
+	 */
+	private \OCA\Planninq\Service\TaskCalendarExportService&MockObject $taskExport;
+
+	/**
+	 * The real working calendar over an in-memory app config.
+	 *
+	 * @var \OCA\Planninq\Service\WorkingCalendarService
+	 */
+	private \OCA\Planninq\Service\WorkingCalendarService $workingCalendar;
+
+	/**
 	 * Set up test fixtures.
 	 *
 	 * @return void
@@ -82,12 +106,20 @@ class SettingsControllerTest extends TestCase {
 		$this->settingsService = $this->createMock(originalClassName: SettingsService::class);
 		$this->registerImport = $this->createMock(originalClassName: RegisterImportService::class);
 		$this->userSession = $this->createMock(originalClassName: IUserSession::class);
+		$this->riskScale = $this->createMock(originalClassName: RiskScaleService::class);
+		$this->taskExport = $this->createMock(originalClassName: \OCA\Planninq\Service\TaskCalendarExportService::class);
+		$this->workingCalendar = new \OCA\Planninq\Service\WorkingCalendarService($this->appConfig(), $this->createMock(originalClassName: \Psr\Log\LoggerInterface::class));
 
 		$this->controller = new SettingsController(
 			request: $this->request,
 			settingsService: $this->settingsService,
 			registerImport: $this->registerImport,
 			userSession: $this->userSession,
+			riskScale: $this->riskScale,
+			timetableGrid: new TimetableGridService(appConfig: $this->appConfig()),
+			switches: $this->createMock(\OCA\Planninq\Service\NotificationSwitchService::class),
+			taskExport: $this->taskExport,
+			workingCalendar: $this->workingCalendar,
 		);
 
 	}//end setUp()
@@ -132,6 +164,28 @@ class SettingsControllerTest extends TestCase {
 	}//end testUpdateUserDelegatesToService()
 
 	/**
+	 * Test that updateUser() applies the export switch and answers with its state (planning-calendar task 2.1).
+	 *
+	 * @return void
+	 */
+	public function testUpdateUserAppliesTheTaskExportSwitch(): void {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->request->method('getParams')->willReturn(['export_tasks_to_caldav' => true]);
+		$this->settingsService->method('updateUserSettings')->willReturn([]);
+
+		$this->taskExport->expects($this->once())->method('apply')->with('alice', ['export_tasks_to_caldav' => true]);
+		$this->taskExport->method('values')->willReturn(['export_tasks_to_caldav' => true, 'caldavAvailable' => true]);
+
+		$data = $this->controller->updateUser()->getData();
+
+		self::assertTrue($data['config']['export_tasks_to_caldav']);
+		self::assertTrue($data['config']['caldavAvailable']);
+
+	}//end testUpdateUserAppliesTheTaskExportSwitch()
+
+	/**
 	 * Test that index() returns a JSONResponse containing the settings from the service.
 	 *
 	 * @return void
@@ -156,7 +210,10 @@ class SettingsControllerTest extends TestCase {
 		$result = $this->controller->index();
 
 		self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
-		self::assertSame(expected: $settings, actual: $result->getData());
+		self::assertSame(
+			expected: $settings + ['timetable_period_grid' => TimetableGridService::DEFAULT_GRID, 'timetable_generator_budget_minutes' => '10', 'working_weekdays' => '[1,2,3,4,5]', 'non_working_days' => '[]'],
+			actual: $result->getData()
+		);
 
 	}//end testIndexReturnsJsonResponseWithSettings()
 
@@ -316,4 +373,149 @@ class SettingsControllerTest extends TestCase {
 		self::assertTrue(condition: $result->getData()['success']);
 
 	}//end testLoadReturnsConfigurationResult()
+	/**
+	 * A smaller risk scale is refused while risks use a higher level, and nothing is saved.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
+	 */
+	public function testCreateRefusesASmallerRiskScaleWhileRisksUseAHigherLevel(): void {
+		$scale = json_encode(['levels' => 4, 'likelihood' => ['a', 'b', 'c', 'd'], 'impact' => ['a', 'b', 'c', 'd'], 'thresholds' => ['medium' => 4, 'high' => 9]]);
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->request->method('getParams')->willReturn(['risk_scale' => $scale]);
+		$this->riskScale->method('normalise')->willReturn(json_decode((string)$scale, true));
+		$this->riskScale->method('conflict')->with(4)->willReturn(['count' => 2, 'level' => 5]);
+		$this->riskScale->method('refusal')->with(2, 5)->willReturn('2 risks use level 5. Change them first.');
+		$this->settingsService->expects($this->never())->method('updateSettings');
+
+		$result = $this->controller->create();
+
+		self::assertSame(expected: Http::STATUS_CONFLICT, actual: $result->getStatus());
+		self::assertSame(expected: '2 risks use level 5. Change them first.', actual: $result->getData()['message']);
+		self::assertSame(expected: 'risk-scale-in-use', actual: $result->getData()['error']);
+		self::assertSame(expected: 2, actual: $result->getData()['count']);
+		self::assertSame(expected: 5, actual: $result->getData()['level']);
+
+	}//end testCreateRefusesASmallerRiskScaleWhileRisksUseAHigherLevel()
+
+	/**
+	 * A malformed risk scale is refused with 400.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
+	 */
+	public function testCreateRefusesAMalformedRiskScale(): void {
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->request->method('getParams')->willReturn(['risk_scale' => '{"levels": 9}']);
+		$this->riskScale->method('normalise')->willReturn(null);
+		$this->riskScale->expects($this->never())->method('conflict');
+		$this->settingsService->expects($this->never())->method('updateSettings');
+
+		$result = $this->controller->create();
+
+		self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $result->getStatus());
+		self::assertSame(expected: 'risk-scale-invalid', actual: $result->getData()['error']);
+
+	}//end testCreateRefusesAMalformedRiskScale()
+
+	/**
+	 * A valid risk scale no risk is in the way of is saved.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
+	 */
+	public function testCreateSavesAValidRiskScale(): void {
+		$scale = json_encode(['levels' => 3, 'likelihood' => ['Low', 'Medium', 'High'], 'impact' => ['Low', 'Medium', 'High'], 'thresholds' => ['medium' => 3, 'high' => 6]]);
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->request->method('getParams')->willReturn(['risk_scale' => $scale]);
+		$this->riskScale->method('normalise')->willReturn(json_decode((string)$scale, true));
+		$this->riskScale->method('conflict')->with(3)->willReturn(null);
+		$this->settingsService->expects($this->once())->method('updateSettings')
+			->with(['risk_scale' => $scale])
+			->willReturn(['risk_scale' => $scale]);
+
+		$result = $this->controller->create();
+
+		self::assertSame(expected: Http::STATUS_OK, actual: $result->getStatus());
+
+	}//end testCreateSavesAValidRiskScale()
+
+	/**
+	 * App config values stored by the timetable grid, in memory.
+	 *
+	 * @var array<string,string>
+	 */
+	private array $stored = [];
+
+	/**
+	 * An IAppConfig that keeps values in $this->stored.
+	 *
+	 * @return IAppConfig
+	 */
+	private function appConfig(): IAppConfig {
+		$config = $this->createMock(originalClassName: IAppConfig::class);
+		$config->method('getValueString')->willReturnCallback(
+			fn (string $app, string $key, string $default = ''): string => ($this->stored[$key] ?? $default)
+		);
+		$config->method('setValueString')->willReturnCallback(
+			function (string $app, string $key, string $value): bool {
+				$this->stored[$key] = $value;
+				return true;
+			}
+		);
+		return $config;
+	}//end appConfig()
+
+	/**
+	 * Task 1.2: the settings carry the week grid and budget, and an admin saves them; a refused grid is not stored.
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
+	 *
+	 * @return void
+	 */
+	public function testTheSettingsCarryTheTimetableGrid(): void {
+		$this->userSession->method('getUser')->willReturn($this->createMock(originalClassName: \OCP\IUser::class));
+		$this->settingsService->method('getSettings')->willReturn(['isAdmin' => true]);
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->settingsService->method('updateSettings')->willReturn(['isAdmin' => true]);
+
+		$read = $this->controller->index()->getData();
+		self::assertSame(expected: TimetableGridService::DEFAULT_GRID, actual: $read['timetable_period_grid']);
+		self::assertSame(expected: '10', actual: $read['timetable_generator_budget_minutes']);
+
+		$this->request->method('getParams')->willReturnOnConsecutiveCalls(
+			['timetable_period_grid' => '{"days":["mon"],"periods":[{"start":"09:00","end":"08:00"}]}'],
+			['timetable_period_grid' => '{"days":["tue","mon"],"periods":[{"start":"08:00","end":"08:45"}]}', 'timetable_generator_budget_minutes' => '20'],
+		);
+		$this->controller->create();
+		self::assertSame(expected: [], actual: $this->stored, message: 'a period that ends before it starts is refused');
+
+		$saved = $this->controller->create()->getData()['config'];
+		self::assertSame(expected: '{"days":["mon","tue"],"periods":[{"start":"08:00","end":"08:45"}]}', actual: $saved['timetable_period_grid']);
+		self::assertSame(expected: '20', actual: $saved['timetable_generator_budget_minutes']);
+	}//end testTheSettingsCarryTheTimetableGrid()
+
+	/**
+	 * An admin saves a holiday and a member reads it back through GET /api/settings (planning-timeline-editing task 1.1).
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
+	 *
+	 * @return void
+	 */
+	public function testAMemberReadsTheWorkingCalendar(): void {
+		$this->userSession->method('getUser')->willReturn($this->createMock(originalClassName: \OCP\IUser::class));
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->settingsService->method('updateSettings')->willReturn([]);
+		$this->settingsService->method('getSettings')->willReturn(['isAdmin' => false]);
+		$this->request->method('getParams')->willReturn(['non_working_days' => '[{"date":"2026-12-25","name":"Christmas Day"}]']);
+
+		$this->controller->create();
+		$read = $this->controller->index()->getData();
+
+		self::assertSame(expected: '[{"date":"2026-12-25","name":"Christmas Day"}]', actual: $read['non_working_days']);
+		self::assertSame(expected: '[1,2,3,4,5]', actual: $read['working_weekdays']);
+	}//end testAMemberReadsTheWorkingCalendar()
 }//end class

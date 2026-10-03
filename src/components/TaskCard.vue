@@ -1,30 +1,73 @@
 <template>
-	<div class="task-card">
+	<div
+		class="task-card"
+		:class="{ 'task-card--edged': !!edgeColour }"
+		:style="edgeColour ? { borderInlineStartColor: edgeColour } : null"
+		:data-edge="edgeColour || null">
 		<!-- Task title -->
 		<h3 class="task-card__title">
+			<!-- Readable key such as VERG-42 (tasks-readable-keys) -->
+			<span v-if="task.key" class="task-card__key" data-testid="task-card-key">{{ task.key }}</span>
 			{{ task.title }}
 		</h3>
 
-		<!-- Task description (optional) -->
-		<p v-if="task.description" class="task-card__description">
-			{{ task.description }}
+		<!-- Plain-text excerpt of the Markdown description (tasks-create-edit-delete) -->
+		<p v-if="excerpt" class="task-card__description" data-testid="task-card-excerpt">
+			{{ excerpt }}
 		</p>
 
 		<!-- Task metadata -->
 		<div class="task-card__meta">
+			<!-- The task's project on a cross-project view (boards-cross-project-board):
+			     the name in text beside the project's colour, so colour is never the only signal. -->
+			<NcChip
+				v-if="project"
+				:text="project.title"
+				:aria-label="t('planninq', 'Project: {title}', { title: project.title })"
+				:noClose="true"
+				class="task-card__project-badge"
+				data-testid="task-card-project">
+				<template #icon>
+					<span
+						class="task-card__label-swatch"
+						:style="{ backgroundColor: project.color || 'var(--color-primary-element)' }"
+						aria-hidden="true" />
+				</template>
+			</NcChip>
+
+			<!-- Subtask of (tasks-subtasks-checklist) -->
+			<NcChip
+				v-if="parentTitle"
+				:text="t('planninq', 'Part of {title}', { title: parentTitle })"
+				variant="tertiary"
+				:noClose="true"
+				data-testid="task-card-parent" />
+
+			<!-- Checklist done count such as 3/5 -->
+			<NcChip
+				v-if="checklistText"
+				:text="checklistText"
+				:aria-label="t('planninq', 'Checklist: {count} done', { count: checklistText })"
+				variant="tertiary"
+				:noClose="true"
+				data-testid="task-card-checklist" />
+
+			<!-- Blocked by an unfinished task (planning-dependencies-on-task-page) -->
+			<BlockedBadge :blocked="blocked" :openBlockerCount="openBlockerCount" />
+
 			<!-- Due date badge -->
 			<NcChip
 				v-if="dueDateBadgeStatus"
 				:text="dueDateBadgeText"
 				:variant="dueDateBadgeVariant"
-				:no-close="true"
+				:noClose="true"
 				class="task-card__due-date-badge" />
 
 			<!-- Status -->
 			<NcChip
 				:text="statusLabel"
 				:variant="statusVariant"
-				:no-close="true"
+				:noClose="true"
 				class="task-card__status-badge" />
 
 			<!-- Priority -->
@@ -32,54 +75,174 @@
 				v-if="task.priority"
 				:text="priorityLabel"
 				:variant="priorityVariant"
-				:no-close="true"
+				:noClose="true"
 				class="task-card__priority-badge" />
 
 			<!-- Estimate (time-tracking) -->
 			<NcChip
 				v-if="estimateLabel"
 				:text="estimateLabel"
-				:no-close="true"
+				:noClose="true"
 				class="task-card__estimate-badge" />
+
+			<!-- Label chips. The swatch carries the label's own colour, the
+			     text carries its name, so colour is never the sole signal
+			     (WCAG 1.4.1) and a recolor needs no task write. -->
+			<NcChip
+				v-for="label in labels"
+				:key="labelKey(label)"
+				:text="label.title"
+				:noClose="true"
+				class="task-card__label-badge"
+				data-testid="task-label-chip">
+				<template #icon>
+					<span
+						class="task-card__label-swatch"
+						:style="{ backgroundColor: label.color }"
+						aria-hidden="true" />
+				</template>
+			</NcChip>
 		</div>
 
-		<!-- Assignee (optional) -->
-		<div v-if="task.assignedTo" class="task-card__assignee">
-			{{ t('planninq', 'Assigned to: {user}', { user: task.assignedTo }) }}
-		</div>
+		<!-- People: the responsible person first, then who it is shared with (tasks-assignment-priority-labels) -->
+		<ul v-if="people.length" class="task-card__people" data-testid="task-card-people">
+			<li v-for="uid in people" :key="uid" class="task-card__person">
+				<NcAvatar
+					:user="uid"
+					:size="20"
+					:displayName="names[uid] || uid"
+					:hideStatus="true"
+					:disableMenu="true"
+					:disableTooltip="true" />
+				<span>{{ names[uid] || uid }}</span>
+			</li>
+		</ul>
 	</div>
 </template>
 
 <script>
 // @nextcloud/vue@9 removed the `dist/Components/*.js` layout; the package now
 // publishes only an `exports` map (root barrel + `./components/<Name>`).
-import { NcChip } from '@nextcloud/vue'
-import { dueDateStatus } from '../utils/taskHelpers.js'
+import { NcAvatar, NcChip } from '@nextcloud/vue'
+import BlockedBadge from './BlockedBadge.vue'
 import { formatDuration } from '../utils/durationParser.js'
+import { labelId } from '../utils/labelHelpers.js'
+import { checklistCount } from '../utils/taskBreakdown.js'
+import { descriptionExcerpt } from '../utils/taskEditing.js'
+import { dueDateStatus } from '../utils/taskHelpers.js'
+import { peopleOf } from '../utils/taskPeople.js'
+import { displayNames } from '../utils/userNames.js'
 
 /**
  * Kanban board task card.
  *
  * Renders a single task as a draggable card inside a board column: title,
  * optional description, a due-date warning badge (yellow "Due soon" /
- * red "Overdue"), the status + priority chips, and the assignee. The badge is
- * driven by the pure `dueDateStatus` helper (date-only comparison) so colour is
- * never the sole signal — a text label is always present (WCAG 1.4.1).
+ * red "Overdue"), the status + priority chips, one chip per label the task
+ * carries, and the assignee. The badge is driven by the pure `dueDateStatus`
+ * helper (date-only comparison) so colour is never the sole signal — a text
+ * label is always present (WCAG 1.4.1), and the label chip follows the same
+ * rule: the swatch shows the label's colour, the chip text shows its name.
  *
  * @spec openspec/specs/kanban-board.md
+ * @spec openspec/specs/admin-user-settings.md
  */
 export default {
 	name: 'TaskCard',
-	components: { NcChip },
+	components: { BlockedBadge, NcAvatar, NcChip },
 
 	props: {
+		/** The title of the task this one is a subtask of, if any. */
+		parentTitle: {
+			type: String,
+			default: '',
+		},
+
 		task: {
 			type: Object,
 			required: true,
 		},
+
+		/** Whether an unfinished task blocks this one. */
+		blocked: {
+			type: Boolean,
+			default: false,
+		},
+
+		/** How many unfinished tasks block this one. */
+		openBlockerCount: {
+			type: Number,
+			default: 0,
+		},
+
+		/**
+		 * The label OBJECTS this task carries, already resolved from the task's
+		 * `labels` UUID array by the board.
+		 *
+		 * Resolution belongs to the board, not the card: labels are app-wide, so
+		 * one fetch serves every card, and a card that resolved its own would
+		 * issue one request per task.
+		 */
+		labels: {
+			type: Array,
+			default: () => [],
+		},
+
+		/**
+		 * The colour of the card's inline-start edge (boards-card-display), or
+		 * empty for none. Decoration only: the label or priority chip on the
+		 * card carries the same information in text.
+		 */
+		edgeColour: {
+			type: String,
+			default: '',
+		},
+
+		/**
+		 * The task's project, shown as a chip on a cross-project view; null on
+		 * a project's own board, where every card is of that project.
+		 */
+		project: {
+			type: Object,
+			default: null,
+		},
+	},
+
+	data() {
+		return {
+			/** @type {object} User id to display name for the people on the card. */
+			names: {},
+		}
 	},
 
 	computed: {
+		/**
+		 * The people on the task, the responsible person first.
+		 *
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.2
+		 */
+		people() {
+			return peopleOf(this.task)
+		},
+
+		/**
+		 * The checklist's done count such as "3/5", or empty.
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		checklistText() {
+			return checklistCount(this.task.checklist)
+		},
+
+		/**
+		 * The description as a short plain-text excerpt, Markdown stripped.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-3.2
+		 */
+		excerpt() {
+			return descriptionExcerpt(this.task.description)
+		},
+
 		/**
 		 * @spec openspec/specs/kanban-board.md
 		 */
@@ -176,6 +339,32 @@ export default {
 			return map[this.task.priority] || 'secondary'
 		},
 	},
+
+	watch: {
+		people: {
+			immediate: true,
+			/**
+			 * Look up the display names of the people on the card (cached per user).
+			 *
+			 * @param {Array<string>} uids The people.
+			 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.2
+			 */
+			async handler(uids) {
+				this.names = uids.length ? await displayNames(uids) : {}
+			},
+		},
+	},
+
+	methods: {
+		/**
+		 * @param {object} label The label to key.
+		 * @return {string} The label's canonical id, used as the v-for key.
+		 * @spec exclude Render helper — resolves the label id OpenRegister returned.
+		 */
+		labelKey(label) {
+			return labelId(label)
+		},
+	},
 }
 </script>
 
@@ -190,12 +379,22 @@ export default {
 	border-radius: 8px;
 }
 
+.task-card--edged {
+	border-inline-start-width: 4px;
+}
+
 .task-card__title {
 	margin: 0;
 	font-size: 14px;
 	font-weight: 600;
 	line-height: 1.4;
 	color: var(--color-text);
+}
+
+.task-card__key {
+	margin-inline-end: 4px;
+	font-weight: 400;
+	color: var(--color-text-maxcontrast);
 }
 
 .task-card__description {
@@ -224,8 +423,38 @@ export default {
 	flex-shrink: 0;
 }
 
-.task-card__assignee {
+.task-card__label-badge {
+	flex-shrink: 0;
+}
+
+/* The label's own colour is DATA, held on the label object, so it arrives as
+   an inline background on this swatch — the same way the board paints a
+   project's accent bar. Everything around it stays on the theme tokens, and
+   the border keeps a pale swatch visible against a light card. */
+.task-card__label-swatch {
+	display: block;
+	width: 12px;
+	height: 12px;
+	margin-inline-start: 4px;
+	border-radius: 50%;
+	border: 1px solid var(--color-border);
+	background: var(--color-background-dark);
+}
+
+.task-card__people {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 12px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
 	font-size: 12px;
 	color: var(--color-text-maxcontrast);
+}
+
+.task-card__person {
+	display: flex;
+	align-items: center;
+	gap: 4px;
 }
 </style>

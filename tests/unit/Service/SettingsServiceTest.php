@@ -20,7 +20,10 @@ declare(strict_types=1);
 namespace OCA\Planninq\Tests\Unit\Service;
 
 use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\BoardViewPreferenceService;
+use OCA\Planninq\Service\CreationPolicyService;
 use OCA\Planninq\Service\DueReminderWindowService;
+use OCA\Planninq\Service\ProjectPolicySchemaService;
 use OCA\Planninq\Service\SettingsService;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
@@ -119,7 +122,6 @@ class SettingsServiceTest extends TestCase {
 			config: $this->config,
 			appManager: $this->appManager,
 			container: $this->container,
-			groupManager: $this->groupManager,
 			userSession: $this->userSession,
 			logger: $this->logger,
 			dueReminderWindow: new DueReminderWindowService(
@@ -127,9 +129,127 @@ class SettingsServiceTest extends TestCase {
 				container: $this->container,
 				logger: $this->logger,
 			),
+			policySchema: new ProjectPolicySchemaService(
+				appManager: $this->appManager,
+				container: $this->container,
+				logger: $this->logger,
+			),
+			creationPolicy: new CreationPolicyService(
+				appConfig: $this->appConfig,
+				groupManager: $this->groupManager,
+				userSession: $this->userSession,
+			),
 		);
 
 	}//end setUp()
+
+	/**
+	 * A user's dashboard project order is stored as a JSON list of project ids
+	 * for that user only, without duplicates or non-string ids.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
+	 */
+	public function testDashboardProjectOrderIsStoredPerUser(): void {
+		$stored = [];
+		$this->config->method('setUserValue')->willReturnCallback(
+			function (string $userId, string $app, string $key, string $value) use (&$stored): void {
+				$stored[$userId.'/'.$app.'/'.$key] = $value;
+			}
+		);
+
+		$this->service->setDashboardProjectOrder(userId: 'anna', order: ['p-2', 'p-1', 'p-2', 7, '', 'p-3']);
+
+		self::assertSame(
+			expected: ['anna/'.Application::APP_ID.'/'.SettingsService::DASHBOARD_ORDER_KEY => '["p-2","p-1","p-3"]'],
+			actual: $stored
+		);
+
+	}//end testDashboardProjectOrderIsStoredPerUser()
+
+	/**
+	 * The stored order reads back as a list; a missing or broken value reads as empty.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
+	 */
+	public function testDashboardProjectOrderReadsBack(): void {
+		$this->config->method('getUserValue')->willReturnMap(
+			[
+				['anna', Application::APP_ID, SettingsService::DASHBOARD_ORDER_KEY, '[]', '["p-2","p-1"]'],
+				['bram', Application::APP_ID, SettingsService::DASHBOARD_ORDER_KEY, '[]', 'not json'],
+				['carl', Application::APP_ID, SettingsService::DASHBOARD_ORDER_KEY, '[]', '[]'],
+			]
+		);
+
+		self::assertSame(expected: ['p-2', 'p-1'], actual: $this->service->getDashboardProjectOrder(userId: 'anna'));
+		self::assertSame(expected: [], actual: $this->service->getDashboardProjectOrder(userId: 'bram'));
+		self::assertSame(expected: [], actual: $this->service->getDashboardProjectOrder(userId: 'carl'));
+
+	}//end testDashboardProjectOrderReadsBack()
+
+	/**
+	 * The user settings endpoint takes the order, as a list or as JSON text,
+	 * and leaves it alone when the request does not carry it.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
+	 */
+	public function testUpdateUserSettingsTakesTheDashboardOrder(): void {
+		$this->appManager->method('isInstalled')->willReturn(false);
+		$stored = [];
+		$this->config->method('setUserValue')->willReturnCallback(
+			function (string $userId, string $app, string $key, string $value) use (&$stored): void {
+				$stored[] = [$userId, $key, $value];
+			}
+		);
+
+		$this->service->updateUserSettings(userId: 'anna', data: ['dashboard_project_order' => ['p-1']]);
+		$this->service->updateUserSettings(userId: 'anna', data: ['dashboard_project_order' => '["p-4","p-3"]']);
+		$this->service->updateUserSettings(userId: 'anna', data: []);
+
+		self::assertSame(
+			expected: [
+				['anna', SettingsService::DASHBOARD_ORDER_KEY, '["p-1"]'],
+				['anna', SettingsService::DASHBOARD_ORDER_KEY, '["p-4","p-3"]'],
+			],
+			actual: $stored
+		);
+
+	}//end testUpdateUserSettingsTakesTheDashboardOrder()
+
+	/**
+	 * The user settings endpoint stores a board view under the caller's own
+	 * user value, and ignores one without a project (boards-card-display).
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
+	 */
+	public function testUpdateUserSettingsStoresTheBoardViewPerUser(): void {
+		$this->appManager->method('isInstalled')->willReturn(false);
+		$stored = [];
+		$this->config->method('getUserValue')->willReturnCallback(
+			fn (string $userId, string $app, string $key, mixed $default = ''): string => (string) $default
+		);
+		$this->config->method('setUserValue')->willReturnCallback(
+			function (string $userId, string $app, string $key, string $value) use (&$stored): void {
+				$stored[] = [$userId, $key, $value];
+			}
+		);
+
+		$this->service->updateUserSettings(userId: 'anna', data: ['board_view' => ['project' => 'p-verg', 'colour' => 'label', 'group' => 'priority']]);
+		$this->service->updateUserSettings(userId: 'anna', data: ['board_view' => ['colour' => 'label']]);
+
+		self::assertSame(
+			expected: [['anna', BoardViewPreferenceService::KEY, '{"p-verg":{"colour":"label","group":"priority"}}']],
+			actual: $stored
+		);
+
+	}//end testUpdateUserSettingsStoresTheBoardViewPerUser()
 
 	/**
 	 * Test getAdminSettings() returns defaults when no values are stored.
@@ -151,7 +271,7 @@ class SettingsServiceTest extends TestCase {
 
 		$columns = json_decode($result['default_columns'], true);
 		self::assertIsArray(actual: $columns);
-		self::assertContains(needle: 'To Do', haystack: $columns);
+		self::assertContains(needle: 'To do', haystack: $columns);
 		self::assertContains(needle: 'Done', haystack: $columns);
 		self::assertSame(expected: 'all', actual: $result['allow_project_creation']);
 
@@ -232,6 +352,184 @@ class SettingsServiceTest extends TestCase {
 		self::assertSame(expected: 'admins', actual: $result['allow_project_creation']);
 
 	}//end testSetAdminSettingsStoresAllowProjectCreation()
+
+	/**
+	 * Store the settings in memory and act as user $uid, member of $groups.
+	 *
+	 * @param array<string,string> $stored The stored values, by reference.
+	 * @param string|null          $uid    The signed-in user, null for none.
+	 * @param array<int,string>    $groups The user's groups.
+	 * @param bool                 $admin  Whether the user is an admin.
+	 *
+	 * @return void
+	 */
+	private function actAs(array &$stored, ?string $uid, array $groups = [], bool $admin = false): void {
+		$this->appConfig->method('setValueString')->willReturnCallback(
+			function (string $appId, string $key, string $value) use (&$stored): bool {
+				$stored[$key] = $value;
+				return true;
+			}
+		);
+		$this->appConfig->method('getValueString')->willReturnCallback(
+			function (string $appId, string $key, string $default = '') use (&$stored): string {
+				return ($stored[$key] ?? $default);
+			}
+		);
+		$this->appManager->method('isInstalled')->willReturn(false);
+
+		$user = null;
+		if ($uid !== null) {
+			$user = $this->createMock(originalClassName: IUser::class);
+			$user->method('getUID')->willReturn($uid);
+		}
+
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->groupManager->method('isAdmin')->willReturn($admin);
+		$this->groupManager->method('isInGroup')->willReturnCallback(
+			static fn (string $who, string $group): bool => ($who === $uid && in_array($group, $groups, true) === true)
+		);
+		$this->groupManager->method('groupExists')->willReturnCallback(
+			static fn (string $group): bool => in_array($group, ['projectleiders', 'staf'], true)
+		);
+	}//end actAs()
+
+	/**
+	 * Scenario "Only the chosen groups may create": a member of a listed group may, anyone else may not.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 */
+	public function testCreationByGroupAllowsMembersOfTheListedGroupsOnly(): void {
+		$stored = ['allow_project_creation' => 'groups', SettingsService::CREATION_GROUPS_KEY => '["projectleiders"]'];
+		$this->actAs(stored: $stored, uid: 'pieter', groups: ['projectleiders']);
+		self::assertTrue($this->service->canCurrentUserCreateProject());
+		self::assertTrue($this->service->getSettings()['canCreateProject']);
+	}//end testCreationByGroupAllowsMembersOfTheListedGroupsOnly()
+
+	/**
+	 * A user in no listed group may not create; an admin always may.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 */
+	public function testCreationByGroupRefusesANonMember(): void {
+		$stored = ['allow_project_creation' => 'groups', SettingsService::CREATION_GROUPS_KEY => '["projectleiders"]'];
+		$this->actAs(stored: $stored, uid: 'nina', groups: ['staf']);
+		self::assertFalse($this->service->canCurrentUserCreateProject());
+		self::assertFalse($this->service->getSettings()['canCreateProject']);
+	}//end testCreationByGroupRefusesANonMember()
+
+	/**
+	 * An admin may create under every policy.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 */
+	public function testAnAdminMayCreateUnderTheGroupPolicy(): void {
+		$stored = ['allow_project_creation' => 'groups', SettingsService::CREATION_GROUPS_KEY => '[]'];
+		$this->actAs(stored: $stored, uid: 'root', admin: true);
+		self::assertTrue($this->service->canCurrentUserCreateProject());
+	}//end testAnAdminMayCreateUnderTheGroupPolicy()
+
+	/**
+	 * Saving keeps known policies and existing groups only, and names a listed group that is gone.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 */
+	public function testSavingThePolicyDropsUnknownValuesAndGroups(): void {
+		$stored = [];
+		$this->actAs(stored: $stored, uid: 'root', admin: true);
+
+		$this->service->updateSettings(['allow_project_creation' => 'groups', SettingsService::CREATION_GROUPS_KEY => '["projectleiders","deleted-group","projectleiders"]']);
+		self::assertSame('groups', $stored['allow_project_creation']);
+		self::assertSame('["projectleiders"]', $stored[SettingsService::CREATION_GROUPS_KEY]);
+
+		$this->service->updateSettings(['allow_project_creation' => 'everyone']);
+		self::assertSame('groups', $stored['allow_project_creation'], 'an unknown policy is refused');
+
+		$this->service->updateSettings([SettingsService::CREATION_GROUPS_KEY => 'not json']);
+		self::assertSame('["projectleiders"]', $stored[SettingsService::CREATION_GROUPS_KEY], 'a malformed list is refused');
+
+		$stored[SettingsService::CREATION_GROUPS_KEY] = '["projectleiders","gone"]';
+		self::assertSame(['gone'], $this->service->getSettings()['creationGroupsMissing']);
+	}//end testSavingThePolicyDropsUnknownValuesAndGroups()
+
+	/**
+	 * The reporting period behind the portfolio overview's out-of-date marker:
+	 * 30 days by default, a whole number of days from 1 to 365 when set, and
+	 * anything else is refused without touching the stored value.
+	 *
+	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.2
+	 *
+	 * @return void
+	 */
+	public function testStatusReportPeriodDefaultsToThirtyAndAcceptsWholeDays(): void {
+		$stored = [];
+		$this->appConfig->method('setValueString')
+			->willReturnCallback(
+				function (string $appId, string $key, string $value) use (&$stored): bool {
+					$stored[$key] = $value;
+					return true;
+				}
+			);
+		$this->appConfig->method('getValueString')
+			->willReturnCallback(
+				function (string $appId, string $key, string $default = '') use (&$stored): string {
+					return ($stored[$key] ?? $default);
+				}
+			);
+		$this->appManager->method('isInstalled')->willReturn(false);
+		$this->userSession->method('getUser')->willReturn(null);
+
+		self::assertSame(expected: '30', actual: $this->service->getAdminSettings()['status_report_period_days']);
+
+		foreach (['0', '366', 'abc', '7.5', ''] as $refused) {
+			$this->service->updateSettings(['status_report_period_days' => $refused]);
+			self::assertArrayNotHasKey(key: 'status_report_period_days', array: $stored, message: 'stored '.$refused);
+		}
+
+		$result = $this->service->updateSettings(['status_report_period_days' => ' 14 ']);
+		self::assertSame(expected: '14', actual: $stored['status_report_period_days']);
+		self::assertSame(expected: '14', actual: $result['status_report_period_days']);
+
+	}//end testStatusReportPeriodDefaultsToThirtyAndAcceptsWholeDays()
+
+	/**
+	 * Task 1.2: the finance categories default to four and take any list of distinct names.
+	 *
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2
+	 *
+	 * @return void
+	 */
+	public function testFinanceCategoriesDefaultToFourAndTakeAListOfNames(): void {
+		$stored = [];
+		$this->appConfig->method('setValueString')
+			->willReturnCallback(
+				function (string $appId, string $key, string $value) use (&$stored): bool {
+					$stored[$key] = $value;
+					return true;
+				}
+			);
+		$this->appConfig->method('getValueString')
+			->willReturnCallback(
+				function (string $appId, string $key, string $default = '') use (&$stored): string {
+					return ($stored[$key] ?? $default);
+				}
+			);
+		$this->appManager->method('isInstalled')->willReturn(false);
+		$this->userSession->method('getUser')->willReturn(null);
+
+		self::assertSame(
+			expected: ['Personnel', 'Hired staff', 'Materials', 'Other'],
+			actual: json_decode($this->service->getAdminSettings()['finance_categories'], true)
+		);
+
+		foreach (['', '[]', 'Materials', '["Materials", ""]', '["Materials", "materials "]', '[1]'] as $refused) {
+			$this->service->updateSettings(['finance_categories' => $refused]);
+			self::assertArrayNotHasKey(key: 'finance_categories', array: $stored, message: 'stored ' . $refused);
+		}
+
+		$this->service->updateSettings(['finance_categories' => '[" Personeel ", "Inhuur", "Materiaal"]']);
+		self::assertSame(expected: '["Personeel","Inhuur","Materiaal"]', actual: $stored['finance_categories']);
+
+	}//end testFinanceCategoriesDefaultToFourAndTakeAListOfNames()
 
 	/**
 	 * Test isCurrentUserAdmin() returns true when user is in admin group.
