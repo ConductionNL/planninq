@@ -1355,7 +1355,11 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Enginn hópur fannst. Deilingarstillingar kerfisstjórans ráða hvaða hópa þú getur fundið.",
         "No owning group": "Enginn eigandahópur",
         "Could not search for groups. Please try again.": "Ekki tókst að leita að hópum. Reyndu aftur.",
-        "Could not change the owning group": "Ekki tókst að breyta eigandahópnum"
+        "Could not change the owning group": "Ekki tókst að breyta eigandahópnum",
+        "Course": "Námskeið",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Námskeiðið sem kennt er í þessari kennslustund, til dæmis valáfangi, þegar námsapp skólans þekkir það.",
+        "Online meeting link": "Tengill á netkennslustund",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Hvar nemendur taka þátt í þessari kennslustund á netinu. Hnappurinn Taka þátt birtist aðeins fyrir https-tengil."
     },
     "nplurals=2; plural=(n != 1);"
 )

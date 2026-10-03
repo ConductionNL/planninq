@@ -1355,7 +1355,11 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Gruppi ei leitud. Sinu administraatori jagamisseaded määravad, milliseid gruppe saad leida.",
         "No owning group": "Omanikgruppi pole",
         "Could not search for groups. Please try again.": "Gruppide otsimine ebaõnnestus. Proovi uuesti.",
-        "Could not change the owning group": "Omanikgruppi ei õnnestunud muuta"
+        "Could not change the owning group": "Omanikgruppi ei õnnestunud muuta",
+        "Course": "Kursus",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kursus, mida selles tunnis õpetatakse, näiteks valikaine, kui kooli õpperakendus seda teab.",
+        "Online meeting link": "Veebitunni link",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kus õpilased selle tunniga veebis liituvad. Nupp Liitu kuvatakse ainult https-lingi korral."
     },
     "nplurals=2; plural=(n != 1);"
 )

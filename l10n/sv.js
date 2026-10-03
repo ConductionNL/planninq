@@ -1355,7 +1355,11 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Ingen grupp hittades. Din administratörs delningsinställningar avgör vilka grupper du kan hitta.",
         "No owning group": "Ingen ägargrupp",
         "Could not search for groups. Please try again.": "Det gick inte att söka efter grupper. Försök igen.",
-        "Could not change the owning group": "Det gick inte att ändra ägargruppen"
+        "Could not change the owning group": "Det gick inte att ändra ägargruppen",
+        "Course": "Kurs",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kursen som lektionen undervisar i, till exempel ett tillval, när skolans lärapp känner till den.",
+        "Online meeting link": "Länk till onlinelektionen",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Var eleverna ansluter till lektionen online. Knappen Anslut visas bara för en https-länk."
     },
     "nplurals=2; plural=(n != 1);"
 )

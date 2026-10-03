@@ -1354,7 +1354,11 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Kee Grupp fonnt. D'Deelastellunge vun denger Administratioun bestëmmen, wéi eng Gruppen s du fanne kanns.",
         "No owning group": "Kee Besëtzergrupp",
         "Could not search for groups. Please try again.": "Gruppe konnten net gesicht ginn. Probéier nach eng Kéier.",
-        "Could not change the owning group": "De Besëtzergrupp konnt net geännert ginn"
+        "Could not change the owning group": "De Besëtzergrupp konnt net geännert ginn",
+        "Course": "Cours",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "De Cours, deen an dëser Stonn ënnerriicht gëtt, zum Beispill eng Optioun, wann d'Léier-App vun der Schoul en kennt.",
+        "Online meeting link": "Link op déi online Stonn",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Wou d'Schüler online un dëser Stonn deelhuelen. De Knäppchen Deelhuelen erschéngt nëmme bei engem https-Link."
     },
     "plurals": null
 }

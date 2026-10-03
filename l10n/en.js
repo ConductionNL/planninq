@@ -1334,7 +1334,11 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "No group found. Your admin's sharing settings decide which groups you can find.",
         "No owning group": "No owning group",
         "Could not search for groups. Please try again.": "Could not search for groups. Please try again.",
-        "Could not change the owning group": "Could not change the owning group"
+        "Could not change the owning group": "Could not change the owning group",
+        "Course": "Course",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "The course this lesson teaches, such as an elective, when the school's learning app knows it.",
+        "Online meeting link": "Online meeting link",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Where pupils join this lesson online. Pupils see a Join button only for an https link."
     },
     "nplurals=2; plural=(n != 1);"
 )

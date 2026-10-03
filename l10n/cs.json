@@ -1354,7 +1354,11 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Žádná skupina nenalezena. Nastavení sdílení vašeho správce určuje, které skupiny můžete najít.",
         "No owning group": "Žádná vlastnická skupina",
         "Could not search for groups. Please try again.": "Skupiny se nepodařilo vyhledat. Zkuste to znovu.",
-        "Could not change the owning group": "Vlastnickou skupinu se nepodařilo změnit"
+        "Could not change the owning group": "Vlastnickou skupinu se nepodařilo změnit",
+        "Course": "Kurz",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kurz, který se v této hodině vyučuje, například volitelný předmět, pokud ho školní výuková aplikace zná.",
+        "Online meeting link": "Odkaz na online hodinu",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kde se žáci k této hodině připojí online. Tlačítko Připojit se zobrazí jen u odkazu https."
     },
     "plurals": null
 }

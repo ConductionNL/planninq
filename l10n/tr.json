@@ -1354,7 +1354,11 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Grup bulunamadı. Yöneticinizin paylaşım ayarları hangi grupları bulabileceğinizi belirler.",
         "No owning group": "Sahip grup yok",
         "Could not search for groups. Please try again.": "Gruplar aranamadı. Lütfen yeniden deneyin.",
-        "Could not change the owning group": "Sahip grup değiştirilemedi"
+        "Could not change the owning group": "Sahip grup değiştirilemedi",
+        "Course": "Ders",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Bu derste işlenen ders, örneğin bir seçmeli ders, okulun öğrenme uygulaması onu bildiğinde.",
+        "Online meeting link": "Çevrimiçi ders bağlantısı",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Öğrencilerin bu derse çevrimiçi katıldığı yer. Katıl düğmesi yalnızca https bağlantısında görünür."
     },
     "plurals": {}
 }

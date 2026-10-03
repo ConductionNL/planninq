@@ -1355,7 +1355,11 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Nenašla sa žiadna skupina. Nastavenia zdieľania vášho správcu určujú, ktoré skupiny môžete nájsť.",
         "No owning group": "Žiadna vlastnícka skupina",
         "Could not search for groups. Please try again.": "Skupiny sa nepodarilo vyhľadať. Skúste to znova.",
-        "Could not change the owning group": "Vlastnícku skupinu sa nepodarilo zmeniť"
+        "Could not change the owning group": "Vlastnícku skupinu sa nepodarilo zmeniť",
+        "Course": "Kurz",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kurz, ktorý sa na tejto hodine vyučuje, napríklad voliteľný predmet, ak ho školská výučbová aplikácia pozná.",
+        "Online meeting link": "Odkaz na online hodinu",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kde sa žiaci k tejto hodine pripoja online. Tlačidlo Pripojiť sa zobrazí len pri odkaze https."
     },
     "nplurals=2; plural=(n != 1);"
 )

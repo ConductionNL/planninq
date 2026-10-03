@@ -50,7 +50,7 @@ class TimetableSessionRows {
 	 *
 	 * @var string[]
 	 */
-	private const OPTIONAL_FIELDS = ['groupReference', 'cohortId', 'teacherReference', 'teacherUserId', 'roomReference', 'roomLabel'];
+	private const OPTIONAL_FIELDS = ['groupReference', 'cohortId', 'teacherReference', 'teacherUserId', 'roomReference', 'roomLabel', 'courseId', 'onlineMeetingUrl'];
 
 	/**
 	 * Normalise an ObjectService result set to a plain list of rows.

@@ -1355,7 +1355,11 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Група не знойдзена. Налады абагульвання вашага адміністратара вызначаюць, якія групы вы можаце знайсці.",
         "No owning group": "Без групы-ўладальніка",
         "Could not search for groups. Please try again.": "Не ўдалося знайсці групы. Паспрабуйце яшчэ раз.",
-        "Could not change the owning group": "Не ўдалося змяніць групу-ўладальніка"
+        "Could not change the owning group": "Не ўдалося змяніць групу-ўладальніка",
+        "Course": "Курс",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Курс, які выкладаюць на гэтым уроку, напрыклад факультатыў, калі школьная навучальная праграма яго ведае.",
+        "Online meeting link": "Спасылка на анлайн-урок",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Дзе вучні далучаюцца да гэтага ўрока анлайн. Кнопка «Далучыцца» з'яўляецца толькі для спасылкі https."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1355,7 +1355,11 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Ryhmää ei löytynyt. Ylläpitäjäsi jakoasetukset määräävät, mitkä ryhmät voit löytää.",
         "No owning group": "Ei omistajaryhmää",
         "Could not search for groups. Please try again.": "Ryhmien haku epäonnistui. Yritä uudelleen.",
-        "Could not change the owning group": "Omistajaryhmää ei voitu muuttaa"
+        "Could not change the owning group": "Omistajaryhmää ei voitu muuttaa",
+        "Course": "Kurssi",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kurssi, jota tällä tunnilla opetetaan, esimerkiksi valinnainen kurssi, kun koulun oppimissovellus tuntee sen.",
+        "Online meeting link": "Verkkotunnin linkki",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Mistä oppilaat liittyvät tälle tunnille verkossa. Liity-painike näkyy vain https-linkille."
     },
     "nplurals=2; plural=(n != 1);"
 )

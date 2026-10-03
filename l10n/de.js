@@ -1355,7 +1355,11 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Keine Gruppe gefunden. Die Freigabeeinstellungen deiner Administration bestimmen, welche Gruppen du finden kannst.",
         "No owning group": "Keine besitzende Gruppe",
         "Could not search for groups. Please try again.": "Gruppensuche fehlgeschlagen. Bitte versuche es erneut.",
-        "Could not change the owning group": "Die besitzende Gruppe konnte nicht geändert werden"
+        "Could not change the owning group": "Die besitzende Gruppe konnte nicht geändert werden",
+        "Course": "Kurs",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Der Kurs, den diese Stunde unterrichtet, etwa ein Wahlfach, wenn die Lern-App der Schule ihn kennt.",
+        "Online meeting link": "Link zur Online-Stunde",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Wo Schüler online an dieser Stunde teilnehmen. Die Schaltfläche Teilnehmen erscheint nur bei einem https-Link."
     },
     "nplurals=2; plural=(n != 1);"
 )

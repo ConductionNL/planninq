@@ -1354,7 +1354,11 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Nem található csoport. A rendszergazda megosztási beállításai döntik el, mely csoportokat találhatod meg.",
         "No owning group": "Nincs tulajdonos csoport",
         "Could not search for groups. Please try again.": "Nem sikerült csoportokat keresni. Próbáld újra.",
-        "Could not change the owning group": "Nem sikerült módosítani a tulajdonos csoportot"
+        "Could not change the owning group": "Nem sikerült módosítani a tulajdonos csoportot",
+        "Course": "Kurzus",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "A kurzus, amelyet ezen az órán tanítanak, például egy választható tárgy, ha az iskola tanulási alkalmazása ismeri.",
+        "Online meeting link": "Online óra hivatkozása",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Ahol a tanulók online csatlakoznak ehhez az órához. A Csatlakozás gomb csak https-hivatkozásnál jelenik meg."
     },
     "plurals": null
 }

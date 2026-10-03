@@ -1355,7 +1355,11 @@ OC.L10N.register(
         "No group found. Your admin's sharing settings decide which groups you can find.": "Није пронађена ниједна група. Подешавања дељења вашег администратора одређују које групе можете пронаћи.",
         "No owning group": "Без групе власника",
         "Could not search for groups. Please try again.": "Претрага група није успела. Покушајте поново.",
-        "Could not change the owning group": "Групу власника није могуће променити"
+        "Could not change the owning group": "Групу власника није могуће променити",
+        "Course": "Предмет",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Предмет који се предаје на овом часу, на пример изборни предмет, када га школска апликација за учење познаје.",
+        "Online meeting link": "Веза за онлајн час",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Где се ученици придружују овом часу онлајн. Дугме Придружи се приказује се само за https везу."
     },
     "nplurals=2; plural=(n != 1);"
 )

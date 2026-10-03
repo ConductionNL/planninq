@@ -1354,7 +1354,11 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Grupa netika atrasta. Jūsu administratora koplietošanas iestatījumi nosaka, kuras grupas varat atrast.",
         "No owning group": "Nav īpašnieku grupas",
         "Could not search for groups. Please try again.": "Neizdevās meklēt grupas. Mēģiniet vēlreiz.",
-        "Could not change the owning group": "Neizdevās mainīt īpašnieku grupu"
+        "Could not change the owning group": "Neizdevās mainīt īpašnieku grupu",
+        "Course": "Kurss",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kurss, kas tiek mācīts šajā stundā, piemēram, izvēles priekšmets, ja skolas mācību lietotne to zina.",
+        "Online meeting link": "Tiešsaistes stundas saite",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kur skolēni pievienojas šai stundai tiešsaistē. Poga Pievienoties tiek rādīta tikai https saitei."
     },
     "plurals": null
 }

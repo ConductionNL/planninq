@@ -1354,7 +1354,11 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Ma nstab l-ebda grupp. Is-settings tal-qsim tal-amministratur tiegħek jiddeċiedu liema gruppi tista' ssib.",
         "No owning group": "L-ebda grupp sid",
         "Could not search for groups. Please try again.": "Ma setgħux jiġu mfittxija gruppi. Erġa' pprova.",
-        "Could not change the owning group": "Il-grupp sid ma setax jinbidel"
+        "Could not change the owning group": "Il-grupp sid ma setax jinbidel",
+        "Course": "Kors",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Il-kors mgħallem f'din il-lezzjoni, bħal suġġett fakultattiv, meta l-app tat-tagħlim tal-iskola tkun tafu.",
+        "Online meeting link": "Link tal-lezzjoni online",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Fejn l-istudenti jingħaqdu ma' din il-lezzjoni online. Il-buttuna Ingħaqad tidher biss għal link https."
     },
     "plurals": {}
 }

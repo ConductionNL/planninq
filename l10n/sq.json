@@ -1354,7 +1354,11 @@
         "No group found. Your admin's sharing settings decide which groups you can find.": "Nuk u gjet asnjë grup. Cilësimet e ndarjes së administratorit tuaj vendosin cilat grupe mund të gjeni.",
         "No owning group": "Pa grup pronar",
         "Could not search for groups. Please try again.": "Grupet nuk mund të kërkoheshin. Provoni përsëri.",
-        "Could not change the owning group": "Grupi pronar nuk mund të ndryshohej"
+        "Could not change the owning group": "Grupi pronar nuk mund të ndryshohej",
+        "Course": "Kurs",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kursi që jepet në këtë orë mësimi, për shembull një lëndë me zgjedhje, kur aplikacioni mësimor i shkollës e njeh.",
+        "Online meeting link": "Lidhja e mësimit në internet",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Ku nxënësit i bashkohen këtij mësimi në internet. Butoni Bashkohu shfaqet vetëm për një lidhje https."
     },
     "plurals": {}
 }
