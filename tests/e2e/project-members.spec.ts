@@ -9,10 +9,9 @@
  *   @e2e project-membership::the-admins-search-limits-apply
  */
 
-import type { Browser } from '@playwright/test'
-
 import { expect, request, test } from '@playwright/test'
 import { BASE_URL } from './base-url.ts'
+import { signedInPage } from './fresh-user.ts'
 import { PLANNINQ_ROOT } from './nav.ts'
 import { adminApi, OBJECTS } from './portfolio-api.ts'
 
@@ -31,23 +30,6 @@ async function userApi(username: string) {
 		httpCredentials: { username, password: PASSWORD, send: 'always' },
 		extraHTTPHeaders: { 'Content-Type': 'application/json', 'OCS-APIRequest': 'true', Accept: 'application/json' },
 	})
-}
-
-/**
- * A browser page signed in as `username`, in a context of its own.
- *
- * @param browser The browser.
- * @param username The user id.
- */
-async function signedInPage(browser: Browser, username: string) {
-	const context = await browser.newContext({ baseURL: BASE_URL, storageState: { cookies: [], origins: [] } })
-	const page = await context.newPage()
-	await page.goto('/index.php/login')
-	await page.locator('input[name="user"]').fill(username)
-	await page.locator('input[name="password"]').fill(PASSWORD)
-	await page.locator('button[type="submit"]').first().click()
-	await page.waitForSelector('#header, header.header', { timeout: 20_000 })
-	return { context, page }
 }
 
 /**
@@ -77,7 +59,7 @@ test.describe('Project members', () => {
 			project = (await res.json()).id
 			await ownerApi.dispose()
 
-			const { context, page } = await signedInPage(browser, owner)
+			const { context, page } = await signedInPage(browser, owner, PASSWORD)
 			await openMembers(page, project)
 			await page.getByRole('combobox', { name: 'Add member' }).fill('Ada')
 			await page.getByTestId(`member-option-user:${ada}`).click()
@@ -115,7 +97,7 @@ test.describe('Project members', () => {
 			project = (await res.json()).id
 			await ownerApi.dispose()
 
-			const { context, page } = await signedInPage(browser, owner)
+			const { context, page } = await signedInPage(browser, owner, PASSWORD)
 			await openMembers(page, project)
 			await page.getByRole('combobox', { name: 'Add member' }).fill('Bram')
 			await expect(page.getByTestId('member-search-empty')).toHaveText('No one found. Your admin\'s sharing settings decide who you can find.')
