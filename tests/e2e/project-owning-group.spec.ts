@@ -7,32 +7,15 @@
  *   @e2e project-membership::a-colleague-in-the-owning-group-manages-the-project-after-the-creator-leaves
  */
 
-import type { Browser, Page } from '@playwright/test'
+import type { Page } from '@playwright/test'
 
 import { expect, test } from '@playwright/test'
-import { BASE_URL } from './base-url.ts'
+import { signedInPage } from './fresh-user.ts'
 import { PLANNINQ_ROOT } from './nav.ts'
 import { adminApi, createObject, OBJECTS } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36)
 const PASSWORD = `Planninq-e2e-${RUN}!`
-
-/**
- * A browser page signed in as `username`, in a context of its own.
- *
- * @param browser The browser.
- * @param username The user id.
- */
-async function signedInPage(browser: Browser, username: string) {
-	const context = await browser.newContext({ baseURL: BASE_URL, storageState: { cookies: [], origins: [] } })
-	const page = await context.newPage()
-	await page.goto('/index.php/login')
-	await page.locator('input[name="user"]').fill(username)
-	await page.locator('input[name="password"]').fill(PASSWORD)
-	await page.locator('button[type="submit"]').first().click()
-	await page.waitForSelector('#header, header.header', { timeout: 20_000 })
-	return { context, page }
-}
 
 /**
  * Open the project's settings sidebar on the Members tab.
@@ -61,7 +44,7 @@ test.describe('Owning group', () => {
 			project = await createObject(api, 'project', { title: `Groep ${RUN}`, status: 'active', owner: creator, members: [creator] })
 
 			// The owner sets "Owned by group" on the Members tab.
-			const c = await signedInPage(browser, creator)
+			const c = await signedInPage(browser, creator, PASSWORD)
 			await openMembers(c.page, project)
 			await c.page.getByRole('combobox', { name: 'Owned by group' }).fill(group.slice(0, 6))
 			await c.page.getByRole('option', { name: group }).click()
@@ -73,7 +56,7 @@ test.describe('Owning group', () => {
 			await c.context.close()
 
 			// The colleague, with no role of their own, still changes the title.
-			const g = await signedInPage(browser, colleague)
+			const g = await signedInPage(browser, colleague, PASSWORD)
 			await openMembers(g.page, project)
 			await expect(g.page.getByTestId('owner-group-current')).toHaveText(`Owned by group: ${group}`)
 			await g.page.getByRole('tab', { name: 'Details' }).click()
