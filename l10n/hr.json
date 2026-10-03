@@ -1355,6 +1355,7 @@
         "No owning group": "Bez grupe vlasnika",
         "Could not search for groups. Please try again.": "Pretraživanje grupa nije uspjelo. Pokušajte ponovno.",
         "Could not change the owning group": "Grupu vlasnika nije moguće promijeniti",
+        "You can read this project. Only its members change it.": "Ovaj projekt možete čitati. Mijenjaju ga samo njegovi članovi.",
         "Course": "Predmet",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Predmet koji se predaje na ovom satu, na primjer izborni predmet, kad ga školska aplikacija za učenje poznaje.",
         "Online meeting link": "Poveznica na online sat",

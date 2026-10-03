@@ -1356,6 +1356,7 @@ OC.L10N.register(
         "No owning group": "Sahip grup yok",
         "Could not search for groups. Please try again.": "Gruplar aranamadı. Lütfen yeniden deneyin.",
         "Could not change the owning group": "Sahip grup değiştirilemedi",
+        "You can read this project. Only its members change it.": "Bu projeyi okuyabilirsiniz. Onu yalnızca üyeleri değiştirir.",
         "Course": "Ders",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Bu derste işlenen ders, örneğin bir seçmeli ders, okulun öğrenme uygulaması onu bildiğinde.",
         "Online meeting link": "Çevrimiçi ders bağlantısı",

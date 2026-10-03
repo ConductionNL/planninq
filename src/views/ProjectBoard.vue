@@ -95,7 +95,7 @@
 			<ProjectRequestBanner v-if="requestBanner" :project="project" @reviewed="onRequestReviewed" />
 			<template v-else>
 				<p v-if="readOnly" class="project-board__read-only" data-testid="board-read-only">
-					{{ t('planninq', 'You read this project as a manager of its portfolio. Only its members change it.') }}
+					{{ readOnlyNote }}
 				</p>
 
 				<!-- Filter bar: assignee, label, priority and due date, kept in
@@ -510,9 +510,9 @@ import {
 } from '../utils/columnHelpers.js'
 import { labelId, resolveTaskLabels } from '../utils/labelHelpers.js'
 import { columnSwitcher, phoneColumnId } from '../utils/phoneBoard.js'
-import { isReadOnlyFor } from '../utils/portfolioGrouping.js'
+import { isReadOnlyFor, readOnlyReason } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
-import { currentGroupIds, projectRole } from '../utils/projectRole.js'
+import { boardAccessDenied, currentGroupIds } from '../utils/projectRole.js'
 import { newLaneTask } from '../utils/taskEditing.js'
 import { deriveBlockedTaskIds, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
 import { memberOptions, PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
@@ -827,6 +827,19 @@ export default {
 		},
 
 		/**
+		 * The read-only note in the words of the reader's role (live pass P5).
+		 *
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+		 */
+		readOnlyNote() {
+			return readOnlyReason(this.project, getCurrentUser(), currentGroupIds()) === 'portfolio'
+				? this.t('planninq', 'You read this project as a manager of its portfolio. Only its members change it.')
+				: this.t('planninq', 'You can read this project. Only its members change it.')
+		},
+
+		/**
 		 * @spec exclude Display helper: the `order` a new column gets.
 		 */
 		nextColumnOrder() {
@@ -882,7 +895,8 @@ export default {
 
 		/**
 		 * Whether the current user is denied access to the project: true on a
-		 * stored 403 (`forbidden`) or when the user holds no role on the loaded
+		 * stored 403 (`forbidden`), a 404 for a project OpenRegister hides (`not-found`),
+		 * or when the user holds no role on the loaded
 		 * project, in person or through a group.
 		 *
 		 * @return {boolean}
@@ -890,15 +904,7 @@ export default {
 		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
 		 */
 		accessDenied() {
-			const store = this.projectsStore
-			if (store.error === 'forbidden') {
-				return true
-			}
-			if (!store.loading && store.activeProject) {
-				const uid = getCurrentUser()?.uid
-				return !!uid && projectRole(store.activeProject, uid, currentGroupIds()) === 'none'
-			}
-			return false
+			return boardAccessDenied(this.projectsStore, getCurrentUser()?.uid, currentGroupIds())
 		},
 	},
 

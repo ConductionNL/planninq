@@ -1356,6 +1356,7 @@ OC.L10N.register(
         "No owning group": "Omanikgruppi pole",
         "Could not search for groups. Please try again.": "Gruppide otsimine ebaõnnestus. Proovi uuesti.",
         "Could not change the owning group": "Omanikgruppi ei õnnestunud muuta",
+        "You can read this project. Only its members change it.": "Saad seda projekti lugeda. Muudavad seda ainult selle liikmed.",
         "Course": "Kursus",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kursus, mida selles tunnis õpetatakse, näiteks valikaine, kui kooli õpperakendus seda teab.",
         "Online meeting link": "Veebitunni link",

@@ -1356,6 +1356,7 @@ OC.L10N.register(
         "No owning group": "Nessun gruppo proprietario",
         "Could not search for groups. Please try again.": "Impossibile cercare i gruppi. Riprova.",
         "Could not change the owning group": "Impossibile cambiare il gruppo proprietario",
+        "You can read this project. Only its members change it.": "Puoi leggere questo progetto. Solo i suoi membri lo modificano.",
         "Course": "Corso",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Il corso insegnato in questa lezione, ad esempio un corso opzionale, quando l'app di apprendimento della scuola lo conosce.",
         "Online meeting link": "Link della lezione online",

@@ -1355,6 +1355,7 @@
         "No owning group": "Без група собственик",
         "Could not search for groups. Please try again.": "Търсенето на групи не бе успешно. Опитайте отново.",
         "Could not change the owning group": "Групата собственик не можа да бъде променена",
+        "You can read this project. Only its members change it.": "Можете да четете този проект. Само членовете му го променят.",
         "Course": "Курс",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Курсът, който се преподава в този час, например избираем предмет, когато училищното приложение за обучение го познава.",
         "Online meeting link": "Връзка към онлайн часа",

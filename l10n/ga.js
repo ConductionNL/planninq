@@ -1356,6 +1356,7 @@ OC.L10N.register(
         "No owning group": "Gan grúpa úinéara",
         "Could not search for groups. Please try again.": "Níorbh fhéidir grúpaí a chuardach. Bain triail eile as.",
         "Could not change the owning group": "Níorbh fhéidir an grúpa úinéara a athrú",
+        "You can read this project. Only its members change it.": "Is féidir leat an tionscadal seo a léamh. Ní athraíonn ach a bhaill é.",
         "Course": "Cúrsa",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "An cúrsa a mhúintear sa cheacht seo, mar shampla ábhar roghnach, nuair is eol d'aip foghlama na scoile é.",
         "Online meeting link": "Nasc an cheachta ar líne",

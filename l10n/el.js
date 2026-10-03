@@ -1356,6 +1356,7 @@ OC.L10N.register(
         "No owning group": "Χωρίς ομάδα ιδιοκτήτη",
         "Could not search for groups. Please try again.": "Η αναζήτηση ομάδων απέτυχε. Δοκιμάστε ξανά.",
         "Could not change the owning group": "Δεν ήταν δυνατή η αλλαγή της ομάδας ιδιοκτήτη",
+        "You can read this project. Only its members change it.": "Μπορείτε να διαβάσετε αυτό το έργο. Μόνο τα μέλη του το αλλάζουν.",
         "Course": "Μάθημα",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Το μάθημα που διδάσκεται σε αυτή την ώρα, για παράδειγμα ένα μάθημα επιλογής, όταν η εκπαιδευτική εφαρμογή του σχολείου το γνωρίζει.",
         "Online meeting link": "Σύνδεσμος διαδικτυακού μαθήματος",

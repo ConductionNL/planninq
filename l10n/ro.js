@@ -1356,6 +1356,7 @@ OC.L10N.register(
         "No owning group": "Fără grup proprietar",
         "Could not search for groups. Please try again.": "Nu s-au putut căuta grupuri. Încearcă din nou.",
         "Could not change the owning group": "Grupul proprietar nu a putut fi schimbat",
+        "You can read this project. Only its members change it.": "Poți citi acest proiect. Doar membrii lui îl modifică.",
         "Course": "Curs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Cursul predat în această lecție, de exemplu o opțională, când aplicația de învățare a școlii îl cunoaște.",
         "Online meeting link": "Linkul lecției online",

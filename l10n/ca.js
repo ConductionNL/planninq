@@ -1356,6 +1356,7 @@ OC.L10N.register(
         "No owning group": "Sense grup propietari",
         "Could not search for groups. Please try again.": "No s'han pogut cercar grups. Torneu-ho a provar.",
         "Could not change the owning group": "No s'ha pogut canviar el grup propietari",
+        "You can read this project. Only its members change it.": "Pots llegir aquest projecte. Només els seus membres el canvien.",
         "Course": "Curs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "El curs que s'imparteix en aquesta classe, com una optativa, quan l'aplicació d'aprenentatge de l'escola el coneix.",
         "Online meeting link": "Enllaç de la classe en línia",

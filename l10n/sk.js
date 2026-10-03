@@ -1356,6 +1356,7 @@ OC.L10N.register(
         "No owning group": "Žiadna vlastnícka skupina",
         "Could not search for groups. Please try again.": "Skupiny sa nepodarilo vyhľadať. Skúste to znova.",
         "Could not change the owning group": "Vlastnícku skupinu sa nepodarilo zmeniť",
+        "You can read this project. Only its members change it.": "Tento projekt môžete čítať. Meniť ho môžu len jeho členovia.",
         "Course": "Kurz",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kurz, ktorý sa na tejto hodine vyučuje, napríklad voliteľný predmet, ak ho školská výučbová aplikácia pozná.",
         "Online meeting link": "Odkaz na online hodinu",

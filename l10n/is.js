@@ -1356,6 +1356,7 @@ OC.L10N.register(
         "No owning group": "Enginn eigandahópur",
         "Could not search for groups. Please try again.": "Ekki tókst að leita að hópum. Reyndu aftur.",
         "Could not change the owning group": "Ekki tókst að breyta eigandahópnum",
+        "You can read this project. Only its members change it.": "Þú getur lesið þetta verkefni. Aðeins meðlimir þess breyta því.",
         "Course": "Námskeið",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Námskeiðið sem kennt er í þessari kennslustund, til dæmis valáfangi, þegar námsapp skólans þekkir það.",
         "Online meeting link": "Tengill á netkennslustund",

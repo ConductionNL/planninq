@@ -2,11 +2,13 @@
  * Display names of Nextcloud users, for pages that list people by name.
  *
  * Reads Nextcloud's own autocomplete endpoint, which every signed-in user may
- * call, and falls back to the user id when a name does not resolve.
+ * call, and falls back to the user id when a name does not resolve. The
+ * caller's own name comes from the session: autocomplete never returns it.
  *
  * SPDX-License-Identifier: EUPL-1.2
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  */
+import { getCurrentUser } from '@nextcloud/auth'
 import { generateOcsUrl } from '@nextcloud/router'
 
 const cache = new Map()
@@ -22,6 +24,12 @@ const cache = new Map()
 export async function displayName(uid) {
 	if (!uid) {
 		return ''
+	}
+	// Nextcloud's autocomplete never returns the caller, so the caller's own
+	// name comes from the session (live pass P6).
+	const me = getCurrentUser()
+	if (me?.uid === uid && me.displayName) {
+		return me.displayName
 	}
 	if (!cache.has(uid)) {
 		cache.set(uid, (async () => {

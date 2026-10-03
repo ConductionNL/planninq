@@ -1369,6 +1369,7 @@ OC.L10N.register(
         "No owning group": "Geen eigenaar-groep",
         "Could not search for groups. Please try again.": "Kon niet naar groepen zoeken. Probeer het opnieuw.",
         "Could not change the owning group": "De eigenaar-groep kon niet worden gewijzigd",
+        "You can read this project. Only its members change it.": "Je kunt dit project lezen. Alleen de leden wijzigen het.",
         "Course": "Vak",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Het vak dat in deze les gegeven wordt, zoals een keuzevak, als de leerapp van de school het kent.",
         "Online meeting link": "Link naar de online les",

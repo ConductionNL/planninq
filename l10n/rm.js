@@ -1356,6 +1356,7 @@ OC.L10N.register(
         "No owning group": "Nagina gruppa possessura",
         "Could not search for groups. Please try again.": "Impussibel da tschertgar gruppas. Emprova anc ina giada.",
         "Could not change the owning group": "Impussibel da midar la gruppa possessura",
+        "You can read this project. Only its members change it.": "Ti pos leger quest project. Mo ses commembers al midan.",
         "Course": "Curs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Il curs che vegn instruì en questa lecziun, per exempel ina materia facultativa, sche l'app d'emprender da la scola al enconuscha.",
         "Online meeting link": "Link a la lecziun online",

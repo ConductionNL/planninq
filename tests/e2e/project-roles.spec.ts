@@ -10,10 +10,9 @@
  *   @e2e project-membership::leaving-the-group-removes-access
  */
 
-import type { Browser } from '@playwright/test'
-
 import { expect, request, test } from '@playwright/test'
 import { BASE_URL } from './base-url.ts'
+import { signedInPage } from './fresh-user.ts'
 import { PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS } from './portfolio-api.ts'
 
@@ -31,23 +30,6 @@ async function userApi(username: string) {
 		httpCredentials: { username, password: PASSWORD, send: 'always' },
 		extraHTTPHeaders: { 'Content-Type': 'application/json', 'OCS-APIRequest': 'true', Accept: 'application/json' },
 	})
-}
-
-/**
- * A browser page signed in as `username`, in a context of its own.
- *
- * @param browser The browser.
- * @param username The user id.
- */
-async function signedInPage(browser: Browser, username: string) {
-	const context = await browser.newContext({ baseURL: BASE_URL, storageState: { cookies: [], origins: [] } })
-	const page = await context.newPage()
-	await page.goto('/index.php/login')
-	await page.locator('input[name="user"]').fill(username)
-	await page.locator('input[name="password"]').fill(PASSWORD)
-	await page.locator('button[type="submit"]').first().click()
-	await page.waitForSelector('#header, header.header', { timeout: 20_000 })
-	return { context, page }
 }
 
 test.describe('Project roles', () => {
@@ -73,10 +55,10 @@ test.describe('Project roles', () => {
 				memberGroups: [group],
 			})
 
-			task = await createObject(api, 'task', { title: `Taak ${RUN}`, project, status: 'todo' })
+			task = await createObject(api, 'task', { title: `Taak ${RUN}`, project, status: 'open' })
 
 			// A group member sees a project shared with the group.
-			const g = await signedInPage(browser, inGroup)
+			const g = await signedInPage(browser, inGroup, PASSWORD)
 			await g.page.goto(new URL('projects', PLANNINQ_ROOT).toString())
 			await expect(g.page.getByText(`Rollen ${RUN}`)).toBeVisible()
 
@@ -87,16 +69,16 @@ test.describe('Project roles', () => {
 			await g.context.close()
 
 			// A viewer reads the board and cannot change it.
-			const v = await signedInPage(browser, viewer)
+			const v = await signedInPage(browser, viewer, PASSWORD)
 			await v.page.goto(new URL(`projects/${project}`, PLANNINQ_ROOT).toString())
 			await expect(v.page.getByTestId('board-read-only')).toBeVisible()
 			await v.context.close()
 			const vApi = await userApi(viewer)
-			expect((await vApi.put(`${OBJECTS}/task/${task}`, { data: { title: `Taak ${RUN} anders`, project, status: 'todo' } })).status()).toBe(403)
+			expect((await vApi.put(`${OBJECTS}/task/${task}`, { data: { title: `Taak ${RUN} anders`, project, status: 'open' } })).status()).toBe(403)
 			await vApi.dispose()
 
 			// A member cannot manage members.
-			const m = await signedInPage(browser, member)
+			const m = await signedInPage(browser, member, PASSWORD)
 			await m.page.goto(new URL(`projects/${project}`, PLANNINQ_ROOT).toString())
 			await m.page.getByRole('button', { name: 'Project settings' }).click()
 			await m.page.getByRole('tab', { name: 'Members' }).click()

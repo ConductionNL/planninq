@@ -1335,6 +1335,7 @@ OC.L10N.register(
         "No owning group": "No owning group",
         "Could not search for groups. Please try again.": "Could not search for groups. Please try again.",
         "Could not change the owning group": "Could not change the owning group",
+        "You can read this project. Only its members change it.": "You can read this project. Only its members change it.",
         "Course": "Course",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "The course this lesson teaches, such as an elective, when the school's learning app knows it.",
         "Online meeting link": "Online meeting link",

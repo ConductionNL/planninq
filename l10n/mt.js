@@ -1356,6 +1356,7 @@ OC.L10N.register(
         "No owning group": "L-ebda grupp sid",
         "Could not search for groups. Please try again.": "Ma setgħux jiġu mfittxija gruppi. Erġa' pprova.",
         "Could not change the owning group": "Il-grupp sid ma setax jinbidel",
+        "You can read this project. Only its members change it.": "Tista' taqra dan il-proġett. Il-membri tiegħu biss ibiddluh.",
         "Course": "Kors",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Il-kors mgħallem f'din il-lezzjoni, bħal suġġett fakultattiv, meta l-app tat-tagħlim tal-iskola tkun tafu.",
         "Online meeting link": "Link tal-lezzjoni online",

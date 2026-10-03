@@ -1356,6 +1356,7 @@ OC.L10N.register(
         "No owning group": "Ingen ejergruppe",
         "Could not search for groups. Please try again.": "Kunne ikke søge efter grupper. Prøv igen.",
         "Could not change the owning group": "Kunne ikke ændre ejergruppen",
+        "You can read this project. Only its members change it.": "Du kan læse dette projekt. Kun dets medlemmer ændrer det.",
         "Course": "Kursus",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Det kursus, timen underviser i, fx et valgfag, når skolens læringsapp kender det.",
         "Online meeting link": "Link til onlinetimen",
