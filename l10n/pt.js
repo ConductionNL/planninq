@@ -1356,7 +1356,11 @@ OC.L10N.register(
         "No owning group": "Sem grupo proprietário",
         "Could not search for groups. Please try again.": "Não foi possível procurar grupos. Tente novamente.",
         "Could not change the owning group": "Não foi possível alterar o grupo proprietário",
-        "You can read this project. Only its members change it.": "Pode ler este projeto. Só os seus membros o alteram."
+        "You can read this project. Only its members change it.": "Pode ler este projeto. Só os seus membros o alteram.",
+        "Course": "Disciplina",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "A disciplina lecionada nesta aula, como uma opção, quando a aplicação de aprendizagem da escola a conhece.",
+        "Online meeting link": "Ligação da aula online",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Onde os alunos entram nesta aula online. O botão Entrar só aparece com uma ligação https."
     },
     "nplurals=2; plural=(n != 1);"
 )

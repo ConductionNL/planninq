@@ -1362,7 +1362,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(expected: ['draft', 'scheduled', 'cancelled'], actual: $status['enum']);
 		self::assertSame(expected: 'scheduled', actual: $status['default']);
 		self::assertSame(expected: 'Draft', actual: $status['x-enum-labels']['draft']);
-		self::assertSame(expected: '0.3.0', actual: $this->register['components']['schemas']['timetableSession']['version']);
+		self::assertTrue(condition: version_compare($this->register['components']['schemas']['timetableSession']['version'], '0.3.0', '>='), message: 'the draft status arrived in 0.3.0');
 
 		$lesson = ['externalRef' => 'zm-1', 'sourceSystem' => 'roster-zermelo', 'subject' => 'Wiskunde', 'title' => 'Wiskunde', 'startsAt' => '2026-10-05T09:00:00+02:00', 'endsAt' => '2026-10-05T09:50:00+02:00', 'status' => 'draft'];
 		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableSession', payload: $lesson));

@@ -1356,7 +1356,11 @@ OC.L10N.register(
         "No owning group": "Bez grupe vlasnika",
         "Could not search for groups. Please try again.": "Pretraživanje grupa nije uspjelo. Pokušajte ponovno.",
         "Could not change the owning group": "Grupu vlasnika nije moguće promijeniti",
-        "You can read this project. Only its members change it.": "Ovaj projekt možete čitati. Mijenjaju ga samo njegovi članovi."
+        "You can read this project. Only its members change it.": "Ovaj projekt možete čitati. Mijenjaju ga samo njegovi članovi.",
+        "Course": "Predmet",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Predmet koji se predaje na ovom satu, na primjer izborni predmet, kad ga školska aplikacija za učenje poznaje.",
+        "Online meeting link": "Poveznica na online sat",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Gdje se učenici pridružuju ovom satu online. Gumb Pridruži se prikazuje se samo za https poveznicu."
     },
     "nplurals=2; plural=(n != 1);"
 )

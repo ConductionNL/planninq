@@ -1355,7 +1355,11 @@
         "No owning group": "Без групе власника",
         "Could not search for groups. Please try again.": "Претрага група није успела. Покушајте поново.",
         "Could not change the owning group": "Групу власника није могуће променити",
-        "You can read this project. Only its members change it.": "Овај пројекат можете да читате. Мењају га само његови чланови."
+        "You can read this project. Only its members change it.": "Овај пројекат можете да читате. Мењају га само његови чланови.",
+        "Course": "Предмет",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Предмет који се предаје на овом часу, на пример изборни предмет, када га школска апликација за учење познаје.",
+        "Online meeting link": "Веза за онлајн час",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Где се ученици придружују овом часу онлајн. Дугме Придружи се приказује се само за https везу."
     },
     "plurals": null
 }

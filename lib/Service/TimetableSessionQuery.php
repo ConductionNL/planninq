@@ -59,7 +59,7 @@ class TimetableSessionQuery {
 	 *
 	 * @var string[]
 	 */
-	public const IDENTITY_KEYS = ['cohortId', 'groupReference', 'teacherUserId', 'teacherReference'];
+	public const IDENTITY_KEYS = ['cohortId', 'groupReference', 'teacherUserId', 'teacherReference', 'courseId'];
 
 	/**
 	 * Seconds the window is widened by in the OpenRegister prefilter.
@@ -260,7 +260,7 @@ class TimetableSessionQuery {
 		}
 
 		if ($identity === []) {
-			throw new InvalidArgumentException('Name a cohortId, groupReference, teacherUserId or teacherReference to read a timetable.');
+			throw new InvalidArgumentException('Name a cohortId, groupReference, teacherUserId, teacherReference or courseId to read a timetable.');
 		}
 
 		return $identity;

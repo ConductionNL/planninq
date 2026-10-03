@@ -101,6 +101,8 @@ class TimetableSessionService {
 		'roomReference',
 		'roomLabel',
 		'status',
+		'courseId',
+		'onlineMeetingUrl',
 	];
 
 	/**
@@ -489,7 +491,7 @@ class TimetableSessionService {
 			}
 		}
 
-		return $row;
+		return $this->rows->withClearedFields(row: $row, raw: $raw);
 	}//end normalise()
 
 	/**
@@ -521,7 +523,7 @@ class TimetableSessionService {
 			return ['code' => 'invalid-status', 'message' => 'Status must be draft, scheduled or cancelled.'];
 		}
 
-		return null;
+		return $this->rows->courseOrLinkError(row: $row);
 	}//end validate()
 
 	/**

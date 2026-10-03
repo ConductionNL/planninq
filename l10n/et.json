@@ -1355,7 +1355,11 @@
         "No owning group": "Omanikgruppi pole",
         "Could not search for groups. Please try again.": "Gruppide otsimine ebaõnnestus. Proovi uuesti.",
         "Could not change the owning group": "Omanikgruppi ei õnnestunud muuta",
-        "You can read this project. Only its members change it.": "Saad seda projekti lugeda. Muudavad seda ainult selle liikmed."
+        "You can read this project. Only its members change it.": "Saad seda projekti lugeda. Muudavad seda ainult selle liikmed.",
+        "Course": "Kursus",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kursus, mida selles tunnis õpetatakse, näiteks valikaine, kui kooli õpperakendus seda teab.",
+        "Online meeting link": "Veebitunni link",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kus õpilased selle tunniga veebis liituvad. Nupp Liitu kuvatakse ainult https-lingi korral."
     },
     "plurals": null
 }

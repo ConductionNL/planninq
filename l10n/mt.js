@@ -1356,7 +1356,11 @@ OC.L10N.register(
         "No owning group": "L-ebda grupp sid",
         "Could not search for groups. Please try again.": "Ma setgħux jiġu mfittxija gruppi. Erġa' pprova.",
         "Could not change the owning group": "Il-grupp sid ma setax jinbidel",
-        "You can read this project. Only its members change it.": "Tista' taqra dan il-proġett. Il-membri tiegħu biss ibiddluh."
+        "You can read this project. Only its members change it.": "Tista' taqra dan il-proġett. Il-membri tiegħu biss ibiddluh.",
+        "Course": "Kors",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Il-kors mgħallem f'din il-lezzjoni, bħal suġġett fakultattiv, meta l-app tat-tagħlim tal-iskola tkun tafu.",
+        "Online meeting link": "Link tal-lezzjoni online",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Fejn l-istudenti jingħaqdu ma' din il-lezzjoni online. Il-buttuna Ingħaqad tidher biss għal link https."
     },
     "nplurals=2; plural=(n != 1);"
 )

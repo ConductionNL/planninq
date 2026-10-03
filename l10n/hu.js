@@ -1356,7 +1356,11 @@ OC.L10N.register(
         "No owning group": "Nincs tulajdonos csoport",
         "Could not search for groups. Please try again.": "Nem sikerült csoportokat keresni. Próbáld újra.",
         "Could not change the owning group": "Nem sikerült módosítani a tulajdonos csoportot",
-        "You can read this project. Only its members change it.": "Olvashatod ezt a projektet. Csak a tagjai módosítják."
+        "You can read this project. Only its members change it.": "Olvashatod ezt a projektet. Csak a tagjai módosítják.",
+        "Course": "Kurzus",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "A kurzus, amelyet ezen az órán tanítanak, például egy választható tárgy, ha az iskola tanulási alkalmazása ismeri.",
+        "Online meeting link": "Online óra hivatkozása",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Ahol a tanulók online csatlakoznak ehhez az órához. A Csatlakozás gomb csak https-hivatkozásnál jelenik meg."
     },
     "nplurals=2; plural=(n != 1);"
 )

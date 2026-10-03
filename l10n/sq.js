@@ -1356,7 +1356,11 @@ OC.L10N.register(
         "No owning group": "Pa grup pronar",
         "Could not search for groups. Please try again.": "Grupet nuk mund të kërkoheshin. Provoni përsëri.",
         "Could not change the owning group": "Grupi pronar nuk mund të ndryshohej",
-        "You can read this project. Only its members change it.": "Mund ta lexoni këtë projekt. Vetëm anëtarët e tij e ndryshojnë."
+        "You can read this project. Only its members change it.": "Mund ta lexoni këtë projekt. Vetëm anëtarët e tij e ndryshojnë.",
+        "Course": "Kurs",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kursi që jepet në këtë orë mësimi, për shembull një lëndë me zgjedhje, kur aplikacioni mësimor i shkollës e njeh.",
+        "Online meeting link": "Lidhja e mësimit në internet",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Ku nxënësit i bashkohen këtij mësimi në internet. Butoni Bashkohu shfaqet vetëm për një lidhje https."
     },
     "nplurals=2; plural=(n != 1);"
 )

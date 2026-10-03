@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.36.0"
+    "version": "0.37.0"
   },
   "x-openregister": {
     "type": "application",
@@ -2226,7 +2226,7 @@
       "timetableSession": {
         "slug": "timetableSession",
         "icon": "ClockOutline",
-        "version": "0.3.0",
+        "version": "0.4.0",
         "title": "Timetable session",
         "description": "One lesson in a school timetable as the rostering system knows it: when it runs, for which group, with which teacher, in which room and for which subject. Delivered by a rostering import and matched again by source and occurrence id.",
         "x-schema-org": "schema:Event",
@@ -2338,6 +2338,21 @@
             "title": "Room",
             "type": "string",
             "description": "The room name shown with the lesson."
+          },
+          "courseId": {
+            "title": "Course",
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "description": "The course this lesson teaches, such as an elective, when the school's learning app knows it."
+          },
+          "onlineMeetingUrl": {
+            "title": "Online meeting link",
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "maxLength": 2048,
+            "description": "Where pupils join this lesson online. Pupils see a Join button only for an https link."
           },
           "status": {
             "title": "Status",

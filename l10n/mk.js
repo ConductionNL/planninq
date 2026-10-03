@@ -1356,7 +1356,11 @@ OC.L10N.register(
         "No owning group": "Без група сопственик",
         "Could not search for groups. Please try again.": "Пребарувањето групи не успеа. Обидете се повторно.",
         "Could not change the owning group": "Групата сопственик не може да се промени",
-        "You can read this project. Only its members change it.": "Може да го читате овој проект. Го менуваат само неговите членови."
+        "You can read this project. Only its members change it.": "Може да го читате овој проект. Го менуваат само неговите членови.",
+        "Course": "Предмет",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Предметот што се предава на овој час, на пример изборен предмет, кога училишната апликација за учење го знае.",
+        "Online meeting link": "Врска до онлајн часот",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Каде учениците се приклучуваат на овој час онлајн. Копчето Приклучи се се прикажува само за https врска."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -49,9 +49,14 @@ class TimetableSessionsQueryEvent extends Event {
 	/**
 	 * Contract version of this event and its result.
 	 *
+	 * Version 2 (DECISIONS row 53): a query may name only a `courseId`, and
+	 * every lesson carries `courseId` and `onlineMeetingUrl`.
+	 *
 	 * @var int
+	 *
+	 * @spec openspec/changes/timetable-course-query/specs/school-timetable/spec.md#requirement-another-app-reads-a-courses-lessons-and-their-online-link-req-007
 	 */
-	public const CONTRACT_VERSION = 1;
+	public const CONTRACT_VERSION = 2;
 
 	/**
 	 * The sessions found, once planninq handled the event successfully.

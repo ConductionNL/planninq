@@ -1355,7 +1355,11 @@
         "No owning group": "Brez lastniške skupine",
         "Could not search for groups. Please try again.": "Skupin ni bilo mogoče poiskati. Poskusite znova.",
         "Could not change the owning group": "Lastniške skupine ni bilo mogoče spremeniti",
-        "You can read this project. Only its members change it.": "Ta projekt lahko berete. Spreminjajo ga le njegovi člani."
+        "You can read this project. Only its members change it.": "Ta projekt lahko berete. Spreminjajo ga le njegovi člani.",
+        "Course": "Predmet",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Predmet, ki se poučuje pri tej uri, na primer izbirni predmet, ko ga šolska učna aplikacija pozna.",
+        "Online meeting link": "Povezava do spletne ure",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kje se učenci pridružijo tej uri na spletu. Gumb Pridruži se se prikaže le pri povezavi https."
     },
     "plurals": null
 }

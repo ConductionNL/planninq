@@ -1356,7 +1356,11 @@ OC.L10N.register(
         "No owning group": "Без группы-владельца",
         "Could not search for groups. Please try again.": "Не удалось найти группы. Попробуйте ещё раз.",
         "Could not change the owning group": "Не удалось изменить группу-владельца",
-        "You can read this project. Only its members change it.": "Вы можете читать этот проект. Изменяют его только его участники."
+        "You can read this project. Only its members change it.": "Вы можете читать этот проект. Изменяют его только его участники.",
+        "Course": "Курс",
+        "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Курс, который преподаётся на этом уроке, например факультатив, если школьное учебное приложение его знает.",
+        "Online meeting link": "Ссылка на онлайн-урок",
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Где ученики подключаются к этому уроку онлайн. Кнопка «Присоединиться» появляется только для ссылки https."
     },
     "nplurals=2; plural=(n != 1);"
 )
