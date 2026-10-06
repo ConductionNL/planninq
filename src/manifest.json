@@ -433,5 +433,9 @@
       "urlTemplate": "/apps/planninq/projects/{project}?task={task}",
       "displayName": "Time entry"
     }
-  ]
+  ],
+  "discovery": {
+    "public": true,
+    "standards": []
+  }
 }
