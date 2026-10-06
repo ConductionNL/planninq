@@ -78,7 +78,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
          navigations (matching openregister and docudesk, which validate). -->
     <dependencies>
         <php min-version="8.3"/>
-        <nextcloud min-version="32" max-version="34"/>
+        <nextcloud min-version="32" max-version="35"/>
         <!-- App dependency (not expressible in app-info.xsd): OpenRegister
              (data layer for the task/project/column/timeEntry/label/dependency
              schemas; see lib/Settings/planninq_register.json). -->
