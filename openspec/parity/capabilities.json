@@ -11139,7 +11139,8 @@
       "built": {
         "state": "building",
         "evidence": "openregister@d611a36: a changed-since read works through the @self metadata filter, whose columns include _updated (lib/Db/MagicMapper/MagicSearchHandler.php:144) with gte among the operators (:92), and _includeDeleted=true returns soft-deleted rows (:471). Deletions are the gap. The soft delete in lib/Service/Object/DeleteObject.php:334-361 writes the deleted block but never touches updated, so a changed-since query cannot see an object deleted since the last sync. GET /api/deleted (lib/Controller/DeletedController.php:225-236) reads only limit and offset and ignores filters.",
-        "owner": "ConductionNL/openregister"
+        "owner": "ConductionNL/openregister",
+        "change": "openregister/incremental-sync-for-api-consumers"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
