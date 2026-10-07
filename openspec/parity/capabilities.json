@@ -11321,7 +11321,8 @@
       "built": {
         "state": "building",
         "evidence": "portaliq@d8d2b34 lib/Service/NewsReadReceiptService.php:72 markRead records who read a news item; not traced to a page that shows the reader list, and it covers news, not messages generally. Re-read on 2026-09-27 (portaliq#747): the news routes exist (appinfo/routes.php:97-105, markRead at :104), but no file in portaliq src/ calls a news endpoint or mentions news, so no screen shows who read an item.",
-        "owner": "ConductionNL/portaliq"
+        "owner": "ConductionNL/portaliq",
+        "change": "portaliq/inbox-read-receipt-on-request"
       },
       "provider": "portaliq",
       "providerHow": "read-from-code",
