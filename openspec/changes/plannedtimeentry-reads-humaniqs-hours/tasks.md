@@ -38,3 +38,9 @@
 - [ ] 4.2 `occ openregister:schemas:prune-retired --app=planninq --slug=timeEntry`
       once the rows are moved. It refuses while the schema still owns objects,
       which is the order it enforces.
+
+## 5. Tests
+
+- [ ] 5.1 Unit test for the store: logging 90 minutes writes one humaniq `TimeEntry` (`hours` 1.5, `domainObjectType` `task`) and one `plannedTimeEntry` referencing it, validated against the real schemas in both register files.
+- [ ] 5.2 Unit test for the repair step: 45 minutes becomes 0.75 hours, and a second run creates nothing.
+- [ ] 5.3 e2e: the timesheet shows "1h 30m" after logging; on an instance without humaniq the time widgets are absent and "Log time" names humaniq.
