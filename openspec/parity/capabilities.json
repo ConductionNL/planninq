@@ -816,7 +816,7 @@
         "evidence": "src/dialogs/ProjectCreationDialog.vue: title, key (suggested from the title, format and availability checked), description, colour, icon -> src/store/projects.js createProject() -> lib/Controller/ProjectController.php create() (400 malformed key, 409 used key) -> lib/Listener/WorkItemKeyListener.php",
         "reachedOn": "ProjectList page, New project dialog",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-tasks-readable-keys",
+        "change": "2026-09-29-tasks-readable-keys",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -852,7 +852,7 @@
         "evidence": "lib/Service/CreationPolicyService.php canCreate(): all, admins or members of project_creation_groups; enforced in lib/Controller/ProjectController.php create(); src/views/settings/Settings.vue offers Members of these groups with a group picker; the list reads canCreateProject from the settings payload",
         "reachedOn": "Admin settings page, Project creation; ProjectList page (New project button)",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-projects-lifecycle-policy",
+        "change": "2026-09-29-projects-lifecycle-policy",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -889,7 +889,7 @@
         "reachedOn": "ProjectBoard page, Project settings sidebar, Members tab",
         "owner": "ConductionNL/planninq",
         "readOn": "2026-09-26",
-        "change": "openspec/changes/projects-members-and-roles"
+        "change": "projects-members-and-roles"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -924,7 +924,7 @@
         "evidence": "lib/Settings/planninq_register.json project schema has only `owner` (string, set once at creation) and `members` (flat array of UIDs, no per-member role). src/components/ProjectSettingsSidebar.vue:83-113 renders the member list with only a Leave/Remove action, no role picker.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/projects-members-and-roles"
+        "change": "projects-members-and-roles"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -994,7 +994,7 @@
         "evidence": "src/components/ProjectSettingsSidebar.vue Danger zone shows Restore project or Archive project from GET /apps/openregister/api/objects/{id}/available-actions; src/views/ProjectList.vue Restore on archived rows; src/store/projects.js archiveProject/restoreProject run the archive and restore transitions of the project lifecycle (lib/Settings/planninq_register.json project x-openregister-lifecycle)",
         "reachedOn": "ProjectBoard page, Project settings sidebar, Danger zone tab; ProjectList page, Archived chip",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-projects-lifecycle-policy",
+        "change": "2026-09-29-projects-lifecycle-policy",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -1098,7 +1098,7 @@
         "evidence": "lib/Controller/ProjectController.php:277 create() -> lib/Service/BoardColumnService.php:87 columnObjects() maps the admin's default_columns titles (last one the done column) -> createDefaultColumns() saves them; src/views/ProjectBoard.vue:377 tasksByColumn() renders them as lanes",
         "reachedOn": "ProjectList page, New project dialog; the board of the new project",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-28-boards-configurable-columns",
+        "change": "2026-09-28-boards-configurable-columns",
         "readOn": "2026-09-28"
       },
       "provider": "planninq",
@@ -1134,7 +1134,7 @@
         "evidence": "src/views/ProjectFinance.vue terms form sets billable, billingModel (new on the project schema), budgetAmount, budgetHours, hourlyRate, startDate and endDate through termsPatch() in src/utils/finance.js; project owners and admins only (canEditTerms)",
         "reachedOn": "Project Finance tab /projects/:id/finance, Delivery terms",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-portfolio-finance",
+        "change": "2026-09-29-portfolio-finance",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -1204,7 +1204,7 @@
         "evidence": "grep across src/ and lib/ for template/duplicate/clone/copy-project finds nothing that creates a project pre-populated from an existing one's columns/labels/tasks. The manifest's 'Store' page (src/manifest.json 'Store' entry) installs shared configsets/flows from other organisations, which is a different mechanism (marketplace install), not \"new project from a template\".",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/projects-templates-shared-workflow"
+        "change": "projects-templates-shared-workflow"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1239,7 +1239,7 @@
         "evidence": "no copy/duplicate-project action anywhere in src/ or lib/ (same grep as prj-templates).",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/projects-templates-shared-workflow"
+        "change": "projects-templates-shared-workflow"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1273,7 +1273,7 @@
         "evidence": "projectField schema (lib/Settings/planninq_register.json), admin index /project-fields; values in project.customFields checked by lib/Service/ProjectRulesService.php from ProjectHierarchyGuardListener; inputs in src/components/ProjectSettingsSidebar.vue, values on src/views/ProjectOverview.vue (src/utils/projectFields.js)",
         "reachedOn": "Beheer, 'Project fields' /project-fields; project settings sidebar Details tab; project Overview tab",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-projects-grouping-hierarchy-fields",
+        "change": "2026-09-29-projects-grouping-hierarchy-fields",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -1308,7 +1308,7 @@
         "evidence": "project.parent with cycle and three-level checks in lib/Service/ProjectRulesService.php from ProjectHierarchyGuardListener; 'Part of' in the settings sidebar; subprojects and rolled-up progress on src/views/ProjectOverview.vue; indented, foldable src/views/ProjectList.vue (src/utils/projectTree.js)",
         "reachedOn": "Project settings sidebar Details tab 'Part of'; project Overview tab; project list /projects",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-projects-grouping-hierarchy-fields",
+        "change": "2026-09-29-projects-grouping-hierarchy-fields",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -1343,7 +1343,7 @@
         "evidence": "src/views/ProjectOverview.vue shows description, start and end dates, the people by display name, progress as '{done} of {total} tasks done' (src/utils/projectOverview.js projectProgress(): done over not cancelled), the three highest open risks and the five latest log entries; src/components/ProjectTabs.vue is the shared tab row on every project page",
         "reachedOn": "ProjectOverview page /projects/:id/overview, Overview tab on every project page",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-28-projects-overview-logs-risks",
+        "change": "2026-09-28-projects-overview-logs-risks",
         "readOn": "2026-09-28"
       },
       "provider": "planninq",
@@ -1379,7 +1379,7 @@
         "evidence": "grep -i wiki across src/ and lib/ returns nothing.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/projects-wiki"
+        "change": "projects-wiki"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1413,7 +1413,7 @@
         "evidence": "projects only carry a flat `members` array of individual Nextcloud UIDs (lib/Settings/planninq_register.json); adding a member is one-by-one via src/components/MemberSearch.vue. No group-sharing code found anywhere in src/ or lib/.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/projects-members-and-roles"
+        "change": "projects-members-and-roles"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1448,7 +1448,7 @@
         "evidence": "no public-link/anonymous-share code anywhere in src/ or lib/. The only external-facing surface is the contractor portal (prj-contractor-portal), which is scoped to named contractor references, not an anonymous public link.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/projects-public-share"
+        "change": "projects-public-share"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1583,7 +1583,7 @@
         "evidence": "src/views/ProjectBoard.vue:124 lane header shows wipFor(column).text ('4 / 3') and 'over limit' in the warning style -> src/utils/columnHelpers.js wipState(); limit set in src/dialogs/ColumnEditDialog.vue (WIP limit field)",
         "reachedOn": "ProjectBoard page, lane header; Edit column dialog",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-28-boards-configurable-columns",
+        "change": "2026-09-28-boards-configurable-columns",
         "readOn": "2026-09-28"
       },
       "provider": "planninq",
@@ -1619,7 +1619,7 @@
         "evidence": "src/views/ProjectBoard.vue:129 owner-only ColumnActions (Edit column, Move left, Move right, Remove column) and :210 Add column -> src/dialogs/ColumnEditDialog.vue / ColumnRemoveDialog.vue -> src/store/projects.js saveColumn()/deleteColumn(); server rule lib/Listener/ColumnOwnerGuardListener.php",
         "reachedOn": "ProjectBoard page, lane header menu and Add column; Project settings sidebar, Columns tab",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-28-boards-configurable-columns",
+        "change": "2026-09-28-boards-configurable-columns",
         "readOn": "2026-09-28"
       },
       "provider": "planninq",
@@ -1655,7 +1655,7 @@
         "evidence": "src/dialogs/ColumnEditDialog.vue 'Done column' switch sets type done -> src/utils/columnHelpers.js buildMovePatch() gives a card moved there status done -> lib/Listener/TaskCompletionListener.php stamps completedAt in the same save",
         "reachedOn": "ProjectBoard page, Edit column dialog and card moves",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-28-boards-configurable-columns",
+        "change": "2026-09-28-boards-configurable-columns",
         "readOn": "2026-09-28"
       },
       "provider": "planninq",
@@ -1691,7 +1691,7 @@
         "evidence": "src/components/BoardFilterBar.vue on src/views/ProjectBoard.vue: assignee (Me, Unassigned, members), label chips, priority and due date (overdue, due this week, no date); matchesFilter() in src/utils/boardFilter.js; lane counts and the list follow visibleTasks; the filter lives in the page address",
         "reachedOn": "Project board, filter bar",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-boards-filters",
+        "change": "2026-09-30-boards-filters",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -1727,7 +1727,7 @@
         "evidence": "src/views/ProjectBoard.vue:57 List button in the Board or list switch sets ?view=list -> :123 table of listRows (src/utils/columnHelpers.js boardListRows(): the board's cards after the label filter, lane then card order, with column, priority and due date)",
         "reachedOn": "ProjectBoard page, Board or list switch in the header",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-28-boards-list-toggle",
+        "change": "2026-09-28-boards-list-toggle",
         "readOn": "2026-09-28"
       },
       "provider": "planninq",
@@ -1796,7 +1796,7 @@
         "evidence": "src/views/ProjectBoard.vue:720 stepCard() (Move up, Move down in the card menu) and :704 applyMove() (drop in front of a card) write task.columnOrder -> src/utils/columnHelpers.js orderPatchesForStep()/buildMovePatch(); lanes sort by columnOrder in groupTasksByColumn()",
         "reachedOn": "ProjectBoard page, card menu and drag and drop",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-28-boards-configurable-columns",
+        "change": "2026-09-28-boards-configurable-columns",
         "readOn": "2026-09-28"
       },
       "provider": "planninq",
@@ -1832,7 +1832,7 @@
         "evidence": "src/views/ProjectBoard.vue quick-add field at the foot of every lane: Enter creates the task at the bottom of that lane (column, columnOrder, lane status via src/utils/taskEditing.js newLaneTask) and keeps focus",
         "reachedOn": "ProjectBoard, every lane",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-tasks-create-edit-delete",
+        "change": "2026-09-29-tasks-create-edit-delete",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -1936,7 +1936,7 @@
         "evidence": "src/views/ProjectBoard.vue renders one row per assignee, priority or epic (groupTasksBySwimlane in src/utils/boardView.js), the no-value row last, each collapsible with '{name} ({count})'; a drop or 'Hand over to' in another row PATCHes assignedTo or priority (swimlanePatch), epic rows refuse; the view is kept per person and project by lib/Service/BoardViewPreferenceService.php",
         "reachedOn": "Project board, View menu, Swimlanes",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-boards-card-display",
+        "change": "2026-09-29-boards-card-display",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -1971,7 +1971,7 @@
         "evidence": "boardFilter schema (project-scoped; read by its owner, or by members when shared; update and delete by its owner) in lib/Settings/planninq_register.json, owner kept by lib/Listener/BoardFilterOwnerListener.php; Saved filters menu in src/components/BoardFilterBar.vue with src/dialogs/BoardFilterSaveDialog.vue (name, Share with the project), rename and delete for the owner",
         "reachedOn": "Project board, filter bar, Saved filters",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-boards-filters",
+        "change": "2026-09-30-boards-filters",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -2006,7 +2006,7 @@
         "evidence": "src/components/TaskCard.vue edgeColour: a 4 pixel inline-start edge in the first label's colour or the priority token (urgent --color-error, high --color-warning), chosen by cardEdge() in src/utils/boardView.js; the label and priority chips stay on the card; View menu src/components/BoardViewMenu.vue on src/views/ProjectBoard.vue",
         "reachedOn": "Project board, View menu, Colour cards",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-boards-card-display",
+        "change": "2026-09-29-boards-card-display",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -2041,7 +2041,7 @@
         "evidence": "lib/Listener/ColumnAutomationListener.php (registered for task creates and updates in Application::registerBoardColumnListeners) merges the entered column's rules into the save, each value checked (priority enum, project member, existing label), invalid rules skipped and logged; column.automation in lib/Settings/planninq_register.json; src/dialogs/ColumnRulesDialog.vue from the owner's column menu (src/components/ColumnActions.vue), rules icon and live-region announcement in src/views/ProjectBoard.vue",
         "reachedOn": "Project board, column menu, Rules",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-boards-column-automation",
+        "change": "2026-09-30-boards-column-automation",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -2076,7 +2076,7 @@
         "evidence": "src/views/ProjectsView.vue at /boards/views/:id with src/components/StatusLanes.vue: the tasks of every project in a saved boardView (lib/Settings/planninq_register.json), read with the viewer's rights, in one lane per status with a project chip on each card (TaskCard project prop) and the board filter bar; a move resolves to the first column of the task's own project mapping the lane's status (resolveViewMove in src/utils/projectsView.js); src/views/Boards.vue 'Cross-project views' section and src/dialogs/ProjectsViewEditDialog.vue save and share a view; owner stamped by BoardFilterOwnerListener",
         "reachedOn": "Boards, Cross-project views, New view",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-boards-cross-project-board",
+        "change": "2026-09-30-boards-cross-project-board",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -2112,7 +2112,7 @@
         "evidence": "src/dialogs/TaskFormDialog.vue (create with title, Markdown description and priority; edit title, description, status and priority, PATCHing only the changed fields) -> src/store/projects.js createTask()/updateTask(); src/dialogs/TaskDeleteDialog.vue -> deleteTask() (refuses a task with logged time, offers Cancel task); lib/Listener/TaskReporterGuardListener.php stamps reporter and holds deletes to reporter, project owner and admin",
         "reachedOn": "ProjectBoard header New task; TaskDetail Edit and Delete task",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-tasks-create-edit-delete",
+        "change": "2026-09-29-tasks-create-edit-delete",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -2149,7 +2149,7 @@
         "evidence": "src/views/TaskDetail.vue 'Responsible' picker (project members and owner, by display name, src/utils/taskPeople.js memberOptions/responsiblePatch) PATCHes task.assignedTo; the same picker in src/dialogs/TaskFormDialog.vue; src/components/TaskCard.vue shows avatar and display name",
         "reachedOn": "TaskDetail; New task and Edit task dialogs; board card",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-tasks-assignment-priority-labels",
+        "change": "2026-09-29-tasks-assignment-priority-labels",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -2184,7 +2184,7 @@
         "evidence": "task.sharedWith (task schema 0.6.0, array of uids) set from 'Also working on this' on TaskDetail and in TaskFormDialog (sharedWithPatch keeps the responsible person out); card lists everyone, responsible first; lib/Listener/TaskActivityListener.php adds sharedWith to the activity audience",
         "reachedOn": "TaskDetail; task dialog; board card",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-tasks-assignment-priority-labels",
+        "change": "2026-09-29-tasks-assignment-priority-labels",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -2219,7 +2219,7 @@
         "evidence": "TaskDetail priority select and the board card menu's 'Priority' levels (src/views/ProjectBoard.vue setPriority, optimistic PATCH), src/utils/taskPeople.js priorityPatch",
         "reachedOn": "TaskDetail; board card action menu",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-tasks-assignment-priority-labels",
+        "change": "2026-09-29-tasks-assignment-priority-labels",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -2254,7 +2254,7 @@
         "evidence": "Seeing overdue works: src/utils/taskHelpers.js:215-236 (dueDateStatus, date-only comparison, 'overdue'/'approaching') feeds src/components/TaskCard.vue:17-19,121-141 (due-date badge). Setting a due date has no UI anywhere: dueDate only appears as a read value (src/views/TaskDetail.vue:268) and as timeline positioning input (src/views/ProjectTimeline.vue:429-430, src/utils/timelineHelpers.js:79).",
         "reachedOn": "ProjectBoard page (badge) for seeing overdue; nothing reaches setting a due date",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-dates"
+        "change": "tasks-dates"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2289,7 +2289,7 @@
         "evidence": "startDate is only read, for timeline bar positioning: src/views/ProjectTimeline.vue:426-427, src/utils/timelineHelpers.js:78-79. No form or input anywhere sets task.startDate.",
         "reachedOn": "nothing reaches setting it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-dates"
+        "change": "tasks-dates"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2323,7 +2323,7 @@
         "evidence": "TaskDetail 'Labels' multi-select of the app-wide labels writes task.labels (labelsPatch); chips on the card and the board label filter read them",
         "reachedOn": "TaskDetail; board card chips and label filter",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-tasks-assignment-priority-labels",
+        "change": "2026-09-29-tasks-assignment-priority-labels",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -2425,7 +2425,7 @@
         "evidence": "No task text search exists in src/. The only search-like UI found is src/components/MemberSearch.vue (searches Nextcloud users) and the project title search in src/views/ProjectList.vue; neither searches task text.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-search-and-bulk"
+        "change": "tasks-search-and-bulk"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2459,7 +2459,7 @@
         "evidence": "No multi-select or bulk-action UI exists anywhere in src/ (ProjectBoard.vue has only single-card drag/move; ProjectBacklog.vue is a placeholder, src/views/ProjectBacklog.vue:20-26).",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-search-and-bulk"
+        "change": "tasks-search-and-bulk"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2595,7 +2595,7 @@
         "evidence": "src/views/TaskDetail.vue Subtasks section (children with parent set, '{done} of {total} done', add field via src/utils/taskBreakdown.js newSubtask; hidden on a subtask); 'Part of {title}' chip on src/components/TaskCard.vue; parent delete asks keep or delete (src/dialogs/TaskDeleteDialog.vue, store deleteTaskTree)",
         "reachedOn": "TaskDetail; board card; delete dialog",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-tasks-subtasks-checklist",
+        "change": "2026-09-29-tasks-subtasks-checklist",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -2630,7 +2630,7 @@
         "evidence": "task.checklist (task schema 0.7.0, array of {id, text, done}); TaskDetail Checklist section adds, ticks, reorders (menu and drag) and removes items; card chip '3/5' (checklistCount)",
         "reachedOn": "TaskDetail; board card",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-tasks-subtasks-checklist",
+        "change": "2026-09-29-tasks-subtasks-checklist",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -2699,7 +2699,7 @@
         "evidence": "src/views/TaskDetail.vue renders task.description with NcRichText useMarkdown (raw HTML escaped, no v-html); src/dialogs/TaskFormDialog.vue edits the Markdown source with a Write/Preview toggle; src/components/TaskCard.vue shows a 140-character plain-text excerpt (descriptionExcerpt)",
         "reachedOn": "TaskDetail description section; task dialog; board cards",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-tasks-create-edit-delete",
+        "change": "2026-09-29-tasks-create-edit-delete",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -2769,7 +2769,7 @@
         "evidence": "No UI or store action reassigns an existing task's project field. Searched src/ for any 'move to project' control or a store action writing task.project on an existing task; none exists (task.project is only ever set at creation time via the generic object API, which itself has no UI per tsk-create-edit).",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-move-between-projects"
+        "change": "tasks-move-between-projects"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2803,7 +2803,7 @@
         "evidence": "src/components/TaskDependencies.vue link type 'Relates to' / 'Duplicates' with a Related group (linkGroups() in src/utils/taskHelpers.js); DependencyService::create() stores the type and skips the cycle check for non-blocking links",
         "reachedOn": "Task page /projects/:id/tasks/:taskId, Dependencies section",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-planning-dependencies-on-task-page",
+        "change": "2026-09-29-planning-dependencies-on-task-page",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -2838,7 +2838,7 @@
         "evidence": "No mail-related controller, listener or service exists anywhere in lib/ (no IMailer usage, no inbound-mail handling); grepped lib/Controller, lib/Service, lib/Listener for mail/email with no hits.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-create-by-email"
+        "change": "tasks-create-by-email"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2872,7 +2872,7 @@
         "evidence": "src/views/ProjectBacklog.vue:266 rows() lists the tasks in no column, not done, in rank order (src/utils/backlogHelpers.js backlogTasks()); :376 createTask() adds a task with no column last in rank",
         "reachedOn": "ProjectBacklog page /projects/:id/backlog",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-28-backlog-list",
+        "change": "2026-09-28-backlog-list",
         "readOn": "2026-09-28"
       },
       "provider": "planninq",
@@ -2908,7 +2908,7 @@
         "evidence": "src/views/ProjectBacklog.vue:457 moveToBoard() puts a backlog task at the bottom of the chosen lane with its status (columnHelpers buildMovePatch()); src/views/ProjectBoard.vue:730 moveToBacklog() takes a card back",
         "reachedOn": "ProjectBacklog page /projects/:id/backlog; ProjectBoard page, card menu",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-28-backlog-list",
+        "change": "2026-09-28-backlog-list",
         "readOn": "2026-09-28"
       },
       "provider": "planninq",
@@ -2944,7 +2944,7 @@
         "evidence": "src/views/ProjectBacklog.vue:266 rows() applies filterBacklog() (priority, Cancelled switch) and sortBacklog() (rank, priority, due date, created), both kept in the query string",
         "reachedOn": "ProjectBacklog page /projects/:id/backlog, toolbar",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-28-backlog-list",
+        "change": "2026-09-28-backlog-list",
         "readOn": "2026-09-28"
       },
       "provider": "planninq",
@@ -2980,7 +2980,7 @@
         "evidence": "src/views/ProjectBacklog.vue:425 step() (Move up, Move down) and :437 onDrop() (drag a row in front of another) write columnOrder through columnHelpers orderPatchesForStep()/orderFor()",
         "reachedOn": "ProjectBacklog page /projects/:id/backlog, row menu and drag",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-28-backlog-list",
+        "change": "2026-09-28-backlog-list",
         "readOn": "2026-09-28"
       },
       "provider": "planninq",
@@ -3152,7 +3152,7 @@
         "evidence": "lib/Settings/planninq_register.json declares the project-scoped projectRelease schema (title, project, dates, status planned/released/archived, releasedAt; members rule, stamped and gated by lib/Listener/ProjectMemberAccessListener.php) and a nullable task.release; src/store/projects.js fetchReleases/saveRelease/shipRelease/setTaskRelease; src/dialogs/ReleaseEditDialog.vue and ReleaseShipDialog.vue (move, clear or keep unfinished tasks); release picker on src/views/TaskDetail.vue; progress per release in src/components/ProjectRoadmap.vue",
         "reachedOn": "Project Timeline tab, Roadmap view /projects/:id/timeline?view=roadmap; task page Release field",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-backlog-releases-roadmap",
+        "change": "2026-09-29-backlog-releases-roadmap",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -3187,7 +3187,7 @@
         "evidence": "src/components/ProjectRoadmap.vue draws the project's releases as markers on their target date and its epics (tasks with issueType epic) as bars, an undated epic spanning its tasks (src/utils/roadmapHelpers.js epicSpan, roadmapLayout) and one with no dated task listed under 'Not scheduled yet', with release and epic lists as the keyboard equivalent; the product's own FeaturesRoadmap page is unchanged",
         "reachedOn": "Project Timeline tab, Roadmap view /projects/:id/timeline?view=roadmap",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-backlog-releases-roadmap",
+        "change": "2026-09-29-backlog-releases-roadmap",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -3256,7 +3256,7 @@
         "evidence": "src/components/TaskDependencies.vue mounted on src/views/TaskDetail.vue: Blocked by / Blocks lists, same-project picker, remove per link, through /apps/planninq/api/dependencies",
         "reachedOn": "Task page /projects/:id/tasks/:taskId, Dependencies section",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-planning-dependencies-on-task-page",
+        "change": "2026-09-29-planning-dependencies-on-task-page",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -3292,7 +3292,7 @@
         "evidence": "DependencyService::create() refuses self, duplicate, cross-project and cycle-closing blocking links with the cycle path; TaskDependencies.vue shows the server message inline",
         "reachedOn": "Task page Dependencies section, the message next to the picker",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-planning-dependencies-on-task-page",
+        "change": "2026-09-29-planning-dependencies-on-task-page",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -3328,7 +3328,7 @@
         "evidence": "src/views/ProjectBoard.vue derives blocked ids once (deriveBlockedTaskIds) and src/components/TaskCard.vue renders src/components/BlockedBadge.vue with the open blocker count; it never gates a move",
         "reachedOn": "Project board /projects/:id, the Blocked badge on a card",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-planning-dependencies-on-task-page",
+        "change": "2026-09-29-planning-dependencies-on-task-page",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -3364,7 +3364,7 @@
         "evidence": "src/views/ProjectTimeline.vue draws edgeLines from the timeline payload, dashed for related links; links made on the task page appear there",
         "reachedOn": "Project Timeline tab /projects/:id/timeline",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-planning-dependencies-on-task-page",
+        "change": "2026-09-29-planning-dependencies-on-task-page",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -3502,7 +3502,7 @@
         "evidence": "src/views/ProjectTimeline.vue bars are buttons: drag to move, drag either end to resize, Left/Right (Shift for the due date) and Enter for src/dialogs/TaskDatesDialog.vue; src/utils/timelineEditing.js keeps the working length; writes through updateTask, puts the bar back on a refused write and announces the new dates",
         "reachedOn": "project timeline, task bars",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-planning-timeline-editing",
+        "change": "2026-09-30-planning-timeline-editing",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -3538,7 +3538,7 @@
         "evidence": "project.autoSchedule (default off, owner or admin) in src/components/ProjectSettingsSidebar.vue; src/utils/scheduling.js cascade() follows blocks links forward in working days; src/dialogs/RescheduleDialog.vue previews the pushed tasks with Move all, Only this task and Cancel; writes stop at the first refusal",
         "reachedOn": "project settings, Move blocked tasks along; project timeline, a later due date",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-planning-timeline-editing",
+        "change": "2026-09-30-planning-timeline-editing",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -3679,7 +3679,7 @@
         "evidence": "lib/Service/WorkingCalendarService.php keeps working_weekdays and non_working_days (validated, read by every user through GET /api/settings); src/components/WorkingCalendarSettings.vue with the Dutch national holidays of a year; src/utils/workingCalendar.js; the timeline shades non-working days and names holidays",
         "reachedOn": "admin settings, Working days and holidays; project timeline axis",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-planning-timeline-editing",
+        "change": "2026-09-30-planning-timeline-editing",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -3719,7 +3719,7 @@
         "evidence": "src/components/TaskCalendar.vue (month grid as a table with a caption, week row, dated list; Previous, Today, Next) over src/utils/calendarHelpers.js; src/views/ProjectCalendar.vue at /projects/:id/calendar from the Calendar project tab; src/views/MyCalendar.vue at /my-calendar over the My tasks query (assignedTo plus sharedWith) naming each task's project",
         "reachedOn": "project tabs, Calendar; My tasks, Show as calendar; dashboard Quick actions, Open my calendar",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-planning-calendar",
+        "change": "2026-09-30-planning-calendar",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -3758,7 +3758,7 @@
         "evidence": "lib/Service/TaskCalendarExportService.php keeps a VTODO-only \"Planninq\" list per opted-in user through the DAV app's CalDavBackend (resolved by name; the switch is disabled when it is absent); lib/Service/TaskVtodoBuilder.php maps title, description with a managed note, status, priority, start, due, percent complete, completion time, project and a link back; lib/Listener/TaskCalendarExportListener.php rewrites, moves and removes it on every task create, update and delete; lib/BackgroundJob/TaskCalendarBackfillJob.php exports existing tasks on switch-on; task.calendarEventUid stores the UID",
         "reachedOn": "personal settings, Nextcloud Tasks, 'Show my tasks in Nextcloud Tasks'; then the Tasks and Calendar apps and any CalDAV client",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-planning-calendar",
+        "change": "2026-09-30-planning-calendar",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -3793,7 +3793,7 @@
         "evidence": "lib/Controller/TimelineController.php forProjects() GET /api/timeline?projects= (RBAC find per project, skipped list, cross-project edges, at most 50); src/views/PortfolioTimeline.vue summary bars sorted by start, opened by click or Enter into phases and tasks (src/utils/portfolioTimeline.js)",
         "reachedOn": "Reports page /reports, 'Portfolio timeline' card -> PortfolioTimeline /portfolio/timeline",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-portfolio-status-overview",
+        "change": "2026-09-29-portfolio-status-overview",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -4069,7 +4069,7 @@
         "evidence": "openspec/changes/plannedtimeentry-reads-humaniqs-hours/proposal.md: explicitly says 'Not started. No code has moved'; today lib/Settings/planninq_register.json:912-919 plannedTimeEntry.timeEntry (uuid ref to humaniq's TimeEntry) is declared but no code in src/ or lib/ ever sets it (grep for 'timeEntry:' finds nothing outside the schema-slug constant)",
         "reachedOn": "nothing reaches it; planninq stores its own independent duration today",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/plannedtimeentry-reads-humaniqs-hours"
+        "change": "plannedtimeentry-reads-humaniqs-hours"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4104,7 +4104,7 @@
         "evidence": "src/dialogs/TimeEntryDialog.vue only accepts a typed duration (durationInput); no start/stop/running-timer state anywhere in src/",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/time-timer-and-work-type"
+        "change": "time-timer-and-work-type"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4243,7 +4243,7 @@
         "evidence": "src/views/Portfolio.vue 'By person' view (default): one row per person with open, overdue, hours left (primary assignee only), tasks without an estimate, due in 14 days and shared, an Unassigned row, a disclosure per person with the per-project breakdown; 'By project' toggle (aria-pressed); portfolio picker and project filter. Grouping in src/utils/portfolioHelpers.js summariseByAssignee",
         "reachedOn": "Reports card Capacity -> /portfolio",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-portfolio-people-capacity",
+        "change": "2026-09-29-portfolio-people-capacity",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -4313,7 +4313,7 @@
         "evidence": "src/views/PortfolioStatus.vue lists every readable project of a picked portfolio (members and portfolio readers, any lifecycle status) with status, progress from GET /api/timeline, dates, budget for admins/owner/portfolio managers, six aspect statuses and the last report date",
         "reachedOn": "Reports page /reports, 'Portfolio status' card -> PortfolioStatus /portfolio/status",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-portfolio-status-overview",
+        "change": "2026-09-29-portfolio-status-overview",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -4350,7 +4350,7 @@
         "evidence": "src/manifest.json Dashboard: task figures My open tasks, My overdue tasks, My tasks in progress, Completed today (stat widgets on task, assignedTo @me) each opening My tasks with ?group=; 'Projects I am in' filters members @me; src/components/DashboardPanels.vue My projects with pins",
         "reachedOn": "Dashboard",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-portfolio-my-work-dashboard",
+        "change": "2026-09-29-portfolio-my-work-dashboard",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -4386,7 +4386,7 @@
         "evidence": "src/views/MyWork.vue at /my-tasks (menu My tasks): open tasks assigned to or shared with the user across projects (store fetchMyTasks), grouped Overdue, Due this week, Later by src/utils/myWork.js groupMyTasks, urgent first, status changed in place, title to TaskDetail and Back returns",
         "reachedOn": "Menu My tasks; dashboard figures",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-portfolio-my-work-dashboard",
+        "change": "2026-09-29-portfolio-my-work-dashboard",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -4573,7 +4573,7 @@
         "evidence": "financeLine schema (lib/Settings/planninq_register.json) for budget, commitment, actual and forecast lines per category and phase; src/utils/finance.js laborCost() and financeTable() compare them with the budget, labour from booked time included; guarded by lib/Listener/FinanceLineListener.php",
         "reachedOn": "Project Finance tab /projects/:id/finance, 'Budget against cost per category' and 'per phase'",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-portfolio-finance",
+        "change": "2026-09-29-portfolio-finance",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -4644,7 +4644,7 @@
         "evidence": "lib/Service/FlowHistoryService.php replays each task's OpenRegister audit trail into tasks per column per day (lib/Service/FlowReplay.php), served by GET /api/projects/{id}/flow and /api/portfolios/{id}/flow (lib/Controller/FlowController.php); src/components/FlowCharts.vue draws the stacked bands with a table view",
         "reachedOn": "a project's Flow tab (/projects/:id/flow); Reports, Portfolio flow (/portfolio/flow)",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-10-01-portfolio-flow-reports"
+        "change": "2026-10-01-portfolio-flow-reports"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4678,7 +4678,7 @@
         "evidence": "lib/Service/FlowReplay.php computes lead time (created to completedAt, or the last change to done as estimated) and cycle time (first move off the first column, or first in_progress) with average, 85th percentile and the ten slowest; src/components/FlowCharts.vue shows the scatter and the slowest tasks",
         "reachedOn": "a project's Flow tab (/projects/:id/flow); Reports, Portfolio flow (/portfolio/flow)",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-10-01-portfolio-flow-reports"
+        "change": "2026-10-01-portfolio-flow-reports"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4752,7 +4752,7 @@
         "evidence": "lib/Settings/planninq_register.json schema `taskReport` (owner-only write, read for the owner or everyone when shared is readers; owner stamped by lib/Listener/BoardFilterOwnerListener.php); src/dialogs/ReportBuilderDialog.vue builds equality filters only (src/utils/reportBuilder.js); src/views/ReportPage.vue runs OpenRegister's grouped aggregation per readable project and counts the projects the viewer cannot see",
         "reachedOn": "Reports, Your reports (/reports/custom); a saved report at /reports/custom/:id",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-10-01-portfolio-flow-reports"
+        "change": "2026-10-01-portfolio-flow-reports"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4890,7 +4890,7 @@
         "evidence": "lib/Settings/planninq_register.json task x-openregister-notifications taskAssignedOnCreate (trigger created) and taskAssigned (trigger updated, condition assignedTo changed), channel nc-notification to the assignee, delivered by OpenRegister; switch notify_assigned in src/views/settings/UserSettings.vue written through to OpenRegister's per-user override by lib/Service/NotificationSwitchService.php",
         "reachedOn": "Nextcloud notifications; Personal settings > Notifications",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-collaboration-notifications",
+        "change": "2026-09-30-collaboration-notifications",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -4926,7 +4926,7 @@
         "evidence": "comments are the Notes tab of CnObjectSidebar on TaskDetail (src/utils/taskHelpers.js:50-60, src/views/TaskDetail.vue:129); openregister/lib/Service/NoteService.php has no notification call, and planninq has no notifier or comment listener",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/openregister",
-        "change": "ConductionNL/openregister openspec/changes/notifications-new-notes-and-referrers"
+        "change": "openregister/notifications-new-notes-and-referrers"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -4965,7 +4965,7 @@
         "evidence": "lib/Settings/planninq_register.json taskAssignedOnCreateEmail, taskAssignedEmail and taskDueSoonEmail (channel email) with recipient expression resolvers lib/Notification/AssignmentEmailRecipientResolver.php and DueSoonEmailRecipientResolver.php (assignee only when notify_by_email is on, the matching in-app switch is on and the account has an address); switch 'Also send these to me by email' in src/views/settings/UserSettings.vue, disabled without an address",
         "reachedOn": "Personal settings > Notifications, email",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-collaboration-notifications",
+        "change": "2026-09-30-collaboration-notifications",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -5069,7 +5069,7 @@
         "evidence": "planninq registers no reference provider; OpenRegister's ObjectReferenceProvider only matches /apps/openregister/... URLs (openregister/lib/Service/Reference/ObjectPreviewFormatter.php:107-123), not the /apps/planninq/projects/... links planninq pages show",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/openregister",
-        "change": "ConductionNL/openregister openspec/changes/platform-reference-provider"
+        "change": "openregister/platform-reference-provider"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -5172,7 +5172,7 @@
         "evidence": "Planninq's half is built: src/integrations/projectScope.js scopes the planninq-projects leaf to projects with caseReference on a host whose schema slug is case, CnProjectsWidget.vue links New project to /apps/planninq/projects?new=1&case={uuid}&title={case title}, and ProjectList.vue opens ProjectCreationDialog prefilled, saving caseReference. The missing half is Dossiq placing the leaf on its case page: ConductionNL/dossiq#3190.",
         "reachedOn": "/apps/planninq/projects?new=1&case={uuid}&title=...; the case page once dossiq#3190 lands",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-integration-case-bridge",
+        "change": "2026-09-29-integration-case-bridge",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -5356,7 +5356,7 @@
         "evidence": "openregister/lib/AppInfo/Application.php:3550-3554 WebhookEventListener on object events, configured in OpenRegister's own src/views/webhooks/WebhooksIndex.vue; nothing in planninq's src/ or manifest exposes it, and OpenRegister's flow nodes (openregister/lib/Service/Flow/Nodes/) have no HTTP or webhook node",
         "reachedOn": "OpenRegister app (Webhooks), not a planninq page",
         "owner": "ConductionNL/openregister",
-        "change": "ConductionNL/openregister openspec/changes/webhooks-for-owners"
+        "change": "openregister/webhooks-for-owners"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -5426,7 +5426,7 @@
         "evidence": "no importer in planninq (no Jira/Trello/CSV code in src/ or lib/); OpenRegister's generic register import (openregister/appinfo/routes.php:1650 registers#import, import previews at :1334-1339) can load spreadsheet rows into the planninq register's objects",
         "reachedOn": "OpenRegister app (register import), not a planninq page",
         "owner": "ConductionNL/openregister",
-        "change": "ConductionNL/openregister openspec/changes/import-preview-and-conflict-policy"
+        "change": "openregister/import-preview-and-conflict-policy"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -5461,7 +5461,7 @@
         "evidence": "lib/Settings/planninq_register.json schema forgeLink (project-scoped read, manual-only member edits); lib/Listener/ForgeLinkResolveListener.php finds the task by id or by the first task key in the forge text and replaces a repeat from the integration; src/components/TaskForgeLinks.vue on src/views/TaskDetail.vue lists, adds (src/utils/forgeUrl.js reads GitHub, GitLab and Gitea addresses) and removes links; lib/Settings/integriq/planninq-code-forge.json is a signed GitHub webhook endpoint and mapping for integriq; src/components/CodeForgeSettings.vue in the admin settings",
         "reachedOn": "task page, Code section; admin settings, Code forges; GitHub through integriq (GitLab and Gitea by pasted link)",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-integration-code-forge-links",
+        "change": "2026-09-30-integration-code-forge-links",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -5501,7 +5501,7 @@
         "evidence": "phone layouts under 600 CSS pixels, no mobile app: src/views/ProjectBoard.vue shows one column at a time with a column switcher (src/utils/phoneBoard.js) and the move menu without hover; src/views/MyWork.vue, TaskDetail.vue, Timesheet.vue stack on a phone; src/assets/app.css raises --default-clickable-area to 44px; tests/e2e/playwright.config.ts phone-android and phone-ios projects run tests/e2e/mobile.spec.ts",
         "reachedOn": "planninq in a phone browser: My tasks, a task, Log time, Timesheet, a project board",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-platform-mobile-web",
+        "change": "2026-09-30-platform-mobile-web",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -5683,7 +5683,7 @@
         "evidence": "setup wizard 'Example data' -> SetupController::loadDataset -> DemoDataService::install() fits lib/Settings/planninq_mock_register.json (59 curated objects, fixed ids, every reference resolving) to the loading admin (@operator) and the load day (anchorDate shift) before OpenRegister importFromApp; the real register seeds only the five labels",
         "reachedOn": "setup wizard, 'Load example data?' + 'Load the example data'",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-platform-demo-data",
+        "change": "2026-09-29-platform-demo-data",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -5723,7 +5723,7 @@
         "evidence": "l10n/<locale>.json and .js for 36 locales plus en; every t('planninq', ...) literal in src/ has an en.json entry (tests/vitest/l10nSourceCoverage.spec.js) and every required locale is at parity with en (npm run check:l10n, tests/l10n/check-l10n-parity.js, CI job l10n-parity)",
         "reachedOn": "every page, following the user's Nextcloud language",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-fix-l10n-parity-gate",
+        "change": "2026-09-29-fix-l10n-parity-gate",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -5986,7 +5986,7 @@
         "evidence": "no export in planninq; OpenRegister's register export (openregister/src/modals/register/ExportRegister.vue) writes an OpenAPI-style JSON including components.objects (openregister/lib/Service/Configuration/ExportHandler.php:315), and objects#export (openregister/appinfo/routes.php:1172) gives CSV/Excel per schema",
         "reachedOn": "OpenRegister app, admin only; not a planninq page",
         "owner": "ConductionNL/openregister",
-        "change": "ConductionNL/openregister openspec/changes/export-as-its-own-right"
+        "change": "openregister/export-as-its-own-right"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -6062,7 +6062,7 @@
         "evidence": "lib/Settings/planninq_register.json risk with score as a materialised x-openregister-calculations likelihood * impact, scoped to the project's members; src/views/ProjectRisks.vue list by score and src/components/RiskHeatMap.vue with band text; RiskIndex index page over every readable risk; lib/Service/RiskScaleService.php admin scale (3 to 5 levels, labels, thresholds) refused while risks use a higher level",
         "reachedOn": "ProjectRisks page /projects/:id/risks, Risks under Projects (/projects/risks), Risk scale on the admin settings page",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-28-projects-overview-logs-risks",
+        "change": "2026-09-28-projects-overview-logs-risks",
         "readOn": "2026-09-28"
       },
       "provider": "planninq",
@@ -6099,7 +6099,7 @@
         "evidence": "lib/Settings/planninq_register.json projectLogEntry (issue, lesson, meeting, decision; attendees; actions) scoped to the project's members (ProjectMembershipService::SCOPED_SCHEMAS, ProjectMemberAccessListener); src/views/ProjectLog.vue with type filters and an Actions filter; src/dialogs/LogActionDialog.vue creates a task with issueType action on the board and links it",
         "reachedOn": "ProjectLog page /projects/:id/log, Log tab on every project page",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-28-projects-overview-logs-risks",
+        "change": "2026-09-28-projects-overview-logs-risks",
         "readOn": "2026-09-28"
       },
       "provider": "planninq",
@@ -6136,7 +6136,7 @@
         "evidence": "src/views/PortfolioFinance.vue totals budget, commitments, actual cost with labour, forecast and remaining per project of a portfolio through portfolioFinance() in src/utils/finance.js, reading lines with the filter portfolio=<id> kept in step by lib/Service/FinanceLineService.php; only projects whose money the viewer may see",
         "reachedOn": "Reports page /reports, 'Portfolio finance' card -> /portfolio/finance",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-portfolio-finance",
+        "change": "2026-09-29-portfolio-finance",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -6173,7 +6173,7 @@
         "evidence": "The integration app writes financeLine objects with source import; lib/Listener/FinanceLineListener.php resolves the project from projectKey against project.key, keeps writes to the planninq-finance-import group and refuses a duplicate externalRef naming the existing line; contract in docs/features/finance-import.md; unmatched lines in the declarative index /finance/unmatched",
         "reachedOn": "Beheer, 'Unmatched finance lines' /finance/unmatched; imported lines on the project Finance tab",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-portfolio-finance",
+        "change": "2026-09-29-portfolio-finance",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -6211,7 +6211,7 @@
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/humaniq",
         "consumesSibling": "humaniq has leave and sick-leave schemas; planninq does not consume them",
-        "change": "ConductionNL/humaniq openspec/changes/time-non-project-activities"
+        "change": "humaniq/time-non-project-activities"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6247,7 +6247,7 @@
         "evidence": "lib/Settings/planninq_register.json projectPhase x-openregister-lifecycle: the complete transition requires OCA\\Planninq\\Lifecycle\\PhaseConcludingDocumentGuard (lib/Lifecycle/PhaseConcludingDocumentGuard.php), which allows it only when concludingDocument names a file attached to the phase (OpenRegister FileService::getFile inside the phase folder); src/views/ProjectPhases.vue with PhaseEditDialog, PhaseCloseDialog (upload, pick, one PATCH) and the phase's files, notes and audit trail in CnObjectSidebar",
         "reachedOn": "ProjectPhases page /projects/:id/phases, Phases tab on every project page",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-planning-phase-gate-document",
+        "change": "2026-09-29-planning-phase-gate-document",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -6284,7 +6284,7 @@
         "evidence": "lib/Service/MsProjectPlanParser.php reads MSPDI XML with DOCTYPE and entity refusal, LIBXML_NONET, a 10 MB and 2,000-task cap and an .mpp refusal; lib/Service/MsProjectPlanMapper.php maps level-1 summary tasks to projectPhase, level-2 tasks to task, deeper levels to sub-tasks, milestones, and finish-to-start links to blocks (others relates), counting every loss; lib/Service/MsProjectImportService.php previews and writes phases, tasks, sub-tasks, then links through DependencyService::createImported, matched on metadata.msProjectUid so a re-import updates; lib/Controller/ProjectImportController.php guards owner-or-admin; src/dialogs/MsProjectImportDialog.vue",
         "reachedOn": "Import from Microsoft Project button on the project timeline /projects/:id/timeline (owner or admin); POST /api/projects/{projectId}/import/msproject/preview and /import/msproject",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-integration-msproject-import",
+        "change": "2026-09-29-integration-msproject-import",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -6322,7 +6322,7 @@
         "reachedOn": "Project settings sidebar, Hand over to case (project linked to a case, Dossiq installed); POST /api/projects/{projectId}/case-handover",
         "owner": "ConductionNL/planninq",
         "consumesSibling": "dossiq/procest owns cases; planninq only stores a reference to one",
-        "change": "openspec/changes/archive/2026-09-29-integration-case-bridge",
+        "change": "2026-09-29-integration-case-bridge",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -6397,7 +6397,7 @@
         "evidence": "lib/Settings/planninq_register.json projectStatusReport (six statuses, overall as a materialised calculation) copied onto project.health* by lib/Listener/ProjectStatusListener.php; src/views/ProjectStatus.vue writes reports; src/views/PortfolioStatus.vue rolls the six aspects up per portfolio with portfolioRollup() in src/utils/portfolioStatus.js, a No report count and an out-of-date marker from the status_report_period_days admin setting",
         "reachedOn": "ProjectStatus page /projects/:id/status (Status tab); Reports page /reports, 'Portfolio status' card -> PortfolioStatus /portfolio/status",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-portfolio-status-overview",
+        "change": "2026-09-29-portfolio-status-overview",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -6470,7 +6470,7 @@
         "evidence": "projectPortfolio schema with managers; src/views/ProjectList.vue groups by portfolio in foldable sections (src/utils/portfolioGrouping.js, src/components/PortfolioSections.vue) with a portfolio filter; ProjectHierarchyGuardListener derives portfolioReaders",
         "reachedOn": "Project list /projects grouped by portfolio; Projects > Portfolios /projects/portfolios",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-projects-grouping-hierarchy-fields",
+        "change": "2026-09-29-projects-grouping-hierarchy-fields",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -6507,7 +6507,7 @@
         "evidence": "Comments: src/views/TaskDetail.vue:129-137 mounts CnObjectSidebar (notesLabel 'Comments'); nextcloud-vue src/components/CnObjectSidebar/CnNotesTab.vue renders each note as text plus mention spans and has no paste or drop handler for images. Description: display only at src/views/TaskDetail.vue:269, no edit form anywhere [tsk-create-edit].",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/nextcloud-vue",
-        "change": "ConductionNL/nextcloud-vue openspec/changes/notes-replies-group-mentions-and-images"
+        "change": "nextcloud-vue/notes-replies-group-mentions-and-images"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -6578,7 +6578,7 @@
         "evidence": "Columns are the five task statuses, hard-coded at src/utils/taskHelpers.js:252 and mapped at src/views/ProjectBoard.vue:283-291. The per-project column objects written by src/store/projects.js:469 createDefaultColumns are never read back, so there is nothing to move or copy to another project.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/tasks-move-between-projects"
+        "change": "tasks-move-between-projects"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6615,7 +6615,7 @@
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
         "nearCredit": "the date-only dueDate format reads like whole-day due dates, but nothing lets a user set one",
-        "change": "openspec/changes/tasks-dates"
+        "change": "tasks-dates"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6690,7 +6690,7 @@
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
         "liveCheck": "what happens to a project whose owner account is deleted in Nextcloud rather than leaving through the dialog",
-        "change": "openspec/changes/projects-members-and-roles"
+        "change": "projects-members-and-roles"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6871,7 +6871,7 @@
         "evidence": "lib/Listener/WorkItemKeyListener.php gives a new task {projectKey}-{n} from project.nextTaskNumber under a per-project lock (lib/Service/WorkItemKeyService.php) and keeps an incoming key; lib/BackgroundJob/NumberProjectTasks.php numbers existing tasks when a project first gets a key; shown on src/components/TaskCard.vue, the src/views/TaskDetail.vue header and the browser tab",
         "reachedOn": "Board card, task page /projects/:id/tasks/:taskId",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-tasks-readable-keys",
+        "change": "2026-09-29-tasks-readable-keys",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -6944,7 +6944,7 @@
         "evidence": "src/dialogs/ProjectRequestDialog.vue (two steps) -> ProjectController::create stores status requested when CreationPolicyService::canRequest(); reviewers from lib/Service/ProjectPolicySchemaService.php (approve/reject authorization, read and update on requested projects); src/dialogs/ProjectRequestReviewDialog.vue runs approve or reject (with reviewNote); lib/Listener/ProjectReviewListener.php stamps the review and creates the board; notification rules projectRequestApproved/Rejected to the owner",
         "reachedOn": "ProjectList page, Request a project and the Requested chip; ProjectBoard page banner and Review request",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-projects-lifecycle-policy",
+        "change": "2026-09-29-projects-lifecycle-policy",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -7053,7 +7053,7 @@
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/openregister",
         "consumesSibling": "no: planninq never takes a lock",
-        "change": "ConductionNL/openregister openspec/changes/object-presence"
+        "change": "openregister/object-presence"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -7125,7 +7125,7 @@
         "evidence": "src/components/DashboardPanels.vue actions menu per project: Pin to the top or Unpin, Move up, Move down; order stored per user as dashboard_project_order (lib/Service/SettingsService.php getDashboardProjectOrder/setDashboardProjectOrder via POST /api/settings/user)",
         "reachedOn": "Dashboard My projects",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-portfolio-my-work-dashboard",
+        "change": "2026-09-29-portfolio-my-work-dashboard",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -7346,7 +7346,7 @@
         "evidence": "src/manifest.json:53 Documentation menu entry is an href to the product docs site. No in-app page model.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/projects-wiki"
+        "change": "projects-wiki"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7423,7 +7423,7 @@
         "reachedOn": "every ProjectBoard /projects/:id; labels managed in the admin settings page",
         "owner": "ConductionNL/planninq",
         "gap": "one global set only, statuses not configurable, no estimate scale",
-        "change": "openspec/changes/projects-templates-shared-workflow"
+        "change": "projects-templates-shared-workflow"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7459,7 +7459,7 @@
         "evidence": "each dimension of src/components/BoardFilterBar.vue has an \"is not\" toggle (aria-pressed); matchesFilter() in src/utils/boardFilter.js inverts it, unassigned cards included in Assignee is not Me",
         "reachedOn": "Project board, filter bar, is not",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-boards-filters",
+        "change": "2026-09-30-boards-filters",
         "readOn": "2026-09-30"
       },
       "provider": "planninq",
@@ -7566,7 +7566,7 @@
         "evidence": "TaskDetail time section: 'Subtasks: {estimate} estimated, {logged} logged' and 'Total estimate: {total}' from src/utils/taskBreakdown.js subtaskRollup over the project's time entries",
         "reachedOn": "TaskDetail time tracking section",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-tasks-subtasks-checklist",
+        "change": "2026-09-29-tasks-subtasks-checklist",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -7603,7 +7603,7 @@
         "evidence": "src/views/TaskDetail.vue:129-137 -> src/utils/taskHelpers.js:50-60 -> nextcloud-vue src/components/CnObjectSidebar/CnNotesTab.vue, a single NcListItem per note with no reply or thread. The flat list is built; threading is not.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/nextcloud-vue",
-        "change": "ConductionNL/nextcloud-vue openspec/changes/notes-replies-group-mentions-and-images"
+        "change": "nextcloud-vue/notes-replies-group-mentions-and-images"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -7639,7 +7639,7 @@
         "evidence": "store duplicateTask (src/store/projects.js) with duplicatePayload: 'Copy of {title}', open, description, priority, labels, lane and an unticked checklist, then each subtask under the copy; no dates, people, time, key or reporter",
         "reachedOn": "TaskDetail Duplicate; board card menu Duplicate",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-tasks-subtasks-checklist",
+        "change": "2026-09-29-tasks-subtasks-checklist",
         "readOn": "2026-09-29"
       },
       "provider": "planninq",
@@ -7679,7 +7679,7 @@
         "defects": [
           "src/views/TaskDetail.vue:129-137 has no @mention handler, so mentions never notify [same defect as tsk-mentions]"
         ],
-        "change": "ConductionNL/nextcloud-vue openspec/changes/notes-replies-group-mentions-and-images"
+        "change": "nextcloud-vue/notes-replies-group-mentions-and-images"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -7715,7 +7715,7 @@
         "evidence": "Write path: src/views/TaskDetail.vue:91 -> src/dialogs/TimeEntryDialog.vue:7-32 -> src/store/timeEntries.js:149 create, payload task, duration, date, description. No work type field in dialog or schema.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/time-timer-and-work-type"
+        "change": "time-timer-and-work-type"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7827,7 +7827,7 @@
         "owner": "ConductionNL/openregister",
         "consumesSibling": "yes, through the library flow pages",
         "liveCheck": "find where an admin tightens the flow rights and confirm a non-admin planninq user sees the reduced node palette",
-        "change": "ConductionNL/openregister openspec/changes/flow-powerful-steps-need-a-right"
+        "change": "openregister/flow-powerful-steps-need-a-right"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -8040,7 +8040,7 @@
         "state": "specified",
         "evidence": "sibling row learniq:att-import-a-timetable in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated no): lib/Timetabling/TimetableImportHandler.php exists, and lib/Settings/connections.json marks timetable unavailable: the import calls api/sources/timetable-import/run on integriq, which has no such endpoint, so no lesson arrives",
         "owner": "ConductionNL/integriq",
-        "change": "ConductionNL/integriq openspec/changes/connectors-data-exchange-dispatch"
+        "change": "integriq/connectors-data-exchange-dispatch"
       },
       "provider": "integriq",
       "providerHow": "read-from-code",
@@ -8146,7 +8146,7 @@
         "state": "building",
         "evidence": "sibling row learniq:att-timetable-in-my-calendar in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated partial): lib/Service/TimetableProjector.php projects sessions; lib/AppInfo/Registrar/SchedulingListenerRegistrar.php is the seam, with no CalDAV export route. Re-read on 2026-09-27 (learniq#1037): openregister@d611a36 serves an .ics feed at /api/public/calendar-feeds/{token}.ics (appinfo/routes.php:1024) for any schema that declares calendarProvider (lib/Service/Calendar/ObjectCalendarFeedService.php:346-351). learniq@721b28a's Session schema (lib/Settings/learniq_register.json:6004) declares none, so no timetable reaches the feed.",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/attendance-timetable-calendar-feed"
+        "change": "learniq/2026-10-02-attendance-timetable-calendar-feed"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8432,7 +8432,7 @@
         "evidence": "ConductionNL/learniq archived the change 2026-09-29-attendance-self-check-in on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
         "reachedOn": "nothing",
-        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-attendance-self-check-in",
+        "change": "learniq/2026-09-29-attendance-self-check-in",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
@@ -8578,7 +8578,7 @@
         "state": "building",
         "evidence": "learniq@4a6e9dc lib/Listener/SubjectChoiceEnrolmentBridge.php turns a SubjectChoice into an enrolment and src/manifest.d/learning.json:240-257 SubjectChoices and SubjectChoicePicker pages; nothing places a choice in the timetable. Sibling keyword reading, not traced",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-student-choice-placement"
+        "change": "learniq/timetabling-student-choice-placement"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8615,7 +8615,7 @@
         "state": "building",
         "evidence": "learniq@721b28a lib/Settings/learniq_register.json: Assessment.sessionId (:8337) links an exam to a lesson Session, Room.capacity (:5938) holds the room size, and TimetableConflict.kind lists exam-clash (:6324). lib/Timetabling/TimetableConflictDetector.php:222-227 flags any overlap as an exam-clash when either Session has a linked Assessment. No test week object and no invigilator assignment were found.",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-exam-schedule"
+        "change": "learniq/2026-09-29-timetabling-exam-schedule"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8724,7 +8724,7 @@
         "state": "built",
         "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-multi-year-hour-plan on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-multi-year-hour-plan",
+        "change": "learniq/2026-09-29-timetabling-multi-year-hour-plan",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
@@ -8798,7 +8798,7 @@
         "state": "built",
         "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-display-screens on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-display-screens",
+        "change": "learniq/2026-09-29-timetabling-display-screens",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
@@ -8836,7 +8836,7 @@
         "state": "built",
         "evidence": "Compare: src/components/TimetableScenarioCompare.vue on the TimetableScenarios index page (below-header slot) sets two or three finished scenarios, generated or taken from the current timetable (TimetableScenarioImporter, POST /api/timetable/scenarios/{id}/import), side by side on the metrics TimetableScorer stored on each (lessons placed and unplaced, clashes, hard and soft wishes broken, weighted soft penalty, teacher gaps, lessons per day, room use), marks the best value per line and lists the lessons whose period or room differs (src/utils/scenarioCompare.js). Tests: vitest scenarioCompare.spec.js, PHPUnit TimetableScenarioImporterTest (an imported timetable that breaks a hard wish shows it in metrics), Playwright timetable-generator.spec.ts compare case.",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-timetabling-generator",
+        "change": "2026-09-30-timetabling-generator",
         "readOn": "2026-09-30"
       },
       "provider": "learniq",
@@ -8877,7 +8877,7 @@
         "state": "specified",
         "evidence": "keyword search in ConductionNL/humaniq at development af702f7 (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'formatie|teaching load|deployment plan|inzetplan': no implementation of this capability. A keyword search, not a two-hop trace. Re-read on 2026-09-27 (humaniq#501): lib/Service/ForwardCapacityService.php compares committed against contracted hours over a forward window, where committed means shift, leave, absent, booking, busy and interview entries (lib/Service/AvailabilityService.php:220). No yearly teaching-load plan exists. The CAO PO normjaartaak is stored as data (lib/Standards/cao/cao-onderwijs-po.json:58); lib/Standards/CaoRegistry.php:170 and lib/Standards/cao/SCHEMA.md:50 record workingTime as display-only, read by no resolver.",
         "owner": "ConductionNL/humaniq",
-        "change": "ConductionNL/humaniq openspec/changes/education-staff-deployment-and-count"
+        "change": "humaniq/education-staff-deployment-and-count"
       },
       "provider": "humaniq",
       "providerHow": "read-from-code",
@@ -8914,7 +8914,7 @@
         "state": "built",
         "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-room-utilisation on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-room-utilisation",
+        "change": "learniq/2026-09-29-timetabling-room-utilisation",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
@@ -8952,7 +8952,7 @@
         "state": "built",
         "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-contact-hours on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-contact-hours",
+        "change": "learniq/2026-09-29-timetabling-contact-hours",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
@@ -8993,7 +8993,7 @@
         "state": "built",
         "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-multi-year-hour-plan on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-multi-year-hour-plan",
+        "change": "learniq/2026-09-29-timetabling-multi-year-hour-plan",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
@@ -9031,7 +9031,7 @@
         "state": "built",
         "evidence": "Wishes: timetableWish schema (appliesTo, reference, kind, periods, limit, strength hard or soft, weight 1 to 3) edited on the TimetableWishes index page with src/dialogs/TimetableWishDialog.vue (period picker on the week grid). Generator: lib/Timetabling/LocalSearchSolver.php behind TimetableSolver (greedy most-constrained-first, simulated annealing on TimetableScorer, a repair pass so a generated scenario never breaks a hard wish; a lesson it cannot place names the blocking hard wish), run by POST /api/timetable/scenarios/{id}/generate and the GenerateTimetableScenario queued job in 60-second steps up to the time budget; TimetableScenarioDetail page shows unplaced lessons and broken soft wishes. Tests: LocalSearchSolverTest (feasible week keeps the hard wish, impossible hard wish names itself, hard limit never broken, free soft wish kept, same seed same result, 600 lessons inside 60 seconds validated against the real timetableScenario fragment), TimetableGenerationServiceTest, TimetableScenarioControllerTest, vitest timetableWishes and timetableScenarios.",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-30-timetabling-generator",
+        "change": "2026-09-30-timetabling-generator",
         "readOn": "2026-09-30"
       },
       "provider": "learniq",
@@ -9069,7 +9069,7 @@
         "state": "specified",
         "evidence": "integriq@b6cdf26 lib/sources.seed.json seeds 13 sources: four rostering imports (roster-zermelo :103, roster-untis-oneroster :117, roster-xedule :131, roster-timeedit :145), four LVS result imports, two SWV handoffs and three PDOK geo sources. None of them is an HR system. lib/Adapters/Roster/RosterImportClient.php:59-74 fetchLessons returns lessons only (subject, startsAt, endsAt, room, teacherReference, groupReference), so no source carries staff, contracts, deployment or leave.",
         "owner": "ConductionNL/integriq",
-        "change": "ConductionNL/integriq openspec/changes/connectors-hr-staff-sync"
+        "change": "integriq/connectors-hr-staff-sync"
       },
       "provider": "integriq",
       "providerHow": "read-from-code",
@@ -9190,7 +9190,7 @@
         "state": "building",
         "evidence": "learniq@4a6e9dc lib/Settings/learniq_register.json ExamAccommodation schema and lib/Lifecycle/ExamAccommodationApprovalGuard.php approve an accommodation; learniq schedules no exams, so nothing places it in an exam schedule",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-exam-schedule"
+        "change": "learniq/2026-09-29-timetabling-exam-schedule"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -9266,7 +9266,7 @@
         "state": "specified",
         "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'invigilat': no implementation of this capability, invigilator only appears as the proctoring flag reviewer. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-exam-schedule"
+        "change": "learniq/2026-09-29-timetabling-exam-schedule"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -9422,7 +9422,7 @@
         "state": "building",
         "evidence": "learniq@721b28a src/manifest.d/learning.json:2668-2672 puts a Talk integration widget titled 'Join call' on the SessionDetail page (/sessions/:id). src/views/MyTimetable.vue:152-155 shows a lesson's location as plain text, so the timetable itself carries no join link.",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/timetabling-online-lesson-link"
+        "change": "learniq/timetabling-online-lesson-link"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -9464,7 +9464,7 @@
         "state": "built",
         "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-lesson-note on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-lesson-note",
+        "change": "learniq/2026-09-29-timetabling-lesson-note",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
@@ -9656,7 +9656,7 @@
         "state": "specified",
         "evidence": "keyword search in ConductionNL/humaniq at development af702f7 (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'IPTO|staff count|personeelstelling': no implementation of this capability, the hits are the hours leaf, unrelated. A keyword search, not a two-hop trace.",
         "owner": "ConductionNL/humaniq",
-        "change": "ConductionNL/humaniq openspec/changes/education-staff-deployment-and-count"
+        "change": "humaniq/education-staff-deployment-and-count"
       },
       "provider": "humaniq",
       "providerHow": "read-from-code",
@@ -9693,7 +9693,7 @@
         "state": "built",
         "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-elective-lesson-signup on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-elective-lesson-signup",
+        "change": "learniq/2026-09-29-timetabling-elective-lesson-signup",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
@@ -10165,7 +10165,7 @@
         "state": "built",
         "evidence": "timetableSession.status draft + read rule (planninq-timetable reads status $in [scheduled, cancelled]; teacherUserId = $userId; admin) in lib/Settings/planninq_register.json; TimetableSessionService upsert refuses already-published and publish() behind POST /api/timetable/sessions/publish (admin, TimetableController::publish); includeDrafts in TimetableSessionQuery. Tests: TimetableSessionServiceTest (draft, already-published, publish window/source, payloads validated against the real schema), TimetableSessionReadRuleTest::testDraftIsReadOnlyByItsTeacherAndAdmins, TimetableSessionQueryTest, TimetableSessionsQueryListenerTest::testConsumerThatDoesNotAskGetsNoDrafts, TimetableControllerTest::testPublishRefusesANonAdmin; read condition run through OpenRegister's OperatorEvaluator. The learniq half (showing a draft mark to teachers) is learniq's.",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-timetable-draft-review",
+        "change": "2026-09-29-timetable-draft-review",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
@@ -10206,7 +10206,7 @@
         "state": "built",
         "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-elective-lesson-signup on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-elective-lesson-signup",
+        "change": "learniq/2026-09-29-timetabling-elective-lesson-signup",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
@@ -10324,7 +10324,7 @@
         "state": "built",
         "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-standby-slots on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-standby-slots",
+        "change": "learniq/2026-09-29-timetabling-standby-slots",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
@@ -10406,7 +10406,7 @@
         "state": "built",
         "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-bulk-change-weeks on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-bulk-change-weeks",
+        "change": "learniq/2026-09-29-timetabling-bulk-change-weeks",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
@@ -10526,7 +10526,7 @@
         "state": "built",
         "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-enrolment-forecast on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-enrolment-forecast",
+        "change": "learniq/2026-09-29-timetabling-enrolment-forecast",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
@@ -10600,7 +10600,7 @@
         "state": "built",
         "evidence": "ConductionNL/learniq archived the change 2026-09-29-timetabling-visibility-rules on 2026-09-29 with every task ticked (learniq openspec/parity/gap-decisions.json, ConductionNL/learniq#1493).",
         "owner": "ConductionNL/learniq",
-        "change": "ConductionNL/learniq openspec/changes/archive/2026-09-29-timetabling-visibility-rules",
+        "change": "learniq/2026-09-29-timetabling-visibility-rules",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
@@ -10988,7 +10988,7 @@
         "state": "built",
         "evidence": "lib/Service/TimetableSessionService.php upsert() (idempotent by sourceSystem + externalRef), lib/Event/TimetableUpsertRequestedEvent.php answered by lib/Listener/TimetableUpsertRequestedListener.php (registered in lib/AppInfo/Application.php), admin route POST /api/timetable/sessions/upsert (appinfo/routes.php, lib/Controller/TimetableController.php), all on development since #685 (f8ec5c2) and #761. Proven by tests/unit/Service/TimetableSessionServiceTest.php (incl. testEveryWrittenSessionPassesTheRegisterSchema: every created and updated row validated against the real timetableSession schema), TimetableUpsertRequestedListenerTest and TimetableControllerTest. Another system adds sessions per group or teacher; a single learner is not addressed on their own.",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/archive/2026-09-29-school-timetable-target",
+        "change": "2026-09-29-school-timetable-target",
         "readOn": "2026-09-29"
       },
       "provider": "learniq",
