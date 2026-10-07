@@ -8289,7 +8289,8 @@
         "state": "building",
         "evidence": "sibling row learniq:enr-sync-classes-from-school-admin in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated no): lib/Settings/learniq_register.json:15717",
         "owner": "ConductionNL/integriq",
-        "reachedOn": "nothing"
+        "reachedOn": "nothing",
+        "change": "learniq/enrolment-sync-classes-from-student-administration"
       },
       "provider": "integriq",
       "providerHow": "read-from-code",
@@ -11028,7 +11029,8 @@
       "built": {
         "state": "building",
         "evidence": "openregister@d611a36 lib/Service/Rbac/TokenGrantValidator.php refuses a grant with no verbs, with manage, with a verb the issuer lacks, or with no end date. lib/Service/Rbac/TokenGrantNarrower.php intersects the grant with the resolved authorization; lib/Service/Object/PermissionHandler.php:316-317 injects it and :2647-2676 narrowByToken applies it. openspec/changes/scoped-api-tokens/tasks.md leaves 1.1c (the personal token store), 2.1c (the SQL RBAC builder reading the marker) and 3.1 (the grant editor) open, and TokenGrantValidator has no caller in lib/ yet.",
-        "owner": "ConductionNL/openregister"
+        "owner": "ConductionNL/openregister",
+        "change": "openregister/scoped-api-tokens"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
