@@ -1,15 +1,15 @@
 ---
 capability: portal-identity
-status: in-progress
-built_by: openspec/changes/portal-identity
+status: implemented
+built_by: openspec/changes/archive/2026-10-07-portal-identity
 ---
 
 # portal-identity Specification
 
-**Status**: in-progress
+**Status**: implemented
 **Scope**: planninq
 **OpenSpec changes**:
-- [portal-identity](../../changes/portal-identity/) _(active)_ — additive `contractorRef`/`contractorRefs` UUID scoping properties + version bumps (kind: config)
+- [portal-identity](../../changes/archive/2026-10-07-portal-identity/) _(archived 2026-10-07)_ — additive `contractorRef`/`contractorRefs` UUID scoping properties + version bumps (kind: config)
 
 ## Purpose
 
@@ -45,6 +45,45 @@ The property MUST be optional (fail-closed) and MUST NOT change any register
 - THEN `task.contractorRef`, `timeEntry.contractorRef` (both `format: uuid`) and `project.contractorRefs` (array of `format: uuid`) exist
 - AND each sits alongside the kept NC-uid field and is absent from every `required` list
 - @e2e exclude declarative register configuration with no UI surface — covered by the JSON validity gate and the portal-contribution provider test's register drift-pin (tests/unit/Portal/PortalContributionProviderTest.php)
+
+### Requirement: Portal scoping uses domain-object UUID references (REQ-PID-001)
+
+The `task` and `timeEntry` schemas in `lib/Settings/planninq_register.json` MUST
+each carry a `contractorRef` property (`type: string`, `format: uuid`, titled
+"Contractor"), and the `project` schema MUST carry a `contractorRefs` property
+(`type: array`, items `type: string` `format: uuid`, titled "Contractors").
+Each new property MUST be additive — placed alongside the kept Nextcloud-uid
+field (`assignedTo`, `user`, `members` respectively), MUST NOT replace or rename
+it, and MUST NOT be added to the schema's `required` list. The value is the UUID
+of a contractor contact domain object — never a Nextcloud user id (ADR-046
+amendment A4).
+
+#### Scenario: Schemas expose the contractor scoping properties
+
+- GIVEN the shipped `planninq_register.json`
+- WHEN the register configuration is parsed
+- THEN `task.contractorRef` and `timeEntry.contractorRef` are defined with `type` `string` and `format` `uuid`
+- AND `project.contractorRefs` is defined as an array of `format: uuid` strings
+- AND each schema still defines its original NC-uid field (`assignedTo` / `user` / `members`)
+- AND none of `contractorRef` / `contractorRefs` appears in any `required` list
+- @e2e exclude declarative register configuration with no UI surface — covered by the JSON validity gate (`python3 json.load`) and the `portal-contribution` provider test's register drift-pin (tests/unit/Portal/PortalContributionProviderTest.php)
+
+### Requirement: The additive schema change is version-gated (REQ-PID-002)
+
+The change MUST bump the register version, every touched schema version, and
+`appinfo/info.xml`, because OpenRegister's import is version-gated and
+re-applies schema changes only on a version increase. Untouched schemas
+(`column`, `label`, `dependency`) MUST keep their versions.
+
+#### Scenario: Versions bump so the import applies the properties
+
+- GIVEN the register at HEAD (register 0.2.5; `task` 0.1.3; `timeEntry` 0.1.2; `project` 0.1.2)
+- WHEN the change is applied
+- THEN register `info.version` and `registers.planix.version` are 0.2.6
+- AND `task` is 0.1.4, `timeEntry` is 0.1.3, `project` is 0.1.3
+- AND `appinfo/info.xml` `<version>` is 0.2.10
+- AND `column`, `label` and `dependency` versions are unchanged
+- @e2e exclude declarative version metadata with no UI surface — covered by JSON/XML inspection in the JSON gate and by manual diff review
 
 ## Notes
 

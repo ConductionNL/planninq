@@ -1,3 +1,5 @@
+> Archive pass 2026-10-07: code done (src/views/ProjectBoard.vue navigateToTask, Move to... control); open: 4.1, 4.2, 4.3 (live check). 3.2 is done by the archive step itself, but the delta MODIFIES "Kanban Board View [MVP]", which lives in the flat file `openspec/specs/kanban-board.md` that openspec does not read, so archive must either merge it by hand into `specs/kanban-board/spec.md` with the other kanban-board.md scenarios carried over, or use --skip-specs after editing kanban-board.md.
+
 ## 1. Card click/keyboard navigation to TaskDetail
 
 - [x] 1.1 In `src/views/ProjectBoard.vue`, add a `navigateToTask(task)` method that calls `this.$router.push({ name: 'TaskDetail', params: { id: this.project?.id ?? this.$route.params.id, taskId: task.id } })`, mirroring `ProjectList` `navigateToProject`
@@ -20,5 +22,5 @@
 - [~] 4.1 Tab to a card, Enter/Space opens `TaskDetail` — NEEDS LIVE INSTANCE (no isolated planninq+OR container; no deploy to shared dev). Static proof: build + eslint clean; handler pushes the `TaskDetail` route.
 - [~] 4.2 "Move to…" changes status identically to drag — NEEDS LIVE INSTANCE. Code proof: both paths call the single `applyStatusMove` → `updateTaskStatus`.
 - [~] 4.3 Drag-and-drop still works unchanged — NEEDS LIVE INSTANCE. Code proof: `onDrop` refactored to delegate to `applyStatusMove` with identical semantics; drag bindings untouched.
-- [~] 4.4 `openspec validate kanban-task-detail-keyboard-navigation --strict` — DEFERRED: openspec CLI not installed in this worktree.
+- [x] 4.4 `openspec validate kanban-task-detail-keyboard-navigation --strict` passes (run in the archive pass, 2026-10-07).
 - [x] 4.5 Companion note: `navigateToTask` + `data-testid="task-card"` now give `task-collaboration.spec.ts`'s `taskLink` selector a real target; that spec's fixture-absence guards were converted to assertions in the e2e-seed change.
