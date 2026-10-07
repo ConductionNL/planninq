@@ -11146,6 +11146,29 @@
       "note": "Corrected none to building on 2026-09-27 (openregister#4076): the changed-since filter and deleted-row reads exist, but a soft delete does not bump updated and /api/deleted ignores filters. Proposed by the untis reader as int-incremental-sync. Sibling-owed: openregister owns this capability, not planninq. planninq column: left unknown; this correction read Open Register's object API but did not re-rate planninq."
     },
     {
+      "id": "int-course-lessons-query",
+      "area": "integration",
+      "name": "Let the school app read one course's lessons and their online lesson link from the planninq timetable.",
+      "planninq": "yes",
+      "nextcloud-deck": "unchecked",
+      "openproject": "unchecked",
+      "plane": "unchecked",
+      "kanboard": "unchecked",
+      "jira": "unchecked",
+      "zermelo": "unchecked",
+      "untis": "unchecked",
+      "xedule": "unchecked",
+      "timeedit": "unchecked",
+      "built": {
+        "state": "built",
+        "evidence": "lib/Event/TimetableSessionsQueryEvent.php CONTRACT_VERSION 2 accepts a course query; lib/Service/TimetableSessionRows.php answers it with courseId and onlineMeetingUrl; proven by tests/unit/Listener/TimetableCourseQueryTest.php (planninq#865). Every task of openspec/changes/timetable-course-query is ticked, live pass in planninq#867.",
+        "change": "timetable-course-query",
+        "owner": "ConductionNL/planninq"
+      },
+      "source": "spec-round-2026-10-07",
+      "note": "Added in the spec round of 7 Oct 2026 (reverse check): the change gives learniq's elective picker a clash warning and a lesson link when planninq is the timetable source, and no row named it."
+    },
+    {
       "id": "plt-retention-anonymise",
       "area": "platform",
       "name": "Set a retention period after which personal data is anonymised or removed automatically.",
