@@ -4060,7 +4060,7 @@
         "defects": [
           "src/manifest.json TimeSpentReport config.widgets: no per-project groupBy/chart and no project column on the recent-entries table"
         ],
-        "spec": "none"
+        "spec": "openspec/specs/built-in-reports"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4453,7 +4453,7 @@
           "src/manifest.json:162 card promises 'what is overdue' but the Task status report (:168-192) has no overdue widget (code reading, planninq#645)"
         ],
         "readOn": "2026-09-26",
-        "spec": "none"
+        "spec": "openspec/specs/built-in-reports"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -4815,7 +4815,7 @@
         "evidence": "src/integrations/registerProjectsLeaf.js:43-48 declares the 'user-dashboard' surface -> src/integrations/projectScope.js:38 dashboard scope is {status:'active'} -> src/integrations/CnProjectsWidget.vue:306-334 lists projects; hosted by openregister/lib/AppInfo/Application.php:986 IntegrationDashboardWidget",
         "reachedOn": "Nextcloud dashboard, OpenRegister's umbrella integrations widget, 'Projects' leaf",
         "owner": "ConductionNL/openregister",
-        "spec": "none"
+        "spec": "openspec/specs/project-delivery"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -5280,7 +5280,7 @@
         "evidence": "lib/AppInfo/Application.php:492-503 + lib/Listener/RegisterProjectsLeafListener.php (server half, surfaces user-dashboard/app-dashboard/detail-page/single-entity, referenceType planninq-projects) + src/leaves.js:32 registerProjectsLeaf() -> src/integrations/CnProjectsWidget.vue:306-334 reads /apps/openregister/api/objects/planninq/project scoped per surface",
         "reachedOn": "other apps' pages: pipelinq client detail (detail-page), shillinq ProjectAssignment.projectId (single-entity, shillinq/lib/Settings/shillinq_register.json:6196), Nextcloud dashboard",
         "owner": "ConductionNL/planninq",
-        "spec": "none"
+        "spec": "openspec/specs/project-delivery"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5614,7 +5614,7 @@
         "defects": [
           "lib/Settings/planninq_register.json:1118 dependency.authorization.read is every authenticated user, so a non-member can list the dependency edges (task uuids) of any project (code reading, low impact)"
         ],
-        "spec": "none"
+        "spec": "openspec/specs/project-membership"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
