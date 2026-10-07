@@ -4886,7 +4886,7 @@
         "evidence": "src/store/objectStore.js:22 createObjectStore (liveUpdatesPlugin) -> src/views/ProjectList.vue:282-318 subscribe('project') and src/views/TaskDetail.vue:420-447 subscribe('task', uuid)",
         "reachedOn": "Projects /projects and TaskDetail /projects/:id/tasks/:taskId",
         "owner": "ConductionNL/nextcloud-vue",
-        "change": "adopt-live-updates-ui"
+        "spec": "openspec/specs/realtime-updates.md"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
