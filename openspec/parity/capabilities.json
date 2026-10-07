@@ -6032,14 +6032,14 @@
         "state": "specified",
         "evidence": "no export in planninq; OpenRegister's register export (openregister/src/modals/register/ExportRegister.vue) writes an OpenAPI-style JSON including components.objects (openregister/lib/Service/Configuration/ExportHandler.php:315), and objects#export (openregister/appinfo/routes.php:1172) gives CSV/Excel per schema",
         "reachedOn": "OpenRegister app, admin only; not a planninq page",
-        "owner": "ConductionNL/openregister",
-        "change": "openregister/export-as-its-own-right"
+        "owner": "ConductionNL/planninq",
+        "change": "project-data-export"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
       "feature": "platform",
       "featureConfidence": "medium",
-      "note": "An admin can take the whole register out as JSON; a project owner cannot export their own project, and whether attached task files travel with the export was not checked. Specified in ConductionNL/openregister openspec/changes/export-as-its-own-right (openregister lane, OpenSpec pass 2026-09-27)."
+      "note": "An admin can take the whole register out as JSON; a project owner cannot export their own project, and whether attached task files travel with the export was not checked. Specified in ConductionNL/openregister openspec/changes/export-as-its-own-right (openregister lane, OpenSpec pass 2026-09-27). Spec round part 3 (7 Oct): OpenRegister's half (openregister/export-as-its-own-right, all 14 tasks ticked) gives the export verb, profiles and the audit entry; the planninq half, an owner exporting one project with its files and comments from the project sidebar, is specified in project-data-export."
     },
     {
       "id": "plt-guest-access",
