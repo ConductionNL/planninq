@@ -4060,7 +4060,7 @@
         "defects": [
           "src/manifest.json TimeSpentReport config.widgets: no per-project groupBy/chart and no project column on the recent-entries table"
         ],
-        "spec": "none"
+        "spec": "openspec/specs/built-in-reports"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4453,7 +4453,7 @@
           "src/manifest.json:162 card promises 'what is overdue' but the Task status report (:168-192) has no overdue widget (code reading, planninq#645)"
         ],
         "readOn": "2026-09-26",
-        "spec": "none"
+        "spec": "openspec/specs/built-in-reports"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -4815,7 +4815,7 @@
         "evidence": "src/integrations/registerProjectsLeaf.js:43-48 declares the 'user-dashboard' surface -> src/integrations/projectScope.js:38 dashboard scope is {status:'active'} -> src/integrations/CnProjectsWidget.vue:306-334 lists projects; hosted by openregister/lib/AppInfo/Application.php:986 IntegrationDashboardWidget",
         "reachedOn": "Nextcloud dashboard, OpenRegister's umbrella integrations widget, 'Projects' leaf",
         "owner": "ConductionNL/openregister",
-        "spec": "none"
+        "spec": "openspec/specs/project-delivery"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -5184,7 +5184,7 @@
       "area": "integration",
       "name": "Create a project from a case.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
@@ -5202,12 +5202,12 @@
         "plane": "corpus: plane/round4/code-census.md §12 no connectors reachable; §5 no case or contact entity ; source read at v1.4.2: searched apps/api/plane/db/models/__init__.py for 'customer', 'contact', 'organisation', 'organization', 'case': none; the only create path is the project form, apps/api/plane/app/views/project/base.py:257-258"
       },
       "built": {
-        "state": "building",
-        "evidence": "Planninq's half is built: src/integrations/projectScope.js scopes the planninq-projects leaf to projects with caseReference on a host whose schema slug is case, CnProjectsWidget.vue links New project to /apps/planninq/projects?new=1&case={uuid}&title={case title}, and ProjectList.vue opens ProjectCreationDialog prefilled, saving caseReference. The missing half is Dossiq placing the leaf on its case page: ConductionNL/dossiq#3190.",
-        "reachedOn": "/apps/planninq/projects?new=1&case={uuid}&title=...; the case page once dossiq#3190 lands",
+        "state": "built",
+        "evidence": "Both halves are on development. Planninq@131c691f: src/integrations/projectScope.js:51 scopes the planninq-projects leaf to caseReference when the host schema is case (:78 filters the rows), lib/Listener/RegisterProjectsLeafListener.php mirrors it server side with the New project link carrying case and title, src/views/ProjectList.vue opens ProjectCreationDialog prefilled from ?new=1&case=&title= and saves caseReference, and lib/Service/CaseHandoverService.php behind POST /api/projects/{projectId}/case-handover (appinfo/routes.php:43) hands project files to the case. Dossiq@f6ec1e4a: lib/Settings/register.d/79-planninq-projects-leaf.json:8 adds planninq-projects to the case's linkedTypes and src/manifest.json:2339 places the leaf as the case-projects widget on CaseDetail (dossiq#3216, closing dossiq#3190). Re-rated 2026-10-07 from code; not driven live in this pass.",
+        "reachedOn": "dossiq CaseDetail, Projects panel (New project opens /apps/planninq/projects?new=1&case={uuid}&title=...)",
         "owner": "ConductionNL/planninq",
         "change": "2026-09-29-integration-case-bridge",
-        "readOn": "2026-09-29"
+        "readOn": "2026-10-07"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5280,7 +5280,7 @@
         "evidence": "lib/AppInfo/Application.php:492-503 + lib/Listener/RegisterProjectsLeafListener.php (server half, surfaces user-dashboard/app-dashboard/detail-page/single-entity, referenceType planninq-projects) + src/leaves.js:32 registerProjectsLeaf() -> src/integrations/CnProjectsWidget.vue:306-334 reads /apps/openregister/api/objects/planninq/project scoped per surface",
         "reachedOn": "other apps' pages: pipelinq client detail (detail-page), shillinq ProjectAssignment.projectId (single-entity, shillinq/lib/Settings/shillinq_register.json:6196), Nextcloud dashboard",
         "owner": "ConductionNL/planninq",
-        "spec": "none"
+        "spec": "openspec/specs/project-delivery"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5614,7 +5614,7 @@
         "defects": [
           "lib/Settings/planninq_register.json:1118 dependency.authorization.read is every authenticated user, so a non-member can list the dependency edges (task uuids) of any project (code reading, low impact)"
         ],
-        "spec": "none"
+        "spec": "openspec/specs/project-membership"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -8204,10 +8204,12 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/viewer 'Calendar Feeds: Subscribe to schedules via iCal, Google Calendar, and Outlook. Auto-sync. Filtered feeds' ; https://www.academy.timeedit.com/product-updates/new-release-of-te-viewer-5-academy 'iCal subscription: Include current language in the iCal subscription URL'"
       },
       "built": {
-        "state": "building",
-        "evidence": "sibling row learniq:att-timetable-in-my-calendar in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated partial): lib/Service/TimetableProjector.php projects sessions; lib/AppInfo/Registrar/SchedulingListenerRegistrar.php is the seam, with no CalDAV export route. Re-read on 2026-09-27 (learniq#1037): openregister@d611a36 serves an .ics feed at /api/public/calendar-feeds/{token}.ics (appinfo/routes.php:1024) for any schema that declares calendarProvider (lib/Service/Calendar/ObjectCalendarFeedService.php:346-351). learniq@721b28a's Session schema (lib/Settings/learniq_register.json:6004) declares none, so no timetable reaches the feed.",
+        "state": "built",
+        "evidence": "learniq@04bc878a: lib/Controller/TimetableFeedController.php:114 serves the personal iCalendar feed by token at /api/timetable/feed/{token}.ics (appinfo/routes.php:225); src/dialogs/TimetableCalendarFeedDialog.vue, opened from 'Subscribe in your calendar' on src/views/MyTimetable.vue:61, makes, copies and resets the address. Change archived as 2026-10-02-attendance-timetable-calendar-feed; its tasks record a live flow on 2 Oct (address answers 200 text/calendar signed out, a reset address answers 404). learniq rates its own row att-timetable-in-my-calendar yes. Satisfied by learniq, not planninq code.",
         "owner": "ConductionNL/learniq",
-        "change": "learniq/2026-10-02-attendance-timetable-calendar-feed"
+        "change": "learniq/2026-10-02-attendance-timetable-calendar-feed",
+        "reachedOn": "learniq /my-timetable, Subscribe in your calendar",
+        "readOn": "2026-10-07"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8681,10 +8683,12 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/assessment 'Automatically or manual schedule exams efficiently with a separate rule set ... Invigilator Management ... Book invigilators based on competence and type'"
       },
       "built": {
-        "state": "building",
-        "evidence": "learniq@721b28a lib/Settings/learniq_register.json: Assessment.sessionId (:8337) links an exam to a lesson Session, Room.capacity (:5938) holds the room size, and TimetableConflict.kind lists exam-clash (:6324). lib/Timetabling/TimetableConflictDetector.php:222-227 flags any overlap as an exam-clash when either Session has a linked Assessment. No test week object and no invigilator assignment were found.",
+        "state": "built",
+        "evidence": "learniq@04bc878a: lib/Settings/learniq_register.json exam-period (:8292) and exam-sitting (:8411) schemas; lib/Listener/ExamSittingPlacementCheck.php:90 refuses a sitting whose room is too small or that clashes, registered on create and update in lib/AppInfo/Registrar/ExamScheduleListenerRegistrar.php:51-52; src/manifest.d/exam-schedule.json gives the menu group Exam schedule with Test weeks (/exam-periods, detail lists the week's exams) and Exam sittings (/exam-sittings, detail lists its invigilators). Change archived as 2026-09-29-timetabling-exam-schedule. tests/e2e/exam-schedule.spec.ts drives the API, not the pages, and the lane had no browser: the pages are not driven live. Satisfied by learniq, not planninq code.",
         "owner": "ConductionNL/learniq",
-        "change": "learniq/2026-09-29-timetabling-exam-schedule"
+        "change": "learniq/2026-09-29-timetabling-exam-schedule",
+        "reachedOn": "learniq Exam schedule menu: /exam-periods and /exam-sittings (from the manifest, not driven live)",
+        "readOn": "2026-10-07"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -9258,9 +9262,11 @@
       },
       "built": {
         "state": "building",
-        "evidence": "learniq@4a6e9dc lib/Settings/learniq_register.json ExamAccommodation schema and lib/Lifecycle/ExamAccommodationApprovalGuard.php approve an accommodation; learniq schedules no exams, so nothing places it in an exam schedule",
+        "evidence": "learniq@04bc878a: lib/Settings/learniq_register.json exam-accommodation (:8085) with its approval guard, managed on the Exam accommodations page (src/manifest.d/learning.json:3854, /exam-accommodations). lib/Service/ExamSittingOverview.php:79 resolves the approved extra time and separate room per exam sitting and is served at GET /api/exam-sittings/{id}/overview (appinfo/routes.php:346), but no file in src/ calls that route and the exam sitting page (src/manifest.d/exam-schedule.json) does not show accommodations. Missing: the user-facing part, the sitting page showing which learners get extra time or a separate room. Change archived as 2026-09-29-timetabling-exam-schedule.",
         "owner": "ConductionNL/learniq",
-        "change": "learniq/2026-09-29-timetabling-exam-schedule"
+        "change": "learniq/2026-09-29-timetabling-exam-schedule",
+        "reachedOn": "none: computed by ExamSittingOverview, shown on no page",
+        "readOn": "2026-10-07"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -9333,10 +9339,12 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/assessment 'Complete management of invigilators, from availability collection to assiging session and confirmation flows'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "keyword search in ConductionNL/learniq at development 4a6e9dc (lib/, src/views, src/dialogs, src/manifest.d and the register json) for 'invigilat': no implementation of this capability, invigilator only appears as the proctoring flag reviewer. A keyword search, not a two-hop trace.",
+        "state": "built",
+        "evidence": "learniq@04bc878a: lib/Settings/learniq_register.json invigilator-availability (:8557) and invigilator-assignment (:8643) schemas, the assignment lifecycle runs pending to confirmed or declined behind lib/Lifecycle/InvigilatorResponseGuard.php:64 (register :8734, :8740); lib/Listener/InvigilatorAssignmentCheck.php:86 refuses a request to an invigilator without availability (registered in ExamScheduleListenerRegistrar.php:53); src/manifest.d/exam-schedule.json pages Invigilation requests (/invigilation-requests) and Invigilator availability (/invigilator-availability), and the sitting page lists its invigilators. GET /api/exam-sittings/{id}/available-invigilators (appinfo/routes.php:347) has no caller in src/. Change archived as 2026-09-29-timetabling-exam-schedule. Not driven live. Satisfied by learniq, not planninq code.",
         "owner": "ConductionNL/learniq",
-        "change": "learniq/2026-09-29-timetabling-exam-schedule"
+        "change": "learniq/2026-09-29-timetabling-exam-schedule",
+        "reachedOn": "learniq /invigilation-requests and /invigilator-availability (from the manifest, not driven live)",
+        "readOn": "2026-10-07"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -11320,10 +11328,11 @@
         "timeedit": "not checked: timeedit.com product pages (read rendered 2026-09-27), 809 English TE Academy guides, product pages and release notes, and the developer hub API index searched for read receipts; nothing found"
       },
       "built": {
-        "state": "building",
-        "evidence": "portaliq@d8d2b34 lib/Service/NewsReadReceiptService.php:72 markRead records who read a news item; not traced to a page that shows the reader list, and it covers news, not messages generally. Re-read on 2026-09-27 (portaliq#747): the news routes exist (appinfo/routes.php:97-105, markRead at :104), but no file in portaliq src/ calls a news endpoint or mentions news, so no screen shows who read an item.",
+        "state": "specified",
+        "evidence": "portaliq@a4e39ea3: no receipt request exists. portalMessage carries only a read flag, shown as a Read badge on PortalMessages (portaliq row cmp-inb-read-receipt, built), and lib/Controller/NewsGuardianController.php:115 records news read receipts that no page shows. The change inbox-read-receipt-on-request is open on portaliq development with every task (T01-T08) unticked, and portaliq's own row cmp-inb-read-receipt-request reads specified. Aligned with it on 2026-10-07: nothing a sender can use to ask for a receipt or see who read a sending exists yet.",
         "owner": "ConductionNL/portaliq",
-        "change": "portaliq/inbox-read-receipt-on-request"
+        "change": "portaliq/inbox-read-receipt-on-request",
+        "readOn": "2026-10-07"
       },
       "provider": "portaliq",
       "providerHow": "read-from-code",
