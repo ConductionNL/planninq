@@ -958,7 +958,8 @@
         "state": "built",
         "evidence": "src/components/ProjectSettingsSidebar.vue:99 (Leave project button) -> src/dialogs/ProjectLeaveDialog.vue -> src/store/projects.js:708 leaveProject() -> lib/Controller/ProjectController.php:308 leaveProject()",
         "reachedOn": "ProjectBoard page, Project settings sidebar, Members tab",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "openspec/specs/projects.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1029,7 +1030,8 @@
         "state": "built",
         "evidence": "src/components/ProjectSettingsSidebar.vue:160 (Delete project button) -> src/dialogs/ProjectDeleteDialog.vue -> src/store/projects.js:530 deleteProject() (cascades time entries -> tasks -> columns -> project)",
         "reachedOn": "ProjectBoard page, Project settings sidebar, Danger zone tab",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "openspec/specs/projects.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1063,7 +1065,8 @@
         "state": "built",
         "evidence": "src/views/ProjectList.vue:10-17 (NcChip status chips) + :220-227 statusChips() + :238-249 filteredProjects()",
         "reachedOn": "Projects page",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "2026-05-31-retrofit-2026-05-26-planix-display-capabilities"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1169,7 +1172,8 @@
         "state": "built",
         "evidence": "lib/Portal/PortalContributionProvider.php:97,159-234 declares the 'external-employee' audience with a contractorProjects collection scoped by project.contractorRefs (register/schema project fields present at lib/Settings/planninq_register.json:492), field-projected to title/description/status/color/icon/labels only",
         "reachedOn": "portaliq's external portal (not a page in this repo)",
-        "owner": "ConductionNL/portaliq"
+        "owner": "ConductionNL/portaliq",
+        "change": "portal-contribution"
       },
       "provider": "portaliq",
       "providerHow": "read-from-code",
@@ -1481,7 +1485,8 @@
         "state": "built",
         "evidence": "src/views/ProjectBoard.vue:102-175 (kanban columns) -> src/store/projects.js:775 fetchTasks()",
         "reachedOn": "ProjectBoard page /projects/:id",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "openspec/specs/kanban-board.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1515,7 +1520,8 @@
         "state": "built",
         "evidence": "src/views/ProjectBoard.vue:134-139 (draggable card, @dragstart/@dragend) + :111-113 (@dragover/@drop on column) -> :510-524 onDrop() -> :566-584 applyStatusMove() -> src/store/projects.js:835 updateTaskStatus()",
         "reachedOn": "ProjectBoard page",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "openspec/specs/kanban-board.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1549,7 +1555,8 @@
         "state": "built",
         "evidence": "src/views/ProjectBoard.vue:152-165 (NcActions 'Move task to another column' menu, keyboard-operable NcActionButton per otherColumns()) -> :555-561 moveTask() -> same applyStatusMove() path as drag-and-drop",
         "reachedOn": "ProjectBoard page, per-card action menu",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "kanban-task-detail-keyboard-navigation"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1762,7 +1769,8 @@
         "state": "built",
         "evidence": "src/components/TaskCard.vue:16-67 renders due-date badge (dueDateBadgeStatus), status chip (covers blocked), priority chip, label chips, and assignee line",
         "reachedOn": "ProjectBoard page, card face",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "openspec/specs/kanban-board.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1867,7 +1875,8 @@
         "state": "built",
         "evidence": "src/views/Boards.vue:22-40 (card grid) -> :89-91 mounted() fetchProjects({status:'active'}) -> :110 openBoard() routes to ProjectBoard",
         "reachedOn": "Boards page /boards",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "openspec/specs/portfolio-dashboard-pmo.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2358,7 +2367,8 @@
         "state": "built",
         "evidence": "src/views/settings/Settings.vue:151-194 (label management list, create/edit/delete buttons) -> src/dialogs/LabelEditDialog.vue and src/dialogs/LabelDeleteDialog.vue -> src/store/labels.js (createLabel/updateLabel/deleteLabel) -> lib/Controller/LabelController.php:106-135 destroy(), which calls LabelService::deleteWithCascade to remove the label's UUID from every referencing task before deleting the label object.",
         "reachedOn": "Nextcloud admin settings page /settings/admin/planninq (src/views/settings/AdminRoot.vue:18 mounts Settings.vue)",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "2026-06-14-label-management-admin"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2391,7 +2401,8 @@
         "state": "built",
         "evidence": "Route /projects/:id/tasks/:taskId declared in src/manifest.json (TaskDetail page), rendered by src/views/TaskDetail.vue, reached by clicking a card: src/views/ProjectBoard.vue:527-535 (navigateToTask -> $router.push). The route is a normal URL, so it is shareable.",
         "reachedOn": "ProjectBoard page, click/Enter/Space on a task card",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "kanban-task-detail-keyboard-navigation"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2493,7 +2504,8 @@
         "state": "built",
         "evidence": "src/views/TaskDetail.vue:129-137 mounts CnObjectSidebar with notesLabel='Comments', which renders CnNotesTab (nextcloud-vue/src/components/CnObjectSidebar/CnObjectSidebar.vue:83-101, tab id 'notes', not in Planninq's hiddenTabs list). Backed by OpenRegister per-object notes API per ADR-022.",
         "reachedOn": "TaskDetail page, Comments tab of the sidebar",
-        "owner": "ConductionNL/nextcloud-vue"
+        "owner": "ConductionNL/nextcloud-vue",
+        "change": "2026-06-14-task-collaboration-sidebar"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -2527,7 +2539,8 @@
         "state": "built",
         "evidence": "src/views/TaskDetail.vue:129-137 mounts CnObjectSidebar with filesLabel='Attachments', rendering CnFilesTab (nextcloud-vue/src/components/CnObjectSidebar/CnObjectSidebar.vue:65-81, tab id 'files'). CnFilesTab's props (browserRootLabel, showInFilesLabel, 'Show in Files') confirm it browses the organisation's real Nextcloud file store, not a bespoke upload store.",
         "reachedOn": "TaskDetail page, Attachments tab of the sidebar",
-        "owner": "ConductionNL/nextcloud-vue"
+        "owner": "ConductionNL/nextcloud-vue",
+        "change": "2026-06-14-task-collaboration-sidebar"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -2561,7 +2574,8 @@
         "state": "built",
         "evidence": "src/views/TaskDetail.vue:129-137 mounts CnObjectSidebar with auditTrailLabel='Activity', rendering CnAuditTrailTab (nextcloud-vue/src/components/CnObjectSidebar/CnObjectSidebar.vue:145-163, tab id 'auditTrail', not in Planninq's hiddenTabs list).",
         "reachedOn": "TaskDetail page, Activity tab of the sidebar",
-        "owner": "ConductionNL/nextcloud-vue"
+        "owner": "ConductionNL/nextcloud-vue",
+        "change": "2026-06-14-task-collaboration-sidebar"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -2734,7 +2748,8 @@
         "evidence": "Code trace at development tips, not driven: planninq src/views/TaskDetail.vue:129-137 mounts CnObjectSidebar with taskCollaborationSidebarConfig (src/utils/taskHelpers.js, register planninq, schema task, default apiBase /apps/openregister/api) -> nextcloud-vue e487bc8 src/components/CnObjectSidebar/CnNotesTab.vue addNote() POSTs {apiBase}/objects/{register}/{schema}/{id}/notes with the @uid text -> openregister 555af72 lib/Controller/NotesController.php create() calls TimelineWriteService::projectNote() -> lib/Service/Timeline/TimelineWriteService.php derive() -> lib/Service/Timeline/EntryMentionService.php apply() notifies (subject timeline_mention, rendered by lib/Notification/Notifier.php prepareTimelineMention) and subscribes every named user who may read the task, skipping the author. Landed in openregister f53292707 (#3762, 2026-09-15).",
         "reachedOn": "TaskDetail page, Comments tab: saving a comment that names @colleague sends that colleague a Nextcloud notification 'You were named in a note' (code trace)",
         "owner": "ConductionNL/planninq",
-        "liveCheck": "as a project member, save a task comment naming another member as @uid and confirm that member's bell shows 'You were named in a note'; the notification carries no link to the task (Notifier::prepareTimelineMention sets none)"
+        "liveCheck": "as a project member, save a task comment naming another member as @uid and confirm that member's bell shows 'You were named in a note'; the notification carries no link to the task (Notifier::prepareTimelineMention sets none)",
+        "spec": "none"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3221,7 +3236,8 @@
         "state": "built",
         "evidence": "src/views/ProjectTimeline.vue:47-107 (bars/axis render) -> src/api/timeline.js:35 (fetchProjectTimeline) -> GET /apps/planninq/api/projects/{id}/timeline",
         "reachedOn": "ProjectTimeline page /projects/:id/timeline, opened from the project board breadcrumb",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "openspec/specs/gantt-timeline-view"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3399,7 +3415,8 @@
         "state": "built",
         "evidence": "lib/Settings/planninq_register.json:145 x-openregister-notifications.taskDueSoon (scheduled trigger, withinNext PT24H) executed by openregister's registered TimedJob lib/BackgroundJob/ScheduledNotificationJob.php (registered in openregister appinfo/info.xml:148), which dispatches via AnnotationNotificationDispatcher",
         "reachedOn": "background job, no page; the resulting nc-notification appears in Nextcloud's own notification panel",
-        "owner": "ConductionNL/openregister"
+        "owner": "ConductionNL/openregister",
+        "change": "2026-06-14-due-date-reminder-dispatch"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -3433,7 +3450,8 @@
         "state": "built",
         "evidence": "src/views/settings/Settings.vue:127-129 (due-reminder lead-hours field) -> src/store/modules/settings.js -> lib/Controller/SettingsController.php -> lib/Service/SettingsService.php:260-272 (validates 1-336h) -> lib/Service/DueReminderWindowService.php:112-135 patches the live schema's x-openregister-notifications.taskDueSoon.trigger.filter.dueDate window",
         "reachedOn": "AdminRoot admin-settings panel (src/views/settings/AdminRoot.vue mounts Settings.vue), Nextcloud admin settings section",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "2026-06-14-due-date-reminder-dispatch"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3467,7 +3485,8 @@
         "state": "built",
         "evidence": "src/views/settings/UserSettings.vue:13-76 (toggle) -> useSettingsStore().saveUserSettings -> lib/Service/SettingsService.php:442-463 setNotifyDueReminder() -> :498-524 writeDueReminderOverride() calls OpenRegister's real NotificationPreferenceService::setOverride() for (task, taskDueSoon)",
         "reachedOn": "Personal settings dialog (src/App.vue:56 mounts UserSettings inside NcAppSettingsDialog)",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "2026-06-14-due-date-reminder-dispatch"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3828,7 +3847,8 @@
         "state": "built",
         "evidence": "src/views/TaskDetail.vue:60-72 (estimate input + Save estimate button) -> :557-566 saveEstimate() -> projectsStore.updateTask(taskId, { estimatedDuration: minutes })",
         "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "implement-time-tracking-mvp"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3862,7 +3882,8 @@
         "state": "built",
         "evidence": "src/views/TaskDetail.vue:91 (Log time button) -> src/dialogs/TimeEntryDialog.vue:152-179 save() -> src/store/timeEntries.js:149 create()",
         "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "implement-time-tracking-mvp"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3895,7 +3916,8 @@
         "state": "built",
         "evidence": "src/utils/durationParser.js:31-66 parseDuration() accepts '2h 30m', '1.5h', '90m', bare numbers; used by src/dialogs/TimeEntryDialog.vue:119 and src/views/TaskDetail.vue estimate input",
         "reachedOn": "TaskDetail page and the TimeEntryDialog it opens",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "implement-time-tracking-mvp"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3928,7 +3950,8 @@
         "state": "built",
         "evidence": "src/views/Timesheet.vue:162-164 groups() -> src/utils/timesheetHelpers.js groupEntriesByDate() over src/store/timeEntries.js:121 fetchForCurrentUser() (owner-filtered)",
         "reachedOn": "Timesheet page /timesheet, menu item 'Timesheet'",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "implement-time-tracking-mvp"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3962,7 +3985,8 @@
         "state": "built",
         "evidence": "src/views/TaskDetail.vue:287-288 estimateMinutes(), :325-330 progressText, :339 isOverEstimate (logged vs estimatedDuration)",
         "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "implement-time-tracking-mvp"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3996,7 +4020,8 @@
         "state": "built",
         "evidence": "src/views/TaskDetail.vue:105-118 (edit/delete actions gated by canModify) -> :548-549 canModify() -> src/store/timeEntries.js:80-84 canModify (owner or admin); :609 deleteEntry() -> store.delete()",
         "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId (entries list under 'Time tracking'); not exposed on the Timesheet page itself",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "implement-time-tracking-mvp"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4034,7 +4059,8 @@
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/manifest.json TimeSpentReport config.widgets: no per-project groupBy/chart and no project column on the recent-entries table"
-        ]
+        ],
+        "spec": "none"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4278,7 +4304,8 @@
         "state": "built",
         "evidence": "src/views/Portfolio.vue:139-147 (one row per project: members, open, overdue) -> src/utils/portfolioHelpers.js:28",
         "reachedOn": "Portfolio /portfolio, the project's row; nothing on the project's own board",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "openspec/specs/capacity-planning-resource.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4425,7 +4452,8 @@
         "defects": [
           "src/manifest.json:162 card promises 'what is overdue' but the Task status report (:168-192) has no overdue widget (code reading, planninq#645)"
         ],
-        "readOn": "2026-09-26"
+        "readOn": "2026-09-26",
+        "spec": "none"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -4713,7 +4741,8 @@
         "state": "built",
         "evidence": "no export control on any planninq page (no 'export'/'download' in src/views); OpenRegister serves objects#export at openregister/appinfo/routes.php:1172 with excel/csv/pdf types (openregister/lib/Controller/ObjectsController.php:5464,5547), reached from OpenRegister's own src/modals/register/ExportRegister.vue",
         "reachedOn": "OpenRegister app (register export), not a planninq page",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "none"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -4785,7 +4814,8 @@
         "state": "built",
         "evidence": "src/integrations/registerProjectsLeaf.js:43-48 declares the 'user-dashboard' surface -> src/integrations/projectScope.js:38 dashboard scope is {status:'active'} -> src/integrations/CnProjectsWidget.vue:306-334 lists projects; hosted by openregister/lib/AppInfo/Application.php:986 IntegrationDashboardWidget",
         "reachedOn": "Nextcloud dashboard, OpenRegister's umbrella integrations widget, 'Projects' leaf",
-        "owner": "ConductionNL/openregister"
+        "owner": "ConductionNL/openregister",
+        "spec": "none"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -4819,7 +4849,8 @@
         "state": "built",
         "evidence": "lib/AppInfo/Application.php:536-544 subscribes TaskActivityListener to OR create/update/delete on schema task -> lib/Listener/TaskActivityListener.php:182 selectSubject (created, status, assignee, due date, deleted) -> :258 publish via IActivityManager; appinfo/info.xml:207-214 registers Filter + Provider",
         "reachedOn": "Nextcloud Activity app, 'Planninq' filter",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "change": "2026-06-14-task-collaboration-sidebar"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4854,7 +4885,8 @@
         "state": "built",
         "evidence": "src/store/objectStore.js:22 createObjectStore (liveUpdatesPlugin) -> src/views/ProjectList.vue:282-318 subscribe('project') and src/views/TaskDetail.vue:420-447 subscribe('task', uuid)",
         "reachedOn": "Projects /projects and TaskDetail /projects/:id/tasks/:taskId",
-        "owner": "ConductionNL/nextcloud-vue"
+        "owner": "ConductionNL/nextcloud-vue",
+        "change": "adopt-live-updates-ui"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -5103,7 +5135,8 @@
         "state": "built",
         "evidence": "openregister/lib/Search/ObjectsProvider.php:44-60,326 fleet-wide unified search provider, result URLs from the deep-link registry -> src/manifest.json deepLinks (task: /apps/planninq/projects/{project}?task={uuid}, project: /apps/planninq/projects/{uuid}) registered by lib/AppInfo/Application.php:448-469 -> src/views/ProjectBoard.vue:378-381 highlights the ?task card",
         "reachedOn": "Nextcloud global search, result opens the project board",
-        "owner": "ConductionNL/openregister"
+        "owner": "ConductionNL/openregister",
+        "spec": "none"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -5137,7 +5170,8 @@
         "state": "built",
         "evidence": "src/components/ProjectSettingsSidebar.vue:47-53 shows project.caseReference READ-ONLY when set; task.zaakUuid (lib/Settings/planninq_register.json) is shown nowhere",
         "reachedOn": "ProjectBoard /projects/:id, project settings sidebar (display only)",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "openspec/specs/procest-integration.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5210,7 +5244,8 @@
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/integrations/CnProjectsWidget.vue:377-384 'New project' links to /projects?new=1&client=<uuid>, but src/views/ProjectList.vue reads no route query (no $route.query anywhere in it), so no dialog opens and no client is prefilled (code reading, needs a live check)"
-        ]
+        ],
+        "change": "2026-09-29-integration-case-bridge"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5244,7 +5279,8 @@
         "state": "built",
         "evidence": "lib/AppInfo/Application.php:492-503 + lib/Listener/RegisterProjectsLeafListener.php (server half, surfaces user-dashboard/app-dashboard/detail-page/single-entity, referenceType planninq-projects) + src/leaves.js:32 registerProjectsLeaf() -> src/integrations/CnProjectsWidget.vue:306-334 reads /apps/openregister/api/objects/planninq/project scoped per surface",
         "reachedOn": "other apps' pages: pipelinq client detail (detail-page), shillinq ProjectAssignment.projectId (single-entity, shillinq/lib/Settings/shillinq_register.json:6196), Nextcloud dashboard",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "none"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5282,7 +5318,8 @@
         "state": "built",
         "evidence": "all project/task/column/label/dependency/time-entry objects are read and written at /apps/openregister/api/objects/planninq/<schema> (src/store/store.js:19, src/store/projects.js:428,837,873); planninq's own REST routes at appinfo/routes.php:10-38 (projects create/leave, labels, dependencies, timeline, settings)",
         "reachedOn": "REST API (machine consumers); the same paths the SPA uses",
-        "owner": "ConductionNL/openregister"
+        "owner": "ConductionNL/openregister",
+        "spec": "none"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -5317,7 +5354,8 @@
         "state": "built",
         "evidence": "src/manifest.json:57 menu 'Flows' (settings section) -> :223-236 Flows index over the named flows source and FlowDetail canvas (library pages) -> openregister/lib/AppInfo/Application.php:3039-3041 FlowTriggerListener on object created/updated/deleted, openregister/lib/Service/Flow/Nodes/TriggerObjectNode.php",
         "reachedOn": "Flows /flows (settings menu) and FlowDetail /flows/:id",
-        "owner": "ConductionNL/openregister"
+        "owner": "ConductionNL/openregister",
+        "spec": "none"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -5575,7 +5613,8 @@
         "owner": "ConductionNL/openregister",
         "defects": [
           "lib/Settings/planninq_register.json:1118 dependency.authorization.read is every authenticated user, so a non-member can list the dependency edges (task uuids) of any project (code reading, low impact)"
-        ]
+        ],
+        "spec": "none"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -5613,7 +5652,8 @@
         "state": "built",
         "evidence": "appinfo/info.xml admin settings -> lib/Settings/AdminSettings.php (GenericAdminSettings, template templates/settings/admin.php loads planninq-settings.js) -> src/settings.js mounts src/views/settings/AdminRoot.vue:18 -> src/views/settings/Settings.vue:5,71,105,153,202,231 (default columns, project creation policy, due-reminder lead time, label management, register setup, configuration) -> src/store/modules/settings.js:36,65 /api/settings",
         "reachedOn": "Nextcloud admin settings, Planninq section",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "openspec/specs/admin-user-settings.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5647,7 +5687,8 @@
         "state": "built",
         "evidence": "src/manifest.json:3-38 setup block (welcome, demo-data choice, load-demo-data, summary) -> nextcloud-vue CnAppRoot optionalSetupPending (src/components/CnAppRoot/CnAppRoot.vue:2349-2366) -> appinfo/routes.php:13-15 -> lib/Controller/SetupController.php status/saveConfig/runAction",
         "reachedOn": "CnAppRoot setup wizard on first open (admins; the setup routes are AuthorizedAdminSetting)",
-        "owner": "ConductionNL/nextcloud-vue"
+        "owner": "ConductionNL/nextcloud-vue",
+        "change": "2026-09-29-platform-demo-data"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -5762,7 +5803,8 @@
         "state": "built",
         "evidence": "keyboard paths exist: board cards role=button with Enter/Space (src/views/ProjectBoard.vue:130-137), a keyboard 'Move to' menu as the drag alternative (:152-165, :539-569), focus styles (:678, :763), label chips (:82-87), dashboard list (src/components/DashboardPanels.vue:21-29)",
         "reachedOn": "board, dashboard, project pages",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "none"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5796,7 +5838,8 @@
         "state": "built",
         "evidence": "styles use Nextcloud CSS variables throughout (e.g. src/views/Portfolio.vue style block var(--color-border), var(--color-primary-element); src/components/BlockedBadge.vue:77-78 var(--color-error)); hex values appear only as var() fallbacks or as user-picked project colours (src/components/ProjectSettingsSidebar.vue:257)",
         "reachedOn": "every page, when the nldesign/thematiq theming app maps NL Design System tokens onto those variables",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "none"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5834,7 +5877,8 @@
         "state": "built",
         "evidence": "a Nextcloud app (appinfo/info.xml) whose only dependency is OpenRegister, all data in the local register (lib/Settings/planninq_register.json); the Store page makes no network call without a configured registry (src/manifest.json Store _note)",
         "reachedOn": "the whole app",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "none"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5872,7 +5916,8 @@
         "state": "built",
         "evidence": "LICENSE, appinfo/info.xml <licence>EUPL-1.2, package.json:4 and composer.json:4 EUPL-1.2; no licence key, tier or feature gate anywhere in src/ or lib/",
         "reachedOn": "the whole app",
-        "owner": "ConductionNL/planninq"
+        "owner": "ConductionNL/planninq",
+        "spec": "openspec/specs/app-metadata"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5909,7 +5954,8 @@
         "state": "built",
         "evidence": "TaskDetail sidebar Audit trail tab (src/utils/taskHelpers.js:50-60 -> nextcloud-vue CnObjectSidebar.vue:146-160 CnAuditTrailTab); OpenRegister refuses edits and deletes (openregister/lib/Controller/AuditTrailController.php:407-412, :577-602) and hash-chains entries (openregister/lib/Service/AuditHashService.php)",
         "reachedOn": "TaskDetail /projects/:id/tasks/:taskId, Audit trail tab",
-        "owner": "ConductionNL/openregister"
+        "owner": "ConductionNL/openregister",
+        "change": "2026-06-14-task-collaboration-sidebar"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -5947,7 +5993,8 @@
         "state": "built",
         "evidence": "planninq has no login of its own: every controller runs in the Nextcloud session (lib/Controller/SettingsController.php:148 userSession->getUser()) and the SPA uses the session request token (src/store/modules/settings.js:103)",
         "reachedOn": "Nextcloud login, whichever backend the instance uses (SAML/OIDC apps)",
-        "owner": "nextcloud/server"
+        "owner": "nextcloud/server",
+        "spec": "none"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",
@@ -6361,7 +6408,8 @@
         "reachedOn": "OpenRegister archival settings and destruction lists; no planninq page",
         "owner": "ConductionNL/planninq",
         "consumesSibling": "no: planninq objects carry no retention metadata",
-        "liveCheck": "confirm whether OpenRegister applies a register-wide default retention that would pick up planninq objects"
+        "liveCheck": "confirm whether OpenRegister applies a register-wide default retention that would pick up planninq objects",
+        "spec": "none"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -6653,7 +6701,8 @@
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/views/ProjectBoard.vue:118 the count span is aria-hidden and the column section's aria-label [:109] is the column name only, so a screen-reader user never hears the count"
-        ]
+        ],
+        "change": "2026-09-28-boards-configurable-columns"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6763,7 +6812,8 @@
         "reachedOn": "OpenRegister MCP endpoint /apps/openregister/api/mcp; no planninq page",
         "owner": "ConductionNL/planninq",
         "consumesSibling": "indirectly: the tasks live in OpenRegister, planninq adds no tools",
-        "liveCheck": "confirm an MCP client can list and update planninq task objects and that the task schema's authorization rules apply to MCP calls"
+        "liveCheck": "confirm an MCP client can list and update planninq task objects and that the task schema's authorization rules apply to MCP calls",
+        "spec": "none"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -7089,7 +7139,8 @@
         "evidence": "src/manifest.json:57 menu 'Flows' -> src/manifest.json:223-229 Flows index [rowRoute FlowDetail] -> src/manifest.json:231-236 FlowDetail type flow -> nextcloud-vue src/composables/useFlowStore.js:1772 axios.put /apps/openregister/api/flows/{id} -> openregister appinfo/routes.php:863 flow#update [development 7367d6d]; drafts and versions at openregister appinfo/routes.php:852-858.",
         "reachedOn": "Flows /flows [settings menu] -> FlowDetail /flows/:id",
         "owner": "ConductionNL/openregister",
-        "consumesSibling": "yes: planninq mounts the library flow pages from its manifest"
+        "consumesSibling": "yes: planninq mounts the library flow pages from its manifest",
+        "spec": "none"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -7166,7 +7217,8 @@
           "l10n/ has no ar, he or fa catalogue, so no RTL language is translated",
           "src/views/ProjectTimeline.vue:101 bars use a physical left offset, so the Gantt does not mirror"
         ],
-        "liveCheck": "switch a user to Arabic and look at the board and the timeline"
+        "liveCheck": "switch a user to Arabic and look at the board and the timeline",
+        "spec": "none"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7202,7 +7254,8 @@
         "evidence": "src/views/ProjectBoard.vue:587 applyStatusMove -> src/store/projects.js:835 updateTaskStatus -> OpenRegister object update -> OpenRegister WebhookEventListener -> openregister lib/Service/WebhookService.php initializeHttpClient, where assertSafeWebhookUri gates the URL and the on_redirect callback re-checks every hop [development 7367d6d]. planninq's lib/ holds no HTTP client, so it opens no second path.",
         "reachedOn": "OpenRegister webhook delivery for planninq objects; planninq itself sends nothing out",
         "owner": "ConductionNL/openregister",
-        "consumesSibling": "yes, by storing its objects in OpenRegister"
+        "consumesSibling": "yes, by storing its objects in OpenRegister",
+        "spec": "none"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -7386,7 +7439,8 @@
         "evidence": "src/App.vue:21-27 CnAppRoot inside the logged-in Nextcloud page -> src/store/modules/settings.js:37 requesttoken header -> lib/Controller/SettingsController.php:148 userSession->getUser(). A second factor such as TOTP is enforced by Nextcloud's two-factor providers before any app page loads.",
         "reachedOn": "Nextcloud login, with a two-factor provider enabled by the admin",
         "owner": "nextcloud/server",
-        "consumesSibling": "yes: planninq relies on the Nextcloud session"
+        "consumesSibling": "yes: planninq relies on the Nextcloud session",
+        "spec": "none"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",
@@ -7863,7 +7917,8 @@
         "evidence": "appinfo/info.xml:202-205 registers lib/Settings/AdminSettings.php in Nextcloud Administration, rendered by src/views/settings/AdminRoot.vue:1-19. The overview of installation risks with suggested fixes is Nextcloud's Administration Overview [Security and setup warnings], a platform page. planninq contributes nothing to it, so a planninq-specific risk such as a register made public would not be listed there.",
         "reachedOn": "Nextcloud Administration, Overview",
         "owner": "nextcloud/server",
-        "consumesSibling": "platform page only; planninq registers no setup check"
+        "consumesSibling": "platform page only; planninq registers no setup check",
+        "spec": "none"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",
@@ -7899,7 +7954,8 @@
       "built": {
         "state": "built",
         "evidence": "sibling row learniq:att-schedule-a-lesson in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Settings/learniq_register.json components.schemas.Session; src/manifest.d/learning.json Sessions",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "learniq/2026-07-16-timetabling-and-substitution"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -7934,7 +7990,8 @@
       "built": {
         "state": "built",
         "evidence": "sibling row learniq:att-book-a-room in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Settings/learniq_register.json components.schemas.Room; lib/Timetabling/SessionOverlapEvaluator.php",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "learniq/2026-07-16-timetabling-and-substitution"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -7969,7 +8026,8 @@
       "built": {
         "state": "built",
         "evidence": "sibling row learniq:att-spot-a-clash in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Settings/learniq_register.json components.schemas.TimetableConflict; lib/Timetabling/TimetableConflictDetector.php",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "learniq/2026-07-16-timetabling-and-substitution"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8004,7 +8062,8 @@
       "built": {
         "state": "built",
         "evidence": "sibling row learniq:att-never-auto-resolve-a-clash in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Settings/learniq_register.json TimetableConflict is described as detected, never auto-resolved; src/manifest.d/learning.json TimetableConflictQueue",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "learniq/2026-07-16-timetabling-and-substitution"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8075,7 +8134,8 @@
       "built": {
         "state": "built",
         "evidence": "sibling row learniq:att-tell-people-a-lesson-moved in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Listener/SessionChangeNoticeHandler.php; lib/Lifecycle/SessionChangeGuard.php",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "learniq/2026-07-16-timetabling-and-substitution"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8110,7 +8170,8 @@
       "built": {
         "state": "built",
         "evidence": "sibling row learniq:att-my-own-timetable in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Controller/TimetableController.php mine(), route /api/timetable/mine; src/manifest.d/my-learning.json MyTimetable",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "learniq/2026-07-07-personal-timetable"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8182,7 +8243,8 @@
         "state": "built",
         "evidence": "sibling row learniq:att-take-the-register in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): src/views/AttendanceRegisterView.vue (one row per learner of the session cohort, one AttendanceRecord each)",
         "owner": "ConductionNL/learniq",
-        "reachedOn": "/sessions/:sessionId/attendance"
+        "reachedOn": "/sessions/:sessionId/attendance",
+        "change": "learniq/attendance"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8218,7 +8280,8 @@
         "state": "built",
         "evidence": "sibling row learniq:att-late-and-excused-marks in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Settings/learniq_register.json:13551",
         "owner": "ConductionNL/learniq",
-        "reachedOn": "/attendance/records; /attendance/excuses"
+        "reachedOn": "/attendance/records; /attendance/excuses",
+        "change": "learniq/attendance"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8253,7 +8316,8 @@
       "built": {
         "state": "built",
         "evidence": "sibling row learniq:att-learner-submits-an-excuse in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Settings/learniq_register.json components.schemas.ExcuseRequest; src/manifest.d/people.json SubmitExcuseModal",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "learniq/attendance"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8325,7 +8389,8 @@
       "built": {
         "state": "built",
         "evidence": "sibling row learniq:gua-plan-a-conference-round in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Settings/learniq_register.json components.schemas.ConferenceRound; src/manifest.d/guardian-meetings.json",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "learniq/2026-07-13-parent-evening-planner"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8360,7 +8425,8 @@
       "built": {
         "state": "built",
         "evidence": "sibling row learniq:gua-teacher-states-free-slots in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Settings/learniq_register.json components.schemas.TeacherAvailability",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "learniq/2026-07-13-parent-evening-planner"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8395,7 +8461,8 @@
       "built": {
         "state": "built",
         "evidence": "sibling row learniq:gua-schedule-is-generated in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Listener/ConferenceScheduleGenerator.php",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "learniq/2026-07-13-parent-evening-planner"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8468,7 +8535,8 @@
       "built": {
         "state": "built",
         "evidence": "sibling row learniq:att-flag-when-limit-crossed in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Settings/learniq_register.json components.schemas.AttendanceFlag (not appendOnly since learniq#977, so its handling transitions run); lib/Lifecycle/AttendanceFlagCreationHandler.php",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "learniq/attendance"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -8541,7 +8609,8 @@
         "state": "built",
         "evidence": "learniq@4a6e9dc src/dialogs/SubstitutionModal.vue:79 substitute teacher field, mounted by src/views/MyTimetable.vue:182 and shown at :498; lib/Controller/TimetableController.php:21-26 projects substituteTeacherId and same-day changes. Sibling reading, two hops, not driven",
         "owner": "ConductionNL/learniq",
-        "reachedOn": "learniq MyTimetable page"
+        "reachedOn": "learniq MyTimetable page",
+        "change": "learniq/2026-07-16-timetabling-and-substitution"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -9149,7 +9218,8 @@
       "built": {
         "state": "built",
         "evidence": "learniq@4a6e9dc src/manifest.d/learning.json:257 SubjectChoicePicker page, lib/Lifecycle/SubjectChoiceConsentGuard.php guardian consent, lib/Listener/SubjectChoiceEnrolmentBridge.php carries the choice into enrolment. Sibling reading, not driven",
-        "owner": "ConductionNL/learniq"
+        "owner": "ConductionNL/learniq",
+        "change": "learniq/2026-07-16-admissions-and-subject-choice"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
