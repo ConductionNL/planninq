@@ -9264,13 +9264,13 @@
         "state": "building",
         "evidence": "learniq@04bc878a: lib/Settings/learniq_register.json exam-accommodation (:8085) with its approval guard, managed on the Exam accommodations page (src/manifest.d/learning.json:3854, /exam-accommodations). lib/Service/ExamSittingOverview.php:79 resolves the approved extra time and separate room per exam sitting and is served at GET /api/exam-sittings/{id}/overview (appinfo/routes.php:346), but no file in src/ calls that route and the exam sitting page (src/manifest.d/exam-schedule.json) does not show accommodations. Missing: the user-facing part, the sitting page showing which learners get extra time or a separate room. Change archived as 2026-09-29-timetabling-exam-schedule.",
         "owner": "ConductionNL/learniq",
-        "change": "learniq/2026-09-29-timetabling-exam-schedule",
+        "change": "learniq/exam-sitting-overview-section",
         "reachedOn": "none: computed by ExamSittingOverview, shown on no page",
         "readOn": "2026-10-07"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
-      "note": "Proposed by the zermelo reader as tt-exam-extra-time; proposed by the timeedit reader as tt-exam-accommodations. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the zermelo reader as tt-exam-extra-time; proposed by the timeedit reader as tt-exam-accommodations. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Missing half specified in learniq/exam-sitting-overview-section (spec round part 3, 2026-10-07); delivered half: learniq/2026-09-29-timetabling-exam-schedule."
     },
     {
       "id": "tt-invigilation-fair-share",
