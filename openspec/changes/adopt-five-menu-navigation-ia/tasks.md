@@ -1,5 +1,7 @@
 # Tasks: Adopt the Five-Menu Navigation IA (ADR-001)
 
+> Archive pass 2026-10-07: NOT done. Delivered: Boards and Portfolio views and routes (1.3-1.5, 2.1, 3.x). Open: 0.1, 1.1, 1.2, 1.6, 2.2, 4.1 (wait on the manifest shell change), 3.4 (follow-up issues not filed), 5.1-5.3 (live check), 6.2 (gate run). The delta also ADDS a Beheer requirement that nothing builds yet.
+
 > APPLY STATUS (this session): PARTIAL. The manifest `menu-layout.json` /
 > five-menu restructure (tasks 1.x, 4.x) depends on
 > `adopt-cnapproot-manifest-shell` (the manifest `menu[]` + `buildManifest`
