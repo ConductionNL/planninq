@@ -1370,7 +1370,14 @@
         "These people are not on the target project and are cleared: {names}": "Dawn in-nies mhumiex fil-proġett fil-mira u se jitneħħew: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Ma setax jinbidel jew jiġi kkupjat kollox. Iċċekkja l-proġett fil-mira.",
         "Could not move or copy. Please try again.": "Il-mexxija jew il-kopja falliet. Erġa’ pprova.",
-        "{amount} logged under {project}": "{amount} irreġistrat taħt {project}"
+        "{amount} logged under {project}": "{amount} irreġistrat taħt {project}",
+        "Search tasks": "Fittex kompiti",
+        "Select all": "Agħżel kollox",
+        "{count} selected": "{count} magħżula",
+        "Change status": "Biddel l-istatus",
+        "Change priority": "Biddel il-prijorità",
+        "{done} tasks updated, {failed} failed.": "{done} kompiti aġġornati, {failed} falliet.",
+        "{done} tasks updated.": "{done} kompiti aġġornati."
     },
     "plurals": {}
 }

@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Need inimesed ei kuulu sihtprojekti ja eemaldatakse: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Kõike ei õnnestunud teisaldada ega kopeerida. Kontrolli sihtprojekti.",
         "Could not move or copy. Please try again.": "Teisaldamine või kopeerimine ebaõnnestus. Proovi uuesti.",
-        "{amount} logged under {project}": "{amount} registreeritud projektis {project}"
+        "{amount} logged under {project}": "{amount} registreeritud projektis {project}",
+        "Search tasks": "Otsi ülesandeid",
+        "Select all": "Vali kõik",
+        "{count} selected": "Valitud: {count}",
+        "Change status": "Muuda olekut",
+        "Change priority": "Muuda prioriteeti",
+        "{done} tasks updated, {failed} failed.": "Uuendati {done} ülesannet, ebaõnnestus {failed}.",
+        "{done} tasks updated.": "Uuendati {done} ülesannet."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Тези хора не са в целевия проект и ще бъдат премахнати: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Не всичко можа да бъде преместено или копирано. Проверете целевия проект.",
         "Could not move or copy. Please try again.": "Преместването или копирането не успя. Опитайте отново.",
-        "{amount} logged under {project}": "{amount} отчетени в {project}"
+        "{amount} logged under {project}": "{amount} отчетени в {project}",
+        "Search tasks": "Търсене на задачи",
+        "Select all": "Избиране на всички",
+        "{count} selected": "{count} избрани",
+        "Change status": "Промяна на статуса",
+        "Change priority": "Промяна на приоритета",
+        "{done} tasks updated, {failed} failed.": "{done} задачи са обновени, {failed} неуспешни.",
+        "{done} tasks updated.": "{done} задачи са обновени."
     },
     "nplurals=2; plural=(n != 1);"
 )

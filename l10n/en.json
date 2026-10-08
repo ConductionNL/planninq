@@ -1349,7 +1349,14 @@
         "These people are not on the target project and are cleared: {names}": "These people are not on the target project and are cleared: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Not everything could be moved or copied. Please check the target project.",
         "Could not move or copy. Please try again.": "Could not move or copy. Please try again.",
-        "{amount} logged under {project}": "{amount} logged under {project}"
+        "{amount} logged under {project}": "{amount} logged under {project}",
+        "Search tasks": "Search tasks",
+        "Select all": "Select all",
+        "{count} selected": "{count} selected",
+        "Change status": "Change status",
+        "Change priority": "Change priority",
+        "{done} tasks updated, {failed} failed.": "{done} tasks updated, {failed} failed.",
+        "{done} tasks updated.": "{done} tasks updated."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

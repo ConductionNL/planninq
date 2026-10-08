@@ -2038,6 +2038,32 @@ export const useProjectsStore = defineStore('projects', {
 		},
 
 		/**
+		 * Apply one patch to many tasks, a few requests at a time.
+		 *
+		 * Every task is tried; one failing PATCH does not stop the rest.
+		 *
+		 * @param {Array<string>} ids         The task ids.
+		 * @param {object}        patch       The fields to write.
+		 * @param {number}        concurrency How many requests run at once.
+		 * @return {Promise<{done: Array<string>, failed: Array<string>}>} Per-task result
+		 *
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.2
+		 */
+		async bulkUpdateTasks(ids, patch, concurrency = 4) {
+			const result = { done: [], failed: [] }
+			const queue = [...(ids || [])]
+			const worker = async () => {
+				while (queue.length) {
+					const id = queue.shift()
+					const updated = await this.updateTask(id, patch)
+					;(updated ? result.done : result.failed).push(id)
+				}
+			}
+			await Promise.all(Array.from({ length: Math.min(concurrency, queue.length) }, worker))
+			return result
+		},
+
+		/**
 		 * Patch arbitrary task fields (e.g. `estimatedDuration`).
 		 *
 		 * Uses PATCH (not PUT) for the same reason as `updateTaskStatus`:

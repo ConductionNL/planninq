@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Dës Persoune sinn net am Zilprojet a ginn ewechgeholl: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Net alles konnt geréckelt oder kopéiert ginn. Kuckt d’Zilprojet no.",
         "Could not move or copy. Please try again.": "Réckelen oder Kopéieren huet net geklappt. Probéiert et nach eng Kéier.",
-        "{amount} logged under {project}": "{amount} erfaasst am {project}"
+        "{amount} logged under {project}": "{amount} erfaasst am {project}",
+        "Search tasks": "Aufgaben sichen",
+        "Select all": "Alles auswielen",
+        "{count} selected": "{count} ausgewielt",
+        "Change status": "Status änneren",
+        "Change priority": "Prioritéit änneren",
+        "{done} tasks updated, {failed} failed.": "{done} Aufgaben aktualiséiert, {failed} fehlgeschloen.",
+        "{done} tasks updated.": "{done} Aufgaben aktualiséiert."
     },
     "nplurals=2; plural=(n != 1);"
 )

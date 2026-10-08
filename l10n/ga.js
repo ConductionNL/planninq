@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Níl na daoine seo sa sprioctionscadal agus bainfear iad: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Níorbh fhéidir gach rud a bhogadh nó a chóipeáil. Seiceáil an sprioctionscadal.",
         "Could not move or copy. Please try again.": "Theip ar an mbogadh nó ar an gcóipeáil. Bain triail eile as.",
-        "{amount} logged under {project}": "{amount} logáilte faoi {project}"
+        "{amount} logged under {project}": "{amount} logáilte faoi {project}",
+        "Search tasks": "Cuardaigh tascanna",
+        "Select all": "Roghnaigh uile",
+        "{count} selected": "{count} roghnaithe",
+        "Change status": "Athraigh stádas",
+        "Change priority": "Athraigh tosaíocht",
+        "{done} tasks updated, {failed} failed.": "Nuashonraíodh {done} tasc, theip ar {failed}.",
+        "{done} tasks updated.": "Nuashonraíodh {done} tasc."
     },
     "nplurals=2; plural=(n != 1);"
 )

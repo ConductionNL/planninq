@@ -1370,7 +1370,14 @@
         "These people are not on the target project and are cleared: {names}": "Títo ľudia nie sú v cieľovom projekte a budú odstránení: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Nie všetko sa podarilo presunúť alebo skopírovať. Skontrolujte cieľový projekt.",
         "Could not move or copy. Please try again.": "Presun alebo kopírovanie zlyhalo. Skúste to znova.",
-        "{amount} logged under {project}": "{amount} zapísané v projekte {project}"
+        "{amount} logged under {project}": "{amount} zapísané v projekte {project}",
+        "Search tasks": "Hľadať úlohy",
+        "Select all": "Vybrať všetko",
+        "{count} selected": "Vybrané: {count}",
+        "Change status": "Zmeniť stav",
+        "Change priority": "Zmeniť prioritu",
+        "{done} tasks updated, {failed} failed.": "Aktualizované úlohy: {done}, zlyhalo: {failed}.",
+        "{done} tasks updated.": "Aktualizované úlohy: {done}."
     },
     "plurals": null
 }

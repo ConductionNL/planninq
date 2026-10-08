@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Tito lidé nejsou v cílovém projektu a budou odebráni: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Ne všechno se podařilo přesunout nebo zkopírovat. Zkontrolujte cílový projekt.",
         "Could not move or copy. Please try again.": "Přesun nebo kopírování se nezdařilo. Zkuste to znovu.",
-        "{amount} logged under {project}": "{amount} zapsáno v projektu {project}"
+        "{amount} logged under {project}": "{amount} zapsáno v projektu {project}",
+        "Search tasks": "Hledat úkoly",
+        "Select all": "Vybrat vše",
+        "{count} selected": "Vybráno: {count}",
+        "Change status": "Změnit stav",
+        "Change priority": "Změnit prioritu",
+        "{done} tasks updated, {failed} failed.": "Aktualizováno úkolů: {done}, selhalo: {failed}.",
+        "{done} tasks updated.": "Aktualizováno úkolů: {done}."
     },
     "nplurals=2; plural=(n != 1);"
 )

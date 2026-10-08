@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Questas persunas n’èn betg en il project da destinaziun e vegnan allontanadas: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Betg tut ha pudì vegnir spustà u copià. Controllescha il project da destinaziun.",
         "Could not move or copy. Please try again.": "Il spustar u copiar n’è betg reussì. Emprova danovamain.",
-        "{amount} logged under {project}": "{amount} registrà en {project}"
+        "{amount} logged under {project}": "{amount} registrà en {project}",
+        "Search tasks": "Tschertgar incumbensas",
+        "Select all": "Tscherner tut",
+        "{count} selected": "{count} tschernidas",
+        "Change status": "Midar il status",
+        "Change priority": "Midar la prioritad",
+        "{done} tasks updated, {failed} failed.": "{done} incumbensas actualisadas, {failed} betg reussidas.",
+        "{done} tasks updated.": "{done} incumbensas actualisadas."
     },
     "nplurals=2; plural=(n != 1);"
 )

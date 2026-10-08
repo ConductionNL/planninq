@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Ezek a személyek nem tagjai a célprojektnek, ezért eltávolítjuk őket: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Nem sikerült mindent áthelyezni vagy másolni. Ellenőrizze a célprojektet.",
         "Could not move or copy. Please try again.": "Az áthelyezés vagy másolás nem sikerült. Próbálja újra.",
-        "{amount} logged under {project}": "{amount} rögzítve a(z) {project} projektben"
+        "{amount} logged under {project}": "{amount} rögzítve a(z) {project} projektben",
+        "Search tasks": "Feladatok keresése",
+        "Select all": "Összes kijelölése",
+        "{count} selected": "{count} kijelölve",
+        "Change status": "Állapot módosítása",
+        "Change priority": "Prioritás módosítása",
+        "{done} tasks updated, {failed} failed.": "{done} feladat frissítve, {failed} sikertelen.",
+        "{done} tasks updated.": "{done} feladat frissítve."
     },
     "nplurals=2; plural=(n != 1);"
 )

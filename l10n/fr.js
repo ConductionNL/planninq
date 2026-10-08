@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Ces personnes ne font pas partie du projet cible et seront retirées : {names}",
         "Not everything could be moved or copied. Please check the target project.": "Tout n’a pas pu être déplacé ou copié. Vérifiez le projet cible.",
         "Could not move or copy. Please try again.": "Le déplacement ou la copie a échoué. Veuillez réessayer.",
-        "{amount} logged under {project}": "{amount} enregistrées dans {project}"
+        "{amount} logged under {project}": "{amount} enregistrées dans {project}",
+        "Search tasks": "Rechercher des tâches",
+        "Select all": "Tout sélectionner",
+        "{count} selected": "{count} sélectionnées",
+        "Change status": "Changer le statut",
+        "Change priority": "Changer la priorité",
+        "{done} tasks updated, {failed} failed.": "{done} tâches mises à jour, {failed} en échec.",
+        "{done} tasks updated.": "{done} tâches mises à jour."
     },
     "nplurals=2; plural=(n != 1);"
 )

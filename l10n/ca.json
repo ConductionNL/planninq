@@ -1370,7 +1370,14 @@
         "These people are not on the target project and are cleared: {names}": "Aquestes persones no són al projecte de destinació i se suprimiran: {names}",
         "Not everything could be moved or copied. Please check the target project.": "No s’ha pogut moure o copiar tot. Reviseu el projecte de destinació.",
         "Could not move or copy. Please try again.": "No s’ha pogut moure ni copiar. Torneu-ho a provar.",
-        "{amount} logged under {project}": "{amount} registrades a {project}"
+        "{amount} logged under {project}": "{amount} registrades a {project}",
+        "Search tasks": "Cerca tasques",
+        "Select all": "Selecciona-ho tot",
+        "{count} selected": "{count} seleccionades",
+        "Change status": "Canvia l’estat",
+        "Change priority": "Canvia la prioritat",
+        "{done} tasks updated, {failed} failed.": "{done} tasques actualitzades, {failed} han fallat.",
+        "{done} tasks updated.": "{done} tasques actualitzades."
     },
     "plurals": null
 }

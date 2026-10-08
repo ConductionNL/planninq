@@ -1370,7 +1370,14 @@
         "These people are not on the target project and are cleared: {names}": "Estas personas no están en el proyecto de destino y se quitarán: {names}",
         "Not everything could be moved or copied. Please check the target project.": "No se pudo mover o copiar todo. Revisa el proyecto de destino.",
         "Could not move or copy. Please try again.": "No se pudo mover ni copiar. Inténtalo de nuevo.",
-        "{amount} logged under {project}": "{amount} registradas en {project}"
+        "{amount} logged under {project}": "{amount} registradas en {project}",
+        "Search tasks": "Buscar tareas",
+        "Select all": "Seleccionar todo",
+        "{count} selected": "{count} seleccionadas",
+        "Change status": "Cambiar estado",
+        "Change priority": "Cambiar prioridad",
+        "{done} tasks updated, {failed} failed.": "{done} tareas actualizadas, {failed} con error.",
+        "{done} tasks updated.": "{done} tareas actualizadas."
     },
     "plurals": null
 }

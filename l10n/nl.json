@@ -1381,7 +1381,14 @@
         "These people are not on the target project and are cleared: {names}": "Deze mensen zitten niet in het doelproject en worden gewist: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Niet alles kon worden verplaatst of gekopieerd. Controleer het doelproject.",
         "Could not move or copy. Please try again.": "Verplaatsen of kopiëren is niet gelukt. Probeer het opnieuw.",
-        "{amount} logged under {project}": "{amount} geboekt onder {project}"
+        "{amount} logged under {project}": "{amount} geboekt onder {project}",
+        "Search tasks": "Taken zoeken",
+        "Select all": "Alles selecteren",
+        "{count} selected": "{count} geselecteerd",
+        "Change status": "Status wijzigen",
+        "Change priority": "Prioriteit wijzigen",
+        "{done} tasks updated, {failed} failed.": "{done} taken bijgewerkt, {failed} mislukt.",
+        "{done} tasks updated.": "{done} taken bijgewerkt."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

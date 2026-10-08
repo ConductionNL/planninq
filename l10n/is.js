@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Þetta fólk er ekki í markverkefninu og verður fjarlægt: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Ekki tókst að færa eða afrita allt. Athugaðu markverkefnið.",
         "Could not move or copy. Please try again.": "Ekki tókst að færa eða afrita. Reyndu aftur.",
-        "{amount} logged under {project}": "{amount} skráðar undir {project}"
+        "{amount} logged under {project}": "{amount} skráðar undir {project}",
+        "Search tasks": "Leita að verkefnum",
+        "Select all": "Velja allt",
+        "{count} selected": "{count} valin",
+        "Change status": "Breyta stöðu",
+        "Change priority": "Breyta forgangi",
+        "{done} tasks updated, {failed} failed.": "{done} verkefni uppfærð, {failed} mistókust.",
+        "{done} tasks updated.": "{done} verkefni uppfærð."
     },
     "nplurals=2; plural=(n != 1);"
 )

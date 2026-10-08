@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Ove osobe nisu u ciljnom projektu i biće uklonjene: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Nije sve moglo da se premesti ili kopira. Proverite ciljni projekat.",
         "Could not move or copy. Please try again.": "Premeštanje ili kopiranje nije uspelo. Pokušajte ponovo.",
-        "{amount} logged under {project}": "{amount} evidentirano u projektu {project}"
+        "{amount} logged under {project}": "{amount} evidentirano u projektu {project}",
+        "Search tasks": "Pretraži zadatke",
+        "Select all": "Izaberi sve",
+        "{count} selected": "Izabrano: {count}",
+        "Change status": "Promeni status",
+        "Change priority": "Promeni prioritet",
+        "{done} tasks updated, {failed} failed.": "Ažurirano zadataka: {done}, neuspelo: {failed}.",
+        "{done} tasks updated.": "Ažurirano zadataka: {done}."
     },
     "nplurals=2; plural=(n != 1);"
 )

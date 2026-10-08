@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Šie cilvēki nav mērķa projektā, un viņi tiks noņemti: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Ne viss tika pārvietots vai nokopēts. Pārbaudiet mērķa projektu.",
         "Could not move or copy. Please try again.": "Pārvietošana vai kopēšana neizdevās. Mēģiniet vēlreiz.",
-        "{amount} logged under {project}": "{amount} reģistrēts projektā {project}"
+        "{amount} logged under {project}": "{amount} reģistrēts projektā {project}",
+        "Search tasks": "Meklēt uzdevumus",
+        "Select all": "Atlasīt visu",
+        "{count} selected": "Atlasīti: {count}",
+        "Change status": "Mainīt statusu",
+        "Change priority": "Mainīt prioritāti",
+        "{done} tasks updated, {failed} failed.": "Atjaunināti uzdevumi: {done}, neizdevās: {failed}.",
+        "{done} tasks updated.": "Atjaunināti uzdevumi: {done}."
     },
     "nplurals=2; plural=(n != 1);"
 )

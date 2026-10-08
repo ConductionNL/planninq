@@ -1370,7 +1370,14 @@
         "These people are not on the target project and are cleared: {names}": "Bu kişiler hedef projede değil ve kaldırılacak: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Her şey taşınamadı veya kopyalanamadı. Hedef projeyi kontrol edin.",
         "Could not move or copy. Please try again.": "Taşıma veya kopyalama başarısız oldu. Lütfen yeniden deneyin.",
-        "{amount} logged under {project}": "{amount}, {project} altında kaydedildi"
+        "{amount} logged under {project}": "{amount}, {project} altında kaydedildi",
+        "Search tasks": "Görevlerde ara",
+        "Select all": "Tümünü seç",
+        "{count} selected": "{count} seçildi",
+        "Change status": "Durumu değiştir",
+        "Change priority": "Önceliği değiştir",
+        "{done} tasks updated, {failed} failed.": "{done} görev güncellendi, {failed} başarısız oldu.",
+        "{done} tasks updated.": "{done} görev güncellendi."
     },
     "plurals": {}
 }

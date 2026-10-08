@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Šių žmonių nėra tiksliniame projekte, todėl jie bus pašalinti: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Ne viską pavyko perkelti ar nukopijuoti. Patikrinkite tikslinį projektą.",
         "Could not move or copy. Please try again.": "Nepavyko perkelti ar nukopijuoti. Bandykite dar kartą.",
-        "{amount} logged under {project}": "{amount} užregistruota projekte {project}"
+        "{amount} logged under {project}": "{amount} užregistruota projekte {project}",
+        "Search tasks": "Ieškoti užduočių",
+        "Select all": "Pasirinkti viską",
+        "{count} selected": "Pasirinkta: {count}",
+        "Change status": "Keisti būseną",
+        "Change priority": "Keisti prioritetą",
+        "{done} tasks updated, {failed} failed.": "Atnaujinta užduočių: {done}, nepavyko: {failed}.",
+        "{done} tasks updated.": "Atnaujinta užduočių: {done}."
     },
     "nplurals=2; plural=(n != 1);"
 )

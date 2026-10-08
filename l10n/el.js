@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Αυτά τα άτομα δεν ανήκουν στο έργο προορισμού και θα αφαιρεθούν: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Δεν ήταν δυνατή η μετακίνηση ή η αντιγραφή όλων. Ελέγξτε το έργο προορισμού.",
         "Could not move or copy. Please try again.": "Η μετακίνηση ή η αντιγραφή απέτυχε. Δοκιμάστε ξανά.",
-        "{amount} logged under {project}": "{amount} καταγράφηκαν στο {project}"
+        "{amount} logged under {project}": "{amount} καταγράφηκαν στο {project}",
+        "Search tasks": "Αναζήτηση εργασιών",
+        "Select all": "Επιλογή όλων",
+        "{count} selected": "{count} επιλεγμένες",
+        "Change status": "Αλλαγή κατάστασης",
+        "Change priority": "Αλλαγή προτεραιότητας",
+        "{done} tasks updated, {failed} failed.": "Ενημερώθηκαν {done} εργασίες, απέτυχαν {failed}.",
+        "{done} tasks updated.": "Ενημερώθηκαν {done} εργασίες."
     },
     "nplurals=2; plural=(n != 1);"
 )

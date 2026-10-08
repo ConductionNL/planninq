@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Цих людей немає в цільовому проєкті, їх буде вилучено: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Не все вдалося перемістити або скопіювати. Перевірте цільовий проєкт.",
         "Could not move or copy. Please try again.": "Не вдалося перемістити або скопіювати. Спробуйте ще раз.",
-        "{amount} logged under {project}": "{amount} зареєстровано в {project}"
+        "{amount} logged under {project}": "{amount} зареєстровано в {project}",
+        "Search tasks": "Шукати завдання",
+        "Select all": "Вибрати все",
+        "{count} selected": "Вибрано: {count}",
+        "Change status": "Змінити статус",
+        "Change priority": "Змінити пріоритет",
+        "{done} tasks updated, {failed} failed.": "Оновлено завдань: {done}, не вдалося: {failed}.",
+        "{done} tasks updated.": "Оновлено завдань: {done}."
     },
     "nplurals=2; plural=(n != 1);"
 )

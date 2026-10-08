@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Nämä henkilöt eivät ole kohdeprojektissa, ja ne poistetaan: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Kaikkea ei voitu siirtää tai kopioida. Tarkista kohdeprojekti.",
         "Could not move or copy. Please try again.": "Siirto tai kopiointi epäonnistui. Yritä uudelleen.",
-        "{amount} logged under {project}": "{amount} kirjattu projektiin {project}"
+        "{amount} logged under {project}": "{amount} kirjattu projektiin {project}",
+        "Search tasks": "Hae tehtäviä",
+        "Select all": "Valitse kaikki",
+        "{count} selected": "{count} valittu",
+        "Change status": "Vaihda tila",
+        "Change priority": "Vaihda tärkeysjärjestys",
+        "{done} tasks updated, {failed} failed.": "{done} tehtävää päivitetty, {failed} epäonnistui.",
+        "{done} tasks updated.": "{done} tehtävää päivitetty."
     },
     "nplurals=2; plural=(n != 1);"
 )

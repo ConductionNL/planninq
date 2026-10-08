@@ -43,6 +43,13 @@
 				</h2>
 
 				<div class="project-board__header-actions">
+					<NcTextField
+						v-model="search"
+						class="project-board__search"
+						:label="t('planninq', 'Search tasks')"
+						type="search"
+						data-testid="board-search"
+						@keydown.esc="search = ''" />
 					<BoardViewMenu
 						v-if="view === 'board' && !requestBanner"
 						:colour="boardView.colour"
@@ -527,7 +534,7 @@ import { isReadOnlyFor, readOnlyReason } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
 import { boardAccessDenied, currentGroupIds } from '../utils/projectRole.js'
 import { newLaneTask } from '../utils/taskEditing.js'
-import { deriveBlockedTaskIds, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
+import { deriveBlockedTaskIds, matchesSearch, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
 import { targetProjects } from '../utils/taskMove.js'
 import { memberOptions, PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
@@ -597,6 +604,7 @@ export default {
 			removingColumn: null,
 			/** @type {object|null} The column whose rules are being edited. */
 			rulesColumn: null,
+			search: '',
 			transferColumn: null,
 			transferBusy: false,
 			/** @type {string} What the last move's column rules changed, for screen readers. */
@@ -888,7 +896,7 @@ export default {
 		visibleTasks() {
 			const uid = getCurrentUser()?.uid || ''
 			const filter = this.boardFilter
-			return this.tasks.filter((task) => matchesFilter(task, filter, uid))
+			return this.tasks.filter((task) => matchesFilter(task, filter, uid) && matchesSearch(task, this.search))
 		},
 
 		/**

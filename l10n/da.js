@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Disse personer er ikke med i målprojektet og fjernes: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Ikke alt kunne flyttes eller kopieres. Tjek målprojektet.",
         "Could not move or copy. Please try again.": "Kunne ikke flytte eller kopiere. Prøv igen.",
-        "{amount} logged under {project}": "{amount} registreret under {project}"
+        "{amount} logged under {project}": "{amount} registreret under {project}",
+        "Search tasks": "Søg i opgaver",
+        "Select all": "Vælg alle",
+        "{count} selected": "{count} valgt",
+        "Change status": "Skift status",
+        "Change priority": "Skift prioritet",
+        "{done} tasks updated, {failed} failed.": "{done} opgaver opdateret, {failed} mislykkedes.",
+        "{done} tasks updated.": "{done} opgaver opdateret."
     },
     "nplurals=2; plural=(n != 1);"
 )

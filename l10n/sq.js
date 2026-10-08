@@ -1371,7 +1371,14 @@ OC.L10N.register(
         "These people are not on the target project and are cleared: {names}": "Këta persona nuk janë në projektin e synuar dhe do të hiqen: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Jo gjithçka u zhvendos ose u kopjua. Kontrolloni projektin e synuar.",
         "Could not move or copy. Please try again.": "Zhvendosja ose kopjimi dështoi. Provoni përsëri.",
-        "{amount} logged under {project}": "{amount} të regjistruara te {project}"
+        "{amount} logged under {project}": "{amount} të regjistruara te {project}",
+        "Search tasks": "Kërko detyra",
+        "Select all": "Zgjidh të gjitha",
+        "{count} selected": "{count} të zgjedhura",
+        "Change status": "Ndrysho statusin",
+        "Change priority": "Ndrysho përparësinë",
+        "{done} tasks updated, {failed} failed.": "{done} detyra u përditësuan, {failed} dështuan.",
+        "{done} tasks updated.": "{done} detyra u përditësuan."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1370,7 +1370,14 @@
         "These people are not on the target project and are cleared: {names}": "Aceste persoane nu fac parte din proiectul țintă și vor fi eliminate: {names}",
         "Not everything could be moved or copied. Please check the target project.": "Nu s-a putut muta sau copia totul. Verificați proiectul țintă.",
         "Could not move or copy. Please try again.": "Mutarea sau copierea a eșuat. Încercați din nou.",
-        "{amount} logged under {project}": "{amount} înregistrate în {project}"
+        "{amount} logged under {project}": "{amount} înregistrate în {project}",
+        "Search tasks": "Caută sarcini",
+        "Select all": "Selectează tot",
+        "{count} selected": "{count} selectate",
+        "Change status": "Schimbă starea",
+        "Change priority": "Schimbă prioritatea",
+        "{done} tasks updated, {failed} failed.": "{done} sarcini actualizate, {failed} eșuate.",
+        "{done} tasks updated.": "{done} sarcini actualizate."
     },
     "plurals": {}
 }

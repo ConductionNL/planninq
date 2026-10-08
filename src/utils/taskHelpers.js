@@ -342,3 +342,23 @@ export function newLinkFor(taskId, pickedId, type = 'blocks') {
 	}
 	return { blocker: taskId, blocked: pickedId, type }
 }
+
+/**
+ * Whether a task matches a search term in its title, description or key.
+ *
+ * Case and surrounding whitespace do not matter; an empty term matches all.
+ *
+ * @param {object} task The task.
+ * @param {string} term The typed term.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-1.1
+ */
+export function matchesSearch(task, term) {
+	const needle = String(term ?? '').trim().toLowerCase()
+	if (needle === '') {
+		return true
+	}
+	return [task?.title, task?.description, task?.key]
+		.some((field) => String(field ?? '').toLowerCase().includes(needle))
+}
