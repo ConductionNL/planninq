@@ -231,6 +231,10 @@ Vrij en open source onder de EUPL-1.2-licentie.
         </install>
     </repair-steps>
 
+    <commands>
+        <command>OCA\Planninq\Command\WorkflowResync</command>
+    </commands>
+
     <settings>
         <admin>OCA\Planninq\Settings\AdminSettings</admin>
         <admin-section>OCA\Planninq\Sections\SettingsSection</admin-section>

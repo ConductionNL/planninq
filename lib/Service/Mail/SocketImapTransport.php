@@ -115,9 +115,10 @@ class SocketImapTransport implements ImapTransport {
 	 * Close the connection.
 	 *
 	 * @return void
+	 *
+	 * @psalm-suppress InvalidPropertyAssignmentValue The handle is not used after close.
 	 */
 	public function close(): void {
-		/** @psalm-suppress InvalidPropertyAssignmentValue The handle is not used after close. */
 		fclose($this->stream);
 	}//end close()
 }//end class

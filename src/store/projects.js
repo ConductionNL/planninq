@@ -38,6 +38,7 @@ const COLUMN_SCHEMA = 'column'
 const TASK_SCHEMA = 'task'
 const TIME_ENTRY_SCHEMA = 'plannedTimeEntry'
 const LABEL_SCHEMA = 'label'
+const WORKFLOW_SCHEMA = 'workflow'
 const LOG_SCHEMA = 'projectLogEntry'
 const RISK_SCHEMA = 'risk'
 const STATUS_REPORT_SCHEMA = 'projectStatusReport'
@@ -166,6 +167,9 @@ export const useProjectsStore = defineStore('projects', {
 			}
 			if (!store.objectTypeRegistry?.[LABEL_SCHEMA]) {
 				store.registerObjectType(LABEL_SCHEMA, LABEL_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: LABEL_SCHEMA })
+			}
+			if (!store.objectTypeRegistry?.[WORKFLOW_SCHEMA]) {
+				store.registerObjectType(WORKFLOW_SCHEMA, WORKFLOW_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: WORKFLOW_SCHEMA })
 			}
 			if (!store.objectTypeRegistry?.[LOG_SCHEMA]) {
 				store.registerObjectType(LOG_SCHEMA, LOG_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: LOG_SCHEMA })
@@ -1812,6 +1816,27 @@ export const useProjectsStore = defineStore('projects', {
 				return Array.isArray(labels) ? labels : []
 			} catch (err) {
 				console.error('fetchLabels error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Fetch every workflow, for the project settings picker and the estimate scale.
+		 *
+		 * Readable by every signed-in user; only admins write them.
+		 *
+		 * @return {Promise<Array>} The workflows by title (empty array on error)
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		async fetchWorkflows() {
+			try {
+				const workflows = await fetchEvery(this._objectStore(), WORKFLOW_SCHEMA)
+				return Array.isArray(workflows)
+					? [...workflows].sort((a, b) => String(a?.title ?? '').localeCompare(String(b?.title ?? '')))
+					: []
+			} catch (err) {
+				console.error('fetchWorkflows error:', err)
 				return []
 			}
 		},

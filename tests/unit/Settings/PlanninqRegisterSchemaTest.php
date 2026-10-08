@@ -776,8 +776,8 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
-	public function testRegisterDeclaresExactlyTwentyOneSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'taskReport', 'wikiPage'];
+	public function testRegisterDeclaresExactlyTwentyThreeSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'taskReport', 'wikiPage', 'workflow'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -786,7 +786,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the twenty-two expected schemas'
+			message: 'register schema list must be exactly the twenty-three expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -794,7 +794,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the twenty-two expected schemas'
+			message: 'components.schemas must define exactly the twenty-three expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -803,7 +803,37 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyTwentyOneSchemas()
+	}//end testRegisterDeclaresExactlyTwentyThreeSchemas()
+
+	/**
+	 * A workflow carries columns and an estimate scale, a project may follow one, a column
+	 * remembers which workflow column it came from, and a column still belongs to its project.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.1
+	 */
+	public function testWorkflowSchemaAndReferences(): void {
+		$schemas  = $this->register['components']['schemas'];
+		$workflow = $schemas['workflow'];
+
+		self::assertSame(['title', 'columns'], $workflow['required']);
+		foreach (['title', 'description', 'columns', 'estimateScale', 'estimateValues'] as $property) {
+			self::assertArrayHasKey($property, $workflow['properties'], 'workflow.' . $property);
+		}
+
+		self::assertSame(['none', 'hours', 'storyPoints', 'tshirt'], $workflow['properties']['estimateScale']['enum']);
+		self::assertSame(['key', 'title'], $workflow['properties']['columns']['items']['required']);
+		self::assertSame(['admin'], $workflow['authorization']['update'], 'only admins edit a workflow');
+		self::assertContains(['group' => 'authenticated'], $workflow['authorization']['read'], 'every member reads the scale of their workflow');
+
+		self::assertSame('workflow', $schemas['project']['properties']['workflow']['$ref']);
+		self::assertTrue($schemas['project']['properties']['workflow']['nullable']);
+		self::assertSame('string', $schemas['column']['properties']['workflowKey']['type']);
+		self::assertContains('project', $schemas['column']['required'], 'a column still belongs to one project');
+		self::assertArrayNotHasKey('labels', $workflow['properties'], 'labels stay app-wide');
+
+	}//end testWorkflowSchemaAndReferences()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.

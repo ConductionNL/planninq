@@ -105,6 +105,37 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-2.2
 		 */
 		/**
+		 * The workflow sync listener is subscribed for project creates and updates, workflow updates
+		 * and workflow deletes, and boot() calls the registration.
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.2
+		 */
+		public function testBootSubscribesTheWorkflowColumnSyncListener(): void {
+			ObjectEventSubscription::$calls = [];
+			$app = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			(new \ReflectionMethod(Application::class, 'registerWorkflowListeners'))->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
+
+			$calls = [];
+			foreach (ObjectEventSubscription::$calls as $call) {
+				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
+				self::assertTrue(class_exists($call['event']), $call['event'] . ' must exist');
+				$calls[] = [substr($call['listener'], strrpos($call['listener'], '\\') + 1), substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
+			}
+
+			self::assertSame(
+				[
+					['WorkflowColumnSyncListener', 'ObjectCreatedEvent', ['project']],
+					['WorkflowColumnSyncListener', 'ObjectUpdatedEvent', ['project', 'workflow']],
+					['WorkflowColumnSyncListener', 'ObjectDeletingEvent', ['workflow']],
+				],
+				$calls
+			);
+
+			$boot = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
+			self::assertStringContainsString('$this->registerWorkflowListeners(dispatcher: $dispatcher);', $boot, 'boot() calls the registration');
+		}//end testBootSubscribesTheWorkflowColumnSyncListener()
+
+		/**
 		 * The task reporter guard is subscribed for task creates, updates and deletes,
 		 * and before the dependency cleanup, so a refused delete leaves the links alone.
 		 *

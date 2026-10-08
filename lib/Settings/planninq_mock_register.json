@@ -1892,6 +1892,112 @@
         "order": 2,
         "body": "Account, access to the repository, a walk through the board.",
         "parent": "0000de00-0000-4000-8000-001600000001"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "workflow",
+          "slug": "demo-workflow-permits",
+          "id": "0000de00-0000-4000-8000-001700000001"
+        },
+        "title": "Permit handling",
+        "description": "Intake to decision for permit requests.",
+        "columns": [
+          {
+            "key": "intake",
+            "title": "Intake",
+            "type": "active"
+          },
+          {
+            "key": "review",
+            "title": "Review",
+            "type": "active",
+            "wipLimit": 5
+          },
+          {
+            "key": "decision",
+            "title": "Decision",
+            "type": "done"
+          }
+        ],
+        "estimateScale": "hours",
+        "estimateValues": []
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "workflow",
+          "slug": "demo-workflow-scrum",
+          "id": "0000de00-0000-4000-8000-001700000002"
+        },
+        "title": "Sprint board",
+        "description": "The usual sprint columns with story points.",
+        "columns": [
+          {
+            "key": "todo",
+            "title": "To do",
+            "type": "active"
+          },
+          {
+            "key": "doing",
+            "title": "In progress",
+            "type": "active",
+            "wipLimit": 4
+          },
+          {
+            "key": "review",
+            "title": "Review",
+            "type": "active"
+          },
+          {
+            "key": "done",
+            "title": "Done",
+            "type": "done"
+          }
+        ],
+        "estimateScale": "storyPoints",
+        "estimateValues": [
+          "1",
+          "2",
+          "3",
+          "5",
+          "8",
+          "13"
+        ]
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "workflow",
+          "slug": "demo-workflow-support",
+          "id": "0000de00-0000-4000-8000-001700000003"
+        },
+        "title": "Support queue",
+        "description": "New requests through to resolved, sized in t-shirt sizes.",
+        "columns": [
+          {
+            "key": "new",
+            "title": "New",
+            "type": "active"
+          },
+          {
+            "key": "working",
+            "title": "Working on it",
+            "type": "active"
+          },
+          {
+            "key": "resolved",
+            "title": "Resolved",
+            "type": "done"
+          }
+        ],
+        "estimateScale": "tshirt",
+        "estimateValues": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ]
       }
     ]
   }

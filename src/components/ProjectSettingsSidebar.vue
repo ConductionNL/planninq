@@ -265,9 +265,37 @@
 			<template #icon>
 				<ViewColumnOutline :size="20" />
 			</template>
+			<!-- Shared workflow: columns and estimate scale come from an admin's workflow (projects-templates-shared-workflow) -->
+			<div v-if="workflows.length || currentProject.workflow" class="project-settings-sidebar__section" data-testid="project-workflow">
+				<NcSelect
+					:modelValue="workflowChoice"
+					:options="workflowOptions"
+					:inputLabel="t('planninq', 'Workflow')"
+					:disabled="!canManageColumns || savingWorkflow"
+					label="label"
+					data-testid="project-workflow-select"
+					@update:modelValue="onWorkflowPicked" />
+				<p v-if="followedWorkflow" class="project-settings-sidebar__hint" data-testid="project-workflow-following">
+					{{ t('planninq', 'The columns of this project follow the workflow {title}. Change them in the workflow.', { title: followedWorkflow.title }) }}
+				</p>
+				<div v-if="pendingWorkflow" class="project-settings-sidebar__confirm-row" data-testid="project-workflow-confirm">
+					<span v-if="pendingMove.moved">{{ n('planninq', '{count} task moves to {column} because its column is not in this workflow', '{count} tasks move to {column} because their column is not in this workflow', pendingMove.moved, { count: pendingMove.moved, column: pendingMove.target }) }}</span>
+					<span v-else>{{ t('planninq', 'No task has to move.') }}</span>
+					<NcButton variant="primary"
+						:disabled="savingWorkflow"
+						data-testid="project-workflow-apply"
+						@click="applyWorkflow">
+						{{ t('planninq', 'Apply workflow') }}
+					</NcButton>
+					<NcButton @click="pendingWorkflow = null">
+						{{ t('planninq', 'Cancel') }}
+					</NcButton>
+				</div>
+			</div>
 			<ColumnSettingsList
+				:key="columnsKey"
 				:projectId="project.id"
-				:canManage="canManageColumns"
+				:canManage="canManageColumns && !followedWorkflow"
 				@changed="$emit('columnsChanged')" />
 		</NcAppSidebarTab>
 
@@ -394,6 +422,7 @@ import { lifecycleButtons } from '../utils/projectLifecycle.js'
 import { ASSIGNABLE_ROLES, canManageMembers, canSetOwnerGroup, currentGroupIds, ownerGroupOf, projectRole } from '../utils/projectRole.js'
 import { parentIdOf, parentOptions, parentRefusal } from '../utils/projectTree.js'
 import { displayNames, groupNames } from '../utils/userNames.js'
+import { mappingPreview } from '../utils/workflowMapping.js'
 import { keyEditable, keyRefusal, normaliseProjectKey } from '../utils/workItemKeys.js'
 
 export default {
@@ -441,6 +470,12 @@ export default {
 			showLeaveDialog: false,
 			showDeleteDialog: false,
 			showCopyDialog: false,
+			// Shared workflow (projects-templates-shared-workflow)
+			workflows: [],
+			pendingWorkflow: null,
+			pendingMove: { moved: 0, target: '' },
+			savingWorkflow: false,
+			columnsKey: 0,
 			removalWarning: null,
 			pendingRemoveUid: null,
 			form: {
@@ -538,6 +573,31 @@ export default {
 		 */
 		mayManageMembers() {
 			return getCurrentUser()?.isAdmin === true || canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
+		},
+
+		/**
+		 * The workflow the project follows, or null.
+		 *
+		 * @return {object|null}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		followedWorkflow() {
+			return this.workflows.find((workflow) => workflow.id === this.currentProject.workflow) || null
+		},
+
+		/**
+		 * @spec exclude Display helper — the workflow choices, with a way to take the project off one.
+		 */
+		workflowOptions() {
+			return [{ id: '', label: this.t('planninq', 'No workflow') }, ...this.workflows.map((workflow) => ({ id: workflow.id, label: String(workflow.title ?? '') }))]
+		},
+
+		/**
+		 * @spec exclude Display helper — the option showing the current workflow.
+		 */
+		workflowChoice() {
+			return this.workflowOptions.find((option) => option.id === (this.currentProject.workflow || '')) || this.workflowOptions[0]
 		},
 
 		/**
@@ -722,6 +782,7 @@ export default {
 		this.form.portfolio = this.portfolioOption(this.project)
 		this.form.parent = this.parentOption(this.project)
 		this.loadActions()
+		this.loadWorkflows()
 	},
 
 	methods: {
@@ -1029,6 +1090,74 @@ export default {
 			this.showLeaveDialog = false
 			this.$emit('close')
 			this.$router.push({ name: 'Projects' })
+		},
+
+		/**
+		 * Load the workflows to pick from.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		async loadWorkflows() {
+			this.workflows = await this.projectsStore.fetchWorkflows()
+		},
+
+		/**
+		 * A workflow was picked: show how many tasks move before saving, or take the project off its workflow.
+		 *
+		 * @param {{id: string}|null} option The chosen option.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		async onWorkflowPicked(option) {
+			if (!option || option.id === (this.currentProject.workflow || '')) {
+				return
+			}
+			if (option.id === '') {
+				this.pendingWorkflow = null
+				await this.saveWorkflow('')
+				return
+			}
+			const workflow = this.workflows.find((candidate) => candidate.id === option.id)
+			const [columns, tasks] = await Promise.all([this.projectsStore.fetchColumns(this.project.id), this.projectsStore.fetchTasks(this.project.id)])
+			this.pendingMove = mappingPreview(columns, tasks, workflow?.columns || [])
+			this.pendingWorkflow = workflow || null
+		},
+
+		/**
+		 * Put the project on the workflow it is about to follow.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		async applyWorkflow() {
+			if (this.pendingWorkflow) {
+				await this.saveWorkflow(this.pendingWorkflow.id)
+			}
+		},
+
+		/**
+		 * Write the workflow; the server builds the project's columns from it.
+		 *
+		 * @param {string} id The workflow id, or '' to leave workflows.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		async saveWorkflow(id) {
+			this.savingWorkflow = true
+			const updated = await this.projectsStore.patchProject(this.project.id, { workflow: id || null })
+			this.savingWorkflow = false
+			this.pendingWorkflow = null
+			if (!updated) {
+				showError(this.t('planninq', 'The workflow could not be set. Please try again.'))
+				return
+			}
+			this.columnsKey++
+			this.$emit('columnsChanged')
 		},
 
 		/**

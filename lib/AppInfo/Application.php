@@ -606,7 +606,32 @@ class Application extends App implements IBootstrap {
 		$this->registerMembershipListeners(dispatcher: $dispatcher);
 		$this->registerBoardColumnListeners(dispatcher: $dispatcher);
 		$this->registerWorkItemKeyListeners(dispatcher: $dispatcher);
+		$this->registerWorkflowListeners(dispatcher: $dispatcher);
 	}//end boot()
+
+	/**
+	 * Register the shared-workflow listener: a workflow change reaches the
+	 * columns of every project that follows it, a project put on a workflow
+	 * gets its columns, and a workflow that projects follow cannot be deleted.
+	 *
+	 * @param IEventDispatcher $dispatcher The event dispatcher.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.2
+	 */
+	private function registerWorkflowListeners(IEventDispatcher $dispatcher): void {
+		$events = ['ObjectCreatedEvent' => ['project'], 'ObjectUpdatedEvent' => ['project', 'workflow'], 'ObjectDeletingEvent' => ['workflow']];
+		foreach ($events as $event => $schemas) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\WorkflowColumnSyncListener',
+				registers: ['planninq'],
+				schemas: $schemas
+			);
+		}
+	}//end registerWorkflowListeners()
 
 	/**
 	 * Register the two board-column listeners (boards-configurable-columns).
