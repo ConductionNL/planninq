@@ -1750,8 +1750,8 @@
       "featureConfidence": "medium",
       "note": "planninq's own code is a complete, duck-typed declaration (discovered by portaliq via convention FQCN, per its docblock); I could not read portaliq's own registry/discovery code from this checkout, so whether it actually calls this class at runtime is not verified here.",
       "screen": {
-        "board": null,
-        "reason": "Shown in portaliq's external portal, which has no board for it yet."
+        "canvas": "design-system",
+        "board": "PtOpdrachtnemerProjecten"
       }
     },
     {
@@ -13426,6 +13426,11 @@
       "board": [
         "PlTijdlijn",
         "PlBeheer"
+      ]
+    },
+    "portal-contribution": {
+      "board": [
+        "PtOpdrachtnemerProjecten"
       ]
     }
   }
