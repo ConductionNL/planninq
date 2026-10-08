@@ -1,5 +1,8 @@
 <template>
-	<span v-if="blocked" class="planninq-blocked-badge" :title="title">
+	<span v-if="blocked"
+		class="planninq-blocked-badge"
+		:title="title"
+		data-testid="task-blocked-badge">
 		<LockOutline :size="14" />
 		<span class="planninq-blocked-badge__label">{{ t('planninq', 'Blocked') }}</span>
 	</span>

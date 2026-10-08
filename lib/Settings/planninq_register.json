@@ -3,12 +3,12 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.4.0"
+    "version": "0.37.0"
   },
   "x-openregister": {
     "type": "application",
     "app": "planninq",
-    "openregister": "^v0.2.10",
+    "openregister": ">=v1.1.7",
     "description": "Flow-based kanban project and task management for Nextcloud dev and IT teams"
   },
   "paths": {},
@@ -18,14 +18,29 @@
         "title": "Planninq",
         "description": "Planninq application data register — tasks, projects, columns, time entries, and labels.",
         "slug": "planninq",
-        "version": "0.4.0",
+        "version": "0.10.0",
         "schemas": [
           "task",
           "project",
+          "projectPhase",
           "column",
-          "timeEntry",
+          "plannedTimeEntry",
           "label",
-          "dependency"
+          "dependency",
+          "timetableSession",
+          "projectLogEntry",
+          "risk",
+          "projectStatusReport",
+          "projectPortfolio",
+          "financeLine",
+          "projectField",
+          "projectRelease",
+          "timetableWish",
+          "timetableScenario",
+          "boardFilter",
+          "boardView",
+          "forgeLink",
+          "taskReport"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -38,7 +53,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedCircleOutline",
-        "version": "0.2.0",
+        "version": "0.12.0",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
@@ -52,18 +67,40 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "portfolioReaders": {
+                  "$contains": "$userId"
                 }
               }
             },
@@ -73,22 +110,7 @@
           ],
           "create": [
             {
-              "group": "authenticated",
-              "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+              "group": "authenticated"
             },
             {
               "group": "admin"
@@ -98,18 +120,16 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -121,18 +141,16 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -171,6 +189,120 @@
               "en": "Task \"{{title}}\" is due soon",
               "nl": "Taak \"{{title}}\" moet binnenkort af"
             }
+          },
+          "taskAssignedOnCreate": {
+            "trigger": {
+              "type": "created"
+            },
+            "enabled": true,
+            "channels": [
+              "nc-notification"
+            ],
+            "recipients": [
+              {
+                "kind": "field",
+                "field": "assignedTo"
+              }
+            ],
+            "subject": {
+              "en": "Task \"{{title}}\" was assigned to you",
+              "nl": "Taak \"{{title}}\" is aan jou toegewezen"
+            }
+          },
+          "taskAssigned": {
+            "trigger": {
+              "type": "updated",
+              "condition": {
+                "field": "assignedTo",
+                "operator": "changed"
+              }
+            },
+            "enabled": true,
+            "channels": [
+              "nc-notification"
+            ],
+            "recipients": [
+              {
+                "kind": "field",
+                "field": "assignedTo"
+              }
+            ],
+            "subject": {
+              "en": "Task \"{{title}}\" was assigned to you",
+              "nl": "Taak \"{{title}}\" is aan jou toegewezen"
+            }
+          },
+          "taskAssignedOnCreateEmail": {
+            "trigger": {
+              "type": "created"
+            },
+            "enabled": true,
+            "channels": [
+              "email"
+            ],
+            "recipients": [
+              {
+                "kind": "expression",
+                "resolver": "OCA\\Planninq\\Notification\\AssignmentEmailRecipientResolver"
+              }
+            ],
+            "subject": {
+              "en": "Task \"{{title}}\" was assigned to you",
+              "nl": "Taak \"{{title}}\" is aan jou toegewezen"
+            }
+          },
+          "taskAssignedEmail": {
+            "trigger": {
+              "type": "updated",
+              "condition": {
+                "field": "assignedTo",
+                "operator": "changed"
+              }
+            },
+            "enabled": true,
+            "channels": [
+              "email"
+            ],
+            "recipients": [
+              {
+                "kind": "expression",
+                "resolver": "OCA\\Planninq\\Notification\\AssignmentEmailRecipientResolver"
+              }
+            ],
+            "subject": {
+              "en": "Task \"{{title}}\" was assigned to you",
+              "nl": "Taak \"{{title}}\" is aan jou toegewezen"
+            }
+          },
+          "taskDueSoonEmail": {
+            "trigger": {
+              "type": "scheduled",
+              "intervalSec": 3600,
+              "filter": {
+                "dueDate": {
+                  "operator": "withinNext",
+                  "value": "PT24H"
+                },
+                "status": {
+                  "operator": "notEquals",
+                  "value": "done"
+                }
+              }
+            },
+            "enabled": true,
+            "channels": [
+              "email"
+            ],
+            "recipients": [
+              {
+                "kind": "expression",
+                "resolver": "OCA\\Planninq\\Notification\\DueSoonEmailRecipientResolver"
+              }
+            ],
+            "subject": {
+              "en": "Task \"{{title}}\" is due soon",
+              "nl": "Taak \"{{title}}\" moet binnenkort af"
+            }
           }
         },
         "properties": {
@@ -182,7 +314,14 @@
           "description": {
             "title": "Description",
             "type": "string",
-            "description": "Detailed description"
+            "description": "Detailed description",
+            "authorization": {
+              "read": [
+                {
+                  "group": "authenticated"
+                }
+              ]
+            }
           },
           "status": {
             "title": "Status",
@@ -216,6 +355,42 @@
             "format": "uuid",
             "$ref": "project"
           },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
+          },
+          "phase": {
+            "title": "Phase",
+            "type": "string",
+            "description": "UUID of the Project Phase this task delivers. Empty on projects that are not broken into phases.",
+            "format": "uuid",
+            "nullable": true,
+            "$ref": "projectPhase"
+          },
+          "billable": {
+            "title": "Billable",
+            "type": "boolean",
+            "description": "Whether work on this task is billable. Leave empty to inherit from the phase, or from the project when there is no phase.",
+            "nullable": true
+          },
           "zaakUuid": {
             "title": "Zaak UUID",
             "type": "string",
@@ -240,7 +415,23 @@
           "assignedTo": {
             "title": "Assigned To",
             "type": "string",
-            "description": "Nextcloud user UID of the assignee"
+            "description": "Nextcloud user UID of the assignee",
+            "authorization": {
+              "read": [
+                {
+                  "group": "authenticated"
+                }
+              ]
+            }
+          },
+          "sharedWith": {
+            "title": "Also working on this",
+            "type": "array",
+            "description": "Other project members who work on this task alongside the person responsible.",
+            "items": {
+              "type": "string"
+            },
+            "default": []
           },
           "contractorRef": {
             "title": "Contractor",
@@ -248,7 +439,14 @@
             "description": "UUID reference to the contractor contact/domain object — the portal-subject scoping key; distinct from assignedTo which is the Nextcloud user id",
             "format": "uuid",
             "nullable": true,
-            "x-external-register": "openregister"
+            "x-external-register": "openregister",
+            "authorization": {
+              "read": [
+                {
+                  "group": "authenticated"
+                }
+              ]
+            }
           },
           "dueDate": {
             "title": "Due Date",
@@ -293,6 +491,20 @@
             "nullable": true,
             "$ref": "task"
           },
+          "checklist": {
+            "title": "Checklist",
+            "type": "array",
+            "description": "Small steps inside the task. Each item has an id, a text and whether it is done.",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "text",
+                "done"
+              ]
+            },
+            "default": []
+          },
           "calendarEventUid": {
             "title": "Calendar Event UID",
             "type": "string",
@@ -322,7 +534,14 @@
             "title": "Reporter",
             "type": "string",
             "description": "Nextcloud user UID (or imported identity) of the person who reported or created the work item",
-            "nullable": true
+            "nullable": true,
+            "authorization": {
+              "read": [
+                {
+                  "group": "authenticated"
+                }
+              ]
+            }
           },
           "resolution": {
             "title": "Resolution",
@@ -356,7 +575,14 @@
             "items": {
               "type": "string"
             },
-            "default": []
+            "default": [],
+            "authorization": {
+              "read": [
+                {
+                  "group": "authenticated"
+                }
+              ]
+            }
           },
           "epic": {
             "title": "Epic",
@@ -366,20 +592,61 @@
             "nullable": true,
             "$ref": "task"
           },
+          "release": {
+            "title": "Release",
+            "type": "string",
+            "description": "The release this task is planned for",
+            "format": "uuid",
+            "nullable": true,
+            "$ref": "projectRelease"
+          },
           "metadata": {
             "title": "Metadata",
             "type": "object",
             "description": "Declared catch-all for source-system fields: imported custom fields and provenance keys (e.g. jiraKey, jiraId, migratedAt). Declared explicitly so magic-table storage persists it.",
             "default": {}
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
         }
       },
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.2.0",
+        "version": "0.14.0",
         "title": "Project",
-        "description": "A container grouping related tasks and kanban columns. Maps to schema:CreativeWork.",
+        "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
         "type": "object",
         "required": [
@@ -393,6 +660,62 @@
               "match": {
                 "members": {
                   "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "managers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "portfolioReaders": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "managerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "ownerGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -411,6 +734,30 @@
               }
             },
             {
+              "group": "authenticated",
+              "match": {
+                "ownerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "managers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "managerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
               "group": "admin"
             }
           ],
@@ -419,6 +766,14 @@
               "group": "authenticated",
               "match": {
                 "owner": "$userId"
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "ownerGroups": {
+                  "$contains": "$user.groups"
+                }
               }
             },
             {
@@ -440,13 +795,41 @@
           "status": {
             "title": "Status",
             "type": "string",
-            "description": "Project lifecycle status",
+            "description": "Project lifecycle status. Progress within an active project is read from the board, not from this field.",
             "enum": [
               "active",
               "archived",
-              "completed"
+              "completed",
+              "cancelled",
+              "requested",
+              "rejected"
             ],
             "default": "active"
+          },
+          "requestReason": {
+            "title": "Request reason",
+            "type": "string",
+            "nullable": true,
+            "description": "Why the requester needs this project. Filled in when the project is requested."
+          },
+          "reviewedBy": {
+            "title": "Reviewed by",
+            "type": "string",
+            "nullable": true,
+            "description": "The user who approved or rejected the request."
+          },
+          "reviewedAt": {
+            "title": "Reviewed at",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the request was approved or rejected."
+          },
+          "reviewNote": {
+            "title": "Review note",
+            "type": "string",
+            "nullable": true,
+            "description": "The reviewer's reason, shown to the requester when a request is not approved."
           },
           "color": {
             "title": "Colour",
@@ -462,7 +845,36 @@
           "owner": {
             "title": "Owner",
             "type": "string",
-            "description": "Nextcloud user UID of the project creator. Set automatically on creation; used for delete authorization and creator-based RBAC."
+            "description": "Nextcloud user UID of the project creator. Set automatically on creation; used for delete authorization and creator-based RBAC.",
+            "authorization": {
+              "update": [
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "owner": "$userId"
+                  }
+                },
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "ownerGroups": {
+                      "$contains": "$user.groups"
+                    }
+                  }
+                },
+                {
+                  "group": "admin"
+                }
+              ]
+            }
+          },
+          "portfolio": {
+            "title": "Portfolio",
+            "type": "string",
+            "description": "The portfolio this project belongs to",
+            "format": "uuid",
+            "$ref": "projectPortfolio",
+            "nullable": true
           },
           "members": {
             "title": "Members",
@@ -472,6 +884,31 @@
               "type": "string"
             },
             "default": []
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
+          },
+          "parent": {
+            "title": "Parent project",
+            "type": "string",
+            "description": "The project this project sits under, such as a programme. Projects nest three levels deep at most.",
+            "format": "uuid",
+            "$ref": "project",
+            "nullable": true
+          },
+          "customFields": {
+            "title": "Custom fields",
+            "type": "object",
+            "description": "The values of the project fields an admin defined, keyed by the field's key.",
+            "default": {}
           },
           "contractorRefs": {
             "title": "Contractors",
@@ -495,6 +932,22 @@
             "format": "uuid",
             "nullable": true
           },
+          "caseHandovers": {
+            "title": "Case handovers",
+            "type": "array",
+            "description": "Each time the project's files and metadata were handed over to its case: when, by whom, to which case, every file copied with its SHA-256, and the files that failed.",
+            "default": [],
+            "items": {
+              "type": "object",
+              "required": [
+                "date",
+                "by",
+                "case",
+                "files",
+                "failures"
+              ]
+            }
+          },
           "labels": {
             "title": "Labels",
             "type": "array",
@@ -511,18 +964,684 @@
             "description": "Short unique project key used as the prefix of task keys (e.g. PLX). Preserved from the source system on import.",
             "nullable": true
           },
+          "nextTaskNumber": {
+            "title": "Next task number",
+            "type": "integer",
+            "minimum": 1,
+            "nullable": true,
+            "description": "The number the next task of this project gets in its key. Only the system writes it."
+          },
+          "autoSchedule": {
+            "title": "Auto-scheduling",
+            "type": "boolean",
+            "default": false,
+            "description": "When on, moving a task's due date later on the timeline offers to move the tasks it blocks along."
+          },
+          "client": {
+            "title": "Client",
+            "type": "string",
+            "description": "UUID of the client this project is delivered for. Set on projects that came in through a CRM; empty on internal work.",
+            "format": "uuid",
+            "nullable": true,
+            "x-external-register": "pipelinq"
+          },
+          "billable": {
+            "title": "Billable",
+            "type": "boolean",
+            "description": "Whether the work on this project is billable to the client. Phases, tasks and time entries inherit this unless they set their own value.",
+            "default": false
+          },
+          "billingModel": {
+            "title": "Billing model",
+            "type": "string",
+            "description": "How the client pays: not billed, a fixed price, or by the hour.",
+            "enum": [
+              "none",
+              "fixedPrice",
+              "hourly"
+            ],
+            "default": "none",
+            "x-enum-labels": {
+              "none": "Not billed",
+              "fixedPrice": "Fixed price",
+              "hourly": "Hourly"
+            }
+          },
+          "budgetHours": {
+            "title": "Budget Hours",
+            "type": "number",
+            "description": "Budgeted hours for the whole project. Zero means no budget was agreed.",
+            "default": 0
+          },
+          "budgetAmount": {
+            "title": "Budget Amount",
+            "type": "number",
+            "description": "Budgeted amount in the reporting currency. Zero means no budget was agreed.",
+            "default": 0
+          },
+          "hourlyRate": {
+            "title": "Hourly Rate",
+            "type": "number",
+            "description": "Default hourly rate for the project. Time entries fall back to this when they carry no rate of their own.",
+            "default": 0
+          },
+          "startDate": {
+            "title": "Start Date",
+            "type": "string",
+            "description": "Planned start of the project (ISO 8601)",
+            "format": "date",
+            "nullable": true
+          },
+          "endDate": {
+            "title": "End Date",
+            "type": "string",
+            "description": "Planned end of the project (ISO 8601)",
+            "format": "date",
+            "nullable": true
+          },
+          "healthMoney": {
+            "title": "Health: money",
+            "type": "string",
+            "description": "Copied from the newest status report",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "nullable": true,
+            "x-notes": "Copied from the newest projectStatusReport by ProjectStatusListener. A client never sets it: a create that sends it is refused and an update keeps the stored value (portfolio-status-overview, design decision 1)."
+          },
+          "healthOrganisation": {
+            "title": "Health: organisation",
+            "type": "string",
+            "description": "Copied from the newest status report",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "nullable": true,
+            "x-notes": "Copied from the newest projectStatusReport by ProjectStatusListener. A client never sets it: a create that sends it is refused and an update keeps the stored value (portfolio-status-overview, design decision 1)."
+          },
+          "healthTime": {
+            "title": "Health: time",
+            "type": "string",
+            "description": "Copied from the newest status report",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "nullable": true,
+            "x-notes": "Copied from the newest projectStatusReport by ProjectStatusListener. A client never sets it: a create that sends it is refused and an update keeps the stored value (portfolio-status-overview, design decision 1)."
+          },
+          "healthInformation": {
+            "title": "Health: information",
+            "type": "string",
+            "description": "Copied from the newest status report",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "nullable": true,
+            "x-notes": "Copied from the newest projectStatusReport by ProjectStatusListener. A client never sets it: a create that sends it is refused and an update keeps the stored value (portfolio-status-overview, design decision 1)."
+          },
+          "healthQuality": {
+            "title": "Health: quality",
+            "type": "string",
+            "description": "Copied from the newest status report",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "nullable": true,
+            "x-notes": "Copied from the newest projectStatusReport by ProjectStatusListener. A client never sets it: a create that sends it is refused and an update keeps the stored value (portfolio-status-overview, design decision 1)."
+          },
+          "healthRisk": {
+            "title": "Health: risk",
+            "type": "string",
+            "description": "Copied from the newest status report",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "nullable": true,
+            "x-notes": "Copied from the newest projectStatusReport by ProjectStatusListener. A client never sets it: a create that sends it is refused and an update keeps the stored value (portfolio-status-overview, design decision 1)."
+          },
+          "healthOverall": {
+            "title": "Health: overall",
+            "type": "string",
+            "description": "Copied from the newest status report",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "nullable": true,
+            "x-notes": "Copied from the newest projectStatusReport by ProjectStatusListener. A client never sets it: a create that sends it is refused and an update keeps the stored value (portfolio-status-overview, design decision 1)."
+          },
+          "healthDate": {
+            "title": "Health: report date",
+            "type": "string",
+            "description": "The date of the newest status report",
+            "format": "date",
+            "nullable": true,
+            "x-notes": "Copied with the health statuses by ProjectStatusListener."
+          },
           "metadata": {
             "title": "Metadata",
             "type": "object",
             "description": "Declared catch-all for source-system fields and provenance keys (e.g. jiraProjectId, migratedAt). Declared explicitly so magic-table storage persists it.",
             "default": {}
+          },
+          "managers": {
+            "title": "Managers",
+            "type": "array",
+            "description": "Nextcloud user ids who manage the project: its settings, its members and its work",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read the project and its work but not change it",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "managerGroups": {
+            "title": "Manager groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members manage the project",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members work on the project",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read the project",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "ownerGroups": {
+            "title": "Owning group",
+            "type": "array",
+            "description": "The Nextcloud group that owns the project with its creator, at most one",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "maxItems": 1,
+            "authorization": {
+              "update": [
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "owner": "$userId"
+                  }
+                },
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "ownerGroups": {
+                      "$contains": "$user.groups"
+                    }
+                  }
+                },
+                {
+                  "group": "admin"
+                }
+              ]
+            },
+            "x-notes": "A list of at most one, not a string: OpenRegister resolves $user.groups only under $contains on its list query ($in fails closed there), so the owning group is matched with {\"ownerGroups\": {\"$contains\": \"$user.groups\"}}."
+          }
+        },
+        "x-openregister-lifecycle": {
+          "field": "status",
+          "initial": "active",
+          "transitions": {
+            "archive": {
+              "from": [
+                "active",
+                "completed"
+              ],
+              "to": "archived",
+              "description": "Archive the project. It leaves the active list."
+            },
+            "restore": {
+              "from": [
+                "archived",
+                "completed",
+                "cancelled"
+              ],
+              "to": "active",
+              "description": "Bring the project back to the active list."
+            },
+            "complete": {
+              "from": [
+                "active"
+              ],
+              "to": "completed",
+              "description": "Mark the project as completed."
+            },
+            "cancel": {
+              "from": [
+                "active"
+              ],
+              "to": "cancelled",
+              "description": "Stop the project without completing it."
+            },
+            "approve": {
+              "from": [
+                "requested"
+              ],
+              "to": "active",
+              "authorization": [
+                "admin"
+              ],
+              "description": "Approve a project request. It becomes an active project."
+            },
+            "reject": {
+              "from": [
+                "requested"
+              ],
+              "to": "rejected",
+              "authorization": [
+                "admin"
+              ],
+              "description": "Reject a project request with a reason.",
+              "inputs": [
+                {
+                  "field": "reviewNote",
+                  "required": true
+                }
+              ]
+            }
+          }
+        },
+        "x-openregister-notifications": {
+          "projectRequestApproved": {
+            "trigger": {
+              "type": "transition",
+              "action": "approve"
+            },
+            "enabled": true,
+            "channels": [
+              "nc-notification"
+            ],
+            "recipients": [
+              {
+                "kind": "field",
+                "field": "owner"
+              }
+            ],
+            "subject": {
+              "en": "Your project request \"{{title}}\" was approved",
+              "nl": "Je projectaanvraag \"{{title}}\" is goedgekeurd"
+            }
+          },
+          "projectRequestRejected": {
+            "trigger": {
+              "type": "transition",
+              "action": "reject"
+            },
+            "enabled": true,
+            "channels": [
+              "nc-notification"
+            ],
+            "recipients": [
+              {
+                "kind": "field",
+                "field": "owner"
+              }
+            ],
+            "subject": {
+              "en": "Your project request \"{{title}}\" was not approved",
+              "nl": "Je projectaanvraag \"{{title}}\" is niet goedgekeurd"
+            }
+          }
+        }
+      },
+      "projectPhase": {
+        "slug": "projectPhase",
+        "icon": "TimelineOutline",
+        "version": "0.6.0",
+        "title": "Project Phase",
+        "description": "A delivery stage within a project, such as discovery, build or hypercare. Phases carry their own budget and billable flag, and tasks hang off them. Maps to schema:CreativeWork.",
+        "x-schema-org": "schema:CreativeWork",
+        "type": "object",
+        "required": [
+          "title",
+          "project"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "portfolioReaders": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "x-openregister-lifecycle": {
+          "field": "status",
+          "initial": "open",
+          "final": [
+            "completed",
+            "cancelled"
+          ],
+          "transitions": {
+            "start": {
+              "from": [
+                "open"
+              ],
+              "to": "in_progress",
+              "description": "Start working on the phase."
+            },
+            "complete": {
+              "from": [
+                "open",
+                "in_progress"
+              ],
+              "to": "completed",
+              "requires": "OCA\\Planninq\\Lifecycle\\PhaseConcludingDocumentGuard",
+              "description": "Close the phase. Needs its concluding document attached."
+            },
+            "cancel": {
+              "from": [
+                "open",
+                "in_progress"
+              ],
+              "to": "cancelled",
+              "description": "Stop the phase without concluding it."
+            },
+            "reopen": {
+              "from": [
+                "completed",
+                "cancelled"
+              ],
+              "to": "in_progress",
+              "description": "Take a closed phase up again."
+            }
+          }
+        },
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "Name of the phase"
+          },
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "UUID of the parent Project",
+            "format": "uuid",
+            "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "What this phase delivers"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "Phase lifecycle status",
+            "enum": [
+              "open",
+              "in_progress",
+              "completed",
+              "cancelled"
+            ],
+            "default": "open"
+          },
+          "concludingDocument": {
+            "title": "Concluding document",
+            "type": "string",
+            "description": "The id of the file on this phase that concludes it. The phase can only be completed once it is set and the file is attached.",
+            "nullable": true
+          },
+          "order": {
+            "title": "Order",
+            "type": "integer",
+            "description": "Position of the phase within the project",
+            "default": 0
+          },
+          "billable": {
+            "title": "Billable",
+            "type": "boolean",
+            "description": "Whether work in this phase is billable. Leave empty to inherit from the project.",
+            "nullable": true
+          },
+          "budgetHours": {
+            "title": "Budget Hours",
+            "type": "number",
+            "description": "Budgeted hours for this phase. Zero means no separate budget was agreed.",
+            "default": 0
+          },
+          "startDate": {
+            "title": "Start Date",
+            "type": "string",
+            "description": "Planned start of the phase (ISO 8601)",
+            "format": "date",
+            "nullable": true
+          },
+          "endDate": {
+            "title": "End Date",
+            "type": "string",
+            "description": "Planned end of the phase (ISO 8601)",
+            "format": "date",
+            "nullable": true
+          },
+          "metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "description": "Declared catch-all for source-system fields: imported custom fields and provenance keys (e.g. jiraKey, jiraId, migratedAt). Declared explicitly so magic-table storage persists it.",
+            "default": {}
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
         }
       },
       "column": {
         "slug": "column",
         "icon": "ViewColumnOutline",
-        "version": "0.1.2",
+        "version": "0.6.0",
         "title": "Column",
         "description": "A kanban column belonging to a project. Maps to schema:DefinedTerm.",
         "x-schema-org": "schema:DefinedTerm",
@@ -537,18 +1656,40 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "portfolioReaders": {
+                  "$contains": "$userId"
                 }
               }
             },
@@ -558,22 +1699,7 @@
           ],
           "create": [
             {
-              "group": "authenticated",
-              "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+              "group": "authenticated"
             },
             {
               "group": "admin"
@@ -583,18 +1709,16 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -606,18 +1730,16 @@
             {
               "group": "authenticated",
               "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
                 }
               }
             },
@@ -638,6 +1760,28 @@
             "description": "UUID of the parent Project",
             "format": "uuid",
             "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
           },
           "order": {
             "title": "Display Order",
@@ -666,13 +1810,92 @@
               "done"
             ],
             "default": "active"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "The status a card gets when it is moved into this column.",
+            "enum": [
+              "open",
+              "in_progress",
+              "blocked",
+              "done",
+              "cancelled"
+            ],
+            "nullable": true
+          },
+          "automation": {
+            "title": "Rules",
+            "type": "array",
+            "description": "What happens to a card when it enters this column, applied in list order.",
+            "items": {
+              "type": "object",
+              "required": [
+                "action"
+              ],
+              "properties": {
+                "action": {
+                  "title": "Action",
+                  "description": "What the rule does to the card.",
+                  "type": "string",
+                  "enum": [
+                    "setPriority",
+                    "assign",
+                    "assignMover",
+                    "unassign",
+                    "addLabel"
+                  ]
+                },
+                "value": {
+                  "title": "Value",
+                  "description": "The priority, the user id or the label id the action uses; empty for actions without one.",
+                  "type": "string",
+                  "nullable": true
+                }
+              }
+            },
+            "default": [],
+            "x-notes": "Edited in the board's Rules dialog by the project owner (ColumnOwnerGuardListener). ColumnAutomationListener applies the rules in the same save that moves a task into this column, and checks every value itself because data merged by a pre-save listener is not validated again (boards-column-automation)."
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
         }
       },
-      "timeEntry": {
-        "slug": "timeEntry",
+      "plannedTimeEntry": {
+        "slug": "plannedTimeEntry",
         "icon": "TimerOutline",
-        "version": "0.1.3",
+        "version": "0.5.0",
         "title": "Time Entry",
         "description": "Time logged by a user against a task. Maps to schema:QuantitativeValue.",
         "x-schema-org": "schema:QuantitativeValue",
@@ -694,28 +1917,40 @@
             {
               "group": "authenticated",
               "match": {
-                "task": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "task",
-                      "field": "id",
-                      "where": {
-                        "project": {
-                          "$in": {
-                            "$lookup": {
-                              "schema": "project",
-                              "field": "id",
-                              "where": {
-                                "members": {
-                                  "$contains": "$userId"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "portfolioReaders": {
+                  "$contains": "$userId"
                 }
               }
             },
@@ -758,6 +1993,15 @@
           ]
         },
         "properties": {
+          "timeEntry": {
+            "title": "Urenboeking",
+            "title:en": "Time entry",
+            "type": "string",
+            "description": "De humaniq `TimeEntry` waarop deze uren geboekt zijn. Een platte uuid en geen `$ref`: humaniq's register is een ander register, en ADR-062 regel 7 geeft een doel buiten dit register geen `$ref`.",
+            "description:en": "The humaniq `TimeEntry` these hours are booked on. A plain uuid and not a `$ref`: humaniq's register is a different register, and ADR-062 rule 7 gives a cross-register target no `$ref`.",
+            "format": "uuid",
+            "facetable": true
+          },
           "task": {
             "title": "Task",
             "type": "string",
@@ -793,6 +2037,81 @@
             "title": "Note",
             "type": "string",
             "description": "Optional note about the work performed"
+          },
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "UUID of the Project this time was booked against. Denormalised from the task so time can be totalled per project in one query.",
+            "format": "uuid",
+            "nullable": true,
+            "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
+          },
+          "billable": {
+            "title": "Billable",
+            "type": "boolean",
+            "description": "Whether this time is billable. Leave empty to inherit from the task, phase or project.",
+            "nullable": true
+          },
+          "hourlyRate": {
+            "title": "Hourly Rate",
+            "type": "number",
+            "description": "Rate applied to this entry. Zero or empty falls back to the project rate.",
+            "default": 0
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
         }
       },
@@ -903,6 +2222,2790 @@
             "default": "blocks"
           }
         }
+      },
+      "timetableSession": {
+        "slug": "timetableSession",
+        "icon": "ClockOutline",
+        "version": "0.4.0",
+        "title": "Timetable session",
+        "description": "One lesson in a school timetable as the rostering system knows it: when it runs, for which group, with which teacher, in which room and for which subject. Delivered by a rostering import and matched again by source and occurrence id.",
+        "x-schema-org": "schema:Event",
+        "type": "object",
+        "required": [
+          "externalRef",
+          "sourceSystem",
+          "subject",
+          "startsAt",
+          "endsAt"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "planninq-timetable",
+              "match": {
+                "status": {
+                  "$in": [
+                    "scheduled",
+                    "cancelled"
+                  ]
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "teacherUserId": "$userId"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            "admin"
+          ],
+          "update": [
+            "admin"
+          ],
+          "delete": [
+            "admin"
+          ]
+        },
+        "properties": {
+          "externalRef": {
+            "title": "Source id",
+            "type": "string",
+            "description": "The id the rostering system gives this lesson. A new delivery with the same id and source updates this lesson instead of adding one."
+          },
+          "sourceSystem": {
+            "title": "Source",
+            "type": "string",
+            "description": "The system that delivered this lesson, for example roster-zermelo, or manual for a lesson typed in by hand.",
+            "facetable": true
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string",
+            "description": "The subject as the school names it.",
+            "facetable": true
+          },
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "The name shown for this lesson. Left empty, the subject is shown."
+          },
+          "startsAt": {
+            "title": "Starts at",
+            "type": "string",
+            "description": "When the lesson starts.",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "title": "Ends at",
+            "type": "string",
+            "description": "When the lesson ends.",
+            "format": "date-time"
+          },
+          "groupReference": {
+            "title": "Group code",
+            "type": "string",
+            "description": "The code the school uses for the group or class.",
+            "facetable": true
+          },
+          "cohortId": {
+            "title": "Cohort",
+            "type": "string",
+            "description": "The cohort this lesson is for, when the school code is linked to one."
+          },
+          "teacherReference": {
+            "title": "Teacher code",
+            "type": "string",
+            "description": "The code the school uses for the teacher.",
+            "facetable": true
+          },
+          "teacherUserId": {
+            "title": "Teacher account",
+            "type": "string",
+            "description": "The Nextcloud account of the teacher, when the teacher code is linked to one."
+          },
+          "roomReference": {
+            "title": "Room code",
+            "type": "string",
+            "description": "The code the school uses for the room.",
+            "facetable": true
+          },
+          "roomLabel": {
+            "title": "Room",
+            "type": "string",
+            "description": "The room name shown with the lesson."
+          },
+          "courseId": {
+            "title": "Course",
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "description": "The course this lesson teaches, such as an elective, when the school's learning app knows it."
+          },
+          "onlineMeetingUrl": {
+            "title": "Online meeting link",
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "maxLength": 2048,
+            "description": "Where pupils join this lesson online. Pupils see a Join button only for an https link."
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "Whether the lesson is a draft only its teacher sees, goes ahead or is cancelled.",
+            "enum": [
+              "draft",
+              "scheduled",
+              "cancelled"
+            ],
+            "default": "scheduled",
+            "x-enum-labels": {
+              "draft": "Draft",
+              "scheduled": "Scheduled",
+              "cancelled": "Cancelled"
+            }
+          },
+          "importedAt": {
+            "title": "Imported at",
+            "type": "string",
+            "description": "When this lesson was last delivered. Set by planninq.",
+            "format": "date-time"
+          }
+        }
+      },
+      "projectLogEntry": {
+        "slug": "projectLogEntry",
+        "icon": "NotebookOutline",
+        "version": "0.3.0",
+        "title": "Log entry",
+        "description": "An issue, lesson learned, meeting or decision recorded in a project's log.",
+        "x-schema-org": "schema:Comment",
+        "type": "object",
+        "required": [
+          "title",
+          "project",
+          "type",
+          "date"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "portfolioReaders": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "A short name for the entry"
+          },
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project this entry belongs to",
+            "format": "uuid",
+            "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
+          },
+          "type": {
+            "title": "Type",
+            "type": "string",
+            "description": "What kind of entry this is",
+            "enum": [
+              "issue",
+              "lesson",
+              "meeting",
+              "decision"
+            ],
+            "default": "issue",
+            "x-enum-labels": {
+              "issue": "Issue",
+              "lesson": "Lesson learned",
+              "meeting": "Meeting",
+              "decision": "Decision"
+            }
+          },
+          "date": {
+            "title": "Date",
+            "type": "string",
+            "description": "When it happened",
+            "format": "date"
+          },
+          "body": {
+            "title": "Details",
+            "type": "string",
+            "description": "What happened, in Markdown"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "Whether an issue is still open",
+            "enum": [
+              "open",
+              "closed"
+            ],
+            "default": "open",
+            "x-enum-labels": {
+              "open": "Open",
+              "closed": "Closed"
+            }
+          },
+          "attendees": {
+            "title": "Attendees",
+            "type": "array",
+            "description": "The people at a meeting",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "actions": {
+            "title": "Actions",
+            "type": "array",
+            "description": "Tasks that came out of this entry",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "default": [],
+            "x-notes": "Ids of task objects with issueType 'action' in the same project. The author and the time of an entry are OpenRegister's own object metadata (@self.owner, @self.created), so a client cannot set them (projects-overview-logs-risks, design decision 2)."
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          }
+        }
+      },
+      "risk": {
+        "slug": "risk",
+        "icon": "AlertOutline",
+        "version": "0.3.0",
+        "title": "Risk",
+        "description": "A risk to a project, scored on likelihood and impact, with an owner, a response and its countermeasures.",
+        "x-schema-org": "schema:Thing",
+        "type": "object",
+        "required": [
+          "title",
+          "project",
+          "likelihood",
+          "impact"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "portfolioReaders": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "x-openregister-calculations": {
+          "score": {
+            "type": "integer",
+            "materialise": true,
+            "expression": {
+              "*": [
+                {
+                  "prop": "likelihood"
+                },
+                {
+                  "prop": "impact"
+                }
+              ]
+            }
+          }
+        },
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "What could go wrong"
+          },
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project this risk belongs to",
+            "format": "uuid",
+            "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "The cause and the effect, in Markdown"
+          },
+          "category": {
+            "title": "Category",
+            "type": "string",
+            "description": "A free grouping, such as planning, budget or supplier"
+          },
+          "likelihood": {
+            "title": "Likelihood",
+            "type": "integer",
+            "description": "How likely it is, on the admin's risk scale",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "impact": {
+            "title": "Impact",
+            "type": "integer",
+            "description": "How hard it would hit, on the admin's risk scale",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "score": {
+            "title": "Score",
+            "type": "integer",
+            "description": "Likelihood times impact, calculated by the server",
+            "x-notes": "Materialised by OpenRegister from x-openregister-calculations on every save; a score a client sends is overwritten (projects-overview-logs-risks, design decision 3)."
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "Where the risk stands",
+            "enum": [
+              "open",
+              "mitigating",
+              "closed",
+              "occurred"
+            ],
+            "default": "open",
+            "x-enum-labels": {
+              "open": "Open",
+              "mitigating": "Mitigating",
+              "closed": "Closed",
+              "occurred": "Occurred"
+            }
+          },
+          "owner": {
+            "title": "Owner",
+            "type": "string",
+            "description": "The person who watches this risk"
+          },
+          "response": {
+            "title": "Response",
+            "type": "string",
+            "description": "How the project answers the risk",
+            "enum": [
+              "avoid",
+              "reduce",
+              "transfer",
+              "accept"
+            ],
+            "default": "reduce",
+            "x-enum-labels": {
+              "avoid": "Avoid",
+              "reduce": "Reduce",
+              "transfer": "Transfer",
+              "accept": "Accept"
+            }
+          },
+          "countermeasures": {
+            "title": "Countermeasures",
+            "type": "string",
+            "description": "What is done to prevent it or soften it, in Markdown"
+          },
+          "reviewDate": {
+            "title": "Review date",
+            "type": "string",
+            "description": "When to look at this risk again",
+            "format": "date"
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          }
+        }
+      },
+      "projectStatusReport": {
+        "slug": "projectStatusReport",
+        "icon": "ClipboardCheckOutline",
+        "version": "0.3.0",
+        "title": "Project status report",
+        "description": "A dated report on how a project stands on money, organisation, time, information, quality and risk (the GROTIK aspects), each with a note.",
+        "x-schema-org": "schema:Report",
+        "type": "object",
+        "required": [
+          "project",
+          "reportDate",
+          "statusMoney",
+          "statusOrganisation",
+          "statusTime",
+          "statusInformation",
+          "statusQuality",
+          "statusRisk"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "portfolioReaders": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "x-openregister-calculations": {
+          "overall": {
+            "type": "string",
+            "materialise": true,
+            "expression": {
+              "if": [
+                {
+                  "or": [
+                    {
+                      "eq": [
+                        {
+                          "prop": "statusMoney"
+                        },
+                        {
+                          "lit": "offTrack"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "prop": "statusOrganisation"
+                        },
+                        {
+                          "lit": "offTrack"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "prop": "statusTime"
+                        },
+                        {
+                          "lit": "offTrack"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "prop": "statusInformation"
+                        },
+                        {
+                          "lit": "offTrack"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "prop": "statusQuality"
+                        },
+                        {
+                          "lit": "offTrack"
+                        }
+                      ]
+                    },
+                    {
+                      "eq": [
+                        {
+                          "prop": "statusRisk"
+                        },
+                        {
+                          "lit": "offTrack"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "lit": "offTrack"
+                },
+                {
+                  "if": [
+                    {
+                      "or": [
+                        {
+                          "eq": [
+                            {
+                              "prop": "statusMoney"
+                            },
+                            {
+                              "lit": "atRisk"
+                            }
+                          ]
+                        },
+                        {
+                          "eq": [
+                            {
+                              "prop": "statusOrganisation"
+                            },
+                            {
+                              "lit": "atRisk"
+                            }
+                          ]
+                        },
+                        {
+                          "eq": [
+                            {
+                              "prop": "statusTime"
+                            },
+                            {
+                              "lit": "atRisk"
+                            }
+                          ]
+                        },
+                        {
+                          "eq": [
+                            {
+                              "prop": "statusInformation"
+                            },
+                            {
+                              "lit": "atRisk"
+                            }
+                          ]
+                        },
+                        {
+                          "eq": [
+                            {
+                              "prop": "statusQuality"
+                            },
+                            {
+                              "lit": "atRisk"
+                            }
+                          ]
+                        },
+                        {
+                          "eq": [
+                            {
+                              "prop": "statusRisk"
+                            },
+                            {
+                              "lit": "atRisk"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "lit": "atRisk"
+                    },
+                    {
+                      "lit": "onTrack"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "properties": {
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project this report is about",
+            "format": "uuid",
+            "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
+          },
+          "reportDate": {
+            "title": "Report date",
+            "type": "string",
+            "description": "The day the report describes",
+            "format": "date"
+          },
+          "statusMoney": {
+            "title": "Money",
+            "type": "string",
+            "description": "How the project stands on this aspect",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            }
+          },
+          "noteMoney": {
+            "title": "Money note",
+            "type": "string",
+            "description": "A short explanation of this status"
+          },
+          "statusOrganisation": {
+            "title": "Organisation",
+            "type": "string",
+            "description": "How the project stands on this aspect",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            }
+          },
+          "noteOrganisation": {
+            "title": "Organisation note",
+            "type": "string",
+            "description": "A short explanation of this status"
+          },
+          "statusTime": {
+            "title": "Time",
+            "type": "string",
+            "description": "How the project stands on this aspect",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            }
+          },
+          "noteTime": {
+            "title": "Time note",
+            "type": "string",
+            "description": "A short explanation of this status"
+          },
+          "statusInformation": {
+            "title": "Information",
+            "type": "string",
+            "description": "How the project stands on this aspect",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            }
+          },
+          "noteInformation": {
+            "title": "Information note",
+            "type": "string",
+            "description": "A short explanation of this status"
+          },
+          "statusQuality": {
+            "title": "Quality",
+            "type": "string",
+            "description": "How the project stands on this aspect",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            }
+          },
+          "noteQuality": {
+            "title": "Quality note",
+            "type": "string",
+            "description": "A short explanation of this status"
+          },
+          "statusRisk": {
+            "title": "Risk",
+            "type": "string",
+            "description": "How the project stands on this aspect",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            }
+          },
+          "noteRisk": {
+            "title": "Risk note",
+            "type": "string",
+            "description": "A short explanation of this status"
+          },
+          "overall": {
+            "title": "Overall",
+            "type": "string",
+            "description": "The worst of the six statuses, calculated by the server",
+            "enum": [
+              "onTrack",
+              "atRisk",
+              "offTrack"
+            ],
+            "x-enum-labels": {
+              "onTrack": "On track",
+              "atRisk": "At risk",
+              "offTrack": "Off track"
+            },
+            "x-notes": "Materialised by OpenRegister from x-openregister-calculations on every save; an overall a client sends is overwritten (portfolio-status-overview, design decision 1)."
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          }
+        }
+      },
+      "projectPortfolio": {
+        "slug": "projectPortfolio",
+        "icon": "FolderMultipleOutline",
+        "version": "0.1.0",
+        "title": "Portfolio",
+        "description": "A group of projects run by the same people, such as a department or a programme. Its managers read every project in it.",
+        "x-schema-org": "schema:Collection",
+        "type": "object",
+        "required": [
+          "title"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            "admin"
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "managers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            "admin"
+          ]
+        },
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "The name of the portfolio"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "What the portfolio holds and who runs it"
+          },
+          "color": {
+            "title": "Color",
+            "type": "string",
+            "description": "A colour for the portfolio's section in project lists"
+          },
+          "managers": {
+            "title": "Managers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the people who run the portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "order": {
+            "title": "Order",
+            "type": "integer",
+            "description": "Where the portfolio comes in project lists, lowest first",
+            "default": 0
+          },
+          "riskScale": {
+            "title": "Risk scale",
+            "type": "string",
+            "description": "This portfolio's own risk scale as JSON, in the same shape as the app-wide one. Empty means the app-wide scale."
+          }
+        }
+      },
+      "financeLine": {
+        "slug": "financeLine",
+        "icon": "CurrencyEur",
+        "version": "0.1.1",
+        "title": "Finance line",
+        "description": "One amount of money on a project: a budget, a commitment, an actual cost or a forecast, in a cost category and optionally a phase. Written by the project owner, or by the finance system through the integration app.",
+        "x-schema-org": "schema:MonetaryAmount",
+        "type": "object",
+        "required": [
+          "kind",
+          "amount"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "financeReaders": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "planninq-finance-import"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "projectOwner": "$userId"
+              }
+            },
+            {
+              "group": "planninq-finance-import"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "projectOwner": "$userId"
+              }
+            },
+            {
+              "group": "planninq-finance-import"
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project this amount belongs to. Empty for a line from the finance system whose project number matches no project.",
+            "format": "uuid",
+            "$ref": "project",
+            "nullable": true
+          },
+          "phase": {
+            "title": "Phase",
+            "type": "string",
+            "description": "The phase this amount belongs to, if any",
+            "format": "uuid",
+            "$ref": "projectPhase",
+            "nullable": true
+          },
+          "category": {
+            "title": "Category",
+            "type": "string",
+            "description": "The cost category, one of the categories the admin set up"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string",
+            "description": "Whether the amount is a budget, a commitment, an actual cost or a forecast",
+            "enum": [
+              "budget",
+              "commitment",
+              "actual",
+              "forecast"
+            ],
+            "x-enum-labels": {
+              "budget": "Budget",
+              "commitment": "Commitment",
+              "actual": "Actual cost",
+              "forecast": "Forecast"
+            }
+          },
+          "amount": {
+            "title": "Amount",
+            "type": "number",
+            "description": "The amount in the reporting currency (euro)"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string",
+            "description": "The date the amount was booked or is expected",
+            "format": "date",
+            "nullable": true
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "What the amount is for"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string",
+            "description": "Whether a person entered the line or the finance system sent it",
+            "enum": [
+              "manual",
+              "import"
+            ],
+            "default": "manual",
+            "x-enum-labels": {
+              "manual": "Entered by hand",
+              "import": "From the finance system"
+            }
+          },
+          "externalRef": {
+            "title": "Finance line id",
+            "type": "string",
+            "description": "The finance system's own id of this line. One imported line per id.",
+            "nullable": true
+          },
+          "projectKey": {
+            "title": "Project number",
+            "type": "string",
+            "description": "The project number the finance system sent, matched against the project key",
+            "nullable": true
+          },
+          "portfolio": {
+            "title": "Portfolio",
+            "type": "string",
+            "description": "The portfolio of the line's project, copied from the project so portfolio totals need one filter",
+            "format": "uuid",
+            "$ref": "projectPortfolio",
+            "nullable": true
+          },
+          "financeReaders": {
+            "title": "Finance readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the people who may see this amount: the project owner and the managers of its portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person. FinanceLineService writes it on every create and update and whenever the project's owner, portfolio or portfolio managers change (portfolio-finance, design decision 1)."
+          },
+          "projectOwner": {
+            "title": "Project owner",
+            "type": "string",
+            "description": "Nextcloud user UID of the project owner, who may change and remove manual lines",
+            "nullable": true,
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person. FinanceLineService writes it on every create and update and whenever the project's owner, portfolio or portfolio managers change (portfolio-finance, design decision 1)."
+          }
+        }
+      },
+      "projectField": {
+        "slug": "projectField",
+        "icon": "TextBoxOutline",
+        "version": "0.1.0",
+        "title": "Project field",
+        "description": "A field an admin adds to every project, such as a policy area or a contract value.",
+        "x-schema-org": "schema:PropertyValueSpecification",
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "type"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            "admin"
+          ],
+          "update": [
+            "admin"
+          ],
+          "delete": [
+            "admin"
+          ]
+        },
+        "properties": {
+          "key": {
+            "title": "Key",
+            "type": "string",
+            "description": "The stable name the value is stored under, in lower camel case. Keep it once projects use it.",
+            "pattern": "^[a-z][a-zA-Z0-9]*$"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string",
+            "description": "The name people see next to the field"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string",
+            "description": "What the field holds",
+            "enum": [
+              "text",
+              "number",
+              "date",
+              "choice",
+              "person",
+              "boolean"
+            ],
+            "x-enum-labels": {
+              "text": "Text",
+              "number": "Number",
+              "date": "Date",
+              "choice": "Choice",
+              "person": "Person",
+              "boolean": "Yes or no"
+            }
+          },
+          "options": {
+            "title": "Options",
+            "type": "array",
+            "description": "The choices of a choice field",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "required": {
+            "title": "Required",
+            "type": "boolean",
+            "description": "Whether a project must fill in the field",
+            "default": false
+          },
+          "order": {
+            "title": "Order",
+            "type": "integer",
+            "description": "Where the field appears, lowest first",
+            "default": 0
+          },
+          "appliesTo": {
+            "title": "Applies to",
+            "type": "string",
+            "description": "What the field is added to",
+            "enum": [
+              "project"
+            ],
+            "default": "project",
+            "x-enum-labels": {
+              "project": "Projects"
+            }
+          }
+        }
+      },
+      "projectRelease": {
+        "slug": "projectRelease",
+        "icon": "MapMarkerPath",
+        "version": "0.2.0",
+        "title": "Release",
+        "description": "A named, dated delivery of a project that its tasks are planned against.",
+        "x-schema-org": "schema:CreativeWork",
+        "type": "object",
+        "required": [
+          "title",
+          "project"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "portfolioReaders": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "Name of the release"
+          },
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project this release belongs to",
+            "format": "uuid",
+            "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "What this release delivers"
+          },
+          "startDate": {
+            "title": "Start date",
+            "type": "string",
+            "description": "When work on the release starts",
+            "format": "date",
+            "nullable": true
+          },
+          "releaseDate": {
+            "title": "Target date",
+            "type": "string",
+            "description": "The date the release is due",
+            "format": "date",
+            "nullable": true
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "Whether the release is planned, released or archived",
+            "enum": [
+              "planned",
+              "released",
+              "archived"
+            ],
+            "default": "planned",
+            "x-enum-labels": {
+              "planned": "Planned",
+              "released": "Released",
+              "archived": "Archived"
+            }
+          },
+          "releasedAt": {
+            "title": "Released on",
+            "type": "string",
+            "description": "When the release was marked as released",
+            "format": "date-time",
+            "nullable": true
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          }
+        }
+      },
+      "timetableWish": {
+        "slug": "timetableWish",
+        "icon": "AlertOutline",
+        "version": "0.1.0",
+        "title": "Timetable wish",
+        "description": "A wish the generator weighs. It always keeps a hard wish, and keeps a soft wish where it can.",
+        "x-schema-org": "schema:Demand",
+        "type": "object",
+        "required": [
+          "appliesTo",
+          "reference",
+          "kind",
+          "strength"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "planninq-timetable"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            "admin"
+          ],
+          "update": [
+            "admin"
+          ],
+          "delete": [
+            "admin"
+          ]
+        },
+        "properties": {
+          "appliesTo": {
+            "title": "Applies to",
+            "type": "string",
+            "description": "Whether the wish is about a teacher, a group, a room or one activity",
+            "enum": [
+              "teacher",
+              "group",
+              "room",
+              "activity"
+            ],
+            "x-enum-labels": {
+              "teacher": "Teacher",
+              "group": "Group",
+              "room": "Room",
+              "activity": "Activity"
+            }
+          },
+          "reference": {
+            "title": "Reference",
+            "type": "string",
+            "description": "The user, group, room or activity the wish is about",
+            "minLength": 1
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string",
+            "description": "What the wish asks for",
+            "enum": [
+              "unavailable",
+              "avoid",
+              "maxPerDay",
+              "noGaps",
+              "sameRoom"
+            ],
+            "x-enum-labels": {
+              "unavailable": "Not on these periods",
+              "avoid": "Preferably not on these periods",
+              "maxPerDay": "At most a number of lessons a day",
+              "noGaps": "No free periods between lessons",
+              "sameRoom": "Always the same room"
+            }
+          },
+          "periods": {
+            "title": "Periods",
+            "type": "array",
+            "description": "The periods of the week the wish is about, such as wed-5",
+            "items": {
+              "type": "string",
+              "pattern": "^(mon|tue|wed|thu|fri|sat|sun)-[1-9][0-9]?$"
+            },
+            "default": []
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer",
+            "nullable": true,
+            "description": "The most lessons a day, for a wish of that kind",
+            "minimum": 1
+          },
+          "strength": {
+            "title": "Strength",
+            "type": "string",
+            "description": "Whether the generator must keep the wish or should keep it",
+            "enum": [
+              "hard",
+              "soft"
+            ],
+            "x-enum-labels": {
+              "hard": "Hard",
+              "soft": "Soft"
+            }
+          },
+          "weight": {
+            "title": "Weight",
+            "type": "integer",
+            "nullable": true,
+            "description": "How much a soft wish counts, from 1 to 3",
+            "minimum": 1,
+            "maximum": 3
+          },
+          "note": {
+            "title": "Note",
+            "type": "string",
+            "description": "Why the wish exists"
+          }
+        }
+      },
+      "timetableScenario": {
+        "slug": "timetableScenario",
+        "icon": "ChartTimeline",
+        "version": "0.1.0",
+        "title": "Timetable scenario",
+        "description": "One week pattern, made by the generator or taken from the current timetable. It keeps its input and how well it keeps the wishes.",
+        "x-schema-org": "schema:Schedule",
+        "type": "object",
+        "required": [
+          "title",
+          "source",
+          "weekOf",
+          "windowFrom",
+          "windowTo",
+          "status"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "planninq-timetable"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            "admin"
+          ],
+          "update": [
+            "admin"
+          ],
+          "delete": [
+            "admin"
+          ]
+        },
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "The name timetablers know the scenario by",
+            "minLength": 1
+          },
+          "source": {
+            "title": "Source",
+            "type": "string",
+            "description": "Whether the generator made it or it came from the current timetable",
+            "enum": [
+              "generated",
+              "imported"
+            ],
+            "x-enum-labels": {
+              "generated": "Generated",
+              "imported": "From the current timetable"
+            }
+          },
+          "weekOf": {
+            "title": "Week of",
+            "type": "string",
+            "format": "date",
+            "description": "The Monday of the first week of the window"
+          },
+          "windowFrom": {
+            "title": "Window start",
+            "type": "string",
+            "format": "date",
+            "description": "The first day the week pattern applies to"
+          },
+          "windowTo": {
+            "title": "Window end",
+            "type": "string",
+            "format": "date",
+            "description": "The last day the week pattern applies to"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "Waiting, generating, done, failed, or published as draft lessons",
+            "enum": [
+              "queued",
+              "running",
+              "done",
+              "failed",
+              "published"
+            ],
+            "default": "queued",
+            "x-enum-labels": {
+              "queued": "Waiting",
+              "running": "Generating",
+              "done": "Done",
+              "failed": "Failed",
+              "published": "Published"
+            }
+          },
+          "seed": {
+            "title": "Seed",
+            "type": "integer",
+            "nullable": true,
+            "description": "The number the generator starts from, so a run can be repeated"
+          },
+          "input": {
+            "title": "Input",
+            "type": "object",
+            "description": "The periods, rooms, lessons and wishes the scenario was made from",
+            "required": [
+              "periods",
+              "rooms",
+              "lessons",
+              "wishes"
+            ]
+          },
+          "placements": {
+            "title": "Placements",
+            "type": "array",
+            "description": "Each lesson with the period and room it was given",
+            "items": {
+              "type": "object",
+              "required": [
+                "lesson",
+                "period",
+                "room"
+              ]
+            },
+            "default": []
+          },
+          "unplaced": {
+            "title": "Unplaced lessons",
+            "type": "array",
+            "description": "Lessons without a place, each with the hard wish that blocked it",
+            "items": {
+              "type": "object",
+              "required": [
+                "lesson",
+                "wish"
+              ]
+            },
+            "default": []
+          },
+          "brokenWishes": {
+            "title": "Broken wishes",
+            "type": "array",
+            "description": "The wishes this scenario breaks, with the lessons that break them",
+            "items": {
+              "type": "object",
+              "required": [
+                "wish",
+                "lessons",
+                "weight"
+              ]
+            },
+            "default": []
+          },
+          "metrics": {
+            "title": "Measures",
+            "type": "object",
+            "description": "Placed lessons, broken wishes, teacher gaps, lessons a day and room use"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string",
+            "description": "Why the run failed"
+          },
+          "publishedAt": {
+            "title": "Published at",
+            "type": "string",
+            "nullable": true,
+            "format": "date-time",
+            "description": "When the scenario was written out as draft lessons"
+          }
+        }
+      },
+      "boardFilter": {
+        "slug": "boardFilter",
+        "icon": "FilterVariant",
+        "version": "0.2.0",
+        "title": "Saved filter",
+        "description": "A named board filter of one project, private to the person who saved it unless shared with the project.",
+        "x-schema-org": "schema:SearchAction",
+        "type": "object",
+        "required": [
+          "project",
+          "name"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                },
+                "shared": true
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                },
+                "shared": true
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                },
+                "shared": true
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
+                },
+                "shared": true
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project whose board the filter applies to",
+            "format": "uuid",
+            "$ref": "project"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "description": "The name the filter is listed under"
+          },
+          "owner": {
+            "title": "Saved by",
+            "type": "string",
+            "description": "Nextcloud user id of the person who saved the filter",
+            "visible": false,
+            "x-notes": "Set by BoardFilterOwnerListener on create and kept on every update; it is the update and delete rule."
+          },
+          "shared": {
+            "title": "Shared with the project",
+            "type": "boolean",
+            "description": "Whether every project member sees and applies the filter",
+            "default": false
+          },
+          "criteria": {
+            "title": "Criteria",
+            "type": "object",
+            "description": "The filter: assignee, label, priority and due date, each with is or is not and its values",
+            "visible": false,
+            "x-notes": "Shape of src/utils/boardFilter.js normaliseFilter(); unknown values are dropped when applied."
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          }
+        }
+      },
+      "boardView": {
+        "slug": "boardView",
+        "icon": "ViewDashboardOutline",
+        "version": "0.1.0",
+        "title": "Cross-project view",
+        "description": "A saved selection of projects whose tasks are shown together in status lanes, shared with the people it names.",
+        "x-schema-org": "schema:ItemList",
+        "type": "object",
+        "required": [
+          "title",
+          "projects"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "title": {
+            "title": "Name",
+            "type": "string",
+            "description": "The name the view is listed under",
+            "minLength": 1
+          },
+          "owner": {
+            "title": "Owner",
+            "type": "string",
+            "description": "Nextcloud user id of the person who saved the view",
+            "visible": false,
+            "x-notes": "Set by BoardFilterOwnerListener on create and kept on every update; it is the update and delete rule."
+          },
+          "members": {
+            "title": "Shared with",
+            "type": "array",
+            "description": "Nextcloud user ids of the people the view is shared with",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "x-notes": "Chosen by the owner. Unlike the project-scoped `members` lists this one is not kept by planninq: boardView is not project-scoped. Sharing a view shares no task: tasks are read with the viewer's own rights."
+          },
+          "projects": {
+            "title": "Projects",
+            "type": "array",
+            "description": "The projects whose tasks the view shows, at most twenty",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "minItems": 1,
+            "maxItems": 20,
+            "x-notes": "Project ids only; the view holds no columns, card order or tasks (design decision 2)."
+          }
+        }
+      },
+      "forgeLink": {
+        "slug": "forgeLink",
+        "icon": "SourceBranch",
+        "version": "0.2.0",
+        "title": "Code link",
+        "description": "A commit, branch, merge request or issue in a code forge that works on a task.",
+        "x-schema-org": "schema:SoftwareSourceCode",
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "portfolioReaders": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                },
+                "source": "manual"
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                },
+                "source": "manual"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                },
+                "source": "manual"
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                },
+                "source": "manual"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "task": {
+            "title": "Task",
+            "type": "string",
+            "description": "The task the link belongs to",
+            "format": "uuid",
+            "$ref": "task",
+            "x-notes": "Resolved by ForgeLinkResolveListener from taskKey when the integration writes the link; sent by the task page for a link added by hand."
+          },
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project of the task",
+            "format": "uuid",
+            "$ref": "project",
+            "x-notes": "Copied from the task by ForgeLinkResolveListener; it scopes the read rule through `members`."
+          },
+          "taskKey": {
+            "title": "Task key",
+            "type": "string",
+            "description": "The task key the forge text named, such as VC-12",
+            "maxLength": 1000,
+            "x-notes": "The integration may send the whole forge text (commit message, branch name or title); ForgeLinkResolveListener keeps the first key in it that belongs to a task, such as VC-12."
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string",
+            "description": "What the link points at",
+            "enum": [
+              "commit",
+              "branch",
+              "mergeRequest",
+              "issue",
+              "link"
+            ],
+            "default": "link"
+          },
+          "url": {
+            "title": "Link",
+            "type": "string",
+            "description": "The address of the item in the forge",
+            "format": "uri",
+            "maxLength": 2048
+          },
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "The commit message, branch name or merge request title",
+            "maxLength": 500
+          },
+          "repository": {
+            "title": "Repository",
+            "type": "string",
+            "description": "The repository, such as acme/portal",
+            "maxLength": 255
+          },
+          "externalId": {
+            "title": "Forge id",
+            "type": "string",
+            "description": "The forge's own id for the item, such as github:acme/portal#42 or a commit hash",
+            "maxLength": 255,
+            "x-notes": "Unique per task: ForgeLinkResolveListener refuses a second link with the same id on the same task, so a webhook retry adds nothing."
+          },
+          "state": {
+            "title": "State",
+            "type": "string",
+            "description": "The state of a merge request or issue",
+            "enum": [
+              "",
+              "open",
+              "merged",
+              "closed"
+            ],
+            "default": ""
+          },
+          "author": {
+            "title": "Author",
+            "type": "string",
+            "description": "Who made the commit or opened the merge request",
+            "maxLength": 255
+          },
+          "occurredAt": {
+            "title": "Date",
+            "type": "string",
+            "description": "When the commit was made or the merge request last changed",
+            "format": "date-time"
+          },
+          "source": {
+            "title": "Added by",
+            "type": "string",
+            "description": "Whether a person added the link or the integration wrote it",
+            "enum": [
+              "manual",
+              "integriq"
+            ],
+            "default": "manual",
+            "x-notes": "Members may change or remove a manual link only; an integration link is removed by an admin, because the next forge event would write it again."
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner, written by ProjectMemberAccessListener and ProjectMembershipSyncListener. It is this object's access rule (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, copied from the project by ProjectMemberAccessListener (projects-grouping-hierarchy-fields)."
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          }
+        }
+      },
+      "taskReport": {
+        "slug": "taskReport",
+        "icon": "ChartBar",
+        "version": "0.1.0",
+        "title": "Report",
+        "description": "A saved query over tasks: which projects, which filters, grouped by what, counted or summed, and shown as a table or a chart.",
+        "x-schema-org": "schema:Report",
+        "type": "object",
+        "required": [
+          "title",
+          "groupBy",
+          "metric",
+          "display"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "shared": "readers"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "owner": "$userId"
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "title": {
+            "title": "Name",
+            "type": "string",
+            "description": "The name the report is listed under",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "What the report shows and who it is for",
+            "nullable": true
+          },
+          "owner": {
+            "title": "Owner",
+            "type": "string",
+            "description": "Nextcloud user id of the person who saved the report",
+            "visible": false,
+            "x-notes": "Set by BoardFilterOwnerListener on create and kept on every update; it is the update and delete rule."
+          },
+          "shared": {
+            "title": "Shared",
+            "type": "string",
+            "description": "Who can open the report",
+            "enum": [
+              "private",
+              "readers"
+            ],
+            "default": "private",
+            "x-enum-labels": {
+              "private": "Only me",
+              "readers": "Everyone who can read its projects"
+            },
+            "x-notes": "A shared report stores a query, not results: every viewer runs it with their own rights (design decision 3)."
+          },
+          "projects": {
+            "title": "Projects",
+            "type": "array",
+            "description": "The projects the report covers, at most fifty",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "default": [],
+            "maxItems": 50
+          },
+          "filters": {
+            "title": "Filters",
+            "type": "object",
+            "description": "Task fields and the value each must equal; empty when the report covers every task",
+            "additionalProperties": false,
+            "properties": {
+              "status": {
+                "title": "Status",
+                "description": "The status a task must have",
+                "type": "string"
+              },
+              "priority": {
+                "title": "Priority",
+                "description": "The priority a task must have",
+                "type": "string"
+              },
+              "assignedTo": {
+                "title": "Assignee",
+                "description": "The user a task must be assigned to",
+                "type": "string"
+              },
+              "labels": {
+                "title": "Label",
+                "description": "A label a task must carry",
+                "type": "string"
+              },
+              "column": {
+                "title": "Column",
+                "description": "The board column a task must be in",
+                "type": "string"
+              },
+              "issueType": {
+                "title": "Issue type",
+                "description": "The issue type a task must have",
+                "type": "string"
+              }
+            },
+            "x-notes": "Equality only: OpenRegister's aggregation ignores any other operator.",
+            "nullable": true
+          },
+          "groupBy": {
+            "title": "Group by",
+            "type": "string",
+            "description": "The task field the report groups on",
+            "enum": [
+              "status",
+              "priority",
+              "assignedTo",
+              "labels",
+              "project",
+              "column"
+            ],
+            "x-enum-labels": {
+              "status": "Status",
+              "priority": "Priority",
+              "assignedTo": "Assignee",
+              "labels": "Label",
+              "project": "Project",
+              "column": "Column"
+            }
+          },
+          "metric": {
+            "title": "Measure",
+            "type": "string",
+            "description": "Count the tasks, or add up a number on them",
+            "enum": [
+              "count",
+              "sum"
+            ],
+            "default": "count",
+            "x-enum-labels": {
+              "count": "Number of tasks",
+              "sum": "Sum"
+            }
+          },
+          "sumField": {
+            "title": "Sum of",
+            "type": "string",
+            "description": "The number added up when the measure is a sum",
+            "enum": [
+              "storyPoints",
+              "estimatedDuration"
+            ],
+            "nullable": true,
+            "x-enum-labels": {
+              "storyPoints": "Story points",
+              "estimatedDuration": "Estimated duration"
+            }
+          },
+          "display": {
+            "title": "Display",
+            "type": "string",
+            "description": "How the report is shown",
+            "enum": [
+              "table",
+              "bar",
+              "donut"
+            ],
+            "default": "bar",
+            "x-enum-labels": {
+              "table": "Table",
+              "bar": "Bar",
+              "donut": "Donut"
+            }
+          }
+        }
       }
     },
     "objects": [
@@ -960,359 +5063,6 @@
         "title": "Infrastructure",
         "color": "#F39C12",
         "description": "DevOps, deployment, and server work"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "project",
-          "slug": "client-portal-v2",
-          "id": "00000000-0000-4000-a000-000000000001"
-        },
-        "title": "Client Portal v2",
-        "description": "Redesign and rebuild the self-service client portal using NL Design System components.",
-        "status": "active",
-        "color": "#4376FC",
-        "icon": "Web",
-        "owner": "admin",
-        "members": [
-          "admin",
-          "jdoe",
-          "mvanderberg"
-        ],
-        "defaultAssignee": "jdoe"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "project",
-          "slug": "infrastructure-migration",
-          "id": "00000000-0000-4000-a000-000000000002"
-        },
-        "title": "Infrastructure Migration",
-        "description": "Migrate on-premise services to managed Kubernetes cluster before Q3.",
-        "status": "active",
-        "color": "#F39C12",
-        "icon": "CloudUpload",
-        "owner": "admin",
-        "members": [
-          "admin",
-          "ksmits"
-        ],
-        "defaultAssignee": "ksmits"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "project",
-          "slug": "onboarding-automation",
-          "id": "00000000-0000-4000-a000-000000000003"
-        },
-        "title": "Onboarding Automation",
-        "description": "Automate new-employee onboarding workflows via n8n and Nextcloud.",
-        "status": "active",
-        "color": "#27AE60",
-        "icon": "AccountMultiplePlus",
-        "owner": "admin",
-        "members": [
-          "admin",
-          "jdoe",
-          "mvanderberg",
-          "ksmits"
-        ],
-        "defaultAssignee": "admin"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "portal-todo",
-          "id": "00000000-0000-4000-b000-000000000001"
-        },
-        "title": "To Do",
-        "project": "00000000-0000-4000-a000-000000000001",
-        "order": 0,
-        "wipLimit": null,
-        "type": "active"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "portal-in-progress",
-          "id": "00000000-0000-4000-b000-000000000002"
-        },
-        "title": "In Progress",
-        "project": "00000000-0000-4000-a000-000000000001",
-        "order": 1,
-        "wipLimit": 3,
-        "type": "active"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "portal-review",
-          "id": "00000000-0000-4000-b000-000000000003"
-        },
-        "title": "Review",
-        "project": "00000000-0000-4000-a000-000000000001",
-        "order": 2,
-        "wipLimit": 2,
-        "type": "active"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "portal-done",
-          "id": "00000000-0000-4000-b000-000000000004"
-        },
-        "title": "Done",
-        "project": "00000000-0000-4000-a000-000000000001",
-        "order": 3,
-        "wipLimit": null,
-        "type": "done"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "infra-todo",
-          "id": "00000000-0000-4000-b000-000000000005"
-        },
-        "title": "To Do",
-        "project": "00000000-0000-4000-a000-000000000002",
-        "order": 0,
-        "wipLimit": null,
-        "type": "active"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "infra-in-progress",
-          "id": "00000000-0000-4000-b000-000000000006"
-        },
-        "title": "In Progress",
-        "project": "00000000-0000-4000-a000-000000000002",
-        "order": 1,
-        "wipLimit": 3,
-        "type": "active"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "infra-review",
-          "id": "00000000-0000-4000-b000-000000000007"
-        },
-        "title": "Review",
-        "project": "00000000-0000-4000-a000-000000000002",
-        "order": 2,
-        "wipLimit": 2,
-        "type": "active"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "infra-done",
-          "id": "00000000-0000-4000-b000-000000000008"
-        },
-        "title": "Done",
-        "project": "00000000-0000-4000-a000-000000000002",
-        "order": 3,
-        "wipLimit": null,
-        "type": "done"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "onboard-todo",
-          "id": "00000000-0000-4000-b000-000000000009"
-        },
-        "title": "To Do",
-        "project": "00000000-0000-4000-a000-000000000003",
-        "order": 0,
-        "wipLimit": null,
-        "type": "active"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "onboard-in-progress",
-          "id": "00000000-0000-4000-b000-000000000010"
-        },
-        "title": "In Progress",
-        "project": "00000000-0000-4000-a000-000000000003",
-        "order": 1,
-        "wipLimit": 3,
-        "type": "active"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "onboard-review",
-          "id": "00000000-0000-4000-b000-000000000011"
-        },
-        "title": "Review",
-        "project": "00000000-0000-4000-a000-000000000003",
-        "order": 2,
-        "wipLimit": 2,
-        "type": "active"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "column",
-          "slug": "onboard-done",
-          "id": "00000000-0000-4000-b000-000000000012"
-        },
-        "title": "Done",
-        "project": "00000000-0000-4000-a000-000000000003",
-        "order": 3,
-        "wipLimit": null,
-        "type": "done"
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "task",
-          "slug": "fix-login-redirect",
-          "id": "00000000-0000-4000-d000-000000000001"
-        },
-        "title": "Fix login page redirect bug",
-        "description": "After OAuth login the user is redirected to / instead of the originally requested page.",
-        "status": "in_progress",
-        "priority": "high",
-        "project": "00000000-0000-4000-a000-000000000001",
-        "column": "00000000-0000-4000-b000-000000000002",
-        "columnOrder": 0,
-        "assignedTo": "jdoe",
-        "dueDate": "2026-04-10",
-        "labels": [
-          "00000000-0000-4000-c000-000000000001"
-        ],
-        "percentComplete": 40
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "task",
-          "slug": "design-dashboard-widgets",
-          "id": "00000000-0000-4000-d000-000000000002"
-        },
-        "title": "Design dashboard widget layout",
-        "description": "Create Figma mockups for the new widget-based dashboard using NL Design System tokens.",
-        "status": "open",
-        "priority": "normal",
-        "project": "00000000-0000-4000-a000-000000000001",
-        "column": "00000000-0000-4000-b000-000000000001",
-        "columnOrder": 0,
-        "assignedTo": "mvanderberg",
-        "dueDate": "2026-04-18",
-        "labels": [
-          "00000000-0000-4000-c000-000000000004"
-        ]
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "task",
-          "slug": "write-api-docs",
-          "id": "00000000-0000-4000-d000-000000000003"
-        },
-        "title": "Write REST API documentation",
-        "description": "Document all public endpoints in OpenAPI 3.0.0 format and publish to developer portal.",
-        "status": "open",
-        "priority": "normal",
-        "project": "00000000-0000-4000-a000-000000000001",
-        "column": "00000000-0000-4000-b000-000000000001",
-        "columnOrder": 1,
-        "assignedTo": "jdoe",
-        "labels": [
-          "00000000-0000-4000-c000-000000000003"
-        ],
-        "estimatedDuration": 240
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "task",
-          "slug": "k8s-namespace-setup",
-          "id": "00000000-0000-4000-d000-000000000004"
-        },
-        "title": "Set up production Kubernetes namespaces",
-        "description": "Create namespaces, resource quotas, and network policies for prod environment.",
-        "status": "open",
-        "priority": "urgent",
-        "project": "00000000-0000-4000-a000-000000000002",
-        "column": "00000000-0000-4000-b000-000000000005",
-        "columnOrder": 0,
-        "assignedTo": "ksmits",
-        "dueDate": "2026-04-07",
-        "labels": [
-          "00000000-0000-4000-c000-000000000005"
-        ]
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "task",
-          "slug": "onboarding-n8n-workflow",
-          "id": "00000000-0000-4000-d000-000000000005"
-        },
-        "title": "Build n8n onboarding workflow",
-        "description": "Create the automated onboarding flow: create NC account, add to groups, send welcome email, generate Planninq project.",
-        "status": "open",
-        "priority": "normal",
-        "project": "00000000-0000-4000-a000-000000000003",
-        "column": "00000000-0000-4000-b000-000000000009",
-        "columnOrder": 0,
-        "assignedTo": "admin",
-        "estimatedDuration": 180,
-        "labels": [
-          "00000000-0000-4000-c000-000000000002"
-        ]
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "timeEntry",
-          "slug": "te-fix-login-2026-04-01"
-        },
-        "task": "00000000-0000-4000-d000-000000000001",
-        "user": "jdoe",
-        "duration": 90,
-        "date": "2026-04-01",
-        "description": "Traced redirect issue to missing redirect_uri state parameter in OAuth middleware."
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "timeEntry",
-          "slug": "te-fix-login-2026-04-02"
-        },
-        "task": "00000000-0000-4000-d000-000000000001",
-        "user": "jdoe",
-        "duration": 60,
-        "date": "2026-04-02",
-        "description": "Implemented fix and wrote unit test."
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "timeEntry",
-          "slug": "te-k8s-2026-04-01"
-        },
-        "task": "00000000-0000-4000-d000-000000000004",
-        "user": "ksmits",
-        "duration": 45,
-        "date": "2026-04-01",
-        "description": "Drafted namespace YAML manifests for review."
       }
     ]
   }

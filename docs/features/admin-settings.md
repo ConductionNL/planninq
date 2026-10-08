@@ -14,6 +14,8 @@ Accessible to Nextcloud administrators at **Administration → Planninq**.
 
 **Label Management** — create, edit, and delete app-wide labels that are available across all projects. Each label has a title and a hex color.
 
+**Code forges**: the three steps to link GitHub commits and pull requests to tasks through Integriq (import the configuration, add the webhook with the shown address and a secret, name task keys such as VC-12), and a button that downloads `lib/Settings/integriq/planninq-code-forge.json`. Planninq itself never calls GitHub; without Integriq, project members paste links on the task page.
+
 **OpenRegister Setup** — shows whether the Planninq register and schemas are initialized in OpenRegister. An "Initialize register" button triggers the import if the register is not yet set up.
 
 ### Access Control
@@ -30,6 +32,7 @@ Accessible from the gear icon in the Planninq navigation bar, the user settings 
 |---------|---------|-------------|
 | Notify when a task is assigned to me | On | Nextcloud notification on task assignment |
 | Remind me 1 day before a task's due date | On | Due-date reminder notification |
+| Also send these to me by email | Off | The assignment and due-date notifications also arrive by email; each one follows its own switch above. Disabled while the account has no email address |
 
 ### Display Preferences
 

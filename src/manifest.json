@@ -12,11 +12,14 @@
         },
         {
           "id": "demo-data",
-          "type": "run-action",
-          "action": "install-demo-data",
-          "title": "Demo data (optional)",
+          "type": "choice",
+          "display": "cards",
+          "optionsSource": "datasets",
+          "configKey": "demo_dataset",
+          "loadAction": "load-demo-data",
+          "title": "Load example data?",
           "required": false,
-          "body": "Load a small example dataset so the lists, detail pages and dashboards show a working product straight away. The data is obviously sample data, it is safe to run more than once, and it can be removed afterwards. Skip this on a production install."
+          "body": "Example data fills the lists, detail pages and dashboards so you can see the app working straight away. Each card has its own Load button. Pick \"None\" on a production install."
         },
         {
           "id": "done",
@@ -26,8 +29,341 @@
       ]
     },
   "version": "0.1.0",
+  "dependencies": ["openregister"],
+  "store": {
+    "_note": "Configuration exchange, not rows. There is deliberately NO `installable` allowlist: a set exists to introduce schemas the instance does not have YET, so listing schemas planninq already owns would refuse exactly the sets worth installing. \u26a0\ufe0f An EMPTY `installable` means install NOTHING, not install anything.",
+    "types": [
+      "openregister.configset",
+      "openregister.flows"
+    ],
+    "localRegister": "planninq"
+  },
+  "menu": [
+    { "id": "Dashboard", "label": "Dashboard", "icon": "ViewDashboardOutline", "route": "Dashboard", "order": 10 },
+    { "id": "MyWorkMenu", "label": "My tasks", "icon": "ClipboardCheckOutline", "route": "MyWork", "order": 15 },
+    { "id": "Boards", "label": "Boards", "icon": "ViewDashboardOutline", "route": "Boards", "order": 20 },
+    { "id": "Projects", "label": "Projects", "icon": "FolderOutline", "route": "Projects", "order": 30, "children": [
+      { "id": "ProjectsAll", "label": "All projects", "icon": "FolderOutline", "route": "Projects" },
+      { "id": "RiskIndexMenu", "label": "Risks", "icon": "AlertOutline", "route": "RiskIndex" },
+      { "id": "PortfolioIndexMenu", "label": "Portfolios", "icon": "FolderMultipleOutline", "route": "PortfolioIndex" }
+    ] },
+    { "id": "Timesheet", "label": "Timesheet", "icon": "ClockOutline", "route": "Timesheet", "order": 50 },
+    { "id": "TimetableMenu", "label": "Timetable", "icon": "CalendarClock", "route": "TimetableWishes", "order": 55, "permission": "admin", "children": [
+      { "id": "TimetableWishesMenu", "label": "Wishes", "icon": "CalendarClock", "route": "TimetableWishes" },
+      { "id": "TimetableScenariosMenu", "label": "Scenarios", "icon": "CalendarClock", "route": "TimetableScenarios" }
+    ] },
+    { "id": "Documentation", "label": "Documentation", "icon": "BookOpenVariantOutline", "href": "https://planix.conduction.nl", "section": "footer", "order": 90 },
+    { "id": "StoreMenu", "label": "Store", "icon": "StoreOutline", "route": "Store", "section": "footer", "order": 92 },
+    { "id": "ReportsMenu", "label": "Reports", "icon": "ChartBoxOutline", "route": "Reports", "section": "settings", "order": 95 },
+    { "id": "FeaturesRoadmapMenu", "label": "Features & roadmap", "icon": "MapMarkerPath", "route": "FeaturesRoadmap", "section": "footer", "order": 100 },
+    { "id": "FlowsMenu", "label": "Flows", "icon": "SitemapOutline", "route": "Flows", "section": "settings", "order": 96 },
+    { "id": "ProjectFieldsMenu", "label": "Project fields", "icon": "TextBoxOutline", "route": "ProjectFieldIndex", "section": "settings", "order": 98, "permission": "admin" },
+    { "id": "UnmatchedFinanceLinesMenu", "label": "Unmatched finance lines", "icon": "CurrencyEur", "route": "UnmatchedFinanceLines", "section": "settings", "order": 97, "permission": "admin" }
+  ],
+  "pages": [
+    {
+      "id": "Store",
+      "route": "/store",
+      "type": "store",
+      "title": "Store",
+      "config": {
+        "app": "planninq",
+        "title": "Store",
+        "description": "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them."
+      },
+      "_note": "ADR-114 Decision 4 / ADR-080. Declarative: openregister hosts the store plane, so this app writes NO store controller. With no registry configured the page renders the app's built-in items and makes NO network call."
+    },
+    {
+      "id": "Dashboard",
+      "route": "/",
+      "type": "dashboard",
+      "title": "Dashboard",
+      "config": {
+        "widgets": [
+          {
+            "id": "kpi-active-projects",
+            "type": "stat",
+            "title": "Active projects",
+            "content": {
+              "label": "Active projects",
+              "icon": "FolderOutline",
+              "route": { "name": "Projects" },
+              "format": { "style": "decimal", "decimals": 0 },
+              "source": {
+                "register": "planninq",
+                "schema": "project",
+                "metric": "count",
+                "filter": { "status": "active" }
+              }
+            }
+          },
+          {
+            "id": "kpi-member-projects",
+            "type": "stat",
+            "title": "Projects I am in",
+            "content": {
+              "label": "Projects I am in",
+              "icon": "AccountGroup",
+              "route": { "name": "Projects" },
+              "format": { "style": "decimal", "decimals": 0 },
+              "source": {
+                "register": "planninq",
+                "schema": "project",
+                "metric": "count",
+                "filter": { "members": "@me" }
+              }
+            }
+          },
+          {
+            "id": "kpi-archived-projects",
+            "type": "stat",
+            "title": "Archived projects",
+            "content": {
+              "label": "Archived projects",
+              "icon": "History",
+              "route": { "name": "Projects" },
+              "format": { "style": "decimal", "decimals": 0 },
+              "source": {
+                "register": "planninq",
+                "schema": "project",
+                "metric": "count",
+                "filter": { "status": "archived" }
+              }
+            }
+          },
+          {
+            "id": "kpi-my-open",
+            "type": "stat",
+            "title": "My open tasks",
+            "content": {
+              "label": "My open tasks",
+              "icon": "ClipboardCheckOutline",
+              "route": { "name": "MyWork", "query": { "group": "open" } },
+              "format": { "style": "decimal", "decimals": 0 },
+              "source": {
+                "register": "planninq",
+                "schema": "task",
+                "metric": "count",
+                "filter": { "assignedTo": "@me", "status": { "notIn": ["done", "cancelled"] } }
+              }
+            }
+          },
+          {
+            "id": "kpi-my-overdue",
+            "type": "stat",
+            "title": "My overdue tasks",
+            "content": {
+              "label": "My overdue tasks",
+              "icon": "AlertOutline",
+              "route": { "name": "MyWork", "query": { "group": "overdue" } },
+              "format": { "style": "decimal", "decimals": 0 },
+              "source": {
+                "register": "planninq",
+                "schema": "task",
+                "metric": "count",
+                "filter": { "assignedTo": "@me", "status": { "notIn": ["done", "cancelled"] }, "dueDate": { "lt": "@today" } }
+              }
+            }
+          },
+          {
+            "id": "kpi-my-in-progress",
+            "type": "stat",
+            "title": "My tasks in progress",
+            "content": {
+              "label": "My tasks in progress",
+              "icon": "TimerOutline",
+              "route": { "name": "MyWork", "query": { "group": "in_progress" } },
+              "format": { "style": "decimal", "decimals": 0 },
+              "source": {
+                "register": "planninq",
+                "schema": "task",
+                "metric": "count",
+                "filter": { "assignedTo": "@me", "status": "in_progress" }
+              }
+            }
+          },
+          {
+            "id": "kpi-my-done-today",
+            "type": "stat",
+            "title": "Completed today",
+            "content": {
+              "label": "Completed today",
+              "icon": "CheckboxMarkedCircleOutline",
+              "route": { "name": "MyWork", "query": { "group": "completed_today" } },
+              "format": { "style": "decimal", "decimals": 0 },
+              "source": {
+                "register": "planninq",
+                "schema": "task",
+                "metric": "count",
+                "filter": { "assignedTo": "@me", "status": "done", "completedAt": { "gte": "@today" } }
+              }
+            }
+          },
+          {
+            "id": "dashboard-panels",
+            "type": "project-panels",
+            "title": "My projects",
+            "_note": "The two non-KPI panels (My projects, Quick actions), rendered by the `project-panels` widget type, which src/registry.js maps to DashboardPanels. CnWidgetGrid resolves a manifest widget by its TYPE against the app registry before the library catalog, so the key there is the type string, not this id. DashboardPanels is a plain component, NOT a nested CnDashboardPage: hydra gate-15 rejects a dashboard inside a dashboard."
+          }
+        ],
+        "layout": [
+          { "id": "1", "widgetId": "kpi-active-projects", "gridX": 0, "gridY": 0, "gridWidth": 4, "gridHeight": 2, "showTitle": false },
+          { "id": "2", "widgetId": "kpi-member-projects", "gridX": 4, "gridY": 0, "gridWidth": 4, "gridHeight": 2, "showTitle": false },
+          { "id": "3", "widgetId": "kpi-archived-projects", "gridX": 8, "gridY": 0, "gridWidth": 4, "gridHeight": 2, "showTitle": false },
+          { "id": "5", "widgetId": "kpi-my-open", "gridX": 0, "gridY": 2, "gridWidth": 3, "gridHeight": 2, "showTitle": false },
+          { "id": "6", "widgetId": "kpi-my-overdue", "gridX": 3, "gridY": 2, "gridWidth": 3, "gridHeight": 2, "showTitle": false },
+          { "id": "7", "widgetId": "kpi-my-in-progress", "gridX": 6, "gridY": 2, "gridWidth": 3, "gridHeight": 2, "showTitle": false },
+          { "id": "8", "widgetId": "kpi-my-done-today", "gridX": 9, "gridY": 2, "gridWidth": 3, "gridHeight": 2, "showTitle": false },
+          { "id": "4", "widgetId": "dashboard-panels", "gridX": 0, "gridY": 4, "gridWidth": 12, "gridHeight": 5, "showTitle": false, "borderless": true }
+        ]
+      }
+    },
+    { "id": "MyCalendar", "_note": "The tasks assigned to or shared with the user across their projects, on their due dates with each task naming its project, in a month grid, a week row or a dated list. A calendar grid is not an index (planning-calendar).", "route": "/my-calendar", "type": "custom", "title": "My calendar", "component": "MyCalendar", "config": {} },
+    { "id": "MyWork", "_note": "Every open task assigned to the user or shared with them, across the projects they can read, grouped as Overdue, Due this week and Later with the status changed in place; a dashboard figure opens it narrowed through ?group=. Grouping plus an inline status write per row is not an index (portfolio-my-work-dashboard).", "route": "/my-tasks", "type": "custom", "title": "My tasks", "component": "MyWork", "config": {} },
+    { "id": "Projects", "_note": "Project index rendered as cards with a client-side status chip filter over filteredProjects, plus a free-text field. The chip row is a filter surface CnIndexPage does not express, so the list is a host-app SFC.", "route": "/projects", "type": "custom", "title": "Projects", "component": "ProjectList", "config": {} },
+    { "id": "PortfolioIndex", "_note": "The portfolios projects are grouped by, with their managers and list order. Admins create and delete them and the managers edit them, which OpenRegister enforces on the projectPortfolio schema, so the page is a declarative index. Declared before ProjectBoard so /projects/portfolios is never read as a project id.", "route": "/projects/portfolios", "type": "index", "title": "Portfolios", "config": { "register": "planninq", "schema": "projectPortfolio", "columns": ["title", "managers", "order"], "defaultSort": [{ "field": "order", "order": "asc" }] } },
+    { "id": "ProjectFieldIndex", "_note": "The fields an admin adds to every project: label, type (text, number, date, choice, person or yes/no), options, required and order. OpenRegister keeps writes to admins, so the page is a declarative index with the schema's own form. The Details tab of the project settings sidebar shows one input per field.", "route": "/project-fields", "type": "index", "title": "Project fields", "config": { "register": "planninq", "schema": "projectField", "columns": ["label", "key", "type", "required", "order"], "defaultSort": [{ "field": "order", "order": "asc" }] } },
+    { "id": "UnmatchedFinanceLines", "_note": "Lines from the finance system whose project number matched no project key. The finance import keeps them rather than dropping them; an admin opens a line and sets its project, and it moves to that project's Finance tab. OpenRegister's read rule shows them to admins and the import group only, so the page is a declarative index with a fixed filter on an empty project.", "route": "/finance/unmatched", "type": "index", "title": "Unmatched finance lines", "config": { "register": "planninq", "schema": "financeLine", "filter": { "project": "IS NULL" }, "columns": ["projectKey", "externalRef", "kind", "category", "amount", "date", "project"], "defaultSort": [{ "field": "date", "order": "desc" }] } },
+    { "id": "RiskIndex", "_note": "Every risk of every project the user can read, highest score first. OpenRegister's read rule on the members list decides which risks a user sees, so the page is a declarative index. Declared before ProjectBoard so /projects/risks is never read as a project id.", "route": "/projects/risks", "type": "index", "title": "Risks", "config": { "register": "planninq", "schema": "risk", "readOnly": true, "showViewAction": false, "columns": ["title", "project", "score", "status", "owner", "reviewDate"], "defaultSort": [{ "field": "score", "order": "desc" }] } },
+    { "id": "ProjectBoard", "_note": "Bespoke Kanban board: one column per project status, with drag-to-transition between columns and a per-card move menu listing the other columns as targets. No v2 primitive renders a column-per-status board or owns the drop-to-transition write.", "route": "/projects/:id", "type": "custom", "title": "Project board", "component": "ProjectBoard", "config": {} },
+    { "id": "ProjectBacklog", "_note": "Backlog under a project: a parent breadcrumb back to the board above an ordered task list scoped to :id. The parent-scoped header is the part CnIndexPage does not carry.", "route": "/projects/:id/backlog", "type": "custom", "title": "Backlog", "component": "ProjectBacklog", "config": {} },
+    { "id": "ProjectFlow", "_note": "Cumulative flow as stacked bands per column with a table view of the same numbers, and a scatter of finished tasks' cycle times with average and 85th percentile lines, fed by /api/projects/{id}/flow. A chart replayed from the audit trail is not an index or a dashboard widget the manifest can declare (portfolio-flow-reports).", "route": "/projects/:id/flow", "type": "custom", "title": "Flow", "component": "ProjectFlow", "config": {} },
+    { "id": "ProjectTimeline", "_note": "Gantt over a project's tasks: positioned bars plus dependency arrows drawn between them, fed by /api/timeline. The roadmap type renders milestones on a track and has no vocabulary for task bars with dependency edges.", "route": "/projects/:id/timeline", "type": "custom", "title": "Timeline", "component": "ProjectTimeline", "config": {} },
+    { "id": "ProjectCalendar", "_note": "A project's tasks on their due dates in a month grid, a week row or a dated list, with Previous, Today and Next. A calendar grid placing records by date is not an index or a detail page (planning-calendar).", "route": "/projects/:id/calendar", "type": "custom", "title": "Calendar", "component": "ProjectCalendar", "config": {} },
+    { "id": "ProjectOverview", "_note": "One screen per project: description, dates, people, progress from the project's tasks, and its latest log entries, each block linking to its tab. It reads three schemas for one project and computes progress, which no detail page expresses.", "route": "/projects/:id/overview", "type": "custom", "title": "Overview", "component": "ProjectOverview", "config": {} },
+    { "id": "ProjectPhases", "_note": "The project's phases in order with Move up and Move down, the phase's files, notes and audit trail in a sidebar, and a close dialog that uploads or picks the concluding document which OpenRegister's lifecycle guard requires. An ordered list with a sidebar and a guarded close is not an index or a detail page.", "route": "/projects/:id/phases", "type": "custom", "title": "Phases", "component": "ProjectPhases", "config": {} },
+    { "id": "ProjectRisks", "_note": "The project's risk register: a heat map of likelihood against impact on the admin's risk scale beside the list sorted by score. The heat map is not an index, so the page is custom.", "route": "/projects/:id/risks", "type": "custom", "title": "Risks", "component": "ProjectRisks", "config": {} },
+    { "id": "ProjectStatus", "_note": "Status reports on the six GROTIK aspects: the latest report with its notes, the history, and a report form that suggests money, time and risk from the project's tasks, risks and budget. The suggestions read three schemas, which no detail page expresses.", "route": "/projects/:id/status", "type": "custom", "title": "Status", "component": "ProjectStatus", "config": {} },
+    { "id": "ProjectFinance", "_note": "The project's delivery terms and its money: budget against commitments, actual cost and forecast per cost category and per phase, with booked time counted as labour. It combines finance lines, time entries, phases and an admin setting into computed tables, and hides every amount from members, which no detail page expresses.", "route": "/projects/:id/finance", "type": "custom", "title": "Finance", "component": "ProjectFinance", "config": {} },
+    { "id": "ProjectLog", "_note": "The project log: issues, lessons, meetings and decisions with type filters, plus an Actions filter over the project's tasks with issueType action, and an Add action that creates such a task. The mix of two schemas under one filter row is what makes it custom.", "route": "/projects/:id/log", "type": "custom", "title": "Log", "component": "ProjectLog", "config": {} },
+    { "id": "TaskDetail", "_note": "Task detail that combines a CnObjectSidebar with an inline time-entry log written against the same task. A detail page renders the record; the embedded logging surface is what makes this custom.", "route": "/projects/:id/tasks/:taskId", "type": "custom", "title": "Task", "component": "TaskDetail", "config": {} },
+    { "id": "Timesheet", "_note": "Week timesheet: entries grouped per day with inline edit and a project selector. A grouped, editable grid over time entries, which no v2 list primitive expresses.", "route": "/timesheet", "type": "custom", "title": "Timesheet", "component": "Timesheet", "config": {} },
+    { "id": "TimetableWishes", "_note": "The wishes the timetable generator weighs, listed by teacher, group, room or activity. Admins add, edit and delete them, which OpenRegister enforces on the timetableWish schema, so the page is a declarative index; only its create and edit dialog is replaced (form-dialog slot) so the periods are picked on the school week grid.", "route": "/timetable/wishes", "type": "index", "title": "Timetable wishes", "config": {
+      "register": "planninq",
+      "schema": "timetableWish",
+      "columns": ["appliesTo", "reference", "kind", "strength", "weight", "note"],
+      "quickFilters": [
+        { "label": "All", "filter": {}, "default": true },
+        { "label": "Teacher", "filter": { "appliesTo": "teacher" } },
+        { "label": "Group", "filter": { "appliesTo": "group" } },
+        { "label": "Room", "filter": { "appliesTo": "room" } },
+        { "label": "Activity", "filter": { "appliesTo": "activity" } }
+      ],
+      "defaultSort": [{ "field": "reference", "order": "asc" }]
+    }, "slots": { "form-dialog": "TimetableWishDialog" } },
+    { "id": "TimetableScenarios", "_note": "The timetable scenarios, generated or taken from the current timetable, with their status and window. Admins create, edit and delete them, which OpenRegister enforces on the timetableScenario schema, so the page is a declarative index; a row opens TimetableScenarioDetail. Above the list, TimetableScenarioCompare (below-header slot) sets two or three finished scenarios side by side.", "route": "/timetable/scenarios", "type": "index", "title": "Timetable scenarios", "config": {
+      "register": "planninq",
+      "schema": "timetableScenario",
+      "columns": ["title", "source", "status", "windowFrom", "windowTo"],
+      "defaultSort": [{ "field": "windowFrom", "order": "desc" }]
+    }, "slots": { "below-header": "TimetableScenarioCompare" } },
+    { "id": "TimetableScenarioDetail", "_note": "One timetable scenario: its fields through the declarative detail page, and in its sections slot the generator run (status, progress, Generate), the lessons without a place with the hard wish that blocked them, and the broken soft wishes.", "route": "/timetable/scenarios/:id", "type": "detail", "title": "Scenario", "config": {
+      "register": "planninq",
+      "schema": "timetableScenario"
+    }, "slots": { "sections": "TimetableScenarioSections" } },
+    { "id": "Boards", "_note": "Board picker: the projects a user can open a board for, as entry points rather than records. The cards route to /projects/:id and expose no record actions.", "route": "/boards", "type": "custom", "title": "Boards", "component": "Boards", "config": {} },
+    { "id": "ProjectsView", "_note": "A cross-project view: the tasks of every project in a saved boardView, in one lane per task status, each card naming its project, with the board filter bar. It reads several projects in parallel with the viewer's rights, counts the ones hidden from them, and resolves a move to the first column of the task's own project that maps the lane's status, which no index or detail page expresses (boards-cross-project-board).", "route": "/boards/views/:id", "type": "custom", "title": "Cross-project view", "component": "ProjectsView", "config": {} },
+    { "id": "PortfolioStatus", "_note": "One portfolio's projects with their lifecycle status, progress, dates, budget and six aspect statuses, under a roll-up per aspect with the worst state and a No report count. It combines the projects, their tasks and an admin setting into one table and a roll-up, which no index or dashboard widget expresses.", "route": "/portfolio/status", "type": "custom", "title": "Portfolio status", "component": "PortfolioStatus", "config": {} },
+    { "id": "PortfolioFinance", "_note": "Money across one portfolio: a row per project with budget, commitments, actual cost including labour from booked time, forecast and what remains, and the totals, for the projects whose money the viewer may see. It combines finance lines, time entries and projects into computed rows and a cross-checked total, which no index or dashboard widget expresses.", "route": "/portfolio/finance", "type": "custom", "title": "Portfolio finance", "component": "PortfolioFinance", "config": {} },
+    { "id": "MyReports", "_note": "The reports a user built over tasks and the ones shared with them, with the button that opens the report builder. The Reports page's cards are static manifest data, so saved reports cannot be cards there (portfolio-flow-reports, design amendment).", "route": "/reports/custom", "type": "custom", "title": "Your reports", "component": "MyReports", "config": {} },
+    { "id": "ReportPage", "_note": "One saved report run with the viewer's own rights: OpenRegister's grouped aggregation per readable project, added up, and the count of projects the viewer cannot see. A per-viewer recomputed report is not a detail page of the stored query (portfolio-flow-reports).", "route": "/reports/custom/:id", "type": "custom", "title": "Report", "component": "ReportPage", "config": {} },
+    { "id": "PortfolioFlow", "_note": "Flow across the projects of one portfolio: the cumulative flow and cycle time of every project the viewer can read, added up, with a project filter that recalculates without a reload. Not an index or a v2 dashboard primitive (portfolio-flow-reports).", "route": "/portfolio/flow", "type": "custom", "title": "Portfolio flow", "component": "PortfolioFlow", "config": {} },
+    { "id": "PortfolioTimeline", "_note": "The projects of one portfolio on one time axis: a summary bar per project that opens into its phases and tasks, with dependencies across projects. A multi-project Gantt is not a v2 primitive.", "route": "/portfolio/timeline", "type": "custom", "title": "Portfolio timeline", "component": "PortfolioTimeline", "config": {} },
+    { "id": "Portfolio", "_note": "Capacity report: open work per person (default) and per project across the active projects the viewer can read, narrowed by portfolio or project (portfolio-people-capacity). An aggregate view with no single backing record, so it is neither an index nor a dashboard of widgets.", "route": "/portfolio", "type": "custom", "title": "Portfolio", "component": "Portfolio", "config": {} },
+    {
+      "id": "Reports",
+      "_note": "ADR-112 / ADR-114 Decision 3. Portfolio already existed and moves here from the main navigation. The other two are new, and are declarative type:dashboard pages over the app's own register — no per-app component and no per-app controller, the same reasoning that put the Store in openregister.",
+      "route": "/reports",
+      "type": "reports",
+      "title": "Reports",
+      "config": {
+        "description": "Pick a report to open it.",
+        "categories": { "work": "Work", "portfolio": "Portfolios", "people": "People and time" },
+        "cards": [
+          { "id": "TaskStatusReport", "label": "Task status", "description": "What is open, what is blocked, and what is overdue.", "icon": "CheckboxMarkedCircleOutline", "category": "work", "route": "TaskStatusReport" },
+          { "id": "MyReportsCard", "label": "Your reports", "description": "Reports you built over tasks, and the ones shared with you.", "icon": "ChartBar", "category": "work", "route": "MyReports" },
+          { "id": "PortfolioStatusCard", "label": "Portfolio status", "description": "Every project of a portfolio with its status per aspect, rolled up.", "icon": "ChartBoxOutline", "category": "portfolio", "route": "PortfolioStatus" },
+          { "id": "PortfolioFinanceCard", "label": "Portfolio finance", "description": "Budget, commitments, actual cost and forecast totalled across a portfolio.", "icon": "CurrencyEur", "category": "portfolio", "route": "PortfolioFinance" },
+          { "id": "PortfolioTimelineCard", "label": "Portfolio timeline", "description": "The projects of a portfolio on one timeline.", "icon": "ChartTimeline", "category": "portfolio", "route": "PortfolioTimeline" },
+          { "id": "PortfolioFlowCard", "label": "Portfolio flow", "description": "Cumulative flow and cycle time across the projects of a portfolio.", "icon": "ChartAreaspline", "category": "portfolio", "route": "PortfolioFlow" },
+          { "id": "Portfolio", "label": "Capacity", "description": "Open work per person and per project.", "icon": "BriefcaseOutline", "category": "people", "route": "Portfolio" },
+          { "id": "TimeSpentReport", "label": "Time spent", "description": "Hours logged, and the projects they went to.", "icon": "TimerOutline", "category": "people", "route": "TimeSpentReport" }
+        ]
+      }
+    },
+    {
+      "id": "TaskStatusReport",
+      "_note": "Declarative. Every filter here is scalar equality, which is the only kind OpenRegister's aggregation endpoint can evaluate: a multi-value or relative-date filter is accepted and then silently not applied, which is how decidiq's KPI cards came to show wrong numbers.",
+      "route": "/reports/tasks",
+      "type": "dashboard",
+      "title": "Task status",
+      "config": {
+        "widgets": [
+          { "id": "tasks-open", "title": "Open", "type": "stat", "content": { "label": "Open", "icon": "CheckboxMarkedCircleOutline", "route": { "name": "Boards" }, "format": { "style": "decimal", "decimals": 0 }, "source": { "register": "planninq", "schema": "task", "metric": "count", "filter": { "status": "open" } } } },
+          { "id": "tasks-in-progress", "title": "In progress", "type": "stat", "content": { "label": "In progress", "icon": "TimerOutline", "route": { "name": "Boards" }, "format": { "style": "decimal", "decimals": 0 }, "source": { "register": "planninq", "schema": "task", "metric": "count", "filter": { "status": "in_progress" } } } },
+          { "id": "tasks-blocked", "title": "Blocked", "type": "stat", "content": { "label": "Blocked", "icon": "History", "route": { "name": "Boards" }, "format": { "style": "decimal", "decimals": 0 }, "source": { "register": "planninq", "schema": "task", "metric": "count", "filter": { "status": "blocked" } } } },
+          { "id": "tasks-by-status", "title": "By status", "type": "chart", "content": { "chartKind": "donut", "legendPosition": "bottom", "emptyLabel": "No tasks yet", "dataSource": { "register": "planninq", "schema": "task", "aggregate": { "groupBy": "status", "metric": "count" } } } },
+          { "id": "tasks-by-priority", "title": "By priority", "type": "chart", "content": { "chartKind": "donut", "legendPosition": "bottom", "emptyLabel": "No tasks yet", "dataSource": { "register": "planninq", "schema": "task", "aggregate": { "groupBy": "priority", "metric": "count" } } } },
+          { "id": "tasks-due-soonest", "title": "Due soonest", "type": "object-table", "content": { "register": "planninq", "schema": "task", "filter": { "status": "open" }, "sort": { "field": "dueDate", "dir": "asc" }, "limit": 8, "hideHeader": true, "emptyText": "Nothing is due", "viewAllRoute": { "name": "Boards" }, "viewAllLabel": "Open the boards", "columns": [ { "key": "title", "label": "Task" }, { "key": "dueDate", "label": "Due" }, { "key": "assignedTo", "label": "Assignee" } ] } }
+        ],
+        "layout": [
+          { "id": "1", "widgetId": "tasks-open", "gridX": 0, "gridY": 0, "gridWidth": 4, "gridHeight": 2, "showTitle": false },
+          { "id": "2", "widgetId": "tasks-in-progress", "gridX": 4, "gridY": 0, "gridWidth": 4, "gridHeight": 2, "showTitle": false },
+          { "id": "3", "widgetId": "tasks-blocked", "gridX": 8, "gridY": 0, "gridWidth": 4, "gridHeight": 2, "showTitle": false },
+          { "id": "4", "widgetId": "tasks-by-status", "gridX": 0, "gridY": 2, "gridWidth": 6, "gridHeight": 4, "showTitle": true },
+          { "id": "5", "widgetId": "tasks-by-priority", "gridX": 6, "gridY": 2, "gridWidth": 6, "gridHeight": 4, "showTitle": true },
+          { "id": "6", "widgetId": "tasks-due-soonest", "gridX": 0, "gridY": 6, "gridWidth": 12, "gridHeight": 4, "showTitle": true }
+        ]
+      }
+    },
+    {
+      "id": "TimeSpentReport",
+      "_note": "Declarative. `duration` is stored in minutes, so the sum is labelled as minutes rather than dressed up as hours by a format string that cannot divide.",
+      "route": "/reports/time",
+      "type": "dashboard",
+      "title": "Time spent",
+      "config": {
+        "widgets": [
+          { "id": "time-entries", "title": "Entries", "type": "stat", "content": { "label": "Entries", "icon": "ClockOutline", "route": { "name": "Timesheet" }, "format": { "style": "decimal", "decimals": 0 }, "source": { "register": "planninq", "schema": "plannedTimeEntry", "metric": "count" } } },
+          { "id": "time-minutes", "title": "Minutes logged", "type": "stat", "content": { "label": "Minutes logged", "icon": "TimerOutline", "route": { "name": "Timesheet" }, "format": { "style": "decimal", "decimals": 0 }, "source": { "register": "planninq", "schema": "plannedTimeEntry", "metric": "sum", "field": "duration" } } },
+          { "id": "time-by-user", "title": "Per person", "type": "chart", "content": { "chartKind": "bar", "legendPosition": "bottom", "emptyLabel": "Nothing logged yet", "dataSource": { "register": "planninq", "schema": "plannedTimeEntry", "aggregate": { "groupBy": "user", "metric": "sum", "sumField": "duration", "topN": 10, "otherBucket": true } } } },
+          { "id": "time-recent", "title": "Most recent", "type": "object-table", "content": { "register": "planninq", "schema": "plannedTimeEntry", "filter": {}, "sort": { "field": "date", "dir": "desc" }, "limit": 8, "hideHeader": true, "emptyText": "Nothing logged yet", "viewAllRoute": { "name": "Timesheet" }, "viewAllLabel": "Open the timesheet", "columns": [ { "key": "date", "label": "Date" }, { "key": "user", "label": "Who" }, { "key": "duration", "label": "Minutes" }, { "key": "description", "label": "What" } ] } }
+        ],
+        "layout": [
+          { "id": "1", "widgetId": "time-entries", "gridX": 0, "gridY": 0, "gridWidth": 6, "gridHeight": 2, "showTitle": false },
+          { "id": "2", "widgetId": "time-minutes", "gridX": 6, "gridY": 0, "gridWidth": 6, "gridHeight": 2, "showTitle": false },
+          { "id": "3", "widgetId": "time-by-user", "gridX": 0, "gridY": 2, "gridWidth": 12, "gridHeight": 4, "showTitle": true },
+          { "id": "4", "widgetId": "time-recent", "gridX": 0, "gridY": 6, "gridWidth": 12, "gridHeight": 4, "showTitle": true }
+        ]
+      }
+    },
+    {
+      "id": "FeaturesRoadmap",
+      "route": "/features-roadmap",
+      "type": "roadmap",
+      "title": "Features & roadmap",
+      "config": { "documentationUrl": "https://planix.conduction.nl" },
+      "_note": "ADR-018 / ADR-114 Decision 5. Rendered by the shared CnFeaturesAndRoadmapView, which reads the committed docs/features.json and OpenRegister's GitHub proxy. No per-app customisation of the view itself."
+    },
+    {
+      "id": "Flows",
+      "route": "/flows",
+      "type": "index",
+      "title": "Flows",
+      "config": { "entitySource": "flows", "app": "planninq", "rowRoute": "FlowDetail" },
+      "_note": "ADR-110 Decision 4: a planninq flow operates on projects and tasks, so the authoring surface belongs here rather than behind a link to another app's list. type:\"index\" over the NAMED flows source, which is the canonical shape: a flow lives in OpenRegister's native flow store, not a register/schema pair, so the object-backed index cannot address it. nextcloud-vue marks the dedicated `flows` page type deprecated. rowRoute names FlowDetail by route NAME, without which the row click falls back to the source's own /flows path."
+    },
+    {
+      "id": "FlowDetail",
+      "route": "/flows/:id",
+      "type": "flow",
+      "title": "Flow",
+      "config": { "app": "planninq" },
+      "_note": "The shared CnFlowDetail canvas over the same single engine (ADR-065), scoped to this app."
+    }
+  ],
   "observability": {
-    "_note": "AppHost manifest (ADR-040). The observability block reproduces the output of the now-deleted hand-written HealthController + MetricsController; /api/health and /api/metrics are aliased to AppHost\\Controller\\GenericHealth#index / GenericMetrics#index in appinfo/routes.php. The deepLinks block replaces the hand-written DeepLinkRegistrationListener, read at event time by the generic listener. Parity: the database health check and the implicit {appId}_info/{appId}_up metrics match the pre-adoption contract — those two are derived from the runtime app id, so they read planninq_info/planninq_up after the planix -> planninq rename; the task/project object counts are a documented intentional improvement (object-count observability the bespoke MetricsController never emitted). The `register` and `registerSlug` values below are the OpenRegister register slug, not the app id — they moved from `planix` to `planninq` alongside the MigrateRegisterSlug repair step that renames the register ROW. They only work because that step runs: the slug is what a lookup resolves a register by, so a renamed slug here without the row rename would resolve nothing (and, on the import path, fork a second empty register). This is an observability-only manifest (schema v2.13.0 profile): planninq renders no manifest-driven UI, so there is deliberately no menu/pages — the former top-level appId/name keys were removed 2026-07-06 (not part of the v2 contract; the app id comes from the runtime).",
+    "_note": "AppHost manifest (ADR-040). The observability block reproduces the output of the now-deleted hand-written HealthController + MetricsController; /api/health and /api/metrics are aliased to AppHost\\Controller\\GenericHealth#index / GenericMetrics#index in appinfo/routes.php. The deepLinks block replaces the hand-written DeepLinkRegistrationListener, read at event time by the generic listener. Parity: the database health check and the implicit {appId}_info/{appId}_up metrics match the pre-adoption contract — those two are derived from the runtime app id, so they read planninq_info/planninq_up after the planix -> planninq rename; the task/project object counts are a documented intentional improvement (object-count observability the bespoke MetricsController never emitted). The `register` and `registerSlug` values below are the OpenRegister register slug, not the app id — they moved from `planix` to `planninq` alongside the MigrateRegisterSlug repair step that renames the register ROW. They only work because that step runs: the slug is what a lookup resolves a register by, so a renamed slug here without the row rename would resolve nothing (and, on the import path, fork a second empty register). This was an observability-only manifest until 2026-08-31, when planninq adopted the manifest shell: it now also carries `dependencies`, `menu` and `pages`, CnAppRoot renders the nav and the OpenRegister dependency gate, and vue-router routes are built from `pages[]` in main.js. The former top-level appId/name keys were removed 2026-07-06 (not part of the v2 contract; the app id comes from the runtime).",
     "health": {
       "statusCodePolicy": "adr006",
       "checks": [
@@ -86,7 +422,7 @@
     },
     {
       "registerSlug": "planninq",
-      "schemaSlug": "timeEntry",
+      "schemaSlug": "plannedTimeEntry",
       "urlTemplate": "/apps/planninq/projects/{project}?task={task}",
       "displayName": "Time entry"
     }

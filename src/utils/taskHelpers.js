@@ -86,6 +86,20 @@ export function statusMapFromTasks(tasks = []) {
 }
 
 /**
+ * Whether a dependency edge blocks: one without a type (every edge made
+ * before types were used) or of type `blocks`. A related link, such as an
+ * imported start-to-start link, is drawn but never blocks.
+ *
+ * @param {object} edge The edge.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/integration-msproject-import/tasks.md#task-1.2
+ */
+export function isBlockingEdge(edge) {
+	return !edge?.type || edge.type === 'blocks'
+}
+
+/**
  * Decide whether a single task is blocked, given the project's dependency
  * edges and a UUID → status map of all tasks.
  *
@@ -107,12 +121,12 @@ export function isBlocked(taskId, edges = [], statusById = {}) {
 		return false
 	}
 	for (const edge of edges || []) {
-		if (!edge || edge.blocked !== taskId) {
+		if (!edge || edge.blocked !== taskId || !isBlockingEdge(edge)) {
 			continue
 		}
 		const blockerId = edge.blocker
 		// Tolerant read: ignore an edge whose blocker no longer resolves.
-		if (!blockerId || !Object.prototype.hasOwnProperty.call(statusById, blockerId)) {
+		if (!blockerId || !Object.hasOwn(statusById, blockerId)) {
 			continue
 		}
 		if (!RESOLVED_BLOCKER_STATUSES.includes(statusById[blockerId])) {
@@ -134,10 +148,10 @@ export function isBlocked(taskId, edges = [], statusById = {}) {
 export function deriveBlockedTaskIds(edges = [], statusById = {}) {
 	const blocked = new Set()
 	for (const edge of edges || []) {
-		if (!edge || !edge.blocker || !edge.blocked) {
+		if (!edge || !edge.blocker || !edge.blocked || !isBlockingEdge(edge)) {
 			continue
 		}
-		if (!Object.prototype.hasOwnProperty.call(statusById, edge.blocker)) {
+		if (!Object.hasOwn(statusById, edge.blocker)) {
 			continue
 		}
 		if (!RESOLVED_BLOCKER_STATUSES.includes(statusById[edge.blocker])) {
@@ -160,7 +174,7 @@ export function deriveBlockedTaskIds(edges = [], statusById = {}) {
 export function openBlockerIds(taskId, edges = [], statusById = {}) {
 	const open = []
 	for (const edge of edges || []) {
-		if (!edge || edge.blocked !== taskId || !edge.blocker) {
+		if (!edge || edge.blocked !== taskId || !edge.blocker || !isBlockingEdge(edge)) {
 			continue
 		}
 		const status = statusById[edge.blocker]
@@ -279,4 +293,51 @@ export function groupTasksByStatus(tasks = [], statuses = BOARD_STATUSES) {
 		grouped[status].push(task)
 	}
 	return grouped
+}
+
+/**
+ * A task's links split into what blocks it, what it blocks and what is only
+ * related (relates, duplicates and the other non-blocking types, either way).
+ *
+ * @param {string} taskId The task UUID.
+ * @param {Array<object>} edges The dependency edges.
+ * @return {{blockedBy: Array<object>, blocks: Array<object>, related: Array<object>}}
+ *
+ * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.2
+ */
+export function linkGroups(taskId, edges = []) {
+	const groups = { blockedBy: [], blocks: [], related: [] }
+	for (const edge of edges || []) {
+		if (!edge || (edge.blocked !== taskId && edge.blocker !== taskId)) {
+			continue
+		}
+		const otherId = edge.blocker === taskId ? edge.blocked : edge.blocker
+		const link = { edgeId: edge.id, otherId, type: edge.type || 'blocks' }
+		if (!isBlockingEdge(edge)) {
+			groups.related.push(link)
+		} else if (edge.blocked === taskId) {
+			groups.blockedBy.push(link)
+		} else {
+			groups.blocks.push(link)
+		}
+	}
+	return groups
+}
+
+/**
+ * The link the picker creates: for "Blocked by" the picked task blocks this
+ * one; for a related link this task comes first.
+ *
+ * @param {string} taskId This task.
+ * @param {string} pickedId The picked task.
+ * @param {string} type The link type.
+ * @return {{blocker: string, blocked: string, type: string}}
+ *
+ * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.2
+ */
+export function newLinkFor(taskId, pickedId, type = 'blocks') {
+	if (type === 'blocks') {
+		return { blocker: pickedId, blocked: taskId, type }
+	}
+	return { blocker: taskId, blocked: pickedId, type }
 }
