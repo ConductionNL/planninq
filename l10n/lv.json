@@ -1390,7 +1390,10 @@
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Darba veidi, ko cilvēki izvēlas, reģistrējot laiku, viens katrā rindā. Atstājiet tukšu, lai nejautātu.",
         "Give each work type once.": "Norādiet katru darba veidu tikai vienreiz.",
         "Work types saved": "Darba veidi saglabāti",
-        "The work types were not saved. Please try again.": "Darba veidi netika saglabāti. Mēģiniet vēlreiz."
+        "The work types were not saved. Please try again.": "Darba veidi netika saglabāti. Mēģiniet vēlreiz.",
+        "Templates": "Veidnes",
+        "Use as template": "Izmantot kā veidni",
+        "A project that new projects are started from.": "Projekts, no kura sāk jaunus projektus."
     },
     "plurals": null
 }

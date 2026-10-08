@@ -1391,7 +1391,10 @@ OC.L10N.register(
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "De typer arbejde, man vælger, når man registrerer tid, én pr. linje. Lad stå tomt for ikke at spørge.",
         "Give each work type once.": "Angiv hver arbejdstype én gang.",
         "Work types saved": "Arbejdstyper gemt",
-        "The work types were not saved. Please try again.": "Arbejdstyperne blev ikke gemt. Prøv igen."
+        "The work types were not saved. Please try again.": "Arbejdstyperne blev ikke gemt. Prøv igen.",
+        "Templates": "Skabeloner",
+        "Use as template": "Brug som skabelon",
+        "A project that new projects are started from.": "Et projekt, som nye projekter startes fra."
     },
     "nplurals=2; plural=(n != 1);"
 )

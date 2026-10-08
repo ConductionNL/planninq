@@ -1401,7 +1401,10 @@
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "De soorten werk die mensen kiezen als ze tijd schrijven, één per regel. Laat leeg om er niet naar te vragen.",
         "Give each work type once.": "Geef elk soort werk één keer op.",
         "Work types saved": "Soorten werk opgeslagen",
-        "The work types were not saved. Please try again.": "De soorten werk zijn niet opgeslagen. Probeer het opnieuw."
+        "The work types were not saved. Please try again.": "De soorten werk zijn niet opgeslagen. Probeer het opnieuw.",
+        "Templates": "Sjablonen",
+        "Use as template": "Gebruiken als sjabloon",
+        "A project that new projects are started from.": "Een project waarmee nieuwe projecten worden gestart."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

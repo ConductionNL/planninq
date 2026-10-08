@@ -1391,7 +1391,10 @@ OC.L10N.register(
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Види робіт, які люди обирають під час обліку часу, по одному на рядок. Залиште порожнім, щоб не питати.",
         "Give each work type once.": "Вкажіть кожен вид роботи лише один раз.",
         "Work types saved": "Види робіт збережено",
-        "The work types were not saved. Please try again.": "Види робіт не збережено. Спробуйте ще раз."
+        "The work types were not saved. Please try again.": "Види робіт не збережено. Спробуйте ще раз.",
+        "Templates": "Шаблони",
+        "Use as template": "Використовувати як шаблон",
+        "A project that new projects are started from.": "Проєкт, з якого починають нові проєкти."
     },
     "nplurals=2; plural=(n != 1);"
 )

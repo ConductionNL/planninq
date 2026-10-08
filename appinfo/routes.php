@@ -34,6 +34,9 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     // Dependency edge delete — project-member guarded.
     ['name' => 'dependency#destroy', 'url' => '/api/dependencies/{id}', 'verb' => 'DELETE', 'requirements' => ['id' => '[^/]+']],
 
+    // Copy a project, or start one from a template (owner, manager, admin; any creator for a template).
+    ['name' => 'projectCopy#create', 'url' => '/api/projects/{id}/copy', 'verb' => 'POST', 'requirements' => ['id' => '[^/]+']],
+
     // Microsoft Project plan import: preview (writes nothing), then import. Owner or admin, checked per project.
     ['name' => 'projectImport#preview', 'url' => '/api/projects/{projectId}/import/msproject/preview', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
     ['name' => 'projectImport#import', 'url' => '/api/projects/{projectId}/import/msproject', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],

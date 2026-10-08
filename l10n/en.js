@@ -1370,7 +1370,10 @@ OC.L10N.register(
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "The kinds of work people pick when they log time, one per line. Leave empty to not ask.",
         "Give each work type once.": "Give each work type once.",
         "Work types saved": "Work types saved",
-        "The work types were not saved. Please try again.": "The work types were not saved. Please try again."
+        "The work types were not saved. Please try again.": "The work types were not saved. Please try again.",
+        "Templates": "Templates",
+        "Use as template": "Use as template",
+        "A project that new projects are started from.": "A project that new projects are started from."
     },
     "nplurals=2; plural=(n != 1);"
 )

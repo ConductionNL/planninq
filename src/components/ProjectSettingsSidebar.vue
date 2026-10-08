@@ -75,6 +75,14 @@
 					label="label"
 					data-testid="project-parent" />
 
+				<!-- Template: new projects can be started from it (projects-templates-shared-workflow) -->
+				<NcCheckboxRadioSwitch
+					v-model="form.isTemplate"
+					type="switch"
+					data-testid="project-is-template">
+					{{ t('planninq', 'Use as template') }}
+				</NcCheckboxRadioSwitch>
+
 				<!-- Auto-scheduling on the timeline (planning-timeline-editing); the schema lets only the owner or an admin save it -->
 				<NcCheckboxRadioSwitch
 					v-model="form.autoSchedule"
@@ -417,6 +425,7 @@ export default {
 				portfolio: null,
 				parent: null,
 				autoSchedule: this.project?.autoSchedule === true,
+				isTemplate: this.project?.isTemplate === true,
 			},
 
 			projectFields: [],
@@ -639,6 +648,7 @@ export default {
 				this.form.portfolio = this.portfolioOption(newVal)
 				this.form.parent = this.parentOption(newVal)
 				this.form.autoSchedule = newVal.autoSchedule === true
+				this.form.isTemplate = newVal.isTemplate === true
 				this.fieldForm = { ...(newVal.customFields || {}) }
 				this.missingFields = []
 				this.loadActions()
@@ -741,6 +751,7 @@ export default {
 					portfolio: this.form.portfolio?.id || null,
 					parent: this.form.parent?.id || null,
 					autoSchedule: this.form.autoSchedule === true,
+					isTemplate: this.form.isTemplate === true,
 					customFields: { ...(this.project.customFields || {}), ...this.clearedFields(), ...customFieldValues(this.projectFields, this.fieldForm) },
 					// Always include existing members and owner so a PATCH/PUT does not wipe them
 					members: Array.isArray(this.project.members) ? this.project.members : [],

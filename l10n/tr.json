@@ -1390,7 +1390,10 @@
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Süre kaydedilirken seçilen çalışma türleri, her satırda bir tane. Sorulmaması için boş bırakın.",
         "Give each work type once.": "Her çalışma türünü yalnızca bir kez girin.",
         "Work types saved": "Çalışma türleri kaydedildi",
-        "The work types were not saved. Please try again.": "Çalışma türleri kaydedilemedi. Lütfen yeniden deneyin."
+        "The work types were not saved. Please try again.": "Çalışma türleri kaydedilemedi. Lütfen yeniden deneyin.",
+        "Templates": "Şablonlar",
+        "Use as template": "Şablon olarak kullan",
+        "A project that new projects are started from.": "Yeni projelerin başlatıldığı bir proje."
     },
     "plurals": {}
 }

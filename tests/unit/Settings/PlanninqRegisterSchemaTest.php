@@ -1681,4 +1681,19 @@ class PlanninqRegisterSchemaTest extends TestCase {
 
 	}//end testTimeEntryCarriesWorkType()
 
+	/**
+	 * A project can be marked as a template, off by default.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+	 */
+	public function testProjectCarriesIsTemplate(): void {
+		$property = $this->register['components']['schemas']['project']['properties']['isTemplate'];
+
+		self::assertSame(expected: 'boolean', actual: $property['type']);
+		self::assertFalse($property['default']);
+
+	}//end testProjectCarriesIsTemplate()
+
 }//end class

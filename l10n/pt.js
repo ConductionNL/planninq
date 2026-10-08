@@ -1391,7 +1391,10 @@ OC.L10N.register(
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Os tipos de trabalho escolhidos ao registar tempo, um por linha. Deixe vazio para não perguntar.",
         "Give each work type once.": "Indique cada tipo de trabalho apenas uma vez.",
         "Work types saved": "Tipos de trabalho guardados",
-        "The work types were not saved. Please try again.": "Os tipos de trabalho não foram guardados. Tente novamente."
+        "The work types were not saved. Please try again.": "Os tipos de trabalho não foram guardados. Tente novamente.",
+        "Templates": "Modelos",
+        "Use as template": "Usar como modelo",
+        "A project that new projects are started from.": "Um projeto a partir do qual se iniciam novos projetos."
     },
     "nplurals=2; plural=(n != 1);"
 )

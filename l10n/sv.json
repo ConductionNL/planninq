@@ -1390,7 +1390,10 @@
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "De arbetstyper man väljer när man registrerar tid, en per rad. Lämna tomt för att inte fråga.",
         "Give each work type once.": "Ange varje arbetstyp en gång.",
         "Work types saved": "Arbetstyper sparade",
-        "The work types were not saved. Please try again.": "Arbetstyperna sparades inte. Försök igen."
+        "The work types were not saved. Please try again.": "Arbetstyperna sparades inte. Försök igen.",
+        "Templates": "Mallar",
+        "Use as template": "Använd som mall",
+        "A project that new projects are started from.": "Ett projekt som nya projekt startas från."
     },
     "plurals": null
 }

@@ -1390,7 +1390,10 @@
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "D’Aarbechtsaarten, déi een beim Zäit erfaasse wielt, eng pro Zeil. Eidel loossen, fir net ze froen.",
         "Give each work type once.": "Gitt all Aarbechtsaart nëmmen eemol un.",
         "Work types saved": "Aarbechtsaarten gespäichert",
-        "The work types were not saved. Please try again.": "D’Aarbechtsaarte goufen net gespäichert. Probéiert et nach eng Kéier."
+        "The work types were not saved. Please try again.": "D’Aarbechtsaarte goufen net gespäichert. Probéiert et nach eng Kéier.",
+        "Templates": "Moustere",
+        "Use as template": "Als Mouster benotzen",
+        "A project that new projects are started from.": "E Projet, aus deem nei Projete gestart ginn."
     },
     "plurals": null
 }

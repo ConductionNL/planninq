@@ -1391,7 +1391,10 @@ OC.L10N.register(
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Työn lajit, joista valitaan tuntia kirjattaessa, yksi per rivi. Jätä tyhjäksi, jos ei kysytä.",
         "Give each work type once.": "Anna jokainen työn laji vain kerran.",
         "Work types saved": "Työn lajit tallennettu",
-        "The work types were not saved. Please try again.": "Työn lajeja ei tallennettu. Yritä uudelleen."
+        "The work types were not saved. Please try again.": "Työn lajeja ei tallennettu. Yritä uudelleen.",
+        "Templates": "Mallit",
+        "Use as template": "Käytä mallina",
+        "A project that new projects are started from.": "Projekti, josta uusia projekteja aloitetaan."
     },
     "nplurals=2; plural=(n != 1);"
 )

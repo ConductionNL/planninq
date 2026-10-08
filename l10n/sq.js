@@ -1391,7 +1391,10 @@ OC.L10N.register(
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Llojet e punës që zgjedhin njerëzit kur regjistrojnë kohë, një për rresht. Lëreni bosh që të mos pyetet.",
         "Give each work type once.": "Jepni çdo lloj pune vetëm një herë.",
         "Work types saved": "Llojet e punës u ruajtën",
-        "The work types were not saved. Please try again.": "Llojet e punës nuk u ruajtën. Provoni përsëri."
+        "The work types were not saved. Please try again.": "Llojet e punës nuk u ruajtën. Provoni përsëri.",
+        "Templates": "Shabllone",
+        "Use as template": "Përdore si shabllon",
+        "A project that new projects are started from.": "Një projekt nga i cili nisen projekte të reja."
     },
     "nplurals=2; plural=(n != 1);"
 )

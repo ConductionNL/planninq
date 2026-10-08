@@ -1391,7 +1391,10 @@ OC.L10N.register(
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Druhy práce, které lidé volí při zapisování času, jeden na řádek. Nechte prázdné, pokud se na to nemá ptát.",
         "Give each work type once.": "Uveďte každý druh práce jen jednou.",
         "Work types saved": "Druhy práce uloženy",
-        "The work types were not saved. Please try again.": "Druhy práce se nepodařilo uložit. Zkuste to znovu."
+        "The work types were not saved. Please try again.": "Druhy práce se nepodařilo uložit. Zkuste to znovu.",
+        "Templates": "Šablony",
+        "Use as template": "Použít jako šablonu",
+        "A project that new projects are started from.": "Projekt, ze kterého se zakládají nové projekty."
     },
     "nplurals=2; plural=(n != 1);"
 )

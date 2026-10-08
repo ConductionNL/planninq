@@ -1391,7 +1391,10 @@ OC.L10N.register(
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Vrste dela, ki jih ljudje izberejo pri beleženju časa, po ena v vrstici. Pustite prazno, da se ne sprašuje.",
         "Give each work type once.": "Vsako vrsto dela navedite samo enkrat.",
         "Work types saved": "Vrste dela shranjene",
-        "The work types were not saved. Please try again.": "Vrst dela ni bilo mogoče shraniti. Poskusite znova."
+        "The work types were not saved. Please try again.": "Vrst dela ni bilo mogoče shraniti. Poskusite znova.",
+        "Templates": "Predloge",
+        "Use as template": "Uporabi kot predlogo",
+        "A project that new projects are started from.": "Projekt, iz katerega se začnejo novi projekti."
     },
     "nplurals=2; plural=(n != 1);"
 )

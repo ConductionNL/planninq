@@ -1391,7 +1391,10 @@ OC.L10N.register(
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Typene arbeid man velger når man registrerer tid, én per linje. La stå tomt for å ikke spørre.",
         "Give each work type once.": "Oppgi hver arbeidstype én gang.",
         "Work types saved": "Arbeidstyper lagret",
-        "The work types were not saved. Please try again.": "Arbeidstypene ble ikke lagret. Prøv igjen."
+        "The work types were not saved. Please try again.": "Arbeidstypene ble ikke lagret. Prøv igjen.",
+        "Templates": "Maler",
+        "Use as template": "Bruk som mal",
+        "A project that new projects are started from.": "Et prosjekt som nye prosjekter startes fra."
     },
     "nplurals=2; plural=(n != 1);"
 )

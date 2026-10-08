@@ -1391,7 +1391,10 @@ OC.L10N.register(
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Töö liigid, mida inimesed aja registreerimisel valivad, üks rea kohta. Jäta tühjaks, et mitte küsida.",
         "Give each work type once.": "Nimeta iga töö liik ainult üks kord.",
         "Work types saved": "Töö liigid salvestatud",
-        "The work types were not saved. Please try again.": "Töö liike ei salvestatud. Proovi uuesti."
+        "The work types were not saved. Please try again.": "Töö liike ei salvestatud. Proovi uuesti.",
+        "Templates": "Mallid",
+        "Use as template": "Kasuta mallina",
+        "A project that new projects are started from.": "Projekt, millest uusi projekte alustatakse."
     },
     "nplurals=2; plural=(n != 1);"
 )

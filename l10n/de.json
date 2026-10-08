@@ -1390,7 +1390,10 @@
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Die Arbeitsarten, die man beim Erfassen von Zeit wählt, eine pro Zeile. Leer lassen, um nicht danach zu fragen.",
         "Give each work type once.": "Geben Sie jede Arbeitsart nur einmal an.",
         "Work types saved": "Arbeitsarten gespeichert",
-        "The work types were not saved. Please try again.": "Die Arbeitsarten wurden nicht gespeichert. Bitte versuchen Sie es erneut."
+        "The work types were not saved. Please try again.": "Die Arbeitsarten wurden nicht gespeichert. Bitte versuchen Sie es erneut.",
+        "Templates": "Vorlagen",
+        "Use as template": "Als Vorlage verwenden",
+        "A project that new projects are started from.": "Ein Projekt, aus dem neue Projekte gestartet werden."
     },
     "plurals": null
 }

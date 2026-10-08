@@ -1390,7 +1390,10 @@
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Tegundir vinnu sem fólk velur þegar það skráir tíma, ein í hverri línu. Hafðu tómt til að spyrja ekki.",
         "Give each work type once.": "Gefðu hverja tegund vinnu upp einu sinni.",
         "Work types saved": "Tegundir vinnu vistaðar",
-        "The work types were not saved. Please try again.": "Tegundir vinnu voru ekki vistaðar. Reyndu aftur."
+        "The work types were not saved. Please try again.": "Tegundir vinnu voru ekki vistaðar. Reyndu aftur.",
+        "Templates": "Sniðmát",
+        "Use as template": "Nota sem sniðmát",
+        "A project that new projects are started from.": "Verkefni sem ný verkefni eru stofnuð út frá."
     },
     "plurals": {}
 }

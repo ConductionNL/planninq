@@ -1390,7 +1390,10 @@
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Na cineálacha oibre a roghnaíonn daoine agus am á logáil, ceann amháin in aghaidh na líne. Fág folamh gan fiafraí.",
         "Give each work type once.": "Tabhair gach cineál oibre aon uair amháin.",
         "Work types saved": "Cineálacha oibre sábháilte",
-        "The work types were not saved. Please try again.": "Níor sábháladh na cineálacha oibre. Bain triail eile as."
+        "The work types were not saved. Please try again.": "Níor sábháladh na cineálacha oibre. Bain triail eile as.",
+        "Templates": "Teimpléid",
+        "Use as template": "Úsáid mar theimpléad",
+        "A project that new projects are started from.": "Tionscadal as a dtosaítear tionscadail nua."
     },
     "plurals": null
 }

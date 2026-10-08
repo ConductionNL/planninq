@@ -1390,7 +1390,10 @@
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Ils tips da lavur ch’ins tscherna cur ch’ins registrescha temp, in per lingia. Lascha vid per betg dumandar.",
         "Give each work type once.": "Inditgescha mintga tip da lavur mo ina giada.",
         "Work types saved": "Tips da lavur memorisads",
-        "The work types were not saved. Please try again.": "Ils tips da lavur n’èn betg vegnids memorisads. Emprova danovamain."
+        "The work types were not saved. Please try again.": "Ils tips da lavur n’èn betg vegnids memorisads. Emprova danovamain.",
+        "Templates": "Models",
+        "Use as template": "Duvrar sco model",
+        "A project that new projects are started from.": "In project dal qual ins cumenza novs projects."
     },
     "plurals": null
 }

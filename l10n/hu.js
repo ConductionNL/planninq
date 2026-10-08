@@ -1391,7 +1391,10 @@ OC.L10N.register(
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "A munkatípusok, amelyeket időrögzítéskor választanak, soronként egy. Hagyja üresen, ha nem kell rákérdezni.",
         "Give each work type once.": "Minden munkatípust csak egyszer adjon meg.",
         "Work types saved": "Munkatípusok mentve",
-        "The work types were not saved. Please try again.": "A munkatípusokat nem sikerült menteni. Próbálja újra."
+        "The work types were not saved. Please try again.": "A munkatípusokat nem sikerült menteni. Próbálja újra.",
+        "Templates": "Sablonok",
+        "Use as template": "Használat sablonként",
+        "A project that new projects are started from.": "Olyan projekt, amelyből új projektek indulnak."
     },
     "nplurals=2; plural=(n != 1);"
 )

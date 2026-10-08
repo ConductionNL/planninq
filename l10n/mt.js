@@ -1391,7 +1391,10 @@ OC.L10N.register(
         "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "It-tipi ta’ xogħol li n-nies jagħżlu meta jirreġistraw il-ħin, wieħed f’kull linja. Ħallih vojt biex ma jitlobx.",
         "Give each work type once.": "Agħti kull tip ta’ xogħol darba biss.",
         "Work types saved": "It-tipi ta’ xogħol inżammu",
-        "The work types were not saved. Please try again.": "It-tipi ta’ xogħol ma nżammux. Erġa’ pprova."
+        "The work types were not saved. Please try again.": "It-tipi ta’ xogħol ma nżammux. Erġa’ pprova.",
+        "Templates": "Mudelli",
+        "Use as template": "Uża bħala mudell",
+        "A project that new projects are started from.": "Proġett li minnu jinbdew proġetti ġodda."
     },
     "nplurals=2; plural=(n != 1);"
 )
