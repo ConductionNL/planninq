@@ -244,6 +244,32 @@
 					{{ savingWorkTypes ? t('planninq', 'Saving…') : t('planninq', 'Save') }}
 				</NcButton>
 			</form>
+
+			<!-- Rename a work type, and optionally the entries that carry it -->
+			<form v-if="storedWorkTypes.length"
+				novalidate
+				class="work-type-rename"
+				data-testid="work-type-rename-form"
+				@submit.prevent="renameWorkType">
+				<NcSelect
+					v-model="renameFrom"
+					:options="storedWorkTypes"
+					:inputLabel="t('planninq', 'Work type to rename')"
+					data-testid="work-type-rename-from" />
+				<NcTextField v-model="renameTo" :label="t('planninq', 'New name')" data-testid="work-type-rename-to" />
+				<NcCheckboxRadioSwitch v-model="renameEntries">
+					{{ t('planninq', 'Also update the time entries that already use it') }}
+				</NcCheckboxRadioSwitch>
+				<div v-if="renameMessage" :class="renameOk ? 'success-message' : 'error-message'" role="status">
+					{{ renameMessage }}
+				</div>
+				<NcButton variant="secondary"
+					type="submit"
+					:disabled="!renameFrom || !renameTo.trim() || renaming"
+					data-testid="work-type-rename">
+					{{ t('planninq', 'Rename work type') }}
+				</NcButton>
+			</form>
 		</CnSettingsSection>
 
 		<!-- Risk scale (projects-overview-logs-risks) -->
@@ -448,7 +474,7 @@ import { generateOcsUrl, generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  */
-import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
+import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect, NcTextField } from '@nextcloud/vue'
 import CodeForgeSettings from '../../components/CodeForgeSettings.vue'
 import MailIntakeSettings from '../../components/MailIntakeSettings.vue'
 import WorkingCalendarSettings from '../../components/WorkingCalendarSettings.vue'
@@ -471,6 +497,7 @@ export default {
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
 		NcSelect,
+		NcTextField,
 		CnSettingsSection,
 		LabelEditDialog,
 		LabelDeleteDialog,
@@ -521,6 +548,12 @@ export default {
 			workTypes: '',
 			workTypesMessage: '',
 			workTypesOk: false,
+			renameFrom: null,
+			renameTo: '',
+			renameEntries: true,
+			renaming: false,
+			renameMessage: '',
+			renameOk: false,
 			savingWorkTypes: false,
 			riskScale: JSON.parse(JSON.stringify(parseRiskScale(''))),
 			savingRiskScale: false,
@@ -535,6 +568,17 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * The saved work type names, for the rename form.
+		 *
+		 * @return {Array<string>}
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+		 */
+		storedWorkTypes() {
+			return workTypesOf(useSettingsStore().settings?.work_types)
+		},
+
 		/**
 		 * @spec exclude Store passthrough — proxies the settings store's settings object.
 		 */
@@ -857,6 +901,44 @@ export default {
 				? this.t('planninq', 'Work types saved')
 				: this.t('planninq', 'The work types were not saved. Please try again.')
 			this.savingWorkTypes = false
+		},
+
+		/**
+		 * Rename a work type in the list; the time entries that carry it follow in the background when asked.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+		 */
+		async renameWorkType() {
+			this.renaming = true
+			this.renameMessage = ''
+			const settingsStore = useSettingsStore()
+			try {
+				const response = await fetch(generateUrl('/apps/planninq/api/settings/work-types/rename'), {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json', requesttoken: OC.requestToken },
+					body: JSON.stringify({ from: this.renameFrom, to: this.renameTo.trim(), updateEntries: this.renameEntries }),
+				})
+				const data = await response.json().catch(() => ({}))
+				this.renameOk = response.ok && data.success === true
+				if (this.renameOk) {
+					await settingsStore.fetchSettings()
+					this.workTypes = workTypesOf(settingsStore.settings?.work_types).join('\n')
+					this.renameFrom = null
+					this.renameTo = ''
+					this.renameMessage = data.queued
+						? this.t('planninq', 'Work type renamed. The time entries are being updated.')
+						: this.t('planninq', 'Work type renamed')
+				} else {
+					this.renameMessage = data.error === 'duplicate'
+						? this.t('planninq', 'Another work type already has that name.')
+						: this.t('planninq', 'The work type was not renamed. Please try again.')
+				}
+			} catch {
+				this.renameOk = false
+				this.renameMessage = this.t('planninq', 'The work type was not renamed. Please try again.')
+			} finally {
+				this.renaming = false
+			}
 		},
 
 		/**

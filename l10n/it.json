@@ -1494,7 +1494,17 @@
         "Page history": "Cronologia della pagina",
         "No history yet": "Ancora nessuna cronologia",
         "Restored": "Ripristinata",
-        "Restore this version": "Ripristina questa versione"
+        "Restore this version": "Ripristina questa versione",
+        "Work type to rename": "Tipo di lavoro da rinominare",
+        "New name": "Nuovo nome",
+        "Also update the time entries that already use it": "Aggiorna anche le registrazioni di tempo che lo usano già",
+        "Rename work type": "Rinomina tipo di lavoro",
+        "Work type renamed. The time entries are being updated.": "Tipo di lavoro rinominato. Le registrazioni di tempo vengono aggiornate.",
+        "Work type renamed": "Tipo di lavoro rinominato",
+        "Another work type already has that name.": "Un altro tipo di lavoro ha già questo nome.",
+        "The work type was not renamed. Please try again.": "Il tipo di lavoro non è stato rinominato. Riprova.",
+        "By work type": "Per tipo di lavoro",
+        "No work types logged yet": "Nessun tipo di lavoro ancora registrato"
     },
     "plurals": null
 }

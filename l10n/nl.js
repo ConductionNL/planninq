@@ -1506,7 +1506,17 @@ OC.L10N.register(
         "Page history": "Paginageschiedenis",
         "No history yet": "Nog geen geschiedenis",
         "Restored": "Hersteld",
-        "Restore this version": "Deze versie herstellen"
+        "Restore this version": "Deze versie herstellen",
+        "Work type to rename": "Te hernoemen soort werk",
+        "New name": "Nieuwe naam",
+        "Also update the time entries that already use it": "Pas ook de tijdregistraties aan die het al gebruiken",
+        "Rename work type": "Soort werk hernoemen",
+        "Work type renamed. The time entries are being updated.": "Soort werk hernoemd. De tijdregistraties worden bijgewerkt.",
+        "Work type renamed": "Soort werk hernoemd",
+        "Another work type already has that name.": "Een ander soort werk heeft die naam al.",
+        "The work type was not renamed. Please try again.": "Het soort werk is niet hernoemd. Probeer het opnieuw.",
+        "By work type": "Per soort werk",
+        "No work types logged yet": "Nog geen soort werk geregistreerd"
     },
     "nplurals=2; plural=(n != 1);"
 )

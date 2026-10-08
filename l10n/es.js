@@ -1495,7 +1495,17 @@ OC.L10N.register(
         "Page history": "Historial de la página",
         "No history yet": "Aún no hay historial",
         "Restored": "Restaurada",
-        "Restore this version": "Restaurar esta versión"
+        "Restore this version": "Restaurar esta versión",
+        "Work type to rename": "Tipo de trabajo que renombrar",
+        "New name": "Nuevo nombre",
+        "Also update the time entries that already use it": "Actualizar también las entradas de tiempo que ya lo usan",
+        "Rename work type": "Renombrar tipo de trabajo",
+        "Work type renamed. The time entries are being updated.": "Tipo de trabajo renombrado. Se están actualizando las entradas de tiempo.",
+        "Work type renamed": "Tipo de trabajo renombrado",
+        "Another work type already has that name.": "Otro tipo de trabajo ya tiene ese nombre.",
+        "The work type was not renamed. Please try again.": "No se renombró el tipo de trabajo. Inténtelo de nuevo.",
+        "By work type": "Por tipo de trabajo",
+        "No work types logged yet": "Aún no se ha registrado ningún tipo de trabajo"
     },
     "nplurals=2; plural=(n != 1);"
 )

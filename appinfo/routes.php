@@ -32,6 +32,9 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     // Admin: log in to the task intake mailbox and report its message count (tasks-create-by-email).
     ['name' => 'mailIntake#test', 'url' => '/api/settings/mail-test', 'verb' => 'POST'],
 
+    // Admin: rename a work type and optionally the time entries that carry it (time-timer-and-work-type).
+    ['name' => 'workType#rename', 'url' => '/api/settings/work-types/rename', 'verb' => 'POST'],
+
     // Dependency edge create — server-side cycle/self/duplicate/cross-project validation.
     ['name' => 'dependency#create', 'url' => '/api/dependencies', 'verb' => 'POST'],
     // Dependency edge delete — project-member guarded.

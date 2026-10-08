@@ -1474,7 +1474,17 @@ OC.L10N.register(
         "Page history": "Page history",
         "No history yet": "No history yet",
         "Restored": "Restored",
-        "Restore this version": "Restore this version"
+        "Restore this version": "Restore this version",
+        "Work type to rename": "Work type to rename",
+        "New name": "New name",
+        "Also update the time entries that already use it": "Also update the time entries that already use it",
+        "Rename work type": "Rename work type",
+        "Work type renamed. The time entries are being updated.": "Work type renamed. The time entries are being updated.",
+        "Work type renamed": "Work type renamed",
+        "Another work type already has that name.": "Another work type already has that name.",
+        "The work type was not renamed. Please try again.": "The work type was not renamed. Please try again.",
+        "By work type": "By work type",
+        "No work types logged yet": "No work types logged yet"
     },
     "nplurals=2; plural=(n != 1);"
 )
