@@ -1,49 +1,39 @@
 <template>
-	<div class="planninq-admin">
-		<CnVersionInfoCard
-			appName="Planninq"
-			:appVersion="appVersion"
-			:isUpToDate="true"
-			:showUpdateButton="true"
-			:title="t('planninq', 'Version information')"
-			:description="t('planninq', 'Information about the current Planninq installation')">
-			<template #footer>
-				<div class="cn-support-info">
-					<h4>{{ t('planninq', 'Support') }}</h4>
-					<p>{{ t('planninq', 'For support, contact us at') }} <a href="mailto:support@conduction.nl">support@conduction.nl</a></p>
-				</div>
-			</template>
-		</CnVersionInfoCard>
-
+	<!-- The fleet's admin settings chrome: page title, version card (version and up-to-date state come from the
+	     AppHost admin settings initial state), support footer. The re-import button stays in the Settings form below,
+	     so it is not shown twice. -->
+	<CnAdminSettingsShell
+		appId="planninq"
+		appName="Planninq"
+		docUrl="https://github.com/ConductionNL/planninq"
+		:showReimport="false">
 		<Settings v-if="storesReady" />
-	</div>
+	</CnAdminSettingsShell>
 </template>
 
 <script>
-import { CnVersionInfoCard } from '@conduction/nextcloud-vue'
+import { CnAdminSettingsShell } from '@conduction/nextcloud-vue'
 /**
  * AdminRoot view.
  *
- * Admin settings root mounted by settings.js bootstrap; renders the
- * version info card and the Settings form.
+ * Admin settings root mounted by settings.js bootstrap; a thin wrapper that
+ * puts the Settings form inside CnAdminSettingsShell.
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  */
-import { loadState } from '@nextcloud/initial-state'
 import Settings from './Settings.vue'
 import { initializeStores } from '../../store/store.js'
 
 export default {
 	name: 'AdminRoot',
 	components: {
-		CnVersionInfoCard,
+		CnAdminSettingsShell,
 		Settings,
 	},
 
 	data() {
 		return {
 			storesReady: false,
-			appVersion: loadState('planninq', 'version', 'Unknown'),
 		}
 	},
 
@@ -56,9 +46,3 @@ export default {
 	},
 }
 </script>
-
-<style scoped>
-.planninq-admin {
-	max-width: 900px;
-}
-</style>

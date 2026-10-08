@@ -25,7 +25,7 @@
 
 ## 3. Admin settings shell
 
-- [ ] 3.1 Replace `src/settings.js` + `AdminRoot.vue` with `CnAdminSettingsShell` — DEFERRED: needs live render verification. — open: src/settings.js still mounts AdminRoot.vue
+- [ ] 3.1 Replace `src/settings.js` + `AdminRoot.vue` with `CnAdminSettingsShell` — DEFERRED: needs live render verification. — partial: `AdminRoot.vue` is now a thin wrapper that puts the Settings form inside `CnAdminSettingsShell` (page title, version card read from the AppHost initial state, support footer; its re-import button is off because the Settings form already has one); `src/settings.js` stays as the mount point because the shell is a component; not rendered on a live instance
 - [ ] 3.2 Confirm label-management admin action still works in the new shell — NEEDS LIVE INSTANCE.
 
 ## 4. Verification
