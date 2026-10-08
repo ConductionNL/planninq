@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Ndrysho statusin",
         "Change priority": "Ndrysho përparësinë",
         "{done} tasks updated, {failed} failed.": "{done} detyra u përditësuan, {failed} dështuan.",
-        "{done} tasks updated.": "{done} detyra u përditësuan."
+        "{done} tasks updated.": "{done} detyra u përditësuan.",
+        "Work type": "Lloji i punës",
+        "The kind of work the hours were spent on.": "Lloji i punës për të cilin u shpenzuan orët.",
+        "Timer running: {minutes} min": "Kohëmatësi po punon: {minutes} min",
+        "This timer has been running for more than 12 hours.": "Ky kohëmatës ka më shumë se 12 orë që punon.",
+        "Stop timer": "Ndalo kohëmatësin",
+        "Discard timer": "Hidh kohëmatësin",
+        "Start timer": "Nis kohëmatësin",
+        "A timer is already running. Stop or discard it first.": "Një kohëmatës po punon tashmë. Ndaleni ose hidheni fillimisht.",
+        "Work types": "Llojet e punës",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Llojet e punës që zgjedhin njerëzit kur regjistrojnë kohë, një për rresht. Lëreni bosh që të mos pyetet.",
+        "Give each work type once.": "Jepni çdo lloj pune vetëm një herë.",
+        "Work types saved": "Llojet e punës u ruajtën",
+        "The work types were not saved. Please try again.": "Llojet e punës nuk u ruajtën. Provoni përsëri."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Skift status",
         "Change priority": "Skift prioritet",
         "{done} tasks updated, {failed} failed.": "{done} opgaver opdateret, {failed} mislykkedes.",
-        "{done} tasks updated.": "{done} opgaver opdateret."
+        "{done} tasks updated.": "{done} opgaver opdateret.",
+        "Work type": "Arbejdstype",
+        "The kind of work the hours were spent on.": "Den type arbejde, timerne er brugt på.",
+        "Timer running: {minutes} min": "Timer kører: {minutes} min",
+        "This timer has been running for more than 12 hours.": "Denne timer har kørt i mere end 12 timer.",
+        "Stop timer": "Stop timer",
+        "Discard timer": "Kassér timer",
+        "Start timer": "Start timer",
+        "A timer is already running. Stop or discard it first.": "Der kører allerede en timer. Stop eller kassér den først.",
+        "Work types": "Arbejdstyper",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "De typer arbejde, man vælger, når man registrerer tid, én pr. linje. Lad stå tomt for ikke at spørge.",
+        "Give each work type once.": "Angiv hver arbejdstype én gang.",
+        "Work types saved": "Arbejdstyper gemt",
+        "The work types were not saved. Please try again.": "Arbejdstyperne blev ikke gemt. Prøv igen."
     },
     "nplurals=2; plural=(n != 1);"
 )

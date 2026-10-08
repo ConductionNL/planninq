@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Changer le statut",
         "Change priority": "Changer la priorité",
         "{done} tasks updated, {failed} failed.": "{done} tâches mises à jour, {failed} en échec.",
-        "{done} tasks updated.": "{done} tâches mises à jour."
+        "{done} tasks updated.": "{done} tâches mises à jour.",
+        "Work type": "Type de travail",
+        "The kind of work the hours were spent on.": "Le type de travail pour lequel les heures ont été passées.",
+        "Timer running: {minutes} min": "Minuteur en cours : {minutes} min",
+        "This timer has been running for more than 12 hours.": "Ce minuteur tourne depuis plus de 12 heures.",
+        "Stop timer": "Arrêter le minuteur",
+        "Discard timer": "Abandonner le minuteur",
+        "Start timer": "Démarrer le minuteur",
+        "A timer is already running. Stop or discard it first.": "Un minuteur est déjà en cours. Arrêtez-le ou abandonnez-le d’abord.",
+        "Work types": "Types de travail",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Les types de travail que l’on choisit en saisissant du temps, un par ligne. Laissez vide pour ne pas le demander.",
+        "Give each work type once.": "Indiquez chaque type de travail une seule fois.",
+        "Work types saved": "Types de travail enregistrés",
+        "The work types were not saved. Please try again.": "Les types de travail n’ont pas été enregistrés. Veuillez réessayer."
     },
     "nplurals=2; plural=(n != 1);"
 )

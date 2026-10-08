@@ -221,6 +221,29 @@
 			</form>
 		</CnSettingsSection>
 
+		<!-- Work types on time entries (time-timer-and-work-type) -->
+		<CnSettingsSection
+			:name="t('planninq', 'Work types')"
+			:description="t('planninq', 'The kinds of work people pick when they log time, one per line. Leave empty to not ask.')">
+			<form novalidate data-testid="work-types-form" @submit.prevent="saveWorkTypes">
+				<div class="form-group">
+					<label for="work-types">{{ t('planninq', 'Work types') }}</label>
+					<textarea
+						id="work-types"
+						v-model="workTypes"
+						rows="5"
+						class="column-input"
+						data-testid="work-types" />
+				</div>
+				<div v-if="workTypesMessage" :class="workTypesOk ? 'success-message' : 'error-message'">
+					{{ workTypesMessage }}
+				</div>
+				<NcButton variant="primary" type="submit" :disabled="savingWorkTypes">
+					{{ savingWorkTypes ? t('planninq', 'Saving…') : t('planninq', 'Save') }}
+				</NcButton>
+			</form>
+		</CnSettingsSection>
+
 		<!-- Risk scale (projects-overview-logs-risks) -->
 		<CnSettingsSection
 			:name="t('planninq', 'Risk scale')"
@@ -433,6 +456,7 @@ import { useSettingsStore } from '../../store/modules/settings.js'
 import { creationGroupIds, creationGroupsSetting } from '../../utils/creationPolicy.js'
 import { categoriesValid, categoryLines, parseCategories } from '../../utils/finance.js'
 import { defaultThresholds, parseRiskScale } from '../../utils/riskHelpers.js'
+import { workTypesOf } from '../../utils/timer.js'
 
 export default {
 	name: 'Settings',
@@ -490,6 +514,10 @@ export default {
 			financeCategoriesMessage: '',
 			financeCategoriesOk: false,
 			savingFinanceCategories: false,
+			workTypes: '',
+			workTypesMessage: '',
+			workTypesOk: false,
+			savingWorkTypes: false,
 			riskScale: JSON.parse(JSON.stringify(parseRiskScale(''))),
 			savingRiskScale: false,
 			riskScaleSuccess: '',
@@ -547,6 +575,7 @@ export default {
 		this.riskScale = JSON.parse(JSON.stringify(parseRiskScale(settingsStore.settings?.risk_scale)))
 		this.reportPeriod = parseInt(settingsStore.settings?.status_report_period_days, 10) || 30
 		this.financeCategories = parseCategories(settingsStore.settings?.finance_categories).join('\n')
+		this.workTypes = workTypesOf(settingsStore.settings?.work_types).join('\n')
 		this.loadColumnList(settingsStore.settings)
 		useLabelsStore().fetchLabels()
 	},
@@ -799,6 +828,31 @@ export default {
 				? this.t('planninq', 'Cost categories saved')
 				: this.t('planninq', 'The cost categories were not saved. Please try again.')
 			this.savingFinanceCategories = false
+		},
+
+		/**
+		 * Save the work types; an empty list switches the question off.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+		 */
+		async saveWorkTypes() {
+			this.workTypesMessage = ''
+			const names = categoryLines(this.workTypes)
+			if (names.length && !categoriesValid(names)) {
+				this.workTypesOk = false
+				this.workTypesMessage = this.t('planninq', 'Give each work type once.')
+				return
+			}
+			this.savingWorkTypes = true
+			const settingsStore = useSettingsStore()
+			const result = await settingsStore.saveSettings({ work_types: JSON.stringify(names) })
+			await settingsStore.fetchSettings()
+			const stored = workTypesOf(settingsStore.settings?.work_types)
+			this.workTypesOk = !!result && JSON.stringify(stored) === JSON.stringify(names)
+			this.workTypesMessage = this.workTypesOk
+				? this.t('planninq', 'Work types saved')
+				: this.t('planninq', 'The work types were not saved. Please try again.')
+			this.savingWorkTypes = false
 		},
 
 		/**

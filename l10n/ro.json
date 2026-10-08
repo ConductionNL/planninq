@@ -1377,7 +1377,20 @@
         "Change status": "Schimbă starea",
         "Change priority": "Schimbă prioritatea",
         "{done} tasks updated, {failed} failed.": "{done} sarcini actualizate, {failed} eșuate.",
-        "{done} tasks updated.": "{done} sarcini actualizate."
+        "{done} tasks updated.": "{done} sarcini actualizate.",
+        "Work type": "Tip de lucru",
+        "The kind of work the hours were spent on.": "Tipul de lucru pentru care s-au folosit orele.",
+        "Timer running: {minutes} min": "Cronometrul rulează: {minutes} min",
+        "This timer has been running for more than 12 hours.": "Acest cronometru rulează de peste 12 ore.",
+        "Stop timer": "Oprește cronometrul",
+        "Discard timer": "Renunță la cronometru",
+        "Start timer": "Pornește cronometrul",
+        "A timer is already running. Stop or discard it first.": "Un cronometru rulează deja. Oprește-l sau renunță la el mai întâi.",
+        "Work types": "Tipuri de lucru",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Tipurile de lucru alese la înregistrarea timpului, câte unul pe rând. Lasă gol pentru a nu întreba.",
+        "Give each work type once.": "Indică fiecare tip de lucru o singură dată.",
+        "Work types saved": "Tipurile de lucru au fost salvate",
+        "The work types were not saved. Please try again.": "Tipurile de lucru nu au fost salvate. Încearcă din nou."
     },
     "plurals": {}
 }

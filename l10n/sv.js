@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Ändra status",
         "Change priority": "Ändra prioritet",
         "{done} tasks updated, {failed} failed.": "{done} uppgifter uppdaterade, {failed} misslyckades.",
-        "{done} tasks updated.": "{done} uppgifter uppdaterade."
+        "{done} tasks updated.": "{done} uppgifter uppdaterade.",
+        "Work type": "Arbetstyp",
+        "The kind of work the hours were spent on.": "Den typ av arbete som timmarna lades på.",
+        "Timer running: {minutes} min": "Timern går: {minutes} min",
+        "This timer has been running for more than 12 hours.": "Den här timern har gått i mer än 12 timmar.",
+        "Stop timer": "Stoppa timern",
+        "Discard timer": "Släng timern",
+        "Start timer": "Starta timer",
+        "A timer is already running. Stop or discard it first.": "En timer går redan. Stoppa eller släng den först.",
+        "Work types": "Arbetstyper",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "De arbetstyper man väljer när man registrerar tid, en per rad. Lämna tomt för att inte fråga.",
+        "Give each work type once.": "Ange varje arbetstyp en gång.",
+        "Work types saved": "Arbetstyper sparade",
+        "The work types were not saved. Please try again.": "Arbetstyperna sparades inte. Försök igen."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1377,7 +1377,20 @@
         "Change status": "Athraigh stádas",
         "Change priority": "Athraigh tosaíocht",
         "{done} tasks updated, {failed} failed.": "Nuashonraíodh {done} tasc, theip ar {failed}.",
-        "{done} tasks updated.": "Nuashonraíodh {done} tasc."
+        "{done} tasks updated.": "Nuashonraíodh {done} tasc.",
+        "Work type": "Cineál oibre",
+        "The kind of work the hours were spent on.": "An cineál oibre ar caitheadh na huaireanta air.",
+        "Timer running: {minutes} min": "Tá an t-amadóir ag rith: {minutes} nóim",
+        "This timer has been running for more than 12 hours.": "Tá an t-amadóir seo ag rith le breis agus 12 uair an chloig.",
+        "Stop timer": "Stop an t-amadóir",
+        "Discard timer": "Caith an t-amadóir uait",
+        "Start timer": "Tosaigh an t-amadóir",
+        "A timer is already running. Stop or discard it first.": "Tá amadóir ag rith cheana. Stop é nó caith uait é ar dtús.",
+        "Work types": "Cineálacha oibre",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Na cineálacha oibre a roghnaíonn daoine agus am á logáil, ceann amháin in aghaidh na líne. Fág folamh gan fiafraí.",
+        "Give each work type once.": "Tabhair gach cineál oibre aon uair amháin.",
+        "Work types saved": "Cineálacha oibre sábháilte",
+        "The work types were not saved. Please try again.": "Níor sábháladh na cineálacha oibre. Bain triail eile as."
     },
     "plurals": null
 }

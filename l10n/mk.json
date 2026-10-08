@@ -1377,7 +1377,20 @@
         "Change status": "Промени статус",
         "Change priority": "Промени приоритет",
         "{done} tasks updated, {failed} failed.": "Ажурирани задачи: {done}, неуспешни: {failed}.",
-        "{done} tasks updated.": "Ажурирани задачи: {done}."
+        "{done} tasks updated.": "Ажурирани задачи: {done}.",
+        "Work type": "Вид на работа",
+        "The kind of work the hours were spent on.": "Видот работа за кој се потрошени часовите.",
+        "Timer running: {minutes} min": "Тајмерот работи: {minutes} мин",
+        "This timer has been running for more than 12 hours.": "Овој тајмер работи повеќе од 12 часа.",
+        "Stop timer": "Запри го тајмерот",
+        "Discard timer": "Отфрли го тајмерот",
+        "Start timer": "Стартувај тајмер",
+        "A timer is already running. Stop or discard it first.": "Тајмер веќе работи. Прво запрете го или отфрлете го.",
+        "Work types": "Видови работа",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Видовите работа што луѓето ги избираат при евидентирање време, по еден во ред. Оставете празно за да не се прашува.",
+        "Give each work type once.": "Наведете го секој вид работа само еднаш.",
+        "Work types saved": "Видовите работа се зачувани",
+        "The work types were not saved. Please try again.": "Видовите работа не се зачувани. Обидете се повторно."
     },
     "plurals": null
 }

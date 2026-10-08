@@ -765,6 +765,64 @@ class SettingsServiceTest extends TestCase {
 		self::assertFalse(condition: $this->service->isNotifyDueReminderEnabled('frank'));
 
 	}//end testGetNotifyDueReminderStoredOff()
+
+	/**
+	 * A running timer is stored as task and start time and reads back.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 */
+	public function testRunningTimerRoundTrips(): void {
+		$stored = [];
+		$this->config->method('setUserValue')->willReturnCallback(
+			function (string $userId, string $app, string $key, string $value) use (&$stored): void {
+				$stored[$key] = $value;
+			}
+		);
+
+		self::assertTrue($this->service->setRunningTimer(userId: 'anna', timer: ['task' => 't-1', 'startedAt' => '2026-10-08T09:00:00Z', 'extra' => 'dropped']));
+		self::assertSame(expected: '{"task":"t-1","startedAt":"2026-10-08T09:00:00Z"}', actual: $stored[SettingsService::RUNNING_TIMER_KEY]);
+
+		$this->config->method('getUserValue')->willReturn($stored[SettingsService::RUNNING_TIMER_KEY]);
+		self::assertSame(
+			expected: ['task' => 't-1', 'startedAt' => '2026-10-08T09:00:00Z'],
+			actual: $this->service->getRunningTimer(userId: 'anna')
+		);
+
+	}//end testRunningTimerRoundTrips()
+
+	/**
+	 * A malformed timer is refused and nothing is stored.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 */
+	public function testRunningTimerRejectsMalformedValue(): void {
+		$this->config->expects(self::never())->method('setUserValue');
+
+		self::assertFalse($this->service->setRunningTimer(userId: 'anna', timer: ['task' => '', 'startedAt' => '2026-10-08T09:00:00Z']));
+		self::assertFalse($this->service->setRunningTimer(userId: 'anna', timer: ['task' => 't-1', 'startedAt' => 'yesterday-ish']));
+		self::assertFalse($this->service->setRunningTimer(userId: 'anna', timer: 'running'));
+
+	}//end testRunningTimerRejectsMalformedValue()
+
+	/**
+	 * Work types accept an empty list or unique names, and refuse duplicates.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 */
+	public function testWorkTypesRejectsDuplicates(): void {
+		self::assertSame(expected: '[]', actual: $this->service->validateWorkTypes(raw: '[]'));
+		self::assertSame(expected: '["Advies","Beheer"]', actual: $this->service->validateWorkTypes(raw: '["Advies","Beheer"]'));
+		self::assertNull($this->service->validateWorkTypes(raw: '["Advies","advies"]'));
+		self::assertNull($this->service->validateWorkTypes(raw: 'nope'));
+
+	}//end testWorkTypesRejectsDuplicates()
+
 }//end class
 
 /**

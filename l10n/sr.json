@@ -1377,7 +1377,20 @@
         "Change status": "Promeni status",
         "Change priority": "Promeni prioritet",
         "{done} tasks updated, {failed} failed.": "Ažurirano zadataka: {done}, neuspelo: {failed}.",
-        "{done} tasks updated.": "Ažurirano zadataka: {done}."
+        "{done} tasks updated.": "Ažurirano zadataka: {done}.",
+        "Work type": "Vrsta posla",
+        "The kind of work the hours were spent on.": "Vrsta posla na koji su utrošeni sati.",
+        "Timer running: {minutes} min": "Merač vremena radi: {minutes} min",
+        "This timer has been running for more than 12 hours.": "Ovaj merač vremena radi duže od 12 sati.",
+        "Stop timer": "Zaustavi merač vremena",
+        "Discard timer": "Odbaci merač vremena",
+        "Start timer": "Pokreni merač vremena",
+        "A timer is already running. Stop or discard it first.": "Merač vremena već radi. Prvo ga zaustavite ili odbacite.",
+        "Work types": "Vrste posla",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Vrste posla koje ljudi biraju pri evidentiranju vremena, jedna po redu. Ostavite prazno da se ne pita.",
+        "Give each work type once.": "Navedite svaku vrstu posla samo jednom.",
+        "Work types saved": "Vrste posla sačuvane",
+        "The work types were not saved. Please try again.": "Vrste posla nisu sačuvane. Pokušajte ponovo."
     },
     "plurals": null
 }

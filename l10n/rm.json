@@ -1377,7 +1377,20 @@
         "Change status": "Midar il status",
         "Change priority": "Midar la prioritad",
         "{done} tasks updated, {failed} failed.": "{done} incumbensas actualisadas, {failed} betg reussidas.",
-        "{done} tasks updated.": "{done} incumbensas actualisadas."
+        "{done} tasks updated.": "{done} incumbensas actualisadas.",
+        "Work type": "Tip da lavur",
+        "The kind of work the hours were spent on.": "Il tip da lavur per il qual las uras èn vegnidas duvradas.",
+        "Timer running: {minutes} min": "Il cronometer dura: {minutes} min",
+        "This timer has been running for more than 12 hours.": "Quest cronometer dura dapli che 12 uras.",
+        "Stop timer": "Fermar il cronometer",
+        "Discard timer": "Bittar davent il cronometer",
+        "Start timer": "Partir il cronometer",
+        "A timer is already running. Stop or discard it first.": "In cronometer dura gia. Ferma u bitta davent el l’emprim.",
+        "Work types": "Tips da lavur",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Ils tips da lavur ch’ins tscherna cur ch’ins registrescha temp, in per lingia. Lascha vid per betg dumandar.",
+        "Give each work type once.": "Inditgescha mintga tip da lavur mo ina giada.",
+        "Work types saved": "Tips da lavur memorisads",
+        "The work types were not saved. Please try again.": "Ils tips da lavur n’èn betg vegnids memorisads. Emprova danovamain."
     },
     "plurals": null
 }

@@ -65,6 +65,7 @@ class SettingsService {
 		self::FINANCE_CATEGORIES_KEY => '["Personnel","Hired staff","Materials","Other"]',
 		self::CREATION_GROUPS_KEY => '[]',
 		self::REQUESTS_KEY => 'off',
+		self::WORK_TYPES_KEY => '[]',
 	];
 
 	/**
@@ -87,6 +88,20 @@ class SettingsService {
 	 * @var array<int,string>
 	 */
 	public const CREATION_POLICIES = ['all', 'admins', 'groups'];
+
+	/**
+	 * The admin list of work types a time entry can carry, a JSON list of names (empty means none asked for).
+	 *
+	 * @var string
+	 */
+	public const WORK_TYPES_KEY = 'work_types';
+
+	/**
+	 * The user value holding a person's running timer, a JSON object with `task` and `startedAt`.
+	 *
+	 * @var string
+	 */
+	public const RUNNING_TIMER_KEY = 'running_timer';
 
 	/**
 	 * The user value holding a user's own order of pinned projects on the
@@ -327,6 +342,89 @@ class SettingsService {
 	}//end validateCategoryNames()
 
 	/**
+	 * Validate the work types: an empty list, or unique non-empty names.
+	 *
+	 * @param string $raw Raw JSON submitted by the client.
+	 *
+	 * @return string|null Normalised JSON, or null when refused.
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 */
+	public function validateWorkTypes(string $raw): ?string {
+		$decoded = json_decode($raw, true);
+		if (is_array($decoded) === true && count($decoded) === 0) {
+			return '[]';
+		}
+
+		return $this->validateCategoryNames(raw: $raw);
+	}//end validateWorkTypes()
+
+	/**
+	 * The person's running timer, or null when none runs or the stored value is broken.
+	 *
+	 * @param string $userId The user UID.
+	 *
+	 * @return array{task: string, startedAt: string}|null
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 */
+	public function getRunningTimer(string $userId): ?array {
+		$raw = $this->config->getUserValue($userId, Application::APP_ID, self::RUNNING_TIMER_KEY, '');
+		if ((string)$raw === '') {
+			return null;
+		}
+
+		return $this->cleanTimer(value: json_decode((string)$raw, true));
+	}//end getRunningTimer()
+
+	/**
+	 * Store or clear the person's running timer; a malformed value is refused.
+	 *
+	 * @param string $userId The user UID.
+	 * @param mixed  $timer  `{task, startedAt}`, or null to clear.
+	 *
+	 * @return bool Whether the value was stored or cleared.
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 */
+	public function setRunningTimer(string $userId, mixed $timer): bool {
+		if ($timer === null) {
+			$this->config->deleteUserValue($userId, Application::APP_ID, self::RUNNING_TIMER_KEY);
+			return true;
+		}
+
+		$clean = $this->cleanTimer(value: $timer);
+		if ($clean === null) {
+			return false;
+		}
+
+		$this->config->setUserValue($userId, Application::APP_ID, self::RUNNING_TIMER_KEY, (string)json_encode($clean));
+		return true;
+	}//end setRunningTimer()
+
+	/**
+	 * A timer with a task id and a parseable start time, or null.
+	 *
+	 * @param mixed $value The decoded value.
+	 *
+	 * @return array{task: string, startedAt: string}|null
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 */
+	private function cleanTimer(mixed $value): ?array {
+		if (is_array($value) === false || is_string($value['task'] ?? null) === false || $value['task'] === '') {
+			return null;
+		}
+
+		$started = $value['startedAt'] ?? null;
+		if (is_string($started) === false || strtotime($started) === false) {
+			return null;
+		}
+
+		return ['task' => $value['task'], 'startedAt' => $started];
+	}//end cleanTimer()
+
+	/**
 	 * The normalised value of a setting that holds a list of names, false when
 	 * the list is refused, null when the key holds no list of names.
 	 *
@@ -341,6 +439,7 @@ class SettingsService {
 		$validated = match ($key) {
 			'default_columns' => $this->validateDefaultColumns(raw: $raw),
 			self::FINANCE_CATEGORIES_KEY => $this->validateCategoryNames(raw: $raw),
+			self::WORK_TYPES_KEY => $this->validateWorkTypes(raw: $raw),
 			default => '',
 		};
 		if ($validated === '') {
@@ -496,6 +595,7 @@ class SettingsService {
 			$userSettings['notify_due_reminder'] = $this->isNotifyDueReminderEnabled(userId: $user->getUID());
 			$userSettings[self::DASHBOARD_ORDER_KEY] = $this->getDashboardProjectOrder(userId: $user->getUID());
 			$userSettings[BoardViewPreferenceService::KEY] = $this->boardViews()->views(userId: $user->getUID());
+			$userSettings[self::RUNNING_TIMER_KEY] = $this->getRunningTimer(userId: $user->getUID());
 		}
 
 		return array_merge(
@@ -541,6 +641,10 @@ class SettingsService {
 			if (is_array($order) === true) {
 				$this->setDashboardProjectOrder(userId: $userId, order: $order);
 			}
+		}
+
+		if (array_key_exists(self::RUNNING_TIMER_KEY, $data) === true) {
+			$this->setRunningTimer(userId: $userId, timer: $data[self::RUNNING_TIMER_KEY]);
 		}
 
 		$view = ($data['board_view'] ?? null);

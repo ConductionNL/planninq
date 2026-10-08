@@ -1377,7 +1377,20 @@
         "Change status": "Muuda olekut",
         "Change priority": "Muuda prioriteeti",
         "{done} tasks updated, {failed} failed.": "Uuendati {done} ülesannet, ebaõnnestus {failed}.",
-        "{done} tasks updated.": "Uuendati {done} ülesannet."
+        "{done} tasks updated.": "Uuendati {done} ülesannet.",
+        "Work type": "Töö liik",
+        "The kind of work the hours were spent on.": "Töö liik, millele tunnid kulusid.",
+        "Timer running: {minutes} min": "Taimer töötab: {minutes} min",
+        "This timer has been running for more than 12 hours.": "See taimer on töötanud üle 12 tunni.",
+        "Stop timer": "Peata taimer",
+        "Discard timer": "Loobu taimerist",
+        "Start timer": "Käivita taimer",
+        "A timer is already running. Stop or discard it first.": "Taimer juba töötab. Peata või kustuta see esmalt.",
+        "Work types": "Töö liigid",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Töö liigid, mida inimesed aja registreerimisel valivad, üks rea kohta. Jäta tühjaks, et mitte küsida.",
+        "Give each work type once.": "Nimeta iga töö liik ainult üks kord.",
+        "Work types saved": "Töö liigid salvestatud",
+        "The work types were not saved. Please try again.": "Töö liike ei salvestatud. Proovi uuesti."
     },
     "plurals": null
 }

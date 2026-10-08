@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Keisti būseną",
         "Change priority": "Keisti prioritetą",
         "{done} tasks updated, {failed} failed.": "Atnaujinta užduočių: {done}, nepavyko: {failed}.",
-        "{done} tasks updated.": "Atnaujinta užduočių: {done}."
+        "{done} tasks updated.": "Atnaujinta užduočių: {done}.",
+        "Work type": "Darbo rūšis",
+        "The kind of work the hours were spent on.": "Darbo rūšis, kuriai skirtos valandos.",
+        "Timer running: {minutes} min": "Laikmatis veikia: {minutes} min.",
+        "This timer has been running for more than 12 hours.": "Šis laikmatis veikia ilgiau nei 12 valandų.",
+        "Stop timer": "Sustabdyti laikmatį",
+        "Discard timer": "Atmesti laikmatį",
+        "Start timer": "Paleisti laikmatį",
+        "A timer is already running. Stop or discard it first.": "Laikmatis jau veikia. Pirmiausia jį sustabdykite arba atmeskite.",
+        "Work types": "Darbo rūšys",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Darbo rūšys, kurias žmonės renkasi registruodami laiką, po vieną eilutėje. Palikite tuščią, kad nebūtų klausiama.",
+        "Give each work type once.": "Nurodykite kiekvieną darbo rūšį tik vieną kartą.",
+        "Work types saved": "Darbo rūšys išsaugotos",
+        "The work types were not saved. Please try again.": "Darbo rūšių išsaugoti nepavyko. Bandykite dar kartą."
     },
     "nplurals=2; plural=(n != 1);"
 )

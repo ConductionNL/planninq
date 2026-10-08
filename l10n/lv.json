@@ -1377,7 +1377,20 @@
         "Change status": "Mainīt statusu",
         "Change priority": "Mainīt prioritāti",
         "{done} tasks updated, {failed} failed.": "Atjaunināti uzdevumi: {done}, neizdevās: {failed}.",
-        "{done} tasks updated.": "Atjaunināti uzdevumi: {done}."
+        "{done} tasks updated.": "Atjaunināti uzdevumi: {done}.",
+        "Work type": "Darba veids",
+        "The kind of work the hours were spent on.": "Darba veids, kam tika pavadītas stundas.",
+        "Timer running: {minutes} min": "Taimeris darbojas: {minutes} min",
+        "This timer has been running for more than 12 hours.": "Šis taimeris darbojas ilgāk par 12 stundām.",
+        "Stop timer": "Apturēt taimeri",
+        "Discard timer": "Atmest taimeri",
+        "Start timer": "Sākt taimeri",
+        "A timer is already running. Stop or discard it first.": "Taimeris jau darbojas. Vispirms apturiet vai atmetiet to.",
+        "Work types": "Darba veidi",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Darba veidi, ko cilvēki izvēlas, reģistrējot laiku, viens katrā rindā. Atstājiet tukšu, lai nejautātu.",
+        "Give each work type once.": "Norādiet katru darba veidu tikai vienreiz.",
+        "Work types saved": "Darba veidi saglabāti",
+        "The work types were not saved. Please try again.": "Darba veidi netika saglabāti. Mēģiniet vēlreiz."
     },
     "plurals": null
 }

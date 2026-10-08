@@ -316,6 +316,14 @@
 						{{ t('planninq', 'Total estimate: {total}', { total: formatMinutes(estimateMinutes + rollup.estimate) }) }}
 					</p>
 
+					<RunningTimer @saved="loadLinks" />
+					<NcButton variant="secondary" data-testid="start-timer" @click="startTimer">
+						<template #icon>
+							<ClockPlusOutline :size="20" />
+						</template>
+						{{ t('planninq', 'Start timer') }}
+					</NcButton>
+
 					<!-- Log time -->
 					<NcButton variant="primary" data-testid="log-time" @click="openLogDialog()">
 						<template #icon>
@@ -429,6 +437,7 @@ import ClockPlusOutline from 'vue-material-design-icons/ClockPlusOutline.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import RunningTimer from '../components/RunningTimer.vue'
 import TaskDependencies from '../components/TaskDependencies.vue'
 import TaskForgeLinks from '../components/TaskForgeLinks.vue'
 import TaskDeleteDialog from '../dialogs/TaskDeleteDialog.vue'
@@ -488,6 +497,7 @@ export default {
 		TaskDependencies,
 		TaskForgeLinks,
 		TaskDeleteDialog,
+		RunningTimer,
 		TaskFormDialog,
 		TaskMoveDialog,
 		TimeEntryDialog,
@@ -1201,6 +1211,20 @@ export default {
 		},
 
 		toPickerDate,
+
+		/**
+		 * Start a timer on this task; a running timer must be stopped first.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 */
+		async startTimer() {
+			const started = await this.timeEntriesStore.startTimer(this.taskId)
+			if (!started) {
+				showError(this.t('planninq', 'A timer is already running. Stop or discard it first.'))
+			}
+		},
 
 		/**
 		 * Save a changed start or due date; a cleared picker clears the date.

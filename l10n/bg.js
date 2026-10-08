@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Промяна на статуса",
         "Change priority": "Промяна на приоритета",
         "{done} tasks updated, {failed} failed.": "{done} задачи са обновени, {failed} неуспешни.",
-        "{done} tasks updated.": "{done} задачи са обновени."
+        "{done} tasks updated.": "{done} задачи са обновени.",
+        "Work type": "Вид работа",
+        "The kind of work the hours were spent on.": "Видът работа, за който са изразходвани часовете.",
+        "Timer running: {minutes} min": "Таймерът работи: {minutes} мин",
+        "This timer has been running for more than 12 hours.": "Този таймер работи повече от 12 часа.",
+        "Stop timer": "Спиране на таймера",
+        "Discard timer": "Отхвърляне на таймера",
+        "Start timer": "Стартиране на таймер",
+        "A timer is already running. Stop or discard it first.": "Вече работи таймер. Първо го спрете или отхвърлете.",
+        "Work types": "Видове работа",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Видовете работа, които хората избират при отчитане на време, по един на ред. Оставете празно, за да не се пита.",
+        "Give each work type once.": "Посочете всеки вид работа само веднъж.",
+        "Work types saved": "Видовете работа са запазени",
+        "The work types were not saved. Please try again.": "Видовете работа не са запазени. Опитайте отново."
     },
     "nplurals=2; plural=(n != 1);"
 )

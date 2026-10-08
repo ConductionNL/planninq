@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Змяніць статус",
         "Change priority": "Змяніць прыярытэт",
         "{done} tasks updated, {failed} failed.": "Абноўлена заданняў: {done}, не атрымалася: {failed}.",
-        "{done} tasks updated.": "Абноўлена заданняў: {done}."
+        "{done} tasks updated.": "Абноўлена заданняў: {done}.",
+        "Work type": "Від працы",
+        "The kind of work the hours were spent on.": "Від працы, на які выдаткаваны гадзіны.",
+        "Timer running: {minutes} min": "Таймер працуе: {minutes} хв",
+        "This timer has been running for more than 12 hours.": "Гэты таймер працуе больш за 12 гадзін.",
+        "Stop timer": "Спыніць таймер",
+        "Discard timer": "Скасаваць таймер",
+        "Start timer": "Запусціць таймер",
+        "A timer is already running. Stop or discard it first.": "Таймер ужо працуе. Спачатку спыніце або скасуйце яго.",
+        "Work types": "Віды працы",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Віды працы, якія людзі выбіраюць пры ўліку часу, па адным на радок. Пакіньце пустым, каб не пытацца.",
+        "Give each work type once.": "Пакажыце кожны від працы толькі адзін раз.",
+        "Work types saved": "Віды працы захаваны",
+        "The work types were not saved. Please try again.": "Віды працы не захаваны. Паспрабуйце яшчэ раз."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Αλλαγή κατάστασης",
         "Change priority": "Αλλαγή προτεραιότητας",
         "{done} tasks updated, {failed} failed.": "Ενημερώθηκαν {done} εργασίες, απέτυχαν {failed}.",
-        "{done} tasks updated.": "Ενημερώθηκαν {done} εργασίες."
+        "{done} tasks updated.": "Ενημερώθηκαν {done} εργασίες.",
+        "Work type": "Είδος εργασίας",
+        "The kind of work the hours were spent on.": "Το είδος εργασίας στο οποίο δαπανήθηκαν οι ώρες.",
+        "Timer running: {minutes} min": "Το χρονόμετρο λειτουργεί: {minutes} λ.",
+        "This timer has been running for more than 12 hours.": "Αυτό το χρονόμετρο λειτουργεί για πάνω από 12 ώρες.",
+        "Stop timer": "Διακοπή χρονομέτρου",
+        "Discard timer": "Απόρριψη χρονομέτρου",
+        "Start timer": "Έναρξη χρονομέτρου",
+        "A timer is already running. Stop or discard it first.": "Ένα χρονόμετρο λειτουργεί ήδη. Διακόψτε το ή απορρίψτε το πρώτα.",
+        "Work types": "Είδη εργασίας",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Τα είδη εργασίας που επιλέγουν οι χρήστες κατά την καταγραφή χρόνου, ένα ανά γραμμή. Αφήστε κενό για να μη ζητείται.",
+        "Give each work type once.": "Δώστε κάθε είδος εργασίας μία φορά.",
+        "Work types saved": "Τα είδη εργασίας αποθηκεύτηκαν",
+        "The work types were not saved. Please try again.": "Τα είδη εργασίας δεν αποθηκεύτηκαν. Δοκιμάστε ξανά."
     },
     "nplurals=2; plural=(n != 1);"
 )

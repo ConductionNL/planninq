@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Alterar estado",
         "Change priority": "Alterar prioridade",
         "{done} tasks updated, {failed} failed.": "{done} tarefas atualizadas, {failed} com falha.",
-        "{done} tasks updated.": "{done} tarefas atualizadas."
+        "{done} tasks updated.": "{done} tarefas atualizadas.",
+        "Work type": "Tipo de trabalho",
+        "The kind of work the hours were spent on.": "O tipo de trabalho a que as horas foram dedicadas.",
+        "Timer running: {minutes} min": "Temporizador a correr: {minutes} min",
+        "This timer has been running for more than 12 hours.": "Este temporizador está a correr há mais de 12 horas.",
+        "Stop timer": "Parar temporizador",
+        "Discard timer": "Descartar temporizador",
+        "Start timer": "Iniciar temporizador",
+        "A timer is already running. Stop or discard it first.": "Já está a correr um temporizador. Pare-o ou descarte-o primeiro.",
+        "Work types": "Tipos de trabalho",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Os tipos de trabalho escolhidos ao registar tempo, um por linha. Deixe vazio para não perguntar.",
+        "Give each work type once.": "Indique cada tipo de trabalho apenas uma vez.",
+        "Work types saved": "Tipos de trabalho guardados",
+        "The work types were not saved. Please try again.": "Os tipos de trabalho não foram guardados. Tente novamente."
     },
     "nplurals=2; plural=(n != 1);"
 )

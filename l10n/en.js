@@ -1357,7 +1357,20 @@ OC.L10N.register(
         "Change status": "Change status",
         "Change priority": "Change priority",
         "{done} tasks updated, {failed} failed.": "{done} tasks updated, {failed} failed.",
-        "{done} tasks updated.": "{done} tasks updated."
+        "{done} tasks updated.": "{done} tasks updated.",
+        "Work type": "Work type",
+        "The kind of work the hours were spent on.": "The kind of work the hours were spent on.",
+        "Timer running: {minutes} min": "Timer running: {minutes} min",
+        "This timer has been running for more than 12 hours.": "This timer has been running for more than 12 hours.",
+        "Stop timer": "Stop timer",
+        "Discard timer": "Discard timer",
+        "Start timer": "Start timer",
+        "A timer is already running. Stop or discard it first.": "A timer is already running. Stop or discard it first.",
+        "Work types": "Work types",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "The kinds of work people pick when they log time, one per line. Leave empty to not ask.",
+        "Give each work type once.": "Give each work type once.",
+        "Work types saved": "Work types saved",
+        "The work types were not saved. Please try again.": "The work types were not saved. Please try again."
     },
     "nplurals=2; plural=(n != 1);"
 )

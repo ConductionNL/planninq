@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Spremeni stanje",
         "Change priority": "Spremeni prednost",
         "{done} tasks updated, {failed} failed.": "Posodobljenih nalog: {done}, neuspelih: {failed}.",
-        "{done} tasks updated.": "Posodobljenih nalog: {done}."
+        "{done} tasks updated.": "Posodobljenih nalog: {done}.",
+        "Work type": "Vrsta dela",
+        "The kind of work the hours were spent on.": "Vrsta dela, za katero so bile porabljene ure.",
+        "Timer running: {minutes} min": "Časovnik teče: {minutes} min",
+        "This timer has been running for more than 12 hours.": "Ta časovnik teče že več kot 12 ur.",
+        "Stop timer": "Ustavi časovnik",
+        "Discard timer": "Zavrzi časovnik",
+        "Start timer": "Zaženi časovnik",
+        "A timer is already running. Stop or discard it first.": "Časovnik že teče. Najprej ga ustavite ali zavrzite.",
+        "Work types": "Vrste dela",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Vrste dela, ki jih ljudje izberejo pri beleženju časa, po ena v vrstici. Pustite prazno, da se ne sprašuje.",
+        "Give each work type once.": "Vsako vrsto dela navedite samo enkrat.",
+        "Work types saved": "Vrste dela shranjene",
+        "The work types were not saved. Please try again.": "Vrst dela ni bilo mogoče shraniti. Poskusite znova."
     },
     "nplurals=2; plural=(n != 1);"
 )

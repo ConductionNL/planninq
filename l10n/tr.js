@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Durumu değiştir",
         "Change priority": "Önceliği değiştir",
         "{done} tasks updated, {failed} failed.": "{done} görev güncellendi, {failed} başarısız oldu.",
-        "{done} tasks updated.": "{done} görev güncellendi."
+        "{done} tasks updated.": "{done} görev güncellendi.",
+        "Work type": "Çalışma türü",
+        "The kind of work the hours were spent on.": "Saatlerin harcandığı çalışma türü.",
+        "Timer running: {minutes} min": "Zamanlayıcı çalışıyor: {minutes} dk",
+        "This timer has been running for more than 12 hours.": "Bu zamanlayıcı 12 saatten uzun süredir çalışıyor.",
+        "Stop timer": "Zamanlayıcıyı durdur",
+        "Discard timer": "Zamanlayıcıyı at",
+        "Start timer": "Zamanlayıcıyı başlat",
+        "A timer is already running. Stop or discard it first.": "Bir zamanlayıcı zaten çalışıyor. Önce onu durdurun veya atın.",
+        "Work types": "Çalışma türleri",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Süre kaydedilirken seçilen çalışma türleri, her satırda bir tane. Sorulmaması için boş bırakın.",
+        "Give each work type once.": "Her çalışma türünü yalnızca bir kez girin.",
+        "Work types saved": "Çalışma türleri kaydedildi",
+        "The work types were not saved. Please try again.": "Çalışma türleri kaydedilemedi. Lütfen yeniden deneyin."
     },
     "nplurals=2; plural=(n != 1);"
 )

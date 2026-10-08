@@ -1,5 +1,6 @@
 <template>
 	<div class="timesheet">
+		<RunningTimer />
 		<div class="timesheet__header">
 			<h2 class="timesheet__title">
 				{{ t('planninq', 'Timesheet') }}
@@ -99,6 +100,7 @@
  */
 import { NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import ClockOutline from 'vue-material-design-icons/ClockOutline.vue'
+import RunningTimer from '../components/RunningTimer.vue'
 import { useObjectStore } from '../store/objectStore.js'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration } from '../utils/durationParser.js'
@@ -112,7 +114,7 @@ import {
 export default {
 	name: 'Timesheet',
 
-	components: { NcEmptyContent, NcLoadingIcon, NcSelect, ClockOutline },
+	components: { NcEmptyContent, NcLoadingIcon, NcSelect, ClockOutline, RunningTimer },
 
 	data() {
 		return {

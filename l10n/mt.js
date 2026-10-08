@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Biddel l-istatus",
         "Change priority": "Biddel il-prijorità",
         "{done} tasks updated, {failed} failed.": "{done} kompiti aġġornati, {failed} falliet.",
-        "{done} tasks updated.": "{done} kompiti aġġornati."
+        "{done} tasks updated.": "{done} kompiti aġġornati.",
+        "Work type": "Tip ta’ xogħol",
+        "The kind of work the hours were spent on.": "It-tip ta’ xogħol li fih intefqu s-sigħat.",
+        "Timer running: {minutes} min": "It-timer qed jaħdem: {minutes} min",
+        "This timer has been running for more than 12 hours.": "Dan it-timer ilu jaħdem aktar minn 12-il siegħa.",
+        "Stop timer": "Waqqaf it-timer",
+        "Discard timer": "Armi t-timer",
+        "Start timer": "Ibda t-timer",
+        "A timer is already running. Stop or discard it first.": "Diġà qed jaħdem timer. Waqqfu jew armih l-ewwel.",
+        "Work types": "Tipi ta’ xogħol",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "It-tipi ta’ xogħol li n-nies jagħżlu meta jirreġistraw il-ħin, wieħed f’kull linja. Ħallih vojt biex ma jitlobx.",
+        "Give each work type once.": "Agħti kull tip ta’ xogħol darba biss.",
+        "Work types saved": "It-tipi ta’ xogħol inżammu",
+        "The work types were not saved. Please try again.": "It-tipi ta’ xogħol ma nżammux. Erġa’ pprova."
     },
     "nplurals=2; plural=(n != 1);"
 )

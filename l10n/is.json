@@ -1377,7 +1377,20 @@
         "Change status": "Breyta stöðu",
         "Change priority": "Breyta forgangi",
         "{done} tasks updated, {failed} failed.": "{done} verkefni uppfærð, {failed} mistókust.",
-        "{done} tasks updated.": "{done} verkefni uppfærð."
+        "{done} tasks updated.": "{done} verkefni uppfærð.",
+        "Work type": "Tegund vinnu",
+        "The kind of work the hours were spent on.": "Sú tegund vinnu sem tímarnir fóru í.",
+        "Timer running: {minutes} min": "Tímamælir í gangi: {minutes} mín.",
+        "This timer has been running for more than 12 hours.": "Þessi tímamælir hefur verið í gangi í meira en 12 klukkustundir.",
+        "Stop timer": "Stöðva tímamæli",
+        "Discard timer": "Henda tímamæli",
+        "Start timer": "Ræsa tímamæli",
+        "A timer is already running. Stop or discard it first.": "Tímamælir er þegar í gangi. Stöðvaðu hann eða hentu honum fyrst.",
+        "Work types": "Tegundir vinnu",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Tegundir vinnu sem fólk velur þegar það skráir tíma, ein í hverri línu. Hafðu tómt til að spyrja ekki.",
+        "Give each work type once.": "Gefðu hverja tegund vinnu upp einu sinni.",
+        "Work types saved": "Tegundir vinnu vistaðar",
+        "The work types were not saved. Please try again.": "Tegundir vinnu voru ekki vistaðar. Reyndu aftur."
     },
     "plurals": {}
 }

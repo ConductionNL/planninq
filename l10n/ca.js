@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Canvia l’estat",
         "Change priority": "Canvia la prioritat",
         "{done} tasks updated, {failed} failed.": "{done} tasques actualitzades, {failed} han fallat.",
-        "{done} tasks updated.": "{done} tasques actualitzades."
+        "{done} tasks updated.": "{done} tasques actualitzades.",
+        "Work type": "Tipus de feina",
+        "The kind of work the hours were spent on.": "El tipus de feina al qual s’han dedicat les hores.",
+        "Timer running: {minutes} min": "Temporitzador en marxa: {minutes} min",
+        "This timer has been running for more than 12 hours.": "Aquest temporitzador fa més de 12 hores que funciona.",
+        "Stop timer": "Atura el temporitzador",
+        "Discard timer": "Descarta el temporitzador",
+        "Start timer": "Inicia el temporitzador",
+        "A timer is already running. Stop or discard it first.": "Ja hi ha un temporitzador en marxa. Atureu-lo o descarteu-lo primer.",
+        "Work types": "Tipus de feina",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Els tipus de feina que es trien en registrar temps, un per línia. Deixeu-ho buit per no preguntar.",
+        "Give each work type once.": "Indiqueu cada tipus de feina només una vegada.",
+        "Work types saved": "Tipus de feina desats",
+        "The work types were not saved. Please try again.": "No s’han desat els tipus de feina. Torneu-ho a provar."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Zmień status",
         "Change priority": "Zmień priorytet",
         "{done} tasks updated, {failed} failed.": "Zaktualizowano zadań: {done}, nieudanych: {failed}.",
-        "{done} tasks updated.": "Zaktualizowano zadań: {done}."
+        "{done} tasks updated.": "Zaktualizowano zadań: {done}.",
+        "Work type": "Rodzaj pracy",
+        "The kind of work the hours were spent on.": "Rodzaj pracy, na który poświęcono godziny.",
+        "Timer running: {minutes} min": "Stoper działa: {minutes} min",
+        "This timer has been running for more than 12 hours.": "Ten stoper działa dłużej niż 12 godzin.",
+        "Stop timer": "Zatrzymaj stoper",
+        "Discard timer": "Odrzuć stoper",
+        "Start timer": "Uruchom stoper",
+        "A timer is already running. Stop or discard it first.": "Stoper już działa. Najpierw go zatrzymaj lub odrzuć.",
+        "Work types": "Rodzaje pracy",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Rodzaje pracy wybierane przy zapisie czasu, po jednym w wierszu. Zostaw puste, aby nie pytać.",
+        "Give each work type once.": "Podaj każdy rodzaj pracy tylko raz.",
+        "Work types saved": "Rodzaje pracy zapisane",
+        "The work types were not saved. Please try again.": "Nie udało się zapisać rodzajów pracy. Spróbuj ponownie."
     },
     "nplurals=2; plural=(n != 1);"
 )

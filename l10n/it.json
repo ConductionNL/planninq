@@ -1377,7 +1377,20 @@
         "Change status": "Cambia stato",
         "Change priority": "Cambia priorità",
         "{done} tasks updated, {failed} failed.": "{done} attività aggiornate, {failed} non riuscite.",
-        "{done} tasks updated.": "{done} attività aggiornate."
+        "{done} tasks updated.": "{done} attività aggiornate.",
+        "Work type": "Tipo di lavoro",
+        "The kind of work the hours were spent on.": "Il tipo di lavoro a cui sono state dedicate le ore.",
+        "Timer running: {minutes} min": "Timer in corso: {minutes} min",
+        "This timer has been running for more than 12 hours.": "Questo timer è in corso da più di 12 ore.",
+        "Stop timer": "Ferma timer",
+        "Discard timer": "Scarta timer",
+        "Start timer": "Avvia timer",
+        "A timer is already running. Stop or discard it first.": "Un timer è già in corso. Fermalo o scartalo prima.",
+        "Work types": "Tipi di lavoro",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "I tipi di lavoro che si scelgono registrando il tempo, uno per riga. Lascia vuoto per non chiederlo.",
+        "Give each work type once.": "Indica ogni tipo di lavoro una sola volta.",
+        "Work types saved": "Tipi di lavoro salvati",
+        "The work types were not saved. Please try again.": "I tipi di lavoro non sono stati salvati. Riprova."
     },
     "plurals": null
 }

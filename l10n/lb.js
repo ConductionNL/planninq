@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Status änneren",
         "Change priority": "Prioritéit änneren",
         "{done} tasks updated, {failed} failed.": "{done} Aufgaben aktualiséiert, {failed} fehlgeschloen.",
-        "{done} tasks updated.": "{done} Aufgaben aktualiséiert."
+        "{done} tasks updated.": "{done} Aufgaben aktualiséiert.",
+        "Work type": "Aarbechtsaart",
+        "The kind of work the hours were spent on.": "D’Aart vun Aarbecht, op déi d’Stonne verbraucht goufen.",
+        "Timer running: {minutes} min": "Timer leeft: {minutes} Min.",
+        "This timer has been running for more than 12 hours.": "Dësen Timer leeft zënter méi wéi 12 Stonnen.",
+        "Stop timer": "Timer stoppen",
+        "Discard timer": "Timer ewechgeheien",
+        "Start timer": "Timer starten",
+        "A timer is already running. Stop or discard it first.": "Et leeft schonn en Timer. Stoppt oder verwerft en éischt.",
+        "Work types": "Aarbechtsaarten",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "D’Aarbechtsaarten, déi een beim Zäit erfaasse wielt, eng pro Zeil. Eidel loossen, fir net ze froen.",
+        "Give each work type once.": "Gitt all Aarbechtsaart nëmmen eemol un.",
+        "Work types saved": "Aarbechtsaarten gespäichert",
+        "The work types were not saved. Please try again.": "D’Aarbechtsaarte goufen net gespäichert. Probéiert et nach eng Kéier."
     },
     "nplurals=2; plural=(n != 1);"
 )

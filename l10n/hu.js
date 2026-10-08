@@ -1378,7 +1378,20 @@ OC.L10N.register(
         "Change status": "Állapot módosítása",
         "Change priority": "Prioritás módosítása",
         "{done} tasks updated, {failed} failed.": "{done} feladat frissítve, {failed} sikertelen.",
-        "{done} tasks updated.": "{done} feladat frissítve."
+        "{done} tasks updated.": "{done} feladat frissítve.",
+        "Work type": "Munkatípus",
+        "The kind of work the hours were spent on.": "A munka típusa, amelyre az órákat fordították.",
+        "Timer running: {minutes} min": "Időmérő fut: {minutes} perc",
+        "This timer has been running for more than 12 hours.": "Ez az időmérő több mint 12 órája fut.",
+        "Stop timer": "Időmérő leállítása",
+        "Discard timer": "Időmérő elvetése",
+        "Start timer": "Időmérő indítása",
+        "A timer is already running. Stop or discard it first.": "Már fut egy időmérő. Először állítsa le vagy vesse el.",
+        "Work types": "Munkatípusok",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "A munkatípusok, amelyeket időrögzítéskor választanak, soronként egy. Hagyja üresen, ha nem kell rákérdezni.",
+        "Give each work type once.": "Minden munkatípust csak egyszer adjon meg.",
+        "Work types saved": "Munkatípusok mentve",
+        "The work types were not saved. Please try again.": "A munkatípusokat nem sikerült menteni. Próbálja újra."
     },
     "nplurals=2; plural=(n != 1);"
 )

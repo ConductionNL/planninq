@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.37.0"
+    "version": "0.38.0"
   },
   "x-openregister": {
     "type": "application",
@@ -1895,7 +1895,7 @@
       "plannedTimeEntry": {
         "slug": "plannedTimeEntry",
         "icon": "TimerOutline",
-        "version": "0.5.0",
+        "version": "0.6.0",
         "title": "Time Entry",
         "description": "Time logged by a user against a task. Maps to schema:QuantitativeValue.",
         "x-schema-org": "schema:QuantitativeValue",
@@ -2037,6 +2037,12 @@
             "title": "Note",
             "type": "string",
             "description": "Optional note about the work performed"
+          },
+          "workType": {
+            "title": "Work type",
+            "type": "string",
+            "description": "The kind of work the hours were spent on.",
+            "facetable": true
           },
           "project": {
             "title": "Project",

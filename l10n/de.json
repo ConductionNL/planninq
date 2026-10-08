@@ -1377,7 +1377,20 @@
         "Change status": "Status ändern",
         "Change priority": "Priorität ändern",
         "{done} tasks updated, {failed} failed.": "{done} Aufgaben aktualisiert, {failed} fehlgeschlagen.",
-        "{done} tasks updated.": "{done} Aufgaben aktualisiert."
+        "{done} tasks updated.": "{done} Aufgaben aktualisiert.",
+        "Work type": "Arbeitsart",
+        "The kind of work the hours were spent on.": "Die Art der Arbeit, für die die Stunden aufgewendet wurden.",
+        "Timer running: {minutes} min": "Timer läuft: {minutes} Min.",
+        "This timer has been running for more than 12 hours.": "Dieser Timer läuft seit mehr als 12 Stunden.",
+        "Stop timer": "Timer stoppen",
+        "Discard timer": "Timer verwerfen",
+        "Start timer": "Timer starten",
+        "A timer is already running. Stop or discard it first.": "Es läuft bereits ein Timer. Stoppen oder verwerfen Sie ihn zuerst.",
+        "Work types": "Arbeitsarten",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Die Arbeitsarten, die man beim Erfassen von Zeit wählt, eine pro Zeile. Leer lassen, um nicht danach zu fragen.",
+        "Give each work type once.": "Geben Sie jede Arbeitsart nur einmal an.",
+        "Work types saved": "Arbeitsarten gespeichert",
+        "The work types were not saved. Please try again.": "Die Arbeitsarten wurden nicht gespeichert. Bitte versuchen Sie es erneut."
     },
     "plurals": null
 }

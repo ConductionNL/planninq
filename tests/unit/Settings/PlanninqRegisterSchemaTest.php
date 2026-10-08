@@ -1665,4 +1665,20 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		}
 
 	}//end testMockRegisterCarriesTimetableGeneratorDemoRows()
+	/**
+	 * A time entry carries the work type it was booked under.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.2
+	 */
+	public function testTimeEntryCarriesWorkType(): void {
+		$entry = $this->register['components']['schemas']['plannedTimeEntry'];
+
+		self::assertSame(expected: 'string', actual: $entry['properties']['workType']['type']);
+		self::assertNotContains('workType', $entry['required']);
+		self::assertTrue(version_compare($entry['version'], '0.6.0', '>='));
+
+	}//end testTimeEntryCarriesWorkType()
+
 }//end class

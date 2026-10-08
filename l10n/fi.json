@@ -1377,7 +1377,20 @@
         "Change status": "Vaihda tila",
         "Change priority": "Vaihda tärkeysjärjestys",
         "{done} tasks updated, {failed} failed.": "{done} tehtävää päivitetty, {failed} epäonnistui.",
-        "{done} tasks updated.": "{done} tehtävää päivitetty."
+        "{done} tasks updated.": "{done} tehtävää päivitetty.",
+        "Work type": "Työn laji",
+        "The kind of work the hours were spent on.": "Työn laji, johon tunnit käytettiin.",
+        "Timer running: {minutes} min": "Ajastin käynnissä: {minutes} min",
+        "This timer has been running for more than 12 hours.": "Tämä ajastin on ollut käynnissä yli 12 tuntia.",
+        "Stop timer": "Pysäytä ajastin",
+        "Discard timer": "Hylkää ajastin",
+        "Start timer": "Käynnistä ajastin",
+        "A timer is already running. Stop or discard it first.": "Ajastin on jo käynnissä. Pysäytä tai hylkää se ensin.",
+        "Work types": "Työn lajit",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Työn lajit, joista valitaan tuntia kirjattaessa, yksi per rivi. Jätä tyhjäksi, jos ei kysytä.",
+        "Give each work type once.": "Anna jokainen työn laji vain kerran.",
+        "Work types saved": "Työn lajit tallennettu",
+        "The work types were not saved. Please try again.": "Työn lajeja ei tallennettu. Yritä uudelleen."
     },
     "plurals": null
 }

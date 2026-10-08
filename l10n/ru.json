@@ -1377,7 +1377,20 @@
         "Change status": "Изменить статус",
         "Change priority": "Изменить приоритет",
         "{done} tasks updated, {failed} failed.": "Обновлено задач: {done}, не удалось: {failed}.",
-        "{done} tasks updated.": "Обновлено задач: {done}."
+        "{done} tasks updated.": "Обновлено задач: {done}.",
+        "Work type": "Вид работы",
+        "The kind of work the hours were spent on.": "Вид работы, на который потрачены часы.",
+        "Timer running: {minutes} min": "Таймер запущен: {minutes} мин",
+        "This timer has been running for more than 12 hours.": "Этот таймер работает более 12 часов.",
+        "Stop timer": "Остановить таймер",
+        "Discard timer": "Сбросить таймер",
+        "Start timer": "Запустить таймер",
+        "A timer is already running. Stop or discard it first.": "Таймер уже запущен. Сначала остановите или сбросьте его.",
+        "Work types": "Виды работ",
+        "The kinds of work people pick when they log time, one per line. Leave empty to not ask.": "Виды работ, которые выбирают при учёте времени, по одному на строку. Оставьте пустым, чтобы не спрашивать.",
+        "Give each work type once.": "Укажите каждый вид работы только один раз.",
+        "Work types saved": "Виды работ сохранены",
+        "The work types were not saved. Please try again.": "Не удалось сохранить виды работ. Попробуйте ещё раз."
     },
     "plurals": {}
 }
