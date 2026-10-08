@@ -1422,7 +1422,9 @@ OC.L10N.register(
         "Mail tasks to {address}": "Invia attività via e-mail a {address}",
         "Copy address": "Copia indirizzo",
         "Address copied": "Indirizzo copiato",
-        "The address could not be copied": "Impossibile copiare l'indirizzo"
+        "The address could not be copied": "Impossibile copiare l'indirizzo",
+        "Add label": "Aggiungi etichetta",
+        "Remove label": "Rimuovi etichetta"
     },
     "nplurals=2; plural=(n != 1);"
 )

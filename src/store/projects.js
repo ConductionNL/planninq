@@ -2040,10 +2040,13 @@ export const useProjectsStore = defineStore('projects', {
 		/**
 		 * Apply one patch to many tasks, a few requests at a time.
 		 *
-		 * Every task is tried; one failing PATCH does not stop the rest.
+		 * Every task is tried; one failing PATCH does not stop the rest. A
+		 * function patch is called with each task id and returns that task's
+		 * fields, so a change that depends on the task (add a label to the ones
+		 * it already has) is built per task; an empty result writes nothing.
 		 *
 		 * @param {Array<string>} ids         The task ids.
-		 * @param {object}        patch       The fields to write.
+		 * @param {object|function(string): object} patch The fields to write, or `(id) => fields`.
 		 * @param {number}        concurrency How many requests run at once.
 		 * @return {Promise<{done: Array<string>, failed: Array<string>}>} Per-task result
 		 *
@@ -2055,7 +2058,8 @@ export const useProjectsStore = defineStore('projects', {
 			const worker = async () => {
 				while (queue.length) {
 					const id = queue.shift()
-					const updated = await this.updateTask(id, patch)
+					const fields = typeof patch === 'function' ? patch(id) : patch
+					const updated = Object.keys(fields || {}).length === 0 ? true : await this.updateTask(id, fields)
 					;(updated ? result.done : result.failed).push(id)
 				}
 			}

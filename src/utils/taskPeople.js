@@ -125,3 +125,20 @@ export function labelsPatch(task, ids) {
 	}
 	return { labels: next }
 }
+
+/**
+ * The PATCH that adds one label to a task, or removes it; nothing when the task
+ * already is in that state. The task's other labels are kept.
+ *
+ * @param {object}        task The task.
+ * @param {string}        id   The label id.
+ * @param {'add'|'remove'} mode Whether to add or remove it.
+ * @return {object}
+ *
+ * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.3
+ */
+export function labelChangePatch(task, id, mode) {
+	const current = distinct(task?.labels)
+	const next = mode === 'remove' ? current.filter((other) => other !== id) : [...current, id]
+	return labelsPatch(task, next)
+}

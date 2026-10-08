@@ -92,6 +92,27 @@
 					label="label"
 					data-testid="backlog-bulk-priority"
 					@update:modelValue="(option) => option && bulkApply({ priority: option.id })" />
+				<NcSelect
+					:modelValue="null"
+					:options="bulkAssigneeOptions"
+					:inputLabel="t('planninq', 'Assign to')"
+					label="label"
+					data-testid="backlog-bulk-assignee"
+					@update:modelValue="(option) => option && bulkAssign(option)" />
+				<NcSelect
+					:modelValue="null"
+					:options="labels"
+					:inputLabel="t('planninq', 'Add label')"
+					label="title"
+					data-testid="backlog-bulk-label-add"
+					@update:modelValue="(option) => option && bulkLabel(option, 'add')" />
+				<NcSelect
+					:modelValue="null"
+					:options="labels"
+					:inputLabel="t('planninq', 'Remove label')"
+					label="title"
+					data-testid="backlog-bulk-label-remove"
+					@update:modelValue="(option) => option && bulkLabel(option, 'remove')" />
 			</template>
 		</div>
 
@@ -217,7 +238,10 @@ import {
 	orderPatchesForStep,
 	sortColumns,
 } from '../utils/columnHelpers.js'
+import { labelId } from '../utils/labelHelpers.js'
 import { matchesSearch } from '../utils/taskHelpers.js'
+import { labelChangePatch, memberOptions, responsiblePatch } from '../utils/taskPeople.js'
+import { displayNames } from '../utils/userNames.js'
 
 export default {
 	name: 'ProjectBacklog',
@@ -256,6 +280,10 @@ export default {
 			search: '',
 			/** @type {Array<string>} Ids of the ticked rows. */
 			selected: [],
+			/** @type {Array} Every label, for the bulk label actions. */
+			labels: [],
+			/** @type {object} User id to display name, for the bulk assignee choice. */
+			personNames: {},
 		}
 	},
 
@@ -341,6 +369,16 @@ export default {
 		},
 
 		/**
+		 * @spec exclude Display helper — the project's people, with a choice to clear the assignee.
+		 */
+		bulkAssigneeOptions() {
+			return [
+				{ id: '', label: this.t('planninq', 'Unassigned') },
+				...memberOptions(this.projectsStore.activeProject, this.personNames),
+			]
+		},
+
+		/**
 		 * @spec exclude Display helper — the sort choices.
 		 */
 		sortOptions() {
@@ -416,15 +454,40 @@ export default {
 		},
 
 		/**
+		 * Make one person responsible for every ticked row (empty id clears it).
+		 *
+		 * @param {{id: string}} option The chosen person.
+		 * @return {Promise<void>}
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.3
+		 */
+		bulkAssign(option) {
+			return this.bulkApply((task) => responsiblePatch(task, option.id))
+		},
+
+		/**
+		 * Add a label to, or remove it from, every ticked row.
+		 *
+		 * @param {object}         option The chosen label.
+		 * @param {'add'|'remove'} mode   Whether to add or remove it.
+		 * @return {Promise<void>}
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.3
+		 */
+		bulkLabel(option, mode) {
+			return this.bulkApply((task) => labelChangePatch(task, labelId(option), mode))
+		},
+
+		/**
 		 * Write one change to every ticked row and report how many failed.
 		 *
-		 * @param {object} patch The fields to write.
+		 * @param {object|function(object): object} patch The fields to write, or `(task) => fields` for a change that depends on the task.
 		 * @return {Promise<void>}
 		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.3
 		 */
 		async bulkApply(patch) {
-			const { done, failed } = await this.projectsStore.bulkUpdateTasks(this.selected, patch)
-			this.tasks = this.tasks.map((task) => done.includes(task.id) ? { ...task, ...patch } : task)
+			const byId = new Map(this.tasks.map((task) => [task.id, task]))
+			const fieldsFor = (id) => typeof patch === 'function' ? patch(byId.get(id) || {}) : patch
+			const { done, failed } = await this.projectsStore.bulkUpdateTasks(this.selected, fieldsFor)
+			this.tasks = this.tasks.map((task) => done.includes(task.id) ? { ...task, ...fieldsFor(task.id) } : task)
 			this.selected = failed
 			if (failed.length) {
 				showError(this.t('planninq', '{done} tasks updated, {failed} failed.', { done: done.length, failed: failed.length }))
@@ -446,6 +509,10 @@ export default {
 			try {
 				this.boardColumns = await this.projectsStore.fetchColumns(id)
 				this.tasks = await this.projectsStore.fetchTasks(id)
+				this.labels = await this.projectsStore.fetchLabels()
+				const project = this.projectsStore.activeProject
+				const uids = [...new Set([project?.owner, ...(project?.members || [])].filter(Boolean))]
+				this.personNames = uids.length ? await displayNames(uids) : {}
 			} finally {
 				this.loading = false
 			}

@@ -1433,7 +1433,9 @@ OC.L10N.register(
         "Mail tasks to {address}": "Mail taken naar {address}",
         "Copy address": "Adres kopiëren",
         "Address copied": "Adres gekopieerd",
-        "The address could not be copied": "Het adres kon niet worden gekopieerd"
+        "The address could not be copied": "Het adres kon niet worden gekopieerd",
+        "Add label": "Label toevoegen",
+        "Remove label": "Label verwijderen"
     },
     "nplurals=2; plural=(n != 1);"
 )
