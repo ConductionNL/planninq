@@ -1505,7 +1505,13 @@ OC.L10N.register(
         "Another work type already has that name.": "Un altro tipo di lavoro ha già questo nome.",
         "The work type was not renamed. Please try again.": "Il tipo di lavoro non è stato rinominato. Riprova.",
         "By work type": "Per tipo di lavoro",
-        "No work types logged yet": "Nessun tipo di lavoro ancora registrato"
+        "No work types logged yet": "Nessun tipo di lavoro ancora registrato",
+        "Task to time": "Attività da cronometrare",
+        "A timer is already running": "Un timer è già in corso",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Un timer è in corso su {running}. Fermarlo e avviarne uno su {next}?",
+        "Stop it and start the new one": "Fermalo e avvia il nuovo",
+        "Keep the running timer": "Mantieni il timer in corso",
+        "The timer could not be started. Please try again.": "Impossibile avviare il timer. Riprova."
     },
     "nplurals=2; plural=(n != 1);"
 )

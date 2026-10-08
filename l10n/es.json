@@ -1504,7 +1504,13 @@
         "Another work type already has that name.": "Otro tipo de trabajo ya tiene ese nombre.",
         "The work type was not renamed. Please try again.": "No se renombró el tipo de trabajo. Inténtelo de nuevo.",
         "By work type": "Por tipo de trabajo",
-        "No work types logged yet": "Aún no se ha registrado ningún tipo de trabajo"
+        "No work types logged yet": "Aún no se ha registrado ningún tipo de trabajo",
+        "Task to time": "Tarea que cronometrar",
+        "A timer is already running": "Ya hay un temporizador en marcha",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Hay un temporizador en {running}. ¿Detenerlo e iniciar uno en {next}?",
+        "Stop it and start the new one": "Detenerlo e iniciar el nuevo",
+        "Keep the running timer": "Mantener el temporizador en marcha",
+        "The timer could not be started. Please try again.": "No se pudo iniciar el temporizador. Inténtelo de nuevo."
     },
     "plurals": null
 }

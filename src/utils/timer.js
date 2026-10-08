@@ -56,3 +56,20 @@ export function workTypesOf(raw) {
 	}
 	return Array.isArray(list) ? list.filter((name) => typeof name === 'string' && name !== '') : []
 }
+
+/**
+ * What pressing Start timer on a task does: start at once, do nothing when the
+ * timer already runs on that task, or ask first because it runs on another one.
+ *
+ * @param {{task: string}|null} running The running timer.
+ * @param {string}              taskId  The task the person wants to time.
+ * @return {'start'|'same'|'ask'}
+ *
+ * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+ */
+export function startDecision(running, taskId) {
+	if (!running) {
+		return 'start'
+	}
+	return running.task === taskId ? 'same' : 'ask'
+}

@@ -81,3 +81,12 @@ describe('timer store actions', () => {
 		expect(saved).toHaveLength(1)
 	})
 })
+
+describe('startDecision (task 1.3: starting a second timer asks first)', () => {
+	it('starts at once when nothing runs, does nothing on the same task, asks on another', async () => {
+		const { startDecision } = await import('../../src/utils/timer.js')
+		expect(startDecision(null, 't1')).toBe('start')
+		expect(startDecision({ task: 't1' }, 't1')).toBe('same')
+		expect(startDecision({ task: 't1' }, 't2')).toBe('ask')
+	})
+})

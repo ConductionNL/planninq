@@ -1515,7 +1515,13 @@
         "Another work type already has that name.": "Een ander soort werk heeft die naam al.",
         "The work type was not renamed. Please try again.": "Het soort werk is niet hernoemd. Probeer het opnieuw.",
         "By work type": "Per soort werk",
-        "No work types logged yet": "Nog geen soort werk geregistreerd"
+        "No work types logged yet": "Nog geen soort werk geregistreerd",
+        "Task to time": "Taak om te timen",
+        "A timer is already running": "Er loopt al een timer",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Er loopt een timer op {running}. Die stoppen en een timer starten op {next}?",
+        "Stop it and start the new one": "Stoppen en de nieuwe starten",
+        "Keep the running timer": "De lopende timer laten staan",
+        "The timer could not be started. Please try again.": "De timer kon niet worden gestart. Probeer het opnieuw."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

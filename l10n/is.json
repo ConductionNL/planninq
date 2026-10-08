@@ -1504,7 +1504,13 @@
         "Another work type already has that name.": "Another work type already has that name.",
         "The work type was not renamed. Please try again.": "The work type was not renamed. Please try again.",
         "By work type": "By work type",
-        "No work types logged yet": "No work types logged yet"
+        "No work types logged yet": "No work types logged yet",
+        "Task to time": "Task to time",
+        "A timer is already running": "A timer is already running",
+        "A timer is running on {running}. Stop it and start one on {next}?": "A timer is running on {running}. Stop it and start one on {next}?",
+        "Stop it and start the new one": "Stop it and start the new one",
+        "Keep the running timer": "Keep the running timer",
+        "The timer could not be started. Please try again.": "The timer could not be started. Please try again."
     },
     "plurals": {}
 }
