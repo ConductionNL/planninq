@@ -224,7 +224,11 @@ class MimeParser {
 			return $content;
 		}
 
-		$converted = @mb_convert_encoding($content, 'UTF-8', $charset);
+		if (in_array(strtolower($charset), array_map('strtolower', mb_list_encodings()), true) === false) {
+			return $content;
+		}
+
+		$converted = mb_convert_encoding($content, 'UTF-8', $charset);
 		if (is_string($converted) === true) {
 			return $converted;
 		}
@@ -254,7 +258,7 @@ class MimeParser {
 	 * @return string
 	 */
 	private function decodeHeader(string $value): string {
-		$decoded = @iconv_mime_decode($value, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
+		$decoded = iconv_mime_decode($value, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
 		if (is_string($decoded) === true) {
 			return $decoded;
 		}

@@ -56,7 +56,14 @@ class SocketImapTransport implements ImapTransport {
 			$scheme = 'ssl';
 		}
 
-		$stream = @stream_socket_client($scheme . '://' . $host . ':' . $port, $errorCode, $message, $timeout);
+		// The connect warning is turned into the exception below, not emitted.
+		set_error_handler(static fn (): bool => true);
+		try {
+			$stream = stream_socket_client($scheme . '://' . $host . ':' . $port, $errorCode, $message, $timeout);
+		} finally {
+			restore_error_handler();
+		}
+
 		if ($stream === false) {
 			throw new RuntimeException('Could not connect to the mail server (' . $errorCode . '): ' . $message);
 		}

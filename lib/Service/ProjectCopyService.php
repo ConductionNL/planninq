@@ -31,6 +31,7 @@ namespace OCA\Planninq\Service;
 
 use OCA\Planninq\Exception\ProjectCopyException;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * Copies a project with its structure.
@@ -267,10 +268,9 @@ class ProjectCopyService {
 					$lookup = $maps[$mapName];
 				}
 
+				unset($data[$field]);
 				if (isset($lookup[$old]) === true) {
 					$data[$field] = $lookup[$old];
-				} else {
-					unset($data[$field]);
 				}
 			}
 
@@ -326,7 +326,7 @@ class ProjectCopyService {
 		$saved = $service->saveObject(object: $data, register: self::REGISTER, schema: $schema);
 		$id    = $this->idOf(saved: $saved);
 		if ($id === '') {
-			throw new \RuntimeException('OpenRegister returned no id for a ' . $schema);
+			throw new RuntimeException('OpenRegister returned no id for a ' . $schema);
 		}
 
 		$created[] = [$schema, $id];
