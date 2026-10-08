@@ -756,7 +756,8 @@
         "projects",
         "projects-public-share",
         "project-membership",
-        "portal-contribution"
+        "portal-contribution",
+        "portal-identity"
       ]
     },
     {
@@ -1115,7 +1116,8 @@
       "specs": [
         "admin-user-settings",
         "demo-data",
-        "register-schemas"
+        "register-schemas",
+        "first-time-setup"
       ]
     },
     {
@@ -1344,7 +1346,11 @@
       "providerHow": "read-from-code",
       "feature": "projects",
       "featureConfidence": "high",
-      "note": "title and description work end to end. lib/Settings/planninq_register.json declares a project `key` property (\"short unique project key\") but no form anywhere exposes it, so a user cannot set a short key at create time."
+      "note": "title and description work end to end. lib/Settings/planninq_register.json declares a project `key` property (\"short unique project key\") but no form anywhere exposes it, so a user cannot set a short key at create time.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlNieuwProject"
+      }
     },
     {
       "id": "prj-create-policy",
@@ -1380,7 +1386,14 @@
       "providerHow": "read-from-code",
       "feature": "projects",
       "featureConfidence": "high",
-      "note": "only two policy values exist: 'all' or 'admins' (lib/Service/SettingsService.php:158-169). There is no group-based restriction anywhere in the code, so \"admins or chosen groups\" is only half true."
+      "note": "only two policy values exist: 'all' or 'admins' (lib/Service/SettingsService.php:158-169). There is no group-based restriction anywhere in the code, so \"admins or chosen groups\" is only half true.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlProjecten",
+          "PlBeheer"
+        ]
+      }
     },
     {
       "id": "prj-members",
@@ -1416,7 +1429,11 @@
       "providerHow": "read-from-code",
       "feature": "project-members-and-sharing",
       "featureConfidence": "high",
-      "note": "Re-rated yes to partial on 2026-09-26 (planninq#645): the yes was read from the admin path. src/components/MemberSearch.vue:123-124 searches through the OCS provisioning endpoint /ocs/v2.php/cloud/users, which answers only admins and group sub-admins, so a regular project owner gets an empty member search and cannot add anyone from the organisation's user list; removing members still works."
+      "note": "Re-rated yes to partial on 2026-09-26 (planninq#645): the yes was read from the admin path. src/components/MemberSearch.vue:123-124 searches through the OCS provisioning endpoint /ocs/v2.php/cloud/users, which answers only admins and group sub-admins, so a regular project owner gets an empty member search and cannot add anyone from the organisation's user list; removing members still works.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjectLeden"
+      }
     },
     {
       "id": "prj-member-roles",
@@ -1451,7 +1468,11 @@
       "providerHow": "read-from-code",
       "feature": "project-members-and-sharing",
       "featureConfidence": "high",
-      "note": "owner vs member is an implicit two-tier RBAC baked into schema authorization rules (update/delete require owner), not something a user assigns, and it cannot be changed except by leaving (ownership handoff in ProjectController.php:290-300). There is no UI or API to give a member elevated rights while staying a member."
+      "note": "owner vs member is an implicit two-tier RBAC baked into schema authorization rules (update/delete require owner), not something a user assigns, and it cannot be changed except by leaving (ownership handoff in ProjectController.php:290-300). There is no UI or API to give a member elevated rights while staying a member.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjectLeden"
+      }
     },
     {
       "id": "prj-leave",
@@ -1486,7 +1507,11 @@
       "providerHow": "read-from-code",
       "feature": "project-members-and-sharing",
       "featureConfidence": "high",
-      "note": "server bypasses OR's owner-only RBAC with _rbac:false after validating membership, and hands ownership to the alphabetically-first remaining member if the owner leaves."
+      "note": "server bypasses OR's owner-only RBAC with _rbac:false after validating membership, and hands ownership to the alphabetically-first remaining member if the owner leaves.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjectLeden"
+      }
     },
     {
       "id": "prj-archive",
@@ -1523,7 +1548,14 @@
       "providerHow": "read-from-code",
       "feature": "projects",
       "featureConfidence": "high",
-      "note": "archiving works and removes the project from the active list. There is no restore/unarchive action anywhere in src/ (no button, no store action), an archived project can only be reopened by filtering the list to Archived and there is nothing there to bring it back to active from the UI."
+      "note": "archiving works and removes the project from the active list. There is no restore/unarchive action anywhere in src/ (no button, no store action), an archived project can only be reopened by filtering the list to Archived and there is nothing there to bring it back to active from the UI.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlProjecten",
+          "PlProjectInstellingen"
+        ]
+      }
     },
     {
       "id": "prj-delete",
@@ -1558,7 +1590,11 @@
       "providerHow": "read-from-code",
       "feature": "projects",
       "featureConfidence": "high",
-      "note": "works end to end for owner/admin (ProjectDeleteDialog.vue:84-90 canDelete). Deletion is sequential and non-transactional per its own comment (src/store/projects.js:540-542): a mid-flight failure can orphan objects, surfaced only as a retry prompt."
+      "note": "works end to end for owner/admin (ProjectDeleteDialog.vue:84-90 canDelete). Deletion is sequential and non-transactional per its own comment (src/store/projects.js:540-542): a mid-flight failure can orphan objects, surfaced only as a retry prompt.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjectInstellingen"
+      }
     },
     {
       "id": "prj-status-filter",
@@ -1593,7 +1629,11 @@
       "providerHow": "read-from-code",
       "feature": "projects",
       "featureConfidence": "high",
-      "note": "client-side filter over the full member-project list (fetchProjects() with no filter fetches every status via fetchEvery pagination), so it is not truncated."
+      "note": "client-side filter over the full member-project list (fetchProjects() with no filter fetches every status via fetchEvery pagination), so it is not truncated.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjecten"
+      }
     },
     {
       "id": "prj-default-columns",
@@ -1629,7 +1669,11 @@
       "providerHow": "read-from-code",
       "feature": "project-templates",
       "featureConfidence": "medium",
-      "note": "a new project does get a ready-made set of `column` OpenRegister objects written, but they are dead data: the kanban board the user opens is a hardcoded 5-status board, not driven by those column records at all, so the capability the row describes (a board that starts with a ready-made set of columns) does not actually reach the user. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns. The defects recorded before (src/views/ProjectBoard.vue:283-291 columns() ignores the `column` schema entirely and hardcodes BOARD_STATUSES; src/store/projects.js:96-111 getDefaultColumns() also has a dead admin-override path: it calls loadState('planninq','default_columns', null) but no PHP code anywhere calls provideInitialState for that key (confirmed: zero matches for provideInitialState in lib/), so the admin's configured column titles in src/views/settings/Settings.vue:430-495 never reach the frontend and the hardcoded 4-column fallback is always used) are fixed by it."
+      "note": "a new project does get a ready-made set of `column` OpenRegister objects written, but they are dead data: the kanban board the user opens is a hardcoded 5-status board, not driven by those column records at all, so the capability the row describes (a board that starts with a ready-made set of columns) does not actually reach the user. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns. The defects recorded before (src/views/ProjectBoard.vue:283-291 columns() ignores the `column` schema entirely and hardcodes BOARD_STATUSES; src/store/projects.js:96-111 getDefaultColumns() also has a dead admin-override path: it calls loadState('planninq','default_columns', null) but no PHP code anywhere calls provideInitialState for that key (confirmed: zero matches for provideInitialState in lib/), so the admin's configured column titles in src/views/settings/Settings.vue:430-495 never reach the frontend and the hardcoded 4-column fallback is always used) are fixed by it.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlNieuwProject"
+      }
     },
     {
       "id": "prj-delivery-terms",
@@ -1665,7 +1709,11 @@
       "providerHow": "read-from-code",
       "feature": "project-finance",
       "featureConfidence": "high",
-      "note": "the fields exist and are shown when already set (presumably via import/direct API), but the app itself provides no way to record them, which is the capability the row asks about."
+      "note": "the fields exist and are shown when already set (presumably via import/direct API), but the app itself provides no way to record them, which is the capability the row asks about.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlFinancien"
+      }
     },
     {
       "id": "prj-contractor-portal",
@@ -1700,7 +1748,11 @@
       "providerHow": "read-from-code",
       "feature": "project-members-and-sharing",
       "featureConfidence": "medium",
-      "note": "planninq's own code is a complete, duck-typed declaration (discovered by portaliq via convention FQCN, per its docblock); I could not read portaliq's own registry/discovery code from this checkout, so whether it actually calls this class at runtime is not verified here."
+      "note": "planninq's own code is a complete, duck-typed declaration (discovered by portaliq via convention FQCN, per its docblock); I could not read portaliq's own registry/discovery code from this checkout, so whether it actually calls this class at runtime is not verified here.",
+      "screen": {
+        "board": null,
+        "reason": "Shown in portaliq's external portal, which has no board for it yet."
+      }
     },
     {
       "id": "prj-templates",
@@ -1734,7 +1786,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-templates",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlNieuwProject"
+      }
     },
     {
       "id": "prj-copy",
@@ -1769,7 +1825,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-templates",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlNieuwProject"
+      }
     },
     {
       "id": "prj-custom-fields",
@@ -1804,7 +1864,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-structure",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjectInstellingen"
+      }
     },
     {
       "id": "prj-hierarchy",
@@ -1839,7 +1903,14 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-structure",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlProjectInstellingen",
+          "PlProjectOverzicht"
+        ]
+      }
     },
     {
       "id": "prj-overview-page",
@@ -1875,7 +1946,11 @@
       "providerHow": "read-from-code",
       "feature": "project-overview",
       "featureConfidence": "high",
-      "note": "description and members are both reachable, but only by opening the settings sidebar from the board, not on one overview screen, and there is no progress indicator anywhere in the app."
+      "note": "description and members are both reachable, but only by opening the settings sidebar from the board, not on one overview screen, and there is no progress indicator anywhere in the app.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjectOverzicht"
+      }
     },
     {
       "id": "prj-wiki",
@@ -1909,7 +1984,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-wiki",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlWiki"
+      }
     },
     {
       "id": "prj-group-share",
@@ -1943,7 +2022,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-members-and-sharing",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjectLeden"
+      }
     },
     {
       "id": "prj-public-share",
@@ -1978,7 +2061,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-members-and-sharing",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjectLeden"
+      }
     },
     {
       "id": "brd-kanban",
@@ -2013,7 +2100,11 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "columns are the fixed task-status enum (open/in_progress/blocked/done/cancelled, src/utils/taskHelpers.js:252), not the project's own configurable `column` records, see prj-default-columns/brd-columns-edit."
+      "note": "columns are the fixed task-status enum (open/in_progress/blocked/done/cancelled, src/utils/taskHelpers.js:252), not the project's own configurable `column` records, see prj-default-columns/brd-columns-edit.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "brd-drag-drop",
@@ -2048,7 +2139,11 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "optimistic update with revert-on-failure toast."
+      "note": "optimistic update with revert-on-failure toast.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "brd-keyboard-move",
@@ -2082,7 +2177,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "brd-wip-limits",
@@ -2118,7 +2217,11 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "same root cause as prj-default-columns: the `column` schema (which carries wipLimit) is write-only, never read back by the board. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns. The defects recorded before (src/views/ProjectBoard.vue: no WIP-limit badge or read of the `column` schema's wipLimit field) are fixed by it."
+      "note": "same root cause as prj-default-columns: the `column` schema (which carries wipLimit) is write-only, never read back by the board. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns. The defects recorded before (src/views/ProjectBoard.vue: no WIP-limit badge or read of the `column` schema's wipLimit field) are fixed by it.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "brd-columns-edit",
@@ -2154,7 +2257,14 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "a board's columns are fixed by the task status enum and cannot be added, renamed, reordered or removed from any screen. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns."
+      "note": "a board's columns are fixed by the task status enum and cannot be added, renamed, reordered or removed from any screen. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlBord",
+          "PlProjectInstellingen"
+        ]
+      }
     },
     {
       "id": "brd-done-column",
@@ -2190,7 +2300,11 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "tasks with status 'done' do count as finished, but that is a hardcoded status value, not something a user marks on a column they configured. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns."
+      "note": "tasks with status 'done' do count as finished, but that is a hardcoded status value, not something a user marks on a column they configured. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "brd-filter",
@@ -2226,7 +2340,11 @@
       "providerHow": "read-from-code",
       "feature": "board-filters",
       "featureConfidence": "high",
-      "note": "only label filtering exists. Grep for assignee/priority filter UI on the board found nothing, task.assignedTo and task.priority are displayed on the card (TaskCard.vue) but not filterable."
+      "note": "only label filtering exists. Grep for assignee/priority filter UI on the board found nothing, task.assignedTo and task.priority are displayed on the card (TaskCard.vue) but not filterable.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "brd-list-toggle",
@@ -2262,7 +2380,11 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "the Backlog button on the board (src/views/ProjectBoard.vue:43-48) navigates to a page that is explicitly a stub; there is no working list rendering of the board's tasks anywhere. Read again on 2026-09-28: the backlog page is now a working list (2026-09-28-backlog-list) of the tasks in no column, not the same tasks as the board, so this row stays building until a board and list toggle exists. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-list-toggle."
+      "note": "the Backlog button on the board (src/views/ProjectBoard.vue:43-48) navigates to a page that is explicitly a stub; there is no working list rendering of the board's tasks anywhere. Read again on 2026-09-28: the backlog page is now a working list (2026-09-28-backlog-list) of the tasks in no column, not the same tasks as the board, so this row stays building until a board and list toggle exists. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-list-toggle.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "brd-card-badges",
@@ -2296,7 +2418,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "brd-card-order",
@@ -2332,7 +2458,11 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns. The defects recorded before (schema field task.columnOrder is declared but never read or written anywhere in src/) are fixed by it."
+      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns. The defects recorded before (schema field task.columnOrder is declared but never read or written anywhere in src/) are fixed by it.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "brd-quick-add",
@@ -2368,7 +2498,11 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "this is broader than the board: the whole app currently has no way to create a task at all, so tasks on the board can only exist via import/migration or direct OpenRegister API use."
+      "note": "this is broader than the board: the whole app currently has no way to create a task at all, so tasks on the board can only exist via import/migration or direct OpenRegister API use.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "brd-all-boards",
@@ -2403,7 +2537,11 @@
       "providerHow": "read-from-code",
       "feature": "my-work",
       "featureConfidence": "high",
-      "note": "fetches only active projects (status filter), so an archived project's board will not appear here even though the user remains a member."
+      "note": "fetches only active projects (status filter), so an archived project's board will not appear here even though the user remains a member.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBorden"
+      }
     },
     {
       "id": "brd-wip-enforce",
@@ -2472,7 +2610,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "brd-saved-filters",
@@ -2507,7 +2649,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "board-filters",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "brd-card-colours",
@@ -2542,7 +2688,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "brd-column-automation",
@@ -2577,7 +2727,14 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "automation",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlBord",
+          "PlFlows"
+        ]
+      }
     },
     {
       "id": "brd-cross-project-board",
@@ -2612,7 +2769,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "my-work",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBorden"
+      }
     },
     {
       "id": "tsk-create-edit",
@@ -2649,7 +2810,14 @@
       "providerHow": "read-from-code",
       "feature": "task-detail",
       "featureConfidence": "high",
-      "note": "creating a task, editing its title/description, and deleting a single task have no UI path at all; only the status (drag/move) and the time estimate are editable, so only part of the sentence is true."
+      "note": "creating a task, editing its title/description, and deleting a single task have no UI path at all; only the status (drag/move) and the time estimate are editable, so only part of the sentence is true.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlBord",
+          "PlTaak"
+        ]
+      }
     },
     {
       "id": "tsk-assign",
@@ -2685,7 +2853,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-assignment",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-multi-assign",
@@ -2720,7 +2892,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-assignment",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-priority",
@@ -2755,7 +2931,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-assignment",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-due-date",
@@ -2790,7 +2970,14 @@
       "providerHow": "read-from-code",
       "feature": "due-dates",
       "featureConfidence": "high",
-      "note": "the seeing-overdue half of the sentence is well built; the setting half has no control anywhere."
+      "note": "the seeing-overdue half of the sentence is well built; the setting half has no control anywhere.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlBord",
+          "PlTaak"
+        ]
+      }
     },
     {
       "id": "tsk-start-date",
@@ -2824,7 +3011,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "due-dates",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-labels",
@@ -2860,7 +3051,11 @@
       "providerHow": "read-from-code",
       "feature": "task-assignment",
       "featureConfidence": "high",
-      "note": "a task can display and be filtered by labels, but there is no way for a user to actually tag a task with one."
+      "note": "a task can display and be filtered by labels, but there is no way for a user to actually tag a task with one.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-label-admin",
@@ -2894,7 +3089,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-assignment",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBeheer"
+      }
     },
     {
       "id": "tsk-detail-page",
@@ -2928,7 +3127,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-detail",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-search",
@@ -2962,7 +3165,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-search",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlMijnTaken"
+      }
     },
     {
       "id": "tsk-bulk",
@@ -2996,7 +3203,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-search",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlMijnTaken"
+      }
     },
     {
       "id": "tsk-comments",
@@ -3031,7 +3242,11 @@
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
       "feature": "task-collaboration",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-attachments",
@@ -3066,7 +3281,11 @@
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
       "feature": "task-collaboration",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaakHistorie"
+      }
     },
     {
       "id": "tsk-history",
@@ -3101,7 +3320,11 @@
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
       "feature": "task-collaboration",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaakHistorie"
+      }
     },
     {
       "id": "tsk-subtasks",
@@ -3136,7 +3359,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "subtasks",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-checklist",
@@ -3171,7 +3398,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "subtasks",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-recurring",
@@ -3240,7 +3471,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-detail",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-mentions",
@@ -3276,7 +3511,11 @@
       "providerHow": "read-from-code",
       "feature": "task-collaboration",
       "featureConfidence": "high",
-      "note": "the comment text supports @mention entry and rendering, but Planninq never listens for the library's mention event, so the colleague is not notified. The missing half is planninq's: src/views/TaskDetail.vue has no @mention listener, so the owner moved to ConductionNL/planninq (nextcloud-vue lane) (nextcloud-vue lane, OpenSpec pass 2026-09-27; owner was ConductionNL/nextcloud-vue). Re-read 2026-09-28 (owner-moves pass): the partial rating and the defect were wrong. OpenRegister's notes endpoint notifies and subscribes the named users itself since openregister #3762, so planninq needs no mention listener, and one would notify twice. The ids nextcloud-vue quotes as @\"user id\" are not matched by OpenRegister's token (letters, digits, dot, dash, underscore only)."
+      "note": "the comment text supports @mention entry and rendering, but Planninq never listens for the library's mention event, so the colleague is not notified. The missing half is planninq's: src/views/TaskDetail.vue has no @mention listener, so the owner moved to ConductionNL/planninq (nextcloud-vue lane) (nextcloud-vue lane, OpenSpec pass 2026-09-27; owner was ConductionNL/nextcloud-vue). Re-read 2026-09-28 (owner-moves pass): the partial rating and the defect were wrong. OpenRegister's notes endpoint notifies and subscribes the named users itself since openregister #3762, so planninq needs no mention listener, and one would notify twice. The ids nextcloud-vue quotes as @\"user id\" are not matched by OpenRegister's token (letters, digits, dot, dash, underscore only).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-move-project",
@@ -3310,7 +3549,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-detail",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-related-links",
@@ -3345,7 +3588,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "dependencies",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-email-create",
@@ -3379,7 +3626,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-detail",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "bkl-backlog",
@@ -3415,7 +3666,11 @@
       "providerHow": "read-from-code",
       "feature": "backlog",
       "featureConfidence": "high",
-      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-backlog-list."
+      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-backlog-list.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBacklog"
+      }
     },
     {
       "id": "bkl-to-board",
@@ -3451,7 +3706,11 @@
       "providerHow": "read-from-code",
       "feature": "backlog",
       "featureConfidence": "high",
-      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-backlog-list."
+      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-backlog-list.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBacklog"
+      }
     },
     {
       "id": "bkl-sort-filter",
@@ -3487,7 +3746,11 @@
       "providerHow": "read-from-code",
       "feature": "backlog",
       "featureConfidence": "high",
-      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-backlog-list."
+      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-backlog-list.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBacklog"
+      }
     },
     {
       "id": "bkl-rank",
@@ -3523,7 +3786,11 @@
       "providerHow": "read-from-code",
       "feature": "backlog",
       "featureConfidence": "high",
-      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-backlog-list."
+      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-backlog-list.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBacklog"
+      }
     },
     {
       "id": "bkl-sprints",
@@ -3694,7 +3961,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "releases-and-roadmap",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTijdlijn"
+      }
     },
     {
       "id": "bkl-roadmap",
@@ -3729,7 +4000,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "releases-and-roadmap",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTijdlijn"
+      }
     },
     {
       "id": "pln-gantt",
@@ -3764,7 +4039,11 @@
       "providerHow": "read-from-code",
       "feature": "timeline",
       "featureConfidence": "high",
-      "note": "read-only Gantt: day/week/month zoom, today marker, unscheduled rail."
+      "note": "read-only Gantt: day/week/month zoom, today marker, unscheduled rail.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTijdlijn"
+      }
     },
     {
       "id": "pln-dependencies",
@@ -3800,7 +4079,11 @@
       "providerHow": "read-from-code",
       "feature": "dependencies",
       "featureConfidence": "high",
-      "note": "the UI component and backend are fully built, but the component is never wired into any page, so a user has no way to mark a dependency."
+      "note": "the UI component and backend are fully built, but the component is never wired into any page, so a user has no way to mark a dependency.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "pln-dep-validation",
@@ -3836,7 +4119,11 @@
       "providerHow": "read-from-code",
       "feature": "dependencies",
       "featureConfidence": "high",
-      "note": "server-side validation is real and thorough, but since the only UI that calls createEdge is never mounted, no user can trigger it."
+      "note": "server-side validation is real and thorough, but since the only UI that calls createEdge is never mounted, no user can trigger it.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "pln-blocked-badge",
@@ -3872,7 +4159,11 @@
       "providerHow": "read-from-code",
       "feature": "dependencies",
       "featureConfidence": "high",
-      "note": "ProjectBoard.vue and TaskCard.vue import taskHelpers.js for other things (groupTasksByStatus, dueDateStatus) but never isBlocked/blockedTaskIds, so no card or list anywhere shows a blocked badge."
+      "note": "ProjectBoard.vue and TaskCard.vue import taskHelpers.js for other things (groupTasksByStatus, dueDateStatus) but never isBlocked/blockedTaskIds, so no card or list anywhere shows a blocked badge.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "pln-deps-on-timeline",
@@ -3908,7 +4199,11 @@
       "providerHow": "read-from-code",
       "feature": "timeline",
       "featureConfidence": "high",
-      "note": "the timeline correctly draws arrows for whatever dependency edges exist, but the only UI that creates edges (TaskDependencies.vue) is dead code (see pln-dependencies), so in practice a user cannot produce a dependency for the timeline to show."
+      "note": "the timeline correctly draws arrows for whatever dependency edges exist, but the only UI that creates edges (TaskDependencies.vue) is dead code (see pln-dependencies), so in practice a user cannot produce a dependency for the timeline to show.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTijdlijn"
+      }
     },
     {
       "id": "pln-due-reminder",
@@ -3943,7 +4238,11 @@
       "providerHow": "read-from-code",
       "feature": "due-dates",
       "featureConfidence": "high",
-      "note": "not just a bare declaration: openregister's ScheduledNotificationJob is a real registered background job (confirmed in openregister/appinfo/info.xml) with its own dispatcher, so this is executed behaviour, not only a schema declaration. planninq owns the rule/schema and the admin+user settings around it; openregister owns the dispatch engine. built.owner was ConductionNL/planninq until corrections round 5 (2026-09-27); the provider is openregister, whose code runs this row."
+      "note": "not just a bare declaration: openregister's ScheduledNotificationJob is a real registered background job (confirmed in openregister/appinfo/info.xml) with its own dispatcher, so this is executed behaviour, not only a schema declaration. planninq owns the rule/schema and the admin+user settings around it; openregister owns the dispatch engine. built.owner was ConductionNL/planninq until corrections round 5 (2026-09-27); the provider is openregister, whose code runs this row.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlMijnInstellingen"
+      }
     },
     {
       "id": "pln-reminder-lead-time",
@@ -3978,7 +4277,11 @@
       "providerHow": "read-from-code",
       "feature": "due-dates",
       "featureConfidence": "high",
-      "note": "admin can set 1-336 hours; the value is actually written into the live schema's trigger filter, not just stored as a preference."
+      "note": "admin can set 1-336 hours; the value is actually written into the live schema's trigger filter, not just stored as a preference.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBeheer"
+      }
     },
     {
       "id": "pln-reminder-optout",
@@ -4013,7 +4316,11 @@
       "providerHow": "read-from-code",
       "feature": "due-dates",
       "featureConfidence": "high",
-      "note": "toggling off writes a real per-user override into openregister's NotificationPreferenceService (verified that class exists in the openregister checkout), not just a local flag."
+      "note": "toggling off writes a real per-user override into openregister's NotificationPreferenceService (verified that class exists in the openregister checkout), not just a local flag.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlMijnInstellingen"
+      }
     },
     {
       "id": "pln-gantt-edit",
@@ -4049,7 +4356,11 @@
       "providerHow": "read-from-code",
       "feature": "timeline",
       "featureConfidence": "high",
-      "note": "the timeline is explicitly read-only by design; bars have no drag/mouse handlers at all."
+      "note": "the timeline is explicitly read-only by design; bars have no drag/mouse handlers at all.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTijdlijn"
+      }
     },
     {
       "id": "pln-auto-schedule",
@@ -4084,7 +4395,14 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "timeline",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlTijdlijn",
+          "PlProjectInstellingen"
+        ]
+      }
     },
     {
       "id": "pln-critical-path",
@@ -4226,7 +4544,14 @@
       "providerHow": "read-from-code",
       "feature": "timeline",
       "featureConfidence": "high",
-      "note": "weekend shading is cosmetic only, not used in any scheduling calculation."
+      "note": "weekend shading is cosmetic only, not used in any scheduling calculation.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlTijdlijn",
+          "PlBeheer"
+        ]
+      }
     },
     {
       "id": "pln-calendar-view",
@@ -4265,7 +4590,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-calendar",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlMijnTaken"
+      }
     },
     {
       "id": "pln-caldav",
@@ -4304,7 +4633,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-calendar",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlMijnInstellingen"
+      }
     },
     {
       "id": "pln-multi-project-timeline",
@@ -4340,7 +4673,11 @@
       "providerHow": "read-from-code",
       "feature": "portfolio",
       "featureConfidence": "medium",
-      "note": "Portfolio is the closest cross-project view and it is a bar chart, not a timeline."
+      "note": "Portfolio is the closest cross-project view and it is a bar chart, not a timeline.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlPortfolioTijdlijn"
+      }
     },
     {
       "id": "tim-estimate",
@@ -4374,7 +4711,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "time-tracking",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tim-log",
@@ -4409,7 +4750,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "time-tracking",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tim-duration-input",
@@ -4443,7 +4788,14 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "time-tracking",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlTaak",
+          "PlTijdregistratie"
+        ]
+      }
     },
     {
       "id": "tim-timesheet",
@@ -4478,7 +4830,11 @@
       "providerHow": "read-from-code",
       "feature": "time-tracking",
       "featureConfidence": "high",
-      "note": "grouped by date with per-day and range totals, date-range presets (this week/last week/all/custom)."
+      "note": "grouped by date with per-day and range totals, date-range presets (this week/last week/all/custom).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTijdregistratie"
+      }
     },
     {
       "id": "tim-vs-estimate",
@@ -4513,7 +4869,11 @@
       "providerHow": "read-from-code",
       "feature": "time-tracking",
       "featureConfidence": "high",
-      "note": "shows 'logged / estimate' text and flags overage in red."
+      "note": "shows 'logged / estimate' text and flags overage in red.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tim-edit-delete",
@@ -4548,7 +4908,11 @@
       "providerHow": "read-from-code",
       "feature": "time-tracking",
       "featureConfidence": "high",
-      "note": "only reachable from the task detail entries list, not from the Timesheet page, which has no edit/delete controls."
+      "note": "only reachable from the task detail entries list, not from the Timesheet page, which has no edit/delete controls.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tim-report",
@@ -4587,7 +4951,11 @@
       "providerHow": "read-from-code",
       "feature": "reporting",
       "featureConfidence": "high",
-      "note": "per-person breakdown exists; per-project breakdown does not, so only half the row's sentence is true."
+      "note": "per-person breakdown exists; per-project breakdown does not, so only half the row's sentence is true.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRapporten"
+      }
     },
     {
       "id": "tim-hours-once",
@@ -4622,7 +4990,11 @@
       "providerHow": "read-from-code",
       "feature": "time-tracking",
       "featureConfidence": "high",
-      "note": "the openspec change documents the design and says explicitly the migration has not started; hours are currently stored once in planninq's own plannedTimeEntry.duration, not read from or synced with humaniq. corrections round 9 (2026-09-28): built.change names openspec/changes/plannedtimeentry-reads-humaniqs-hours, open on development at 31118f5 with only its prerequisite checked (humaniq#323), whose proposal moves the hours onto humaniq's TimeEntry and keeps only contractorRef and hourlyRate in plannedTimeEntry; source: the corrections-9 list of specified rows that named no change."
+      "note": "the openspec change documents the design and says explicitly the migration has not started; hours are currently stored once in planninq's own plannedTimeEntry.duration, not read from or synced with humaniq. corrections round 9 (2026-09-28): built.change names openspec/changes/plannedtimeentry-reads-humaniqs-hours, open on development at 31118f5 with only its prerequisite checked (humaniq#323), whose proposal moves the hours onto humaniq's TimeEntry and keeps only contractorRef and hourlyRate in plannedTimeEntry; source: the corrections-9 list of specified rows that named no change.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTijdregistratie"
+      }
     },
     {
       "id": "tim-timer",
@@ -4656,7 +5028,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "time-tracking",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tim-approval",
@@ -4797,7 +5173,11 @@
       "providerHow": "read-from-code",
       "feature": "capacity",
       "featureConfidence": "high",
-      "note": "The page aggregates per PROJECT (member count, open and overdue task counts), not per person. Nothing groups work by assignee, so 'how allocation is spread across the people' is not what it shows."
+      "note": "The page aggregates per PROJECT (member count, open and overdue task counts), not per person. Nothing groups work by assignee, so 'how allocation is spread across the people' is not what it shows.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlPortfolio"
+      }
     },
     {
       "id": "prt-project-capacity",
@@ -4832,7 +5212,14 @@
       "providerHow": "read-from-code",
       "feature": "capacity",
       "featureConfidence": "high",
-      "note": "A project's summary exists only as its row in the Portfolio table (member count, open and overdue counts). The board header (src/views/ProjectBoard.vue:24-63) and settings sidebar show no capacity summary, and there is no hours or availability figure."
+      "note": "A project's summary exists only as its row in the Portfolio table (member count, open and overdue counts). The board header (src/views/ProjectBoard.vue:24-63) and settings sidebar show no capacity summary, and there is no hours or availability figure.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlProjectOverzicht",
+          "PlPortfolio"
+        ]
+      }
     },
     {
       "id": "prt-portfolio",
@@ -4868,7 +5255,11 @@
       "providerHow": "read-from-code",
       "feature": "portfolio",
       "featureConfidence": "high",
-      "note": "One table over projects, but only ACTIVE projects the viewer is a member of, and only members/open/overdue counts: no status, progress, dates, budget or health per project. Portfolio is not in the main menu, only a Reports card."
+      "note": "One table over projects, but only ACTIVE projects the viewer is a member of, and only members/open/overdue counts: no status, progress, dates, budget or health per project. Portfolio is not in the main menu, only a Reports card.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlPortfolio"
+      }
     },
     {
       "id": "prt-dashboard",
@@ -4905,7 +5296,11 @@
       "providerHow": "read-from-code",
       "feature": "my-work",
       "featureConfidence": "high",
-      "note": "The dashboard is about projects only: active/member/archived project counts and up to five active projects. It shows no tasks at all, although openspec/specs/dashboard-my-work.md asks for open, overdue and in-progress task KPIs."
+      "note": "The dashboard is about projects only: active/member/archived project counts and up to five active projects. It shows no tasks at all, although openspec/specs/dashboard-my-work.md asks for open, overdue and in-progress task KPIs.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlDashboard"
+      }
     },
     {
       "id": "prt-my-work",
@@ -4941,7 +5336,11 @@
       "providerHow": "read-from-code",
       "feature": "my-work",
       "featureConfidence": "high",
-      "note": "The only board filter is by label (src/views/ProjectBoard.vue:66-95); tasks are only ever fetched per project (src/store/projects.js:775)."
+      "note": "The only board filter is by label (src/views/ProjectBoard.vue:66-95); tasks are only ever fetched per project (src/store/projects.js:775).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlMijnTaken"
+      }
     },
     {
       "id": "prt-task-status",
@@ -4980,7 +5379,11 @@
       "providerHow": "read-from-code",
       "feature": "reporting",
       "featureConfidence": "high",
-      "note": "Open and blocked are counted. The Task status report has no overdue widget: 'Due soonest' lists open tasks by due date, it does not count or flag the ones past due. Overdue is computed elsewhere, per project: src/views/Portfolio.vue:143-145 reduces each project's tasks through summariseProjectTasks (src/utils/portfolioHelpers.js) and :42,56-57 shows an Overdue column on the Portfolio page, so the correction of 2026-09-26 (planninq#645) narrows the earlier 'nothing computes overdue' to the report. The widgets are rendered by the nextcloud-vue dashboard page over OpenRegister's aggregation; this clone has no node_modules so the renderer was not read. built.owner was ConductionNL/planninq until corrections round 5 (2026-09-27); the provider is openregister, whose code runs this row."
+      "note": "Open and blocked are counted. The Task status report has no overdue widget: 'Due soonest' lists open tasks by due date, it does not count or flag the ones past due. Overdue is computed elsewhere, per project: src/views/Portfolio.vue:143-145 reduces each project's tasks through summariseProjectTasks (src/utils/portfolioHelpers.js) and :42,56-57 shows an Overdue column on the Portfolio page, so the correction of 2026-09-26 (planninq#645) narrows the earlier 'nothing computes overdue' to the report. The widgets are rendered by the nextcloud-vue dashboard page over OpenRegister's aggregation; this clone has no node_modules so the renderer was not read. built.owner was ConductionNL/planninq until corrections round 5 (2026-09-27); the provider is openregister, whose code runs this row.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRapporten"
+      }
     },
     {
       "id": "prt-workload",
@@ -5129,7 +5532,11 @@
       "providerHow": "read-from-code",
       "feature": "project-finance",
       "featureConfidence": "high",
-      "note": "Budget is stored and shown (on the cross-app projects leaf) but never set from a planninq screen and never compared with logged time or its cost."
+      "note": "Budget is stored and shown (on the cross-app projects leaf) but never set from a planninq screen and never compared with logged time or its cost.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlFinancien"
+      }
     },
     {
       "id": "prt-placeholder",
@@ -5198,7 +5605,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "reporting",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlPortfolioTijdlijn"
+      }
     },
     {
       "id": "prt-cycle-time",
@@ -5233,7 +5644,11 @@
       "providerHow": "read-from-code",
       "feature": "reporting",
       "featureConfidence": "high",
-      "note": "Not even the timestamps a lead-time report would need are set by the app."
+      "note": "Not even the timestamps a lead-time report would need are set by the app.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlPortfolioTijdlijn"
+      }
     },
     {
       "id": "prt-export-tasks",
@@ -5269,7 +5684,11 @@
       "providerHow": "read-from-code",
       "feature": "reporting",
       "featureConfidence": "high",
-      "note": "A planninq user has no export button; an admin can export the planninq register's task objects from OpenRegister's own screens. Open Register's half shipped in ConductionNL/openregister openspec/changes/archive/2026-07-13-export-pdf-format; the missing half is planninq's own work, so the owner moved to ConductionNL/planninq (openregister lane, OpenSpec pass 2026-09-27; owner was ConductionNL/openregister)."
+      "note": "A planninq user has no export button; an admin can export the planninq register's task objects from OpenRegister's own screens. Open Register's half shipped in ConductionNL/openregister openspec/changes/archive/2026-07-13-export-pdf-format; the missing half is planninq's own work, so the owner moved to ConductionNL/planninq (openregister lane, OpenSpec pass 2026-09-27; owner was ConductionNL/openregister).",
+      "screen": {
+        "board": null,
+        "reason": "Exported through OpenRegister's register export, not a planninq page."
+      }
     },
     {
       "id": "prt-custom-report",
@@ -5307,7 +5726,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "reporting",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRapporten"
+      }
     },
     {
       "id": "prt-nc-dashboard",
@@ -5342,7 +5765,11 @@
       "providerHow": "read-from-code",
       "feature": "my-work",
       "featureConfidence": "high",
-      "note": "What reaches the Nextcloud dashboard is a list of active PROJECTS, not the user's tasks. Planninq registers no dashboard widget of its own."
+      "note": "What reaches the Nextcloud dashboard is a list of active PROJECTS, not the user's tasks. Planninq registers no dashboard widget of its own.",
+      "screen": {
+        "board": null,
+        "reason": "Shown by OpenRegister's widget on the Nextcloud dashboard, not a planninq page."
+      }
     },
     {
       "id": "col-activity",
@@ -5377,7 +5804,11 @@
       "providerHow": "read-from-code",
       "feature": "notifications",
       "featureConfidence": "high",
-      "note": "Task events only. The listener is scoped to schema task, so project events (create, archive, membership changes) never reach the stream."
+      "note": "Task events only. The listener is scoped to schema task, so project events (create, archive, membership changes) never reach the stream.",
+      "screen": {
+        "board": null,
+        "reason": "Events appear in the Nextcloud Activity app under the Planninq filter."
+      }
     },
     {
       "id": "col-live-updates",
@@ -5413,7 +5844,14 @@
       "providerHow": "read-from-code",
       "feature": "live-updates",
       "featureConfidence": "high",
-      "note": "Only the project list and an open task page subscribe. The board (src/views/ProjectBoard.vue), where colleagues move cards, has no subscription, so it does not update without a reload."
+      "note": "Only the project list and an open task page subscribe. The board (src/views/ProjectBoard.vue), where colleagues move cards, has no subscription, so it does not update without a reload.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlProjecten",
+          "PlTaak"
+        ]
+      }
     },
     {
       "id": "col-notify-assigned",
@@ -5450,7 +5888,11 @@
       "providerHow": "read-from-code",
       "feature": "notifications",
       "featureConfidence": "high",
-      "note": "The new assignee gets an Activity entry, not a notification: planninq registers no INotifier, and the register declares only the taskDueSoon notification rule, none for assignment."
+      "note": "The new assignee gets an Activity entry, not a notification: planninq registers no INotifier, and the register declares only the taskDueSoon notification rule, none for assignment.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlMijnInstellingen"
+      }
     },
     {
       "id": "col-notify-comment",
@@ -5485,7 +5927,11 @@
       "providerHow": "read-from-code",
       "feature": "notifications",
       "featureConfidence": "high",
-      "note": "Comments can be written on a task, but nobody is told about them; a new note does not even produce an Activity entry from planninq (the listener only watches task fields). Specified in ConductionNL/openregister openspec/changes/notifications-new-notes-and-referrers (openregister lane, OpenSpec pass 2026-09-27)."
+      "note": "Comments can be written on a task, but nobody is told about them; a new note does not even produce an Activity entry from planninq (the listener only watches task fields). Specified in ConductionNL/openregister openspec/changes/notifications-new-notes-and-referrers (openregister lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlMijnInstellingen"
+      }
     },
     {
       "id": "col-email-notify",
@@ -5525,7 +5971,11 @@
       "providerHow": "read-from-code",
       "feature": "notifications",
       "featureConfidence": "high",
-      "note": "A flow with a SendEmail node (OpenRegister flows, reachable from the Flows page) could be built to mail on a task event, but nothing ships that."
+      "note": "A flow with a SendEmail node (OpenRegister flows, reachable from the Flows page) could be built to mail on a task event, but nothing ships that.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlMijnInstellingen"
+      }
     },
     {
       "id": "col-presence",
@@ -5628,7 +6078,11 @@
       "providerHow": "read-from-code",
       "feature": "nextcloud-integration",
       "featureConfidence": "high",
-      "note": "A task link copied from planninq's address bar gets no rich preview; only an OpenRegister-form object URL would, and planninq never shows one. Specified in ConductionNL/openregister openspec/changes/platform-reference-provider (openregister lane, OpenSpec pass 2026-09-27)."
+      "note": "A task link copied from planninq's address bar gets no rich preview; only an OpenRegister-form object URL would, and planninq never shows one. Specified in ConductionNL/openregister openspec/changes/platform-reference-provider (openregister lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "col-unified-search",
@@ -5663,7 +6117,11 @@
       "providerHow": "read-from-code",
       "feature": "task-search",
       "featureConfidence": "high",
-      "note": "A task hit lands on its project board with the card highlighted, not on the task page."
+      "note": "A task hit lands on its project board with the card highlighted, not on the task page.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlMijnTaken"
+      }
     },
     {
       "id": "int-case-ref",
@@ -5698,7 +6156,14 @@
       "providerHow": "read-from-code",
       "feature": "case-integration",
       "featureConfidence": "high",
-      "note": "No screen lets a user set or change the case link on a project or a task; it can only be written through the OpenRegister object API, after which the project sidebar displays the raw value (no link to the case). openspec/specs/procest-integration.md asks for an edit field, a badge and a link."
+      "note": "No screen lets a user set or change the case link on a project or a task; it can only be written through the OpenRegister object API, after which the project sidebar displays the raw value (no link to the case). openspec/specs/procest-integration.md asks for an edit field, a badge and a link.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlProjectInstellingen",
+          "PlProjectOverzicht"
+        ]
+      }
     },
     {
       "id": "int-project-from-case",
@@ -5734,7 +6199,11 @@
       "providerHow": "read-from-code",
       "feature": "case-integration",
       "featureConfidence": "high",
-      "note": "procest was read from the live workspace checkout (another session's branch), read-only."
+      "note": "procest was read from the live workspace checkout (another session's branch), read-only.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "DqZaak"
+      }
     },
     {
       "id": "int-projects-on-client",
@@ -5772,7 +6241,11 @@
       "providerHow": "read-from-code",
       "feature": "case-integration",
       "featureConfidence": "high",
-      "note": "Listing works for projects whose `client` is set, but no planninq screen sets project.client (not in ProjectCreationDialog or the settings sidebar), and the leaf's 'New project' button opens /apps/planninq/projects?new=1&client=<uuid>, which ProjectList ignores. pipelinq was read from its live workspace checkout."
+      "note": "Listing works for projects whose `client` is set, but no planninq screen sets project.client (not in ProjectCreationDialog or the settings sidebar), and the leaf's 'New project' button opens /apps/planninq/projects?new=1&client=<uuid>, which ProjectList ignores. pipelinq was read from its live workspace checkout.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PqKlant"
+      }
     },
     {
       "id": "int-projects-widget",
@@ -5807,7 +6280,14 @@
       "providerHow": "read-from-code",
       "feature": "case-integration",
       "featureConfidence": "high",
-      "note": "Rendering depends on OpenRegister's LeafScriptListener loading js/planninq-leaves.js on the host page; not verified live. The 'New project' action inside the leaf is broken (see int-projects-on-client)."
+      "note": "Rendering depends on OpenRegister's LeafScriptListener loading js/planninq-leaves.js on the host page; not verified live. The 'New project' action inside the leaf is broken (see int-projects-on-client).",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "DqZaak",
+          "PqKlant"
+        ]
+      }
     },
     {
       "id": "int-api",
@@ -5846,7 +6326,11 @@
       "providerHow": "read-from-code",
       "feature": "api-and-webhooks",
       "featureConfidence": "high",
-      "note": "Authorization follows the register: a non-admin cannot create a project through the generic object API (project.authorization.create is admin only) and must use planninq's POST /api/projects."
+      "note": "Authorization follows the register: a non-admin cannot create a project through the generic object API (project.authorization.create is admin only) and must use planninq's POST /api/projects.",
+      "screen": {
+        "board": null,
+        "reason": "A REST API for machine consumers; it has no page of its own."
+      }
     },
     {
       "id": "int-flows",
@@ -5882,7 +6366,11 @@
       "providerHow": "read-from-code",
       "feature": "automation",
       "featureConfidence": "high",
-      "note": "Both pages are nextcloud-vue page types over OpenRegister's flow engine; the library is not installed in this clone, so the rendering was not read. No flow ships with planninq."
+      "note": "Both pages are nextcloud-vue page types over OpenRegister's flow engine; the library is not installed in this clone, so the rendering was not read. No flow ships with planninq.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlFlows"
+      }
     },
     {
       "id": "int-webhooks",
@@ -5921,7 +6409,11 @@
       "providerHow": "read-from-code",
       "feature": "api-and-webhooks",
       "featureConfidence": "high",
-      "note": "An admin can subscribe a webhook to planninq task objects in OpenRegister; a planninq user or project owner cannot. Specified in ConductionNL/openregister openspec/changes/webhooks-for-owners (openregister lane, OpenSpec pass 2026-09-27)."
+      "note": "An admin can subscribe a webhook to planninq task objects in OpenRegister; a planninq user or project owner cannot. Specified in ConductionNL/openregister openspec/changes/webhooks-for-owners (openregister lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "board": null,
+        "reason": "Webhooks are sent by OpenRegister in the background; there is no planninq page."
+      }
     },
     {
       "id": "int-import-deck",
@@ -5991,7 +6483,11 @@
       "providerHow": "read-from-code",
       "feature": "imports",
       "featureConfidence": "high",
-      "note": "Only the spreadsheet part, and only as a generic admin import into OpenRegister with no field mapping to planninq concepts verified. Nothing imports from Jira or Trello. Specified in ConductionNL/openregister openspec/changes/import-preview-and-conflict-policy (openregister lane, OpenSpec pass 2026-09-27)."
+      "note": "Only the spreadsheet part, and only as a generic admin import into OpenRegister with no field mapping to planninq concepts verified. Nothing imports from Jira or Trello. Specified in ConductionNL/openregister openspec/changes/import-preview-and-conflict-policy (openregister lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "board": null,
+        "reason": "Imported through OpenRegister's register import, not a planninq page."
+      }
     },
     {
       "id": "int-git",
@@ -6027,7 +6523,14 @@
       "providerHow": "read-from-code",
       "feature": "api-and-webhooks",
       "featureConfidence": "medium",
-      "note": "info.xml targets dev and IT teams, which makes this gap notable."
+      "note": "info.xml targets dev and IT teams, which makes this gap notable.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlTaak",
+          "PlBeheer"
+        ]
+      }
     },
     {
       "id": "int-mobile",
@@ -6067,7 +6570,11 @@
       "providerHow": "read-from-code",
       "feature": "nextcloud-integration",
       "featureConfidence": "medium",
-      "note": "Nextcloud's mobile apps do not surface third-party app screens, so there is no app to use; a phone browser is untested territory."
+      "note": "Nextcloud's mobile apps do not surface third-party app screens, so there is no app to use; a phone browser is untested territory.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlMijnTaken"
+      }
     },
     {
       "id": "int-project-folder",
@@ -6141,7 +6648,11 @@
       "providerHow": "read-from-code",
       "feature": "project-members-and-sharing",
       "featureConfidence": "high",
-      "note": "Enforcement is OpenRegister executing the schema authorization blocks; that is the platform's core RBAC, not a notification-style declaration, but it was read, not driven. Dependency edges (:1118, read = any authenticated user) and labels are readable outside the project; edges only carry task uuids."
+      "note": "Enforcement is OpenRegister executing the schema authorization blocks; that is the platform's core RBAC, not a notification-style declaration, but it was read, not driven. Dependency edges (:1118, read = any authenticated user) and labels are readable outside the project; edges only carry task uuids.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjectLeden"
+      }
     },
     {
       "id": "plt-admin-settings",
@@ -6179,7 +6690,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "setup-and-admin",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBeheer"
+      }
     },
     {
       "id": "plt-setup-wizard",
@@ -6215,7 +6730,11 @@
       "providerHow": "read-from-code",
       "feature": "setup-and-admin",
       "featureConfidence": "high",
-      "note": "The only real decision in it is demo data; there is no step for register setup, default columns or project policy."
+      "note": "The only real decision in it is demo data; there is no step for register setup, default columns or project policy.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlWizard"
+      }
     },
     {
       "id": "plt-demo-data",
@@ -6252,7 +6771,11 @@
       "providerHow": "read-from-code",
       "feature": "setup-and-admin",
       "featureConfidence": "high",
-      "note": "The loader works, but the dataset it loads is generated placeholder data that no page can show: the three projects have members [] so the member filter hides them from everyone, and every task/column points at nil uuids no project carries. The realistic sample data (3 projects with admin as member, 5 tasks, time entries) sits in lib/Settings/planninq_register.json components.objects instead and probably arrives with the ordinary register import, which is the opposite of opt-in (needs a live check)."
+      "note": "The loader works, but the dataset it loads is generated placeholder data that no page can show: the three projects have members [] so the member filter hides them from everyone, and every task/column points at nil uuids no project carries. The realistic sample data (3 projects with admin as member, 5 tasks, time entries) sits in lib/Settings/planninq_register.json components.objects instead and probably arrives with the ordinary register import, which is the opposite of opt-in (needs a live check).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlWizard"
+      }
     },
     {
       "id": "plt-i18n",
@@ -6292,7 +6815,11 @@
       "providerHow": "read-from-code",
       "feature": "accessible-and-multilingual",
       "featureConfidence": "high",
-      "note": "A scripted comparison found 67 of 259 source strings with no Dutch entry, e.g. 'Week', 'Duration', 'Go to projects', 'Save estimate', so a Dutch user sees a mix. openspec/changes/fix-l10n-parity-gate is still open. Manifest labels (page titles, widget labels) were not checked."
+      "note": "A scripted comparison found 67 of 259 source strings with no Dutch entry, e.g. 'Week', 'Duration', 'Go to projects', 'Save estimate', so a Dutch user sees a mix. openspec/changes/fix-l10n-parity-gate is still open. Manifest labels (page titles, widget labels) were not checked.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlDashboard"
+      }
     },
     {
       "id": "plt-accessibility",
@@ -6331,7 +6858,11 @@
       "providerHow": "read-from-code",
       "feature": "accessible-and-multilingual",
       "featureConfidence": "high",
-      "note": "WCAG AA cannot be settled by reading code: the board shows deliberate keyboard work, but the Gantt timeline, dialogs and screen-reader output were not audited, and openspec/changes/kanban-task-detail-keyboard-navigation is still open (its proposal describes a card with no keyboard path, which is stale against the code)."
+      "note": "WCAG AA cannot be settled by reading code: the board shows deliberate keyboard work, but the Gantt timeline, dialogs and screen-reader output were not audited, and openspec/changes/kanban-task-detail-keyboard-navigation is still open (its proposal describes a card with no keyboard path, which is stale against the code).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "plt-nldesign",
@@ -6366,7 +6897,11 @@
       "providerHow": "read-from-code",
       "feature": "accessible-and-multilingual",
       "featureConfidence": "high",
-      "note": "Planninq's part is using the variables; the tokens themselves are applied by the theming app (thematiq, formerly nldesign), which is not in the provider list."
+      "note": "Planninq's part is using the variables; the tokens themselves are applied by the theming app (thematiq, formerly nldesign), which is not in the provider list.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlDashboard"
+      }
     },
     {
       "id": "plt-self-host",
@@ -6405,7 +6940,11 @@
       "providerHow": "read-from-code",
       "feature": "sovereignty",
       "featureConfidence": "high",
-      "note": "Two outward links: the 'Documentation' menu item points at https://planix.conduction.nl (src/manifest.json:53, the pre-rename host) and 'Features & roadmap' (:215) reads GitHub through OpenRegister's proxy. Neither holds data."
+      "note": "Two outward links: the 'Documentation' menu item points at https://planix.conduction.nl (src/manifest.json:53, the pre-rename host) and 'Features & roadmap' (:215) reads GitHub through OpenRegister's proxy. Neither holds data.",
+      "screen": {
+        "board": null,
+        "reason": "Hosting: the whole app runs on your own servers, nothing to draw."
+      }
     },
     {
       "id": "plt-open-source",
@@ -6443,7 +6982,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "sovereignty",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "board": null,
+        "reason": "Licensing: every feature is open source, nothing to draw."
+      }
     },
     {
       "id": "plt-audit-trail",
@@ -6482,7 +7025,11 @@
       "providerHow": "read-from-code",
       "feature": "records-management",
       "featureConfidence": "high",
-      "note": "OpenRegister records every object write; in planninq only the task page shows the trail. Projects, columns and time entries have no screen for theirs."
+      "note": "OpenRegister records every object write; in planninq only the task page shows the trail. Projects, columns and time entries have no screen for theirs.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaakHistorie"
+      }
     },
     {
       "id": "plt-sso",
@@ -6521,7 +7068,11 @@
       "providerHow": "read-from-code",
       "feature": "security",
       "featureConfidence": "high",
-      "note": "SSO is whatever the Nextcloud instance is configured with; planninq inherits it."
+      "note": "SSO is whatever the Nextcloud instance is configured with; planninq inherits it.",
+      "screen": {
+        "board": null,
+        "reason": "Sign-in happens on the Nextcloud login, before planninq opens."
+      }
     },
     {
       "id": "plt-data-export",
@@ -6560,7 +7111,11 @@
       "providerHow": "read-from-code",
       "feature": "sovereignty",
       "featureConfidence": "high",
-      "note": "An admin can take the whole register out as JSON; a project owner cannot export their own project, and whether attached task files travel with the export was not checked. Specified in ConductionNL/openregister openspec/changes/export-as-its-own-right (openregister lane, OpenSpec pass 2026-09-27). Spec round part 3 (7 Oct): OpenRegister's half (openregister/export-as-its-own-right, all 14 tasks ticked) gives the export verb, profiles and the audit entry; the planninq half, an owner exporting one project with its files and comments from the project sidebar, is specified in project-data-export."
+      "note": "An admin can take the whole register out as JSON; a project owner cannot export their own project, and whether attached task files travel with the export was not checked. Specified in ConductionNL/openregister openspec/changes/export-as-its-own-right (openregister lane, OpenSpec pass 2026-09-27). Spec round part 3 (7 Oct): OpenRegister's half (openregister/export-as-its-own-right, all 14 tasks ticked) gives the export verb, profiles and the audit entry; the planninq half, an owner exporting one project with its files and comments from the project sidebar, is specified in project-data-export.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjectInstellingen"
+      }
     },
     {
       "id": "plt-guest-access",
@@ -6636,7 +7191,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-overview",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRisicos"
+      }
     },
     {
       "id": "prj-project-logs",
@@ -6673,7 +7232,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-overview",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlLogboek"
+      }
     },
     {
       "id": "prt-portfolio-finance",
@@ -6710,7 +7273,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-finance",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlPortfolio"
+      }
     },
     {
       "id": "int-finance-import",
@@ -6747,7 +7314,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-finance",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlFinancien"
+      }
     },
     {
       "id": "tim-non-project",
@@ -6784,7 +7355,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "time-tracking",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTijdregistratie"
+      }
     },
     {
       "id": "pln-phase-gate-document",
@@ -6821,7 +7396,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-structure",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjectOverzicht"
+      }
     },
     {
       "id": "int-import-msproject",
@@ -6858,7 +7437,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "imports",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTijdlijn"
+      }
     },
     {
       "id": "int-archive-to-case",
@@ -6896,7 +7479,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "case-integration",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjectInstellingen"
+      }
     },
     {
       "id": "plt-destruction-list",
@@ -6935,7 +7522,11 @@
       "provider": "openregister",
       "providerHow": "read-from-code",
       "feature": "records-management",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "board": null,
+        "reason": "Destruction lists live in OpenRegister archival settings, not in planninq."
+      }
     },
     {
       "id": "prt-status-grotik",
@@ -6972,7 +7563,14 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "portfolio",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlProjectOverzicht",
+          "PlPortfolio"
+        ]
+      }
     },
     {
       "id": "pln-calendar-writeback",
@@ -7045,7 +7643,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-structure",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjecten"
+      }
     },
     {
       "id": "col-comment-images",
@@ -7081,7 +7683,11 @@
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
       "feature": "task-collaboration",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-templates",
@@ -7152,7 +7758,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "tsk-all-day-due",
@@ -7189,7 +7799,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "due-dates",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "brd-column-count",
@@ -7228,7 +7842,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "prj-team-owner",
@@ -7265,7 +7883,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-members-and-sharing",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjectLeden"
+      }
     },
     {
       "id": "col-federated-share",
@@ -7339,7 +7961,11 @@
       "provider": "openregister",
       "providerHow": "read-from-code",
       "feature": "api-and-webhooks",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "board": null,
+        "reason": "An MCP endpoint of OpenRegister for AI assistants; it has no page."
+      }
     },
     {
       "id": "col-live-docs",
@@ -7448,7 +8074,14 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "task-detail",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlBord",
+          "PlTaak"
+        ]
+      }
     },
     {
       "id": "bkl-sprint-goal",
@@ -7521,7 +8154,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "projects",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlProjecten"
+      }
     },
     {
       "id": "bkl-planning-poker",
@@ -7629,7 +8266,11 @@
       "provider": "openregister",
       "providerHow": "read-from-code",
       "feature": "live-updates",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "int-automation-edit",
@@ -7666,7 +8307,11 @@
       "provider": "openregister",
       "providerHow": "read-from-code",
       "feature": "automation",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlFlows"
+      }
     },
     {
       "id": "prt-dashboard-order",
@@ -7703,7 +8348,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "my-work",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlDashboard"
+      }
     },
     {
       "id": "plt-rtl",
@@ -7744,7 +8393,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "accessible-and-multilingual",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "board": null,
+        "reason": "Nextcloud mirrors every page for a right-to-left language; there is no page of its own."
+      }
     },
     {
       "id": "plt-outbound-guard",
@@ -7781,7 +8434,11 @@
       "provider": "openregister",
       "providerHow": "read-from-code",
       "feature": "security",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "board": null,
+        "reason": "A server-side guard on outgoing requests; it has no page."
+      }
     },
     {
       "id": "tsk-diagrams",
@@ -7925,7 +8582,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-wiki",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlWiki"
+      }
     },
     {
       "id": "plt-2fa",
@@ -7966,7 +8627,11 @@
       "provider": "nextcloud",
       "providerHow": "read-from-code",
       "feature": "security",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "board": null,
+        "reason": "The second factor is part of the Nextcloud login, before planninq opens."
+      }
     },
     {
       "id": "prj-shared-workflow",
@@ -8003,7 +8668,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-templates",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlNieuwProject"
+      }
     },
     {
       "id": "brd-filter-exclude",
@@ -8040,7 +8709,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "board-filters",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlBord"
+      }
     },
     {
       "id": "plt-command-palette",
@@ -8147,7 +8820,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "subtasks",
-      "featureConfidence": "medium"
+      "featureConfidence": "medium",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "col-threaded-comments",
@@ -8183,7 +8860,11 @@
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
       "feature": "task-collaboration",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tsk-clone-tree",
@@ -8220,7 +8901,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "subtasks",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "col-group-mention",
@@ -8259,7 +8944,11 @@
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
       "feature": "task-collaboration",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTaak"
+      }
     },
     {
       "id": "tim-work-type",
@@ -8295,7 +8984,11 @@
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "time-tracking",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlTijdregistratie"
+      }
     },
     {
       "id": "tsk-merge",
@@ -8407,7 +9100,11 @@
       "provider": "openregister",
       "providerHow": "read-from-code",
       "feature": "automation",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlFlows"
+      }
     },
     {
       "id": "plt-security-insights",
@@ -8444,7 +9141,11 @@
       "provider": "nextcloud",
       "providerHow": "read-from-code",
       "feature": "security",
-      "featureConfidence": "high"
+      "featureConfidence": "high",
+      "screen": {
+        "board": null,
+        "reason": "Shown in Nextcloud Administration, Overview, not in planninq."
+      }
     },
     {
       "id": "sib-learniq-att-schedule-a-lesson",
@@ -8481,7 +9182,14 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "lesson-timetable",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row att-schedule-a-lesson) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row att-schedule-a-lesson) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "LqLesBeheren",
+          "LqRooster"
+        ]
+      }
     },
     {
       "id": "sib-learniq-att-book-a-room",
@@ -8518,7 +9226,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "room-booking",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row att-book-a-room) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row att-book-a-room) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqLesBeheren"
+      }
     },
     {
       "id": "sib-learniq-att-spot-a-clash",
@@ -8555,7 +9267,14 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "lesson-timetable",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row att-spot-a-clash) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row att-spot-a-clash) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "PlRoosterscenario",
+          "LqCoConflicten"
+        ]
+      }
     },
     {
       "id": "sib-learniq-att-never-auto-resolve-a-clash",
@@ -8592,7 +9311,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "lesson-timetable",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row att-never-auto-resolve-a-clash) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row att-never-auto-resolve-a-clash) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqCoConflicten"
+      }
     },
     {
       "id": "sib-learniq-att-import-a-timetable",
@@ -8629,7 +9352,11 @@
       "provider": "integriq",
       "providerHow": "read-from-code",
       "feature": "lesson-timetable",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row att-import-a-timetable) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/integriq openspec/changes/connectors-data-exchange-dispatch (integriq lane, OpenSpec pass 2026-09-27)."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row att-import-a-timetable) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/integriq openspec/changes/connectors-data-exchange-dispatch (integriq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqCoRoosterImporteren"
+      }
     },
     {
       "id": "sib-learniq-att-tell-people-a-lesson-moved",
@@ -8666,7 +9393,14 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "personal-timetable",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row att-tell-people-a-lesson-moved) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row att-tell-people-a-lesson-moved) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "LqOuRooster",
+          "LqLlRooster"
+        ]
+      }
     },
     {
       "id": "sib-learniq-att-my-own-timetable",
@@ -8703,7 +9437,14 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "personal-timetable",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row att-my-own-timetable) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row att-my-own-timetable) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "LqRooster",
+          "LqLlRooster"
+        ]
+      }
     },
     {
       "id": "sib-learniq-att-timetable-in-my-calendar",
@@ -8742,7 +9483,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "personal-timetable",
-      "note": "Evidence re-read on 2026-09-27 (learniq#1037): Open Register already serves calendar feeds, but learniq's Session schema does not opt in. Sibling-owed: reused by id from learniq's matrix (row att-timetable-in-my-calendar) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Evidence re-read on 2026-09-27 (learniq#1037): Open Register already serves calendar feeds, but learniq's Session schema does not opt in. Sibling-owed: reused by id from learniq's matrix (row att-timetable-in-my-calendar) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqAgendaAbonneren"
+      }
     },
     {
       "id": "sib-learniq-att-take-the-register",
@@ -8780,7 +9525,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "attendance",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row att-take-the-register) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row att-take-the-register) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqAanwezigheid"
+      }
     },
     {
       "id": "sib-learniq-att-late-and-excused-marks",
@@ -8818,7 +9567,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "attendance",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row att-late-and-excused-marks) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row att-late-and-excused-marks) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqAanwezigheid"
+      }
     },
     {
       "id": "sib-learniq-att-learner-submits-an-excuse",
@@ -8855,7 +9608,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "attendance",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row att-learner-submits-an-excuse) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row att-learner-submits-an-excuse) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqAanwezigheidLijst"
+      }
     },
     {
       "id": "sib-learniq-enr-sync-classes-from-school-admin",
@@ -8893,7 +9650,11 @@
       "provider": "integriq",
       "providerHow": "read-from-code",
       "feature": "electives-and-grouping",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row enr-sync-classes-from-school-admin) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row enr-sync-classes-from-school-admin) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqGroepen"
+      }
     },
     {
       "id": "sib-learniq-gua-plan-a-conference-round",
@@ -8930,7 +9691,14 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "parent-meetings",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row gua-plan-a-conference-round) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row gua-plan-a-conference-round) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "LqCoPlanbord",
+          "LqOuGesprekBoeken"
+        ]
+      }
     },
     {
       "id": "sib-learniq-gua-teacher-states-free-slots",
@@ -8967,7 +9735,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "parent-meetings",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row gua-teacher-states-free-slots) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row gua-teacher-states-free-slots) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqCoPlanbord"
+      }
     },
     {
       "id": "sib-learniq-gua-schedule-is-generated",
@@ -9004,7 +9776,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "parent-meetings",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row gua-schedule-is-generated) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row gua-schedule-is-generated) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqCoPlanbord"
+      }
     },
     {
       "id": "sib-learniq-att-learner-checks-in-with-qr",
@@ -9043,7 +9819,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "attendance",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row att-learner-checks-in-with-qr) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/attendance-self-check-in (learniq lane, OpenSpec pass 2026-09-27)."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row att-learner-checks-in-with-qr) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/attendance-self-check-in (learniq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqLlInchecken"
+      }
     },
     {
       "id": "sib-learniq-att-flag-when-limit-crossed",
@@ -9080,7 +9860,14 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "attendance",
-      "note": "Sibling-owed: reused by id from learniq's matrix (row att-flag-when-limit-crossed) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: reused by id from learniq's matrix (row att-flag-when-limit-crossed) because the timetabling competitors added on 2026-09-27 cover it; planninq does not build or consume it. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "LqGroep",
+          "LqDashboard"
+        ]
+      }
     },
     {
       "id": "tt-auto-generate",
@@ -9156,7 +9943,14 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "substitution",
-      "note": "Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "LqLesBeheren",
+          "LqRooster"
+        ]
+      }
     },
     {
       "id": "tt-student-choice",
@@ -9194,7 +9988,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "electives-and-grouping",
-      "note": "Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqLlKeuzelessen"
+      }
     },
     {
       "id": "tt-exam-schedule",
@@ -9234,7 +10032,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "exam-planning",
-      "note": "Corrected none to building on 2026-09-27 (learniq#1035): an exam can sit in a lesson slot, in a room with a capacity, and learniq flags exam clashes. There is no test week and no invigilator assignment. Demand row from TenderNed 271977, Graafschap College, Het Onderwijslogistieke Project (published 2022-09-11), scope 'Toetsrooster- proces'; record read through the TenderNed public API on 2026-09-27. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Corrected none to building on 2026-09-27 (learniq#1035): an exam can sit in a lesson slot, in a room with a capacity, and learniq flags exam clashes. There is no test week and no invigilator assignment. Demand row from TenderNed 271977, Graafschap College, Het Onderwijslogistieke Project (published 2022-09-11), scope 'Toetsrooster- proces'; record read through the TenderNed public API on 2026-09-27. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqCoToetsweek"
+      }
     },
     {
       "id": "tt-availability-wishes",
@@ -9347,7 +10149,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "curriculum-hours",
-      "note": "Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-multi-year-hour-plan (learniq lane, OpenSpec pass 2026-09-27)."
+      "note": "Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-multi-year-hour-plan (learniq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRoosterwensen"
+      }
     },
     {
       "id": "tt-self-service-booking",
@@ -9423,7 +10229,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "personal-timetable",
-      "note": "Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-display-screens (learniq lane, OpenSpec pass 2026-09-27)."
+      "note": "Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-display-screens (learniq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRoosterscenario"
+      }
     },
     {
       "id": "tt-scenario-compare",
@@ -9462,7 +10272,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "timetable-generator",
-      "note": "Demand row from TenderNed 414807, Firda, market consultation for an education logistics application (published 2026-03-06): public document 'Bijlage 1 Vragen Marktconsultatie OLS' asks 'Op welke wijze ondersteunt uw oplossing het simuleren van scenario's ten behoeve van de bedrijfsvoering?'; read through the TenderNed public API on 2026-09-27. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
+      "note": "Demand row from TenderNed 414807, Firda, market consultation for an education logistics application (published 2026-03-06): public document 'Bijlage 1 Vragen Marktconsultatie OLS' asks 'Op welke wijze ondersteunt uw oplossing het simuleren van scenario's ten behoeve van de bedrijfsvoering?'; read through the TenderNed public API on 2026-09-27. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRoosterscenario"
+      }
     },
     {
       "id": "tt-staff-deployment",
@@ -9503,7 +10317,11 @@
       "provider": "humaniq",
       "providerHow": "read-from-code",
       "feature": "staff-deployment",
-      "note": "Evidence re-read on 2026-09-27 (humaniq#501): humaniq sets rostered and booked hours against the contract, not a yearly teaching load. Demand row from TenderNed 271977, Graafschap College, scope 'Planning docentinzet, in relatie tot de roostering'; Firda 414807 asks for 'personeelsplanning'. Records read through the TenderNed public API on 2026-09-27. Sibling-owed: humaniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/humaniq openspec/changes/education-staff-deployment-and-count (humaniq lane, OpenSpec pass 2026-09-27)."
+      "note": "Evidence re-read on 2026-09-27 (humaniq#501): humaniq sets rostered and booked hours against the contract, not a yearly teaching load. Demand row from TenderNed 271977, Graafschap College, scope 'Planning docentinzet, in relatie tot de roostering'; Firda 414807 asks for 'personeelsplanning'. Records read through the TenderNed public API on 2026-09-27. Sibling-owed: humaniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/humaniq openspec/changes/education-staff-deployment-and-count (humaniq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRoosterwensen"
+      }
     },
     {
       "id": "tt-room-utilisation",
@@ -9542,7 +10360,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "room-booking",
-      "note": "Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-room-utilisation (learniq lane, OpenSpec pass 2026-09-27)."
+      "note": "Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-room-utilisation (learniq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRoosterscenario"
+      }
     },
     {
       "id": "tt-contact-hours",
@@ -9581,7 +10403,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "curriculum-hours",
-      "note": "Demand row from TenderNed 271977, Graafschap College, scope 'Contacturen, in relatie tot de roostering'; read through the TenderNed public API on 2026-09-27. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-contact-hours (learniq lane, OpenSpec pass 2026-09-27)."
+      "note": "Demand row from TenderNed 271977, Graafschap College, scope 'Contacturen, in relatie tot de roostering'; read through the TenderNed public API on 2026-09-27. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-contact-hours (learniq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqCoContacturen"
+      }
     },
     {
       "id": "tt-multi-year-plan",
@@ -9623,7 +10449,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "curriculum-hours",
-      "note": "Demand row from TenderNed 271977, Graafschap College, scope 'Roostering ... zowel per periode als meerjarenplanning'; Firda 414807 asks which functions support 'meerjarenplanning'. Records read through the TenderNed public API on 2026-09-27. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-multi-year-hour-plan (learniq lane, OpenSpec pass 2026-09-27)."
+      "note": "Demand row from TenderNed 271977, Graafschap College, scope 'Roostering ... zowel per periode als meerjarenplanning'; Firda 414807 asks which functions support 'meerjarenplanning'. Records read through the TenderNed public API on 2026-09-27. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-multi-year-hour-plan (learniq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRoosterwensen"
+      }
     },
     {
       "id": "tt-hard-soft-wishes",
@@ -9662,7 +10492,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "timetable-generator",
-      "note": "Noted on 2026-09-27 (learniq#1036): hard and soft wishes steer a generator. learniq's timetabling design rules timetable generation out ('Scholiq does not generate a timetable', learniq openspec/changes/archive/2026-07-16-timetabling-and-substitution/design.md:25, and the non-goal at :59). It names when to reconsider at :41-43. learniq#1036 asks for that decision on the record. Demand row from TenderNed 191698, VISTA college, Plannen en roosteren (published 2020-04-03), Bijlage 7 Wensenlijst: 'Aan roosterwensen kan een hoge prioriteit of lage prioriteit worden toegekend. Bij een hoge prioriteit leidt de roosterwens tot een rooster-blokkade, bij een lage prioriteit wordt er in het rooster rekening mee gehouden indien het mogelijk is.' Read through the TenderNed public API on 2026-09-27; first proposed by the Xedule reader. Proposed by the xedule reader as tt-hard-soft-constraints. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
+      "note": "Noted on 2026-09-27 (learniq#1036): hard and soft wishes steer a generator. learniq's timetabling design rules timetable generation out ('Scholiq does not generate a timetable', learniq openspec/changes/archive/2026-07-16-timetabling-and-substitution/design.md:25, and the non-goal at :59). It names when to reconsider at :41-43. learniq#1036 asks for that decision on the record. Demand row from TenderNed 191698, VISTA college, Plannen en roosteren (published 2020-04-03), Bijlage 7 Wensenlijst: 'Aan roosterwensen kan een hoge prioriteit of lage prioriteit worden toegekend. Bij een hoge prioriteit leidt de roosterwens tot een rooster-blokkade, bij een lage prioriteit wordt er in het rooster rekening mee gehouden indien het mogelijk is.' Read through the TenderNed public API on 2026-09-27; first proposed by the Xedule reader. Proposed by the xedule reader as tt-hard-soft-constraints. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRoosterwensen"
+      }
     },
     {
       "id": "tt-hr-sync",
@@ -9700,7 +10534,11 @@
       "provider": "integriq",
       "providerHow": "read-from-code",
       "feature": "staff-deployment",
-      "note": "Corrected building to none on 2026-09-27 (integriq#2197): the roster sources carry lessons only, and integriq has no HR source. Demand row from TenderNed 328706, Scholengroep Pontes, HRM systeem en beheer (published 2024-03-10): 'Het realiseren van de benodigde koppelingen met andere systemen ... tenminste Foleta, de arbodienst, Zermelo, het UWV, de Belastingdienst'; read through the TenderNed public API on 2026-09-27. A connector, so integriq owes it. Proposed by the zermelo reader as tt-hr-sync. Sibling-owed: integriq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/integriq openspec/changes/connectors-hr-staff-sync (integriq lane, OpenSpec pass 2026-09-27)."
+      "note": "Corrected building to none on 2026-09-27 (integriq#2197): the roster sources carry lessons only, and integriq has no HR source. Demand row from TenderNed 328706, Scholengroep Pontes, HRM systeem en beheer (published 2024-03-10): 'Het realiseren van de benodigde koppelingen met andere systemen ... tenminste Foleta, de arbodienst, Zermelo, het UWV, de Belastingdienst'; read through the TenderNed public API on 2026-09-27. A connector, so integriq owes it. Proposed by the zermelo reader as tt-hr-sync. Sibling-owed: integriq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/integriq openspec/changes/connectors-hr-staff-sync (integriq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRoosterwensen"
+      }
     },
     {
       "id": "tt-cluster-groups",
@@ -9783,7 +10621,14 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "electives-and-grouping",
-      "note": "Proposed by the zermelo reader as tt-subject-package-choice. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Proposed by the zermelo reader as tt-subject-package-choice. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": [
+          "LqLlVakkenKiezen",
+          "LqOuVakkenKiezen"
+        ]
+      }
     },
     {
       "id": "tt-exam-accommodations",
@@ -9827,7 +10672,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "exam-planning",
-      "note": "Proposed by the zermelo reader as tt-exam-extra-time; proposed by the timeedit reader as tt-exam-accommodations. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Missing half specified in learniq/exam-sitting-overview-section (spec round part 3, 2026-10-07); delivered half: learniq/2026-09-29-timetabling-exam-schedule."
+      "note": "Proposed by the zermelo reader as tt-exam-extra-time; proposed by the timeedit reader as tt-exam-accommodations. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Missing half specified in learniq/exam-sitting-overview-section (spec round part 3, 2026-10-07); delivered half: learniq/2026-09-29-timetabling-exam-schedule.",
+      "screen": {
+        "board": null,
+        "reason": "Computed by learniq's exam sitting overview and shown on no page yet."
+      }
     },
     {
       "id": "tt-invigilation-fair-share",
@@ -9907,7 +10756,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "exam-planning",
-      "note": "Proposed by the timeedit reader as tt-invigilator-availability. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json."
+      "note": "Proposed by the timeedit reader as tt-invigilator-availability. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Decided no on 2026-09-28 in the build-all pass: defer is retired, see openspec/parity/gap-decisions.json.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqCoToetsweek"
+      }
     },
     {
       "id": "tt-exam-seat-plan",
@@ -10067,7 +10920,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "personal-timetable",
-      "note": "Corrected none to building on 2026-09-27: the lesson page carries a Talk 'Join call' widget. The personal timetable shows the location as plain text, not as a link. Proposed by the zermelo reader as tt-online-lesson-link; proposed by the untis reader as tt-lesson-video-link; proposed by the xedule reader as tt-online-meeting-per-lesson. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Corrected none to building on 2026-09-27: the lesson page carries a Talk 'Join call' widget. The personal timetable shows the location as plain text, not as a link. Proposed by the zermelo reader as tt-online-lesson-link; proposed by the untis reader as tt-lesson-video-link; proposed by the xedule reader as tt-online-meeting-per-lesson. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqLes"
+      }
     },
     {
       "id": "tt-lesson-note",
@@ -10111,7 +10968,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "personal-timetable",
-      "note": "Proposed by the zermelo reader as tt-lesson-topic; proposed by the untis reader as tt-cover-note. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-lesson-note (learniq lane, OpenSpec pass 2026-09-27)."
+      "note": "Proposed by the zermelo reader as tt-lesson-topic; proposed by the untis reader as tt-cover-note. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-lesson-note (learniq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqLesNotitie"
+      }
     },
     {
       "id": "tt-teacher-presence",
@@ -10307,7 +11168,11 @@
       "provider": "humaniq",
       "providerHow": "read-from-code",
       "feature": "staff-deployment",
-      "note": "Proposed by the zermelo reader as tt-government-staff-count-export. Sibling-owed: humaniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/humaniq openspec/changes/education-staff-deployment-and-count (humaniq lane, OpenSpec pass 2026-09-27)."
+      "note": "Proposed by the zermelo reader as tt-government-staff-count-export. Sibling-owed: humaniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/humaniq openspec/changes/education-staff-deployment-and-count (humaniq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRoosterwensen"
+      }
     },
     {
       "id": "tt-api-enrolment-write",
@@ -10346,7 +11211,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "electives-and-grouping",
-      "note": "Proposed by the zermelo reader as tt-api-enrolment-write. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-elective-lesson-signup (learniq lane, OpenSpec pass 2026-09-27)."
+      "note": "Proposed by the zermelo reader as tt-api-enrolment-write. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-elective-lesson-signup (learniq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "board": null,
+        "reason": "Enrolment through the API from another system; it has no page."
+      }
     },
     {
       "id": "tt-break-duty",
@@ -10830,7 +11699,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "lesson-timetable",
-      "note": "Proposed by the xedule reader as tt-draft-timetable-publish; proposed by the timeedit reader as tt-draft-review. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Owner moved to ConductionNL/planninq under learniq corpus decision D10 (planninq owns the timetable, learniq reads sessions from it); state untouched (learniq lane, OpenSpec pass 2026-09-27; owner was ConductionNL/learniq). Owner-moves pass 2026-09-28: specified by timetable-draft-review (build: Xedule and TimeEdit rate it yes). A draft status on timetableSession readable only by the teacher it names and by admins, drafts only on request, and an admin publish per source and window. It depends on school-timetable-target (planninq PR #685)."
+      "note": "Proposed by the xedule reader as tt-draft-timetable-publish; proposed by the timeedit reader as tt-draft-review. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Owner moved to ConductionNL/planninq under learniq corpus decision D10 (planninq owns the timetable, learniq reads sessions from it); state untouched (learniq lane, OpenSpec pass 2026-09-27; owner was ConductionNL/learniq). Owner-moves pass 2026-09-28: specified by timetable-draft-review (build: Xedule and TimeEdit rate it yes). A draft status on timetableSession readable only by the teacher it names and by admins, drafts only on request, and an admin publish per source and window. It depends on school-timetable-target (planninq PR #685).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRoosterscenario"
+      }
     },
     {
       "id": "tt-enrolment-deadline",
@@ -10872,7 +11745,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "electives-and-grouping",
-      "note": "Proposed by the xedule reader as tt-enrolment-deadline-assign. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-elective-lesson-signup (learniq lane, OpenSpec pass 2026-09-27)."
+      "note": "Proposed by the xedule reader as tt-enrolment-deadline-assign. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-elective-lesson-signup (learniq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqLlKeuzelessen"
+      }
     },
     {
       "id": "tt-booking-check-in",
@@ -10993,7 +11870,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "substitution",
-      "note": "Proposed by the xedule reader as tt-standby-slots. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-standby-slots (learniq lane, OpenSpec pass 2026-09-27)."
+      "note": "Proposed by the xedule reader as tt-standby-slots. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-standby-slots (learniq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqRooster"
+      }
     },
     {
       "id": "tt-lesson-relations",
@@ -11077,7 +11958,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "lesson-timetable",
-      "note": "Proposed by the xedule reader as tt-bulk-change-weeks. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-bulk-change-weeks (learniq lane, OpenSpec pass 2026-09-27)."
+      "note": "Proposed by the xedule reader as tt-bulk-change-weeks. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-bulk-change-weeks (learniq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqLesBeheren"
+      }
     },
     {
       "id": "tt-minimum-rest",
@@ -11200,7 +12085,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "staff-deployment",
-      "note": "Proposed by the xedule reader as tt-enrolment-forecast. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-enrolment-forecast (learniq lane, OpenSpec pass 2026-09-27)."
+      "note": "Proposed by the xedule reader as tt-enrolment-forecast. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-enrolment-forecast (learniq lane, OpenSpec pass 2026-09-27).",
+      "screen": {
+        "canvas": "design-system",
+        "board": "PlRoosterwensen"
+      }
     },
     {
       "id": "tt-curriculum-design",
@@ -11276,7 +12165,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "personal-timetable",
-      "note": "Proposed by the xedule reader as tt-timetable-visibility-rules. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-visibility-rules (learniq lane, OpenSpec pass 2026-09-27). Corrections round 8 (2026-09-28): the learniq change rests on a premise the security lane found wrong. It says learniq's Session has no authorization block and is readable by every signed-in user, but Session falls under learniq's register-level roles rule (learniq lib/Settings/learniq_register.json:154-162 at 4429d54), which OpenRegister applies to a schema without a block of its own (openregister lib/Service/Object/PermissionHandler.php:2861-2876 at 555af72). The change's proposal and design now say task 1's live check must first prove the open read (learniq#1135). The row's rating and state are unchanged: no per-role timetable visibility setting exists either way."
+      "note": "Proposed by the xedule reader as tt-timetable-visibility-rules. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Specified in ConductionNL/learniq openspec/changes/timetabling-visibility-rules (learniq lane, OpenSpec pass 2026-09-27). Corrections round 8 (2026-09-28): the learniq change rests on a premise the security lane found wrong. It says learniq's Session has no authorization block and is readable by every signed-in user, but Session falls under learniq's register-level roles rule (learniq lib/Settings/learniq_register.json:154-162 at 4429d54), which OpenRegister applies to a schema without a block of its own (openregister lib/Service/Object/PermissionHandler.php:2861-2876 at 555af72). The change's proposal and design now say task 1's live check must first prove the open read (learniq#1135). The row's rating and state are unchanged: no per-role timetable visibility setting exists either way.",
+      "screen": {
+        "canvas": "design-system",
+        "board": "LqRoosters"
+      }
     },
     {
       "id": "tt-waitlist",
@@ -11674,7 +12567,11 @@
       "provider": "learniq",
       "providerHow": "read-from-code",
       "feature": "personal-timetable",
-      "note": "Proposed by the untis reader as int-push-events. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Owner moved to ConductionNL/planninq under learniq corpus decision D10 (planninq owns the timetable, learniq reads sessions from it); state untouched (learniq lane, OpenSpec pass 2026-09-27; owner was ConductionNL/learniq). Owner-moves pass 2026-09-28: specified by school-timetable-target, which sits in planninq PR #685 (open at 9801e16, not yet on development). Its idempotent upsert keyed by sourceSystem and externalRef (REQ-002), the TimetableUpsertRequestedEvent (REQ-004) and the admin route POST /api/timetable/sessions/upsert (REQ-006) let another system add its own sessions to a group's or a teacher's timetable. A single learner is not addressable on their own: a session names a group or a teacher."
+      "note": "Proposed by the untis reader as int-push-events. Sibling-owed: learniq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route. Owner moved to ConductionNL/planninq under learniq corpus decision D10 (planninq owns the timetable, learniq reads sessions from it); state untouched (learniq lane, OpenSpec pass 2026-09-27; owner was ConductionNL/learniq). Owner-moves pass 2026-09-28: specified by school-timetable-target, which sits in planninq PR #685 (open at 9801e16, not yet on development). Its idempotent upsert keyed by sourceSystem and externalRef (REQ-002), the TimetableUpsertRequestedEvent (REQ-004) and the admin route POST /api/timetable/sessions/upsert (REQ-006) let another system add its own sessions to a group's or a teacher's timetable. A single learner is not addressable on their own: a session names a group or a teacher.",
+      "screen": {
+        "board": null,
+        "reason": "Another system pushes timetable events through the API; there is no page."
+      }
     },
     {
       "id": "int-scoped-api-access",
@@ -11716,7 +12613,11 @@
       "provider": "openregister",
       "providerHow": "read-from-code",
       "feature": "api-and-webhooks",
-      "note": "Corrected on 2026-09-27: the provider is openregister, not planninq, and it is building. Open Register validates and narrows scoped token grants with an end date. The token store, the SQL side and the grant editor are still open. Sibling-owed: openregister owns this capability, not planninq. Proposed by the zermelo reader as tt-partner-api-scopes. planninq column: searched planninq src/, lib/ and appinfo/ at 6480bea for scope, token expiry, apiToken: none."
+      "note": "Corrected on 2026-09-27: the provider is openregister, not planninq, and it is building. Open Register validates and narrows scoped token grants with an end date. The token store, the SQL side and the grant editor are still open. Sibling-owed: openregister owns this capability, not planninq. Proposed by the zermelo reader as tt-partner-api-scopes. planninq column: searched planninq src/, lib/ and appinfo/ at 6480bea for scope, token expiry, apiToken: none.",
+      "screen": {
+        "board": null,
+        "reason": "Scoped API tokens are an OpenRegister API feature with no planninq page."
+      }
     },
     {
       "id": "int-incremental-sync",
@@ -11757,7 +12658,11 @@
       "provider": "openregister",
       "providerHow": "read-from-code",
       "feature": "api-and-webhooks",
-      "note": "Corrected none to building on 2026-09-27 (openregister#4076): the changed-since filter and deleted-row reads exist, but a soft delete does not bump updated and /api/deleted ignores filters. Proposed by the untis reader as int-incremental-sync. Sibling-owed: openregister owns this capability, not planninq. planninq column: left unknown; this correction read Open Register's object API but did not re-rate planninq."
+      "note": "Corrected none to building on 2026-09-27 (openregister#4076): the changed-since filter and deleted-row reads exist, but a soft delete does not bump updated and /api/deleted ignores filters. Proposed by the untis reader as int-incremental-sync. Sibling-owed: openregister owns this capability, not planninq. planninq column: left unknown; this correction read Open Register's object API but did not re-rate planninq.",
+      "screen": {
+        "board": null,
+        "reason": "A changed-since read through the API; it has no page."
+      }
     },
     {
       "id": "int-course-lessons-query",
@@ -11781,7 +12686,11 @@
       },
       "feature": "personal-timetable",
       "source": "spec-round-2026-10-07",
-      "note": "Added in the spec round of 7 Oct 2026 (reverse check): the change gives learniq's elective picker a clash warning and a lesson link when planninq is the timetable source, and no row named it."
+      "note": "Added in the spec round of 7 Oct 2026 (reverse check): the change gives learniq's elective picker a clash warning and a lesson link when planninq is the timetable source, and no row named it.",
+      "screen": {
+        "board": null,
+        "reason": "An event contract the school app calls in the background; it has no page."
+      }
     },
     {
       "id": "plt-retention-anonymise",
@@ -11946,7 +12855,11 @@
       "provider": "portaliq",
       "providerHow": "read-from-code",
       "feature": "notifications",
-      "note": "Evidence re-read on 2026-09-27 (portaliq#747): read receipts are recorded, but no page shows the readers. Proposed by the untis reader as col-read-receipts. Sibling-owed: portaliq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route."
+      "note": "Evidence re-read on 2026-09-27 (portaliq#747): read receipts are recorded, but no page shows the readers. Proposed by the untis reader as col-read-receipts. Sibling-owed: portaliq owns this capability, not planninq. planninq column: searched planninq src/, lib/ (including lib/Settings/planninq_register.json) and appinfo/ at 6480bea for timetable, rooster, lesson, classroom, room, substitute and exam: no hit outside example-data wording, so planninq has no timetabling object, page or route.",
+      "screen": {
+        "board": null,
+        "reason": "Messages belong to portaliq; planninq has no message page."
+      }
     },
     {
       "id": "plt-time-zones",
@@ -12306,5 +13219,214 @@
       "featureConfidence": "high",
       "note": "There is exactly one choice: the due-date reminder on or off. The reminder it controls exists only as the x-openregister-notifications taskDueSoon declaration (lib/Settings/planninq_register.json:145), so whether the switch changes anything depends on OpenRegister executing that declaration: pending."
     }
-  ]
+  ],
+  "specScreens": {
+    "assignment-notification": {
+      "board": [
+        "PlMijnInstellingen"
+      ]
+    },
+    "board-columns": {
+      "board": [
+        "PlBord",
+        "PlNieuwProject"
+      ]
+    },
+    "board-list": {
+      "board": [
+        "PlBord"
+      ]
+    },
+    "board-view-options": {
+      "board": [
+        "PlBord"
+      ]
+    },
+    "caldav-export": {
+      "board": [
+        "PlMijnInstellingen"
+      ]
+    },
+    "case-bridge": {
+      "board": [
+        "PlProjectInstellingen",
+        "DqZaak"
+      ]
+    },
+    "code-forge-links": {
+      "board": [
+        "PlTaak",
+        "PlBeheer"
+      ]
+    },
+    "column-automation": {
+      "board": [
+        "PlBord",
+        "PlFlows"
+      ]
+    },
+    "cross-project-view": {
+      "board": [
+        "PlBorden"
+      ]
+    },
+    "custom-reports": {
+      "board": [
+        "PlRapporten"
+      ]
+    },
+    "demo-data": {
+      "board": [
+        "PlWizard"
+      ]
+    },
+    "email-notifications": {
+      "board": [
+        "PlMijnInstellingen"
+      ]
+    },
+    "finance-import": {
+      "board": [
+        "PlFinancien"
+      ]
+    },
+    "first-time-setup": {
+      "board": [
+        "PlWizard"
+      ]
+    },
+    "flow-metrics": {
+      "board": [
+        "PlPortfolioTijdlijn"
+      ]
+    },
+    "i18n-locale-completeness": {
+      "board": [
+        "PlDashboard"
+      ]
+    },
+    "mobile-web": {
+      "board": [
+        "PlMijnTaken"
+      ]
+    },
+    "msproject-import": {
+      "board": [
+        "PlTijdlijn"
+      ]
+    },
+    "people-capacity": {
+      "board": [
+        "PlPortfolio"
+      ]
+    },
+    "portal-identity": {
+      "board": null,
+      "reason": "Schema fields that scope portaliq's reads for external contractors; the portal page itself lives in portaliq."
+    },
+    "portfolio-overview": {
+      "board": [
+        "PlPortfolio"
+      ]
+    },
+    "project-custom-fields": {
+      "board": [
+        "PlProjectInstellingen"
+      ]
+    },
+    "project-hierarchy": {
+      "board": [
+        "PlProjectInstellingen",
+        "PlProjectOverzicht"
+      ]
+    },
+    "project-lifecycle": {
+      "board": [
+        "PlProjecten",
+        "PlProjectInstellingen"
+      ]
+    },
+    "project-logs": {
+      "board": [
+        "PlLogboek"
+      ]
+    },
+    "project-phases": {
+      "board": [
+        "PlProjectOverzicht"
+      ]
+    },
+    "project-portfolios": {
+      "board": [
+        "PlProjecten",
+        "PlPortfolio"
+      ]
+    },
+    "project-roadmap": {
+      "board": [
+        "PlTijdlijn"
+      ]
+    },
+    "project-status-report": {
+      "board": [
+        "PlProjectOverzicht",
+        "PlPortfolio"
+      ]
+    },
+    "register-schemas": {
+      "board": null,
+      "reason": "The OpenRegister schemas planninq installs; plumbing with no page of its own."
+    },
+    "releases": {
+      "board": [
+        "PlTijdlijn"
+      ]
+    },
+    "risk-register": {
+      "board": [
+        "PlRisicos"
+      ]
+    },
+    "school-timetable": {
+      "board": [
+        "PlRoosterwensen",
+        "PlRoosterscenario"
+      ]
+    },
+    "task-breakdown": {
+      "board": [
+        "PlTaak"
+      ]
+    },
+    "task-dependencies": {
+      "board": [
+        "PlTaak",
+        "PlTijdlijn"
+      ]
+    },
+    "task-editing": {
+      "board": [
+        "PlTaak",
+        "PlBord"
+      ]
+    },
+    "task-people-and-tags": {
+      "board": [
+        "PlTaak"
+      ]
+    },
+    "work-item-keys": {
+      "board": [
+        "PlBord",
+        "PlTaak",
+        "PlNieuwProject"
+      ]
+    },
+    "working-calendar": {
+      "board": [
+        "PlTijdlijn",
+        "PlBeheer"
+      ]
+    }
+  }
 }
