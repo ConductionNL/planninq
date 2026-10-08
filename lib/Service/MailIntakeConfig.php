@@ -124,11 +124,11 @@ class MailIntakeConfig {
 	 */
 	public function addressFor(string $key): string {
 		$address = $this->get(key: 'mail_intake_address');
-		$at      = strrpos($address, '@');
-		if ($at === false || $key === '') {
+		$atSign      = strrpos($address, '@');
+		if ($atSign === false || $key === '') {
 			return '';
 		}
 
-		return substr($address, 0, $at) . '+' . $key . substr($address, $at);
+		return substr($address, 0, $atSign) . '+' . $key . substr($address, $atSign);
 	}//end addressFor()
 }//end class

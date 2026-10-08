@@ -23,7 +23,6 @@ use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\BoardViewPreferenceService;
 use OCA\Planninq\Service\CreationPolicyService;
 use OCA\Planninq\Service\DueReminderWindowService;
-use OCA\Planninq\Service\MailCredentialStore;
 use OCA\Planninq\Service\ProjectPolicySchemaService;
 use OCA\Planninq\Service\SettingsService;
 use OCP\App\IAppManager;
@@ -839,13 +838,12 @@ class SettingsServiceTest extends TestCase {
 			appConfig: $this->appConfig,
 			config: $this->config,
 			appManager: $this->appManager,
-			container: $this->container,
+			container: $container,
 			userSession: $this->userSession,
 			logger: $this->logger,
 			dueReminderWindow: new DueReminderWindowService(appManager: $this->appManager, container: $this->container, logger: $this->logger),
 			policySchema: new ProjectPolicySchemaService(appManager: $this->appManager, container: $this->container, logger: $this->logger),
 			creationPolicy: new CreationPolicyService(appConfig: $this->appConfig, groupManager: $this->groupManager, userSession: $this->userSession),
-			mailCredentials: new MailCredentialStore(container: $container, logger: $this->logger),
 		);
 
 	}//end serviceWithBroker()

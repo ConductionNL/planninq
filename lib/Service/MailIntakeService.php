@@ -187,10 +187,10 @@ class MailIntakeService {
 	 */
 	public function keyOf(IncomingMail $mail): string {
 		$mailbox = strtolower($this->config->get(key: 'mail_intake_address'));
-		$at      = strrpos($mailbox, '@');
-		if ($at !== false) {
-			$local  = substr($mailbox, 0, $at);
-			$domain = substr($mailbox, $at);
+		$atSign      = strrpos($mailbox, '@');
+		if ($atSign !== false) {
+			$local  = substr($mailbox, 0, $atSign);
+			$domain = substr($mailbox, $atSign);
 			foreach ($mail->recipients as $recipient) {
 				$recipient = strtolower($recipient);
 				if (str_ends_with($recipient, $domain) === true && str_starts_with($recipient, $local . '+') === true) {

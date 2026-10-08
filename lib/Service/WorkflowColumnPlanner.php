@@ -122,35 +122,47 @@ class WorkflowColumnPlanner {
 		}
 
 		$matched = [];
-		$taken   = [];
 		foreach ($workflow as $column) {
 			$key = (string)$column['key'];
 			if (isset($byKey[$key]) === true) {
 				$matched[$key] = $byKey[$key];
-				$taken[]       = $byKey[$key];
 			}
 		}
 
 		// A column that follows no workflow column yet is adopted by the one with its title.
 		foreach ($workflow as $column) {
 			$key = (string)$column['key'];
-			if (isset($matched[$key]) === true) {
-				continue;
-			}
-
-			foreach ($existing as $row) {
-				$unkeyed = ((string)($row['data']['workflowKey'] ?? '') === '');
-				$same    = (mb_strtolower(trim((string)($row['data']['title'] ?? ''))) === mb_strtolower(trim((string)$column['title'])));
-				if ($unkeyed === true && $same === true && in_array($row['id'], $taken, true) === false) {
-					$matched[$key] = $row['id'];
-					$taken[]       = $row['id'];
-					break;
+			if (isset($matched[$key]) === false) {
+				$found = $this->unkeyedWithTitle(existing: $existing, title: (string)$column['title'], taken: array_values($matched));
+				if ($found !== null) {
+					$matched[$key] = $found;
 				}
 			}
 		}
 
 		return $matched;
 	}//end match()
+
+	/**
+	 * The id of a column that follows no workflow column and has this title, or null.
+	 *
+	 * @param array<int,array{id:string,data:array<string,mixed>}> $existing The project's column rows.
+	 * @param string                                               $title    The workflow column's title.
+	 * @param array<int,string>                                    $taken    Column ids already matched.
+	 *
+	 * @return string|null
+	 */
+	private function unkeyedWithTitle(array $existing, string $title, array $taken): ?string {
+		foreach ($existing as $row) {
+			$unkeyed = ((string)($row['data']['workflowKey'] ?? '') === '');
+			$same    = (mb_strtolower(trim((string)($row['data']['title'] ?? ''))) === mb_strtolower(trim($title)));
+			if ($unkeyed === true && $same === true && in_array($row['id'], $taken, true) === false) {
+				return $row['id'];
+			}
+		}
+
+		return null;
+	}//end unkeyedWithTitle()
 
 	/**
 	 * The column object's fields for a workflow column.
