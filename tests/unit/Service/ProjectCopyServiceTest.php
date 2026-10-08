@@ -169,6 +169,21 @@ class ProjectCopyServiceTest extends TestCase {
 	}//end testPeopleStayBehindUnlessKept()
 
 	/**
+	 * A key given for the copy is stored on it; the source's key never is.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+	 */
+	public function testGivenKeyIsStoredOnTheCopy(): void {
+		$fake = $this->fake();
+		$this->service($fake)->copy(sourceId: 'src', userId: 'anna', options: ['title' => 'Kopie', 'key' => 'WEG', 'parts' => []]);
+
+		self::assertSame(expected: 'WEG', actual: $fake->saved[0][2]['key']);
+
+	}//end testGivenKeyIsStoredOnTheCopy()
+
+	/**
 	 * A failure while writing tasks removes the project, columns and phases.
 	 *
 	 * @return void

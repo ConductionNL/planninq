@@ -1424,7 +1424,15 @@ OC.L10N.register(
         "Address copied": "Indirizzo copiato",
         "The address could not be copied": "Impossibile copiare l'indirizzo",
         "Add label": "Aggiungi etichetta",
-        "Remove label": "Rimuovi etichetta"
+        "Remove label": "Rimuovi etichetta",
+        "Copy these parts": "Copia queste parti",
+        "Copy project": "Copia progetto",
+        "Dates in the copy move along with the new start date.": "Le date nella copia si spostano con la nuova data di inizio.",
+        "Copying…": "Copia in corso…",
+        "The project could not be copied. Nothing was changed.": "Impossibile copiare il progetto. Non è stato modificato nulla.",
+        "Start from a template": "Parti da un modello",
+        "No template": "Nessun modello",
+        "Make a new project with the same columns, phases and tasks.": "Crea un nuovo progetto con le stesse colonne, fasi e attività."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1435,7 +1435,15 @@ OC.L10N.register(
         "Address copied": "Adres gekopieerd",
         "The address could not be copied": "Het adres kon niet worden gekopieerd",
         "Add label": "Label toevoegen",
-        "Remove label": "Label verwijderen"
+        "Remove label": "Label verwijderen",
+        "Copy these parts": "Neem deze onderdelen mee",
+        "Copy project": "Project kopiëren",
+        "Dates in the copy move along with the new start date.": "Datums in de kopie schuiven mee met de nieuwe startdatum.",
+        "Copying…": "Kopiëren…",
+        "The project could not be copied. Nothing was changed.": "Het project kon niet worden gekopieerd. Er is niets gewijzigd.",
+        "Start from a template": "Begin met een sjabloon",
+        "No template": "Geen sjabloon",
+        "Make a new project with the same columns, phases and tasks.": "Maak een nieuw project met dezelfde kolommen, fasen en taken."
     },
     "nplurals=2; plural=(n != 1);"
 )

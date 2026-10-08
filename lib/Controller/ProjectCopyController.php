@@ -33,6 +33,7 @@ use OCA\Planninq\Exception\ProjectCopyException;
 use OCA\Planninq\Service\CreationPolicyService;
 use OCA\Planninq\Service\ProjectCopyService;
 use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Service\WorkItemKeyService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -57,6 +58,7 @@ class ProjectCopyController extends Controller {
 	 * @param CreationPolicyService    $policy       Tells who may create projects.
 	 * @param IUserSession             $userSession  The caller.
 	 * @param IGroupManager            $groupManager Tells an admin.
+	 * @param WorkItemKeyService       $keys         The project key rules.
 	 */
 	public function __construct(
 		IRequest $request,
@@ -65,6 +67,7 @@ class ProjectCopyController extends Controller {
 		private CreationPolicyService $policy,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
+		private WorkItemKeyService $keys,
 	) {
 		parent::__construct(appName: Application::APP_ID, request: $request);
 	}//end __construct()
@@ -95,13 +98,20 @@ class ProjectCopyController extends Controller {
 		}
 
 		$params  = $this->request->getParams();
+		$key     = $this->keys->normalise(key: ($params['key'] ?? null));
 		$options = [
 			'title'     => trim((string)($params['title'] ?? '')),
+			'key'       => $key,
 			'startDate' => (string)($params['startDate'] ?? ''),
 			'parts'     => (array)($params['parts'] ?? []),
 		];
 		if ($options['title'] === '') {
 			return new JSONResponse(['error' => 'Give the new project a title.'], Http::STATUS_BAD_REQUEST);
+		}
+
+		$refusal = $this->keyRefusal(key: $key);
+		if ($refusal !== null) {
+			return $refusal;
 		}
 
 		try {
@@ -110,6 +120,34 @@ class ProjectCopyController extends Controller {
 			return new JSONResponse(['error' => $e->getMessage(), 'step' => $e->getStep()], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}//end create()
+
+	/**
+	 * The refusal for a malformed or taken key, or null; no key at all is fine.
+	 *
+	 * @param string $key The normalised key, empty for none.
+	 *
+	 * @return JSONResponse|null
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+	 */
+	private function keyRefusal(string $key): ?JSONResponse {
+		if ($key === '') {
+			return null;
+		}
+
+		if ($this->keys->isValidFormat(key: $key) === false) {
+			return new JSONResponse(
+				['error' => 'A key has 2 to 10 letters and digits and starts with a letter.', 'code' => 'planninq-project-key-format'],
+				Http::STATUS_BAD_REQUEST
+			);
+		}
+
+		if ($this->keys->isTaken(key: $key) === true) {
+			return new JSONResponse(['error' => 'This key is already used by another project.', 'code' => 'planninq-project-key-used'], Http::STATUS_CONFLICT);
+		}
+
+		return null;
+	}//end keyRefusal()
 
 	/**
 	 * Whether the caller may copy this project.

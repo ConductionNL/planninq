@@ -1403,7 +1403,15 @@ OC.L10N.register(
         "Address copied": "Address copied",
         "The address could not be copied": "The address could not be copied",
         "Add label": "Add label",
-        "Remove label": "Remove label"
+        "Remove label": "Remove label",
+        "Copy these parts": "Copy these parts",
+        "Copy project": "Copy project",
+        "Dates in the copy move along with the new start date.": "Dates in the copy move along with the new start date.",
+        "Copying…": "Copying…",
+        "The project could not be copied. Nothing was changed.": "The project could not be copied. Nothing was changed.",
+        "Start from a template": "Start from a template",
+        "No template": "No template",
+        "Make a new project with the same columns, phases and tasks.": "Make a new project with the same columns, phases and tasks."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -308,6 +308,13 @@
 					</div>
 				</div>
 
+				<div v-if="mayCopy" class="project-settings-sidebar__danger-item">
+					<p>{{ t('planninq', 'Make a new project with the same columns, phases and tasks.') }}</p>
+					<NcButton data-testid="project-copy" @click="showCopyDialog = true">
+						{{ t('planninq', 'Copy project') }}
+					</NcButton>
+				</div>
+
 				<div class="project-settings-sidebar__danger-item">
 					<p>{{ t('planninq', 'Permanently delete this project and all its tasks.') }}</p>
 					<NcButton variant="error" @click="showDeleteDialog = true">
@@ -323,6 +330,12 @@
 			:projectId="project.id"
 			@close="showLeaveDialog = false"
 			@left="onLeft" />
+
+		<ProjectCopyDialog
+			v-if="showCopyDialog && project"
+			:project="project"
+			@close="showCopyDialog = false"
+			@copied="onCopied" />
 
 		<ProjectDeleteDialog
 			v-if="showDeleteDialog && project"
@@ -363,6 +376,7 @@ import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
+import ProjectCopyDialog from '../dialogs/ProjectCopyDialog.vue'
 import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
 import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
 import CaseHandoverSection from './CaseHandoverSection.vue'
@@ -374,6 +388,7 @@ import { useProjectsStore } from '../store/projects.js'
 import { projectMailAddress } from '../utils/mailIntake.js'
 import { memberEntries } from '../utils/memberSearch.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
+import { mayCopyProject } from '../utils/projectCopy.js'
 import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
 import { lifecycleButtons } from '../utils/projectLifecycle.js'
 import { ASSIGNABLE_ROLES, canManageMembers, canSetOwnerGroup, currentGroupIds, ownerGroupOf, projectRole } from '../utils/projectRole.js'
@@ -386,6 +401,7 @@ export default {
 
 	components: {
 		CaseHandoverSection,
+		ProjectCopyDialog,
 		NcAppSidebar,
 		NcAppSidebarTab,
 		NcAvatar,
@@ -424,6 +440,7 @@ export default {
 			confirmArchive: false,
 			showLeaveDialog: false,
 			showDeleteDialog: false,
+			showCopyDialog: false,
 			removalWarning: null,
 			pendingRemoveUid: null,
 			form: {
@@ -521,6 +538,17 @@ export default {
 		 */
 		mayManageMembers() {
 			return getCurrentUser()?.isAdmin === true || canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
+		},
+
+		/**
+		 * Whether the person may copy this project: its owner, a manager or an admin.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 */
+		mayCopy() {
+			return getCurrentUser()?.isAdmin === true || mayCopyProject(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
 		},
 
 		/**
@@ -1001,6 +1029,19 @@ export default {
 			this.showLeaveDialog = false
 			this.$emit('close')
 			this.$router.push({ name: 'Projects' })
+		},
+
+		/**
+		 * Open the copy that was made.
+		 *
+		 * @param {{id: string}} copy The new project.
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 */
+		onCopied(copy) {
+			this.showCopyDialog = false
+			this.$emit('close')
+			this.$router.push({ name: 'ProjectBoard', params: { id: copy.id } })
 		},
 
 		/**

@@ -418,6 +418,40 @@ export const useProjectsStore = defineStore('projects', {
 			}
 		},
 
+		/**
+		 * Copy a project, or start one from a template, on the server.
+		 *
+		 * The server remaps every reference between the copied objects and
+		 * removes a half copy when a step fails.
+		 *
+		 * @param {string} sourceId The project or template to copy.
+		 * @param {object} body     `{ title, key?, startDate?, parts }` from copyPayload.
+		 * @return {Promise<{id: string, counts: object}>} The new project's id and what was copied
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 */
+		async copyProject(sourceId, body) {
+			this.loading = true
+			this.error = null
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/projects/${sourceId}/copy`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(body),
+				})
+				const data = await response.json().catch(() => ({}))
+				if (!response.ok) {
+					const error = new Error(data?.error || 'copy-error')
+					error.code = data?.code
+					this.error = error.message
+					throw error
+				}
+				return data
+			} finally {
+				this.loading = false
+			}
+		},
+
 		// ── 2.5 updateProject ─────────────────────────────────────────────
 
 		/**

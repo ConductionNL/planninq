@@ -1423,7 +1423,15 @@
         "Address copied": "Adresse copiée",
         "The address could not be copied": "L'adresse n'a pas pu être copiée",
         "Add label": "Ajouter une étiquette",
-        "Remove label": "Retirer l'étiquette"
+        "Remove label": "Retirer l'étiquette",
+        "Copy these parts": "Copier ces parties",
+        "Copy project": "Copier le projet",
+        "Dates in the copy move along with the new start date.": "Les dates de la copie suivent la nouvelle date de début.",
+        "Copying…": "Copie en cours…",
+        "The project could not be copied. Nothing was changed.": "Le projet n'a pas pu être copié. Rien n'a été modifié.",
+        "Start from a template": "Partir d'un modèle",
+        "No template": "Aucun modèle",
+        "Make a new project with the same columns, phases and tasks.": "Créer un nouveau projet avec les mêmes colonnes, phases et tâches."
     },
     "plurals": null
 }

@@ -9,6 +9,17 @@
 		@close="$emit('close')">
 		<template #default>
 			<form class="project-creation-dialog__form" @submit.prevent="submit">
+				<!-- Start from a template: its columns, phases and tasks are copied (projects-templates-shared-workflow) -->
+				<div v-if="templates.length" class="project-creation-dialog__field">
+					<NcSelect
+						v-model="template"
+						:options="templates"
+						:inputLabel="t('planninq', 'Start from a template')"
+						:placeholder="t('planninq', 'No template')"
+						label="label"
+						data-testid="project-creation-template" />
+				</div>
+
 				<!-- Title (required) -->
 				<div class="project-creation-dialog__field">
 					<!-- `.native` was removed in Vue 3: a plain @focusout on a
@@ -49,8 +60,23 @@
 						: t('planninq', 'Linked to a case') }}
 				</p>
 
+				<!-- Template: when the dates move, and which parts come along -->
+				<template v-if="template">
+					<div class="project-creation-dialog__field">
+						<label class="project-creation-dialog__label" for="project-template-start">
+							{{ t('planninq', 'Start date') }}
+						</label>
+						<input
+							id="project-template-start"
+							v-model="startDate"
+							type="date"
+							data-testid="project-creation-start">
+					</div>
+					<ProjectCopyParts v-model:value="parts" />
+				</template>
+
 				<!-- Description (optional) -->
-				<div class="project-creation-dialog__field">
+				<div v-if="!template" class="project-creation-dialog__field">
 					<NcTextArea
 						v-model="form.description"
 						:label="t('planninq', 'Description')"
@@ -59,7 +85,7 @@
 				</div>
 
 				<!-- Color (optional) -->
-				<div class="project-creation-dialog__field">
+				<div v-if="!template" class="project-creation-dialog__field">
 					<label class="project-creation-dialog__label" for="project-color">
 						{{ t('planninq', 'Color') }}
 					</label>
@@ -72,7 +98,7 @@
 				</div>
 
 				<!-- Icon / emoji (optional) -->
-				<div class="project-creation-dialog__field">
+				<div v-if="!template" class="project-creation-dialog__field">
 					<NcTextField
 						v-model="form.icon"
 						:label="t('planninq', 'Icon (emoji)')"
@@ -109,8 +135,10 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { NcButton, NcDialog, NcLoadingIcon, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import ProjectCopyParts from '../components/ProjectCopyParts.vue'
 import { useProjectsStore } from '../store/projects.js'
+import { copyPayload, defaultCopyParts, templateOptions } from '../utils/projectCopy.js'
 import { isValidProjectKey, keyRefusal, normaliseProjectKey, suggestProjectKey } from '../utils/workItemKeys.js'
 
 export default {
@@ -122,6 +150,8 @@ export default {
 		NcTextField,
 		NcTextArea,
 		NcLoadingIcon,
+		NcSelect,
+		ProjectCopyParts,
 	},
 
 	props: {
@@ -145,6 +175,10 @@ export default {
 			// 'used' from the availability check or the server; '' otherwise.
 			keyTaken: '',
 			keyCheckTimer: null,
+			// The template the project starts from, as a templateOptions entry; null for a blank project.
+			template: null,
+			startDate: '',
+			parts: defaultCopyParts(),
 			form: {
 				title: this.prefill?.title || '',
 				key: suggestProjectKey(this.prefill?.title || ''),
@@ -168,6 +202,13 @@ export default {
 		 */
 		loading() {
 			return this.projectsStore.loading
+		},
+
+		/**
+		 * @spec exclude Display helper — the templates the person can start from.
+		 */
+		templates() {
+			return templateOptions(this.projectsStore.projects)
 		},
 
 		/**
@@ -201,6 +242,17 @@ export default {
 	},
 
 	watch: {
+		/**
+		 * Take the template's start date as the default for the new project.
+		 *
+		 * @param {object|null} template The chosen template.
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 */
+		template(template) {
+			this.startDate = template?.startDate ? template.startDate.slice(0, 10) : ''
+		},
+
 		/**
 		 * Suggest a key from the title until the user types one.
 		 *
@@ -270,6 +322,18 @@ export default {
 			}
 
 			try {
+				if (this.template) {
+					const copy = await this.projectsStore.copyProject(this.template.id, copyPayload({
+						title: this.form.title,
+						key: this.form.key,
+						startDate: this.startDate,
+						parts: this.parts,
+					}))
+					showSuccess(this.t('planninq', 'Project created'))
+					this.$emit('created', copy)
+					return
+				}
+
 				const project = await this.projectsStore.createProject({
 					title: this.form.title.trim(),
 					key: normaliseProjectKey(this.form.key),
@@ -286,7 +350,7 @@ export default {
 				// Warn if column creation had partial failures.
 				// (Warnings are already shown inside createDefaultColumns via toast)
 			} catch (err) {
-				if (keyRefusal(err?.message) === 'used') {
+				if (keyRefusal(err?.message) === 'used' || err?.code === 'planninq-project-key-used') {
 					this.keyTaken = 'used'
 					return
 				}

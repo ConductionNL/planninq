@@ -96,7 +96,7 @@ class ProjectCopyService {
 	 *
 	 * @param string              $sourceId The project to copy.
 	 * @param string              $userId   The person who becomes the new project's owner.
-	 * @param array<string,mixed> $options  `title`, `startDate` (Y-m-d) and `parts` (columns, phases, tasks, dependencies, people).
+	 * @param array<string,mixed> $options  `title`, `key` (already checked), `startDate` (Y-m-d) and `parts` (columns, phases, tasks, dependencies, people).
 	 *
 	 * @return array{id:string,counts:array<string,int>} The new project's id and what was copied.
 	 *
@@ -183,6 +183,9 @@ class ProjectCopyService {
 		$data['status']     = 'active';
 		$data['owner']      = $userId;
 		$data['members']    = [$userId];
+		if (is_string($options['key'] ?? null) === true && $options['key'] !== '') {
+			$data['key'] = $options['key'];
+		}
 		if ($people === true) {
 			foreach (['managers', 'viewers', 'managerGroups', 'memberGroups', 'viewerGroups'] as $list) {
 				if (isset($source[$list]) === true) {
