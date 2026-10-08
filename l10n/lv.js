@@ -1360,7 +1360,18 @@ OC.L10N.register(
         "Course": "Kurss",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kurss, kas tiek mācīts šajā stundā, piemēram, izvēles priekšmets, ja skolas mācību lietotne to zina.",
         "Online meeting link": "Tiešsaistes stundas saite",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kur skolēni pievienojas šai stundai tiešsaistē. Poga Pievienoties tiek rādīta tikai https saitei."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kur skolēni pievienojas šai stundai tiešsaistē. Poga Pievienoties tiek rādīta tikai https saitei.",
+        "The start date is after the due date.": "Sākuma datums ir pēc termiņa.",
+        "Move to project": "Pārvietot uz projektu",
+        "Move column to project": "Pārvietot kolonnu uz projektu",
+        "Copy column to project": "Kopēt kolonnu uz projektu",
+        "You are not a member of any other project.": "Jūs neesat nevienā citā projektā.",
+        "Target project": "Mērķa projekts",
+        "These links to other tasks are removed:": "Šīs saites ar citiem uzdevumiem tiks noņemtas:",
+        "These people are not on the target project and are cleared: {names}": "Šie cilvēki nav mērķa projektā, un viņi tiks noņemti: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Ne viss tika pārvietots vai nokopēts. Pārbaudiet mērķa projektu.",
+        "Could not move or copy. Please try again.": "Pārvietošana vai kopēšana neizdevās. Mēģiniet vēlreiz.",
+        "{amount} logged under {project}": "{amount} reģistrēts projektā {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

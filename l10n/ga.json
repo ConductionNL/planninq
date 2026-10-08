@@ -1359,7 +1359,18 @@
         "Course": "Cúrsa",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "An cúrsa a mhúintear sa cheacht seo, mar shampla ábhar roghnach, nuair is eol d'aip foghlama na scoile é.",
         "Online meeting link": "Nasc an cheachta ar líne",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Áit a nglacann daltaí páirt sa cheacht seo ar líne. Ní thaispeántar an cnaipe Glac páirt ach le nasc https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Áit a nglacann daltaí páirt sa cheacht seo ar líne. Ní thaispeántar an cnaipe Glac páirt ach le nasc https.",
+        "The start date is after the due date.": "Tá an dáta tosaigh i ndiaidh na spriocdháta.",
+        "Move to project": "Bog go tionscadal",
+        "Move column to project": "Bog an colún go tionscadal",
+        "Copy column to project": "Cóipeáil an colún go tionscadal",
+        "You are not a member of any other project.": "Níl tú i do bhall de thionscadal ar bith eile.",
+        "Target project": "Sprioctionscadal",
+        "These links to other tasks are removed:": "Bainfear na naisc seo le tascanna eile:",
+        "These people are not on the target project and are cleared: {names}": "Níl na daoine seo sa sprioctionscadal agus bainfear iad: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Níorbh fhéidir gach rud a bhogadh nó a chóipeáil. Seiceáil an sprioctionscadal.",
+        "Could not move or copy. Please try again.": "Theip ar an mbogadh nó ar an gcóipeáil. Bain triail eile as.",
+        "{amount} logged under {project}": "{amount} logáilte faoi {project}"
     },
     "plurals": null
 }

@@ -1360,7 +1360,18 @@ OC.L10N.register(
         "Course": "Kurssi",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kurssi, jota tällä tunnilla opetetaan, esimerkiksi valinnainen kurssi, kun koulun oppimissovellus tuntee sen.",
         "Online meeting link": "Verkkotunnin linkki",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Mistä oppilaat liittyvät tälle tunnille verkossa. Liity-painike näkyy vain https-linkille."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Mistä oppilaat liittyvät tälle tunnille verkossa. Liity-painike näkyy vain https-linkille.",
+        "The start date is after the due date.": "Aloituspäivä on eräpäivän jälkeen.",
+        "Move to project": "Siirrä projektiin",
+        "Move column to project": "Siirrä sarake projektiin",
+        "Copy column to project": "Kopioi sarake projektiin",
+        "You are not a member of any other project.": "Et ole minkään muun projektin jäsen.",
+        "Target project": "Kohdeprojekti",
+        "These links to other tasks are removed:": "Nämä linkit muihin tehtäviin poistetaan:",
+        "These people are not on the target project and are cleared: {names}": "Nämä henkilöt eivät ole kohdeprojektissa, ja ne poistetaan: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Kaikkea ei voitu siirtää tai kopioida. Tarkista kohdeprojekti.",
+        "Could not move or copy. Please try again.": "Siirto tai kopiointi epäonnistui. Yritä uudelleen.",
+        "{amount} logged under {project}": "{amount} kirjattu projektiin {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

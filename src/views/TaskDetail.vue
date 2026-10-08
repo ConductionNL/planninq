@@ -53,6 +53,16 @@
 							{{ t('planninq', 'Duplicate') }}
 						</NcButton>
 						<NcButton
+							v-if="!task.parent"
+							variant="tertiary"
+							data-testid="task-move"
+							@click="moving = true">
+							<template #icon>
+								<ArrowRight :size="20" />
+							</template>
+							{{ t('planninq', 'Move to project') }}
+						</NcButton>
+						<NcButton
 							v-if="canDelete"
 							variant="tertiary"
 							data-testid="task-delete"
@@ -150,6 +160,38 @@
 							{{ field.value || '—' }}
 						</dd>
 					</template>
+					<dt>
+						<label for="task-detail-start-date">{{ t('planninq', 'Start date') }}</label>
+					</dt>
+					<dd>
+						<NcDateTimePickerNative
+							id="task-detail-start-date"
+							:modelValue="toPickerDate(task.startDate)"
+							type="date"
+							hideLabel
+							:label="t('planninq', 'Start date')"
+							data-testid="task-start-date"
+							@update:modelValue="saveDate('startDate', $event)" />
+					</dd>
+					<dt>
+						<label for="task-detail-due-date">{{ t('planninq', 'Due date') }}</label>
+					</dt>
+					<dd>
+						<NcDateTimePickerNative
+							id="task-detail-due-date"
+							:modelValue="toPickerDate(task.dueDate)"
+							type="date"
+							hideLabel
+							:label="t('planninq', 'Due date')"
+							data-testid="task-due-date"
+							@update:modelValue="saveDate('dueDate', $event)" />
+						<p v-if="dateError"
+							class="task-detail__date-error"
+							role="alert"
+							data-testid="task-date-error">
+							{{ dateError }}
+						</p>
+					</dd>
 				</dl>
 
 				<!-- Subtasks, one level deep (tasks-subtasks-checklist) -->
@@ -307,6 +349,13 @@
 					</ul>
 				</section>
 
+				<p v-for="note in loggedElsewhere"
+					:key="note"
+					class="task-detail__progress"
+					data-testid="logged-elsewhere">
+					{{ note }}
+				</p>
+
 				<!-- Links to other tasks of the project (planning-dependencies-on-task-page) -->
 				<TaskDependencies :task="task" :projectTasks="projectTasks" />
 
@@ -344,6 +393,16 @@
 			:project="project"
 			@close="editing = false"
 			@saved="onTaskSaved" />
+		<TaskMoveDialog
+			v-if="moving && task"
+			:heading="t('planninq', 'Move to project')"
+			:confirmLabel="t('planninq', 'Move to project')"
+			:options="moveOptions"
+			:links="moveLinks"
+			:clearedFor="clearedFor"
+			:busy="movingBusy"
+			@close="moving = false"
+			@confirm="moveTask" />
 		<TaskDeleteDialog
 			v-if="deleting && task"
 			:task="task"
@@ -359,11 +418,12 @@
 import { CnObjectSidebar } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
-import { NcActionButton, NcActions, NcButton, NcCheckboxRadioSwitch, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcButton, NcCheckboxRadioSwitch, NcDateTimePickerNative, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import ArrowDown from 'vue-material-design-icons/ArrowDown.vue'
 import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
+import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import ArrowUp from 'vue-material-design-icons/ArrowUp.vue'
 import ClockPlusOutline from 'vue-material-design-icons/ClockPlusOutline.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
@@ -373,6 +433,7 @@ import TaskDependencies from '../components/TaskDependencies.vue'
 import TaskForgeLinks from '../components/TaskForgeLinks.vue'
 import TaskDeleteDialog from '../dialogs/TaskDeleteDialog.vue'
 import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
+import TaskMoveDialog from '../dialogs/TaskMoveDialog.vue'
 import TimeEntryDialog from '../dialogs/TimeEntryDialog.vue'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
@@ -382,8 +443,10 @@ import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
 import { EPIC_TYPE, epicChoices, isEpic, refId, releaseChoices } from '../utils/roadmapHelpers.js'
 import { addChecklistItem, checklistCount, moveChecklistItem, newSubtask, removeChecklistItem, subtaskProgress, subtaskRollup, toggleChecklistItem } from '../utils/taskBreakdown.js'
+import { fromPickerDate, toPickerDate, validateTaskDates } from '../utils/taskDates.js'
 import { canDeleteTask } from '../utils/taskEditing.js'
 import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
+import { peopleToClear, targetProjects, timeLoggedElsewhere } from '../utils/taskMove.js'
 import { labelsPatch, memberOptions, PRIORITIES, priorityPatch, responsiblePatch, sharedWithPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
 import { taskHeading } from '../utils/workItemKeys.js'
@@ -406,6 +469,7 @@ export default {
 		NcActionButton,
 		NcButton,
 		NcCheckboxRadioSwitch,
+		NcDateTimePickerNative,
 		NcEmptyContent,
 		NcLoadingIcon,
 		NcRichText,
@@ -414,6 +478,7 @@ export default {
 		CnObjectSidebar,
 		ArrowDown,
 		ArrowLeft,
+		ArrowRight,
 		ArrowUp,
 		ContentCopy,
 		AlertCircleOutline,
@@ -424,6 +489,7 @@ export default {
 		TaskForgeLinks,
 		TaskDeleteDialog,
 		TaskFormDialog,
+		TaskMoveDialog,
 		TimeEntryDialog,
 	},
 
@@ -433,6 +499,9 @@ export default {
 			timeEntriesStore: useTimeEntriesStore(),
 			settingsStore: useSettingsStore(),
 			estimateInput: '',
+			dateError: '',
+			moving: false,
+			movingBusy: false,
 			savingEstimate: false,
 			projectTasks: [],
 			dialogOpen: false,
@@ -510,7 +579,6 @@ export default {
 			const t = this.task || {}
 			return [
 				{ key: 'status', label: this.t('planninq', 'Status'), value: t.status },
-				{ key: 'dueDate', label: this.t('planninq', 'Due date'), value: t.dueDate },
 			]
 		},
 
@@ -680,6 +748,48 @@ export default {
 		},
 
 		/**
+		 * Projects the task can move to: the ones the user is on, except the current one.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
+		 */
+		moveOptions() {
+			const uid = getCurrentUser()?.uid ?? ''
+			const current = String(this.task?.project?.id || this.task?.project || '')
+			return targetProjects(this.projectsStore.projects, uid, current)
+		},
+
+		/**
+		 * The task's dependency links, named, for the move dialog.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
+		 */
+		moveLinks() {
+			const titles = Object.fromEntries(this.projectTasks.map((other) => [other.id, other.title]))
+			return (useDependenciesStore().edges || [])
+				.filter((edge) => edge.blocker === this.taskId || edge.blocked === this.taskId)
+				.map((edge) => {
+					const otherId = edge.blocker === this.taskId ? edge.blocked : edge.blocker
+					return { edgeId: edge.id, label: titles[otherId] || otherId }
+				})
+		},
+
+		/**
+		 * Time booked under other projects than the task's current one, named.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.3
+		 */
+		loggedElsewhere() {
+			const current = String(this.task?.project?.id || this.task?.project || '')
+			return timeLoggedElsewhere(this.timeEntries, current).map((row) => {
+				const other = this.projectsStore.projects.find((project) => (project.id ?? project.uuid) === row.projectId)
+				return this.t('planninq', '{amount} logged under {project}', {
+					amount: this.formatMinutes(row.minutes),
+					project: other?.title || row.projectId,
+				})
+			})
+		},
+
+		/**
 		 * Time entries for this task (all users) from the timeEntries store.
 		 *
 		 * @spec openspec/specs/time-tracking.md
@@ -838,6 +948,7 @@ export default {
 				projectId ? this.projectsStore.fetchTasks(String(projectId)) : Promise.resolve([]),
 				projectId ? this.projectsStore._objectStore().fetchObject('project', String(projectId)) : Promise.resolve(null),
 				useDependenciesStore().fetchEdges(),
+				this.projectsStore.fetchProjects(),
 			])
 			this.projectTasks = Array.isArray(tasks) ? tasks : []
 			this.project = project || null
@@ -1050,6 +1161,69 @@ export default {
 		statusText(status) {
 			const labels = { open: this.t('planninq', 'Open'), in_progress: this.t('planninq', 'In progress'), blocked: this.t('planninq', 'Blocked'), done: this.t('planninq', 'Done'), cancelled: this.t('planninq', 'Cancelled') }
 			return labels[status] || status
+		},
+
+		/**
+		 * The people the move clears, by name, for the picked project.
+		 *
+		 * @param {{id: string}} option The picked project.
+		 * @return {Array<string>}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
+		 */
+		clearedFor(option) {
+			const target = this.projectsStore.projects.find((project) => (project.id ?? project.uuid) === option.id)
+			return peopleToClear(this.task, target).map((uid) => this.names?.[uid] || uid)
+		},
+
+		/**
+		 * Move the task and its subtasks to the picked project, then leave for that board.
+		 *
+		 * @param {{id: string}} option The picked project.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
+		 */
+		async moveTask(option) {
+			const target = this.projectsStore.projects.find((project) => (project.id ?? project.uuid) === option.id)
+			if (!target) {
+				return
+			}
+			this.movingBusy = true
+			const moved = await this.projectsStore.moveTaskToProject(this.task, this.subtasks, target)
+			this.movingBusy = false
+			if (!moved) {
+				showError(this.t('planninq', 'Could not move or copy. Please try again.'))
+				return
+			}
+			this.moving = false
+			this.$router.push({ name: 'ProjectBoard', params: { id: option.id } })
+		},
+
+		toPickerDate,
+
+		/**
+		 * Save a changed start or due date; a cleared picker clears the date.
+		 * A start after the due date shows a message and saves nothing.
+		 *
+		 * @param {'startDate'|'dueDate'} field The date being set.
+		 * @param {Date|null}             value The picked date.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-dates/tasks.md#task-2.1
+		 */
+		async saveDate(field, value) {
+			const next = fromPickerDate(value)
+			if ((next || null) === (this.task?.[field] || null)) {
+				return
+			}
+			const merged = { startDate: this.task?.startDate, dueDate: this.task?.dueDate, [field]: next }
+			if (validateTaskDates(merged.startDate, merged.dueDate) === 'startAfterDue') {
+				this.dateError = this.t('planninq', 'The start date is after the due date.')
+				return
+			}
+			this.dateError = ''
+			await this.saveTask({ [field]: next || null })
 		},
 
 		/**
@@ -1399,6 +1573,10 @@ export default {
 	grid-template-columns: max-content 1fr;
 	gap: 8px 24px;
 	max-width: 640px;
+}
+
+.task-detail__date-error {
+	color: var(--color-error-text);
 }
 
 .task-detail__fields dt {

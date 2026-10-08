@@ -1360,7 +1360,18 @@ OC.L10N.register(
         "Course": "Курс",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Курс, які выкладаюць на гэтым уроку, напрыклад факультатыў, калі школьная навучальная праграма яго ведае.",
         "Online meeting link": "Спасылка на анлайн-урок",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Дзе вучні далучаюцца да гэтага ўрока анлайн. Кнопка «Далучыцца» з'яўляецца толькі для спасылкі https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Дзе вучні далучаюцца да гэтага ўрока анлайн. Кнопка «Далучыцца» з'яўляецца толькі для спасылкі https.",
+        "The start date is after the due date.": "Дата пачатку пазней за тэрмін.",
+        "Move to project": "Перамясціць у праект",
+        "Move column to project": "Перамясціць слупок у праект",
+        "Copy column to project": "Скапіраваць слупок у праект",
+        "You are not a member of any other project.": "Вы не з’яўляецеся ўдзельнікам іншага праекта.",
+        "Target project": "Мэтавы праект",
+        "These links to other tasks are removed:": "Гэтыя сувязі з іншымі заданнямі будуць выдалены:",
+        "These people are not on the target project and are cleared: {names}": "Гэтых людзей няма ў мэтавым праекце, іх будуць выдалены: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Не ўсё атрымалася перамясціць або скапіраваць. Праверце мэтавы праект.",
+        "Could not move or copy. Please try again.": "Не атрымалася перамясціць або скапіраваць. Паспрабуйце яшчэ раз.",
+        "{amount} logged under {project}": "{amount} зарэгістравана ў {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

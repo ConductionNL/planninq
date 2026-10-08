@@ -1360,7 +1360,18 @@ OC.L10N.register(
         "Course": "Kurs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kurset timen underviser i, for eksempel et valgfag, når skolens læringsapp kjenner det.",
         "Online meeting link": "Lenke til nettimen",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Hvor elevene blir med i timen på nett. Knappen Bli med vises bare for en https-lenke."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Hvor elevene blir med i timen på nett. Knappen Bli med vises bare for en https-lenke.",
+        "The start date is after the due date.": "Startdatoen er etter fristen.",
+        "Move to project": "Flytt til prosjekt",
+        "Move column to project": "Flytt kolonnen til prosjekt",
+        "Copy column to project": "Kopier kolonnen til prosjekt",
+        "You are not a member of any other project.": "Du er ikke medlem av noe annet prosjekt.",
+        "Target project": "Målprosjekt",
+        "These links to other tasks are removed:": "Disse koblingene til andre oppgaver fjernes:",
+        "These people are not on the target project and are cleared: {names}": "Disse personene er ikke med i målprosjektet og fjernes: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Ikke alt kunne flyttes eller kopieres. Sjekk målprosjektet.",
+        "Could not move or copy. Please try again.": "Kunne ikke flytte eller kopiere. Prøv igjen.",
+        "{amount} logged under {project}": "{amount} registrert under {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

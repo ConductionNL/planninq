@@ -1360,7 +1360,18 @@ OC.L10N.register(
         "Course": "Kors",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Il-kors mgħallem f'din il-lezzjoni, bħal suġġett fakultattiv, meta l-app tat-tagħlim tal-iskola tkun tafu.",
         "Online meeting link": "Link tal-lezzjoni online",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Fejn l-istudenti jingħaqdu ma' din il-lezzjoni online. Il-buttuna Ingħaqad tidher biss għal link https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Fejn l-istudenti jingħaqdu ma' din il-lezzjoni online. Il-buttuna Ingħaqad tidher biss għal link https.",
+        "The start date is after the due date.": "Id-data tal-bidu hija wara d-data tal-iskadenza.",
+        "Move to project": "Mexxi lejn proġett",
+        "Move column to project": "Mexxi l-kolonna lejn proġett",
+        "Copy column to project": "Ikkopja l-kolonna lejn proġett",
+        "You are not a member of any other project.": "Inti mhux membru ta’ ebda proġett ieħor.",
+        "Target project": "Proġett fil-mira",
+        "These links to other tasks are removed:": "Dawn il-links ma’ kompiti oħra se jitneħħew:",
+        "These people are not on the target project and are cleared: {names}": "Dawn in-nies mhumiex fil-proġett fil-mira u se jitneħħew: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Ma setax jinbidel jew jiġi kkupjat kollox. Iċċekkja l-proġett fil-mira.",
+        "Could not move or copy. Please try again.": "Il-mexxija jew il-kopja falliet. Erġa’ pprova.",
+        "{amount} logged under {project}": "{amount} irreġistrat taħt {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

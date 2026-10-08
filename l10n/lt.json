@@ -1359,7 +1359,18 @@
         "Course": "Kursas",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kursas, kurio mokoma per šią pamoką, pavyzdžiui, pasirenkamasis dalykas, kai mokyklos mokymosi programėlė jį žino.",
         "Online meeting link": "Nuotolinės pamokos nuoroda",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kur mokiniai prisijungia prie šios pamokos nuotoliu. Mygtukas Prisijungti rodomas tik su https nuoroda."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kur mokiniai prisijungia prie šios pamokos nuotoliu. Mygtukas Prisijungti rodomas tik su https nuoroda.",
+        "The start date is after the due date.": "Pradžios data yra po termino.",
+        "Move to project": "Perkelti į projektą",
+        "Move column to project": "Perkelti stulpelį į projektą",
+        "Copy column to project": "Kopijuoti stulpelį į projektą",
+        "You are not a member of any other project.": "Nesate jokio kito projekto narys.",
+        "Target project": "Tikslinis projektas",
+        "These links to other tasks are removed:": "Šios nuorodos į kitas užduotis bus pašalintos:",
+        "These people are not on the target project and are cleared: {names}": "Šių žmonių nėra tiksliniame projekte, todėl jie bus pašalinti: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Ne viską pavyko perkelti ar nukopijuoti. Patikrinkite tikslinį projektą.",
+        "Could not move or copy. Please try again.": "Nepavyko perkelti ar nukopijuoti. Bandykite dar kartą.",
+        "{amount} logged under {project}": "{amount} užregistruota projekte {project}"
     },
     "plurals": null
 }

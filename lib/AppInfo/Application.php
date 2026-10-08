@@ -595,6 +595,13 @@ class Application extends App implements IBootstrap {
 			registers: ['planninq'],
 			schemas: ['task']
 		);
+		$this->registerFilteredObjectListener(
+			dispatcher: $dispatcher,
+			event: 'OCA\\OpenRegister\\Event\\ObjectUpdatingEvent',
+			listener: 'OCA\\Planninq\\Listener\\TaskDependencyCleanupListener',
+			registers: ['planninq'],
+			schemas: ['task']
+		);
 
 		$this->registerMembershipListeners(dispatcher: $dispatcher);
 		$this->registerBoardColumnListeners(dispatcher: $dispatcher);

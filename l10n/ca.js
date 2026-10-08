@@ -1360,7 +1360,18 @@ OC.L10N.register(
         "Course": "Curs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "El curs que s'imparteix en aquesta classe, com una optativa, quan l'aplicació d'aprenentatge de l'escola el coneix.",
         "Online meeting link": "Enllaç de la classe en línia",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "On els alumnes s'uneixen a aquesta classe en línia. El botó Uneix-te només apareix amb un enllaç https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "On els alumnes s'uneixen a aquesta classe en línia. El botó Uneix-te només apareix amb un enllaç https.",
+        "The start date is after the due date.": "La data d’inici és posterior al termini.",
+        "Move to project": "Mou a un projecte",
+        "Move column to project": "Mou la columna a un projecte",
+        "Copy column to project": "Copia la columna a un projecte",
+        "You are not a member of any other project.": "No sou membre de cap altre projecte.",
+        "Target project": "Projecte de destinació",
+        "These links to other tasks are removed:": "Aquests enllaços amb altres tasques se suprimiran:",
+        "These people are not on the target project and are cleared: {names}": "Aquestes persones no són al projecte de destinació i se suprimiran: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "No s’ha pogut moure o copiar tot. Reviseu el projecte de destinació.",
+        "Could not move or copy. Please try again.": "No s’ha pogut moure ni copiar. Torneu-ho a provar.",
+        "{amount} logged under {project}": "{amount} registrades a {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

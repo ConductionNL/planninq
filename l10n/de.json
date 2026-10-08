@@ -1359,7 +1359,18 @@
         "Course": "Kurs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Der Kurs, den diese Stunde unterrichtet, etwa ein Wahlfach, wenn die Lern-App der Schule ihn kennt.",
         "Online meeting link": "Link zur Online-Stunde",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Wo Schüler online an dieser Stunde teilnehmen. Die Schaltfläche Teilnehmen erscheint nur bei einem https-Link."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Wo Schüler online an dieser Stunde teilnehmen. Die Schaltfläche Teilnehmen erscheint nur bei einem https-Link.",
+        "The start date is after the due date.": "Das Startdatum liegt nach dem Fälligkeitsdatum.",
+        "Move to project": "In Projekt verschieben",
+        "Move column to project": "Spalte in Projekt verschieben",
+        "Copy column to project": "Spalte in Projekt kopieren",
+        "You are not a member of any other project.": "Sie sind kein Mitglied eines anderen Projekts.",
+        "Target project": "Zielprojekt",
+        "These links to other tasks are removed:": "Diese Verknüpfungen mit anderen Aufgaben werden entfernt:",
+        "These people are not on the target project and are cleared: {names}": "Diese Personen gehören nicht zum Zielprojekt und werden entfernt: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Nicht alles konnte verschoben oder kopiert werden. Bitte prüfen Sie das Zielprojekt.",
+        "Could not move or copy. Please try again.": "Verschieben oder Kopieren ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+        "{amount} logged under {project}": "{amount} erfasst in {project}"
     },
     "plurals": null
 }

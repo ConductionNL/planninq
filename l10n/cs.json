@@ -1359,7 +1359,18 @@
         "Course": "Kurz",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kurz, který se v této hodině vyučuje, například volitelný předmět, pokud ho školní výuková aplikace zná.",
         "Online meeting link": "Odkaz na online hodinu",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kde se žáci k této hodině připojí online. Tlačítko Připojit se zobrazí jen u odkazu https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kde se žáci k této hodině připojí online. Tlačítko Připojit se zobrazí jen u odkazu https.",
+        "The start date is after the due date.": "Datum zahájení je po termínu dokončení.",
+        "Move to project": "Přesunout do projektu",
+        "Move column to project": "Přesunout sloupec do projektu",
+        "Copy column to project": "Zkopírovat sloupec do projektu",
+        "You are not a member of any other project.": "Nejste členem žádného jiného projektu.",
+        "Target project": "Cílový projekt",
+        "These links to other tasks are removed:": "Tyto vazby na jiné úkoly budou odebrány:",
+        "These people are not on the target project and are cleared: {names}": "Tito lidé nejsou v cílovém projektu a budou odebráni: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Ne všechno se podařilo přesunout nebo zkopírovat. Zkontrolujte cílový projekt.",
+        "Could not move or copy. Please try again.": "Přesun nebo kopírování se nezdařilo. Zkuste to znovu.",
+        "{amount} logged under {project}": "{amount} zapsáno v projektu {project}"
     },
     "plurals": null
 }

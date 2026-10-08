@@ -1359,7 +1359,18 @@
         "Course": "Disciplina",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "A disciplina lecionada nesta aula, como uma opção, quando a aplicação de aprendizagem da escola a conhece.",
         "Online meeting link": "Ligação da aula online",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Onde os alunos entram nesta aula online. O botão Entrar só aparece com uma ligação https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Onde os alunos entram nesta aula online. O botão Entrar só aparece com uma ligação https.",
+        "The start date is after the due date.": "A data de início é posterior ao prazo.",
+        "Move to project": "Mover para um projeto",
+        "Move column to project": "Mover a coluna para um projeto",
+        "Copy column to project": "Copiar a coluna para um projeto",
+        "You are not a member of any other project.": "Não é membro de nenhum outro projeto.",
+        "Target project": "Projeto de destino",
+        "These links to other tasks are removed:": "Estas ligações a outras tarefas serão removidas:",
+        "These people are not on the target project and are cleared: {names}": "Estas pessoas não estão no projeto de destino e serão removidas: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Nem tudo pôde ser movido ou copiado. Verifique o projeto de destino.",
+        "Could not move or copy. Please try again.": "Não foi possível mover ou copiar. Tente novamente.",
+        "{amount} logged under {project}": "{amount} registadas em {project}"
     },
     "plurals": {}
 }

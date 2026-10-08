@@ -1360,7 +1360,18 @@ OC.L10N.register(
         "Course": "Курс",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Курс, который преподаётся на этом уроке, например факультатив, если школьное учебное приложение его знает.",
         "Online meeting link": "Ссылка на онлайн-урок",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Где ученики подключаются к этому уроку онлайн. Кнопка «Присоединиться» появляется только для ссылки https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Где ученики подключаются к этому уроку онлайн. Кнопка «Присоединиться» появляется только для ссылки https.",
+        "The start date is after the due date.": "Дата начала позже срока.",
+        "Move to project": "Переместить в проект",
+        "Move column to project": "Переместить столбец в проект",
+        "Copy column to project": "Скопировать столбец в проект",
+        "You are not a member of any other project.": "Вы не участвуете ни в одном другом проекте.",
+        "Target project": "Целевой проект",
+        "These links to other tasks are removed:": "Эти связи с другими задачами будут удалены:",
+        "These people are not on the target project and are cleared: {names}": "Этих людей нет в целевом проекте, они будут удалены: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Не всё удалось переместить или скопировать. Проверьте целевой проект.",
+        "Could not move or copy. Please try again.": "Не удалось переместить или скопировать. Попробуйте ещё раз.",
+        "{amount} logged under {project}": "{amount} учтено в проекте {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

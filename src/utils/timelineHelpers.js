@@ -12,6 +12,7 @@
  *
  * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md
  */
+import { parseLocalDate } from './taskDates.js'
 
 /** Milliseconds in a whole UTC day. */
 export const MS_PER_DAY = 86400000
@@ -56,11 +57,12 @@ export function parseDay(value) {
 	if (!value || typeof value !== 'string') {
 		return null
 	}
-	const ms = Date.parse(value)
-	if (Number.isNaN(ms)) {
+	const date = parseLocalDate(value)
+	if (date === null) {
 		return null
 	}
-	return Math.floor(ms / MS_PER_DAY)
+	// Day index from the local calendar day, so the same date maps to the same index in every time zone.
+	return Math.floor(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / MS_PER_DAY)
 }
 
 /**

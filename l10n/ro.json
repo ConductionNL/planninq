@@ -1359,7 +1359,18 @@
         "Course": "Curs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Cursul predat în această lecție, de exemplu o opțională, când aplicația de învățare a școlii îl cunoaște.",
         "Online meeting link": "Linkul lecției online",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Unde se alătură elevii acestei lecții online. Butonul Alătură-te apare doar pentru un link https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Unde se alătură elevii acestei lecții online. Butonul Alătură-te apare doar pentru un link https.",
+        "The start date is after the due date.": "Data de început este după termen.",
+        "Move to project": "Mută într-un proiect",
+        "Move column to project": "Mută coloana într-un proiect",
+        "Copy column to project": "Copiază coloana într-un proiect",
+        "You are not a member of any other project.": "Nu sunteți membru al niciunui alt proiect.",
+        "Target project": "Proiect țintă",
+        "These links to other tasks are removed:": "Aceste legături cu alte sarcini vor fi eliminate:",
+        "These people are not on the target project and are cleared: {names}": "Aceste persoane nu fac parte din proiectul țintă și vor fi eliminate: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Nu s-a putut muta sau copia totul. Verificați proiectul țintă.",
+        "Could not move or copy. Please try again.": "Mutarea sau copierea a eșuat. Încercați din nou.",
+        "{amount} logged under {project}": "{amount} înregistrate în {project}"
     },
     "plurals": {}
 }

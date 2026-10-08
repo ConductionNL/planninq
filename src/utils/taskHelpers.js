@@ -3,6 +3,7 @@
  *
  * @spec openspec/changes/task-due-date-warning/specs/tasks/spec.md
  */
+import { parseLocalDate } from './taskDates.js'
 
 /**
  * Task statuses that count as "resolved" — a blocker in one of these states
@@ -235,8 +236,8 @@ export function dueDateStatus(task, now = new Date()) {
 		return null
 	}
 
-	const due = raw instanceof Date ? raw : new Date(raw)
-	if (Number.isNaN(due.getTime())) {
+	const due = parseLocalDate(raw)
+	if (due === null) {
 		return null
 	}
 

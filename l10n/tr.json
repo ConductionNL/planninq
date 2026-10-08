@@ -1359,7 +1359,18 @@
         "Course": "Ders",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Bu derste işlenen ders, örneğin bir seçmeli ders, okulun öğrenme uygulaması onu bildiğinde.",
         "Online meeting link": "Çevrimiçi ders bağlantısı",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Öğrencilerin bu derse çevrimiçi katıldığı yer. Katıl düğmesi yalnızca https bağlantısında görünür."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Öğrencilerin bu derse çevrimiçi katıldığı yer. Katıl düğmesi yalnızca https bağlantısında görünür.",
+        "The start date is after the due date.": "Başlangıç tarihi son tarihten sonra.",
+        "Move to project": "Projeye taşı",
+        "Move column to project": "Sütunu projeye taşı",
+        "Copy column to project": "Sütunu projeye kopyala",
+        "You are not a member of any other project.": "Başka hiçbir projenin üyesi değilsiniz.",
+        "Target project": "Hedef proje",
+        "These links to other tasks are removed:": "Diğer görevlerle olan bu bağlantılar kaldırılacak:",
+        "These people are not on the target project and are cleared: {names}": "Bu kişiler hedef projede değil ve kaldırılacak: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Her şey taşınamadı veya kopyalanamadı. Hedef projeyi kontrol edin.",
+        "Could not move or copy. Please try again.": "Taşıma veya kopyalama başarısız oldu. Lütfen yeniden deneyin.",
+        "{amount} logged under {project}": "{amount}, {project} altında kaydedildi"
     },
     "plurals": {}
 }

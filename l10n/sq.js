@@ -1360,7 +1360,18 @@ OC.L10N.register(
         "Course": "Kurs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kursi që jepet në këtë orë mësimi, për shembull një lëndë me zgjedhje, kur aplikacioni mësimor i shkollës e njeh.",
         "Online meeting link": "Lidhja e mësimit në internet",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Ku nxënësit i bashkohen këtij mësimi në internet. Butoni Bashkohu shfaqet vetëm për një lidhje https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Ku nxënësit i bashkohen këtij mësimi në internet. Butoni Bashkohu shfaqet vetëm për një lidhje https.",
+        "The start date is after the due date.": "Data e fillimit është pas afatit.",
+        "Move to project": "Zhvendose në projekt",
+        "Move column to project": "Zhvendose kolonën në projekt",
+        "Copy column to project": "Kopjo kolonën në projekt",
+        "You are not a member of any other project.": "Nuk jeni anëtar i asnjë projekti tjetër.",
+        "Target project": "Projekti i synuar",
+        "These links to other tasks are removed:": "Këto lidhje me detyra të tjera do të hiqen:",
+        "These people are not on the target project and are cleared: {names}": "Këta persona nuk janë në projektin e synuar dhe do të hiqen: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Jo gjithçka u zhvendos ose u kopjua. Kontrolloni projektin e synuar.",
+        "Could not move or copy. Please try again.": "Zhvendosja ose kopjimi dështoi. Provoni përsëri.",
+        "{amount} logged under {project}": "{amount} të regjistruara te {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

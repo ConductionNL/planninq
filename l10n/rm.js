@@ -1360,7 +1360,18 @@ OC.L10N.register(
         "Course": "Curs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Il curs che vegn instruì en questa lecziun, per exempel ina materia facultativa, sche l'app d'emprender da la scola al enconuscha.",
         "Online meeting link": "Link a la lecziun online",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Nua che las scolaras ed ils scolars sa participeschan online a questa lecziun. Il buttun Participar cumpara mo per in link https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Nua che las scolaras ed ils scolars sa participeschan online a questa lecziun. Il buttun Participar cumpara mo per in link https.",
+        "The start date is after the due date.": "La data da cumenzament è suenter il termin.",
+        "Move to project": "Spustar en in project",
+        "Move column to project": "Spustar la colonna en in project",
+        "Copy column to project": "Copiar la colonna en in project",
+        "You are not a member of any other project.": "Ti n’eis commembra/commember da nagin auter project.",
+        "Target project": "Project da destinaziun",
+        "These links to other tasks are removed:": "Questas colliaziuns cun autras incumbensas vegnan allontanadas:",
+        "These people are not on the target project and are cleared: {names}": "Questas persunas n’èn betg en il project da destinaziun e vegnan allontanadas: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Betg tut ha pudì vegnir spustà u copià. Controllescha il project da destinaziun.",
+        "Could not move or copy. Please try again.": "Il spustar u copiar n’è betg reussì. Emprova danovamain.",
+        "{amount} logged under {project}": "{amount} registrà en {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

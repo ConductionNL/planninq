@@ -1339,7 +1339,18 @@ OC.L10N.register(
         "Course": "Course",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "The course this lesson teaches, such as an elective, when the school's learning app knows it.",
         "Online meeting link": "Online meeting link",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Where pupils join this lesson online. Pupils see a Join button only for an https link."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Where pupils join this lesson online. Pupils see a Join button only for an https link.",
+        "The start date is after the due date.": "The start date is after the due date.",
+        "Move to project": "Move to project",
+        "Move column to project": "Move column to project",
+        "Copy column to project": "Copy column to project",
+        "You are not a member of any other project.": "You are not a member of any other project.",
+        "Target project": "Target project",
+        "These links to other tasks are removed:": "These links to other tasks are removed:",
+        "These people are not on the target project and are cleared: {names}": "These people are not on the target project and are cleared: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Not everything could be moved or copied. Please check the target project.",
+        "Could not move or copy. Please try again.": "Could not move or copy. Please try again.",
+        "{amount} logged under {project}": "{amount} logged under {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

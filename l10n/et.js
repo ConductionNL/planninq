@@ -1360,7 +1360,18 @@ OC.L10N.register(
         "Course": "Kursus",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kursus, mida selles tunnis õpetatakse, näiteks valikaine, kui kooli õpperakendus seda teab.",
         "Online meeting link": "Veebitunni link",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kus õpilased selle tunniga veebis liituvad. Nupp Liitu kuvatakse ainult https-lingi korral."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kus õpilased selle tunniga veebis liituvad. Nupp Liitu kuvatakse ainult https-lingi korral.",
+        "The start date is after the due date.": "Alguskuupäev on tähtajast hilisem.",
+        "Move to project": "Teisalda projekti",
+        "Move column to project": "Teisalda veerg projekti",
+        "Copy column to project": "Kopeeri veerg projekti",
+        "You are not a member of any other project.": "Sa ei ole ühegi teise projekti liige.",
+        "Target project": "Sihtprojekt",
+        "These links to other tasks are removed:": "Need seosed teiste ülesannetega eemaldatakse:",
+        "These people are not on the target project and are cleared: {names}": "Need inimesed ei kuulu sihtprojekti ja eemaldatakse: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Kõike ei õnnestunud teisaldada ega kopeerida. Kontrolli sihtprojekti.",
+        "Could not move or copy. Please try again.": "Teisaldamine või kopeerimine ebaõnnestus. Proovi uuesti.",
+        "{amount} logged under {project}": "{amount} registreeritud projektis {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -28,6 +28,26 @@
 			</template>
 			{{ t('planninq', 'Move right') }}
 		</NcActionButton>
+		<NcActionButton
+			v-if="transfer"
+			:closeAfterClick="true"
+			data-testid="column-move-project"
+			@click="$emit('moveProject')">
+			<template #icon>
+				<FolderMoveIcon :size="20" />
+			</template>
+			{{ t('planninq', 'Move column to project') }}
+		</NcActionButton>
+		<NcActionButton
+			v-if="transfer"
+			:closeAfterClick="true"
+			data-testid="column-copy-project"
+			@click="$emit('copyProject')">
+			<template #icon>
+				<ContentCopyIcon :size="20" />
+			</template>
+			{{ t('planninq', 'Copy column to project') }}
+		</NcActionButton>
 		<NcActionButton :closeAfterClick="true" @click="$emit('remove')">
 			<template #icon>
 				<DeleteIcon :size="20" />
@@ -48,14 +68,16 @@
 import { NcActionButton, NcActions } from '@nextcloud/vue'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
+import ContentCopyIcon from 'vue-material-design-icons/ContentCopy.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import FolderMoveIcon from 'vue-material-design-icons/FolderMove.vue'
 import LightningBoltIcon from 'vue-material-design-icons/LightningBolt.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 
 export default {
 	name: 'ColumnActions',
 
-	components: { NcActionButton, NcActions, ArrowLeftIcon, ArrowRightIcon, DeleteIcon, LightningBoltIcon, PencilIcon },
+	components: { NcActionButton, NcActions, ArrowLeftIcon, ArrowRightIcon, ContentCopyIcon, DeleteIcon, FolderMoveIcon, LightningBoltIcon, PencilIcon },
 
 	props: {
 		/** Whether the column is the leftmost one. */
@@ -75,8 +97,14 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+
+		/** Whether to offer moving and copying the column to another project (the board header). */
+		transfer: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
-	emits: ['edit', 'move', 'remove', 'rules'],
+	emits: ['edit', 'move', 'remove', 'rules', 'moveProject', 'copyProject'],
 }
 </script>

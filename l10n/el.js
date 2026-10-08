@@ -1360,7 +1360,18 @@ OC.L10N.register(
         "Course": "Μάθημα",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Το μάθημα που διδάσκεται σε αυτή την ώρα, για παράδειγμα ένα μάθημα επιλογής, όταν η εκπαιδευτική εφαρμογή του σχολείου το γνωρίζει.",
         "Online meeting link": "Σύνδεσμος διαδικτυακού μαθήματος",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Πού συνδέονται οι μαθητές σε αυτό το μάθημα διαδικτυακά. Το κουμπί Συμμετοχή εμφανίζεται μόνο για σύνδεσμο https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Πού συνδέονται οι μαθητές σε αυτό το μάθημα διαδικτυακά. Το κουμπί Συμμετοχή εμφανίζεται μόνο για σύνδεσμο https.",
+        "The start date is after the due date.": "Η ημερομηνία έναρξης είναι μετά την προθεσμία.",
+        "Move to project": "Μετακίνηση σε έργο",
+        "Move column to project": "Μετακίνηση της στήλης σε έργο",
+        "Copy column to project": "Αντιγραφή της στήλης σε έργο",
+        "You are not a member of any other project.": "Δεν είστε μέλος κανενός άλλου έργου.",
+        "Target project": "Έργο προορισμού",
+        "These links to other tasks are removed:": "Αυτοί οι σύνδεσμοι με άλλες εργασίες θα αφαιρεθούν:",
+        "These people are not on the target project and are cleared: {names}": "Αυτά τα άτομα δεν ανήκουν στο έργο προορισμού και θα αφαιρεθούν: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Δεν ήταν δυνατή η μετακίνηση ή η αντιγραφή όλων. Ελέγξτε το έργο προορισμού.",
+        "Could not move or copy. Please try again.": "Η μετακίνηση ή η αντιγραφή απέτυχε. Δοκιμάστε ξανά.",
+        "{amount} logged under {project}": "{amount} καταγράφηκαν στο {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

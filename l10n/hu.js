@@ -1360,7 +1360,18 @@ OC.L10N.register(
         "Course": "Kurzus",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "A kurzus, amelyet ezen az órán tanítanak, például egy választható tárgy, ha az iskola tanulási alkalmazása ismeri.",
         "Online meeting link": "Online óra hivatkozása",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Ahol a tanulók online csatlakoznak ehhez az órához. A Csatlakozás gomb csak https-hivatkozásnál jelenik meg."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Ahol a tanulók online csatlakoznak ehhez az órához. A Csatlakozás gomb csak https-hivatkozásnál jelenik meg.",
+        "The start date is after the due date.": "A kezdő dátum a határidő után van.",
+        "Move to project": "Áthelyezés projektbe",
+        "Move column to project": "Oszlop áthelyezése projektbe",
+        "Copy column to project": "Oszlop másolása projektbe",
+        "You are not a member of any other project.": "Nem tagja más projektnek.",
+        "Target project": "Célprojekt",
+        "These links to other tasks are removed:": "Ezek a más feladatokra mutató kapcsolatok törlődnek:",
+        "These people are not on the target project and are cleared: {names}": "Ezek a személyek nem tagjai a célprojektnek, ezért eltávolítjuk őket: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Nem sikerült mindent áthelyezni vagy másolni. Ellenőrizze a célprojektet.",
+        "Could not move or copy. Please try again.": "Az áthelyezés vagy másolás nem sikerült. Próbálja újra.",
+        "{amount} logged under {project}": "{amount} rögzítve a(z) {project} projektben"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1360,7 +1360,18 @@ OC.L10N.register(
         "Course": "Cours",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "De Cours, deen an dëser Stonn ënnerriicht gëtt, zum Beispill eng Optioun, wann d'Léier-App vun der Schoul en kennt.",
         "Online meeting link": "Link op déi online Stonn",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Wou d'Schüler online un dëser Stonn deelhuelen. De Knäppchen Deelhuelen erschéngt nëmme bei engem https-Link."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Wou d'Schüler online un dëser Stonn deelhuelen. De Knäppchen Deelhuelen erschéngt nëmme bei engem https-Link.",
+        "The start date is after the due date.": "Den Ufankdatum ass no der Fälligkeet.",
+        "Move to project": "An e Projet réckelen",
+        "Move column to project": "D’Kolonn an e Projet réckelen",
+        "Copy column to project": "D’Kolonn an e Projet kopéieren",
+        "You are not a member of any other project.": "Dir sidd kee Member vun engem aneren Projet.",
+        "Target project": "Zilprojet",
+        "These links to other tasks are removed:": "Dës Verlinkunge mat aneren Aufgabe ginn ewechgeholl:",
+        "These people are not on the target project and are cleared: {names}": "Dës Persoune sinn net am Zilprojet a ginn ewechgeholl: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Net alles konnt geréckelt oder kopéiert ginn. Kuckt d’Zilprojet no.",
+        "Could not move or copy. Please try again.": "Réckelen oder Kopéieren huet net geklappt. Probéiert et nach eng Kéier.",
+        "{amount} logged under {project}": "{amount} erfaasst am {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

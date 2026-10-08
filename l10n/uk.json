@@ -1359,7 +1359,18 @@
         "Course": "Курс",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Курс, який викладають на цьому уроці, наприклад вибірковий предмет, якщо шкільний навчальний застосунок його знає.",
         "Online meeting link": "Посилання на онлайн-урок",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Де учні приєднуються до цього уроку онлайн. Кнопка «Приєднатися» з'являється лише для посилання https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Де учні приєднуються до цього уроку онлайн. Кнопка «Приєднатися» з'являється лише для посилання https.",
+        "The start date is after the due date.": "Дата початку пізніша за термін.",
+        "Move to project": "Перемістити до проєкту",
+        "Move column to project": "Перемістити стовпець до проєкту",
+        "Copy column to project": "Скопіювати стовпець до проєкту",
+        "You are not a member of any other project.": "Ви не є учасником жодного іншого проєкту.",
+        "Target project": "Цільовий проєкт",
+        "These links to other tasks are removed:": "Ці зв’язки з іншими завданнями буде видалено:",
+        "These people are not on the target project and are cleared: {names}": "Цих людей немає в цільовому проєкті, їх буде вилучено: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Не все вдалося перемістити або скопіювати. Перевірте цільовий проєкт.",
+        "Could not move or copy. Please try again.": "Не вдалося перемістити або скопіювати. Спробуйте ще раз.",
+        "{amount} logged under {project}": "{amount} зареєстровано в {project}"
     },
     "plurals": {}
 }

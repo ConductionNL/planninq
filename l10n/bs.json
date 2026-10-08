@@ -1359,7 +1359,18 @@
         "Course": "Predmet",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Predmet koji se predaje na ovom času, na primjer izborni predmet, kad ga školska aplikacija za učenje poznaje.",
         "Online meeting link": "Link za online čas",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Gdje se učenici pridružuju ovom času online. Dugme Pridruži se prikazuje se samo za https link."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Gdje se učenici pridružuju ovom času online. Dugme Pridruži se prikazuje se samo za https link.",
+        "The start date is after the due date.": "Datum početka je poslije roka.",
+        "Move to project": "Premjesti u projekat",
+        "Move column to project": "Premjesti kolonu u projekat",
+        "Copy column to project": "Kopiraj kolonu u projekat",
+        "You are not a member of any other project.": "Niste član nijednog drugog projekta.",
+        "Target project": "Ciljni projekat",
+        "These links to other tasks are removed:": "Ove veze s drugim zadacima bit će uklonjene:",
+        "These people are not on the target project and are cleared: {names}": "Ove osobe nisu u ciljnom projektu i bit će uklonjene: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Nije sve moglo biti premješteno ili kopirano. Provjerite ciljni projekat.",
+        "Could not move or copy. Please try again.": "Premještanje ili kopiranje nije uspjelo. Pokušajte ponovo.",
+        "{amount} logged under {project}": "{amount} evidentirano u projektu {project}"
     },
     "plurals": null
 }

@@ -1360,7 +1360,18 @@ OC.L10N.register(
         "Course": "Curso",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "El curso que se imparte en esta clase, como una optativa, cuando la aplicación de aprendizaje del centro lo conoce.",
         "Online meeting link": "Enlace de la clase en línea",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Dónde se unen los alumnos a esta clase en línea. El botón Unirse solo aparece con un enlace https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Dónde se unen los alumnos a esta clase en línea. El botón Unirse solo aparece con un enlace https.",
+        "The start date is after the due date.": "La fecha de inicio es posterior a la fecha de vencimiento.",
+        "Move to project": "Mover a un proyecto",
+        "Move column to project": "Mover la columna a un proyecto",
+        "Copy column to project": "Copiar la columna a un proyecto",
+        "You are not a member of any other project.": "No eres miembro de ningún otro proyecto.",
+        "Target project": "Proyecto de destino",
+        "These links to other tasks are removed:": "Se eliminarán estos vínculos con otras tareas:",
+        "These people are not on the target project and are cleared: {names}": "Estas personas no están en el proyecto de destino y se quitarán: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "No se pudo mover o copiar todo. Revisa el proyecto de destino.",
+        "Could not move or copy. Please try again.": "No se pudo mover ni copiar. Inténtalo de nuevo.",
+        "{amount} logged under {project}": "{amount} registradas en {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

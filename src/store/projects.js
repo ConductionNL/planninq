@@ -25,6 +25,7 @@ import { currentGroupIds, rolePatch } from '../utils/projectRole.js'
 import { epicPatch, shipPatches } from '../utils/roadmapHelpers.js'
 import { duplicatePayload } from '../utils/taskBreakdown.js'
 import { deleteRefusal, withTaskDefaults } from '../utils/taskEditing.js'
+import { columnCopyPayload, columnTaskCopyPayload, moveTaskPatch } from '../utils/taskMove.js'
 import { useObjectStore } from './objectStore.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
@@ -1947,6 +1948,94 @@ export const useProjectsStore = defineStore('projects', {
 		},
 
 		// ── 2.15 updateTask ────────────────────────────────────────────────
+
+		/**
+		 * Move a task, with its subtasks, to another project's backlog.
+		 *
+		 * Writes the parent first, then each subtask, so a failure leaves the
+		 * parent's children where they were. The server drops the task's
+		 * dependency links (TaskDependencyCleanupListener) and re-stamps the
+		 * members lists (ProjectMemberAccessListener).
+		 *
+		 * @param {object}        task     The task to move.
+		 * @param {Array<object>} subtasks Its subtasks.
+		 * @param {object}        project  The target project.
+		 * @return {Promise<object|null>} The moved task, or null on failure
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.1
+		 */
+		async moveTaskToProject(task, subtasks, project) {
+			const moved = await this.updateTask(task.id, moveTaskPatch(task, project))
+			if (!moved) {
+				return null
+			}
+			for (const child of subtasks || []) {
+				if (!await this.updateTask(child.id, moveTaskPatch(child, project, true))) {
+					showError(t('planninq', 'Not everything could be moved or copied. Please check the target project.'))
+					break
+				}
+			}
+			return moved
+		},
+
+		/**
+		 * Copy a column and its tasks to another project, as that board's last column.
+		 *
+		 * @param {object}        column  The source column.
+		 * @param {Array<object>} tasks   The column's tasks.
+		 * @param {object}        project The target project.
+		 * @return {Promise<object|null>} The new column, or null on failure
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async copyColumnToProject(column, tasks, project) {
+			const projectId = project?.id ?? project?.uuid
+			const targetColumns = await this.fetchColumns(String(projectId))
+			const created = await this.saveColumn(columnCopyPayload(column, project, targetColumns))
+			const columnId = created?.id ?? created?.uuid ?? created?.['@self']?.id
+			if (!columnId) {
+				return null
+			}
+			for (const task of tasks || []) {
+				if (!await this.createTask(columnTaskCopyPayload(task, project, columnId))) {
+					showError(t('planninq', 'Not everything could be moved or copied. Please check the target project.'))
+					break
+				}
+			}
+			return created
+		},
+
+		/**
+		 * Move a column and its tasks to another project, as that board's last column.
+		 *
+		 * The column and its tasks are copied first; the originals go once every
+		 * copy exists. Their time stays on the project it was booked on.
+		 *
+		 * @param {object}        column  The source column.
+		 * @param {Array<object>} tasks   The column's tasks.
+		 * @param {object}        project The target project.
+		 * @return {Promise<object|null>} The new column, or null on failure
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async moveColumnToProject(column, tasks, project) {
+			const projectId = project?.id ?? project?.uuid
+			const targetColumns = await this.fetchColumns(String(projectId))
+			const created = await this.saveColumn(columnCopyPayload(column, project, targetColumns))
+			const columnId = created?.id ?? created?.uuid ?? created?.['@self']?.id
+			if (!columnId) {
+				return null
+			}
+			for (const task of tasks || []) {
+				const moved = await this.updateTask(task.id, { ...moveTaskPatch(task, project), column: columnId, columnOrder: task.columnOrder ?? 0 })
+				if (!moved) {
+					showError(t('planninq', 'Not everything could be moved or copied. Please check the target project.'))
+					return created
+				}
+			}
+			await this.deleteColumn(column.id)
+			return created
+		},
 
 		/**
 		 * Patch arbitrary task fields (e.g. `estimatedDuration`).

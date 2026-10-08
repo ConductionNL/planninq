@@ -1359,7 +1359,18 @@
         "Course": "Kurs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kursen som lektionen undervisar i, till exempel ett tillval, när skolans lärapp känner till den.",
         "Online meeting link": "Länk till onlinelektionen",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Var eleverna ansluter till lektionen online. Knappen Anslut visas bara för en https-länk."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Var eleverna ansluter till lektionen online. Knappen Anslut visas bara för en https-länk.",
+        "The start date is after the due date.": "Startdatumet ligger efter förfallodatumet.",
+        "Move to project": "Flytta till projekt",
+        "Move column to project": "Flytta kolumnen till projekt",
+        "Copy column to project": "Kopiera kolumnen till projekt",
+        "You are not a member of any other project.": "Du är inte medlem i något annat projekt.",
+        "Target project": "Målprojekt",
+        "These links to other tasks are removed:": "Dessa länkar till andra uppgifter tas bort:",
+        "These people are not on the target project and are cleared: {names}": "Dessa personer finns inte i målprojektet och tas bort: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Allt kunde inte flyttas eller kopieras. Kontrollera målprojektet.",
+        "Could not move or copy. Please try again.": "Det gick inte att flytta eller kopiera. Försök igen.",
+        "{amount} logged under {project}": "{amount} registrerat under {project}"
     },
     "plurals": null
 }

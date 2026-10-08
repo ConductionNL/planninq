@@ -28,6 +28,7 @@ namespace OCA\Planninq\Tests\Unit\Listener;
 
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
+use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Listener\TaskDependencyCleanupListener;
 use OCA\Planninq\Listener\TaskScopeResolver;
 use OCA\Planninq\Service\DependencyService;
@@ -162,5 +163,70 @@ class TaskDependencyCleanupListenerTest extends TestCase {
 		$this->listener($service, $resolver)->handle(new Event());
 
 	}//end testIgnoresUnrelatedEvents()
+
+	/**
+	 * Build a task-shaped entity in the given project.
+	 *
+	 * @param string $project The project id on the entity.
+	 *
+	 * @return ObjectEntity
+	 */
+	private function taskIn(string $project): ObjectEntity {
+		return new class($project) extends ObjectEntity {
+			// phpcs:disable
+			public function __construct(
+				private string $p,
+			) {
+			}
+			public function getObject(): array {
+				return ['project' => $this->p];
+			}
+			public function getRegister(): ?string {
+				return '1';
+			}
+			public function getSchema(): ?string {
+				return '2';
+			}
+			public function getUuid(): ?string {
+				return 'task-uuid';
+			}
+			// phpcs:enable
+		};
+
+	}//end taskIn()
+
+	/**
+	 * Moving a task to another project removes its dependency edges.
+	 *
+	 * @return void
+	 */
+	public function testAProjectChangeRemovesTheEdges(): void {
+		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
+		$resolver->method('isPlanninqTask')->willReturn(true);
+
+		$service = $this->createMock(originalClassName: DependencyService::class);
+		$service->expects(self::once())->method('removeEdgesForTask')->with('task-uuid')->willReturn(1);
+
+		$event = new ObjectUpdatingEvent($this->taskIn(project: 'beta'), $this->taskIn(project: 'alpha'));
+		$this->listener($service, $resolver)->handle($event);
+
+	}//end testAProjectChangeRemovesTheEdges()
+
+	/**
+	 * An update that keeps the project leaves the edges alone.
+	 *
+	 * @return void
+	 */
+	public function testAnUnrelatedUpdateKeepsTheEdges(): void {
+		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
+		$resolver->method('isPlanninqTask')->willReturn(true);
+
+		$service = $this->createMock(originalClassName: DependencyService::class);
+		$service->expects(self::never())->method('removeEdgesForTask');
+
+		$event = new ObjectUpdatingEvent($this->taskIn(project: 'alpha'), $this->taskIn(project: 'alpha'));
+		$this->listener($service, $resolver)->handle($event);
+
+	}//end testAnUnrelatedUpdateKeepsTheEdges()
 
 }//end class

@@ -1371,7 +1371,18 @@ OC.L10N.register(
         "Course": "Vak",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Het vak dat in deze les gegeven wordt, zoals een keuzevak, als de leerapp van de school het kent.",
         "Online meeting link": "Link naar de online les",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Waar leerlingen online aan deze les deelnemen. Leerlingen zien alleen bij een https-link een knop Deelnemen."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Waar leerlingen online aan deze les deelnemen. Leerlingen zien alleen bij een https-link een knop Deelnemen.",
+        "The start date is after the due date.": "De startdatum ligt na de vervaldatum.",
+        "Move to project": "Verplaats naar project",
+        "Move column to project": "Kolom naar project verplaatsen",
+        "Copy column to project": "Kolom naar project kopiëren",
+        "You are not a member of any other project.": "U bent geen lid van een ander project.",
+        "Target project": "Doelproject",
+        "These links to other tasks are removed:": "Deze koppelingen met andere taken worden verwijderd:",
+        "These people are not on the target project and are cleared: {names}": "Deze mensen zitten niet in het doelproject en worden gewist: {names}",
+        "Not everything could be moved or copied. Please check the target project.": "Niet alles kon worden verplaatst of gekopieerd. Controleer het doelproject.",
+        "Could not move or copy. Please try again.": "Verplaatsen of kopiëren is niet gelukt. Probeer het opnieuw.",
+        "{amount} logged under {project}": "{amount} geboekt onder {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )
