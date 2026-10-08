@@ -29,6 +29,9 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'label#index', 'url' => '/api/labels', 'verb' => 'GET'],
     ['name' => 'label#destroy', 'url' => '/api/labels/{id}', 'verb' => 'DELETE', 'requirements' => ['id' => '[^/]+']],
 
+    // Admin: log in to the task intake mailbox and report its message count (tasks-create-by-email).
+    ['name' => 'mailIntake#test', 'url' => '/api/settings/mail-test', 'verb' => 'POST'],
+
     // Dependency edge create — server-side cycle/self/duplicate/cross-project validation.
     ['name' => 'dependency#create', 'url' => '/api/dependencies', 'verb' => 'POST'],
     // Dependency edge delete — project-member guarded.

@@ -66,6 +66,7 @@ class SettingsService {
 		self::CREATION_GROUPS_KEY => '[]',
 		self::REQUESTS_KEY => 'off',
 		self::WORK_TYPES_KEY => '[]',
+		...MailIntakeConfig::DEFAULTS,
 	];
 
 	/**
@@ -173,6 +174,7 @@ class SettingsService {
 	 * @param DueReminderWindowService $dueReminderWindow The live-schema due-reminder window patcher
 	 * @param ProjectPolicySchemaService $policySchema Writes the reviewers of project requests into the live schema.
 	 * @param CreationPolicyService $creationPolicy Who may create and who may request a project.
+	 * @param MailCredentialStore|null $mailCredentials Keeps the intake mailbox password in the credential broker.
 	 *
 	 * @return void
 	 */
@@ -186,6 +188,7 @@ class SettingsService {
 		private DueReminderWindowService $dueReminderWindow,
 		private ProjectPolicySchemaService $policySchema,
 		private CreationPolicyService $creationPolicy,
+		private ?MailCredentialStore $mailCredentials = null,
 	) {
 	}//end __construct()
 
@@ -251,6 +254,10 @@ class SettingsService {
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
 	 */
 	private function normalisedValue(string $key, string $value): ?string {
+		if (str_starts_with($key, 'mail_intake_') === true) {
+			return $this->validatedMailValue(key: $key, value: $value);
+		}
+
 		$listed = $this->validatedNameList(key: $key, raw: $value);
 		if ($listed === false) {
 			return null;
@@ -281,6 +288,29 @@ class SettingsService {
 
 		return $settings;
 	}//end getAdminSettings()
+
+	/**
+	 * The admin settings a signed-in user may see: the mailbox connection details are for admins only.
+	 *
+	 * @return array<string,string>
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
+	 */
+	private function visibleAdminSettings(): array {
+		$settings = $this->getAdminSettings();
+		if ($this->isCurrentUserAdmin() === true) {
+			return $settings;
+		}
+
+		$shown = ['mail_intake_enabled', 'mail_intake_address'];
+		foreach (array_keys(MailIntakeConfig::DEFAULTS) as $key) {
+			if (in_array($key, $shown, true) === false) {
+				unset($settings[$key]);
+			}
+		}
+
+		return $settings;
+	}//end visibleAdminSettings()
 
 	/**
 	 * Validate the default_columns value before persisting.
@@ -315,6 +345,146 @@ class SettingsService {
 
 		return json_encode($normalised);
 	}//end validateDefaultColumns()
+
+	/**
+	 * A submitted `mail_intake_*` value as it is stored, or null to refuse it.
+	 *
+	 * The credential reference is never taken from the client: it only comes
+	 * from storing a password through the broker.
+	 *
+	 * @param string $key   The setting key.
+	 * @param string $value The submitted value.
+	 *
+	 * @return string|null
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
+	 */
+	private function validatedMailValue(string $key, string $value): ?string {
+		$value = trim($value);
+
+		return match ($key) {
+			'mail_intake_enabled', 'mail_intake_require_auth' => $this->validatedBoolean(raw: $value),
+			'mail_intake_port' => $this->wholeNumberString(raw: $value, min: 1, max: 65535),
+			'mail_intake_size_limit_mb' => $this->wholeNumberString(raw: $value, min: 1, max: 100),
+			'mail_intake_encryption' => $this->validatedChoice(raw: $value, choices: ['ssl', 'none']),
+			'mail_intake_address' => $this->validatedMailAddress(raw: $value),
+			'mail_intake_host', 'mail_intake_username', 'mail_intake_folder' => $this->validatedMailText(raw: $value, key: $key),
+			default => null,
+		};
+	}//end validatedMailValue()
+
+	/**
+	 * `true` or `false` as a string, or null.
+	 *
+	 * @param string $raw The submitted value.
+	 *
+	 * @return string|null
+	 */
+	private function validatedBoolean(string $raw): ?string {
+		return $this->validatedChoice(raw: strtolower($raw), choices: ['true', 'false']);
+	}//end validatedBoolean()
+
+	/**
+	 * The value when it is one of the choices, else null.
+	 *
+	 * @param string            $raw     The submitted value.
+	 * @param array<int,string> $choices The accepted values.
+	 *
+	 * @return string|null
+	 */
+	private function validatedChoice(string $raw, array $choices): ?string {
+		if (in_array($raw, $choices, true) === true) {
+			return $raw;
+		}
+
+		return null;
+	}//end validatedChoice()
+
+	/**
+	 * A whole number in range, as a string, or null.
+	 *
+	 * @param string $raw The submitted value.
+	 * @param int    $min Lowest accepted value.
+	 * @param int    $max Highest accepted value.
+	 *
+	 * @return string|null
+	 */
+	private function wholeNumberString(string $raw, int $min, int $max): ?string {
+		$number = $this->validateWholeNumber(raw: $raw, min: $min, max: $max);
+		if ($number === null) {
+			return null;
+		}
+
+		return (string)$number;
+	}//end wholeNumberString()
+
+	/**
+	 * The mailbox address, or '' to clear it, or null when it is no email address.
+	 *
+	 * @param string $raw The submitted value.
+	 *
+	 * @return string|null
+	 */
+	private function validatedMailAddress(string $raw): ?string {
+		if ($raw === '') {
+			return '';
+		}
+
+		if (filter_var($raw, FILTER_VALIDATE_EMAIL) === false) {
+			return null;
+		}
+
+		return strtolower($raw);
+	}//end validatedMailAddress()
+
+	/**
+	 * A host, login or folder name: no spaces or control characters; the folder may not be empty.
+	 *
+	 * @param string $raw The submitted value.
+	 * @param string $key The setting key.
+	 *
+	 * @return string|null
+	 */
+	private function validatedMailText(string $raw, string $key): ?string {
+		if (preg_match('/[\x00-\x1f\x7f]/', $raw) === 1 || mb_strlen($raw) > 255) {
+			return null;
+		}
+
+		if ($key === 'mail_intake_host' && preg_match('/\s/', $raw) === 1) {
+			return null;
+		}
+
+		if ($key === 'mail_intake_folder' && $raw === '') {
+			return null;
+		}
+
+		return $raw;
+	}//end validatedMailText()
+
+	/**
+	 * Store a submitted mailbox password in the credential broker and keep only its reference.
+	 *
+	 * @param array<string,mixed> $settings The submitted settings.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
+	 */
+	private function storeMailPassword(array $settings): void {
+		$password = ($settings['mail_intake_password'] ?? null);
+		if (is_string($password) === false || $password === '') {
+			return;
+		}
+
+		$existing = $this->appConfig->getValueString(Application::APP_ID, 'mail_intake_credential_ref', '');
+		$ref      = $this->mailCredentials?->store(password: $password, existing: $existing);
+		if ($ref === null) {
+			$this->logger->warning('Planninq: the mail intake password was not stored; no credential reference was written');
+			return;
+		}
+
+		$this->appConfig->setValueString(Application::APP_ID, 'mail_intake_credential_ref', $ref);
+	}//end storeMailPassword()
 
 	/**
 	 * Validate a list of finance category names: a non-empty JSON array of
@@ -600,7 +770,7 @@ class SettingsService {
 
 		return array_merge(
 			$settings,
-			$this->getAdminSettings(),
+			$this->visibleAdminSettings(),
 			$userSettings,
 			[
 				'openregisters' => $this->isOpenRegisterAvailable(),
@@ -741,6 +911,7 @@ class SettingsService {
 		}
 
 		$this->setAdminSettings(settings: $data);
+		$this->storeMailPassword(settings: $data);
 
 		// The reviewers of project requests follow the creation policy.
 		if (array_key_exists('allow_project_creation', $data) === true || array_key_exists(self::CREATION_GROUPS_KEY, $data) === true) {

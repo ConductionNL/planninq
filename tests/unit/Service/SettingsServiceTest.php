@@ -23,6 +23,7 @@ use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\BoardViewPreferenceService;
 use OCA\Planninq\Service\CreationPolicyService;
 use OCA\Planninq\Service\DueReminderWindowService;
+use OCA\Planninq\Service\MailCredentialStore;
 use OCA\Planninq\Service\ProjectPolicySchemaService;
 use OCA\Planninq\Service\SettingsService;
 use OCP\App\IAppManager;
@@ -822,6 +823,99 @@ class SettingsServiceTest extends TestCase {
 		self::assertNull($this->service->validateWorkTypes(raw: 'nope'));
 
 	}//end testWorkTypesRejectsDuplicates()
+
+	/**
+	 * A service wired with a credential store that records what it is given.
+	 *
+	 * @param object $broker The fake broker the store resolves.
+	 *
+	 * @return SettingsService
+	 */
+	private function serviceWithBroker(object $broker): SettingsService {
+		$container = $this->createMock(originalClassName: ContainerInterface::class);
+		$container->method('get')->willReturn($broker);
+
+		return new SettingsService(
+			appConfig: $this->appConfig,
+			config: $this->config,
+			appManager: $this->appManager,
+			container: $this->container,
+			userSession: $this->userSession,
+			logger: $this->logger,
+			dueReminderWindow: new DueReminderWindowService(appManager: $this->appManager, container: $this->container, logger: $this->logger),
+			policySchema: new ProjectPolicySchemaService(appManager: $this->appManager, container: $this->container, logger: $this->logger),
+			creationPolicy: new CreationPolicyService(appConfig: $this->appConfig, groupManager: $this->groupManager, userSession: $this->userSession),
+			mailCredentials: new MailCredentialStore(container: $container, logger: $this->logger),
+		);
+
+	}//end serviceWithBroker()
+
+	/**
+	 * The mailbox password goes to the broker; only the returned reference reaches app config.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
+	 */
+	public function testMailIntakeStoresOnlyACredentialRef(): void {
+		$broker = new class {
+			// phpcs:disable
+			public array $minted = [];
+			public function mint(string $provider, string $name, string $secret, string $scope, string $credentialId = ''): array {
+				$this->minted[] = $secret;
+				return ['credentialRef' => 'cred-uuid-1'];
+			}
+			// phpcs:enable
+		};
+		$written = [];
+		$this->appManager->method('isInstalled')->willReturn(false);
+		$this->appConfig->method('getValueString')->willReturnCallback(static fn (string $app, string $key, string $default = ''): string => $default);
+		$this->appConfig->method('setValueString')->willReturnCallback(
+			function (string $app, string $key, string $value) use (&$written): bool {
+				$written[$key] = $value;
+				return true;
+			}
+		);
+
+		$this->serviceWithBroker(broker: $broker)->updateSettings(
+			['mail_intake_host' => 'imap.example.nl', 'mail_intake_password' => 'hunter2', 'mail_intake_credential_ref' => 'forged']
+		);
+
+		self::assertSame(expected: ['hunter2'], actual: $broker->minted);
+		self::assertSame(expected: 'cred-uuid-1', actual: $written['mail_intake_credential_ref']);
+		self::assertSame(expected: 'imap.example.nl', actual: $written['mail_intake_host']);
+		self::assertNotContains('hunter2', $written);
+		self::assertArrayNotHasKey('mail_intake_password', $written);
+
+	}//end testMailIntakeStoresOnlyACredentialRef()
+
+	/**
+	 * A port outside 1..65535 and an unknown encryption are refused and not stored.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
+	 */
+	public function testMailIntakeRejectsInvalidPort(): void {
+		$written = [];
+		$this->appManager->method('isInstalled')->willReturn(false);
+		$this->appConfig->method('getValueString')->willReturnCallback(static fn (string $app, string $key, string $default = ''): string => $default);
+		$this->appConfig->method('setValueString')->willReturnCallback(
+			function (string $app, string $key, string $value) use (&$written): bool {
+				$written[$key] = $value;
+				return true;
+			}
+		);
+
+		$this->service->updateSettings(
+			['mail_intake_port' => '70000', 'mail_intake_encryption' => 'rot13', 'mail_intake_address' => 'not-an-address']
+		);
+		self::assertSame(expected: [], actual: $written);
+
+		$this->service->updateSettings(['mail_intake_port' => '143', 'mail_intake_encryption' => 'none', 'mail_intake_address' => 'Planninq@Gemeente.nl']);
+		self::assertSame(expected: ['mail_intake_port' => '143', 'mail_intake_encryption' => 'none', 'mail_intake_address' => 'planninq@gemeente.nl'], actual: $written);
+
+	}//end testMailIntakeRejectsInvalidPort()
 
 }//end class
 

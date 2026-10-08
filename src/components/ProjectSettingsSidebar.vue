@@ -32,6 +32,14 @@
 					<span class="project-settings-sidebar__readonly" data-testid="project-key">{{ project.key }}</span>
 				</div>
 
+				<!-- Mail address for tasks by email (tasks-create-by-email) -->
+				<div v-if="mailAddress" class="project-settings-sidebar__field" data-testid="project-mail-address">
+					<span class="project-settings-sidebar__label">{{ t('planninq', 'Mail tasks to {address}', { address: mailAddress }) }}</span>
+					<NcButton variant="tertiary" data-testid="project-mail-copy" @click="copyMailAddress">
+						{{ t('planninq', 'Copy address') }}
+					</NcButton>
+				</div>
+
 				<!-- Description -->
 				<NcTextArea
 					v-model="form.description"
@@ -361,7 +369,9 @@ import CaseHandoverSection from './CaseHandoverSection.vue'
 import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import OwnerGroupPicker from './OwnerGroupPicker.vue'
+import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
+import { projectMailAddress } from '../utils/mailIntake.js'
 import { memberEntries } from '../utils/memberSearch.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
@@ -443,6 +453,17 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * The address this project's mail goes to; empty when intake is off or the project has no key.
+		 *
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.3
+		 */
+		mailAddress() {
+			return projectMailAddress(useSettingsStore().settings, this.currentProject.key)
+		},
+
 		/**
 		 * The project as the store holds it now, so a member added or removed
 		 * shows at once; the prop is the object the sidebar was opened with.
@@ -676,6 +697,20 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Put the project's mail address on the clipboard.
+		 *
+		 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.3
+		 */
+		async copyMailAddress() {
+			try {
+				await navigator.clipboard.writeText(this.mailAddress)
+				showSuccess(this.t('planninq', 'Address copied'))
+			} catch {
+				showError(this.t('planninq', 'The address could not be copied'))
+			}
+		},
+
 		/**
 		 * Read the lifecycle actions OpenRegister offers on the project.
 		 *
