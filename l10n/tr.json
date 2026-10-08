@@ -1393,7 +1393,11 @@
         "The work types were not saved. Please try again.": "Çalışma türleri kaydedilemedi. Lütfen yeniden deneyin.",
         "Templates": "Şablonlar",
         "Use as template": "Şablon olarak kullan",
-        "A project that new projects are started from.": "Yeni projelerin başlatıldığı bir proje."
+        "A project that new projects are started from.": "Yeni projelerin başlatıldığı bir proje.",
+        "Wiki page": "Wiki sayfası",
+        "Parent page": "Üst sayfa",
+        "The page this page sits under; empty for a top-level page": "Bu sayfanın altında bulunduğu sayfa; en üst düzey sayfa için boş",
+        "Content": "İçerik"
     },
     "plurals": {}
 }

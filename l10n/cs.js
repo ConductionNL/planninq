@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Druhy práce se nepodařilo uložit. Zkuste to znovu.",
         "Templates": "Šablony",
         "Use as template": "Použít jako šablonu",
-        "A project that new projects are started from.": "Projekt, ze kterého se zakládají nové projekty."
+        "A project that new projects are started from.": "Projekt, ze kterého se zakládají nové projekty.",
+        "Wiki page": "Stránka wiki",
+        "Parent page": "Nadřazená stránka",
+        "The page this page sits under; empty for a top-level page": "Stránka, pod kterou tato stránka patří; prázdné pro stránku nejvyšší úrovně",
+        "Content": "Obsah"
     },
     "nplurals=2; plural=(n != 1);"
 )

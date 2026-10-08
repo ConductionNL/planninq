@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Työn lajeja ei tallennettu. Yritä uudelleen.",
         "Templates": "Mallit",
         "Use as template": "Käytä mallina",
-        "A project that new projects are started from.": "Projekti, josta uusia projekteja aloitetaan."
+        "A project that new projects are started from.": "Projekti, josta uusia projekteja aloitetaan.",
+        "Wiki page": "Wikisivu",
+        "Parent page": "Ylätason sivu",
+        "The page this page sits under; empty for a top-level page": "Sivu, jonka alla tämä sivu kuuluu; tyhjä ylimmän tason sivulla",
+        "Content": "Sisältö"
     },
     "nplurals=2; plural=(n != 1);"
 )

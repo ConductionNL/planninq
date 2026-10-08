@@ -79,6 +79,7 @@ trait MembershipFixture {
 		'23' => 'boardFilter',
 		'24' => 'boardView',
 		'25' => 'forgeLink',
+		'26' => 'wikiPage',
 	];
 
 	/**

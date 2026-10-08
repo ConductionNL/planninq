@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Tegundir vinnu voru ekki vistaðar. Reyndu aftur.",
         "Templates": "Sniðmát",
         "Use as template": "Nota sem sniðmát",
-        "A project that new projects are started from.": "Verkefni sem ný verkefni eru stofnuð út frá."
+        "A project that new projects are started from.": "Verkefni sem ný verkefni eru stofnuð út frá.",
+        "Wiki page": "Wiki-síða",
+        "Parent page": "Yfirsíða",
+        "The page this page sits under; empty for a top-level page": "Síðan sem þessi síða er undir; autt fyrir síðu á efsta stigi",
+        "Content": "Efni"
     },
     "nplurals=2; plural=(n != 1);"
 )

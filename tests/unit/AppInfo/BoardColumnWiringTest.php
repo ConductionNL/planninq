@@ -198,7 +198,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				$byListener['OCA\\Planninq\\Listener\\ProjectStatusListener']
 			);
 
-			$hierarchy = ['project', 'projectPortfolio'];
+			$hierarchy = ['project', 'projectPortfolio', 'wikiPage'];
 			self::assertSame(
 				[['ObjectCreatingEvent', $hierarchy], ['ObjectUpdatingEvent', $hierarchy], ['ObjectDeletingEvent', $hierarchy]],
 				$byListener['OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener']

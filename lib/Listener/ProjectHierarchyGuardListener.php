@@ -95,6 +95,20 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	public const ERROR_DEPTH = 'planninq-project-too-deep';
 
 	/**
+	 * Slug of the wiki page schema.
+	 *
+	 * @var string
+	 */
+	public const WIKI_SCHEMA = 'wikiPage';
+
+	/**
+	 * Error code of a wiki page whose parent is itself, a subpage, or on another project.
+	 *
+	 * @var string
+	 */
+	public const ERROR_WIKI_PARENT = 'planninq-wiki-parent';
+
+	/**
 	 * Error code of a custom field value that does not fit its field.
 	 *
 	 * @var string
@@ -180,6 +194,11 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			return;
 		}
 
+		if ($slug === self::WIKI_SCHEMA && $event instanceof ObjectDeletingEvent === false) {
+			$this->refuseWikiParent(event: $event, pageId: (string)($object->getUuid() ?? ''), data: $data, oldData: $oldData);
+			return;
+		}
+
 		if ($slug !== self::PORTFOLIO_SCHEMA) {
 			return;
 		}
@@ -194,6 +213,57 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			$this->onManagersChange(portfolioId: $portfolioId, data: $data, oldData: $oldData);
 		}
 	}//end route()
+
+	/**
+	 * Refuse a wiki page parent that is the page itself, one of its subpages or on another project.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event   The event.
+	 * @param string                                  $pageId  The page UUID, empty on create.
+	 * @param array<string,mixed>                     $data    The page's new data.
+	 * @param array<string,mixed>|null                $oldData The stored page on an update.
+	 *
+	 * @return bool True when the write was refused.
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
+	 */
+	private function refuseWikiParent(ObjectCreatingEvent|ObjectUpdatingEvent $event, string $pageId, array $data, ?array $oldData): bool {
+		$parentId = $this->referenceId(value: ($data['parent'] ?? null));
+		if ($parentId === '' || ($oldData !== null && $this->referenceId(value: ($oldData['parent'] ?? null)) === $parentId)) {
+			return false;
+		}
+
+		$message = '';
+		$project = $this->referenceId(value: ($data['project'] ?? null));
+		$cursor  = $parentId;
+		for ($depth = 0; $depth < 50 && $cursor !== ''; $depth++) {
+			if ($pageId !== '' && $cursor === $pageId) {
+				$message = 'A page cannot sit under itself or one of its own subpages.';
+				break;
+			}
+
+			$page = $this->membership->objectData(schema: self::WIKI_SCHEMA, id: $cursor);
+			if ($page === null) {
+				$message = 'The parent page does not exist.';
+				break;
+			}
+
+			if ($depth === 0 && $this->referenceId(value: ($page['project'] ?? null)) !== $project) {
+				$message = 'A page can only sit under a page of the same project.';
+				break;
+			}
+
+			$cursor = $this->referenceId(value: ($page['parent'] ?? null));
+		}
+
+		if ($message === '') {
+			return false;
+		}
+
+		$event->setErrors(['code' => self::ERROR_WIKI_PARENT, 'message' => $message, 'page' => $pageId, 'parent' => $parentId]);
+		$event->stopPropagation();
+
+		return true;
+	}//end refuseWikiParent()
 
 	/**
 	 * Refuse custom field values that do not fit their fields, when the write changes them.

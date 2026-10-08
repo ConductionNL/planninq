@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "D’Aarbechtsaarte goufen net gespäichert. Probéiert et nach eng Kéier.",
         "Templates": "Moustere",
         "Use as template": "Als Mouster benotzen",
-        "A project that new projects are started from.": "E Projet, aus deem nei Projete gestart ginn."
+        "A project that new projects are started from.": "E Projet, aus deem nei Projete gestart ginn.",
+        "Wiki page": "Wiki-Säit",
+        "Parent page": "Iwwergeuerdnet Säit",
+        "The page this page sits under; empty for a top-level page": "D’Säit, ënner där dës Säit läit; eidel fir eng Säit vum héchsten Niveau",
+        "Content": "Inhalt"
     },
     "nplurals=2; plural=(n != 1);"
 )

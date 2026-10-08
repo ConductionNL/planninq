@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Tipurile de lucru nu au fost salvate. Încearcă din nou.",
         "Templates": "Șabloane",
         "Use as template": "Folosește ca șablon",
-        "A project that new projects are started from.": "Un proiect din care se pornesc proiecte noi."
+        "A project that new projects are started from.": "Un proiect din care se pornesc proiecte noi.",
+        "Wiki page": "Pagină wiki",
+        "Parent page": "Pagină părinte",
+        "The page this page sits under; empty for a top-level page": "Pagina sub care se află această pagină; gol pentru o pagină de nivel superior",
+        "Content": "Conținut"
     },
     "nplurals=2; plural=(n != 1);"
 )

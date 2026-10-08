@@ -1373,7 +1373,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "The work types were not saved. Please try again.",
         "Templates": "Templates",
         "Use as template": "Use as template",
-        "A project that new projects are started from.": "A project that new projects are started from."
+        "A project that new projects are started from.": "A project that new projects are started from.",
+        "Wiki page": "Wiki page",
+        "Parent page": "Parent page",
+        "The page this page sits under; empty for a top-level page": "The page this page sits under; empty for a top-level page",
+        "Content": "Content"
     },
     "nplurals=2; plural=(n != 1);"
 )

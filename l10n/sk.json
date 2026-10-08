@@ -1393,7 +1393,11 @@
         "The work types were not saved. Please try again.": "Druhy práce sa nepodarilo uložiť. Skúste to znova.",
         "Templates": "Šablóny",
         "Use as template": "Použiť ako šablónu",
-        "A project that new projects are started from.": "Projekt, z ktorého sa zakladajú nové projekty."
+        "A project that new projects are started from.": "Projekt, z ktorého sa zakladajú nové projekty.",
+        "Wiki page": "Stránka wiki",
+        "Parent page": "Nadradená stránka",
+        "The page this page sits under; empty for a top-level page": "Stránka, pod ktorou táto stránka patrí; prázdne pre stránku najvyššej úrovne",
+        "Content": "Obsah"
     },
     "plurals": null
 }

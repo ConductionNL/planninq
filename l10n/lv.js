@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Darba veidi netika saglabāti. Mēģiniet vēlreiz.",
         "Templates": "Veidnes",
         "Use as template": "Izmantot kā veidni",
-        "A project that new projects are started from.": "Projekts, no kura sāk jaunus projektus."
+        "A project that new projects are started from.": "Projekts, no kura sāk jaunus projektus.",
+        "Wiki page": "Wiki lapa",
+        "Parent page": "Vecāklapa",
+        "The page this page sits under; empty for a top-level page": "Lapa, kuras apakšā ir šī lapa; tukšs augstākā līmeņa lapai",
+        "Content": "Saturs"
     },
     "nplurals=2; plural=(n != 1);"
 )

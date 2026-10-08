@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Níor sábháladh na cineálacha oibre. Bain triail eile as.",
         "Templates": "Teimpléid",
         "Use as template": "Úsáid mar theimpléad",
-        "A project that new projects are started from.": "Tionscadal as a dtosaítear tionscadail nua."
+        "A project that new projects are started from.": "Tionscadal as a dtosaítear tionscadail nua.",
+        "Wiki page": "Leathanach wiki",
+        "Parent page": "Máthairleathanach",
+        "The page this page sits under; empty for a top-level page": "An leathanach faoina bhfuil an leathanach seo; folamh do leathanach ardleibhéil",
+        "Content": "Ábhar"
     },
     "nplurals=2; plural=(n != 1);"
 )

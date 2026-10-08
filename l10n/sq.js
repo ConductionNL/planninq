@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Llojet e punës nuk u ruajtën. Provoni përsëri.",
         "Templates": "Shabllone",
         "Use as template": "Përdore si shabllon",
-        "A project that new projects are started from.": "Një projekt nga i cili nisen projekte të reja."
+        "A project that new projects are started from.": "Një projekt nga i cili nisen projekte të reja.",
+        "Wiki page": "Faqe wiki",
+        "Parent page": "Faqja mëmë",
+        "The page this page sits under; empty for a top-level page": "Faqja nën të cilën qëndron kjo faqe; bosh për një faqe të nivelit më të lartë",
+        "Content": "Përmbajtja"
     },
     "nplurals=2; plural=(n != 1);"
 )

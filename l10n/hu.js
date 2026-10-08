@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "A munkatípusokat nem sikerült menteni. Próbálja újra.",
         "Templates": "Sablonok",
         "Use as template": "Használat sablonként",
-        "A project that new projects are started from.": "Olyan projekt, amelyből új projektek indulnak."
+        "A project that new projects are started from.": "Olyan projekt, amelyből új projektek indulnak.",
+        "Wiki page": "Wikioldal",
+        "Parent page": "Szülőoldal",
+        "The page this page sits under; empty for a top-level page": "Az oldal, amely alá ez az oldal tartozik; üres a legfelső szintű oldalnál",
+        "Content": "Tartalom"
     },
     "nplurals=2; plural=(n != 1);"
 )

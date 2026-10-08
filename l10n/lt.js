@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Darbo rūšių išsaugoti nepavyko. Bandykite dar kartą.",
         "Templates": "Šablonai",
         "Use as template": "Naudoti kaip šabloną",
-        "A project that new projects are started from.": "Projektas, iš kurio pradedami nauji projektai."
+        "A project that new projects are started from.": "Projektas, iš kurio pradedami nauji projektai.",
+        "Wiki page": "Wiki puslapis",
+        "Parent page": "Pirminis puslapis",
+        "The page this page sits under; empty for a top-level page": "Puslapis, po kuriuo yra šis puslapis; tuščia aukščiausio lygio puslapiui",
+        "Content": "Turinys"
     },
     "nplurals=2; plural=(n != 1);"
 )

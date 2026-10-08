@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Arbejdstyperne blev ikke gemt. Prøv igen.",
         "Templates": "Skabeloner",
         "Use as template": "Brug som skabelon",
-        "A project that new projects are started from.": "Et projekt, som nye projekter startes fra."
+        "A project that new projects are started from.": "Et projekt, som nye projekter startes fra.",
+        "Wiki page": "Wikiside",
+        "Parent page": "Overordnet side",
+        "The page this page sits under; empty for a top-level page": "Den side, denne side ligger under; tom for en side på øverste niveau",
+        "Content": "Indhold"
     },
     "nplurals=2; plural=(n != 1);"
 )

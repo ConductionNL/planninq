@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Не удалось сохранить виды работ. Попробуйте ещё раз.",
         "Templates": "Шаблоны",
         "Use as template": "Использовать как шаблон",
-        "A project that new projects are started from.": "Проект, из которого начинают новые проекты."
+        "A project that new projects are started from.": "Проект, из которого начинают новые проекты.",
+        "Wiki page": "Вики-страница",
+        "Parent page": "Родительская страница",
+        "The page this page sits under; empty for a top-level page": "Страница, под которой находится эта страница; пусто для страницы верхнего уровня",
+        "Content": "Содержимое"
     },
     "nplurals=2; plural=(n != 1);"
 )

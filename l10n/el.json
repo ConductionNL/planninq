@@ -1393,7 +1393,11 @@
         "The work types were not saved. Please try again.": "Τα είδη εργασίας δεν αποθηκεύτηκαν. Δοκιμάστε ξανά.",
         "Templates": "Πρότυπα",
         "Use as template": "Χρήση ως πρότυπο",
-        "A project that new projects are started from.": "Ένα έργο από το οποίο ξεκινούν νέα έργα."
+        "A project that new projects are started from.": "Ένα έργο από το οποίο ξεκινούν νέα έργα.",
+        "Wiki page": "Σελίδα wiki",
+        "Parent page": "Γονική σελίδα",
+        "The page this page sits under; empty for a top-level page": "Η σελίδα κάτω από την οποία βρίσκεται αυτή η σελίδα· κενό για σελίδα ανώτατου επιπέδου",
+        "Content": "Περιεχόμενο"
     },
     "plurals": null
 }

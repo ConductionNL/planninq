@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Töö liike ei salvestatud. Proovi uuesti.",
         "Templates": "Mallid",
         "Use as template": "Kasuta mallina",
-        "A project that new projects are started from.": "Projekt, millest uusi projekte alustatakse."
+        "A project that new projects are started from.": "Projekt, millest uusi projekte alustatakse.",
+        "Wiki page": "Viki leht",
+        "Parent page": "Ülemleht",
+        "The page this page sits under; empty for a top-level page": "Leht, mille all see leht asub; tühi ülataseme lehe puhul",
+        "Content": "Sisu"
     },
     "nplurals=2; plural=(n != 1);"
 )

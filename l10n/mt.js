@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "It-tipi ta’ xogħol ma nżammux. Erġa’ pprova.",
         "Templates": "Mudelli",
         "Use as template": "Uża bħala mudell",
-        "A project that new projects are started from.": "Proġett li minnu jinbdew proġetti ġodda."
+        "A project that new projects are started from.": "Proġett li minnu jinbdew proġetti ġodda.",
+        "Wiki page": "Paġna tal-wiki",
+        "Parent page": "Paġna ewlenija",
+        "The page this page sits under; empty for a top-level page": "Il-paġna li taħtha tinsab din il-paġna; vojt għal paġna tal-ogħla livell",
+        "Content": "Kontenut"
     },
     "nplurals=2; plural=(n != 1);"
 )

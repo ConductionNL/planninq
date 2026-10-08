@@ -1845,6 +1845,53 @@
         "metric": "sum",
         "display": "table",
         "sumField": "storyPoints"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "wikiPage",
+          "slug": "demo-wiki-home",
+          "id": "0000de00-0000-4000-8000-001600000001"
+        },
+        "title": "Client portal handbook",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "order": 0,
+        "body": "Start here: what the portal is, who uses it and where the decisions are written down."
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "wikiPage",
+          "slug": "demo-wiki-release",
+          "id": "0000de00-0000-4000-8000-001600000002"
+        },
+        "title": "Release routine",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "order": 1,
+        "body": "Every second Thursday. Freeze on Tuesday, test on Wednesday, ship on Thursday.",
+        "parent": "0000de00-0000-4000-8000-001600000001"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "wikiPage",
+          "slug": "demo-wiki-onboarding",
+          "id": "0000de00-0000-4000-8000-001600000003"
+        },
+        "title": "Onboarding checklist",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "order": 2,
+        "body": "Account, access to the repository, a walk through the board.",
+        "parent": "0000de00-0000-4000-8000-001600000001"
       }
     ]
   }

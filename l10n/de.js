@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Die Arbeitsarten wurden nicht gespeichert. Bitte versuchen Sie es erneut.",
         "Templates": "Vorlagen",
         "Use as template": "Als Vorlage verwenden",
-        "A project that new projects are started from.": "Ein Projekt, aus dem neue Projekte gestartet werden."
+        "A project that new projects are started from.": "Ein Projekt, aus dem neue Projekte gestartet werden.",
+        "Wiki page": "Wiki-Seite",
+        "Parent page": "Übergeordnete Seite",
+        "The page this page sits under; empty for a top-level page": "Die Seite, unter der diese Seite liegt; leer für eine Seite der obersten Ebene",
+        "Content": "Inhalt"
     },
     "nplurals=2; plural=(n != 1);"
 )

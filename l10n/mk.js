@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Видовите работа не се зачувани. Обидете се повторно.",
         "Templates": "Шаблони",
         "Use as template": "Користи како шаблон",
-        "A project that new projects are started from.": "Проект од кој се започнуваат нови проекти."
+        "A project that new projects are started from.": "Проект од кој се започнуваат нови проекти.",
+        "Wiki page": "Вики страница",
+        "Parent page": "Родителска страница",
+        "The page this page sits under; empty for a top-level page": "Страницата под која се наоѓа оваа страница; празно за страница од највисоко ниво",
+        "Content": "Содржина"
     },
     "nplurals=2; plural=(n != 1);"
 )

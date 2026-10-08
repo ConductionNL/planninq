@@ -1393,7 +1393,11 @@
         "The work types were not saved. Please try again.": "Vrst dela ni bilo mogoče shraniti. Poskusite znova.",
         "Templates": "Predloge",
         "Use as template": "Uporabi kot predlogo",
-        "A project that new projects are started from.": "Projekt, iz katerega se začnejo novi projekti."
+        "A project that new projects are started from.": "Projekt, iz katerega se začnejo novi projekti.",
+        "Wiki page": "Wiki stran",
+        "Parent page": "Nadrejena stran",
+        "The page this page sits under; empty for a top-level page": "Stran, pod katero je ta stran; prazno za stran najvišje ravni",
+        "Content": "Vsebina"
     },
     "plurals": null
 }

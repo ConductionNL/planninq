@@ -759,7 +759,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the twenty-one expected schemas.
+	 * The register MUST declare exactly the twenty-two expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
 	 * over the project work breakdown structure pipelinq had built, and
@@ -777,7 +777,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
 	public function testRegisterDeclaresExactlyTwentyOneSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'taskReport'];
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'taskReport', 'wikiPage'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -786,7 +786,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the twenty-one expected schemas'
+			message: 'register schema list must be exactly the twenty-two expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -794,7 +794,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the twenty-one expected schemas'
+			message: 'components.schemas must define exactly the twenty-two expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -1695,5 +1695,33 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertFalse($property['default']);
 
 	}//end testProjectCarriesIsTemplate()
+
+	/**
+	 * The wiki page schema carries its properties and the project-scoped rules.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.1
+	 */
+	public function testWikiPageSchemaAndRules(): void {
+		$wiki = $this->register['components']['schemas']['wikiPage'];
+
+		foreach (['project', 'parent', 'order', 'title', 'body'] as $property) {
+			self::assertArrayHasKey($property, $wiki['properties']);
+		}
+
+		self::assertSame(expected: ['title', 'project'], actual: $wiki['required']);
+		self::assertContains('wikiPage', \OCA\Planninq\Service\ProjectMembershipService::SCOPED_SCHEMAS);
+
+		$readMatches  = json_encode($wiki['authorization']['read']);
+		$writeMatches = json_encode($wiki['authorization']['update']);
+		foreach (['members', 'viewers', 'memberGroups', 'viewerGroups', 'portfolioReaders'] as $list) {
+			self::assertStringContainsString('"' . $list . '"', (string)$readMatches);
+		}
+
+		self::assertStringContainsString('"members"', (string)$writeMatches);
+		self::assertStringNotContainsString('"viewers"', (string)$writeMatches);
+
+	}//end testWikiPageSchemaAndRules()
 
 }//end class

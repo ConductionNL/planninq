@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "No s’han desat els tipus de feina. Torneu-ho a provar.",
         "Templates": "Plantilles",
         "Use as template": "Utilitza com a plantilla",
-        "A project that new projects are started from.": "Un projecte a partir del qual s’inicien nous projectes."
+        "A project that new projects are started from.": "Un projecte a partir del qual s’inicien nous projectes.",
+        "Wiki page": "Pàgina wiki",
+        "Parent page": "Pàgina superior",
+        "The page this page sits under; empty for a top-level page": "La pàgina sota la qual hi ha aquesta pàgina; buit per a una pàgina de nivell superior",
+        "Content": "Contingut"
     },
     "nplurals=2; plural=(n != 1);"
 )

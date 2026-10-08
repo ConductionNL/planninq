@@ -1405,7 +1405,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "De soorten werk zijn niet opgeslagen. Probeer het opnieuw.",
         "Templates": "Sjablonen",
         "Use as template": "Gebruiken als sjabloon",
-        "A project that new projects are started from.": "Een project waarmee nieuwe projecten worden gestart."
+        "A project that new projects are started from.": "Een project waarmee nieuwe projecten worden gestart.",
+        "Wiki page": "Wikipagina",
+        "Parent page": "Bovenliggende pagina",
+        "The page this page sits under; empty for a top-level page": "De pagina waaronder deze pagina valt; leeg voor een pagina op het hoogste niveau",
+        "Content": "Inhoud"
     },
     "nplurals=2; plural=(n != 1);"
 )

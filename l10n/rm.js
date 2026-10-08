@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Ils tips da lavur n’èn betg vegnids memorisads. Emprova danovamain.",
         "Templates": "Models",
         "Use as template": "Duvrar sco model",
-        "A project that new projects are started from.": "In project dal qual ins cumenza novs projects."
+        "A project that new projects are started from.": "In project dal qual ins cumenza novs projects.",
+        "Wiki page": "Pagina wiki",
+        "Parent page": "Pagina surordinada",
+        "The page this page sits under; empty for a top-level page": "La pagina sut la quala questa pagina sa chatta; vid per ina pagina dal pli aut nivel",
+        "Content": "Cuntegn"
     },
     "nplurals=2; plural=(n != 1);"
 )

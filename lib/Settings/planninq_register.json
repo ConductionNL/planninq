@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.39.0"
+    "version": "0.40.0"
   },
   "x-openregister": {
     "type": "application",
@@ -40,7 +40,8 @@
           "boardFilter",
           "boardView",
           "forgeLink",
-          "taskReport"
+          "taskReport",
+          "wikiPage"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -2599,6 +2600,199 @@
             },
             "default": [],
             "x-notes": "Ids of task objects with issueType 'action' in the same project. The author and the time of an entry are OpenRegister's own object metadata (@self.owner, @self.created), so a client cannot set them (projects-overview-logs-risks, design decision 2)."
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          }
+        }
+      },
+      "wikiPage": {
+        "slug": "wikiPage",
+        "icon": "BookOpenPageVariantOutline",
+        "version": "0.1.0",
+        "title": "Wiki page",
+        "description": "A page of a project's wiki, nested under a parent page.",
+        "x-schema-org": "schema:WebPage",
+        "type": "object",
+        "required": [
+          "title",
+          "project"
+        ],
+        "authorization": {
+          "read": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "portfolioReaders": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "create": [
+            {
+              "group": "authenticated"
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "update": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ],
+          "delete": [
+            {
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "admin"
+            }
+          ]
+        },
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "The project this entry belongs to",
+            "format": "uuid",
+            "$ref": "project"
+          },
+          "parent": {
+            "title": "Parent page",
+            "type": "string",
+            "format": "uuid",
+            "description": "The page this page sits under; empty for a top-level page"
+          },
+          "order": {
+            "title": "Order",
+            "type": "integer",
+            "default": 0
+          },
+          "body": {
+            "title": "Content",
+            "type": "string"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
           },
           "viewers": {
             "title": "Viewers",

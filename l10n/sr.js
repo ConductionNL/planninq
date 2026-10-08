@@ -1394,7 +1394,11 @@ OC.L10N.register(
         "The work types were not saved. Please try again.": "Vrste posla nisu sačuvane. Pokušajte ponovo.",
         "Templates": "Šabloni",
         "Use as template": "Koristi kao šablon",
-        "A project that new projects are started from.": "Projekat iz kojeg se pokreću novi projekti."
+        "A project that new projects are started from.": "Projekat iz kojeg se pokreću novi projekti.",
+        "Wiki page": "Viki stranica",
+        "Parent page": "Nadređena stranica",
+        "The page this page sits under; empty for a top-level page": "Stranica pod kojom se nalazi ova stranica; prazno za stranicu najvišeg nivoa",
+        "Content": "Sadržaj"
     },
     "nplurals=2; plural=(n != 1);"
 )

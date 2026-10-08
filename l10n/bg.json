@@ -1393,7 +1393,11 @@
         "The work types were not saved. Please try again.": "Видовете работа не са запазени. Опитайте отново.",
         "Templates": "Шаблони",
         "Use as template": "Използване като шаблон",
-        "A project that new projects are started from.": "Проект, от който се започват нови проекти."
+        "A project that new projects are started from.": "Проект, от който се започват нови проекти.",
+        "Wiki page": "Уики страница",
+        "Parent page": "Родителска страница",
+        "The page this page sits under; empty for a top-level page": "Страницата, под която стои тази страница; празно за страница от най-високо ниво",
+        "Content": "Съдържание"
     },
     "plurals": null
 }
