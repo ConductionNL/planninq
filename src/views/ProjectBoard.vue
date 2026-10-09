@@ -43,6 +43,13 @@
 				</h2>
 
 				<div class="project-board__header-actions">
+					<NcTextField
+						v-model="search"
+						class="project-board__search"
+						:label="t('planninq', 'Search tasks')"
+						type="search"
+						data-testid="board-search"
+						@keydown.esc="search = ''" />
 					<BoardViewMenu
 						v-if="view === 'board' && !requestBanner"
 						:colour="boardView.colour"
@@ -245,6 +252,9 @@
 										:first="index === 0"
 										:last="index === columns.length - 1"
 										:rules="true"
+										:transfer="true"
+										@moveProject="openTransfer(column, 'move')"
+										@copyProject="openTransfer(column, 'copy')"
 										@rules="rulesColumn = column"
 										@edit="editingColumn = column"
 										@move="(direction) => moveColumn(column, direction)"
@@ -433,6 +443,15 @@
 					:labels="labels"
 					@close="rulesColumn = null"
 					@saved="onColumnsChanged" />
+				<TaskMoveDialog
+					v-if="transferColumn"
+					:heading="transferColumn.mode === 'move' ? t('planninq', 'Move column to project') : t('planninq', 'Copy column to project')"
+					:confirmLabel="transferColumn.mode === 'move' ? t('planninq', 'Move column to project') : t('planninq', 'Copy column to project')"
+					:options="transferOptions"
+					:busy="transferBusy"
+					data-testid="column-transfer-dialog"
+					@close="transferColumn = null"
+					@confirm="transferTo" />
 				<ColumnRemoveDialog
 					v-if="removingColumn"
 					:column="removingColumn"
@@ -492,6 +511,7 @@ import ColumnEditDialog from '../dialogs/ColumnEditDialog.vue'
 import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
 import ColumnRulesDialog from '../dialogs/ColumnRulesDialog.vue'
 import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
+import TaskMoveDialog from '../dialogs/TaskMoveDialog.vue'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
@@ -514,7 +534,8 @@ import { isReadOnlyFor, readOnlyReason } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
 import { boardAccessDenied, currentGroupIds } from '../utils/projectRole.js'
 import { newLaneTask } from '../utils/taskEditing.js'
-import { deriveBlockedTaskIds, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
+import { deriveBlockedTaskIds, matchesSearch, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
+import { targetProjects } from '../utils/taskMove.js'
 import { memberOptions, PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
 
@@ -553,6 +574,7 @@ export default {
 		ProjectTabs,
 		TaskCard,
 		TaskFormDialog,
+		TaskMoveDialog,
 	},
 
 	inject: {
@@ -582,6 +604,9 @@ export default {
 			removingColumn: null,
 			/** @type {object|null} The column whose rules are being edited. */
 			rulesColumn: null,
+			search: '',
+			transferColumn: null,
+			transferBusy: false,
 			/** @type {string} What the last move's column rules changed, for screen readers. */
 			rulesAnnouncement: '',
 			/** @type {Array} Every app-wide label, for the card chips and the filter. */
@@ -660,6 +685,15 @@ export default {
 		 */
 		blockedIds() {
 			return new Set(deriveBlockedTaskIds(this.dependenciesStore.edges, this.statusById))
+		},
+
+		/**
+		 * Projects the column can go to: the ones the user is on, except this one.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		transferOptions() {
+			return targetProjects(this.projectsStore.projects, getCurrentUser()?.uid ?? '', String(this.project?.id ?? ''))
 		},
 
 		/**
@@ -862,7 +896,7 @@ export default {
 		visibleTasks() {
 			const uid = getCurrentUser()?.uid || ''
 			const filter = this.boardFilter
-			return this.tasks.filter((task) => matchesFilter(task, filter, uid))
+			return this.tasks.filter((task) => matchesFilter(task, filter, uid) && matchesSearch(task, this.search))
 		},
 
 		/**
@@ -1604,6 +1638,50 @@ export default {
 			return count === 1
 				? this.t('planninq', '1 rule runs when a card enters this column')
 				: this.t('planninq', '{count} rules run when a card enters this column', { count })
+		},
+
+		/**
+		 * Open the project picker for moving or copying a column.
+		 *
+		 * @param {object}         column The column.
+		 * @param {'move'|'copy'}  mode   What to do with it.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async openTransfer(column, mode) {
+			if (!this.projectsStore.projects.length) {
+				await this.projectsStore.fetchProjects()
+			}
+			this.transferColumn = { column, mode }
+		},
+
+		/**
+		 * Move or copy the column, with its tasks, to the picked project.
+		 *
+		 * @param {{id: string}} option The picked project.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async transferTo(option) {
+			const { column, mode } = this.transferColumn
+			const target = this.projectsStore.projects.find((project) => (project.id ?? project.uuid) === option.id)
+			if (!target) {
+				return
+			}
+			this.transferBusy = true
+			const tasks = this.tasksOfColumn(column)
+			const done = mode === 'move'
+				? await this.projectsStore.moveColumnToProject(column, tasks, target)
+				: await this.projectsStore.copyColumnToProject(column, tasks, target)
+			this.transferBusy = false
+			if (!done) {
+				showError(this.t('planninq', 'Could not move or copy. Please try again.'))
+				return
+			}
+			this.transferColumn = null
+			await this.onColumnsChanged()
 		},
 
 		/**

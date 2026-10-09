@@ -55,6 +55,25 @@
 					label="label"
 					data-testid="task-form-priority" />
 
+				<div class="task-form-dialog__dates">
+					<NcDateTimePickerNative
+						v-model="startDateValue"
+						type="date"
+						:label="t('planninq', 'Start date')"
+						data-testid="task-form-start-date" />
+					<NcDateTimePickerNative
+						v-model="dueDateValue"
+						type="date"
+						:label="t('planninq', 'Due date')"
+						data-testid="task-form-due-date" />
+				</div>
+				<p v-if="dateError"
+					class="task-form-dialog__error"
+					role="alert"
+					data-testid="task-form-date-error">
+					{{ dateError }}
+				</p>
+
 				<template v-if="project">
 					<NcSelect
 						v-model="responsibleOption"
@@ -83,7 +102,7 @@
 			</NcButton>
 			<NcButton
 				variant="primary"
-				:disabled="saving || draft.title.trim() === ''"
+				:disabled="saving || draft.title.trim() === '' || dateError !== ''"
 				data-testid="task-form-save"
 				@click="save">
 				<template v-if="saving" #icon>
@@ -106,8 +125,9 @@
  *
  * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-2.1
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcRichText, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { NcButton, NcDateTimePickerNative, NcDialog, NcLoadingIcon, NcRichText, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
 import { useProjectsStore } from '../store/projects.js'
+import { fromPickerDate, toPickerDate, validateTaskDates } from '../utils/taskDates.js'
 import { editPatch, newLaneTask } from '../utils/taskEditing.js'
 import { memberOptions } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
@@ -117,6 +137,7 @@ export default {
 
 	components: {
 		NcButton,
+		NcDateTimePickerNative,
 		NcDialog,
 		NcLoadingIcon,
 		NcRichText,
@@ -165,6 +186,8 @@ export default {
 			description: this.task?.description ?? '',
 			status: this.task?.status ?? 'open',
 			priority: this.task?.priority ?? 'normal',
+			startDate: this.task?.startDate ?? '',
+			dueDate: this.task?.dueDate ?? '',
 		}
 		if (this.project) {
 			draft.assignedTo = this.task?.assignedTo ?? ''
@@ -181,6 +204,51 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * The inline message when the start date is after the due date.
+		 *
+		 * @spec openspec/changes/tasks-dates/tasks.md#task-3.1
+		 */
+		dateError() {
+			return validateTaskDates(this.draft.startDate, this.draft.dueDate) === 'startAfterDue'
+				? this.t('planninq', 'The start date is after the due date.')
+				: ''
+		},
+
+		startDateValue: {
+			/**
+			 * @spec exclude Display helper, the start date as a picker value.
+			 */
+			get() {
+				return toPickerDate(this.draft.startDate)
+			},
+
+			/**
+			 * @param {Date|null} value The picked date.
+			 * @spec exclude Display helper, stores the picked day.
+			 */
+			set(value) {
+				this.draft.startDate = fromPickerDate(value)
+			},
+		},
+
+		dueDateValue: {
+			/**
+			 * @spec exclude Display helper, the due date as a picker value.
+			 */
+			get() {
+				return toPickerDate(this.draft.dueDate)
+			},
+
+			/**
+			 * @param {Date|null} value The picked date.
+			 * @spec exclude Display helper, stores the picked day.
+			 */
+			set(value) {
+				this.draft.dueDate = fromPickerDate(value)
+			},
+		},
+
 		/**
 		 * The project's members as picker options.
 		 *
@@ -304,6 +372,9 @@ export default {
 		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-2.1
 		 */
 		async save() {
+			if (this.dateError) {
+				return
+			}
 			this.saving = true
 			this.submitError = ''
 			const store = useProjectsStore()
@@ -351,6 +422,12 @@ export default {
 .task-form-dialog__empty {
 	margin: 0;
 	color: var(--color-text-maxcontrast);
+}
+
+.task-form-dialog__dates {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
 }
 
 .task-form-dialog__error {

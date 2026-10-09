@@ -759,7 +759,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testDueSoonRecipientFieldExistsOnSchema()
 
 	/**
-	 * The register MUST declare exactly the twenty-one expected schemas.
+	 * The register MUST declare exactly the twenty-two expected schemas.
 	 *
 	 * Adds `projectPhase` to the previous exact set of six, when planninq took
 	 * over the project work breakdown structure pipelinq had built, and
@@ -776,8 +776,8 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
-	public function testRegisterDeclaresExactlyTwentyOneSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'taskReport'];
+	public function testRegisterDeclaresExactlyTwentyThreeSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'taskReport', 'wikiPage', 'workflow'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -786,7 +786,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the twenty-one expected schemas'
+			message: 'register schema list must be exactly the twenty-three expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -794,7 +794,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the twenty-one expected schemas'
+			message: 'components.schemas must define exactly the twenty-three expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -803,7 +803,37 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyTwentyOneSchemas()
+	}//end testRegisterDeclaresExactlyTwentyThreeSchemas()
+
+	/**
+	 * A workflow carries columns and an estimate scale, a project may follow one, a column
+	 * remembers which workflow column it came from, and a column still belongs to its project.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.1
+	 */
+	public function testWorkflowSchemaAndReferences(): void {
+		$schemas  = $this->register['components']['schemas'];
+		$workflow = $schemas['workflow'];
+
+		self::assertSame(['title', 'columns'], $workflow['required']);
+		foreach (['title', 'description', 'columns', 'estimateScale', 'estimateValues'] as $property) {
+			self::assertArrayHasKey($property, $workflow['properties'], 'workflow.' . $property);
+		}
+
+		self::assertSame(['none', 'hours', 'storyPoints', 'tshirt'], $workflow['properties']['estimateScale']['enum']);
+		self::assertSame(['key', 'title'], $workflow['properties']['columns']['items']['required']);
+		self::assertSame(['admin'], $workflow['authorization']['update'], 'only admins edit a workflow');
+		self::assertContains(['group' => 'authenticated'], $workflow['authorization']['read'], 'every member reads the scale of their workflow');
+
+		self::assertSame('workflow', $schemas['project']['properties']['workflow']['$ref']);
+		self::assertTrue($schemas['project']['properties']['workflow']['nullable']);
+		self::assertSame('string', $schemas['column']['properties']['workflowKey']['type']);
+		self::assertContains('project', $schemas['column']['required'], 'a column still belongs to one project');
+		self::assertArrayNotHasKey('labels', $workflow['properties'], 'labels stay app-wide');
+
+	}//end testWorkflowSchemaAndReferences()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -1665,4 +1695,63 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		}
 
 	}//end testMockRegisterCarriesTimetableGeneratorDemoRows()
+	/**
+	 * A time entry carries the work type it was booked under.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.2
+	 */
+	public function testTimeEntryCarriesWorkType(): void {
+		$entry = $this->register['components']['schemas']['plannedTimeEntry'];
+
+		self::assertSame(expected: 'string', actual: $entry['properties']['workType']['type']);
+		self::assertNotContains('workType', $entry['required']);
+		self::assertTrue(version_compare($entry['version'], '0.6.0', '>='));
+
+	}//end testTimeEntryCarriesWorkType()
+
+	/**
+	 * A project can be marked as a template, off by default.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+	 */
+	public function testProjectCarriesIsTemplate(): void {
+		$property = $this->register['components']['schemas']['project']['properties']['isTemplate'];
+
+		self::assertSame(expected: 'boolean', actual: $property['type']);
+		self::assertFalse($property['default']);
+
+	}//end testProjectCarriesIsTemplate()
+
+	/**
+	 * The wiki page schema carries its properties and the project-scoped rules.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.1
+	 */
+	public function testWikiPageSchemaAndRules(): void {
+		$wiki = $this->register['components']['schemas']['wikiPage'];
+
+		foreach (['project', 'parent', 'order', 'title', 'body'] as $property) {
+			self::assertArrayHasKey($property, $wiki['properties']);
+		}
+
+		self::assertSame(expected: ['title', 'project'], actual: $wiki['required']);
+		self::assertContains('wikiPage', \OCA\Planninq\Service\ProjectMembershipService::SCOPED_SCHEMAS);
+
+		$readMatches  = json_encode($wiki['authorization']['read']);
+		$writeMatches = json_encode($wiki['authorization']['update']);
+		foreach (['members', 'viewers', 'memberGroups', 'viewerGroups', 'portfolioReaders'] as $list) {
+			self::assertStringContainsString('"' . $list . '"', (string)$readMatches);
+		}
+
+		self::assertStringContainsString('"members"', (string)$writeMatches);
+		self::assertStringNotContainsString('"viewers"', (string)$writeMatches);
+
+	}//end testWikiPageSchemaAndRules()
+
 }//end class

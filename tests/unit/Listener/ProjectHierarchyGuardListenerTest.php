@@ -417,4 +417,49 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 		$this->listener()->handle($renamed);
 		self::assertFalse($renamed->isPropagationStopped(), 'a write that leaves the custom fields alone is not held to a new required field');
 	}//end testARequiredFieldAndAnUnknownKeyAreRefused()
+
+	/**
+	 * A wiki page write that sets a parent, as the event the listener receives.
+	 *
+	 * @param string      $uuid    The page.
+	 * @param string      $project The page's project.
+	 * @param string|null $parent  The new parent.
+	 * @param bool        $stored  Whether the page exists already.
+	 */
+	private function wikiWrite(string $uuid, string $project, ?string $parent, bool $stored): ObjectCreatingEvent|ObjectUpdatingEvent {
+		$data = ['title' => 'Pagina', 'project' => $project, 'parent' => $parent];
+		if ($stored === false) {
+			return new ObjectCreatingEvent($this->entity(slug: 'wikiPage', uuid: $uuid, data: $data));
+		}
+
+		return new ObjectUpdatingEvent($this->entity(slug: 'wikiPage', uuid: $uuid, data: $data), $this->entity(slug: 'wikiPage', uuid: $uuid, data: ['title' => 'Pagina', 'project' => $project]));
+	}//end wikiWrite()
+
+	/**
+	 * Task 1.2: a page cannot sit under itself, under its own subpage or under another project's page.
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
+	 */
+	public function testAWikiPageParentIsGuarded(): void {
+		$this->objects->seed('wikiPage', 'root', ['title' => 'Root', 'project' => self::PROJECT]);
+		$this->objects->seed('wikiPage', 'sub', ['title' => 'Sub', 'project' => self::PROJECT, 'parent' => 'root']);
+		$this->objects->seed('wikiPage', 'foreign', ['title' => 'Elders', 'project' => 'other']);
+
+		$self = $this->wikiWrite(uuid: 'root', project: self::PROJECT, parent: 'root', stored: true);
+		$this->listener()->handle($self);
+		self::assertTrue($self->isPropagationStopped(), 'a page under itself');
+
+		$loop = $this->wikiWrite(uuid: 'root', project: self::PROJECT, parent: 'sub', stored: true);
+		$this->listener()->handle($loop);
+		self::assertTrue($loop->isPropagationStopped(), 'a page under its own subpage');
+		self::assertSame(ProjectHierarchyGuardListener::ERROR_WIKI_PARENT, $loop->getErrors()['code']);
+
+		$other = $this->wikiWrite(uuid: 'new', project: self::PROJECT, parent: 'foreign', stored: false);
+		$this->listener()->handle($other);
+		self::assertTrue($other->isPropagationStopped(), 'a page under another project\'s page');
+
+		$fine = $this->wikiWrite(uuid: 'new', project: self::PROJECT, parent: 'sub', stored: false);
+		$this->listener()->handle($fine);
+		self::assertFalse($fine->isPropagationStopped(), 'a page under a subpage of its own project');
+	}//end testAWikiPageParentIsGuarded()
 }//end class

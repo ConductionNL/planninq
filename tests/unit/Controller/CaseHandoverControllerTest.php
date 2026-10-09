@@ -54,6 +54,8 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \OCA\Planninq\Controller\CaseHandoverController
  * @covers \OCA\Planninq\Service\CaseHandoverService
+ * @uses \OCA\Planninq\Exception\CaseHandoverException
+ * @uses \OCA\Planninq\Service\ProjectMembershipService
  */
 class CaseHandoverControllerTest extends TestCase {
 	use MembershipFixture;

@@ -25,6 +25,7 @@ import { currentGroupIds, rolePatch } from '../utils/projectRole.js'
 import { epicPatch, shipPatches } from '../utils/roadmapHelpers.js'
 import { duplicatePayload } from '../utils/taskBreakdown.js'
 import { deleteRefusal, withTaskDefaults } from '../utils/taskEditing.js'
+import { columnCopyPayload, columnTaskCopyPayload, moveTaskPatch } from '../utils/taskMove.js'
 import { useObjectStore } from './objectStore.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
@@ -37,6 +38,7 @@ const COLUMN_SCHEMA = 'column'
 const TASK_SCHEMA = 'task'
 const TIME_ENTRY_SCHEMA = 'plannedTimeEntry'
 const LABEL_SCHEMA = 'label'
+const WORKFLOW_SCHEMA = 'workflow'
 const LOG_SCHEMA = 'projectLogEntry'
 const RISK_SCHEMA = 'risk'
 const STATUS_REPORT_SCHEMA = 'projectStatusReport'
@@ -165,6 +167,9 @@ export const useProjectsStore = defineStore('projects', {
 			}
 			if (!store.objectTypeRegistry?.[LABEL_SCHEMA]) {
 				store.registerObjectType(LABEL_SCHEMA, LABEL_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: LABEL_SCHEMA })
+			}
+			if (!store.objectTypeRegistry?.[WORKFLOW_SCHEMA]) {
+				store.registerObjectType(WORKFLOW_SCHEMA, WORKFLOW_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: WORKFLOW_SCHEMA })
 			}
 			if (!store.objectTypeRegistry?.[LOG_SCHEMA]) {
 				store.registerObjectType(LOG_SCHEMA, LOG_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: LOG_SCHEMA })
@@ -412,6 +417,40 @@ export const useProjectsStore = defineStore('projects', {
 			} catch (err) {
 				this.error = err.message || 'create-error'
 				throw err
+			} finally {
+				this.loading = false
+			}
+		},
+
+		/**
+		 * Copy a project, or start one from a template, on the server.
+		 *
+		 * The server remaps every reference between the copied objects and
+		 * removes a half copy when a step fails.
+		 *
+		 * @param {string} sourceId The project or template to copy.
+		 * @param {object} body     `{ title, key?, startDate?, parts }` from copyPayload.
+		 * @return {Promise<{id: string, counts: object}>} The new project's id and what was copied
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 */
+		async copyProject(sourceId, body) {
+			this.loading = true
+			this.error = null
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/projects/${sourceId}/copy`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(body),
+				})
+				const data = await response.json().catch(() => ({}))
+				if (!response.ok) {
+					const error = new Error(data?.error || 'copy-error')
+					error.code = data?.code
+					this.error = error.message
+					throw error
+				}
+				return data
 			} finally {
 				this.loading = false
 			}
@@ -1781,6 +1820,27 @@ export const useProjectsStore = defineStore('projects', {
 			}
 		},
 
+		/**
+		 * Fetch every workflow, for the project settings picker and the estimate scale.
+		 *
+		 * Readable by every signed-in user; only admins write them.
+		 *
+		 * @return {Promise<Array>} The workflows by title (empty array on error)
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		async fetchWorkflows() {
+			try {
+				const workflows = await fetchEvery(this._objectStore(), WORKFLOW_SCHEMA)
+				return Array.isArray(workflows)
+					? [...workflows].sort((a, b) => String(a?.title ?? '').localeCompare(String(b?.title ?? '')))
+					: []
+			} catch (err) {
+				console.error('fetchWorkflows error:', err)
+				return []
+			}
+		},
+
 		// ── 2.14 updateTaskStatus ─────────────────────────────────────────
 
 		/**
@@ -1947,6 +2007,124 @@ export const useProjectsStore = defineStore('projects', {
 		},
 
 		// ── 2.15 updateTask ────────────────────────────────────────────────
+
+		/**
+		 * Move a task, with its subtasks, to another project's backlog.
+		 *
+		 * Writes the parent first, then each subtask, so a failure leaves the
+		 * parent's children where they were. The server drops the task's
+		 * dependency links (TaskDependencyCleanupListener) and re-stamps the
+		 * members lists (ProjectMemberAccessListener).
+		 *
+		 * @param {object}        task     The task to move.
+		 * @param {Array<object>} subtasks Its subtasks.
+		 * @param {object}        project  The target project.
+		 * @return {Promise<object|null>} The moved task, or null on failure
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.1
+		 */
+		async moveTaskToProject(task, subtasks, project) {
+			const moved = await this.updateTask(task.id, moveTaskPatch(task, project))
+			if (!moved) {
+				return null
+			}
+			for (const child of subtasks || []) {
+				if (!await this.updateTask(child.id, moveTaskPatch(child, project, true))) {
+					showError(t('planninq', 'Not everything could be moved or copied. Please check the target project.'))
+					break
+				}
+			}
+			return moved
+		},
+
+		/**
+		 * Copy a column and its tasks to another project, as that board's last column.
+		 *
+		 * @param {object}        column  The source column.
+		 * @param {Array<object>} tasks   The column's tasks.
+		 * @param {object}        project The target project.
+		 * @return {Promise<object|null>} The new column, or null on failure
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async copyColumnToProject(column, tasks, project) {
+			const projectId = project?.id ?? project?.uuid
+			const targetColumns = await this.fetchColumns(String(projectId))
+			const created = await this.saveColumn(columnCopyPayload(column, project, targetColumns))
+			const columnId = created?.id ?? created?.uuid ?? created?.['@self']?.id
+			if (!columnId) {
+				return null
+			}
+			for (const task of tasks || []) {
+				if (!await this.createTask(columnTaskCopyPayload(task, project, columnId))) {
+					showError(t('planninq', 'Not everything could be moved or copied. Please check the target project.'))
+					break
+				}
+			}
+			return created
+		},
+
+		/**
+		 * Move a column and its tasks to another project, as that board's last column.
+		 *
+		 * The column and its tasks are copied first; the originals go once every
+		 * copy exists. Their time stays on the project it was booked on.
+		 *
+		 * @param {object}        column  The source column.
+		 * @param {Array<object>} tasks   The column's tasks.
+		 * @param {object}        project The target project.
+		 * @return {Promise<object|null>} The new column, or null on failure
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async moveColumnToProject(column, tasks, project) {
+			const projectId = project?.id ?? project?.uuid
+			const targetColumns = await this.fetchColumns(String(projectId))
+			const created = await this.saveColumn(columnCopyPayload(column, project, targetColumns))
+			const columnId = created?.id ?? created?.uuid ?? created?.['@self']?.id
+			if (!columnId) {
+				return null
+			}
+			for (const task of tasks || []) {
+				const moved = await this.updateTask(task.id, { ...moveTaskPatch(task, project), column: columnId, columnOrder: task.columnOrder ?? 0 })
+				if (!moved) {
+					showError(t('planninq', 'Not everything could be moved or copied. Please check the target project.'))
+					return created
+				}
+			}
+			await this.deleteColumn(column.id)
+			return created
+		},
+
+		/**
+		 * Apply one patch to many tasks, a few requests at a time.
+		 *
+		 * Every task is tried; one failing PATCH does not stop the rest. A
+		 * function patch is called with each task id and returns that task's
+		 * fields, so a change that depends on the task (add a label to the ones
+		 * it already has) is built per task; an empty result writes nothing.
+		 *
+		 * @param {Array<string>} ids         The task ids.
+		 * @param {object|function(string): object} patch The fields to write, or `(id) => fields`.
+		 * @param {number}        concurrency How many requests run at once.
+		 * @return {Promise<{done: Array<string>, failed: Array<string>}>} Per-task result
+		 *
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.2
+		 */
+		async bulkUpdateTasks(ids, patch, concurrency = 4) {
+			const result = { done: [], failed: [] }
+			const queue = [...(ids || [])]
+			const worker = async () => {
+				while (queue.length) {
+					const id = queue.shift()
+					const fields = typeof patch === 'function' ? patch(id) : patch
+					const updated = Object.keys(fields || {}).length === 0 ? true : await this.updateTask(id, fields)
+					;(updated ? result.done : result.failed).push(id)
+				}
+			}
+			await Promise.all(Array.from({ length: Math.min(concurrency, queue.length) }, worker))
+			return result
+		},
 
 		/**
 		 * Patch arbitrary task fields (e.g. `estimatedDuration`).

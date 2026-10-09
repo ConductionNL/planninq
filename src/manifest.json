@@ -57,6 +57,7 @@
     { "id": "ReportsMenu", "label": "Reports", "icon": "ChartBoxOutline", "route": "Reports", "section": "settings", "order": 95 },
     { "id": "FeaturesRoadmapMenu", "label": "Features & roadmap", "icon": "MapMarkerPath", "route": "FeaturesRoadmap", "section": "footer", "order": 100 },
     { "id": "FlowsMenu", "label": "Flows", "icon": "SitemapOutline", "route": "Flows", "section": "settings", "order": 96 },
+    { "id": "WorkflowsMenu", "label": "Workflows", "icon": "ViewColumnOutline", "route": "WorkflowIndex", "section": "settings", "order": 97, "permission": "admin" },
     { "id": "ProjectFieldsMenu", "label": "Project fields", "icon": "TextBoxOutline", "route": "ProjectFieldIndex", "section": "settings", "order": 98, "permission": "admin" },
     { "id": "UnmatchedFinanceLinesMenu", "label": "Unmatched finance lines", "icon": "CurrencyEur", "route": "UnmatchedFinanceLines", "section": "settings", "order": 97, "permission": "admin" }
   ],
@@ -93,7 +94,7 @@
                 "register": "planninq",
                 "schema": "project",
                 "metric": "count",
-                "filter": { "status": "active" }
+                "filter": { "status": "active", "isTemplate": false }
               }
             }
           },
@@ -110,7 +111,7 @@
                 "register": "planninq",
                 "schema": "project",
                 "metric": "count",
-                "filter": { "members": "@me" }
+                "filter": { "members": "@me", "isTemplate": false }
               }
             }
           },
@@ -127,7 +128,7 @@
                 "register": "planninq",
                 "schema": "project",
                 "metric": "count",
-                "filter": { "status": "archived" }
+                "filter": { "status": "archived", "isTemplate": false }
               }
             }
           },
@@ -222,6 +223,7 @@
     { "id": "MyWork", "_note": "Every open task assigned to the user or shared with them, across the projects they can read, grouped as Overdue, Due this week and Later with the status changed in place; a dashboard figure opens it narrowed through ?group=. Grouping plus an inline status write per row is not an index (portfolio-my-work-dashboard).", "route": "/my-tasks", "type": "custom", "title": "My tasks", "component": "MyWork", "config": {} },
     { "id": "Projects", "_note": "Project index rendered as cards with a client-side status chip filter over filteredProjects, plus a free-text field. The chip row is a filter surface CnIndexPage does not express, so the list is a host-app SFC.", "route": "/projects", "type": "custom", "title": "Projects", "component": "ProjectList", "config": {} },
     { "id": "PortfolioIndex", "_note": "The portfolios projects are grouped by, with their managers and list order. Admins create and delete them and the managers edit them, which OpenRegister enforces on the projectPortfolio schema, so the page is a declarative index. Declared before ProjectBoard so /projects/portfolios is never read as a project id.", "route": "/projects/portfolios", "type": "index", "title": "Portfolios", "config": { "register": "planninq", "schema": "projectPortfolio", "columns": ["title", "managers", "order"], "defaultSort": [{ "field": "order", "order": "asc" }] } },
+    { "id": "WorkflowIndex", "_note": "The workflows an admin defines for projects to share: board columns in order and an estimate scale. OpenRegister keeps writes to admins, so the page is a declarative index with the schema's own form; a change reaches the projects on the workflow through WorkflowColumnSyncListener.", "route": "/workflows", "type": "index", "title": "Workflows", "config": { "register": "planninq", "schema": "workflow", "columns": ["title", "estimateScale", "description"], "defaultSort": [{ "field": "title", "order": "asc" }] } },
     { "id": "ProjectFieldIndex", "_note": "The fields an admin adds to every project: label, type (text, number, date, choice, person or yes/no), options, required and order. OpenRegister keeps writes to admins, so the page is a declarative index with the schema's own form. The Details tab of the project settings sidebar shows one input per field.", "route": "/project-fields", "type": "index", "title": "Project fields", "config": { "register": "planninq", "schema": "projectField", "columns": ["label", "key", "type", "required", "order"], "defaultSort": [{ "field": "order", "order": "asc" }] } },
     { "id": "UnmatchedFinanceLines", "_note": "Lines from the finance system whose project number matched no project key. The finance import keeps them rather than dropping them; an admin opens a line and sets its project, and it moves to that project's Finance tab. OpenRegister's read rule shows them to admins and the import group only, so the page is a declarative index with a fixed filter on an empty project.", "route": "/finance/unmatched", "type": "index", "title": "Unmatched finance lines", "config": { "register": "planninq", "schema": "financeLine", "filter": { "project": "IS NULL" }, "columns": ["projectKey", "externalRef", "kind", "category", "amount", "date", "project"], "defaultSort": [{ "field": "date", "order": "desc" }] } },
     { "id": "RiskIndex", "_note": "Every risk of every project the user can read, highest score first. OpenRegister's read rule on the members list decides which risks a user sees, so the page is a declarative index. Declared before ProjectBoard so /projects/risks is never read as a project id.", "route": "/projects/risks", "type": "index", "title": "Risks", "config": { "register": "planninq", "schema": "risk", "readOnly": true, "showViewAction": false, "columns": ["title", "project", "score", "status", "owner", "reviewDate"], "defaultSort": [{ "field": "score", "order": "desc" }] } },
@@ -235,6 +237,8 @@
     { "id": "ProjectRisks", "_note": "The project's risk register: a heat map of likelihood against impact on the admin's risk scale beside the list sorted by score. The heat map is not an index, so the page is custom.", "route": "/projects/:id/risks", "type": "custom", "title": "Risks", "component": "ProjectRisks", "config": {} },
     { "id": "ProjectStatus", "_note": "Status reports on the six GROTIK aspects: the latest report with its notes, the history, and a report form that suggests money, time and risk from the project's tasks, risks and budget. The suggestions read three schemas, which no detail page expresses.", "route": "/projects/:id/status", "type": "custom", "title": "Status", "component": "ProjectStatus", "config": {} },
     { "id": "ProjectFinance", "_note": "The project's delivery terms and its money: budget against commitments, actual cost and forecast per cost category and per phase, with booked time counted as labour. It combines finance lines, time entries, phases and an admin setting into computed tables, and hides every amount from members, which no detail page expresses.", "route": "/projects/:id/finance", "type": "custom", "title": "Finance", "component": "ProjectFinance", "config": {} },
+    { "id": "ProjectWiki", "_note": "A project's wiki: a page tree beside the open page, written with the Nextcloud Text editor (a Markdown field when that app is off), with history and one writer at a time. A tree plus an editor is not an index or a detail page (projects-wiki).", "route": "/projects/:id/wiki", "type": "custom", "title": "Wiki", "component": "ProjectWiki", "config": {} },
+    { "id": "ProjectWikiPage", "_note": "The same wiki with one page open; the route carries the page id so a page can be linked to (projects-wiki).", "route": "/projects/:id/wiki/:pageId", "type": "custom", "title": "Wiki", "component": "ProjectWiki", "config": {} },
     { "id": "ProjectLog", "_note": "The project log: issues, lessons, meetings and decisions with type filters, plus an Actions filter over the project's tasks with issueType action, and an Add action that creates such a task. The mix of two schemas under one filter row is what makes it custom.", "route": "/projects/:id/log", "type": "custom", "title": "Log", "component": "ProjectLog", "config": {} },
     { "id": "TaskDetail", "_note": "Task detail that combines a CnObjectSidebar with an inline time-entry log written against the same task. A detail page renders the record; the embedded logging surface is what makes this custom.", "route": "/projects/:id/tasks/:taskId", "type": "custom", "title": "Task", "component": "TaskDetail", "config": {} },
     { "id": "Timesheet", "_note": "Week timesheet: entries grouped per day with inline edit and a project selector. A grouped, editable grid over time entries, which no v2 list primitive expresses.", "route": "/timesheet", "type": "custom", "title": "Timesheet", "component": "Timesheet", "config": {} },
@@ -327,12 +331,14 @@
           { "id": "time-entries", "title": "Entries", "type": "stat", "content": { "label": "Entries", "icon": "ClockOutline", "route": { "name": "Timesheet" }, "format": { "style": "decimal", "decimals": 0 }, "source": { "register": "planninq", "schema": "plannedTimeEntry", "metric": "count" } } },
           { "id": "time-minutes", "title": "Minutes logged", "type": "stat", "content": { "label": "Minutes logged", "icon": "TimerOutline", "route": { "name": "Timesheet" }, "format": { "style": "decimal", "decimals": 0 }, "source": { "register": "planninq", "schema": "plannedTimeEntry", "metric": "sum", "field": "duration" } } },
           { "id": "time-by-user", "title": "Per person", "type": "chart", "content": { "chartKind": "bar", "legendPosition": "bottom", "emptyLabel": "Nothing logged yet", "dataSource": { "register": "planninq", "schema": "plannedTimeEntry", "aggregate": { "groupBy": "user", "metric": "sum", "sumField": "duration", "topN": 10, "otherBucket": true } } } },
+          { "id": "time-by-work-type", "title": "By work type", "type": "chart", "content": { "chartKind": "bar", "legendPosition": "bottom", "emptyLabel": "No work types logged yet", "dataSource": { "register": "planninq", "schema": "plannedTimeEntry", "aggregate": { "groupBy": "workType", "metric": "sum", "sumField": "duration", "topN": 10, "otherBucket": true } } } },
           { "id": "time-recent", "title": "Most recent", "type": "object-table", "content": { "register": "planninq", "schema": "plannedTimeEntry", "filter": {}, "sort": { "field": "date", "dir": "desc" }, "limit": 8, "hideHeader": true, "emptyText": "Nothing logged yet", "viewAllRoute": { "name": "Timesheet" }, "viewAllLabel": "Open the timesheet", "columns": [ { "key": "date", "label": "Date" }, { "key": "user", "label": "Who" }, { "key": "duration", "label": "Minutes" }, { "key": "description", "label": "What" } ] } }
         ],
         "layout": [
           { "id": "1", "widgetId": "time-entries", "gridX": 0, "gridY": 0, "gridWidth": 6, "gridHeight": 2, "showTitle": false },
           { "id": "2", "widgetId": "time-minutes", "gridX": 6, "gridY": 0, "gridWidth": 6, "gridHeight": 2, "showTitle": false },
-          { "id": "3", "widgetId": "time-by-user", "gridX": 0, "gridY": 2, "gridWidth": 12, "gridHeight": 4, "showTitle": true },
+          { "id": "3", "widgetId": "time-by-user", "gridX": 0, "gridY": 2, "gridWidth": 6, "gridHeight": 4, "showTitle": true },
+          { "id": "5", "widgetId": "time-by-work-type", "gridX": 6, "gridY": 2, "gridWidth": 6, "gridHeight": 4, "showTitle": true },
           { "id": "4", "widgetId": "time-recent", "gridX": 0, "gridY": 6, "gridWidth": 12, "gridHeight": 4, "showTitle": true }
         ]
       }

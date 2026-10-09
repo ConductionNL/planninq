@@ -84,6 +84,11 @@ Vrij en open source onder de EUPL-1.2-licentie.
              schemas; see lib/Settings/planninq_register.json). -->
     </dependencies>
 
+    <!-- Reads the intake mailbox every five minutes; a no-op while intake is off (tasks-create-by-email). -->
+    <background-jobs>
+        <job>OCA\Planninq\BackgroundJob\MailIntakeJob</job>
+    </background-jobs>
+
     <!-- Schema order inside <repair-steps> is post-migration before install,
          which reads backwards but is what app-info.xsd declares. Order here is
          XML sequence only — it does not change when Nextcloud runs each hook. -->
@@ -225,6 +230,10 @@ Vrij en open source onder de EUPL-1.2-licentie.
             <step>OCA\Planninq\Repair\ApplyProjectPolicy</step>
         </install>
     </repair-steps>
+
+    <commands>
+        <command>OCA\Planninq\Command\WorkflowResync</command>
+    </commands>
 
     <settings>
         <admin>OCA\Planninq\Settings\AdminSettings</admin>

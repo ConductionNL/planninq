@@ -3,6 +3,7 @@
  *
  * @spec openspec/changes/task-due-date-warning/specs/tasks/spec.md
  */
+import { parseLocalDate } from './taskDates.js'
 
 /**
  * Task statuses that count as "resolved" — a blocker in one of these states
@@ -225,6 +226,8 @@ export function dependencyPickerCandidates(currentTask, projectTasks = []) {
  *         - `null`         when there is no due date.
  *         - `'approaching'` when the due date is today or within the next 2 days.
  *         - `'overdue'`    when the due date is strictly in the past.
+ *
+ * @spec openspec/changes/task-due-date-warning/specs/tasks/spec.md
  */
 export function dueDateStatus(task, now = new Date()) {
 	if (task === null || task === undefined) {
@@ -235,8 +238,8 @@ export function dueDateStatus(task, now = new Date()) {
 		return null
 	}
 
-	const due = raw instanceof Date ? raw : new Date(raw)
-	if (Number.isNaN(due.getTime())) {
+	const due = parseLocalDate(raw)
+	if (due === null) {
 		return null
 	}
 
@@ -340,4 +343,24 @@ export function newLinkFor(taskId, pickedId, type = 'blocks') {
 		return { blocker: pickedId, blocked: taskId, type }
 	}
 	return { blocker: taskId, blocked: pickedId, type }
+}
+
+/**
+ * Whether a task matches a search term in its title, description or key.
+ *
+ * Case and surrounding whitespace do not matter; an empty term matches all.
+ *
+ * @param {object} task The task.
+ * @param {string} term The typed term.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-1.1
+ */
+export function matchesSearch(task, term) {
+	const needle = String(term ?? '').trim().toLowerCase()
+	if (needle === '') {
+		return true
+	}
+	return [task?.title, task?.description, task?.key]
+		.some((field) => String(field ?? '').toLowerCase().includes(needle))
 }

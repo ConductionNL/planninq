@@ -30,9 +30,7 @@ namespace OCA\Planninq\Service;
 use OCA\Planninq\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
-use OCP\IConfig;
 use OCP\IUserSession;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -65,6 +63,8 @@ class SettingsService {
 		self::FINANCE_CATEGORIES_KEY => '["Personnel","Hired staff","Materials","Other"]',
 		self::CREATION_GROUPS_KEY => '[]',
 		self::REQUESTS_KEY => 'off',
+		self::WORK_TYPES_KEY => '[]',
+		...MailIntakeSettingsService::DEFAULTS,
 	];
 
 	/**
@@ -87,6 +87,20 @@ class SettingsService {
 	 * @var array<int,string>
 	 */
 	public const CREATION_POLICIES = ['all', 'admins', 'groups'];
+
+	/**
+	 * The admin list of work types a time entry can carry, a JSON list of names (empty means none asked for).
+	 *
+	 * @var string
+	 */
+	public const WORK_TYPES_KEY = 'work_types';
+
+	/**
+	 * The user value holding a person's running timer, a JSON object with `task` and `startedAt`.
+	 *
+	 * @var string
+	 */
+	public const RUNNING_TIMER_KEY = 'running_timer';
 
 	/**
 	 * The user value holding a user's own order of pinned projects on the
@@ -150,27 +164,27 @@ class SettingsService {
 	 * Constructor for the SettingsService.
 	 *
 	 * @param IAppConfig $appConfig The app config interface
-	 * @param IConfig $config The user config interface
 	 * @param IAppManager $appManager The app manager
-	 * @param ContainerInterface $container The container
 	 * @param IUserSession $userSession The user session
 	 * @param LoggerInterface $logger The logger
 	 * @param DueReminderWindowService $dueReminderWindow The live-schema due-reminder window patcher
 	 * @param ProjectPolicySchemaService $policySchema Writes the reviewers of project requests into the live schema.
 	 * @param CreationPolicyService $creationPolicy Who may create and who may request a project.
+	 * @param UserPreferenceService $prefs A person's own stored preferences.
+	 * @param MailIntakeSettingsService $mailIntake Validation, visibility and password storage of the mail intake settings.
 	 *
 	 * @return void
 	 */
 	public function __construct(
 		private IAppConfig $appConfig,
-		private IConfig $config,
 		private IAppManager $appManager,
-		private ContainerInterface $container,
 		private IUserSession $userSession,
 		private LoggerInterface $logger,
 		private DueReminderWindowService $dueReminderWindow,
 		private ProjectPolicySchemaService $policySchema,
 		private CreationPolicyService $creationPolicy,
+		private UserPreferenceService $prefs,
+		private MailIntakeSettingsService $mailIntake,
 	) {
 	}//end __construct()
 
@@ -236,6 +250,10 @@ class SettingsService {
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
 	 */
 	private function normalisedValue(string $key, string $value): ?string {
+		if ($this->mailIntake->handles(key: $key) === true) {
+			return $this->mailIntake->normalise(key: $key, value: $value);
+		}
+
 		$listed = $this->validatedNameList(key: $key, raw: $value);
 		if ($listed === false) {
 			return null;
@@ -266,6 +284,22 @@ class SettingsService {
 
 		return $settings;
 	}//end getAdminSettings()
+
+	/**
+	 * The admin settings a signed-in user may see: the mailbox connection details are for admins only.
+	 *
+	 * @return array<string,string>
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
+	 */
+	private function visibleAdminSettings(): array {
+		$settings = $this->getAdminSettings();
+		if ($this->isCurrentUserAdmin() === true) {
+			return $settings;
+		}
+
+		return $this->mailIntake->hideConnectionDetails(settings: $settings);
+	}//end visibleAdminSettings()
 
 	/**
 	 * Validate the default_columns value before persisting.
@@ -327,6 +361,51 @@ class SettingsService {
 	}//end validateCategoryNames()
 
 	/**
+	 * Validate the work types: an empty list, or unique non-empty names.
+	 *
+	 * @param string $raw Raw JSON submitted by the client.
+	 *
+	 * @return string|null Normalised JSON, or null when refused.
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 */
+	public function validateWorkTypes(string $raw): ?string {
+		$decoded = json_decode($raw, true);
+		if (is_array($decoded) === true && count($decoded) === 0) {
+			return '[]';
+		}
+
+		return $this->validateCategoryNames(raw: $raw);
+	}//end validateWorkTypes()
+
+	/**
+	 * The person's running timer, or null when none runs or the stored value is broken.
+	 *
+	 * @param string $userId The user UID.
+	 *
+	 * @return array{task: string, startedAt: string}|null
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 */
+	public function getRunningTimer(string $userId): ?array {
+		return $this->prefs->runningTimer(userId: $userId);
+	}//end getRunningTimer()
+
+	/**
+	 * Store or clear the person's running timer; a malformed value is refused.
+	 *
+	 * @param string $userId The user UID.
+	 * @param mixed  $timer  `{task, startedAt}`, or null to clear.
+	 *
+	 * @return bool Whether the value was stored or cleared.
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 */
+	public function setRunningTimer(string $userId, mixed $timer): bool {
+		return $this->prefs->storeRunningTimer(userId: $userId, timer: $timer);
+	}//end setRunningTimer()
+
+	/**
 	 * The normalised value of a setting that holds a list of names, false when
 	 * the list is refused, null when the key holds no list of names.
 	 *
@@ -341,6 +420,7 @@ class SettingsService {
 		$validated = match ($key) {
 			'default_columns' => $this->validateDefaultColumns(raw: $raw),
 			self::FINANCE_CATEGORIES_KEY => $this->validateCategoryNames(raw: $raw),
+			self::WORK_TYPES_KEY => $this->validateWorkTypes(raw: $raw),
 			default => '',
 		};
 		if ($validated === '') {
@@ -495,12 +575,13 @@ class SettingsService {
 		if ($user !== null) {
 			$userSettings['notify_due_reminder'] = $this->isNotifyDueReminderEnabled(userId: $user->getUID());
 			$userSettings[self::DASHBOARD_ORDER_KEY] = $this->getDashboardProjectOrder(userId: $user->getUID());
-			$userSettings[BoardViewPreferenceService::KEY] = $this->boardViews()->views(userId: $user->getUID());
+			$userSettings = array_merge($userSettings, $this->prefs->boardViewSetting(userId: $user->getUID()));
+			$userSettings[self::RUNNING_TIMER_KEY] = $this->getRunningTimer(userId: $user->getUID());
 		}
 
 		return array_merge(
 			$settings,
-			$this->getAdminSettings(),
+			$this->visibleAdminSettings(),
 			$userSettings,
 			[
 				'openregisters' => $this->isOpenRegisterAvailable(),
@@ -543,24 +624,17 @@ class SettingsService {
 			}
 		}
 
+		if (array_key_exists(self::RUNNING_TIMER_KEY, $data) === true) {
+			$this->setRunningTimer(userId: $userId, timer: $data[self::RUNNING_TIMER_KEY]);
+		}
+
 		$view = ($data['board_view'] ?? null);
 		if (is_array($view) === true && is_string($view['project'] ?? null) === true) {
-			$this->boardViews()->save(userId: $userId, projectId: $view['project'], view: $view);
+			$this->prefs->boardViews()->save(userId: $userId, projectId: $view['project'], view: $view);
 		}
 
 		return $this->getSettings();
 	}//end updateUserSettings()
-
-	/**
-	 * The per-person board view store, on this service's IConfig.
-	 *
-	 * @return BoardViewPreferenceService
-	 *
-	 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
-	 */
-	private function boardViews(): BoardViewPreferenceService {
-		return new BoardViewPreferenceService(config: $this->config);
-	}//end boardViews()
 
 	/**
 	 * A user's own order of pinned dashboard projects.
@@ -572,13 +646,7 @@ class SettingsService {
 	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
 	 */
 	public function getDashboardProjectOrder(string $userId): array {
-		$raw     = $this->config->getUserValue($userId, Application::APP_ID, self::DASHBOARD_ORDER_KEY, '[]');
-		$decoded = json_decode((string) $raw, true);
-		if (is_array($decoded) === false) {
-			return [];
-		}
-
-		return $this->cleanProjectOrder(order: $decoded);
+		return $this->prefs->dashboardOrder(userId: $userId);
 	}//end getDashboardProjectOrder()
 
 	/**
@@ -592,33 +660,8 @@ class SettingsService {
 	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
 	 */
 	public function setDashboardProjectOrder(string $userId, array $order): void {
-		$this->config->setUserValue(
-			$userId,
-			Application::APP_ID,
-			self::DASHBOARD_ORDER_KEY,
-			(string) json_encode($this->cleanProjectOrder(order: $order))
-		);
+		$this->prefs->storeDashboardOrder(userId: $userId, order: $order);
 	}//end setDashboardProjectOrder()
-
-	/**
-	 * Non-empty string ids, first occurrence kept, at most DASHBOARD_ORDER_MAX.
-	 *
-	 * @param array<mixed,mixed> $order The ids as given.
-	 *
-	 * @return array<int,string>
-	 *
-	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
-	 */
-	private function cleanProjectOrder(array $order): array {
-		$clean = [];
-		foreach ($order as $id) {
-			if (is_string($id) === true && $id !== '' && in_array($id, $clean, true) === false) {
-				$clean[] = $id;
-			}
-		}
-
-		return array_slice($clean, 0, self::DASHBOARD_ORDER_MAX);
-	}//end cleanProjectOrder()
 
 	/**
 	 * Update settings with the provided data.
@@ -637,6 +680,7 @@ class SettingsService {
 		}
 
 		$this->setAdminSettings(settings: $data);
+		$this->mailIntake->storePassword(settings: $data);
 
 		// The reviewers of project requests follow the creation policy.
 		if (array_key_exists('allow_project_creation', $data) === true || array_key_exists(self::CREATION_GROUPS_KEY, $data) === true) {
@@ -658,8 +702,7 @@ class SettingsService {
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
 	 */
 	public function isNotifyDueReminderEnabled(string $userId): bool {
-		$value = $this->config->getUserValue($userId, Application::APP_ID, 'notify_due_reminder', 'true');
-		return ($value !== 'false');
+		return $this->prefs->notifyDueReminder(userId: $userId);
 	}//end isNotifyDueReminderEnabled()
 
 	/**
@@ -683,17 +726,7 @@ class SettingsService {
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
 	 */
 	public function setNotifyDueReminder(string $userId, bool $enabled): void {
-		$storedValue = 'false';
-		if ($enabled === true) {
-			$storedValue = 'true';
-		}
-
-		$this->config->setUserValue(
-			$userId,
-			Application::APP_ID,
-			'notify_due_reminder',
-			$storedValue
-		);
+		$this->prefs->storeNotifyDueReminder(userId: $userId, enabled: $enabled);
 
 		// ON clears the override (null → schema default); OFF writes {"enabled": false}.
 		$override = ['enabled' => false];
@@ -714,17 +747,7 @@ class SettingsService {
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
 	 */
 	public function getNotificationPreferenceService(): ?object {
-		if ($this->isOpenRegisterAvailable() === false) {
-			return null;
-		}
-
-		try {
-			return $this->container->get('OCA\OpenRegister\Service\Notification\NotificationPreferenceService');
-		} catch (\Throwable $e) {
-			$this->logger->info('Planninq: NotificationPreferenceService unavailable', ['exception' => $e->getMessage()]);
-			return null;
-		}
-
+		return $this->dueReminderWindow->notificationPreferenceService();
 	}//end getNotificationPreferenceService()
 
 	/**

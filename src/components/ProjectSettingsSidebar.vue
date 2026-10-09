@@ -32,6 +32,14 @@
 					<span class="project-settings-sidebar__readonly" data-testid="project-key">{{ project.key }}</span>
 				</div>
 
+				<!-- Mail address for tasks by email (tasks-create-by-email) -->
+				<div v-if="mailAddress" class="project-settings-sidebar__field" data-testid="project-mail-address">
+					<span class="project-settings-sidebar__label">{{ t('planninq', 'Mail tasks to {address}', { address: mailAddress }) }}</span>
+					<NcButton variant="tertiary" data-testid="project-mail-copy" @click="copyMailAddress">
+						{{ t('planninq', 'Copy address') }}
+					</NcButton>
+				</div>
+
 				<!-- Description -->
 				<NcTextArea
 					v-model="form.description"
@@ -74,6 +82,14 @@
 					:inputLabel="t('planninq', 'Part of')"
 					label="label"
 					data-testid="project-parent" />
+
+				<!-- Template: new projects can be started from it (projects-templates-shared-workflow) -->
+				<NcCheckboxRadioSwitch
+					v-model="form.isTemplate"
+					type="switch"
+					data-testid="project-is-template">
+					{{ t('planninq', 'Use as template') }}
+				</NcCheckboxRadioSwitch>
 
 				<!-- Auto-scheduling on the timeline (planning-timeline-editing); the schema lets only the owner or an admin save it -->
 				<NcCheckboxRadioSwitch
@@ -249,9 +265,37 @@
 			<template #icon>
 				<ViewColumnOutline :size="20" />
 			</template>
+			<!-- Shared workflow: columns and estimate scale come from an admin's workflow (projects-templates-shared-workflow) -->
+			<div v-if="workflows.length || currentProject.workflow" class="project-settings-sidebar__section" data-testid="project-workflow">
+				<NcSelect
+					:modelValue="workflowChoice"
+					:options="workflowOptions"
+					:inputLabel="t('planninq', 'Workflow')"
+					:disabled="!canManageColumns || savingWorkflow"
+					label="label"
+					data-testid="project-workflow-select"
+					@update:modelValue="onWorkflowPicked" />
+				<p v-if="followedWorkflow" class="project-settings-sidebar__hint" data-testid="project-workflow-following">
+					{{ t('planninq', 'The columns of this project follow the workflow {title}. Change them in the workflow.', { title: followedWorkflow.title }) }}
+				</p>
+				<div v-if="pendingWorkflow" class="project-settings-sidebar__confirm-row" data-testid="project-workflow-confirm">
+					<span v-if="pendingMove.moved">{{ n('planninq', '{count} task moves to {column} because its column is not in this workflow', '{count} tasks move to {column} because their column is not in this workflow', pendingMove.moved, { count: pendingMove.moved, column: pendingMove.target }) }}</span>
+					<span v-else>{{ t('planninq', 'No task has to move.') }}</span>
+					<NcButton variant="primary"
+						:disabled="savingWorkflow"
+						data-testid="project-workflow-apply"
+						@click="applyWorkflow">
+						{{ t('planninq', 'Apply workflow') }}
+					</NcButton>
+					<NcButton @click="pendingWorkflow = null">
+						{{ t('planninq', 'Cancel') }}
+					</NcButton>
+				</div>
+			</div>
 			<ColumnSettingsList
+				:key="columnsKey"
 				:projectId="project.id"
-				:canManage="canManageColumns"
+				:canManage="canManageColumns && !followedWorkflow"
 				@changed="$emit('columnsChanged')" />
 		</NcAppSidebarTab>
 
@@ -292,6 +336,13 @@
 					</div>
 				</div>
 
+				<div v-if="mayCopy" class="project-settings-sidebar__danger-item">
+					<p>{{ t('planninq', 'Make a new project with the same columns, phases and tasks.') }}</p>
+					<NcButton data-testid="project-copy" @click="showCopyDialog = true">
+						{{ t('planninq', 'Copy project') }}
+					</NcButton>
+				</div>
+
 				<div class="project-settings-sidebar__danger-item">
 					<p>{{ t('planninq', 'Permanently delete this project and all its tasks.') }}</p>
 					<NcButton variant="error" @click="showDeleteDialog = true">
@@ -307,6 +358,12 @@
 			:projectId="project.id"
 			@close="showLeaveDialog = false"
 			@left="onLeft" />
+
+		<ProjectCopyDialog
+			v-if="showCopyDialog && project"
+			:project="project"
+			@close="showCopyDialog = false"
+			@copied="onCopied" />
 
 		<ProjectDeleteDialog
 			v-if="showDeleteDialog && project"
@@ -347,20 +404,25 @@ import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
+import ProjectCopyDialog from '../dialogs/ProjectCopyDialog.vue'
 import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
 import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
 import CaseHandoverSection from './CaseHandoverSection.vue'
 import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import OwnerGroupPicker from './OwnerGroupPicker.vue'
+import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
+import { projectMailAddress } from '../utils/mailIntake.js'
 import { memberEntries } from '../utils/memberSearch.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
+import { mayCopyProject } from '../utils/projectCopy.js'
 import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
 import { lifecycleButtons } from '../utils/projectLifecycle.js'
 import { ASSIGNABLE_ROLES, canManageMembers, canSetOwnerGroup, currentGroupIds, ownerGroupOf, projectRole } from '../utils/projectRole.js'
 import { parentIdOf, parentOptions, parentRefusal } from '../utils/projectTree.js'
 import { displayNames, groupNames } from '../utils/userNames.js'
+import { mappingPreview } from '../utils/workflowMapping.js'
 import { keyEditable, keyRefusal, normaliseProjectKey } from '../utils/workItemKeys.js'
 
 export default {
@@ -368,6 +430,7 @@ export default {
 
 	components: {
 		CaseHandoverSection,
+		ProjectCopyDialog,
 		NcAppSidebar,
 		NcAppSidebarTab,
 		NcAvatar,
@@ -406,6 +469,13 @@ export default {
 			confirmArchive: false,
 			showLeaveDialog: false,
 			showDeleteDialog: false,
+			showCopyDialog: false,
+			// Shared workflow (projects-templates-shared-workflow)
+			workflows: [],
+			pendingWorkflow: null,
+			pendingMove: { moved: 0, target: '' },
+			savingWorkflow: false,
+			columnsKey: 0,
 			removalWarning: null,
 			pendingRemoveUid: null,
 			form: {
@@ -417,6 +487,7 @@ export default {
 				portfolio: null,
 				parent: null,
 				autoSchedule: this.project?.autoSchedule === true,
+				isTemplate: this.project?.isTemplate === true,
 			},
 
 			projectFields: [],
@@ -434,6 +505,17 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * The address this project's mail goes to; empty when intake is off or the project has no key.
+		 *
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.3
+		 */
+		mailAddress() {
+			return projectMailAddress(useSettingsStore().settings, this.currentProject.key)
+		},
+
 		/**
 		 * The project as the store holds it now, so a member added or removed
 		 * shows at once; the prop is the object the sidebar was opened with.
@@ -491,6 +573,42 @@ export default {
 		 */
 		mayManageMembers() {
 			return getCurrentUser()?.isAdmin === true || canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
+		},
+
+		/**
+		 * The workflow the project follows, or null.
+		 *
+		 * @return {object|null}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		followedWorkflow() {
+			return this.workflows.find((workflow) => workflow.id === this.currentProject.workflow) || null
+		},
+
+		/**
+		 * @spec exclude Display helper — the workflow choices, with a way to take the project off one.
+		 */
+		workflowOptions() {
+			return [{ id: '', label: this.t('planninq', 'No workflow') }, ...this.workflows.map((workflow) => ({ id: workflow.id, label: String(workflow.title ?? '') }))]
+		},
+
+		/**
+		 * @spec exclude Display helper — the option showing the current workflow.
+		 */
+		workflowChoice() {
+			return this.workflowOptions.find((option) => option.id === (this.currentProject.workflow || '')) || this.workflowOptions[0]
+		},
+
+		/**
+		 * Whether the person may copy this project: its owner, a manager or an admin.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 */
+		mayCopy() {
+			return getCurrentUser()?.isAdmin === true || mayCopyProject(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
 		},
 
 		/**
@@ -639,6 +757,7 @@ export default {
 				this.form.portfolio = this.portfolioOption(newVal)
 				this.form.parent = this.parentOption(newVal)
 				this.form.autoSchedule = newVal.autoSchedule === true
+				this.form.isTemplate = newVal.isTemplate === true
 				this.fieldForm = { ...(newVal.customFields || {}) }
 				this.missingFields = []
 				this.loadActions()
@@ -663,9 +782,24 @@ export default {
 		this.form.portfolio = this.portfolioOption(this.project)
 		this.form.parent = this.parentOption(this.project)
 		this.loadActions()
+		this.loadWorkflows()
 	},
 
 	methods: {
+		/**
+		 * Put the project's mail address on the clipboard.
+		 *
+		 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.3
+		 */
+		async copyMailAddress() {
+			try {
+				await navigator.clipboard.writeText(this.mailAddress)
+				showSuccess(this.t('planninq', 'Address copied'))
+			} catch {
+				showError(this.t('planninq', 'The address could not be copied'))
+			}
+		},
+
 		/**
 		 * Read the lifecycle actions OpenRegister offers on the project.
 		 *
@@ -741,6 +875,7 @@ export default {
 					portfolio: this.form.portfolio?.id || null,
 					parent: this.form.parent?.id || null,
 					autoSchedule: this.form.autoSchedule === true,
+					isTemplate: this.form.isTemplate === true,
 					customFields: { ...(this.project.customFields || {}), ...this.clearedFields(), ...customFieldValues(this.projectFields, this.fieldForm) },
 					// Always include existing members and owner so a PATCH/PUT does not wipe them
 					members: Array.isArray(this.project.members) ? this.project.members : [],
@@ -955,6 +1090,87 @@ export default {
 			this.showLeaveDialog = false
 			this.$emit('close')
 			this.$router.push({ name: 'Projects' })
+		},
+
+		/**
+		 * Load the workflows to pick from.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		async loadWorkflows() {
+			this.workflows = await this.projectsStore.fetchWorkflows()
+		},
+
+		/**
+		 * A workflow was picked: show how many tasks move before saving, or take the project off its workflow.
+		 *
+		 * @param {{id: string}|null} option The chosen option.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		async onWorkflowPicked(option) {
+			if (!option || option.id === (this.currentProject.workflow || '')) {
+				return
+			}
+			if (option.id === '') {
+				this.pendingWorkflow = null
+				await this.saveWorkflow('')
+				return
+			}
+			const workflow = this.workflows.find((candidate) => candidate.id === option.id)
+			const [columns, tasks] = await Promise.all([this.projectsStore.fetchColumns(this.project.id), this.projectsStore.fetchTasks(this.project.id)])
+			this.pendingMove = mappingPreview(columns, tasks, workflow?.columns || [])
+			this.pendingWorkflow = workflow || null
+		},
+
+		/**
+		 * Put the project on the workflow it is about to follow.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		async applyWorkflow() {
+			if (this.pendingWorkflow) {
+				await this.saveWorkflow(this.pendingWorkflow.id)
+			}
+		},
+
+		/**
+		 * Write the workflow; the server builds the project's columns from it.
+		 *
+		 * @param {string} id The workflow id, or '' to leave workflows.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		async saveWorkflow(id) {
+			this.savingWorkflow = true
+			const updated = await this.projectsStore.patchProject(this.project.id, { workflow: id || null })
+			this.savingWorkflow = false
+			this.pendingWorkflow = null
+			if (!updated) {
+				showError(this.t('planninq', 'The workflow could not be set. Please try again.'))
+				return
+			}
+			this.columnsKey++
+			this.$emit('columnsChanged')
+		},
+
+		/**
+		 * Open the copy that was made.
+		 *
+		 * @param {{id: string}} copy The new project.
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 */
+		onCopied(copy) {
+			this.showCopyDialog = false
+			this.$emit('close')
+			this.$router.push({ name: 'ProjectBoard', params: { id: copy.id } })
 		},
 
 		/**

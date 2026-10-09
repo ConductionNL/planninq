@@ -1,6 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="my-work">
+		<RunningTimer />
 		<div class="my-work__header">
 			<h2>{{ t('planninq', 'My tasks') }}</h2>
 			<RouterLink :to="{ name: 'MyCalendar' }" data-testid="my-work-as-calendar">
@@ -81,6 +82,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
 import { NcButton, NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline.vue'
+import RunningTimer from '../components/RunningTimer.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { filterMyTasks, groupMyTasks, MY_WORK_FILTERS } from '../utils/myWork.js'
 
@@ -89,7 +91,7 @@ const STATUSES = ['open', 'in_progress', 'blocked', 'done', 'cancelled']
 export default {
 	name: 'MyWork',
 
-	components: { ClipboardCheckOutlineIcon, NcButton, NcEmptyContent, NcLoadingIcon, NcSelect },
+	components: { ClipboardCheckOutlineIcon, NcButton, NcEmptyContent, NcLoadingIcon, NcSelect, RunningTimer },
 
 	data() {
 		return {

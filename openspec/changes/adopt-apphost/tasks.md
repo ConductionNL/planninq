@@ -2,27 +2,27 @@
 
 ## 0. Baseline
 
-- [ ] 0.1 Capture baseline on a seeded dev instance: `curl /apps/planninq/api/health` JSON + `/apps/planninq/api/metrics` Prometheus text + `/api/settings` JSON; store as fixtures for the parity diff
+- [ ] 0.1 Capture baseline on a seeded dev instance: `curl /apps/planninq/api/health` JSON + `/apps/planninq/api/metrics` Prometheus text + `/api/settings` JSON; store as fixtures for the parity diff — not run: needs a live instance
 
 ## 1. Manifest observability block (minimal)
 
-- [ ] 1.1 Create `src/manifest.json` (planninq is Tier 0 — no manifest exists yet) with an `observability` block: `health.checks: [{"type": "database"}]`, `metrics: []` (implicit `planninq_info`/`planninq_up` come from the engine)
-- [ ] 1.2 (Optional, recipe-documentation value) add the worked-example metric `planninq_projects_total` → `{"kind": "objectCount", "register": "planninq", "schema": "project"}`; and/or the optional `{"type": "orAvailable", "severity": "degraded"}` health check — both intentional non-parity additions, document if added
+- [x] 1.1 Create `src/manifest.json` (planninq is Tier 0 — no manifest exists yet) with an `observability` block: `health.checks: [{"type": "database"}]`, `metrics: []` (implicit `planninq_info`/`planninq_up` come from the engine)
+- [x] 1.2 (Optional, recipe-documentation value) add the worked-example metric `planninq_projects_total` → `{"kind": "objectCount", "register": "planninq", "schema": "project"}`; and/or the optional `{"type": "orAvailable", "severity": "degraded"}` health check — both intentional non-parity additions, document if added
 - [ ] 1.3 Validate via ManifestService diagnostics (no errors)
 
 ## 2. Bootstrap/Routes wiring + deletions
 
-- [ ] 2.1 Shrink `lib/AppInfo/Application.php` to `\OCA\OpenRegister\AppHost\Bootstrap::register($context, 'planninq')` (~20 lines); verify the Bootstrap aliases cover the DeepLink listener registration currently done by hand
-- [ ] 2.2 Replace `appinfo/routes.php` with `return \OCA\OpenRegister\AppHost\Routes::standard($extra)`, passing the three domain routes (`project#checkCreatePolicy`, `project#create`, `project#leaveProject`) via `$extra`; route names/URLs identical (incl. SPA catch-all ordering)
-- [ ] 2.3 Delete `lib/Controller/HealthController.php`, `lib/Controller/MetricsController.php`, `lib/Controller/DashboardController.php`, `lib/Controller/SettingsController.php`, `lib/Service/SettingsService.php`, `lib/Settings/AdminSettings.php`, `lib/Sections/SettingsSection.php`, `lib/Repair/InitializeSettings.php`, `lib/Listener/DeepLinkRegistrationListener.php` — `ProjectController.php`, `planninq_register.json`, `lib/Migration/` stay
-- [ ] 2.4 Confirm `info.xml` needs no change (repair-step + admin-settings class names resolve to generics via Bootstrap aliases); sweep remaining references (unit tests, `@spec` tags, docs)
+- [ ] 2.1 Shrink `lib/AppInfo/Application.php` to `\OCA\OpenRegister\AppHost\Bootstrap::register($context, 'planninq')` (~20 lines); verify the Bootstrap aliases cover the DeepLink listener registration currently done by hand — not done, on purpose: the real `Bootstrap::register` is not resolvable here (no OpenRegister source in this checkout; `tests/stubs/openregister-apphost.stub.php` stubs only the Generic* classes, and the only `Bootstrap` stub on this machine, in another app's tests, is a no-op), so which classes it aliases cannot be checked; `Application.php` also carries planninq's own wiring (object listeners, timetable solver, initial-state provider, projects leaf, workflow and mail listeners) that `Bootstrap::register` would not provide; it keeps calling `Bootstrap::aliasStoreController` only
+- [x] 2.2 Replace `appinfo/routes.php` with `return \OCA\OpenRegister\AppHost\Routes::standard($extra)`, passing the three domain routes (`project#checkCreatePolicy`, `project#create`, `project#leaveProject`) via `$extra`; route names/URLs identical (incl. SPA catch-all ordering)
+- [ ] 2.3 Delete `lib/Controller/HealthController.php`, `lib/Controller/MetricsController.php`, `lib/Controller/DashboardController.php`, `lib/Controller/SettingsController.php`, `lib/Service/SettingsService.php`, `lib/Settings/AdminSettings.php`, `lib/Sections/SettingsSection.php`, `lib/Repair/InitializeSettings.php`, `lib/Listener/DeepLinkRegistrationListener.php` — `ProjectController.php`, `planninq_register.json`, `lib/Migration/` stay — partial, and the rest is not deleted because the generic does not provide the behaviour: Health, Metrics, Dashboard and Sections are gone; `AdminSettings` and `DeepLinkRegistrationListener` are already bare subclasses of the generics (a real class is needed for `info.xml` and `registerEventListener`); `SettingsController` and `SettingsService` carry planninq behaviour no generic has (due-reminder window and per-user override, project creation policy and requests, dashboard order, board views, running timer, work types, mail intake with its credential reference, risk scale, timetable grid, working calendar), and no generic settings controller or service exists in the stubs or vendor here; `InitializeSettings` runs planninq's register import plus its policy and column steps
+- [ ] 2.4 Confirm `info.xml` needs no change (repair-step + admin-settings class names resolve to generics via Bootstrap aliases); sweep remaining references (unit tests, `@spec` tags, docs) — open until 2.1/2.3 land; with them kept as above, `info.xml` correctly still names the planninq classes
 
 ## 3. Verification
 
-- [ ] 3.1 Diff live `/api/health`, `/api/metrics`, `/api/settings` output vs the 0.1 baseline: identical shape, metric names, types, labels (document intentional deltas only if 1.2 options were added)
-- [ ] 3.2 OR AppHost Newman contract collection green against planninq's endpoints; existing `tests/integration/planninq.postman_collection.json` green
-- [ ] 3.3 e2e smoke green: dashboard SPA loads at `/apps/planninq/`, deep-link/catch-all route renders, admin settings section shows register/schema config; existing unit suite green
-- [ ] 3.4 Fresh-install check: `occ app:enable planninq` runs the generic repair step and seeds the register from `lib/Settings/planninq_register.json`
+- [ ] 3.1 Diff live `/api/health`, `/api/metrics`, `/api/settings` output vs the 0.1 baseline: identical shape, metric names, types, labels (document intentional deltas only if 1.2 options were added) — not run: needs a live instance
+- [ ] 3.2 OR AppHost Newman contract collection green against planninq's endpoints; existing `tests/integration/planninq.postman_collection.json` green — not run: needs a live instance
+- [ ] 3.3 e2e smoke green: dashboard SPA loads at `/apps/planninq/`, deep-link/catch-all route renders, admin settings section shows register/schema config; existing unit suite green — not run: needs a live instance
+- [ ] 3.4 Fresh-install check: `occ app:enable planninq` runs the generic repair step and seeds the register from `lib/Settings/planninq_register.json` — not run: needs a live instance
 
 ## 4. Docs
 
@@ -31,4 +31,4 @@
 ## 5. Quality gates
 
 - [ ] 5.1 `composer check:strict` green (PHPCS, PHPMD, Psalm, PHPStan) — fix any pre-existing issues encountered
-- [ ] 5.2 18 hydra gates green; gate-22 manifest validation green against the new `src/manifest.json`
+- [ ] 5.2 18 hydra gates green; gate-22 manifest validation green against the new `src/manifest.json` — not run: needs the hydra gate runner
