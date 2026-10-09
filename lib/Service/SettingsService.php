@@ -30,9 +30,7 @@ namespace OCA\Planninq\Service;
 use OCA\Planninq\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
-use OCP\IConfig;
 use OCP\IUserSession;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -66,7 +64,7 @@ class SettingsService {
 		self::CREATION_GROUPS_KEY => '[]',
 		self::REQUESTS_KEY => 'off',
 		self::WORK_TYPES_KEY => '[]',
-		...MailIntakeConfig::DEFAULTS,
+		...MailIntakeSettingsService::DEFAULTS,
 	];
 
 	/**
@@ -166,27 +164,27 @@ class SettingsService {
 	 * Constructor for the SettingsService.
 	 *
 	 * @param IAppConfig $appConfig The app config interface
-	 * @param IConfig $config The user config interface
 	 * @param IAppManager $appManager The app manager
-	 * @param ContainerInterface $container The container
 	 * @param IUserSession $userSession The user session
 	 * @param LoggerInterface $logger The logger
 	 * @param DueReminderWindowService $dueReminderWindow The live-schema due-reminder window patcher
 	 * @param ProjectPolicySchemaService $policySchema Writes the reviewers of project requests into the live schema.
 	 * @param CreationPolicyService $creationPolicy Who may create and who may request a project.
+	 * @param UserPreferenceService $prefs A person's own stored preferences.
+	 * @param MailIntakeSettingsService $mailIntake Validation, visibility and password storage of the mail intake settings.
 	 *
 	 * @return void
 	 */
 	public function __construct(
 		private IAppConfig $appConfig,
-		private IConfig $config,
 		private IAppManager $appManager,
-		private ContainerInterface $container,
 		private IUserSession $userSession,
 		private LoggerInterface $logger,
 		private DueReminderWindowService $dueReminderWindow,
 		private ProjectPolicySchemaService $policySchema,
 		private CreationPolicyService $creationPolicy,
+		private UserPreferenceService $prefs,
+		private MailIntakeSettingsService $mailIntake,
 	) {
 	}//end __construct()
 
@@ -252,8 +250,8 @@ class SettingsService {
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
 	 */
 	private function normalisedValue(string $key, string $value): ?string {
-		if (str_starts_with($key, 'mail_intake_') === true) {
-			return $this->validatedMailValue(key: $key, value: $value);
+		if ($this->mailIntake->handles(key: $key) === true) {
+			return $this->mailIntake->normalise(key: $key, value: $value);
 		}
 
 		$listed = $this->validatedNameList(key: $key, raw: $value);
@@ -300,14 +298,7 @@ class SettingsService {
 			return $settings;
 		}
 
-		$shown = ['mail_intake_enabled', 'mail_intake_address'];
-		foreach (array_keys(MailIntakeConfig::DEFAULTS) as $key) {
-			if (in_array($key, $shown, true) === false) {
-				unset($settings[$key]);
-			}
-		}
-
-		return $settings;
+		return $this->mailIntake->hideConnectionDetails(settings: $settings);
 	}//end visibleAdminSettings()
 
 	/**
@@ -343,45 +334,6 @@ class SettingsService {
 
 		return json_encode($normalised);
 	}//end validateDefaultColumns()
-
-	/**
-	 * A submitted `mail_intake_*` value as it is stored, or null to refuse it.
-	 *
-	 * @param string $key   The setting key.
-	 * @param string $value The submitted value.
-	 *
-	 * @return string|null
-	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
-	 */
-	private function validatedMailValue(string $key, string $value): ?string {
-		return (new MailIntakeValidator())->normalise(key: $key, value: $value);
-	}//end validatedMailValue()
-
-	/**
-	 * Store a submitted mailbox password in the credential broker and keep only its reference.
-	 *
-	 * @param array<string,mixed> $settings The submitted settings.
-	 *
-	 * @return void
-	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
-	 */
-	private function storeMailPassword(array $settings): void {
-		$password = ($settings['mail_intake_password'] ?? null);
-		if (is_string($password) === false || $password === '') {
-			return;
-		}
-
-		$existing = $this->appConfig->getValueString(Application::APP_ID, 'mail_intake_credential_ref', '');
-		$ref      = (new MailCredentialStore(container: $this->container, logger: $this->logger))->store(password: $password, existing: $existing);
-		if ($ref === null) {
-			$this->logger->warning('Planninq: the mail intake password was not stored; no credential reference was written');
-			return;
-		}
-
-		$this->appConfig->setValueString(Application::APP_ID, 'mail_intake_credential_ref', $ref);
-	}//end storeMailPassword()
 
 	/**
 	 * Validate a list of finance category names: a non-empty JSON array of
@@ -436,12 +388,7 @@ class SettingsService {
 	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function getRunningTimer(string $userId): ?array {
-		$raw = $this->config->getUserValue($userId, Application::APP_ID, self::RUNNING_TIMER_KEY, '');
-		if ((string)$raw === '') {
-			return null;
-		}
-
-		return $this->cleanTimer(value: json_decode((string)$raw, true));
+		return $this->prefs->runningTimer(userId: $userId);
 	}//end getRunningTimer()
 
 	/**
@@ -455,41 +402,8 @@ class SettingsService {
 	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function setRunningTimer(string $userId, mixed $timer): bool {
-		if ($timer === null) {
-			$this->config->deleteUserValue($userId, Application::APP_ID, self::RUNNING_TIMER_KEY);
-			return true;
-		}
-
-		$clean = $this->cleanTimer(value: $timer);
-		if ($clean === null) {
-			return false;
-		}
-
-		$this->config->setUserValue($userId, Application::APP_ID, self::RUNNING_TIMER_KEY, (string)json_encode($clean));
-		return true;
+		return $this->prefs->storeRunningTimer(userId: $userId, timer: $timer);
 	}//end setRunningTimer()
-
-	/**
-	 * A timer with a task id and a parseable start time, or null.
-	 *
-	 * @param mixed $value The decoded value.
-	 *
-	 * @return array{task: string, startedAt: string}|null
-	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
-	 */
-	private function cleanTimer(mixed $value): ?array {
-		if (is_array($value) === false || is_string($value['task'] ?? null) === false || $value['task'] === '') {
-			return null;
-		}
-
-		$started = $value['startedAt'] ?? null;
-		if (is_string($started) === false || strtotime($started) === false) {
-			return null;
-		}
-
-		return ['task' => $value['task'], 'startedAt' => $started];
-	}//end cleanTimer()
 
 	/**
 	 * The normalised value of a setting that holds a list of names, false when
@@ -661,7 +575,7 @@ class SettingsService {
 		if ($user !== null) {
 			$userSettings['notify_due_reminder'] = $this->isNotifyDueReminderEnabled(userId: $user->getUID());
 			$userSettings[self::DASHBOARD_ORDER_KEY] = $this->getDashboardProjectOrder(userId: $user->getUID());
-			$userSettings[BoardViewPreferenceService::KEY] = $this->boardViews()->views(userId: $user->getUID());
+			$userSettings = array_merge($userSettings, $this->prefs->boardViewSetting(userId: $user->getUID()));
 			$userSettings[self::RUNNING_TIMER_KEY] = $this->getRunningTimer(userId: $user->getUID());
 		}
 
@@ -716,22 +630,11 @@ class SettingsService {
 
 		$view = ($data['board_view'] ?? null);
 		if (is_array($view) === true && is_string($view['project'] ?? null) === true) {
-			$this->boardViews()->save(userId: $userId, projectId: $view['project'], view: $view);
+			$this->prefs->boardViews()->save(userId: $userId, projectId: $view['project'], view: $view);
 		}
 
 		return $this->getSettings();
 	}//end updateUserSettings()
-
-	/**
-	 * The per-person board view store, on this service's IConfig.
-	 *
-	 * @return BoardViewPreferenceService
-	 *
-	 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
-	 */
-	private function boardViews(): BoardViewPreferenceService {
-		return new BoardViewPreferenceService(config: $this->config);
-	}//end boardViews()
 
 	/**
 	 * A user's own order of pinned dashboard projects.
@@ -743,13 +646,7 @@ class SettingsService {
 	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
 	 */
 	public function getDashboardProjectOrder(string $userId): array {
-		$raw     = $this->config->getUserValue($userId, Application::APP_ID, self::DASHBOARD_ORDER_KEY, '[]');
-		$decoded = json_decode((string) $raw, true);
-		if (is_array($decoded) === false) {
-			return [];
-		}
-
-		return $this->cleanProjectOrder(order: $decoded);
+		return $this->prefs->dashboardOrder(userId: $userId);
 	}//end getDashboardProjectOrder()
 
 	/**
@@ -763,33 +660,8 @@ class SettingsService {
 	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
 	 */
 	public function setDashboardProjectOrder(string $userId, array $order): void {
-		$this->config->setUserValue(
-			$userId,
-			Application::APP_ID,
-			self::DASHBOARD_ORDER_KEY,
-			(string) json_encode($this->cleanProjectOrder(order: $order))
-		);
+		$this->prefs->storeDashboardOrder(userId: $userId, order: $order);
 	}//end setDashboardProjectOrder()
-
-	/**
-	 * Non-empty string ids, first occurrence kept, at most DASHBOARD_ORDER_MAX.
-	 *
-	 * @param array<mixed,mixed> $order The ids as given.
-	 *
-	 * @return array<int,string>
-	 *
-	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
-	 */
-	private function cleanProjectOrder(array $order): array {
-		$clean = [];
-		foreach ($order as $id) {
-			if (is_string($id) === true && $id !== '' && in_array($id, $clean, true) === false) {
-				$clean[] = $id;
-			}
-		}
-
-		return array_slice($clean, 0, self::DASHBOARD_ORDER_MAX);
-	}//end cleanProjectOrder()
 
 	/**
 	 * Update settings with the provided data.
@@ -808,7 +680,7 @@ class SettingsService {
 		}
 
 		$this->setAdminSettings(settings: $data);
-		$this->storeMailPassword(settings: $data);
+		$this->mailIntake->storePassword(settings: $data);
 
 		// The reviewers of project requests follow the creation policy.
 		if (array_key_exists('allow_project_creation', $data) === true || array_key_exists(self::CREATION_GROUPS_KEY, $data) === true) {
@@ -830,8 +702,7 @@ class SettingsService {
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
 	 */
 	public function isNotifyDueReminderEnabled(string $userId): bool {
-		$value = $this->config->getUserValue($userId, Application::APP_ID, 'notify_due_reminder', 'true');
-		return ($value !== 'false');
+		return $this->prefs->notifyDueReminder(userId: $userId);
 	}//end isNotifyDueReminderEnabled()
 
 	/**
@@ -855,17 +726,7 @@ class SettingsService {
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
 	 */
 	public function setNotifyDueReminder(string $userId, bool $enabled): void {
-		$storedValue = 'false';
-		if ($enabled === true) {
-			$storedValue = 'true';
-		}
-
-		$this->config->setUserValue(
-			$userId,
-			Application::APP_ID,
-			'notify_due_reminder',
-			$storedValue
-		);
+		$this->prefs->storeNotifyDueReminder(userId: $userId, enabled: $enabled);
 
 		// ON clears the override (null → schema default); OFF writes {"enabled": false}.
 		$override = ['enabled' => false];
@@ -886,17 +747,7 @@ class SettingsService {
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
 	 */
 	public function getNotificationPreferenceService(): ?object {
-		if ($this->isOpenRegisterAvailable() === false) {
-			return null;
-		}
-
-		try {
-			return $this->container->get('OCA\OpenRegister\Service\Notification\NotificationPreferenceService');
-		} catch (\Throwable $e) {
-			$this->logger->info('Planninq: NotificationPreferenceService unavailable', ['exception' => $e->getMessage()]);
-			return null;
-		}
-
+		return $this->dueReminderWindow->notificationPreferenceService();
 	}//end getNotificationPreferenceService()
 
 	/**

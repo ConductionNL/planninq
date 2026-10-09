@@ -24,6 +24,8 @@ use OCA\Planninq\Service\BoardViewPreferenceService;
 use OCA\Planninq\Service\CreationPolicyService;
 use OCA\Planninq\Service\DueReminderWindowService;
 use OCA\Planninq\Service\ProjectPolicySchemaService;
+use OCA\Planninq\Service\MailIntakeSettingsService;
+use OCA\Planninq\Service\UserPreferenceService;
 use OCA\Planninq\Service\SettingsService;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
@@ -119,9 +121,7 @@ class SettingsServiceTest extends TestCase {
 		// these tests keep exercising the real code path.
 		$this->service = new SettingsService(
 			appConfig: $this->appConfig,
-			config: $this->config,
 			appManager: $this->appManager,
-			container: $this->container,
 			userSession: $this->userSession,
 			logger: $this->logger,
 			dueReminderWindow: new DueReminderWindowService(
@@ -139,6 +139,8 @@ class SettingsServiceTest extends TestCase {
 				groupManager: $this->groupManager,
 				userSession: $this->userSession,
 			),
+			prefs: new UserPreferenceService(config: $this->config),
+			mailIntake: new MailIntakeSettingsService(appConfig: $this->appConfig, container: $this->container, logger: $this->logger),
 		);
 
 	}//end setUp()
@@ -836,14 +838,14 @@ class SettingsServiceTest extends TestCase {
 
 		return new SettingsService(
 			appConfig: $this->appConfig,
-			config: $this->config,
 			appManager: $this->appManager,
-			container: $container,
 			userSession: $this->userSession,
 			logger: $this->logger,
 			dueReminderWindow: new DueReminderWindowService(appManager: $this->appManager, container: $this->container, logger: $this->logger),
 			policySchema: new ProjectPolicySchemaService(appManager: $this->appManager, container: $this->container, logger: $this->logger),
 			creationPolicy: new CreationPolicyService(appConfig: $this->appConfig, groupManager: $this->groupManager, userSession: $this->userSession),
+			prefs: new UserPreferenceService(config: $this->config),
+			mailIntake: new MailIntakeSettingsService(appConfig: $this->appConfig, container: $container, logger: $this->logger),
 		);
 
 	}//end serviceWithBroker()

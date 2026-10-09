@@ -73,9 +73,11 @@ class MailIntakeJob extends TimedJob {
 	/**
 	 * Run one batch.
 	 *
-	 * @param mixed $argument Unused.
+	 * @param mixed $argument Unused; the job takes no argument, the signature is TimedJob's.
 	 *
 	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 *
 	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.3
 	 */

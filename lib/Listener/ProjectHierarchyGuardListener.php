@@ -175,36 +175,74 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 * @return void
 	 */
 	private function route(ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event, object $object, ?array $oldData): void {
-		$slug = $this->scopeResolver->planninqSchemaSlug(
+		$slug     = $this->slugOf(object: $object);
+		$data     = (array)$object->getObject();
+		$deleting = $event instanceof ObjectDeletingEvent;
+		$uuid     = (string)($object->getUuid() ?? '');
+
+		if ($slug === ProjectMembershipService::PROJECT_SCHEMA && $deleting === false) {
+			$this->guardProject(event: $event, projectId: $uuid, data: $data, oldData: $oldData);
+			return;
+		}
+
+		if ($slug === self::WIKI_SCHEMA && $deleting === false) {
+			$this->refuseWikiParent(event: $event, pageId: $uuid, data: $data, oldData: $oldData);
+			return;
+		}
+
+		if ($slug === self::PORTFOLIO_SCHEMA) {
+			$this->guardPortfolio(deleting: $deleting, portfolioId: $uuid, data: $data, oldData: $oldData);
+		}
+	}//end route()
+
+	/**
+	 * The Planninq schema slug of an object.
+	 *
+	 * @param object $object The object.
+	 *
+	 * @return string
+	 */
+	private function slugOf(object $object): string {
+		return $this->scopeResolver->planninqSchemaSlug(
 			registerId: (string)($object->getRegister() ?? ''),
 			schemaId: (string)($object->getSchema() ?? '')
 		);
-		$data = (array)$object->getObject();
+	}//end slugOf()
 
-		if ($slug === ProjectMembershipService::PROJECT_SCHEMA && $event instanceof ObjectDeletingEvent === false) {
-			if ($this->refuseParent(event: $event, projectId: (string)($object->getUuid() ?? ''), data: $data, oldData: $oldData) === true) {
-				return;
-			}
-
-			if ($this->refuseFields(event: $event, data: $data, oldData: $oldData) === true) {
-				return;
-			}
-
-			$this->deriveReaders(event: $event, data: $data);
+	/**
+	 * Refuse a bad project parent or custom field, else derive the readers.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event     The event.
+	 * @param string                                  $projectId The project UUID.
+	 * @param array<string,mixed>                     $data      The project's new data.
+	 * @param array<string,mixed>|null                $oldData   The stored project on an update.
+	 *
+	 * @return void
+	 */
+	private function guardProject(ObjectCreatingEvent|ObjectUpdatingEvent $event, string $projectId, array $data, ?array $oldData): void {
+		if ($this->refuseParent(event: $event, projectId: $projectId, data: $data, oldData: $oldData) === true) {
 			return;
 		}
 
-		if ($slug === self::WIKI_SCHEMA && $event instanceof ObjectDeletingEvent === false) {
-			$this->refuseWikiParent(event: $event, pageId: (string)($object->getUuid() ?? ''), data: $data, oldData: $oldData);
+		if ($this->refuseFields(event: $event, data: $data, oldData: $oldData) === true) {
 			return;
 		}
 
-		if ($slug !== self::PORTFOLIO_SCHEMA) {
-			return;
-		}
+		$this->deriveReaders(event: $event, data: $data);
+	}//end guardProject()
 
-		$portfolioId = (string)($object->getUuid() ?? '');
-		if ($event instanceof ObjectDeletingEvent === true) {
+	/**
+	 * Release the projects of a deleted portfolio, or fan out a manager change.
+	 *
+	 * @param bool                     $deleting    Whether the portfolio is being deleted.
+	 * @param string                   $portfolioId The portfolio UUID.
+	 * @param array<string,mixed>      $data        The portfolio's new data.
+	 * @param array<string,mixed>|null $oldData     The stored portfolio on an update.
+	 *
+	 * @return void
+	 */
+	private function guardPortfolio(bool $deleting, string $portfolioId, array $data, ?array $oldData): void {
+		if ($deleting === true) {
 			$this->releaseProjects(portfolioId: $portfolioId);
 			return;
 		}
@@ -212,7 +250,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 		if ($oldData !== null) {
 			$this->onManagersChange(portfolioId: $portfolioId, data: $data, oldData: $oldData);
 		}
-	}//end route()
+	}//end guardPortfolio()
 
 	/**
 	 * Refuse a wiki page parent that is the page itself, one of its subpages or on another project.
@@ -227,34 +265,12 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
 	 */
 	private function refuseWikiParent(ObjectCreatingEvent|ObjectUpdatingEvent $event, string $pageId, array $data, ?array $oldData): bool {
-		$parentId = $this->referenceId(value: ($data['parent'] ?? null));
-		if ($parentId === '' || ($oldData !== null && $this->referenceId(value: ($oldData['parent'] ?? null)) === $parentId)) {
+		$parentId = $this->changedParent(data: $data, oldData: $oldData);
+		if ($parentId === '') {
 			return false;
 		}
 
-		$message = '';
-		$project = $this->referenceId(value: ($data['project'] ?? null));
-		$cursor  = $parentId;
-		for ($depth = 0; $depth < 50 && $cursor !== ''; $depth++) {
-			if ($pageId !== '' && $cursor === $pageId) {
-				$message = 'A page cannot sit under itself or one of its own subpages.';
-				break;
-			}
-
-			$page = $this->membership->objectData(schema: self::WIKI_SCHEMA, id: $cursor);
-			if ($page === null) {
-				$message = 'The parent page does not exist.';
-				break;
-			}
-
-			if ($depth === 0 && $this->referenceId(value: ($page['project'] ?? null)) !== $project) {
-				$message = 'A page can only sit under a page of the same project.';
-				break;
-			}
-
-			$cursor = $this->referenceId(value: ($page['parent'] ?? null));
-		}
-
+		$message = $this->wikiParentProblem(pageId: $pageId, parentId: $parentId, project: $this->referenceId(value: ($data['project'] ?? null)));
 		if ($message === '') {
 			return false;
 		}
@@ -264,6 +280,56 @@ class ProjectHierarchyGuardListener implements IEventListener {
 
 		return true;
 	}//end refuseWikiParent()
+
+	/**
+	 * The parent a write sets, or an empty string when there is none or it is unchanged.
+	 *
+	 * @param array<string,mixed>      $data    The new data.
+	 * @param array<string,mixed>|null $oldData The stored data on an update.
+	 *
+	 * @return string
+	 */
+	private function changedParent(array $data, ?array $oldData): string {
+		$parentId = $this->referenceId(value: ($data['parent'] ?? null));
+		if ($oldData !== null && $this->referenceId(value: ($oldData['parent'] ?? null)) === $parentId) {
+			return '';
+		}
+
+		return $parentId;
+	}//end changedParent()
+
+	/**
+	 * Walk up from the proposed parent and name what is wrong with it.
+	 *
+	 * @param string $pageId   The page UUID, empty on create.
+	 * @param string $parentId The proposed parent page UUID.
+	 * @param string $project  The page's project UUID.
+	 *
+	 * @return string The problem, empty when the parent is fine.
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
+	 */
+	private function wikiParentProblem(string $pageId, string $parentId, string $project): string {
+		$cursor = $parentId;
+		for ($depth = 0; $depth < 50 && $cursor !== ''; $depth++) {
+			if ($pageId !== '' && $cursor === $pageId) {
+				return 'A page cannot sit under itself or one of its own subpages.';
+			}
+
+			$page = $this->membership->objectData(schema: self::WIKI_SCHEMA, id: $cursor);
+			if ($page === null) {
+				return 'The parent page does not exist.';
+			}
+
+			if ($depth === 0 && $this->referenceId(value: ($page['project'] ?? null)) !== $project) {
+				return 'A page can only sit under a page of the same project.';
+			}
+
+			$cursor = $this->referenceId(value: ($page['parent'] ?? null));
+		}
+
+		return '';
+	}//end wikiParentProblem()
 
 	/**
 	 * Refuse custom field values that do not fit their fields, when the write changes them.
@@ -314,8 +380,8 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
 	 */
 	private function refuseParent(ObjectCreatingEvent|ObjectUpdatingEvent $event, string $projectId, array $data, ?array $oldData): bool {
-		$parentId = $this->referenceId(value: ($data['parent'] ?? null));
-		if ($parentId === '' || ($oldData !== null && $this->referenceId(value: ($oldData['parent'] ?? null)) === $parentId)) {
+		$parentId = $this->changedParent(data: $data, oldData: $oldData);
+		if ($parentId === '') {
 			return false;
 		}
 
