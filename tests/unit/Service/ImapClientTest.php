@@ -118,4 +118,32 @@ class ImapClientTest extends TestCase {
 		$client->open();
 
 	}//end testRefusedLoginThrows()
+
+	/**
+	 * A folder without an EXISTS line counts as empty, and an unseen search with no hits returns nothing.
+	 *
+	 * @return void
+	 */
+	public function testEmptyFolderAndNoUnseenMail(): void {
+		$client = new ImapClient(transport: new FakeImapTransport(), username: 'u', password: 'p');
+
+		self::assertSame(expected: 0, actual: $client->open());
+		self::assertSame(expected: [], actual: $client->unseen(limit: 5));
+
+	}//end testEmptyFolderAndNoUnseenMail()
+
+	/**
+	 * A server that refuses LOGOUT still lets the connection close.
+	 *
+	 * @return void
+	 */
+	public function testCloseToleratesARefusedLogout(): void {
+		$transport = new FakeImapTransport(refuse: ['LOGOUT' => 'NO not now']);
+		$client    = new ImapClient(transport: $transport, username: 'u', password: 'p');
+		$client->open();
+		$client->close();
+
+		self::assertTrue($transport->closed);
+
+	}//end testCloseToleratesARefusedLogout()
 }//end class

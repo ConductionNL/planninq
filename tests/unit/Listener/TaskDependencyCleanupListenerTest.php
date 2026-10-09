@@ -229,4 +229,56 @@ class TaskDependencyCleanupListenerTest extends TestCase {
 
 	}//end testAnUnrelatedUpdateKeepsTheEdges()
 
+	/**
+	 * A task that is not a Planninq task is not touched by a move.
+	 *
+	 * @return void
+	 */
+	public function testAMoveOfAnotherSchemaKeepsTheEdges(): void {
+		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
+		$resolver->method('isPlanninqTask')->willReturn(false);
+
+		$service = $this->createMock(originalClassName: DependencyService::class);
+		$service->expects(self::never())->method('removeEdgesForTask');
+
+		$event = new ObjectUpdatingEvent($this->taskIn(project: 'beta'), $this->taskIn(project: 'alpha'));
+		$this->listener($service, $resolver)->handle($event);
+
+	}//end testAMoveOfAnotherSchemaKeepsTheEdges()
+
+	/**
+	 * A failing cleanup is logged and never blocks the move.
+	 *
+	 * @return void
+	 */
+	public function testAFailingCleanupDoesNotBlockTheMove(): void {
+		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
+		$resolver->method('isPlanninqTask')->willReturn(true);
+
+		$service = $this->createMock(originalClassName: DependencyService::class);
+		$service->method('removeEdgesForTask')->willThrowException(new \RuntimeException('db down'));
+
+		$event = new ObjectUpdatingEvent($this->taskIn(project: 'beta'), $this->taskIn(project: 'alpha'));
+		$this->listener($service, $resolver)->handle($event);
+		self::assertTrue(true);
+
+	}//end testAFailingCleanupDoesNotBlockTheMove()
+
+	/**
+	 * A move with no edges to remove is quiet.
+	 *
+	 * @return void
+	 */
+	public function testAMoveWithoutEdgesRemovesNothing(): void {
+		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
+		$resolver->method('isPlanninqTask')->willReturn(true);
+
+		$service = $this->createMock(originalClassName: DependencyService::class);
+		$service->expects(self::once())->method('removeEdgesForTask')->willReturn(0);
+
+		$event = new ObjectUpdatingEvent($this->taskIn(project: 'beta'), $this->taskIn(project: 'alpha'));
+		$this->listener($service, $resolver)->handle($event);
+
+	}//end testAMoveWithoutEdgesRemovesNothing()
+
 }//end class
