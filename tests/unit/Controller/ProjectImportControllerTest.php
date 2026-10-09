@@ -54,7 +54,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \OCA\Planninq\Controller\ProjectImportController
  * @covers \OCA\Planninq\Service\MsProjectImportService
-* @uses \OCA\Planninq\Exception\MsProjectImportException
+ * @uses \OCA\Planninq\Exception\MsProjectImportException
  * @uses \OCA\Planninq\Service\DependencyGraph
  * @uses \OCA\Planninq\Service\DependencyRepository
  * @uses \OCA\Planninq\Service\DependencyService
