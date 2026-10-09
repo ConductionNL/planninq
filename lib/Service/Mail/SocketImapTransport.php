@@ -76,6 +76,8 @@ class SocketImapTransport implements ImapTransport {
 	 * Read one line, without its line ending.
 	 *
 	 * @return string
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function readLine(): string {
 		$line = fgets($this->stream);
@@ -92,6 +94,8 @@ class SocketImapTransport implements ImapTransport {
 	 * @param int $length The byte count.
 	 *
 	 * @return string
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function readBytes(int $length): string {
 		$data = '';
@@ -113,6 +117,8 @@ class SocketImapTransport implements ImapTransport {
 	 * @param string $line The line.
 	 *
 	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function writeLine(string $line): void {
 		fwrite($this->stream, $line . "\r\n");
@@ -124,6 +130,8 @@ class SocketImapTransport implements ImapTransport {
 	 * @return void
 	 *
 	 * @psalm-suppress InvalidPropertyAssignmentValue The handle is not used after close.
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function close(): void {
 		fclose($this->stream);

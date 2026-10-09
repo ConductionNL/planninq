@@ -4,8 +4,7 @@
 		class="wiki-tree"
 		role="tree"
 		:aria-label="t('planninq', 'Wiki pages')"
-		data-testid="wiki-tree"
-		@keydown="onKeydown">
+		data-testid="wiki-tree">
 		<li
 			v-for="item in items"
 			:key="item.id"
@@ -20,6 +19,7 @@
 			:style="{ paddingInlineStart: `${(item.level - 1) * 16 + 8}px` }"
 			:data-testid="'wiki-tree-item-' + item.id"
 			@focus="focused = item.id"
+			@keydown="onKeydown"
 			@click="onClick(item)">
 			<span class="wiki-tree__title">{{ titles[item.id] }}</span>
 		</li>

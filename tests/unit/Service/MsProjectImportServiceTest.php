@@ -40,6 +40,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \OCA\Planninq\Service\MsProjectPlanParser
  * @covers \OCA\Planninq\Service\MsProjectPlanMapper
+ * @uses \OCA\Planninq\Exception\MsProjectImportException
  */
 class MsProjectImportServiceTest extends TestCase {
 	use RegisterSchemaValidation;

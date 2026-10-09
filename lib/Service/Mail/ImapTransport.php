@@ -37,6 +37,8 @@ interface ImapTransport {
 	 * @return string
 	 *
 	 * @throws \RuntimeException When the connection ends.
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function readLine(): string;
 
@@ -48,6 +50,8 @@ interface ImapTransport {
 	 * @return string
 	 *
 	 * @throws \RuntimeException When the connection ends first.
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function readBytes(int $length): string;
 
@@ -57,6 +61,8 @@ interface ImapTransport {
 	 * @param string $line The line.
 	 *
 	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function writeLine(string $line): void;
 
@@ -64,6 +70,8 @@ interface ImapTransport {
 	 * Close the connection.
 	 *
 	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function close(): void;
 }//end interface

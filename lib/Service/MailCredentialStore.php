@@ -68,6 +68,8 @@ class MailCredentialStore {
 	 * @param string $existing The reference to replace, or ''.
 	 *
 	 * @return string|null The reference, or null when the broker is unavailable or refused it.
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
 	 */
 	public function store(string $password, string $existing = ''): ?string {
 		try {
@@ -92,6 +94,8 @@ class MailCredentialStore {
 	 * @param string $ref The credential reference.
 	 *
 	 * @return string|null
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
 	 */
 	public function resolve(string $ref): ?string {
 		if ($ref === '') {

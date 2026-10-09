@@ -54,6 +54,11 @@ export default {
 		}
 	},
 
+	/**
+	 * Lifecycle/watch hook.
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-2.2
+	 */
 	async mounted() {
 		if (!this.useText) {
 			return

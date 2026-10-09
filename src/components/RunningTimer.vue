@@ -81,6 +81,13 @@ export default {
 	},
 
 	watch: {
+		/**
+		 * Book the timer's minutes when the stop warning fires.
+		 *
+		 * @param {boolean} value Whether the timer needs a warning.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 */
 		stopping(value) {
 			if (value) {
 				this.stoppedMinutes = useTimeEntriesStore().stopTimer()?.minutes ?? 0
@@ -88,6 +95,11 @@ export default {
 		},
 	},
 
+	/**
+	 * Lifecycle/watch hook.
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+	 */
 	async mounted() {
 		const settings = useSettingsStore()
 		if (!settings.settings || !('running_timer' in settings.settings)) {

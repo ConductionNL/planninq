@@ -43,6 +43,8 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \OCA\Planninq\BackgroundJob\WorkTypeRenameJob
  * @covers \OCA\Planninq\Service\WorkTypeRenameService
+ * @uses \OCA\Planninq\Service\DependencyRepository
+ * @uses \OCA\Planninq\Service\ProjectMembershipService
  */
 class WorkTypeRenameJobTest extends TestCase {
 	use MembershipFixture;

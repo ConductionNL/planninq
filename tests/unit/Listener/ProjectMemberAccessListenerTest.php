@@ -53,6 +53,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \OCA\Planninq\Listener\ProjectMemberAccessListener
  * @covers \OCA\Planninq\Service\ProjectMembershipService
+ * @uses \OCA\Planninq\Listener\TaskScopeResolver
  */
 class ProjectMemberAccessListenerTest extends TestCase {
 	use MembershipFixture;

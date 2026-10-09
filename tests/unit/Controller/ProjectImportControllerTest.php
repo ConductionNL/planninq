@@ -54,6 +54,12 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \OCA\Planninq\Controller\ProjectImportController
  * @covers \OCA\Planninq\Service\MsProjectImportService
+ * @uses \OCA\Planninq\Service\DependencyGraph
+ * @uses \OCA\Planninq\Service\DependencyRepository
+ * @uses \OCA\Planninq\Service\DependencyService
+ * @uses \OCA\Planninq\Service\MsProjectPlanMapper
+ * @uses \OCA\Planninq\Service\MsProjectPlanParser
+ * @uses \OCA\Planninq\Service\ProjectMembershipService
  */
 class ProjectImportControllerTest extends TestCase {
 	use MembershipFixture;

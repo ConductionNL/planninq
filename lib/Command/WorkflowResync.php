@@ -52,6 +52,8 @@ class WorkflowResync extends Command {
 	 * Name the command and its argument.
 	 *
 	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
 	 */
 	protected function configure(): void {
 		$this->setName(name: 'planninq:workflow:resync');

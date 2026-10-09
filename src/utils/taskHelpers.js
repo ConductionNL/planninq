@@ -226,6 +226,8 @@ export function dependencyPickerCandidates(currentTask, projectTasks = []) {
  *         - `null`         when there is no due date.
  *         - `'approaching'` when the due date is today or within the next 2 days.
  *         - `'overdue'`    when the due date is strictly in the past.
+ *
+ * @spec openspec/changes/task-due-date-warning/specs/tasks/spec.md
  */
 export function dueDateStatus(task, now = new Date()) {
 	if (task === null || task === undefined) {

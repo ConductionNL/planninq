@@ -19,45 +19,51 @@
 
 declare(strict_types=1);
 
-namespace OCA\OpenRegister\Event {
-	if (class_exists(ObjectEventSubscription::class) === false) {
-		/**
-		 * Records subscriptions; same static signature as OpenRegister's
-		 * lib/Event/ObjectEventSubscription.php subscribe().
-		 */
-		class ObjectEventSubscription {
-			/** @var array<int,array<string,mixed>> */
-			public static array $calls = [];
-			public static function subscribe(
-				\OCP\EventDispatcher\IEventDispatcher $dispatcher,
-				string $event,
-				string $listener,
-				?array $registers = null,
-				?array $schemas = null,
-			): void {
-				self::$calls[] = ['event' => $event, 'listener' => $listener, 'registers' => $registers, 'schemas' => $schemas];
-			}
-		}
-	}
-}
-
 namespace OCA\Planninq\Tests\Unit\AppInfo {
 
-	use OCA\OpenRegister\Event\ObjectEventSubscription;
 	use OCA\Planninq\AppInfo\Application;
 	use OCP\EventDispatcher\IEventDispatcher;
 	use PHPUnit\Framework\TestCase;
 
+	/**
+	 * Records subscriptions; same static signature as OpenRegister's
+	 * ObjectEventSubscription::subscribe(), so the wiring is asserted the same
+	 * way whether or not OpenRegister is installed.
+	 */
+	class RecordingSubscription {
+		/** @var array<int,array<string,mixed>> */
+		public static array $calls = [];
+
+		public static function subscribe(
+			IEventDispatcher $dispatcher,
+			string $event,
+			string $listener,
+			?array $registers = null,
+			?array $schemas = null,
+		): void {
+			self::$calls[] = ['event' => $event, 'listener' => $listener, 'registers' => $registers, 'schemas' => $schemas];
+		}
+	}
+
+	/**
+	 * Application whose listener subscriptions land in RecordingSubscription.
+	 */
+	class RecordingApplication extends Application {
+		protected function subscriptionClass(): string {
+			return RecordingSubscription::class;
+		}
+	}
+
 	class BoardColumnWiringTest extends TestCase {
 
 		public function testBootSubscribesBothBoardColumnListeners(): void {
-			ObjectEventSubscription::$calls = [];
-			$app    = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			RecordingSubscription::$calls = [];
+			$app    = (new \ReflectionClass(RecordingApplication::class))->newInstanceWithoutConstructor();
 			$method = new \ReflectionMethod(Application::class, 'registerBoardColumnListeners');
 			$method->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
 
 			$byListener = [];
-			foreach (ObjectEventSubscription::$calls as $call) {
+			foreach (RecordingSubscription::$calls as $call) {
 				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
 				self::assertTrue(class_exists($call['event']), $call['event'] . ' must exist');
 				$byListener[$call['listener']][] = [substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
@@ -111,12 +117,12 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.2
 		 */
 		public function testBootSubscribesTheWorkflowColumnSyncListener(): void {
-			ObjectEventSubscription::$calls = [];
-			$app = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			RecordingSubscription::$calls = [];
+			$app = (new \ReflectionClass(RecordingApplication::class))->newInstanceWithoutConstructor();
 			(new \ReflectionMethod(Application::class, 'registerWorkflowListeners'))->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
 
 			$calls = [];
-			foreach (ObjectEventSubscription::$calls as $call) {
+			foreach (RecordingSubscription::$calls as $call) {
 				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
 				self::assertTrue(class_exists($call['event']), $call['event'] . ' must exist');
 				$calls[] = [substr($call['listener'], strrpos($call['listener'], '\\') + 1), substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
@@ -142,12 +148,12 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-5.1
 		 */
 		public function testBootSubscribesTheTaskReporterGuardBeforeTheDependencyCleanup(): void {
-			ObjectEventSubscription::$calls = [];
-			$app = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			RecordingSubscription::$calls = [];
+			$app = (new \ReflectionClass(RecordingApplication::class))->newInstanceWithoutConstructor();
 			(new \ReflectionMethod(Application::class, 'registerTaskGuardListeners'))->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
 
 			$calls = [];
-			foreach (ObjectEventSubscription::$calls as $call) {
+			foreach (RecordingSubscription::$calls as $call) {
 				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
 				self::assertTrue(class_exists($call['event']), $call['event'] . ' must exist');
 				$calls[] = [$call['listener'], substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
@@ -170,12 +176,12 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 		}//end testBootSubscribesTheTaskReporterGuardBeforeTheDependencyCleanup()
 
 		public function testBootSubscribesTheWorkItemKeyListener(): void {
-			ObjectEventSubscription::$calls = [];
-			$app = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			RecordingSubscription::$calls = [];
+			$app = (new \ReflectionClass(RecordingApplication::class))->newInstanceWithoutConstructor();
 			(new \ReflectionMethod(Application::class, 'registerWorkItemKeyListeners'))->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
 
 			$calls = [];
-			foreach (ObjectEventSubscription::$calls as $call) {
+			foreach (RecordingSubscription::$calls as $call) {
 				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
 				self::assertTrue(class_exists($call['event']), $call['event'] . ' must exist');
 				$calls[] = [$call['listener'], substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
@@ -206,12 +212,12 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.2
 		 */
 		public function testBootSubscribesTheMembershipAndStatusListenersForEveryScopedSchema(): void {
-			ObjectEventSubscription::$calls = [];
-			$app = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			RecordingSubscription::$calls = [];
+			$app = (new \ReflectionClass(RecordingApplication::class))->newInstanceWithoutConstructor();
 			(new \ReflectionMethod(Application::class, 'registerMembershipListeners'))->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
 
 			$byListener = [];
-			foreach (ObjectEventSubscription::$calls as $call) {
+			foreach (RecordingSubscription::$calls as $call) {
 				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
 				$byListener[$call['listener']][] = [substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
 			}
@@ -254,13 +260,13 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 		 * @return void
 		 */
 		public function testBootSubscribesTheOwnerListenerForEveryOwnedSchema(): void {
-			ObjectEventSubscription::$calls = [];
-			$app    = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			RecordingSubscription::$calls = [];
+			$app    = (new \ReflectionClass(RecordingApplication::class))->newInstanceWithoutConstructor();
 			$method = new \ReflectionMethod(Application::class, 'registerBoardColumnListeners');
 			$method->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
 
 			$owned = [];
-			foreach (ObjectEventSubscription::$calls as $call) {
+			foreach (RecordingSubscription::$calls as $call) {
 				if ($call['listener'] === 'OCA\\Planninq\\Listener\\BoardFilterOwnerListener') {
 					$owned[] = [substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
 				}

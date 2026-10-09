@@ -19,20 +19,12 @@
 		</NcButton>
 
 		<!-- A timer runs on another task: stop it first, booking its time, or keep it -->
-		<NcDialog
+		<TimerSwitchDialog
 			v-if="asking"
-			:name="t('planninq', 'A timer is already running')"
-			@update:open="asking = false">
-			<p>{{ t('planninq', 'A timer is running on {running}. Stop it and start one on {next}?', { running: runningTitle, next: nextTitle }) }}</p>
-			<template #actions>
-				<NcButton variant="primary" data-testid="start-timer-switch" @click="stopFirst">
-					{{ t('planninq', 'Stop it and start the new one') }}
-				</NcButton>
-				<NcButton @click="asking = false">
-					{{ t('planninq', 'Keep the running timer') }}
-				</NcButton>
-			</template>
-		</NcDialog>
+			:runningTitle="runningTitle"
+			:nextTitle="nextTitle"
+			@switch="stopFirst"
+			@close="asking = false" />
 
 		<TimeEntryDialog
 			v-if="booking"
@@ -45,9 +37,10 @@
 
 <script>
 import { showError } from '@nextcloud/dialogs'
-import { NcButton, NcDialog, NcSelect } from '@nextcloud/vue'
+import { NcButton, NcSelect } from '@nextcloud/vue'
 import ClockPlusOutline from 'vue-material-design-icons/ClockPlusOutline.vue'
 import TimeEntryDialog from '../dialogs/TimeEntryDialog.vue'
+import TimerSwitchDialog from '../dialogs/TimerSwitchDialog.vue'
 import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
@@ -64,7 +57,7 @@ import { startDecision } from '../utils/timer.js'
 export default {
 	name: 'StartTimerButton',
 
-	components: { ClockPlusOutline, NcButton, NcDialog, NcSelect, TimeEntryDialog },
+	components: { ClockPlusOutline, NcButton, NcSelect, TimeEntryDialog, TimerSwitchDialog },
 
 	props: {
 		/** The task to time. Leave empty together with `pick` to choose one. */
@@ -133,6 +126,11 @@ export default {
 		},
 	},
 
+	/**
+	 * Lifecycle/watch hook.
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+	 */
 	async mounted() {
 		if (this.pick) {
 			this.loadingTasks = true

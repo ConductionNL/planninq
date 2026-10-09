@@ -34,6 +34,7 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @covers \OCA\Planninq\Service\ProjectCopyService
+ * @uses \OCA\Planninq\Exception\ProjectCopyException
  */
 class ProjectCopyServiceTest extends TestCase {
 

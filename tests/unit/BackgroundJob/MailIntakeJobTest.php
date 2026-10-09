@@ -34,6 +34,7 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @covers \OCA\Planninq\BackgroundJob\MailIntakeJob
+ * @uses \OCA\Planninq\Service\MailIntakeConfig
  */
 class MailIntakeJobTest extends TestCase {
 

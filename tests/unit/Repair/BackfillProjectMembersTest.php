@@ -200,7 +200,8 @@ class BackfillProjectMembersTest extends TestCase {
 	 * @return void
 	 */
 	public function testRegisteredAfterTheRegisterImportInBothBlocks(): void {
-		$xml = simplexml_load_file(__DIR__ . '/../../../appinfo/info.xml');
+		// Nextcloud disables libxml's external entity loader, which makes simplexml_load_file() fail.
+		$xml = simplexml_load_string((string)file_get_contents(__DIR__ . '/../../../appinfo/info.xml'));
 		self::assertNotFalse($xml);
 
 		foreach (['post-migration', 'install'] as $block) {

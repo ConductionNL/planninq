@@ -43,6 +43,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @covers \OCA\Planninq\Service\MailIntakeService
+ * @uses \OCA\Planninq\Service\MailIntakeConfig
+ * @uses \OCA\Planninq\Service\Mail\IncomingMail
  */
 class MailIntakeServiceTest extends TestCase {
 

@@ -54,6 +54,8 @@ class MailboxFactory {
 	 * @return Mailbox The open mailbox.
 	 *
 	 * @throws RuntimeException When the password cannot be resolved or the server refuses.
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.3
 	 */
 	public function open(): Mailbox {
 		$client = $this->build();
@@ -68,6 +70,8 @@ class MailboxFactory {
 	 * @return int The number of messages in the folder.
 	 *
 	 * @throws RuntimeException When the connection or login fails.
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.3
 	 */
 	public function test(): int {
 		$client = $this->build();

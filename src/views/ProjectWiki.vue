@@ -157,31 +157,12 @@
 			@close="historyOpen = false"
 			@restore="restore" />
 
-		<NcDialog
+		<WikiPageDeleteDialog
 			v-if="deleting && page"
-			:name="t('planninq', 'Delete page')"
-			@update:open="deleting = false">
-			<p v-if="hasSubpages">
-				{{ t('planninq', '{title} has subpages. Move them up a level, or delete them too?', { title: page.title }) }}
-			</p>
-			<p v-else>
-				{{ t('planninq', 'Delete {title}? This cannot be undone.', { title: page.title }) }}
-			</p>
-			<template #actions>
-				<NcButton v-if="hasSubpages"
-					variant="primary"
-					data-testid="wiki-delete-promote"
-					@click="removePage('promote')">
-					{{ t('planninq', 'Delete and move subpages up') }}
-				</NcButton>
-				<NcButton variant="error" data-testid="wiki-delete-confirm" @click="removePage('cascade')">
-					{{ hasSubpages ? t('planninq', 'Delete with subpages') : t('planninq', 'Delete') }}
-				</NcButton>
-				<NcButton @click="deleting = false">
-					{{ t('planninq', 'Cancel') }}
-				</NcButton>
-			</template>
-		</NcDialog>
+			:title="String(page.title || '')"
+			:hasSubpages="hasSubpages"
+			@remove="removePage"
+			@close="deleting = false" />
 	</div>
 </template>
 
@@ -189,12 +170,13 @@
 import { CnObjectSidebar } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
-import { NcActionButton, NcActions, NcButton, NcDialog, NcEmptyContent, NcLoadingIcon, NcRichText, NcTextField } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcButton, NcEmptyContent, NcLoadingIcon, NcRichText, NcTextField } from '@nextcloud/vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import WikiPageEditor from '../components/WikiPageEditor.vue'
 import WikiTree from '../components/WikiTree.vue'
 import WikiHistoryDialog from '../dialogs/WikiHistoryDialog.vue'
+import WikiPageDeleteDialog from '../dialogs/WikiPageDeleteDialog.vue'
 import WikiPageMoveDialog from '../dialogs/WikiPageMoveDialog.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { useWikiStore } from '../store/wiki.js'
@@ -216,7 +198,6 @@ export default {
 		NcActionButton,
 		NcActions,
 		NcButton,
-		NcDialog,
 		NcEmptyContent,
 		NcLoadingIcon,
 		NcRichText,
@@ -224,6 +205,7 @@ export default {
 		PlusIcon,
 		ProjectTabs,
 		WikiHistoryDialog,
+		WikiPageDeleteDialog,
 		WikiPageEditor,
 		WikiPageMoveDialog,
 		WikiTree,
@@ -376,6 +358,11 @@ export default {
 			},
 		},
 
+		/**
+		 * Lifecycle/watch hook.
+		 *
+		 * @spec openspec/changes/projects-wiki/tasks.md#task-2.1
+		 */
 		pageId() {
 			if (this.editing) {
 				this.stopEditing()
@@ -384,6 +371,11 @@ export default {
 		},
 	},
 
+	/**
+	 * Lifecycle/watch hook.
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-2.1
+	 */
 	beforeUnmount() {
 		if (this.editing && this.editedPage) {
 			this.wikiStore.unlock(pageId(this.editedPage))

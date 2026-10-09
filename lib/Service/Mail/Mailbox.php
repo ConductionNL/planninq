@@ -38,6 +38,8 @@ interface Mailbox {
 	 * @return int The number of messages in the folder.
 	 *
 	 * @throws \RuntimeException When the server refuses the connection or the login.
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function open(): int;
 
@@ -47,6 +49,8 @@ interface Mailbox {
 	 * @param int $limit The most messages to return.
 	 *
 	 * @return array<int,IncomingMail>
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function unseen(int $limit): array;
 
@@ -57,6 +61,8 @@ interface Mailbox {
 	 * @param string $folder The target folder.
 	 *
 	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function moveTo(string $uid, string $folder): void;
 
@@ -64,6 +70,8 @@ interface Mailbox {
 	 * Log out and close the connection.
 	 *
 	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function close(): void;
 }//end interface

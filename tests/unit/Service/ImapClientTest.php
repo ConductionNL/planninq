@@ -33,6 +33,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \OCA\Planninq\Service\ImapClient
  * @covers \OCA\Planninq\Service\Mail\MimeParser
+ * @uses \OCA\Planninq\Service\Mail\IncomingMail
  */
 class ImapClientTest extends TestCase {
 

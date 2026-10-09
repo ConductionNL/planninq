@@ -81,6 +81,8 @@ class MailIntakeConfig {
 	 * @param string $key A key of DEFAULTS.
 	 *
 	 * @return string
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
 	 */
 	public function get(string $key): string {
 		return $this->appConfig->getValueString(Application::APP_ID, $key, (self::DEFAULTS[$key] ?? ''));
@@ -90,6 +92,8 @@ class MailIntakeConfig {
 	 * Whether intake is switched on and a mailbox is filled in.
 	 *
 	 * @return bool
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
 	 */
 	public function isEnabled(): bool {
 		return $this->get(key: 'mail_intake_enabled') === 'true'
@@ -101,6 +105,8 @@ class MailIntakeConfig {
 	 * Whether SPF and DKIM must have passed.
 	 *
 	 * @return bool
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
 	 */
 	public function requiresAuth(): bool {
 		return $this->get(key: 'mail_intake_require_auth') !== 'false';
@@ -110,6 +116,8 @@ class MailIntakeConfig {
 	 * The most bytes of attachments one message may bring.
 	 *
 	 * @return int
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
 	 */
 	public function sizeLimitBytes(): int {
 		return ((int)$this->get(key: 'mail_intake_size_limit_mb') * 1048576);
@@ -121,6 +129,8 @@ class MailIntakeConfig {
 	 * @param string $key The project key.
 	 *
 	 * @return string '' when no address is set.
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-1.1
 	 */
 	public function addressFor(string $key): string {
 		$address = $this->get(key: 'mail_intake_address');

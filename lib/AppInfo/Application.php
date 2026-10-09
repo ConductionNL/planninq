@@ -169,7 +169,7 @@ class Application extends App implements IBootstrap {
 		array $registers,
 		array $schemas,
 	): void {
-		$subscription = '\\OCA\\OpenRegister\\Event\\ObjectEventSubscription';
+		$subscription = $this->subscriptionClass();
 		if (class_exists($subscription) === true) {
 			$subscription::subscribe(
 				dispatcher: $dispatcher,
@@ -192,6 +192,20 @@ class Application extends App implements IBootstrap {
 
 		$dispatcher->addServiceListener($event, $listener);
 	}//end registerFilteredObjectListener()
+
+	/**
+	 * The class that records an object listener's register/schema interest.
+	 *
+	 * A seam so a wiring test can record the subscriptions without depending
+	 * on whether OpenRegister is installed.
+	 *
+	 * @return string Fully qualified class name.
+	 *
+	 * @spec openspec/specs/task-collaboration/spec.md
+	 */
+	protected function subscriptionClass(): string {
+		return '\\OCA\\OpenRegister\\Event\\ObjectEventSubscription';
+	}//end subscriptionClass()
 
 	/**
 	 * OpenRegister's deep-link registration event name.

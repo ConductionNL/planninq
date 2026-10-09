@@ -83,6 +83,8 @@ export const useWikiStore = defineStore('wiki', {
 		 *
 		 * @param {object} page The page as the server returned it.
 		 * @return {void}
+		 *
+		 * @spec openspec/changes/projects-wiki/tasks.md#task-2.1
 		 */
 		remember(page) {
 			const id = pageId(page)
@@ -98,6 +100,8 @@ export const useWikiStore = defineStore('wiki', {
 		 * @param {string} target The endpoint.
 		 * @param {object|undefined} body The JSON body.
 		 * @return {Promise<{ok: boolean, status: number, data: object}>}
+		 *
+		 * @spec openspec/changes/projects-wiki/tasks.md#task-2.1
 		 */
 		async send(method, target, body) {
 			const response = await fetch(target, { method, headers: buildHeaders(), body: body === undefined ? undefined : JSON.stringify(body) })

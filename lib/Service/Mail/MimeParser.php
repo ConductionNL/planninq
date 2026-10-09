@@ -39,6 +39,8 @@ class MimeParser {
 	 * @param string $raw The raw message.
 	 *
 	 * @return IncomingMail
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function parse(string $uid, string $raw): IncomingMail {
 		[$headers, $body] = $this->split(raw: $raw);

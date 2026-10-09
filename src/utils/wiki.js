@@ -12,6 +12,8 @@
  *
  * @param {object} page A wiki page.
  * @return {string}
+ *
+ * @spec openspec/changes/projects-wiki/tasks.md#task-3.1
  */
 export function pageId(page) {
 	return String(page?.id ?? page?.uuid ?? page?.['@self']?.id ?? '')
@@ -22,6 +24,8 @@ export function pageId(page) {
  *
  * @param {object} page A wiki page.
  * @return {string}
+ *
+ * @spec openspec/changes/projects-wiki/tasks.md#task-3.1
  */
 export function parentId(page) {
 	const parent = page?.parent

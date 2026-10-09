@@ -2764,7 +2764,8 @@
         "properties": {
           "title": {
             "title": "Title",
-            "type": "string"
+            "type": "string",
+            "description": "Title of the wiki page"
           },
           "project": {
             "title": "Project",
@@ -2782,11 +2783,13 @@
           "order": {
             "title": "Order",
             "type": "integer",
-            "default": 0
+            "default": 0,
+            "description": "Position among the pages under the same parent, lowest first"
           },
           "body": {
             "title": "Content",
-            "type": "string"
+            "type": "string",
+            "description": "The page content, written in Markdown"
           },
           "members": {
             "title": "Members",
@@ -5285,14 +5288,17 @@
               ],
               "properties": {
                 "key": {
+                  "title": "Key",
                   "type": "string",
                   "description": "Stable key of the column"
                 },
                 "title": {
+                  "title": "Title",
                   "type": "string",
                   "description": "Column heading"
                 },
                 "type": {
+                  "title": "Type",
                   "type": "string",
                   "enum": [
                     "active",
@@ -5302,11 +5308,13 @@
                   "description": "Active columns hold in-flight work; done columns complete tasks"
                 },
                 "wipLimit": {
+                  "title": "WIP limit",
                   "type": "integer",
                   "nullable": true,
                   "description": "Work-in-progress limit (empty means none)"
                 },
                 "color": {
+                  "title": "Color",
                   "type": "string",
                   "nullable": true,
                   "description": "Column colour as a hex value"

@@ -46,6 +46,9 @@ use Psr\Log\LoggerInterface;
  * @covers \OCA\Planninq\Listener\WorkflowColumnSyncListener
  * @covers \OCA\Planninq\Service\WorkflowSyncService
  * @covers \OCA\Planninq\Service\WorkflowColumnPlanner
+ * @uses \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses \OCA\Planninq\Service\DependencyRepository
+ * @uses \OCA\Planninq\Service\ProjectMembershipService
  */
 class WorkflowColumnSyncListenerTest extends TestCase {
 	use MembershipFixture;

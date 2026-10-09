@@ -77,6 +77,8 @@ class ImapClient implements Mailbox {
 	 * @return int The number of messages in the folder.
 	 *
 	 * @throws RuntimeException When the server refuses the connection or the login.
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function open(): int {
 		if ($this->greeted === false) {
@@ -105,6 +107,8 @@ class ImapClient implements Mailbox {
 	 * @param int $limit The most messages to return.
 	 *
 	 * @return array<int,IncomingMail>
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function unseen(int $limit): array {
 		$found = [];
@@ -132,6 +136,8 @@ class ImapClient implements Mailbox {
 	 * @param string $folder The target folder.
 	 *
 	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function moveTo(string $uid, string $folder): void {
 		try {
@@ -149,6 +155,8 @@ class ImapClient implements Mailbox {
 	 * Log out and close the connection.
 	 *
 	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function close(): void {
 		try {
