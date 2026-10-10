@@ -1,3 +1,4 @@
 # Screens
 
-- No board found yet (decision 150)
+- PlRoosterwensen https://identity.conduction.nl/screens/board?id=planninq/PlRoosterwensen
+- PlRoosterscenario https://identity.conduction.nl/screens/board?id=planninq/PlRoosterscenario

@@ -1,3 +1,3 @@
 # Screens
 
-- No board found yet (decision 150)
+- No screen: Read authorization on draft timetable sessions, schema and API only.

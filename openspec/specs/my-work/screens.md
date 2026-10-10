@@ -1,3 +1,4 @@
 # Screens
 
-- No board found yet (decision 150)
+- PlMijnTaken https://identity.conduction.nl/screens/board?id=planninq/PlMijnTaken
+- PlDashboard https://identity.conduction.nl/screens/board?id=planninq/PlDashboard
