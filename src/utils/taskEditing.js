@@ -13,6 +13,9 @@ import { responsiblePatch, sharedWithPatch } from './taskPeople.js'
 /** The fields the task dialog edits, in the order it shows them. */
 export const EDITABLE_FIELDS = ['title', 'description', 'status', 'priority']
 
+/** The date-only fields the dialog edits; an empty value clears the date. */
+export const DATE_FIELDS = ['startDate', 'dueDate']
+
 /** Longest excerpt a board card shows. */
 export const EXCERPT_LENGTH = 140
 
@@ -48,6 +51,11 @@ export function newLaneTask(fields, projectId, column, laneTasks = []) {
 	if (fields?.priority) {
 		task.priority = fields.priority
 	}
+	for (const field of DATE_FIELDS) {
+		if (fields?.[field]) {
+			task[field] = String(fields[field])
+		}
+	}
 	if (fields?.assignedTo) {
 		task.assignedTo = String(fields.assignedTo)
 	}
@@ -80,6 +88,11 @@ export function editPatch(task, draft) {
 		const value = field === 'title' ? String(draft?.[field] ?? '').trim() : (draft?.[field] ?? '')
 		if (value !== (task?.[field] ?? '')) {
 			patch[field] = value
+		}
+	}
+	for (const field of DATE_FIELDS) {
+		if (draft && field in draft && (draft[field] || null) !== (task?.[field] || null)) {
+			patch[field] = draft[field] || null
 		}
 	}
 	if (draft && 'assignedTo' in draft) {

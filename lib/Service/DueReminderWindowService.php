@@ -138,4 +138,25 @@ class DueReminderWindowService {
 		}//end try
 
 	}//end patch()
+
+	/**
+	 * Resolve the OpenRegister NotificationPreferenceService from the container,
+	 * or null when OpenRegister is unavailable / the class cannot be resolved.
+	 *
+	 * @return object|null The OR preference service, or null.
+	 *
+	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+	 */
+	public function notificationPreferenceService(): ?object {
+		if ($this->appManager->isInstalled('openregister') === false) {
+			return null;
+		}
+
+		try {
+			return $this->container->get('OCA\OpenRegister\Service\Notification\NotificationPreferenceService');
+		} catch (\Throwable $e) {
+			$this->logger->info('Planninq: NotificationPreferenceService unavailable', ['exception' => $e->getMessage()]);
+			return null;
+		}
+	}//end notificationPreferenceService()
 }//end class

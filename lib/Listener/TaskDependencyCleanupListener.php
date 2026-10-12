@@ -4,7 +4,7 @@
  * Planninq Task Dependency Cleanup Listener
  *
  * Removes every dependency edge a task participates in, at the moment that task
- * is deleted.
+ * is deleted or moved to another project.
  *
  * WHY THIS EXISTS
  * ---------------
@@ -47,6 +47,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
+use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Service\DependencyService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -86,6 +87,11 @@ class TaskDependencyCleanupListener implements IEventListener {
 	 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
 	 */
 	public function handle(Event $event): void {
+		if ($event instanceof ObjectUpdatingEvent === true) {
+			$this->handleMove(event: $event);
+			return;
+		}
+
 		if ($event instanceof ObjectDeletingEvent === false) {
 			return;
 		}
@@ -120,4 +126,57 @@ class TaskDependencyCleanupListener implements IEventListener {
 			);
 		}//end try
 	}//end handle()
+
+	/**
+	 * Remove a task's dependency edges when an update moves it to another project.
+	 *
+	 * Edges are project-scoped, so a link that survived a move would point
+	 * across projects. An update that leaves `project` alone is ignored.
+	 *
+	 * @param ObjectUpdatingEvent $event The pre-update event.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-1.1
+	 */
+	private function handleMove(ObjectUpdatingEvent $event): void {
+		try {
+			$new = $event->getNewObject();
+			$old = $event->getOldObject();
+			if ($old === null) {
+				return;
+			}
+
+			$registerId = (string)($new->getRegister() ?? '');
+			$schemaId = (string)($new->getSchema() ?? '');
+			if ($this->scopeResolver->isPlanninqTask(registerId: $registerId, schemaId: $schemaId) === false) {
+				return;
+			}
+
+			$before = (string)($old->getObject()['project'] ?? '');
+			$after = (string)($new->getObject()['project'] ?? '');
+			if ($before === '' || $after === '' || $before === $after) {
+				return;
+			}
+
+			$taskId = (string)($new->getUuid() ?? '');
+			if ($taskId === '') {
+				return;
+			}
+
+			$removed = $this->dependencyService->removeEdgesForTask($taskId);
+			if ($removed > 0) {
+				$this->logger->info(
+					'Planninq: removed dependency edges for a moved task',
+					['task' => $taskId, 'edges' => $removed]
+				);
+			}
+		} catch (\Throwable $e) {
+			// A cleanup failure must not block the move; the residue is logged.
+			$this->logger->error(
+				'Planninq: dependency cleanup failed for a moved task; edges may be orphaned',
+				['exception' => $e->getMessage()]
+			);
+		}//end try
+	}//end handleMove()
 }//end class

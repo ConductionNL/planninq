@@ -26,6 +26,15 @@
 						:aria-label="t('planninq', 'Date')">
 				</div>
 
+				<div v-if="workTypes.length" class="time-entry-dialog__field">
+					<NcSelect
+						v-model="workType"
+						:options="workTypes"
+						:inputLabel="t('planninq', 'Work type')"
+						:clearable="false"
+						data-testid="time-entry-work-type" />
+				</div>
+
 				<div class="time-entry-dialog__field">
 					<NcTextField
 						v-model="description"
@@ -69,14 +78,16 @@ import { showError } from '@nextcloud/dialogs'
  *
  * @spec openspec/specs/time-tracking.md
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { NcButton, NcDialog, NcLoadingIcon, NcSelect, NcTextField } from '@nextcloud/vue'
+import { useSettingsStore } from '../store/modules/settings.js'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
+import { workTypesOf } from '../utils/timer.js'
 
 export default {
 	name: 'TimeEntryDialog',
 
-	components: { NcButton, NcDialog, NcLoadingIcon, NcTextField },
+	components: { NcButton, NcDialog, NcLoadingIcon, NcSelect, NcTextField },
 
 	props: {
 		/** The task UUID this entry belongs to. */
@@ -90,13 +101,20 @@ export default {
 			type: Object,
 			default: null,
 		},
+
+		/** Minutes to prefill when the form opens from a stopped timer. */
+		initialMinutes: {
+			type: Number,
+			default: 0,
+		},
 	},
 
 	emits: ['close', 'saved'],
 
 	data() {
 		return {
-			durationInput: this.entry?.duration ? formatDuration(this.entry.duration) : '',
+			durationInput: this.entry?.duration ? formatDuration(this.entry.duration) : (this.initialMinutes > 0 ? formatDuration(this.initialMinutes) : ''),
+			workType: this.entry?.workType || '',
 			date: this.entry?.date || new Date().toISOString().slice(0, 10),
 			description: this.entry?.description || '',
 			saving: false,
@@ -141,7 +159,16 @@ export default {
 		 * @spec openspec/specs/time-tracking.md
 		 */
 		isValid() {
-			return this.parsedMinutes !== null && !!this.date
+			return this.parsedMinutes !== null && !!this.date && (this.workTypes.length === 0 || this.workType !== '')
+		},
+
+		/**
+		 * The work types the admin set; the field is hidden when there are none.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.3
+		 */
+		workTypes() {
+			return workTypesOf(useSettingsStore().settings?.work_types)
 		},
 	},
 
@@ -163,6 +190,9 @@ export default {
 				duration: this.parsedMinutes,
 				date: this.date,
 				description: this.description,
+			}
+			if (this.workTypes.length) {
+				payload.workType = this.workType
 			}
 			try {
 				const result = this.isEdit

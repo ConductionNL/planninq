@@ -29,10 +29,19 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'label#index', 'url' => '/api/labels', 'verb' => 'GET'],
     ['name' => 'label#destroy', 'url' => '/api/labels/{id}', 'verb' => 'DELETE', 'requirements' => ['id' => '[^/]+']],
 
+    // Admin: log in to the task intake mailbox and report its message count (tasks-create-by-email).
+    ['name' => 'mailIntake#test', 'url' => '/api/settings/mail-test', 'verb' => 'POST'],
+
+    // Admin: rename a work type and optionally the time entries that carry it (time-timer-and-work-type).
+    ['name' => 'workType#rename', 'url' => '/api/settings/work-types/rename', 'verb' => 'POST'],
+
     // Dependency edge create — server-side cycle/self/duplicate/cross-project validation.
     ['name' => 'dependency#create', 'url' => '/api/dependencies', 'verb' => 'POST'],
     // Dependency edge delete — project-member guarded.
     ['name' => 'dependency#destroy', 'url' => '/api/dependencies/{id}', 'verb' => 'DELETE', 'requirements' => ['id' => '[^/]+']],
+
+    // Copy a project, or start one from a template (owner, manager, admin; any creator for a template).
+    ['name' => 'projectCopy#create', 'url' => '/api/projects/{id}/copy', 'verb' => 'POST', 'requirements' => ['id' => '[^/]+']],
 
     // Microsoft Project plan import: preview (writes nothing), then import. Owner or admin, checked per project.
     ['name' => 'projectImport#preview', 'url' => '/api/projects/{projectId}/import/msproject/preview', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],

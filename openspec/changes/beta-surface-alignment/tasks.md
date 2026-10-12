@@ -23,4 +23,4 @@
 
 - [x] 4.1 WebFetch live `https://www.conduction.nl/apps/planninq/` (confirmed 404, matching the stated gap) and `https://planix.conduction.nl/` (confirmed live, v0.2.7, feature claims consistent with local `docs/` — no further drift found)
 - [x] 4.2 Validate `appinfo/info.xml` is well-formed XML after edits
-- [ ] 4.3 (Follow-up, out of scope here) request a `planninq` entry in the published `@conduction/docusaurus-preset` apps-registry so `DetailHero`'s JSON-LD/`applicationCategoryFor` lookups resolve
+- [ ] 4.3 (Follow-up, out of scope here) request a `planninq` entry in the published `@conduction/docusaurus-preset` apps-registry so `DetailHero`'s JSON-LD/`applicationCategoryFor` lookups resolve — not run: needs the docusaurus-preset repo

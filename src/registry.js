@@ -45,6 +45,7 @@ import ProjectRisks from './views/ProjectRisks.vue'
 import ProjectStatus from './views/ProjectStatus.vue'
 import ProjectsView from './views/ProjectsView.vue'
 import ProjectTimeline from './views/ProjectTimeline.vue'
+import ProjectWiki from './views/ProjectWiki.vue'
 import ReportPage from './views/ReportPage.vue'
 import TaskDetail from './views/TaskDetail.vue'
 import Timesheet from './views/Timesheet.vue'
@@ -93,6 +94,7 @@ export default {
 	ProjectStatus: page(ProjectStatus),
 	ProjectFlow: page(ProjectFlow),
 	ProjectTimeline: page(ProjectTimeline),
+	ProjectWiki: page(ProjectWiki),
 	TaskDetail: page(TaskDetail),
 	Timesheet: page(Timesheet),
 	TimetableScenarioCompare: slot(TimetableScenarioCompare),

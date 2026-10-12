@@ -285,6 +285,7 @@ export default {
 				{ value: 'archived', label: this.t('planninq', 'Archived') },
 				{ value: 'completed', label: this.t('planninq', 'Completed') },
 				{ value: 'requested', label: this.t('planninq', 'Requested') },
+				{ value: 'template', label: this.t('planninq', 'Templates') },
 			]
 		},
 
@@ -300,8 +301,13 @@ export default {
 		// Client-side filter — uses useListView's searchTerm and local activeStatus.
 		filteredProjects() {
 			let list = this.projects
-			if (this.activeStatus) {
-				list = list.filter((p) => p.status === this.activeStatus)
+			if (this.activeStatus === 'template') {
+				list = list.filter((p) => p.isTemplate === true)
+			} else {
+				list = list.filter((p) => p.isTemplate !== true)
+				if (this.activeStatus) {
+					list = list.filter((p) => p.status === this.activeStatus)
+				}
 			}
 			const term = (this.listView.searchTerm.value || '').trim().toLowerCase()
 			if (term) {

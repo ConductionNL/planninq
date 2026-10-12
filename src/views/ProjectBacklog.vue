@@ -37,6 +37,12 @@
 
 		<!-- Sort and filter; both live in the query string -->
 		<div class="project-backlog__toolbar">
+			<NcTextField
+				v-model="search"
+				:label="t('planninq', 'Search tasks')"
+				type="search"
+				data-testid="backlog-search"
+				@keydown.esc="search = ''" />
 			<NcSelect
 				:modelValue="sortOption"
 				:options="sortOptions"
@@ -64,6 +70,52 @@
 			{{ t('planninq', 'Sort by rank to reorder') }}
 		</p>
 
+		<div v-if="!loading && rows.length" class="project-backlog__bulk" data-testid="backlog-bulk">
+			<NcCheckboxRadioSwitch
+				:modelValue="allSelected"
+				data-testid="backlog-select-all"
+				@update:modelValue="toggleAll">
+				{{ selected.length ? t('planninq', '{count} selected', { count: selected.length }) : t('planninq', 'Select all') }}
+			</NcCheckboxRadioSwitch>
+			<template v-if="selected.length">
+				<NcSelect
+					:modelValue="null"
+					:options="bulkStatusOptions"
+					:inputLabel="t('planninq', 'Change status')"
+					label="label"
+					data-testid="backlog-bulk-status"
+					@update:modelValue="(option) => option && bulkApply({ status: option.id })" />
+				<NcSelect
+					:modelValue="null"
+					:options="bulkPriorityOptions"
+					:inputLabel="t('planninq', 'Change priority')"
+					label="label"
+					data-testid="backlog-bulk-priority"
+					@update:modelValue="(option) => option && bulkApply({ priority: option.id })" />
+				<NcSelect
+					:modelValue="null"
+					:options="bulkAssigneeOptions"
+					:inputLabel="t('planninq', 'Assign to')"
+					label="label"
+					data-testid="backlog-bulk-assignee"
+					@update:modelValue="(option) => option && bulkAssign(option)" />
+				<NcSelect
+					:modelValue="null"
+					:options="labels"
+					:inputLabel="t('planninq', 'Add label')"
+					label="title"
+					data-testid="backlog-bulk-label-add"
+					@update:modelValue="(option) => option && bulkLabel(option, 'add')" />
+				<NcSelect
+					:modelValue="null"
+					:options="labels"
+					:inputLabel="t('planninq', 'Remove label')"
+					label="title"
+					data-testid="backlog-bulk-label-remove"
+					@update:modelValue="(option) => option && bulkLabel(option, 'remove')" />
+			</template>
+		</div>
+
 		<div v-if="loading" class="project-backlog__loading">
 			<NcLoadingIcon :size="32" />
 		</div>
@@ -89,6 +141,11 @@
 				@dragend="draggingTask = null; dropTargetId = null"
 				@dragover.prevent="dropTargetId = task.id"
 				@drop.prevent="onDrop(task)">
+				<NcCheckboxRadioSwitch
+					:modelValue="selected.includes(task.id)"
+					:aria-label="task.title"
+					data-testid="backlog-row-select"
+					@update:modelValue="(value) => toggleOne(task.id, value)" />
 				<DragIcon
 					v-if="sort === 'rank'"
 					class="project-backlog__handle"
@@ -148,7 +205,7 @@
  *
  * @spec openspec/changes/backlog-list/tasks.md#task-1.1
  */
-import { showError } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import {
 	NcActionButton,
 	NcActionCaption,
@@ -181,6 +238,10 @@ import {
 	orderPatchesForStep,
 	sortColumns,
 } from '../utils/columnHelpers.js'
+import { labelId } from '../utils/labelHelpers.js'
+import { matchesSearch } from '../utils/taskHelpers.js'
+import { labelChangePatch, memberOptions, responsiblePatch } from '../utils/taskPeople.js'
+import { displayNames } from '../utils/userNames.js'
 
 export default {
 	name: 'ProjectBacklog',
@@ -216,6 +277,13 @@ export default {
 			draggingTask: null,
 			/** @type {string|null} Id of the row hovered during a drag. */
 			dropTargetId: null,
+			search: '',
+			/** @type {Array<string>} Ids of the ticked rows. */
+			selected: [],
+			/** @type {Array} Every label, for the bulk label actions. */
+			labels: [],
+			/** @type {object} User id to display name, for the bulk assignee choice. */
+			personNames: {},
 		}
 	},
 
@@ -269,7 +337,45 @@ export default {
 		 */
 		rows() {
 			const backlog = backlogTasks(this.tasks, { cancelled: this.showCancelled })
-			return sortBacklog(filterBacklog(backlog, { priority: this.$route.query.priority || '' }), this.sort)
+			const found = filterBacklog(backlog, { priority: this.$route.query.priority || '' }).filter((task) => matchesSearch(task, this.search))
+			return sortBacklog(found, this.sort)
+		},
+
+		/**
+		 * @spec exclude Display helper — whether every shown row is ticked.
+		 */
+		allSelected() {
+			return this.rows.length > 0 && this.rows.every((task) => this.selected.includes(task.id))
+		},
+
+		/**
+		 * @spec exclude Display helper — the status choices for a bulk change.
+		 */
+		bulkStatusOptions() {
+			return [
+				{ id: 'open', label: this.t('planninq', 'Open') },
+				{ id: 'in_progress', label: this.t('planninq', 'In progress') },
+				{ id: 'blocked', label: this.t('planninq', 'Blocked') },
+				{ id: 'done', label: this.t('planninq', 'Done') },
+				{ id: 'cancelled', label: this.t('planninq', 'Cancelled') },
+			]
+		},
+
+		/**
+		 * @spec exclude Display helper — the priority choices for a bulk change.
+		 */
+		bulkPriorityOptions() {
+			return this.priorityOptions.filter((option) => option.id !== '')
+		},
+
+		/**
+		 * @spec exclude Display helper — the project's people, with a choice to clear the assignee.
+		 */
+		bulkAssigneeOptions() {
+			return [
+				{ id: '', label: this.t('planninq', 'Unassigned') },
+				...memberOptions(this.projectsStore.activeProject, this.personNames),
+			]
 		},
 
 		/**
@@ -327,6 +433,70 @@ export default {
 
 	methods: {
 		/**
+		 * Tick or untick every shown row.
+		 *
+		 * @param {boolean} value Whether to tick them.
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.1
+		 */
+		toggleAll(value) {
+			this.selected = value ? this.rows.map((task) => task.id) : []
+		},
+
+		/**
+		 * Tick or untick one row.
+		 *
+		 * @param {string}  id    The task id.
+		 * @param {boolean} value Whether it is ticked.
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.1
+		 */
+		toggleOne(id, value) {
+			this.selected = value ? [...new Set([...this.selected, id])] : this.selected.filter((other) => other !== id)
+		},
+
+		/**
+		 * Make one person responsible for every ticked row (empty id clears it).
+		 *
+		 * @param {{id: string}} option The chosen person.
+		 * @return {Promise<void>}
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.3
+		 */
+		bulkAssign(option) {
+			return this.bulkApply((task) => responsiblePatch(task, option.id))
+		},
+
+		/**
+		 * Add a label to, or remove it from, every ticked row.
+		 *
+		 * @param {object}         option The chosen label.
+		 * @param {'add'|'remove'} mode   Whether to add or remove it.
+		 * @return {Promise<void>}
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.3
+		 */
+		bulkLabel(option, mode) {
+			return this.bulkApply((task) => labelChangePatch(task, labelId(option), mode))
+		},
+
+		/**
+		 * Write one change to every ticked row and report how many failed.
+		 *
+		 * @param {object|function(object): object} patch The fields to write, or `(task) => fields` for a change that depends on the task.
+		 * @return {Promise<void>}
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.3
+		 */
+		async bulkApply(patch) {
+			const byId = new Map(this.tasks.map((task) => [task.id, task]))
+			const fieldsFor = (id) => typeof patch === 'function' ? patch(byId.get(id) || {}) : patch
+			const { done, failed } = await this.projectsStore.bulkUpdateTasks(this.selected, fieldsFor)
+			this.tasks = this.tasks.map((task) => done.includes(task.id) ? { ...task, ...fieldsFor(task.id) } : task)
+			this.selected = failed
+			if (failed.length) {
+				showError(this.t('planninq', '{done} tasks updated, {failed} failed.', { done: done.length, failed: failed.length }))
+			} else {
+				showSuccess(this.t('planninq', '{done} tasks updated.', { done: done.length }))
+			}
+		},
+
+		/**
 		 * Load the project's tasks and board columns.
 		 *
 		 * @return {Promise<void>}
@@ -339,6 +509,10 @@ export default {
 			try {
 				this.boardColumns = await this.projectsStore.fetchColumns(id)
 				this.tasks = await this.projectsStore.fetchTasks(id)
+				this.labels = await this.projectsStore.fetchLabels()
+				const project = this.projectsStore.activeProject
+				const uids = [...new Set([project?.owner, ...(project?.members || [])].filter(Boolean))]
+				this.personNames = uids.length ? await displayNames(uids) : {}
 			} finally {
 				this.loading = false
 			}
@@ -505,6 +679,14 @@ export default {
 }
 
 .project-backlog__toolbar {
+	margin-bottom: 8px;
+}
+
+.project-backlog__bulk {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 8px;
 	margin-bottom: 8px;
 }
 

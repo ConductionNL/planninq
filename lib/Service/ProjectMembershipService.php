@@ -101,6 +101,7 @@ class ProjectMembershipService {
 		'projectRelease',
 		'boardFilter',
 		'forgeLink',
+		'wikiPage',
 	];
 
 	/**

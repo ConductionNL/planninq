@@ -53,6 +53,8 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \OCA\Planninq\Repair\BackfillProjectMembers
  * @covers \OCA\Planninq\Service\RegisterImportService
+ * @uses \OCA\Planninq\Repair\InitializeSettings
+ * @uses \OCA\Planninq\Service\ProjectMembershipService
  */
 class BackfillAfterRegisterImportTest extends TestCase {
 
@@ -242,7 +244,8 @@ class BackfillAfterRegisterImportTest extends TestCase {
 	 * @return array<int,string>
 	 */
 	private function postMigrationOrder(string $hook = 'post-migration'): array {
-		$xml = simplexml_load_file(__DIR__ . '/../../../appinfo/info.xml');
+		// Nextcloud disables libxml's external entity loader, which makes simplexml_load_file() fail.
+		$xml = simplexml_load_string((string)file_get_contents(__DIR__ . '/../../../appinfo/info.xml'));
 		$steps = [];
 		foreach ($xml->{'repair-steps'}->{$hook}->step as $step) {
 			$steps[] = (string)$step;

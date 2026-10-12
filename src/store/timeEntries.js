@@ -16,6 +16,8 @@ import { getCurrentUser } from '@nextcloud/auth'
  * @spec openspec/specs/time-tracking.md
  */
 import { defineStore } from 'pinia'
+import { elapsedMinutes } from '../utils/timer.js'
+import { useSettingsStore } from './modules/settings.js'
 import { useObjectStore } from './objectStore.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
@@ -135,6 +137,60 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 			} finally {
 				this.loading = false
 			}
+		},
+
+		/**
+		 * The running timer from the person's settings, or null.
+		 *
+		 * @return {{task: string, startedAt: string}|null}
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+		 */
+		runningTimer() {
+			return useSettingsStore().settings?.running_timer ?? null
+		},
+
+		/**
+		 * Start a timer on a task. Refused while another timer runs.
+		 *
+		 * @param {string} taskId The task UUID.
+		 * @return {Promise<boolean>} Whether the timer started.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+		 */
+		async startTimer(taskId) {
+			if (this.runningTimer()) {
+				return false
+			}
+			const result = await useSettingsStore().saveUserSettings({
+				running_timer: { task: taskId, startedAt: new Date().toISOString() },
+			})
+			return result !== null
+		},
+
+		/**
+		 * The task and measured minutes of the running timer. The timer keeps
+		 * running until the entry is saved (then `discardTimer` clears it).
+		 *
+		 * @param {Date|number} [now] The current time.
+		 * @return {{task: string, minutes: number}|null}
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+		 */
+		stopTimer(now = Date.now()) {
+			const timer = this.runningTimer()
+			return timer ? { task: timer.task, minutes: elapsedMinutes(timer.startedAt, now) } : null
+		},
+
+		/**
+		 * Clear the running timer without booking anything.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+		 */
+		async discardTimer() {
+			await useSettingsStore().saveUserSettings({ running_timer: null })
 		},
 
 		/**
