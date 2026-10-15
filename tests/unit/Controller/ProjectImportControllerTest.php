@@ -60,6 +60,7 @@ use Psr\Log\LoggerInterface;
  * @uses \OCA\Planninq\Service\MsProjectPlanMapper
  * @uses \OCA\Planninq\Service\MsProjectPlanParser
  * @uses \OCA\Planninq\Service\ProjectMembershipService
+ * @uses \OCA\Planninq\Exception\MsProjectImportException
  */
 class ProjectImportControllerTest extends TestCase {
 	use MembershipFixture;
