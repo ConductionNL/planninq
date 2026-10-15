@@ -19,6 +19,19 @@
 					v-model="form.title"
 					:label="t('planninq', 'Title')" />
 
+				<!-- Project key (tasks-readable-keys): editable until a task carries it -->
+				<NcTextField
+					v-if="canEditKey"
+					v-model="form.key"
+					:label="t('planninq', 'Project key')"
+					:helperText="t('planninq', 'Every task number starts with it, such as VERG-42.')"
+					maxlength="10"
+					data-testid="project-key" />
+				<div v-else class="project-settings-sidebar__field">
+					<span class="project-settings-sidebar__label">{{ t('planninq', 'Project key') }}</span>
+					<span class="project-settings-sidebar__readonly" data-testid="project-key">{{ project.key }}</span>
+				</div>
+
 				<!-- Description -->
 				<NcTextArea
 					v-model="form.description"
@@ -44,12 +57,71 @@
 					:label="t('planninq', 'Icon (emoji)')"
 					:placeholder="t('planninq', 'e.g. 📁 🚀')" />
 
+				<!-- Portfolio: its managers read the project (projects-grouping-hierarchy-fields) -->
+				<NcSelect
+					v-model="form.portfolio"
+					:options="portfolioOptions"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Portfolio')"
+					label="label"
+					data-testid="project-portfolio" />
+
+				<!-- Parent: a programme above this project (projects-grouping-hierarchy-fields) -->
+				<NcSelect
+					v-model="form.parent"
+					:options="parentChoices"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Part of')"
+					label="label"
+					data-testid="project-parent" />
+
+				<!-- Auto-scheduling on the timeline (planning-timeline-editing); the schema lets only the owner or an admin save it -->
+				<NcCheckboxRadioSwitch
+					v-model="form.autoSchedule"
+					type="switch"
+					aria-describedby="project-auto-schedule-hint"
+					data-testid="project-auto-schedule">
+					{{ t('planninq', 'Move blocked tasks along when a task slips') }}
+				</NcCheckboxRadioSwitch>
+				<p id="project-auto-schedule-hint" class="project-settings-sidebar__hint">
+					{{ t('planninq', 'On the timeline, a later due date offers to move the tasks it blocks. Only "blocks" links count, and tasks only move later.') }}
+				</p>
+
+				<!-- Project fields an admin defined (projects-grouping-hierarchy-fields) -->
+				<div
+					v-for="field in projectFields"
+					:key="field.key"
+					class="project-settings-sidebar__field"
+					:data-testid="`project-field-${field.key}`">
+					<NcSelect
+						v-if="field.type === 'choice'"
+						v-model="fieldForm[field.key]"
+						:options="field.options || []"
+						:inputLabel="field.required ? t('planninq', '{label} (required)', { label: field.label }) : field.label" />
+					<NcCheckboxRadioSwitch v-else-if="field.type === 'boolean'" v-model="fieldForm[field.key]">
+						{{ field.label }}
+					</NcCheckboxRadioSwitch>
+					<NcTextField
+						v-else
+						v-model="fieldForm[field.key]"
+						:type="field.type === 'number' ? 'number' : (field.type === 'date' ? 'date' : 'text')"
+						:label="field.required ? t('planninq', '{label} (required)', { label: field.label }) : field.label" />
+					<p
+						v-if="missingFields.includes(field.key)"
+						class="project-settings-sidebar__error"
+						role="alert"
+						:data-testid="`project-field-${field.key}-error`">
+						{{ t('planninq', '{label} is required', { label: field.label }) }}
+					</p>
+				</div>
+
 				<!-- Case reference (read-only) -->
 				<div v-if="project.caseReference" class="project-settings-sidebar__field">
 					<label class="project-settings-sidebar__label">
 						{{ t('planninq', 'Case reference') }}
 					</label>
 					<span class="project-settings-sidebar__readonly">{{ project.caseReference }}</span>
+					<CaseHandoverSection :project="project" />
 				</div>
 
 				<NcButton
@@ -74,37 +146,79 @@
 			</template>
 
 			<div class="project-settings-sidebar__section">
-				<MemberSearch
+				<p v-if="project && !mayManageMembers" class="project-settings-sidebar__hint" data-testid="members-read-only">
+					{{ t('planninq', 'Only the owner and managers change who is on this project.') }}
+				</p>
+				<OwnerGroupPicker
 					v-if="project"
-					:project-id="project.id"
-					:existing-members="project.members || []"
+					:projectId="project.id"
+					:ownerGroup="ownerGroup"
+					:groupName="ownerGroup ? (memberGroupNames[ownerGroup] || '') : ''"
+					:canChange="mayChangeOwnerGroup"
+					@changed="onOwnerGroupChanged" />
+				<MemberSearch
+					v-if="project && mayManageMembers"
+					:projectId="project.id"
+					:existingMembers="onProjectUsers"
+					:existingGroups="onProjectGroups"
 					@added="onMemberAdded" />
 
-				<ul class="project-settings-sidebar__members" role="list">
+				<ul class="project-settings-sidebar__members" role="list" data-testid="project-members">
 					<li
-						v-for="uid in (project ? project.members : [])"
-						:key="uid"
-						class="project-settings-sidebar__member">
+						v-for="entry in memberRows"
+						:key="entry.key"
+						class="project-settings-sidebar__member"
+						:data-testid="`project-member-${entry.key}`">
 						<NcAvatar
-							:user="uid"
+							v-if="entry.type === 'user'"
+							:user="entry.id"
+							:displayName="entry.name"
 							:size="32"
-							:aria-label="uid" />
-						<span class="project-settings-sidebar__member-name">{{ uid }}</span>
+							:aria-label="entry.name" />
+						<AccountGroupOutline v-else :size="32" />
+						<span class="project-settings-sidebar__member-name">
+							{{ entry.name }}
+							<span v-if="entry.type === 'group'" class="project-settings-sidebar__member-note">
+								{{ t('planninq', 'Everyone in this group') }}
+							</span>
+						</span>
 						<div class="project-settings-sidebar__member-actions">
+							<NcSelect
+								v-if="mayManageMembers && entry.role !== 'owner'"
+								:modelValue="roleOption(entry.role)"
+								:options="roleOptions"
+								:inputLabel="t('planninq', 'Role of {name}', { name: entry.name })"
+								:labelOutside="false"
+								:clearable="false"
+								:searchable="false"
+								class="project-settings-sidebar__role"
+								:data-testid="`member-role-${entry.key}`"
+								@update:modelValue="(option) => changeRole(entry, option)" />
+							<span v-else class="project-settings-sidebar__role-name">{{ roleLabel(entry.role) }}</span>
 							<!-- Leave project (current user) -->
 							<NcButton
-								v-if="uid === currentUid"
+								v-if="entry.type === 'user' && entry.id === currentUid"
 								variant="tertiary"
 								:aria-label="t('planninq', 'Leave project')"
 								@click="showLeaveDialog = true">
 								{{ t('planninq', 'Leave project') }}
 							</NcButton>
+							<!-- Remove a group -->
+							<NcButton
+								v-else-if="mayManageMembers && entry.role !== 'owner' && entry.type === 'group'"
+								variant="tertiary-no-background"
+								:aria-label="t('planninq', 'Remove {name}', { name: entry.name })"
+								@click="removeGroup(entry.id)">
+								<template #icon>
+									<CloseIcon :size="16" />
+								</template>
+							</NcButton>
 							<!-- Remove member (other users) -->
 							<NcButton
-								v-else
+								v-else-if="mayManageMembers && entry.role !== 'owner'"
 								variant="tertiary-no-background"
-								:aria-label="t('planninq', 'Remove {name}', { name: uid })"
-								@click="confirmRemoveMember(uid)">
+								:aria-label="t('planninq', 'Remove {name}', { name: entry.name })"
+								@click="confirmRemoveMember(entry.id)">
 								<template #icon>
 									<CloseIcon :size="16" />
 								</template>
@@ -126,17 +240,40 @@
 			</div>
 		</NcAppSidebarTab>
 
+		<!-- Columns tab: the board's lanes as a keyboard-friendly list -->
+		<NcAppSidebarTab
+			v-if="project"
+			id="columns"
+			:name="t('planninq', 'Columns')"
+			:order="3">
+			<template #icon>
+				<ViewColumnOutline :size="20" />
+			</template>
+			<ColumnSettingsList
+				:projectId="project.id"
+				:canManage="canManageColumns"
+				@changed="$emit('columnsChanged')" />
+		</NcAppSidebarTab>
+
 		<!-- Danger zone tab -->
 		<NcAppSidebarTab
 			id="danger"
 			:name="t('planninq', 'Danger zone')"
-			:order="3">
+			:order="4">
 			<template #icon>
 				<AlertCircleOutline :size="20" />
 			</template>
 
 			<div class="project-settings-sidebar__section">
-				<div class="project-settings-sidebar__danger-item">
+				<!-- Restore an archived project (projects-lifecycle-policy) -->
+				<div v-if="lifecycle.restore" class="project-settings-sidebar__danger-item">
+					<p>{{ t('planninq', 'Bring this project back to the active list.') }}</p>
+					<NcButton variant="primary" data-testid="project-restore" @click="doRestore">
+						{{ t('planninq', 'Restore project') }}
+					</NcButton>
+				</div>
+
+				<div v-if="lifecycle.archive" class="project-settings-sidebar__danger-item">
 					<p>{{ t('planninq', 'Archive this project. It will no longer appear in the active list.') }}</p>
 					<NcButton
 						v-if="!confirmArchive"
@@ -167,7 +304,7 @@
 		<!-- Dialogs -->
 		<ProjectLeaveDialog
 			v-if="showLeaveDialog && project"
-			:project-id="project.id"
+			:projectId="project.id"
 			@close="showLeaveDialog = false"
 			@left="onLeft" />
 
@@ -180,6 +317,8 @@
 </template>
 
 <script>
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 /**
  * ProjectSettingsSidebar.
  *
@@ -197,38 +336,55 @@ import {
 	NcAppSidebarTab,
 	NcAvatar,
 	NcButton,
+	NcCheckboxRadioSwitch,
 	NcLoadingIcon,
-	NcTextField,
+	NcSelect,
 	NcTextArea,
+	NcTextField,
 } from '@nextcloud/vue'
 import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
-
-import { getCurrentUser } from '@nextcloud/auth'
-import { showSuccess, showError } from '@nextcloud/dialogs'
-import { useProjectsStore } from '../store/projects.js'
-import MemberSearch from './MemberSearch.vue'
-import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
+import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
 import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
+import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
+import CaseHandoverSection from './CaseHandoverSection.vue'
+import ColumnSettingsList from './ColumnSettingsList.vue'
+import MemberSearch from './MemberSearch.vue'
+import OwnerGroupPicker from './OwnerGroupPicker.vue'
+import { useProjectsStore } from '../store/projects.js'
+import { memberEntries } from '../utils/memberSearch.js'
+import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
+import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
+import { lifecycleButtons } from '../utils/projectLifecycle.js'
+import { ASSIGNABLE_ROLES, canManageMembers, canSetOwnerGroup, currentGroupIds, ownerGroupOf, projectRole } from '../utils/projectRole.js'
+import { parentIdOf, parentOptions, parentRefusal } from '../utils/projectTree.js'
+import { displayNames, groupNames } from '../utils/userNames.js'
+import { keyEditable, keyRefusal, normaliseProjectKey } from '../utils/workItemKeys.js'
 
 export default {
 	name: 'ProjectSettingsSidebar',
 
 	components: {
+		CaseHandoverSection,
 		NcAppSidebar,
 		NcAppSidebarTab,
 		NcAvatar,
 		NcButton,
+		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
+		NcSelect,
 		NcTextField,
 		NcTextArea,
 		AccountGroupOutline,
 		AlertCircleOutline,
 		CloseIcon,
 		PencilIcon,
+		ViewColumnOutline,
+		ColumnSettingsList,
 		MemberSearch,
+		OwnerGroupPicker,
 		ProjectLeaveDialog,
 		ProjectDeleteDialog,
 	},
@@ -240,7 +396,7 @@ export default {
 		},
 	},
 
-	emits: ['close', 'archived', 'deleted'],
+	emits: ['close', 'archived', 'restored', 'deleted', 'columnsChanged'],
 
 	data() {
 		return {
@@ -254,29 +410,221 @@ export default {
 			pendingRemoveUid: null,
 			form: {
 				title: this.project?.title || '',
+				key: this.project?.key || '',
 				description: this.project?.description || '',
 				color: this.project?.color || '#0082c9',
 				icon: this.project?.icon || '',
+				portfolio: null,
+				parent: null,
+				autoSchedule: this.project?.autoSchedule === true,
 			},
+
+			projectFields: [],
+			fieldForm: {},
+			// The lifecycle actions OpenRegister offers on this project; null until read.
+			projectActions: null,
+			missingFields: [],
+
+			portfolios: [],
+
+			// Display names of the people and names of the groups on the Members tab.
+			memberNames: {},
+			memberGroupNames: {},
 		}
 	},
 
 	computed: {
+		/**
+		 * The project as the store holds it now, so a member added or removed
+		 * shows at once; the prop is the object the sidebar was opened with.
+		 *
+		 * @return {object}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+		 */
+		currentProject() {
+			const active = this.projectsStore.activeProject
+			return active && this.project && active.id === this.project.id ? active : (this.project || {})
+		},
+
+		/**
+		 * The Members tab rows: people by display name, then groups by name.
+		 *
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+		 */
+		memberRows() {
+			return memberEntries(this.currentProject, this.memberNames, this.memberGroupNames)
+		},
+
+		/**
+		 * Whether the caller may set or clear the owning group: the owner,
+		 * anyone in the owning group, or an admin.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 */
+		mayChangeOwnerGroup() {
+			return getCurrentUser()?.isAdmin === true || canSetOwnerGroup(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
+		},
+
+		/**
+		 * The group that owns the project, or null.
+		 *
+		 * @return {string|null}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 */
+		ownerGroup() {
+			return ownerGroupOf(this.currentProject)
+		},
+
+		/**
+		 * Whether the caller may change who is on the project: the owner, a
+		 * manager (directly or through a group) or an admin.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 */
+		mayManageMembers() {
+			return getCurrentUser()?.isAdmin === true || canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
+		},
+
+		/**
+		 * Everyone already on the project in person, whatever their role.
+		 *
+		 * @return {Array<string>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 */
+		onProjectUsers() {
+			return this.memberRows.filter((row) => row.type === 'user').map((row) => row.id)
+		},
+
+		/**
+		 * Every group already on the project, whatever its role.
+		 *
+		 * @return {Array<string>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 */
+		onProjectGroups() {
+			return this.memberRows.filter((row) => row.type === 'group').map((row) => row.id)
+		},
+
+		/**
+		 * The roles a manager hands out, as picker options.
+		 *
+		 * @return {Array<{id: string, label: string}>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 */
+		roleOptions() {
+			return ASSIGNABLE_ROLES.map((role) => ({ id: role, label: this.roleLabel(role) }))
+		},
+
 		/**
 		 * @spec exclude Store passthrough — returns the projects Pinia store.
 		 */
 		projectsStore() {
 			return useProjectsStore()
 		},
+
 		/**
 		 * @spec exclude Auth passthrough — returns the current user's UID.
 		 */
 		currentUid() {
 			return getCurrentUser()?.uid || ''
 		},
+
+		/**
+		 * Whether the current user may manage the board columns: the project
+		 * owner or an admin, the rule the server enforces too.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.2
+		 */
+		canManageColumns() {
+			return getCurrentUser()?.isAdmin === true || (!!this.currentUid && this.project?.owner === this.currentUid)
+		},
+
+		/**
+		 * Which of Archive and Restore the Danger zone shows.
+		 *
+		 * @return {{archive: boolean, restore: boolean}}
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.4
+		 */
+		lifecycle() {
+			return lifecycleButtons(this.project, this.projectActions)
+		},
+
+		/**
+		 * Whether the key may still change: until a task carries it.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.3
+		 */
+		canEditKey() {
+			return keyEditable(this.project)
+		},
+
+		/**
+		 * No parent, then every project the user reads except this one and its subprojects.
+		 *
+		 * @return {Array<{id: string, label: string}>}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
+		 */
+		parentChoices() {
+			return [
+				{ id: '', label: this.t('planninq', 'No parent project') },
+				...parentOptions(this.projectsStore.projects, this.project).map((p) => ({ id: String(p.id), label: String(p.title ?? '') })),
+			]
+		},
+
+		/**
+		 * No portfolio, then every portfolio in list order.
+		 *
+		 * @return {Array<{id: string, label: string}>}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
+		 */
+		portfolioOptions() {
+			return [
+				{ id: '', label: this.t('planninq', 'No portfolio') },
+				...sortPortfolios(this.portfolios).map((p) => ({ id: String(p.id), label: String(p.title ?? '') })),
+			]
+		},
 	},
 
 	watch: {
+		memberRows: {
+			immediate: true,
+			/**
+			 * Resolve the names on the Members tab whenever its lists change.
+			 *
+			 * @param {Array<object>} rows The Members tab rows.
+			 *
+			 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+			 */
+			async handler(rows) {
+				const users = rows.filter((row) => row.type === 'user' && !(row.id in this.memberNames)).map((row) => row.id)
+				const groups = rows.filter((row) => row.type === 'group' && !(row.id in this.memberGroupNames)).map((row) => row.id)
+				if (users.length) {
+					this.memberNames = { ...this.memberNames, ...(await displayNames(users)) }
+				}
+				if (groups.length) {
+					this.memberGroupNames = { ...this.memberGroupNames, ...(await groupNames(groups)) }
+				}
+			},
+		},
+
 		/**
 		 * @spec exclude Framework glue — syncs the project prop into the edit form on change.
 		 * @param {object} newVal The updated project object.
@@ -284,32 +632,128 @@ export default {
 		project(newVal) {
 			if (newVal) {
 				this.form.title = newVal.title || ''
+				this.form.key = newVal.key || ''
 				this.form.description = newVal.description || ''
 				this.form.color = newVal.color || '#0082c9'
 				this.form.icon = newVal.icon || ''
+				this.form.portfolio = this.portfolioOption(newVal)
+				this.form.parent = this.parentOption(newVal)
+				this.form.autoSchedule = newVal.autoSchedule === true
+				this.fieldForm = { ...(newVal.customFields || {}) }
+				this.missingFields = []
+				this.loadActions()
 			}
 		},
 	},
 
+	/**
+	 * Load the portfolios for the Portfolio field.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
+	 */
+	async mounted() {
+		const [portfolios, fields] = await Promise.all([
+			this.projectsStore.fetchPortfolios(),
+			this.projectsStore.fetchProjectFields(),
+			this.projectsStore.projects.length ? Promise.resolve() : this.projectsStore.fetchProjects(),
+		])
+		this.portfolios = portfolios
+		this.projectFields = sortFields(fields)
+		this.fieldForm = { ...(this.project?.customFields || {}) }
+		this.form.portfolio = this.portfolioOption(this.project)
+		this.form.parent = this.parentOption(this.project)
+		this.loadActions()
+	},
+
 	methods: {
+		/**
+		 * Read the lifecycle actions OpenRegister offers on the project.
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.4
+		 */
+		async loadActions() {
+			this.projectActions = this.project?.id ? await this.projectsStore.fetchProjectActions(this.project.id) : null
+		},
+
+		/**
+		 * Restore the archived project, then show Archive again.
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.4
+		 */
+		async doRestore() {
+			const restored = await this.projectsStore.restoreProject(this.project.id)
+			if (!restored) {
+				showError(this.t('planninq', 'Could not restore the project'))
+				return
+			}
+			showSuccess(this.t('planninq', 'Project restored'))
+			this.$emit('restored', restored)
+			await this.loadActions()
+		},
+
+		/**
+		 * The option of a project's portfolio, or No portfolio.
+		 *
+		 * @param {object} project The project.
+		 * @return {{id: string, label: string}}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
+		 */
+		portfolioOption(project) {
+			const id = portfolioIdOf(project)
+			return this.portfolioOptions.find((option) => option.id === id) || this.portfolioOptions[0]
+		},
+
+		/**
+		 * The option of a project's parent, or No parent project.
+		 *
+		 * @param {object} project The project.
+		 * @return {{id: string, label: string}}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
+		 */
+		parentOption(project) {
+			const id = parentIdOf(project)
+			return this.parentChoices.find((option) => option.id === id) || this.parentChoices[0]
+		},
+
 		/**
 		 * Persist title/description/color/icon edits via updateProject.
 		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.1
 		 */
 		async saveDetails() {
+			this.missingFields = missingRequired(this.projectFields, this.fieldForm)
+			if (this.missingFields.length) {
+				return
+			}
 			this.saving = true
+			const firstKey = !this.project.key && !!normaliseProjectKey(this.form.key)
 			try {
-				await this.projectsStore.updateProject(this.project.id, {
+				const saved = await this.projectsStore.updateProject(this.project.id, {
+					// A PUT nulls what it is not sent, so the key always goes along.
+					key: this.canEditKey ? (normaliseProjectKey(this.form.key) || null) : (this.project.key || null),
 					title: this.form.title.trim(),
 					description: this.form.description.trim() || undefined,
 					color: this.form.color,
 					icon: this.form.icon.trim() || undefined,
+					portfolio: this.form.portfolio?.id || null,
+					parent: this.form.parent?.id || null,
+					autoSchedule: this.form.autoSchedule === true,
+					customFields: { ...(this.project.customFields || {}), ...this.clearedFields(), ...customFieldValues(this.projectFields, this.fieldForm) },
 					// Always include existing members and owner so a PATCH/PUT does not wipe them
 					members: Array.isArray(this.project.members) ? this.project.members : [],
 					owner: this.project.owner || undefined,
 				})
-				showSuccess(this.t('planninq', 'Project saved'))
+				if (!saved) {
+					showError(this.saveFailure(this.projectsStore.error))
+					this.form.parent = this.parentOption(this.project)
+					return
+				}
+				showSuccess(firstKey
+					? this.t('planninq', 'Project saved. The existing tasks get their numbers in the background.')
+					: this.t('planninq', 'Project saved'))
 			} catch {
 				showError(this.t('planninq', 'Could not save project'))
 			} finally {
@@ -318,10 +762,130 @@ export default {
 		},
 
 		/**
-		 * @spec exclude Event-wiring glue — refreshes the project after a member is added.
+		 * The defined fields emptied in the form, so a cleared value is removed rather than kept.
+		 *
+		 * @return {object}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.3
 		 */
-		onMemberAdded() {
+		clearedFields() {
+			return Object.fromEntries(this.projectFields.map((field) => [field.key, undefined]))
+		},
+
+		/**
+		 * The message for a project save the server refused.
+		 *
+		 * @param {string} error The store's error text.
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
+		 */
+		saveFailure(error) {
+			const key = {
+				used: this.t('planninq', 'This key is already used by another project.'),
+				format: this.t('planninq', 'Use 2 to 10 letters and digits, starting with a letter.'),
+				fixed: this.t('planninq', 'The key cannot change once tasks carry it.'),
+			}[keyRefusal(error)]
+			if (key) {
+				return key
+			}
+			return {
+				cycle: this.t('planninq', 'A project cannot sit under one of its own subprojects.'),
+				depth: this.t('planninq', 'Projects nest three levels deep at most: programme, project and subproject.'),
+			}[parentRefusal(error)] || this.t('planninq', 'Could not save project')
+		},
+
+		/**
+		 * Remember the owning group's name and refresh the project after it changes.
+		 *
+		 * @param {object} group The group picked, `{ id, name }`, with id null when cleared.
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 */
+		onOwnerGroupChanged(group) {
+			if (group?.id && group.name) {
+				this.memberGroupNames = { ...this.memberGroupNames, [group.id]: group.name }
+			}
 			this.projectsStore.fetchProject(this.project.id)
+		},
+
+		/**
+		 * Remember the picked name and refresh the project after a member is added.
+		 *
+		 * @param {object} option The person or group added.
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+		 */
+
+		onMemberAdded(option) {
+			if (option?.type === 'group') {
+				this.memberGroupNames = { ...this.memberGroupNames, [option.id]: option.displayName }
+			} else if (option?.id) {
+				this.memberNames = { ...this.memberNames, [option.id]: option.displayName }
+			}
+			this.projectsStore.fetchProject(this.project.id)
+		},
+
+		/**
+		 * The word for a role.
+		 *
+		 * @param {string} role A role.
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 */
+		roleLabel(role) {
+			return {
+				owner: this.t('planninq', 'Owner'),
+				manager: this.t('planninq', 'Manager'),
+				member: this.t('planninq', 'Member'),
+				viewer: this.t('planninq', 'Viewer'),
+			}[role] || role
+		},
+
+		/**
+		 * The picker option for a role.
+		 *
+		 * @param {string} role A role.
+		 * @return {{id: string, label: string}}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 */
+		roleOption(role) {
+			return { id: role, label: this.roleLabel(role) }
+		},
+
+		/**
+		 * Give a person or a group another role.
+		 *
+		 * @param {object} entry The Members tab row.
+		 * @param {{id: string}|null} option The picked role.
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.4
+		 */
+		async changeRole(entry, option) {
+			if (!option || option.id === entry.role) {
+				return
+			}
+			const updated = await this.projectsStore.setMemberRole(this.project.id, entry.id, entry.type, option.id)
+			if (!updated) {
+				showError(this.t('planninq', 'Could not change the role'))
+			}
+		},
+
+		/**
+		 * Stop sharing the project with a group.
+		 *
+		 * @param {string} gid The group id.
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+		 */
+		async removeGroup(gid) {
+			try {
+				await this.projectsStore.setMemberRole(this.project.id, gid, 'group', null)
+			} catch {
+				showError(this.t('planninq', 'Could not remove the group'))
+			}
 		},
 
 		/**
@@ -419,6 +983,11 @@ export default {
 	gap: 4px;
 }
 
+.project-settings-sidebar__error {
+	margin: 4px 0 0;
+	color: var(--color-error-text);
+}
+
 .project-settings-sidebar__label {
 	font-size: 13px;
 	font-weight: 500;
@@ -456,8 +1025,29 @@ export default {
 }
 
 .project-settings-sidebar__member-name {
+	display: flex;
 	flex: 1;
+	flex-direction: column;
 	font-size: 14px;
+}
+
+.project-settings-sidebar__hint {
+	margin: 0 0 8px;
+	color: var(--color-text-maxcontrast);
+}
+
+.project-settings-sidebar__role {
+	min-width: 140px;
+}
+
+.project-settings-sidebar__role-name {
+	font-size: 13px;
+	color: var(--color-text-maxcontrast);
+}
+
+.project-settings-sidebar__member-note {
+	font-size: 13px;
+	color: var(--color-text-maxcontrast);
 }
 
 .project-settings-sidebar__member-actions {
@@ -491,5 +1081,10 @@ export default {
 	align-items: center;
 	gap: 8px;
 	flex-wrap: wrap;
+}
+
+.project-settings-sidebar__hint {
+	margin: 0 0 calc(var(--default-grid-baseline) * 2);
+	color: var(--color-text-maxcontrast);
 }
 </style>

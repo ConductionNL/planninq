@@ -31,7 +31,9 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 
 use OCA\Planninq\Controller\ProjectController;
+use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\SettingsService;
+use OCA\Planninq\Service\WorkItemKeyService;
 use OCA\Planninq\Tests\Unit\Support\ObjectServiceDouble;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -83,6 +85,8 @@ class ProjectControllerTest extends TestCase {
 	 */
 	private LoggerInterface&MockObject $logger;
 
+	private BoardColumnService&MockObject $boardColumns;
+
 	/**
 	 * The controller under test.
 	 *
@@ -103,6 +107,7 @@ class ProjectControllerTest extends TestCase {
 		$this->userSession = $this->createMock(originalClassName: IUserSession::class);
 		$this->container = $this->createMock(originalClassName: ContainerInterface::class);
 		$this->logger = $this->createMock(originalClassName: LoggerInterface::class);
+		$this->boardColumns = $this->createMock(originalClassName: BoardColumnService::class);
 
 		$this->controller = new ProjectController(
 			request: $this->request,
@@ -110,6 +115,8 @@ class ProjectControllerTest extends TestCase {
 			userSession: $this->userSession,
 			container: $this->container,
 			logger: $this->logger,
+			boardColumns: $this->boardColumns,
+			keys: $this->createMock(originalClassName: WorkItemKeyService::class),
 		);
 
 	}//end setUp()
@@ -271,6 +278,13 @@ class ProjectControllerTest extends TestCase {
 
 		$this->request->method('getParams')->willReturn(['title' => 'My Project']);
 
+		// Scenario "The admin changed the defaults": the new project gets its
+		// columns on the server, in the same request that creates it.
+		$this->boardColumns->expects($this->once())
+			->method('createDefaultColumns')
+			->with('new-uuid')
+			->willReturn([]);
+
 		$result = $this->controller->create();
 
 		self::assertSame(expected: Http::STATUS_CREATED, actual: $result->getStatus());
@@ -384,6 +398,123 @@ class ProjectControllerTest extends TestCase {
 		self::assertSame(expected: Http::STATUS_SERVICE_UNAVAILABLE, actual: $result->getStatus());
 
 	}//end testLeaveProjectReturnsServiceUnavailableWhenORUnavailable()
+
+	/**
+	 * Run leaveProject as `$uid` on a project and return the status and the saved payload.
+	 *
+	 * @param string              $uid     The caller.
+	 * @param array<string,mixed> $project The stored project.
+	 *
+	 * @return array{0:int,1:array<string,mixed>|null}
+	 */
+	private function leaveAs(string $uid, array $project): array {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn($uid);
+		$this->userSession->method('getUser')->willReturn($user);
+
+		$entity = new class($project) {
+			/**
+			 * @param array<string,mixed> $project The project.
+			 */
+			public function __construct(private array $project) {
+			}//end __construct()
+
+			/**
+			 * @return array<string,mixed>
+			 */
+			public function getObject(): array {
+				return $this->project;
+			}//end getObject()
+
+			/**
+			 * @return array<string,mixed>
+			 */
+			public function jsonSerialize(): array {
+				return $this->project;
+			}//end jsonSerialize()
+		};
+
+		$saved = null;
+		$objectService = $this->createMock(originalClassName: ObjectServiceDouble::class);
+		$objectService->method('find')->willReturn($entity);
+		$objectService->method('saveObject')->willReturnCallback(
+			function () use ($entity, &$saved) {
+				$saved = (func_get_args()[0] ?? null);
+				return $entity;
+			}
+		);
+		$this->container->method('get')->willReturn($objectService);
+
+		$result = $this->controller->leaveProject('project-uuid-1');
+		return [$result->getStatus(), $saved];
+	}//end leaveAs()
+
+	/**
+	 * Task 5.2: the owner who leaves is taken off every list, and a manager takes over before a member.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 *
+	 * @return void
+	 */
+	public function testLeaveProjectClearsEveryListAndPrefersAManager(): void {
+		[$status, $saved] = $this->leaveAs(
+			uid: 'alice',
+			project: ['owner' => 'alice', 'managers' => ['alice', 'zed'], 'members' => ['alice', 'bob', 'carol'], 'viewers' => ['alice', 'vera']]
+		);
+
+		self::assertSame(Http::STATUS_OK, $status);
+		self::assertSame('zed', ($saved['owner'] ?? null));
+		self::assertSame(['zed'], $saved['managers']);
+		self::assertSame(['bob', 'carol'], $saved['members']);
+		self::assertSame(['vera'], $saved['viewers']);
+	}//end testLeaveProjectClearsEveryListAndPrefersAManager()
+
+	/**
+	 * Task 5.2: a viewer, who is on no members list, can leave too.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 *
+	 * @return void
+	 */
+	public function testAViewerLeavesTheProject(): void {
+		[$status, $saved] = $this->leaveAs(uid: 'vera', project: ['owner' => 'olga', 'members' => ['olga'], 'viewers' => ['vera']]);
+
+		self::assertSame(Http::STATUS_OK, $status);
+		self::assertSame('olga', $saved['owner']);
+		self::assertSame(['olga'], $saved['members']);
+		self::assertSame([], $saved['viewers']);
+	}//end testAViewerLeavesTheProject()
+
+	/**
+	 * Task 5.1: a project owned by a group outlives its creator. The owner may
+	 * leave though no other person is on it, and keeps no owner rights.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+	 *
+	 * @return void
+	 */
+	public function testTheOwnerLeavesAProjectTheirGroupOwns(): void {
+		[$status, $saved] = $this->leaveAs(uid: 'alice', project: ['owner' => 'alice', 'members' => ['alice'], 'ownerGroups' => ['infra']]);
+
+		self::assertSame(Http::STATUS_OK, $status);
+		self::assertSame('', $saved['owner']);
+		self::assertSame([], $saved['members']);
+		self::assertSame(['infra'], $saved['ownerGroups']);
+	}//end testTheOwnerLeavesAProjectTheirGroupOwns()
+
+	/**
+	 * Task 5.1: with an owning group and a manager, the manager still takes over.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+	 *
+	 * @return void
+	 */
+	public function testAManagerStillTakesOverAGroupOwnedProject(): void {
+		[$status, $saved] = $this->leaveAs(uid: 'alice', project: ['owner' => 'alice', 'managers' => ['zed'], 'members' => ['alice'], 'ownerGroups' => ['infra']]);
+
+		self::assertSame(Http::STATUS_OK, $status);
+		self::assertSame('zed', $saved['owner']);
+	}//end testAManagerStillTakesOverAGroupOwnedProject()
 
 	/**
 	 * WF2: When the project owner leaves, ownership transfers to the

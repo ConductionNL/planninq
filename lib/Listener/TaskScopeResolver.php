@@ -64,6 +64,18 @@ class TaskScopeResolver {
 	public const PROJECT_SCHEMA_SLUG = 'project';
 
 	/**
+	 * Schema slugs already resolved in this request, keyed `registerId:schemaId`.
+	 *
+	 * An empty string means "not a planninq schema". ObjectUpdatingEvent has no
+	 * `getObject()`, so OpenRegister's subscription proxy cannot narrow it by
+	 * schema and a pre-update listener sees every update on the instance; this
+	 * keeps the answer for a pair it has already seen to one lookup.
+	 *
+	 * @var array<string,string>
+	 */
+	private array $schemaSlugCache = [];
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ContainerInterface $container DI container (resolves OR services at runtime).
@@ -96,6 +108,34 @@ class TaskScopeResolver {
 
 		return $this->resolveSlug(service: 'OCA\\OpenRegister\\Db\\SchemaMapper', id: $schemaId) === self::TASK_SCHEMA_SLUG;
 	}//end isPlanninqTask()
+
+	/**
+	 * The schema slug of a register/schema id pair, when the register is planninq.
+	 *
+	 * @param string $registerId The OR register id from the event object.
+	 * @param string $schemaId The OR schema id from the event object.
+	 *
+	 * @return string The schema slug, or '' for another register or an unresolvable pair.
+	 *
+	 * @spec openspec/specs/tasks.md
+	 */
+	public function planninqSchemaSlug(string $registerId, string $schemaId): string {
+		if ($registerId === '' || $schemaId === '') {
+			return '';
+		}
+
+		$key = $registerId . ':' . $schemaId;
+		if (array_key_exists($key, $this->schemaSlugCache) === false) {
+			$slug = '';
+			if ($this->resolveSlug(service: 'OCA\\OpenRegister\\Db\\RegisterMapper', id: $registerId) === self::REGISTER_SLUG) {
+				$slug = $this->resolveSlug(service: 'OCA\\OpenRegister\\Db\\SchemaMapper', id: $schemaId);
+			}
+
+			$this->schemaSlugCache[$key] = $slug;
+		}
+
+		return $this->schemaSlugCache[$key];
+	}//end planninqSchemaSlug()
 
 	/**
 	 * Fetch the member ids of a project (plus its owner) from OpenRegister.

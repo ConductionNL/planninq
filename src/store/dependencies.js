@@ -1,3 +1,5 @@
+import { buildHeaders } from '@conduction/nextcloud-vue'
+import { generateUrl } from '@nextcloud/router'
 /**
  * Dependencies Pinia store.
  *
@@ -9,8 +11,6 @@
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
  */
 import { defineStore } from 'pinia'
-import { buildHeaders } from '@conduction/nextcloud-vue'
-import { generateUrl } from '@nextcloud/router'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
 // `planninq` together with the MigrateRegisterSlug repair step, which renames
@@ -43,7 +43,8 @@ export const useDependenciesStore = defineStore('dependencies', {
 			this.loading = true
 			this.error = null
 			try {
-				const url = generateUrl(`/apps/openregister/api/objects/${REGISTER}/${DEPENDENCY_SCHEMA}`)
+				// _limit: OpenRegister pages at 20, which dropped links on any busy instance.
+				const url = generateUrl(`/apps/openregister/api/objects/${REGISTER}/${DEPENDENCY_SCHEMA}?_limit=1000`)
 				const response = await fetch(url, { headers: buildHeaders() })
 				if (!response.ok) {
 					this.edges = []
@@ -55,9 +56,10 @@ export const useDependenciesStore = defineStore('dependencies', {
 					id: row.id || row['@self']?.id,
 					blocker: row.blocker,
 					blocked: row.blocked,
+					type: row.type || 'blocks',
 				}))
 				return this.edges
-			} catch (err) {
+			} catch {
 				this.edges = []
 				return []
 			} finally {
@@ -74,17 +76,18 @@ export const useDependenciesStore = defineStore('dependencies', {
 		 *
 		 * @param {string} blocker UUID of the blocking task.
 		 * @param {string} blocked UUID of the blocked task.
+		 * @param {string} [type] The link type, `blocks` by default.
 		 * @return {Promise<object>} The created edge.
 		 *
 		 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
 		 */
-		async createEdge(blocker, blocked) {
+		async createEdge(blocker, blocked, type = 'blocks') {
 			this.error = null
 			const url = generateUrl('/apps/planninq/api/dependencies')
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: buildHeaders(),
-				body: JSON.stringify({ blocker, blocked }),
+				body: JSON.stringify({ blocker, blocked, type }),
 			})
 			if (!response.ok) {
 				const body = await response.json().catch(() => ({}))
@@ -96,6 +99,7 @@ export const useDependenciesStore = defineStore('dependencies', {
 				id: edge.id || edge['@self']?.id,
 				blocker: edge.blocker ?? blocker,
 				blocked: edge.blocked ?? blocked,
+				type: edge.type ?? type,
 			}
 			this.edges = [...this.edges, normalised]
 			return normalised

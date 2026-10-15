@@ -3,12 +3,14 @@
   "info": {
     "title": "planninq demo data",
     "version": "1.0.0",
-    "description": "Demo data covering every schema this app supplies, offered as the first step of the app's setup walkthrough. Generated from the schemas themselves, so every object satisfies the schema that will validate it."
+    "description": "Example data for planninq: three projects with their boards, phases, tasks, dependencies, logged time, risks, status reports, finance lines and portfolios, plus a few timetable sessions. Every person in it is the admin who loads it, and every date is placed around the day it is loaded."
   },
   "x-openregister": {
     "type": "mock",
     "app": "planninq",
-    "description": "Demo data for planninq. NOT installed automatically — a mock register is imported on demand, from the setup walkthrough or `occ openregister:descriptors:list --app=planninq --import=<slug>`."
+    "description": "Demo data for planninq. NOT installed automatically — a mock register is imported on demand, from the setup walkthrough or `occ openregister:descriptors:list --app=planninq --import=<slug>`.",
+    "anchorDate": "2026-10-01",
+    "operatorPlaceholder": "@operator"
   },
   "paths": {},
   "components": {
@@ -20,1168 +22,1829 @@
         "description": "Demo data for Planninq. Generated from the register's own schemas — see hydra-gates/scripts/lib/generate_mock_register.py."
       }
     },
-    "schemas": {
-      "column": {
-        "slug": "column",
-        "icon": "ViewColumnOutline",
-        "version": "0.1.2",
-        "title": "Column",
-        "description": "A kanban column belonging to a project. Maps to schema:DefinedTerm.",
-        "x-schema-org": "schema:DefinedTerm",
-        "type": "object",
-        "required": [
-          "title",
-          "project",
-          "order"
-        ],
-        "authorization": {
-          "read": [
-            {
-              "group": "authenticated",
-              "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ],
-          "create": [
-            {
-              "group": "authenticated",
-              "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ],
-          "update": [
-            {
-              "group": "authenticated",
-              "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ],
-          "delete": [
-            {
-              "group": "authenticated",
-              "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ]
-        },
-        "properties": {
-          "title": {
-            "title": "Column Heading",
-            "type": "string",
-            "description": "Column heading (e.g. 'In Progress')"
-          },
-          "project": {
-            "title": "Project",
-            "type": "string",
-            "description": "UUID of the parent Project",
-            "format": "uuid",
-            "$ref": "project"
-          },
-          "order": {
-            "title": "Display Order",
-            "type": "integer",
-            "description": "Left-to-right display order (0-based)",
-            "default": 0
-          },
-          "wipLimit": {
-            "title": "WIP Limit",
-            "type": "integer",
-            "description": "Work-in-progress limit (null = unlimited)",
-            "nullable": true
-          },
-          "color": {
-            "title": "Header Colour",
-            "type": "string",
-            "description": "Hex colour code for the column header",
-            "pattern": "^#[0-9A-Fa-f]{6}$"
-          },
-          "type": {
-            "title": "Column Type",
-            "type": "string",
-            "description": "Functional type: active columns hold in-flight work; done columns auto-complete tasks",
-            "enum": [
-              "active",
-              "done"
-            ],
-            "default": "active"
-          }
-        }
-      },
-      "dependency": {
-        "slug": "dependency",
-        "icon": "VectorPolyline",
-        "version": "0.2.0",
-        "title": "Dependency",
-        "description": "A directed dependency edge between two tasks of the same project (blocker → blocked). One row per directed edge. Maps to schema:Action.",
-        "x-schema-org": "schema:Action",
-        "type": "object",
-        "required": [
-          "blocker",
-          "blocked"
-        ],
-        "authorization": {
-          "read": [
-            {
-              "group": "authenticated"
-            },
-            {
-              "group": "admin"
-            }
-          ],
-          "create": [
-            "admin"
-          ],
-          "update": [
-            "admin"
-          ],
-          "delete": [
-            "admin"
-          ]
-        },
-        "properties": {
-          "blocker": {
-            "title": "Blocker Task",
-            "type": "string",
-            "description": "UUID of the task that blocks (must complete before the blocked task can proceed)",
-            "format": "uuid",
-            "$ref": "task"
-          },
-          "blocked": {
-            "title": "Blocked Task",
-            "type": "string",
-            "description": "UUID of the task that is blocked (waits on the blocker)",
-            "format": "uuid",
-            "$ref": "task"
-          },
-          "type": {
-            "title": "Link Type",
-            "type": "string",
-            "description": "Kind of relation the edge expresses. blocks keeps the original blocker/blocked semantics; other values model non-blocking links between work items.",
-            "enum": [
-              "blocks",
-              "relates",
-              "duplicates",
-              "clones",
-              "splits",
-              "causes"
-            ],
-            "default": "blocks"
-          }
-        }
-      },
-      "label": {
-        "slug": "label",
-        "icon": "TagOutline",
-        "version": "0.1.0",
-        "title": "Label",
-        "description": "A colour-coded tag applicable to tasks and projects. Maps to schema:DefinedTerm.",
-        "x-schema-org": "schema:DefinedTerm",
-        "type": "object",
-        "required": [
-          "title",
-          "color"
-        ],
-        "authorization": {
-          "read": [
-            "authenticated"
-          ],
-          "create": [
-            "admin"
-          ],
-          "update": [
-            "admin"
-          ],
-          "delete": [
-            "admin"
-          ]
-        },
-        "properties": {
-          "title": {
-            "title": "Label Name",
-            "type": "string",
-            "description": "Label display name"
-          },
-          "color": {
-            "title": "Colour",
-            "type": "string",
-            "description": "Hex colour for the label chip",
-            "pattern": "^#[0-9A-Fa-f]{6}$",
-            "default": "#4376FC"
-          },
-          "description": {
-            "title": "Usage Guidance",
-            "type": "string",
-            "description": "Optional explanation of when to use this label"
-          }
-        }
-      },
-      "project": {
-        "slug": "project",
-        "icon": "FolderOutline",
-        "version": "0.2.0",
-        "title": "Project",
-        "description": "A container grouping related tasks and kanban columns. Maps to schema:CreativeWork.",
-        "x-schema-org": "schema:CreativeWork",
-        "type": "object",
-        "required": [
-          "title",
-          "status"
-        ],
-        "authorization": {
-          "read": [
-            {
-              "group": "authenticated",
-              "match": {
-                "members": {
-                  "$contains": "$userId"
-                }
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ],
-          "create": [
-            "admin"
-          ],
-          "update": [
-            {
-              "group": "authenticated",
-              "match": {
-                "owner": "$userId"
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ],
-          "delete": [
-            {
-              "group": "authenticated",
-              "match": {
-                "owner": "$userId"
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ]
-        },
-        "properties": {
-          "title": {
-            "title": "Project Name",
-            "type": "string",
-            "description": "Project name"
-          },
-          "description": {
-            "title": "Description",
-            "type": "string",
-            "description": "Purpose and scope of the project"
-          },
-          "status": {
-            "title": "Status",
-            "type": "string",
-            "description": "Project lifecycle status",
-            "enum": [
-              "active",
-              "archived",
-              "completed"
-            ],
-            "default": "active"
-          },
-          "color": {
-            "title": "Colour",
-            "type": "string",
-            "description": "Hex colour code for visual identification",
-            "pattern": "^#[0-9A-Fa-f]{6}$"
-          },
-          "icon": {
-            "title": "Icon",
-            "type": "string",
-            "description": "Emoji or MDI icon name"
-          },
-          "owner": {
-            "title": "Owner",
-            "type": "string",
-            "description": "Nextcloud user UID of the project creator. Set automatically on creation; used for delete authorization and creator-based RBAC."
-          },
-          "members": {
-            "title": "Members",
-            "type": "array",
-            "description": "Nextcloud user UIDs of project members",
-            "items": {
-              "type": "string"
-            },
-            "default": []
-          },
-          "contractorRefs": {
-            "title": "Contractors",
-            "type": "array",
-            "description": "UUID references to contractor contact/domain objects with portal visibility of this project — the portal-subject scoping key; distinct from members which are Nextcloud user ids",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "default": []
-          },
-          "defaultAssignee": {
-            "title": "Default Assignee",
-            "type": "string",
-            "description": "Nextcloud user UID who receives new tasks by default"
-          },
-          "caseReference": {
-            "title": "Case Reference",
-            "type": "string",
-            "description": "UUID of a linked Procest case",
-            "format": "uuid",
-            "nullable": true
-          },
-          "labels": {
-            "title": "Labels",
-            "type": "array",
-            "description": "UUIDs of Label objects available within this project",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "default": []
-          },
-          "key": {
-            "title": "Key",
-            "type": "string",
-            "description": "Short unique project key used as the prefix of task keys (e.g. PLX). Preserved from the source system on import.",
-            "nullable": true
-          },
-          "metadata": {
-            "title": "Metadata",
-            "type": "object",
-            "description": "Declared catch-all for source-system fields and provenance keys (e.g. jiraProjectId, migratedAt). Declared explicitly so magic-table storage persists it.",
-            "default": {}
-          }
-        }
-      },
-      "task": {
-        "slug": "task",
-        "icon": "CheckboxMarkedCircleOutline",
-        "version": "0.2.0",
-        "title": "Task",
-        "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
-        "x-schema-org": "schema:PlanAction",
-        "type": "object",
-        "required": [
-          "title",
-          "status"
-        ],
-        "authorization": {
-          "read": [
-            {
-              "group": "authenticated",
-              "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ],
-          "create": [
-            {
-              "group": "authenticated",
-              "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ],
-          "update": [
-            {
-              "group": "authenticated",
-              "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ],
-          "delete": [
-            {
-              "group": "authenticated",
-              "match": {
-                "project": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "project",
-                      "field": "id",
-                      "where": {
-                        "members": {
-                          "$contains": "$userId"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ]
-        },
-        "x-openregister-notifications": {
-          "taskDueSoon": {
-            "trigger": {
-              "type": "scheduled",
-              "intervalSec": 3600,
-              "filter": {
-                "dueDate": {
-                  "operator": "withinNext",
-                  "value": "PT24H"
-                },
-                "status": {
-                  "operator": "notEquals",
-                  "value": "done"
-                }
-              }
-            },
-            "enabled": true,
-            "channels": [
-              "nc-notification"
-            ],
-            "recipients": [
-              {
-                "kind": "field",
-                "field": "assignedTo"
-              }
-            ],
-            "subject": {
-              "en": "Task \"{{title}}\" is due soon",
-              "nl": "Taak \"{{title}}\" moet binnenkort af"
-            }
-          }
-        },
-        "properties": {
-          "title": {
-            "title": "Task Title",
-            "type": "string",
-            "description": "Short title of the task"
-          },
-          "description": {
-            "title": "Description",
-            "type": "string",
-            "description": "Detailed description"
-          },
-          "status": {
-            "title": "Status",
-            "type": "string",
-            "description": "Current lifecycle status",
-            "enum": [
-              "open",
-              "in_progress",
-              "blocked",
-              "done",
-              "cancelled"
-            ],
-            "default": "open"
-          },
-          "priority": {
-            "title": "Priority",
-            "type": "string",
-            "description": "Priority level",
-            "enum": [
-              "low",
-              "normal",
-              "high",
-              "urgent"
-            ],
-            "default": "normal"
-          },
-          "project": {
-            "title": "Project",
-            "type": "string",
-            "description": "UUID of the parent Project",
-            "format": "uuid",
-            "$ref": "project"
-          },
-          "zaakUuid": {
-            "title": "Zaak UUID",
-            "type": "string",
-            "description": "UUID of a linked Procest zaak",
-            "format": "uuid",
-            "nullable": true
-          },
-          "column": {
-            "title": "Column",
-            "type": "string",
-            "description": "UUID of the kanban Column (null = backlog)",
-            "format": "uuid",
-            "nullable": true,
-            "$ref": "column"
-          },
-          "columnOrder": {
-            "title": "Column Order",
-            "type": "integer",
-            "description": "Sort order within the column",
-            "default": 0
-          },
-          "assignedTo": {
-            "title": "Assigned To",
-            "type": "string",
-            "description": "Nextcloud user UID of the assignee"
-          },
-          "contractorRef": {
-            "title": "Contractor",
-            "type": "string",
-            "description": "UUID reference to the contractor contact/domain object — the portal-subject scoping key; distinct from assignedTo which is the Nextcloud user id",
-            "format": "uuid",
-            "nullable": true,
-            "x-external-register": "openregister"
-          },
-          "dueDate": {
-            "title": "Due Date",
-            "type": "string",
-            "description": "Due date in ISO 8601 format",
-            "format": "date"
-          },
-          "startDate": {
-            "title": "Start Date",
-            "type": "string",
-            "description": "Start date in ISO 8601 format",
-            "format": "date"
-          },
-          "estimatedDuration": {
-            "title": "Estimated Duration",
-            "type": "integer",
-            "description": "Estimated effort in minutes"
-          },
-          "percentComplete": {
-            "title": "Percent Complete",
-            "type": "integer",
-            "description": "Completion percentage (0–100)",
-            "minimum": 0,
-            "maximum": 100,
-            "default": 0
-          },
-          "labels": {
-            "title": "Labels",
-            "type": "array",
-            "description": "UUIDs of linked Label objects",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "default": []
-          },
-          "parent": {
-            "title": "Parent Task",
-            "type": "string",
-            "description": "UUID of the parent Task (sub-task support)",
-            "format": "uuid",
-            "nullable": true,
-            "$ref": "task"
-          },
-          "calendarEventUid": {
-            "title": "Calendar Event UID",
-            "type": "string",
-            "description": "UID of the linked NC Tasks / CalDAV VTODO event",
-            "nullable": true
-          },
-          "completedAt": {
-            "title": "Completed At",
-            "type": "string",
-            "description": "ISO 8601 datetime when the task was completed",
-            "format": "date-time",
-            "nullable": true
-          },
-          "issueType": {
-            "title": "Issue Type",
-            "type": "string",
-            "description": "Work-item type (e.g. task, story, bug, epic, subtask, incident). Free string so imported vocabularies survive.",
-            "default": "task"
-          },
-          "key": {
-            "title": "Key",
-            "type": "string",
-            "description": "Human-readable unique work-item key (e.g. PLX-123). Preserved from the source system on import so historical references stay resolvable.",
-            "nullable": true
-          },
-          "reporter": {
-            "title": "Reporter",
-            "type": "string",
-            "description": "Nextcloud user UID (or imported identity) of the person who reported or created the work item",
-            "nullable": true
-          },
-          "resolution": {
-            "title": "Resolution",
-            "type": "string",
-            "description": "Resolution label recorded when the task is closed (e.g. done, wont-do, duplicate)",
-            "nullable": true
-          },
-          "resolvedAt": {
-            "title": "Resolved At",
-            "type": "string",
-            "description": "ISO 8601 datetime when the task was resolved",
-            "format": "date-time",
-            "nullable": true
-          },
-          "storyPoints": {
-            "title": "Story Points",
-            "type": "number",
-            "description": "Story-point estimate",
-            "nullable": true
-          },
-          "remainingEstimate": {
-            "title": "Remaining Estimate",
-            "type": "integer",
-            "description": "Remaining effort in minutes (complements estimatedDuration)",
-            "nullable": true
-          },
-          "watchers": {
-            "title": "Watchers",
-            "type": "array",
-            "description": "Nextcloud user UIDs watching this task for notifications",
-            "items": {
-              "type": "string"
-            },
-            "default": []
-          },
-          "epic": {
-            "title": "Epic",
-            "type": "string",
-            "description": "UUID of the epic-level Task this task belongs to (epic hierarchy; distinct from parent, which models sub-tasks)",
-            "format": "uuid",
-            "nullable": true,
-            "$ref": "task"
-          },
-          "metadata": {
-            "title": "Metadata",
-            "type": "object",
-            "description": "Declared catch-all for source-system fields: imported custom fields and provenance keys (e.g. jiraKey, jiraId, migratedAt). Declared explicitly so magic-table storage persists it.",
-            "default": {}
-          }
-        }
-      },
-      "timeEntry": {
-        "slug": "timeEntry",
-        "icon": "TimerOutline",
-        "version": "0.1.3",
-        "title": "Time Entry",
-        "description": "Time logged by a user against a task. Maps to schema:QuantitativeValue.",
-        "x-schema-org": "schema:QuantitativeValue",
-        "type": "object",
-        "required": [
-          "task",
-          "user",
-          "duration",
-          "date"
-        ],
-        "authorization": {
-          "read": [
-            {
-              "group": "authenticated",
-              "match": {
-                "user": "$userId"
-              }
-            },
-            {
-              "group": "authenticated",
-              "match": {
-                "task": {
-                  "$in": {
-                    "$lookup": {
-                      "schema": "task",
-                      "field": "id",
-                      "where": {
-                        "project": {
-                          "$in": {
-                            "$lookup": {
-                              "schema": "project",
-                              "field": "id",
-                              "where": {
-                                "members": {
-                                  "$contains": "$userId"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ],
-          "create": [
-            {
-              "group": "authenticated",
-              "match": {
-                "user": "$userId"
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ],
-          "update": [
-            {
-              "group": "authenticated",
-              "match": {
-                "user": "$userId"
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ],
-          "delete": [
-            {
-              "group": "authenticated",
-              "match": {
-                "user": "$userId"
-              }
-            },
-            {
-              "group": "admin"
-            }
-          ]
-        },
-        "properties": {
-          "task": {
-            "title": "Task",
-            "type": "string",
-            "description": "UUID of the related Task",
-            "format": "uuid",
-            "$ref": "task"
-          },
-          "user": {
-            "title": "User",
-            "type": "string",
-            "description": "Nextcloud user UID of the person who logged the time"
-          },
-          "contractorRef": {
-            "title": "Contractor",
-            "type": "string",
-            "description": "UUID reference to the contractor contact/domain object — the portal-subject scoping key; distinct from user which is the Nextcloud user id",
-            "format": "uuid",
-            "nullable": true,
-            "x-external-register": "openregister"
-          },
-          "duration": {
-            "title": "Duration",
-            "type": "integer",
-            "description": "Time logged in minutes"
-          },
-          "date": {
-            "title": "Work Date",
-            "type": "string",
-            "description": "Date the work was performed (ISO 8601)",
-            "format": "date"
-          },
-          "description": {
-            "title": "Note",
-            "type": "string",
-            "description": "Optional note about the work performed"
-          }
-        }
-      }
-    },
     "objects": [
       {
         "@self": {
           "register": "planninq",
-          "schema": "column",
-          "slug": "column-voorbeeld-title-1-1"
+          "schema": "projectPortfolio",
+          "slug": "demo-digital-services",
+          "id": "0000de00-0000-4000-8000-000c00000001"
         },
-        "title": "Voorbeeld Title 1",
-        "project": "00000000-0000-4000-8000-000000000000",
+        "title": "Digital services",
+        "description": "Projects that change how residents and clients reach us online.",
+        "color": "#4376FC",
+        "managers": [
+          "@operator"
+        ],
+        "order": 0
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectPortfolio",
+          "slug": "demo-infrastructure",
+          "id": "0000de00-0000-4000-8000-000c00000002"
+        },
+        "title": "Infrastructure",
+        "description": "Hosting, networks and the platforms other projects run on.",
+        "color": "#F39C12",
+        "managers": [
+          "@operator"
+        ],
+        "order": 1
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectPortfolio",
+          "slug": "demo-internal-operations",
+          "id": "0000de00-0000-4000-8000-000c00000003"
+        },
+        "title": "Internal operations",
+        "description": "Work that makes our own teams faster.",
+        "color": "#27AE60",
+        "managers": [
+          "@operator"
+        ],
+        "order": 2
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "label",
+          "slug": "demo-accessibility",
+          "id": "0000de00-0000-4000-8000-000700000001"
+        },
+        "title": "Accessibility",
+        "color": "#8E44AD",
+        "description": "Needed to meet WCAG 2.2 AA"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "label",
+          "slug": "demo-security",
+          "id": "0000de00-0000-4000-8000-000700000002"
+        },
+        "title": "Security",
+        "color": "#C0392B",
+        "description": "Affects login, access or data protection"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "label",
+          "slug": "demo-tech-debt",
+          "id": "0000de00-0000-4000-8000-000700000003"
+        },
+        "title": "Tech debt",
+        "color": "#7F8C8D",
+        "description": "Cleanup that keeps later work cheap"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectField",
+          "slug": "demo-field-department",
+          "id": "0000de00-0000-4000-8000-000e00000001"
+        },
+        "key": "department",
+        "label": "Department",
+        "type": "text",
+        "order": 0
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectField",
+          "slug": "demo-field-contract-type",
+          "id": "0000de00-0000-4000-8000-000e00000002"
+        },
+        "key": "contractType",
+        "label": "Contract type",
+        "type": "choice",
+        "options": [
+          "In-house",
+          "Supplier",
+          "Mixed"
+        ],
+        "order": 1
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectField",
+          "slug": "demo-field-go-live",
+          "id": "0000de00-0000-4000-8000-000e00000003"
+        },
+        "key": "goLiveDate",
+        "label": "Go-live date",
+        "type": "date",
+        "order": 2
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "project",
+          "slug": "demo-client-portal-v2",
+          "id": "0000de00-0000-4000-8000-000100000001"
+        },
+        "title": "Client Portal v2",
+        "description": "Redesign and rebuild the self-service client portal with NL Design System components.",
+        "status": "active",
+        "color": "#4376FC",
+        "icon": "Web",
+        "owner": "@operator",
+        "members": [
+          "@operator"
+        ],
+        "portfolio": "0000de00-0000-4000-8000-000c00000001",
+        "key": "EXPORTAL",
+        "defaultAssignee": "@operator",
+        "startDate": "2026-09-01",
+        "endDate": "2026-11-05",
+        "budgetHours": 600,
+        "budgetAmount": 120000,
+        "customFields": {
+          "department": "Customer contact",
+          "contractType": "Mixed",
+          "goLiveDate": "2026-11-05"
+        }
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "project",
+          "slug": "demo-infrastructure-migration",
+          "id": "0000de00-0000-4000-8000-000100000002"
+        },
+        "title": "Infrastructure Migration",
+        "description": "Move the on-premise services to a managed Kubernetes cluster.",
+        "status": "active",
+        "color": "#F39C12",
+        "icon": "CloudUpload",
+        "owner": "@operator",
+        "members": [
+          "@operator"
+        ],
+        "portfolio": "0000de00-0000-4000-8000-000c00000002",
+        "key": "EXINFRA",
+        "startDate": "2026-09-17",
+        "endDate": "2026-11-30",
+        "budgetHours": 400,
+        "budgetAmount": 80000,
+        "customFields": {
+          "department": "IT operations",
+          "contractType": "Supplier",
+          "goLiveDate": "2026-11-30"
+        }
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "project",
+          "slug": "demo-onboarding-automation",
+          "id": "0000de00-0000-4000-8000-000100000003"
+        },
+        "title": "Onboarding Automation",
+        "description": "Automate the onboarding of new colleagues with n8n and Nextcloud.",
+        "status": "active",
+        "color": "#27AE60",
+        "icon": "AccountMultiplePlus",
+        "owner": "@operator",
+        "members": [
+          "@operator"
+        ],
+        "portfolio": "0000de00-0000-4000-8000-000c00000003",
+        "key": "EXONBOARD",
+        "startDate": "2026-09-24",
+        "endDate": "2026-11-15",
+        "budgetHours": 160,
+        "budgetAmount": 20000,
+        "customFields": {
+          "department": "HR",
+          "contractType": "In-house"
+        }
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectPhase",
+          "slug": "demo-portal-design",
+          "id": "0000de00-0000-4000-8000-000400000001"
+        },
+        "title": "Design",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "status": "completed",
         "order": 0,
-        "wipLimit": 1,
-        "color": "#012345",
-        "type": "active"
+        "startDate": "2026-09-01",
+        "endDate": "2026-09-26",
+        "budgetHours": 120,
+        "concludingDocument": "Design sign-off"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectPhase",
+          "slug": "demo-portal-build",
+          "id": "0000de00-0000-4000-8000-000400000002"
+        },
+        "title": "Build",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "status": "in_progress",
+        "order": 1,
+        "startDate": "2026-09-27",
+        "endDate": "2026-10-21",
+        "budgetHours": 380
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectPhase",
+          "slug": "demo-portal-launch",
+          "id": "0000de00-0000-4000-8000-000400000003"
+        },
+        "title": "Launch",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "status": "open",
+        "order": 2,
+        "startDate": "2026-10-22",
+        "endDate": "2026-11-05",
+        "budgetHours": 100
       },
       {
         "@self": {
           "register": "planninq",
           "schema": "column",
-          "slug": "column-voorbeeld-title-2-2"
+          "slug": "demo-portal-to-do",
+          "id": "0000de00-0000-4000-8000-000200000001"
         },
-        "title": "Voorbeeld Title 2",
-        "project": "00000000-0000-4000-8000-000000000001",
+        "title": "To do",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
         "order": 0,
-        "wipLimit": 2,
-        "color": "#123456",
-        "type": "done"
+        "wipLimit": null,
+        "type": "active",
+        "status": "open"
       },
       {
         "@self": {
           "register": "planninq",
           "schema": "column",
-          "slug": "column-voorbeeld-title-3-3"
+          "slug": "demo-portal-in-progress",
+          "id": "0000de00-0000-4000-8000-000200000002"
         },
-        "title": "Voorbeeld Title 3",
-        "project": "00000000-0000-4000-8000-000000000002",
-        "order": 0,
+        "title": "In progress",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "order": 1,
         "wipLimit": 3,
-        "color": "#234567",
-        "type": "active"
+        "type": "active",
+        "status": "in_progress"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "column",
+          "slug": "demo-portal-review",
+          "id": "0000de00-0000-4000-8000-000200000003"
+        },
+        "title": "Review",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "order": 2,
+        "wipLimit": 2,
+        "type": "active",
+        "status": "in_progress"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "column",
+          "slug": "demo-portal-done",
+          "id": "0000de00-0000-4000-8000-000200000004"
+        },
+        "title": "Done",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "order": 3,
+        "wipLimit": null,
+        "type": "done",
+        "status": "done"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "column",
+          "slug": "demo-infra-to-do",
+          "id": "0000de00-0000-4000-8000-000200000005"
+        },
+        "title": "To do",
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "members": [
+          "@operator"
+        ],
+        "order": 0,
+        "wipLimit": null,
+        "type": "active",
+        "status": "open"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "column",
+          "slug": "demo-infra-in-progress",
+          "id": "0000de00-0000-4000-8000-000200000006"
+        },
+        "title": "In progress",
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "members": [
+          "@operator"
+        ],
+        "order": 1,
+        "wipLimit": 3,
+        "type": "active",
+        "status": "in_progress"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "column",
+          "slug": "demo-infra-review",
+          "id": "0000de00-0000-4000-8000-000200000007"
+        },
+        "title": "Review",
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "members": [
+          "@operator"
+        ],
+        "order": 2,
+        "wipLimit": 2,
+        "type": "active",
+        "status": "in_progress"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "column",
+          "slug": "demo-infra-done",
+          "id": "0000de00-0000-4000-8000-000200000008"
+        },
+        "title": "Done",
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "members": [
+          "@operator"
+        ],
+        "order": 3,
+        "wipLimit": null,
+        "type": "done",
+        "status": "done"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "column",
+          "slug": "demo-onboard-to-do",
+          "id": "0000de00-0000-4000-8000-000200000009"
+        },
+        "title": "To do",
+        "project": "0000de00-0000-4000-8000-000100000003",
+        "members": [
+          "@operator"
+        ],
+        "order": 0,
+        "wipLimit": null,
+        "type": "active",
+        "status": "open"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "column",
+          "slug": "demo-onboard-in-progress",
+          "id": "0000de00-0000-4000-8000-000200000010"
+        },
+        "title": "In progress",
+        "project": "0000de00-0000-4000-8000-000100000003",
+        "members": [
+          "@operator"
+        ],
+        "order": 1,
+        "wipLimit": 3,
+        "type": "active",
+        "status": "in_progress"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "column",
+          "slug": "demo-onboard-review",
+          "id": "0000de00-0000-4000-8000-000200000011"
+        },
+        "title": "Review",
+        "project": "0000de00-0000-4000-8000-000100000003",
+        "members": [
+          "@operator"
+        ],
+        "order": 2,
+        "wipLimit": 2,
+        "type": "active",
+        "status": "in_progress"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "column",
+          "slug": "demo-onboard-done",
+          "id": "0000de00-0000-4000-8000-000200000012"
+        },
+        "title": "Done",
+        "project": "0000de00-0000-4000-8000-000100000003",
+        "members": [
+          "@operator"
+        ],
+        "order": 3,
+        "wipLimit": null,
+        "type": "done",
+        "status": "done"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectRelease",
+          "slug": "demo-release-portal-2-0",
+          "id": "0000de00-0000-4000-8000-000f00000001"
+        },
+        "title": "Client Portal 2.0",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "description": "The new dashboard and the documented REST API.",
+        "startDate": "2026-09-21",
+        "releaseDate": "2026-10-30",
+        "status": "planned"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectRelease",
+          "slug": "demo-release-migration-cutover",
+          "id": "0000de00-0000-4000-8000-000f00000002"
+        },
+        "title": "Cluster cutover",
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "members": [
+          "@operator"
+        ],
+        "description": "Every service runs on the new cluster.",
+        "startDate": "2026-09-14",
+        "releaseDate": "2026-11-13",
+        "status": "planned"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectRelease",
+          "slug": "demo-release-onboarding-pilot",
+          "id": "0000de00-0000-4000-8000-000f00000003"
+        },
+        "title": "Onboarding pilot",
+        "project": "0000de00-0000-4000-8000-000100000003",
+        "members": [
+          "@operator"
+        ],
+        "description": "The automated onboarding flow for the first department.",
+        "startDate": "2026-09-28",
+        "releaseDate": "2026-10-23",
+        "status": "planned"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "task",
+          "slug": "demo-design-dashboard-widgets",
+          "id": "0000de00-0000-4000-8000-000300000001"
+        },
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "column": "0000de00-0000-4000-8000-000200000004",
+        "columnOrder": 0,
+        "key": "EXPORTAL-1",
+        "members": [
+          "@operator"
+        ],
+        "reporter": "@operator",
+        "title": "Design the dashboard widget layout",
+        "description": "Mock-ups for the widget dashboard, using NL Design System tokens.",
+        "status": "done",
+        "assignedTo": "@operator",
+        "phase": "0000de00-0000-4000-8000-000400000001",
+        "startDate": "2026-09-11",
+        "dueDate": "2026-09-23",
+        "completedAt": "2026-09-23T15:30:00+00:00",
+        "percentComplete": 100,
+        "labels": [
+          "0000de00-0000-4000-8000-000700000001"
+        ],
+        "estimatedDuration": 480,
+        "priority": "normal",
+        "issueType": "task"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "task",
+          "slug": "demo-fix-login-redirect",
+          "id": "0000de00-0000-4000-8000-000300000002"
+        },
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "column": "0000de00-0000-4000-8000-000200000002",
+        "columnOrder": 0,
+        "key": "EXPORTAL-2",
+        "members": [
+          "@operator"
+        ],
+        "reporter": "@operator",
+        "title": "Fix the redirect after login",
+        "description": "After signing in, people land on the start page instead of the page they asked for.",
+        "status": "in_progress",
+        "priority": "high",
+        "issueType": "bug",
+        "assignedTo": "@operator",
+        "phase": "0000de00-0000-4000-8000-000400000002",
+        "startDate": "2026-09-27",
+        "dueDate": "2026-09-29",
+        "percentComplete": 40,
+        "labels": [
+          "0000de00-0000-4000-8000-000700000002"
+        ],
+        "estimatedDuration": 240
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "task",
+          "slug": "demo-build-dashboard-widgets",
+          "id": "0000de00-0000-4000-8000-000300000003"
+        },
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "column": "0000de00-0000-4000-8000-000200000001",
+        "columnOrder": 0,
+        "key": "EXPORTAL-3",
+        "members": [
+          "@operator"
+        ],
+        "reporter": "@operator",
+        "title": "Build the dashboard widgets",
+        "description": "Build the four widgets from the approved layout.",
+        "status": "open",
+        "assignedTo": "@operator",
+        "phase": "0000de00-0000-4000-8000-000400000002",
+        "startDate": "2026-10-02",
+        "dueDate": "2026-10-08",
+        "labels": [
+          "0000de00-0000-4000-8000-000700000001"
+        ],
+        "estimatedDuration": 960,
+        "checklist": [
+          {
+            "id": "demo-1",
+            "text": "Open cases widget",
+            "done": true
+          },
+          {
+            "id": "demo-2",
+            "text": "Appointments widget",
+            "done": false
+          },
+          {
+            "id": "demo-3",
+            "text": "Messages widget",
+            "done": false
+          }
+        ],
+        "priority": "normal",
+        "issueType": "task",
+        "release": "0000de00-0000-4000-8000-000f00000001"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "task",
+          "slug": "demo-write-api-docs",
+          "id": "0000de00-0000-4000-8000-000300000004"
+        },
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "column": "0000de00-0000-4000-8000-000200000001",
+        "columnOrder": 1,
+        "key": "EXPORTAL-4",
+        "members": [
+          "@operator"
+        ],
+        "reporter": "@operator",
+        "title": "Write the REST API documentation",
+        "description": "Describe every public endpoint in OpenAPI 3 and publish it on the developer portal.",
+        "status": "open",
+        "phase": "0000de00-0000-4000-8000-000400000002",
+        "startDate": "2026-10-03",
+        "dueDate": "2026-10-15",
+        "labels": [
+          "0000de00-0000-4000-8000-000700000003"
+        ],
+        "estimatedDuration": 240,
+        "priority": "normal",
+        "issueType": "task",
+        "release": "0000de00-0000-4000-8000-000f00000001"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "task",
+          "slug": "demo-accessibility-review",
+          "id": "0000de00-0000-4000-8000-000300000005"
+        },
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "column": "0000de00-0000-4000-8000-000200000003",
+        "columnOrder": 0,
+        "key": "EXPORTAL-5",
+        "members": [
+          "@operator"
+        ],
+        "reporter": "@operator",
+        "title": "Review the accessibility audit findings",
+        "description": "Go through the audit report and turn every finding into a task.",
+        "status": "in_progress",
+        "priority": "high",
+        "assignedTo": "@operator",
+        "phase": "0000de00-0000-4000-8000-000400000002",
+        "startDate": "2026-10-09",
+        "dueDate": "2026-10-13",
+        "percentComplete": 20,
+        "labels": [
+          "0000de00-0000-4000-8000-000700000001"
+        ],
+        "issueType": "task"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "task",
+          "slug": "demo-k8s-namespaces",
+          "id": "0000de00-0000-4000-8000-000300000006"
+        },
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "column": "0000de00-0000-4000-8000-000200000005",
+        "columnOrder": 0,
+        "key": "EXINFRA-1",
+        "members": [
+          "@operator"
+        ],
+        "reporter": "@operator",
+        "title": "Set up the production namespaces",
+        "description": "Namespaces, resource quotas and network policies for production.",
+        "status": "open",
+        "priority": "urgent",
+        "assignedTo": "@operator",
+        "startDate": "2026-10-01",
+        "dueDate": "2026-10-04",
+        "labels": [
+          "0000de00-0000-4000-8000-000700000002"
+        ],
+        "estimatedDuration": 360,
+        "issueType": "task"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "task",
+          "slug": "demo-backup-policy",
+          "id": "0000de00-0000-4000-8000-000300000007"
+        },
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "column": "0000de00-0000-4000-8000-000200000006",
+        "columnOrder": 0,
+        "key": "EXINFRA-2",
+        "members": [
+          "@operator"
+        ],
+        "reporter": "@operator",
+        "title": "Agree on the backup policy",
+        "description": "How often we back up, how long we keep it, and who tests a restore.",
+        "status": "in_progress",
+        "assignedTo": "@operator",
+        "startDate": "2026-09-26",
+        "dueDate": "2026-10-06",
+        "percentComplete": 60,
+        "priority": "normal",
+        "issueType": "task"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "task",
+          "slug": "demo-retire-old-servers",
+          "id": "0000de00-0000-4000-8000-000300000008"
+        },
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "column": "0000de00-0000-4000-8000-000200000005",
+        "columnOrder": 1,
+        "key": "EXINFRA-3",
+        "members": [
+          "@operator"
+        ],
+        "reporter": "@operator",
+        "title": "Retire the old application servers",
+        "description": "Switch off the three servers once every service runs on the cluster.",
+        "status": "open",
+        "priority": "low",
+        "startDate": "2026-10-31",
+        "dueDate": "2026-11-25",
+        "labels": [
+          "0000de00-0000-4000-8000-000700000003"
+        ],
+        "issueType": "task"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "task",
+          "slug": "demo-onboarding-workflow",
+          "id": "0000de00-0000-4000-8000-000300000009"
+        },
+        "project": "0000de00-0000-4000-8000-000100000003",
+        "column": "0000de00-0000-4000-8000-000200000010",
+        "columnOrder": 0,
+        "key": "EXONBOARD-1",
+        "members": [
+          "@operator"
+        ],
+        "reporter": "@operator",
+        "title": "Build the onboarding workflow",
+        "description": "Create the account, add it to its groups, send the welcome mail.",
+        "status": "in_progress",
+        "assignedTo": "@operator",
+        "startDate": "2026-09-28",
+        "dueDate": "2026-10-11",
+        "percentComplete": 30,
+        "estimatedDuration": 180,
+        "priority": "normal",
+        "issueType": "task"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "task",
+          "slug": "demo-welcome-mail-text",
+          "id": "0000de00-0000-4000-8000-000300000010"
+        },
+        "project": "0000de00-0000-4000-8000-000100000003",
+        "column": "0000de00-0000-4000-8000-000200000009",
+        "columnOrder": 0,
+        "key": "EXONBOARD-2",
+        "members": [
+          "@operator"
+        ],
+        "reporter": "@operator",
+        "title": "Write the welcome mail",
+        "description": "A short mail that tells a new colleague where to start.",
+        "status": "open",
+        "priority": "low",
+        "startDate": "2026-10-05",
+        "dueDate": "2026-10-10",
+        "issueType": "task"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "task",
+          "slug": "demo-first-day-checklist",
+          "id": "0000de00-0000-4000-8000-000300000011"
+        },
+        "project": "0000de00-0000-4000-8000-000100000003",
+        "column": "0000de00-0000-4000-8000-000200000012",
+        "columnOrder": 0,
+        "key": "EXONBOARD-3",
+        "members": [
+          "@operator"
+        ],
+        "reporter": "@operator",
+        "title": "Agree on the first-day checklist",
+        "description": "What a new colleague needs on day one, agreed with HR.",
+        "status": "done",
+        "assignedTo": "@operator",
+        "startDate": "2026-09-24",
+        "dueDate": "2026-09-27",
+        "completedAt": "2026-09-27T11:00:00+00:00",
+        "percentComplete": 100,
+        "priority": "normal",
+        "issueType": "task"
       },
       {
         "@self": {
           "register": "planninq",
           "schema": "dependency",
-          "slug": "dependency-dependency-1-1"
+          "slug": "demo-design-blocks-build",
+          "id": "0000de00-0000-4000-8000-000500000001"
         },
-        "blocker": "00000000-0000-4000-8000-000000000000",
-        "blocked": "00000000-0000-4000-8000-000000000000",
+        "blocker": "0000de00-0000-4000-8000-000300000001",
+        "blocked": "0000de00-0000-4000-8000-000300000003",
         "type": "blocks"
       },
       {
         "@self": {
           "register": "planninq",
           "schema": "dependency",
-          "slug": "dependency-dependency-2-2"
+          "slug": "demo-build-blocks-review",
+          "id": "0000de00-0000-4000-8000-000500000002"
         },
-        "blocker": "00000000-0000-4000-8000-000000000001",
-        "blocked": "00000000-0000-4000-8000-000000000001",
-        "type": "relates"
+        "blocker": "0000de00-0000-4000-8000-000300000003",
+        "blocked": "0000de00-0000-4000-8000-000300000005",
+        "type": "blocks"
       },
       {
         "@self": {
           "register": "planninq",
           "schema": "dependency",
-          "slug": "dependency-dependency-3-3"
+          "slug": "demo-login-blocks-docs",
+          "id": "0000de00-0000-4000-8000-000500000003"
         },
-        "blocker": "00000000-0000-4000-8000-000000000002",
-        "blocked": "00000000-0000-4000-8000-000000000002",
-        "type": "duplicates"
+        "blocker": "0000de00-0000-4000-8000-000300000002",
+        "blocked": "0000de00-0000-4000-8000-000300000004",
+        "type": "blocks"
       },
       {
         "@self": {
           "register": "planninq",
-          "schema": "label",
-          "slug": "label-voorbeeld-title-1-1"
+          "schema": "plannedTimeEntry",
+          "slug": "demo-time-login-1",
+          "id": "0000de00-0000-4000-8000-000600000001"
         },
-        "title": "Voorbeeld Title 1",
-        "color": "#4376FC",
-        "description": "Voorbeeld Description 1"
+        "task": "0000de00-0000-4000-8000-000300000002",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "user": "@operator",
+        "duration": 90,
+        "date": "2026-09-30",
+        "description": "Traced the redirect to a missing state parameter."
       },
       {
         "@self": {
           "register": "planninq",
-          "schema": "label",
-          "slug": "label-voorbeeld-title-2-2"
+          "schema": "plannedTimeEntry",
+          "slug": "demo-time-login-2",
+          "id": "0000de00-0000-4000-8000-000600000002"
         },
-        "title": "Voorbeeld Title 2",
-        "color": "#4376FC",
-        "description": "Voorbeeld Description 2"
+        "task": "0000de00-0000-4000-8000-000300000002",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "user": "@operator",
+        "duration": 60,
+        "date": "2026-10-01",
+        "description": "Wrote the fix and its test."
       },
       {
         "@self": {
           "register": "planninq",
-          "schema": "label",
-          "slug": "label-voorbeeld-title-3-3"
+          "schema": "plannedTimeEntry",
+          "slug": "demo-time-backup",
+          "id": "0000de00-0000-4000-8000-000600000003"
         },
-        "title": "Voorbeeld Title 3",
-        "color": "#4376FC",
-        "description": "Voorbeeld Description 3"
+        "task": "0000de00-0000-4000-8000-000300000007",
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "members": [
+          "@operator"
+        ],
+        "user": "@operator",
+        "duration": 45,
+        "date": "2026-09-29",
+        "description": "Listed what every service backs up today."
       },
       {
         "@self": {
           "register": "planninq",
-          "schema": "project",
-          "slug": "project-voorbeeld-title-1-1"
+          "schema": "projectLogEntry",
+          "slug": "demo-log-kickoff",
+          "id": "0000de00-0000-4000-8000-000900000001"
         },
-        "title": "Voorbeeld Title 1",
-        "status": "active",
-        "description": "Voorbeeld Description 1",
-        "color": "#012345",
-        "icon": "FolderOutline",
-        "owner": "Voorbeeld Owner 1",
-        "members": [],
-        "contractorRefs": [],
-        "defaultAssignee": "Voorbeeld Defaultassignee 1",
-        "caseReference": "00000000-0000-4000-8000-000000000000",
-        "labels": [],
-        "key": "Voorbeeld Key 1",
-        "metadata": {}
+        "title": "Kick-off",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "type": "meeting",
+        "date": "2026-09-01",
+        "body": "Scope, planning and roles agreed.",
+        "status": "closed",
+        "attendees": [
+          "@operator"
+        ]
       },
       {
         "@self": {
           "register": "planninq",
-          "schema": "project",
-          "slug": "project-voorbeeld-title-2-2"
+          "schema": "projectLogEntry",
+          "slug": "demo-log-design-choice",
+          "id": "0000de00-0000-4000-8000-000900000002"
         },
-        "title": "Voorbeeld Title 2",
-        "status": "archived",
-        "description": "Voorbeeld Description 2",
-        "color": "#123456",
-        "icon": "CheckboxMarkedCircleOutline",
-        "owner": "Voorbeeld Owner 2",
-        "members": [],
-        "contractorRefs": [],
-        "defaultAssignee": "Voorbeeld Defaultassignee 2",
-        "caseReference": "00000000-0000-4000-8000-000000000001",
-        "labels": [],
-        "key": "Voorbeeld Key 2",
-        "metadata": {}
+        "title": "Use NL Design System components",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "type": "decision",
+        "date": "2026-09-16",
+        "body": "We build on the shared components instead of our own.",
+        "status": "closed"
       },
       {
         "@self": {
           "register": "planninq",
-          "schema": "project",
-          "slug": "project-voorbeeld-title-3-3"
+          "schema": "projectLogEntry",
+          "slug": "demo-log-audit-delay",
+          "id": "0000de00-0000-4000-8000-000900000003"
         },
-        "title": "Voorbeeld Title 3",
-        "status": "completed",
-        "description": "Voorbeeld Description 3",
-        "color": "#234567",
-        "icon": "ViewColumnOutline",
-        "owner": "Voorbeeld Owner 3",
-        "members": [],
-        "contractorRefs": [],
-        "defaultAssignee": "Voorbeeld Defaultassignee 3",
-        "caseReference": "00000000-0000-4000-8000-000000000002",
-        "labels": [],
-        "key": "Voorbeeld Key 3",
-        "metadata": {}
-      },
-      {
-        "@self": {
-          "register": "planninq",
-          "schema": "task",
-          "slug": "task-voorbeeld-title-1-1"
-        },
-        "title": "Voorbeeld Title 1",
+        "title": "Accessibility audit report came in late",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "type": "issue",
+        "date": "2026-09-28",
+        "body": "The report arrived a week later than planned, so the review moved.",
         "status": "open",
-        "description": "Voorbeeld Description 1",
-        "priority": "low",
-        "project": "00000000-0000-4000-8000-000000000000",
-        "zaakUuid": "00000000-0000-4000-8000-000000000000",
-        "column": "00000000-0000-4000-8000-000000000000",
-        "columnOrder": 0,
-        "assignedTo": "Voorbeeld Assignedto 1",
-        "contractorRef": "00000000-0000-4000-8000-000000000000",
-        "dueDate": "2026-03-01",
-        "startDate": "2026-03-01",
-        "estimatedDuration": 1,
-        "percentComplete": 0,
-        "labels": [],
-        "parent": "00000000-0000-4000-8000-000000000000",
-        "calendarEventUid": "Voorbeeld Calendareventuid 1",
-        "completedAt": "2026-03-01T09:00:00+00:00",
-        "issueType": "task",
-        "key": "Voorbeeld Key 1",
-        "reporter": "Voorbeeld Reporter 1",
-        "resolution": "Voorbeeld Resolution 1",
-        "resolvedAt": "2026-03-01T09:00:00+00:00",
-        "storyPoints": 1.0
+        "actions": [
+          "0000de00-0000-4000-8000-000300000005"
+        ]
       },
       {
         "@self": {
           "register": "planninq",
-          "schema": "task",
-          "slug": "task-voorbeeld-title-2-2"
+          "schema": "risk",
+          "slug": "demo-risk-audit",
+          "id": "0000de00-0000-4000-8000-000a00000001"
         },
-        "title": "Voorbeeld Title 2",
-        "status": "in_progress",
-        "description": "Voorbeeld Description 2",
-        "priority": "normal",
-        "project": "00000000-0000-4000-8000-000000000001",
-        "zaakUuid": "00000000-0000-4000-8000-000000000001",
-        "column": "00000000-0000-4000-8000-000000000001",
-        "columnOrder": 0,
-        "assignedTo": "Voorbeeld Assignedto 2",
-        "contractorRef": "00000000-0000-4000-8000-000000000001",
-        "dueDate": "2026-03-02",
-        "startDate": "2026-03-02",
-        "estimatedDuration": 2,
-        "percentComplete": 0,
-        "labels": [],
-        "parent": "00000000-0000-4000-8000-000000000001",
-        "calendarEventUid": "Voorbeeld Calendareventuid 2",
-        "completedAt": "2026-03-02T09:00:00+00:00",
-        "issueType": "task",
-        "key": "Voorbeeld Key 2",
-        "reporter": "Voorbeeld Reporter 2",
-        "resolution": "Voorbeeld Resolution 2",
-        "resolvedAt": "2026-03-02T09:00:00+00:00",
-        "storyPoints": 2.0
+        "title": "Audit findings take longer to fix than planned",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "category": "Planning",
+        "likelihood": 3,
+        "impact": 4,
+        "score": 12,
+        "status": "open",
+        "owner": "@operator",
+        "response": "reduce",
+        "countermeasures": "Fix the blocking findings first and plan the rest in the next release.",
+        "reviewDate": "2026-10-08"
       },
       {
         "@self": {
           "register": "planninq",
-          "schema": "task",
-          "slug": "task-voorbeeld-title-3-3"
+          "schema": "risk",
+          "slug": "demo-risk-supplier",
+          "id": "0000de00-0000-4000-8000-000a00000002"
         },
-        "title": "Voorbeeld Title 3",
-        "status": "blocked",
-        "description": "Voorbeeld Description 3",
-        "priority": "high",
-        "project": "00000000-0000-4000-8000-000000000002",
-        "zaakUuid": "00000000-0000-4000-8000-000000000002",
-        "column": "00000000-0000-4000-8000-000000000002",
-        "columnOrder": 0,
-        "assignedTo": "Voorbeeld Assignedto 3",
-        "contractorRef": "00000000-0000-4000-8000-000000000002",
-        "dueDate": "2026-03-03",
-        "startDate": "2026-03-03",
-        "estimatedDuration": 3,
-        "percentComplete": 0,
-        "labels": [],
-        "parent": "00000000-0000-4000-8000-000000000002",
-        "calendarEventUid": "Voorbeeld Calendareventuid 3",
-        "completedAt": "2026-03-03T09:00:00+00:00",
-        "issueType": "task",
-        "key": "Voorbeeld Key 3",
-        "reporter": "Voorbeeld Reporter 3",
-        "resolution": "Voorbeeld Resolution 3",
-        "resolvedAt": "2026-03-03T09:00:00+00:00",
-        "storyPoints": 3.0
+        "title": "The cluster supplier misses the delivery date",
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "members": [
+          "@operator"
+        ],
+        "category": "Supplier",
+        "likelihood": 2,
+        "impact": 5,
+        "score": 10,
+        "status": "mitigating",
+        "owner": "@operator",
+        "response": "transfer",
+        "countermeasures": "Penalty clause in the contract; weekly check-in.",
+        "reviewDate": "2026-10-15"
       },
       {
         "@self": {
           "register": "planninq",
-          "schema": "timeEntry",
-          "slug": "timeentry-timeentry-1-1"
+          "schema": "risk",
+          "slug": "demo-risk-hr-capacity",
+          "id": "0000de00-0000-4000-8000-000a00000003"
         },
-        "task": "00000000-0000-4000-8000-000000000000",
-        "user": "Voorbeeld User 1",
-        "duration": 1,
-        "date": "2026-03-01",
-        "contractorRef": "00000000-0000-4000-8000-000000000000",
-        "description": "Voorbeeld Description 1"
+        "title": "HR has no time to test the workflow",
+        "project": "0000de00-0000-4000-8000-000100000003",
+        "members": [
+          "@operator"
+        ],
+        "category": "Capacity",
+        "likelihood": 2,
+        "impact": 2,
+        "score": 4,
+        "status": "open",
+        "owner": "@operator",
+        "response": "accept",
+        "reviewDate": "2026-10-22"
       },
       {
         "@self": {
           "register": "planninq",
-          "schema": "timeEntry",
-          "slug": "timeentry-timeentry-2-2"
+          "schema": "projectStatusReport",
+          "slug": "demo-report-portal",
+          "id": "0000de00-0000-4000-8000-000b00000001"
         },
-        "task": "00000000-0000-4000-8000-000000000001",
-        "user": "Voorbeeld User 2",
-        "duration": 2,
-        "date": "2026-03-02",
-        "contractorRef": "00000000-0000-4000-8000-000000000001",
-        "description": "Voorbeeld Description 2"
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "reportDate": "2026-09-28",
+        "overall": "atRisk",
+        "statusMoney": "onTrack",
+        "statusOrganisation": "onTrack",
+        "statusTime": "atRisk",
+        "statusInformation": "onTrack",
+        "statusQuality": "onTrack",
+        "statusRisk": "atRisk",
+        "noteTime": "The audit report came in a week late.",
+        "noteRisk": "Audit findings may take longer to fix."
       },
       {
         "@self": {
           "register": "planninq",
-          "schema": "timeEntry",
-          "slug": "timeentry-timeentry-3-3"
+          "schema": "projectStatusReport",
+          "slug": "demo-report-infra",
+          "id": "0000de00-0000-4000-8000-000b00000002"
         },
-        "task": "00000000-0000-4000-8000-000000000002",
-        "user": "Voorbeeld User 3",
-        "duration": 3,
-        "date": "2026-03-03",
-        "contractorRef": "00000000-0000-4000-8000-000000000002",
-        "description": "Voorbeeld Description 3"
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "members": [
+          "@operator"
+        ],
+        "reportDate": "2026-09-28",
+        "overall": "onTrack",
+        "statusMoney": "onTrack",
+        "statusOrganisation": "onTrack",
+        "statusTime": "onTrack",
+        "statusInformation": "onTrack",
+        "statusQuality": "onTrack",
+        "statusRisk": "onTrack"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "projectStatusReport",
+          "slug": "demo-report-onboarding",
+          "id": "0000de00-0000-4000-8000-000b00000003"
+        },
+        "project": "0000de00-0000-4000-8000-000100000003",
+        "members": [
+          "@operator"
+        ],
+        "reportDate": "2026-09-28",
+        "overall": "atRisk",
+        "statusMoney": "onTrack",
+        "statusOrganisation": "atRisk",
+        "statusTime": "onTrack",
+        "statusInformation": "onTrack",
+        "statusQuality": "onTrack",
+        "statusRisk": "onTrack",
+        "noteOrganisation": "HR has little time to test before the go-live."
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "financeLine",
+          "slug": "demo-finance-portal-budget",
+          "id": "0000de00-0000-4000-8000-000d00000001"
+        },
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "portfolio": "0000de00-0000-4000-8000-000c00000001",
+        "category": "Development",
+        "kind": "budget",
+        "amount": 120000,
+        "date": "2026-09-01",
+        "description": "Approved budget",
+        "source": "manual",
+        "projectKey": "EXPORTAL",
+        "financeReaders": [
+          "@operator"
+        ],
+        "projectOwner": "@operator"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "financeLine",
+          "slug": "demo-finance-portal-actual",
+          "id": "0000de00-0000-4000-8000-000d00000002"
+        },
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "phase": "0000de00-0000-4000-8000-000400000001",
+        "portfolio": "0000de00-0000-4000-8000-000c00000001",
+        "category": "Development",
+        "kind": "actual",
+        "amount": 45250,
+        "date": "2026-09-26",
+        "description": "Design phase, invoiced",
+        "source": "manual",
+        "projectKey": "EXPORTAL",
+        "financeReaders": [
+          "@operator"
+        ],
+        "projectOwner": "@operator"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "financeLine",
+          "slug": "demo-finance-infra-budget",
+          "id": "0000de00-0000-4000-8000-000d00000003"
+        },
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "portfolio": "0000de00-0000-4000-8000-000c00000002",
+        "category": "Hosting",
+        "kind": "budget",
+        "amount": 80000,
+        "date": "2026-09-17",
+        "description": "Approved budget",
+        "source": "manual",
+        "projectKey": "EXINFRA",
+        "financeReaders": [
+          "@operator"
+        ],
+        "projectOwner": "@operator"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableSession",
+          "slug": "demo-session-1",
+          "id": "0000de00-0000-4000-8000-000800000001"
+        },
+        "externalRef": "demo-session-1",
+        "sourceSystem": "demo",
+        "subject": "Project planning",
+        "title": "Project planning, group 3B",
+        "startsAt": "2026-10-02T09:00:00+00:00",
+        "endsAt": "2026-10-02T10:30:00+00:00",
+        "groupReference": "3B",
+        "teacherUserId": "@operator",
+        "roomReference": "B1.04",
+        "roomLabel": "Room B1.04",
+        "status": "scheduled",
+        "importedAt": "2026-10-01T06:00:00+00:00"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableSession",
+          "slug": "demo-session-2",
+          "id": "0000de00-0000-4000-8000-000800000002"
+        },
+        "externalRef": "demo-session-2",
+        "sourceSystem": "demo",
+        "subject": "Project planning",
+        "title": "Project planning, group 3B",
+        "startsAt": "2026-10-09T09:00:00+00:00",
+        "endsAt": "2026-10-09T10:30:00+00:00",
+        "groupReference": "3B",
+        "teacherUserId": "@operator",
+        "roomReference": "B1.04",
+        "roomLabel": "Room B1.04",
+        "status": "scheduled",
+        "importedAt": "2026-10-01T06:00:00+00:00"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableSession",
+          "slug": "demo-session-3",
+          "id": "0000de00-0000-4000-8000-000800000003"
+        },
+        "externalRef": "demo-session-3",
+        "sourceSystem": "demo",
+        "subject": "Agile basics",
+        "title": "Agile basics, group 3B",
+        "startsAt": "2026-10-03T09:00:00+00:00",
+        "endsAt": "2026-10-03T10:30:00+00:00",
+        "groupReference": "3B",
+        "teacherUserId": "@operator",
+        "roomReference": "A0.12",
+        "roomLabel": "Room A0.12",
+        "status": "scheduled",
+        "importedAt": "2026-10-01T06:00:00+00:00"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableWish",
+          "slug": "demo-wish-wednesday-afternoon",
+          "id": "0000de00-0000-4000-8000-001000000001"
+        },
+        "appliesTo": "teacher",
+        "reference": "@operator",
+        "kind": "unavailable",
+        "periods": [
+          "wed-5",
+          "wed-6",
+          "wed-7",
+          "wed-8"
+        ],
+        "strength": "hard",
+        "note": "Works elsewhere on Wednesday afternoon."
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableWish",
+          "slug": "demo-wish-no-last-period-friday",
+          "id": "0000de00-0000-4000-8000-001000000002"
+        },
+        "appliesTo": "teacher",
+        "reference": "@operator",
+        "kind": "avoid",
+        "periods": [
+          "fri-8"
+        ],
+        "strength": "soft",
+        "weight": 2,
+        "note": "Prefers to leave early on Friday."
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableWish",
+          "slug": "demo-wish-group-3b-six-a-day",
+          "id": "0000de00-0000-4000-8000-001000000003"
+        },
+        "appliesTo": "group",
+        "reference": "3B",
+        "kind": "maxPerDay",
+        "limit": 6,
+        "strength": "soft",
+        "weight": 1,
+        "note": "Group 3B has at most six lessons a day."
+      },
+      {
+        "source": "generated",
+        "weekOf": "2026-10-05",
+        "windowFrom": "2026-10-05",
+        "windowTo": "2026-10-30",
+        "input": {
+          "periods": [
+            "mon-1",
+            "mon-2",
+            "tue-1",
+            "tue-2",
+            "wed-5",
+            "fri-8"
+          ],
+          "rooms": [
+            {
+              "reference": "B1.04",
+              "capacity": 30,
+              "type": "classroom"
+            },
+            {
+              "reference": "A0.12",
+              "capacity": 24,
+              "type": "classroom"
+            }
+          ],
+          "lessons": [
+            {
+              "key": "3B-planning-1",
+              "activity": "3B-planning",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            },
+            {
+              "key": "3B-planning-2",
+              "activity": "3B-planning",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            },
+            {
+              "key": "3B-agile-1",
+              "activity": "3B-agile",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            }
+          ],
+          "wishes": [
+            {
+              "id": "0000de00-0000-4000-8000-001000000001",
+              "appliesTo": "teacher",
+              "reference": "@operator",
+              "kind": "unavailable",
+              "periods": [
+                "wed-5",
+                "wed-6",
+                "wed-7",
+                "wed-8"
+              ],
+              "strength": "hard"
+            }
+          ]
+        },
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableScenario",
+          "slug": "demo-scenario-autumn-first",
+          "id": "0000de00-0000-4000-8000-001100000001"
+        },
+        "title": "Autumn, first run",
+        "status": "done",
+        "seed": 1,
+        "placements": [
+          {
+            "lesson": "3B-planning-1",
+            "period": "mon-1",
+            "room": "B1.04"
+          },
+          {
+            "lesson": "3B-planning-2",
+            "period": "tue-1",
+            "room": "B1.04"
+          },
+          {
+            "lesson": "3B-agile-1",
+            "period": "mon-2",
+            "room": "A0.12"
+          }
+        ],
+        "unplaced": [],
+        "brokenWishes": [],
+        "metrics": {
+          "placed": 3,
+          "unplaced": 0,
+          "hardBroken": 0,
+          "softBroken": 0,
+          "softPenalty": 0
+        }
+      },
+      {
+        "source": "imported",
+        "weekOf": "2026-10-05",
+        "windowFrom": "2026-10-05",
+        "windowTo": "2026-10-30",
+        "input": {
+          "periods": [
+            "mon-1",
+            "mon-2",
+            "tue-1",
+            "tue-2",
+            "wed-5",
+            "fri-8"
+          ],
+          "rooms": [
+            {
+              "reference": "B1.04",
+              "capacity": 30,
+              "type": "classroom"
+            },
+            {
+              "reference": "A0.12",
+              "capacity": 24,
+              "type": "classroom"
+            }
+          ],
+          "lessons": [
+            {
+              "key": "3B-planning-1",
+              "activity": "3B-planning",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            },
+            {
+              "key": "3B-planning-2",
+              "activity": "3B-planning",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            },
+            {
+              "key": "3B-agile-1",
+              "activity": "3B-agile",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            }
+          ],
+          "wishes": [
+            {
+              "id": "0000de00-0000-4000-8000-001000000001",
+              "appliesTo": "teacher",
+              "reference": "@operator",
+              "kind": "unavailable",
+              "periods": [
+                "wed-5",
+                "wed-6",
+                "wed-7",
+                "wed-8"
+              ],
+              "strength": "hard"
+            }
+          ]
+        },
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableScenario",
+          "slug": "demo-scenario-autumn-current",
+          "id": "0000de00-0000-4000-8000-001100000002"
+        },
+        "title": "Autumn, current timetable",
+        "status": "done",
+        "placements": [
+          {
+            "lesson": "3B-planning-1",
+            "period": "mon-1",
+            "room": "B1.04"
+          },
+          {
+            "lesson": "3B-planning-2",
+            "period": "fri-8",
+            "room": "B1.04"
+          },
+          {
+            "lesson": "3B-agile-1",
+            "period": "tue-2",
+            "room": "A0.12"
+          }
+        ],
+        "unplaced": [],
+        "brokenWishes": [
+          {
+            "wish": "0000de00-0000-4000-8000-001000000002",
+            "lessons": [
+              "3B-planning-2"
+            ],
+            "weight": 2
+          }
+        ],
+        "metrics": {
+          "placed": 3,
+          "unplaced": 0,
+          "hardBroken": 0,
+          "softBroken": 1,
+          "softPenalty": 2
+        }
+      },
+      {
+        "source": "generated",
+        "weekOf": "2026-10-05",
+        "windowFrom": "2026-10-05",
+        "windowTo": "2026-10-30",
+        "input": {
+          "periods": [
+            "mon-1",
+            "mon-2",
+            "tue-1",
+            "tue-2",
+            "wed-5",
+            "fri-8"
+          ],
+          "rooms": [
+            {
+              "reference": "B1.04",
+              "capacity": 30,
+              "type": "classroom"
+            },
+            {
+              "reference": "A0.12",
+              "capacity": 24,
+              "type": "classroom"
+            }
+          ],
+          "lessons": [
+            {
+              "key": "3B-planning-1",
+              "activity": "3B-planning",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            },
+            {
+              "key": "3B-planning-2",
+              "activity": "3B-planning",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            },
+            {
+              "key": "3B-agile-1",
+              "activity": "3B-agile",
+              "group": "3B",
+              "teacher": "@operator",
+              "roomType": "classroom",
+              "length": 1
+            }
+          ],
+          "wishes": [
+            {
+              "id": "0000de00-0000-4000-8000-001000000001",
+              "appliesTo": "teacher",
+              "reference": "@operator",
+              "kind": "unavailable",
+              "periods": [
+                "wed-5",
+                "wed-6",
+                "wed-7",
+                "wed-8"
+              ],
+              "strength": "hard"
+            }
+          ]
+        },
+        "@self": {
+          "register": "planninq",
+          "schema": "timetableScenario",
+          "slug": "demo-scenario-autumn-queued",
+          "id": "0000de00-0000-4000-8000-001100000003"
+        },
+        "title": "Autumn, second run",
+        "status": "queued",
+        "seed": 2
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "boardFilter",
+          "slug": "demo-filter-overdue-legal",
+          "id": "0000de00-0000-4000-8000-001200000001"
+        },
+        "name": "Overdue legal work",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "owner": "@operator",
+        "shared": true,
+        "members": [
+          "@operator"
+        ],
+        "criteria": {
+          "due": {
+            "op": "is",
+            "values": [
+              "overdue"
+            ]
+          }
+        }
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "boardFilter",
+          "slug": "demo-filter-my-urgent",
+          "id": "0000de00-0000-4000-8000-001200000002"
+        },
+        "name": "My urgent tasks",
+        "project": "0000de00-0000-4000-8000-000100000002",
+        "owner": "@operator",
+        "shared": false,
+        "members": [
+          "@operator"
+        ],
+        "criteria": {
+          "assignee": {
+            "op": "is",
+            "values": [
+              "me"
+            ]
+          },
+          "priority": {
+            "op": "is",
+            "values": [
+              "urgent"
+            ]
+          }
+        }
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "boardFilter",
+          "slug": "demo-filter-unassigned",
+          "id": "0000de00-0000-4000-8000-001200000003"
+        },
+        "name": "Nobody on it yet",
+        "project": "0000de00-0000-4000-8000-000100000003",
+        "owner": "@operator",
+        "shared": true,
+        "members": [
+          "@operator"
+        ],
+        "criteria": {
+          "assignee": {
+            "op": "is",
+            "values": [
+              "unassigned"
+            ]
+          }
+        }
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "boardView",
+          "slug": "demo-view-it-operations",
+          "id": "0000de00-0000-4000-8000-001300000001"
+        },
+        "title": "IT operations",
+        "owner": "@operator",
+        "members": [],
+        "projects": [
+          "0000de00-0000-4000-8000-000100000001",
+          "0000de00-0000-4000-8000-000100000002"
+        ]
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "boardView",
+          "slug": "demo-view-this-week",
+          "id": "0000de00-0000-4000-8000-001300000002"
+        },
+        "title": "My projects this week",
+        "owner": "@operator",
+        "members": [],
+        "projects": [
+          "0000de00-0000-4000-8000-000100000001",
+          "0000de00-0000-4000-8000-000100000002",
+          "0000de00-0000-4000-8000-000100000003"
+        ]
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "boardView",
+          "slug": "demo-view-shared-programme",
+          "id": "0000de00-0000-4000-8000-001300000003"
+        },
+        "title": "Programme overview",
+        "owner": "@operator",
+        "members": [
+          "@operator"
+        ],
+        "projects": [
+          "0000de00-0000-4000-8000-000100000002",
+          "0000de00-0000-4000-8000-000100000003"
+        ]
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "forgeLink",
+          "slug": "demo-code-login-redirect-mr",
+          "id": "0000de00-0000-4000-8000-001400000001"
+        },
+        "task": "0000de00-0000-4000-8000-000300000002",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "taskKey": "EXPORTAL-2",
+        "kind": "mergeRequest",
+        "url": "https://github.com/example/portal/pull/42",
+        "title": "EXPORTAL-2 fix the redirect after login",
+        "repository": "example/portal",
+        "externalId": "github:example/portal#42",
+        "state": "merged",
+        "author": "@operator",
+        "occurredAt": "2026-09-21T10:00:00+00:00",
+        "source": "integriq",
+        "members": [
+          "@operator"
+        ]
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "forgeLink",
+          "slug": "demo-code-login-redirect-commit",
+          "id": "0000de00-0000-4000-8000-001400000002"
+        },
+        "task": "0000de00-0000-4000-8000-000300000002",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "taskKey": "EXPORTAL-2",
+        "kind": "commit",
+        "url": "https://github.com/example/portal/commit/3f2a9c1d8e7b6a5f4c3d2e1f0a9b8c7d6e5f4a3b",
+        "title": "EXPORTAL-2 keep the target page through the login form",
+        "repository": "example/portal",
+        "externalId": "3f2a9c1d8e7b6a5f4c3d2e1f0a9b8c7d6e5f4a3b",
+        "state": "",
+        "author": "@operator",
+        "occurredAt": "2026-09-22T10:00:00+00:00",
+        "source": "integriq",
+        "members": [
+          "@operator"
+        ]
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "forgeLink",
+          "slug": "demo-code-widgets-branch",
+          "id": "0000de00-0000-4000-8000-001400000003"
+        },
+        "task": "0000de00-0000-4000-8000-000300000003",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "taskKey": "EXPORTAL-3",
+        "kind": "branch",
+        "url": "https://gitlab.example.org/example/portal/-/tree/EXPORTAL-3-widgets",
+        "title": "EXPORTAL-3-widgets",
+        "repository": "example/portal",
+        "externalId": "gitlab.example.org:example/portal:branch:EXPORTAL-3-widgets",
+        "state": "",
+        "author": "@operator",
+        "occurredAt": "2026-09-23T10:00:00+00:00",
+        "source": "manual",
+        "members": [
+          "@operator"
+        ]
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "taskReport",
+          "slug": "demo-report-open-work",
+          "id": "0000de00-0000-4000-8000-001500000001"
+        },
+        "title": "Open work per person",
+        "owner": "@operator",
+        "shared": "readers",
+        "projects": [
+          "0000de00-0000-4000-8000-000100000001",
+          "0000de00-0000-4000-8000-000100000002"
+        ],
+        "filters": {
+          "status": "open"
+        },
+        "groupBy": "assignedTo",
+        "metric": "count",
+        "display": "bar"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "taskReport",
+          "slug": "demo-report-priorities",
+          "id": "0000de00-0000-4000-8000-001500000002"
+        },
+        "title": "Open tasks by priority",
+        "owner": "@operator",
+        "shared": "private",
+        "projects": [
+          "0000de00-0000-4000-8000-000100000001",
+          "0000de00-0000-4000-8000-000100000002",
+          "0000de00-0000-4000-8000-000100000003"
+        ],
+        "filters": {
+          "status": "open"
+        },
+        "groupBy": "priority",
+        "metric": "count",
+        "display": "donut"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "taskReport",
+          "slug": "demo-report-points",
+          "id": "0000de00-0000-4000-8000-001500000003"
+        },
+        "title": "Story points per column",
+        "owner": "@operator",
+        "shared": "private",
+        "projects": [
+          "0000de00-0000-4000-8000-000100000001"
+        ],
+        "groupBy": "column",
+        "metric": "sum",
+        "display": "table",
+        "sumField": "storyPoints"
       }
     ]
   }

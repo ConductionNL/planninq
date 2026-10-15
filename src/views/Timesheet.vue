@@ -14,7 +14,7 @@
 					v-model="preset"
 					:options="presetOptions"
 					:clearable="false"
-					:input-label="t('planninq', 'Date range')"
+					:inputLabel="t('planninq', 'Date range')"
 					label="label"
 					@update:modelValue="onPresetChange" />
 				<template v-if="preset && preset.id === 'custom'">
@@ -31,7 +31,7 @@
 						:aria-label="t('planninq', 'To date')"
 						@change="applyCustomRange">
 				</template>
-				<span class="timesheet__range-total">
+				<span class="timesheet__range-total" data-testid="timesheet-total">
 					{{ t('planninq', 'Total: {total}', { total: formatMinutes(rangeTotal) }) }}
 				</span>
 			</div>
@@ -64,7 +64,11 @@
 					</span>
 				</header>
 				<ul class="timesheet__rows">
-					<li v-for="entry in group.entries" :key="entry.id" class="timesheet__row">
+					<li
+						v-for="entry in group.entries"
+						:key="entry.id"
+						class="timesheet__row"
+						data-testid="timesheet-row">
 						<span class="timesheet__row-duration">{{ formatMinutes(entry.duration) }}</span>
 						<a
 							href="#"
@@ -95,14 +99,14 @@
  */
 import { NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import ClockOutline from 'vue-material-design-icons/ClockOutline.vue'
-import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { useObjectStore } from '../store/objectStore.js'
+import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration } from '../utils/durationParser.js'
 import {
+	currentWeekRange,
+	filterByRange,
 	groupEntriesByDate,
 	sumDuration,
-	filterByRange,
-	currentWeekRange,
 } from '../utils/timesheetHelpers.js'
 
 export default {
@@ -308,8 +312,12 @@ export default {
 			this.from = from
 			this.to = to
 			const query = {}
-			if (from) query.from = from
-			if (to) query.to = to
+			if (from) {
+				query.from = from
+			}
+			if (to) {
+				query.to = to
+			}
 			this.$router.replace({ query }).catch(() => {})
 		},
 
@@ -432,5 +440,33 @@ export default {
 
 .timesheet__row-desc {
 	color: var(--color-text-maxcontrast);
+}
+
+/* Phone (platform-mobile-web, design Decision 4): each day is a list whose
+   rows stack task, duration and project; the week total stays on top. */
+@media (max-width: 600px) {
+	.timesheet {
+		padding: 12px;
+	}
+
+	.timesheet__filter {
+		flex-wrap: wrap;
+	}
+
+	.timesheet__row {
+		grid-template-columns: auto 1fr;
+		gap: 4px 12px;
+	}
+
+	.timesheet__row-project,
+	.timesheet__row-desc {
+		grid-column: 1 / -1;
+	}
+
+	.timesheet__row-task {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+	}
 }
 </style>
