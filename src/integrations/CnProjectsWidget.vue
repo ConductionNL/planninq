@@ -10,7 +10,7 @@
 		</p>
 
 		<template v-else>
-			<div v-if="showTotals" class="pq-projects-widget__figure">
+			<div v-if="showTotals && !carded" class="pq-projects-widget__figure">
 				<span class="pq-projects-widget__value">{{
 					displayCount
 				}}</span>
@@ -24,11 +24,11 @@
 				{{ t('planninq', 'Loading projects') }}
 			</p>
 			<p
-				v-else-if="projects.length === 0"
+				v-else-if="projects.length === 0 && !carded"
 				class="pq-projects-widget__empty">
 				{{ emptyLabel }}
 			</p>
-			<ul v-else class="pq-projects-widget__list">
+			<ul v-else-if="projects.length > 0" class="pq-projects-widget__list">
 				<li
 					v-for="project in visibleProjects"
 					:key="project.id"
@@ -58,7 +58,7 @@
 				{{ moreLabel }}
 			</p>
 
-			<div class="pq-projects-widget__actions">
+			<div v-if="!carded" class="pq-projects-widget__actions">
 				<button
 					type="button"
 					class="pq-projects-widget__action"
@@ -113,6 +113,7 @@ import axios from '@nextcloud/axios'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { newProjectQuery } from '../utils/caseBridge.js'
+import { leafHeader } from './leafHeader.js'
 import {
 	budgetOf,
 	guardRows,
@@ -166,6 +167,16 @@ export default {
 		limit: {
 			type: Number,
 			default: 5,
+		},
+
+		/**
+		 * Set by a host that draws the card (nextcloud-vue integration-leaf-card):
+		 * the leaf then reports its count, actions and empty state here and
+		 * renders only its rows.
+		 */
+		onHeader: {
+			type: Function,
+			default: null,
 		},
 	},
 
@@ -303,11 +314,49 @@ export default {
 			const rest = this.total - this.visibleProjects.length
 			return t('planninq', 'and {count} more', { count: rest })
 		},
+
+		/**
+		 * @return {boolean} Whether the host draws the card around this leaf.
+		 *
+		 * @spec openspec/changes/projects-leaf-library-card/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
+		 */
+		carded() {
+			return typeof this.onHeader === 'function'
+		},
+
+		/**
+		 * @return {object} What the leaf reports to a host that draws its card.
+		 *
+		 * @spec openspec/changes/projects-leaf-library-card/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
+		 */
+		hostHeader() {
+			const actions = [{ label: t('planninq', 'Open in Planninq'), run: () => this.openProjects() }]
+			if (this.canCreate) {
+				actions.push({ label: t('planninq', 'New project'), run: () => this.openNewProject() })
+			}
+			return leafHeader({
+				loading: this.loading,
+				error: this.error,
+				total: this.total,
+				emptyLabel: this.emptyLabel,
+				note: this.showTotals && this.budgetTotal > 0 ? this.formatAmount(this.budgetTotal) : '',
+				actions,
+			})
+		},
 	},
 
 	watch: {
 		objectId: 'load',
 		surface: 'load',
+		hostHeader: {
+			handler(header) {
+				if (this.carded) {
+					this.onHeader(header)
+				}
+			},
+
+			immediate: true,
+		},
 	},
 
 	mounted() {
