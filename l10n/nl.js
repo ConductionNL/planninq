@@ -260,6 +260,8 @@ OC.L10N.register(
         "Budget: {amount}": "Budget: {amount}",
         "Loading projects": "Projecten laden",
         "No projects for this client yet": "Nog geen projecten voor deze klant",
+        "No projects for this case yet": "Nog geen projecten voor deze zaak",
+        "projects": "projecten",
         "Open in Planninq": "Openen in Planninq",
         "This project could not be found": "Dit project is niet gevonden",
         "Untitled project": "Naamloos project",

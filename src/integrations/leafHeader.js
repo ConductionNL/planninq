@@ -36,3 +36,29 @@ export function leafHeader({ loading, error, total, emptyLabel, note, actions })
 	}
 	return header
 }
+
+/**
+ * Build the summary the leaf hands to a "linked" card's `onSummary`
+ * (nextcloud-vue linked-integrations-card): how many projects there are, the
+ * noun for the "nothing linked" line, a row per listed project and the
+ * actions. Nothing is reported while loading or after a failed read, so the
+ * card never says "nothing linked" when it could not tell.
+ *
+ * @param {object} state The leaf's state.
+ * @param {boolean} state.loading Whether the list is still loading.
+ * @param {string} state.error The read error, or ''.
+ * @param {number} state.total How many projects there are.
+ * @param {string} state.noun The plural noun, lower case ("projects").
+ * @param {Array<{label: string, href?: string}>} state.rows A row per listed project.
+ * @param {Array<{label: string, run: () => void}>} state.actions The actions.
+ *
+ * @return {{count: number, noun: string, rows: Array, actions: Array}|null} The summary, or null.
+ *
+ * @spec openspec/changes/projects-leaf-summary/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
+ */
+export function leafSummary({ loading, error, total, noun, rows, actions }) {
+	if (loading === true || error !== '') {
+		return null
+	}
+	return { count: total, noun, rows: total > 0 ? rows : [], actions }
+}

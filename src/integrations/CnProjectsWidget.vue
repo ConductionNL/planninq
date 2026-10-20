@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<div class="pq-projects-widget">
+	<div v-if="!summarised" class="pq-projects-widget">
 		<p v-if="error" class="pq-projects-widget__error">
 			{{ error }}
 		</p>
@@ -113,7 +113,7 @@ import axios from '@nextcloud/axios'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { newProjectQuery } from '../utils/caseBridge.js'
-import { leafHeader } from './leafHeader.js'
+import { leafHeader, leafSummary } from './leafHeader.js'
 import {
 	budgetOf,
 	guardRows,
@@ -175,6 +175,15 @@ export default {
 		 * renders only its rows.
 		 */
 		onHeader: {
+			type: Function,
+			default: null,
+		},
+
+		/**
+		 * Set by a "linked" card (nextcloud-vue linked-integrations-card): the
+		 * leaf then draws nothing and reports a summary here.
+		 */
+		onSummary: {
 			type: Function,
 			default: null,
 		},
@@ -272,6 +281,9 @@ export default {
 			if (this.isSingleEntity) {
 				return t('planninq', 'This project could not be found')
 			}
+			if (this.isHostScoped && isCaseHost(this.host)) {
+				return t('planninq', 'No projects for this case yet')
+			}
 			if (this.isHostScoped) {
 				return t('planninq', 'No projects for this client yet')
 			}
@@ -325,6 +337,40 @@ export default {
 		},
 
 		/**
+		 * @return {boolean} Whether a "linked" card shows this leaf as a summary.
+		 *
+		 * @spec openspec/changes/projects-leaf-summary/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
+		 */
+		summarised() {
+			return typeof this.onSummary === 'function'
+		},
+
+		/**
+		 * @return {object|null} What the leaf reports to a "linked" card.
+		 *
+		 * @spec openspec/changes/projects-leaf-summary/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
+		 */
+		hostSummary() {
+			const actions = []
+			if (this.canCreate) {
+				actions.push({ label: t('planninq', 'New project'), run: () => this.openNewProject() })
+			}
+			actions.push({ label: t('planninq', 'Open in Planninq'), run: () => this.openProjects() })
+			return leafSummary({
+				loading: this.loading,
+				error: this.error,
+				total: this.total,
+				noun: t('planninq', 'projects'),
+				rows: this.visibleProjects.map((project) => ({
+					label: project.title || t('planninq', 'Untitled project'),
+					href: this.projectUrl(project),
+					icon: 'FolderOutline',
+				})),
+				actions,
+			})
+		},
+
+		/**
 		 * @return {object} What the leaf reports to a host that draws its card.
 		 *
 		 * @spec openspec/changes/projects-leaf-library-card/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
@@ -352,6 +398,16 @@ export default {
 			handler(header) {
 				if (this.carded) {
 					this.onHeader(header)
+				}
+			},
+
+			immediate: true,
+		},
+
+		hostSummary: {
+			handler(summary) {
+				if (this.summarised && summary !== null) {
+					this.onSummary(summary)
 				}
 			},
 
