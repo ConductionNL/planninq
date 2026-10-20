@@ -217,6 +217,8 @@ OC.L10N.register(
         "Budget: {amount}": "Budget: {amount}",
         "Loading projects": "Loading projects",
         "No projects for this client yet": "No projects for this client yet",
+        "No projects for this case yet": "No projects for this case yet",
+        "projects": "projects",
         "Open in Planninq": "Open in Planninq",
         "This project could not be found": "This project could not be found",
         "Untitled project": "Untitled project",
