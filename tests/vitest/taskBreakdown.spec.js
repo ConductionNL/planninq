@@ -10,7 +10,6 @@ import { describe, expect, it } from 'vitest'
 import {
 	addChecklistItem,
 	checklistCount,
-	duplicatePayload,
 	moveChecklistItem,
 	newSubtask,
 	removeChecklistItem,
@@ -94,49 +93,5 @@ describe('subtaskRollup (scenario: rollup on the parent)', () => {
 		const entries = { s1: [{ duration: 90 }], s2: [] }
 		expect(subtaskRollup(children, entries)).toEqual({ estimate: 300, logged: 90 })
 		expect(subtaskRollup([], {})).toEqual({ estimate: 0, logged: 0 })
-	})
-})
-
-describe('duplicatePayload (scenario: duplicate a task tree)', () => {
-	const task = {
-		id: 't1',
-		title: 'Prepare',
-		description: 'Why',
-		status: 'in_progress',
-		priority: 'high',
-		labels: ['55555555-5555-4555-8555-555555555555'],
-		project,
-		column,
-		columnOrder: 3000,
-		checklist: [{ id: 'c1', text: 'One', done: true }],
-		assignedTo: 'bram',
-		sharedWith: ['anna'],
-		dueDate: '2026-10-01',
-		startDate: '2026-09-01',
-		estimatedDuration: 60,
-		key: 'VERG-4',
-		reporter: 'dave',
-		parent: null,
-		completedAt: '2026-09-02',
-	}
-
-	it('copies the description, priority, labels and an unticked checklist, and nothing personal or dated', () => {
-		const copy = duplicatePayload(task, 'Copy of {title}')
-		expect(copy).toEqual({
-			title: 'Copy of Prepare',
-			description: 'Why',
-			status: 'open',
-			priority: 'high',
-			labels: ['55555555-5555-4555-8555-555555555555'],
-			project,
-			column,
-			columnOrder: 3000,
-			checklist: [{ id: 'c1', text: 'One', done: false }],
-		})
-		expect(taskValidator()(copy)).toBe(true)
-	})
-
-	it('a copied subtask keeps its own title and goes under the new parent', () => {
-		expect(duplicatePayload({ ...task, parent: 't1' }, '{title}', 'new-parent')).toMatchObject({ title: 'Prepare', parent: 'new-parent' })
 	})
 })

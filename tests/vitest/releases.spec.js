@@ -56,32 +56,15 @@ describe('projects store: releases', () => {
 		])
 	})
 
-	it('ship with unfinished tasks moves them to the chosen release, then marks the release', async () => {
-		const tasks = [{ id: 't1', release: 'r1', status: 'done' }, { id: 't2', release: 'r1', status: 'open' }]
-		const result = await store.shipRelease({ id: 'r1' }, tasks, 'move', 'r2')
+	it('ships in one server request with the member\'s choice; the server moves the tasks and stamps the time', async () => {
+		const result = await store.shipRelease({ id: 'r1' }, 'move', 'r2')
 		expect(result).toEqual({ ok: true })
-		expect(calls.map(([method, url, body]) => [method, url.split('/').slice(-2).join('/'), body.release ?? body.status])).toEqual([
-			['PATCH', 'task/t2', 'r2'],
-			['PATCH', 'projectRelease/r1', 'released'],
-		])
+		expect(calls).toEqual([['POST', '/apps/planninq/api/releases/r1/ship', { choice: 'move', target: 'r2' }]])
 	})
 
-	it('ship with everything done only sets status', async () => {
-		const result = await store.shipRelease({ id: 'r1' }, [{ id: 't1', release: 'r1', status: 'cancelled' }], 'keep', null)
-		expect(result).toEqual({ ok: true })
-		expect(calls).toHaveLength(1)
-		expect(calls[0][2]).toMatchObject({ status: 'released' })
-		expect(Object.keys(calls[0][2]).sort()).toEqual(['releasedAt', 'status'])
-	})
-
-	it('does not mark the release when a task could not be moved', async () => {
-		globalThis.fetch = vi.fn(async (url, init) => {
-			calls.push([init.method, url])
-			return { ok: false, status: 403, json: async () => ({}) }
-		})
-		const result = await store.shipRelease({ id: 'r1' }, [{ id: 't2', release: 'r1', status: 'open' }], 'clear', null)
-		expect(result).toEqual({ ok: false })
-		expect(calls).toHaveLength(1)
+	it('reports a refused ship', async () => {
+		globalThis.fetch = vi.fn(async () => ({ ok: false, status: 403, json: async () => ({}) }))
+		expect(await store.shipRelease({ id: 'r1' }, 'clear', null)).toEqual({ ok: false })
 	})
 
 	it('epic picker refuses another project\'s epic, and sends only the epic field', async () => {

@@ -1032,7 +1032,7 @@ export default {
 		 */
 		async duplicate() {
 			this.duplicating = true
-			const copy = await this.projectsStore.duplicateTask(this.task, this.subtasks)
+			const copy = await this.projectsStore.duplicateTask(this.task)
 			this.duplicating = false
 			const copyId = copy?.id ?? copy?.['@self']?.id
 			if (!copyId) {
