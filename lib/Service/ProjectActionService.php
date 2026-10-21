@@ -35,6 +35,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use OCA\Planninq\Exception\ProjectActionException;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -96,6 +97,7 @@ class ProjectActionService {
 	 * @param IGroupManager            $groupManager The caller's groups and admin status.
 	 * @param ITimeFactory             $timeFactory  The server clock.
 	 * @param IL10N                    $l10n         Names a copy.
+	 * @param IAppManager              $appManager   Tells whether OpenRegister is installed.
 	 */
 	public function __construct(
 		private ProjectMembershipService $membership,
@@ -104,6 +106,7 @@ class ProjectActionService {
 		private IGroupManager $groupManager,
 		private ITimeFactory $timeFactory,
 		private IL10N $l10n,
+		private IAppManager $appManager,
 	) {
 	}//end __construct()
 
@@ -124,14 +127,18 @@ class ProjectActionService {
 		$project = $this->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
 		$user    = $this->caller();
 		if ($this->isAdmin(user: $user) === false && $this->ownsProject(project: $project, user: $user) === false) {
-			throw new ProjectActionException(reason: 'planninq-project-delete-not-allowed', status: 403, message: 'Only the project owner can delete this project.');
+			throw new ProjectActionException(
+				reason: 'planninq-project-delete-not-allowed',
+				status: 403,
+				message: 'Only the project owner can delete this project.'
+			);
 		}
 
 		$doomed = $this->projectObjects(projectId: $projectId);
 		$this->asSystem(
-			function () use ($doomed): void {
+			writes: function () use ($doomed): void {
 				foreach ($doomed as [$schema, $id]) {
-					$this->objectService()->deleteObject(uuid: $id, register: ProjectMembershipService::REGISTER, schema: $schema, _rbac: false, _multitenancy: false);
+					$this->deleteAsSystem(schema: $schema, id: $id);
 				}
 			}
 		);
@@ -207,7 +214,7 @@ class ProjectActionService {
 		unset($released['@self'], $released['id']);
 
 		return $this->asSystem(
-			function () use ($moves, $value, $released, $releaseId): array {
+			writes: function () use ($moves, $value, $released, $releaseId): array {
 				foreach ($moves as $task) {
 					$this->save(schema: 'task', id: $task['id'], data: array_merge($task['data'], ['release' => $value]));
 				}
@@ -249,7 +256,7 @@ class ProjectActionService {
 		$this->assertMayDeleteTasks(tasks: $going, owner: $owner);
 
 		$this->asSystem(
-			function () use ($mode, $children, $going): void {
+			writes: function () use ($mode, $children, $going): void {
 				if ($mode === 'detach') {
 					foreach ($children as $child) {
 						$this->save(schema: 'task', id: $child['id'], data: array_merge($child['data'], ['parent' => null]));
@@ -257,7 +264,7 @@ class ProjectActionService {
 				}
 
 				foreach ($going as $one) {
-					$this->objectService()->deleteObject(uuid: $one['id'], register: ProjectMembershipService::REGISTER, schema: 'task', _rbac: false, _multitenancy: false);
+					$this->deleteAsSystem(schema: 'task', id: $one['id']);
 				}
 			}
 		);
@@ -285,11 +292,12 @@ class ProjectActionService {
 		$reporter = $this->caller()->getUID();
 
 		return $this->asSystem(
-			function () use ($task, $title, $children, $reporter): array {
+			writes: function () use ($task, $title, $children, $reporter): array {
 				$copy   = $this->save(schema: 'task', id: null, data: $this->copyOf(task: $task, title: $title, parent: null) + ['reporter' => $reporter]);
 				$copyId = (string)$copy['id'];
 				foreach ($children as $child) {
-					$this->save(schema: 'task', id: null, data: $this->copyOf(task: $child['data'], title: (string)($child['data']['title'] ?? ''), parent: $copyId) + ['reporter' => $reporter]);
+					$subtask = $this->copyOf(task: $child['data'], title: (string)($child['data']['title'] ?? ''), parent: $copyId);
+					$this->save(schema: 'task', id: null, data: $subtask + ['reporter' => $reporter]);
 				}
 
 				return $copy;
@@ -369,7 +377,11 @@ class ProjectActionService {
 		$uid  = $user->getUID();
 		foreach ($tasks as $task) {
 			if ($this->isAdmin(user: $user) === false && $owner !== $uid && ($task['data']['reporter'] ?? null) !== $uid) {
-				throw new ProjectActionException(reason: 'planninq-task-delete-not-allowed', status: 403, message: 'Only the reporter, the project owner or an admin can delete this task.');
+				throw new ProjectActionException(
+					reason: 'planninq-task-delete-not-allowed',
+					status: 403,
+					message: 'Only the reporter, the project owner or an admin can delete this task.'
+				);
 			}
 
 			if ($this->membership->rows(schema: 'plannedTimeEntry', filters: ['task' => $task['id']]) !== []) {
@@ -394,7 +406,10 @@ class ProjectActionService {
 			return;
 		}
 
-		if ($project === null || (new ProjectRoles())->mayWrite(project: $project, uid: $user->getUID(), groupIds: $this->groupManager->getUserGroupIds($user)) === false) {
+		$lists = $this->membership->childLists(project: ($project ?? []));
+		$isWriter = (in_array($user->getUID(), $lists['members'], true) === true
+			|| array_intersect($lists['memberGroups'], $this->groupManager->getUserGroupIds($user)) !== []);
+		if ($project === null || $isWriter === false) {
 			throw new ProjectActionException(reason: 'planninq-not-a-project-member', status: 403, message: 'You are not a member of this project.');
 		}
 	}//end assertWrites()
@@ -436,7 +451,9 @@ class ProjectActionService {
 			return true;
 		}
 
-		return array_intersect($this->membership->normalise(members: ($project['ownerGroups'] ?? null)), $this->groupManager->getUserGroupIds($user)) !== [];
+		$ownerGroups = $this->membership->normalise(members: ($project['ownerGroups'] ?? null));
+
+		return array_intersect($ownerGroups, $this->groupManager->getUserGroupIds($user)) !== [];
 	}//end ownsProject()
 
 	/**
@@ -490,6 +507,18 @@ class ProjectActionService {
 	}//end save()
 
 	/**
+	 * Delete one object as the system.
+	 *
+	 * @param string $schema The schema slug.
+	 * @param string $id     The UUID.
+	 *
+	 * @return void
+	 */
+	private function deleteAsSystem(string $schema, string $id): void {
+		$this->objectService()->deleteObject(uuid: $id, register: ProjectMembershipService::REGISTER, schema: $schema, _rbac: false, _multitenancy: false);
+	}//end deleteAsSystem()
+
+	/**
 	 * Run writes inside an OpenRegister system operation.
 	 *
 	 * @param callable $writes The writes.
@@ -513,7 +542,7 @@ class ProjectActionService {
 	 * @throws ProjectActionException When OpenRegister is not installed.
 	 */
 	private function objectService(): object {
-		if ($this->membership->isAvailable() === false) {
+		if ($this->appManager->isInstalled('openregister') === false) {
 			throw new ProjectActionException(reason: 'planninq-openregister-missing', status: 503, message: 'OpenRegister is not installed.');
 		}
 

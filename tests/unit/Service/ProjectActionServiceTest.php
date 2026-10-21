@@ -31,6 +31,7 @@ use OCA\Planninq\Exception\ProjectActionException;
 use OCA\Planninq\Service\ProjectActionService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -83,6 +84,8 @@ class ProjectActionServiceTest extends TestCase {
 		$time->method('getDateTime')->willReturn(new \DateTime('2026-10-21T12:00:00+00:00'));
 		$l10n = $this->createMock(originalClassName: IL10N::class);
 		$l10n->method('t')->willReturnArgument(0);
+		$apps = $this->createMock(originalClassName: IAppManager::class);
+		$apps->method('isInstalled')->willReturn(true);
 
 		return new ProjectActionService(
 			membership: $this->membershipService(),
@@ -90,7 +93,8 @@ class ProjectActionServiceTest extends TestCase {
 			userSession: $session,
 			groupManager: $groups,
 			timeFactory: $time,
-			l10n: $l10n
+			l10n: $l10n,
+			appManager: $apps
 		);
 	}//end service()
 
