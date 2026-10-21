@@ -644,7 +644,7 @@
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.14.0",
+        "version": "0.15.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -1011,19 +1011,163 @@
             "title": "Budget Hours",
             "type": "number",
             "description": "Budgeted hours for the whole project. Zero means no budget was agreed.",
-            "default": 0
+            "default": 0,
+            "authorization": {
+              "read": [
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "owner": "$userId"
+                  }
+                },
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "ownerGroups": {
+                      "$contains": "$user.groups"
+                    }
+                  }
+                },
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "portfolioReaders": {
+                      "$contains": "$userId"
+                    }
+                  }
+                },
+                {
+                  "group": "admin"
+                }
+              ],
+              "update": [
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "owner": "$userId"
+                  }
+                },
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "ownerGroups": {
+                      "$contains": "$user.groups"
+                    }
+                  }
+                },
+                {
+                  "group": "admin"
+                }
+              ]
+            }
           },
           "budgetAmount": {
             "title": "Budget Amount",
             "type": "number",
             "description": "Budgeted amount in the reporting currency. Zero means no budget was agreed.",
-            "default": 0
+            "default": 0,
+            "authorization": {
+              "read": [
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "owner": "$userId"
+                  }
+                },
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "ownerGroups": {
+                      "$contains": "$user.groups"
+                    }
+                  }
+                },
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "portfolioReaders": {
+                      "$contains": "$userId"
+                    }
+                  }
+                },
+                {
+                  "group": "admin"
+                }
+              ],
+              "update": [
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "owner": "$userId"
+                  }
+                },
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "ownerGroups": {
+                      "$contains": "$user.groups"
+                    }
+                  }
+                },
+                {
+                  "group": "admin"
+                }
+              ]
+            }
           },
           "hourlyRate": {
             "title": "Hourly Rate",
             "type": "number",
             "description": "Default hourly rate for the project. Time entries fall back to this when they carry no rate of their own.",
-            "default": 0
+            "default": 0,
+            "authorization": {
+              "read": [
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "owner": "$userId"
+                  }
+                },
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "ownerGroups": {
+                      "$contains": "$user.groups"
+                    }
+                  }
+                },
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "portfolioReaders": {
+                      "$contains": "$userId"
+                    }
+                  }
+                },
+                {
+                  "group": "admin"
+                }
+              ],
+              "update": [
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "owner": "$userId"
+                  }
+                },
+                {
+                  "group": "authenticated",
+                  "match": {
+                    "ownerGroups": {
+                      "$contains": "$user.groups"
+                    }
+                  }
+                },
+                {
+                  "group": "admin"
+                }
+              ]
+            }
           },
           "startDate": {
             "title": "Start Date",
@@ -4893,7 +5037,7 @@
       "taskReport": {
         "slug": "taskReport",
         "icon": "ChartBar",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "title": "Report",
         "description": "A saved query over tasks: which projects, which filters, grouped by what, counted or summed, and shown as a table or a chart.",
         "x-schema-org": "schema:Report",
@@ -4915,7 +5059,17 @@
             {
               "group": "authenticated",
               "match": {
-                "shared": "readers"
+                "readers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "readerGroups": {
+                  "$contains": "$user.groups"
+                }
               }
             },
             {
@@ -4988,6 +5142,28 @@
               "readers": "Everyone who can read its projects"
             },
             "x-notes": "A shared report stores a query, not results: every viewer runs it with their own rights (design decision 3)."
+          },
+          "readers": {
+            "title": "Readers",
+            "type": "array",
+            "description": "Nextcloud user ids who read at least one of the report's projects; empty for a private report",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq (TaskReportReadersListener), never edited by a person: it is the read rule of a shared report."
+          },
+          "readerGroups": {
+            "title": "Reader groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members read at least one of the report's projects; empty for a private report",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq (TaskReportReadersListener), never edited by a person: it is the read rule of a shared report."
           },
           "projects": {
             "title": "Projects",

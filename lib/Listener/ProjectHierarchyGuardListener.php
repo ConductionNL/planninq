@@ -102,6 +102,13 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	public const ERROR_FIELD = 'planninq-project-field';
 
 	/**
+	 * Error code of a parent that does not exist or that the caller cannot read; the two are not told apart.
+	 *
+	 * @var string
+	 */
+	public const ERROR_PARENT = 'planninq-project-parent-unknown';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ProjectMembershipService $membership    Reads portfolios and projects, writes as the system.
@@ -251,6 +258,13 @@ class ProjectHierarchyGuardListener implements IEventListener {
 
 		if ($event instanceof ObjectCreatingEvent === true) {
 			$projectId = '';
+		}
+
+		// Checked first, so the cycle and depth answers never describe a project the caller cannot see.
+		if ($this->rules->callerReads(projectId: $parentId) === false) {
+			$event->setErrors(['code' => self::ERROR_PARENT, 'message' => 'The parent project does not exist or you cannot see it.', 'project' => $projectId]);
+			$event->stopPropagation();
+			return true;
 		}
 
 		$refusal = $this->rules->refusal(projectId: $projectId, parentId: $parentId);

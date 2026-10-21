@@ -718,7 +718,7 @@ export default {
 		},
 
 		/**
-		 * Persist title/description/color/icon edits via updateProject.
+		 * Persist title/description/color/icon edits with a PATCH of the Details fields only.
 		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
 		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.1
@@ -731,9 +731,7 @@ export default {
 			this.saving = true
 			const firstKey = !this.project.key && !!normaliseProjectKey(this.form.key)
 			try {
-				const saved = await this.projectsStore.updateProject(this.project.id, {
-					// A PUT nulls what it is not sent, so the key always goes along.
-					key: this.canEditKey ? (normaliseProjectKey(this.form.key) || null) : (this.project.key || null),
+				const details = {
 					title: this.form.title.trim(),
 					description: this.form.description.trim() || undefined,
 					color: this.form.color,
@@ -742,10 +740,11 @@ export default {
 					parent: this.form.parent?.id || null,
 					autoSchedule: this.form.autoSchedule === true,
 					customFields: { ...(this.project.customFields || {}), ...this.clearedFields(), ...customFieldValues(this.projectFields, this.fieldForm) },
-					// Always include existing members and owner so a PATCH/PUT does not wipe them
-					members: Array.isArray(this.project.members) ? this.project.members : [],
-					owner: this.project.owner || undefined,
-				})
+				}
+				if (this.canEditKey) {
+					details.key = normaliseProjectKey(this.form.key) || null
+				}
+				const saved = await this.projectsStore.patchProject(this.project.id, details)
 				if (!saved) {
 					showError(this.saveFailure(this.projectsStore.error))
 					this.form.parent = this.parentOption(this.project)

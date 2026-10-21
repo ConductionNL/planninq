@@ -71,6 +71,32 @@ use Psr\Log\LoggerInterface;
 class ProjectController extends Controller {
 
 	/**
+	 * The fields a create takes from the request body; everything else is set by the server.
+	 *
+	 * @var array<int,string>
+	 */
+	private const CREATE_FIELDS = [
+		'title',
+		'description',
+		'requestReason',
+		'color',
+		'icon',
+		'key',
+		'startDate',
+		'endDate',
+		'caseReference',
+		'client',
+		'labels',
+		'customFields',
+		'autoSchedule',
+		'billable',
+		'billingModel',
+		'budgetHours',
+		'budgetAmount',
+		'hourlyRate',
+	];
+
+	/**
 	 * FQCN of the OR NotAuthorizedException, resolved at runtime.
 	 *
 	 * @var string
@@ -304,10 +330,9 @@ class ProjectController extends Controller {
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
 	 */
 	private function createBody(string $uid, bool $requesting): array|JSONResponse {
-		$body = $this->request->getParams();
-
-		// Strip framework-injected routing params.
-		unset($body['_route'], $body['_format']);
+		// Only the fields a person fills in: role lists, status, review,
+		// handover record and computed fields are the server's.
+		$body = array_intersect_key($this->request->getParams(), array_flip(self::CREATE_FIELDS));
 
 		// The project key (tasks-readable-keys): stored uppercase, refused
 		// here with a clear status when it is malformed or taken. The key
@@ -325,8 +350,8 @@ class ProjectController extends Controller {
 		// Ensure owner + initial membership are set server-side so the client
 		// cannot spoof a different owner.
 		$body['owner']   = $uid;
-		$body['members'] = array_values(array_unique(array_merge([$uid], (array)($body['members'] ?? []))));
-		$body['status']  = ($body['status'] ?? 'active');
+		$body['members'] = [$uid];
+		$body['status']  = 'active';
 		if ($requesting === true) {
 			return $this->asRequest(body: $body, uid: $uid);
 		}
