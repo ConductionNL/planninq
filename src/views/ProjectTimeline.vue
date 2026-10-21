@@ -255,7 +255,7 @@ import { fetchProjectTimeline } from '../api/timeline.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
 import { mayImport } from '../utils/msprojectImport.js'
-import { cascade, writeRun } from '../utils/scheduling.js'
+import { cascade } from '../utils/scheduling.js'
 import { keyStep, moveTo, resizeTo, shiftDays } from '../utils/timelineEditing.js'
 import {
 	buildLayout,
@@ -716,22 +716,20 @@ export default {
 		},
 
 		/**
-		 * Move all: the task, then every pushed task in order, stopping at the
-		 * first refused write; then read the timeline again.
+		 * Move all: the task and every pushed task in one server request, which
+		 * saves all of them or none; then read the timeline again.
 		 *
 		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.3
 		 */
 		async rescheduleAll() {
 			const { task, dates, moves } = this.reschedule
 			this.reschedule = null
-			if (!(await this.writeDates(task, dates))) {
-				return
-			}
-			const store = useProjectsStore()
-			const result = await writeRun(moves, (id, to) => store.updateTask(id, to))
+			this.saveError = ''
+			const run = [{ id: task.id, ...dates }, ...moves.map((move) => ({ id: move.id, ...move.to }))]
+			const saved = await useProjectsStore().scheduleTasks(this.projectId, run)
 			await this.load()
-			if (result.failed) {
-				this.saveError = t('planninq', 'Stopped at {title}: its dates could not be saved. The tasks before it were moved.', { title: result.failed.title })
+			if (!saved) {
+				this.saveError = t('planninq', 'The dates could not be saved.')
 			}
 		},
 

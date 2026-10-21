@@ -35,16 +35,11 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use OCA\Planninq\Exception\ProjectActionException;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\IUser;
-use OCP\IUserSession;
-use Psr\Container\ContainerInterface;
 
 /**
- * Server-side multi-object actions on projects, releases and tasks.
+ * Server-side multi-object actions on projects, releases and task trees.
  *
  * @spec openspec/specs/projects.md
  */
@@ -82,31 +77,18 @@ class ProjectActionService {
 	private const COPIED_FIELDS = ['description', 'labels', 'column', 'columnOrder', 'priority', 'project'];
 
 	/**
-	 * OpenRegister's system-operation scope, by name.
-	 *
-	 * @var string
-	 */
-	private const OR_SYSTEM_CONTEXT = 'OCA\\OpenRegister\\Service\\SystemOperationContext';
-
-	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership   Reads planninq objects as the system.
-	 * @param ContainerInterface       $container    Resolves OpenRegister's ObjectService.
-	 * @param IUserSession             $userSession  The caller.
-	 * @param IGroupManager            $groupManager The caller's groups and admin status.
-	 * @param ITimeFactory             $timeFactory  The server clock.
-	 * @param IL10N                    $l10n         Names a copy.
-	 * @param IAppManager              $appManager   Tells whether OpenRegister is installed.
+	 * @param ProjectMembershipService $membership  Reads planninq objects as the system.
+	 * @param ProjectActionSupport     $support     Checks the caller and writes as the system.
+	 * @param ITimeFactory             $timeFactory The server clock.
+	 * @param IL10N                    $l10n        Names a copy.
 	 */
 	public function __construct(
 		private ProjectMembershipService $membership,
-		private ContainerInterface $container,
-		private IUserSession $userSession,
-		private IGroupManager $groupManager,
+		private ProjectActionSupport $support,
 		private ITimeFactory $timeFactory,
 		private IL10N $l10n,
-		private IAppManager $appManager,
 	) {
 	}//end __construct()
 
@@ -124,9 +106,9 @@ class ProjectActionService {
 	 * @spec openspec/specs/projects.md
 	 */
 	public function deleteProject(string $projectId): int {
-		$project = $this->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
-		$user    = $this->caller();
-		if ($this->isAdmin(user: $user) === false && $this->ownsProject(project: $project, user: $user) === false) {
+		$project = $this->support->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$user    = $this->support->caller();
+		if ($this->support->isAdmin(user: $user) === false && $this->support->ownsProject(project: $project, user: $user) === false) {
 			throw new ProjectActionException(
 				reason: 'planninq-project-delete-not-allowed',
 				status: 403,
@@ -135,10 +117,10 @@ class ProjectActionService {
 		}
 
 		$doomed = $this->projectObjects(projectId: $projectId);
-		$this->asSystem(
+		$this->support->asSystem(
 			writes: function () use ($doomed): void {
 				foreach ($doomed as [$schema, $id]) {
-					$this->deleteAsSystem(schema: $schema, id: $id);
+					$this->support->deleteAsSystem(schema: $schema, id: $id);
 				}
 			}
 		);
@@ -196,9 +178,9 @@ class ProjectActionService {
 	 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.1
 	 */
 	public function shipRelease(string $releaseId, string $choice, ?string $targetId): array {
-		$release   = $this->readable(schema: 'projectRelease', id: $releaseId);
+		$release   = $this->support->readable(schema: 'projectRelease', id: $releaseId);
 		$projectId = $this->membership->projectIdFor(schemaSlug: 'projectRelease', data: $release);
-		$this->assertWrites(projectId: $projectId);
+		$this->support->assertWrites(projectId: $projectId);
 		$value = $this->shipTarget(choice: $choice, targetId: $targetId, projectId: $projectId, releaseId: $releaseId);
 
 		$moves = [];
@@ -213,13 +195,13 @@ class ProjectActionService {
 		$released = array_merge($release, ['status' => 'released', 'releasedAt' => $this->timeFactory->getDateTime()->format(\DateTimeInterface::ATOM)]);
 		unset($released['@self'], $released['id']);
 
-		return $this->asSystem(
+		return $this->support->asSystem(
 			writes: function () use ($moves, $value, $released, $releaseId): array {
 				foreach ($moves as $task) {
-					$this->save(schema: 'task', id: $task['id'], data: array_merge($task['data'], ['release' => $value]));
+					$this->support->save(schema: 'task', id: $task['id'], data: array_merge($task['data'], ['release' => $value]));
 				}
 
-				return $this->save(schema: 'projectRelease', id: $releaseId, data: $released);
+				return $this->support->save(schema: 'projectRelease', id: $releaseId, data: $released);
 			}
 		);
 	}//end shipRelease()
@@ -245,7 +227,7 @@ class ProjectActionService {
 			throw new ProjectActionException(reason: 'planninq-invalid-choice', status: 400, message: 'Choose to delete or to keep the subtasks.');
 		}
 
-		$task     = $this->readable(schema: 'task', id: $taskId);
+		$task     = $this->support->readable(schema: 'task', id: $taskId);
 		$children = $this->membership->rows(schema: 'task', filters: ['parent' => $taskId]);
 		$going    = [['id' => $taskId, 'data' => $task]];
 		if ($mode === 'delete') {
@@ -255,16 +237,16 @@ class ProjectActionService {
 		$owner = $this->membership->ownerOfProject(projectId: $this->membership->projectIdFor(schemaSlug: 'task', data: $task));
 		$this->assertMayDeleteTasks(tasks: $going, owner: $owner);
 
-		$this->asSystem(
+		$this->support->asSystem(
 			writes: function () use ($mode, $children, $going): void {
 				if ($mode === 'detach') {
 					foreach ($children as $child) {
-						$this->save(schema: 'task', id: $child['id'], data: array_merge($child['data'], ['parent' => null]));
+						$this->support->save(schema: 'task', id: $child['id'], data: array_merge($child['data'], ['parent' => null]));
 					}
 				}
 
 				foreach ($going as $one) {
-					$this->deleteAsSystem(schema: 'task', id: $one['id']);
+					$this->support->deleteAsSystem(schema: 'task', id: $one['id']);
 				}
 			}
 		);
@@ -284,115 +266,27 @@ class ProjectActionService {
 	 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-5.1
 	 */
 	public function duplicateTask(string $taskId): array {
-		$task      = $this->readable(schema: 'task', id: $taskId);
+		$task      = $this->support->readable(schema: 'task', id: $taskId);
 		$projectId = $this->membership->projectIdFor(schemaSlug: 'task', data: $task);
-		$this->assertWrites(projectId: $projectId);
+		$this->support->assertWrites(projectId: $projectId);
 		$children = $this->membership->rows(schema: 'task', filters: ['parent' => $taskId]);
 		$title    = str_replace('{title}', (string)($task['title'] ?? ''), $this->l10n->t('Copy of {title}'));
-		$reporter = $this->caller()->getUID();
+		$reporter = $this->support->caller()->getUID();
 
-		return $this->asSystem(
+		return $this->support->asSystem(
 			writes: function () use ($task, $title, $children, $reporter): array {
-				$copy   = $this->save(schema: 'task', id: null, data: $this->copyOf(task: $task, title: $title, parent: null) + ['reporter' => $reporter]);
+				$copy   = $this->copyOf(task: $task, title: $title, parent: null);
+				$copy   = $this->support->save(schema: 'task', id: null, data: $copy + ['reporter' => $reporter]);
 				$copyId = (string)$copy['id'];
 				foreach ($children as $child) {
 					$subtask = $this->copyOf(task: $child['data'], title: (string)($child['data']['title'] ?? ''), parent: $copyId);
-					$this->save(schema: 'task', id: null, data: $subtask + ['reporter' => $reporter]);
+					$this->support->save(schema: 'task', id: null, data: $subtask + ['reporter' => $reporter]);
 				}
 
 				return $copy;
 			}
 		);
 	}//end duplicateTask()
-
-	/**
-	 * Move a phase one place up (-1) or down (+1); every phase gets a distinct order in one go.
-	 *
-	 * @param string $projectId The project UUID.
-	 * @param string $phaseId   The phase to move.
-	 * @param int    $step      -1 or +1.
-	 *
-	 * @return array<int,array{id:string,order:int}> The phases in their new order.
-	 *
-	 * @throws ProjectActionException When the caller does not work on the project or the phase is not in it.
-	 *
-	 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
-	 */
-	public function movePhase(string $projectId, string $phaseId, int $step): array {
-		$this->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
-		$this->assertWrites(projectId: $projectId);
-		$phases = $this->membership->rows(schema: 'projectPhase', filters: ['project' => $projectId]);
-		usort(
-			$phases,
-			static fn (array $one, array $two): int => [(int)($one['data']['order'] ?? 0), $one['id']] <=> [(int)($two['data']['order'] ?? 0), $two['id']]
-		);
-
-		$index = array_search($phaseId, array_column($phases, 'id'), true);
-		if ($index === false || in_array($step, [-1, 1], true) === false) {
-			throw new ProjectActionException(reason: 'planninq-invalid-choice', status: 400, message: 'Choose a phase of this project and a direction.');
-		}
-
-		if (isset($phases[$index + $step]) === true) {
-			[$phases[$index], $phases[$index + $step]] = [$phases[$index + $step], $phases[$index]];
-		}
-
-		$this->asSystem(
-			writes: function () use ($phases): void {
-				foreach ($phases as $order => $phase) {
-					if ((int)($phase['data']['order'] ?? -1) !== $order) {
-						$this->save(schema: 'projectPhase', id: $phase['id'], data: array_merge($phase['data'], ['order' => $order]));
-					}
-				}
-			}
-		);
-
-		return array_map(static fn (array $phase, int $order): array => ['id' => $phase['id'], 'order' => $order], $phases, array_keys($phases));
-	}//end movePhase()
-
-	/**
-	 * Create an action task from a log entry and link it from the entry, as one action.
-	 *
-	 * The task is created with the caller's rights, so every task rule
-	 * applies; the link is then written as the system. When the link cannot
-	 * be written the task is removed again, so no unlinked action stays.
-	 *
-	 * @param string              $entryId The log entry UUID.
-	 * @param array<string,mixed> $task    The task fields.
-	 *
-	 * @return array{task: array<string,mixed>, entry: array<string,mixed>}
-	 *
-	 * @throws ProjectActionException When the caller does not work on the entry's project.
-	 *
-	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.3
-	 */
-	public function addAction(string $entryId, array $task): array {
-		$entry     = $this->readable(schema: 'projectLogEntry', id: $entryId);
-		$projectId = $this->membership->projectIdFor(schemaSlug: 'projectLogEntry', data: $entry);
-		$this->assertWrites(projectId: $projectId);
-
-		unset($task['@self'], $task['id']);
-		$saved  = $this->objectService()->saveObject(
-			object: array_merge($task, ['project' => $projectId, 'issueType' => 'action']),
-			register: ProjectMembershipService::REGISTER,
-			schema: 'task'
-		);
-		$taskId = (string)$saved->getUuid();
-
-		try {
-			$linked = $this->asSystem(
-				writes: fn (): array => $this->save(
-					schema: 'projectLogEntry',
-					id: $entryId,
-					data: array_merge($entry, ['actions' => array_values(array_merge((array)($entry['actions'] ?? []), [$taskId]))])
-				)
-			);
-		} catch (\Throwable $e) {
-			$this->asSystem(writes: fn () => $this->deleteAsSystem(schema: 'task', id: $taskId));
-			throw $e;
-		}
-
-		return ['task' => ['id' => $taskId] + (array)$saved->getObject(), 'entry' => $linked];
-	}//end addAction()
 
 	/**
 	 * The data of a copied task.
@@ -462,10 +356,10 @@ class ProjectActionService {
 	 * @throws ProjectActionException When one may not go.
 	 */
 	private function assertMayDeleteTasks(array $tasks, ?string $owner): void {
-		$user = $this->caller();
+		$user = $this->support->caller();
 		$uid  = $user->getUID();
 		foreach ($tasks as $task) {
-			if ($this->isAdmin(user: $user) === false && $owner !== $uid && ($task['data']['reporter'] ?? null) !== $uid) {
+			if ($this->support->isAdmin(user: $user) === false && $owner !== $uid && ($task['data']['reporter'] ?? null) !== $uid) {
 				throw new ProjectActionException(
 					reason: 'planninq-task-delete-not-allowed',
 					status: 403,
@@ -479,162 +373,4 @@ class ProjectActionService {
 		}
 	}//end assertMayDeleteTasks()
 
-	/**
-	 * Refuse unless the caller writes the project's work (or is an admin).
-	 *
-	 * @param string $projectId The project.
-	 *
-	 * @return void
-	 *
-	 * @throws ProjectActionException When they do not.
-	 */
-	private function assertWrites(string $projectId): void {
-		$user    = $this->caller();
-		$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
-		if ($this->isAdmin(user: $user) === true) {
-			return;
-		}
-
-		$lists = $this->membership->childLists(project: ($project ?? []));
-		$isWriter = (in_array($user->getUID(), $lists['members'], true) === true
-			|| array_intersect($lists['memberGroups'], $this->groupManager->getUserGroupIds($user)) !== []);
-		if ($project === null || $isWriter === false) {
-			throw new ProjectActionException(reason: 'planninq-not-a-project-member', status: 403, message: 'You are not a member of this project.');
-		}
-	}//end assertWrites()
-
-	/**
-	 * An object the caller may read, or a 404 that does not say whether it exists.
-	 *
-	 * @param string $schema The schema slug.
-	 * @param string $id     The UUID.
-	 *
-	 * @return array<string,mixed>
-	 *
-	 * @throws ProjectActionException When it does not resolve or the caller cannot read it.
-	 */
-	private function readable(string $schema, string $id): array {
-		try {
-			$entity = $this->objectService()->find(id: $id, register: ProjectMembershipService::REGISTER, schema: $schema);
-		} catch (\Throwable $e) {
-			$entity = null;
-		}
-
-		if ($entity === null) {
-			throw new ProjectActionException(reason: 'planninq-not-found', status: 404, message: 'Not found.');
-		}
-
-		return (array)$entity->getObject();
-	}//end readable()
-
-	/**
-	 * Whether the caller owns the project, in person or through its owning group.
-	 *
-	 * @param array<string,mixed> $project The project.
-	 * @param IUser               $user    The caller.
-	 *
-	 * @return bool
-	 */
-	private function ownsProject(array $project, IUser $user): bool {
-		if (($project['owner'] ?? null) === $user->getUID()) {
-			return true;
-		}
-
-		$ownerGroups = $this->membership->normalise(members: ($project['ownerGroups'] ?? null));
-
-		return array_intersect($ownerGroups, $this->groupManager->getUserGroupIds($user)) !== [];
-	}//end ownsProject()
-
-	/**
-	 * Whether the caller is an admin.
-	 *
-	 * @param IUser $user The caller.
-	 *
-	 * @return bool
-	 */
-	private function isAdmin(IUser $user): bool {
-		return $this->groupManager->isAdmin($user->getUID());
-	}//end isAdmin()
-
-	/**
-	 * The signed-in caller.
-	 *
-	 * @return IUser
-	 *
-	 * @throws ProjectActionException Without a session.
-	 */
-	private function caller(): IUser {
-		$user = $this->userSession->getUser();
-		if ($user === null) {
-			throw new ProjectActionException(reason: 'planninq-not-logged-in', status: 401, message: 'Not logged in.');
-		}
-
-		return $user;
-	}//end caller()
-
-	/**
-	 * Save one object as the system and return its data with its `id`.
-	 *
-	 * @param string              $schema The schema slug.
-	 * @param string|null         $id     The UUID, null to create.
-	 * @param array<string,mixed> $data   The data.
-	 *
-	 * @return array<string,mixed>
-	 */
-	private function save(string $schema, ?string $id, array $data): array {
-		unset($data['@self'], $data['id']);
-		$saved = $this->objectService()->saveObject(
-			object: $data,
-			register: ProjectMembershipService::REGISTER,
-			schema: $schema,
-			uuid: $id,
-			_rbac: false,
-			_multitenancy: false
-		);
-
-		return ['id' => (string)$saved->getUuid()] + (array)$saved->getObject();
-	}//end save()
-
-	/**
-	 * Delete one object as the system.
-	 *
-	 * @param string $schema The schema slug.
-	 * @param string $id     The UUID.
-	 *
-	 * @return void
-	 */
-	private function deleteAsSystem(string $schema, string $id): void {
-		$this->objectService()->deleteObject(uuid: $id, register: ProjectMembershipService::REGISTER, schema: $schema, _rbac: false, _multitenancy: false);
-	}//end deleteAsSystem()
-
-	/**
-	 * Run writes inside an OpenRegister system operation.
-	 *
-	 * @param callable $writes The writes.
-	 *
-	 * @return mixed What the writes return.
-	 */
-	private function asSystem(callable $writes): mixed {
-		$class = self::OR_SYSTEM_CONTEXT;
-		if (class_exists($class) === true) {
-			return $class::run($writes);
-		}
-
-		return $writes();
-	}//end asSystem()
-
-	/**
-	 * OpenRegister's ObjectService.
-	 *
-	 * @return object
-	 *
-	 * @throws ProjectActionException When OpenRegister is not installed.
-	 */
-	private function objectService(): object {
-		if ($this->appManager->isInstalled('openregister') === false) {
-			throw new ProjectActionException(reason: 'planninq-openregister-missing', status: 503, message: 'OpenRegister is not installed.');
-		}
-
-		return $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
-	}//end objectService()
 }//end class

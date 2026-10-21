@@ -24,6 +24,7 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 
 use OCA\Planninq\Controller\ProjectActionController;
 use OCA\Planninq\Exception\ProjectActionException;
+use OCA\Planninq\Service\PlanningActionService;
 use OCA\Planninq\Service\ProjectActionService;
 use OCP\AppFramework\Http;
 use OCP\IRequest;
@@ -47,6 +48,7 @@ class ProjectActionControllerTest extends TestCase {
 		return new ProjectActionController(
 			request: $this->createMock(originalClassName: IRequest::class),
 			actions: $this->actions,
+			planning: $this->createMock(originalClassName: PlanningActionService::class),
 			logger: $this->createMock(originalClassName: LoggerInterface::class)
 		);
 	}//end controller()

@@ -28,6 +28,7 @@ namespace OCA\Planninq\Controller;
 
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Exception\ProjectActionException;
+use OCA\Planninq\Service\PlanningActionService;
 use OCA\Planninq\Service\ProjectActionService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -47,12 +48,14 @@ class ProjectActionController extends Controller {
 	 * Constructor.
 	 *
 	 * @param IRequest             $request The request.
-	 * @param ProjectActionService $actions Checks the caller's rights and runs the action.
-	 * @param LoggerInterface      $logger  The logger.
+	 * @param ProjectActionService  $actions  Checks the caller's rights and runs a project action.
+	 * @param PlanningActionService $planning Checks the caller's rights and runs a planning action.
+	 * @param LoggerInterface       $logger   The logger.
 	 */
 	public function __construct(
 		IRequest $request,
 		private ProjectActionService $actions,
+		private PlanningActionService $planning,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct(appName: Application::APP_ID, request: $request);
@@ -138,8 +141,23 @@ class ProjectActionController extends Controller {
 	 */
 	#[NoAdminRequired]
 	public function movePhase(string $projectId, string $phase = '', int $step = 0): JSONResponse {
-		return $this->run(action: fn (): array => $this->actions->movePhase(projectId: $projectId, phaseId: $phase, step: $step), context: 'phase move');
+		return $this->run(action: fn (): array => $this->planning->movePhase(projectId: $projectId, phaseId: $phase, step: $step), context: 'phase move');
 	}//end movePhase()
+
+	/**
+	 * Write the dates of a run of tasks at once. A person who works on the project only.
+	 *
+	 * @param string                         $projectId The project UUID.
+	 * @param array<int,array<string,mixed>> $moves     Each `{id, startDate, dueDate}`.
+	 *
+	 * @return JSONResponse 200 {written}; 400, 401, 403, 404, 409 otherwise.
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.3
+	 */
+	#[NoAdminRequired]
+	public function schedule(string $projectId, array $moves = []): JSONResponse {
+		return $this->run(action: fn (): array => ['written' => $this->planning->schedule(projectId: $projectId, moves: $moves)], context: 'schedule');
+	}//end schedule()
 
 	/**
 	 * Create an action task from a log entry and link it. A person who works on the project only.
@@ -153,7 +171,7 @@ class ProjectActionController extends Controller {
 	 */
 	#[NoAdminRequired]
 	public function addAction(string $entryId, array $task = []): JSONResponse {
-		$response = $this->run(action: fn (): array => $this->actions->addAction(entryId: $entryId, task: $task), context: 'log entry action');
+		$response = $this->run(action: fn (): array => $this->planning->addAction(entryId: $entryId, task: $task), context: 'log entry action');
 		if ($response->getStatus() === Http::STATUS_OK) {
 			$response->setStatus(Http::STATUS_CREATED);
 		}

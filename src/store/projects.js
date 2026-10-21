@@ -1279,6 +1279,32 @@ export const useProjectsStore = defineStore('projects', {
 		},
 
 		/**
+		 * Write the dates of a run of tasks in one server request: the moved task
+		 * and the tasks it pushes. The server checks the whole run first and
+		 * writes nothing when a task is not in the project or a blocking link
+		 * would break.
+		 *
+		 * @param {string} projectId The project
+		 * @param {Array<{id: string, startDate: string, dueDate: string}>} moves The new dates
+		 * @return {Promise<boolean>} Whether the run was saved
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.3
+		 */
+		async scheduleTasks(projectId, moves) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/projects/${projectId}/schedule`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({ moves }),
+				})
+				return response.ok
+			} catch (err) {
+				console.error('scheduleTasks error:', err)
+				return false
+			}
+		},
+
+		/**
 		 * Create an action from a log entry and link it from the entry, in one
 		 * server request; nothing is left half-done when it fails.
 		 *
