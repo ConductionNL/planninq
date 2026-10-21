@@ -797,6 +797,18 @@ class Application extends App implements IBootstrap {
 			);
 		}
 
+		// Time entries: the author, the task's project and the rate terms are
+		// set by the server, not by the client (time-tracking).
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\TimeEntryGuardListener',
+				registers: ['planninq'],
+				schemas: ['plannedTimeEntry']
+			);
+		}
+
 		// Portfolios: a project's readers are the managers of its portfolio,
 		// derived on every project write and pushed out when a portfolio's
 		// managers change or it is deleted (projects-grouping-hierarchy-fields).

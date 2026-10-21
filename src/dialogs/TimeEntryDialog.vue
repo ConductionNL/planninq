@@ -72,6 +72,7 @@ import { showError } from '@nextcloud/dialogs'
 import { NcButton, NcDialog, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
+import { localIsoDate } from '../utils/localDate.js'
 
 export default {
 	name: 'TimeEntryDialog',
@@ -97,7 +98,7 @@ export default {
 	data() {
 		return {
 			durationInput: this.entry?.duration ? formatDuration(this.entry.duration) : '',
-			date: this.entry?.date || new Date().toISOString().slice(0, 10),
+			date: this.entry?.date || localIsoDate(),
 			description: this.entry?.description || '',
 			saving: false,
 			submitError: '',

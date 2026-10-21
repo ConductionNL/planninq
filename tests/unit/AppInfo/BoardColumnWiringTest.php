@@ -192,6 +192,12 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 			);
 			self::assertContains('projectStatusReport', $scoped);
 
+			$timeEntry = ['plannedTimeEntry'];
+			self::assertSame(
+				[['ObjectCreatingEvent', $timeEntry], ['ObjectUpdatingEvent', $timeEntry]],
+				$byListener['OCA\\Planninq\\Listener\\TimeEntryGuardListener'] ?? null
+			);
+
 			$status = ['project', 'projectStatusReport'];
 			self::assertSame(
 				[['ObjectCreatingEvent', $status], ['ObjectUpdatingEvent', $status], ['ObjectDeletingEvent', $status]],
