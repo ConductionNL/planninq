@@ -723,6 +723,17 @@ class Application extends App implements IBootstrap {
 				schemas: ['task']
 			);
 		}
+
+		// A task's epic, parent, column, release, phase and people stay inside its project.
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\TaskReferenceGuardListener',
+				registers: ['planninq'],
+				schemas: ['task']
+			);
+		}
 	}//end registerTaskGuardListeners()
 
 	/**

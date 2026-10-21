@@ -127,12 +127,15 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				$calls[] = [$call['listener'], substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
 			}
 
-			$guard = 'OCA\\Planninq\\Listener\\TaskReporterGuardListener';
+			$guard      = 'OCA\\Planninq\\Listener\\TaskReporterGuardListener';
+			$references = 'OCA\\Planninq\\Listener\\TaskReferenceGuardListener';
 			self::assertSame(
 				[
 					[$guard, 'ObjectCreatingEvent', ['task']],
 					[$guard, 'ObjectUpdatingEvent', ['task']],
 					[$guard, 'ObjectDeletingEvent', ['task']],
+					[$references, 'ObjectCreatingEvent', ['task']],
+					[$references, 'ObjectUpdatingEvent', ['task']],
 				],
 				$calls
 			);
