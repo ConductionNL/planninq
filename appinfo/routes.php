@@ -22,6 +22,14 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'project#create', 'url' => '/api/projects', 'verb' => 'POST'],
     // Leave-project proxy — C3: allows non-owner members to remove themselves (_rbac: false).
     ['name' => 'project#leaveProject', 'url' => '/api/projects/{projectId}/leave', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    // Multi-object actions done on the server, each one write path instead of a browser run of requests.
+    ['name' => 'projectAction#deleteProject', 'url' => '/api/projects/{projectId}', 'verb' => 'DELETE', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'projectAction#shipRelease', 'url' => '/api/releases/{releaseId}/ship', 'verb' => 'POST', 'requirements' => ['releaseId' => '[^/]+']],
+    ['name' => 'projectAction#deleteTaskTree', 'url' => '/api/tasks/{taskId}', 'verb' => 'DELETE', 'requirements' => ['taskId' => '[^/]+']],
+    ['name' => 'projectAction#movePhase', 'url' => '/api/projects/{projectId}/phases/move', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'projectAction#schedule', 'url' => '/api/projects/{projectId}/schedule', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'projectAction#addAction', 'url' => '/api/log-entries/{entryId}/actions', 'verb' => 'POST', 'requirements' => ['entryId' => '[^/]+']],
+    ['name' => 'projectAction#duplicateTask', 'url' => '/api/tasks/{taskId}/duplicate', 'verb' => 'POST', 'requirements' => ['taskId' => '[^/]+']],
 
     // Label management (admin-only) — usage listing + cascade delete.
     // Admin posture enforced by NC SecurityMiddleware (no #[NoAdminRequired]

@@ -4,7 +4,7 @@
  * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.2
  */
 import { describe, expect, it } from 'vitest'
-import { cascade, writeRun } from '../../src/utils/scheduling.js'
+import { cascade } from '../../src/utils/scheduling.js'
 import { normaliseCalendar } from '../../src/utils/workingCalendar.js'
 
 const calendar = normaliseCalendar({})
@@ -44,18 +44,5 @@ describe('cascade', () => {
 	it('successor that already starts later stays', () => {
 		const moves = cascade(tasks, edges, 'A', { startDate: '2026-10-05', dueDate: '2026-10-13' }, calendar)
 		expect(moves.map((move) => move.id)).not.toContain('E')
-	})
-})
-
-describe('writeRun', () => {
-	it('write run stops at the first failure and reports it', async () => {
-		const written = []
-		const result = await writeRun([{ id: 'A', to: {} }, { id: 'B', to: {} }, { id: 'C', to: {} }], async (id) => {
-			written.push(id)
-			return id !== 'B'
-		})
-		expect(written).toEqual(['A', 'B'])
-		expect(result.written).toBe(1)
-		expect(result.failed.id).toBe('B')
 	})
 })

@@ -58,23 +58,3 @@ export function cascade(tasks, edges, changedId, changed, calendar) {
 	}
 	return [...moves.values()]
 }
-
-/**
- * Write a run of moves one at a time, stopping at the first failure.
- *
- * @param {Array<{id: string, to: object}>} moves The moves, in order
- * @param {function(string, object): Promise<object|null>} write Writes one task's dates; a truthy result is success
- * @return {Promise<{written: number, failed: object|null}>}
- * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.3
- */
-export async function writeRun(moves, write) {
-	let written = 0
-	for (const move of moves) {
-		const result = await write(move.id, move.to)
-		if (!result) {
-			return { written, failed: move }
-		}
-		written++
-	}
-	return { written, failed: null }
-}

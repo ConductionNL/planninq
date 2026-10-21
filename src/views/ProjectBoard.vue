@@ -1465,7 +1465,7 @@ export default {
 		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-5.1
 		 */
 		async duplicateTask(task) {
-			const copy = await this.projectsStore.duplicateTask(task, this.tasks.filter((other) => other.parent === task.id))
+			const copy = await this.projectsStore.duplicateTask(task)
 			if (!copy) {
 				showError(this.t('planninq', 'Could not copy the task. Please try again.'))
 				return
