@@ -156,7 +156,10 @@ class FinanceLineListener implements IEventListener {
 		}
 
 		if ($oldData !== null && $this->withoutKept(data: $data) === $this->withoutKept(data: $oldData)) {
-			// Only the kept copies changed: the sync after a project change.
+			// Only the kept copies changed. The sync after a project change
+			// writes exactly what the project says, so it is not guarded; any
+			// other value is overwritten with the project's.
+			$this->restampKept(event: $event, data: $data);
 			return;
 		}
 
@@ -169,12 +172,24 @@ class FinanceLineListener implements IEventListener {
 			return;
 		}
 
+		$this->restampKept(event: $event, data: $data);
+	}//end route()
+
+	/**
+	 * Overwrite the kept copies with the project's values when they differ.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event The event.
+	 * @param array<string,mixed>                     $data  The line's new data.
+	 *
+	 * @return void
+	 */
+	private function restampKept(ObjectCreatingEvent|ObjectUpdatingEvent $event, array $data): void {
 		$projectId = $this->membership->projectIdFor(schemaSlug: FinanceLineService::SCHEMA, data: $data);
 		$kept      = $this->finance->keptFieldsFor(projectId: $projectId);
 		if ($this->finance->inStep(data: $data, kept: $kept) === false) {
 			$event->setModifiedData(array_merge($event->getModifiedData(), $kept));
 		}
-	}//end route()
+	}//end restampKept()
 
 	/**
 	 * Refuse the write when the caller may not make it.

@@ -276,4 +276,23 @@ class FinanceLineListenerTest extends TestCase {
 
 		self::assertFalse($event->isPropagationStopped());
 	}//end testARewriteOfOnlyTheKeptCopiesPasses()
+
+	/**
+	 * A write of only the kept copies cannot widen who reads a line or move its owner: they are put back from the project.
+	 *
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.1
+	 */
+	public function testAForgedRewriteOfTheKeptCopiesIsPutBack(): void {
+		$stored = self::manual(['financeReaders' => ['carol', 'mia'], 'projectOwner' => 'carol', 'portfolio' => self::PORTFOLIO_ID]);
+		$event  = new ObjectUpdatingEvent(
+			$this->line(uuid: 'line-1', data: array_merge($stored, ['financeReaders' => ['carol', 'mia', 'bob', 'eve'], 'projectOwner' => 'bob'])),
+			$this->line(uuid: 'line-1', data: $stored)
+		);
+
+		$this->listener(actor: 'carol')->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		self::assertSame(['carol', 'mia'], $event->getModifiedData()['financeReaders'] ?? null);
+		self::assertSame('carol', $event->getModifiedData()['projectOwner'] ?? null);
+	}//end testAForgedRewriteOfTheKeptCopiesIsPutBack()
 }//end class
