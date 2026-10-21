@@ -48,6 +48,9 @@ const BOARD_FILTER_SCHEMA = 'boardFilter'
 const BOARD_VIEW_SCHEMA = 'boardView'
 const FORGE_LINK_SCHEMA = 'forgeLink'
 
+/** The store error of a PATCH OpenRegister refused because the project changed since it was read (409). */
+const ACL_CONFLICT = 'conflict'
+
 /**
  * Largest page OpenRegister will return. Asking for more is silently capped.
  *
@@ -488,7 +491,7 @@ export const useProjectsStore = defineStore('projects', {
 
 				if (!response.ok) {
 					const errorData = await response.json().catch(() => ({}))
-					this.error = errorData?.message || 'patch-error'
+					this.error = response.status === 409 ? ACL_CONFLICT : (errorData?.message || 'patch-error')
 					return null
 				}
 
@@ -1427,18 +1430,14 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
 		 */
 		async addMember(projectId, userUid) {
-			const project = await this.fetchProject(projectId)
-			if (!project) {
-				return null
-			}
-
-			const members = Array.isArray(project.members) ? [...project.members] : []
-			if (members.includes(userUid)) { // Guard against duplicates.
-				return project
-			}
-
-			members.push(userUid)
-			return this.patchProject(projectId, { members })
+			return this._writeRoles(projectId, (project) => {
+				const members = Array.isArray(project.members) ? [...project.members] : []
+				if (members.includes(userUid)) { // Guard against duplicates.
+					return {}
+				}
+				members.push(userUid)
+				return { members }
+			})
 		},
 
 		/**
@@ -1452,16 +1451,14 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
 		 */
 		async addMemberGroup(projectId, groupId) {
-			const project = await this.fetchProject(projectId)
-			if (!project) {
-				return null
-			}
-			const memberGroups = Array.isArray(project.memberGroups) ? [...project.memberGroups] : []
-			if (memberGroups.includes(groupId)) {
-				return project
-			}
-			memberGroups.push(groupId)
-			return this.patchProject(projectId, { memberGroups })
+			return this._writeRoles(projectId, (project) => {
+				const memberGroups = Array.isArray(project.memberGroups) ? [...project.memberGroups] : []
+				if (memberGroups.includes(groupId)) {
+					return {}
+				}
+				memberGroups.push(groupId)
+				return { memberGroups }
+			})
 		},
 
 		/**
@@ -1475,16 +1472,14 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
 		 */
 		async setOwnerGroup(projectId, gid) {
-			const project = await this.fetchProject(projectId)
-			if (!project) {
-				return null
-			}
-			const ownerGroups = gid ? [gid] : []
-			const before = Array.isArray(project.ownerGroups) ? project.ownerGroups : []
-			if (before.length === ownerGroups.length && before.every((entry, index) => entry === ownerGroups[index])) {
-				return project
-			}
-			return this.patchProject(projectId, { ownerGroups })
+			return this._writeRoles(projectId, (project) => {
+				const ownerGroups = gid ? [gid] : []
+				const before = Array.isArray(project.ownerGroups) ? project.ownerGroups : []
+				if (before.length === ownerGroups.length && before.every((entry, index) => entry === ownerGroups[index])) {
+					return {}
+				}
+				return { ownerGroups }
+			})
 		},
 
 		/**
@@ -1500,15 +1495,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.4
 		 */
 		async setMemberRole(projectId, id, type, role) {
-			const project = await this.fetchProject(projectId)
-			if (!project) {
-				return null
-			}
-			const patch = rolePatch(project, id, type, role)
-			if (Object.keys(patch).length === 0) {
-				return project
-			}
-			return this.patchProject(projectId, patch)
+			return this._writeRoles(projectId, (project) => rolePatch(project, id, type, role))
 		},
 
 		/**
@@ -1521,12 +1508,42 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
 		 */
 		async removeMemberGroup(projectId, groupId) {
-			const project = await this.fetchProject(projectId)
-			if (!project) {
-				return null
+			return this._writeRoles(projectId, (project) => ({
+				memberGroups: (Array.isArray(project.memberGroups) ? project.memberGroups : []).filter((gid) => gid !== groupId),
+			}))
+		},
+
+		/**
+		 * Write a change to a project's role lists from the version just read.
+		 *
+		 * The lists are read, changed and written whole, so the write carries
+		 * the `updated` stamp it was computed from (`_expectedUpdated`) and
+		 * OpenRegister refuses it with 409 when someone changed the project in
+		 * between. Then the change is computed again from a fresh read, once;
+		 * a grant or a removal is never lost or undone silently.
+		 *
+		 * @param {string} projectId Project ID
+		 * @param {function(object): object} change The PATCH for a project, `{}` for nothing to do
+		 * @return {Promise<object|null>} The project, or null on failure
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.4
+		 */
+		async _writeRoles(projectId, change) {
+			for (let attempt = 0; attempt < 2; attempt++) {
+				const project = await this.fetchProject(projectId)
+				if (!project) {
+					return null
+				}
+				const patch = change(project)
+				if (Object.keys(patch).length === 0) {
+					return project
+				}
+				const saved = await this.patchProject(projectId, { ...patch, _expectedUpdated: project['@self']?.updated })
+				if (saved || this.error !== ACL_CONFLICT) {
+					return saved
+				}
 			}
-			const memberGroups = (Array.isArray(project.memberGroups) ? project.memberGroups : []).filter((gid) => gid !== groupId)
-			return this.patchProject(projectId, { memberGroups })
+			return null
 		},
 
 		// ── 2.10 getMemberTaskCount ───────────────────────────────────────
@@ -1577,20 +1594,16 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
 		 */
 		async removeMember(projectId, userUid) {
-			const project = await this.fetchProject(projectId)
-			if (!project) {
-				return null
-			}
+			return this._writeRoles(projectId, (project) => {
+				const patch = rolePatch(project, userUid, 'user', null)
 
-			const patch = rolePatch(project, userUid, 'user', null)
-
-			// Refuse to leave a project with no remaining members — an orphaned
-			// project is inaccessible and unrecoverable without admin intervention.
-			if (Array.isArray(patch.members) && patch.members.length === 0) {
-				throw new Error('Cannot remove the last member from a project')
-			}
-
-			return Object.keys(patch).length ? this.patchProject(projectId, patch) : project
+				// Refuse to leave a project with no remaining members — an orphaned
+				// project is inaccessible and unrecoverable without admin intervention.
+				if (Array.isArray(patch.members) && patch.members.length === 0) {
+					throw new Error('Cannot remove the last member from a project')
+				}
+				return patch
+			})
 		},
 
 		// ── 2.12 leaveProject ────────────────────────────────────────────

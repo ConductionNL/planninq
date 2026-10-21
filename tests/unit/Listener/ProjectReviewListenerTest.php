@@ -140,4 +140,58 @@ class ProjectReviewListenerTest extends TestCase {
 		$this->listener()->handle(new ObjectUpdatedEvent($this->entity(data: ['status' => 'rejected'] + $old), $this->entity(data: $old)));
 		self::assertSame([true], $this->columnCalls, 'a rejected request gets no board');
 	}//end testAnApprovedRequestGetsItsBoard()
+
+	/**
+	 * The review and the handover record are audit fields: an ordinary save
+	 * by the owner or a manager cannot write, rewrite or null them.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.4
+	 */
+	public function testAnOrdinarySaveKeepsTheAuditFields(): void {
+		$handover = ['by' => 'rik', 'case' => 'case-1', 'at' => '2026-09-01T10:00:00+00:00', 'files' => [], 'failures' => []];
+		$old      = ['status' => 'active', 'reviewedBy' => 'olga', 'reviewedAt' => '2026-09-29T10:00:00+00:00', 'reviewNote' => 'Go', 'caseHandovers' => [$handover]] + $this->request();
+		$forged   = ['reviewedBy' => 'rik', 'reviewNote' => 'Approved by the board', 'caseHandovers' => [$handover, ['by' => 'rik', 'case' => 'case-1', 'files' => []]]];
+
+		$event = new ObjectUpdatingEvent($this->entity(data: $forged + $old), $this->entity(data: $old));
+		$this->listener()->handle($event);
+		self::assertSame(['caseHandovers' => [$handover], 'reviewedBy' => 'olga', 'reviewNote' => 'Go'], $event->getModifiedData());
+
+		$put = new ObjectUpdatingEvent($this->entity(data: ['title' => 'Portaal 2', 'status' => 'active', 'owner' => 'rik']), $this->entity(data: $old));
+		$this->listener()->handle($put);
+		self::assertSame(
+			['caseHandovers' => [$handover], 'reviewedBy' => 'olga', 'reviewedAt' => '2026-09-29T10:00:00+00:00', 'reviewNote' => 'Go'],
+			$put->getModifiedData(),
+			'a PUT that leaves them out does not wipe them'
+		);
+	}//end testAnOrdinarySaveKeepsTheAuditFields()
+
+	/**
+	 * The reviewing save carries the reviewer's note, but not a handover record.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.4
+	 */
+	public function testTheReviewingSaveTakesTheNoteButNotAHandover(): void {
+		$old   = $this->request();
+		$event = new ObjectUpdatingEvent(
+			$this->entity(data: ['status' => 'active', 'reviewNote' => 'Go', 'caseHandovers' => [['by' => 'rik']]] + $old),
+			$this->entity(data: $old)
+		);
+		$this->listener()->handle($event);
+
+		$changes = $event->getModifiedData();
+		self::assertArrayNotHasKey('reviewNote', $changes);
+		self::assertArrayHasKey('caseHandovers', $changes);
+		self::assertNull($changes['caseHandovers'], 'the forged record is dropped');
+		self::assertSame('olga', $changes['reviewedBy']);
+	}//end testTheReviewingSaveTakesTheNoteButNotAHandover()
+
+	/**
+	 * A system write (the handover itself) is not held back.
+	 */
+	public function testASystemWriteAddsAHandover(): void {
+		$old   = ['status' => 'active'] + $this->request();
+		$event = new ObjectUpdatingEvent($this->entity(data: ['caseHandovers' => [['by' => 'rik']]] + $old), $this->entity(data: $old));
+		SystemOperationContext::run(fn () => $this->listener()->handle($event));
+		self::assertSame([], $event->getModifiedData());
+	}//end testASystemWriteAddsAHandover()
 }//end class

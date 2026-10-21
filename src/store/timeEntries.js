@@ -1,4 +1,6 @@
+import { buildHeaders } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
+import { generateUrl } from '@nextcloud/router'
 /**
  * TimeEntry Pinia store.
  *
@@ -16,6 +18,7 @@ import { getCurrentUser } from '@nextcloud/auth'
  * @spec openspec/specs/time-tracking.md
  */
 import { defineStore } from 'pinia'
+import { localIsoDate } from '../utils/localDate.js'
 import { useObjectStore } from './objectStore.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
@@ -151,7 +154,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 				const objectStore = this._objectStore()
 				const payload = {
 					user: this._currentUid(),
-					date: new Date().toISOString().slice(0, 10),
+					date: localIsoDate(),
 					...data,
 				}
 				const saved = await objectStore.saveObject(TIME_ENTRY_SCHEMA, payload)
@@ -169,6 +172,9 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		/**
 		 * Update a time entry's mutable fields (duration/date/description).
 		 *
+		 * PATCH, not PUT: OpenRegister's PUT nulls every property it is not
+		 * sent, which would wipe the entry's author and project.
+		 *
 		 * @param {string} id Entry UUID.
 		 * @param {object} patch Fields to change.
 		 * @return {Promise<object|null>} Updated entry or null on failure.
@@ -177,8 +183,17 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 */
 		async update(id, patch) {
 			try {
-				const objectStore = this._objectStore()
-				const saved = await objectStore.saveObject(TIME_ENTRY_SCHEMA, { id, ...patch })
+				const response = await fetch(generateUrl(`/apps/openregister/api/objects/${REGISTER}/${TIME_ENTRY_SCHEMA}/${id}`), {
+					method: 'PATCH',
+					headers: buildHeaders(),
+					body: JSON.stringify(patch),
+				})
+				if (!response.ok) {
+					const errorData = await response.json().catch(() => ({}))
+					this.error = errorData?.message || 'update-error'
+					return null
+				}
+				const saved = await response.json()
 				if (saved) {
 					this.entries = this.entries.map((e) => (e.id === id ? { ...e, ...saved } : e))
 				}
