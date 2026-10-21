@@ -44,6 +44,8 @@ use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
 use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\IUser;
+use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -82,7 +84,11 @@ class WorkItemKeyListenerTest extends TestCase {
 		);
 	}//end keys()
 
-	private function listener(): WorkItemKeyListener {
+	private function listener(string $actor = ''): WorkItemKeyListener {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn($actor);
+		$session = $this->createMock(originalClassName: IUserSession::class);
+		$session->method('getUser')->willReturn($actor === '' ? null : $user);
 		$jobList = $this->createMock(originalClassName: IJobList::class);
 		$jobList->method('add')->willReturnCallback(function ($job, $argument = null): void {
 			$this->queued[] = [$job, $argument];
@@ -92,7 +98,8 @@ class WorkItemKeyListenerTest extends TestCase {
 			keys: $this->keys(),
 			scopeResolver: $this->scopeResolver(),
 			jobList: $jobList,
-			logger: $this->createMock(originalClassName: LoggerInterface::class)
+			logger: $this->createMock(originalClassName: LoggerInterface::class),
+			userSession: $session
 		);
 	}//end listener()
 
@@ -104,9 +111,9 @@ class WorkItemKeyListenerTest extends TestCase {
 		return (array)$this->objects->find(id: $uuid, schema: $slug)->getObject();
 	}//end stored()
 
-	private function createTask(array $data): ObjectCreatingEvent {
+	private function createTask(array $data, string $actor = ''): ObjectCreatingEvent {
 		$event = new ObjectCreatingEvent($this->entity(slug: 'task', uuid: '', data: $data + ['title' => 'Check the zoning plan', 'status' => 'open']));
-		$this->listener()->handle($event);
+		$this->listener(actor: $actor)->handle($event);
 
 		return $event;
 	}//end createTask()
@@ -155,6 +162,39 @@ class WorkItemKeyListenerTest extends TestCase {
 		self::assertArrayNotHasKey('key', $event->getModifiedData());
 		self::assertSame(42, $this->stored(slug: 'project', uuid: self::VERG)['nextTaskNumber'], 'no number used');
 	}//end testAnIncomingKeyIsKept()
+
+	/**
+	 * A person cannot choose a task's key: a sent key, another project's
+	 * included, is replaced by the next number of the task's own project.
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-2.2
+	 */
+	public function testAKeySentByAPersonIsReplaced(): void {
+		$event = $this->createTask(data: ['project' => self::VERG, 'key' => 'SECR-57'], actor: 'bob');
+		self::assertSame('VERG-42', $event->getModifiedData()['key'] ?? null);
+
+		$keyless = $this->createTask(data: ['project' => self::HAND, 'key' => 'SECR-58'], actor: 'carol');
+		self::assertArrayHasKey('key', $keyless->getModifiedData());
+		self::assertNull($keyless->getModifiedData()['key'], 'a project without a key gives none');
+	}//end testAKeySentByAPersonIsReplaced()
+
+	/**
+	 * An update by a person keeps the stored key, also when it sends another project's key or none.
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-2.2
+	 */
+	public function testAnUpdateKeepsTheTaskKey(): void {
+		$stored = ['title' => 'Check the zoning plan', 'status' => 'open', 'project' => self::VERG, 'key' => 'VERG-7'];
+		foreach (['another project' => 'SECR-57', 'nulled' => null] as $case => $key) {
+			$event = new ObjectUpdatingEvent($this->entity(slug: 'task', uuid: 't-7', data: ['key' => $key] + $stored), $this->entity(slug: 'task', uuid: 't-7', data: $stored));
+			$this->listener(actor: 'bob')->handle($event);
+			self::assertSame('VERG-7', $event->getModifiedData()['key'] ?? null, $case);
+		}
+
+		$unchanged = new ObjectUpdatingEvent($this->entity(slug: 'task', uuid: 't-7', data: ['title' => 'Done'] + $stored), $this->entity(slug: 'task', uuid: 't-7', data: $stored));
+		$this->listener(actor: 'bob')->handle($unchanged);
+		self::assertSame([], $unchanged->getModifiedData());
+	}//end testAnUpdateKeepsTheTaskKey()
 
 	/**
 	 * A task in a project without a key gets no key.

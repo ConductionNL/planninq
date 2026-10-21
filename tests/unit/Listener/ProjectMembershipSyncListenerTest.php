@@ -40,6 +40,8 @@ use OCA\Planninq\Listener\ProjectMembershipSyncListener;
 use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
+use OCA\Planninq\Service\TaskReportReaderService;
+use OCP\App\IAppManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -81,12 +83,15 @@ class ProjectMembershipSyncListenerTest extends TestCase {
 	private function listener(): ProjectMembershipSyncListener {
 		$membership = $this->membershipService();
 		$logger     = $this->createMock(originalClassName: LoggerInterface::class);
+		$apps       = $this->createMock(originalClassName: IAppManager::class);
+		$apps->method('isInstalled')->willReturn(true);
 
 		return new ProjectMembershipSyncListener(
 			membership: $membership,
 			finance: new FinanceLineService(membership: $membership, container: $this->container(), logger: $logger),
 			scopeResolver: $this->scopeResolver(),
-			logger: $logger
+			logger: $logger,
+			reports: new TaskReportReaderService(membership: $membership, container: $this->container(), appManager: $apps, logger: $logger)
 		);
 	}//end listener()
 
@@ -154,6 +159,27 @@ class ProjectMembershipSyncListenerTest extends TestCase {
 		);
 		self::assertSame(['alice'], $this->objects->rows['plannedTimeEntry']['te-by-task']['members']);
 	}//end testRemovingAMemberTakesThemOffAndKeepsTheRow()
+
+	/**
+	 * A removed member stops reading the shared reports of the project; a private report is left alone.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/custom-reports/spec.md
+	 */
+	public function testAMembershipChangeRewritesWhoReadsTheSharedReports(): void {
+		$this->schemaSlugs['26'] = 'taskReport';
+		$old = ['title' => 'A', 'members' => ['alice', 'bob'], 'owner' => 'alice'];
+		$new = ['title' => 'A', 'members' => ['alice'], 'owner' => 'alice'];
+		$this->objects->seed('project', 'proj-a', $new);
+		$this->objects->seed('taskReport', 'rep-1', ['title' => 'Flow', 'shared' => 'readers', 'projects' => ['proj-a'], 'readers' => ['alice', 'bob'], 'readerGroups' => []]);
+		$this->objects->seed('taskReport', 'rep-2', ['title' => 'Mine', 'shared' => 'private', 'projects' => ['proj-a'], 'readers' => [], 'readerGroups' => []]);
+
+		$this->listener()->handle($this->projectUpdate(old: $old, new: $new));
+
+		self::assertSame(['alice'], $this->objects->rows['taskReport']['rep-1']['readers']);
+		self::assertSame([], $this->objects->rows['taskReport']['rep-2']['readers']);
+	}//end testAMembershipChangeRewritesWhoReadsTheSharedReports()
 
 	/**
 	 * The child writes bypass RBAC and validation and stay silent.

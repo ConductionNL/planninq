@@ -10,6 +10,11 @@
  * an admin cannot create, change or delete a column. Members still move cards,
  * which writes the task, not the column.
  *
+ * A person's delete is refused while the column still holds cards (they would
+ * keep a dangling `column`), and for the last done column of a project that
+ * has tasks: the board needs somewhere to finish work. Both rules used to
+ * live in the browser only.
+ *
  * A write that changes nothing but the `members` list passes: planninq keeps
  * that list itself, and rewrites it as whoever changed the project's
  * membership, including a member who leaves.
@@ -64,6 +69,20 @@ class ColumnOwnerGuardListener implements IEventListener {
 	 * @var string
 	 */
 	private const OR_SYSTEM_CONTEXT = 'OCA\\OpenRegister\\Service\\SystemOperationContext';
+
+	/**
+	 * Error code of a delete of a column that still holds cards.
+	 *
+	 * @var string
+	 */
+	public const ERROR_HAS_CARDS = 'planninq-column-has-cards';
+
+	/**
+	 * Error code of a delete of a project's last done column.
+	 *
+	 * @var string
+	 */
+	public const ERROR_LAST_DONE = 'planninq-column-last-done';
 
 	/**
 	 * Constructor.
@@ -134,6 +153,10 @@ class ColumnOwnerGuardListener implements IEventListener {
 
 		$projectId = $this->membership->projectIdFor(schemaSlug: 'column', data: $data);
 		if ($this->mayManage(projectId: $projectId) === true) {
+			if ($event instanceof ObjectDeletingEvent === true) {
+				$this->guardDelete(event: $event, columnId: (string)($object->getUuid() ?? ''), data: $data, projectId: $projectId);
+			}
+
 			return;
 		}
 
@@ -147,6 +170,73 @@ class ColumnOwnerGuardListener implements IEventListener {
 		$event->stopPropagation();
 		$this->logger->info('Planninq: refused a column change by someone who is not the project owner', ['project' => $projectId]);
 	}//end guard()
+
+	/**
+	 * Refuse a person's delete of a column with cards, or of the last done column of a project with tasks.
+	 *
+	 * @param ObjectDeletingEvent $event     The event.
+	 * @param string              $columnId  The column UUID.
+	 * @param array<string,mixed> $data      The column.
+	 * @param string              $projectId The column's project.
+	 *
+	 * @return void
+	 */
+	private function guardDelete(ObjectDeletingEvent $event, string $columnId, array $data, string $projectId): void {
+		if ($this->userSession->getUser() === null || $this->isSystemOperation() === true || $columnId === '' || $projectId === '') {
+			return;
+		}
+
+		if ($this->membership->rows(schema: 'task', filters: ['column' => $columnId]) !== []) {
+			$this->refuseDelete(
+				event: $event,
+				code: self::ERROR_HAS_CARDS,
+				message: 'Move the cards out of this column before removing it.',
+				projectId: $projectId
+			);
+			return;
+		}
+
+		if (($data['type'] ?? null) === 'done'
+			&& $this->hasOtherDoneColumn(columnId: $columnId, projectId: $projectId) === false
+			&& $this->membership->rows(schema: 'task', filters: ['project' => $projectId]) !== []
+		) {
+			$this->refuseDelete(event: $event, code: self::ERROR_LAST_DONE, message: 'A board needs at least one done column.', projectId: $projectId);
+		}
+	}//end guardDelete()
+
+	/**
+	 * Whether the project has a done column besides this one.
+	 *
+	 * @param string $columnId  The column being removed.
+	 * @param string $projectId The project.
+	 *
+	 * @return bool
+	 */
+	private function hasOtherDoneColumn(string $columnId, string $projectId): bool {
+		foreach ($this->membership->rows(schema: 'column', filters: ['project' => $projectId]) as $other) {
+			if ($other['id'] !== $columnId && ($other['data']['type'] ?? null) === 'done') {
+				return true;
+			}
+		}
+
+		return false;
+	}//end hasOtherDoneColumn()
+
+	/**
+	 * Stop a delete; OpenRegister answers with 409.
+	 *
+	 * @param ObjectDeletingEvent $event     The event.
+	 * @param string              $code      The error code.
+	 * @param string              $message   The message.
+	 * @param string              $projectId The column's project.
+	 *
+	 * @return void
+	 */
+	private function refuseDelete(ObjectDeletingEvent $event, string $code, string $message, string $projectId): void {
+		$event->setErrors(['message' => $message, 'code' => $code, 'status' => 409, 'project' => $projectId]);
+		$event->stopPropagation();
+		$this->logger->info('Planninq: refused a column delete', ['code' => $code, 'project' => $projectId]);
+	}//end refuseDelete()
 
 	/**
 	 * Whether the caller may manage the columns of this project.

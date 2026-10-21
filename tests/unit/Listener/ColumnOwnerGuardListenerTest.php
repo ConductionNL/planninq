@@ -131,6 +131,48 @@ class ColumnOwnerGuardListenerTest extends TestCase {
 		self::assertFalse($event->isPropagationStopped());
 	}//end testAMembersOnlyRewriteIsAllowed()
 
+	public function testTheOwnerCannotRemoveAColumnThatStillHoldsCards(): void {
+		$this->objects->seed('task', 't-1', ['title' => 'Draft', 'status' => 'open', 'project' => 'proj-a', 'column' => 'col-1']);
+		$event = new ObjectDeletingEvent($this->column(data: self::COLUMN));
+
+		$this->listener(actor: 'carol')->handle($event);
+
+		self::assertTrue($event->isPropagationStopped());
+		self::assertSame(ColumnOwnerGuardListener::ERROR_HAS_CARDS, $event->getErrors()['code']);
+		self::assertSame(409, $event->getErrors()['status']);
+	}//end testTheOwnerCannotRemoveAColumnThatStillHoldsCards()
+
+	/**
+	 * The last done column of a board with tasks stays; with another done column, or no tasks left, it may go.
+	 */
+	public function testTheLastDoneColumnOfABoardWithTasksStays(): void {
+		$done = ['type' => 'done'] + self::COLUMN;
+		$this->objects->seed('column', 'col-1', $done);
+		$this->objects->seed('task', 't-1', ['title' => 'Draft', 'status' => 'open', 'project' => 'proj-a', 'column' => 'col-0']);
+
+		$last = new ObjectDeletingEvent($this->column(data: $done));
+		$this->listener(actor: 'carol')->handle($last);
+		self::assertSame(ColumnOwnerGuardListener::ERROR_LAST_DONE, $last->getErrors()['code'] ?? null);
+
+		$this->objects->seed('column', 'col-2', ['title' => 'Shipped', 'type' => 'done'] + self::COLUMN);
+		$another = new ObjectDeletingEvent($this->column(data: $done));
+		$this->listener(actor: 'carol')->handle($another);
+		self::assertFalse($another->isPropagationStopped(), 'another done column remains');
+	}//end testTheLastDoneColumnOfABoardWithTasksStays()
+
+	/**
+	 * A board without tasks may lose its last done column, as the project delete does.
+	 */
+	public function testAnEmptyBoardMayLoseItsLastDoneColumn(): void {
+		$done = ['type' => 'done'] + self::COLUMN;
+		$this->objects->seed('column', 'col-1', $done);
+		$event = new ObjectDeletingEvent($this->column(data: $done));
+
+		$this->listener(actor: 'carol')->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+	}//end testAnEmptyBoardMayLoseItsLastDoneColumn()
+
 	public function testNoSessionAndOtherSchemasPass(): void {
 		$event = new ObjectUpdatingEvent($this->column(data: ['title' => 'Waiting'] + self::COLUMN), $this->column(data: self::COLUMN));
 		$this->listener(actor: '')->handle($event);

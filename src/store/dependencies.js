@@ -11,6 +11,8 @@ import { generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
  */
 import { defineStore } from 'pinia'
+import { fetchEvery } from '../utils/fetchEvery.js'
+import { useObjectStore } from './objectStore.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
 // `planninq` together with the MigrateRegisterSlug repair step, which renames
@@ -30,6 +32,17 @@ export const useDependenciesStore = defineStore('dependencies', {
 
 	actions: {
 		/**
+		 * @spec exclude Internal helper — lazily registers the dependency type on the shared object store.
+		 */
+		_objectStore() {
+			const store = useObjectStore()
+			if (!store.objectTypeRegistry?.[DEPENDENCY_SCHEMA]) {
+				store.registerObjectType(DEPENDENCY_SCHEMA, DEPENDENCY_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: DEPENDENCY_SCHEMA })
+			}
+			return store
+		},
+
+		/**
 		 * Fetch all dependency edges from OpenRegister and store them.
 		 *
 		 * Reads use the OR API directly per ADR-022. Each edge is normalised to
@@ -43,16 +56,9 @@ export const useDependenciesStore = defineStore('dependencies', {
 			this.loading = true
 			this.error = null
 			try {
-				// _limit: OpenRegister pages at 20, which dropped links on any busy instance.
-				const url = generateUrl(`/apps/openregister/api/objects/${REGISTER}/${DEPENDENCY_SCHEMA}?_limit=1000`)
-				const response = await fetch(url, { headers: buildHeaders() })
-				if (!response.ok) {
-					this.edges = []
-					return []
-				}
-				const data = await response.json()
-				const rows = data.results || data
-				this.edges = (Array.isArray(rows) ? rows : []).map((row) => ({
+				// Every page: a single page silently dropped links past the cap.
+				const rows = await fetchEvery(this._objectStore(), DEPENDENCY_SCHEMA)
+				this.edges = rows.map((row) => ({
 					id: row.id || row['@self']?.id,
 					blocker: row.blocker,
 					blocked: row.blocked,

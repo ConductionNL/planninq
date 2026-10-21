@@ -38,6 +38,7 @@ use OCA\Planninq\Service\WorkItemKeyService;
 use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IUserSession;
 use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
 
@@ -90,12 +91,14 @@ class WorkItemKeyListener implements IEventListener {
 	 * @param TaskScopeResolver  $scopeResolver Tells a planninq schema from any other object.
 	 * @param IJobList           $jobList       Queues the numbering of existing tasks.
 	 * @param LoggerInterface    $logger        The logger.
+	 * @param IUserSession       $userSession   Tells a person's write from occ, cron and repair steps.
 	 */
 	public function __construct(
 		private WorkItemKeyService $keys,
 		private TaskScopeResolver $scopeResolver,
 		private IJobList $jobList,
 		private LoggerInterface $logger,
+		private IUserSession $userSession,
 	) {
 	}//end __construct()
 
@@ -148,6 +151,11 @@ class WorkItemKeyListener implements IEventListener {
 			return;
 		}
 
+		if ($slug === 'task' && $oldData !== null) {
+			$this->keepTaskKey(event: $event, data: $data, oldData: $oldData);
+			return;
+		}
+
 		if ($slug === 'project' && $this->isSystemOperation() === false) {
 			$this->guardProject(event: $event, projectId: (string)($object->getUuid() ?? ''), data: $data, oldData: $oldData);
 		}
@@ -164,28 +172,79 @@ class WorkItemKeyListener implements IEventListener {
 	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-2.2
 	 */
 	private function assignTaskKey(ObjectCreatingEvent $event, array $data): void {
-		$projectId = $data['project'] ?? '';
+		$sentKey = trim((string)($data['key'] ?? ''));
+		if ($sentKey !== '' && $this->isTrustedWrite() === true) {
+			// An import by occ, cron or the system brings its own keys.
+			return;
+		}
+
+		$projectId = $this->projectIdOf(data: $data);
+		$key       = null;
+		if ($projectId !== '') {
+			try {
+				$key = $this->keys->nextTaskKey(projectId: $projectId);
+			} catch (LockedException $e) {
+				$event->setErrors(['code' => self::ERROR_BUSY, 'message' => 'Could not number the task. Try again.']);
+				$event->stopPropagation();
+				$this->logger->warning('Planninq: task counter stayed locked', ['project' => $projectId]);
+				return;
+			}
+		}
+
+		if ($key !== null || $sentKey !== '') {
+			$event->setModifiedData(array_merge($event->getModifiedData(), ['key' => $key]));
+		}
+	}//end assignTaskKey()
+
+	/**
+	 * A task's project uuid, or '' when it names none.
+	 *
+	 * @param array<string,mixed> $data The task data.
+	 *
+	 * @return string
+	 */
+	private function projectIdOf(array $data): string {
+		$projectId = ($data['project'] ?? '');
 		if (is_array($projectId) === true) {
 			$projectId = ($projectId['id'] ?? '');
 		}
 
-		if (trim((string)($data['key'] ?? '')) !== '' || is_string($projectId) === false || $projectId === '') {
+		if (is_string($projectId) === false) {
+			return '';
+		}
+
+		return $projectId;
+	}//end projectIdOf()
+
+	/**
+	 * Put back a task's stored key when a person's update sends another one.
+	 *
+	 * A key names one task for good: forge events and links find the task by
+	 * it, so a member may not give a task another project's key.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event   The event.
+	 * @param array<string,mixed>                     $data    The new task data.
+	 * @param array<string,mixed>                     $oldData The stored task.
+	 *
+	 * @return void
+	 */
+	private function keepTaskKey(ObjectCreatingEvent|ObjectUpdatingEvent $event, array $data, array $oldData): void {
+		$stored = ($oldData['key'] ?? null);
+		if (($data['key'] ?? null) === $stored || $this->isTrustedWrite() === true) {
 			return;
 		}
 
-		try {
-			$key = $this->keys->nextTaskKey(projectId: $projectId);
-		} catch (LockedException $e) {
-			$event->setErrors(['code' => self::ERROR_BUSY, 'message' => 'Could not number the task. Try again.']);
-			$event->stopPropagation();
-			$this->logger->warning('Planninq: task counter stayed locked', ['project' => $projectId]);
-			return;
-		}
+		$event->setModifiedData(array_merge($event->getModifiedData(), ['key' => $stored]));
+	}//end keepTaskKey()
 
-		if ($key !== null) {
-			$event->setModifiedData(array_merge($event->getModifiedData(), ['key' => $key]));
-		}
-	}//end assignTaskKey()
+	/**
+	 * Whether the write comes from occ, cron, a repair step or an OpenRegister system operation.
+	 *
+	 * @return bool
+	 */
+	private function isTrustedWrite(): bool {
+		return ($this->userSession->getUser() === null || $this->isSystemOperation() === true);
+	}//end isTrustedWrite()
 
 	/**
 	 * Hold a project write to the key rules and keep the counter to the system.

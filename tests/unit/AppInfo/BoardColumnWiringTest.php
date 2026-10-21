@@ -90,7 +90,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				'a shared report carries who reads its projects'
 			);
 			self::assertSame(
-				[['ObjectCreatingEvent', ['forgeLink']]],
+				[['ObjectCreatingEvent', ['forgeLink']], ['ObjectUpdatingEvent', ['forgeLink']]],
 				($byListener['OCA\\Planninq\\Listener\\ForgeLinkResolveListener'] ?? null),
 				'a new code link finds its task (integration-code-forge-links task 1.2)'
 			);
@@ -132,12 +132,15 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				$calls[] = [$call['listener'], substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
 			}
 
-			$guard = 'OCA\\Planninq\\Listener\\TaskReporterGuardListener';
+			$guard      = 'OCA\\Planninq\\Listener\\TaskReporterGuardListener';
+			$references = 'OCA\\Planninq\\Listener\\TaskReferenceGuardListener';
 			self::assertSame(
 				[
 					[$guard, 'ObjectCreatingEvent', ['task']],
 					[$guard, 'ObjectUpdatingEvent', ['task']],
 					[$guard, 'ObjectDeletingEvent', ['task']],
+					[$references, 'ObjectCreatingEvent', ['task']],
+					[$references, 'ObjectUpdatingEvent', ['task']],
 				],
 				$calls
 			);

@@ -671,15 +671,28 @@ class Application extends App implements IBootstrap {
 		}
 
 		// A new code link finds its task by key or id and takes the task's
-		// project; a repeat of the same forge item is refused
-		// (integration-code-forge-links).
-		$this->registerFilteredObjectListener(
-			dispatcher: $dispatcher,
-			event: 'OCA\\OpenRegister\\Event\\ObjectCreatingEvent',
-			listener: 'OCA\\Planninq\\Listener\\ForgeLinkResolveListener',
-			registers: ['planninq'],
-			schemas: ['forgeLink']
-		);
+		// project; a repeat of the same forge item is refused; a person's
+		// link is always `manual` (integration-code-forge-links).
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\ForgeLinkResolveListener',
+				registers: ['planninq'],
+				schemas: ['forgeLink']
+			);
+		}
+
+		// A release is shipped only through the ship action, at the server's time.
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\ReleaseShipGuardListener',
+				registers: ['planninq'],
+				schemas: ['projectRelease']
+			);
+		}
 
 		// A release is shipped only through the ship action, at the server's time.
 		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
@@ -728,6 +741,17 @@ class Application extends App implements IBootstrap {
 				dispatcher: $dispatcher,
 				event: 'OCA\\OpenRegister\\Event\\' . $event,
 				listener: 'OCA\\Planninq\\Listener\\TaskReporterGuardListener',
+				registers: ['planninq'],
+				schemas: ['task']
+			);
+		}
+
+		// A task's epic, parent, column, release, phase and people stay inside its project.
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\TaskReferenceGuardListener',
 				registers: ['planninq'],
 				schemas: ['task']
 			);
@@ -813,6 +837,7 @@ class Application extends App implements IBootstrap {
 					'projectRelease',
 					'boardFilter',
 					'forgeLink',
+					'dependency',
 				]
 			);
 		}

@@ -151,7 +151,7 @@ class DependencyService {
 		}
 
 		$saved = $objectService->saveObject(
-			object: ['blocker' => $blocker, 'blocked' => $blocked, 'type' => $type],
+			object: ['blocker' => $blocker, 'blocked' => $blocked, 'type' => $type, 'project' => $projectId],
 			register: self::REGISTER,
 			schema: self::SCHEMA,
 			_rbac: false
@@ -203,7 +203,7 @@ class DependencyService {
 				continue;
 			}
 
-			$objectService->saveObject(object: $edge, register: self::REGISTER, schema: self::SCHEMA, _rbac: false);
+			$objectService->saveObject(object: $edge + ['project' => $projectId], register: self::REGISTER, schema: self::SCHEMA, _rbac: false);
 			$edges[] = $edge;
 			$result['created']++;
 		}
