@@ -278,8 +278,8 @@ class ProjectImportControllerTest extends TestCase {
 		self::assertArrayNotHasKey('phase', $this->one(schema: 'task', title: 'Asbestsanering')[1]);
 
 		$edges = array_values($this->objects->rows['dependency']);
-		self::assertContains(['blocker' => $fundering, 'blocked' => $metselwerk, 'type' => 'blocks'], $edges);
-		self::assertContains(['blocker' => $metselwerk, 'blocked' => $this->one(schema: 'task', title: 'Oplevering ruwbouw')[0], 'type' => 'relates'], $edges);
+		self::assertContains(['blocker' => $fundering, 'blocked' => $metselwerk, 'type' => 'blocks', 'project' => self::PROJECT], $edges);
+		self::assertContains(['blocker' => $metselwerk, 'blocked' => $this->one(schema: 'task', title: 'Oplevering ruwbouw')[0], 'type' => 'relates', 'project' => self::PROJECT], $edges);
 
 		// Phases first, then tasks, then sub-tasks, then links; every payload valid.
 		$order = array_map(static fn (array $save): string => (string)$save['schema'], $this->objects->saves);

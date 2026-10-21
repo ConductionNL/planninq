@@ -97,6 +97,16 @@ class ProjectController extends Controller {
 	];
 
 	/**
+	 * The links a create may carry, with the register and schema they point at.
+	 *
+	 * @var array<string,array{0:string,1:string}>
+	 */
+	private const LINK_TARGETS = [
+		'caseReference' => ['dossiq', 'case'],
+		'client'        => ['pipelinq', 'client'],
+	];
+
+	/**
 	 * FQCN of the OR NotAuthorizedException, resolved at runtime.
 	 *
 	 * @var string
@@ -280,6 +290,8 @@ class ProjectController extends Controller {
 			return $body;
 		}
 
+		$body = $this->withReadableLinks(body: $body, objectService: $objectService);
+
 		try {
 			// SB1 fix: pass _rbac: false so that the schema-level "create": ["admin"]
 			// defence-in-depth rule does not block non-admin users who have already
@@ -358,6 +370,44 @@ class ProjectController extends Controller {
 
 		return $body;
 	}//end createBody()
+
+	/**
+	 * The create body without a case or client link the caller cannot read.
+	 *
+	 * The links arrive from a URL, so a caller could name any case or client
+	 * and the project would show it as its own. A link is kept only when the
+	 * caller can read the object in its app; otherwise the project is created
+	 * without it.
+	 *
+	 * @param array<string,mixed> $body          The create body.
+	 * @param object              $objectService OpenRegister's ObjectService.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @spec openspec/changes/integration-case-bridge/tasks.md#task-2.1
+	 */
+	private function withReadableLinks(array $body, object $objectService): array {
+		foreach (self::LINK_TARGETS as $field => [$register, $schema]) {
+			$id = $body[$field] ?? null;
+			if (is_string($id) === false || $id === '') {
+				unset($body[$field]);
+				continue;
+			}
+
+			try {
+				$readable = ($objectService->find(id: $id, register: $register, schema: $schema) !== null);
+			} catch (\Throwable $e) {
+				$readable = false;
+			}
+
+			if ($readable === false) {
+				$this->logger->info('Planninq: dropped a project link the caller cannot read', ['field' => $field]);
+				unset($body[$field]);
+			}
+		}
+
+		return $body;
+	}//end withReadableLinks()
 
 	/**
 	 * A create body turned into a project request: status requested, the requester its only member, no review filled in.

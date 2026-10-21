@@ -223,9 +223,13 @@ class DependencyRepository {
 		// when the register/schema came from the setters. The cycle detector
 		// reads this edge list, so an empty result made every cycle check pass
 		// vacuously.
+		// Read as the system: an edge is read by the people of its project, and
+		// the duplicate and cycle checks need every edge, whoever asks.
 		$results = $objectService->searchObjectsBySlug(
 			registerSlug: self::REGISTER,
-			schemaSlug: self::SCHEMA
+			schemaSlug: self::SCHEMA,
+			_rbac: false,
+			_multitenancy: false
 		);
 
 		$edges = [];

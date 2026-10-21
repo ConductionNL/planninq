@@ -488,6 +488,7 @@ class DependencyServiceTest extends TestCase {
 
 		$result = $this->service()->create('A', 'C');
 		self::assertSame('new-edge', $result['id']);
+		self::assertSame(['blocker' => 'A', 'blocked' => 'C', 'type' => 'blocks', 'project' => 'P1'], $objectService->savedObjects[0], 'the edge carries its project, which scopes who reads it');
 	}//end testCreateSavesLegalEdge()
 
 	/**
@@ -675,6 +676,9 @@ class DependencyServiceTest extends TestCase {
 
 			private string $schema = '';
 
+			/** @var array<int,array<string,mixed>> Every object saved, in order. */
+			public array $savedObjects = [];
+
 			/**
 			 * @param array<string,array<string,mixed>> $tasks Task fixtures.
 			 * @param array<string,array<string,mixed>> $projects Project fixtures.
@@ -753,7 +757,7 @@ class DependencyServiceTest extends TestCase {
 			 *
 			 * @return array<int,mixed>
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = []): array {
+			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
 				if ($schemaSlug === 'task') {
 					return array_map(fn ($id) => ['@self' => ['id' => $id]], $this->projectTaskIds);
 				}
@@ -770,6 +774,7 @@ class DependencyServiceTest extends TestCase {
 			 * @return object
 			 */
 			public function saveObject(array $object, string $register, string $schema, bool $_rbac = true): object {
+				$this->savedObjects[] = $object;
 				if ($this->saveReturn !== null) {
 					return $this->saveReturn;
 				}

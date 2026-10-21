@@ -2308,7 +2308,7 @@
       "dependency": {
         "slug": "dependency",
         "icon": "VectorPolyline",
-        "version": "0.2.0",
+        "version": "0.3.0",
         "title": "Dependency",
         "description": "A directed dependency edge between two tasks of the same project (blocker → blocked). One row per directed edge. Maps to schema:Action.",
         "x-schema-org": "schema:Action",
@@ -2320,7 +2320,44 @@
         "authorization": {
           "read": [
             {
-              "group": "authenticated"
+              "group": "authenticated",
+              "match": {
+                "members": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewers": {
+                  "$contains": "$userId"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "memberGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "viewerGroups": {
+                  "$contains": "$user.groups"
+                }
+              }
+            },
+            {
+              "group": "authenticated",
+              "match": {
+                "portfolioReaders": {
+                  "$contains": "$userId"
+                }
+              }
             },
             {
               "group": "admin"
@@ -2364,6 +2401,69 @@
               "causes"
             ],
             "default": "blocks"
+          },
+          "project": {
+            "title": "Project",
+            "type": "string",
+            "description": "UUID of the project both tasks belong to; set by the server from the blocking task",
+            "format": "uuid",
+            "nullable": true,
+            "$ref": "project"
+          },
+          "members": {
+            "title": "Members",
+            "type": "array",
+            "description": "Nextcloud user UIDs of project members",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the project's members plus its owner. It is this object's access rule, {\"members\": {\"$contains\": \"$userId\"}}, because OpenRegister cannot match across schemas. ProjectMemberAccessListener writes it on every create and update, ProjectMembershipSyncListener when the project's membership changes, and the BackfillProjectMembers repair step on upgrade (planninq#681)."
+          },
+          "viewers": {
+            "title": "Viewers",
+            "type": "array",
+            "description": "Nextcloud user ids who may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "memberGroups": {
+            "title": "Member groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may change this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "viewerGroups": {
+            "title": "Viewer groups",
+            "type": "array",
+            "description": "Nextcloud groups whose members may read this through the project",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          },
+          "portfolioReaders": {
+            "title": "Portfolio readers",
+            "type": "array",
+            "description": "Nextcloud user UIDs of the managers of the project's portfolio",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "visible": false,
+            "x-notes": "Kept by planninq, never edited by a person: the managers of the project's portfolio, who read the project and its objects without being members. ProjectPortfolioListener writes it on the project whenever the project moves or its portfolio's managers change, and ProjectMemberAccessListener copies it onto every project-scoped object (projects-grouping-hierarchy-fields, design decision 2)."
           }
         }
       },
