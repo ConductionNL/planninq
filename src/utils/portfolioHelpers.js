@@ -39,3 +39,119 @@ export function summariseProjectTasks(tasks = [], now = new Date()) {
 	}
 	return { open, overdue, total: tasks.length }
 }
+
+/** The key of the row for open work nobody is assigned to. */
+export const UNASSIGNED = ''
+
+/** Days ahead that count as "due soon" on the capacity report. */
+export const DUE_SOON_DAYS = 14
+
+/**
+ * The minutes still to do on a task: its remaining estimate, else its
+ * estimate, else null when it has neither.
+ *
+ * @param {object} task The task.
+ * @return {number|null}
+ *
+ * @spec openspec/changes/portfolio-people-capacity/tasks.md#task-1.1
+ */
+export function remainingMinutes(task) {
+	for (const field of ['remainingEstimate', 'estimatedDuration']) {
+		const value = task?.[field]
+		if (value !== null && value !== undefined && value !== '' && Number.isFinite(Number(value))) {
+			return Math.max(0, Number(value))
+		}
+	}
+	return null
+}
+
+/**
+ * Whether an open task falls due today or in the next DUE_SOON_DAYS days.
+ *
+ * @param {object} task The task.
+ * @param {Date} now Reference date.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/portfolio-people-capacity/tasks.md#task-1.1
+ */
+export function isDueSoon(task, now = new Date()) {
+	if (!task?.dueDate) {
+		return false
+	}
+	const due = new Date(task.dueDate)
+	if (Number.isNaN(due.getTime())) {
+		return false
+	}
+	const dueDay = new Date(due.getFullYear(), due.getMonth(), due.getDate())
+	const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+	const days = Math.round((dueDay.getTime() - today.getTime()) / 86400000)
+	return days >= 0 && days <= DUE_SOON_DAYS
+}
+
+/**
+ * Open work per person across projects. A task's hours count for its primary
+ * assignee (`assignedTo`) only; people in `sharedWith` count it as shared,
+ * without hours, so the hours column adds up to the projects' remaining
+ * estimate. Open work without an assignee gets the UNASSIGNED row.
+ *
+ * @param {Array<{project: object, tasks: Array<object>}>} tasksByProject The projects read, each with its tasks.
+ * @param {Date} [now] Reference date for overdue and due soon.
+ * @return {Array<{uid: string, open: number, overdue: number, minutes: number, withoutEstimate: number, dueSoon: number, shared: number, projects: Array<{id: string, title: string, open: number, overdue: number, minutes: number, shared: number}>}>}
+ *
+ * @spec openspec/changes/portfolio-people-capacity/tasks.md#task-1.1
+ */
+export function summariseByAssignee(tasksByProject = [], now = new Date()) {
+	const people = new Map()
+	const rowFor = (uid) => {
+		if (!people.has(uid)) {
+			people.set(uid, { uid, open: 0, overdue: 0, minutes: 0, withoutEstimate: 0, dueSoon: 0, shared: 0, projects: new Map() })
+		}
+		return people.get(uid)
+	}
+	const partFor = (row, project) => {
+		const id = String(project?.id ?? '')
+		if (!row.projects.has(id)) {
+			row.projects.set(id, { id, title: String(project?.title ?? ''), open: 0, overdue: 0, minutes: 0, shared: 0 })
+		}
+		return row.projects.get(id)
+	}
+	for (const { project, tasks } of tasksByProject || []) {
+		for (const task of tasks || []) {
+			if (!task || CLOSED_STATUSES.includes(task.status)) {
+				continue
+			}
+			const owner = typeof task.assignedTo === 'string' && task.assignedTo !== '' ? task.assignedTo : UNASSIGNED
+			const row = rowFor(owner)
+			const part = partFor(row, project)
+			const overdue = dueDateStatus(task, now) === 'overdue'
+			const minutes = remainingMinutes(task)
+			row.open++
+			part.open++
+			if (overdue) {
+				row.overdue++
+				part.overdue++
+			}
+			if (minutes === null) {
+				row.withoutEstimate++
+			} else {
+				row.minutes += minutes
+				part.minutes += minutes
+			}
+			if (isDueSoon(task, now)) {
+				row.dueSoon++
+			}
+			const shared = new Set(Array.isArray(task.sharedWith) ? task.sharedWith : [])
+			for (const uid of shared) {
+				if (typeof uid !== 'string' || uid === '' || uid === owner) {
+					continue
+				}
+				const sharedRow = rowFor(uid)
+				sharedRow.shared++
+				partFor(sharedRow, project).shared++
+			}
+		}
+	}
+	return [...people.values()]
+		.map((row) => ({ ...row, projects: [...row.projects.values()].sort((a, b) => a.title.localeCompare(b.title)) }))
+		.sort((a, b) => (a.uid === UNASSIGNED) - (b.uid === UNASSIGNED) || b.open - a.open || a.uid.localeCompare(b.uid))
+}

@@ -20,9 +20,12 @@
  * `data-visual-mask` are masked so a baseline does not churn on wall-clock text.
  */
 
-import { expect, test, type Page } from '@playwright/test'
-import { FIXTURE } from '../fixtures/seed'
-import { PLANNINQ_ROOT, openFixtureProjectBoard } from '../nav'
+import type { Page } from '@playwright/test'
+
+import { expect, test } from '@playwright/test'
+import { FIXTURE } from '../fixtures/seed.ts'
+import { openFixtureProjectBoard, PLANNINQ_ROOT } from '../nav.ts'
+import { adminApi, createObject, removeObjects } from '../portfolio-api.ts'
 
 /**
  * Elements whose content is time-dependent and would churn every run.
@@ -57,7 +60,9 @@ function masks(page: Page) {
 async function shoot(page: Page, name: string): Promise<void> {
 	// The SPA renders into #content-vue; screenshotting the whole page would
 	// bake Nextcloud's header/clock into every baseline.
-	const content = page.locator('#content-vue, #app-content-vue, #content').first()
+	const content = page
+		.locator('#content-vue, #app-content-vue, #content')
+		.first()
 	await expect(content).toBeVisible()
 	// NOT waitForLoadState('networkidle'): Nextcloud long-polls for
 	// notifications, so the network is never idle and every capture timed out
@@ -84,6 +89,46 @@ async function navigateTo(page: Page, title: string): Promise<void> {
 	await page.locator(`#app-navigation-vue a[title="${title}"]`).click()
 }
 
+/**
+ * Open a report through its card on the Reports page.
+ *
+ * 🔴 THE CARD IS THE ONLY ENTRY POINT. ADR-112 says a report is a card OR a
+ * menu entry, never both, so a report that moved onto the Reports page has no
+ * nav entry left to click — `navigateTo()` waits out its timeout on a locator
+ * that can never resolve, which reads as a broken page.
+ *
+ * Addressed by the card's own testid and its title span, NOT by the link's
+ * accessible name: CnReportsPage wraps title, description and category in one
+ * anchor, so the name is all three concatenated and an exact match on the
+ * label finds nothing.
+ *
+ * @param page  the Playwright page
+ * @param label the card's title, as the Reports page renders it
+ * @return void
+ */
+async function openReportCard(page: Page, label: string): Promise<void> {
+	// 🔴 ONE SLASH. `PLANNINQ_ROOT` already ends in one, so `${ROOT}/reports`
+	// builds `…/apps/planninq//reports` — which does not route, and the failure
+	// arrives as "no cn-report-card found" rather than as a bad URL. Every
+	// other caller passes the root alone, so the trailing slash had never
+	// mattered before.
+	await page.goto(new URL('reports', PLANNINQ_ROOT).toString(), {
+		waitUntil: 'domcontentloaded',
+	})
+
+	const cards = page.locator('[data-testid="cn-report-card"]')
+	// LIVENESS CONTROL: the grid rendered, so a card that does not match below
+	// is a missing card rather than a page that never mounted.
+	await expect(cards.first()).toBeVisible({ timeout: 30_000 })
+
+	await cards
+		.filter({
+			has: page.locator(`.cn-reports-page__card-title:text-is("${label}")`),
+		})
+		.first()
+		.click()
+}
+
 test.describe('visual baselines — planninq views', () => {
 	test('Dashboard renders its landing view @visual', async ({ page }) => {
 		await page.goto(PLANNINQ_ROOT)
@@ -104,28 +149,66 @@ test.describe('visual baselines — planninq views', () => {
 		await shoot(page, 'project-board.png')
 	})
 
-	// Backlog and Timeline are reached from NcButtons that call $router.push —
-	// NOT anchors. getByRole('link') matches nothing here and the click times
-	// out, which reads as "the view is broken" rather than "the selector is".
-	// Same trap nav.ts records for project rows.
-	test('ProjectBacklog renders the backlog @visual', async ({ page }) => {
-		const id = await openFixtureProjectBoard(page)
-		await page.getByRole('button', { name: /backlog/i }).first().click()
-		await expect(page).toHaveURL(new RegExp(`/projects/${id}/backlog$`))
-		await shoot(page, 'project-backlog.png')
+	test('ProjectsView renders a cross-project view @visual', async ({ page }) => {
+		const project = await openFixtureProjectBoard(page)
+		const api = await adminApi()
+		const view = await createObject(api, 'boardView', { title: 'Visual baseline view', members: [], projects: [project] })
+		try {
+			await page.goto(new URL(`boards/views/${view}`, PLANNINQ_ROOT).toString())
+			await expect(page.getByTestId('status-lanes')).toBeVisible()
+			await shoot(page, 'projects-view.png')
+		} finally {
+			await removeObjects(api, [['boardView', view]])
+		}
 	})
 
-	test('ProjectTimeline renders the gantt @visual', async ({ page }) => {
-		const id = await openFixtureProjectBoard(page)
-		await page.getByRole('button', { name: /timeline/i }).first().click()
-		await expect(page).toHaveURL(new RegExp(`/projects/${id}/timeline$`))
-		await shoot(page, 'project-timeline.png')
+	// The project pages are reached through the shared row of project tabs
+	// (src/components/ProjectTabs.vue), which are router links with stable
+	// test ids. Clicking by test id, not by label, keeps these tests
+	// independent of the language the instance runs in.
+	for (const [component, tab, path, file] of [
+		['ProjectBacklog', 'backlog', 'backlog', 'project-backlog.png'],
+		['ProjectTimeline', 'timeline', 'timeline', 'project-timeline.png'],
+		['ProjectCalendar', 'calendar', 'calendar', 'project-calendar.png'],
+		['ProjectFlow', 'flow', 'flow', 'project-flow.png'],
+		['ProjectOverview', 'overview', 'overview', 'project-overview.png'],
+		['ProjectPhases', 'phases', 'phases', 'project-phases.png'],
+		['ProjectRisks', 'risks', 'risks', 'project-risks.png'],
+		['ProjectStatus', 'status', 'status', 'project-status.png'],
+		['ProjectFinance', 'finance', 'finance', 'project-finance.png'],
+		['ProjectLog', 'log', 'log', 'project-log.png'],
+	]) {
+		test(`${component} renders from its project tab @visual`, async ({ page }) => {
+			const id = await openFixtureProjectBoard(page)
+			await page.getByTestId(`project-tab-${tab}`).click()
+			await expect(page).toHaveURL(new RegExp(`/projects/${id}/${path}$`))
+			await shoot(page, file)
+		})
+	}
+
+	test('ReportPage renders a saved report @visual', async ({ page }) => {
+		const api = await adminApi()
+		const made: Array<[string, string]> = []
+		try {
+			const report = await createObject(api, 'taskReport', { title: 'Visual report', projects: [], groupBy: 'status', metric: 'count', display: 'bar', shared: 'private' })
+			made.push(['taskReport', report])
+			await page.goto(new URL(`reports/custom/${report}`, PLANNINQ_ROOT).toString())
+			await expect(page.getByRole('heading', { name: 'Visual report' })).toBeVisible({ timeout: 30_000 })
+			await shoot(page, 'report-page.png')
+		} finally {
+			await removeObjects(api, made)
+			await api.dispose()
+		}
 	})
 
 	test('TaskDetail renders a task @visual', async ({ page }) => {
 		const id = await openFixtureProjectBoard(page)
-		await page.locator('.task-card, [data-testid="task-card"]', { hasText: FIXTURE.tasks.normal })
-			.first().click()
+		await page
+			.locator('.task-card, [data-testid="task-card"]', {
+				hasText: FIXTURE.tasks.normal,
+			})
+			.first()
+			.click()
 		await expect(page).toHaveURL(new RegExp(`/projects/${id}/tasks/[^/?#]+$`))
 		await shoot(page, 'task-detail.png')
 	})
@@ -136,11 +219,41 @@ test.describe('visual baselines — planninq views', () => {
 		await shoot(page, 'boards.png')
 	})
 
+	test('MyWork renders my tasks @visual', async ({ page }) => {
+		await navigateTo(page, 'My tasks')
+		await expect(page).toHaveURL(/\/my-tasks$/)
+		await shoot(page, 'my-work.png')
+	})
+
+	test('MyCalendar renders my calendar @visual', async ({ page }) => {
+		// Reached from "Show as calendar" on My tasks; it has no menu entry.
+		await navigateTo(page, 'My tasks')
+		await page.getByTestId('my-work-as-calendar').click()
+		await expect(page).toHaveURL(/\/my-calendar$/)
+		await shoot(page, 'my-calendar.png')
+	})
+
 	test('Portfolio renders capacity @visual', async ({ page }) => {
-		await navigateTo(page, 'Portfolio')
+		// Reached by its card, labelled "Capacity" on the Reports page. The
+		// nav entry this used to click was retired when the report was carded.
+		await openReportCard(page, 'Capacity')
 		await expect(page).toHaveURL(/\/portfolio$/)
 		await shoot(page, 'portfolio.png')
 	})
+
+	for (const [component, label, path, file] of [
+		['PortfolioStatus', 'Portfolio status', 'portfolio/status', 'portfolio-status.png'],
+		['PortfolioTimeline', 'Portfolio timeline', 'portfolio/timeline', 'portfolio-timeline.png'],
+		['PortfolioFlow', 'Portfolio flow', 'portfolio/flow', 'portfolio-flow.png'],
+		['MyReports', 'Your reports', 'reports/custom', 'my-reports.png'],
+		['PortfolioFinance', 'Portfolio finance', 'portfolio/finance', 'portfolio-finance.png'],
+	]) {
+		test(`${component} renders from its report card @visual`, async ({ page }) => {
+			await openReportCard(page, label)
+			await expect(page).toHaveURL(new RegExp(`/${path}`))
+			await shoot(page, file)
+		})
+	}
 
 	test('Timesheet renders time entries @visual', async ({ page }) => {
 		await navigateTo(page, 'Timesheet')

@@ -4,11 +4,11 @@
 Defines directed dependencies between tasks of the same project: a `dependency` edge (`blocker → blocked`) stored in OpenRegister, managed from the task detail, kept acyclic by server-side validation in planninq (self/duplicate/cross-project/cycle), and surfaced as a derived "Blocked" indicator that never writes `status` and never hard-blocks a move. Completes the flow-management story reserved in `tasks.md` Notes ("Task dependencies (V1) will be a separate `dependency` entity") and `kanban-board.md` ("Blocked task indicators").
 
 ## Requirements
+
 ### Requirement: Dependency edges between tasks [V1]
 The system MUST allow project members to link two tasks of the same project with a directed dependency (blocker → blocked) and to remove such links. The task detail MUST show both directions — "Blocked by" (incoming) and "Blocks" (outgoing) — with each linked task's title and status, and provide a picker limited to tasks of the same project. Reads use the OpenRegister API directly; create and delete go through planninq endpoints that perform validation (ADR-022 — validation is domain logic, not pass-through).
 
 #### Scenario: Add a blocked-by dependency
-@e2e exclude task-detail render layer not yet built (tasks#REQ-Task-CRUD); store + TaskDependencies.vue covered by Vitest, write path by Newman
 - GIVEN tasks "Deploy" and "Fix login" exist in the same project
 - WHEN a project member opens "Deploy" and adds "Fix login" under "Blocked by"
 - THEN a dependency edge (blocker: "Fix login", blocked: "Deploy") MUST be stored
@@ -16,7 +16,6 @@ The system MUST allow project members to link two tasks of the same project with
 - AND "Fix login" MUST list "Deploy" under "Blocks"
 
 #### Scenario: Remove a dependency
-@e2e exclude task-detail render layer not yet built (tasks#REQ-Task-CRUD); remove path covered by Newman delete + Vitest list rendering
 - GIVEN "Deploy" is blocked by "Fix login"
 - WHEN a project member removes the link from either task's Dependencies section
 - THEN the edge MUST be deleted
@@ -38,7 +37,7 @@ The system MUST allow project members to link two tasks of the same project with
 The system MUST reject, server-side, any dependency that would make a project's dependency graph cyclic — including self-dependencies and the degenerate two-task cycle — with an error that names the conflicting path. Duplicate edges MUST also be rejected. Diamond shapes (two paths to the same task without a cycle) are legal.
 
 #### Scenario: Direct cycle rejected
-@e2e exclude graph validation contract, covered by PHPUnit (testTwoNodeCycle) + Newman; UI picker not yet built
+@e2e exclude graph validation contract, covered by PHPUnit (testTwoNodeCycle) + Newman; the page shows the refusal, asserted by tests/e2e/task-dependencies.spec.ts "a cycle is refused with the server message"
 - GIVEN "A" is blocked by "B"
 - WHEN a member attempts to add "B" blocked by "A"
 - THEN the system MUST reject it with an error naming the cycle
@@ -67,7 +66,6 @@ The system MUST reject, server-side, any dependency that would make a project's 
 A task with at least one blocker whose status is not `done` or `cancelled` MUST display a "Blocked" indicator; the indicator MUST disappear once every blocker is completed or cancelled. The indicator is derived at render time and MUST NOT write to the task's `status` field; it MUST NOT prevent moving the task (soft signal, consistent with the WIP-limit philosophy). The task detail MUST list which open blockers cause the state. Derivation MUST tolerate edges whose blocker task no longer resolves (ignore them) and MUST terminate on any graph shape.
 
 #### Scenario: Blocker completion clears the indicator
-@e2e exclude board card render layer not yet built (tasks#REQ-Task-CRUD); badge derivation covered by Vitest (isBlocked done/cancelled → false) + PHPUnit
 - GIVEN "Deploy" is blocked by "Fix login" (status `in_progress`) and shows a Blocked badge on its kanban card
 - WHEN "Fix login" is moved to a done column (status `done`)
 - THEN "Deploy" MUST no longer show the Blocked badge on board or detail
@@ -103,3 +101,60 @@ Deleting a task MUST also delete every dependency edge in which it participates 
 - THEN the edge MUST be removed
 - AND neither task may list the dependency afterwards
 
+### Requirement: The task page carries the dependency editor
+
+The system MUST show a Dependencies section on every task page with the task's blockers, the
+tasks it blocks and its related links, a picker limited to tasks of the same project, and a
+remove button per link. A link the server refuses MUST show the server's reason next to the
+picker. Tier: V1 (docs/FEATURES.md).
+
+#### Scenario: Add a blocker from the task page
+
+- **GIVEN** tasks "Deploy" and "Fix login" in one project, and a member on the task page of "Deploy"
+- **WHEN** they pick "Fix login" under "Blocked by" and choose Add
+- **THEN** "Deploy" lists "Fix login" under "Blocked by"
+- **AND** the task page of "Fix login" lists "Deploy" under "Blocks"
+
+#### Scenario: A cycle is refused on the page
+
+- **GIVEN** "Deploy" is blocked by "Fix login"
+- **WHEN** a member on the task page of "Fix login" adds "Deploy" under "Blocked by"
+- **THEN** the page shows the server's message naming the cycle
+- **AND** no link is stored
+
+### Requirement: Board cards show the blocked badge
+
+The system MUST show a Blocked badge on a board card while at least one of its blockers is not
+done or cancelled, with the number of open blockers in its accessible name, and MUST remove it
+once all blockers are finished. Tier: V1.
+
+#### Scenario: The badge appears and clears
+
+- **GIVEN** "Deploy" is blocked by "Fix login", which is in progress
+- **WHEN** a member opens the board
+- **THEN** the "Deploy" card shows the Blocked badge
+- **AND** after "Fix login" moves to Done the badge is gone
+
+### Requirement: A member can link related tasks without blocking
+
+The system MUST let a project member link two tasks of the same project as "relates to" or
+"duplicates". Such a link MUST NOT make either task blocked and MUST NOT take part in the cycle
+check. Tier: V1.
+
+#### Scenario: Link two related tasks
+
+- **GIVEN** tasks "Update the form" and "Update the manual" in one project
+- **WHEN** a member on the first task's page adds the second as "Relates to"
+- **THEN** both task pages list the other under "Related"
+- **AND** neither card shows a Blocked badge
+
+### Requirement: A link made on the task page shows on the timeline
+
+The system MUST draw a blocking link created on the task page as an arrow on the project timeline
+between the two tasks' bars. Tier: V1.
+
+#### Scenario: Arrow on the timeline
+
+- **GIVEN** a member made "Fix login" block "Deploy" on the task page, and both tasks have dates
+- **WHEN** they open /projects/:id/timeline
+- **THEN** an arrow runs from the "Fix login" bar to the "Deploy" bar

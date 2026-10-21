@@ -215,12 +215,14 @@ class TaskActivityListener implements IEventListener {
 	 *
 	 * Falls back to the task's assignee when the project cannot be resolved, so
 	 * a member still gets the entry; returns an empty list (silently) when there
-	 * is no resolvable audience.
+	 * is no resolvable audience. The people in `sharedWith` are added too.
 	 *
-	 * @param array $taskData The task data (carries `project` UUID + `assignedTo`).
+	 * @param array $taskData The task data (carries `project` UUID, `assignedTo` and `sharedWith`).
 	 * @param string $actor The acting user id (excluded from the result).
 	 *
 	 * @return string[] Distinct affected user ids.
+	 *
+	 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.3
 	 */
 	private function resolveAudience(array $taskData, string $actor): array {
 		$members = $this->scopeResolver->projectMembers(
@@ -230,6 +232,11 @@ class TaskActivityListener implements IEventListener {
 		$assignee = $this->stringify(value: ($taskData['assignedTo'] ?? ''));
 		if ($assignee !== '') {
 			$members[] = $assignee;
+		}
+
+		// The people the task is shared with (tasks-assignment-priority-labels).
+		foreach ((array)($taskData['sharedWith'] ?? []) as $sharer) {
+			$members[] = $this->stringify(value: $sharer);
 		}
 
 		$distinct = [];

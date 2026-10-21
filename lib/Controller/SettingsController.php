@@ -25,8 +25,13 @@ declare(strict_types=1);
 namespace OCA\Planninq\Controller;
 
 use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\NotificationSwitchService;
+use OCA\Planninq\Service\TaskCalendarExportService;
+use OCA\Planninq\Service\WorkingCalendarService;
 use OCA\Planninq\Service\RegisterImportService;
+use OCA\Planninq\Service\RiskScaleService;
 use OCA\Planninq\Service\SettingsService;
+use OCA\Planninq\Service\TimetableGridService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -46,6 +51,11 @@ class SettingsController extends Controller {
 	 * @param SettingsService $settingsService The settings service
 	 * @param RegisterImportService $registerImport The register import service
 	 * @param IUserSession $userSession The user session
+	 * @param RiskScaleService $riskScale Finds the risks a smaller risk scale would strand
+	 * @param TimetableGridService $timetableGrid The timetable week grid and generator budget
+	 * @param NotificationSwitchService $switches The user's notification switches (collaboration-notifications)
+	 * @param TaskCalendarExportService $taskExport The user's export to Nextcloud Tasks (planning-calendar)
+	 * @param WorkingCalendarService $workingCalendar The working weekdays and non-working days (planning-timeline-editing)
 	 *
 	 * @return void
 	 */
@@ -54,6 +64,11 @@ class SettingsController extends Controller {
 		private SettingsService $settingsService,
 		private RegisterImportService $registerImport,
 		private IUserSession $userSession,
+		private RiskScaleService $riskScale,
+		private TimetableGridService $timetableGrid,
+		private NotificationSwitchService $switches,
+		private TaskCalendarExportService $taskExport,
+		private WorkingCalendarService $workingCalendar,
 	) {
 		parent::__construct(appName: Application::APP_ID, request: $request);
 	}//end __construct()
@@ -69,14 +84,25 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 *
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
 	 */
 	public function index(): JSONResponse {
-		if ($this->userSession->getUser() === null) {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
 			return new JSONResponse(['error' => 'Not authenticated.'], Http::STATUS_UNAUTHORIZED);
 		}
 
 		return new JSONResponse(
-			$this->settingsService->getSettings()
+			array_merge(
+				$this->settingsService->getSettings(),
+				$this->timetableGrid->settings(),
+				$this->workingCalendar->settings(),
+				$this->switches->values($user->getUID()),
+				$this->taskExport->values(userId: $user->getUID())
+			)
 		);
 	}//end index()
 
@@ -89,6 +115,8 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 *
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
 	 */
 	public function create(): JSONResponse {
 		if ($this->settingsService->isCurrentUserAdmin() === false) {
@@ -99,7 +127,20 @@ class SettingsController extends Controller {
 		}
 
 		$data = $this->request->getParams();
-		$config = $this->settingsService->updateSettings($data);
+		if (array_key_exists(RiskScaleService::CONFIG_KEY, $data) === true) {
+			$scale = $this->riskScale->normalise(raw: (string)$data[RiskScaleService::CONFIG_KEY]);
+			$refused = $this->refuseRiskScale(scale: $scale);
+			if ($refused !== null) {
+				return $refused;
+			}
+
+			// Store the normalised form: trimmed labels, integer levels.
+			$data[RiskScaleService::CONFIG_KEY] = (string)json_encode($scale);
+		}
+
+		$this->timetableGrid->save(data: $data);
+		$this->workingCalendar->save(data: $data);
+		$config = array_merge($this->settingsService->updateSettings($data), $this->timetableGrid->settings(), $this->workingCalendar->settings());
 
 		return new JSONResponse(
 			[
@@ -108,6 +149,39 @@ class SettingsController extends Controller {
 			]
 		);
 	}//end create()
+
+	/**
+	 * The refusal of a risk scale that is malformed or that risks still exceed, or null to go on.
+	 *
+	 * @param array<string,mixed>|null $scale The normalised scale, or null when it did not parse.
+	 *
+	 * @return JSONResponse|null
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
+	 */
+	private function refuseRiskScale(?array $scale): ?JSONResponse {
+		if ($scale === null) {
+			return new JSONResponse(
+				['error' => 'risk-scale-invalid', 'message' => 'The risk scale is not valid.'],
+				Http::STATUS_BAD_REQUEST
+			);
+		}
+
+		$conflict = $this->riskScale->conflict(levels: (int)$scale['levels']);
+		if ($conflict === null) {
+			return null;
+		}
+
+		return new JSONResponse(
+			[
+				'error' => 'risk-scale-in-use',
+				'message' => $this->riskScale->refusal(count: $conflict['count'], level: $conflict['level']),
+				'count' => $conflict['count'],
+				'level' => $conflict['level'],
+			],
+			Http::STATUS_CONFLICT
+		);
+	}//end refuseRiskScale()
 
 	/**
 	 * Update app settings (PUT /api/settings).
@@ -143,6 +217,8 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 *
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.1
 	 */
 	public function updateUser(): JSONResponse {
 		$user = $this->userSession->getUser();
@@ -151,7 +227,13 @@ class SettingsController extends Controller {
 		}
 
 		$data = $this->request->getParams();
-		$config = $this->settingsService->updateUserSettings($user->getUID(), $data);
+		$this->switches->apply(userId: $user->getUID(), data: $data);
+		$this->taskExport->apply(userId: $user->getUID(), data: $data);
+		$config = array_merge(
+			$this->settingsService->updateUserSettings($user->getUID(), $data),
+			$this->switches->values($user->getUID()),
+			$this->taskExport->values(userId: $user->getUID())
+		);
 
 		return new JSONResponse(
 			[

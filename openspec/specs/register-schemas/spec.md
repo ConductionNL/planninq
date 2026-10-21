@@ -14,7 +14,9 @@
 This spec defines the requirements for the Planninq OpenRegister schema definitions. The register file declares the data model that all Planninq features are built upon. Correct schema definitions, seed data, and import behaviour are prerequisites for every other Planninq capability.
 
 ---
+
 ## Requirements
+
 ### Requirement: All 5 schemas defined [MVP]
 
 The register file MUST declare exactly the schemas `task`, `project`, `column`, `timeEntry`, `label`, and `dependency` in `components/schemas` (six schemas after this change). The placeholder `example` schema MUST NOT be present.
@@ -96,35 +98,6 @@ OpenRegister MUST enforce `required` constraints declared in each schema when ob
 
 ---
 
-### Requirement: Seed data loaded on install [MVP]
-
-On a fresh Planninq install, the seed objects defined in the register file MUST be created in OpenRegister automatically.
-
-#### Scenario: Seed objects present after fresh install
-
-- GIVEN Planninq is installed for the first time on a Nextcloud instance
-- WHEN the app is first activated (triggering `SettingsService` import)
-- THEN at least 3 Label objects MUST exist in the `planninq` register
-- AND at least 3 Project objects MUST exist
-- AND at least 4 Column objects MUST exist
-- AND at least 5 Task objects MUST exist
-- AND at least 3 TimeEntry objects MUST exist
-
-#### Scenario: Seed labels have correct colors
-
-- GIVEN the seed data has been loaded
-- WHEN the `Bug` label is retrieved via the OpenRegister API
-- THEN its `color` field MUST be `"#E74C3C"`
-
-#### Scenario: Seed tasks reference seed projects
-
-- GIVEN the seed data has been loaded
-- WHEN the task with slug `fix-login-redirect` is retrieved
-- THEN its `project` field MUST reference the `client-portal-v2` project object
-- AND its `column` field MUST reference the `portal-in-progress` column object
-
----
-
 ### Requirement: Idempotent import [MVP]
 
 Re-importing the register file MUST NOT create duplicate schema definitions or duplicate seed objects.
@@ -167,6 +140,17 @@ The import MUST be skipped when the stored register version matches the file ver
 - AND the stored version MUST be updated to `0.2.0` after successful import
 
 ---
+
+### Requirement: Only the default labels are created on install
+
+On a fresh install the register import MUST create the five default labels, Bug, Feature, Docs, Design and Infrastructure, with their colours, and SHALL create no project, column, task, phase, dependency or time entry. Tier: MVP.
+
+#### Scenario: A fresh install has labels and no projects
+
+- **GIVEN** planninq installed for the first time, with the setup wizard closed without loading example data
+- **WHEN** an admin opens the Projects page and the label settings
+- **THEN** there are no projects
+- **AND** the labels Bug, Feature, Docs, Design and Infrastructure exist
 
 ## Acceptance Criteria
 

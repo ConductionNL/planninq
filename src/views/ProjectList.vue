@@ -12,7 +12,7 @@
 					:key="String(chip.value)"
 					:text="chip.label"
 					:variant="activeStatus === chip.value ? 'primary' : 'secondary'"
-					:no-close="true"
+					:noClose="true"
 					:aria-pressed="activeStatus === chip.value"
 					@click="setStatusFilter(chip.value)" />
 				<!-- New project button — hidden when creation is restricted to admins -->
@@ -25,16 +25,36 @@
 					</template>
 					{{ t('planninq', 'New project') }}
 				</NcButton>
+				<!-- Request a project, for those outside the creation policy (projects-lifecycle-policy) -->
+				<NcButton
+					v-if="!canCreateProject && canRequestProject"
+					variant="primary"
+					data-testid="project-request-open"
+					@click="showRequestDialog = true">
+					<template #icon>
+						<PlusIcon :size="20" />
+					</template>
+					{{ t('planninq', 'Request a project') }}
+				</NcButton>
 			</div>
 		</div>
 
-		<!-- Search bar -->
+		<!-- Search bar and portfolio filter -->
 		<div class="project-list__search">
 			<NcTextField
-				:model-value="listView.searchTerm.value"
+				:modelValue="listView.searchTerm.value"
 				:label="t('planninq', 'Search projects')"
 				:placeholder="t('planninq', 'Search by title or description\u2026')"
 				@update:modelValue="listView.onSearchInput($event)" />
+			<NcSelect
+				v-if="portfolios.length"
+				v-model="portfolioFilter"
+				class="project-list__portfolio-filter"
+				:options="portfolioOptions"
+				:clearable="false"
+				:inputLabel="t('planninq', 'Portfolio')"
+				label="label"
+				data-testid="portfolio-filter" />
 		</div>
 
 		<!-- Loading state -->
@@ -82,24 +102,43 @@
 			</template>
 		</NcEmptyContent>
 
-		<!-- Project list -->
-		<ul v-else class="project-list__items" role="listbox">
-			<ProjectListItem
-				v-for="project in filteredProjects"
-				:key="project.id"
-				:project="project"
-				@click="navigateToProject(project)" />
-		</ul>
+		<!-- Project list, grouped by portfolio -->
+		<PortfolioSections v-else :groups="groupedProjects" :showHeadings="portfolios.length > 0">
+			<template #default="{ projects: groupProjects }">
+				<ul class="project-list__items" role="listbox">
+					<ProjectListItem
+						v-for="row in treeRows(groupProjects, folded)"
+						:key="row.project.id"
+						:project="row.project"
+						:depth="row.depth"
+						:hasChildren="row.hasChildren"
+						:folded="!row.expanded"
+						:canRestore="mayRestore(row.project)"
+						@click="navigateToProject(row.project)"
+						@restore="restore"
+						@toggle="toggleSubprojects(row.project)" />
+				</ul>
+			</template>
+		</PortfolioSections>
+
+		<ProjectRequestDialog
+			v-if="showRequestDialog"
+			@close="showRequestDialog = false"
+			@requested="onProjectRequested" />
 
 		<!-- Creation dialog — only mounted when creation is permitted -->
 		<ProjectCreationDialog
 			v-if="showCreationDialog && canCreateProject"
+			:prefill="creationPrefill"
 			@close="showCreationDialog = false"
 			@created="onProjectCreated" />
 	</div>
 </template>
 
 <script>
+import { useListView } from '@conduction/nextcloud-vue'
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 /**
  * ProjectList view.
  *
@@ -110,18 +149,23 @@
  */
 // @nextcloud/vue@9 removed the `dist/Components/*.js` layout, so NcChip comes
 // from the root barrel like every other component here.
-import { NcButton, NcChip, NcTextField, NcLoadingIcon, NcEmptyContent } from '@nextcloud/vue'
-import { useListView } from '@conduction/nextcloud-vue'
+import { NcButton, NcChip, NcEmptyContent, NcLoadingIcon, NcSelect, NcTextField } from '@nextcloud/vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-
-import { useProjectsStore } from '../store/projects.js'
-import { useObjectStore } from '../store/objectStore.js'
-import { useSettingsStore } from '../store/modules/settings.js'
+import PortfolioSections from '../components/PortfolioSections.vue'
 import ProjectListItem from '../components/ProjectListItem.vue'
 import ProjectCreationDialog from '../dialogs/ProjectCreationDialog.vue'
+import ProjectRequestDialog from '../dialogs/ProjectRequestDialog.vue'
+import { useSettingsStore } from '../store/modules/settings.js'
+import { useObjectStore } from '../store/objectStore.js'
+import { useProjectsStore } from '../store/projects.js'
+import { creationPrefill as prefillFromQuery } from '../utils/caseBridge.js'
+import { canCreateFrom } from '../utils/creationPolicy.js'
+import { filterByPortfolio, groupByPortfolio, NO_PORTFOLIO, sortPortfolios } from '../utils/portfolioGrouping.js'
+import { canManageMembers, currentGroupIds, projectRole } from '../utils/projectRole.js'
+import { treeRows } from '../utils/projectTree.js'
 
 export default {
 	name: 'ProjectList',
@@ -132,12 +176,15 @@ export default {
 		NcTextField,
 		NcLoadingIcon,
 		NcEmptyContent,
+		NcSelect,
 		AlertCircleOutline,
 		FolderOutline,
 		Magnify,
 		PlusIcon,
+		PortfolioSections,
 		ProjectListItem,
 		ProjectCreationDialog,
+		ProjectRequestDialog,
 	},
 
 	/**
@@ -153,8 +200,13 @@ export default {
 
 	data() {
 		return {
+			folded: new Set(),
 			showCreationDialog: false,
+			showRequestDialog: false,
+			creationPrefill: {},
 			activeStatus: null,
+			portfolios: [],
+			portfolioFilter: null,
 			// Live-updates handle for the or-collection-planninq-project
 			// subscription. livePendingType marks an in-flight subscribe so a
 			// concurrent call doesn't double-subscribe; liveEpoch invalidates
@@ -174,18 +226,21 @@ export default {
 		projectsStore() {
 			return useProjectsStore()
 		},
+
 		/**
 		 * @spec exclude Store passthrough — proxies projectsStore.projects.
 		 */
 		projects() {
 			return this.projectsStore.projects
 		},
+
 		/**
 		 * @spec exclude Store passthrough — proxies projectsStore.loading.
 		 */
 		loading() {
 			return this.projectsStore.loading
 		},
+
 		/**
 		 * @spec exclude Store passthrough — proxies projectsStore.error.
 		 */
@@ -203,17 +258,25 @@ export default {
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
 		 */
 		canCreateProject() {
+			// The server answers for the current user, groups included (projects-lifecycle-policy).
 			const settingsStore = useSettingsStore()
-			const policy = settingsStore.settings?.allow_project_creation || 'all'
-			if (policy === 'admins') {
-				return !!settingsStore.isAdmin
-			}
-			// 'all' or any unrecognised value — every authenticated user may create.
-			return true
+			return canCreateFrom(settingsStore.settings, settingsStore.isAdmin)
+		},
+
+		/**
+		 * Whether the current user may request a project (the server answers).
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.3
+		 */
+		canRequestProject() {
+			return useSettingsStore().settings?.canRequestProject === true
 		},
 
 		/**
 		 * @spec openspec/changes/retrofit-2026-05-26-planix-display-capabilities/tasks.md#task-3
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.3
 		 */
 		statusChips() {
 			return [
@@ -221,6 +284,7 @@ export default {
 				{ value: 'active', label: this.t('planninq', 'Active') },
 				{ value: 'archived', label: this.t('planninq', 'Archived') },
 				{ value: 'completed', label: this.t('planninq', 'Completed') },
+				{ value: 'requested', label: this.t('planninq', 'Requested') },
 			]
 		},
 
@@ -231,6 +295,7 @@ export default {
 		 * @return {Array}
 		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-11
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-3.1
 		 */
 		// Client-side filter — uses useListView's searchTerm and local activeStatus.
 		filteredProjects() {
@@ -240,13 +305,38 @@ export default {
 			}
 			const term = (this.listView.searchTerm.value || '').trim().toLowerCase()
 			if (term) {
-				list = list.filter(
-					(p) =>
-						p.title?.toLowerCase().includes(term)
-						|| p.description?.toLowerCase().includes(term),
-				)
+				list = list.filter((p) => p.title?.toLowerCase().includes(term)
+					|| p.key?.toLowerCase().includes(term)
+					|| p.description?.toLowerCase().includes(term))
 			}
-			return list
+			return filterByPortfolio(list, this.portfolioFilter?.id || '')
+		},
+
+		/**
+		 * The filtered projects grouped by portfolio.
+		 *
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
+		 */
+		groupedProjects() {
+			return groupByPortfolio(this.filteredProjects, this.portfolios)
+		},
+
+		/**
+		 * The portfolio filter: all, each portfolio in order, and no portfolio.
+		 *
+		 * @return {Array<{id: string, label: string}>}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
+		 */
+		portfolioOptions() {
+			const named = sortPortfolios(this.portfolios).map((p) => ({ id: String(p.id), label: String(p.title ?? '') }))
+			return [
+				{ id: '', label: this.t('planninq', 'All portfolios') },
+				...named,
+				{ id: NO_PORTFOLIO, label: this.t('planninq', 'No portfolio') },
+			]
 		},
 	},
 
@@ -254,7 +344,16 @@ export default {
 	 * @spec exclude list-view lifecycle — loads the project list, then attaches the live collection subscription.
 	 */
 	async mounted() {
-		await this.projectsStore.fetchProjects()
+		// A "New project" link from a case or client page (the projects leaf)
+		// opens the dialog with the case or client filled in.
+		const prefill = prefillFromQuery(this.$route?.query)
+		if (prefill !== null) {
+			this.creationPrefill = prefill
+			this.showCreationDialog = true
+		}
+
+		const [portfolios] = await Promise.all([this.projectsStore.fetchPortfolios(), this.projectsStore.fetchProjects()])
+		this.portfolios = portfolios
 		this.syncLiveSubscription()
 	},
 
@@ -268,6 +367,26 @@ export default {
 	},
 
 	methods: {
+		treeRows,
+
+		/**
+		 * Fold or unfold the subprojects under a project.
+		 *
+		 * @param {object} project The parent project.
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.3
+		 */
+		toggleSubprojects(project) {
+			const folded = new Set(this.folded)
+			const id = String(project.id)
+			if (folded.has(id)) {
+				folded.delete(id)
+			} else {
+				folded.add(id)
+			}
+			this.folded = folded
+		},
+
 		/**
 		 * Subscribe to live updates for the Planninq project collection
 		 * (or-collection-planninq-project). Events are refetch hints only: the
@@ -355,6 +474,48 @@ export default {
 		},
 
 		/**
+		 * After a request is sent: show it under the Requested chip.
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.3
+		 */
+		onProjectRequested() {
+			this.showRequestDialog = false
+			this.activeStatus = 'requested'
+			showSuccess(this.t('planninq', 'Your request was sent'))
+		},
+
+		/**
+		 * Whether the viewer may restore a project: its owner or a manager
+		 * (directly or through a group) or an admin, the project's update rule
+		 * that the restore transition checks.
+		 *
+		 * @param {object} project The project.
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+		 */
+		mayRestore(project) {
+			const user = getCurrentUser()
+			return user?.isAdmin === true || canManageMembers(projectRole(project, user?.uid, currentGroupIds()))
+		},
+
+		/**
+		 * Restore an archived project from the list.
+		 *
+		 * @param {object} project The archived project.
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.4
+		 */
+		async restore(project) {
+			const restored = await this.projectsStore.restoreProject(project.id)
+			if (restored) {
+				showSuccess(this.t('planninq', 'Project restored'))
+				return
+			}
+			showError(this.t('planninq', 'Could not restore the project'))
+		},
+
+		/**
 		 * Navigate to a project's board.
 		 *
 		 * @param {object} project Project to navigate to
@@ -409,7 +570,15 @@ export default {
 }
 
 .project-list__search {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 12px;
 	margin-bottom: 16px;
+}
+
+.project-list__portfolio-filter {
+	min-width: 220px;
 }
 
 .project-list__loading {

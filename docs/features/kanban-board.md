@@ -17,6 +17,7 @@ Each project has exactly one kanban board. Columns represent stages in the workf
 - **Column task count** — column header shows the current task count alongside the WIP limit
 - **Board filter** — filter visible cards by assignee, label, or priority
 - **View toggle** — switch between kanban (card grid) and list view for the same project tasks
+- **Cross-project views**: save a view of up to twenty of your projects on the Boards page and share it with people in them; its lanes are task statuses, each card names its project, and moving a card puts it in the matching column of the task's own project
 - **Backlog access** — tasks without a column are in the backlog; a "View Backlog" link is available from the board view
 
 ## Standards

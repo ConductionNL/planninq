@@ -1,3 +1,8 @@
+import { buildHeaders } from '@conduction/nextcloud-vue'
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
 /**
  * Projects Pinia store.
  *
@@ -11,13 +16,16 @@
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  */
 import { defineStore } from 'pinia'
-import { buildHeaders } from '@conduction/nextcloud-vue'
+import { fetchEvery } from '../utils/fetchEvery.js'
+import { forgeLinkRefusal } from '../utils/forgeUrl.js'
+import { isMine } from '../utils/myWork.js'
+import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelpers.js'
+import { canSeeProject } from '../utils/portfolioGrouping.js'
+import { actionNames, transitionRequest } from '../utils/projectLifecycle.js'
+import { currentGroupIds, rolePatch } from '../utils/projectRole.js'
+import { epicPatch } from '../utils/roadmapHelpers.js'
+import { deleteRefusal, withTaskDefaults } from '../utils/taskEditing.js'
 import { useObjectStore } from './objectStore.js'
-import { getCurrentUser } from '@nextcloud/auth'
-import { loadState } from '@nextcloud/initial-state'
-import { generateUrl } from '@nextcloud/router'
-import { showError, showWarning } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
 // `planninq` together with the MigrateRegisterSlug repair step, which renames
@@ -27,78 +35,43 @@ const REGISTER = 'planninq'
 const PROJECT_SCHEMA = 'project'
 const COLUMN_SCHEMA = 'column'
 const TASK_SCHEMA = 'task'
-const TIME_ENTRY_SCHEMA = 'timeEntry'
+const TIME_ENTRY_SCHEMA = 'plannedTimeEntry'
+const LABEL_SCHEMA = 'label'
+const LOG_SCHEMA = 'projectLogEntry'
+const RISK_SCHEMA = 'risk'
+const STATUS_REPORT_SCHEMA = 'projectStatusReport'
+const PORTFOLIO_SCHEMA = 'projectPortfolio'
+const PHASE_SCHEMA = 'projectPhase'
+const FINANCE_LINE_SCHEMA = 'financeLine'
+const PROJECT_FIELD_SCHEMA = 'projectField'
+const RELEASE_SCHEMA = 'projectRelease'
+const BOARD_FILTER_SCHEMA = 'boardFilter'
+const BOARD_VIEW_SCHEMA = 'boardView'
+const FORGE_LINK_SCHEMA = 'forgeLink'
+
+/** The store error of a PATCH OpenRegister refused because the project changed since it was read (409). */
+const ACL_CONFLICT = 'conflict'
 
 /**
- * Largest page OpenRegister will return. Asking for more is silently capped.
+ * GET one planninq object with the caller's rights.
  *
- * The underscore prefix is required: OpenRegister reads an unprefixed `limit`
- * as a property filter, which matches nothing and returns an empty collection.
+ * @param {string} schema The schema slug.
+ * @param {string} id     The object UUID.
+ * @return {Promise<object|null>} The object, or null when it is not readable.
+ *
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
  */
-const MAX_PAGE = 1000
-
-/**
- * Read an ENTIRE collection, following pages until it is exhausted.
- *
- * OpenRegister pages at 20 by default and caps a page at 1000, and this store
- * reads whole collections for three purposes that are all wrong when truncated:
- * rendering a board, COUNTING, and cascade-DELETING. A 21-task project rendered
- * 20 tasks and reported "20" as its total; worse, deleting it removed one page
- * of tasks and left the rest as orphans, while every call reported success.
- *
- * Raising the page size alone does not fix it — the largest project on our own
- * instance holds 2,015 tasks, so a single `_limit=1000` read still silently
- * dropped half of it. Only following `_page` to exhaustion is correct.
- *
- * @param {object} objectStore the shared OpenRegister object store
- * @param {string} schema      schema slug to read
- * @param {object} filters     property filters (no control params)
- * @return {Promise<Array>} every row in the collection
- */
-async function fetchEvery(objectStore, schema, filters = {}) {
-	const out = []
-	const seen = new Set()
-	for (let page = 1; ; page++) {
-		const batch = await objectStore.fetchCollection(schema, { ...filters, _limit: MAX_PAGE, _page: page })
-		const rows = Array.isArray(batch) ? batch : []
-
-		// Keep only rows we have not already collected. This is also the
-		// termination guard: a server that ignored `_page` would hand back the
-		// same full batch forever, and a `rows.length < MAX_PAGE` check alone
-		// would loop until the tab died. Zero NEW rows means there is no more
-		// collection to read, whatever the server thinks it is doing.
-		let added = 0
-		for (const row of rows) {
-			const id = row?.id ?? row?.uuid ?? row?.['@self']?.id
-			if (id !== undefined && seen.has(id)) continue
-			if (id !== undefined) seen.add(id)
-			out.push(row)
-			added++
-		}
-
-		if (added === 0 || rows.length < MAX_PAGE) break
+async function readObject(schema, id) {
+	if (!id) {
+		return null
 	}
-	return out
-}
-
-/**
- * Default columns created for every new project.
- *
- * @return {Array} Column definitions
- */
-function getDefaultColumns() {
 	try {
-		const state = loadState('planninq', 'default_columns', null)
-		if (Array.isArray(state) && state.length > 0) return state
-	} catch {
-		// fall through to hardcoded defaults
+		const response = await fetch(generateUrl(`/apps/openregister/api/objects/planninq/${schema}/${id}`), { headers: buildHeaders() })
+		return response.ok ? await response.json() : null
+	} catch (err) {
+		console.error('readObject error:', err)
+		return null
 	}
-	return [
-		{ title: 'To Do', order: 0, wipLimit: null, type: 'active' },
-		{ title: 'In Progress', order: 1, wipLimit: 3, type: 'active' },
-		{ title: 'Review', order: 2, wipLimit: 2, type: 'active' },
-		{ title: 'Done', order: 3, wipLimit: null, type: 'done' },
-	]
 }
 
 export const useProjectsStore = defineStore('projects', {
@@ -134,6 +107,27 @@ export const useProjectsStore = defineStore('projects', {
 			}
 			if (!store.objectTypeRegistry?.[TIME_ENTRY_SCHEMA]) {
 				store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: TIME_ENTRY_SCHEMA })
+			}
+			if (!store.objectTypeRegistry?.[LABEL_SCHEMA]) {
+				store.registerObjectType(LABEL_SCHEMA, LABEL_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: LABEL_SCHEMA })
+			}
+			if (!store.objectTypeRegistry?.[LOG_SCHEMA]) {
+				store.registerObjectType(LOG_SCHEMA, LOG_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: LOG_SCHEMA })
+			}
+			if (!store.objectTypeRegistry?.[RISK_SCHEMA]) {
+				store.registerObjectType(RISK_SCHEMA, RISK_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: RISK_SCHEMA })
+			}
+			if (!store.objectTypeRegistry?.[FINANCE_LINE_SCHEMA]) {
+				store.registerObjectType(FINANCE_LINE_SCHEMA, FINANCE_LINE_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: FINANCE_LINE_SCHEMA })
+			}
+			if (!store.objectTypeRegistry?.[RELEASE_SCHEMA]) {
+				store.registerObjectType(RELEASE_SCHEMA, RELEASE_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: RELEASE_SCHEMA })
+			}
+			if (!store.objectTypeRegistry?.[BOARD_FILTER_SCHEMA]) {
+				store.registerObjectType(BOARD_FILTER_SCHEMA, BOARD_FILTER_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: BOARD_FILTER_SCHEMA })
+			}
+			if (!store.objectTypeRegistry?.[BOARD_VIEW_SCHEMA]) {
+				store.registerObjectType(BOARD_VIEW_SCHEMA, BOARD_VIEW_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: BOARD_VIEW_SCHEMA })
 			}
 			return store
 		},
@@ -179,9 +173,10 @@ export const useProjectsStore = defineStore('projects', {
 				// empty collection — the same silent disappearance, one layer down.
 				const results = await fetchEvery(objectStore, PROJECT_SCHEMA, filters)
 
-				// Client-side guard: ensure only member projects are shown.
+				// Client-side guard: only projects the user is on or reads as a portfolio manager.
+				// Members, and the managers of the project's portfolio (portfolioReaders).
 				this.projects = uid
-					? results.filter((p) => Array.isArray(p.members) && p.members.includes(uid))
+					? results.filter((p) => canSeeProject(p, uid, currentGroupIds()))
 					: results
 
 				return this.projects
@@ -211,7 +206,7 @@ export const useProjectsStore = defineStore('projects', {
 			const uid = this._currentUid()
 			const list = Array.isArray(results) ? results : []
 			this.projects = uid
-				? list.filter((p) => Array.isArray(p.members) && p.members.includes(uid))
+				? list.filter((p) => canSeeProject(p, uid, currentGroupIds()))
 				: list
 			return this.projects
 		},
@@ -295,6 +290,24 @@ export const useProjectsStore = defineStore('projects', {
 			}
 		},
 
+		/**
+		 * Ask whether a project key is well formed and free (tasks-readable-keys).
+		 *
+		 * @param {string} key The normalised key.
+		 * @return {Promise<{valid: boolean, available: boolean}|null>} Null when the check failed.
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.2
+		 */
+		async checkProjectKey(key) {
+			try {
+				const url = generateUrl('/apps/planninq/api/projects/key-available') + '?key=' + encodeURIComponent(key)
+				const response = await fetch(url, { headers: buildHeaders() })
+				return response.ok ? await response.json() : null
+			} catch {
+				return null
+			}
+		},
+
 		// ── 2.4 createProject ─────────────────────────────────────────────
 
 		/**
@@ -338,9 +351,8 @@ export const useProjectsStore = defineStore('projects', {
 
 				this.projects = [...this.projects, project]
 
-				// Create default columns (non-blocking).
-				await this.createDefaultColumns(project.id)
-
+				// The server created the project's default columns in the same
+				// request (ProjectController::create, boards-configurable-columns).
 				return project
 			} catch (err) {
 				this.error = err.message || 'create-error'
@@ -422,7 +434,7 @@ export const useProjectsStore = defineStore('projects', {
 
 				if (!response.ok) {
 					const errorData = await response.json().catch(() => ({}))
-					this.error = errorData?.message || 'patch-error'
+					this.error = response.status === 409 ? ACL_CONFLICT : (errorData?.message || 'patch-error')
 					return null
 				}
 
@@ -443,62 +455,846 @@ export const useProjectsStore = defineStore('projects', {
 			}
 		},
 
-		// ── 2.6 createDefaultColumns ──────────────────────────────────────
+		// ── 2.6 board columns ─────────────────────────────────────────────
 
 		/**
-		 * Create default columns for a newly-created project.
-		 * Partial failures show a warning toast but do not throw.
+		 * Fetch a project's board columns, in lane order.
 		 *
-		 * @param {string} projectId Parent project ID
-		 * @return {Promise<{created: number, failed: number}>}
+		 * Reads the `column` schema straight from OpenRegister (ADR-022), which
+		 * scopes the read to the project's members.
 		 *
-		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-8
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The columns (empty array on error)
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.1
 		 */
-		async createDefaultColumns(projectId) {
-			const objectStore = this._objectStore()
-			const columns = getDefaultColumns()
-			let created = 0
-			const failedTitles = []
+		async fetchColumns(projectId) {
+			try {
+				const objectStore = this._objectStore()
+				const columns = await fetchEvery(objectStore, COLUMN_SCHEMA, { project: projectId })
+				return Array.isArray(columns)
+					? [...columns].sort((a, b) => (Number(a?.order) || 0) - (Number(b?.order) || 0))
+					: []
+			} catch (err) {
+				console.error('fetchColumns error:', err)
+				return []
+			}
+		},
 
-			for (const col of columns) {
-				const result = await objectStore.saveObject(COLUMN_SCHEMA, {
-					...col,
-					project: projectId,
+		/**
+		 * Write a column: POST when it has no id, PATCH the given fields when it has one.
+		 *
+		 * PATCH, not PUT, for the same reason as `updateTaskStatus`. The server
+		 * refuses the write unless the caller owns the project or is an admin
+		 * (ColumnOwnerGuardListener).
+		 *
+		 * @param {object} column The column, or the fields to change plus its id
+		 * @return {Promise<object|null>} The saved column, or null on failure
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
+		 */
+		async saveColumn(column) {
+			const { id, ...fields } = column
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/column/${id}`)
+				: generateUrl('/apps/openregister/api/objects/planninq/column')
+			try {
+				const response = await fetch(url, {
+					method: id ? 'PATCH' : 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(fields),
 				})
-				if (result) {
-					created++
-				} else {
-					failedTitles.push(col.title)
+				if (!response.ok) {
+					return null
 				}
+				return await response.json()
+			} catch (err) {
+				console.error('saveColumn error:', err)
+				return null
 			}
+		},
 
-			if (failedTitles.length > 0) {
-				showWarning(
-					t('planninq', 'Some columns could not be created: {columns}', {
-						columns: failedTitles.join(', '),
-					}),
-				)
+		/**
+		 * Delete a column. Its cards must have been moved first.
+		 *
+		 * @param {string} id Column UUID
+		 * @return {Promise<boolean>} Whether the column is gone
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.2
+		 */
+		async deleteColumn(id) {
+			try {
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/column/${id}`)
+				const response = await fetch(url, { method: 'DELETE', headers: buildHeaders() })
+				return response.ok
+			} catch (err) {
+				console.error('deleteColumn error:', err)
+				return false
 			}
+		},
 
-			return { created, failed: failedTitles.length }
+		/**
+		 * Every log entry of a project. OpenRegister's read rule on the
+		 * members list scopes the read to the project's members.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The entries (empty array on error)
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
+		 */
+		async fetchLogEntries(projectId) {
+			try {
+				const objectStore = this._objectStore()
+				const entries = await fetchEvery(objectStore, LOG_SCHEMA, { project: projectId })
+				return Array.isArray(entries) ? entries : []
+			} catch (err) {
+				console.error('fetchLogEntries error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Write a log entry: POST when it has no id, PATCH the given fields when
+		 * it has one. The server stamps the author, the time and the members
+		 * list, and refuses a caller who is not on the project.
+		 *
+		 * @param {object} entry The entry, or the fields to change plus its id
+		 * @return {Promise<object|null>} The saved entry, or null on failure
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
+		 */
+		async saveLogEntry(entry) {
+			const { id, ...fields } = entry
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/${LOG_SCHEMA}/${id}`)
+				: generateUrl(`/apps/openregister/api/objects/planninq/${LOG_SCHEMA}`)
+			try {
+				const response = await fetch(url, {
+					method: id ? 'PATCH' : 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(fields),
+				})
+				if (!response.ok) {
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				console.error('saveLogEntry error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Every risk of a project, scoped by OpenRegister to its members.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The risks (empty array on error)
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
+		 */
+		async fetchRisks(projectId) {
+			try {
+				const objectStore = this._objectStore()
+				const risks = await fetchEvery(objectStore, RISK_SCHEMA, { project: projectId })
+				return Array.isArray(risks) ? risks : []
+			} catch (err) {
+				console.error('fetchRisks error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Write a risk: POST when it has no id, PATCH when it has one. The
+		 * server calculates the score and refuses a caller not on the project.
+		 *
+		 * @param {object} risk The risk, or the fields to change plus its id
+		 * @return {Promise<object|null>} The saved risk, or null on failure
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
+		 */
+		async saveRisk(risk) {
+			const { id, ...fields } = risk
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/${RISK_SCHEMA}/${id}`)
+				: generateUrl(`/apps/openregister/api/objects/planninq/${RISK_SCHEMA}`)
+			try {
+				const response = await fetch(url, {
+					method: id ? 'PATCH' : 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(fields),
+				})
+				if (!response.ok) {
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				console.error('saveRisk error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * The finance lines of a project. OpenRegister returns them only to the
+		 * owner, the portfolio managers, the finance import and admins.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The lines (empty array on error)
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
+		 */
+		async fetchFinanceLines(projectId) {
+			try {
+				const lines = await fetchEvery(this._objectStore(), FINANCE_LINE_SCHEMA, { project: projectId })
+				return Array.isArray(lines) ? lines : []
+			} catch (err) {
+				console.error('fetchFinanceLines error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Write a manual finance line: POST without an id, PATCH with one.
+		 *
+		 * @param {object} line The line fields, with `id` for an existing one
+		 * @return {Promise<object|null>} The saved line, or null when refused
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
+		 */
+		async saveFinanceLine(line) {
+			const { id, ...fields } = line
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/${FINANCE_LINE_SCHEMA}/${id}`)
+				: generateUrl(`/apps/openregister/api/objects/planninq/${FINANCE_LINE_SCHEMA}`)
+			try {
+				const response = await fetch(url, {
+					method: id ? 'PATCH' : 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(fields),
+				})
+				if (!response.ok) {
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				console.error('saveFinanceLine error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Remove a manual finance line.
+		 *
+		 * @param {string} id The line UUID
+		 * @return {Promise<boolean>} Whether it was removed
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
+		 */
+		async deleteFinanceLine(id) {
+			try {
+				const response = await fetch(generateUrl(`/apps/openregister/api/objects/planninq/${FINANCE_LINE_SCHEMA}/${id}`), {
+					method: 'DELETE',
+					headers: buildHeaders(),
+				})
+				return response.ok
+			} catch (err) {
+				console.error('deleteFinanceLine error:', err)
+				return false
+			}
+		},
+
+		/**
+		 * The finance lines of a portfolio's projects and the time booked on the
+		 * projects whose money the viewer may see, for the portfolio totals.
+		 * The lines are read with the one equality filter `portfolio = id`.
+		 *
+		 * @param {string} portfolioId The portfolio UUID
+		 * @param {Array<object>} projects The portfolio's projects whose money the viewer may see
+		 * @return {Promise<{lines: Array, entriesByProject: object}>}
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
+		 */
+		async fetchPortfolioMoney(portfolioId, projects) {
+			try {
+				const [lines, ...entries] = await Promise.all([
+					fetchEvery(this._objectStore(), FINANCE_LINE_SCHEMA, { portfolio: portfolioId }),
+					...projects.map((project) => this.fetchProjectTimeEntries(project.id)),
+				])
+				return {
+					lines: Array.isArray(lines) ? lines : [],
+					entriesByProject: Object.fromEntries(projects.map((project, i) => [project.id, entries[i]])),
+				}
+			} catch (err) {
+				console.error('fetchPortfolioMoney error:', err)
+				return { lines: [], entriesByProject: {} }
+			}
+		},
+
+		/**
+		 * The project fields an admin defined, for the Details tab and the overview.
+		 *
+		 * @return {Promise<Array>} The field definitions (empty array on error)
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.3
+		 */
+		async fetchProjectFields() {
+			try {
+				const fields = await fetchEvery(this._objectStore(), PROJECT_FIELD_SCHEMA, {})
+				return Array.isArray(fields) ? fields : []
+			} catch (err) {
+				console.error('fetchProjectFields error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Every time entry booked on a project, for its labour cost.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The entries (empty array on error)
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.1
+		 */
+		async fetchProjectTimeEntries(projectId) {
+			try {
+				const entries = await fetchEvery(this._objectStore(), TIME_ENTRY_SCHEMA, { project: projectId })
+				return Array.isArray(entries) ? entries : []
+			} catch (err) {
+				console.error('fetchProjectTimeEntries error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Every status report of a project, scoped by OpenRegister to its members.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The reports (empty array on error)
+		 *
+		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
+		 */
+		async fetchStatusReports(projectId) {
+			try {
+				const objectStore = this._objectStore()
+				const reports = await fetchEvery(objectStore, STATUS_REPORT_SCHEMA, { project: projectId })
+				return Array.isArray(reports) ? reports : []
+			} catch (err) {
+				console.error('fetchStatusReports error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Write a new status report. The server calculates the overall status,
+		 * refuses anyone but the project owner, and copies the newest report
+		 * onto the project.
+		 *
+		 * @param {object} report The report payload
+		 * @return {Promise<object|null>} The saved report, or null on failure
+		 *
+		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
+		 */
+		async saveStatusReport(report) {
+			try {
+				const response = await fetch(generateUrl(`/apps/openregister/api/objects/planninq/${STATUS_REPORT_SCHEMA}`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(report),
+				})
+				if (!response.ok) {
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				console.error('saveStatusReport error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Every portfolio. Every signed-in user reads their names, so lists can group by them.
+		 *
+		 * @return {Promise<Array>} The portfolios (empty array on error)
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.2
+		 */
+		async fetchPortfolios() {
+			try {
+				const portfolios = await fetchEvery(this._objectStore(), PORTFOLIO_SCHEMA, {})
+				return Array.isArray(portfolios) ? portfolios : []
+			} catch (err) {
+				console.error('fetchPortfolios error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Every release of a project, scoped by OpenRegister to its members.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The releases (empty array on error)
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.1
+		 */
+		async fetchReleases(projectId) {
+			try {
+				const releases = await fetchEvery(this._objectStore(), RELEASE_SCHEMA, { project: projectId })
+				return Array.isArray(releases) ? releases : []
+			} catch (err) {
+				console.error('fetchReleases error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * The saved filters of a project the user may read: their own, and the
+		 * ones shared with the project (the register's read rule decides).
+		 *
+		 * @param {string} projectId Project UUID
+		 * @return {Promise<Array<object>>}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
+		 */
+		async fetchBoardFilters(projectId) {
+			try {
+				const filters = await fetchEvery(this._objectStore(), BOARD_FILTER_SCHEMA, { project: projectId })
+				return Array.isArray(filters) ? filters : []
+			} catch (err) {
+				console.error('fetchBoardFilters error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Save a filter: POST without an id, PATCH with one. The server sets
+		 * the owner (BoardFilterOwnerListener) and refuses a change by anyone
+		 * else.
+		 *
+		 * @param {object} filter The fields, with `id` for an existing filter
+		 * @return {Promise<object|null>} The saved filter, or null on failure
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
+		 */
+		async saveBoardFilter(filter) {
+			const { id, ...fields } = filter
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_FILTER_SCHEMA}/${id}`)
+				: generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_FILTER_SCHEMA}`)
+			try {
+				const response = await fetch(url, { method: id ? 'PATCH' : 'POST', headers: buildHeaders(), body: JSON.stringify(fields) })
+				return response.ok ? await response.json() : null
+			} catch (err) {
+				console.error('saveBoardFilter error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Delete a saved filter.
+		 *
+		 * @param {string} id The filter UUID
+		 * @return {Promise<boolean>} Whether it is gone
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
+		 */
+		async deleteBoardFilter(id) {
+			try {
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_FILTER_SCHEMA}/${id}`)
+				const response = await fetch(url, { method: 'DELETE', headers: buildHeaders() })
+				return response.ok
+			} catch (err) {
+				console.error('deleteBoardFilter error:', err)
+				return false
+			}
+		},
+
+		/**
+		 * The code links of a task (integration-code-forge-links). OpenRegister
+		 * returns them only to members of the task's project and admins.
+		 *
+		 * @param {string} taskId The task UUID
+		 * @return {Promise<Array>} The links (empty array on error)
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
+		 */
+		async fetchForgeLinks(taskId) {
+			try {
+				const links = await fetchEvery(this._objectStore(), FORGE_LINK_SCHEMA, { task: taskId })
+				return Array.isArray(links) ? links : []
+			} catch (err) {
+				console.error('fetchForgeLinks error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Add a code link by hand. The server fills the project from the task
+		 * and refuses a second link to the same forge item on the task.
+		 *
+		 * @param {object} link The link fields, with `task`
+		 * @return {Promise<{ok: boolean, duplicate: boolean}>} The outcome
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
+		 */
+		async saveForgeLink(link) {
+			try {
+				const response = await fetch(generateUrl(`/apps/openregister/api/objects/planninq/${FORGE_LINK_SCHEMA}`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(link),
+				})
+				if (response.ok) {
+					return { ok: true, duplicate: false }
+				}
+				const body = await response.json().catch(() => ({}))
+				return { ok: false, duplicate: forgeLinkRefusal(body) === 'duplicate' }
+			} catch (err) {
+				console.error('saveForgeLink error:', err)
+				return { ok: false, duplicate: false }
+			}
+		},
+
+		/**
+		 * Remove a code link.
+		 *
+		 * @param {string} id The link UUID
+		 * @return {Promise<boolean>} Whether it is gone
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
+		 */
+		async deleteForgeLink(id) {
+			try {
+				const response = await fetch(generateUrl(`/apps/openregister/api/objects/planninq/${FORGE_LINK_SCHEMA}/${id}`), {
+					method: 'DELETE',
+					headers: buildHeaders(),
+				})
+				return response.ok
+			} catch (err) {
+				console.error('deleteForgeLink error:', err)
+				return false
+			}
+		},
+
+		/**
+		 * Read one cross-project view with the user's rights: null when it
+		 * does not exist or is not shared with them.
+		 *
+		 * @param {string} id The view UUID
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
+		 */
+		async fetchBoardView(id) {
+			return readObject(BOARD_VIEW_SCHEMA, id)
+		},
+
+		/**
+		 * Read one project with the user's rights and without touching the
+		 * active project: null when they may not read it or it is gone
+		 * (OpenRegister answers both with 404).
+		 *
+		 * @param {string} id The project UUID
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
+		 */
+		async readProject(id) {
+			return readObject(PROJECT_SCHEMA, id)
+		},
+
+		/**
+		 * The cross-project views the user owns or that are shared with them
+		 * (the register's read rule decides).
+		 *
+		 * @return {Promise<Array<object>>}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
+		 */
+		async fetchBoardViews() {
+			try {
+				const views = await fetchEvery(this._objectStore(), BOARD_VIEW_SCHEMA)
+				return Array.isArray(views) ? views : []
+			} catch (err) {
+				console.error('fetchBoardViews error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Save a view: POST without an id, PATCH with one. The server sets the
+		 * owner and refuses a change by anyone else.
+		 *
+		 * @param {object} view The fields, with `id` for an existing view
+		 * @return {Promise<object|null>} The saved view, or null on failure
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
+		 */
+		async saveBoardView(view) {
+			const { id, ...fields } = view
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_VIEW_SCHEMA}/${id}`)
+				: generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_VIEW_SCHEMA}`)
+			try {
+				const response = await fetch(url, { method: id ? 'PATCH' : 'POST', headers: buildHeaders(), body: JSON.stringify(fields) })
+				return response.ok ? await response.json() : null
+			} catch (err) {
+				console.error('saveBoardView error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Delete a view; its projects and tasks stay.
+		 *
+		 * @param {string} id The view UUID
+		 * @return {Promise<boolean>} Whether it is gone
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
+		 */
+		async deleteBoardView(id) {
+			try {
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_VIEW_SCHEMA}/${id}`)
+				const response = await fetch(url, { method: 'DELETE', headers: buildHeaders() })
+				return response.ok
+			} catch (err) {
+				console.error('deleteBoardView error:', err)
+				return false
+			}
+		},
+
+		/**
+		 * Write a release: POST without an id, PATCH with one, so only the
+		 * fields given are sent.
+		 *
+		 * @param {object} release The release fields, with `id` for an existing one
+		 * @return {Promise<object|null>} The saved release, or null on failure
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.1
+		 */
+		async saveRelease(release) {
+			const { id, ...fields } = release
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/${RELEASE_SCHEMA}/${id}`)
+				: generateUrl(`/apps/openregister/api/objects/planninq/${RELEASE_SCHEMA}`)
+			try {
+				const response = await fetch(url, {
+					method: id ? 'PATCH' : 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(fields),
+				})
+				if (!response.ok) {
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				console.error('saveRelease error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Mark a release as released, in one server request. The server moves,
+		 * clears or keeps the unfinished tasks as the member chose and stamps
+		 * `releasedAt` with its own time; when a write fails the release stays
+		 * planned.
+		 *
+		 * @param {object} release The release
+		 * @param {string} choice 'move', 'clear' or 'keep'
+		 * @param {string|null} targetId The release to move the tasks to
+		 * @return {Promise<{ok: boolean}>}
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.1
+		 */
+		async shipRelease(release, choice, targetId) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/releases/${release.id}/ship`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({ choice, target: targetId }),
+				})
+				return { ok: response.ok }
+			} catch (err) {
+				console.error('shipRelease error:', err)
+				return { ok: false }
+			}
+		},
+
+		/**
+		 * Plan a task against a release, or clear it with null. Sends only `release`.
+		 *
+		 * @param {string} taskId Task UUID
+		 * @param {string|null} releaseId Release UUID, or null
+		 * @return {Promise<object|null>} The updated task, or null on failure
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.1
+		 */
+		async setTaskRelease(taskId, releaseId) {
+			return this.updateTask(taskId, { release: releaseId || null })
+		},
+
+		/**
+		 * Link a task to an epic of its own project, or unlink it with null.
+		 * Another project's epic, or an epic under an epic, is refused here
+		 * and never sent.
+		 *
+		 * @param {object} task The task
+		 * @param {object|null} epic The epic, or null
+		 * @return {Promise<{ok: boolean, reason?: string, task?: object}>}
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.3
+		 */
+		async setTaskEpic(task, epic) {
+			const result = epicPatch(task, epic)
+			if (!result.ok) {
+				return result
+			}
+			const updated = await this.updateTask(task.id, result.patch)
+			return updated ? { ok: true, task: updated } : { ok: false, reason: 'other' }
+		},
+
+		/**
+		 * Every phase of a project, scoped by OpenRegister to its members.
+		 *
+		 * @param {string} projectId Parent project UUID
+		 * @return {Promise<Array>} The phases (empty array on error)
+		 *
+		 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
+		 */
+		async fetchPhases(projectId) {
+			try {
+				const phases = await fetchEvery(this._objectStore(), PHASE_SCHEMA, { project: projectId })
+				return Array.isArray(phases) ? phases : []
+			} catch (err) {
+				console.error('fetchPhases error:', err)
+				return []
+			}
+		},
+
+		/**
+		 * Write a phase: POST without an id, PATCH with one.
+		 *
+		 * @param {object} phase The phase fields, with `id` for an existing one
+		 * @return {Promise<{ok: boolean, phase?: object, reason?: string}>}
+		 *
+		 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
+		 */
+		async savePhase(phase) {
+			const { id, ...fields } = phase
+			const url = id
+				? generateUrl(`/apps/openregister/api/objects/planninq/${PHASE_SCHEMA}/${id}`)
+				: generateUrl(`/apps/openregister/api/objects/planninq/${PHASE_SCHEMA}`)
+			try {
+				const response = await fetch(url, {
+					method: id ? 'PATCH' : 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(fields),
+				})
+				const body = await response.json().catch(() => ({}))
+				if (!response.ok) {
+					return { ok: false, reason: refusalMessage(response.status, body) }
+				}
+				return { ok: true, phase: body }
+			} catch (err) {
+				console.error('savePhase error:', err)
+				return { ok: false, reason: 'other' }
+			}
+		},
+
+		/**
+		 * Move a phase up (-1) or down (+1) by swapping its order with its neighbour's.
+		 *
+		 * @param {Array<object>} phases The project's phases
+		 * @param {string} id The phase to move
+		 * @param {number} step -1 or +1
+		 * @return {Promise<boolean>} Whether both writes succeeded
+		 *
+		 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
+		 */
+		async reorderPhase(phases, id, step) {
+			const results = await Promise.all(reorderPatches(phases, id, step).map((patch) => this.savePhase(patch)))
+			return results.length > 0 && results.every((result) => result.ok)
+		},
+
+		/**
+		 * Close a phase: its concluding document and status in one write, which
+		 * OpenRegister's lifecycle guard accepts only with the file attached.
+		 *
+		 * @param {string} id The phase
+		 * @param {string|number} fileId The concluding document on the phase
+		 * @return {Promise<{ok: boolean, phase?: object, reason?: string}>}
+		 *
+		 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.4
+		 */
+		async closePhase(id, fileId) {
+			return this.savePhase({ id, ...closePatch(fileId) })
 		},
 
 		// ── 2.7 archiveProject ────────────────────────────────────────────
 
 		/**
-		 * Archive a project by setting status to 'archived'.
+		 * Run a lifecycle transition on a project through OpenRegister, which
+		 * checks the caller's update right and the schema's lifecycle block.
+		 *
+		 * @param {string} id Project ID
+		 * @param {string} action The transition: archive, restore, approve or reject
+		 * @param {object} [data] Input values the transition accepts
+		 * @return {Promise<object|null>} The saved project, or null on a refusal (message in `error`)
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.3
+		 */
+		async runProjectTransition(id, action, data) {
+			this.error = null
+			const { path, body } = transitionRequest(id, action)
+			try {
+				const response = await fetch(generateUrl(path), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(data ? { ...body, data } : body),
+				})
+				const answer = await response.json().catch(() => ({}))
+				if (!response.ok) {
+					this.error = answer?.error || 'transition-error'
+					return null
+				}
+				const updated = { ...answer, id: answer.id || answer['@self']?.id || id }
+				this.projects = this.projects.map((p) => (p.id === id ? { ...p, ...updated } : p))
+				if (this.activeProject?.id === id) {
+					this.activeProject = { ...this.activeProject, ...updated }
+				}
+				return updated
+			} catch (err) {
+				this.error = err.message || 'transition-error'
+				return null
+			}
+		},
+
+		/**
+		 * The lifecycle actions OpenRegister offers the caller on a project.
+		 *
+		 * @param {string} id Project ID
+		 * @return {Promise<string[]|null>} Action names, or null when the list could not be read
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.4
+		 */
+		async fetchProjectActions(id) {
+			try {
+				const url = generateUrl(`/apps/openregister/api/objects/${encodeURIComponent(id)}/available-actions`)
+				const response = await fetch(url, { headers: buildHeaders() })
+				return response.ok ? actionNames(await response.json()) : null
+			} catch {
+				return null
+			}
+		},
+
+		/**
+		 * Archive a project through the `archive` transition.
 		 *
 		 * @param {string} id Project ID
 		 * @return {Promise<object|null>}
 		 *
-		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.3
 		 */
 		async archiveProject(id) {
-			// Use PATCH (not PUT) so only `status` is changed server-side.
-			// OR's PUT semantics fill every missing schema property with null,
-			// which would wipe `owner` and make the project permanently
-			// uneditable by the owner (H1 / same root cause as C2).
-			const updated = await this.patchProject(id, { status: 'archived' })
+			const updated = await this.runProjectTransition(id, 'archive')
 			if (updated) {
 				// Remove from the active list (default filter excludes archived).
 				this.projects = this.projects.filter((p) => p.id !== id)
@@ -506,64 +1302,43 @@ export const useProjectsStore = defineStore('projects', {
 			return updated
 		},
 
+		/**
+		 * Bring an archived project back through the `restore` transition.
+		 *
+		 * @param {string} id Project ID
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.3
+		 */
+		async restoreProject(id) {
+			return this.runProjectTransition(id, 'restore')
+		},
+
 		// ── 2.8 deleteProject ─────────────────────────────────────────────
 
 		/**
-		 * Cascade-delete a project and all dependent objects.
-		 * Order: timeEntries → tasks → columns → project.
+		 * Delete a project with everything in it, in one server request.
+		 *
+		 * The server checks that the caller owns the project, then deletes its
+		 * tasks, time entries, columns, phases, releases, risks, log entries,
+		 * status reports, finance lines, saved filters and code links, and the
+		 * project last; a failure part-way leaves the project, so deleting it
+		 * again finishes the job.
 		 *
 		 * @param {string} id Project ID
-		 * @return {Promise<boolean>}
+		 * @return {Promise<boolean>} True when the project is gone
 		 *
-		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-9
+		 * @spec openspec/specs/projects.md
 		 */
 		async deleteProject(id) {
 			this.loading = true
 			this.error = null
 			try {
-				const objectStore = this._objectStore()
-
-				// 1. Fetch tasks for this project.
-				const tasks = await fetchEvery(objectStore, TASK_SCHEMA, { project: id })
-
-				// 2. Fetch and delete time entries for each task.
-				// NOTE: deletion is sequential and non-transactional. A mid-flight failure
-				// (network drop, server error) will leave orphaned objects. The error messages
-				// below prompt the user to retry, which will pick up where deletion failed.
-				for (const task of tasks) {
-					const entries = await fetchEvery(objectStore, TIME_ENTRY_SCHEMA, { task: task.id })
-					for (const entry of entries) {
-						const ok = await objectStore.deleteObject(TIME_ENTRY_SCHEMA, entry.id)
-						if (!ok) {
-							showError(t('planninq', 'Failed to delete a time entry. Some data may remain — please retry deleting the project.'))
-							return false
-						}
-					}
-				}
-
-				// 3. Delete tasks.
-				for (const task of tasks) {
-					const ok = await objectStore.deleteObject(TASK_SCHEMA, task.id)
-					if (!ok) {
-						showError(t('planninq', 'Failed to delete a task. Some data may remain — please retry deleting the project.'))
-						return false
-					}
-				}
-
-				// 4. Fetch and delete columns.
-				const columns = await fetchEvery(objectStore, COLUMN_SCHEMA, { project: id })
-				for (const col of columns) {
-					const ok = await objectStore.deleteObject(COLUMN_SCHEMA, col.id)
-					if (!ok) {
-						showError(t('planninq', 'Failed to delete a column. Some data may remain — please retry deleting the project.'))
-						return false
-					}
-				}
-
-				// 5. Delete the project itself.
-				const ok = await objectStore.deleteObject(PROJECT_SCHEMA, id)
-				if (!ok) {
-					showError(t('planninq', 'Failed to delete project. Please retry.'))
+				const response = await fetch(generateUrl(`/apps/planninq/api/projects/${id}`), { method: 'DELETE', headers: buildHeaders() })
+				if (!response.ok) {
+					const body = await response.json().catch(() => ({}))
+					this.error = body?.code || 'delete-error'
+					showError(t('planninq', 'Could not delete the project. Please try again.'))
 					return false
 				}
 
@@ -598,14 +1373,120 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
 		 */
 		async addMember(projectId, userUid) {
-			const project = await this.fetchProject(projectId)
-			if (!project) return null
+			return this._writeRoles(projectId, (project) => {
+				const members = Array.isArray(project.members) ? [...project.members] : []
+				if (members.includes(userUid)) { // Guard against duplicates.
+					return {}
+				}
+				members.push(userUid)
+				return { members }
+			})
+		},
 
-			const members = Array.isArray(project.members) ? [...project.members] : []
-			if (members.includes(userUid)) return project // Guard against duplicates.
+		/**
+		 * Share a project with a Nextcloud group as members: everyone in the
+		 * group reads and writes its tasks. PATCHes only `memberGroups`.
+		 *
+		 * @param {string} projectId Project ID
+		 * @param {string} groupId Nextcloud group id
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
+		 */
+		async addMemberGroup(projectId, groupId) {
+			return this._writeRoles(projectId, (project) => {
+				const memberGroups = Array.isArray(project.memberGroups) ? [...project.memberGroups] : []
+				if (memberGroups.includes(groupId)) {
+					return {}
+				}
+				memberGroups.push(groupId)
+				return { memberGroups }
+			})
+		},
 
-			members.push(userUid)
-			return this.patchProject(projectId, { members })
+		/**
+		 * Hand the project to a group, or take it back (gid null). PATCHes only
+		 * `ownerGroups`, a list of at most one group.
+		 *
+		 * @param {string} projectId Project ID
+		 * @param {string|null} gid Nextcloud group id, or null for no owning group
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 */
+		async setOwnerGroup(projectId, gid) {
+			return this._writeRoles(projectId, (project) => {
+				const ownerGroups = gid ? [gid] : []
+				const before = Array.isArray(project.ownerGroups) ? project.ownerGroups : []
+				if (before.length === ownerGroups.length && before.every((entry, index) => entry === ownerGroups[index])) {
+					return {}
+				}
+				return { ownerGroups }
+			})
+		},
+
+		/**
+		 * Give a person or a group a role on the project, or take it away
+		 * (role null). PATCHes only the lists that change.
+		 *
+		 * @param {string} projectId Project ID
+		 * @param {string} id User or group id
+		 * @param {'user'|'group'} type Whether the id is a user or a group
+		 * @param {'manager'|'member'|'viewer'|null} role The new role
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.4
+		 */
+		async setMemberRole(projectId, id, type, role) {
+			return this._writeRoles(projectId, (project) => rolePatch(project, id, type, role))
+		},
+
+		/**
+		 * Stop sharing a project with a group. PATCHes only `memberGroups`.
+		 *
+		 * @param {string} projectId Project ID
+		 * @param {string} groupId Nextcloud group id
+		 * @return {Promise<object|null>}
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+		 */
+		async removeMemberGroup(projectId, groupId) {
+			return this._writeRoles(projectId, (project) => ({
+				memberGroups: (Array.isArray(project.memberGroups) ? project.memberGroups : []).filter((gid) => gid !== groupId),
+			}))
+		},
+
+		/**
+		 * Write a change to a project's role lists from the version just read.
+		 *
+		 * The lists are read, changed and written whole, so the write carries
+		 * the `updated` stamp it was computed from (`_expectedUpdated`) and
+		 * OpenRegister refuses it with 409 when someone changed the project in
+		 * between. Then the change is computed again from a fresh read, once;
+		 * a grant or a removal is never lost or undone silently.
+		 *
+		 * @param {string} projectId Project ID
+		 * @param {function(object): object} change The PATCH for a project, `{}` for nothing to do
+		 * @return {Promise<object|null>} The project, or null on failure
+		 *
+		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.4
+		 */
+		async _writeRoles(projectId, change) {
+			for (let attempt = 0; attempt < 2; attempt++) {
+				const project = await this.fetchProject(projectId)
+				if (!project) {
+					return null
+				}
+				const patch = change(project)
+				if (Object.keys(patch).length === 0) {
+					return project
+				}
+				const saved = await this.patchProject(projectId, { ...patch, _expectedUpdated: project['@self']?.updated })
+				if (saved || this.error !== ACL_CONFLICT) {
+					return saved
+				}
+			}
+			return null
 		},
 
 		// ── 2.10 getMemberTaskCount ───────────────────────────────────────
@@ -656,20 +1537,16 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
 		 */
 		async removeMember(projectId, userUid) {
-			const project = await this.fetchProject(projectId)
-			if (!project) return null
+			return this._writeRoles(projectId, (project) => {
+				const patch = rolePatch(project, userUid, 'user', null)
 
-			const members = (Array.isArray(project.members) ? project.members : []).filter(
-				(uid) => uid !== userUid,
-			)
-
-			// Refuse to leave a project with no remaining members — an orphaned
-			// project is inaccessible and unrecoverable without admin intervention.
-			if (members.length === 0) {
-				throw new Error('Cannot remove the last member from a project')
-			}
-
-			return this.patchProject(projectId, { members })
+				// Refuse to leave a project with no remaining members — an orphaned
+				// project is inaccessible and unrecoverable without admin intervention.
+				if (Array.isArray(patch.members) && patch.members.length === 0) {
+					throw new Error('Cannot remove the last member from a project')
+				}
+				return patch
+			})
 		},
 
 		// ── 2.12 leaveProject ────────────────────────────────────────────
@@ -769,6 +1646,66 @@ export const useProjectsStore = defineStore('projects', {
 			}
 		},
 
+		// ── 2.13a fetchMyTasks ────────────────────────────────────────────
+
+		/**
+		 * Every task assigned to the current user or shared with them, in
+		 * every project they can read (OpenRegister scopes task reads to the
+		 * project's members), open and closed; My tasks filters further.
+		 *
+		 * One paged read of the task collection, filtered here: `sharedWith`
+		 * is an array, and an array filter on the object list is not
+		 * portable across databases (see fetchProjects).
+		 *
+		 * @return {Promise<Array>}
+		 *
+		 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-1.1
+		 */
+		async fetchMyTasks() {
+			const uid = this._currentUid()
+			if (!uid) {
+				return []
+			}
+			try {
+				const tasks = await fetchEvery(this._objectStore(), TASK_SCHEMA, {})
+				return (Array.isArray(tasks) ? tasks : []).filter((task) => isMine(task, uid))
+			} catch (err) {
+				console.error('fetchMyTasks error:', err)
+				return []
+			}
+		},
+
+		// ── 2.13b fetchLabels ─────────────────────────────────────────────
+
+		/**
+		 * Fetch every app-wide label, for the board's card chips and its label
+		 * filter.
+		 *
+		 * Reads the `label` schema straight from OpenRegister (ADR-022), NOT the
+		 * `/apps/planninq/api/labels` admin endpoint the labels store uses: that
+		 * one aggregates usage counts and answers 403 to anyone who is not an
+		 * admin, so a board built on it would show no chips at all to the
+		 * ordinary project members the board exists for. The schema's own
+		 * authorization grants `read` to every authenticated user.
+		 *
+		 * Labels are app-wide, not per project, so this takes no filter — a task
+		 * may reference any of them.
+		 *
+		 * @return {Promise<Array>} Every label object (empty array on error)
+		 *
+		 * @spec openspec/specs/kanban-board.md
+		 */
+		async fetchLabels() {
+			try {
+				const objectStore = this._objectStore()
+				const labels = await fetchEvery(objectStore, LABEL_SCHEMA)
+				return Array.isArray(labels) ? labels : []
+			} catch (err) {
+				console.error('fetchLabels error:', err)
+				return []
+			}
+		},
+
 		// ── 2.14 updateTaskStatus ─────────────────────────────────────────
 
 		/**
@@ -805,6 +1742,120 @@ export const useProjectsStore = defineStore('projects', {
 				this.error = err.message || 'task-status-error'
 				console.error('updateTaskStatus error:', err)
 				return null
+			}
+		},
+
+		// ── 2.14b createTask ──────────────────────────────────────────────
+
+		/**
+		 * Create a task through OpenRegister's object API (ADR-022). The
+		 * server stamps the members list and refuses a caller who is not a
+		 * member of the task's project (ProjectMemberAccessListener).
+		 *
+		 * A task without a status or priority gets `open` and `normal`. The
+		 * server records the caller as `reporter` (TaskReporterGuardListener).
+		 *
+		 * @param {object} data The task fields; `title` and `project` at least
+		 * @return {Promise<object|null>} The created task, or null on failure
+		 *
+		 * @spec openspec/changes/backlog-list/tasks.md#task-1.2
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-1.1
+		 */
+		async createTask(data) {
+			try {
+				const url = generateUrl('/apps/openregister/api/objects/planninq/task')
+				const response = await fetch(url, {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify(withTaskDefaults(data)),
+				})
+				if (!response.ok) {
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				console.error('createTask error:', err)
+				return null
+			}
+		},
+
+		// ── 2.14c deleteTask ──────────────────────────────────────────────
+
+		/**
+		 * Delete one task, unless it has logged time.
+		 *
+		 * A task with time entries is not deleted: the hours belong to the
+		 * people who logged them, and the dialog offers to cancel the task
+		 * instead. The server refuses the same (TaskReporterGuardListener),
+		 * and also refuses anyone but the reporter, the project owner or an
+		 * admin; the refusal's code says which.
+		 *
+		 * @param {string} taskId Task UUID
+		 * @return {Promise<{deleted: boolean, reason?: string}>} `reason` is has-time, not-allowed or failed
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-1.2
+		 */
+		async deleteTask(taskId) {
+			try {
+				const entries = await fetchEvery(this._objectStore(), TIME_ENTRY_SCHEMA, { task: taskId })
+				if (entries.length > 0) {
+					return { deleted: false, reason: 'has-time' }
+				}
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/task/${taskId}`)
+				const response = await fetch(url, { method: 'DELETE', headers: buildHeaders() })
+				if (!response.ok) {
+					const body = await response.json().catch(() => ({}))
+					return { deleted: false, reason: deleteRefusal(body) }
+				}
+				return { deleted: true }
+			} catch (err) {
+				console.error('deleteTask error:', err)
+				return { deleted: false, reason: 'failed' }
+			}
+		},
+
+		// ── 2.14d subtasks, duplicate, delete a parent ────────────────────
+
+		/**
+		 * Copy a task and its subtasks in one server request: no dates, people,
+		 * logged time or ticked checklist items.
+		 *
+		 * @param {object} task The task.
+		 * @return {Promise<object|null>} The copy, or null when the copy failed
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-5.1
+		 */
+		async duplicateTask(task) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/tasks/${task.id}/duplicate`), { method: 'POST', headers: buildHeaders() })
+				return response.ok ? await response.json() : null
+			} catch (err) {
+				console.error('duplicateTask error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Delete a parent task, deleting its subtasks too or keeping them as
+		 * separate tasks, in one server request. Nothing is deleted when any task
+		 * that would go has logged time or may not be deleted by the caller.
+		 *
+		 * @param {object} task The parent.
+		 * @param {string} mode `delete` or `detach`.
+		 * @return {Promise<{deleted: boolean, reason?: string}>}
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-5.2
+		 */
+		async deleteTaskTree(task, mode) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/tasks/${task.id}?subtasks=${encodeURIComponent(mode)}`), { method: 'DELETE', headers: buildHeaders() })
+				if (!response.ok) {
+					return { deleted: false, reason: deleteRefusal(await response.json().catch(() => ({}))) }
+				}
+				return { deleted: true }
+			} catch (err) {
+				console.error('deleteTaskTree error:', err)
+				return { deleted: false, reason: 'failed' }
 			}
 		},
 
