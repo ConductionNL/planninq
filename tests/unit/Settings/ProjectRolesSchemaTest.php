@@ -204,4 +204,24 @@ class ProjectRolesSchemaTest extends TestCase {
 		self::assertSame([], $this->registerSchemaErrors(slug: 'task', payload: $task));
 		self::assertSame(['viewers', 'memberGroups', 'viewerGroups'], ProjectMembershipService::ROLE_FIELDS);
 	}//end testAProjectWithRolesValidates()
+
+	/**
+	 * The money on a project is read by its owner, owning groups, portfolio
+	 * managers and admins only, and set by its owner, owning groups and admins:
+	 * members and viewers read the project without it.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/portfolio-finance/spec.md
+	 */
+	public function testProjectMoneyIsReadByTheOwnerAndThePortfolioManagersOnly(): void {
+		$project = $this->schemas()['project'];
+		foreach (['budgetAmount', 'hourlyRate', 'budgetHours'] as $field) {
+			$rules = ($project['properties'][$field]['authorization'] ?? []);
+			self::assertSame(['owner:' . self::USER, 'ownerGroups:' . self::GROUPS, 'portfolioReaders:' . self::USER], self::grants($rules['read'] ?? []), $field);
+			self::assertSame(['owner:' . self::USER, 'ownerGroups:' . self::GROUPS], self::grants($rules['update'] ?? []), $field);
+			self::assertContains(['group' => 'admin'], $rules['read'], $field);
+			self::assertContains(['group' => 'admin'], $rules['update'], $field);
+		}
+	}//end testProjectMoneyIsReadByTheOwnerAndThePortfolioManagersOnly()
 }//end class
