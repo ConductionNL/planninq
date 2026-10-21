@@ -29,6 +29,9 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'projectAction#movePhase', 'url' => '/api/projects/{projectId}/phases/move', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
     ['name' => 'projectAction#schedule', 'url' => '/api/projects/{projectId}/schedule', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
     ['name' => 'projectAction#addAction', 'url' => '/api/log-entries/{entryId}/actions', 'verb' => 'POST', 'requirements' => ['entryId' => '[^/]+']],
+    ['name' => 'boardOrder#orderTasks', 'url' => '/api/projects/{projectId}/tasks/order', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'boardOrder#orderColumns', 'url' => '/api/projects/{projectId}/columns/order', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'boardOrder#removeColumn', 'url' => '/api/columns/{columnId}/remove', 'verb' => 'POST', 'requirements' => ['columnId' => '[^/]+']],
     ['name' => 'projectAction#duplicateTask', 'url' => '/api/tasks/{taskId}/duplicate', 'verb' => 'POST', 'requirements' => ['taskId' => '[^/]+']],
 
     // Label management (admin-only) — usage listing + cascade delete.

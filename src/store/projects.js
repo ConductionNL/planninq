@@ -572,6 +572,78 @@ export const useProjectsStore = defineStore('projects', {
 		},
 
 		/**
+		 * Move or reorder cards in one server request. The server checks every
+		 * card is a task of the project before it writes any, and runs the lane
+		 * rules on each.
+		 *
+		 * @param {string} projectId The project
+		 * @param {Array<object>} patches Each `{ id, column?, columnOrder?, status? }`
+		 * @return {Promise<Array<object>|null>} The cards as stored, or null on failure
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2
+		 */
+		async saveTaskOrder(projectId, patches) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/projects/${projectId}/tasks/order`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({ patches }),
+				})
+				return response.ok ? await response.json() : null
+			} catch (err) {
+				console.error('saveTaskOrder error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Put the lanes in a new order in one server request.
+		 *
+		 * @param {string} projectId The project
+		 * @param {Array<string>} columnIds The lanes in their new order
+		 * @return {Promise<boolean>}
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
+		 */
+		async saveColumnOrder(projectId, columnIds) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/projects/${projectId}/columns/order`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({ columns: columnIds }),
+				})
+				return response.ok
+			} catch (err) {
+				console.error('saveColumnOrder error:', err)
+				return false
+			}
+		},
+
+		/**
+		 * Remove a lane in one server request: its cards go to the bottom of
+		 * another lane (or the backlog, for null), then the lane is deleted.
+		 *
+		 * @param {string} columnId The lane
+		 * @param {string|null} targetId The lane the cards move to
+		 * @return {Promise<boolean>}
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.2
+		 */
+		async removeColumn(columnId, targetId) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/columns/${columnId}/remove`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({ target: targetId }),
+				})
+				return response.ok
+			} catch (err) {
+				console.error('removeColumn error:', err)
+				return false
+			}
+		},
+
+		/**
 		 * Delete a column. Its cards must have been moved first.
 		 *
 		 * @param {string} id Column UUID

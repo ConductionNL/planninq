@@ -84,4 +84,19 @@ describe('projects store: duplicate and delete a task tree', () => {
 		globalThis.fetch = vi.fn(async () => ({ ok: false, json: async () => ({}) }))
 		expect(await store.addLogAction('log-1', { title: 'Again' })).toBeNull()
 	})
+	it('moves cards, orders lanes and removes a lane in one server request each', async () => {
+		globalThis.fetch = vi.fn(async (url) => ({ ok: true, json: async () => (url.endsWith('/tasks/order') ? [{ id: 't1', column: 'c2' }] : {}) }))
+
+		expect(await store.saveTaskOrder('p1', [{ id: 't1', column: 'c2', columnOrder: 1000 }])).toEqual([{ id: 't1', column: 'c2' }])
+		expect(await store.saveColumnOrder('p1', ['c2', 'c1'])).toBe(true)
+		expect(await store.removeColumn('c1', null)).toBe(true)
+		expect(globalThis.fetch.mock.calls.map(([url, init]) => [url, JSON.parse(init.body)])).toEqual([
+			['/apps/planninq/api/projects/p1/tasks/order', { patches: [{ id: 't1', column: 'c2', columnOrder: 1000 }] }],
+			['/apps/planninq/api/projects/p1/columns/order', { columns: ['c2', 'c1'] }],
+			['/apps/planninq/api/columns/c1/remove', { target: null }],
+		])
+
+		globalThis.fetch = vi.fn(async () => ({ ok: false, json: async () => ({}) }))
+		expect(await store.saveTaskOrder('p1', [])).toBeNull()
+	})
 })

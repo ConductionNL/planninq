@@ -193,6 +193,24 @@ class ProjectActionSupport {
 	}//end save()
 
 	/**
+	 * Save one object with the caller's own rights, so every rule and listener applies, and return its data with its `id`.
+	 *
+	 * @param string              $schema The schema slug.
+	 * @param string              $id     The UUID.
+	 * @param array<string,mixed> $data   The full data.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @spec openspec/specs/projects.md
+	 */
+	public function saveAsCaller(string $schema, string $id, array $data): array {
+		unset($data['@self'], $data['id']);
+		$saved = $this->objectService()->saveObject(object: $data, register: ProjectMembershipService::REGISTER, schema: $schema, uuid: $id);
+
+		return ['id' => (string)$saved->getUuid()] + (array)$saved->getObject();
+	}//end saveAsCaller()
+
+	/**
 	 * Delete one object as the system.
 	 *
 	 * @param string $schema The schema slug.
