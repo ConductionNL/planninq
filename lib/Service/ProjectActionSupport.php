@@ -72,6 +72,8 @@ class ProjectActionSupport {
 	 * @return void
 	 *
 	 * @throws ProjectActionException When they do not.
+	 *
+	 * @spec openspec/specs/projects.md
 	 */
 	public function assertWrites(string $projectId): void {
 		$user    = $this->caller();
@@ -97,6 +99,8 @@ class ProjectActionSupport {
 	 * @return array<string,mixed>
 	 *
 	 * @throws ProjectActionException When it does not resolve or the caller cannot read it.
+	 *
+	 * @spec openspec/specs/projects.md
 	 */
 	public function readable(string $schema, string $id): array {
 		try {
@@ -119,6 +123,8 @@ class ProjectActionSupport {
 	 * @param IUser               $user    The caller.
 	 *
 	 * @return bool
+	 *
+	 * @spec openspec/specs/projects.md
 	 */
 	public function ownsProject(array $project, IUser $user): bool {
 		if (($project['owner'] ?? null) === $user->getUID()) {
@@ -136,6 +142,8 @@ class ProjectActionSupport {
 	 * @param IUser $user The caller.
 	 *
 	 * @return bool
+	 *
+	 * @spec openspec/specs/projects.md
 	 */
 	public function isAdmin(IUser $user): bool {
 		return $this->groupManager->isAdmin($user->getUID());
@@ -147,6 +155,8 @@ class ProjectActionSupport {
 	 * @return IUser
 	 *
 	 * @throws ProjectActionException Without a session.
+	 *
+	 * @spec openspec/specs/projects.md
 	 */
 	public function caller(): IUser {
 		$user = $this->userSession->getUser();
@@ -165,6 +175,8 @@ class ProjectActionSupport {
 	 * @param array<string,mixed> $data   The data.
 	 *
 	 * @return array<string,mixed>
+	 *
+	 * @spec openspec/specs/projects.md
 	 */
 	public function save(string $schema, ?string $id, array $data): array {
 		unset($data['@self'], $data['id']);
@@ -187,6 +199,8 @@ class ProjectActionSupport {
 	 * @param string $id     The UUID.
 	 *
 	 * @return void
+	 *
+	 * @spec openspec/specs/projects.md
 	 */
 	public function deleteAsSystem(string $schema, string $id): void {
 		$this->objectService()->deleteObject(uuid: $id, register: ProjectMembershipService::REGISTER, schema: $schema, _rbac: false, _multitenancy: false);
@@ -198,6 +212,8 @@ class ProjectActionSupport {
 	 * @param callable $writes The writes.
 	 *
 	 * @return mixed What the writes return.
+	 *
+	 * @spec openspec/specs/projects.md
 	 */
 	public function asSystem(callable $writes): mixed {
 		$class = self::OR_SYSTEM_CONTEXT;
@@ -214,6 +230,8 @@ class ProjectActionSupport {
 	 * @return object
 	 *
 	 * @throws ProjectActionException When OpenRegister is not installed.
+	 *
+	 * @spec openspec/specs/projects.md
 	 */
 	public function objectService(): object {
 		if ($this->appManager->isInstalled('openregister') === false) {
