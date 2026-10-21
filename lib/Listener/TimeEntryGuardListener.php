@@ -162,12 +162,7 @@ class TimeEntryGuardListener implements IEventListener {
 		}
 
 		if ($isAdmin === false && $this->managesProject(project: ($project ?? []), user: $user) === false) {
-			foreach (self::MANAGED_FIELDS as $field => $default) {
-				$wanted[$field] = $default;
-				if ($stored !== null) {
-					$wanted[$field] = ($stored[$field] ?? $default);
-				}
-			}
+			$wanted = array_merge($wanted, $this->managedValues(stored: $stored));
 		}
 
 		$changes = [];
@@ -181,6 +176,26 @@ class TimeEntryGuardListener implements IEventListener {
 			$event->setModifiedData(array_merge($event->getModifiedData(), $changes));
 		}
 	}//end restamp()
+
+	/**
+	 * The rate terms someone who does not manage the project gets: the stored ones, or none on a create.
+	 *
+	 * @param array<string,mixed>|null $stored The stored data on an update, null on a create.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function managedValues(?array $stored): array {
+		if ($stored === null) {
+			return self::MANAGED_FIELDS;
+		}
+
+		$values = [];
+		foreach (self::MANAGED_FIELDS as $field => $default) {
+			$values[$field] = ($stored[$field] ?? $default);
+		}
+
+		return $values;
+	}//end managedValues()
 
 	/**
 	 * The entry's author: the stored one on an update, else the caller (or, for an admin, whoever was sent).
