@@ -11,11 +11,11 @@ import {
 	boardListRows,
 	buildMovePatch,
 	canRemoveColumn,
+	columnOrderAfterMove,
 	columnPayload,
 	groupTasksByColumn,
 	orderPatchesForStep,
 	sortColumns,
-	swapColumnPatches,
 	wipState,
 } from '../../src/utils/columnHelpers.js'
 
@@ -120,13 +120,10 @@ describe('canRemoveColumn', () => {
 	})
 })
 
-describe('swapColumnPatches', () => {
-	it('moves a column one place left or right by swapping orders', () => {
-		expect(swapColumnPatches(columns, columns[3], -1)).toEqual([
-			{ id: 'review', order: 1 },
-			{ id: 'doing', order: 2 },
-		])
-		expect(swapColumnPatches(columns, columns[1], -1)).toEqual([])
+describe('columnOrderAfterMove', () => {
+	it('gives the lane order after moving a column one place, and nothing at the edge', () => {
+		expect(columnOrderAfterMove(columns, columns[3], -1)).toEqual(['todo', 'review', 'doing', 'done'])
+		expect(columnOrderAfterMove(columns, columns[1], -1)).toEqual([])
 	})
 })
 

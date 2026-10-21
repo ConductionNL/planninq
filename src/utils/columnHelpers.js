@@ -207,16 +207,17 @@ export function canRemoveColumn(columns, column) {
 }
 
 /**
- * The `order` writes that move a column one place left (-1) or right (+1).
+ * The lane ids in their order after moving one lane a place left (-1) or
+ * right (+1), or an empty list at the board's edge.
  *
  * @param {Array<object>} columns   The project's columns.
  * @param {object}        column    The column to move.
  * @param {number}        direction -1 for left, +1 for right.
- * @return {Array<{id: string, order: number}>}
+ * @return {Array<string>}
  *
  * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
  */
-export function swapColumnPatches(columns, column, direction) {
+export function columnOrderAfterMove(columns, column, direction) {
 	const lanes = sortColumns(columns)
 	const from = lanes.findIndex((lane) => idOf(lane) === idOf(column))
 	const to = from + direction
@@ -225,9 +226,7 @@ export function swapColumnPatches(columns, column, direction) {
 	}
 	const moved = [...lanes]
 	moved.splice(to, 0, moved.splice(from, 1)[0])
-	return moved
-		.map((lane, i) => ({ id: idOf(lane), order: i }))
-		.filter((patch, i) => Number(moved[i].order) !== patch.order)
+	return moved.map((lane) => idOf(lane))
 }
 
 /**

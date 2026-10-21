@@ -438,7 +438,6 @@
 					:column="removingColumn"
 					:columns="columns"
 					:cards="tasksOfColumn(removingColumn)"
-					:lanes="tasksByColumn"
 					@close="removingColumn = null"
 					@removed="onColumnsChanged" />
 			</template>
@@ -502,10 +501,10 @@ import { columnRules, hasRuleEffects, ruleEffects } from '../utils/columnAutomat
 import {
 	boardListRows,
 	buildMovePatch,
+	columnOrderAfterMove,
 	groupTasksByColumn,
 	orderPatchesForStep,
 	sortColumns,
-	swapColumnPatches,
 	wipState,
 } from '../utils/columnHelpers.js'
 import { labelId, resolveTaskLabels } from '../utils/labelHelpers.js'
@@ -1465,7 +1464,7 @@ export default {
 		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-5.1
 		 */
 		async duplicateTask(task) {
-			const copy = await this.projectsStore.duplicateTask(task, this.tasks.filter((other) => other.parent === task.id))
+			const copy = await this.projectsStore.duplicateTask(task)
 			if (!copy) {
 				showError(this.t('planninq', 'Could not copy the task. Please try again.'))
 				return
@@ -1537,14 +1536,14 @@ export default {
 			const previous = this.tasks
 			const byId = new Map(patches.map((patch) => [patch.id, patch]))
 			this.tasks = this.tasks.map((task) => byId.has(task.id) ? { ...task, ...byId.get(task.id) } : task)
-			for (const { id, ...fields } of patches) {
-				const updated = await this.projectsStore.updateTask(id, fields)
-				if (!updated) {
-					this.tasks = previous
-					showError(this.t('planninq', 'Could not move the task. Please try again.'))
-					return
-				}
-				await this.showRuleEffects(id, updated)
+			const saved = await this.projectsStore.saveTaskOrder(this.project.id, patches)
+			if (!saved) {
+				this.tasks = previous
+				showError(this.t('planninq', 'Could not move the task. Please try again.'))
+				return
+			}
+			for (const updated of saved) {
+				await this.showRuleEffects(updated.id, updated)
 			}
 		},
 
@@ -1616,11 +1615,9 @@ export default {
 		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
 		 */
 		async moveColumn(column, direction) {
-			for (const patch of swapColumnPatches(this.columns, column, direction)) {
-				if (!(await this.projectsStore.saveColumn(patch))) {
-					showError(this.t('planninq', 'Could not save the column. Please try again.'))
-					break
-				}
+			const order = columnOrderAfterMove(this.columns, column, direction)
+			if (order.length && !(await this.projectsStore.saveColumnOrder(this.project.id, order))) {
+				showError(this.t('planninq', 'Could not save the column. Please try again.'))
 			}
 			await this.loadColumns(this.project.id)
 		},

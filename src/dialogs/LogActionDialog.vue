@@ -116,32 +116,25 @@ export default {
 
 	methods: {
 		/**
-		 * Create the task, then link it from the entry.
+		 * Create the task and link it from the entry, as one server action.
 		 *
 		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.3
 		 */
 		async save() {
 			this.saving = true
 			this.submitError = ''
-			const store = useProjectsStore()
-			const task = await store.createTask(newActionTask({
+			const entryId = this.entry.id ?? this.entry['@self']?.id
+			const result = await useProjectsStore().addLogAction(entryId, newActionTask({
 				title: this.title,
 				assignedTo: this.assignee?.id,
 				dueDate: this.dueDate,
 			}, this.projectId, this.columns, this.tasks))
-			const taskId = task?.id ?? task?.uuid ?? task?.['@self']?.id
-			if (!taskId) {
-				this.saving = false
+			this.saving = false
+			if (!result) {
 				this.submitError = this.t('planninq', 'Could not create the action. Please try again.')
 				return
 			}
-			const entryId = this.entry.id ?? this.entry['@self']?.id
-			const entry = await store.saveLogEntry({ id: entryId, actions: [...(this.entry.actions || []), taskId] })
-			this.saving = false
-			if (!entry) {
-				this.submitError = this.t('planninq', 'The action was created but could not be linked to the entry.')
-				return
-			}
+			const { task, entry } = result
 			this.$emit('saved', { task, entry })
 		},
 	},

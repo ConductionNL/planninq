@@ -408,12 +408,9 @@ export default {
 			const previous = this.tasks
 			const byId = new Map(patches.map((patch) => [patch.id, patch]))
 			this.tasks = this.tasks.map((task) => byId.has(task.id) ? { ...task, ...byId.get(task.id) } : task)
-			for (const { id, ...fields } of patches) {
-				if (!(await this.projectsStore.updateTask(id, fields))) {
-					this.tasks = previous
-					showError(this.t('planninq', 'Could not move the task. Please try again.'))
-					return
-				}
+			if (!(await this.projectsStore.saveTaskOrder(this.$route.params.id, patches))) {
+				this.tasks = previous
+				showError(this.t('planninq', 'Could not move the task. Please try again.'))
 			}
 		},
 

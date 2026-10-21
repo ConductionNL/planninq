@@ -306,7 +306,7 @@ export default {
 		 */
 		async move(phase, step) {
 			this.moving = true
-			await useProjectsStore().reorderPhase(this.phases, phase.id, step)
+			await useProjectsStore().reorderPhase(this.projectId, phase.id, step)
 			await this.load()
 			this.moving = false
 			this.$nextTick(() => {

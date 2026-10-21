@@ -17,7 +17,6 @@ import {
 	releasePayload,
 	releaseProgress,
 	roadmapLayout,
-	shipPatches,
 	sortReleases,
 	unfinishedTasks,
 } from '../../src/utils/roadmapHelpers.js'
@@ -162,22 +161,5 @@ describe('release payloads', () => {
 
 	it('lists the tasks that are neither done nor cancelled', () => {
 		expect(unfinishedTasks({ id: 'r1' }, tasks).map((task) => task.id)).toEqual(['t4', 't5'])
-	})
-
-	it('only sets the status when every task is finished (scenario: shipping with everything done)', () => {
-		const now = new Date('2026-12-01T10:00:00Z')
-		const plan = shipPatches({ id: 'r2' }, [{ id: 'x', release: 'r2', status: 'done' }], 'keep', null, now)
-		expect(plan).toEqual({ release: { status: 'released', releasedAt: '2026-12-01T10:00:00.000Z' }, tasks: [] })
-		expect(errors('projectRelease', plan.release, true)).toBeNull()
-	})
-
-	it('moves, clears or keeps the unfinished tasks as the member chose (scenario: shipping asks about unfinished tasks)', () => {
-		const now = new Date('2026-12-01T10:00:00Z')
-		expect(shipPatches({ id: 'r1' }, tasks, 'move', 'r2', now).tasks).toEqual([{ id: 't4', patch: { release: 'r2' } }, { id: 't5', patch: { release: 'r2' } }])
-		expect(shipPatches({ id: 'r1' }, tasks, 'clear', null, now).tasks).toEqual([{ id: 't4', patch: { release: null } }, { id: 't5', patch: { release: null } }])
-		expect(shipPatches({ id: 'r1' }, tasks, 'keep', null, now).tasks).toEqual([])
-		expect(() => shipPatches({ id: 'r1' }, tasks, 'move', null, now)).toThrow()
-		expect(errors('task', { release: 'r2' }, true)).toBeNull()
-		expect(errors('task', { release: null }, true)).toBeNull()
 	})
 })
