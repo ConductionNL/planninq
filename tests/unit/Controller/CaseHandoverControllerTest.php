@@ -172,6 +172,7 @@ class CaseHandoverControllerTest extends TestCase {
 
 		$saved = end($this->objects->saves);
 		self::assertTrue($saved['_rbac'], 'the record is written with the owner\'s rights');
+		self::assertTrue($saved['system'], 'as the system, so the audit guard on caseHandovers lets it through');
 		self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: (array)$saved['object']));
 	}//end testOwnerHandsOverFilesAndMetadataUnchanged()
 

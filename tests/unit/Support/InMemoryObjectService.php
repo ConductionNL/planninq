@@ -167,6 +167,7 @@ class InMemoryObjectService extends ObjectServiceDouble {
 			'_multitenancy' => $_multitenancy,
 			'silent' => $silent,
 			'_validation' => $_validation,
+			'system' => (class_exists('OCA\\OpenRegister\\Service\\SystemOperationContext') === true && \OCA\OpenRegister\Service\SystemOperationContext::isActive() === true),
 		];
 
 		if (in_array((string)$uuid, $this->failingSaves, true) === true) {
