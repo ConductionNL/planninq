@@ -22,32 +22,6 @@ export function sortPhases(phases = []) {
 }
 
 /**
- * The writes that move one phase up (-1) or down (+1): its order and its
- * neighbour's are swapped. Tied orders are first spread over the list
- * positions, so the two phases always end up with different values.
- *
- * @param {Array<object>} phases The phases.
- * @param {string} id The phase to move.
- * @param {number} step -1 for up, +1 for down.
- * @return {Array<{id: string, order: number}>} Nothing at either end.
- *
- * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
- */
-export function reorderPatches(phases, id, step) {
-	const sorted = sortPhases(phases)
-	const index = sorted.findIndex((phase) => phase.id === id)
-	const other = sorted[index + step]
-	if (index < 0 || !other) {
-		return []
-	}
-	const orders = sorted.map((phase) => Number(phase.order) || 0)
-	const distinct = new Set(orders).size === orders.length
-	const own = distinct ? orders[index] : index
-	const theirs = distinct ? orders[index + step] : index + step
-	return [{ id, order: theirs }, { id: other.id, order: own }]
-}
-
-/**
  * The single write that closes a phase: its concluding document and its status together.
  *
  * @param {string|number} fileId The id of the file on the phase.

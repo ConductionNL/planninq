@@ -306,6 +306,95 @@ class ProjectActionService {
 	}//end duplicateTask()
 
 	/**
+	 * Move a phase one place up (-1) or down (+1); every phase gets a distinct order in one go.
+	 *
+	 * @param string $projectId The project UUID.
+	 * @param string $phaseId   The phase to move.
+	 * @param int    $step      -1 or +1.
+	 *
+	 * @return array<int,array{id:string,order:int}> The phases in their new order.
+	 *
+	 * @throws ProjectActionException When the caller does not work on the project or the phase is not in it.
+	 *
+	 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
+	 */
+	public function movePhase(string $projectId, string $phaseId, int $step): array {
+		$this->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$this->assertWrites(projectId: $projectId);
+		$phases = $this->membership->rows(schema: 'projectPhase', filters: ['project' => $projectId]);
+		usort(
+			$phases,
+			static fn (array $one, array $two): int => [(int)($one['data']['order'] ?? 0), $one['id']] <=> [(int)($two['data']['order'] ?? 0), $two['id']]
+		);
+
+		$index = array_search($phaseId, array_column($phases, 'id'), true);
+		if ($index === false || in_array($step, [-1, 1], true) === false) {
+			throw new ProjectActionException(reason: 'planninq-invalid-choice', status: 400, message: 'Choose a phase of this project and a direction.');
+		}
+
+		if (isset($phases[$index + $step]) === true) {
+			[$phases[$index], $phases[$index + $step]] = [$phases[$index + $step], $phases[$index]];
+		}
+
+		$this->asSystem(
+			writes: function () use ($phases): void {
+				foreach ($phases as $order => $phase) {
+					if ((int)($phase['data']['order'] ?? -1) !== $order) {
+						$this->save(schema: 'projectPhase', id: $phase['id'], data: array_merge($phase['data'], ['order' => $order]));
+					}
+				}
+			}
+		);
+
+		return array_map(static fn (array $phase, int $order): array => ['id' => $phase['id'], 'order' => $order], $phases, array_keys($phases));
+	}//end movePhase()
+
+	/**
+	 * Create an action task from a log entry and link it from the entry, as one action.
+	 *
+	 * The task is created with the caller's rights, so every task rule
+	 * applies; the link is then written as the system. When the link cannot
+	 * be written the task is removed again, so no unlinked action stays.
+	 *
+	 * @param string              $entryId The log entry UUID.
+	 * @param array<string,mixed> $task    The task fields.
+	 *
+	 * @return array{task: array<string,mixed>, entry: array<string,mixed>}
+	 *
+	 * @throws ProjectActionException When the caller does not work on the entry's project.
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.3
+	 */
+	public function addAction(string $entryId, array $task): array {
+		$entry     = $this->readable(schema: 'projectLogEntry', id: $entryId);
+		$projectId = $this->membership->projectIdFor(schemaSlug: 'projectLogEntry', data: $entry);
+		$this->assertWrites(projectId: $projectId);
+
+		unset($task['@self'], $task['id']);
+		$saved  = $this->objectService()->saveObject(
+			object: array_merge($task, ['project' => $projectId, 'issueType' => 'action']),
+			register: ProjectMembershipService::REGISTER,
+			schema: 'task'
+		);
+		$taskId = (string)$saved->getUuid();
+
+		try {
+			$linked = $this->asSystem(
+				writes: fn (): array => $this->save(
+					schema: 'projectLogEntry',
+					id: $entryId,
+					data: array_merge($entry, ['actions' => array_values(array_merge((array)($entry['actions'] ?? []), [$taskId]))])
+				)
+			);
+		} catch (\Throwable $e) {
+			$this->asSystem(writes: fn () => $this->deleteAsSystem(schema: 'task', id: $taskId));
+			throw $e;
+		}
+
+		return ['task' => ['id' => $taskId] + (array)$saved->getObject(), 'entry' => $linked];
+	}//end addAction()
+
+	/**
 	 * The data of a copied task.
 	 *
 	 * @param array<string,mixed> $task   The original.

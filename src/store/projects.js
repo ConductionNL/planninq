@@ -18,7 +18,7 @@ import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import { forgeLinkRefusal } from '../utils/forgeUrl.js'
 import { isMine } from '../utils/myWork.js'
-import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelpers.js'
+import { closePatch, refusalMessage } from '../utils/phaseHelpers.js'
 import { canSeeProject } from '../utils/portfolioGrouping.js'
 import { actionNames, transitionRequest } from '../utils/projectLifecycle.js'
 import { currentGroupIds, rolePatch } from '../utils/projectRole.js'
@@ -1254,18 +1254,52 @@ export const useProjectsStore = defineStore('projects', {
 		},
 
 		/**
-		 * Move a phase up (-1) or down (+1) by swapping its order with its neighbour's.
+		 * Move a phase up (-1) or down (+1), in one server request that gives
+		 * every phase of the project a distinct order.
 		 *
-		 * @param {Array<object>} phases The project's phases
+		 * @param {string} projectId The project
 		 * @param {string} id The phase to move
 		 * @param {number} step -1 or +1
-		 * @return {Promise<boolean>} Whether both writes succeeded
+		 * @return {Promise<boolean>} Whether the move was saved
 		 *
 		 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
 		 */
-		async reorderPhase(phases, id, step) {
-			const results = await Promise.all(reorderPatches(phases, id, step).map((patch) => this.savePhase(patch)))
-			return results.length > 0 && results.every((result) => result.ok)
+		async reorderPhase(projectId, id, step) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/projects/${projectId}/phases/move`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({ phase: id, step }),
+				})
+				return response.ok
+			} catch (err) {
+				console.error('reorderPhase error:', err)
+				return false
+			}
+		},
+
+		/**
+		 * Create an action from a log entry and link it from the entry, in one
+		 * server request; nothing is left half-done when it fails.
+		 *
+		 * @param {string} entryId The log entry
+		 * @param {object} task The action's task fields
+		 * @return {Promise<{task: object, entry: object}|null>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.3
+		 */
+		async addLogAction(entryId, task) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/log-entries/${entryId}/actions`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({ task }),
+				})
+				return response.ok ? await response.json() : null
+			} catch (err) {
+				console.error('addLogAction error:', err)
+				return null
+			}
 		},
 
 		/**

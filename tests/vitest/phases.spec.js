@@ -14,7 +14,6 @@ import {
 	missingConcludingDocument,
 	phasePayload,
 	refusalMessage,
-	reorderPatches,
 	sortPhases,
 } from '../../src/utils/phaseHelpers.js'
 
@@ -51,23 +50,6 @@ const phases = [
 describe('sortPhases', () => {
 	it('orders phases by order, then title', () => {
 		expect(sortPhases(phases).map((p) => p.id)).toEqual(['a', 'b', 'c'])
-	})
-})
-
-describe('reorderPatches (scenario: member reorders phases with the keyboard)', () => {
-	it('reorder swaps order values', () => {
-		expect(reorderPatches(phases, 'b', -1)).toEqual([{ id: 'b', order: 1 }, { id: 'a', order: 2 }])
-		expect(reorderPatches(phases, 'b', 1)).toEqual([{ id: 'b', order: 3 }, { id: 'c', order: 2 }])
-	})
-
-	it('does nothing at the ends', () => {
-		expect(reorderPatches(phases, 'a', -1)).toEqual([])
-		expect(reorderPatches(phases, 'c', 1)).toEqual([])
-	})
-
-	it('gives distinct orders when two phases share one', () => {
-		const tied = [{ id: 'x', title: 'A', order: 0 }, { id: 'y', title: 'B', order: 0 }]
-		expect(reorderPatches(tied, 'y', -1)).toEqual([{ id: 'y', order: 0 }, { id: 'x', order: 1 }])
 	})
 })
 

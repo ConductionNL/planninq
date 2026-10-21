@@ -206,4 +206,51 @@ class ProjectActionServiceTest extends TestCase {
 
 		$this->assertRefused(action: fn () => $this->service(actor: 'dave')->duplicateTask(taskId: 'parent'), code: 'planninq-not-a-project-member', status: 403);
 	}//end testACopyTakesTheSubtasks()
+
+	/**
+	 * Moving a phase renumbers every phase once, also when orders were tied.
+	 */
+	public function testMovingAPhaseRenumbersThePhases(): void {
+		$this->objects->seed('projectPhase', 'ph-a', ['title' => 'Plan', 'project' => 'proj-a', 'order' => 0]);
+		$this->objects->seed('projectPhase', 'ph-b', ['title' => 'Build', 'project' => 'proj-a', 'order' => 0]);
+		$this->objects->seed('projectPhase', 'ph-c', ['title' => 'Ship', 'project' => 'proj-a', 'order' => 1]);
+
+		$order = $this->service(actor: 'bob')->movePhase(projectId: 'proj-a', phaseId: 'ph-c', step: -1);
+
+		self::assertSame([['id' => 'ph-a', 'order' => 0], ['id' => 'ph-c', 'order' => 1], ['id' => 'ph-b', 'order' => 2]], $order);
+		self::assertSame(1, $this->objects->rows['projectPhase']['ph-c']['order']);
+		self::assertSame(2, $this->objects->rows['projectPhase']['ph-b']['order']);
+
+		$this->assertRefused(action: fn () => $this->service(actor: 'dave')->movePhase(projectId: 'proj-a', phaseId: 'ph-a', step: 1), code: 'planninq-not-a-project-member', status: 403);
+		$this->assertRefused(action: fn () => $this->service(actor: 'bob')->movePhase(projectId: 'proj-a', phaseId: 'other', step: 1), code: 'planninq-invalid-choice', status: 400);
+	}//end testMovingAPhaseRenumbersThePhases()
+
+	/**
+	 * An action is created in the entry's project and linked from the entry in the same request.
+	 */
+	public function testAnActionIsCreatedAndLinked(): void {
+		$this->objects->seed('projectLogEntry', 'log-1', ['title' => 'Steering group', 'project' => 'proj-a', 'actions' => ['old-task']]);
+
+		$result = $this->service(actor: 'bob')->addAction(entryId: 'log-1', task: ['title' => 'Send the planning', 'project' => 'proj-b', 'issueType' => 'bug']);
+
+		$taskId = $result['task']['id'];
+		self::assertSame('proj-a', $this->objects->rows['task'][$taskId]['project'], 'the entry decides the project');
+		self::assertSame('action', $this->objects->rows['task'][$taskId]['issueType']);
+		self::assertSame(['old-task', $taskId], $this->objects->rows['projectLogEntry']['log-1']['actions']);
+	}//end testAnActionIsCreatedAndLinked()
+
+	/**
+	 * When the link cannot be written, the new task is removed again.
+	 */
+	public function testAFailedLinkRemovesTheAction(): void {
+		$this->objects->seed('projectLogEntry', 'log-1', ['title' => 'Steering group', 'project' => 'proj-a']);
+		$this->objects->failingSaves = ['log-1'];
+
+		try {
+			$this->service(actor: 'bob')->addAction(entryId: 'log-1', task: ['title' => 'Send the planning']);
+			self::fail('the link write fails');
+		} catch (\RuntimeException $e) {
+			self::assertSame([], array_filter($this->objects->rows['task'], static fn (array $row): bool => ($row['title'] ?? '') === 'Send the planning'));
+		}
+	}//end testAFailedLinkRemovesTheAction()
 }//end class

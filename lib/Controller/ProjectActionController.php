@@ -126,6 +126,42 @@ class ProjectActionController extends Controller {
 	}//end duplicateTask()
 
 	/**
+	 * Move a phase one place up or down. A person who works on the project only.
+	 *
+	 * @param string $projectId The project UUID.
+	 * @param string $phase     The phase UUID.
+	 * @param int    $step      -1 or +1.
+	 *
+	 * @return JSONResponse 200 with the phases' new order; 400, 401, 403, 404 otherwise.
+	 *
+	 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
+	 */
+	#[NoAdminRequired]
+	public function movePhase(string $projectId, string $phase = '', int $step = 0): JSONResponse {
+		return $this->run(action: fn (): array => $this->actions->movePhase(projectId: $projectId, phaseId: $phase, step: $step), context: 'phase move');
+	}//end movePhase()
+
+	/**
+	 * Create an action task from a log entry and link it. A person who works on the project only.
+	 *
+	 * @param string              $entryId The log entry UUID.
+	 * @param array<string,mixed> $task    The task fields.
+	 *
+	 * @return JSONResponse 201 with the task and the entry; 401, 403, 404 otherwise.
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.3
+	 */
+	#[NoAdminRequired]
+	public function addAction(string $entryId, array $task = []): JSONResponse {
+		$response = $this->run(action: fn (): array => $this->actions->addAction(entryId: $entryId, task: $task), context: 'log entry action');
+		if ($response->getStatus() === Http::STATUS_OK) {
+			$response->setStatus(Http::STATUS_CREATED);
+		}
+
+		return $response;
+	}//end addAction()
+
+	/**
 	 * Run an action and answer with its result or its refusal.
 	 *
 	 * @param callable $action  The action; it checks the caller's rights itself.

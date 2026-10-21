@@ -26,6 +26,8 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'projectAction#deleteProject', 'url' => '/api/projects/{projectId}', 'verb' => 'DELETE', 'requirements' => ['projectId' => '[^/]+']],
     ['name' => 'projectAction#shipRelease', 'url' => '/api/releases/{releaseId}/ship', 'verb' => 'POST', 'requirements' => ['releaseId' => '[^/]+']],
     ['name' => 'projectAction#deleteTaskTree', 'url' => '/api/tasks/{taskId}', 'verb' => 'DELETE', 'requirements' => ['taskId' => '[^/]+']],
+    ['name' => 'projectAction#movePhase', 'url' => '/api/projects/{projectId}/phases/move', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'projectAction#addAction', 'url' => '/api/log-entries/{entryId}/actions', 'verb' => 'POST', 'requirements' => ['entryId' => '[^/]+']],
     ['name' => 'projectAction#duplicateTask', 'url' => '/api/tasks/{taskId}/duplicate', 'verb' => 'POST', 'requirements' => ['taskId' => '[^/]+']],
 
     // Label management (admin-only) — usage listing + cascade delete.
