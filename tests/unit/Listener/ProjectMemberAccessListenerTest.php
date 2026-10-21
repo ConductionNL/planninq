@@ -175,6 +175,35 @@ class ProjectMemberAccessListenerTest extends TestCase {
 	}//end testCreateByNonMemberIsRefused()
 
 	/**
+	 * Time booked on a task of a project the caller is not on is refused, also
+	 * when the entry names one of the caller's own projects: the task decides.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/time-tracking.md
+	 */
+	public function testTimeEntryOnAnotherProjectsTaskIsRefused(): void {
+		$this->objects->seed('task', 'task-in-b', ['title' => 'B work', 'status' => 'open', 'project' => 'proj-b']);
+		$cases = [
+			'task only'            => ['task' => 'task-in-b', 'user' => 'alice', 'duration' => 60],
+			'claims own project'   => ['task' => 'task-in-b', 'user' => 'alice', 'duration' => 60, 'project' => 'proj-a'],
+		];
+		foreach ($cases as $case => $data) {
+			$event = new ObjectCreatingEvent($this->object(schema: 'plannedTimeEntry', data: $data));
+			$this->listener(actor: 'alice')->handle($event);
+			self::assertTrue($event->isPropagationStopped(), $case);
+			self::assertSame('proj-b', ($event->getErrors()['project'] ?? null), $case);
+		}
+
+		$moved = new ObjectUpdatingEvent(
+			$this->object(schema: 'plannedTimeEntry', data: ['task' => 'task-in-b', 'user' => 'alice', 'duration' => 60], uuid: 'te-1'),
+			$this->object(schema: 'plannedTimeEntry', data: ['task' => 'task-in-a', 'user' => 'alice', 'duration' => 60, 'project' => 'proj-a'], uuid: 'te-1')
+		);
+		$this->listener(actor: 'alice')->handle($moved);
+		self::assertTrue($moved->isPropagationStopped(), 'moving an entry onto another project\'s task');
+	}//end testTimeEntryOnAnotherProjectsTaskIsRefused()
+
+	/**
 	 * A project log entry is stamped for a member and refused for an outsider.
 	 *
 	 * @return void

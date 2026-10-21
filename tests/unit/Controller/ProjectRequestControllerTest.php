@@ -116,6 +116,44 @@ class ProjectRequestControllerTest extends TestCase {
 	}//end testARequesterStoresARequest()
 
 	/**
+	 * A direct create takes only what a person fills in: no role lists, status,
+	 * review, handover record or computed fields from the body.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	public function testACreateTakesOnlyTheFieldsAPersonFillsIn(): void {
+		$forged = [
+			'managers'        => ['zoe'],
+			'managerGroups'   => ['admin'],
+			'memberGroups'    => ['everyone'],
+			'viewers'         => ['zoe'],
+			'viewerGroups'    => ['everyone'],
+			'ownerGroups'     => ['everyone'],
+			'members'         => ['zoe'],
+			'contractorRefs'  => ['c-1'],
+			'caseHandovers'   => [['by' => 'rik']],
+			'reviewedBy'      => 'rik',
+			'reviewedAt'      => '2026-01-01T00:00:00+00:00',
+			'reviewNote'      => 'Approved',
+			'status'          => 'archived',
+			'owner'           => 'zoe',
+			'nextTaskNumber'  => 99,
+			'healthOverall'   => 'green',
+			'parent'          => 'someone-elses-project',
+			'portfolio'       => 'someone-elses-portfolio',
+			'_route'          => 'planninq.project.create',
+		];
+		$response = $this->controller(mayCreate: true, mayRequest: false, params: ['title' => 'Portaal', 'color' => '#4376FC', 'budgetAmount' => 1000] + $forged)->create();
+
+		self::assertSame(Http::STATUS_CREATED, $response->getStatus());
+		$saved = $this->objects->saves[0]['object'];
+		self::assertSame(['title', 'color', 'budgetAmount', 'owner', 'members', 'status'], array_keys($saved));
+		self::assertSame('rik', $saved['owner']);
+		self::assertSame(['rik'], $saved['members']);
+		self::assertSame('active', $saved['status']);
+	}//end testACreateTakesOnlyTheFieldsAPersonFillsIn()
+
+	/**
 	 * Without the right to create or to request, the answer is 403 and nothing is saved.
 	 *
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1

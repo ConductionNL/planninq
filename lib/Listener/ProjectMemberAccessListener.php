@@ -23,8 +23,8 @@
  * rule on `task`, `column` and `projectPhase` therefore admits any signed-in
  * user, and this listener, on ObjectCreatingEvent, refuses one who is not a
  * member of the target project. A refused write surfaces as HTTP 422.
- * `plannedTimeEntry` keeps its own `user: $userId` write rules and is only
- * stamped here.
+ * `plannedTimeEntry` keeps its own `user: $userId` write rules on top: a time
+ * entry is booked on a task of a project the author is a member of.
  *
  * WHY THE `*ing` EVENTS
  * ---------------------
@@ -84,7 +84,17 @@ class ProjectMemberAccessListener implements IEventListener {
 	 *
 	 * @var array<int,string>
 	 */
-	private const GATED_SCHEMAS = ['task', 'column', 'projectPhase', 'projectLogEntry', 'risk', 'projectRelease', 'boardFilter', 'forgeLink'];
+	private const GATED_SCHEMAS = [
+		'task',
+		'column',
+		'projectPhase',
+		'plannedTimeEntry',
+		'projectLogEntry',
+		'risk',
+		'projectRelease',
+		'boardFilter',
+		'forgeLink',
+	];
 
 	/**
 	 * OpenRegister's ambient system-operation marker, by name.

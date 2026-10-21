@@ -93,6 +93,7 @@ import {
 	NcTextField,
 } from '@nextcloud/vue'
 import { useProjectsStore } from '../store/projects.js'
+import { localIsoDate } from '../utils/localDate.js'
 import { logEntryPayload } from '../utils/projectOverview.js'
 
 export default {
@@ -142,7 +143,7 @@ export default {
 			typeOptions,
 			typeOption: typeOptions.find((option) => option.id === this.entry?.type) || typeOptions[0],
 			title: this.entry?.title || '',
-			date: this.entry?.date || new Date().toISOString().slice(0, 10),
+			date: this.entry?.date || localIsoDate(),
 			body: this.entry?.body || '',
 			closed: this.entry?.status === 'closed',
 			attendeeOptions: this.people.filter((person) => attendees.includes(person.id)),

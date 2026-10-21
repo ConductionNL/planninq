@@ -659,6 +659,15 @@ class Application extends App implements IBootstrap {
 				registers: ['planninq'],
 				schemas: \OCA\Planninq\Listener\BoardFilterOwnerListener::OWNED_SCHEMAS
 			);
+
+			// A shared report is read by whoever reads one of its projects (custom-reports).
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\TaskReportReadersListener',
+				registers: ['planninq'],
+				schemas: ['taskReport']
+			);
 		}
 
 		// A new code link finds its task by key or id and takes the task's
@@ -805,6 +814,18 @@ class Application extends App implements IBootstrap {
 					'boardFilter',
 					'forgeLink',
 				]
+			);
+		}
+
+		// Time entries: the author, the task's project and the rate terms are
+		// set by the server, not by the client (time-tracking).
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\TimeEntryGuardListener',
+				registers: ['planninq'],
+				schemas: ['plannedTimeEntry']
 			);
 		}
 
