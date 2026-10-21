@@ -509,8 +509,14 @@ class ProjectActionService {
 	 * OpenRegister's ObjectService.
 	 *
 	 * @return object
+	 *
+	 * @throws ProjectActionException When OpenRegister is not installed.
 	 */
 	private function objectService(): object {
+		if ($this->membership->isAvailable() === false) {
+			throw new ProjectActionException(reason: 'planninq-openregister-missing', status: 503, message: 'OpenRegister is not installed.');
+		}
+
 		return $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 	}//end objectService()
 }//end class

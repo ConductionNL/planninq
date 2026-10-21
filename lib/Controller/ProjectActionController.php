@@ -85,7 +85,10 @@ class ProjectActionController extends Controller {
 	 */
 	#[NoAdminRequired]
 	public function shipRelease(string $releaseId, string $choice = 'keep', ?string $target = null): JSONResponse {
-		return $this->run(action: fn (): array => $this->actions->shipRelease(releaseId: $releaseId, choice: $choice, targetId: $target), context: 'release ship');
+		return $this->run(
+			action: fn (): array => $this->actions->shipRelease(releaseId: $releaseId, choice: $choice, targetId: $target),
+			context: 'release ship'
+		);
 	}//end shipRelease()
 
 	/**
