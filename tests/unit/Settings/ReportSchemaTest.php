@@ -71,7 +71,7 @@ class ReportSchemaTest extends TestCase {
 		self::assertContains('taskReport', $register['components']['registers']['planninq']['schemas']);
 		$schema = $register['components']['schemas']['taskReport'];
 		self::assertSame(
-			['title', 'description', 'owner', 'shared', 'projects', 'filters', 'groupBy', 'metric', 'sumField', 'display'],
+			['title', 'description', 'owner', 'shared', 'readers', 'readerGroups', 'projects', 'filters', 'groupBy', 'metric', 'sumField', 'display'],
 			array_keys($schema['properties'])
 		);
 		self::assertSame(['private', 'readers'], $schema['properties']['shared']['enum']);
@@ -81,8 +81,9 @@ class ReportSchemaTest extends TestCase {
 	}//end testTheRegisterDeclaresTheReportSchema()
 
 	/**
-	 * Only the owner (or an admin) writes; the owner, or everyone when shared
-	 * is `readers`, reads. The owner is set by the server.
+	 * Only the owner (or an admin) writes; the owner, or the readers of its
+	 * projects when shared, reads. The owner and the reader lists are set by
+	 * the server; `shared: readers` alone opens nothing.
 	 *
 	 * @return void
 	 */
@@ -91,7 +92,8 @@ class ReportSchemaTest extends TestCase {
 		self::assertSame(
 			[
 				['group' => 'authenticated', 'match' => ['owner' => '$userId']],
-				['group' => 'authenticated', 'match' => ['shared' => 'readers']],
+				['group' => 'authenticated', 'match' => ['readers' => ['$contains' => '$userId']]],
+				['group' => 'authenticated', 'match' => ['readerGroups' => ['$contains' => '$user.groups']]],
 				['group' => 'admin'],
 			],
 			$rules['read']

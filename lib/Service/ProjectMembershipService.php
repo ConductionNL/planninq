@@ -266,16 +266,20 @@ class ProjectMembershipService {
 		}
 
 		$projectId = $this->referenceId(value: ($data['project'] ?? null));
-		if ($projectId !== '' || $schemaSlug !== self::TIME_ENTRY_SCHEMA) {
+		if ($schemaSlug !== self::TIME_ENTRY_SCHEMA) {
 			return $projectId;
 		}
 
+		// A time entry's project is its task's: a sent `project` may not book the time elsewhere.
 		$taskId = $this->referenceId(value: ($data['task'] ?? null));
 		if ($taskId === '') {
-			return '';
+			return $projectId;
 		}
 
 		$task = $this->findData(schema: 'task', id: $taskId);
+		if ($task === null) {
+			return $projectId;
+		}
 
 		return $this->referenceId(value: ($task['project'] ?? null));
 	}//end projectIdFor()

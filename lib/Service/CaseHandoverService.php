@@ -84,6 +84,13 @@ class CaseHandoverService {
 	private const METADATA_FILE = 'project-metadata.json';
 
 	/**
+	 * OpenRegister's system-operation scope, by name.
+	 *
+	 * @var string
+	 */
+	private const OR_SYSTEM_CONTEXT = 'OCA\\OpenRegister\\Service\\SystemOperationContext';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ContainerInterface $container   Resolves OpenRegister's ObjectService and FileService.
@@ -194,7 +201,7 @@ class CaseHandoverService {
 		unset($data['@self'], $data['id']);
 		$data['caseHandovers']   = array_values((array)($data['caseHandovers'] ?? []));
 		$data['caseHandovers'][] = $record;
-		$this->objectService()->saveObject(object: $data, register: self::REGISTER, schema: 'project', uuid: $projectId);
+		$this->saveAsSystem(data: $data, projectId: $projectId);
 
 		$this->logger->info(
 			'Planninq: project handed over to its case',
@@ -353,6 +360,28 @@ class CaseHandoverService {
 
 		return ['entity' => $entity, 'data' => (array)$entity->getObject()];
 	}//end find()
+
+	/**
+	 * Save the project with its new handover record as the system: the audit
+	 * fields are kept from every signed-in write (ProjectReviewListener), and
+	 * the controller has already checked that the caller owns the project.
+	 *
+	 * @param array<string,mixed> $data      The project data.
+	 * @param string              $projectId The project UUID.
+	 *
+	 * @return void
+	 */
+	private function saveAsSystem(array $data, string $projectId): void {
+		$objectService = $this->objectService();
+		$save          = static fn () => $objectService->saveObject(object: $data, register: self::REGISTER, schema: 'project', uuid: $projectId);
+		$class         = self::OR_SYSTEM_CONTEXT;
+		if (class_exists($class) === true) {
+			$class::run($save);
+			return;
+		}
+
+		$save();
+	}//end saveAsSystem()
 
 	/**
 	 * OpenRegister's ObjectService.

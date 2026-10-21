@@ -64,14 +64,21 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 		$this->objects->seed('task', self::TASK, ['title' => 'Draft', 'status' => 'todo', 'project' => self::PROJECT, 'members' => ['bob', 'carol'], 'portfolioReaders' => ['mia']]);
 	}//end setUp()
 
-	private function listener(): ProjectHierarchyGuardListener {
+	private function listener(string $actor = '', array $groupIds = []): ProjectHierarchyGuardListener {
 		$membership = $this->membershipService();
 		$logger     = $this->createMock(originalClassName: LoggerInterface::class);
+		$user       = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn($actor);
+		$session = $this->createMock(originalClassName: IUserSession::class);
+		$session->method('getUser')->willReturn($actor === '' ? null : $user);
+		$groups = $this->createMock(originalClassName: IGroupManager::class);
+		$groups->method('isAdmin')->willReturn(false);
+		$groups->method('getUserGroupIds')->willReturn($groupIds);
 
 		return new ProjectHierarchyGuardListener(
 			membership: $membership,
 			finance: new FinanceLineService(membership: $membership, container: $this->container(), logger: $logger),
-			rules: new ProjectRulesService(membership: $membership),
+			rules: new ProjectRulesService(membership: $membership, userSession: $session, groupManager: $groups),
 			scopeResolver: $this->scopeResolver(),
 			container: $this->container(),
 			logger: $logger
@@ -283,6 +290,23 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 	 *
 	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
 	 */
+	public function testAParentTheCallerCannotReadIsRefusedWithoutItsAncestry(): void {
+		$this->objects->seed('project', 'secret-prog', ['title' => 'Geheim', 'status' => 'active', 'owner' => 'dave']);
+		$this->objects->seed('project', 'secret', ['title' => 'Geheim deel', 'status' => 'active', 'owner' => 'dave', 'parent' => 'secret-prog', 'viewerGroups' => ['audit']]);
+		$this->objects->seed('project', 'mine', ['title' => 'Mijn project', 'status' => 'active', 'owner' => 'carol', 'members' => ['bob']]);
+
+		foreach (['secret' => 'unreadable', 'does-not-exist' => 'missing'] as $parent => $case) {
+			$event = $this->parentWrite(uuid: 'mine', stored: $this->stored(slug: 'project', uuid: 'mine'), parent: $parent);
+			$this->listener(actor: 'carol')->handle($event);
+			self::assertTrue($event->isPropagationStopped(), $case);
+			self::assertSame(ProjectHierarchyGuardListener::ERROR_PARENT, $event->getErrors()['code'], $case . ': the same answer either way');
+		}
+
+		$viaGroup = $this->parentWrite(uuid: 'mine', stored: $this->stored(slug: 'project', uuid: 'mine'), parent: 'secret');
+		$this->listener(actor: 'carol', groupIds: ['audit'])->handle($viaGroup);
+		self::assertFalse($viaGroup->isPropagationStopped(), 'a viewer group member reads the parent');
+	}//end testAParentTheCallerCannotReadIsRefusedWithoutItsAncestry()
+
 	public function testAFourthLevelIsRefused(): void {
 		$this->objects->seed('project', 'l1', ['title' => 'Programma', 'status' => 'active', 'owner' => 'carol']);
 		$this->objects->seed('project', 'l2', ['title' => 'Project', 'status' => 'active', 'owner' => 'carol', 'parent' => 'l1']);
