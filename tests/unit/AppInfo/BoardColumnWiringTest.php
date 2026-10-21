@@ -90,7 +90,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				'a shared report carries who reads its projects'
 			);
 			self::assertSame(
-				[['ObjectCreatingEvent', ['forgeLink']]],
+				[['ObjectCreatingEvent', ['forgeLink']], ['ObjectUpdatingEvent', ['forgeLink']]],
 				($byListener['OCA\\Planninq\\Listener\\ForgeLinkResolveListener'] ?? null),
 				'a new code link finds its task (integration-code-forge-links task 1.2)'
 			);

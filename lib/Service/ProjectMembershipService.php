@@ -101,6 +101,7 @@ class ProjectMembershipService {
 		'projectRelease',
 		'boardFilter',
 		'forgeLink',
+		'dependency',
 	];
 
 	/**
@@ -116,6 +117,13 @@ class ProjectMembershipService {
 	 * @var string
 	 */
 	private const FORGE_LINK_SCHEMA = 'forgeLink';
+
+	/**
+	 * The dependency edge schema, scoped by the project of its tasks.
+	 *
+	 * @var string
+	 */
+	private const DEPENDENCY_SCHEMA = 'dependency';
 
 	/**
 	 * Largest `IN` list sent in one search, below the 1000-item cap some databases enforce.
@@ -434,7 +442,7 @@ class ProjectMembershipService {
 	public function syncAll(): array {
 		$objectService = $this->objectService();
 		$projects = 0;
-		$written = 0;
+		$written = $this->backfillDependencyProjects(objectService: $objectService);
 		foreach ($this->search(objectService: $objectService, schema: self::PROJECT_SCHEMA, filters: []) as $project) {
 			$projects++;
 			foreach ($this->childLists(project: $project['data']) as $field => $values) {
@@ -450,6 +458,40 @@ class ProjectMembershipService {
 
 		return ['projects' => $projects, 'written' => $written];
 	}//end syncAll()
+
+	/**
+	 * Give every dependency edge stored without a project the project of its blocking task.
+	 *
+	 * Edges are read by the people of their project; one without a project is
+	 * visible to admins only. Both tasks of an edge are in the same project.
+	 *
+	 * @param object $objectService OpenRegister's ObjectService.
+	 *
+	 * @return int The number of edges written.
+	 *
+	 * @spec openspec/specs/task-dependencies/spec.md
+	 */
+	private function backfillDependencyProjects(object $objectService): int {
+		$written = 0;
+		foreach ($this->search(objectService: $objectService, schema: self::DEPENDENCY_SCHEMA, filters: []) as $edge) {
+			if ($this->referenceId(value: ($edge['data']['project'] ?? null)) !== '') {
+				continue;
+			}
+
+			$task      = $this->findData(schema: 'task', id: $this->referenceId(value: ($edge['data']['blocker'] ?? null)));
+			$projectId = $this->referenceId(value: ($task['project'] ?? null));
+			if ($projectId !== '') {
+				$written += $this->writeField(
+					objectService: $objectService,
+					child: ['schema' => self::DEPENDENCY_SCHEMA] + $edge,
+					field: 'project',
+					values: $projectId
+				);
+			}
+		}
+
+		return $written;
+	}//end backfillDependencyProjects()
 
 	/**
 	 * Every object of a project across the scoped schemas, each once.
@@ -485,16 +527,16 @@ class ProjectMembershipService {
 	}//end childrenOf()
 
 	/**
-	 * Write one access list onto one object.
+	 * Write one access field onto one object.
 	 *
 	 * @param object                                                       $objectService OpenRegister's ObjectService.
 	 * @param array{schema: string, id: string, data: array<string,mixed>} $child         The object.
-	 * @param string                                                       $field         `members` or `portfolioReaders`.
-	 * @param array<int,string>                                            $values        The list.
+	 * @param string                                                       $field         An access list, or `project` on a dependency edge.
+	 * @param array<int,string>|string                                     $values        The list, or the project uuid.
 	 *
 	 * @return int 1 when written, 0 when the write was refused.
 	 */
-	private function writeField(object $objectService, array $child, string $field, array $values): int {
+	private function writeField(object $objectService, array $child, string $field, array|string $values): int {
 		$data = $child['data'];
 		$data[$field] = $values;
 
