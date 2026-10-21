@@ -22,8 +22,7 @@ import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelper
 import { canSeeProject } from '../utils/portfolioGrouping.js'
 import { actionNames, transitionRequest } from '../utils/projectLifecycle.js'
 import { currentGroupIds, rolePatch } from '../utils/projectRole.js'
-import { epicPatch, shipPatches } from '../utils/roadmapHelpers.js'
-import { duplicatePayload } from '../utils/taskBreakdown.js'
+import { epicPatch } from '../utils/roadmapHelpers.js'
 import { deleteRefusal, withTaskDefaults } from '../utils/taskEditing.js'
 import { useObjectStore } from './objectStore.js'
 
@@ -1150,27 +1149,30 @@ export const useProjectsStore = defineStore('projects', {
 		},
 
 		/**
-		 * Mark a release as released. The unfinished tasks are moved, cleared
-		 * or kept first, as the member chose; if one of those writes fails the
-		 * release is left planned, so nothing is marked shipped with work lost.
+		 * Mark a release as released, in one server request. The server moves,
+		 * clears or keeps the unfinished tasks as the member chose and stamps
+		 * `releasedAt` with its own time; when a write fails the release stays
+		 * planned.
 		 *
 		 * @param {object} release The release
-		 * @param {Array<object>} tasks The project's tasks
 		 * @param {string} choice 'move', 'clear' or 'keep'
 		 * @param {string|null} targetId The release to move the tasks to
 		 * @return {Promise<{ok: boolean}>}
 		 *
 		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.1
 		 */
-		async shipRelease(release, tasks, choice, targetId) {
-			const plan = shipPatches(release, tasks, choice, targetId)
-			for (const write of plan.tasks) {
-				if (!await this.setTaskRelease(write.id, write.patch.release)) {
-					return { ok: false }
-				}
+		async shipRelease(release, choice, targetId) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/releases/${release.id}/ship`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({ choice, target: targetId }),
+				})
+				return { ok: response.ok }
+			} catch (err) {
+				console.error('shipRelease error:', err)
+				return { ok: false }
 			}
-			const saved = await this.saveRelease({ id: release.id, ...plan.release })
-			return { ok: saved !== null }
 		},
 
 		/**
@@ -1372,60 +1374,27 @@ export const useProjectsStore = defineStore('projects', {
 		// ── 2.8 deleteProject ─────────────────────────────────────────────
 
 		/**
-		 * Cascade-delete a project and all dependent objects.
-		 * Order: timeEntries → tasks → columns → project.
+		 * Delete a project with everything in it, in one server request.
+		 *
+		 * The server checks that the caller owns the project, then deletes its
+		 * tasks, time entries, columns, phases, releases, risks, log entries,
+		 * status reports, finance lines, saved filters and code links, and the
+		 * project last; a failure part-way leaves the project, so deleting it
+		 * again finishes the job.
 		 *
 		 * @param {string} id Project ID
-		 * @return {Promise<boolean>}
+		 * @return {Promise<boolean>} True when the project is gone
 		 *
-		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-9
+		 * @spec openspec/specs/projects.md
 		 */
 		async deleteProject(id) {
 			this.loading = true
 			this.error = null
 			try {
-				const objectStore = this._objectStore()
-
-				// 1. Fetch tasks for this project.
-				const tasks = await fetchEvery(objectStore, TASK_SCHEMA, { project: id })
-
-				// 2. Fetch and delete time entries for each task.
-				// NOTE: deletion is sequential and non-transactional. A mid-flight failure
-				// (network drop, server error) will leave orphaned objects. The error messages
-				// below prompt the user to retry, which will pick up where deletion failed.
-				for (const task of tasks) {
-					const entries = await fetchEvery(objectStore, TIME_ENTRY_SCHEMA, { task: task.id })
-					for (const entry of entries) {
-						const ok = await objectStore.deleteObject(TIME_ENTRY_SCHEMA, entry.id)
-						if (!ok) {
-							showError(t('planninq', 'Could not delete a time entry, so some data may remain. Try deleting the project again.'))
-							return false
-						}
-					}
-				}
-
-				// 3. Delete tasks.
-				for (const task of tasks) {
-					const ok = await objectStore.deleteObject(TASK_SCHEMA, task.id)
-					if (!ok) {
-						showError(t('planninq', 'Could not delete a task, so some data may remain. Try deleting the project again.'))
-						return false
-					}
-				}
-
-				// 4. Fetch and delete columns.
-				const columns = await fetchEvery(objectStore, COLUMN_SCHEMA, { project: id })
-				for (const col of columns) {
-					const ok = await objectStore.deleteObject(COLUMN_SCHEMA, col.id)
-					if (!ok) {
-						showError(t('planninq', 'Could not delete a column, so some data may remain. Try deleting the project again.'))
-						return false
-					}
-				}
-
-				// 5. Delete the project itself.
-				const ok = await objectStore.deleteObject(PROJECT_SCHEMA, id)
-				if (!ok) {
+				const response = await fetch(generateUrl(`/apps/planninq/api/projects/${id}`), { method: 'DELETE', headers: buildHeaders() })
+				if (!response.ok) {
+					const body = await response.json().catch(() => ({}))
+					this.error = body?.code || 'delete-error'
 					showError(t('planninq', 'Could not delete the project. Please try again.'))
 					return false
 				}
@@ -1905,58 +1874,46 @@ export const useProjectsStore = defineStore('projects', {
 		// ── 2.14d subtasks, duplicate, delete a parent ────────────────────
 
 		/**
-		 * Copy a task and its subtasks (duplicatePayload: no dates, people or time).
+		 * Copy a task and its subtasks in one server request: no dates, people,
+		 * logged time or ticked checklist items.
 		 *
-		 * @param {object}        task     The task.
-		 * @param {Array<object>} children Its subtasks.
-		 * @return {Promise<object|null>} The copy, or null when the copy itself failed
+		 * @param {object} task The task.
+		 * @return {Promise<object|null>} The copy, or null when the copy failed
 		 *
 		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-5.1
 		 */
-		async duplicateTask(task, children = []) {
-			const copy = await this.createTask(duplicatePayload(task, t('planninq', 'Copy of {title}', { title: '{title}' })))
-			const copyId = copy?.id ?? copy?.uuid ?? copy?.['@self']?.id
-			if (!copyId) {
+		async duplicateTask(task) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/tasks/${task.id}/duplicate`), { method: 'POST', headers: buildHeaders() })
+				return response.ok ? await response.json() : null
+			} catch (err) {
+				console.error('duplicateTask error:', err)
 				return null
 			}
-			for (const child of children) {
-				if (!await this.createTask(duplicatePayload(child, '{title}', copyId))) {
-					showError(t('planninq', 'The task was copied, but not all of its subtasks. Please check the copy.'))
-					break
-				}
-			}
-			return copy
 		},
 
 		/**
-		 * Delete a parent task, deleting its subtasks too or keeping them as separate tasks.
+		 * Delete a parent task, deleting its subtasks too or keeping them as
+		 * separate tasks, in one server request. Nothing is deleted when any task
+		 * that would go has logged time or may not be deleted by the caller.
 		 *
-		 * Nothing is deleted when any task that would go has logged time.
-		 *
-		 * @param {object}        task     The parent.
-		 * @param {Array<object>} children Its subtasks.
-		 * @param {string}        mode     `delete` or `detach`.
+		 * @param {object} task The parent.
+		 * @param {string} mode `delete` or `detach`.
 		 * @return {Promise<{deleted: boolean, reason?: string}>}
 		 *
 		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-5.2
 		 */
-		async deleteTaskTree(task, children, mode) {
-			const going = mode === 'delete' ? [...children, task] : [task]
-			for (const one of going) {
-				const entries = await fetchEvery(this._objectStore(), TIME_ENTRY_SCHEMA, { task: one.id })
-				if (entries.length > 0) {
-					return { deleted: false, reason: 'has-time' }
+		async deleteTaskTree(task, mode) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/tasks/${task.id}?subtasks=${encodeURIComponent(mode)}`), { method: 'DELETE', headers: buildHeaders() })
+				if (!response.ok) {
+					return { deleted: false, reason: deleteRefusal(await response.json().catch(() => ({}))) }
 				}
+				return { deleted: true }
+			} catch (err) {
+				console.error('deleteTaskTree error:', err)
+				return { deleted: false, reason: 'failed' }
 			}
-			for (const child of children) {
-				const done = mode === 'delete'
-					? (await this.deleteTask(child.id)).deleted
-					: !!(await this.updateTask(child.id, { parent: null }))
-				if (!done) {
-					return { deleted: false, reason: 'failed' }
-				}
-			}
-			return this.deleteTask(task.id)
 		},
 
 		// ── 2.15 updateTask ────────────────────────────────────────────────

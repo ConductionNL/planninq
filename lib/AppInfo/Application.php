@@ -683,6 +683,17 @@ class Application extends App implements IBootstrap {
 			);
 		}
 
+		// A release is shipped only through the ship action, at the server's time.
+		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				event: 'OCA\\OpenRegister\\Event\\' . $event,
+				listener: 'OCA\\Planninq\\Listener\\ReleaseShipGuardListener',
+				registers: ['planninq'],
+				schemas: ['projectRelease']
+			);
+		}
+
 		// Every task change rewrites the task's VTODO in the "Planninq" task
 		// list of each person on it who switched the export on
 		// (planning-calendar). Post-events: the save has happened.

@@ -151,7 +151,7 @@ export default {
 			this.saving = true
 			this.submitError = ''
 			const [mode, target] = this.open.length === 0 ? ['keep', null] : this.choice.split(':')
-			const result = await useProjectsStore().shipRelease(this.release, this.tasks, mode, target || null)
+			const result = await useProjectsStore().shipRelease(this.release, mode, target || null)
 			this.saving = false
 			if (!result.ok) {
 				this.submitError = this.t('planninq', 'Could not mark the release as released. Please try again.')

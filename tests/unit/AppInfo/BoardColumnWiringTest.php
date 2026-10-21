@@ -95,6 +95,11 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				'a new code link finds its task (integration-code-forge-links task 1.2)'
 			);
 			self::assertSame(
+				[['ObjectCreatingEvent', ['projectRelease']], ['ObjectUpdatingEvent', ['projectRelease']]],
+				($byListener['OCA\\Planninq\\Listener\\ReleaseShipGuardListener'] ?? null),
+				'a release is shipped only through the ship action'
+			);
+			self::assertSame(
 				[['ObjectCreatedEvent', ['task']], ['ObjectUpdatedEvent', ['task']], ['ObjectDeletedEvent', ['task']]],
 				($byListener['OCA\\Planninq\\Listener\\TaskCalendarExportListener'] ?? null),
 				'task changes keep the Planninq task lists in step (planning-calendar task 2.3)'
