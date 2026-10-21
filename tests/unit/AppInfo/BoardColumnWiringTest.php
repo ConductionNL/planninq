@@ -85,7 +85,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				'a saved filter or view keeps its owner (boards-filters task 3.1)'
 			);
 			self::assertSame(
-				[['ObjectCreatingEvent', ['forgeLink']]],
+				[['ObjectCreatingEvent', ['forgeLink']], ['ObjectUpdatingEvent', ['forgeLink']]],
 				($byListener['OCA\\Planninq\\Listener\\ForgeLinkResolveListener'] ?? null),
 				'a new code link finds its task (integration-code-forge-links task 1.2)'
 			);

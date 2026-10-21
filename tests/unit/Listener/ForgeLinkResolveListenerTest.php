@@ -31,6 +31,8 @@ require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
+use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\OpenRegister\Service\SystemOperationContext;
 use OCA\Planninq\Listener\ForgeLinkResolveListener;
 use OCA\Planninq\Listener\ProjectMemberAccessListener;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
@@ -72,11 +74,17 @@ class ForgeLinkResolveListenerTest extends TestCase {
 		$this->objects->seed('task', '00000000-0000-4000-8000-0000000000c1', ['title' => 'Backups', 'key' => 'OPS-1', 'project' => '00000000-0000-4000-8000-0000000000b1']);
 	}//end setUp()
 
-	private function listener(): ForgeLinkResolveListener {
+	private function listener(string $actor = ''): ForgeLinkResolveListener {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn($actor);
+		$session = $this->createMock(originalClassName: IUserSession::class);
+		$session->method('getUser')->willReturn($actor === '' ? null : $user);
+
 		return new ForgeLinkResolveListener(
 			forgeLinks: $this->forgeLinkService(),
 			scopeResolver: $this->scopeResolver(),
-			logger: $this->createMock(originalClassName: LoggerInterface::class)
+			logger: $this->createMock(originalClassName: LoggerInterface::class),
+			userSession: $session
 		);
 	}//end listener()
 
@@ -176,4 +184,33 @@ class ForgeLinkResolveListenerTest extends TestCase {
 		self::assertFalse($event->isPropagationStopped());
 		self::assertSame([], $this->objects->searchObjectsBySlug(registerSlug: 'planninq', schemaSlug: 'forgeLink', filters: ['externalId' => 'github:acme/portal#42']));
 	}//end testLaterIntegriqEventReplacesTheLink()
+
+	/**
+	 * A member cannot add a link that claims to come from the integration: it is stored as their own, editable link.
+	 */
+	public function testAPersonsLinkIsAlwaysManual(): void {
+		$event = new ObjectCreatingEvent($this->link(data: self::LINK));
+		$this->listener(actor: 'alice')->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		self::assertSame('manual', $event->getModifiedData()['source'] ?? null);
+
+		$stored = ['source' => 'manual', 'task' => '00000000-0000-4000-8000-000000000012'] + self::LINK;
+		$update = new ObjectUpdatingEvent($this->link(data: ['source' => 'integriq'] + $stored), $this->link(data: $stored));
+		$this->listener(actor: 'alice')->handle($update);
+		self::assertSame('manual', $update->getModifiedData()['source'] ?? null, 'nor can a link be turned into one later');
+	}//end testAPersonsLinkIsAlwaysManual()
+
+	/**
+	 * The integration's write, without a person behind it, keeps its source; so does a system operation.
+	 */
+	public function testTheIntegrationKeepsItsSource(): void {
+		$event = new ObjectCreatingEvent($this->link(data: self::LINK));
+		$this->listener()->handle($event);
+		self::assertArrayNotHasKey('source', $event->getModifiedData());
+
+		$system = new ObjectCreatingEvent($this->link(data: self::LINK));
+		SystemOperationContext::run(fn () => $this->listener(actor: 'alice')->handle($system));
+		self::assertArrayNotHasKey('source', $system->getModifiedData());
+	}//end testTheIntegrationKeepsItsSource()
 }//end class

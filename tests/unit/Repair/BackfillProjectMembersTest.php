@@ -97,6 +97,25 @@ class BackfillProjectMembersTest extends TestCase {
 	}//end testFillsMembersOnEveryChildOfEveryProject()
 
 	/**
+	 * A dependency edge stored before edges carried a project gets its blocking
+	 * task's project, and with it the project's members, so it stays readable
+	 * to them once the read rule is scoped.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/task-dependencies/spec.md
+	 */
+	public function testGivesOldDependencyEdgesTheirProjectAndMembers(): void {
+		$this->schemaSlugs['27'] = 'dependency';
+		$this->objects->seed('dependency', 'edge-old', ['blocker' => 'ta', 'blocked' => 'ta2', 'type' => 'blocks']);
+
+		$this->step()->run($this->createMock(originalClassName: IOutput::class));
+
+		self::assertSame('proj-a', $this->objects->rows['dependency']['edge-old']['project']);
+		self::assertSame(['alice', 'bob'], $this->objects->rows['dependency']['edge-old']['members']);
+	}//end testGivesOldDependencyEdgesTheirProjectAndMembers()
+
+	/**
 	 * The rest of each row is written back unchanged.
 	 *
 	 * @return void

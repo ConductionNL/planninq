@@ -14,6 +14,12 @@
  * follows the forge, a webhook retry adds nothing, and the forge never sees a
  * refused delivery.
  *
+ * `source` says who wrote the link: `integriq` only for a write without a
+ * person behind it (the integration's webhook, cron or a system operation).
+ * A person's link is always `manual`, on create and on update, so nobody can
+ * add a link that looks like the integration's and that no member can edit
+ * or remove afterwards.
+ *
  * Integriq has no text functions to cut a key out of a commit message, so it
  * may put the whole forge text in `taskKey`; the first key in it that belongs
  * to a task wins, and the link keeps that key.
@@ -41,9 +47,11 @@ declare(strict_types=1);
 namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
+use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Service\ForgeLinkService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -84,16 +92,32 @@ class ForgeLinkResolveListener implements IEventListener {
 	private const INTEGRATION = 'integriq';
 
 	/**
+	 * The source of a link a person adds.
+	 *
+	 * @var string
+	 */
+	private const MANUAL = 'manual';
+
+	/**
+	 * OpenRegister's system-operation scope, by name.
+	 *
+	 * @var string
+	 */
+	private const OR_SYSTEM_CONTEXT = 'OCA\\OpenRegister\\Service\\SystemOperationContext';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ForgeLinkService         $forgeLinks    Finds the task and the repeats of a link.
 	 * @param TaskScopeResolver        $scopeResolver Tells a code link from any other object.
 	 * @param LoggerInterface          $logger        The logger.
+	 * @param IUserSession             $userSession   Tells a person's write from the integration's.
 	 */
 	public function __construct(
 		private ForgeLinkService $forgeLinks,
 		private TaskScopeResolver $scopeResolver,
 		private LoggerInterface $logger,
+		private IUserSession $userSession,
 	) {
 	}//end __construct()
 
@@ -107,18 +131,16 @@ class ForgeLinkResolveListener implements IEventListener {
 	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
 	 */
 	public function handle(Event $event): void {
-		if ($event instanceof ObjectCreatingEvent === false) {
+		if ($event instanceof ObjectUpdatingEvent === true) {
+			$this->keepSource(event: $event);
+			return;
+		}
+
+		if ($event instanceof ObjectCreatingEvent === false || $this->isLink(object: $event->getObject()) === false) {
 			return;
 		}
 
 		$object = $event->getObject();
-		$slug   = $this->scopeResolver->planninqSchemaSlug(
-			registerId: (string)($object->getRegister() ?? ''),
-			schemaId: (string)($object->getSchema() ?? '')
-		);
-		if ($slug !== self::SCHEMA) {
-			return;
-		}
 
 		$data = (array)$object->getObject();
 		$task = $this->forgeLinks->linkedTask(data: $data);
@@ -127,8 +149,9 @@ class ForgeLinkResolveListener implements IEventListener {
 			return;
 		}
 
+		$source  = $this->sourceFor(sent: ($data['source'] ?? null));
 		$repeats = $this->forgeLinks->repeats(taskId: $task['id'], externalId: trim((string)($data['externalId'] ?? '')));
-		if ($repeats !== [] && ($data['source'] ?? '') !== self::INTEGRATION) {
+		if ($repeats !== [] && $source !== self::INTEGRATION) {
 			$this->refuse(event: $event, message: 'This link is already on the task.', code: self::ERROR_DUPLICATE, data: $data);
 			return;
 		}
@@ -144,12 +167,71 @@ class ForgeLinkResolveListener implements IEventListener {
 			'project' => $task['project'],
 			'taskKey' => (string)($task['data']['key'] ?? ''),
 		];
-		if (in_array(($data['source'] ?? null), ['manual', self::INTEGRATION], true) === false) {
-			$changes['source'] = 'manual';
+		if (($data['source'] ?? null) !== $source) {
+			$changes['source'] = $source;
 		}
 
 		$event->setModifiedData(array_merge($event->getModifiedData(), $changes));
 	}//end handle()
+
+	/**
+	 * Put back a link's stored source when a person's update sends another one.
+	 *
+	 * @param ObjectUpdatingEvent $event The event.
+	 *
+	 * @return void
+	 */
+	private function keepSource(ObjectUpdatingEvent $event): void {
+		$old = $event->getOldObject();
+		if ($old === null || $this->isLink(object: $event->getNewObject()) === false || $this->byPerson() === false) {
+			return;
+		}
+
+		$stored = (((array)$old->getObject())['source'] ?? null);
+		if ((((array)$event->getNewObject()->getObject())['source'] ?? null) !== $stored) {
+			$event->setModifiedData(array_merge($event->getModifiedData(), ['source' => $stored]));
+		}
+	}//end keepSource()
+
+	/**
+	 * The source a new link gets: `manual` for a person, the sent one (if known) for the integration.
+	 *
+	 * @param mixed $sent The source the client sent.
+	 *
+	 * @return string
+	 */
+	private function sourceFor(mixed $sent): string {
+		if ($sent === self::INTEGRATION && $this->byPerson() === false) {
+			return self::INTEGRATION;
+		}
+
+		return self::MANUAL;
+	}//end sourceFor()
+
+	/**
+	 * Whether a signed-in person writes, not the integration, cron or a system operation.
+	 *
+	 * @return bool
+	 */
+	private function byPerson(): bool {
+		$class = self::OR_SYSTEM_CONTEXT;
+
+		return ($this->userSession->getUser() !== null && (class_exists($class) === false || $class::isActive() === false));
+	}//end byPerson()
+
+	/**
+	 * Whether the object is a planninq code link.
+	 *
+	 * @param object $object The object.
+	 *
+	 * @return bool
+	 */
+	private function isLink(object $object): bool {
+		return $this->scopeResolver->planninqSchemaSlug(
+			registerId: (string)($object->getRegister() ?? ''),
+			schemaId: (string)($object->getSchema() ?? '')
+		) === self::SCHEMA;
+	}//end isLink()
 
 	/**
 	 * Refuse the create; OpenRegister answers it with HTTP 422.
