@@ -32,6 +32,7 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Service\TaskReportReaderService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 
@@ -52,21 +53,16 @@ class TaskReportReadersListener implements IEventListener {
 	public const SCHEMA = 'taskReport';
 
 	/**
-	 * The `shared` value that opens a report to the readers of its projects.
-	 *
-	 * @var string
-	 */
-	private const SHARED_WITH_READERS = 'readers';
-
-	/**
 	 * Constructor.
 	 *
 	 * @param ProjectMembershipService $membership    Reads the report's projects.
 	 * @param TaskScopeResolver        $scopeResolver Tells a planninq report from any other object.
+	 * @param TaskReportReaderService  $readers       Works out who reads a report.
 	 */
 	public function __construct(
 		private ProjectMembershipService $membership,
 		private TaskScopeResolver $scopeResolver,
+		private TaskReportReaderService $readers,
 	) {
 	}//end __construct()
 
@@ -105,7 +101,7 @@ class TaskReportReadersListener implements IEventListener {
 
 		$data    = (array)$object->getObject();
 		$changes = [];
-		foreach ($this->readersOf(data: $data) as $field => $values) {
+		foreach ($this->readers->readersOf(data: $data) as $field => $values) {
 			if (array_key_exists($field, $data) === false || $this->membership->normalise(members: $data[$field]) !== $values) {
 				$changes[$field] = $values;
 			}
@@ -115,40 +111,6 @@ class TaskReportReadersListener implements IEventListener {
 			$event->setModifiedData(array_merge($event->getModifiedData(), $changes));
 		}
 	}//end stamp()
-
-	/**
-	 * The users and groups who read at least one of the report's projects, or none for a private report.
-	 *
-	 * @param array<string,mixed> $data The report.
-	 *
-	 * @return array{readers: array<int,string>, readerGroups: array<int,string>}
-	 */
-	private function readersOf(array $data): array {
-		$users  = [];
-		$groups = [];
-		if (($data['shared'] ?? null) === self::SHARED_WITH_READERS) {
-			foreach ($this->membership->normalise(members: ($data['projects'] ?? null)) as $projectId) {
-				$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
-				if ($project === null) {
-					continue;
-				}
-
-				$lists  = $this->membership->childLists(project: $project);
-				$users  = array_merge(
-					$users,
-					$lists['members'],
-					$lists['viewers'],
-					$this->membership->normalise(members: ($project[ProjectMembershipService::READERS_FIELD] ?? null))
-				);
-				$groups = array_merge($groups, $lists['memberGroups'], $lists['viewerGroups']);
-			}
-		}
-
-		return [
-			'readers'      => $this->membership->normalise(members: $users),
-			'readerGroups' => $this->membership->normalise(members: $groups),
-		];
-	}//end readersOf()
 
 	/**
 	 * Whether the object is a planninq report.

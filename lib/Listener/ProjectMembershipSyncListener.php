@@ -36,6 +36,7 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
 use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Service\TaskReportReaderService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
@@ -56,12 +57,14 @@ class ProjectMembershipSyncListener implements IEventListener {
 	 * @param FinanceLineService $finance Keeps the access copies on the project's finance lines.
 	 * @param TaskScopeResolver $scopeResolver Tells whether an object is a planninq project.
 	 * @param LoggerInterface $logger The logger.
+	 * @param TaskReportReaderService $reports Keeps who reads the shared reports of the project.
 	 */
 	public function __construct(
 		private ProjectMembershipService $membership,
 		private FinanceLineService $finance,
 		private TaskScopeResolver $scopeResolver,
 		private LoggerInterface $logger,
+		private TaskReportReaderService $reports,
 	) {
 	}//end __construct()
 
@@ -105,12 +108,17 @@ class ProjectMembershipSyncListener implements IEventListener {
 				$oldData = (array)$old->getObject();
 			}
 
-			$this->syncRoleLists(projectId: $projectId, data: $data, oldData: $oldData);
+			$rolesChanged = $this->syncRoleLists(projectId: $projectId, data: $data, oldData: $oldData);
 
 			$field   = ProjectMembershipService::READERS_FIELD;
 			$readers = $this->membership->normalise(members: ($data[$field] ?? []));
 			if ($oldData === null || $this->membership->normalise(members: ($oldData[$field] ?? [])) !== $readers) {
 				$this->membership->syncProjectMembers(projectId: $projectId, members: $readers, field: $field);
+				$rolesChanged = true;
+			}
+
+			if ($rolesChanged === true) {
+				$this->reports->syncProject(projectId: $projectId);
 			}
 
 			$this->syncFinance(projectId: $projectId, data: $data, oldData: $oldData);
@@ -133,11 +141,12 @@ class ProjectMembershipSyncListener implements IEventListener {
 	 * @param array<string,mixed>      $data      The saved project.
 	 * @param array<string,mixed>|null $oldData   The stored project, null when unknown.
 	 *
-	 * @return void
+	 * @return bool Whether a list changed.
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
-	private function syncRoleLists(string $projectId, array $data, ?array $oldData): void {
+	private function syncRoleLists(string $projectId, array $data, ?array $oldData): bool {
+		$changed = false;
 		$before = [];
 		if ($oldData !== null) {
 			$before = $this->membership->childLists(project: $oldData);
@@ -148,12 +157,15 @@ class ProjectMembershipSyncListener implements IEventListener {
 				continue;
 			}
 
+			$changed = true;
 			$written = $this->membership->syncProjectMembers(projectId: $projectId, members: $values, field: $field);
 			$this->logger->info(
 				'Planninq: project roles changed; a role list updated on its objects',
 				['project' => $projectId, 'field' => $field, 'written' => $written]
 			);
 		}
+
+		return $changed;
 	}//end syncRoleLists()
 
 	/**
