@@ -1,0 +1,57 @@
+{
+	"set": "zuiddrecht",
+	"$comment": "planninq's part of the Zuiddrecht example set: two projects delivered for pipelinq clients, as the client pages' Projecten en facturering card draws them (PqKlant, PqOrganisatie). Each finds its client by the master entity it shares with dossiq and pipelinq (masterEntityRef), so it runs after pipelinq.",
+	"after": [
+		"pipelinq"
+	],
+	"objects": [
+		{
+			"key": "project-straatfeest-parkstraat",
+			"register": "planninq",
+			"schema": "project",
+			"lookups": {
+				"client": {
+					"register": "pipelinq",
+					"schema": "client",
+					"where": {
+						"masterEntityRef": "0f5e0000-0000-4000-8000-000000000012"
+					}
+				}
+			},
+			"data": {
+				"title": "Straatfeest Parkstraat 2026",
+				"key": "STRF",
+				"description": "Het straatfeest in de Parkstraat dat Sanne de Vries met de buren organiseert: vergunning, afzetting en de afvalbakken.",
+				"status": "requested",
+				"client": "{{lookup:client}}",
+				"startDate": "{{date:30}}",
+				"endDate": "{{date:45}}",
+				"billable": false
+			}
+		},
+		{
+			"key": "project-speeldagen-oosterhof",
+			"register": "planninq",
+			"schema": "project",
+			"lookups": {
+				"client": {
+					"register": "pipelinq",
+					"schema": "client",
+					"where": {
+						"masterEntityRef": "0f5e0000-0000-4000-8000-000000000007"
+					}
+				}
+			},
+			"data": {
+				"title": "Speeldagen Oosterhof 2026",
+				"key": "SPLD",
+				"description": "De speeldagen op het Oosterhof met Buurtvereniging Oost: speeltoestellen, toezicht en de inloop voor ouders.",
+				"status": "active",
+				"client": "{{lookup:client}}",
+				"startDate": "{{date:-20}}",
+				"endDate": "{{date:40}}",
+				"billable": false
+			}
+		}
+	]
+}
