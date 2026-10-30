@@ -23,7 +23,7 @@
  *
  * @return {{actions: Array, note: string, count?: number, empty?: {name: string}}} The header.
  *
- * @spec openspec/changes/projects-leaf-library-card/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
+ * @spec openspec/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
  */
 export function leafHeader({ loading, error, total, emptyLabel, note, actions }) {
 	const header = { actions, note: note || '' }
@@ -54,7 +54,7 @@ export function leafHeader({ loading, error, total, emptyLabel, note, actions })
  *
  * @return {{count: number, noun: string, rows: Array, actions: Array}|null} The summary, or null.
  *
- * @spec openspec/changes/projects-leaf-summary/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
+ * @spec openspec/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
  */
 export function leafSummary({ loading, error, total, noun, rows, actions }) {
 	if (loading === true || error !== '') {
