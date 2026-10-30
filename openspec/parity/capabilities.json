@@ -5772,8 +5772,8 @@
         "evidence": "src/integrations/registerProjectsLeaf.js:43-48 declares the 'user-dashboard' surface -> src/integrations/projectScope.js:38 dashboard scope is {status:'active'} -> src/integrations/CnProjectsWidget.vue:306-334 lists projects; hosted by openregister/lib/AppInfo/Application.php:986 IntegrationDashboardWidget",
         "reachedOn": "Nextcloud dashboard, OpenRegister's umbrella integrations widget, 'Projects' leaf",
         "owner": "ConductionNL/openregister",
-        "spec": "openspec/specs/project-delivery",
-        "requirement": "The leaf answers the question its surface asked [V1]"
+        "spec": "openspec/specs/my-work",
+        "requirement": "The Nextcloud dashboard shows my active projects through OpenRegister's integrations widget"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",

@@ -63,3 +63,20 @@ MUST keep that order for that user only. Tier: V1.
 - **WHEN** she pins "Handhaving" in My projects
 - **THEN** "Handhaving" is listed first, also after a reload
 - **AND** Bram's dashboard order is unchanged
+
+### Requirement: The Nextcloud dashboard shows my active projects through OpenRegister's integrations widget
+
+Planninq MUST NOT register a Nextcloud dashboard widget of its own. Its `planninq-projects` leaf
+MUST declare the `user-dashboard` surface, so OpenRegister's integrations widget on the Nextcloud
+dashboard shows the user's active projects (`status` `active`) under "Projects", each opening the
+project in planninq. The user's tasks are not listed on the Nextcloud dashboard; they stay on My
+tasks and on the planninq dashboard. Tier: V1.
+
+#### Scenario: Active projects on the Nextcloud dashboard
+
+@e2e exclude Rendered by OpenRegister's dashboard widget, outside planninq's own pages; the scoping is asserted by Vitest (projectScope.spec.js)
+- **GIVEN** Anna can read the active project "Handhaving" and the closed project "Vergunningen 2025"
+- **WHEN** she opens the Nextcloud dashboard and expands "Projects" in OpenRegister's integrations widget
+- **THEN** "Handhaving" is listed
+- **AND** "Vergunningen 2025" is not listed
+- **AND** choosing "Handhaving" opens the project in planninq
