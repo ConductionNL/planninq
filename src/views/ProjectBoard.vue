@@ -464,8 +464,8 @@ import { showError } from '@nextcloud/dialogs'
  * columns filters the board down to a single label. Empty columns render a
  * graceful placeholder.
  *
- * @spec openspec/specs/kanban-board.md
- * @spec openspec/specs/admin-user-settings.md
+ * @spec openspec/specs/kanban-board/spec.md
+ * @spec openspec/specs/admin-user-settings/spec.md
  */
 import { NcActionButton, NcActionCaption, NcActions, NcActionSeparator, NcButton, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'
@@ -857,7 +857,7 @@ export default {
 		 *
 		 * @return {Array}
 		 *
-		 * @spec openspec/specs/kanban-board.md
+		 * @spec openspec/specs/kanban-board/spec.md
 		 */
 		visibleTasks() {
 			const uid = getCurrentUser()?.uid || ''
@@ -1123,7 +1123,7 @@ export default {
 		 * @param {string} projectId Parent project UUID
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/specs/kanban-board.md
+		 * @spec openspec/specs/kanban-board/spec.md
 		 */
 		async loadTasks(projectId) {
 			if (!projectId || this.accessDenied) {
@@ -1166,7 +1166,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/specs/kanban-board.md
+		 * @spec openspec/specs/kanban-board/spec.md
 		 */
 		async loadLabels() {
 			if (this.accessDenied) {
@@ -1181,7 +1181,7 @@ export default {
 		 * @param {object} task The task whose labels are resolved.
 		 * @return {Array} The label objects, in title order.
 		 *
-		 * @spec openspec/specs/kanban-board.md
+		 * @spec openspec/specs/kanban-board/spec.md
 		 */
 		labelsForTask(task) {
 			return resolveTaskLabels(task, this.labels)
@@ -1330,7 +1330,7 @@ export default {
 		 *
 		 * @param {object} task The task to open
 		 *
-		 * @spec openspec/specs/kanban-board.md
+		 * @spec openspec/specs/kanban-board/spec.md
 		 */
 		navigateToTask(task) {
 			if (!task) {

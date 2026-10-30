@@ -1,6 +1,6 @@
 # task-search-and-bulk delta for tasks-search-and-bulk
 
-Extends the flat main spec `openspec/specs/tasks.md` ("Task Search", "Bulk Task Operations").
+Extends the flat main spec `openspec/specs/tasks/spec.md` ("Task Search", "Bulk Task Operations").
 
 ## ADDED Requirements
 

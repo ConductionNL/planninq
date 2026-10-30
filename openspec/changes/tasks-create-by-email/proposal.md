@@ -13,7 +13,7 @@ OpenProject turns incoming mail into work packages, over IMAP, POP3 or Gmail. Ji
 Parity rows: `tsk-email-create` in planninq's `openspec/parity/capabilities.json`.
 Decision: build, because two competitors create work items from mail, and mail is where many requests to dev and IT teams start.
 
-This change extends the flat spec `openspec/specs/tasks.md` through a new capability, `task-mail-intake`.
+This change extends the flat spec `openspec/specs/tasks/spec.md` through a new capability, `task-mail-intake`.
 
 ## What changes
 

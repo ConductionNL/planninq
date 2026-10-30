@@ -72,8 +72,8 @@ follow-ups rather than attempted in one PR (ADR-032 §chaining).
   service (ADR-005/ADR-022).
 - Write the two currently-missing specs referenced by ADR-001's mapping table
   that this change actually builds:
-  `openspec/specs/capacity-planning-resource.md` (MVP scope only) and
-  `openspec/specs/portfolio-dashboard-pmo.md` (landing page only, PMO
+  `openspec/specs/capacity-planning-resource/spec.md` (MVP scope only) and
+  `openspec/specs/portfolio-dashboard-pmo/spec.md` (landing page only, PMO
   rollup deferred). `bbv-programma-tree`, `raadsbesluit-deliverable-chain`,
   and `risk-register-issue-tracking` are filed as tracked follow-up issues,
   not attempted here (ADR-032 chaining).

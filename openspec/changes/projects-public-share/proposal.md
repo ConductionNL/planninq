@@ -55,7 +55,7 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 - Planninq creates one OpenRegister view per shared project, selecting its columns and tasks.
 - Controller and template: a `#[PublicPage]` route `/apps/planninq/public/{anchor}` that serves the public board shell; the data comes from OpenRegister's `GET /apps/openregister/api/public/links/{anchor}`.
 - Views: a Share tab in the project settings sidebar, and a `PublicBoard` component.
-- Extends the flat spec `openspec/specs/projects.md`.
+- Extends the flat spec `openspec/specs/projects/spec.md`.
 - Depends on: `projects-members-and-roles` (the manager role that is offered the Share tab), `boards-configurable-columns` (lane A) for columns that are objects the view can select.
 
 ## Risks

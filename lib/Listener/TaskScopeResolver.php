@@ -117,7 +117,7 @@ class TaskScopeResolver {
 	 *
 	 * @return string The schema slug, or '' for another register or an unresolvable pair.
 	 *
-	 * @spec openspec/specs/tasks.md
+	 * @spec openspec/specs/tasks/spec.md
 	 */
 	public function planninqSchemaSlug(string $registerId, string $schemaId): string {
 		if ($registerId === '' || $schemaId === '') {

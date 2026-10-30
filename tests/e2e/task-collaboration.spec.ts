@@ -6,7 +6,7 @@
  *
  * Covers the non-excluded UI scenarios of the task-collaboration-sidebar change
  * (gate-19 e2e-coverage), all on the task-collaboration spec
- * (openspec/specs/task-collaboration.md):
+ * (openspec/specs/task-collaboration/spec.md):
  *  - "Add a comment to a task"
  *  - "Edit and delete own comment only"
  *  - "Attach a file to a task"

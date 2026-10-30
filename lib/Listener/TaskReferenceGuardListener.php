@@ -28,7 +28,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/tasks.md
+ * @spec openspec/specs/tasks/spec.md
  */
 
 declare(strict_types=1);
@@ -50,7 +50,7 @@ use OCP\IUserSession;
  *
  * @template-implements IEventListener<Event>
  *
- * @spec openspec/specs/tasks.md
+ * @spec openspec/specs/tasks/spec.md
  */
 class TaskReferenceGuardListener implements IEventListener {
 
@@ -113,7 +113,7 @@ class TaskReferenceGuardListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/specs/tasks.md
+	 * @spec openspec/specs/tasks/spec.md
 	 */
 	public function handle(Event $event): void {
 		if ($event instanceof ObjectCreatingEvent === true) {

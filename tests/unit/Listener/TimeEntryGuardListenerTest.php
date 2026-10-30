@@ -39,7 +39,7 @@ use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 class TimeEntryGuardListenerTest extends TestCase {
 	use MembershipFixture;

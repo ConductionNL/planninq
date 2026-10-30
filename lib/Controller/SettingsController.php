@@ -41,7 +41,7 @@ use OCP\IUserSession;
 /**
  * Controller for managing Planninq application settings.
  *
- * @spec openspec/specs/admin-user-settings.md
+ * @spec openspec/specs/admin-user-settings/spec.md
  */
 class SettingsController extends Controller {
 	/**

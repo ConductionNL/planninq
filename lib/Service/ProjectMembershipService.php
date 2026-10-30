@@ -35,7 +35,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -53,7 +53,7 @@ use RuntimeException;
 /**
  * Computes and writes the denormalised `members` list of project-scoped objects.
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 class ProjectMembershipService {
 
@@ -159,7 +159,7 @@ class ProjectMembershipService {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function isAvailable(): bool {
 		return $this->appManager->isInstalled('openregister');
@@ -235,7 +235,7 @@ class ProjectMembershipService {
 	 *
 	 * @return array<int,string> The user ids.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function normalise(mixed $members): array {
 		if (is_array($members) === false) {
@@ -265,7 +265,7 @@ class ProjectMembershipService {
 	 *
 	 * @return string The project uuid, or '' when none resolves.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function projectIdFor(string $schemaSlug, array $data): string {
 		if ($schemaSlug === self::FORGE_LINK_SCHEMA) {
@@ -299,7 +299,7 @@ class ProjectMembershipService {
 	 *
 	 * @return array<int,string>|null The user ids, or null when the project does not resolve.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function membersOfProject(string $projectId): ?array {
 		if ($projectId === '') {
@@ -390,7 +390,7 @@ class ProjectMembershipService {
 	 *
 	 * @return int The number of objects written.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function syncProjectMembers(string $projectId, array $members, string $field = 'members'): int {
 		$members = $this->normalise(members: $members);
@@ -436,7 +436,7 @@ class ProjectMembershipService {
 	 *
 	 * @return array{projects: int, written: int} Projects visited and objects written.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function syncAll(): array {

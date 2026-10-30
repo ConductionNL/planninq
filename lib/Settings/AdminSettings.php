@@ -41,7 +41,7 @@ use OCA\OpenRegister\AppHost\Settings\GenericAdminSettings;
 /**
  * AppHost-backed admin settings panel for Planninq (ADR-040).
  *
- * @spec openspec/specs/admin-user-settings.md
+ * @spec openspec/specs/admin-user-settings/spec.md
  */
 class AdminSettings extends GenericAdminSettings {
 }//end class

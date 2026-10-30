@@ -396,7 +396,7 @@ import { taskHeading } from '../utils/workItemKeys.js'
  * APIs. Reached from the board via the `?task=<uuid>` deep-link or the
  * `/projects/:id/tasks/:taskId` route.
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 export default {
 	name: 'TaskDetail',
@@ -468,7 +468,7 @@ export default {
 		/**
 		 * UUID of the task from the route.
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		taskId() {
 			return this.$route.params.taskId
@@ -477,7 +477,7 @@ export default {
 		/**
 		 * The loaded task object (or null).
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		task() {
 			return this.activeTask
@@ -486,7 +486,7 @@ export default {
 		/**
 		 * CnObjectSidebar props (register/schema/objectId/hidden tabs).
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		sidebarConfig() {
 			return taskCollaborationSidebarConfig({ id: this.taskId })
@@ -495,7 +495,7 @@ export default {
 		/**
 		 * Display title of the task.
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		taskTitle() {
 			return this.task?.title || this.t('planninq', 'Untitled task')
@@ -504,7 +504,7 @@ export default {
 		/**
 		 * Label/value pairs rendered in the detail body.
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		fields() {
 			const t = this.task || {}
@@ -682,7 +682,7 @@ export default {
 		/**
 		 * Time entries for this task (all users) from the timeEntries store.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		timeEntries() {
 			return this.timeEntriesStore.entries
@@ -691,7 +691,7 @@ export default {
 		/**
 		 * The task's estimate in minutes (0 when unset).
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		estimateMinutes() {
 			return Number(this.task?.estimatedDuration) || 0
@@ -700,7 +700,7 @@ export default {
 		/**
 		 * Total logged minutes across every entry on this task.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		loggedMinutes() {
 			return this.timeEntries.reduce((acc, e) => acc + (Number(e.duration) || 0), 0)
@@ -710,7 +710,7 @@ export default {
 		 * Inline validation error for the estimate input (empty is allowed —
 		 * the Save button is simply disabled — but non-empty must parse).
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		estimateError() {
 			if (this.estimateInput.trim() === '') {
@@ -733,7 +733,7 @@ export default {
 		/**
 		 * Progress string "logged / estimate", e.g. "1h 30m / 3h".
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		progressText() {
 			return `${formatDuration(this.loggedMinutes)} / ${formatDuration(this.estimateMinutes)}`
@@ -742,7 +742,7 @@ export default {
 		/**
 		 * Whether logged time exceeds the estimate (progress turns red).
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		isOverEstimate() {
 			return this.estimateMinutes > 0 && this.loggedMinutes > this.estimateMinutes
@@ -788,7 +788,7 @@ export default {
 			 *
 			 * @param {string} id The task UUID from the route.
 			 *
-			 * @spec openspec/specs/task-collaboration.md
+			 * @spec openspec/specs/task-collaboration/spec.md
 			 */
 			async handler(id) {
 				if (id) {
@@ -808,7 +808,7 @@ export default {
 	/**
 	 * Lifecycle hook: release the live object subscription on unmount.
 	 *
-	 * @spec openspec/specs/realtime-updates.md
+	 * @spec openspec/specs/realtime-updates/spec.md
 	 */
 	beforeUnmount() {
 		this.releaseLiveSubscription()
@@ -1108,7 +1108,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/specs/realtime-updates.md
+		 * @spec openspec/specs/realtime-updates/spec.md
 		 */
 		async syncLiveSubscription() {
 			const objectStore = useObjectStore()
@@ -1173,7 +1173,7 @@ export default {
 		 * and invalidate any in-flight subscribe (its resolution unsubscribes
 		 * itself via the epoch check).
 		 *
-		 * @spec openspec/specs/realtime-updates.md
+		 * @spec openspec/specs/realtime-updates/spec.md
 		 */
 		releaseLiveSubscription() {
 			this.liveEpoch += 1
@@ -1238,7 +1238,7 @@ export default {
 		 * @param {object} entry The time entry.
 		 * @return {boolean}
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		canModify(entry) {
 			return this.timeEntriesStore.canModify(entry)
@@ -1247,7 +1247,7 @@ export default {
 		/**
 		 * Persist the task estimate parsed from the estimate input.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async saveEstimate() {
 			const minutes = parseDuration(this.estimateInput)
@@ -1269,7 +1269,7 @@ export default {
 		 *
 		 * @param {object|null} entry The entry to edit, or null to create.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		openLogDialog(entry = null) {
 			this.editingEntry = entry
@@ -1287,7 +1287,7 @@ export default {
 		/**
 		 * Refresh entries after a create/edit and close the dialog.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async onEntrySaved() {
 			this.closeDialog()
@@ -1299,7 +1299,7 @@ export default {
 		 *
 		 * @param {object} entry The entry to delete.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async deleteEntry(entry) {
 			await this.timeEntriesStore.delete(entry.id)

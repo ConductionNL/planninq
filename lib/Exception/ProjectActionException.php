@@ -18,7 +18,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 
 declare(strict_types=1);
@@ -28,7 +28,7 @@ namespace OCA\Planninq\Exception;
 /**
  * A refused project action.
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 class ProjectActionException extends \RuntimeException {
 
@@ -52,7 +52,7 @@ class ProjectActionException extends \RuntimeException {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function getReason(): string {
 		return $this->reason;
@@ -63,7 +63,7 @@ class ProjectActionException extends \RuntimeException {
 	 *
 	 * @return int
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function getStatus(): int {
 		return $this->status;

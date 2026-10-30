@@ -46,8 +46,8 @@
 
 ## 3. Portfolio (capacity-planning MVP)
 
-- [x] 3.1 Write `openspec/specs/capacity-planning-resource.md` (MVP scope).
-- [x] 3.2 Write `openspec/specs/portfolio-dashboard-pmo.md` (landing + Borden scope).
+- [x] 3.1 Write `openspec/specs/capacity-planning-resource/spec.md` (MVP scope).
+- [x] 3.2 Write `openspec/specs/portfolio-dashboard-pmo/spec.md` (landing + Borden scope).
 - [x] 3.3 Create `src/views/Portfolio.vue` — per-project member/open/overdue
       counts + a CSS bar of open work, client-side reduce over the
       `project`/`task` schemas (ADR-022). Counting logic in the pure helper

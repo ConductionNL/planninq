@@ -13,7 +13,7 @@ tags:
 status: active
 created: 2026-04-03
 spec-refs:
-- openspec/specs/projects.md#requirement-project-list-ui-mvp
+- openspec/specs/projects/spec.md#requirement-project-list-ui-mvp
 ---
 
 # TS-001: Project list renders for member projects

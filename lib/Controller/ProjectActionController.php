@@ -19,7 +19,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 
 declare(strict_types=1);
@@ -39,7 +39,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Server-side multi-object actions.
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 class ProjectActionController extends Controller {
 
@@ -65,7 +65,7 @@ class ProjectActionController extends Controller {
 	 *
 	 * @return JSONResponse 200 {deleted}; 401, 403, 404 otherwise.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	#[NoAdminRequired]
 	public function deleteProject(string $projectId): JSONResponse {

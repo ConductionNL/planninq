@@ -4,7 +4,7 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 
 /**
@@ -33,7 +33,7 @@ const MAX_PAGE = 1000
  * @param {object} filters     property filters (no control params)
  * @return {Promise<Array>} every row in the collection
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 export async function fetchEvery(objectStore, schema, filters = {}) {
 	const out = []

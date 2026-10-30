@@ -4,7 +4,7 @@
  * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/specs/capacity-planning-resource.md
+ * @spec openspec/specs/capacity-planning-resource/spec.md
  * @spec openspec/changes/portfolio-people-capacity/tasks.md#task-1.1
  */
 import { describe, expect, it } from 'vitest'

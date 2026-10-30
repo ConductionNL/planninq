@@ -20,7 +20,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 
 declare(strict_types=1);

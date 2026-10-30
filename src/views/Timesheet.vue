@@ -95,7 +95,7 @@
  * that task's detail view; the active filter is reflected in the URL query so
  * the browser back button returns to the same range.
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 import { NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import ClockOutline from 'vue-material-design-icons/ClockOutline.vue'
@@ -138,7 +138,7 @@ export default {
 		/**
 		 * The date-range preset options.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		presetOptions() {
 			return [
@@ -152,7 +152,7 @@ export default {
 		/**
 		 * Entries within the active date range.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		entriesInRange() {
 			return filterByRange(this.timeEntriesStore.entries, this.from, this.to)
@@ -161,7 +161,7 @@ export default {
 		/**
 		 * Entries grouped by date (newest first) with daily totals.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		groups() {
 			return groupEntriesByDate(this.entriesInRange)
@@ -170,7 +170,7 @@ export default {
 		/**
 		 * Total minutes across the active range.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		rangeTotal() {
 			return sumDuration(this.entriesInRange)
@@ -236,7 +236,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async resolveTasks() {
 			const objectStore = useObjectStore()
@@ -274,7 +274,7 @@ export default {
 		/**
 		 * Apply a preset date-range and reflect it in the URL.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		onPresetChange() {
 			const id = this.preset?.id
@@ -295,7 +295,7 @@ export default {
 		/**
 		 * Apply the custom from/to inputs.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		applyCustomRange() {
 			this.setRange(this.customFrom || null, this.customTo || null)
@@ -327,7 +327,7 @@ export default {
 		 *
 		 * @param {object} entry The time entry whose task to open.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		openTask(entry) {
 			const info = this.taskInfo[entry.task]

@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: EUPL-1.2
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 import { createPinia, setActivePinia } from 'pinia'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'

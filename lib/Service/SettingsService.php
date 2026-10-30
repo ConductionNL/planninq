@@ -38,7 +38,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Service for managing Planninq application configuration and settings.
  *
- * @spec openspec/specs/admin-user-settings.md
+ * @spec openspec/specs/admin-user-settings/spec.md
  */
 class SettingsService {
 

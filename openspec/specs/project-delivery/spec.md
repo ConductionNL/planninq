@@ -16,7 +16,7 @@ is a CRM; a schema slug is GLOBAL on a shared OpenRegister, so its `project`,
 the other. Planninq keeps the entity because planning work is its subject;
 pipelinq keeps the client relationship and reads the rest.
 
-Extends [projects.md](../projects.md), which defines the project container
+Extends [projects](../projects/spec.md), which defines the project container
 itself, and [register-schemas](../register-schemas/spec.md), which defines how
 these schemas are declared.
 

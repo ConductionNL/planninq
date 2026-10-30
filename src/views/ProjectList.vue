@@ -360,7 +360,7 @@ export default {
 	/**
 	 * Lifecycle hook: release the live collection subscription on unmount.
 	 *
-	 * @spec openspec/specs/realtime-updates.md
+	 * @spec openspec/specs/realtime-updates/spec.md
 	 */
 	beforeUnmount() {
 		this.releaseLiveSubscription()
@@ -397,7 +397,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/specs/realtime-updates.md
+		 * @spec openspec/specs/realtime-updates/spec.md
 		 */
 		async syncLiveSubscription() {
 			const objectStore = useObjectStore()
@@ -446,7 +446,7 @@ export default {
 		 * invalidate any in-flight subscribe (its resolution unsubscribes
 		 * itself via the epoch check).
 		 *
-		 * @spec openspec/specs/realtime-updates.md
+		 * @spec openspec/specs/realtime-updates/spec.md
 		 */
 		releaseLiveSubscription() {
 			this.liveEpoch += 1

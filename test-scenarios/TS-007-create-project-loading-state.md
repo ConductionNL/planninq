@@ -12,7 +12,7 @@ tags:
 status: active
 created: 2026-04-03
 spec-refs:
-- openspec/specs/projects.md#scenario-create-project-loading-state
+- openspec/specs/projects/spec.md#scenario-create-project-loading-state
 ---
 
 # TS-007: Create project — loading state during creation

@@ -15,7 +15,7 @@ import { generateUrl } from '@nextcloud/router'
  * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 import { defineStore } from 'pinia'
 import { localIsoDate } from '../utils/localDate.js'
@@ -43,7 +43,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {object} state Store state.
 		 * @return {number} Sum of durations.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		totalMinutes: (state) => state.entries.reduce((acc, e) => acc + (Number(e.duration) || 0), 0),
 	},
@@ -78,7 +78,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {object} entry The time entry.
 		 * @return {boolean}
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		canModify(entry) {
 			const uid = this._currentUid()
@@ -93,7 +93,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {string} taskId Task UUID.
 		 * @return {Promise<Array>}
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async fetchForTask(taskId) {
 			this.loading = true
@@ -119,7 +119,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 *
 		 * @return {Promise<Array>}
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async fetchForCurrentUser() {
 			this.loading = true
@@ -147,7 +147,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {{task: string, duration: number, date?: string, description?: string}} data Entry fields.
 		 * @return {Promise<object|null>} Created entry or null on failure.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async create(data) {
 			try {
@@ -179,7 +179,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {object} patch Fields to change.
 		 * @return {Promise<object|null>} Updated entry or null on failure.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async update(id, patch) {
 			try {
@@ -211,7 +211,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {string} id Entry UUID.
 		 * @return {Promise<boolean>} True on success.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async delete(id) {
 			try {

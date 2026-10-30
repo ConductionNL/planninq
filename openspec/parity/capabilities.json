@@ -1501,7 +1501,7 @@
         "evidence": "src/components/ProjectSettingsSidebar.vue:99 (Leave project button) -> src/dialogs/ProjectLeaveDialog.vue -> src/store/projects.js:708 leaveProject() -> lib/Controller/ProjectController.php:308 leaveProject()",
         "reachedOn": "ProjectBoard page, Project settings sidebar, Members tab",
         "owner": "ConductionNL/planninq",
-        "spec": "openspec/specs/projects.md"
+        "spec": "openspec/specs/projects/spec.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1584,7 +1584,7 @@
         "evidence": "src/components/ProjectSettingsSidebar.vue:160 (Delete project button) -> src/dialogs/ProjectDeleteDialog.vue -> src/store/projects.js:530 deleteProject() (cascades time entries -> tasks -> columns -> project)",
         "reachedOn": "ProjectBoard page, Project settings sidebar, Danger zone tab",
         "owner": "ConductionNL/planninq",
-        "spec": "openspec/specs/projects.md"
+        "spec": "openspec/specs/projects/spec.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2094,7 +2094,7 @@
         "evidence": "src/views/ProjectBoard.vue:102-175 (kanban columns) -> src/store/projects.js:775 fetchTasks()",
         "reachedOn": "ProjectBoard page /projects/:id",
         "owner": "ConductionNL/planninq",
-        "spec": "openspec/specs/kanban-board.md"
+        "spec": "openspec/specs/kanban-board/spec.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2133,7 +2133,7 @@
         "evidence": "src/views/ProjectBoard.vue:134-139 (draggable card, @dragstart/@dragend) + :111-113 (@dragover/@drop on column) -> :510-524 onDrop() -> :566-584 applyStatusMove() -> src/store/projects.js:835 updateTaskStatus()",
         "reachedOn": "ProjectBoard page",
         "owner": "ConductionNL/planninq",
-        "spec": "openspec/specs/kanban-board.md"
+        "spec": "openspec/specs/kanban-board/spec.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2413,7 +2413,7 @@
         "evidence": "src/components/TaskCard.vue:16-67 renders due-date badge (dueDateBadgeStatus), status chip (covers blocked), priority chip, label chips, and assignee line",
         "reachedOn": "ProjectBoard page, card face",
         "owner": "ConductionNL/planninq",
-        "spec": "openspec/specs/kanban-board.md"
+        "spec": "openspec/specs/kanban-board/spec.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2531,7 +2531,7 @@
         "evidence": "src/views/Boards.vue:22-40 (card grid) -> :89-91 mounted() fetchProjects({status:'active'}) -> :110 openBoard() routes to ProjectBoard",
         "reachedOn": "Boards page /boards",
         "owner": "ConductionNL/planninq",
-        "spec": "openspec/specs/portfolio-dashboard-pmo.md"
+        "spec": "openspec/specs/portfolio-dashboard-pmo/spec.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5216,7 +5216,7 @@
         "evidence": "src/views/Portfolio.vue:139-147 (one row per project: members, open, overdue) -> src/utils/portfolioHelpers.js:28",
         "reachedOn": "Portfolio /portfolio, the project's row; nothing on the project's own board",
         "owner": "ConductionNL/planninq",
-        "spec": "openspec/specs/capacity-planning-resource.md"
+        "spec": "openspec/specs/capacity-planning-resource/spec.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5308,7 +5308,7 @@
       "providerHow": "read-from-code",
       "feature": "my-work",
       "featureConfidence": "high",
-      "note": "The dashboard is about projects only: active/member/archived project counts and up to five active projects. It shows no tasks at all, although openspec/specs/dashboard-my-work.md asks for open, overdue and in-progress task KPIs.",
+      "note": "The dashboard is about projects only: active/member/archived project counts and up to five active projects. It shows no tasks at all, although openspec/specs/dashboard-my-work/spec.md asks for open, overdue and in-progress task KPIs.",
       "screen": {
         "canvas": "design-system",
         "board": "PlDashboard"
@@ -5425,7 +5425,7 @@
       },
       "built": {
         "state": "decided-no",
-        "evidence": "openspec/specs/capacity-planning-resource.md:28 lists 'Per-member allocation / availability modelling' as out of scope; src/views/Portfolio.vue:139-147 aggregates per project, not per person; no availability field in any schema of lib/Settings/planninq_register.json",
+        "evidence": "openspec/specs/capacity-planning-resource/spec.md:28 lists 'Per-member allocation / availability modelling' as out of scope; src/views/Portfolio.vue:139-147 aggregates per project, not per person; no availability field in any schema of lib/Settings/planninq_register.json",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
       },
@@ -5500,7 +5500,7 @@
       },
       "built": {
         "state": "decided-no",
-        "evidence": "no reference to leave, absence, working hours or humaniq availability in src/ or lib/ (only lib/Repair/RenameTimeEntrySchemaSlug.php mentions humaniq, about a schema slug); openspec/specs/capacity-planning-resource.md:28 puts availability out of scope",
+        "evidence": "no reference to leave, absence, working hours or humaniq availability in src/ or lib/ (only lib/Repair/RenameTimeEntrySchemaSlug.php mentions humaniq, about a schema slug); openspec/specs/capacity-planning-resource/spec.md:28 puts availability out of scope",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq"
       },
@@ -5852,7 +5852,7 @@
         "evidence": "src/store/objectStore.js:22 createObjectStore (liveUpdatesPlugin) -> src/views/ProjectList.vue:282-318 subscribe('project') and src/views/TaskDetail.vue:420-447 subscribe('task', uuid)",
         "reachedOn": "Projects /projects and TaskDetail /projects/:id/tasks/:taskId",
         "owner": "ConductionNL/nextcloud-vue",
-        "spec": "openspec/specs/realtime-updates.md"
+        "spec": "openspec/specs/realtime-updates/spec.md"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -6165,13 +6165,13 @@
         "evidence": "src/components/ProjectSettingsSidebar.vue:47-53 shows project.caseReference READ-ONLY when set; task.zaakUuid (lib/Settings/planninq_register.json) is shown nowhere",
         "reachedOn": "ProjectBoard /projects/:id, project settings sidebar (display only)",
         "owner": "ConductionNL/planninq",
-        "spec": "openspec/specs/procest-integration.md"
+        "spec": "openspec/specs/procest-integration/spec.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "case-integration",
       "featureConfidence": "high",
-      "note": "No screen lets a user set or change the case link on a project or a task; it can only be written through the OpenRegister object API, after which the project sidebar displays the raw value (no link to the case). openspec/specs/procest-integration.md asks for an edit field, a badge and a link.",
+      "note": "No screen lets a user set or change the case link on a project or a task; it can only be written through the OpenRegister object API, after which the project sidebar displays the raw value (no link to the case). openspec/specs/procest-integration/spec.md asks for an edit field, a badge and a link.",
       "screen": {
         "canvas": "design-system",
         "board": [
@@ -6708,7 +6708,7 @@
         "evidence": "appinfo/info.xml admin settings -> lib/Settings/AdminSettings.php (GenericAdminSettings, template templates/settings/admin.php loads planninq-settings.js) -> src/settings.js mounts src/views/settings/AdminRoot.vue:18 -> src/views/settings/Settings.vue:5,71,105,153,202,231 (default columns, project creation policy, due-reminder lead time, label management, register setup, configuration) -> src/store/modules/settings.js:36,65 /api/settings",
         "reachedOn": "Nextcloud admin settings, Planninq section",
         "owner": "ConductionNL/planninq",
-        "spec": "openspec/specs/admin-user-settings.md"
+        "spec": "openspec/specs/admin-user-settings/spec.md"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

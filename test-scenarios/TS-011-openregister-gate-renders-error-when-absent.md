@@ -13,7 +13,7 @@ tags:
 status: active
 created: 2026-04-03
 spec-refs:
-- openspec/specs/projects.md#scenario-openregister-absent
+- openspec/specs/projects/spec.md#scenario-openregister-absent
 ---
 
 # TS-011: OpenRegister gate renders error when OpenRegister is absent

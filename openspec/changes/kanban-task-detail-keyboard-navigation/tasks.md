@@ -1,4 +1,4 @@
-> Archive pass 2026-10-07: code done (src/views/ProjectBoard.vue navigateToTask, Move to... control); open: 4.1, 4.2, 4.3 (live check). 3.2 is done by the archive step itself, but the delta MODIFIES "Kanban Board View [MVP]", which lives in the flat file `openspec/specs/kanban-board.md` that openspec does not read, so archive must either merge it by hand into `specs/kanban-board/spec.md` with the other kanban-board.md scenarios carried over, or use --skip-specs after editing kanban-board.md.
+> Archive pass 2026-10-07: code done (src/views/ProjectBoard.vue navigateToTask, Move to... control); open: 4.1, 4.2, 4.3 (live check). 3.2 is done by the archive step itself, but the delta MODIFIES "Kanban Board View [MVP]", which lives in the flat file `openspec/specs/kanban-board/spec.md` that openspec does not read, so archive must either merge it by hand into `specs/kanban-board/spec.md` with the other kanban-board.md scenarios carried over, or use --skip-specs after editing kanban-board.md.
 
 ## 1. Card click/keyboard navigation to TaskDetail
 
@@ -14,7 +14,7 @@
 
 ## 3. Spec + acceptance criteria
 
-- [x] 3.1 In `openspec/specs/kanban-board.md`, checked off "Board is keyboard-navigable (WCAG AA)" (line 155)
+- [x] 3.1 In `openspec/specs/kanban-board/spec.md`, checked off "Board is keyboard-navigable (WCAG AA)" (line 155)
 - [~] 3.2 Merge the MODIFIED requirement from `specs/kanban-board/spec.md` into the canonical spec — DEFERRED to archive: per house rule, delta→canonical merge is the opsx-archive step (out of apply scope). The delta is authored and well-formed.
 
 ## 4. Verify

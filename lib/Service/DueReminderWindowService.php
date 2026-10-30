@@ -43,7 +43,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Patches the live task schema's due-reminder window.
  *
- * @spec openspec/specs/task-notifications.md
+ * @spec openspec/specs/task-notifications/spec.md
  */
 class DueReminderWindowService {
 	/**

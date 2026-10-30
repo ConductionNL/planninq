@@ -45,7 +45,7 @@ export const TASK_SIDEBAR_HIDDEN_TABS = ['tags', 'tasks']
  * @param {object} task A task object carrying at least an `id` (UUID).
  * @return {object} Props to spread onto CnObjectSidebar.
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 export function taskCollaborationSidebarConfig(task) {
 	return {
@@ -277,7 +277,7 @@ export const BOARD_STATUSES = ['open', 'in_progress', 'blocked', 'done', 'cancel
  * @param {string[]} [statuses]        Ordered status column keys.
  * @return {{[status: string]: Array<object>}} Map of status → tasks in that column.
  *
- * @spec openspec/specs/kanban-board.md
+ * @spec openspec/specs/kanban-board/spec.md
  */
 export function groupTasksByStatus(tasks = [], statuses = BOARD_STATUSES) {
 	const fallback = statuses[0]

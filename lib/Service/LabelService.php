@@ -43,7 +43,7 @@ use RuntimeException;
  * label-arrays so it is unit-testable without OpenRegister; {@see listWithUsage()}
  * and {@see deleteWithCascade()} wrap it with the ObjectService persistence.
  *
- * @spec openspec/specs/admin-user-settings.md
+ * @spec openspec/specs/admin-user-settings/spec.md
  */
 class LabelService {
 

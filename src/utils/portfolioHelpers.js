@@ -7,7 +7,7 @@
  * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/specs/capacity-planning-resource.md
+ * @spec openspec/specs/capacity-planning-resource/spec.md
  */
 import { dueDateStatus } from './taskHelpers.js'
 
@@ -23,7 +23,7 @@ export const CLOSED_STATUSES = ['done', 'cancelled']
  * @param {Date} [now] Reference date for the overdue test (defaults to now).
  * @return {{open: number, overdue: number, total: number}} Capacity counts.
  *
- * @spec openspec/specs/capacity-planning-resource.md
+ * @spec openspec/specs/capacity-planning-resource/spec.md
  */
 export function summariseProjectTasks(tasks = [], now = new Date()) {
 	let open = 0

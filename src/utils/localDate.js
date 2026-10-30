@@ -4,7 +4,7 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 
 const TIME_ZONE = 'Europe/Amsterdam'
@@ -18,7 +18,7 @@ const TIME_ZONE = 'Europe/Amsterdam'
  * @param {Date} [moment] The moment, now when omitted.
  * @return {string} The local date.
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 export function localIsoDate(moment = new Date()) {
 	const formatter = new Intl.DateTimeFormat('en-GB', { timeZone: TIME_ZONE, year: 'numeric', month: '2-digit', day: '2-digit' })

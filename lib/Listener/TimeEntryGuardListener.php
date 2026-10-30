@@ -33,7 +33,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 
 declare(strict_types=1);
@@ -54,7 +54,7 @@ use OCP\IUserSession;
  *
  * @template-implements IEventListener<Event>
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 class TimeEntryGuardListener implements IEventListener {
 
@@ -116,7 +116,7 @@ class TimeEntryGuardListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/specs/time-tracking.md
+	 * @spec openspec/specs/time-tracking/spec.md
 	 */
 	public function handle(Event $event): void {
 		$user = $this->caller();

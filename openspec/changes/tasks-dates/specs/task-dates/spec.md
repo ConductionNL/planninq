@@ -1,6 +1,6 @@
 # task-dates delta for tasks-dates
 
-Extends the flat main spec `openspec/specs/tasks.md` (task fields).
+Extends the flat main spec `openspec/specs/tasks/spec.md` (task fields).
 
 ## ADDED Requirements
 

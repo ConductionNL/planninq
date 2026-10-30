@@ -13,7 +13,7 @@ tags:
 status: active
 created: 2026-04-03
 spec-refs:
-- openspec/specs/projects.md#scenario-search-projects
+- openspec/specs/projects/spec.md#scenario-search-projects
 ---
 
 # TS-002: Search filters projects in real time
