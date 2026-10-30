@@ -3122,7 +3122,8 @@
         "evidence": "Route /projects/:id/tasks/:taskId declared in src/manifest.json (TaskDetail page), rendered by src/views/TaskDetail.vue, reached by clicking a card: src/views/ProjectBoard.vue:527-535 (navigateToTask -> $router.push). The route is a normal URL, so it is shareable.",
         "reachedOn": "ProjectBoard page, click/Enter/Space on a task card",
         "owner": "ConductionNL/planninq",
-        "change": "kanban-task-detail-keyboard-navigation"
+        "change": "kanban-task-detail-keyboard-navigation",
+        "requirement": "Kanban Board View [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3505,7 +3506,8 @@
         "reachedOn": "TaskDetail page, Comments tab: saving a comment that names @colleague sends that colleague a Nextcloud notification 'You were named in a note' (code trace)",
         "owner": "ConductionNL/planninq",
         "liveCheck": "as a project member, save a task comment naming another member as @uid and confirm that member's bell shows 'You were named in a note'; the notification carries no link to the task (Notifier::prepareTimelineMention sets none)",
-        "spec": "none"
+        "spec": "nextcloud-vue/notes-mentions-autocomplete",
+        "requirement": "The note composer SHALL offer `@mention` autocomplete via the upstream rich input"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4153,7 +4155,9 @@
         "reachedOn": "Project board /projects/:id, the Blocked badge on a card",
         "owner": "ConductionNL/planninq",
         "change": "2026-09-29-planning-dependencies-on-task-page",
-        "readOn": "2026-09-29"
+        "readOn": "2026-09-29",
+        "spec": "openspec/specs/task-dependencies",
+        "requirement": "Board cards show the blocked badge"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4193,7 +4197,9 @@
         "reachedOn": "Project Timeline tab /projects/:id/timeline",
         "owner": "ConductionNL/planninq",
         "change": "2026-09-29-planning-dependencies-on-task-page",
-        "readOn": "2026-09-29"
+        "readOn": "2026-09-29",
+        "spec": "openspec/specs/task-dependencies",
+        "requirement": "A link made on the task page shows on the timeline"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4271,7 +4277,9 @@
         "evidence": "src/views/settings/Settings.vue:127-129 (due-reminder lead-hours field) -> src/store/modules/settings.js -> lib/Controller/SettingsController.php -> lib/Service/SettingsService.php:260-272 (validates 1-336h) -> lib/Service/DueReminderWindowService.php:112-135 patches the live schema's x-openregister-notifications.taskDueSoon.trigger.filter.dueDate window",
         "reachedOn": "AdminRoot admin-settings panel (src/views/settings/AdminRoot.vue mounts Settings.vue), Nextcloud admin settings section",
         "owner": "ConductionNL/planninq",
-        "change": "2026-06-14-due-date-reminder-dispatch"
+        "change": "2026-06-14-due-date-reminder-dispatch",
+        "spec": "openspec/specs/task-notifications",
+        "requirement": "Configurable lead time [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4538,7 +4546,9 @@
         "reachedOn": "admin settings, Working days and holidays; project timeline axis",
         "owner": "ConductionNL/planninq",
         "change": "2026-09-30-planning-timeline-editing",
-        "readOn": "2026-09-30"
+        "readOn": "2026-09-30",
+        "spec": "openspec/specs/working-calendar",
+        "requirement": "An admin maintains the working week and non-working days"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5290,7 +5300,9 @@
         "reachedOn": "Dashboard",
         "owner": "ConductionNL/planninq",
         "change": "2026-09-29-portfolio-my-work-dashboard",
-        "readOn": "2026-09-29"
+        "readOn": "2026-09-29",
+        "spec": "openspec/specs/my-work",
+        "requirement": "The dashboard shows my task figures"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5678,7 +5690,8 @@
         "evidence": "no export control on any planninq page (no 'export'/'download' in src/views); OpenRegister serves objects#export at openregister/appinfo/routes.php:1172 with excel/csv/pdf types (openregister/lib/Controller/ObjectsController.php:5464,5547), reached from OpenRegister's own src/modals/register/ExportRegister.vue",
         "reachedOn": "OpenRegister app (register export), not a planninq page",
         "owner": "ConductionNL/planninq",
-        "spec": "none"
+        "spec": "openregister/data-import-export",
+        "requirement": "The system MUST support structured export to CSV, Excel (XLSX), JSON, XML, and ODS formats"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -5759,7 +5772,8 @@
         "evidence": "src/integrations/registerProjectsLeaf.js:43-48 declares the 'user-dashboard' surface -> src/integrations/projectScope.js:38 dashboard scope is {status:'active'} -> src/integrations/CnProjectsWidget.vue:306-334 lists projects; hosted by openregister/lib/AppInfo/Application.php:986 IntegrationDashboardWidget",
         "reachedOn": "Nextcloud dashboard, OpenRegister's umbrella integrations widget, 'Projects' leaf",
         "owner": "ConductionNL/openregister",
-        "spec": "openspec/specs/project-delivery"
+        "spec": "openspec/specs/project-delivery",
+        "requirement": "The leaf answers the question its surface asked [V1]"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -6111,7 +6125,8 @@
         "evidence": "openregister/lib/Search/ObjectsProvider.php:44-60,326 fleet-wide unified search provider, result URLs from the deep-link registry -> src/manifest.json deepLinks (task: /apps/planninq/projects/{project}?task={uuid}, project: /apps/planninq/projects/{uuid}) registered by lib/AppInfo/Application.php:448-469 -> src/views/ProjectBoard.vue:378-381 highlights the ?task card",
         "reachedOn": "Nextcloud global search, result opens the project board",
         "owner": "ConductionNL/openregister",
-        "spec": "none"
+        "spec": "openregister/unified-search-provider",
+        "requirement": "OpenRegister MUST be the single fleet-wide unified search provider for register objects"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -6320,7 +6335,11 @@
         "evidence": "all project/task/column/label/dependency/time-entry objects are read and written at /apps/openregister/api/objects/planninq/<schema> (src/store/store.js:19, src/store/projects.js:428,837,873); planninq's own REST routes at appinfo/routes.php:10-38 (projects create/leave, labels, dependencies, timeline, settings)",
         "reachedOn": "REST API (machine consumers); the same paths the SPA uses",
         "owner": "ConductionNL/openregister",
-        "spec": "none"
+        "spec": [
+          "openregister/openapi-generation",
+          "openregister/api-authorization"
+        ],
+        "requirement": "The OpenAPI spec MUST document all CRUD endpoints accurately"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -6360,7 +6379,11 @@
         "evidence": "src/manifest.json:57 menu 'Flows' (settings section) -> :223-236 Flows index over the named flows source and FlowDetail canvas (library pages) -> openregister/lib/AppInfo/Application.php:3039-3041 FlowTriggerListener on object created/updated/deleted, openregister/lib/Service/Flow/Nodes/TriggerObjectNode.php",
         "reachedOn": "Flows /flows (settings menu) and FlowDetail /flows/:id",
         "owner": "ConductionNL/openregister",
-        "spec": "none"
+        "spec": [
+          "openregister/flow-engine",
+          "openregister/flow-and-run-detail-pages"
+        ],
+        "requirement": "A TRIGGER is a node, and a flow may carry several"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -6852,7 +6875,8 @@
         "evidence": "keyboard paths exist: board cards role=button with Enter/Space (src/views/ProjectBoard.vue:130-137), a keyboard 'Move to' menu as the drag alternative (:152-165, :539-569), focus styles (:678, :763), label chips (:82-87), dashboard list (src/components/DashboardPanels.vue:21-29)",
         "reachedOn": "board, dashboard, project pages",
         "owner": "ConductionNL/planninq",
-        "spec": "none"
+        "change": "openspec/changes/platform-baseline",
+        "requirement": "Every page works with a keyboard and a screen reader (REQ-PLB-001)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6891,7 +6915,8 @@
         "evidence": "styles use Nextcloud CSS variables throughout (e.g. src/views/Portfolio.vue style block var(--color-border), var(--color-primary-element); src/components/BlockedBadge.vue:77-78 var(--color-error)); hex values appear only as var() fallbacks or as user-picked project colours (src/components/ProjectSettingsSidebar.vue:257)",
         "reachedOn": "every page, when the nldesign/thematiq theming app maps NL Design System tokens onto those variables",
         "owner": "ConductionNL/planninq",
-        "spec": "none"
+        "change": "openspec/changes/platform-baseline",
+        "requirement": "The look comes from the theme, not the code (REQ-PLB-002)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6934,7 +6959,8 @@
         "evidence": "a Nextcloud app (appinfo/info.xml) whose only dependency is OpenRegister, all data in the local register (lib/Settings/planninq_register.json); the Store page makes no network call without a configured registry (src/manifest.json Store _note)",
         "reachedOn": "the whole app",
         "owner": "ConductionNL/planninq",
-        "spec": "none"
+        "change": "openspec/changes/platform-baseline",
+        "requirement": "The app runs on the customer's own server (REQ-PLB-004)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7062,7 +7088,8 @@
         "evidence": "planninq has no login of its own: every controller runs in the Nextcloud session (lib/Controller/SettingsController.php:148 userSession->getUser()) and the SPA uses the session request token (src/store/modules/settings.js:103)",
         "reachedOn": "Nextcloud login, whichever backend the instance uses (SAML/OIDC apps)",
         "owner": "nextcloud/server",
-        "spec": "none"
+        "change": "openspec/changes/platform-baseline",
+        "requirement": "Sign-in is the Nextcloud sign-in (REQ-PLB-005)"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",
@@ -7105,7 +7132,8 @@
         "evidence": "no export in planninq; OpenRegister's register export (openregister/src/modals/register/ExportRegister.vue) writes an OpenAPI-style JSON including components.objects (openregister/lib/Service/Configuration/ExportHandler.php:315), and objects#export (openregister/appinfo/routes.php:1172) gives CSV/Excel per schema",
         "reachedOn": "OpenRegister app, admin only; not a planninq page",
         "owner": "ConductionNL/planninq",
-        "change": "project-data-export"
+        "change": "project-data-export",
+        "requirement": "A project owner or manager exports the whole project"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -7517,7 +7545,8 @@
         "owner": "ConductionNL/planninq",
         "consumesSibling": "no: planninq objects carry no retention metadata",
         "liveCheck": "confirm whether OpenRegister applies a register-wide default retention that would pick up planninq objects",
-        "spec": "none"
+        "spec": "openregister/archival-destruction-workflow",
+        "requirement": "Another app can create a destruction list for objects OpenRegister finds eligible"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -7638,7 +7667,9 @@
         "reachedOn": "Project list /projects grouped by portfolio; Projects > Portfolios /projects/portfolios",
         "owner": "ConductionNL/planninq",
         "change": "2026-09-29-projects-grouping-hierarchy-fields",
-        "readOn": "2026-09-29"
+        "readOn": "2026-09-29",
+        "spec": "openspec/specs/project-portfolios",
+        "requirement": "Projects are grouped into portfolios"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7837,7 +7868,9 @@
         "defects": [
           "src/views/ProjectBoard.vue:118 the count span is aria-hidden and the column section's aria-label [:109] is the column name only, so a screen-reader user never hears the count"
         ],
-        "change": "2026-09-28-boards-configurable-columns"
+        "change": "2026-09-28-boards-configurable-columns",
+        "spec": "openspec/specs/kanban-board",
+        "requirement": "Kanban Board View [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7956,7 +7989,8 @@
         "owner": "ConductionNL/planninq",
         "consumesSibling": "indirectly: the tasks live in OpenRegister, planninq adds no tools",
         "liveCheck": "confirm an MCP client can list and update planninq task objects and that the task schema's authorization rules apply to MCP calls",
-        "spec": "none"
+        "spec": "openregister/ai-mcp",
+        "requirement": "REQ-DERIVED-005 — Writes go through ObjectService with RBAC intact"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -8302,7 +8336,11 @@
         "reachedOn": "Flows /flows [settings menu] -> FlowDetail /flows/:id",
         "owner": "ConductionNL/openregister",
         "consumesSibling": "yes: planninq mounts the library flow pages from its manifest",
-        "spec": "none"
+        "spec": [
+          "openregister/flow-and-run-detail-pages",
+          "openregister/flow-engine"
+        ],
+        "requirement": "Creating, editing and running a flow are named rights"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -8388,7 +8426,8 @@
           "src/views/ProjectTimeline.vue:101 bars use a physical left offset, so the Gantt does not mirror"
         ],
         "liveCheck": "switch a user to Arabic and look at the board and the timeline",
-        "spec": "none"
+        "change": "openspec/changes/platform-baseline",
+        "requirement": "Pages mirror in a right-to-left language (REQ-PLB-003)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -8429,7 +8468,9 @@
         "reachedOn": "OpenRegister webhook delivery for planninq objects; planninq itself sends nothing out",
         "owner": "ConductionNL/openregister",
         "consumesSibling": "yes, by storing its objects in OpenRegister",
-        "spec": "none"
+        "change": "openspec/changes/platform-baseline",
+        "spec": "openregister/notificatie-engine",
+        "requirement": "Outgoing requests for planninq data go through OpenRegister's guard (REQ-PLB-008); the guard: openregister/notificatie-engine 'The system MUST support multiple notification channels'"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -8622,7 +8663,8 @@
         "reachedOn": "Nextcloud login, with a two-factor provider enabled by the admin",
         "owner": "nextcloud/server",
         "consumesSibling": "yes: planninq relies on the Nextcloud session",
-        "spec": "none"
+        "change": "openspec/changes/platform-baseline",
+        "requirement": "The second factor guards every planninq route (REQ-PLB-006)"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",
@@ -9136,7 +9178,8 @@
         "reachedOn": "Nextcloud Administration, Overview",
         "owner": "nextcloud/server",
         "consumesSibling": "platform page only; planninq registers no setup check",
-        "spec": "none"
+        "change": "openspec/changes/platform-baseline",
+        "requirement": "Security risks show in the Nextcloud administration overview (REQ-PLB-007)"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",
@@ -12562,7 +12605,9 @@
         "evidence": "lib/Service/TimetableSessionService.php upsert() (idempotent by sourceSystem + externalRef), lib/Event/TimetableUpsertRequestedEvent.php answered by lib/Listener/TimetableUpsertRequestedListener.php (registered in lib/AppInfo/Application.php), admin route POST /api/timetable/sessions/upsert (appinfo/routes.php, lib/Controller/TimetableController.php), all on development since #685 (f8ec5c2) and #761. Proven by tests/unit/Service/TimetableSessionServiceTest.php (incl. testEveryWrittenSessionPassesTheRegisterSchema: every created and updated row validated against the real timetableSession schema), TimetableUpsertRequestedListenerTest and TimetableControllerTest. Another system adds sessions per group or teacher; a single learner is not addressed on their own.",
         "owner": "ConductionNL/planninq",
         "change": "2026-09-29-school-timetable-target",
-        "readOn": "2026-09-29"
+        "readOn": "2026-09-29",
+        "spec": "openspec/specs/school-timetable",
+        "requirement": "Another app delivers a batch through a typed event (REQ-004)"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
