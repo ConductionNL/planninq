@@ -330,7 +330,7 @@ export default {
 		/**
 		 * @return {boolean} Whether the host draws the card around this leaf.
 		 *
-		 * @spec openspec/changes/projects-leaf-library-card/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
+		 * @spec openspec/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
 		 */
 		carded() {
 			return typeof this.onHeader === 'function'
@@ -339,7 +339,7 @@ export default {
 		/**
 		 * @return {boolean} Whether a "linked" card shows this leaf as a summary.
 		 *
-		 * @spec openspec/changes/projects-leaf-summary/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
+		 * @spec openspec/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
 		 */
 		summarised() {
 			return typeof this.onSummary === 'function'
@@ -348,7 +348,7 @@ export default {
 		/**
 		 * @return {object|null} What the leaf reports to a "linked" card.
 		 *
-		 * @spec openspec/changes/projects-leaf-summary/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
+		 * @spec openspec/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
 		 */
 		hostSummary() {
 			const actions = []
@@ -373,7 +373,7 @@ export default {
 		/**
 		 * @return {object} What the leaf reports to a host that draws its card.
 		 *
-		 * @spec openspec/changes/projects-leaf-library-card/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
+		 * @spec openspec/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
 		 */
 		hostHeader() {
 			const actions = [{ label: t('planninq', 'Open in Planninq'), run: () => this.openProjects() }]
