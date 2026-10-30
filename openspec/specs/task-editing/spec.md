@@ -1,7 +1,7 @@
 # task-editing Specification
 
 ## Purpose
-How a project member creates, quick-adds, edits and deletes a task, and how a task description is written in Markdown. Built by tasks-create-edit-delete (archived 2026-09-29). Extends the flat main spec `openspec/specs/tasks.md` (Task CRUD).
+How a project member creates, quick-adds, edits and deletes a task, and how a task description is written in Markdown. Built by tasks-create-edit-delete (archived 2026-09-29). Extends the flat main spec `openspec/specs/tasks/spec.md` (Task CRUD).
 
 ## Requirements
 

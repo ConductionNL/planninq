@@ -67,7 +67,7 @@ import { showError } from '@nextcloud/dialogs'
  * OpenRegister object API (ADR-022); the per-owner RBAC guard lives on the
  * schema, so a non-owner edit is rejected server-side regardless of this UI.
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 import { NcButton, NcDialog, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
@@ -116,7 +116,7 @@ export default {
 		/**
 		 * Parsed duration in minutes, or null when the input is unparseable.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		parsedMinutes() {
 			return parseDuration(this.durationInput)
@@ -125,7 +125,7 @@ export default {
 		/**
 		 * Inline validation error for the duration field.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		durationError() {
 			if (this.durationInput.trim() === '') {
@@ -139,7 +139,7 @@ export default {
 		/**
 		 * Whether the form can be submitted (valid duration + a date).
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		isValid() {
 			return this.parsedMinutes !== null && !!this.date
@@ -150,7 +150,7 @@ export default {
 		/**
 		 * Validate and persist the entry via the timeEntries store.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async save() {
 			if (!this.isValid) {

@@ -763,7 +763,7 @@
 		},
 		{
 			"name": "Task Collaboration",
-			"description": "Comments (OR notes, ICommentsManager-backed) and audit trail on a task, via OpenRegister per-object APIs (ADR-022; no planninq pass-through). Covers notes CRUD on a seeded task (create -> list shows author+message -> edit own -> delete own), an RBAC-negative read for an inaccessible task, and the audit trail carrying the status-change entry after an update. spec: openspec/specs/task-collaboration.md",
+			"description": "Comments (OR notes, ICommentsManager-backed) and audit trail on a task, via OpenRegister per-object APIs (ADR-022; no planninq pass-through). Covers notes CRUD on a seeded task (create -> list shows author+message -> edit own -> delete own), an RBAC-negative read for an inaccessible task, and the audit trail carrying the status-change entry after an update. spec: openspec/specs/task-collaboration/spec.md",
 			"item": [
 				{
 					"name": "Seed task for collaboration",

@@ -51,4 +51,4 @@ All settings persist across browser sessions.
 
 ## Spec
 
-- [admin-user-settings spec](https://github.com/ConductionNL/planninq/blob/development/openspec/specs/admin-user-settings.md)
+- [admin-user-settings spec](https://github.com/ConductionNL/planninq/blob/development/openspec/specs/admin-user-settings/spec.md)

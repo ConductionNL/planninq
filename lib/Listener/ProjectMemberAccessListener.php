@@ -44,7 +44,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/tasks.md
+ * @spec openspec/specs/tasks/spec.md
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -68,7 +68,7 @@ use Psr\Log\LoggerInterface;
  *
  * @template-implements IEventListener<Event>
  *
- * @spec openspec/specs/tasks.md
+ * @spec openspec/specs/tasks/spec.md
  */
 class ProjectMemberAccessListener implements IEventListener {
 
@@ -128,7 +128,7 @@ class ProjectMemberAccessListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/specs/tasks.md
+	 * @spec openspec/specs/tasks/spec.md
 	 */
 	public function handle(Event $event): void {
 		if ($event instanceof ObjectCreatingEvent === true) {

@@ -116,7 +116,7 @@ final class OpenRegisterAutoloader {
 	 * service locator, and this runs at the composition root where no
 	 * container is available to inject from.
 	 *
-	 * @spec openspec/specs/app-shell-and-data-store.md
+	 * @spec openspec/specs/app-shell-and-data-store/spec.md
 	 */
 	public static function register(?\OCP\App\IAppManager $appManager=null): bool {
 		try {
@@ -164,7 +164,7 @@ final class OpenRegisterAutoloader {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/specs/app-shell-and-data-store.md
+	 * @spec openspec/specs/app-shell-and-data-store/spec.md
 	 */
 	public static function unregister(): void {
 		if (self::$loader !== null) {
@@ -185,7 +185,7 @@ final class OpenRegisterAutoloader {
 	 *
 	 * @return string|null The candidate file, or null when not OpenRegister's.
 	 *
-	 * @spec openspec/specs/app-shell-and-data-store.md
+	 * @spec openspec/specs/app-shell-and-data-store/spec.md
 	 */
 	public static function classFile(string $appPath, string $class): ?string {
 		if (str_starts_with($class, self::OPENREGISTER_NAMESPACE) === false) {

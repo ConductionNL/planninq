@@ -27,7 +27,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 
 declare(strict_types=1);
@@ -46,7 +46,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Server-side multi-object actions on projects, releases and tasks.
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 class ProjectActionService {
 
@@ -121,7 +121,7 @@ class ProjectActionService {
 	 *
 	 * @throws ProjectActionException When the project does not resolve or the caller may not delete it.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function deleteProject(string $projectId): int {
 		$project = $this->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);

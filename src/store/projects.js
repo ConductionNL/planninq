@@ -200,7 +200,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {Array} results Fresh collection results from the object store
 		 * @return {Array} The filtered project list now in state
 		 *
-		 * @spec openspec/specs/realtime-updates.md
+		 * @spec openspec/specs/realtime-updates/spec.md
 		 */
 		applyLiveProjects(results) {
 			const uid = this._currentUid()
@@ -263,7 +263,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} id Task UUID
 		 * @return {Promise<object|null>} The task, or null on error / not found.
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		async fetchTask(id) {
 			this.loading = true
@@ -419,7 +419,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {object} partial Only the fields to change
 		 * @return {Promise<object|null>}
 		 *
-		 * @spec openspec/specs/projects.md
+		 * @spec openspec/specs/projects/spec.md
 		 */
 		async patchProject(id, partial) {
 			this.loading = true
@@ -1328,7 +1328,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} id Project ID
 		 * @return {Promise<boolean>} True when the project is gone
 		 *
-		 * @spec openspec/specs/projects.md
+		 * @spec openspec/specs/projects/spec.md
 		 */
 		async deleteProject(id) {
 			this.loading = true
@@ -1633,7 +1633,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} projectId Parent project UUID
 		 * @return {Promise<Array>} The project's tasks (empty array on error)
 		 *
-		 * @spec openspec/specs/kanban-board.md
+		 * @spec openspec/specs/kanban-board/spec.md
 		 */
 		async fetchTasks(projectId) {
 			try {
@@ -1693,7 +1693,7 @@ export const useProjectsStore = defineStore('projects', {
 		 *
 		 * @return {Promise<Array>} Every label object (empty array on error)
 		 *
-		 * @spec openspec/specs/kanban-board.md
+		 * @spec openspec/specs/kanban-board/spec.md
 		 */
 		async fetchLabels() {
 			try {
@@ -1722,7 +1722,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} status New status (one of the task schema's status enum)
 		 * @return {Promise<object|null>} The updated task, or null on failure
 		 *
-		 * @spec openspec/specs/kanban-board.md
+		 * @spec openspec/specs/kanban-board/spec.md
 		 */
 		async updateTaskStatus(taskId, status) {
 			try {
@@ -1872,7 +1872,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {object} patch  Fields to change
 		 * @return {Promise<object|null>} The updated task, or null on failure
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async updateTask(taskId, patch) {
 			try {

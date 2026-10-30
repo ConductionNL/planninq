@@ -6,7 +6,7 @@ kind: code
 
 ## Why
 
-A person who wants to log time has to know the duration afterwards and type it. The only way to log time is `TimeEntryDialog`, which takes a typed duration such as "2h 30m" (`src/dialogs/TimeEntryDialog.vue:7-13`), opened from "Log time" on the task page (`src/views/TaskDetail.vue:90-95`). There is no running timer anywhere in `src/`. `docs/FEATURES.md` lists "Timer (start/stop, auto-log)" as V1, the flat spec `openspec/specs/time-tracking.md:152` defers it to V1, and ADR-001 rule 6 names the timer as part of Mijn werk.
+A person who wants to log time has to know the duration afterwards and type it. The only way to log time is `TimeEntryDialog`, which takes a typed duration such as "2h 30m" (`src/dialogs/TimeEntryDialog.vue:7-13`), opened from "Log time" on the task page (`src/views/TaskDetail.vue:90-95`). There is no running timer anywhere in `src/`. `docs/FEATURES.md` lists "Timer (start/stop, auto-log)" as V1, the flat spec `openspec/specs/time-tracking/spec.md:152` defers it to V1, and ADR-001 rule 6 names the timer as part of Mijn werk.
 
 Logged time also cannot say what kind of work it was. The write path is `TaskDetail` to `TimeEntryDialog` to `timeEntries.create`, with the payload task, duration, date and description (`src/store/timeEntries.js:149-166`); the `plannedTimeEntry` schema has no field for it (`lib/Settings/planninq_register.json:904-1058`). A team cannot tell meetings from development in its hours.
 
@@ -15,7 +15,7 @@ OpenProject and Kanboard have a timer on a work item; OpenProject records an act
 Parity rows: `tim-timer`, `tim-work-type` in planninq's `openspec/parity/capabilities.json`.
 Decision: build, because two competitors have a task timer, one records a work type and a Jira feature request asks for it, and planninq's own feature list and ADR-001 already plan the timer.
 
-This change extends the flat spec `openspec/specs/time-tracking.md` through two new capabilities, `time-timer` and `time-work-type`.
+This change extends the flat spec `openspec/specs/time-tracking/spec.md` through two new capabilities, `time-timer` and `time-work-type`.
 
 ## What changes
 

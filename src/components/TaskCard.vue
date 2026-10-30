@@ -144,8 +144,8 @@ import { displayNames } from '../utils/userNames.js'
  * label is always present (WCAG 1.4.1), and the label chip follows the same
  * rule: the swatch shows the label's colour, the chip text shows its name.
  *
- * @spec openspec/specs/kanban-board.md
- * @spec openspec/specs/admin-user-settings.md
+ * @spec openspec/specs/kanban-board/spec.md
+ * @spec openspec/specs/admin-user-settings/spec.md
  */
 export default {
 	name: 'TaskCard',
@@ -244,14 +244,14 @@ export default {
 		},
 
 		/**
-		 * @spec openspec/specs/kanban-board.md
+		 * @spec openspec/specs/kanban-board/spec.md
 		 */
 		dueDateBadgeStatus() {
 			return dueDateStatus(this.task)
 		},
 
 		/**
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		estimateLabel() {
 			const minutes = Number(this.task.estimatedDuration) || 0

@@ -80,7 +80,7 @@ class Application extends App implements IBootstrap {
 	 * exists to resolve an instance from — the same reason it cannot be
 	 * injected here.
 	 *
-	 * @spec openspec/specs/app-shell-and-data-store.md
+	 * @spec openspec/specs/app-shell-and-data-store/spec.md
 	 */
 	public function register(IRegistrationContext $context): void {
 		// LOAD-ORDER HAZARD: an app's register() runs before the PSR-4 prefix of
@@ -804,7 +804,7 @@ class Application extends App implements IBootstrap {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	private function registerMembershipListeners(IEventDispatcher $dispatcher): void {
 		foreach (['ObjectCreatingEvent', 'ObjectUpdatingEvent'] as $event) {

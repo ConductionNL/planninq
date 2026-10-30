@@ -40,7 +40,7 @@ use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 class ProjectActionServiceTest extends TestCase {
 	use MembershipFixture;

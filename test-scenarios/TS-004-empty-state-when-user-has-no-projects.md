@@ -13,7 +13,7 @@ tags:
 status: active
 created: 2026-04-03
 spec-refs:
-- openspec/specs/projects.md#scenario-empty-project-list
+- openspec/specs/projects/spec.md#scenario-empty-project-list
 ---
 
 # TS-004: Empty state when user has no projects

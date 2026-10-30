@@ -35,7 +35,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Seeds OpenRegister notification overrides for pre-existing due-reminder opt-outs.
  *
- * @spec openspec/specs/task-notifications.md
+ * @spec openspec/specs/task-notifications/spec.md
  */
 class ReconcileDueReminderOverrides implements IRepairStep {
 	/**
@@ -59,7 +59,7 @@ class ReconcileDueReminderOverrides implements IRepairStep {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/specs/task-notifications.md
+	 * @spec openspec/specs/task-notifications/spec.md
 	 */
 	public function getName(): string {
 		return 'Reconcile Planninq due-date reminder opt-outs to OpenRegister overrides';

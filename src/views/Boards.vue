@@ -94,7 +94,7 @@
  * surfaces ADR-001's "kanban-board: menu → Borden" placement without
  * duplicating the per-project board component.
  *
- * @spec openspec/specs/portfolio-dashboard-pmo.md
+ * @spec openspec/specs/portfolio-dashboard-pmo/spec.md
  */
 import { getCurrentUser } from '@nextcloud/auth'
 import { NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
@@ -190,7 +190,7 @@ export default {
 		 *
 		 * @param {object} project The project to open.
 		 *
-		 * @spec openspec/specs/portfolio-dashboard-pmo.md
+		 * @spec openspec/specs/portfolio-dashboard-pmo/spec.md
 		 */
 		openBoard(project) {
 			this.$router.push({ name: 'ProjectBoard', params: { id: project.id } })

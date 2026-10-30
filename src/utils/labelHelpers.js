@@ -86,7 +86,7 @@ export function normaliseLabelPayload(draft) {
  * @param {object} label The label object.
  * @return {string} The label id, or an empty string when none is resolvable.
  *
- * @spec openspec/specs/admin-user-settings.md
+ * @spec openspec/specs/admin-user-settings/spec.md
  */
 export function labelId(label) {
 	return String(label?.id ?? label?.uuid ?? label?.['@self']?.id ?? '')
@@ -99,7 +99,7 @@ export function labelId(label) {
  * @param {Array<object>} labels The labels to sort.
  * @return {Array<object>} A new, sorted array.
  *
- * @spec openspec/specs/admin-user-settings.md
+ * @spec openspec/specs/admin-user-settings/spec.md
  */
 export function sortLabelsByTitle(labels) {
 	if (!Array.isArray(labels)) {
@@ -121,7 +121,7 @@ export function sortLabelsByTitle(labels) {
  * @param {Array<object>} labels The labels currently known to the board.
  * @return {Array<object>} The label objects this task carries, in title order.
  *
- * @spec openspec/specs/kanban-board.md
+ * @spec openspec/specs/kanban-board/spec.md
  */
 export function resolveTaskLabels(task, labels) {
 	const ids = Array.isArray(task?.labels) ? task.labels : []
@@ -149,7 +149,7 @@ export function resolveTaskLabels(task, labels) {
  * @param {string} id   The label id to look for.
  * @return {boolean} True when the task's `labels` array holds the id.
  *
- * @spec openspec/specs/kanban-board.md
+ * @spec openspec/specs/kanban-board/spec.md
  */
 export function taskHasLabel(task, id) {
 	if (!id || !Array.isArray(task?.labels)) {
@@ -169,7 +169,7 @@ export function taskHasLabel(task, id) {
  * @param {string|null}   id    The active label id, or a falsy value for all.
  * @return {Array<object>} The tasks carrying the label.
  *
- * @spec openspec/specs/kanban-board.md
+ * @spec openspec/specs/kanban-board/spec.md
  */
 export function filterTasksByLabel(tasks, id) {
 	const list = Array.isArray(tasks) ? tasks : []

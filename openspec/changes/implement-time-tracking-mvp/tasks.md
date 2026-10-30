@@ -1,6 +1,6 @@
 # Tasks: Implement Time Tracking MVP
 
-> Archive pass 2026-10-07: code done (src/utils/durationParser.js, src/store/timeEntries.js, src/dialogs/TimeEntryDialog.vue, src/views/Timesheet.vue); open: 6.1, 6.2 (live check), 7.2 (gate run). The main spec is the flat file `openspec/specs/time-tracking.md` and already holds these requirements, so archive this with --skip-specs once the live checks pass.
+> Archive pass 2026-10-07: code done (src/utils/durationParser.js, src/store/timeEntries.js, src/dialogs/TimeEntryDialog.vue, src/views/Timesheet.vue); open: 6.1, 6.2 (live check), 7.2 (gate run). The main spec is the flat file `openspec/specs/time-tracking/spec.md` and already holds these requirements, so archive this with --skip-specs once the live checks pass.
 
 ## 1. Duration parsing utility
 

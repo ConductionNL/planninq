@@ -23,7 +23,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -46,7 +46,7 @@ use Psr\Log\LoggerInterface;
  *
  * @template-implements IEventListener<Event>
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 class ProjectMembershipSyncListener implements IEventListener {
 
@@ -82,7 +82,7 @@ class ProjectMembershipSyncListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function handle(Event $event): void {

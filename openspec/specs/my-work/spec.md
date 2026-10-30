@@ -1,7 +1,7 @@
 # my-work Specification
 
 ## Purpose
-My tasks lists a user's open work across every project they can read, the dashboard shows their task figures, and "My projects" keeps their own pinned order. Built by portfolio-my-work-dashboard (2026-09-29); it implements the flat spec openspec/specs/dashboard-my-work.md.
+My tasks lists a user's open work across every project they can read, the dashboard shows their task figures, and "My projects" keeps their own pinned order. Built by portfolio-my-work-dashboard (2026-09-29); it implements the flat spec openspec/specs/dashboard-my-work/spec.md.
 
 ## Requirements
 

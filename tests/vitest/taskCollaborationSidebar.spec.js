@@ -7,7 +7,7 @@
  * (use-registry=false) is selected so the built-in Comments / Files / Audit
  * Trail tabs render.
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 import { describe, expect, it } from 'vitest'
 import {

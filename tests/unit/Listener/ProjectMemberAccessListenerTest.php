@@ -180,7 +180,7 @@ class ProjectMemberAccessListenerTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/specs/time-tracking.md
+	 * @spec openspec/specs/time-tracking/spec.md
 	 */
 	public function testTimeEntryOnAnotherProjectsTaskIsRefused(): void {
 		$this->objects->seed('task', 'task-in-b', ['title' => 'B work', 'status' => 'open', 'project' => 'proj-b']);

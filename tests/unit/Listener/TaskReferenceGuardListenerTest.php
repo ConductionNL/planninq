@@ -39,7 +39,7 @@ use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @spec openspec/specs/tasks.md
+ * @spec openspec/specs/tasks/spec.md
  */
 class TaskReferenceGuardListenerTest extends TestCase {
 	use MembershipFixture;

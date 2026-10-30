@@ -100,7 +100,7 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 - Controller: `ProjectController::leaveProject` removes the caller from every role list.
 - Listener: a new listener for `UserDeletedEvent` and `GroupDeletedEvent`.
 - Initial state: the current user's group ids, so the client can tell a group member from an outsider.
-- Extends the flat spec `openspec/specs/projects.md` (requirement "Member Management").
+- Extends the flat spec `openspec/specs/projects/spec.md` (requirement "Member Management").
 - Depends on: none of the other changes in this pass.
 
 ## Risks
