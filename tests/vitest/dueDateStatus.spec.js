@@ -7,9 +7,9 @@
  * scenarios in the task-due-date-warning change (originally authored on PR #1,
  * adapted to planninq's vitest harness with an injected clock for determinism).
  *
- * @spec openspec/specs/kanban-board.md
+ * @spec openspec/specs/kanban-board/spec.md
  */
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { dueDateStatus } from '../../src/utils/taskHelpers.js'
 
 // Fixed clock so the suite is deterministic regardless of when it runs.

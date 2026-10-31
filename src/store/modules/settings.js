@@ -1,3 +1,4 @@
+import { generateUrl } from '@nextcloud/router'
 /**
  * Settings Pinia store.
  *
@@ -7,7 +8,6 @@
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  */
 import { defineStore } from 'pinia'
-import { generateUrl } from '@nextcloud/router'
 
 export const useSettingsStore = defineStore('settings', {
 	state: () => ({
@@ -81,6 +81,38 @@ export const useSettingsStore = defineStore('settings', {
 				this.loading = false
 			}
 			return null
+		},
+
+		/**
+		 * Save the risk scale. The server refuses a malformed scale (400) and a
+		 * smaller one while risks still use a higher level (409, with the count
+		 * and the level).
+		 *
+		 * @param {object} scale The scale
+		 * @return {Promise<{ok: boolean, error?: string, count?: number, level?: number}>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
+		 */
+		async saveRiskScale(scale) {
+			try {
+				const response = await fetch(generateUrl('/apps/planninq/api/settings'), {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						requesttoken: OC.requestToken,
+					},
+					body: JSON.stringify({ risk_scale: JSON.stringify(scale) }),
+				})
+				const body = await response.json().catch(() => ({}))
+				if (!response.ok) {
+					return { ok: false, error: body?.error || 'risk-scale-error', count: body?.count, level: body?.level }
+				}
+				await this.fetchSettings()
+				return { ok: true }
+			} catch (error) {
+				console.error('Failed to save the risk scale:', error)
+				return { ok: false, error: 'risk-scale-error' }
+			}
 		},
 
 		/**

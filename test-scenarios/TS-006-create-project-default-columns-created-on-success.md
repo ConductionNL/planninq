@@ -13,7 +13,7 @@ tags:
 status: active
 created: 2026-04-03
 spec-refs:
-- openspec/specs/projects.md#scenario-create-project-default-columns-created
+- openspec/specs/projects/spec.md#scenario-create-project-default-columns-created
 ---
 
 # TS-006: Create project — default columns are created on success

@@ -119,7 +119,7 @@ final class DependencyGraph {
 		foreach ($edges as $edge) {
 			$from = (string)($edge['blocker'] ?? '');
 			$to = (string)($edge['blocked'] ?? '');
-			if ($from === '' || $to === '') {
+			if ($from === '' || $to === '' || $this->isBlocking(edge: $edge) === false) {
 				continue;
 			}
 
@@ -167,7 +167,7 @@ final class DependencyGraph {
 		foreach ($edges as $edge) {
 			$blockerId = (string)($edge['blocker'] ?? '');
 			$blockedId = (string)($edge['blocked'] ?? '');
-			if ($blockerId === '' || $blockedId === '') {
+			if ($blockerId === '' || $blockedId === '' || $this->isBlocking(edge: $edge) === false) {
 				continue;
 			}
 
@@ -186,4 +186,20 @@ final class DependencyGraph {
 
 		return $ids;
 	}//end deriveBlockedTaskIds()
+
+	/**
+	 * Whether an edge blocks: one without a type (every edge made before types
+	 * were used) or of type `blocks`. A related link, such as an imported
+	 * start-to-start link, is drawn but never blocks.
+	 *
+	 * @param array<string,mixed> $edge The edge.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/integration-msproject-import/tasks.md#task-1.2
+	 */
+	private function isBlocking(array $edge): bool {
+		$type = (string)($edge['type'] ?? '');
+		return ($type === '' || $type === 'blocks');
+	}//end isBlocking()
 }//end class

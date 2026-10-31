@@ -25,7 +25,10 @@ declare(strict_types=1);
 namespace OCA\Planninq\Controller;
 
 use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\BoardColumnService;
+use OCA\Planninq\Service\ProjectRoles;
 use OCA\Planninq\Service\SettingsService;
+use OCA\Planninq\Service\WorkItemKeyService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -68,6 +71,42 @@ use Psr\Log\LoggerInterface;
 class ProjectController extends Controller {
 
 	/**
+	 * The fields a create takes from the request body; everything else is set by the server.
+	 *
+	 * @var array<int,string>
+	 */
+	private const CREATE_FIELDS = [
+		'title',
+		'description',
+		'requestReason',
+		'color',
+		'icon',
+		'key',
+		'startDate',
+		'endDate',
+		'caseReference',
+		'client',
+		'labels',
+		'customFields',
+		'autoSchedule',
+		'billable',
+		'billingModel',
+		'budgetHours',
+		'budgetAmount',
+		'hourlyRate',
+	];
+
+	/**
+	 * The links a create may carry, with the register and schema they point at.
+	 *
+	 * @var array<string,array{0:string,1:string}>
+	 */
+	private const LINK_TARGETS = [
+		'caseReference' => ['dossiq', 'case'],
+		'client'        => ['pipelinq', 'client'],
+	];
+
+	/**
 	 * FQCN of the OR NotAuthorizedException, resolved at runtime.
 	 *
 	 * @var string
@@ -103,6 +142,8 @@ class ProjectController extends Controller {
 	 * @param IUserSession $userSession The user session
 	 * @param ContainerInterface $container The DI container
 	 * @param LoggerInterface $logger The logger
+	 * @param BoardColumnService $boardColumns Creates a new project's default columns
+	 * @param WorkItemKeyService $keys The project key rules (tasks-readable-keys).
 	 *
 	 * @return void
 	 */
@@ -112,6 +153,8 @@ class ProjectController extends Controller {
 		private IUserSession $userSession,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
+		private BoardColumnService $boardColumns,
+		private WorkItemKeyService $keys,
 	) {
 		parent::__construct(appName: Application::APP_ID, request: $request);
 
@@ -226,8 +269,11 @@ class ProjectController extends Controller {
 
 		// Server-side enforcement of the allow_project_creation admin setting (C1).
 		// Delegate to the dedicated policy-check endpoint so the gate logic stays in one place.
+		// Someone who may not create may still REQUEST a project when requests
+		// are on (projects-lifecycle-policy): it is stored as `requested`.
 		$policyCheck = $this->checkCreatePolicy();
-		if ($policyCheck->getStatus() === Http::STATUS_FORBIDDEN) {
+		$requesting  = ($policyCheck->getStatus() === Http::STATUS_FORBIDDEN);
+		if ($requesting === true && $this->settingsService->canCurrentUserRequestProject() === false) {
 			return $policyCheck;
 		}
 
@@ -238,17 +284,13 @@ class ProjectController extends Controller {
 			return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
 		}
 
-		$uid = $user->getUID();
-		$body = $this->request->getParams();
+		$uid  = $user->getUID();
+		$body = $this->createBody(uid: $uid, requesting: $requesting);
+		if ($body instanceof JSONResponse) {
+			return $body;
+		}
 
-		// Strip framework-injected routing params.
-		unset($body['_route'], $body['_format']);
-
-		// Ensure owner + initial membership are set server-side so the client
-		// cannot spoof a different owner.
-		$body['owner'] = $uid;
-		$body['members'] = array_values(array_unique(array_merge([$uid], (array)($body['members'] ?? []))));
-		$body['status'] = ($body['status'] ?? 'active');
+		$body = $this->withReadableLinks(body: $body, objectService: $objectService);
 
 		try {
 			// SB1 fix: pass _rbac: false so that the schema-level "create": ["admin"]
@@ -266,7 +308,17 @@ class ProjectController extends Controller {
 
 			$this->logger->info('Planninq: project created', ['uid' => $uid]);
 
-			return new JSONResponse($saved->jsonSerialize(), Http::STATUS_CREATED);
+			$project = $saved->jsonSerialize();
+
+			// The board runs on the project's own columns, so a project is
+			// created with them: the admin's default titles, the last one the
+			// done column (boards-configurable-columns, decision 6).
+			// A request gets its columns when it is approved (ProjectReviewListener).
+			if ($requesting === false) {
+				$this->boardColumns->createDefaultColumns(projectId: (string)($project['id'] ?? ($project['@self']['id'] ?? '')));
+			}
+
+			return new JSONResponse($project, Http::STATUS_CREATED);
 		} catch (\Throwable $e) {
 			return $this->classifyObjectServiceException(
 				e: $e,
@@ -276,6 +328,159 @@ class ProjectController extends Controller {
 		}//end try
 
 	}//end create()
+
+	/**
+	 * The body a create saves: routing params stripped, the key normalised and
+	 * checked, owner and members set by the server, a request marked as one.
+	 *
+	 * @param string $uid        The caller.
+	 * @param bool   $requesting Whether the caller may only request.
+	 *
+	 * @return array<string,mixed>|JSONResponse The body, or the refusal of its key.
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.2
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	private function createBody(string $uid, bool $requesting): array|JSONResponse {
+		// Only the fields a person fills in: role lists, status, review,
+		// handover record and computed fields are the server's.
+		$body = array_intersect_key($this->request->getParams(), array_flip(self::CREATE_FIELDS));
+
+		// The project key (tasks-readable-keys): stored uppercase, refused
+		// here with a clear status when it is malformed or taken. The key
+		// listener holds every other project write to the same rules.
+		$body['key'] = $this->keys->normalise(key: ($body['key'] ?? null));
+		if ($body['key'] === '') {
+			unset($body['key']);
+		}
+
+		$keyRefusal = $this->checkKey(key: ($body['key'] ?? ''));
+		if ($keyRefusal !== null) {
+			return $keyRefusal;
+		}
+
+		// Ensure owner + initial membership are set server-side so the client
+		// cannot spoof a different owner.
+		$body['owner']   = $uid;
+		$body['members'] = [$uid];
+		$body['status']  = 'active';
+		if ($requesting === true) {
+			return $this->asRequest(body: $body, uid: $uid);
+		}
+
+		return $body;
+	}//end createBody()
+
+	/**
+	 * The create body without a case or client link the caller cannot read.
+	 *
+	 * The links arrive from a URL, so a caller could name any case or client
+	 * and the project would show it as its own. A link is kept only when the
+	 * caller can read the object in its app; otherwise the project is created
+	 * without it.
+	 *
+	 * @param array<string,mixed> $body          The create body.
+	 * @param object              $objectService OpenRegister's ObjectService.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @spec openspec/changes/integration-case-bridge/tasks.md#task-2.1
+	 */
+	private function withReadableLinks(array $body, object $objectService): array {
+		foreach (self::LINK_TARGETS as $field => [$register, $schema]) {
+			$id = $body[$field] ?? null;
+			if (is_string($id) === false || $id === '') {
+				unset($body[$field]);
+				continue;
+			}
+
+			try {
+				$readable = ($objectService->find(id: $id, register: $register, schema: $schema) !== null);
+			} catch (\Throwable $e) {
+				$readable = false;
+			}
+
+			if ($readable === false) {
+				$this->logger->info('Planninq: dropped a project link the caller cannot read', ['field' => $field]);
+				unset($body[$field]);
+			}
+		}
+
+		return $body;
+	}//end withReadableLinks()
+
+	/**
+	 * A create body turned into a project request: status requested, the requester its only member, no review filled in.
+	 *
+	 * @param array<string,mixed> $body The create body.
+	 * @param string              $uid  The requester.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	private function asRequest(array $body, string $uid): array {
+		unset($body['reviewedBy'], $body['reviewedAt'], $body['reviewNote']);
+		$body['status']  = 'requested';
+		$body['members'] = [$uid];
+
+		return $body;
+	}//end asRequest()
+
+	/**
+	 * Whether a project key is well formed and free, without saying which project has it.
+	 *
+	 * @param string $key The key to check.
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return JSONResponse {valid, available}; 401 when not logged in.
+	 *
+	 * @no-admin-idor-exempt Takes no object id and returns no object: only whether a key
+	 *                       string is free, which the New project dialog needs before any
+	 *                       project exists.
+	 *
+	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.2
+	 */
+	public function keyAvailable(string $key = ''): JSONResponse {
+		if ($this->userSession->getUser() === null) {
+			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
+		}
+
+		$key   = $this->keys->normalise(key: $key);
+		$valid = $this->keys->isValidFormat(key: $key);
+
+		return new JSONResponse(['valid' => $valid, 'available' => ($valid === true && $this->keys->isTaken(key: $key) === false)]);
+	}//end keyAvailable()
+
+	/**
+	 * The refusal for a malformed or taken key on create, or null.
+	 *
+	 * @param string $key The normalised key, empty for none.
+	 *
+	 * @return JSONResponse|null
+	 */
+	private function checkKey(string $key): ?JSONResponse {
+		if ($key === '') {
+			return null;
+		}
+
+		if ($this->keys->isValidFormat(key: $key) === false) {
+			return new JSONResponse(
+				['error' => 'A key has 2 to 10 letters and digits and starts with a letter.', 'code' => 'planninq-project-key-format'],
+				Http::STATUS_BAD_REQUEST
+			);
+		}
+
+		if ($this->keys->isTaken(key: $key) === true) {
+			return new JSONResponse(
+				['error' => 'This key is already used by another project.', 'code' => 'planninq-project-key-used'],
+				Http::STATUS_CONFLICT
+			);
+		}
+
+		return null;
+	}//end checkKey()
 
 	/**
 	 * Allow a non-owner member to leave a project (C3 fix, WF2 fix).
@@ -331,40 +536,33 @@ class ProjectController extends Controller {
 		}
 
 		$project = $entity->getObject();
-		$members = (array)($project['members'] ?? []);
 
-		// Guard: caller must be a member.
-		if (in_array($uid, $members, strict: true) === false) {
+		$roles = new ProjectRoles();
+
+		// Guard: the caller must be on the project, in any role.
+		if ($roles->holdsUser(project: $project, uid: $uid) === false) {
 			return new JSONResponse(
 				['error' => 'You are not a member of this project.'],
 				Http::STATUS_FORBIDDEN
 			);
 		}
 
+		// Off every user list; an owner who leaves hands over to a manager first, else a member
+		// (projects-members-and-roles task 5.2), so the project is never owner-less.
+		$updated = $roles->withoutUser(project: $project, uid: $uid);
+
 		// Guard: refuse to orphan the project.
-		$remainingMembers = array_values(array_filter($members, static fn ($member) => $member !== $uid));
-		if (count($remainingMembers) === 0) {
+		if ($roles->hasWriters(project: $updated) === false) {
 			return new JSONResponse(
 				['error' => 'Cannot leave a project with no remaining members. Delete the project instead.'],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
 
-		// WF2 fix: when the owner leaves, transfer ownership to the alphabetically
-		// first remaining member so the project is never in an owner-less state.
-		// Alphabetical sort is deterministic and requires no extra user input.
-		$updated = $project;
-		$updated['members'] = $remainingMembers;
-
-		$currentOwner = ($project['owner'] ?? '');
-		if ($currentOwner === $uid) {
-			$candidateMembers = $remainingMembers;
-			sort($candidateMembers);
-			$newOwner = $candidateMembers[0];
-			$updated['owner'] = $newOwner;
+		if (($project['owner'] ?? '') === $uid) {
 			$this->logger->info(
 				'Planninq: ownership transferred on owner leave',
-				['fromUid' => $uid, 'toUid' => $newOwner, 'projectId' => $projectId]
+				['fromUid' => $uid, 'toUid' => ($updated['owner'] ?? ''), 'projectId' => $projectId]
 			);
 		}
 

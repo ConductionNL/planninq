@@ -4,14 +4,14 @@
  * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import {
+	currentWeekRange,
+	filterByRange,
 	groupEntriesByDate,
 	sumDuration,
-	filterByRange,
-	currentWeekRange,
 } from '../../src/utils/timesheetHelpers.js'
 
 const entries = [
@@ -24,7 +24,11 @@ const entries = [
 describe('groupEntriesByDate', () => {
 	it('groups by date, newest first, with per-day totals', () => {
 		const groups = groupEntriesByDate(entries)
-		expect(groups.map((g) => g.date)).toEqual(['2026-07-07', '2026-07-06', '2026-07-01'])
+		expect(groups.map((g) => g.date)).toEqual([
+			'2026-07-07',
+			'2026-07-06',
+			'2026-07-01',
+		])
 		const jul6 = groups.find((g) => g.date === '2026-07-06')
 		expect(jul6.entries).toHaveLength(2)
 		expect(jul6.total).toBe(90)
