@@ -125,24 +125,23 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 			$app = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
 			(new \ReflectionMethod(Application::class, 'registerTaskGuardListeners'))->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
 
-			$calls = [];
+			// Listeners run per event in subscription order, so the order is asserted per event.
+			$byEvent = [];
 			foreach (self::recordedSubscriptions() as $call) {
 				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
 				self::assertTrue(class_exists($call['event']), $call['event'] . ' must exist');
-				$calls[] = [$call['listener'], substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
+				$byEvent[substr($call['event'], strrpos($call['event'], '\\') + 1)][] = [$call['listener'], $call['schemas']];
 			}
 
 			$guard      = 'OCA\\Planninq\\Listener\\TaskReporterGuardListener';
 			$references = 'OCA\\Planninq\\Listener\\TaskReferenceGuardListener';
 			self::assertSame(
 				[
-					[$guard, 'ObjectCreatingEvent', ['task']],
-					[$guard, 'ObjectUpdatingEvent', ['task']],
-					[$guard, 'ObjectDeletingEvent', ['task']],
-					[$references, 'ObjectCreatingEvent', ['task']],
-					[$references, 'ObjectUpdatingEvent', ['task']],
+					'ObjectCreatingEvent' => [[$guard, ['task']], [$references, ['task']]],
+					'ObjectUpdatingEvent' => [[$guard, ['task']], [$references, ['task']]],
+					'ObjectDeletingEvent' => [[$guard, ['task']]],
 				],
-				$calls
+				$byEvent
 			);
 
 			$boot    = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
