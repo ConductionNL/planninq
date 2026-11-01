@@ -477,7 +477,9 @@ class SettingsControllerTest extends TestCase {
 	 * @return void
 	 */
 	public function testTheSettingsCarryTheTimetableGrid(): void {
-		$this->userSession->method('getUser')->willReturn($this->createMock(originalClassName: \OCP\IUser::class));
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
 		$this->settingsService->method('getSettings')->willReturn(['isAdmin' => true]);
 		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
 		$this->settingsService->method('updateSettings')->willReturn(['isAdmin' => true]);
@@ -506,7 +508,9 @@ class SettingsControllerTest extends TestCase {
 	 * @return void
 	 */
 	public function testAMemberReadsTheWorkingCalendar(): void {
-		$this->userSession->method('getUser')->willReturn($this->createMock(originalClassName: \OCP\IUser::class));
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
 		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
 		$this->settingsService->method('updateSettings')->willReturn([]);
 		$this->settingsService->method('getSettings')->willReturn(['isAdmin' => false]);
