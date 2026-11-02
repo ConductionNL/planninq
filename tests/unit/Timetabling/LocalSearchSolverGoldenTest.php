@@ -36,6 +36,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @covers \OCA\Planninq\Timetabling\LocalSearchSolver
  * @uses   \OCA\Planninq\Timetabling\PlacementOptions
+ * @uses   \OCA\Planninq\Timetabling\PlacementCandidate
  * @uses   \OCA\Planninq\Timetabling\SearchOutcome
  * @uses   \OCA\Planninq\Timetabling\SearchState
  * @uses   \OCA\Planninq\Timetabling\SeededRandom
