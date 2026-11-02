@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use OCA\Planninq\Service\TaskVtodoBuilder;
 use PHPUnit\Framework\TestCase;
 
@@ -45,6 +47,11 @@ class TaskVtodoBuilderGoldenTest extends TestCase {
 		'Ëén lange regel met veel tekens die over de vouwbreedte gaat, ook met € en ✓ erin, en nog wat meer woorden erachter',
 		'   padded   ',
 	];
+
+	/**
+	 * Stands in for the value 12.5, which DateTimeImmutable reads as 12:05 today.
+	 */
+	private const TODAY_AT_12_05 = '(12.5 read as 12:05 today, UTC)';
 
 	private const VALUES = [null, '', '2026-10-05', '2026-10-05T14:30:00+02:00', '2026-13-45', 'not a date', 20261005, 12.5, true, ['nested']];
 
@@ -88,6 +95,7 @@ class TaskVtodoBuilderGoldenTest extends TestCase {
 		}//end for
 
 		$json = json_encode($cases, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n";
+		$json = str_replace(search: $this->todayAt(time: '12.5'), replace: self::TODAY_AT_12_05, subject: $json);
 		if (getenv('PLANNINQ_GOLDEN_RECORD') === '1') {
 			if (is_dir(dirname(self::FIXTURE)) === false) {
 				mkdir(dirname(self::FIXTURE));
@@ -98,6 +106,17 @@ class TaskVtodoBuilderGoldenTest extends TestCase {
 
 		self::assertSame(expected: (string)file_get_contents(self::FIXTURE), actual: $json);
 	}//end testBuildMatchesTheGoldenRecording()
+
+	/**
+	 * A time of day on today's date, in the builder's UTC format.
+	 *
+	 * @param string $time The time as the builder receives it.
+	 *
+	 * @return string
+	 */
+	private function todayAt(string $time): string {
+		return (new DateTimeImmutable($time))->setTimezone(new DateTimeZone('UTC'))->format('Ymd\THis\Z');
+	}//end todayAt()
 
 	/**
 	 * Call TaskVtodoBuilder::build() for a task and its metadata.
