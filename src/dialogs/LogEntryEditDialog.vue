@@ -55,19 +55,12 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || !isValid"
+			<DialogSaveActions
+				:saving="saving"
+				:disabled="!isValid"
 				data-testid="log-entry-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Save') }}
-			</NcButton>
+				@cancel="$emit('close')"
+				@save="save" />
 		</template>
 	</NcDialog>
 </template>
@@ -84,14 +77,13 @@
  * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
  */
 import {
-	NcButton,
 	NcCheckboxRadioSwitch,
 	NcDialog,
-	NcLoadingIcon,
 	NcSelect,
 	NcTextArea,
 	NcTextField,
 } from '@nextcloud/vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { localIsoDate } from '../utils/localDate.js'
 import { logEntryPayload } from '../utils/projectOverview.js'
@@ -100,10 +92,9 @@ export default {
 	name: 'LogEntryEditDialog',
 
 	components: {
-		NcButton,
+		DialogSaveActions,
 		NcCheckboxRadioSwitch,
 		NcDialog,
-		NcLoadingIcon,
 		NcSelect,
 		NcTextArea,
 		NcTextField,

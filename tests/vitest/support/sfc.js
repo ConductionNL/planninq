@@ -36,7 +36,7 @@ function bindings(statement) {
  * Parse a component file into its script parts and fingerprints.
  *
  * @param {URL} url - the .vue file
- * @return {{imports: Array<string>, body: string, templateHash: string, styleHash: string}} the parts
+ * @return {{imports: Array<string>, body: string, template: string, templateHash: string, styleHash: string}} the parts
  */
 function readSfc(url) {
 	const { descriptor } = parse(readFileSync(url, 'utf8'), { filename: url.pathname })
@@ -48,6 +48,7 @@ function readSfc(url) {
 	return {
 		imports,
 		body,
+		template: descriptor.template.content,
 		templateHash: sha(template.code),
 		styleHash: sha(descriptor.styles.map((style) => `${style.scoped}|${style.content}`).join('\n')),
 	}
@@ -66,23 +67,41 @@ export function loadSfc(url) {
 }
 
 /**
+ * Load the module an import statement names: a relative .js file, or a
+ * relative .vue file when a component loader is given. Anything else is null.
+ *
+ * @param {URL} url - the importing file
+ * @param {{from: string, loadVue: Function|null}} source - the import path and the component loader
+ * @return {Promise<object|null>} the module namespace
+ */
+async function importModule(url, source) {
+	const { from, loadVue } = source
+	if (from.startsWith('.') && from.endsWith('.vue') && loadVue) {
+		return { default: await loadVue(new URL(from, url)) }
+	}
+	return from.startsWith('.') && from.endsWith('.js')
+		? await import(new URL(from, url).href).catch(() => null)
+		: null
+}
+
+/**
  * Load a component file with its relative .js imports resolved. Package
- * imports, .vue imports and modules that cannot load in node stay undefined.
+ * imports and modules that cannot load in node stay undefined, and so do
+ * .vue imports unless loadVue is given.
  *
  * @param {URL} url - the .vue file
- * @return {Promise<{options: object, templateHash: string, styleHash: string}>} the component
+ * @param {Function|null} loadVue - loads a relative .vue import into a component
+ * @return {Promise<{options: object, template: string, templateHash: string, styleHash: string}>} the component
  */
-export async function loadSfcWithImports(url) {
-	const { imports, body, templateHash, styleHash } = readSfc(url)
+export async function loadSfcWithImports(url, loadVue = null) {
+	const { imports, body, template, templateHash, styleHash } = readSfc(url)
 	const scope = {}
 	for (const statement of imports) {
 		const from = statement.match(/from\s+['"]([^'"]+)['"]/)[1]
-		const module = from.startsWith('.') && from.endsWith('.js')
-			? await import(new URL(from, url).href).catch(() => null)
-			: null
+		const module = await importModule(url, { from, loadVue })
 		for (const { local, imported } of bindings(statement)) {
 			scope[local] = module && (imported === '*' ? module : module[imported])
 		}
 	}
-	return { options: new Function(...Object.keys(scope), body)(...Object.values(scope)), templateHash, styleHash }
+	return { options: new Function(...Object.keys(scope), body)(...Object.values(scope)), template, templateHash, styleHash }
 }

@@ -52,27 +52,21 @@
 		</template>
 
 		<template #actions>
-			<NcButton
-				v-if="isEdit"
-				variant="error"
-				:disabled="saving"
-				data-testid="finance-line-remove"
-				@click="remove">
-				{{ t('planninq', 'Remove') }}
-			</NcButton>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || !validAmount || !category"
+			<DialogSaveActions
+				:saving="saving"
+				:disabled="!validAmount || !category"
 				data-testid="finance-line-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Save') }}
-			</NcButton>
+				@cancel="$emit('close')"
+				@save="save">
+				<NcButton
+					v-if="isEdit"
+					variant="error"
+					:disabled="saving"
+					data-testid="finance-line-remove"
+					@click="remove">
+					{{ t('planninq', 'Remove') }}
+				</NcButton>
+			</DialogSaveActions>
 		</template>
 	</NcDialog>
 </template>
@@ -87,7 +81,8 @@
  *
  * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcSelect, NcTextField } from '@nextcloud/vue'
+import { NcButton, NcDialog, NcSelect, NcTextField } from '@nextcloud/vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { financeLinePayload } from '../utils/finance.js'
 
@@ -95,9 +90,9 @@ export default {
 	name: 'FinanceLineDialog',
 
 	components: {
+		DialogSaveActions,
 		NcButton,
 		NcDialog,
-		NcLoadingIcon,
 		NcSelect,
 		NcTextField,
 	},

@@ -42,19 +42,13 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || uploading"
+			<DialogSaveActions
+				:saving="saving"
+				:disabled="uploading"
+				:label="t('planninq', 'Close phase')"
 				data-testid="phase-close-confirm"
-				@click="close">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Close phase') }}
-			</NcButton>
+				@cancel="$emit('close')"
+				@save="close" />
 		</template>
 	</NcDialog>
 </template>
@@ -72,7 +66,8 @@
  *
  * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.4
  */
-import { NcButton, NcCheckboxRadioSwitch, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
+import { NcCheckboxRadioSwitch, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 import { listPhaseFiles, uploadPhaseFile } from '../api/phaseFiles.js'
 import { useProjectsStore } from '../store/projects.js'
 
@@ -80,7 +75,7 @@ export default {
 	name: 'PhaseCloseDialog',
 
 	components: {
-		NcButton,
+		DialogSaveActions,
 		NcCheckboxRadioSwitch,
 		NcDialog,
 		NcLoadingIcon,

@@ -45,18 +45,12 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || !isValid"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ isEdit ? t('planninq', 'Save') : t('planninq', 'Create') }}
-			</NcButton>
+			<DialogSaveActions
+				:saving="saving"
+				:disabled="!isValid"
+				:label="isEdit ? t('planninq', 'Save') : t('planninq', 'Create')"
+				@cancel="$emit('close')"
+				@save="save" />
 		</template>
 	</NcDialog>
 </template>
@@ -73,7 +67,8 @@ import { showError } from '@nextcloud/dialogs'
  *
  * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { NcDialog, NcTextField } from '@nextcloud/vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 import { useLabelsStore } from '../store/labels.js'
 import {
 	DEFAULT_LABEL_COLOR as DEFAULT_COLOR,
@@ -85,7 +80,7 @@ import {
 export default {
 	name: 'LabelEditDialog',
 
-	components: { NcButton, NcDialog, NcLoadingIcon, NcTextField },
+	components: { DialogSaveActions, NcDialog, NcTextField },
 
 	props: {
 		/** The label being edited, or null when creating. */
