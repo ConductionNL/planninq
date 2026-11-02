@@ -684,7 +684,7 @@ export default {
 			}
 			const auto = useProjectsStore().activeProject?.autoSchedule === true
 			if (auto && String(dates.dueDate) > String(task.dueDate).slice(0, 10)) {
-				const moves = cascade(this.tasks, this.dependencies, task.id, dates, this.calendar)
+				const moves = cascade({ tasks: this.tasks, edges: this.dependencies, calendar: this.calendar }, { id: task.id, dates })
 				if (moves.length > 0) {
 					this.reschedule = { task, dates, moves }
 					return false
