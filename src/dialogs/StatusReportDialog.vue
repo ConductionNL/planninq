@@ -200,32 +200,65 @@ export default {
 		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
 		 */
 		reasonText(suggestion) {
-			switch (suggestion.code) {
-				case 'late':
-					return suggestion.count === 1
-						? this.t('planninq', '1 task is past its due date.')
-						: this.t('planninq', '{count} tasks are past their due date.', { count: suggestion.count })
-				case 'endPassed':
-					return suggestion.count === 1
-						? this.t('planninq', 'The end date has passed with 1 open task.')
-						: this.t('planninq', 'The end date has passed with {count} open tasks.', { count: suggestion.count })
-				case 'onSchedule':
-					return this.t('planninq', 'No open task is past its due date.')
-				case 'highestRisk':
-					return this.t('planninq', 'The highest open risk, "{title}", scores {score}.', { title: suggestion.title, score: suggestion.score })
-				case 'noOpenRisks':
-					return this.t('planninq', 'There are no open risks.')
-				case 'overBudget':
-				case 'nearBudget':
-				case 'withinBudget':
-					return this.t('planninq', 'Costs are at {percent}% of the budget.', { percent: suggestion.percent })
-				case 'noBudget':
-					return this.t('planninq', 'No suggestion: the project has no budget.')
-				case 'noCosts':
-					return this.t('planninq', 'No suggestion: no costs are recorded for this project yet.')
-				default:
-					return ''
+			return this.overdueReason(suggestion) ?? this.measuredReason(suggestion) ?? this.fixedReason(suggestion.code) ?? ''
+		},
+
+		/**
+		 * The reason of a late or end-passed suggestion, with its task count.
+		 *
+		 * @param {object} suggestion The suggestion.
+		 * @return {string|null} null for any other code
+		 *
+		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
+		 */
+		overdueReason(suggestion) {
+			if (suggestion.code === 'late') {
+				return suggestion.count === 1
+					? this.t('planninq', '1 task is past its due date.')
+					: this.t('planninq', '{count} tasks are past their due date.', { count: suggestion.count })
 			}
+			if (suggestion.code === 'endPassed') {
+				return suggestion.count === 1
+					? this.t('planninq', 'The end date has passed with 1 open task.')
+					: this.t('planninq', 'The end date has passed with {count} open tasks.', { count: suggestion.count })
+			}
+			return null
+		},
+
+		/**
+		 * The reason of a suggestion that quotes the highest risk or the budget share.
+		 *
+		 * @param {object} suggestion The suggestion.
+		 * @return {string|null} null for any other code
+		 *
+		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
+		 */
+		measuredReason(suggestion) {
+			if (suggestion.code === 'highestRisk') {
+				return this.t('planninq', 'The highest open risk, "{title}", scores {score}.', { title: suggestion.title, score: suggestion.score })
+			}
+			if (['overBudget', 'nearBudget', 'withinBudget'].includes(suggestion.code)) {
+				return this.t('planninq', 'Costs are at {percent}% of the budget.', { percent: suggestion.percent })
+			}
+			return null
+		},
+
+		/**
+		 * The reason of a suggestion with a fixed sentence.
+		 *
+		 * @param {string} code The suggestion code.
+		 * @return {string|null} null for any other code
+		 *
+		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
+		 */
+		fixedReason(code) {
+			const reasons = {
+				onSchedule: () => this.t('planninq', 'No open task is past its due date.'),
+				noOpenRisks: () => this.t('planninq', 'There are no open risks.'),
+				noBudget: () => this.t('planninq', 'No suggestion: the project has no budget.'),
+				noCosts: () => this.t('planninq', 'No suggestion: no costs are recorded for this project yet.'),
+			}
+			return Object.hasOwn(reasons, code) ? reasons[code]() : null
 		},
 
 		/**
