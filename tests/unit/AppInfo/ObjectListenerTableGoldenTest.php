@@ -84,6 +84,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 			}
 
 			$actual['boot order'] = $this->record(steps: $steps);
+			$actual['boot()']     = $this->recordBoot();
 
 			$json = json_encode($actual, (JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)) . "\n";
 			if (getenv('PLANNINQ_GOLDEN_RECORD') === '1') {
@@ -101,17 +102,35 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 		 * @return array<string,array<int,array<string,mixed>>>
 		 */
 		private function record(array $steps): array {
-			if (property_exists(ObjectEventSubscription::class, 'calls') === true) {
-				ObjectEventSubscription::$calls = [];
-			} else {
-				ObjectEventSubscription::reset();
-			}
-
+			$this->resetRecord();
 			$app = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
 			foreach ($steps as $step) {
 				(new \ReflectionMethod(Application::class, $step))->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
 			}
 
+			return $this->byEvent();
+		}//end record()
+
+		/**
+		 * Empty the subscription record.
+		 *
+		 * @return void
+		 */
+		private function resetRecord(): void {
+			if (property_exists(ObjectEventSubscription::class, 'calls') === true) {
+				ObjectEventSubscription::$calls = [];
+				return;
+			}
+
+			ObjectEventSubscription::reset();
+		}//end resetRecord()
+
+		/**
+		 * The recorded subscriptions grouped by event.
+		 *
+		 * @return array<string,array<int,array<string,mixed>>>
+		 */
+		private function byEvent(): array {
 			$byEvent = [];
 			foreach ($this->rows() as $row) {
 				$byEvent[$row['event']][] = ['listener' => $row['listener'], 'registers' => $row['registers'], 'schemas' => $row['schemas']];
@@ -119,7 +138,22 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 
 			ksort($byEvent);
 			return $byEvent;
-		}//end record()
+		}//end byEvent()
+
+		/**
+		 * Run boot() on a fresh record and group what it subscribed by event.
+		 *
+		 * @return array<string,array<int,array<string,mixed>>>
+		 */
+		private function recordBoot(): array {
+			$this->resetRecord();
+			$server = $this->createMock(originalClassName: \Psr\Container\ContainerInterface::class);
+			$server->method('get')->willReturn($this->createMock(originalClassName: IEventDispatcher::class));
+			$context = $this->createMock(originalClassName: \OCP\AppFramework\Bootstrap\IBootContext::class);
+			$context->method('getServerContainer')->willReturn($server);
+			(new \ReflectionClass(Application::class))->newInstanceWithoutConstructor()->boot($context);
+			return $this->byEvent();
+		}//end recordBoot()
 
 		/**
 		 * The recorded subscriptions, on the stub or on OpenRegister's own registry.

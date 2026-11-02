@@ -152,7 +152,6 @@ class Application extends App implements IBootstrap {
 	 * @param IEventDispatcher $dispatcher The live event dispatcher.
 	 * @param string $event OpenRegister event class name.
 	 * @param string $listener Listener class name.
-	 * @param array<int,string> $registers Register slugs the listener reacts to.
 	 * @param array<int,string> $schemas Schema slugs the listener reacts to.
 	 *
 	 * @return void
@@ -163,7 +162,6 @@ class Application extends App implements IBootstrap {
 		IEventDispatcher $dispatcher,
 		string $event,
 		string $listener,
-		array $registers,
 		array $schemas,
 	): void {
 		$subscription = '\\OCA\\OpenRegister\\Event\\ObjectEventSubscription';
@@ -172,7 +170,7 @@ class Application extends App implements IBootstrap {
 				dispatcher: $dispatcher,
 				event: $event,
 				listener: $listener,
-				registers: $registers,
+				registers: [self::APP_ID],
 				schemas: $schemas
 			);
 			return;
@@ -210,7 +208,6 @@ class Application extends App implements IBootstrap {
 						dispatcher: $dispatcher,
 						event: 'OCA\\OpenRegister\\Event\\' . $event,
 						listener: 'OCA\\Planninq\\Listener\\' . $listener,
-						registers: ['planninq'],
 						schemas: $schemas
 					);
 				}
@@ -368,7 +365,6 @@ class Application extends App implements IBootstrap {
 				dispatcher: $dispatcher,
 				event: $event,
 				listener: TaskActivityListener::class,
-				registers: ['planninq'],
 				schemas: ['task']
 			);
 		}
@@ -394,7 +390,6 @@ class Application extends App implements IBootstrap {
 			dispatcher: $dispatcher,
 			event: 'OCA\\OpenRegister\\Event\\ObjectDeletingEvent',
 			listener: 'OCA\\Planninq\\Listener\\TaskDependencyCleanupListener',
-			registers: ['planninq'],
 			schemas: ['task']
 		);
 
