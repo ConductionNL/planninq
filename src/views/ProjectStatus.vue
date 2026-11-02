@@ -129,6 +129,7 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import HealthStatus from '../components/HealthStatus.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import StatusReportDialog from '../dialogs/StatusReportDialog.vue'
+import projectRoute from '../mixins/projectRoute.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
 import { canSeeProjectMoney, projectMoney } from '../utils/finance.js'
@@ -150,6 +151,8 @@ export default {
 		StatusReportDialog,
 	},
 
+	mixins: [projectRoute],
+
 	data() {
 		return {
 			project: null,
@@ -165,15 +168,6 @@ export default {
 	},
 
 	computed: {
-		/**
-		 * @return {string}
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
-		 */
-		projectId() {
-			return String(this.$route.params.id || '')
-		},
-
 		/**
 		 * @return {Array<{id: string, key: string, label: string}>}
 		 *
@@ -236,18 +230,6 @@ export default {
 				time: suggestTime(this.tasks, this.project),
 				risk: suggestRisk(this.risks, parseRiskScale(this.settingsStore.settings?.risk_scale)),
 			}
-		},
-	},
-
-	watch: {
-		projectId: {
-			immediate: true,
-			/**
-			 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
-			 */
-			handler() {
-				this.load()
-			},
 		},
 	},
 
