@@ -149,7 +149,7 @@ class MsProjectPlanParser {
 	 * @throws MsProjectImportException When the file is refused.
 	 */
 	private function assertAcceptable(string $content, string $fileName): void {
-		if (strtolower(pathinfo($fileName, PATHINFO_EXTENSION)) === 'mpp' || str_starts_with($content, "\xD0\xCF\x11\xE0") === true) {
+		if ($this->isBinaryPlan(content: $content, fileName: $fileName) === true) {
 			throw new MsProjectImportException(reason: MsProjectImportException::MPP, message: 'Binary .mpp files cannot be read.');
 		}
 
@@ -160,7 +160,23 @@ class MsProjectPlanParser {
 		if (preg_match('/<!(DOCTYPE|ENTITY)/i', $content) === 1) {
 			throw new MsProjectImportException(reason: MsProjectImportException::UNSAFE, message: 'The file declares a DOCTYPE or an entity.');
 		}
+
+		if ($content === '') {
+			throw new MsProjectImportException(reason: MsProjectImportException::NOT_A_PLAN, message: 'The file is not a Microsoft Project XML plan.');
+		}
 	}//end assertAcceptable()
+
+	/**
+	 * Whether the upload is a binary .mpp file, by its name or its OLE header.
+	 *
+	 * @param string $content  The file content.
+	 * @param string $fileName The file name.
+	 *
+	 * @return bool
+	 */
+	private function isBinaryPlan(string $content, string $fileName): bool {
+		return strtolower(pathinfo($fileName, PATHINFO_EXTENSION)) === 'mpp' || str_starts_with($content, "\xD0\xCF\x11\xE0") === true;
+	}//end isBinaryPlan()
 
 	/**
 	 * One task element as an array.

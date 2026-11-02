@@ -253,7 +253,8 @@
         "message": "The file is not a Microsoft Project XML plan."
     },
     "empty": {
-        "thrown": "ValueError"
+        "refused": "notAPlan",
+        "message": "The file is not a Microsoft Project XML plan."
     },
     "text only": {
         "refused": "notAPlan",
