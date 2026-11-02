@@ -58,6 +58,7 @@ final class LabelCascadeGoldenTest extends TestCase {
 			'label 7'                  => ['7', self::TASKS, false, true],
 			'unused label'             => ['L9', self::TASKS, false, true],
 			'label delete fails'       => ['L1', self::TASKS, true, true],
+			'save fails mid-sweep'     => ['L1', self::TASKS, 'T3', true],
 			'no tasks'                 => ['L1', [], false, true],
 			'empty id'                 => ['', self::TASKS, false, true],
 			'OpenRegister unavailable' => ['L1', self::TASKS, false, false],
@@ -79,31 +80,31 @@ final class LabelCascadeGoldenTest extends TestCase {
 	 * Run one cascade and record every call, in order.
 	 *
 	 * @param string           $labelId The label to delete.
-	 * @param array<int,mixed> $setup   The tasks, whether the label delete fails, whether OpenRegister answers.
+	 * @param array<int,mixed> $setup   The tasks, true when the label delete fails or the task id whose save fails, whether OpenRegister answers.
 	 *
 	 * @return array<int,mixed>
 	 */
 	private function record(string $labelId, array $setup): array {
-		[$tasks, $deleteFails, $orThere] = $setup;
+		[$tasks, $failure, $orThere] = $setup;
 		$calls   = [];
-		$objects = new class($tasks, $deleteFails, $calls) {
+		$objects = new class($tasks, $failure, $calls) {
 			/** @var array<int,array<string,mixed>> */
 			private array $tasks;
 
-			private bool $deleteFails;
+			private bool|string $failure;
 
 			/** @var array<int,mixed> */
 			private array $calls;
 
 			/**
-			 * @param array<int,array<string,mixed>> $tasks       The task rows.
-			 * @param bool                           $deleteFails Whether deleteObject throws.
-			 * @param array<int,mixed>               $calls       Receives the calls.
+			 * @param array<int,array<string,mixed>> $tasks   The task rows.
+			 * @param bool|string                    $failure True when deleteObject throws, or the task id whose save throws.
+			 * @param array<int,mixed>               $calls   Receives the calls.
 			 */
-			public function __construct(array $tasks, bool $deleteFails, array &$calls) {
-				$this->tasks       = $tasks;
-				$this->deleteFails = $deleteFails;
-				$this->calls       = &$calls;
+			public function __construct(array $tasks, bool|string $failure, array &$calls) {
+				$this->tasks   = $tasks;
+				$this->failure = $failure;
+				$this->calls   = &$calls;
 			}
 
 			/**
@@ -124,6 +125,10 @@ final class LabelCascadeGoldenTest extends TestCase {
 			 */
 			public function saveObject(mixed ...$args): array {
 				$this->calls[] = ['save', $args];
+				if ($args['uuid'] === $this->failure) {
+					throw new \RuntimeException('save failed');
+				}
+
 				return [];
 			}
 
@@ -134,7 +139,7 @@ final class LabelCascadeGoldenTest extends TestCase {
 			 */
 			public function deleteObject(mixed ...$args): bool {
 				$this->calls[] = ['delete', $args];
-				if ($this->deleteFails === true) {
+				if ($this->failure === true) {
 					throw new \RuntimeException('already gone');
 				}
 
