@@ -152,6 +152,11 @@ jobs:
       # and say why — it is still honoured. To roll back for everyone, revert on
       # ConductionNL/.github main.
       enable-hydra-gates: true
+      # Gate 122 (SIG unit ratchet) blocks: a unit this change adds or makes
+      # worse must stay at NLOC 60, McCabe 10 and at most 4 parameters, and a
+      # new duplicated fragment of 6+ lines fails. Units the change does not
+      # touch, or touches without making worse, are inherited and do not count.
+      hydra-gates-sig-blocking: true
       # ── Cost controls (see ConductionNL/.github#596, #599) ───────────────
       # Run PHPUnit and Playwright only when the diff could change their
       # verdict. Fails safe TOWARDS running: an unreadable diff, a force-push,
