@@ -58,6 +58,7 @@ use Psr\Log\LoggerInterface;
  * @uses \OCA\Planninq\Service\DependencyRepository
  * @uses \OCA\Planninq\Service\DependencyService
  * @uses \OCA\Planninq\Service\MsProjectPlanMapper
+ * @uses \OCA\Planninq\Service\MsProjectOutlineWalk
  * @uses \OCA\Planninq\Service\MsProjectPlanParser
  * @uses \OCA\Planninq\Service\ProjectMembershipService
  * @uses \OCA\Planninq\Exception\MsProjectImportException
