@@ -152,11 +152,7 @@ class RegisterImportService {
 	 */
 	private function import(bool $force): array {
 		if ($this->settingsService->isOpenRegisterAvailable() === false) {
-			$this->logger->warning('Planninq: OpenRegister not available, skipping register initialization');
-			return [
-				'success' => false,
-				'message' => 'OpenRegister is not installed or enabled.',
-			];
+			return $this->openRegisterMissing();
 		}
 
 		try {
@@ -165,44 +161,52 @@ class RegisterImportService {
 				return ['success' => false, 'message' => $definition['message']];
 			}
 
-			$configData = $definition['data'];
-			$configVersion = ($configData['info']['version'] ?? '0.0.0');
-
-			$configurationService = $this->container->get('OCA\OpenRegister\Service\ConfigurationService');
-			$result = $configurationService->importFromApp(
-				appId: Application::APP_ID,
-				data: $configData,
-				version: $configVersion,
-				force: $force
-			);
-
-			$this->forgetCachedRegister();
-
-			if (empty($result) === false) {
-				$this->logger->info('Planninq: register configuration imported successfully');
-				return [
-					'success' => true,
-					'message' => 'Configuration imported successfully.',
-					'version' => ($result['version'] ?? 'unknown'),
-				];
-			}
-
-			return [
-				'success' => false,
-				'message' => 'Import returned an empty result.',
-			];
+			return $this->applyDefinition(configData: $definition['data'], force: $force);
 		} catch (\Throwable $e) {
-			$this->logger->error(
-				'Planninq: configuration import failed',
-				['exception' => $e->getMessage()]
-			);
-			return [
-				'success' => false,
-				'message' => $e->getMessage(),
-			];
+			$this->logger->error('Planninq: configuration import failed', ['exception' => $e->getMessage()]);
+			return ['success' => false, 'message' => $e->getMessage()];
 		}//end try
 
 	}//end import()
+
+	/**
+	 * Hand a validated register definition to OpenRegister's importer.
+	 *
+	 * @param array<string,mixed> $configData The register definition.
+	 * @param bool                $force      Force re-import even if already configured.
+	 *
+	 * @return array<string,mixed> Result with success flag, message, and version.
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-1
+	 */
+	private function applyDefinition(array $configData, bool $force): array {
+		$configurationService = $this->container->get('OCA\OpenRegister\Service\ConfigurationService');
+		$result = $configurationService->importFromApp(
+			appId: Application::APP_ID,
+			data: $configData,
+			version: ($configData['info']['version'] ?? '0.0.0'),
+			force: $force
+		);
+
+		$this->forgetCachedRegister();
+
+		if (empty($result) === true) {
+			return ['success' => false, 'message' => 'Import returned an empty result.'];
+		}
+
+		$this->logger->info('Planninq: register configuration imported successfully');
+		return ['success' => true, 'message' => 'Configuration imported successfully.', 'version' => ($result['version'] ?? 'unknown')];
+	}//end applyDefinition()
+
+	/**
+	 * Log and answer that OpenRegister is not there to import into.
+	 *
+	 * @return array<string,mixed> The failed result.
+	 */
+	private function openRegisterMissing(): array {
+		$this->logger->warning('Planninq: OpenRegister not available, skipping register initialization');
+		return ['success' => false, 'message' => 'OpenRegister is not installed or enabled.'];
+	}//end openRegisterMissing()
 
 	/**
 	 * Drop OpenRegister's request-scoped copies of the planninq register.
