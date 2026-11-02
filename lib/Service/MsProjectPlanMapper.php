@@ -60,131 +60,210 @@ class MsProjectPlanMapper {
 	 * @spec openspec/changes/integration-msproject-import/tasks.md#task-1.2
 	 */
 	public function map(array $plan): array {
-		$provenance = ['msProjectFile' => $plan['name'], 'msProjectSaveVersion' => $plan['saveVersion']];
-		$losses     = array_fill_keys(self::LOSS_KEYS, 0);
-		$out        = ['phases' => [], 'tasks' => [], 'subtasks' => []];
-		$kindByUid  = [];
-		$phaseUid   = null;
-		$level2Uid  = null;
-		$path       = [];
-
-		foreach ($plan['tasks'] as $task) {
-			$level        = (int)$task['level'];
-			$path         = array_slice($path, 0, ($level - 1), true);
-			$path[$level] = $task['name'];
-			$losses['resources'] += (int)($task['hasResource'] === true);
-
-			if ($level === 1 && $task['summary'] === true) {
-				$phaseUid        = $task['uid'];
-				$kindByUid[$phaseUid] = 'phase';
-				$out['phases'][] = ['uid' => $phaseUid, 'data' => $this->phaseData(task: $task, order: count($out['phases']), provenance: $provenance)];
-				continue;
-			}
-
-			if ($level <= 2) {
-				if ($level === 1) {
-					$phaseUid = null;
-				}
-
-				$level2Uid = $task['uid'];
-				$kindByUid[$task['uid']] = 'task';
-				$data = $this->taskData(task: $task, provenance: $provenance, path: null);
-				$out['tasks'][] = $this->mapped(task: $task, phaseUid: $phaseUid, parentUid: null, data: $data);
-				continue;
-			}
-
-			$collapsed = null;
-			if ($level > 3) {
-				$losses['collapsedLevels']++;
-				$collapsed = implode(' > ', array_slice($path, 1, null));
-			}
-
-			$kindByUid[$task['uid']] = 'task';
-			$data = $this->taskData(task: $task, provenance: $provenance, path: $collapsed);
-			$out['subtasks'][] = $this->mapped(task: $task, phaseUid: $phaseUid, parentUid: $level2Uid, data: $data);
-		}//end foreach
-
-		$links = $this->links(tasks: $plan['tasks'], kindByUid: $kindByUid, losses: $losses);
+		$out   = $this->withProvenance(out: $this->outline(tasks: $plan['tasks']), plan: $plan);
+		$links = $this->links(tasks: $plan['tasks'], kindByUid: $this->kinds(tasks: $plan['tasks']));
+		$losses = array_merge(array_fill_keys(self::LOSS_KEYS, 0), $this->taskLosses(tasks: $plan['tasks']), $links['losses']);
 
 		return [
 			'phases'   => $out['phases'],
 			'tasks'    => $out['tasks'],
 			'subtasks' => $out['subtasks'],
-			'links'    => $links,
+			'links'    => $links['links'],
 			'losses'   => array_filter($losses),
-			'counts'   => $this->counts(out: $out, links: $links),
+			'counts'   => $this->counts(out: $out, links: $links['links']),
 		];
 	}//end map()
+
+	/**
+	 * The phases, tasks and sub-tasks in outline order, without provenance.
+	 *
+	 * @param list<array<string,mixed>> $tasks The plan's tasks.
+	 *
+	 * @return array<string,list<array<string,mixed>>>
+	 */
+	private function outline(array $tasks): array {
+		$out  = ['phases' => [], 'tasks' => [], 'subtasks' => []];
+		$walk = new MsProjectOutlineWalk();
+		foreach ($tasks as $task) {
+			$place = ($walk->place(task: $task) + ['order' => count($out['phases'])]);
+			$out[$place['kind']][] = $this->entry(task: $task, place: $place);
+		}
+
+		return $out;
+	}//end outline()
+
+	/**
+	 * One mapped phase, or one mapped task with its references by Project UID.
+	 *
+	 * @param array<string,mixed> $task  The plan task.
+	 * @param array<string,mixed> $place Its kind, phaseUid, parentUid, path and the phase order.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function entry(array $task, array $place): array {
+		if ($place['kind'] === 'phases') {
+			return ['uid' => $task['uid'], 'data' => $this->phaseData(task: $task, order: $place['order'])];
+		}
+
+		return [
+			'uid'       => $task['uid'],
+			'phaseUid'  => $place['phaseUid'],
+			'parentUid' => $place['parentUid'],
+			'data'      => $this->taskData(task: $task, path: $place['path']),
+		];
+	}//end entry()
+
+	/**
+	 * Every entry with the plan's name and version in its metadata.
+	 *
+	 * @param array<string,list<array<string,mixed>>>                               $out  The mapped phases, tasks and sub-tasks.
+	 * @param array{name:string,saveVersion:string,tasks:list<array<string,mixed>>} $plan The plan.
+	 *
+	 * @return array<string,list<array<string,mixed>>>
+	 */
+	private function withProvenance(array $out, array $plan): array {
+		$provenance = ['msProjectFile' => $plan['name'], 'msProjectSaveVersion' => $plan['saveVersion']];
+		foreach ($out as $kind => $entries) {
+			foreach ($entries as $index => $entry) {
+				$out[$kind][$index]['data']['metadata'] = (['msProjectUid' => $entry['uid']] + $provenance);
+			}
+		}
+
+		return $out;
+	}//end withProvenance()
+
+	/**
+	 * 'phase' or 'task' per UID; a later task with the same UID wins.
+	 *
+	 * @param list<array<string,mixed>> $tasks The plan's tasks.
+	 *
+	 * @return array<string,string>
+	 */
+	private function kinds(array $tasks): array {
+		$kindByUid = [];
+		foreach ($tasks as $task) {
+			$kindByUid[$task['uid']] = 'task';
+			if ((int)$task['level'] === 1 && $task['summary'] === true) {
+				$kindByUid[$task['uid']] = 'phase';
+			}
+		}
+
+		return $kindByUid;
+	}//end kinds()
+
+	/**
+	 * The tasks with a resource and the tasks that collapse from below level 3.
+	 *
+	 * @param list<array<string,mixed>> $tasks The plan's tasks.
+	 *
+	 * @return array{resources:int,collapsedLevels:int}
+	 */
+	private function taskLosses(array $tasks): array {
+		$losses = ['resources' => 0, 'collapsedLevels' => 0];
+		foreach ($tasks as $task) {
+			$losses['resources']       += (int)($task['hasResource'] === true);
+			$losses['collapsedLevels'] += (int)((int)$task['level'] > 3);
+		}
+
+		return $losses;
+	}//end taskLosses()
 
 	/**
 	 * The dependency links between tasks, counting the ones that change or drop.
 	 *
 	 * @param list<array<string,mixed>> $tasks     The plan's tasks.
 	 * @param array<string,string>      $kindByUid 'phase' or 'task' per UID.
-	 * @param array<string,int>         $losses    The loss counts, updated.
 	 *
-	 * @return list<array<string,string>>
+	 * @return array{links:list<array<string,string>>,losses:array<string,int>}
 	 */
-	private function links(array $tasks, array $kindByUid, array &$losses): array {
-		$links = [];
-		foreach ($tasks as $task) {
-			foreach ($task['predecessors'] as $link) {
-				$blocker = (string)$link['uid'];
-				if (isset($kindByUid[$blocker]) === false) {
-					$losses['unknownLinks']++;
-					continue;
-				}
+	private function links(array $tasks, array $kindByUid): array {
+		$links  = [];
+		$losses = ['relatedLinks' => 0, 'lags' => 0, 'phaseLinks' => 0, 'unknownLinks' => 0];
+		foreach ($this->edges(tasks: $tasks) as $edge) {
+			$dropped = $this->dropReason(edge: $edge, kindByUid: $kindByUid);
+			if ($dropped !== null) {
+				$losses[$dropped]++;
+				continue;
+			}
 
-				if ($kindByUid[$blocker] === 'phase' || $kindByUid[$task['uid']] === 'phase') {
-					$losses['phaseLinks']++;
-					continue;
-				}
+			$losses['relatedLinks'] += (int)((int)$edge['type'] !== self::FINISH_TO_START);
+			$losses['lags']         += (int)((int)$edge['lag'] !== 0);
+			$links[(string)$edge['uid'] . '>' . $edge['blockedUid']] = $this->linkRow(edge: $edge);
+		}
 
-				$type = 'blocks';
-				if ((int)$link['type'] !== self::FINISH_TO_START) {
-					$type = 'relates';
-					$losses['relatedLinks']++;
-				}
-
-				$losses['lags'] += (int)((int)$link['lag'] !== 0);
-				$links[$blocker . '>' . $task['uid']] = ['blockerUid' => $blocker, 'blockedUid' => (string)$task['uid'], 'type' => $type];
-			}//end foreach
-		}//end foreach
-
-		return array_values($links);
+		return ['links' => array_values($links), 'losses' => $losses];
 	}//end links()
 
 	/**
-	 * One mapped task with its references by Project UID.
+	 * Every predecessor link with the UID of the task it blocks.
 	 *
-	 * @param array<string,mixed> $task      The plan task.
-	 * @param string|null         $phaseUid  The UID of its phase.
-	 * @param string|null         $parentUid The UID of its parent task.
-	 * @param array<string,mixed> $data      The payload.
+	 * @param list<array<string,mixed>> $tasks The plan's tasks.
 	 *
-	 * @return array<string,mixed>
+	 * @return list<array<string,mixed>>
 	 */
-	private function mapped(array $task, ?string $phaseUid, ?string $parentUid, array $data): array {
-		return ['uid' => $task['uid'], 'phaseUid' => $phaseUid, 'parentUid' => $parentUid, 'data' => $data];
-	}//end mapped()
+	private function edges(array $tasks): array {
+		$edges = [];
+		foreach ($tasks as $task) {
+			foreach ($task['predecessors'] as $link) {
+				$edges[] = ($link + ['blockedUid' => $task['uid']]);
+			}
+		}
+
+		return $edges;
+	}//end edges()
+
+	/**
+	 * Why a link does not carry over: its blocker is unknown, or either end is a phase.
+	 *
+	 * @param array<string,mixed>  $edge      The link with the blocked task's UID.
+	 * @param array<string,string> $kindByUid 'phase' or 'task' per UID.
+	 *
+	 * @return string|null The loss key, or null when the link carries over.
+	 */
+	private function dropReason(array $edge, array $kindByUid): ?string {
+		$blocker = (string)$edge['uid'];
+		if (isset($kindByUid[$blocker]) === false) {
+			return 'unknownLinks';
+		}
+
+		if ($kindByUid[$blocker] === 'phase' || $kindByUid[$edge['blockedUid']] === 'phase') {
+			return 'phaseLinks';
+		}
+
+		return null;
+	}//end dropReason()
+
+	/**
+	 * A carried-over link: finish-to-start blocks, every other type relates.
+	 *
+	 * @param array<string,mixed> $edge The link with the blocked task's UID.
+	 *
+	 * @return array<string,string>
+	 */
+	private function linkRow(array $edge): array {
+		$type = 'blocks';
+		if ((int)$edge['type'] !== self::FINISH_TO_START) {
+			$type = 'relates';
+		}
+
+		return ['blockerUid' => (string)$edge['uid'], 'blockedUid' => (string)$edge['blockedUid'], 'type' => $type];
+	}//end linkRow()
 
 	/**
 	 * A phase payload.
 	 *
-	 * @param array<string,mixed>  $task       The summary task.
-	 * @param int                  $order      The phase's position.
-	 * @param array<string,string> $provenance The plan's name and version.
+	 * @param array<string,mixed> $task  The summary task.
+	 * @param int                 $order The phase's position.
 	 *
 	 * @return array<string,mixed>
 	 */
-	private function phaseData(array $task, int $order, array $provenance): array {
+	private function phaseData(array $task, int $order): array {
 		return array_filter(
 			[
 				'title'     => $this->title(task: $task),
 				'startDate' => $task['start'],
 				'endDate'   => $task['finish'],
 				'order'     => $order,
-				'metadata'  => (['msProjectUid' => $task['uid']] + $provenance),
 			],
 			static fn ($value): bool => $value !== null
 		);
@@ -193,13 +272,12 @@ class MsProjectPlanMapper {
 	/**
 	 * A task payload.
 	 *
-	 * @param array<string,mixed>  $task       The plan task.
-	 * @param array<string,string> $provenance The plan's name and version.
-	 * @param string|null          $path       The outline path of a collapsed task.
+	 * @param array<string,mixed> $task The plan task.
+	 * @param string|null         $path The outline path of a collapsed task.
 	 *
 	 * @return array<string,mixed>
 	 */
-	private function taskData(array $task, array $provenance, ?string $path): array {
+	private function taskData(array $task, ?string $path): array {
 		$description = trim(implode("\n\n", array_filter([$path, $task['notes']], static fn ($part): bool => $part !== null && $part !== '')));
 		if ($description === '') {
 			$description = null;
@@ -222,7 +300,6 @@ class MsProjectPlanMapper {
 				'estimatedDuration' => $task['minutes'],
 				'percentComplete'   => (int)$task['percent'],
 				'issueType'         => $issueType,
-				'metadata'          => (['msProjectUid' => $task['uid']] + $provenance),
 			],
 			static fn ($value): bool => $value !== null
 		);

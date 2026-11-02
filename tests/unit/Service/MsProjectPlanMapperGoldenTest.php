@@ -34,6 +34,7 @@ use Random\Randomizer;
  * the fixture. Set PLANNINQ_GOLDEN_RECORD=1 to rewrite the fixture.
  *
  * @covers \OCA\Planninq\Service\MsProjectPlanMapper
+ * @covers \OCA\Planninq\Service\MsProjectOutlineWalk
  */
 class MsProjectPlanMapperGoldenTest extends TestCase {
 
@@ -61,6 +62,11 @@ class MsProjectPlanMapperGoldenTest extends TestCase {
 		$json = json_encode($cases, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n";
 		if (getenv('PLANNINQ_GOLDEN_RECORD') === '1') {
 			file_put_contents(self::FIXTURE, $json);
+		}
+
+		$expected = json_decode((string)file_get_contents(self::FIXTURE), true);
+		foreach ($cases as $index => $case) {
+			self::assertSame(expected: ($expected[$index] ?? null), actual: $case, message: 'seed ' . $case['seed']);
 		}
 
 		self::assertSame(expected: (string)file_get_contents(self::FIXTURE), actual: $json);
