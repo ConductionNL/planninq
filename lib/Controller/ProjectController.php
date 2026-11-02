@@ -267,16 +267,48 @@ class ProjectController extends Controller {
 			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
 		}
 
-		// Server-side enforcement of the allow_project_creation admin setting (C1).
-		// Delegate to the dedicated policy-check endpoint so the gate logic stays in one place.
-		// Someone who may not create may still REQUEST a project when requests
-		// are on (projects-lifecycle-policy): it is stored as `requested`.
+		$creation = $this->creationGate(uid: $user->getUID());
+		if ($creation instanceof JSONResponse) {
+			return $creation;
+		}
+
+		return $this->createWithObjectService(creation: $creation);
+
+	}//end create()
+
+	/**
+	 * Server-side enforcement of the allow_project_creation admin setting (C1).
+	 *
+	 * Delegates to the dedicated policy-check endpoint so the gate logic stays
+	 * in one place. Someone who may not create may still REQUEST a project when
+	 * requests are on (projects-lifecycle-policy): it is stored as `requested`.
+	 *
+	 * @param string $uid The user who creates the project.
+	 *
+	 * @return array{uid:string,requesting:bool,body:array<string,mixed>}|JSONResponse The create request, or the policy refusal.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	private function creationGate(string $uid): array|JSONResponse {
 		$policyCheck = $this->checkCreatePolicy();
 		$requesting  = ($policyCheck->getStatus() === Http::STATUS_FORBIDDEN);
 		if ($requesting === true && $this->settingsService->canCurrentUserRequestProject() === false) {
 			return $policyCheck;
 		}
 
+		return ['uid' => $uid, 'requesting' => $requesting, 'body' => []];
+	}//end creationGate()
+
+	/**
+	 * Build the create body against OpenRegister and save it.
+	 *
+	 * @param array{uid:string,requesting:bool,body:array<string,mixed>} $creation The create request that passed the gate.
+	 *
+	 * @return JSONResponse 201 with the project, or the refusal or error.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	private function createWithObjectService(array $creation): JSONResponse {
 		try {
 			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 		} catch (\Throwable $e) {
@@ -284,13 +316,27 @@ class ProjectController extends Controller {
 			return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
 		}
 
-		$uid  = $user->getUID();
-		$body = $this->createBody(uid: $uid, requesting: $requesting);
+		$body = $this->createBody(uid: $creation['uid'], requesting: $creation['requesting']);
 		if ($body instanceof JSONResponse) {
 			return $body;
 		}
 
-		$body = $this->withReadableLinks(body: $body, objectService: $objectService);
+		$creation['body'] = $this->withReadableLinks(body: $body, objectService: $objectService);
+		return $this->saveProject(objectService: $objectService, creation: $creation);
+	}//end createWithObjectService()
+
+	/**
+	 * Save the project as the system, then give a new project its columns.
+	 *
+	 * @param object                                                     $objectService OpenRegister's ObjectService.
+	 * @param array{uid:string,requesting:bool,body:array<string,mixed>} $creation      The create request with its body.
+	 *
+	 * @return JSONResponse 201 with the project, or the classified error.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	private function saveProject(object $objectService, array $creation): JSONResponse {
+		$body = $creation['body'];
 
 		try {
 			// SB1 fix: pass _rbac: false so that the schema-level "create": ["admin"]
@@ -306,28 +352,36 @@ class ProjectController extends Controller {
 				_rbac: false
 			);
 
-			$this->logger->info('Planninq: project created', ['uid' => $uid]);
+			$this->logger->info('Planninq: project created', ['uid' => $creation['uid']]);
 
-			$project = $saved->jsonSerialize();
-
-			// The board runs on the project's own columns, so a project is
-			// created with them: the admin's default titles, the last one the
-			// done column (boards-configurable-columns, decision 6).
-			// A request gets its columns when it is approved (ProjectReviewListener).
-			if ($requesting === false) {
-				$this->boardColumns->createDefaultColumns(projectId: (string)($project['id'] ?? ($project['@self']['id'] ?? '')));
-			}
-
-			return new JSONResponse($project, Http::STATUS_CREATED);
+			return $this->createdProject(project: $saved->jsonSerialize(), creation: $creation);
 		} catch (\Throwable $e) {
-			return $this->classifyObjectServiceException(
-				e: $e,
-				context: 'project creation',
-				logCtx: ['uid' => $uid]
-			);
-		}//end try
+			return $this->classifyObjectServiceException(e: $e, context: 'project creation', logCtx: ['uid' => $creation['uid']]);
+		}
+	}//end saveProject()
 
-	}//end create()
+	/**
+	 * The 201 response for a saved project, after giving a new one its columns.
+	 *
+	 * The board runs on the project's own columns, so a project is created with
+	 * them: the admin's default titles, the last one the done column
+	 * (boards-configurable-columns, decision 6). A request gets its columns when
+	 * it is approved (ProjectReviewListener).
+	 *
+	 * @param array<string,mixed>                                        $project  The saved project.
+	 * @param array{uid:string,requesting:bool,body:array<string,mixed>} $creation The create request.
+	 *
+	 * @return JSONResponse
+	 *
+	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2b
+	 */
+	private function createdProject(array $project, array $creation): JSONResponse {
+		if ($creation['requesting'] === false) {
+			$this->boardColumns->createDefaultColumns(projectId: (string)($project['id'] ?? ($project['@self']['id'] ?? '')));
+		}
+
+		return new JSONResponse($project, Http::STATUS_CREATED);
+	}//end createdProject()
 
 	/**
 	 * The body a create saves: routing params stripped, the key normalised and
