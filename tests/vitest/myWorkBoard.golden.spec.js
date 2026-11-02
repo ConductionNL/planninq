@@ -141,6 +141,8 @@ async function answers(seed) {
 		{},
 		{ projectId: 'p9', window: { from: 'a', to: 'b' }, tasks: [{ id: 't' }], unscheduled: 'x', dependencies: [{ id: 'd' }], projects: [{ id: 'p' }], skipped: ['s'] },
 		{ projectId: '', window: null, tasks: null, unscheduled: [{ id: 'u' }], dependencies: {}, projects: 'x', skipped: null },
+		'',
+		{ skipped: 'ab', dependencies: 'cd', tasks: 'ef' },
 	])
 	server.calls = []
 	server.answers = [timelineAnswer()]

@@ -59,22 +59,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -87,9 +83,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -180,22 +186,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -361,22 +363,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -387,19 +381,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -486,22 +470,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": "2026-12-31"
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -812,7 +792,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -945,11 +934,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -1062,11 +1047,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -1251,7 +1232,16 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": "2026-12-31"
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -1341,7 +1331,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -1353,19 +1352,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -1463,7 +1452,11 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -1674,14 +1667,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -2014,16 +2015,7 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": null,
-				"to": "2026-12-31"
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -2217,14 +2209,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -2234,7 +2234,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -2451,22 +2455,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -2547,11 +2543,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -2818,11 +2810,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -2957,11 +2945,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -3050,22 +3034,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -3301,14 +3281,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "2026-01-01",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -3486,16 +3474,7 @@
 			"chartWidth": 180,
 			"barsHeight": 260
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": null,
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -3703,22 +3682,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -3805,22 +3780,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": "2026-12-31"
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -3963,22 +3934,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -4067,11 +4030,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -4149,14 +4108,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": "2026-12-31"
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -4303,7 +4270,16 @@
 			"chartWidth": 162,
 			"barsHeight": 80
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -4312,7 +4288,21 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -4394,11 +4384,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -4501,16 +4487,7 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": "2026-01-01",
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -4629,21 +4606,7 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
-		},
+		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -4652,10 +4615,6 @@
 			[
 				"/apps/planninq/api/timeline",
 				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				1
 			]
 		]
 	},
@@ -4750,22 +4709,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": "2026-12-31"
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -4777,7 +4728,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -4858,22 +4813,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -4981,22 +4928,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -5103,11 +5046,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -5119,9 +5058,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -5222,11 +5171,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -5325,11 +5270,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -5437,11 +5378,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -5533,11 +5470,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -5654,14 +5587,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -5671,11 +5612,33 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
 				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				1
 			]
 		]
 	},
@@ -5754,16 +5717,7 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": null,
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -5772,7 +5726,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -5886,16 +5844,7 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": "",
-				"to": "2026-12-31"
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -5979,11 +5928,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -5995,9 +5940,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -6217,7 +6172,16 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -6532,11 +6496,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -6739,11 +6699,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -6846,14 +6802,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": "2026-12-31"
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -6956,7 +6920,16 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -7195,11 +7168,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -7211,19 +7180,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -7319,22 +7278,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": "2026-12-31"
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -7410,16 +7361,7 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": "",
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -7654,7 +7596,16 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -7877,7 +7828,11 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -8219,11 +8174,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -8236,6 +8187,10 @@
 		],
 		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
+			[
+				"/apps/planninq/api/timeline",
+				50
+			],
 			[
 				"/apps/planninq/api/timeline",
 				50
@@ -8299,16 +8254,7 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": null,
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -8550,16 +8496,7 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": null,
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -9003,11 +8940,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -9130,14 +9063,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "",
-				"to": "2026-12-31"
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -9220,11 +9161,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -9341,14 +9278,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": "2026-12-31"
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -9434,14 +9379,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "2026-01-01",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -9455,6 +9408,10 @@
 		],
 		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
+			[
+				"/apps/planninq/api/timeline",
+				50
+			],
 			[
 				"/apps/planninq/api/timeline",
 				50
@@ -9627,7 +9584,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": "2026-12-31"
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -9641,10 +9607,6 @@
 		],
 		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
-			[
-				"/apps/planninq/api/timeline",
-				50
-			],
 			[
 				"/apps/planninq/api/timeline",
 				50
@@ -9757,11 +9719,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -9845,7 +9803,11 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -9860,19 +9822,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -10214,23 +10166,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
-		},
+		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
 				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				1
 			]
 		]
 	},
@@ -10291,16 +10231,7 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": "",
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -10386,22 +10317,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": "2026-12-31"
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -10413,11 +10336,23 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
 				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				1
 			]
 		]
 	},
@@ -10489,11 +10424,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -10587,22 +10518,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": "2026-12-31"
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -10615,19 +10538,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -10724,9 +10637,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -10793,14 +10716,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "2026-01-01",
-				"to": "2026-12-31"
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -10891,7 +10822,11 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -10993,11 +10928,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -11312,22 +11243,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -11508,22 +11431,18 @@
 			"barsHeight": 296
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": "2026-12-31"
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -11536,7 +11455,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -11612,22 +11535,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -11951,11 +11870,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -12107,6 +12022,14 @@
 			[
 				"/apps/planninq/api/timeline",
 				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				1
 			]
 		]
 	},
@@ -12228,11 +12151,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -12322,22 +12241,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": "2026-12-31"
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -12565,22 +12476,18 @@
 			"barsHeight": 404
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": "2026-12-31"
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -12831,11 +12738,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -12849,7 +12752,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -12939,11 +12846,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -13171,7 +13074,11 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -13182,7 +13089,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -13191,6 +13102,10 @@
 			[
 				"/apps/planninq/api/timeline",
 				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				1
 			]
 		]
 	},
@@ -13276,14 +13191,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": "2026-12-31"
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -13560,16 +13483,7 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": null,
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -13739,22 +13653,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -13861,11 +13767,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -13879,21 +13781,7 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
-		},
+		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -13967,14 +13855,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "2026-01-01",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -14070,7 +13966,11 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -14159,22 +14059,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -14392,22 +14284,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -14419,7 +14307,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -14506,16 +14398,7 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": "",
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -14619,7 +14502,16 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -14729,11 +14621,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -14908,22 +14796,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -15009,22 +14889,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": "2026-12-31"
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -15220,7 +15096,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": "2026-12-31"
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -15319,7 +15204,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -15330,33 +15224,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
-		},
+		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
 				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				1
 			]
 		]
 	},
@@ -15429,7 +15301,16 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -15537,7 +15418,11 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -15646,7 +15531,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": "2026-12-31"
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -15768,7 +15662,11 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -15870,22 +15768,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -16041,19 +15935,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -16119,7 +16003,16 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -16249,11 +16142,7 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
-		},
+		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -16421,7 +16310,16 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -16431,19 +16329,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -16539,22 +16427,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": "2026-12-31"
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -16567,9 +16451,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -16661,16 +16555,7 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": "2026-01-01",
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -16682,9 +16567,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -16770,7 +16665,16 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": "2026-12-31"
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -16783,6 +16687,10 @@
 		],
 		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
+			[
+				"/apps/planninq/api/timeline",
+				50
+			],
 			[
 				"/apps/planninq/api/timeline",
 				50
@@ -16846,16 +16754,7 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": null,
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -16944,22 +16843,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -17253,16 +17148,7 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": "2026-01-01",
-				"to": "2026-12-31"
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -17275,9 +17161,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -17360,7 +17256,16 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -17375,14 +17280,21 @@
 			"projects": [
 				{
 					"id": "p"
+				},
+				{
+					"id": "p"
 				}
 			],
 			"dependencies": [
 				{
 					"id": "d"
+				},
+				{
+					"id": "d"
 				}
 			],
 			"skipped": [
+				"s",
 				"s"
 			]
 		},
@@ -17461,7 +17373,16 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -17567,22 +17488,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -17669,11 +17582,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -17685,19 +17594,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -17790,22 +17689,14 @@
 			"barsHeight": 80
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -17894,14 +17785,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -18061,11 +17960,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -18150,22 +18045,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": "2026-12-31"
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -18327,9 +18214,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -18396,14 +18293,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -18495,11 +18400,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -18582,22 +18483,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -18793,7 +18690,16 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": "2026-12-31"
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -18914,22 +18820,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -18940,9 +18838,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -19032,11 +18940,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -19177,22 +19081,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -19295,14 +19195,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -19428,22 +19336,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -19552,22 +19456,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": "2026-12-31"
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -19690,11 +19590,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -19836,9 +19732,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -19956,22 +19862,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -19982,26 +19880,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				},
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				},
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s",
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -20119,22 +20000,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -20556,14 +20433,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -20573,23 +20458,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
-		},
+		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
 				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				1
 			]
 		]
 	},
@@ -20721,14 +20594,22 @@
 			"barsHeight": 116
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -20815,11 +20696,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -20916,7 +20793,11 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -20998,11 +20879,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -21138,11 +21015,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -21242,16 +21115,7 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": null,
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -21355,7 +21219,11 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -21579,11 +21447,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -21684,14 +21548,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "2026-01-01",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -21835,22 +21707,14 @@
 			"barsHeight": 152
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": "2026-12-31"
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -22050,7 +21914,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -22163,7 +22036,11 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -22301,11 +22178,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -22499,22 +22372,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -22714,14 +22579,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": "2026-12-31"
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -22822,14 +22695,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "2026-01-01",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -22842,9 +22723,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -22960,7 +22851,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -23065,11 +22965,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -23175,7 +23071,16 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -23188,14 +23093,21 @@
 			"projects": [
 				{
 					"id": "p"
+				},
+				{
+					"id": "p"
 				}
 			],
 			"dependencies": [
 				{
 					"id": "d"
+				},
+				{
+					"id": "d"
 				}
 			],
 			"skipped": [
+				"s",
 				"s"
 			]
 		},
@@ -23271,7 +23183,16 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -23281,19 +23202,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -23488,22 +23399,18 @@
 			"barsHeight": 260
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -23584,11 +23491,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -23741,7 +23644,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -23841,7 +23748,11 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -23981,16 +23892,7 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": "2026-01-01",
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -24002,9 +23904,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -24115,11 +24027,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -24204,22 +24112,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -24231,11 +24131,33 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
 				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				1
 			]
 		]
 	},
@@ -24401,16 +24323,7 @@
 			"chartWidth": 162,
 			"barsHeight": 224
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": "",
-				"to": "2026-12-31"
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -24509,14 +24422,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -24703,11 +24624,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -24967,7 +24884,16 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -25197,11 +25123,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -25307,14 +25229,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -25324,11 +25254,23 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
 				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				1
 			]
 		]
 	},
@@ -25396,11 +25338,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -25411,7 +25349,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -25566,14 +25508,22 @@
 			"barsHeight": 260
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": "2026-12-31"
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -25654,22 +25604,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": "2026-12-31"
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -25789,14 +25735,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -25892,7 +25846,11 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -26108,7 +26066,16 @@
 			"chartWidth": 540,
 			"barsHeight": 332
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": "2026-12-31"
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -26185,22 +26152,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -26399,7 +26358,16 @@
 			"chartWidth": 162,
 			"barsHeight": 368
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -26474,22 +26442,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -26616,22 +26576,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -26970,14 +26926,22 @@
 			"barsHeight": 404
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -27070,11 +27034,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -27181,11 +27141,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -27283,14 +27239,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "",
-				"to": "2026-12-31"
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -27490,16 +27454,7 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": "2026-01-01",
-				"to": "2026-12-31"
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -27687,11 +27642,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -27708,21 +27659,14 @@
 			"projects": [
 				{
 					"id": "p"
-				},
-				{
-					"id": "p"
 				}
 			],
 			"dependencies": [
 				{
 					"id": "d"
-				},
-				{
-					"id": "d"
 				}
 			],
 			"skipped": [
-				"s",
 				"s"
 			]
 		},
@@ -27799,22 +27743,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -27977,16 +27917,7 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": null,
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -28076,14 +28007,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "2026-01-01",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -28095,7 +28034,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -28104,6 +28047,10 @@
 			[
 				"/apps/planninq/api/timeline",
 				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				1
 			]
 		]
 	},
@@ -28226,7 +28173,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -28235,6 +28186,10 @@
 			[
 				"/apps/planninq/api/timeline",
 				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				1
 			]
 		]
 	},
@@ -28430,22 +28385,18 @@
 			"barsHeight": 332
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -28640,16 +28591,7 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": "2026-01-01",
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -29041,7 +28983,16 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": "2026-12-31"
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -29054,9 +29005,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -29162,7 +29123,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -29265,11 +29235,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -29374,14 +29340,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": "2026-12-31"
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -29470,14 +29444,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "",
-				"to": "2026-12-31"
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -29981,7 +29963,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -30066,14 +30052,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -30151,16 +30145,7 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": "",
-				"to": "2026-12-31"
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -30236,14 +30221,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "",
-				"to": "2026-12-31"
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -30326,7 +30319,11 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -30426,22 +30423,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": "2026-12-31"
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -30454,9 +30443,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -30636,7 +30635,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": "2026-12-31"
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -30827,7 +30835,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -30837,19 +30854,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -30954,11 +30961,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -31182,11 +31185,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -31273,14 +31272,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -31290,11 +31297,33 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
 				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				1
 			]
 		]
 	},
@@ -31358,14 +31387,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -31475,9 +31512,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -31558,22 +31605,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": "2026-12-31"
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -31853,19 +31892,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -32035,11 +32064,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -32146,14 +32171,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "2026-01-01",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -32238,14 +32271,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -32460,33 +32501,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
-		},
+		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
 				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				1
 			]
 		]
 	},
@@ -32692,11 +32711,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -32790,22 +32805,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -32816,19 +32827,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -32918,7 +32919,11 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -32933,14 +32938,21 @@
 			"projects": [
 				{
 					"id": "p"
+				},
+				{
+					"id": "p"
 				}
 			],
 			"dependencies": [
 				{
 					"id": "d"
+				},
+				{
+					"id": "d"
 				}
 			],
 			"skipped": [
+				"s",
 				"s"
 			]
 		},
@@ -33080,16 +33092,7 @@
 			"chartWidth": 126,
 			"barsHeight": 116
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": null,
-				"to": "2026-12-31"
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -33100,23 +33103,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
-		},
+		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
 				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				1
 			]
 		]
 	},
@@ -33177,7 +33168,16 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": "2026-12-31"
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -33279,22 +33279,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": "2026-12-31"
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -33455,7 +33447,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": "2026-12-31"
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -33537,11 +33538,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -33626,11 +33623,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -33641,7 +33634,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -33753,22 +33750,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -33864,11 +33853,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -33991,7 +33976,16 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -34007,14 +34001,6 @@
 			[
 				"/apps/planninq/api/timeline",
 				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				1
 			]
 		]
 	},
@@ -34091,11 +34077,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -34219,9 +34201,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -34433,22 +34425,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": "2026-12-31"
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -34526,22 +34514,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": "2026-12-31"
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -34647,14 +34627,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": "2026-12-31"
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -34737,22 +34725,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -34865,11 +34845,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -34989,9 +34965,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -35375,19 +35361,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -35485,7 +35461,16 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -35571,22 +35556,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -35701,7 +35682,16 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -35775,22 +35765,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": "2026-12-31"
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -36029,11 +36011,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -36051,6 +36029,14 @@
 			[
 				"/apps/planninq/api/timeline",
 				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				1
 			]
 		]
 	},
@@ -36159,14 +36145,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -36475,14 +36469,22 @@
 			"barsHeight": 368
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -36581,7 +36583,11 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -36807,11 +36813,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -36902,14 +36904,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -36919,7 +36929,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -37021,11 +37035,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -37338,14 +37348,22 @@
 			"barsHeight": 332
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -37430,11 +37448,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -37445,7 +37459,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -37541,7 +37559,16 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": "2026-12-31"
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -37632,7 +37659,16 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -37868,9 +37904,19 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -37938,22 +37984,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -38047,14 +38089,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "2026-01-01",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -38158,7 +38208,11 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -38240,16 +38294,7 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": "",
-				"to": "2026-12-31"
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -38463,7 +38508,16 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "2026-01-01",
+				"to": "2026-12-31"
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -38574,11 +38628,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -38672,7 +38722,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -38782,22 +38841,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -38807,33 +38862,11 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
-		},
+		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
 				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				1
 			]
 		]
 	},
@@ -38933,7 +38966,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": "2026-12-31"
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -38944,11 +38986,7 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
-		},
+		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -38957,10 +38995,6 @@
 			[
 				"/apps/planninq/api/timeline",
 				50
-			],
-			[
-				"/apps/planninq/api/timeline",
-				1
 			]
 		]
 	},
@@ -39193,11 +39227,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -39209,19 +39239,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -39434,7 +39454,16 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -39443,11 +39472,7 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
-		},
+		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -39522,7 +39547,16 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -39532,19 +39566,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -39660,11 +39684,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -39757,22 +39777,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -39974,14 +39990,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -40514,7 +40538,16 @@
 			"chartWidth": 1320,
 			"barsHeight": 476
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -40806,14 +40839,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -40936,7 +40977,16 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -41022,7 +41072,11 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -41146,22 +41200,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -41286,14 +41332,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -41393,14 +41447,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -41798,11 +41860,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -41890,22 +41948,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -42018,11 +42068,23 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
 				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				1
 			]
 		]
 	},
@@ -42084,7 +42146,16 @@
 			"chartWidth": 18,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": null,
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -42184,14 +42255,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": "2026-12-31"
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -42291,11 +42370,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -42563,22 +42638,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": "2026-12-31"
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -42685,22 +42752,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": "2026-12-31"
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -42797,11 +42860,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -42815,11 +42874,7 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
-		},
+		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -42951,7 +43006,11 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -42964,7 +43023,21 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": "throws Error",
+		"fetchPortfolioTimeline": {
+			"projects": [
+				{
+					"id": "p"
+				}
+			],
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			],
+			"skipped": [
+				"s"
+			]
+		},
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -42973,6 +43046,10 @@
 			[
 				"/apps/planninq/api/timeline",
 				50
+			],
+			[
+				"/apps/planninq/api/timeline",
+				1
 			]
 		]
 	},
@@ -43169,22 +43246,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -43283,22 +43356,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": null,
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -43429,16 +43498,7 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": null,
-				"to": "2026-12-31"
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -43543,19 +43603,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -43686,11 +43736,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -43778,7 +43824,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -44018,11 +44073,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -44134,11 +44185,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -44239,7 +44286,16 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": "throws Error",
+		"fetchProjectTimeline": {
+			"projectId": "p1",
+			"window": {
+				"from": "",
+				"to": null
+			},
+			"tasks": [],
+			"unscheduled": [],
+			"dependencies": []
+		},
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -44313,14 +44369,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -44399,16 +44463,7 @@
 			"chartWidth": 44,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": null,
-				"to": null
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -44484,22 +44539,18 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "2026-01-01",
+				"to": null
 			},
-			"tasks": [
+			"tasks": [],
+			"unscheduled": [
 				{
-					"id": "t"
+					"id": "u"
 				}
 			],
-			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -44512,19 +44563,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -44592,16 +44633,7 @@
 			"chartWidth": 6,
 			"barsHeight": 44
 		},
-		"fetchProjectTimeline": {
-			"projectId": "p1",
-			"window": {
-				"from": "2026-01-01",
-				"to": "2026-12-31"
-			},
-			"tasks": [],
-			"unscheduled": [],
-			"dependencies": []
-		},
+		"fetchProjectTimeline": "throws Error",
 		"fetchProjectTimelineCalls": [
 			[
 				"/apps/planninq/api/projects/p1/timeline",
@@ -44613,11 +44645,7 @@
 				}
 			]
 		],
-		"fetchPortfolioTimeline": {
-			"projects": [],
-			"dependencies": [],
-			"skipped": []
-		},
+		"fetchPortfolioTimeline": "throws Error",
 		"fetchPortfolioTimelineCalls": [
 			[
 				"/apps/planninq/api/timeline",
@@ -44811,22 +44839,14 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p9",
+			"projectId": "p1",
 			"window": {
-				"from": "a",
-				"to": "b"
+				"from": "",
+				"to": "2026-12-31"
 			},
-			"tasks": [
-				{
-					"id": "t"
-				}
-			],
+			"tasks": [],
 			"unscheduled": [],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			]
+			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -44908,14 +44928,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "2026-01-01",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -45155,7 +45183,11 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [],
+			"unscheduled": [
+				{
+					"id": "u"
+				}
+			],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -45349,11 +45381,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -45662,14 +45690,22 @@
 			"barsHeight": 368
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -45680,19 +45716,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
@@ -45771,14 +45797,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": "",
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -45992,11 +46026,7 @@
 				"to": null
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -46105,11 +46135,7 @@
 				"to": "2026-12-31"
 			},
 			"tasks": [],
-			"unscheduled": [
-				{
-					"id": "u"
-				}
-			],
+			"unscheduled": [],
 			"dependencies": []
 		},
 		"fetchProjectTimelineCalls": [
@@ -46572,14 +46598,22 @@
 			"barsHeight": 44
 		},
 		"fetchProjectTimeline": {
-			"projectId": "p1",
+			"projectId": "p9",
 			"window": {
-				"from": null,
-				"to": null
+				"from": "a",
+				"to": "b"
 			},
-			"tasks": [],
+			"tasks": [
+				{
+					"id": "t"
+				}
+			],
 			"unscheduled": [],
-			"dependencies": []
+			"dependencies": [
+				{
+					"id": "d"
+				}
+			]
 		},
 		"fetchProjectTimelineCalls": [
 			[
@@ -46590,26 +46624,9 @@
 			]
 		],
 		"fetchPortfolioTimeline": {
-			"projects": [
-				{
-					"id": "p"
-				},
-				{
-					"id": "p"
-				}
-			],
-			"dependencies": [
-				{
-					"id": "d"
-				},
-				{
-					"id": "d"
-				}
-			],
-			"skipped": [
-				"s",
-				"s"
-			]
+			"projects": [],
+			"dependencies": [],
+			"skipped": []
 		},
 		"fetchPortfolioTimelineCalls": [
 			[
