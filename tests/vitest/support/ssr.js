@@ -29,7 +29,7 @@ const FUNCTION = '<function>'
  * @return {Promise<object>} the component options
  */
 export async function loadComponent(url) {
-	const { options, template } = await loadSfcWithImports(url, loadComponent)
+	const { options, template } = await loadSfcWithImports(url, { vue: loadComponent })
 	const { code } = compile(template, { mode: 'function', prefixIdentifiers: true })
 	const components = Object.fromEntries(Object.entries(options.components || {})
 		.map(([name, component]) => [name, component || stub(name)]))
