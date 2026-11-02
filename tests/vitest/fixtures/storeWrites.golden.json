@@ -1,0 +1,6459 @@
+{
+	"createLabel 0 0": {
+		"result": {
+			"returned": {
+				"id": "x1",
+				"@self": {
+					"id": "x2"
+				},
+				"blocker": "b1",
+				"blocked": "b2",
+				"type": "relates",
+				"tasksUpdated": 3,
+				"results": [
+					{
+						"id": "r1"
+					}
+				]
+			}
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1"
+				},
+				{
+					"id": "l2"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 0 0": {
+		"result": {
+			"returned": {
+				"id": "x1",
+				"@self": {
+					"id": "x2"
+				},
+				"blocker": "b1",
+				"blocked": "b2",
+				"type": "relates",
+				"tasksUpdated": 3,
+				"results": [
+					{
+						"id": "r1"
+					}
+				]
+			}
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1"
+				},
+				{
+					"id": "l2"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 0 1": {
+		"result": {
+			"returned": {
+				"id": "x1",
+				"@self": {
+					"id": "x2"
+				},
+				"blocker": "b1",
+				"blocked": "b2",
+				"type": "relates",
+				"tasksUpdated": 3,
+				"results": [
+					{
+						"id": "r1"
+					}
+				]
+			}
+		},
+		"state": {
+			"labels": [],
+			"loading": false,
+			"error": "Failed to load labels."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 0 1": {
+		"result": {
+			"returned": {
+				"id": "x1",
+				"@self": {
+					"id": "x2"
+				},
+				"blocker": "b1",
+				"blocked": "b2",
+				"type": "relates",
+				"tasksUpdated": 3,
+				"results": [
+					{
+						"id": "r1"
+					}
+				]
+			}
+		},
+		"state": {
+			"labels": [],
+			"loading": false,
+			"error": "Failed to load labels."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 0": {
+		"result": {
+			"returned": 3
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 0": {
+		"result": {
+			"returned": 3
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 0": {
+		"result": {
+			"returned": {
+				"id": "x1",
+				"@self": {
+					"id": "x2"
+				},
+				"blocker": "b1",
+				"blocked": "b2",
+				"type": "relates",
+				"tasksUpdated": 3,
+				"results": [
+					{
+						"id": "r1"
+					}
+				]
+			}
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "x1",
+					"duration": 10,
+					"project": "p1",
+					"@self": {
+						"id": "x2"
+					},
+					"blocker": "b1",
+					"blocked": "b2",
+					"type": "relates",
+					"tasksUpdated": 3,
+					"results": [
+						{
+							"id": "r1"
+						}
+					]
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update other 0": {
+		"result": {
+			"returned": {
+				"id": "x1",
+				"@self": {
+					"id": "x2"
+				},
+				"blocker": "b1",
+				"blocked": "b2",
+				"type": "relates",
+				"tasksUpdated": 3,
+				"results": [
+					{
+						"id": "r1"
+					}
+				]
+			}
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge 0": {
+		"result": {
+			"returned": {
+				"id": "x1",
+				"blocker": "b1",
+				"blocked": "b2",
+				"type": "relates"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"id": "x1",
+					"blocker": "b1",
+					"blocked": "b2",
+					"type": "relates"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 0": {
+		"result": {
+			"returned": {
+				"id": "x1",
+				"blocker": "b1",
+				"blocked": "b2",
+				"type": "relates"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"id": "x1",
+					"blocker": "b1",
+					"blocked": "b2",
+					"type": "relates"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 0": {
+		"result": {
+			"returned": {
+				"id": "x1",
+				"blocker": "b1",
+				"blocked": "b2",
+				"type": "relates"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"id": "x1",
+					"blocker": "b1",
+					"blocked": "b2",
+					"type": "relates"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 0": {
+		"result": {
+			"returned": [
+				{
+					"id": "r1"
+				}
+			]
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": [
+					{
+						"id": "r1"
+					}
+				]
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"fetchObjects no params 0": {
+		"result": {
+			"returned": [
+				{
+					"id": "r1"
+				}
+			]
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": [
+					{
+						"id": "r1"
+					}
+				]
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"createLabel 1 0": {
+		"result": {
+			"returned": {
+				"@self": {
+					"id": "x3"
+				},
+				"blocker": null,
+				"tasksUpdated": 0
+			}
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1"
+				},
+				{
+					"id": "l2"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 1 0": {
+		"result": {
+			"returned": {
+				"@self": {
+					"id": "x3"
+				},
+				"blocker": null,
+				"tasksUpdated": 0
+			}
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1"
+				},
+				{
+					"id": "l2"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 1 1": {
+		"result": {
+			"returned": {
+				"@self": {
+					"id": "x3"
+				},
+				"blocker": null,
+				"tasksUpdated": 0
+			}
+		},
+		"state": {
+			"labels": [],
+			"loading": false,
+			"error": "Failed to load labels."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 1 1": {
+		"result": {
+			"returned": {
+				"@self": {
+					"id": "x3"
+				},
+				"blocker": null,
+				"tasksUpdated": 0
+			}
+		},
+		"state": {
+			"labels": [],
+			"loading": false,
+			"error": "Failed to load labels."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 1": {
+		"result": {
+			"returned": 0
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 1": {
+		"result": {
+			"returned": 0
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 1": {
+		"result": {
+			"returned": {
+				"@self": {
+					"id": "x3"
+				},
+				"blocker": null,
+				"tasksUpdated": 0
+			}
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1",
+					"@self": {
+						"id": "x3"
+					},
+					"blocker": null,
+					"tasksUpdated": 0
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update other 1": {
+		"result": {
+			"returned": {
+				"@self": {
+					"id": "x3"
+				},
+				"blocker": null,
+				"tasksUpdated": 0
+			}
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge 1": {
+		"result": {
+			"returned": {
+				"id": "x3",
+				"blocker": "t1",
+				"blocked": "t2",
+				"type": "blocks"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"id": "x3",
+					"blocker": "t1",
+					"blocked": "t2",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 1": {
+		"result": {
+			"returned": {
+				"id": "x3",
+				"blocker": "t1",
+				"blocked": "t2",
+				"type": "duplicates"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"id": "x3",
+					"blocker": "t1",
+					"blocked": "t2",
+					"type": "duplicates"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 1": {
+		"result": {
+			"returned": {
+				"id": "x3",
+				"blocker": "t1",
+				"blocked": "t2",
+				"type": "blocks"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"id": "x3",
+					"blocker": "t1",
+					"blocked": "t2",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 1": {
+		"result": {
+			"returned": {
+				"@self": {
+					"id": "x3"
+				},
+				"blocker": null,
+				"tasksUpdated": 0
+			}
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": {
+					"@self": {
+						"id": "x3"
+					},
+					"blocker": null,
+					"tasksUpdated": 0
+				}
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"fetchObjects no params 1": {
+		"result": {
+			"returned": {
+				"@self": {
+					"id": "x3"
+				},
+				"blocker": null,
+				"tasksUpdated": 0
+			}
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": {
+					"@self": {
+						"id": "x3"
+					},
+					"blocker": null,
+					"tasksUpdated": 0
+				}
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"createLabel 2 0": {
+		"result": {
+			"returned": {
+				"title": "plain"
+			}
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1"
+				},
+				{
+					"id": "l2"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 2 0": {
+		"result": {
+			"returned": {
+				"title": "plain"
+			}
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1"
+				},
+				{
+					"id": "l2"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 2 1": {
+		"result": {
+			"returned": {
+				"title": "plain"
+			}
+		},
+		"state": {
+			"labels": [],
+			"loading": false,
+			"error": "Failed to load labels."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 2 1": {
+		"result": {
+			"returned": {
+				"title": "plain"
+			}
+		},
+		"state": {
+			"labels": [],
+			"loading": false,
+			"error": "Failed to load labels."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 2": {
+		"result": {
+			"returned": 0
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 2": {
+		"result": {
+			"returned": 0
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 2": {
+		"result": {
+			"returned": {
+				"title": "plain"
+			}
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1",
+					"title": "plain"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update other 2": {
+		"result": {
+			"returned": {
+				"title": "plain"
+			}
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge 2": {
+		"result": {
+			"returned": {
+				"blocker": "t1",
+				"blocked": "t2",
+				"type": "blocks"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"blocker": "t1",
+					"blocked": "t2",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 2": {
+		"result": {
+			"returned": {
+				"blocker": "t1",
+				"blocked": "t2",
+				"type": "duplicates"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"blocker": "t1",
+					"blocked": "t2",
+					"type": "duplicates"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 2": {
+		"result": {
+			"returned": {
+				"blocker": "t1",
+				"blocked": "t2",
+				"type": "blocks"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"blocker": "t1",
+					"blocked": "t2",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 2": {
+		"result": {
+			"returned": {
+				"title": "plain"
+			}
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": {
+					"title": "plain"
+				}
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"fetchObjects no params 2": {
+		"result": {
+			"returned": {
+				"title": "plain"
+			}
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": {
+					"title": "plain"
+				}
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"createLabel 3 0": {
+		"result": {
+			"returned": [
+				{
+					"id": "arr"
+				}
+			]
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1"
+				},
+				{
+					"id": "l2"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 3 0": {
+		"result": {
+			"returned": [
+				{
+					"id": "arr"
+				}
+			]
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1"
+				},
+				{
+					"id": "l2"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 3 1": {
+		"result": {
+			"returned": [
+				{
+					"id": "arr"
+				}
+			]
+		},
+		"state": {
+			"labels": [],
+			"loading": false,
+			"error": "Failed to load labels."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 3 1": {
+		"result": {
+			"returned": [
+				{
+					"id": "arr"
+				}
+			]
+		},
+		"state": {
+			"labels": [],
+			"loading": false,
+			"error": "Failed to load labels."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 3": {
+		"result": {
+			"returned": 0
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 3": {
+		"result": {
+			"returned": 0
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 3": {
+		"result": {
+			"returned": [
+				{
+					"id": "arr"
+				}
+			]
+		},
+		"state": {
+			"entries": [
+				{
+					"0": {
+						"id": "arr"
+					},
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update other 3": {
+		"result": {
+			"returned": [
+				{
+					"id": "arr"
+				}
+			]
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge 3": {
+		"result": {
+			"returned": {
+				"blocker": "t1",
+				"blocked": "t2",
+				"type": "blocks"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"blocker": "t1",
+					"blocked": "t2",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 3": {
+		"result": {
+			"returned": {
+				"blocker": "t1",
+				"blocked": "t2",
+				"type": "duplicates"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"blocker": "t1",
+					"blocked": "t2",
+					"type": "duplicates"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 3": {
+		"result": {
+			"returned": {
+				"blocker": "t1",
+				"blocked": "t2",
+				"type": "blocks"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"blocker": "t1",
+					"blocked": "t2",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 3": {
+		"result": {
+			"returned": [
+				{
+					"id": "arr"
+				}
+			]
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": [
+					{
+						"id": "arr"
+					}
+				]
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"fetchObjects no params 3": {
+		"result": {
+			"returned": [
+				{
+					"id": "arr"
+				}
+			]
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": [
+					{
+						"id": "arr"
+					}
+				]
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"createLabel 4 0": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1"
+				},
+				{
+					"id": "l2"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 4 0": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1"
+				},
+				{
+					"id": "l2"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 4 1": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"labels": [],
+			"loading": false,
+			"error": "Failed to load labels."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 4 1": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"labels": [],
+			"loading": false,
+			"error": "Failed to load labels."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 4": {
+		"result": {
+			"thrown": "Cannot read properties of null (reading 'tasksUpdated')"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 4": {
+		"result": {
+			"thrown": "Cannot read properties of null (reading 'tasksUpdated')"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 4": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update other 4": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge 4": {
+		"result": {
+			"thrown": "Cannot read properties of null (reading 'id')"
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 4": {
+		"result": {
+			"thrown": "Cannot read properties of null (reading 'id')"
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 4": {
+		"result": {
+			"thrown": "Cannot read properties of null (reading 'id')"
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 4": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			],
+			[
+				"console.error",
+				"Failed to fetch task objects:",
+				"TypeError: Cannot read properties of null (reading 'results')"
+			]
+		]
+	},
+	"fetchObjects no params 4": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			],
+			[
+				"console.error",
+				"Failed to fetch task objects:",
+				"TypeError: Cannot read properties of null (reading 'results')"
+			]
+		]
+	},
+	"createLabel 5 0": {
+		"result": {
+			"returned": {}
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1"
+				},
+				{
+					"id": "l2"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 5 0": {
+		"result": {
+			"returned": {}
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1"
+				},
+				{
+					"id": "l2"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 5 1": {
+		"result": {
+			"returned": {}
+		},
+		"state": {
+			"labels": [],
+			"loading": false,
+			"error": "Failed to load labels."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 5 1": {
+		"result": {
+			"returned": {}
+		},
+		"state": {
+			"labels": [],
+			"loading": false,
+			"error": "Failed to load labels."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 5": {
+		"result": {
+			"returned": 0
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 5": {
+		"result": {
+			"returned": 0
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 5": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "bad json"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"console.error",
+				"timeEntry update error:",
+				"SyntaxError: bad json"
+			]
+		]
+	},
+	"timeEntry update other 5": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "bad json"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"console.error",
+				"timeEntry update error:",
+				"SyntaxError: bad json"
+			]
+		]
+	},
+	"createEdge 5": {
+		"result": {
+			"thrown": "bad json"
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 5": {
+		"result": {
+			"thrown": "bad json"
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 5": {
+		"result": {
+			"thrown": "bad json"
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 5": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			],
+			[
+				"console.error",
+				"Failed to fetch task objects:",
+				"SyntaxError: bad json"
+			]
+		]
+	},
+	"fetchObjects no params 5": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			],
+			[
+				"console.error",
+				"Failed to fetch task objects:",
+				"SyntaxError: bad json"
+			]
+		]
+	},
+	"createLabel 6 0": {
+		"result": {
+			"returned": {
+				"id": "once"
+			}
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1"
+				},
+				{
+					"id": "l2"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 6 0": {
+		"result": {
+			"returned": {
+				"id": "once"
+			}
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1"
+				},
+				{
+					"id": "l2"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 6 1": {
+		"result": {
+			"returned": {
+				"id": "once"
+			}
+		},
+		"state": {
+			"labels": [],
+			"loading": false,
+			"error": "Failed to load labels."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 6 1": {
+		"result": {
+			"returned": {
+				"id": "once"
+			}
+		},
+		"state": {
+			"labels": [],
+			"loading": false,
+			"error": "Failed to load labels."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"fetch",
+				"/apps/planninq/api/labels",
+				"GET",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 6": {
+		"result": {
+			"returned": 0
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 6": {
+		"result": {
+			"returned": 0
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 6": {
+		"result": {
+			"returned": {
+				"id": "once"
+			}
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "once",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update other 6": {
+		"result": {
+			"returned": {
+				"id": "once"
+			}
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge 6": {
+		"result": {
+			"returned": {
+				"id": "once",
+				"blocker": "t1",
+				"blocked": "t2",
+				"type": "blocks"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"id": "once",
+					"blocker": "t1",
+					"blocked": "t2",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 6": {
+		"result": {
+			"returned": {
+				"id": "once",
+				"blocker": "t1",
+				"blocked": "t2",
+				"type": "duplicates"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"id": "once",
+					"blocker": "t1",
+					"blocked": "t2",
+					"type": "duplicates"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 6": {
+		"result": {
+			"returned": {
+				"id": "once",
+				"blocker": "t1",
+				"blocked": "t2",
+				"type": "blocks"
+			}
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				},
+				{
+					"id": "once",
+					"blocker": "t1",
+					"blocked": "t2",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 6": {
+		"result": {
+			"returned": {
+				"id": "once"
+			}
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": {
+					"id": "once"
+				}
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"fetchObjects no params 6": {
+		"result": {
+			"returned": {
+				"id": "once"
+			}
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": {
+					"id": "once"
+				}
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"createLabel 7 0": {
+		"result": {
+			"thrown": "bad"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "bad"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 7 0": {
+		"result": {
+			"thrown": "bad"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "bad"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 7 1": {
+		"result": {
+			"thrown": "bad"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "bad"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 7 1": {
+		"result": {
+			"thrown": "bad"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "bad"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 7": {
+		"result": {
+			"thrown": "bad"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "bad"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 7": {
+		"result": {
+			"thrown": "bad"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "bad"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 7": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "msg"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update other 7": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "msg"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge 7": {
+		"result": {
+			"thrown": "bad"
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "bad"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 7": {
+		"result": {
+			"thrown": "bad"
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "bad"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 7": {
+		"result": {
+			"thrown": "bad"
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "bad"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 7": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"fetchObjects no params 7": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"createLabel 8 0": {
+		"result": {
+			"thrown": "only detail"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "only detail"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 8 0": {
+		"result": {
+			"thrown": "only detail"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "only detail"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 8 1": {
+		"result": {
+			"thrown": "only detail"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "only detail"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 8 1": {
+		"result": {
+			"thrown": "only detail"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "only detail"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 8": {
+		"result": {
+			"thrown": "Failed to delete label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to delete label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 8": {
+		"result": {
+			"thrown": "Failed to delete label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to delete label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 8": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "m"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update other 8": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "m"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge 8": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 8": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 8": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 8": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"fetchObjects no params 8": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"createLabel 9 0": {
+		"result": {
+			"thrown": "Failed to create label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 9 0": {
+		"result": {
+			"thrown": "Failed to update label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to update label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 9 1": {
+		"result": {
+			"thrown": "Failed to create label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 9 1": {
+		"result": {
+			"thrown": "Failed to update label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to update label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 9": {
+		"result": {
+			"thrown": "Failed to delete label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to delete label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 9": {
+		"result": {
+			"thrown": "Failed to delete label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to delete label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 9": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "only message"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update other 9": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "only message"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge 9": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 9": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 9": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 9": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"fetchObjects no params 9": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"createLabel 10 0": {
+		"result": {
+			"thrown": "Failed to create label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 10 0": {
+		"result": {
+			"thrown": "Failed to update label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to update label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 10 1": {
+		"result": {
+			"thrown": "Failed to create label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 10 1": {
+		"result": {
+			"thrown": "Failed to update label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to update label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 10": {
+		"result": {
+			"thrown": "Failed to delete label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to delete label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 10": {
+		"result": {
+			"thrown": "Failed to delete label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to delete label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 10": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "update-error"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update other 10": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "update-error"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge 10": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 10": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 10": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 10": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"fetchObjects no params 10": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"createLabel 11 0": {
+		"result": {
+			"thrown": "Failed to create label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 11 0": {
+		"result": {
+			"thrown": "Failed to update label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to update label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 11 1": {
+		"result": {
+			"thrown": "Failed to create label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 11 1": {
+		"result": {
+			"thrown": "Failed to update label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to update label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 11": {
+		"result": {
+			"thrown": "Failed to delete label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to delete label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 11": {
+		"result": {
+			"thrown": "Failed to delete label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to delete label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 11": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "update-error"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update other 11": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "update-error"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge 11": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 11": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 11": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 11": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"fetchObjects no params 11": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"createLabel 12 0": {
+		"result": {
+			"thrown": "Failed to create label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 12 0": {
+		"result": {
+			"thrown": "Failed to update label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to update label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 12 1": {
+		"result": {
+			"thrown": "Failed to create label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 12 1": {
+		"result": {
+			"thrown": "Failed to update label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to update label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 12": {
+		"result": {
+			"thrown": "Failed to delete label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to delete label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 12": {
+		"result": {
+			"thrown": "Failed to delete label."
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": "Failed to delete label."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 12": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "update-error"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update other 12": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "update-error"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge 12": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 12": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 12": {
+		"result": {
+			"thrown": "Failed to create dependency."
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": "Failed to create dependency."
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 12": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"fetchObjects no params 12": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			]
+		]
+	},
+	"createLabel 13 0": {
+		"result": {
+			"thrown": "boom"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 13 0": {
+		"result": {
+			"thrown": "boom"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 13 1": {
+		"result": {
+			"thrown": "boom"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 13 1": {
+		"result": {
+			"thrown": "boom"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 13": {
+		"result": {
+			"thrown": "boom"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 13": {
+		"result": {
+			"thrown": "boom"
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 13": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "boom"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"console.error",
+				"timeEntry update error:",
+				"Error: boom"
+			]
+		]
+	},
+	"timeEntry update other 13": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "boom"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"console.error",
+				"timeEntry update error:",
+				"Error: boom"
+			]
+		]
+	},
+	"createEdge 13": {
+		"result": {
+			"thrown": "boom"
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 13": {
+		"result": {
+			"thrown": "boom"
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 13": {
+		"result": {
+			"thrown": "boom"
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 13": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			],
+			[
+				"console.error",
+				"Failed to fetch task objects:",
+				"Error: boom"
+			]
+		]
+	},
+	"fetchObjects no params 13": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			],
+			[
+				"console.error",
+				"Failed to fetch task objects:",
+				"Error: boom"
+			]
+		]
+	},
+	"createLabel 14 0": {
+		"result": {
+			"thrown": ""
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 14 0": {
+		"result": {
+			"thrown": ""
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createLabel 14 1": {
+		"result": {
+			"thrown": ""
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label",
+				"POST",
+				"{\"title\":\"L\",\"color\":\"#fff\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"updateLabel 14 1": {
+		"result": {
+			"thrown": ""
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/label/l1",
+				"PUT",
+				"{\"title\":\"L2\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel 14": {
+		"result": {
+			"thrown": ""
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l1",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"deleteLabel other 14": {
+		"result": {
+			"thrown": ""
+		},
+		"state": {
+			"labels": [
+				{
+					"id": "l1",
+					"title": "One"
+				},
+				{
+					"id": "l2",
+					"title": "Two"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/labels/l9",
+				"DELETE",
+				null,
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"timeEntry update 14": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "update-error"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"PATCH",
+				"{\"duration\":30}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"console.error",
+				"timeEntry update error:",
+				"Error: "
+			]
+		]
+	},
+	"timeEntry update other 14": {
+		"result": {
+			"returned": null
+		},
+		"state": {
+			"entries": [
+				{
+					"id": "e1",
+					"duration": 10,
+					"project": "p1"
+				},
+				{
+					"id": "e2",
+					"duration": 20
+				}
+			],
+			"loading": false,
+			"error": "update-error"
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"PATCH",
+				"{\"date\":\"2026-01-01\"}",
+				{
+					"h": 1
+				}
+			],
+			[
+				"console.error",
+				"timeEntry update error:",
+				"Error: "
+			]
+		]
+	},
+	"createEdge 14": {
+		"result": {
+			"thrown": ""
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge typed 14": {
+		"result": {
+			"thrown": ""
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"duplicates\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"createEdge undefined type 14": {
+		"result": {
+			"thrown": ""
+		},
+		"state": {
+			"edges": [
+				{
+					"id": "d0",
+					"blocker": "a",
+					"blocked": "b",
+					"type": "blocks"
+				}
+			],
+			"loading": false,
+			"error": null
+		},
+		"log": [
+			[
+				"fetch",
+				"/apps/planninq/api/dependencies",
+				"POST",
+				"{\"blocker\":\"t1\",\"blocked\":\"t2\",\"type\":\"blocks\"}",
+				{
+					"h": 1
+				}
+			]
+		]
+	},
+	"fetchObjects 14": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema&project=p1&_limit=5",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			],
+			[
+				"console.error",
+				"Failed to fetch task objects:",
+				"Error: "
+			]
+		]
+	},
+	"fetchObjects no params 14": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"fetch",
+				"https://cloud.example/apps/openregister/api/objects?register=planninq-register&schema=task-schema",
+				"GET",
+				null,
+				{
+					"requesttoken": "token"
+				}
+			],
+			[
+				"console.error",
+				"Failed to fetch task objects:",
+				"Error: "
+			]
+		]
+	},
+	"fetchObjects unregistered": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {}
+		},
+		"log": [
+			[
+				"console.warn",
+				"Object type \"nope\" is not registered"
+			]
+		]
+	},
+	"fetchObjects null params": {
+		"result": {
+			"returned": []
+		},
+		"state": {
+			"baseUrl": "/apps/openregister/api/objects",
+			"schemaBaseUrl": "/schemas",
+			"objectTypes": {
+				"task": {
+					"schema": "task-schema",
+					"register": "planninq-register"
+				}
+			},
+			"objects": {
+				"task": []
+			},
+			"loading": {
+				"task": false
+			}
+		},
+		"log": [
+			[
+				"console.error",
+				"Failed to fetch task objects:",
+				"TypeError: Cannot convert undefined or null to object"
+			]
+		]
+	}
+}
