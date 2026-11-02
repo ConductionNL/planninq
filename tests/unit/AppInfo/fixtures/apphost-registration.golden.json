@@ -1,0 +1,196 @@
+[
+    {
+        "method": "registerService",
+        "args": [
+            "OCA\\Planninq\\Controller\\DashboardController",
+            {
+                "closure": [
+                    "Psr\\Container\\ContainerInterface $c"
+                ],
+                "returns": "",
+                "captured": {
+                    "appId": "planninq"
+                },
+                "source": [
+                    "static function (ContainerInterface $c) use ($appId) {",
+                    "$class = 'OCA\\\\OpenRegister\\\\AppHost\\\\Controller\\\\GenericDashboardController';",
+                    "return new $class(",
+                    "appName: $appId,",
+                    "request: $c->get('OCP\\\\IRequest')",
+                    ");",
+                    "}"
+                ]
+            },
+            true
+        ]
+    },
+    {
+        "method": "registerService",
+        "args": [
+            "OCA\\Planninq\\Controller\\PreferencesController",
+            {
+                "closure": [
+                    "Psr\\Container\\ContainerInterface $c"
+                ],
+                "returns": "",
+                "captured": {
+                    "appId": "planninq"
+                },
+                "source": [
+                    "static function (ContainerInterface $c) use ($appId) {",
+                    "$class = 'OCA\\\\OpenRegister\\\\AppHost\\\\Controller\\\\GenericPreferencesController';",
+                    "return new $class(",
+                    "appName: $appId,",
+                    "request: $c->get('OCP\\\\IRequest'),",
+                    "config: $c->get('OCP\\\\IConfig'),",
+                    "userSession: $c->get('OCP\\\\IUserSession')",
+                    ");",
+                    "}"
+                ]
+            },
+            true
+        ]
+    },
+    {
+        "method": "registerService",
+        "args": [
+            "OCA\\Planninq\\Controller\\HealthController",
+            {
+                "closure": [
+                    "Psr\\Container\\ContainerInterface $c"
+                ],
+                "returns": "",
+                "captured": {
+                    "appId": "planninq"
+                },
+                "source": [
+                    "static function (ContainerInterface $c) use ($appId) {",
+                    "$class = 'OCA\\\\OpenRegister\\\\AppHost\\\\Controller\\\\GenericHealthController';",
+                    "return new $class(",
+                    "appName: $appId,",
+                    "request: $c->get('OCP\\\\IRequest'),",
+                    "manifestLoader: $c->get('OCA\\\\OpenRegister\\\\AppHost\\\\Observability\\\\ManifestLoader'),",
+                    "executor: $c->get('OCA\\\\OpenRegister\\\\AppHost\\\\Observability\\\\HealthCheckExecutor')",
+                    ");",
+                    "}"
+                ]
+            },
+            true
+        ]
+    },
+    {
+        "method": "registerService",
+        "args": [
+            "OCA\\Planninq\\Controller\\MetricsController",
+            {
+                "closure": [
+                    "Psr\\Container\\ContainerInterface $c"
+                ],
+                "returns": "",
+                "captured": {
+                    "appId": "planninq"
+                },
+                "source": [
+                    "static function (ContainerInterface $c) use ($appId) {",
+                    "$class = 'OCA\\\\OpenRegister\\\\AppHost\\\\Controller\\\\GenericMetricsController';",
+                    "return new $class(",
+                    "appName: $appId,",
+                    "request: $c->get('OCP\\\\IRequest'),",
+                    "manifestLoader: $c->get('OCA\\\\OpenRegister\\\\AppHost\\\\Observability\\\\ManifestLoader'),",
+                    "engine: $c->get('OCA\\\\OpenRegister\\\\AppHost\\\\Observability\\\\MetricsEngine')",
+                    ");",
+                    "}"
+                ]
+            },
+            true
+        ]
+    },
+    {
+        "method": "registerService",
+        "args": [
+            "OCA\\Planninq\\Settings\\AdminSettings",
+            {
+                "closure": [
+                    "Psr\\Container\\ContainerInterface $c"
+                ],
+                "returns": "OCA\\Planninq\\Settings\\AdminSettings",
+                "captured": {
+                    "appId": "planninq"
+                },
+                "source": [
+                    "static fn (ContainerInterface $c): AdminSettings => new AdminSettings(",
+                    "appId: $appId,",
+                    "sectionId: $appId,",
+                    "priority: 10,",
+                    "appManager: $c->get('OCP\\\\App\\\\IAppManager'),",
+                    "initialState: $c->get('OCP\\\\AppFramework\\\\Services\\\\IInitialState'),",
+                    "appConfig: $c->get('OCP\\\\IAppConfig')",
+                    ")",
+                    ");"
+                ]
+            },
+            true
+        ]
+    },
+    {
+        "method": "registerService",
+        "args": [
+            "OCA\\Planninq\\Sections\\SettingsSection",
+            {
+                "closure": [
+                    "Psr\\Container\\ContainerInterface $c"
+                ],
+                "returns": "",
+                "captured": {
+                    "appId": "planninq"
+                },
+                "source": [
+                    "static function (ContainerInterface $c) use ($appId) {",
+                    "$class = 'OCA\\\\OpenRegister\\\\AppHost\\\\Settings\\\\GenericSettingsSection';",
+                    "return new $class(",
+                    "sectionId: $appId,",
+                    "name: 'Planninq',",
+                    "appId: $appId,",
+                    "iconFile: 'app-dark.svg',",
+                    "priority: 75,",
+                    "urlGenerator: $c->get('OCP\\\\IURLGenerator')",
+                    ");",
+                    "}"
+                ]
+            },
+            true
+        ]
+    },
+    {
+        "method": "registerService",
+        "args": [
+            "OCA\\Planninq\\Listener\\DeepLinkRegistrationListener",
+            {
+                "closure": [
+                    "Psr\\Container\\ContainerInterface $c"
+                ],
+                "returns": "OCA\\Planninq\\Listener\\DeepLinkRegistrationListener",
+                "captured": {
+                    "appId": "planninq"
+                },
+                "source": [
+                    "static fn (ContainerInterface $c): DeepLinkRegistrationListener => new DeepLinkRegistrationListener(",
+                    "appId: $appId,",
+                    "appManager: $c->get('OCP\\\\App\\\\IAppManager'),",
+                    "logger: $c->get('Psr\\\\Log\\\\LoggerInterface')",
+                    ")",
+                    ");"
+                ]
+            },
+            true
+        ]
+    },
+    {
+        "method": "registerEventListener",
+        "args": [
+            "OCA\\OpenRegister\\Event\\DeepLinkRegistrationEvent",
+            "OCA\\Planninq\\Listener\\DeepLinkRegistrationListener",
+            0
+        ]
+    }
+]
