@@ -1,0 +1,620 @@
+{
+    "no OpenRegister": {
+        "load": [
+            [
+                "log.warning",
+                "Planninq: OpenRegister not available, skipping register initialization",
+                []
+            ],
+            [
+                "result",
+                {
+                    "success": false,
+                    "message": "OpenRegister is not installed or enabled."
+                }
+            ]
+        ],
+        "reload": [
+            [
+                "log.warning",
+                "Planninq: OpenRegister not available, skipping register initialization",
+                []
+            ],
+            [
+                "result",
+                {
+                    "success": false,
+                    "message": "OpenRegister is not installed or enabled."
+                }
+            ]
+        ]
+    },
+    "imported": {
+        "load": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "importFromApp",
+                "planninq",
+                "planninq",
+                5,
+                "0.37.0",
+                false
+            ],
+            [
+                "get",
+                "OCA\\OpenRegister\\Db\\RegisterMapper"
+            ],
+            [
+                "find",
+                {
+                    "id": "planninq",
+                    "_rbac": false,
+                    "_multitenancy": false
+                }
+            ],
+            [
+                "clearFindCache",
+                42
+            ],
+            [
+                "log.info",
+                "Planninq: register configuration imported successfully",
+                []
+            ],
+            [
+                "result",
+                {
+                    "success": true,
+                    "message": "Configuration imported successfully.",
+                    "version": "1.0.0"
+                }
+            ]
+        ],
+        "reload": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "importFromApp",
+                "planninq",
+                "planninq",
+                5,
+                "0.37.0",
+                true
+            ],
+            [
+                "get",
+                "OCA\\OpenRegister\\Db\\RegisterMapper"
+            ],
+            [
+                "find",
+                {
+                    "id": "planninq",
+                    "_rbac": false,
+                    "_multitenancy": false
+                }
+            ],
+            [
+                "clearFindCache",
+                42
+            ],
+            [
+                "log.info",
+                "Planninq: register configuration imported successfully",
+                []
+            ],
+            [
+                "result",
+                {
+                    "success": true,
+                    "message": "Configuration imported successfully.",
+                    "version": "1.0.0"
+                }
+            ]
+        ]
+    },
+    "imported, no version": {
+        "load": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "importFromApp",
+                "planninq",
+                "planninq",
+                5,
+                "0.37.0",
+                false
+            ],
+            [
+                "get",
+                "OCA\\OpenRegister\\Db\\RegisterMapper"
+            ],
+            [
+                "find",
+                {
+                    "id": "planninq",
+                    "_rbac": false,
+                    "_multitenancy": false
+                }
+            ],
+            [
+                "clearFindCache",
+                42
+            ],
+            [
+                "log.info",
+                "Planninq: register configuration imported successfully",
+                []
+            ],
+            [
+                "result",
+                {
+                    "success": true,
+                    "message": "Configuration imported successfully.",
+                    "version": "unknown"
+                }
+            ]
+        ],
+        "reload": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "importFromApp",
+                "planninq",
+                "planninq",
+                5,
+                "0.37.0",
+                true
+            ],
+            [
+                "get",
+                "OCA\\OpenRegister\\Db\\RegisterMapper"
+            ],
+            [
+                "find",
+                {
+                    "id": "planninq",
+                    "_rbac": false,
+                    "_multitenancy": false
+                }
+            ],
+            [
+                "clearFindCache",
+                42
+            ],
+            [
+                "log.info",
+                "Planninq: register configuration imported successfully",
+                []
+            ],
+            [
+                "result",
+                {
+                    "success": true,
+                    "message": "Configuration imported successfully.",
+                    "version": "unknown"
+                }
+            ]
+        ]
+    },
+    "empty reply": {
+        "load": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "importFromApp",
+                "planninq",
+                "planninq",
+                5,
+                "0.37.0",
+                false
+            ],
+            [
+                "get",
+                "OCA\\OpenRegister\\Db\\RegisterMapper"
+            ],
+            [
+                "find",
+                {
+                    "id": "planninq",
+                    "_rbac": false,
+                    "_multitenancy": false
+                }
+            ],
+            [
+                "clearFindCache",
+                42
+            ],
+            [
+                "result",
+                {
+                    "success": false,
+                    "message": "Import returned an empty result."
+                }
+            ]
+        ],
+        "reload": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "importFromApp",
+                "planninq",
+                "planninq",
+                5,
+                "0.37.0",
+                true
+            ],
+            [
+                "get",
+                "OCA\\OpenRegister\\Db\\RegisterMapper"
+            ],
+            [
+                "find",
+                {
+                    "id": "planninq",
+                    "_rbac": false,
+                    "_multitenancy": false
+                }
+            ],
+            [
+                "clearFindCache",
+                42
+            ],
+            [
+                "result",
+                {
+                    "success": false,
+                    "message": "Import returned an empty result."
+                }
+            ]
+        ]
+    },
+    "importer throws": {
+        "load": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "importFromApp",
+                "planninq",
+                "planninq",
+                5,
+                "0.37.0",
+                false
+            ],
+            [
+                "log.error",
+                "Planninq: configuration import failed",
+                {
+                    "exception": "import broke"
+                }
+            ],
+            [
+                "result",
+                {
+                    "success": false,
+                    "message": "import broke"
+                }
+            ]
+        ],
+        "reload": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "importFromApp",
+                "planninq",
+                "planninq",
+                5,
+                "0.37.0",
+                true
+            ],
+            [
+                "log.error",
+                "Planninq: configuration import failed",
+                {
+                    "exception": "import broke"
+                }
+            ],
+            [
+                "result",
+                {
+                    "success": false,
+                    "message": "import broke"
+                }
+            ]
+        ]
+    },
+    "no importer": {
+        "load": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "log.error",
+                "Planninq: configuration import failed",
+                {
+                    "exception": "no OCA\\OpenRegister\\Service\\ConfigurationService"
+                }
+            ],
+            [
+                "result",
+                {
+                    "success": false,
+                    "message": "no OCA\\OpenRegister\\Service\\ConfigurationService"
+                }
+            ]
+        ],
+        "reload": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "log.error",
+                "Planninq: configuration import failed",
+                {
+                    "exception": "no OCA\\OpenRegister\\Service\\ConfigurationService"
+                }
+            ],
+            [
+                "result",
+                {
+                    "success": false,
+                    "message": "no OCA\\OpenRegister\\Service\\ConfigurationService"
+                }
+            ]
+        ]
+    },
+    "mapper without cache": {
+        "load": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "importFromApp",
+                "planninq",
+                "planninq",
+                5,
+                "0.37.0",
+                false
+            ],
+            [
+                "get",
+                "OCA\\OpenRegister\\Db\\RegisterMapper"
+            ],
+            [
+                "log.info",
+                "Planninq: register configuration imported successfully",
+                []
+            ],
+            [
+                "result",
+                {
+                    "success": true,
+                    "message": "Configuration imported successfully.",
+                    "version": "2"
+                }
+            ]
+        ],
+        "reload": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "importFromApp",
+                "planninq",
+                "planninq",
+                5,
+                "0.37.0",
+                true
+            ],
+            [
+                "get",
+                "OCA\\OpenRegister\\Db\\RegisterMapper"
+            ],
+            [
+                "log.info",
+                "Planninq: register configuration imported successfully",
+                []
+            ],
+            [
+                "result",
+                {
+                    "success": true,
+                    "message": "Configuration imported successfully.",
+                    "version": "2"
+                }
+            ]
+        ]
+    },
+    "mapper throws": {
+        "load": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "importFromApp",
+                "planninq",
+                "planninq",
+                5,
+                "0.37.0",
+                false
+            ],
+            [
+                "get",
+                "OCA\\OpenRegister\\Db\\RegisterMapper"
+            ],
+            [
+                "find",
+                {
+                    "id": "planninq",
+                    "_rbac": false,
+                    "_multitenancy": false
+                }
+            ],
+            [
+                "log.warning",
+                "Planninq: could not refresh the cached register after the import",
+                {
+                    "exception": "no register"
+                }
+            ],
+            [
+                "log.info",
+                "Planninq: register configuration imported successfully",
+                []
+            ],
+            [
+                "result",
+                {
+                    "success": true,
+                    "message": "Configuration imported successfully.",
+                    "version": "2"
+                }
+            ]
+        ],
+        "reload": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "importFromApp",
+                "planninq",
+                "planninq",
+                5,
+                "0.37.0",
+                true
+            ],
+            [
+                "get",
+                "OCA\\OpenRegister\\Db\\RegisterMapper"
+            ],
+            [
+                "find",
+                {
+                    "id": "planninq",
+                    "_rbac": false,
+                    "_multitenancy": false
+                }
+            ],
+            [
+                "log.warning",
+                "Planninq: could not refresh the cached register after the import",
+                {
+                    "exception": "no register"
+                }
+            ],
+            [
+                "log.info",
+                "Planninq: register configuration imported successfully",
+                []
+            ],
+            [
+                "result",
+                {
+                    "success": true,
+                    "message": "Configuration imported successfully.",
+                    "version": "2"
+                }
+            ]
+        ]
+    },
+    "no mapper": {
+        "load": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "importFromApp",
+                "planninq",
+                "planninq",
+                5,
+                "0.37.0",
+                false
+            ],
+            [
+                "get",
+                "OCA\\OpenRegister\\Db\\RegisterMapper"
+            ],
+            [
+                "log.warning",
+                "Planninq: could not refresh the cached register after the import",
+                {
+                    "exception": "no OCA\\OpenRegister\\Db\\RegisterMapper"
+                }
+            ],
+            [
+                "log.info",
+                "Planninq: register configuration imported successfully",
+                []
+            ],
+            [
+                "result",
+                {
+                    "success": true,
+                    "message": "Configuration imported successfully.",
+                    "version": "2"
+                }
+            ]
+        ],
+        "reload": [
+            [
+                "get",
+                "OCA\\OpenRegister\\Service\\ConfigurationService"
+            ],
+            [
+                "importFromApp",
+                "planninq",
+                "planninq",
+                5,
+                "0.37.0",
+                true
+            ],
+            [
+                "get",
+                "OCA\\OpenRegister\\Db\\RegisterMapper"
+            ],
+            [
+                "log.warning",
+                "Planninq: could not refresh the cached register after the import",
+                {
+                    "exception": "no OCA\\OpenRegister\\Db\\RegisterMapper"
+                }
+            ],
+            [
+                "log.info",
+                "Planninq: register configuration imported successfully",
+                []
+            ],
+            [
+                "result",
+                {
+                    "success": true,
+                    "message": "Configuration imported successfully.",
+                    "version": "2"
+                }
+            ]
+        ]
+    }
+}

@@ -1,0 +1,380 @@
+{
+    "label L1": [
+        [
+            "search",
+            "planninq",
+            "task"
+        ],
+        [
+            "save",
+            {
+                "object": {
+                    "@self": {
+                        "id": "T1"
+                    },
+                    "title": "a",
+                    "labels": [
+                        "L2"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "T1",
+                "_rbac": false
+            }
+        ],
+        [
+            "save",
+            {
+                "object": {
+                    "@self": {
+                        "id": "T3"
+                    },
+                    "title": "c",
+                    "labels": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "T3",
+                "_rbac": false
+            }
+        ],
+        [
+            "save",
+            {
+                "object": {
+                    "@self": {
+                        "id": "T7"
+                    },
+                    "title": "g",
+                    "labels": [
+                        "L3"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "T7",
+                "_rbac": false
+            }
+        ],
+        [
+            "save",
+            {
+                "object": {
+                    "@self": {
+                        "id": "T8"
+                    },
+                    "title": "h",
+                    "labels": [
+                        7
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "T8",
+                "_rbac": false
+            }
+        ],
+        [
+            "delete",
+            {
+                "register": "planninq",
+                "schema": "label",
+                "uuid": "L1"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: label deleted with cascade",
+            {
+                "label": "L1",
+                "tasksUpdated": 4
+            }
+        ],
+        [
+            "result",
+            {
+                "tasksUpdated": 4
+            }
+        ]
+    ],
+    "label 7": [
+        [
+            "search",
+            "planninq",
+            "task"
+        ],
+        [
+            "save",
+            {
+                "object": {
+                    "@self": {
+                        "id": "T8"
+                    },
+                    "title": "h",
+                    "labels": [
+                        "L1"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "T8",
+                "_rbac": false
+            }
+        ],
+        [
+            "delete",
+            {
+                "register": "planninq",
+                "schema": "label",
+                "uuid": "7"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: label deleted with cascade",
+            {
+                "label": "7",
+                "tasksUpdated": 1
+            }
+        ],
+        [
+            "result",
+            {
+                "tasksUpdated": 1
+            }
+        ]
+    ],
+    "unused label": [
+        [
+            "search",
+            "planninq",
+            "task"
+        ],
+        [
+            "delete",
+            {
+                "register": "planninq",
+                "schema": "label",
+                "uuid": "L9"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: label deleted with cascade",
+            {
+                "label": "L9",
+                "tasksUpdated": 0
+            }
+        ],
+        [
+            "result",
+            {
+                "tasksUpdated": 0
+            }
+        ]
+    ],
+    "label delete fails": [
+        [
+            "search",
+            "planninq",
+            "task"
+        ],
+        [
+            "save",
+            {
+                "object": {
+                    "@self": {
+                        "id": "T1"
+                    },
+                    "title": "a",
+                    "labels": [
+                        "L2"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "T1",
+                "_rbac": false
+            }
+        ],
+        [
+            "save",
+            {
+                "object": {
+                    "@self": {
+                        "id": "T3"
+                    },
+                    "title": "c",
+                    "labels": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "T3",
+                "_rbac": false
+            }
+        ],
+        [
+            "save",
+            {
+                "object": {
+                    "@self": {
+                        "id": "T7"
+                    },
+                    "title": "g",
+                    "labels": [
+                        "L3"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "T7",
+                "_rbac": false
+            }
+        ],
+        [
+            "save",
+            {
+                "object": {
+                    "@self": {
+                        "id": "T8"
+                    },
+                    "title": "h",
+                    "labels": [
+                        7
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "T8",
+                "_rbac": false
+            }
+        ],
+        [
+            "delete",
+            {
+                "register": "planninq",
+                "schema": "label",
+                "uuid": "L1"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: label already deleted or delete failed (cascade idempotent)",
+            {
+                "label": "L1",
+                "exception": "already gone"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: label deleted with cascade",
+            {
+                "label": "L1",
+                "tasksUpdated": 4
+            }
+        ],
+        [
+            "result",
+            {
+                "tasksUpdated": 4
+            }
+        ]
+    ],
+    "save fails mid-sweep": [
+        [
+            "search",
+            "planninq",
+            "task"
+        ],
+        [
+            "save",
+            {
+                "object": {
+                    "@self": {
+                        "id": "T1"
+                    },
+                    "title": "a",
+                    "labels": [
+                        "L2"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "T1",
+                "_rbac": false
+            }
+        ],
+        [
+            "save",
+            {
+                "object": {
+                    "@self": {
+                        "id": "T3"
+                    },
+                    "title": "c",
+                    "labels": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "T3",
+                "_rbac": false
+            }
+        ],
+        [
+            "exception",
+            "RuntimeException",
+            "save failed"
+        ]
+    ],
+    "no tasks": [
+        [
+            "search",
+            "planninq",
+            "task"
+        ],
+        [
+            "delete",
+            {
+                "register": "planninq",
+                "schema": "label",
+                "uuid": "L1"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: label deleted with cascade",
+            {
+                "label": "L1",
+                "tasksUpdated": 0
+            }
+        ],
+        [
+            "result",
+            {
+                "tasksUpdated": 0
+            }
+        ]
+    ],
+    "empty id": [
+        [
+            "exception",
+            "RuntimeException",
+            "A label id is required."
+        ]
+    ],
+    "OpenRegister unavailable": [
+        [
+            "log.error",
+            "Planninq: OpenRegister ObjectService unavailable",
+            {
+                "exception": "no OpenRegister"
+            }
+        ],
+        [
+            "exception",
+            "RuntimeException",
+            "OpenRegister is not available."
+        ]
+    ]
+}
