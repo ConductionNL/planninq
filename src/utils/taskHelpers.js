@@ -71,12 +71,9 @@ export function taskCollaborationSidebarConfig(task) {
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
  */
-export function statusMapFromTasks(tasks = []) {
+export function statusMapFromTasks(tasks) {
 	const map = {}
-	for (const task of tasks || []) {
-		if (!task) {
-			continue
-		}
+	for (const task of (tasks || []).filter(Boolean)) {
 		const id = task.id || task['@self']?.id
 		if (id) {
 			map[id] = task.status
@@ -100,6 +97,44 @@ export function isBlockingEdge(edge) {
 }
 
 /**
+ * Whether an edge blocks and its blocker resolves in the status map with an open status.
+ *
+ * @param {object} edge The edge.
+ * @param {{[uuid: string]: string}} statusById Map of task UUID → status.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
+ */
+function blocksNow(edge, statusById) {
+	return Boolean(edge.blocker) && isBlockingEdge(edge) && Object.hasOwn(statusById, edge.blocker) && isOpenStatus(statusById[edge.blocker])
+}
+
+/**
+ * Whether a blocker status is still open (not done or cancelled).
+ *
+ * @param {string|undefined} status The blocker's status.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
+ */
+function isOpenStatus(status) {
+	return !RESOLVED_BLOCKER_STATUSES.includes(status)
+}
+
+/**
+ * Whether an edge names the task as blocked.
+ *
+ * @param {object|null} edge The edge.
+ * @param {string} taskId The task UUID.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
+ */
+function blocksTask(edge, taskId) {
+	return Boolean(edge) && edge.blocked === taskId
+}
+
+/**
  * Decide whether a single task is blocked, given the project's dependency
  * edges and a UUID → status map of all tasks.
  *
@@ -116,24 +151,12 @@ export function isBlockingEdge(edge) {
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
  */
-export function isBlocked(taskId, edges = [], statusById = {}) {
+export function isBlocked(taskId, edges, statusById = {}) {
 	if (!taskId) {
 		return false
 	}
-	for (const edge of edges || []) {
-		if (!edge || edge.blocked !== taskId || !isBlockingEdge(edge)) {
-			continue
-		}
-		const blockerId = edge.blocker
-		// Tolerant read: ignore an edge whose blocker no longer resolves.
-		if (!blockerId || !Object.hasOwn(statusById, blockerId)) {
-			continue
-		}
-		if (!RESOLVED_BLOCKER_STATUSES.includes(statusById[blockerId])) {
-			return true
-		}
-	}
-	return false
+	// Tolerant read: an edge whose blocker no longer resolves is ignored.
+	return (edges || []).some((edge) => blocksTask(edge, taskId) && blocksNow(edge, statusById))
 }
 
 /**
@@ -145,20 +168,9 @@ export function isBlocked(taskId, edges = [], statusById = {}) {
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
  */
-export function deriveBlockedTaskIds(edges = [], statusById = {}) {
-	const blocked = new Set()
-	for (const edge of edges || []) {
-		if (!edge || !edge.blocker || !edge.blocked || !isBlockingEdge(edge)) {
-			continue
-		}
-		if (!Object.hasOwn(statusById, edge.blocker)) {
-			continue
-		}
-		if (!RESOLVED_BLOCKER_STATUSES.includes(statusById[edge.blocker])) {
-			blocked.add(edge.blocked)
-		}
-	}
-	return Array.from(blocked).sort()
+export function deriveBlockedTaskIds(edges, statusById = {}) {
+	const blocked = (edges || []).filter((edge) => Boolean(edge?.blocked) && blocksNow(edge, statusById))
+	return Array.from(new Set(blocked.map((edge) => edge.blocked))).sort()
 }
 
 /**
@@ -171,18 +183,11 @@ export function deriveBlockedTaskIds(edges = [], statusById = {}) {
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
  */
-export function openBlockerIds(taskId, edges = [], statusById = {}) {
-	const open = []
-	for (const edge of edges || []) {
-		if (!edge || edge.blocked !== taskId || !edge.blocker || !isBlockingEdge(edge)) {
-			continue
-		}
-		const status = statusById[edge.blocker]
-		if (status !== undefined && !RESOLVED_BLOCKER_STATUSES.includes(status)) {
-			open.push(edge.blocker)
-		}
-	}
-	return open
+export function openBlockerIds(taskId, edges, statusById = {}) {
+	return (edges || [])
+		.filter((edge) => blocksTask(edge, taskId) && Boolean(edge.blocker) && isBlockingEdge(edge))
+		.filter((edge) => statusById[edge.blocker] !== undefined && isOpenStatus(statusById[edge.blocker]))
+		.map((edge) => edge.blocker)
 }
 
 /**
@@ -230,30 +235,45 @@ export function dueDateStatus(task, now = new Date()) {
 	if (task === null || task === undefined) {
 		return null
 	}
-	const raw = task.dueDate
-	if (raw === null || raw === undefined || raw === '') {
+	const dueDay = calendarDay(task.dueDate)
+	if (dueDay === null) {
 		return null
 	}
 
-	const due = raw instanceof Date ? raw : new Date(raw)
-	if (Number.isNaN(due.getTime())) {
-		return null
-	}
-
-	// Date-only comparison: drop time component on both sides.
-	const dueDay = new Date(due.getFullYear(), due.getMonth(), due.getDate())
 	const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-
 	const msPerDay = 24 * 60 * 60 * 1000
-	const diffDays = Math.round((dueDay.getTime() - today.getTime()) / msPerDay)
+	return dueBadge(Math.round((dueDay.getTime() - today.getTime()) / msPerDay))
+}
 
+/**
+ * The calendar day (time dropped) of a due date, or null when it is absent or invalid.
+ *
+ * @param {string|Date|null|undefined} raw The due date.
+ * @return {Date|null}
+ *
+ * @spec openspec/specs/kanban-board/spec.md
+ */
+function calendarDay(raw) {
+	if ([null, undefined, ''].includes(raw)) {
+		return null
+	}
+	const due = raw instanceof Date ? raw : new Date(raw)
+	return Number.isNaN(due.getTime()) ? null : new Date(due.getFullYear(), due.getMonth(), due.getDate())
+}
+
+/**
+ * The badge for a due date this many days from today.
+ *
+ * @param {number} diffDays Days until the due date, negative when past.
+ * @return {null|'approaching'|'overdue'}
+ *
+ * @spec openspec/specs/kanban-board/spec.md
+ */
+function dueBadge(diffDays) {
 	if (diffDays < 0) {
 		return 'overdue'
 	}
-	if (diffDays <= 2) {
-		return 'approaching'
-	}
-	return null
+	return diffDays <= 2 ? 'approaching' : null
 }
 
 /**
@@ -279,16 +299,10 @@ export const BOARD_STATUSES = ['open', 'in_progress', 'blocked', 'done', 'cancel
  *
  * @spec openspec/specs/kanban-board/spec.md
  */
-export function groupTasksByStatus(tasks = [], statuses = BOARD_STATUSES) {
+export function groupTasksByStatus(tasks, statuses = BOARD_STATUSES) {
 	const fallback = statuses[0]
-	const grouped = {}
-	for (const status of statuses) {
-		grouped[status] = []
-	}
-	for (const task of tasks || []) {
-		if (!task) {
-			continue
-		}
+	const grouped = Object.fromEntries(statuses.map((status) => [status, []]))
+	for (const task of (tasks || []).filter(Boolean)) {
 		const status = grouped[task.status] ? task.status : fallback
 		grouped[status].push(task)
 	}
@@ -305,23 +319,56 @@ export function groupTasksByStatus(tasks = [], statuses = BOARD_STATUSES) {
  *
  * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.2
  */
-export function linkGroups(taskId, edges = []) {
+export function linkGroups(taskId, edges) {
 	const groups = { blockedBy: [], blocks: [], related: [] }
 	for (const edge of edges || []) {
-		if (!edge || (edge.blocked !== taskId && edge.blocker !== taskId)) {
-			continue
-		}
-		const otherId = edge.blocker === taskId ? edge.blocked : edge.blocker
-		const link = { edgeId: edge.id, otherId, type: edge.type || 'blocks' }
-		if (!isBlockingEdge(edge)) {
-			groups.related.push(link)
-		} else if (edge.blocked === taskId) {
-			groups.blockedBy.push(link)
-		} else {
-			groups.blocks.push(link)
+		if (namesTask(edge, taskId)) {
+			groups[linkGroupOf(edge, taskId)].push(linkOf(edge, taskId))
 		}
 	}
 	return groups
+}
+
+/**
+ * Whether an edge names the task on either end.
+ *
+ * @param {object|null} edge The edge.
+ * @param {string} taskId The task UUID.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.2
+ */
+function namesTask(edge, taskId) {
+	return Boolean(edge) && (edge.blocked === taskId || edge.blocker === taskId)
+}
+
+/**
+ * The group of linkGroups an edge of the task belongs to.
+ *
+ * @param {object} edge The edge, which names the task.
+ * @param {string} taskId The task UUID.
+ * @return {'blockedBy'|'blocks'|'related'}
+ *
+ * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.2
+ */
+function linkGroupOf(edge, taskId) {
+	if (!isBlockingEdge(edge)) {
+		return 'related'
+	}
+	return edge.blocked === taskId ? 'blockedBy' : 'blocks'
+}
+
+/**
+ * The link row of an edge, seen from the task.
+ *
+ * @param {object} edge The edge, which names the task.
+ * @param {string} taskId The task UUID.
+ * @return {{edgeId: string, otherId: string, type: string}}
+ *
+ * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.2
+ */
+function linkOf(edge, taskId) {
+	return { edgeId: edge.id, otherId: edge.blocker === taskId ? edge.blocked : edge.blocker, type: edge.type || 'blocks' }
 }
 
 /**
