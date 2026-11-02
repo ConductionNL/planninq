@@ -51,6 +51,7 @@
  */
 import { NcDialog, NcTextArea, NcTextField } from '@nextcloud/vue'
 import DialogSaveActions from '../components/DialogSaveActions.vue'
+import dialogSave from '../mixins/dialogSave.js'
 import { useProjectsStore } from '../store/projects.js'
 import { releasePayload } from '../utils/roadmapHelpers.js'
 
@@ -63,6 +64,8 @@ export default {
 		NcTextArea,
 		NcTextField,
 	},
+
+	mixins: [dialogSave],
 
 	props: {
 		/** The project the release belongs to. */
@@ -86,8 +89,6 @@ export default {
 			description: this.release?.description || '',
 			startDate: this.release?.startDate || '',
 			releaseDate: this.release?.releaseDate || '',
-			saving: false,
-			submitError: '',
 		}
 	},
 
@@ -100,19 +101,13 @@ export default {
 		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.3
 		 */
 		async save() {
-			this.saving = true
-			this.submitError = ''
-			const payload = releasePayload({ title: this.title, description: this.description, startDate: this.startDate, releaseDate: this.releaseDate }, this.projectId)
-			const body = this.release
-				? { id: this.release.id, title: payload.title, description: payload.description, startDate: payload.startDate, releaseDate: payload.releaseDate }
-				: payload
-			const saved = await useProjectsStore().saveRelease(body)
-			this.saving = false
-			if (!saved) {
-				this.submitError = this.t('planninq', 'Could not save the release. Please try again.')
-				return
-			}
-			this.$emit('saved', saved)
+			await this.submitSave(() => {
+				const payload = releasePayload({ title: this.title, description: this.description, startDate: this.startDate, releaseDate: this.releaseDate }, this.projectId)
+				const body = this.release
+					? { id: this.release.id, title: payload.title, description: payload.description, startDate: payload.startDate, releaseDate: payload.releaseDate }
+					: payload
+				return useProjectsStore().saveRelease(body)
+			}, this.t('planninq', 'Could not save the release. Please try again.'))
 		},
 	},
 }

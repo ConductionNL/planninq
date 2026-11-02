@@ -84,6 +84,7 @@ import {
 	NcTextField,
 } from '@nextcloud/vue'
 import DialogSaveActions from '../components/DialogSaveActions.vue'
+import dialogSave from '../mixins/dialogSave.js'
 import { useProjectsStore } from '../store/projects.js'
 import { columnPayload } from '../utils/columnHelpers.js'
 import { DEFAULT_LABEL_COLOR, isValidHexColor } from '../utils/labelHelpers.js'
@@ -98,6 +99,8 @@ export default {
 		NcSelect,
 		NcTextField,
 	},
+
+	mixins: [dialogSave],
 
 	props: {
 		/** The column to edit; null to add one. */
@@ -136,8 +139,6 @@ export default {
 			done: this.column?.type === 'done',
 			statusOptions,
 			statusOption: statusOptions.find((option) => option.id === (this.column?.status || '')) || statusOptions[0],
-			saving: false,
-			submitError: '',
 		}
 	},
 
@@ -193,25 +194,19 @@ export default {
 			if (!this.isValid) {
 				return
 			}
-			this.saving = true
-			this.submitError = ''
-			const payload = columnPayload({
-				title: this.title,
-				wipLimit: this.wipLimit,
-				color: this.color,
-				status: this.statusOption?.id,
-				done: this.done,
-			})
-			const body = this.isEdit
-				? { id: this.column.id, ...payload }
-				: { ...payload, project: this.projectId, order: this.nextOrder }
-			const saved = await useProjectsStore().saveColumn(body)
-			this.saving = false
-			if (!saved) {
-				this.submitError = this.t('planninq', 'Could not save the column. Please try again.')
-				return
-			}
-			this.$emit('saved', saved)
+			await this.submitSave(() => {
+				const payload = columnPayload({
+					title: this.title,
+					wipLimit: this.wipLimit,
+					color: this.color,
+					status: this.statusOption?.id,
+					done: this.done,
+				})
+				const body = this.isEdit
+					? { id: this.column.id, ...payload }
+					: { ...payload, project: this.projectId, order: this.nextOrder }
+				return useProjectsStore().saveColumn(body)
+			}, this.t('planninq', 'Could not save the column. Please try again.'))
 		},
 	},
 }
