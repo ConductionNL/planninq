@@ -1,0 +1,50 @@
+{
+  "list": {
+    "status": 0,
+    "stdout": "lib/Settings/register.d/nested.json:deep.title\n  Deep\nlib/Settings/register.json:status.x-enum-labels\n  Done\nlib/Settings/register.json:arrayLabels.x-enum-labels\n  First label\nlib/Settings/register.json:schema title\n  In array\nlib/Settings/register.json:inner.title\n  Inner title\nlib/Settings/register.d/nested.json:leaf.title\n  Leaf\nlib/Settings/register.d/nested.json:schema title\n  Nested schema\nlib/Settings/register.d/also.json:only.description\n  Only description\nlib/Settings/register.json:arrayLabels.x-enum-labels\n  Second label\nlib/Settings/register.d/nested.json:name.description\n  Second sighting\nlib/Settings/register.json:status.title\n  Status\nlib/Settings/register.json:tags.x-enum-labels\n  Tag A\nlib/Settings/register.json:tags.title\n  Tags\nlib/Settings/register.json:schema title\n  Task\nlib/Settings/register.json:name.description\n  The task name\nlib/Settings/register.d/also.json:schema title\n  Top array\n19 schema string(s); 16 uncovered, baseline 20\n4 fewer than the baseline — lower it with:\n  npm run check:schema-l10n -- --update\n",
+    "stderr": "",
+    "baseline": "{\"uncovered\":20}"
+  },
+  "atBaseline": {
+    "status": 0,
+    "stdout": "19 schema string(s); 16 uncovered, baseline 16\n",
+    "stderr": "",
+    "baseline": "{\"uncovered\":16}"
+  },
+  "belowBaseline": {
+    "status": 0,
+    "stdout": "19 schema string(s); 16 uncovered, baseline 40\n24 fewer than the baseline — lower it with:\n  npm run check:schema-l10n -- --update\n",
+    "stderr": "",
+    "baseline": "{\"uncovered\":40}"
+  },
+  "aboveBaseline": {
+    "status": 1,
+    "stdout": "19 schema string(s); 16 uncovered, baseline 2\n",
+    "stderr": "\n14 schema string(s) added with no catalogue key — they will render\nin English inside an otherwise translated form.\n\nAdd them to l10n/en.json (identity) and l10n/nl.json (translated), then\nrun `npm run l10n:build`. See what is uncovered with:\n  node scripts/check-schema-l10n.js --list\n",
+    "baseline": "{\"uncovered\":2}"
+  },
+  "noBaseline": {
+    "status": 1,
+    "stdout": "",
+    "stderr": "No baseline. Run `npm run check:schema-l10n -- --update` and commit it.\n",
+    "baseline": null
+  },
+  "noCatalogue": {
+    "status": 1,
+    "stdout": "19 schema string(s); 19 uncovered, baseline 1\n",
+    "stderr": "\n18 schema string(s) added with no catalogue key — they will render\nin English inside an otherwise translated form.\n\nAdd them to l10n/en.json (identity) and l10n/nl.json (translated), then\nrun `npm run l10n:build`. See what is uncovered with:\n  node scripts/check-schema-l10n.js --list\n",
+    "baseline": "{\"uncovered\":1}"
+  },
+  "update": {
+    "status": 0,
+    "stdout": "baseline written: 16 uncovered schema string(s)\n",
+    "stderr": "",
+    "baseline": "{\n  \"uncovered\": 16\n}\n"
+  },
+  "noSettingsDir": {
+    "status": 0,
+    "stdout": "0 schema string(s); 0 uncovered, baseline 0\n",
+    "stderr": "",
+    "baseline": "{\"uncovered\":0}"
+  }
+}
