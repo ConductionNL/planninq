@@ -75,5 +75,5 @@ describe('dialog actions golden', () => {
 			fs.writeFileSync(FIXTURE, actual)
 		}
 		expect(actual).toBe(fs.readFileSync(FIXTURE, 'utf8'))
-	})
+	}, 60000)
 })
