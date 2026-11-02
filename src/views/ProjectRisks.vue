@@ -126,6 +126,7 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import RiskHeatMap from '../components/RiskHeatMap.vue'
 import RiskEditDialog from '../dialogs/RiskEditDialog.vue'
+import projectRoute from '../mixins/projectRoute.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
 import { portfolioRiskScale } from '../utils/portfolioGrouping.js'
@@ -147,6 +148,8 @@ export default {
 		RiskHeatMap,
 	},
 
+	mixins: [projectRoute],
+
 	data() {
 		return {
 			project: null,
@@ -160,15 +163,6 @@ export default {
 	},
 
 	computed: {
-		/**
-		 * @return {string}
-		 *
-		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
-		 */
-		projectId() {
-			return String(this.$route.params.id || '')
-		},
-
 		/**
 		 * @return {object}
 		 *
@@ -203,18 +197,6 @@ export default {
 		 */
 		peopleOptions() {
 			return this.people.map((uid) => ({ id: uid, label: this.names[uid] || uid }))
-		},
-	},
-
-	watch: {
-		projectId: {
-			immediate: true,
-			/**
-			 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
-			 */
-			handler() {
-				this.load()
-			},
 		},
 	},
 

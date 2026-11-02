@@ -50,19 +50,12 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || missing.length > 0 || !reportDate"
+			<DialogSaveActions
+				:saving="saving"
+				:disabled="missing.length > 0 || !reportDate"
 				data-testid="status-report-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Save') }}
-			</NcButton>
+				@cancel="$emit('close')"
+				@save="save" />
 		</template>
 	</NcDialog>
 </template>
@@ -78,7 +71,8 @@
  *
  * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
  */
-import { NcButton, NcCheckboxRadioSwitch, NcDialog, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { NcCheckboxRadioSwitch, NcDialog, NcTextField } from '@nextcloud/vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { ASPECTS, localToday, reportPayload } from '../utils/statusReports.js'
 
@@ -86,10 +80,9 @@ export default {
 	name: 'StatusReportDialog',
 
 	components: {
-		NcButton,
+		DialogSaveActions,
 		NcCheckboxRadioSwitch,
 		NcDialog,
-		NcLoadingIcon,
 		NcTextField,
 	},
 

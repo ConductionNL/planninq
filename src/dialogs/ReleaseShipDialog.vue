@@ -50,19 +50,13 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || (open.length > 0 && choice === '')"
+			<DialogSaveActions
+				:saving="saving"
+				:disabled="open.length > 0 && choice === ''"
+				:label="t('planninq', 'Mark as released')"
 				data-testid="release-ship-confirm"
-				@click="ship">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Mark as released') }}
-			</NcButton>
+				@cancel="$emit('close')"
+				@save="ship" />
 		</template>
 	</NcDialog>
 </template>
@@ -77,7 +71,8 @@
  *
  * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.3
  */
-import { NcButton, NcCheckboxRadioSwitch, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
+import { NcCheckboxRadioSwitch, NcDialog } from '@nextcloud/vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { refId, sortReleases, unfinishedTasks } from '../utils/roadmapHelpers.js'
 
@@ -85,10 +80,9 @@ export default {
 	name: 'ReleaseShipDialog',
 
 	components: {
-		NcButton,
+		DialogSaveActions,
 		NcCheckboxRadioSwitch,
 		NcDialog,
-		NcLoadingIcon,
 	},
 
 	props: {
