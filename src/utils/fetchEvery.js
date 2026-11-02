@@ -36,8 +36,7 @@ const MAX_PAGE = 1000
  * @spec openspec/specs/projects/spec.md
  */
 export async function fetchEvery(objectStore, schema, filters = {}) {
-	const out = []
-	const seen = new Set()
+	const collected = { out: [], seen: new Set() }
 	for (let page = 1; ; page++) {
 		const batch = await objectStore.fetchCollection(schema, { ...filters, _limit: MAX_PAGE, _page: page })
 		const rows = Array.isArray(batch) ? batch : []
@@ -47,22 +46,43 @@ export async function fetchEvery(objectStore, schema, filters = {}) {
 		// same full batch forever, and a `rows.length < MAX_PAGE` check alone
 		// would loop until the tab died. Zero NEW rows means there is no more
 		// collection to read, whatever the server thinks it is doing.
-		let added = 0
-		for (const row of rows) {
-			const id = row?.id ?? row?.uuid ?? row?.['@self']?.id
-			if (id !== undefined && seen.has(id)) {
-				continue
-			}
-			if (id !== undefined) {
-				seen.add(id)
-			}
-			out.push(row)
-			added++
-		}
-
+		const added = collectNew(rows, collected)
 		if (added === 0 || rows.length < MAX_PAGE) {
 			break
 		}
 	}
-	return out
+	return collected.out
+}
+
+/**
+ * The key a row is deduplicated by, or undefined when it has none.
+ *
+ * @param {object} row a collection row
+ * @return {string|number|undefined} the row's id, uuid or @self id
+ */
+function rowKey(row) {
+	return row?.id ?? row?.uuid ?? row?.['@self']?.id
+}
+
+/**
+ * Append the rows not collected yet; a row without a key is always appended.
+ *
+ * @param {Array}                   rows      one page of rows
+ * @param {{out: Array, seen: Set}} collected the rows so far and their keys
+ * @return {number} how many rows were appended
+ */
+function collectNew(rows, collected) {
+	let added = 0
+	for (const row of rows) {
+		const key = rowKey(row)
+		if (key !== undefined && collected.seen.has(key)) {
+			continue
+		}
+		if (key !== undefined) {
+			collected.seen.add(key)
+		}
+		collected.out.push(row)
+		added++
+	}
+	return added
 }
