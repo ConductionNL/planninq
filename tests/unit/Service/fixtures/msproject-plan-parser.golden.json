@@ -1,0 +1,262 @@
+{
+    "rich plan": {
+        "name": "Plan A",
+        "saveVersion": "14",
+        "count": 4,
+        "tasks": [
+            {
+                "uid": "1",
+                "name": "Design",
+                "level": 1,
+                "summary": true,
+                "milestone": false,
+                "start": "2026-03-02",
+                "finish": "2026-03-06",
+                "minutes": 2400,
+                "percent": 100,
+                "notes": "n",
+                "predecessors": [],
+                "hasResource": false
+            },
+            {
+                "uid": "2",
+                "name": "Sketch",
+                "level": 2,
+                "summary": false,
+                "milestone": false,
+                "start": "2026-03-02",
+                "finish": null,
+                "minutes": 3150,
+                "percent": 0,
+                "notes": "",
+                "predecessors": [
+                    {
+                        "uid": "1",
+                        "type": 3,
+                        "lag": 4800
+                    },
+                    {
+                        "uid": "9",
+                        "type": 1,
+                        "lag": 0
+                    }
+                ],
+                "hasResource": true
+            },
+            {
+                "uid": "3",
+                "name": "Gate",
+                "level": 1,
+                "summary": false,
+                "milestone": true,
+                "start": null,
+                "finish": null,
+                "minutes": null,
+                "percent": 0,
+                "notes": "",
+                "predecessors": [],
+                "hasResource": false
+            },
+            {
+                "uid": "5",
+                "name": "Late",
+                "level": 3,
+                "summary": false,
+                "milestone": false,
+                "start": null,
+                "finish": "2026-04-01",
+                "minutes": null,
+                "percent": 0,
+                "notes": "",
+                "predecessors": [],
+                "hasResource": true
+            }
+        ]
+    },
+    "no tasks element": {
+        "name": "Empty",
+        "saveVersion": "",
+        "count": 0,
+        "tasks": []
+    },
+    "empty tasks": {
+        "name": "Plan A",
+        "saveVersion": "14",
+        "count": 0,
+        "tasks": []
+    },
+    "only level 0": {
+        "name": "Plan A",
+        "saveVersion": "14",
+        "count": 0,
+        "tasks": []
+    },
+    "2000 tasks": {
+        "name": "Plan A",
+        "saveVersion": "14",
+        "count": 2000,
+        "tasks": [
+            {
+                "uid": "1",
+                "name": "",
+                "level": 1,
+                "summary": false,
+                "milestone": false,
+                "start": null,
+                "finish": null,
+                "minutes": null,
+                "percent": 0,
+                "notes": "",
+                "predecessors": [],
+                "hasResource": false
+            },
+            {
+                "uid": "2",
+                "name": "",
+                "level": 1,
+                "summary": false,
+                "milestone": false,
+                "start": null,
+                "finish": null,
+                "minutes": null,
+                "percent": 0,
+                "notes": "",
+                "predecessors": [],
+                "hasResource": false
+            },
+            {
+                "uid": "3",
+                "name": "",
+                "level": 1,
+                "summary": false,
+                "milestone": false,
+                "start": null,
+                "finish": null,
+                "minutes": null,
+                "percent": 0,
+                "notes": "",
+                "predecessors": [],
+                "hasResource": false
+            },
+            {
+                "uid": "4",
+                "name": "",
+                "level": 1,
+                "summary": false,
+                "milestone": false,
+                "start": null,
+                "finish": null,
+                "minutes": null,
+                "percent": 0,
+                "notes": "",
+                "predecessors": [],
+                "hasResource": false
+            },
+            {
+                "uid": "5",
+                "name": "",
+                "level": 1,
+                "summary": false,
+                "milestone": false,
+                "start": null,
+                "finish": null,
+                "minutes": null,
+                "percent": 0,
+                "notes": "",
+                "predecessors": [],
+                "hasResource": false
+            },
+            {
+                "uid": "6",
+                "name": "",
+                "level": 1,
+                "summary": false,
+                "milestone": false,
+                "start": null,
+                "finish": null,
+                "minutes": null,
+                "percent": 0,
+                "notes": "",
+                "predecessors": [],
+                "hasResource": false
+            },
+            {
+                "uid": "7",
+                "name": "",
+                "level": 1,
+                "summary": false,
+                "milestone": false,
+                "start": null,
+                "finish": null,
+                "minutes": null,
+                "percent": 0,
+                "notes": "",
+                "predecessors": [],
+                "hasResource": false
+            },
+            {
+                "uid": "8",
+                "name": "",
+                "level": 1,
+                "summary": false,
+                "milestone": false,
+                "start": null,
+                "finish": null,
+                "minutes": null,
+                "percent": 0,
+                "notes": "",
+                "predecessors": [],
+                "hasResource": false
+            }
+        ]
+    },
+    "2001 tasks": {
+        "refused": "tooManyTasks",
+        "message": "The plan has more than 2000 tasks."
+    },
+    "mpp name": {
+        "refused": "mpp",
+        "message": "Binary .mpp files cannot be read."
+    },
+    "mpp bytes": {
+        "refused": "mpp",
+        "message": "Binary .mpp files cannot be read."
+    },
+    "doctype": {
+        "refused": "unsafe",
+        "message": "The file declares a DOCTYPE or an entity."
+    },
+    "entity": {
+        "refused": "unsafe",
+        "message": "The file declares a DOCTYPE or an entity."
+    },
+    "too large": {
+        "refused": "tooLarge",
+        "message": "The file is larger than 10 MB."
+    },
+    "exactly max": {
+        "refused": "notAPlan",
+        "message": "The file is not a Microsoft Project XML plan."
+    },
+    "other root": {
+        "refused": "notAPlan",
+        "message": "The file is not a Microsoft Project XML plan."
+    },
+    "namespaced other": {
+        "name": "N",
+        "saveVersion": "",
+        "count": 0,
+        "tasks": []
+    },
+    "broken xml": {
+        "refused": "notAPlan",
+        "message": "The file is not a Microsoft Project XML plan."
+    },
+    "empty": {
+        "thrown": "ValueError"
+    },
+    "text only": {
+        "refused": "notAPlan",
+        "message": "The file is not a Microsoft Project XML plan."
+    }
+}
