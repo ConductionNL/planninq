@@ -120,17 +120,19 @@ class FlowHistoryService {
 		$pastDays = $this->pastDays(from: $from, to: $to, today: $today);
 		$cached = $this->cachedDays(cache: $cache, projectId: $projectId, days: $pastDays);
 
+		$board = new FlowBoard(columns: $columns, tasks: $tasks);
 		if (count($cached) === count($pastDays)) {
 			$days = $cached;
 			if ($to >= $today) {
-				$days = array_merge($days, $this->today(columns: $columns, tasks: $tasks, today: $today, now: $now, previous: end($cached)));
+				$window = ['from' => $today, 'to' => $today, 'now' => $now];
+				$days   = array_merge($days, $this->today(board: $board, window: $window, previous: end($cached)));
 			}
 
 			return $this->shape(projectId: $projectId, columns: $columns, days: $days, fromCache: count($cached));
 		}
 
 		$histories = $this->histories(tasks: $tasks);
-		$days = $this->replay->replay(columns: $columns, tasks: $tasks, histories: $histories, from: $from, to: $to, now: $now);
+		$days = $this->replay->replay(board: $board->withHistories(histories: $histories), window: ['from' => $from, 'to' => $to, 'now' => $now]);
 		$this->storeDays(cache: $cache, projectId: $projectId, days: $days, today: $today);
 
 		return $this->shape(projectId: $projectId, columns: $columns, days: $days, fromCache: 0);
@@ -256,19 +258,17 @@ class FlowHistoryService {
 	 * is done without completedAt. Tasks without history do not change
 	 * between yesterday and today, so yesterday's count of them carries over.
 	 *
-	 * @param array<int,array<string,mixed>> $columns  The columns
-	 * @param array<int,array<string,mixed>> $tasks    The tasks
-	 * @param DateTimeImmutable              $today    Today's midnight
-	 * @param DateTimeImmutable              $now      Now
-	 * @param array|false                    $previous Yesterday's cached entry, if any
+	 * @param FlowBoard                                                                $board    The columns and tasks
+	 * @param array{from: DateTimeImmutable, to: DateTimeImmutable, now: DateTimeImmutable} $window   Today's midnight as first and last day, and now
+	 * @param array|false                                                              $previous Yesterday's cached entry, if any
 	 *
 	 * @return array<string,array>
 	 */
-	private function today(array $columns, array $tasks, DateTimeImmutable $today, DateTimeImmutable $now, array|false $previous): array {
-		$start = $today->getTimestamp();
+	private function today(FlowBoard $board, array $window, array|false $previous): array {
+		$start = $window['from']->getTimestamp();
 		$candidates = array_values(
 			array_filter(
-				$tasks,
+				$board->tasks,
 				function (array $task) use ($start): bool {
 					$completed = $this->replay->seconds(value: $task['completedAt'] ?? null);
 					return ($completed !== null && $completed >= $start) || ($completed === null && ($task['status'] ?? null) === 'done');
@@ -276,8 +276,8 @@ class FlowHistoryService {
 			)
 		);
 		$histories = $this->histories(tasks: $candidates);
-		$days = $this->replay->replay(columns: $columns, tasks: $tasks, histories: $histories, from: $today, to: $today, now: $now);
-		$date = $today->format('Y-m-d');
+		$days = $this->replay->replay(board: $board->withHistories(histories: $histories), window: $window);
+		$date = $window['from']->format('Y-m-d');
 		$days[$date]['withoutHistory'] = (int)($previous['withoutHistory'] ?? 0);
 
 		return $days;

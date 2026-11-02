@@ -58,36 +58,25 @@ class FlowReplay {
 	private const DAY = 86400;
 
 	/**
-	 * Replay a project's tasks over the days `$from` to `$to` (inclusive).
+	 * Replay a project's tasks over the window's days, both included.
 	 *
 	 * Each returned day holds the tasks per column at the end of that day (or
-	 * at `$now` for today), and the timings of the tasks that finished on it.
+	 * at the window's `now` for today), and the timings of the tasks that finished on it.
 	 *
-	 * @param array<int,array<string,mixed>> $columns   The project's columns (id, order)
-	 * @param array<int,array<string,mixed>> $tasks     Tasks: id, title, key, created, column, status, completedAt
-	 * @param array<string,array<int,array>> $histories Task id to its audit rows, oldest first
-	 * @param DateTimeImmutable              $from      First day (UTC midnight)
-	 * @param DateTimeImmutable              $to        Last day (UTC midnight)
-	 * @param DateTimeImmutable              $now       The current moment; later days are not replayed
+	 * @param FlowBoard                                                                $board  The columns, tasks and their audit rows
+	 * @param array{from: DateTimeImmutable, to: DateTimeImmutable, now: DateTimeImmutable} $window First and last day (UTC midnights), now
 	 *
 	 * @return array<string,array{counts: array<string,int>, finished: array<int,array<string,mixed>>, withoutHistory: int}> Keyed by Y-m-d
 	 *
 	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
 	 */
-	public function replay(
-		array $columns,
-		array $tasks,
-		array $histories,
-		DateTimeImmutable $from,
-		DateTimeImmutable $to,
-		DateTimeImmutable $now
-	): array {
-		$columnIds = $this->orderedColumnIds(columns: $columns);
+	public function replay(FlowBoard $board, array $window): array {
+		$columnIds = $this->orderedColumnIds(columns: $board->columns);
 		$firstColumn = ($columnIds[0] ?? null);
 		$timelines = [];
 		$timings = [];
-		foreach ($tasks as $task) {
-			$history = ($histories[(string)$task['id']] ?? []);
+		foreach ($board->tasks as $task) {
+			$history = ($board->histories[(string)$task['id']] ?? []);
 			$timelines[] = [
 				'states' => $this->states(task: $task, history: $history),
 				'noHistory' => ($history === []),
@@ -98,15 +87,13 @@ class FlowReplay {
 			}
 		}
 
-		$days = [];
-		for ($day = $from; $day <= $to && $day <= $now; $day = $day->modify('+1 day')) {
-			$end = min($day->getTimestamp() + self::DAY - 1, $now->getTimestamp());
+		$replayed = ['columnIds' => $columnIds, 'timelines' => $timelines, 'timings' => $timings];
+		$days     = [];
+		for ($day = $window['from']; $day <= $window['to'] && $day <= $window['now']; $day = $day->modify('+1 day')) {
+			$end = min($day->getTimestamp() + self::DAY - 1, $window['now']->getTimestamp());
 			$days[$day->format('Y-m-d')] = $this->dayAt(
-				columnIds: $columnIds,
-				timelines: $timelines,
-				timings: $timings,
-				start: $day->getTimestamp(),
-				end: $end
+				replayed: $replayed,
+				bounds: ['start' => $day->getTimestamp(), 'end' => $end]
 			);
 		}
 
@@ -172,20 +159,20 @@ class FlowReplay {
 	}//end orderedColumnIds()
 
 	/**
-	 * One day: tasks per column at `$end`, and the tasks finished in the day.
+	 * One day: tasks per column at its end, and the tasks finished in the day.
 	 *
-	 * @param string[]                       $columnIds The columns in board order
-	 * @param array<int,array<string,mixed>> $timelines Per task: states and noHistory
-	 * @param array<int,array<string,mixed>> $timings   Finished tasks' timings
-	 * @param int                            $start     Day start (unix seconds)
-	 * @param int                            $end       Day end or now (unix seconds)
+	 * @param array<string,array>         $replayed columnIds (board order), timelines (per task: states,
+	 *                                              noHistory) and timings (finished tasks)
+	 * @param array{start: int, end: int} $bounds   Day start, and day end or now (unix seconds)
 	 *
 	 * @return array{counts: array<string,int>, finished: array<int,array<string,mixed>>, withoutHistory: int}
 	 */
-	private function dayAt(array $columnIds, array $timelines, array $timings, int $start, int $end): array {
-		$counts = array_fill_keys($columnIds, 0);
+	private function dayAt(array $replayed, array $bounds): array {
+		$start  = $bounds['start'];
+		$end    = $bounds['end'];
+		$counts = array_fill_keys($replayed['columnIds'], 0);
 		$withoutHistory = 0;
-		foreach ($timelines as $timeline) {
+		foreach ($replayed['timelines'] as $timeline) {
 			$column = $this->valueAt(states: $timeline['states'], field: 'column', moment: $end);
 			if ($column === false || isset($counts[$column]) === false) {
 				continue;
@@ -199,7 +186,7 @@ class FlowReplay {
 
 		$finished = array_values(
 			array_filter(
-				$timings,
+				$replayed['timings'],
 				static fn (array $row): bool => $row['finishedAt'] >= $start && $row['finishedAt'] <= $end
 			)
 		);

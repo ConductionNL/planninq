@@ -79,24 +79,25 @@ function schemaFiles(dir) {
 }
 
 /**
- * Collect the display strings a schema puts on screen.
+ * True for any object value, arrays included.
  *
- * @param {object|Array} node - current node
+ * @param {unknown} value - the value to test
+ * @return {boolean} whether it is a non-null object
+ */
+function isObject(value) {
+	return value !== null && typeof value === 'object'
+}
+
+/**
+ * A function that records a display string once, with the first place it was
+ * seen.
+ *
  * @param {string} where - file label, for --list
  * @param {Map<string, string>} sink - string -> first place it was seen
+ * @return {function(unknown, string): void} records (value, what)
  */
-function collect(node, where, sink) {
-	if (Array.isArray(node)) {
-		for (const item of node) {
-			collect(item, where, sink)
-		}
-		return
-	}
-	if (node === null || typeof node !== 'object') {
-		return
-	}
-
-	const remember = (value, what) => {
+function recorder(where, sink) {
+	return (value, what) => {
 		if (typeof value !== 'string' || value.trim() === '') {
 			return
 		}
@@ -104,33 +105,60 @@ function collect(node, where, sink) {
 			sink.set(value, `${where}:${what}`)
 		}
 	}
+}
 
-	const props = node.properties
-	if (props !== null && typeof props === 'object' && !Array.isArray(props)) {
-		remember(node.title, 'schema title')
-		for (const [key, prop] of Object.entries(props)) {
-			if (prop === null || typeof prop !== 'object') {
-				continue
-			}
-			remember(prop.title, `${key}.title`)
-			remember(prop.description, `${key}.description`)
-			for (const source of [prop, prop.items]) {
-				if (source === null || typeof source !== 'object') {
-					continue
-				}
-				const labels = source['x-enum-labels']
-				if (labels === null || typeof labels !== 'object') {
-					continue
-				}
-				for (const label of Object.values(labels)) {
-					remember(label, `${key}.x-enum-labels`)
-				}
-			}
+/**
+ * Record a property's title, description and enum labels, on the property
+ * itself and on its `items`.
+ *
+ * @param {object} prop - the property schema
+ * @param {function(unknown, string): void} remember - records (value, what)
+ */
+function collectProperty(prop, remember) {
+	remember(prop.title, 'title')
+	remember(prop.description, 'description')
+	for (const source of [prop, prop.items]) {
+		const labels = isObject(source) ? source['x-enum-labels'] : null
+		if (!isObject(labels)) {
+			continue
+		}
+		for (const label of Object.values(labels)) {
+			remember(label, 'x-enum-labels')
 		}
 	}
+}
 
+/**
+ * Record the strings of a node that declares `properties`.
+ *
+ * @param {object} node - a schema with a `properties` object
+ * @param {function(unknown, string): void} remember - records (value, what)
+ */
+function collectSchema(node, remember) {
+	remember(node.title, 'schema title')
+	for (const [key, prop] of Object.entries(node.properties)) {
+		if (!isObject(prop)) {
+			continue
+		}
+		collectProperty(prop, (value, what) => remember(value, `${key}.${what}`))
+	}
+}
+
+/**
+ * Collect the display strings a schema puts on screen.
+ *
+ * @param {object|Array} node - current node
+ * @param {function(unknown, string): void} remember - records (value, what)
+ */
+function collect(node, remember) {
+	if (!isObject(node)) {
+		return
+	}
+	if (isObject(node.properties) && !Array.isArray(node.properties)) {
+		collectSchema(node, remember)
+	}
 	for (const value of Object.values(node)) {
-		collect(value, where, sink)
+		collect(value, remember)
 	}
 }
 
@@ -146,7 +174,7 @@ function main() {
 		} catch {
 			continue // not a schema document; the manifest checks own their own files
 		}
-		collect(doc, path.relative(REPO_ROOT, file), strings)
+		collect(doc, recorder(path.relative(REPO_ROOT, file), strings))
 	}
 
 	let covered = new Set()

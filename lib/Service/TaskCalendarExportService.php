@@ -208,11 +208,13 @@ class TaskCalendarExportService {
 		$project = $this->store->text(value: ($task['project'] ?? ''));
 		$ics     = $this->builder->build(
 			task: $task,
-			uid: $uid,
-			projectTitle: $this->store->projectTitle(projectId: $project),
-			url: $this->taskUrl(projectId: $project, taskId: $taskId),
-			managedNote: $this->l10n->t('Managed by Planninq. Changes made here are replaced by the next change in Planninq.'),
-			stamp: gmdate('Ymd\THis\Z')
+			meta: [
+				'uid'          => $uid,
+				'projectTitle' => $this->store->projectTitle(projectId: $project),
+				'url'          => $this->taskUrl(projectId: $project, taskId: $taskId),
+				'managedNote'  => $this->l10n->t('Managed by Planninq. Changes made here are replaced by the next change in Planninq.'),
+				'stamp'        => gmdate('Ymd\THis\Z'),
+			]
 		);
 
 		$written = 0;
