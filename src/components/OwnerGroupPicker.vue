@@ -54,13 +54,16 @@
  */
 import { showError } from '@nextcloud/dialogs'
 import { NcButton, NcSelect } from '@nextcloud/vue'
+import memberSearchInput from '../mixins/memberSearchInput.js'
 import { useProjectsStore } from '../store/projects.js'
-import { MIN_SEARCH_LENGTH, searchMembers, SHARE_TYPE_GROUP } from '../utils/memberSearch.js'
+import { SHARE_TYPE_GROUP } from '../utils/memberSearch.js'
 
 export default {
 	name: 'OwnerGroupPicker',
 
 	components: { NcButton, NcSelect },
+
+	mixins: [memberSearchInput],
 
 	props: {
 		projectId: {
@@ -86,75 +89,31 @@ export default {
 
 	emits: ['changed'],
 
-	data() {
-		return {
-			query: '',
-			results: [],
-			loading: false,
-			searched: false,
-			minLength: MIN_SEARCH_LENGTH,
-			debounceTimer: null,
-			abortController: null,
-		}
-	},
-
-	/**
-	 * Stop a pending search when the tab closes.
-	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
-	 */
-	beforeUnmount() {
-		clearTimeout(this.debounceTimer)
-		this.abortController?.abort()
-	},
-
 	methods: {
 		/**
-		 * Search for groups after a short pause in typing.
+		 * The search asks for groups only, leaving out the owning group.
 		 *
-		 * @param {string} value The search text.
+		 * @return {object} the searchMembers() options
 		 *
 		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
 		 */
-		onInput(value) {
-			this.query = value || ''
-			this.searched = false
-			clearTimeout(this.debounceTimer)
-			this.abortController?.abort()
-			if (this.query.trim().length < MIN_SEARCH_LENGTH) {
-				this.results = []
-				return
+		searchFilter() {
+			return {
+				groups: this.ownerGroup ? [this.ownerGroup] : [],
+				shareTypes: [SHARE_TYPE_GROUP],
 			}
-			this.debounceTimer = setTimeout(() => this.search(this.query), 300)
 		},
 
 		/**
-		 * Ask the core autocomplete for groups only.
+		 * Report a failed search.
 		 *
-		 * @param {string} term The search text.
+		 * @param {Error} err The error.
 		 *
 		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
 		 */
-		async search(term) {
-			this.abortController = new AbortController()
-			this.loading = true
-			try {
-				this.results = await searchMembers(term, {
-					groups: this.ownerGroup ? [this.ownerGroup] : [],
-					shareTypes: [SHARE_TYPE_GROUP],
-					signal: this.abortController.signal,
-				})
-			} catch (err) {
-				if (err.name === 'AbortError') {
-					return
-				}
-				console.error('Group search failed:', err)
-				showError(this.t('planninq', 'Could not search for groups. Please try again.'))
-				this.results = []
-			} finally {
-				this.loading = false
-				this.searched = true
-			}
+		onSearchError(err) {
+			console.error('Group search failed:', err)
+			showError(this.t('planninq', 'Could not search for groups. Please try again.'))
 		},
 
 		/**
