@@ -41,7 +41,7 @@
     },
     {
         "seed": 11,
-        "ics": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Conduction//Planninq//EN\r\nBEGIN:VTODO\r\nUID:planninq-task-11\\;x\\,y@inst\r\nDTSTAMP:20260930T120000Z\r\nSUMMARY:Line one\\nLine two\\nLine three\\nLine four\r\nDESCRIPTION:Managed by Planninq.\r\nSTATUS:CANCELLED\r\nCOMPLETED:20261101T120500Z\r\nEND:VTODO\r\nEND:VCALENDAR\r\n"
+        "ics": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Conduction//Planninq//EN\r\nBEGIN:VTODO\r\nUID:planninq-task-11\\;x\\,y@inst\r\nDTSTAMP:20260930T120000Z\r\nSUMMARY:Line one\\nLine two\\nLine three\\nLine four\r\nDESCRIPTION:Managed by Planninq.\r\nSTATUS:CANCELLED\r\nCOMPLETED:(12.5 read as 12:05 today, UTC)\r\nEND:VTODO\r\nEND:VCALENDAR\r\n"
     },
     {
         "seed": 12,
@@ -97,7 +97,7 @@
     },
     {
         "seed": 25,
-        "ics": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Conduction//Planninq//EN\r\nBEGIN:VTODO\r\nUID:planninq-task-25@inst\r\nDTSTAMP:20260930T120000Z\r\nSUMMARY:Plan\\, review\\; ship \\\\ done\r\nDESCRIPTION:Beheerd door Planninq\\, wijzigingen hier worden overschreven\\; \r\n ✓\r\nSTATUS:NEEDS-ACTION\r\nDTSTART;VALUE=DATE:20261005\r\nPERCENT-COMPLETE:55\r\nCOMPLETED:20261101T120500Z\r\nCATEGORIES:   padded   \r\nURL:https://nc.example/apps/planninq/projects/p25/tasks/txxxxxxxxxxxxxxxxxx\r\n xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\r\nEND:VTODO\r\nEND:VCALENDAR\r\n"
+        "ics": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Conduction//Planninq//EN\r\nBEGIN:VTODO\r\nUID:planninq-task-25@inst\r\nDTSTAMP:20260930T120000Z\r\nSUMMARY:Plan\\, review\\; ship \\\\ done\r\nDESCRIPTION:Beheerd door Planninq\\, wijzigingen hier worden overschreven\\; \r\n ✓\r\nSTATUS:NEEDS-ACTION\r\nDTSTART;VALUE=DATE:20261005\r\nPERCENT-COMPLETE:55\r\nCOMPLETED:(12.5 read as 12:05 today, UTC)\r\nCATEGORIES:   padded   \r\nURL:https://nc.example/apps/planninq/projects/p25/tasks/txxxxxxxxxxxxxxxxxx\r\n xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\r\nEND:VTODO\r\nEND:VCALENDAR\r\n"
     },
     {
         "seed": 26,
@@ -153,7 +153,7 @@
     },
     {
         "seed": 39,
-        "ics": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Conduction//Planninq//EN\r\nBEGIN:VTODO\r\nUID:planninq-task-39@inst\r\nDTSTAMP:20260930T120000Z\r\nSUMMARY:   padded   \r\nDESCRIPTION:Ëén lange regel met veel tekens die over de vouwbreedte gaat\\\r\n , ook met € en ✓ erin\\, en nog wat meer woorden erachter\\n\\nManaged by\r\n  Planninq.\r\nSTATUS:NEEDS-ACTION\r\nPRIORITY:5\r\nCOMPLETED:20261101T120500Z\r\nCATEGORIES:Plan\\, review\\; ship \\\\ done\r\nEND:VTODO\r\nEND:VCALENDAR\r\n"
+        "ics": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Conduction//Planninq//EN\r\nBEGIN:VTODO\r\nUID:planninq-task-39@inst\r\nDTSTAMP:20260930T120000Z\r\nSUMMARY:   padded   \r\nDESCRIPTION:Ëén lange regel met veel tekens die over de vouwbreedte gaat\\\r\n , ook met € en ✓ erin\\, en nog wat meer woorden erachter\\n\\nManaged by\r\n  Planninq.\r\nSTATUS:NEEDS-ACTION\r\nPRIORITY:5\r\nCOMPLETED:(12.5 read as 12:05 today, UTC)\r\nCATEGORIES:Plan\\, review\\; ship \\\\ done\r\nEND:VTODO\r\nEND:VCALENDAR\r\n"
     },
     {
         "seed": 40,
