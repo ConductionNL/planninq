@@ -39,11 +39,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
-			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 12,
-			"title": "Title"
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -231,6 +239,16 @@
 			"code": "late",
 			"count": 2
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -262,6 +280,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -341,10 +360,20 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "highestRisk",
-			"score": 2,
+			"score": 4,
 			"title": ""
 		},
 		"parseRiskScale": {
@@ -420,6 +449,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -446,6 +485,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "onTrack",
 			"noteTime": "padded"
@@ -453,6 +493,7 @@
 		"reportPayloadDate": "2026-03-01",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 2,
 			"impact": 0,
 			"status": "open",
@@ -540,9 +581,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
+		"suggestRisk": {
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 9,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -574,7 +627,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "Title",
-			"project": "p1",
 			"likelihood": -2,
 			"impact": 0,
 			"status": "open",
@@ -624,11 +676,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
 		"suggestRisk": {
-			"status": "offTrack",
+			"status": "onTrack",
 			"code": "highestRisk",
-			"score": 12,
-			"title": "7"
+			"score": 4,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -652,7 +714,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -810,6 +871,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -845,6 +916,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 4,
 			"impact": 2,
 			"status": "mitigating",
@@ -971,6 +1043,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -1002,7 +1084,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -1065,9 +1146,21 @@
 			"code": "late",
 			"count": 2
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 12,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -1091,7 +1184,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "onTrack",
 			"noteMoney": "Title",
@@ -1100,6 +1192,7 @@
 		"reportPayloadDate": "2026-01-05",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 3,
 			"impact": -2,
 			"status": "mitigating",
@@ -1257,6 +1350,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 267
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -1428,6 +1531,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -1689,6 +1802,16 @@
 			"code": "late",
 			"count": 1
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -1715,7 +1838,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -1782,9 +1904,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "withinBudget",
+			"percent": 22
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 25,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -1808,6 +1942,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack",
 			"noteTime": "Title",
@@ -1816,6 +1951,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "padded",
+			"project": "p1",
 			"likelihood": 3,
 			"impact": 0,
 			"status": "open",
@@ -1866,11 +2002,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 12,
-			"title": ""
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 267
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -1894,6 +2038,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack",
 			"statusRisk": "atRisk"
@@ -2020,11 +2165,19 @@
 			"code": "endPassed",
 			"count": 1
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 0,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 3,
@@ -2253,9 +2406,21 @@
 			"code": "endPassed",
 			"count": 2
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 2.5,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -2279,7 +2444,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 7,
 			"statusTime": "onTrack",
 			"noteTime": "Title",
@@ -2288,7 +2452,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": 2.5,
 			"impact": 1,
 			"status": "closed",
@@ -2448,11 +2611,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 12,
-			"title": "Title"
+			"code": "overBudget",
+			"percent": 114
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -2532,9 +2703,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 267
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 4,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -2564,7 +2747,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -2679,9 +2861,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 1,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -2705,6 +2899,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -2866,11 +3061,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 4,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -3005,6 +3208,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -3031,13 +3244,11 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -3178,6 +3389,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -3382,6 +3603,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -3530,9 +3761,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "withinBudget",
+			"percent": 71
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 25,
+			"title": "7"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -3556,7 +3799,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -3633,9 +3875,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
-			"status": "onTrack",
-			"code": "noOpenRisks"
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 12,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -3665,6 +3919,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -3818,9 +4073,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 1,
+			"title": "  padded  "
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -3844,7 +4111,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 7,
 			"statusMoney": "offTrack",
 			"noteMoney": "7",
@@ -3854,6 +4120,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "padded",
+			"project": "p1",
 			"likelihood": null,
 			"impact": 5,
 			"status": "open",
@@ -3925,6 +4192,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -3959,6 +4236,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "7",
+			"project": "p1",
 			"likelihood": 1,
 			"impact": 5,
 			"status": "closed",
@@ -4040,6 +4318,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -4066,11 +4354,13 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -4273,6 +4563,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 67
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -4488,11 +4788,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
-			"status": "atRisk",
+			"status": "offTrack",
 			"code": "highestRisk",
-			"score": 5,
-			"title": ""
+			"score": 9,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 3,
@@ -4662,11 +4972,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
 		"suggestRisk": {
-			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 12,
-			"title": ""
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -4690,13 +5008,11 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -4809,9 +5125,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 3,
+			"title": "  padded  "
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -4843,6 +5171,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 5,
 			"impact": 3,
 			"status": "open",
@@ -5129,6 +5458,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -5155,6 +5494,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -5231,6 +5571,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -5257,6 +5607,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "offTrack",
 			"noteMoney": "Title",
@@ -5266,7 +5617,6 @@
 		"reportPayloadDate": "2026-01-05",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": 0,
 			"impact": 0,
 			"status": "open",
@@ -5364,11 +5714,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
-			"status": "atRisk",
-			"code": "highestRisk",
-			"score": 6,
-			"title": ""
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -5392,7 +5750,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack",
 			"noteTime": "7",
@@ -5402,6 +5759,7 @@
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 2.5,
 			"impact": null,
 			"status": "open",
@@ -5457,9 +5815,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 25,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -5483,12 +5853,12 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -5630,6 +6000,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -5868,9 +6248,21 @@
 			"code": "endPassed",
 			"count": 1
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "withinBudget",
+			"percent": 29
+		},
+		"suggestRisk": {
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 5,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -5902,7 +6294,6 @@
 		"reportPayloadDate": "2026-03-01",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": 0,
 			"impact": 2.5,
 			"status": "open",
@@ -6193,6 +6584,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -6215,6 +6616,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"noteTime": "padded",
 			"noteQuality": "7"
@@ -6222,6 +6624,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": 2,
 			"status": "closed",
@@ -6302,9 +6705,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
-			"status": "onTrack",
-			"code": "noOpenRisks"
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 6,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -6328,7 +6743,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "onTrack",
 			"noteMoney": "7",
@@ -6339,6 +6753,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "padded",
+			"project": "p1",
 			"likelihood": 4,
 			"impact": -2,
 			"status": "closed",
@@ -6382,9 +6797,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 67
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 9,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 4,
@@ -6636,6 +7063,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -6662,7 +7099,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -6921,11 +7357,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
 			"status": "offTrack",
 			"code": "highestRisk",
-			"score": 25,
-			"title": "Title"
+			"score": 16,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -6949,6 +7395,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"noteQuality": "padded",
 			"statusRisk": "atRisk"
@@ -6956,6 +7403,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "padded",
+			"project": "p1",
 			"likelihood": 2,
 			"impact": 0,
 			"status": "mitigating",
@@ -7040,11 +7488,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
 		"suggestRisk": {
-			"status": "offTrack",
+			"status": "atRisk",
 			"code": "highestRisk",
-			"score": 16,
-			"title": ""
+			"score": 9,
+			"title": "7"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -7119,6 +7577,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -7145,12 +7613,14 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack"
 		},
 		"reportPayloadDate": "2026-03-01",
 		"riskPayload": {
 			"title": "Title",
+			"project": "p1",
 			"likelihood": 0,
 			"impact": null,
 			"status": "open",
@@ -7297,6 +7767,16 @@
 			"code": "late",
 			"count": 1
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -7332,6 +7812,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "padded",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "occurred",
@@ -7380,6 +7861,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -7540,11 +8031,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 2,
-			"title": "  padded  "
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -7655,6 +8154,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -7681,6 +8190,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "offTrack",
 			"statusTime": "onTrack",
@@ -7806,9 +8316,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 2.5,
+			"title": "7"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -7839,6 +8361,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": 0,
 			"status": "open",
@@ -7889,11 +8412,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
+		"suggestRisk": {
+			"status": "atRisk",
 			"code": "highestRisk",
-			"score": 16,
-			"title": "7"
+			"score": 5,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 4,
@@ -7915,12 +8448,12 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -8021,11 +8554,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 25,
-			"title": "Title"
+			"code": "overBudget",
+			"percent": 167
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -8240,9 +8781,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 267
+		},
 		"suggestRisk": {
-			"status": "onTrack",
-			"code": "noOpenRisks"
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 25,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -8266,6 +8819,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -8393,11 +8947,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 3,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -8421,6 +8983,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "offTrack",
 			"noteMoney": "7",
@@ -8431,7 +8994,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": 2.5,
 			"impact": 0,
 			"status": "occurred",
@@ -8523,6 +9085,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -8549,7 +9121,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"noteMoney": "7",
 			"statusTime": "onTrack",
@@ -8559,6 +9130,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "7",
+			"project": "p1",
 			"likelihood": 4,
 			"impact": null,
 			"status": "open",
@@ -8823,6 +9395,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -8908,11 +9490,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
 		"suggestRisk": {
-			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 12,
-			"title": "7"
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 3,
@@ -9092,11 +9682,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 16,
-			"title": ""
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -9120,6 +9718,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"noteMoney": "7",
 			"statusTime": "offTrack",
@@ -9222,11 +9821,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 1,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 4,
@@ -9254,6 +9861,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -9392,11 +10000,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 16,
-			"title": "  padded  "
+			"code": "overBudget",
+			"percent": 267
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -9490,9 +10106,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 2.5,
+			"title": "  padded  "
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -9522,6 +10150,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -9633,11 +10262,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
 		"suggestRisk": {
-			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 16,
-			"title": "7"
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -9670,6 +10307,7 @@
 		"reportPayloadDate": "2025-12-31",
 		"riskPayload": {
 			"title": "padded",
+			"project": "p1",
 			"likelihood": null,
 			"impact": 3,
 			"status": "closed",
@@ -9749,6 +10387,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -9775,7 +10423,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "offTrack",
 			"statusTime": "onTrack",
@@ -9784,6 +10431,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "Title",
+			"project": "p1",
 			"likelihood": null,
 			"impact": 0,
 			"status": "closed",
@@ -9931,9 +10579,21 @@
 			"code": "late",
 			"count": 1
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
+		"suggestRisk": {
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 6,
+			"title": "7"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -9963,6 +10623,7 @@
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": -2,
 			"impact": 0,
 			"status": "mitigating",
@@ -10275,6 +10936,13 @@
 					"y1": 346,
 					"x2": 1804,
 					"y2": 274
+				},
+				{
+					"key": "d1",
+					"x1": 1848,
+					"y1": 274,
+					"x2": 1804,
+					"y2": 346
 				}
 			],
 			"minDay": 20453,
@@ -10291,6 +10959,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 67
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -10325,7 +11003,6 @@
 		"reportPayloadDate": "2026-01-05",
 		"riskPayload": {
 			"title": "Title",
-			"project": "p1",
 			"likelihood": 2,
 			"impact": 0,
 			"status": "occurred",
@@ -10446,9 +11123,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 0,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -10472,11 +11161,13 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -10595,9 +11286,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 25,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -10621,7 +11324,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -10795,10 +11497,20 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 67
+		},
+		"suggestRisk": {
+			"status": "offTrack",
 			"code": "highestRisk",
-			"score": 4,
+			"score": 25,
 			"title": ""
 		},
 		"parseRiskScale": {
@@ -10823,6 +11535,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -11027,11 +11740,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
-			"status": "atRisk",
-			"code": "highestRisk",
-			"score": 9,
-			"title": ""
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -11127,9 +11848,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "withinBudget",
+			"percent": 71
+		},
+		"suggestRisk": {
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 9,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -11153,7 +11886,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -11391,6 +12123,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -11417,13 +12159,11 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -11472,6 +12212,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -11649,11 +12399,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
-			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 12,
-			"title": ""
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -11951,9 +12709,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 267
+		},
+		"suggestRisk": {
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 9,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -11982,7 +12752,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -12163,11 +12932,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 16,
-			"title": "7"
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -12191,7 +12968,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -12290,9 +13066,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
+		"suggestRisk": {
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 6,
+			"title": "7"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -12316,12 +13104,14 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"noteTime": "7"
 		},
 		"reportPayloadDate": "2026-03-01",
 		"riskPayload": {
 			"title": "padded",
+			"project": "p1",
 			"likelihood": -2,
 			"impact": 0,
 			"status": "open",
@@ -12591,6 +13381,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -12849,9 +13649,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 12,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 4,
@@ -12873,6 +13685,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "onTrack",
 			"noteMoney": "7",
@@ -12882,6 +13695,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 2.5,
 			"impact": 4,
 			"status": "open",
@@ -12995,6 +13809,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -13257,9 +14081,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 2.5,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -13283,14 +14119,12 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"noteQuality": "7"
 		},
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": 0,
 			"impact": 1,
 			"status": "open",
@@ -13399,10 +14233,20 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 67
+		},
+		"suggestRisk": {
+			"status": "offTrack",
 			"code": "highestRisk",
-			"score": 2.5,
+			"score": 16,
 			"title": ""
 		},
 		"parseRiskScale": {
@@ -13543,11 +14387,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 25,
-			"title": ""
+			"code": "overBudget",
+			"percent": 114
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -13712,9 +14564,21 @@
 			"code": "endPassed",
 			"count": 2
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "withinBudget",
+			"percent": 22
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 12,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 3,
@@ -13823,6 +14687,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -13856,6 +14730,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": 0,
 			"status": "occurred",
@@ -14063,9 +14938,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 2.5,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 3,
@@ -14216,9 +15103,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "withinBudget",
+			"percent": 33
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 25,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -14251,7 +15150,6 @@
 		"reportPayloadDate": "2025-12-31",
 		"riskPayload": {
 			"title": "padded",
-			"project": "p1",
 			"likelihood": 2.5,
 			"impact": 3,
 			"status": "closed",
@@ -14383,6 +15281,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -14416,7 +15324,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": 5,
 			"impact": 0,
 			"status": "open",
@@ -14528,6 +15435,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -14554,11 +15471,13 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -14814,11 +15733,19 @@
 			"code": "late",
 			"count": 2
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 2.5,
-			"title": "7"
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -14848,7 +15775,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -14947,11 +15873,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 1,
-			"title": "7"
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -14975,12 +15909,12 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -15092,11 +16026,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
 		"suggestRisk": {
-			"status": "atRisk",
-			"code": "highestRisk",
-			"score": 9,
-			"title": ""
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -15120,6 +16062,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"noteMoney": "7",
 			"statusTime": "offTrack",
@@ -15128,7 +16071,6 @@
 		"reportPayloadDate": "2026-03-01",
 		"riskPayload": {
 			"title": "padded",
-			"project": "p1",
 			"likelihood": 0,
 			"impact": 4,
 			"status": "open",
@@ -15352,6 +16294,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -15378,12 +16330,14 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"noteQuality": "Title"
 		},
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": -2,
 			"impact": 5,
 			"status": "closed",
@@ -15638,6 +16592,16 @@
 			"code": "late",
 			"count": 1
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -15664,6 +16628,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "onTrack",
 			"noteQuality": "7",
@@ -15795,11 +16760,19 @@
 			"code": "late",
 			"count": 4
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 25,
-			"title": ""
+			"code": "overBudget",
+			"percent": 114
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -15900,6 +16873,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -15926,7 +16909,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "onTrack",
 			"noteQuality": "7"
@@ -15985,11 +16967,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 2.5,
-			"title": "Title"
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -16128,9 +17118,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "withinBudget",
+			"percent": 22
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 25,
+			"title": "7"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -16154,7 +17156,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "onTrack",
 			"statusTime": "offTrack",
@@ -16163,6 +17164,7 @@
 		"reportPayloadDate": "2025-12-31",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 4,
 			"impact": 4,
 			"status": "closed",
@@ -16440,11 +17442,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
+		"suggestRisk": {
+			"status": "offTrack",
 			"code": "highestRisk",
-			"score": 4,
-			"title": "7"
+			"score": 25,
+			"title": "  padded  "
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -16468,6 +17480,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack",
 			"noteTime": "Title"
@@ -16475,7 +17488,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": 4,
 			"status": "open",
@@ -16601,6 +17613,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -16675,6 +17697,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -16798,6 +17830,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 67
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -16824,13 +17866,11 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -16953,11 +17993,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
 		"suggestRisk": {
-			"status": "atRisk",
-			"code": "highestRisk",
-			"score": 6,
-			"title": ""
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -17066,11 +18114,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 0,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -17101,6 +18157,7 @@
 		"reportPayloadDate": "2026-01-05",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": 2.5,
 			"status": "occurred",
@@ -17297,6 +18354,16 @@
 			"code": "late",
 			"count": 1
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -17330,6 +18397,7 @@
 		"reportPayloadDate": "2025-12-31",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 2,
 			"impact": 3,
 			"status": "mitigating",
@@ -17430,6 +18498,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -17461,7 +18539,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -17663,6 +18740,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -17863,6 +18950,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -18042,11 +19139,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 16,
-			"title": "Title"
+			"code": "overBudget",
+			"percent": 114
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -18075,7 +19180,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -18237,11 +19341,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
 		"suggestRisk": {
-			"status": "atRisk",
-			"code": "highestRisk",
-			"score": 9,
-			"title": "7"
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -18265,6 +19377,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "onTrack",
 			"noteTime": "7"
@@ -18541,9 +19654,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 25,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -18573,7 +19698,6 @@
 		"reportPayloadDate": "2025-12-31",
 		"riskPayload": {
 			"title": "7",
-			"project": "p1",
 			"likelihood": 1,
 			"impact": 0,
 			"status": "closed",
@@ -18656,11 +19780,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": -2,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -18954,6 +20086,16 @@
 			"code": "endPassed",
 			"count": 1
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -18980,6 +20122,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -19026,6 +20169,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 267
 		},
 		"suggestRisk": {
 			"status": "offTrack",
@@ -19125,6 +20278,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -19159,6 +20322,7 @@
 		"reportPayloadDate": "2026-03-01",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 0,
 			"impact": -2,
 			"status": "open",
@@ -19326,6 +20490,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -19442,11 +20616,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 0,
-			"title": "Title"
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -19683,11 +20865,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 16,
-			"title": "  padded  "
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -19711,7 +20901,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"noteTime": "padded",
 			"statusRisk": "atRisk"
@@ -19799,6 +20988,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -19821,6 +21020,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"noteQuality": "Title"
 		},
@@ -19947,11 +21147,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 16,
-			"title": "  padded  "
+			"code": "overBudget",
+			"percent": 267
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 3,
@@ -20023,6 +21231,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -20049,6 +21267,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "onTrack",
 			"noteMoney": "padded",
@@ -20058,6 +21277,7 @@
 		"reportPayloadDate": "2026-01-05",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 2,
 			"impact": -2,
 			"status": "open",
@@ -20108,6 +21328,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -20134,12 +21364,12 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -20258,11 +21488,19 @@
 			"code": "late",
 			"count": 1
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
-			"status": "atRisk",
-			"code": "highestRisk",
-			"score": 5,
-			"title": ""
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -20403,6 +21641,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -20604,11 +21852,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 12,
-			"title": "  padded  "
+			"code": "overBudget",
+			"percent": 267
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -20638,7 +21894,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -20738,10 +21993,20 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
-			"status": "offTrack",
+			"status": "atRisk",
 			"code": "highestRisk",
-			"score": 16,
+			"score": 9,
 			"title": ""
 		},
 		"parseRiskScale": {
@@ -20771,6 +22036,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": 4,
 			"status": "open",
@@ -20895,6 +22161,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -20921,13 +22197,11 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -21131,9 +22405,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
+		"suggestRisk": {
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 6,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -21157,6 +22443,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -21342,11 +22629,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 25,
-			"title": "Title"
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 267
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 4,
@@ -21374,7 +22669,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -21523,11 +22817,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 0,
-			"title": "Title"
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 3,
@@ -21692,11 +22994,19 @@
 			"code": "late",
 			"count": 1
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 3,
-			"title": "7"
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -21828,6 +23138,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 267
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -21854,6 +23174,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 7,
 			"statusMoney": "atRisk",
 			"statusTime": "onTrack",
@@ -21862,7 +23183,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "padded",
-			"project": "p1",
 			"likelihood": 4,
 			"impact": null,
 			"status": "open",
@@ -21929,6 +23249,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -21955,7 +23285,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack",
 			"noteQuality": "Title"
@@ -22098,11 +23427,19 @@
 			"code": "late",
 			"count": 1
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 6,
-			"title": "  padded  "
+			"code": "overBudget",
+			"percent": 267
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 3,
@@ -22337,10 +23674,20 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "highestRisk",
-			"score": 3,
+			"score": 2,
 			"title": ""
 		},
 		"parseRiskScale": {
@@ -22619,6 +23966,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 67
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -22645,7 +24002,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack",
 			"noteTime": "padded"
@@ -22714,10 +24070,20 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
 		"suggestRisk": {
-			"status": "atRisk",
+			"status": "onTrack",
 			"code": "highestRisk",
-			"score": 5,
+			"score": 0,
 			"title": "  padded  "
 		},
 		"parseRiskScale": {
@@ -22889,11 +24255,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 3,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -23128,6 +24502,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 267
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -23154,7 +24538,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "onTrack",
 			"noteMoney": "Title",
@@ -23164,7 +24547,6 @@
 		"reportPayloadDate": "2026-01-05",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": 0,
 			"impact": 1,
 			"status": "open",
@@ -23213,6 +24595,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -23401,10 +24793,20 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
 		"suggestRisk": {
 			"status": "offTrack",
 			"code": "highestRisk",
-			"score": 16,
+			"score": 25,
 			"title": ""
 		},
 		"parseRiskScale": {
@@ -23429,7 +24831,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"noteMoney": "7",
 			"statusTime": "onTrack",
@@ -23505,11 +24906,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 267
+		},
 		"suggestRisk": {
-			"status": "atRisk",
-			"code": "highestRisk",
-			"score": 9,
-			"title": ""
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -23533,6 +24942,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "onTrack",
 			"noteQuality": "7"
@@ -23795,10 +25205,20 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
+		"suggestRisk": {
+			"status": "offTrack",
 			"code": "highestRisk",
-			"score": 0,
+			"score": 12,
 			"title": ""
 		},
 		"parseRiskScale": {
@@ -23905,11 +25325,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 0,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -23933,12 +25361,12 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -24050,11 +25478,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "highestRisk",
-			"score": 1,
-			"title": "  padded  "
+			"score": 0,
+			"title": "7"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -24147,11 +25585,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
 		"suggestRisk": {
-			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 12,
-			"title": "7"
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -24225,9 +25671,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 4,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -24251,7 +25709,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 7,
 			"statusTime": "onTrack",
 			"noteTime": "padded"
@@ -24338,11 +25795,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": -2,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -24375,7 +25840,6 @@
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": 5,
 			"impact": 5,
 			"status": "open",
@@ -24426,9 +25890,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 2.5,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -24543,11 +26019,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 67
+		},
 		"suggestRisk": {
-			"status": "atRisk",
-			"code": "highestRisk",
-			"score": 9,
-			"title": "  padded  "
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -24642,6 +26126,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -24666,12 +26160,12 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -24878,9 +26372,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 2.5,
+			"title": "7"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -24904,7 +26410,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -25045,9 +26550,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
-			"status": "onTrack",
-			"code": "noOpenRisks"
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 9,
+			"title": "  padded  "
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -25071,6 +26588,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 7,
 			"statusMoney": "onTrack",
 			"noteMoney": "Title",
@@ -25227,6 +26745,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -25256,7 +26784,6 @@
 		"reportPayloadDate": "2026-01-05",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": -2,
 			"impact": 2,
 			"status": "mitigating",
@@ -25307,9 +26834,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
+		"suggestRisk": {
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 6,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -25344,7 +26883,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "padded",
-			"project": "p1",
 			"likelihood": 0,
 			"impact": null,
 			"status": "mitigating",
@@ -25482,11 +27020,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 6,
-			"title": ""
+			"code": "overBudget",
+			"percent": 267
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 3,
@@ -25576,6 +27122,16 @@
 			"code": "late",
 			"count": 1
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -25602,13 +27158,13 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack"
 		},
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "Title",
+			"project": "p1",
 			"likelihood": 0,
 			"impact": 0,
 			"status": "open",
@@ -25746,9 +27302,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 0,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -25777,7 +27345,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -25885,6 +27452,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -25919,6 +27496,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 0,
 			"impact": 2.5,
 			"status": "mitigating",
@@ -26002,6 +27580,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -26033,6 +27621,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -26112,11 +27701,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
 		"suggestRisk": {
-			"status": "atRisk",
+			"status": "onTrack",
 			"code": "highestRisk",
-			"score": 5,
-			"title": "Title"
+			"score": 0,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -26140,6 +27739,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack",
 			"noteTime": "Title",
@@ -26148,7 +27748,6 @@
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "Title",
-			"project": "p1",
 			"likelihood": 2,
 			"impact": null,
 			"status": "open",
@@ -26272,9 +27871,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 25,
+			"title": "  padded  "
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -26298,12 +27909,14 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"noteQuality": "padded"
 		},
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 0,
 			"impact": 0,
 			"status": "closed",
@@ -26423,6 +28036,16 @@
 			"code": "endPassed",
 			"count": 3
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -26455,6 +28078,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -26550,6 +28174,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -26576,7 +28210,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -26732,6 +28365,16 @@
 			"code": "endPassed",
 			"count": 1
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -26758,7 +28401,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"noteTime": "Title",
 			"statusRisk": "atRisk"
@@ -26844,9 +28486,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "withinBudget",
+			"percent": 29
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 25,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -26878,7 +28532,6 @@
 		"reportPayloadDate": "2025-12-31",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": -2,
 			"impact": 2.5,
 			"status": "mitigating",
@@ -26992,6 +28645,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -27326,6 +28989,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 267
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -27500,6 +29173,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -27635,10 +29318,20 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 267
+		},
 		"suggestRisk": {
 			"status": "offTrack",
 			"code": "highestRisk",
-			"score": 16,
+			"score": 25,
 			"title": ""
 		},
 		"parseRiskScale": {
@@ -27668,6 +29361,7 @@
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": 1,
 			"status": "closed",
@@ -27734,6 +29428,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -27769,6 +29473,7 @@
 		"reportPayloadDate": "2026-01-05",
 		"riskPayload": {
 			"title": "7",
+			"project": "p1",
 			"likelihood": 4,
 			"impact": 4,
 			"status": "mitigating",
@@ -28015,11 +29720,21 @@
 			"code": "late",
 			"count": 2
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 67
+		},
+		"suggestRisk": {
+			"status": "onTrack",
 			"code": "highestRisk",
-			"score": 5,
-			"title": "  padded  "
+			"score": 0,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -28052,7 +29767,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": 4,
 			"impact": null,
 			"status": "open",
@@ -28188,11 +29902,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
 		"suggestRisk": {
 			"status": "offTrack",
 			"code": "highestRisk",
 			"score": 12,
-			"title": "7"
+			"title": "  padded  "
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -28216,7 +29940,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"noteTime": "7",
 			"noteQuality": "padded"
@@ -28319,9 +30042,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "withinBudget",
+			"percent": 71
+		},
+		"suggestRisk": {
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 5,
+			"title": "7"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -28350,6 +30085,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -28518,11 +30254,21 @@
 			"code": "endPassed",
 			"count": 1
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
 			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
+		"suggestRisk": {
+			"status": "onTrack",
 			"code": "highestRisk",
-			"score": 25,
-			"title": "Title"
+			"score": 4,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -28546,6 +30292,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 7,
 			"statusMoney": "onTrack",
 			"noteMoney": "Title",
@@ -28685,6 +30432,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -28711,7 +30468,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "onTrack",
 			"noteTime": "7",
@@ -28797,9 +30553,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
 		"suggestRisk": {
-			"status": "onTrack",
-			"code": "noOpenRisks"
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 6,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -28823,7 +30591,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 7,
 			"statusTime": "offTrack",
 			"noteTime": "7",
@@ -28832,6 +30599,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "7",
+			"project": "p1",
 			"likelihood": 2.5,
 			"impact": 0,
 			"status": "open",
@@ -29003,9 +30771,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "withinBudget",
+			"percent": 22
+		},
+		"suggestRisk": {
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 6,
+			"title": "  padded  "
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -29029,6 +30809,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -29177,11 +30958,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
-			"status": "atRisk",
-			"code": "highestRisk",
-			"score": 5,
-			"title": ""
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -29205,6 +30994,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -29501,6 +31291,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -29527,7 +31327,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack",
 			"noteQuality": "7",
@@ -29536,6 +31335,7 @@
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 4,
 			"impact": 0,
 			"status": "open",
@@ -29668,11 +31468,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 0,
-			"title": "7"
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -29784,11 +31592,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 6,
-			"title": ""
+			"code": "overBudget",
+			"percent": 167
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 3,
@@ -29808,7 +31624,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack",
 			"noteTime": "padded",
@@ -29817,6 +31632,7 @@
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 2.5,
 			"impact": 3,
 			"status": "open",
@@ -29890,11 +31706,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
+		"suggestRisk": {
+			"status": "offTrack",
 			"code": "highestRisk",
-			"score": 9,
-			"title": ""
+			"score": 12,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -29918,6 +31744,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -29986,6 +31813,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -30207,6 +32044,16 @@
 			"code": "late",
 			"count": 1
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -30233,12 +32080,12 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -30322,11 +32169,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "highestRisk",
-			"score": 0,
-			"title": "Title"
+			"score": 4,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -30355,6 +32212,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -30441,6 +32299,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -30467,6 +32335,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "onTrack",
 			"noteMoney": "7",
@@ -30475,7 +32344,6 @@
 		"reportPayloadDate": "2026-03-01",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": 4,
 			"impact": 5,
 			"status": "open",
@@ -30543,6 +32411,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -30729,6 +32607,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 67
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -30755,7 +32643,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "atRisk",
 			"statusTime": "onTrack",
@@ -30764,7 +32651,6 @@
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "padded",
-			"project": "p1",
 			"likelihood": 5,
 			"impact": 3,
 			"status": "open",
@@ -30845,9 +32731,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 25,
+			"title": "  padded  "
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -30871,13 +32769,13 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 7,
 			"noteQuality": "7"
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "padded",
+			"project": "p1",
 			"likelihood": -2,
 			"impact": 0,
 			"status": "mitigating",
@@ -31058,11 +32956,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
 		"suggestRisk": {
-			"status": "atRisk",
+			"status": "onTrack",
 			"code": "highestRisk",
-			"score": 9,
-			"title": "Title"
+			"score": 0,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -31086,7 +32994,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "onTrack",
 			"statusTime": "onTrack",
@@ -31096,6 +33003,7 @@
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "padded",
+			"project": "p1",
 			"likelihood": null,
 			"impact": 0,
 			"status": "open",
@@ -31180,6 +33088,16 @@
 			"code": "late",
 			"count": 2
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -31212,7 +33130,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -31433,11 +33350,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
-			"status": "atRisk",
-			"code": "highestRisk",
-			"score": 6,
-			"title": "  padded  "
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 4,
@@ -31459,6 +33384,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "offTrack",
 			"noteMoney": "Title",
@@ -31602,9 +33528,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 12,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -31628,7 +33566,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -31803,6 +33740,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -31837,6 +33784,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "7",
+			"project": "p1",
 			"likelihood": 0,
 			"impact": 4,
 			"status": "open",
@@ -31978,6 +33926,16 @@
 			"code": "endPassed",
 			"count": 5
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 267
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -32004,6 +33962,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "onTrack",
 			"statusTime": "onTrack",
@@ -32211,9 +34170,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 2.5,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -32242,7 +34213,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -32291,11 +34261,19 @@
 			"code": "late",
 			"count": 1
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 0,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -32423,6 +34401,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 267
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -32456,7 +34444,6 @@
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": 1,
 			"impact": 5,
 			"status": "closed",
@@ -32591,9 +34578,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 12,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -32814,9 +34813,21 @@
 			"code": "late",
 			"count": 1
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 67
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 0,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -32912,6 +34923,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -32938,6 +34959,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"noteTime": "padded",
 			"noteQuality": "padded"
@@ -33204,9 +35226,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 2,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -33230,7 +35264,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 7,
 			"statusTime": "onTrack",
 			"noteTime": "7",
@@ -33324,6 +35357,16 @@
 			"status": "offTrack",
 			"code": "endPassed",
 			"count": 2
+		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -33628,9 +35671,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
+		"suggestRisk": {
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 9,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -33773,11 +35828,19 @@
 			"code": "late",
 			"count": 1
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 2,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -34045,6 +36108,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -34077,6 +36150,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -34319,6 +36393,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -34345,12 +36429,14 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"noteTime": "Title"
 		},
 		"reportPayloadDate": "2026-01-05",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 5,
 			"impact": null,
 			"status": "open",
@@ -34709,11 +36795,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 1,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -34737,12 +36831,12 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -34951,10 +37045,20 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
+		"suggestRisk": {
+			"status": "offTrack",
 			"code": "highestRisk",
-			"score": 2.5,
+			"score": 25,
 			"title": ""
 		},
 		"parseRiskScale": {
@@ -34979,11 +37083,13 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -35223,11 +37329,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
 		"suggestRisk": {
-			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 25,
-			"title": ""
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -35256,6 +37370,7 @@
 		"reportPayloadDate": "2025-12-31",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 0,
 			"impact": 0,
 			"status": "open",
@@ -35317,6 +37432,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -35343,12 +37468,14 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack"
 		},
 		"reportPayloadDate": "2025-12-31",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 0,
 			"impact": null,
 			"status": "open",
@@ -35522,6 +37649,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -35558,6 +37695,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": 0,
 			"impact": null,
 			"status": "open",
@@ -35637,9 +37775,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 12,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -35663,6 +37813,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "offTrack",
 			"noteMoney": "7",
@@ -35878,6 +38029,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -35906,6 +38067,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -36195,6 +38357,16 @@
 			"code": "late",
 			"count": 2
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -36230,7 +38402,6 @@
 		"reportPayloadDate": "2026-01-05",
 		"riskPayload": {
 			"title": "Title",
-			"project": "p1",
 			"likelihood": 0,
 			"impact": 0,
 			"status": "closed",
@@ -36272,11 +38443,19 @@
 			"code": "endPassed",
 			"count": 2
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 16,
-			"title": "Title"
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -36459,6 +38638,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -36496,7 +38685,6 @@
 		"reportPayloadDate": "2026-03-01",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": 4,
 			"impact": 0,
 			"status": "open",
@@ -36694,10 +38882,20 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
+		"suggestRisk": {
+			"status": "offTrack",
 			"code": "highestRisk",
-			"score": 4,
+			"score": 25,
 			"title": ""
 		},
 		"parseRiskScale": {
@@ -36730,7 +38928,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "7",
-			"project": "p1",
 			"likelihood": 1,
 			"impact": 0,
 			"status": "open",
@@ -36834,6 +39031,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 29
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -36860,7 +39067,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -36944,6 +39150,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -36970,6 +39186,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack",
 			"noteTime": "Title",
@@ -36979,6 +39196,7 @@
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "padded",
+			"project": "p1",
 			"likelihood": -2,
 			"impact": 1,
 			"status": "occurred",
@@ -37148,9 +39366,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": -2,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -37174,7 +39404,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -37336,11 +39565,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 0,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -37372,6 +39609,7 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "padded",
+			"project": "p1",
 			"likelihood": 5,
 			"impact": null,
 			"status": "mitigating",
@@ -37535,6 +39773,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 71
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -37561,6 +39809,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack",
 			"noteQuality": "padded"
@@ -37710,6 +39959,16 @@
 			"status": "onTrack",
 			"code": "onSchedule",
 			"count": 0
+		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
 		},
 		"suggestRisk": {
 			"status": "onTrack",
@@ -37881,9 +40140,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 2,
+			"title": "7"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -38052,6 +40323,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 67
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -38076,13 +40357,11 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -38178,9 +40457,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "withinBudget",
+			"percent": 67
+		},
+		"suggestRisk": {
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 9,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -38204,6 +40495,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "onTrack",
 			"statusRisk": "atRisk"
@@ -38254,9 +40546,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "withinBudget",
+			"percent": 56
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 16,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 4,
@@ -38286,6 +40590,7 @@
 		"reportPayloadDate": "2025-12-31",
 		"riskPayload": {
 			"title": "padded",
+			"project": "p1",
 			"likelihood": 5,
 			"impact": 4,
 			"status": "open",
@@ -38433,9 +40738,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 3,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -38608,9 +40925,21 @@
 			"code": "late",
 			"count": 1
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
+		"suggestRisk": {
+			"status": "offTrack",
+			"code": "highestRisk",
+			"score": 25,
+			"title": "7"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -38634,6 +40963,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -38942,11 +41272,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 2.5,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 4,
@@ -38968,6 +41306,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -39022,11 +41361,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 16,
-			"title": "  padded  "
+			"code": "overBudget",
+			"percent": 267
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -39234,6 +41581,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 67
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -39266,7 +41623,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -39406,6 +41762,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -39432,7 +41798,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"noteMoney": "7",
 			"statusTime": "offTrack",
@@ -39441,7 +41806,6 @@
 		"reportPayloadDate": "2026-02-10",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": 0,
 			"impact": 2.5,
 			"status": "open",
@@ -39554,11 +41918,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "highestRisk",
-			"score": 4,
-			"title": "7"
+			"score": -2,
+			"title": "Title"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -39636,11 +42010,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 12,
-			"title": ""
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -39664,7 +42046,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusMoney": "onTrack",
 			"noteMoney": "Title",
@@ -39953,11 +42334,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "highestRisk",
-			"score": 2,
-			"title": ""
+			"score": 2.5,
+			"title": "7"
 		},
 		"parseRiskScale": {
 			"levels": 4,
@@ -39979,6 +42370,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -40062,6 +42454,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 14
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -40088,13 +42490,11 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -40238,11 +42638,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 2.5,
-			"title": "7"
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -40445,9 +42853,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
+		"suggestRisk": {
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 5,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -40686,11 +43106,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 56
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "highestRisk",
-			"score": 2.5,
-			"title": ""
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 3,
@@ -40860,11 +43288,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 33
+		},
 		"suggestRisk": {
-			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 16,
-			"title": "  padded  "
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -40888,7 +43324,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 7,
 			"noteTime": "Title",
 			"noteQuality": "Title"
@@ -41170,11 +43605,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 11
+		},
 		"suggestRisk": {
 			"status": "offTrack",
 			"code": "highestRisk",
-			"score": 25,
-			"title": ""
+			"score": 16,
+			"title": "7"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -41392,11 +43837,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
-		"suggestRisk": {
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
 			"status": "offTrack",
-			"code": "highestRisk",
-			"score": 25,
-			"title": "Title"
+			"code": "overBudget",
+			"percent": 114
+		},
+		"suggestRisk": {
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -41478,6 +43931,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -41504,7 +43967,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10,
 			"statusTime": "offTrack",
 			"noteTime": "padded"
@@ -41738,6 +44200,16 @@
 			"code": "late",
 			"count": 2
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 167
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -41764,12 +44236,12 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
+			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -41964,6 +44436,16 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "atRisk",
+			"code": "late",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 89
+		},
 		"suggestRisk": {
 			"status": "onTrack",
 			"code": "noOpenRisks"
@@ -41996,7 +44478,6 @@
 		"reportPayloadDate": "today",
 		"riskPayload": {
 			"title": "",
-			"project": "p1",
 			"likelihood": null,
 			"impact": null,
 			"status": "open",
@@ -42301,9 +44782,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "offTrack",
+			"code": "endPassed",
+			"count": 1
+		},
+		"suggestMoneyShare": {
+			"status": "offTrack",
+			"code": "overBudget",
+			"percent": 114
+		},
 		"suggestRisk": {
-			"status": "onTrack",
-			"code": "noOpenRisks"
+			"status": "atRisk",
+			"code": "highestRisk",
+			"score": 6,
+			"title": ""
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -42409,11 +44902,19 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
-			"status": "atRisk",
-			"code": "highestRisk",
-			"score": 5,
-			"title": ""
+			"status": "onTrack",
+			"code": "noOpenRisks"
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -42437,6 +44938,7 @@
 			}
 		},
 		"reportPayload": {
+			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",
@@ -42623,9 +45125,21 @@
 			"code": "onSchedule",
 			"count": 0
 		},
+		"suggestTimeEnd": {
+			"status": "onTrack",
+			"code": "onSchedule",
+			"count": 0
+		},
+		"suggestMoneyShare": {
+			"status": "onTrack",
+			"code": "withinBudget",
+			"percent": 22
+		},
 		"suggestRisk": {
 			"status": "onTrack",
-			"code": "noOpenRisks"
+			"code": "highestRisk",
+			"score": 2,
+			"title": "  padded  "
 		},
 		"parseRiskScale": {
 			"levels": 5,
@@ -42649,7 +45163,6 @@
 			}
 		},
 		"reportPayload": {
-			"project": "p1",
 			"reportDate": 10
 		},
 		"reportPayloadDate": "today",

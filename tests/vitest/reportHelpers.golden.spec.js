@@ -128,9 +128,11 @@ function answers(seed) {
 	record('stackBands', () => stackBands(columns, days))
 	record('combineProjectFlows', () => combineProjectFlows(pick([null, undefined, 'l', 'l', 'l']) === 'l' ? listOf(pick, flow) : null))
 	record('sortBySpan', () => sortBySpan(pick([undefined, null, 'l', 'l']) === 'l' ? projects : undefined).map((p) => p.id))
-	record('buildPortfolioLayout', () => buildPortfolioLayout(projects, pick([[], ['p1'], ids, null]), [{ blocker: 't1', blocked: 't2' }, { blocker: 'p1', blocked: 't1' }], pick([undefined, 6, 44])))
+	record('buildPortfolioLayout', () => buildPortfolioLayout(projects, pick([[], ['p1'], ids, null]), [{ blocker: 't1', blocked: 't2' }, { id: 'd1', blocker: 't2', blocked: 't1' }, { blocker: 'p1', blocked: 't1' }], pick([undefined, 6, 44])))
 	record('suggestMoney', () => suggestMoney(pick([undefined, {}, { budget: pick(NUMBERS), cost: pick([...NUMBERS, 1000, 95, 90, 91, 101, 50]) }, { budget: 100, cost: pick([null, undefined, 0, 89, 90, 91, 100, 101, '95', 'x']) }])))
 	record('suggestTime', () => suggestTime(pick([undefined, null, 'l']) === 'l' ? listOf(pick, task) : undefined, pick([undefined, null, project()]), pick([undefined, '2026-02-10', '2026-01-01', '2027-01-01'])))
+	record('suggestTimeEnd', () => suggestTime([{ status: 'open', dueDate: pick(DATES) }], { endDate: pick(DATES) }, '2026-02-10'))
+	record('suggestMoneyShare', () => suggestMoney({ budget: pick([3, 7, 9]), cost: pick([1, 2, 5, 8]) }))
 	record('suggestRisk', () => suggestRisk(pick([undefined, null, 'l', 'l']) === 'l' ? listOf(pick, risk) : null, parseRiskScale(scale)))
 	record('parseRiskScale', () => parseRiskScale(scale))
 	record('reportPayload', () => {
