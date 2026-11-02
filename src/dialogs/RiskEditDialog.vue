@@ -89,6 +89,7 @@
  */
 import { NcDialog, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
 import DialogSaveActions from '../components/DialogSaveActions.vue'
+import dialogSave from '../mixins/dialogSave.js'
 import { useProjectsStore } from '../store/projects.js'
 import { DEFAULT_RISK_SCALE, riskPayload } from '../utils/riskHelpers.js'
 
@@ -102,6 +103,8 @@ export default {
 		NcTextArea,
 		NcTextField,
 	},
+
+	mixins: [dialogSave],
 
 	props: {
 		/** The risk to edit; null to add one. */
@@ -161,8 +164,6 @@ export default {
 			owner: this.people.find((person) => person.id === this.risk?.owner) || null,
 			countermeasures: this.risk?.countermeasures || '',
 			reviewDate: this.risk?.reviewDate || '',
-			saving: false,
-			submitError: '',
 		}
 	},
 
@@ -180,27 +181,21 @@ export default {
 		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
 		 */
 		async save() {
-			this.saving = true
-			this.submitError = ''
-			const payload = riskPayload({
-				title: this.title,
-				likelihood: this.likelihood.id,
-				impact: this.impact.id,
-				response: this.response.id,
-				status: this.status.id,
-				owner: this.owner?.id,
-				countermeasures: this.countermeasures,
-				reviewDate: this.reviewDate,
-				description: this.risk?.description,
-				category: this.risk?.category,
-			}, this.projectId)
-			const saved = await useProjectsStore().saveRisk(this.isEdit ? { id: this.risk.id, ...payload } : payload)
-			this.saving = false
-			if (!saved) {
-				this.submitError = this.t('planninq', 'Could not save the risk. Please try again.')
-				return
-			}
-			this.$emit('saved', saved)
+			await this.submitSave(() => {
+				const payload = riskPayload({
+					title: this.title,
+					likelihood: this.likelihood.id,
+					impact: this.impact.id,
+					response: this.response.id,
+					status: this.status.id,
+					owner: this.owner?.id,
+					countermeasures: this.countermeasures,
+					reviewDate: this.reviewDate,
+					description: this.risk?.description,
+					category: this.risk?.category,
+				}, this.projectId)
+				return useProjectsStore().saveRisk(this.isEdit ? { id: this.risk.id, ...payload } : payload)
+			}, this.t('planninq', 'Could not save the risk. Please try again.'))
 		},
 	},
 }

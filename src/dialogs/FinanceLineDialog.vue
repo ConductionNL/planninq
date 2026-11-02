@@ -83,6 +83,7 @@
  */
 import { NcButton, NcDialog, NcSelect, NcTextField } from '@nextcloud/vue'
 import DialogSaveActions from '../components/DialogSaveActions.vue'
+import dialogSave from '../mixins/dialogSave.js'
 import { useProjectsStore } from '../store/projects.js'
 import { financeLinePayload } from '../utils/finance.js'
 
@@ -96,6 +97,8 @@ export default {
 		NcSelect,
 		NcTextField,
 	},
+
+	mixins: [dialogSave],
 
 	props: {
 		/** The line to change; null to add one. */
@@ -142,8 +145,6 @@ export default {
 			date: this.line?.date || '',
 			phase: phaseOptions.find((option) => option.id === this.line?.phase) || null,
 			description: this.line?.description || '',
-			saving: false,
-			submitError: '',
 		}
 	},
 
@@ -186,23 +187,17 @@ export default {
 		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
 		 */
 		async save() {
-			this.saving = true
-			this.submitError = ''
-			const payload = financeLinePayload({
-				kind: this.kind.id,
-				category: this.category,
-				amount: this.amount,
-				date: this.date,
-				description: this.description,
-				phase: this.phase?.id,
-			}, this.projectId)
-			const saved = await useProjectsStore().saveFinanceLine(this.isEdit ? { id: this.line.id, ...payload } : payload)
-			this.saving = false
-			if (!saved) {
-				this.submitError = this.t('planninq', 'Could not save the cost line. Only the project owner changes the money of a project.')
-				return
-			}
-			this.$emit('saved', saved)
+			await this.submitSave(() => {
+				const payload = financeLinePayload({
+					kind: this.kind.id,
+					category: this.category,
+					amount: this.amount,
+					date: this.date,
+					description: this.description,
+					phase: this.phase?.id,
+				}, this.projectId)
+				return useProjectsStore().saveFinanceLine(this.isEdit ? { id: this.line.id, ...payload } : payload)
+			}, this.t('planninq', 'Could not save the cost line. Only the project owner changes the money of a project.'))
 		},
 
 		/**

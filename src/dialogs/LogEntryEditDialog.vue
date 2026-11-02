@@ -84,6 +84,7 @@ import {
 	NcTextField,
 } from '@nextcloud/vue'
 import DialogSaveActions from '../components/DialogSaveActions.vue'
+import dialogSave from '../mixins/dialogSave.js'
 import { useProjectsStore } from '../store/projects.js'
 import { localIsoDate } from '../utils/localDate.js'
 import { logEntryPayload } from '../utils/projectOverview.js'
@@ -99,6 +100,8 @@ export default {
 		NcTextArea,
 		NcTextField,
 	},
+
+	mixins: [dialogSave],
 
 	props: {
 		/** The entry to edit; null to add one. */
@@ -138,8 +141,6 @@ export default {
 			body: this.entry?.body || '',
 			closed: this.entry?.status === 'closed',
 			attendeeOptions: this.people.filter((person) => attendees.includes(person.id)),
-			saving: false,
-			submitError: '',
 		}
 	},
 
@@ -162,24 +163,18 @@ export default {
 		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		async save() {
-			this.saving = true
-			this.submitError = ''
-			const payload = logEntryPayload({
-				type: this.typeOption.id,
-				title: this.title,
-				date: this.date,
-				body: this.body,
-				status: this.closed ? 'closed' : 'open',
-				attendees: this.attendeeOptions.map((person) => person.id),
-				actions: this.entry?.actions || [],
-			}, this.projectId)
-			const saved = await useProjectsStore().saveLogEntry(this.isEdit ? { id: this.entry.id, ...payload } : payload)
-			this.saving = false
-			if (!saved) {
-				this.submitError = this.t('planninq', 'Could not save the entry. Please try again.')
-				return
-			}
-			this.$emit('saved', saved)
+			await this.submitSave(() => {
+				const payload = logEntryPayload({
+					type: this.typeOption.id,
+					title: this.title,
+					date: this.date,
+					body: this.body,
+					status: this.closed ? 'closed' : 'open',
+					attendees: this.attendeeOptions.map((person) => person.id),
+					actions: this.entry?.actions || [],
+				}, this.projectId)
+				return useProjectsStore().saveLogEntry(this.isEdit ? { id: this.entry.id, ...payload } : payload)
+			}, this.t('planninq', 'Could not save the entry. Please try again.'))
 		},
 	},
 }

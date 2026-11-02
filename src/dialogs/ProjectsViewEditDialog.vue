@@ -61,6 +61,7 @@
  * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
  */
 import { NcButton, NcDialog, NcSelect, NcTextField } from '@nextcloud/vue'
+import dialogSave from '../mixins/dialogSave.js'
 import { useProjectsStore } from '../store/projects.js'
 import { MAX_VIEW_PROJECTS, viewPayload, viewProblems } from '../utils/projectsView.js'
 import { memberOptions } from '../utils/taskPeople.js'
@@ -69,6 +70,8 @@ export default {
 	name: 'ProjectsViewEditDialog',
 
 	components: { NcButton, NcDialog, NcSelect, NcTextField },
+
+	mixins: [dialogSave],
 
 	props: {
 		/** The view to edit; null for a new one. */
@@ -100,8 +103,6 @@ export default {
 			pickedProjects: this.projects.filter((project) => chosen.has(project.id)).map((project) => ({ id: project.id, label: project.title })),
 			pickedPeople: [...shared].map((id) => ({ id, label: id })),
 			touched: false,
-			saving: false,
-			submitError: '',
 		}
 	},
 
@@ -178,15 +179,7 @@ export default {
 			if (this.problems.length) {
 				return
 			}
-			this.saving = true
-			this.submitError = ''
-			const result = await useProjectsStore().saveBoardView(this.view ? { id: this.view.id, ...this.payload } : this.payload)
-			this.saving = false
-			if (!result) {
-				this.submitError = this.t('planninq', 'Could not save the view. Please try again.')
-				return
-			}
-			this.$emit('saved', result)
+			await this.submitSave(() => useProjectsStore().saveBoardView(this.view ? { id: this.view.id, ...this.payload } : this.payload), this.t('planninq', 'Could not save the view. Please try again.'))
 		},
 	},
 }
