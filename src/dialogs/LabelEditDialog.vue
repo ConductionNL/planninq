@@ -61,7 +61,7 @@ import { showError } from '@nextcloud/dialogs'
  * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
  */
 import { NcTextField } from '@nextcloud/vue'
-import EditDialog from '../components/EditDialog.vue'
+import EditDialog from './EditDialog.vue'
 import { useLabelsStore } from '../store/labels.js'
 import {
 	DEFAULT_LABEL_COLOR as DEFAULT_COLOR,

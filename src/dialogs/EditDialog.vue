@@ -31,7 +31,7 @@
  * @spec exclude Presentation-only frame shared by the edit dialogs; behaviour lives in each dialog.
  */
 import { NcDialog } from '@nextcloud/vue'
-import DialogSaveActions from './DialogSaveActions.vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 
 export default {
 	name: 'EditDialog',

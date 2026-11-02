@@ -58,11 +58,21 @@ function record(options) {
 	return { props: Object.fromEntries(Object.entries(props).sort()), emits: [...emits].sort() }
 }
 
+/**
+ * The options of a component file, its .vue imports loaded the same way.
+ *
+ * @param {URL} url - the .vue file
+ * @return {Promise<object>} the component options
+ */
+async function loadOptions(url) {
+	return (await loadSfcWithImports(url, { vue: loadOptions })).options
+}
+
 describe('dialog options golden', () => {
 	it('matches the recorded fixture', async () => {
 		const actual = {}
 		for (const file of DIALOGS) {
-			const { options } = await loadSfcWithImports(new URL(`../../src/dialogs/${file}`, import.meta.url))
+			const { options } = await loadSfcWithImports(new URL(`../../src/dialogs/${file}`, import.meta.url), { vue: loadOptions })
 			actual[file] = record(options)
 		}
 		if (process.env.PLANNINQ_GOLDEN_RECORD === '1') {

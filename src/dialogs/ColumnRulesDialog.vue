@@ -85,7 +85,7 @@
 import { NcButton, NcSelect } from '@nextcloud/vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import EditDialog from '../components/EditDialog.vue'
+import EditDialog from './EditDialog.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { columnRules, RULE_PRIORITIES, ruleIsComplete, ruleProblem, rulesPayload } from '../utils/columnAutomation.js'
 import { labelId } from '../utils/labelHelpers.js'

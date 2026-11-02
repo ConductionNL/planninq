@@ -68,7 +68,7 @@
  * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
  */
 import { NcCheckboxRadioSwitch, NcTextField } from '@nextcloud/vue'
-import EditDialog from '../components/EditDialog.vue'
+import EditDialog from './EditDialog.vue'
 import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 import { ASPECTS, localToday, reportPayload } from '../utils/statusReports.js'

@@ -50,7 +50,7 @@
  * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.2
  */
 import { NcTextArea, NcTextField } from '@nextcloud/vue'
-import EditDialog from '../components/EditDialog.vue'
+import EditDialog from './EditDialog.vue'
 import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 import { phasePayload } from '../utils/phaseHelpers.js'

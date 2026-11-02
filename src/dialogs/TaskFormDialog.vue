@@ -95,7 +95,7 @@
  * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-2.1
  */
 import { NcButton, NcRichText, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
-import EditDialog from '../components/EditDialog.vue'
+import EditDialog from './EditDialog.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { editPatch, newLaneTask } from '../utils/taskEditing.js'
 import { memberOptions } from '../utils/taskPeople.js'

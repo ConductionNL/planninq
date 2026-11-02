@@ -62,7 +62,7 @@
  * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.4
  */
 import { NcCheckboxRadioSwitch, NcLoadingIcon } from '@nextcloud/vue'
-import EditDialog from '../components/EditDialog.vue'
+import EditDialog from './EditDialog.vue'
 import { listPhaseFiles, uploadPhaseFile } from '../api/phaseFiles.js'
 import { useProjectsStore } from '../store/projects.js'
 

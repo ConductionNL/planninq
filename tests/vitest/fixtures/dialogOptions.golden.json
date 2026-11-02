@@ -122,6 +122,49 @@
 			"saved"
 		]
 	},
+	"EditDialog.vue": {
+		"props": {
+			"disabled": {
+				"types": [
+					"Boolean"
+				],
+				"required": false,
+				"default": false
+			},
+			"label": {
+				"types": [
+					"String"
+				],
+				"required": false,
+				"default": ""
+			},
+			"name": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"saveTestid": {
+				"types": [
+					"String"
+				],
+				"required": false,
+				"default": ""
+			},
+			"saving": {
+				"types": [
+					"Boolean"
+				],
+				"required": false,
+				"default": false
+			}
+		},
+		"emits": [
+			"close",
+			"save"
+		]
+	},
 	"FinanceLineDialog.vue": {
 		"props": {
 			"categories": {

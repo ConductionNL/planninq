@@ -65,7 +65,7 @@
  * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.3
  */
 import { NcCheckboxRadioSwitch } from '@nextcloud/vue'
-import EditDialog from '../components/EditDialog.vue'
+import EditDialog from './EditDialog.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { refId, sortReleases, unfinishedTasks } from '../utils/roadmapHelpers.js'
 

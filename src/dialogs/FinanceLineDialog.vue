@@ -77,7 +77,7 @@
  * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
  */
 import { NcButton, NcSelect, NcTextField } from '@nextcloud/vue'
-import EditDialog from '../components/EditDialog.vue'
+import EditDialog from './EditDialog.vue'
 import dialogSave from '../mixins/dialogSave.js'
 import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'

@@ -43,7 +43,7 @@
  * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.3
  */
 import { NcTextArea, NcTextField } from '@nextcloud/vue'
-import EditDialog from '../components/EditDialog.vue'
+import EditDialog from './EditDialog.vue'
 import dialogSave from '../mixins/dialogSave.js'
 import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'

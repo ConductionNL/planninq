@@ -44,7 +44,7 @@
  * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.3
  */
 import { NcSelect, NcTextField } from '@nextcloud/vue'
-import EditDialog from '../components/EditDialog.vue'
+import EditDialog from './EditDialog.vue'
 import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 import { newActionTask } from '../utils/projectOverview.js'
