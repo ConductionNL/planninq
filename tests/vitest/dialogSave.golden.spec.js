@@ -21,6 +21,7 @@ vi.mock('../../src/store/projects.js', () => ({
 	useProjectsStore: () => new Proxy({}, {
 		get: (_, name) => async (...args) => {
 			events.push({ write: String(name), args, saving: store.vm.saving, submitError: store.vm.submitError })
+			await new Promise((resolve) => setTimeout(resolve, 0))
 			return store.answer
 		},
 	}),
