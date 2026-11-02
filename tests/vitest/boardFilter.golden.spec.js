@@ -62,7 +62,7 @@ function answers(seed) {
 	const query = pick([null, undefined, 'q', 'q', 'q']) === 'q'
 		? Object.fromEntries(['assignee', 'assignee!', 'label', 'label!', 'priority', 'priority!', 'due', 'due!', 'page']
 				.filter(() => pick([true, false, false]))
-				.map((key) => [key, pick(['me,anna', 'l1', '', 'low,,high', 'overdue', 3, undefined, 'none,thisWeek'])]))
+				.map((key) => [key, pick(['me,anna', 'l1', '', 'low,,high', 'overdue', 3, undefined, null, 'none,thisWeek'])]))
 		: pick([null, undefined])
 	const tasks = Array.from({ length: 8 }, () => pick([null, undefined, 't', 't', 't', 't']) && {
 		assignedTo: pick(['anna', 'bram', '', null, undefined, 3]),

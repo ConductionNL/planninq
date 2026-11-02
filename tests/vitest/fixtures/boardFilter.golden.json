@@ -352,10 +352,8 @@
 		"encodeFilter": {},
 		"decodeFilter": {
 			"assignee": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			},
 			"label": {
 				"op": "is",
@@ -579,10 +577,8 @@
 		"encodeFilter": {},
 		"decodeFilter": {
 			"assignee": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			},
 			"label": {
 				"op": "is",
@@ -707,10 +703,8 @@
 				"values": []
 			},
 			"label": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			},
 			"priority": {
 				"op": "is",
@@ -747,7 +741,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "low,,high",
+			"page": "overdue",
 			"assignee!": "3,me",
 			"due": "overdue"
 		},
@@ -1295,15 +1289,12 @@
 			},
 			"priority": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"due": {
 				"op": "isNot",
 				"values": [
-					"me",
-					"anna"
+					"l1"
 				]
 			}
 		},
@@ -1349,12 +1340,12 @@
 		"matchesFilter": [
 			true,
 			true,
-			false,
 			true,
 			true,
 			true,
 			true,
-			false
+			true,
+			true
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -2096,10 +2087,7 @@
 			},
 			"priority": {
 				"op": "is",
-				"values": [
-					"none",
-					"thisWeek"
-				]
+				"values": []
 			},
 			"due": {
 				"op": "is",
@@ -2151,11 +2139,11 @@
 			true,
 			true,
 			true,
-			false,
 			true,
 			true,
-			false,
-			false
+			true,
+			true,
+			true
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -2325,10 +2313,8 @@
 				"values": []
 			},
 			"label": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			},
 			"priority": {
 				"op": "is",
@@ -2567,8 +2553,7 @@
 			"due": {
 				"op": "is",
 				"values": [
-					"me",
-					"anna"
+					"l1"
 				]
 			}
 		},
@@ -2890,8 +2875,7 @@
 			"assignee": {
 				"op": "isNot",
 				"values": [
-					"me",
-					"anna"
+					"l1"
 				]
 			},
 			"label": {
@@ -2906,10 +2890,8 @@
 				]
 			},
 			"due": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -3010,10 +2992,8 @@
 		},
 		"decodeFilter": {
 			"assignee": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			},
 			"label": {
 				"op": "isNot",
@@ -3028,7 +3008,9 @@
 			},
 			"due": {
 				"op": "is",
-				"values": []
+				"values": [
+					"l1"
+				]
 			}
 		},
 		"roundTrip": {
@@ -3053,7 +3035,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "overdue",
+			"page": 3,
 			"due": "none,overdue"
 		},
 		"dueValue": [
@@ -3077,13 +3059,13 @@
 			"none"
 		],
 		"matchesFilter": [
-			true,
-			true,
 			false,
 			true,
-			true,
+			false,
 			false,
 			true,
+			false,
+			false,
 			true
 		],
 		"applySavedFilter": {
@@ -3266,8 +3248,7 @@
 			"due": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			}
 		},
@@ -4087,8 +4068,7 @@
 			"due": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			}
 		},
@@ -4444,9 +4424,7 @@
 			},
 			"priority": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"due": {
 				"op": "is",
@@ -4495,11 +4473,11 @@
 		"matchesFilter": [
 			true,
 			true,
-			false,
-			false,
 			true,
 			true,
-			false,
+			true,
+			true,
+			true,
 			true
 		],
 		"applySavedFilter": {
@@ -4563,8 +4541,11 @@
 				"values": []
 			},
 			"due": {
-				"op": "is",
-				"values": []
+				"op": "isNot",
+				"values": [
+					"low",
+					"high"
+				]
 			}
 		},
 		"roundTrip": {
@@ -4774,9 +4755,7 @@
 		"decodeFilter": {
 			"assignee": {
 				"op": "is",
-				"values": [
-					"l1"
-				]
+				"values": []
 			},
 			"label": {
 				"op": "is",
@@ -4840,9 +4819,9 @@
 			false,
 			false,
 			false,
-			false,
-			false,
-			false
+			true,
+			true,
+			true
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -4906,15 +4885,12 @@
 			"priority": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"due": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -4957,7 +4933,7 @@
 			"overdue"
 		],
 		"matchesFilter": [
-			false,
+			true,
 			true,
 			true,
 			true,
@@ -5025,10 +5001,8 @@
 				]
 			},
 			"priority": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			},
 			"due": {
 				"op": "isNot",
@@ -5369,8 +5343,7 @@
 			"assignee": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"label": {
@@ -5384,8 +5357,7 @@
 			"due": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			}
 		},
@@ -6181,10 +6153,8 @@
 				"values": []
 			},
 			"due": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -6235,7 +6205,7 @@
 			true,
 			true,
 			false,
-			false,
+			true,
 			true,
 			true,
 			false,
@@ -6975,8 +6945,7 @@
 			"priority": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"due": {
@@ -7025,13 +6994,13 @@
 		],
 		"matchesFilter": [
 			true,
-			true,
+			false,
 			false,
 			true,
 			true,
 			true,
 			true,
-			true
+			false
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -7089,9 +7058,7 @@
 			},
 			"priority": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"due": {
 				"op": "is",
@@ -8114,9 +8081,7 @@
 			},
 			"label": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"priority": {
 				"op": "is",
@@ -8124,10 +8089,7 @@
 			},
 			"due": {
 				"op": "is",
-				"values": [
-					"none",
-					"thisWeek"
-				]
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -8348,16 +8310,13 @@
 				"values": []
 			},
 			"label": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			},
 			"priority": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"due": {
@@ -8410,12 +8369,12 @@
 		],
 		"matchesFilter": [
 			false,
-			false,
-			true,
-			false,
 			true,
 			true,
 			false,
+			true,
+			true,
+			true,
 			true
 		],
 		"applySavedFilter": {
@@ -8820,9 +8779,7 @@
 			},
 			"due": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -8923,9 +8880,7 @@
 			},
 			"label": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"priority": {
 				"op": "is",
@@ -9047,9 +9002,7 @@
 			},
 			"due": {
 				"op": "is",
-				"values": [
-					"l1"
-				]
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -9071,7 +9024,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "overdue"
+			"page": 3
 		},
 		"dueValue": [
 			"none",
@@ -9162,8 +9115,11 @@
 				"values": []
 			},
 			"due": {
-				"op": "is",
-				"values": []
+				"op": "isNot",
+				"values": [
+					"low",
+					"high"
+				]
 			}
 		},
 		"roundTrip": {
@@ -9608,10 +9564,8 @@
 				]
 			},
 			"due": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -9818,8 +9772,7 @@
 			"assignee": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"label": {
@@ -9941,20 +9894,16 @@
 				"values": []
 			},
 			"label": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			},
 			"priority": {
 				"op": "is",
 				"values": []
 			},
 			"due": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -10170,11 +10119,8 @@
 		"encodeFilter": {},
 		"decodeFilter": {
 			"assignee": {
-				"op": "isNot",
-				"values": [
-					"none",
-					"thisWeek"
-				]
+				"op": "is",
+				"values": []
 			},
 			"label": {
 				"op": "is",
@@ -10446,7 +10392,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "",
+			"page": "low,,high",
 			"label!": "l2",
 			"priority!": "high",
 			"due": "none"
@@ -10534,8 +10480,7 @@
 			"label": {
 				"op": "isNot",
 				"values": [
-					"me",
-					"anna"
+					"l1"
 				]
 			},
 			"priority": {
@@ -10647,8 +10592,7 @@
 			"assignee": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"label": {
@@ -11466,8 +11410,7 @@
 			"assignee": {
 				"op": "is",
 				"values": [
-					"me",
-					"anna"
+					"l1"
 				]
 			},
 			"label": {
@@ -11696,9 +11639,7 @@
 			},
 			"priority": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"due": {
 				"op": "is",
@@ -11723,9 +11664,7 @@
 				"values": []
 			}
 		},
-		"withFilterQuery": {
-			"page": 3
-		},
+		"withFilterQuery": {},
 		"dueValue": [
 			"none",
 			"thisWeek",
@@ -11748,13 +11687,13 @@
 		],
 		"matchesFilter": [
 			true,
-			false,
-			false,
-			true,
-			false,
 			true,
 			true,
-			false
+			true,
+			true,
+			true,
+			true,
+			true
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -11808,8 +11747,11 @@
 				"values": []
 			},
 			"priority": {
-				"op": "is",
-				"values": []
+				"op": "isNot",
+				"values": [
+					"low",
+					"high"
+				]
 			},
 			"due": {
 				"op": "is",
@@ -12374,8 +12316,7 @@
 			"assignee": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"label": {
@@ -13175,10 +13116,8 @@
 		"encodeFilter": {},
 		"decodeFilter": {
 			"assignee": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			},
 			"label": {
 				"op": "is",
@@ -13749,8 +13688,11 @@
 				"values": []
 			},
 			"priority": {
-				"op": "is",
-				"values": []
+				"op": "isNot",
+				"values": [
+					"low",
+					"high"
+				]
 			},
 			"due": {
 				"op": "is",
@@ -14669,8 +14611,7 @@
 			"assignee": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"label": {
@@ -14786,10 +14727,8 @@
 				]
 			},
 			"label": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			},
 			"priority": {
 				"op": "is",
@@ -14893,10 +14832,8 @@
 		"encodeFilter": {},
 		"decodeFilter": {
 			"assignee": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			},
 			"label": {
 				"op": "is",
@@ -14910,11 +14847,8 @@
 				"values": []
 			},
 			"due": {
-				"op": "isNot",
-				"values": [
-					"none",
-					"thisWeek"
-				]
+				"op": "is",
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -15018,7 +14952,10 @@
 			},
 			"label": {
 				"op": "is",
-				"values": []
+				"values": [
+					"none",
+					"thisWeek"
+				]
 			},
 			"priority": {
 				"op": "is",
@@ -15700,8 +15637,7 @@
 			"label": {
 				"op": "is",
 				"values": [
-					"me",
-					"anna"
+					"l1"
 				]
 			},
 			"priority": {
@@ -15820,8 +15756,11 @@
 				]
 			},
 			"priority": {
-				"op": "is",
-				"values": []
+				"op": "isNot",
+				"values": [
+					"low",
+					"high"
+				]
 			},
 			"due": {
 				"op": "is",
@@ -16266,9 +16205,7 @@
 			},
 			"label": {
 				"op": "is",
-				"values": [
-					"l1"
-				]
+				"values": []
 			},
 			"priority": {
 				"op": "is",
@@ -16328,12 +16265,12 @@
 		"matchesFilter": [
 			true,
 			true,
-			false,
+			true,
 			false,
 			true,
 			true,
-			false,
-			false
+			true,
+			true
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -16393,9 +16330,7 @@
 			},
 			"priority": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"due": {
 				"op": "is",
@@ -16843,8 +16778,7 @@
 			"label": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"priority": {
@@ -17068,9 +17002,7 @@
 		"decodeFilter": {
 			"assignee": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"label": {
 				"op": "is",
@@ -17187,10 +17119,8 @@
 		"encodeFilter": {},
 		"decodeFilter": {
 			"assignee": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			},
 			"label": {
 				"op": "isNot",
@@ -18125,10 +18055,8 @@
 				]
 			},
 			"label": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			},
 			"priority": {
 				"op": "isNot",
@@ -19025,11 +18953,8 @@
 				]
 			},
 			"priority": {
-				"op": "isNot",
-				"values": [
-					"none",
-					"thisWeek"
-				]
+				"op": "is",
+				"values": []
 			},
 			"due": {
 				"op": "is",
@@ -19701,8 +19626,11 @@
 				]
 			},
 			"label": {
-				"op": "is",
-				"values": []
+				"op": "isNot",
+				"values": [
+					"low",
+					"high"
+				]
 			},
 			"priority": {
 				"op": "is",
@@ -20396,8 +20324,7 @@
 			"due": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			}
 		},
@@ -20653,9 +20580,7 @@
 				"values": []
 			}
 		},
-		"withFilterQuery": {
-			"page": 3
-		},
+		"withFilterQuery": {},
 		"dueValue": [
 			"thisWeek",
 			"none",
@@ -21357,7 +21282,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "overdue",
+			"page": 3,
 			"assignee!": "me",
 			"label!": "l2,l1"
 		},
@@ -21435,10 +21360,8 @@
 		"encodeFilter": {},
 		"decodeFilter": {
 			"assignee": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			},
 			"label": {
 				"op": "is",
@@ -22170,7 +22093,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "none,thisWeek"
+			"page": null
 		},
 		"dueValue": [
 			"none",
@@ -22254,9 +22177,7 @@
 			},
 			"label": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"priority": {
 				"op": "is",
@@ -22312,13 +22233,13 @@
 			"none"
 		],
 		"matchesFilter": [
-			false,
-			false,
 			true,
-			false,
 			true,
-			false,
-			false,
+			true,
+			true,
+			true,
+			true,
+			true,
 			true
 		],
 		"applySavedFilter": {
@@ -22377,10 +22298,8 @@
 				"values": []
 			},
 			"due": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -22494,10 +22413,8 @@
 				"values": []
 			},
 			"due": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -22606,8 +22523,7 @@
 			"label": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"priority": {
@@ -22638,7 +22554,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "overdue"
+			"page": 3
 		},
 		"dueValue": [
 			"",
@@ -22729,9 +22645,7 @@
 			},
 			"due": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -22774,9 +22688,9 @@
 			"none"
 		],
 		"matchesFilter": [
-			false,
 			true,
-			false,
+			true,
+			true,
 			true,
 			true,
 			true,
@@ -22953,8 +22867,7 @@
 			"due": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			}
 		},
@@ -23279,8 +23192,7 @@
 			"assignee": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"label": {
@@ -23394,8 +23306,7 @@
 			"assignee": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"label": {
@@ -23666,7 +23577,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "l1",
+			"page": "",
 			"label!": "l1,l2",
 			"due!": "thisWeek"
 		},
@@ -24108,17 +24019,17 @@
 			},
 			"label": {
 				"op": "is",
-				"values": []
+				"values": [
+					"l1"
+				]
 			},
 			"priority": {
 				"op": "is",
 				"values": []
 			},
 			"due": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -24145,6 +24056,7 @@
 			}
 		},
 		"withFilterQuery": {
+			"page": null,
 			"assignee": "me,anna",
 			"due!": "overdue"
 		},
@@ -24170,13 +24082,13 @@
 		],
 		"matchesFilter": [
 			true,
-			true,
 			false,
 			false,
 			false,
 			false,
 			false,
-			true
+			false,
+			false
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -24794,7 +24706,10 @@
 			},
 			"priority": {
 				"op": "is",
-				"values": []
+				"values": [
+					"low",
+					"high"
+				]
 			},
 			"due": {
 				"op": "is",
@@ -24849,7 +24764,7 @@
 			true,
 			false,
 			false,
-			true,
+			false,
 			false,
 			true,
 			true,
@@ -24908,8 +24823,11 @@
 				]
 			},
 			"label": {
-				"op": "is",
-				"values": []
+				"op": "isNot",
+				"values": [
+					"low",
+					"high"
+				]
 			},
 			"priority": {
 				"op": "is",
@@ -25127,8 +25045,7 @@
 			"assignee": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"label": {
@@ -25146,8 +25063,11 @@
 				]
 			},
 			"due": {
-				"op": "is",
-				"values": []
+				"op": "isNot",
+				"values": [
+					"low",
+					"high"
+				]
 			}
 		},
 		"roundTrip": {
@@ -25491,9 +25411,7 @@
 			},
 			"due": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -25608,8 +25526,7 @@
 			"priority": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"due": {
@@ -26764,9 +26681,7 @@
 			},
 			"due": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -26816,11 +26731,11 @@
 			false,
 			true,
 			true,
+			true,
 			false,
+			true,
 			false,
-			false,
-			false,
-			false
+			true
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -26903,7 +26818,9 @@
 				"values": []
 			}
 		},
-		"withFilterQuery": {},
+		"withFilterQuery": {
+			"page": null
+		},
 		"dueValue": [
 			"none",
 			"none",
@@ -27024,7 +26941,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "l1",
+			"page": "",
 			"label!": "l1,3"
 		},
 		"dueValue": [
@@ -27218,10 +27135,8 @@
 				]
 			},
 			"label": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			},
 			"priority": {
 				"op": "is",
@@ -27371,7 +27286,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "overdue"
+			"page": 3
 		},
 		"dueValue": [
 			"none",
@@ -27684,8 +27599,7 @@
 			"assignee": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"label": {
@@ -28043,15 +27957,12 @@
 			"priority": {
 				"op": "is",
 				"values": [
-					"me",
-					"anna"
+					"l1"
 				]
 			},
 			"due": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -28073,7 +27984,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "overdue"
+			"page": 3
 		},
 		"dueValue": [
 			"thisWeek",
@@ -28161,8 +28072,11 @@
 				"values": []
 			},
 			"priority": {
-				"op": "is",
-				"values": []
+				"op": "isNot",
+				"values": [
+					"low",
+					"high"
+				]
 			},
 			"due": {
 				"op": "is",
@@ -28603,9 +28517,7 @@
 		"decodeFilter": {
 			"assignee": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"label": {
 				"op": "is",
@@ -28665,12 +28577,12 @@
 		],
 		"matchesFilter": [
 			true,
-			false,
 			true,
 			true,
-			false,
 			true,
-			false,
+			true,
+			true,
+			true,
 			true
 		],
 		"applySavedFilter": {
@@ -28863,7 +28775,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "overdue"
+			"page": 3
 		},
 		"dueValue": [
 			"thisWeek",
@@ -28941,8 +28853,7 @@
 			"assignee": {
 				"op": "isNot",
 				"values": [
-					"me",
-					"anna"
+					"l1"
 				]
 			},
 			"label": {
@@ -29300,8 +29211,7 @@
 			"due": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			}
 		},
@@ -29634,7 +29544,7 @@
 				"values": []
 			},
 			"label": {
-				"op": "is",
+				"op": "isNot",
 				"values": [
 					"low",
 					"high"
@@ -29699,9 +29609,9 @@
 			true,
 			true,
 			true,
+			true,
 			false,
-			false,
-			false
+			true
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -30108,9 +30018,7 @@
 		"decodeFilter": {
 			"assignee": {
 				"op": "is",
-				"values": [
-					"l1"
-				]
+				"values": []
 			},
 			"label": {
 				"op": "is",
@@ -30171,12 +30079,12 @@
 		"matchesFilter": [
 			false,
 			false,
-			false,
+			true,
 			false,
 			true,
 			true,
-			false,
-			false
+			true,
+			true
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -30337,8 +30245,7 @@
 			"label": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"priority": {
@@ -30347,7 +30254,10 @@
 			},
 			"due": {
 				"op": "is",
-				"values": []
+				"values": [
+					"low",
+					"high"
+				]
 			}
 		},
 		"roundTrip": {
@@ -31503,7 +31413,9 @@
 				"values": []
 			}
 		},
-		"withFilterQuery": {},
+		"withFilterQuery": {
+			"page": null
+		},
 		"dueValue": [
 			"thisWeek",
 			"none",
@@ -31711,8 +31623,7 @@
 			"label": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"priority": {
@@ -31842,9 +31753,7 @@
 			},
 			"due": {
 				"op": "is",
-				"values": [
-					"l1"
-				]
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -31888,7 +31797,7 @@
 		],
 		"matchesFilter": [
 			true,
-			false,
+			true,
 			true,
 			true,
 			true,
@@ -31987,7 +31896,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "",
+			"page": "low,,high",
 			"label": "l2"
 		},
 		"dueValue": [
@@ -32519,8 +32428,7 @@
 			"due": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			}
 		},
@@ -32543,7 +32451,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "l1"
+			"page": ""
 		},
 		"dueValue": [
 			"none",
@@ -32845,9 +32753,7 @@
 		"decodeFilter": {
 			"assignee": {
 				"op": "is",
-				"values": [
-					"l1"
-				]
+				"values": []
 			},
 			"label": {
 				"op": "is",
@@ -32909,13 +32815,13 @@
 		],
 		"matchesFilter": [
 			true,
+			true,
 			false,
 			false,
 			false,
 			false,
 			false,
-			false,
-			false
+			true
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -33819,7 +33725,9 @@
 				"values": []
 			}
 		},
-		"withFilterQuery": {},
+		"withFilterQuery": {
+			"page": null
+		},
 		"dueValue": [
 			"thisWeek",
 			"none",
@@ -34242,8 +34150,7 @@
 			"assignee": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"label": {
@@ -34719,10 +34626,8 @@
 				"values": []
 			},
 			"due": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -35164,14 +35069,16 @@
 				"values": []
 			},
 			"priority": {
-				"op": "is",
-				"values": []
+				"op": "isNot",
+				"values": [
+					"low",
+					"high"
+				]
 			},
 			"due": {
 				"op": "isNot",
 				"values": [
-					"me",
-					"anna"
+					"l1"
 				]
 			}
 		},
@@ -35501,8 +35408,7 @@
 			"assignee": {
 				"op": "isNot",
 				"values": [
-					"me",
-					"anna"
+					"l1"
 				]
 			},
 			"label": {
@@ -35514,8 +35420,11 @@
 				"values": []
 			},
 			"due": {
-				"op": "is",
-				"values": []
+				"op": "isNot",
+				"values": [
+					"low",
+					"high"
+				]
 			}
 		},
 		"roundTrip": {
@@ -35623,10 +35532,8 @@
 				"values": []
 			},
 			"priority": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			},
 			"due": {
 				"op": "is",
@@ -36229,7 +36136,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "low,,high",
+			"page": "overdue",
 			"assignee": "me,anna",
 			"due": "overdue,thisWeek"
 		},
@@ -36463,7 +36370,6 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": 3,
 			"due": "overdue"
 		},
 		"dueValue": [
@@ -36768,8 +36674,7 @@
 			"assignee": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"label": {
@@ -36783,10 +36688,8 @@
 				"values": []
 			},
 			"due": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -37482,10 +37385,8 @@
 				"values": []
 			},
 			"due": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -38488,7 +38389,9 @@
 			},
 			"priority": {
 				"op": "is",
-				"values": []
+				"values": [
+					"l1"
+				]
 			},
 			"due": {
 				"op": "is",
@@ -38513,7 +38416,9 @@
 				"values": []
 			}
 		},
-		"withFilterQuery": {},
+		"withFilterQuery": {
+			"page": null
+		},
 		"dueValue": [
 			"none",
 			"overdue",
@@ -38537,12 +38442,12 @@
 		"matchesFilter": [
 			true,
 			true,
+			false,
 			true,
 			true,
 			true,
 			true,
-			true,
-			true
+			false
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -38588,10 +38493,8 @@
 		"encodeFilter": {},
 		"decodeFilter": {
 			"assignee": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			},
 			"label": {
 				"op": "isNot",
@@ -38632,7 +38535,9 @@
 				"values": []
 			}
 		},
-		"withFilterQuery": {},
+		"withFilterQuery": {
+			"page": null
+		},
 		"dueValue": [
 			"",
 			"none",
@@ -38932,11 +38837,8 @@
 				"values": []
 			},
 			"label": {
-				"op": "isNot",
-				"values": [
-					"none",
-					"thisWeek"
-				]
+				"op": "is",
+				"values": []
 			},
 			"priority": {
 				"op": "is",
@@ -39047,10 +38949,8 @@
 				"values": []
 			},
 			"label": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			},
 			"priority": {
 				"op": "is",
@@ -39083,6 +38983,7 @@
 			}
 		},
 		"withFilterQuery": {
+			"page": null,
 			"due": "overdue,thisWeek"
 		},
 		"dueValue": [
@@ -39159,10 +39060,8 @@
 		"encodeFilter": {},
 		"decodeFilter": {
 			"assignee": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			},
 			"label": {
 				"op": "isNot",
@@ -39294,8 +39193,7 @@
 			"due": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			}
 		},
@@ -39400,7 +39298,7 @@
 				"values": []
 			},
 			"label": {
-				"op": "is",
+				"op": "isNot",
 				"values": [
 					"overdue"
 				]
@@ -39461,12 +39359,12 @@
 		"matchesFilter": [
 			true,
 			true,
-			false,
 			true,
 			true,
 			true,
-			false,
-			false
+			true,
+			true,
+			true
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -39519,8 +39417,11 @@
 		},
 		"decodeFilter": {
 			"assignee": {
-				"op": "is",
-				"values": []
+				"op": "isNot",
+				"values": [
+					"low",
+					"high"
+				]
 			},
 			"label": {
 				"op": "isNot",
@@ -39996,9 +39897,7 @@
 		"decodeFilter": {
 			"assignee": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"label": {
 				"op": "is",
@@ -40252,9 +40151,7 @@
 			},
 			"priority": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"due": {
 				"op": "is",
@@ -40481,9 +40378,7 @@
 			},
 			"priority": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"due": {
 				"op": "is",
@@ -40538,14 +40433,14 @@
 			""
 		],
 		"matchesFilter": [
+			true,
 			false,
 			false,
 			false,
 			false,
 			false,
-			false,
-			false,
-			false
+			true,
+			true
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -40855,9 +40750,7 @@
 				"values": []
 			}
 		},
-		"withFilterQuery": {
-			"page": 3
-		},
+		"withFilterQuery": {},
 		"dueValue": [
 			"none",
 			"none",
@@ -40983,7 +40876,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "overdue",
+			"page": 3,
 			"label!": "3,l2",
 			"due": "thisWeek"
 		},
@@ -41187,10 +41080,8 @@
 				]
 			},
 			"label": {
-				"op": "isNot",
-				"values": [
-					"overdue"
-				]
+				"op": "is",
+				"values": []
 			},
 			"priority": {
 				"op": "is",
@@ -41865,8 +41756,7 @@
 			"assignee": {
 				"op": "isNot",
 				"values": [
-					"none",
-					"thisWeek"
+					"overdue"
 				]
 			},
 			"label": {
@@ -42563,15 +42453,13 @@
 			"priority": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"due": {
 				"op": "is",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			}
 		},
@@ -42680,10 +42568,8 @@
 		},
 		"decodeFilter": {
 			"assignee": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			},
 			"label": {
 				"op": "is",
@@ -42728,7 +42614,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "low,,high",
+			"page": "overdue",
 			"assignee": "anna,bram,me",
 			"label": "l2",
 			"due": "none"
@@ -43383,17 +43269,18 @@
 		"decodeFilter": {
 			"assignee": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"label": {
 				"op": "is",
 				"values": []
 			},
 			"priority": {
-				"op": "is",
-				"values": []
+				"op": "isNot",
+				"values": [
+					"low",
+					"high"
+				]
 			},
 			"due": {
 				"op": "isNot",
@@ -43424,7 +43311,6 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": 3,
 			"due": "overdue"
 		},
 		"dueValue": [
@@ -43502,7 +43388,10 @@
 		"decodeFilter": {
 			"assignee": {
 				"op": "is",
-				"values": []
+				"values": [
+					"low",
+					"high"
+				]
 			},
 			"label": {
 				"op": "is",
@@ -43517,8 +43406,7 @@
 			"due": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			}
 		},
@@ -43541,7 +43429,7 @@
 			}
 		},
 		"withFilterQuery": {
-			"page": "low,,high"
+			"page": "overdue"
 		},
 		"dueValue": [
 			"none",
@@ -43726,7 +43614,7 @@
 		"encodeFilter": {},
 		"decodeFilter": {
 			"assignee": {
-				"op": "is",
+				"op": "isNot",
 				"values": [
 					"me",
 					"anna"
@@ -43763,9 +43651,7 @@
 				"values": []
 			}
 		},
-		"withFilterQuery": {
-			"page": 3
-		},
+		"withFilterQuery": {},
 		"dueValue": [
 			"none",
 			"none",
@@ -43790,11 +43676,11 @@
 			true,
 			true,
 			true,
-			false,
 			true,
 			true,
-			false,
-			false
+			true,
+			true,
+			true
 		],
 		"applySavedFilter": {
 			"filter": {
@@ -44066,15 +43952,12 @@
 		"decodeFilter": {
 			"assignee": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"label": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"priority": {
@@ -44133,9 +44016,9 @@
 			"none"
 		],
 		"matchesFilter": [
+			true,
 			false,
-			false,
-			false,
+			true,
 			false,
 			true,
 			false,
@@ -44190,8 +44073,7 @@
 			"assignee": {
 				"op": "isNot",
 				"values": [
-					"low",
-					"high"
+					"overdue"
 				]
 			},
 			"label": {
@@ -44319,10 +44201,8 @@
 				"values": []
 			},
 			"due": {
-				"op": "isNot",
-				"values": [
-					"l1"
-				]
+				"op": "is",
+				"values": []
 			}
 		},
 		"roundTrip": {
@@ -44443,8 +44323,7 @@
 			"due": {
 				"op": "isNot",
 				"values": [
-					"me",
-					"anna"
+					"l1"
 				]
 			}
 		},
@@ -44792,9 +44671,7 @@
 			},
 			"priority": {
 				"op": "is",
-				"values": [
-					"overdue"
-				]
+				"values": []
 			},
 			"due": {
 				"op": "is",
@@ -45137,7 +45014,10 @@
 			},
 			"due": {
 				"op": "is",
-				"values": []
+				"values": [
+					"low",
+					"high"
+				]
 			}
 		},
 		"roundTrip": {
@@ -45181,8 +45061,8 @@
 		],
 		"matchesFilter": [
 			true,
-			true,
-			true,
+			false,
+			false,
 			true,
 			false,
 			true,
@@ -45831,7 +45711,9 @@
 				"values": []
 			}
 		},
-		"withFilterQuery": {},
+		"withFilterQuery": {
+			"page": null
+		},
 		"dueValue": [
 			"thisWeek",
 			"none",
@@ -45906,7 +45788,7 @@
 		"encodeFilter": {},
 		"decodeFilter": {
 			"assignee": {
-				"op": "is",
+				"op": "isNot",
 				"values": [
 					"none",
 					"thisWeek"
