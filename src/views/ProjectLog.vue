@@ -150,6 +150,7 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import LogActionDialog from '../dialogs/LogActionDialog.vue'
 import LogEntryEditDialog from '../dialogs/LogEntryEditDialog.vue'
+import projectRoute from '../mixins/projectRoute.js'
 import { useProjectsStore } from '../store/projects.js'
 import { actionTasks, entryAuthor, entryCreated, filterLog, LOG_TYPES, projectPeople } from '../utils/projectOverview.js'
 import { displayNames } from '../utils/userNames.js'
@@ -171,6 +172,8 @@ export default {
 		ProjectTabs,
 	},
 
+	mixins: [projectRoute],
+
 	data() {
 		return {
 			project: null,
@@ -185,15 +188,6 @@ export default {
 	},
 
 	computed: {
-		/**
-		 * @return {string}
-		 *
-		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
-		 */
-		projectId() {
-			return String(this.$route.params.id || '')
-		},
-
 		/**
 		 * @return {string}
 		 *
@@ -245,18 +239,6 @@ export default {
 		 */
 		peopleOptions() {
 			return projectPeople(this.project).map((uid) => ({ id: uid, label: this.names[uid] || uid }))
-		},
-	},
-
-	watch: {
-		projectId: {
-			immediate: true,
-			/**
-			 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
-			 */
-			handler() {
-				this.load()
-			},
 		},
 	},
 
