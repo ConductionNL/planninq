@@ -1,91 +1,86 @@
 <template>
-	<NcDialog :name="task ? t('planninq', 'Edit task') : t('planninq', 'New task')" @closing="$emit('close')">
-		<template #default>
-			<div class="task-form-dialog__body">
-				<NcTextField
-					v-model="draft.title"
-					:label="t('planninq', 'Title')"
-					data-testid="task-form-title"
-					required />
+	<EditDialog
+		:name="task ? t('planninq', 'Edit task') : t('planninq', 'New task')"
+		:saving="saving"
+		:disabled="draft.title.trim() === ''"
+		saveTestid="task-form-save"
+		@close="$emit('close')"
+		@save="save">
+		<div class="task-form-dialog__body">
+			<NcTextField
+				v-model="draft.title"
+				:label="t('planninq', 'Title')"
+				data-testid="task-form-title"
+				required />
 
-				<div class="task-form-dialog__description">
-					<div class="task-form-dialog__mode" role="group" :aria-label="t('planninq', 'Description')">
-						<NcButton
-							:variant="preview ? 'tertiary' : 'secondary'"
-							:aria-pressed="!preview"
-							@click="preview = false">
-							{{ t('planninq', 'Write') }}
-						</NcButton>
-						<NcButton
-							:variant="preview ? 'secondary' : 'tertiary'"
-							:aria-pressed="preview"
-							data-testid="task-form-preview"
-							@click="preview = true">
-							{{ t('planninq', 'Preview') }}
-						</NcButton>
-					</div>
-					<NcTextArea
-						v-if="!preview"
-						v-model="draft.description"
-						:label="t('planninq', 'Description')"
-						:helperText="t('planninq', 'Markdown works here: headings, lists and links.')"
-						data-testid="task-form-description"
-						rows="6" />
-					<div v-else class="task-form-dialog__preview" data-testid="task-form-preview-body">
-						<NcRichText v-if="draft.description" :text="draft.description" :useMarkdown="true" />
-						<p v-else class="task-form-dialog__empty">
-							{{ t('planninq', 'No description yet') }}
-						</p>
-					</div>
+			<div class="task-form-dialog__description">
+				<div class="task-form-dialog__mode" role="group" :aria-label="t('planninq', 'Description')">
+					<NcButton
+						:variant="preview ? 'tertiary' : 'secondary'"
+						:aria-pressed="!preview"
+						@click="preview = false">
+						{{ t('planninq', 'Write') }}
+					</NcButton>
+					<NcButton
+						:variant="preview ? 'secondary' : 'tertiary'"
+						:aria-pressed="preview"
+						data-testid="task-form-preview"
+						@click="preview = true">
+						{{ t('planninq', 'Preview') }}
+					</NcButton>
 				</div>
-
-				<NcSelect
-					v-if="task"
-					v-model="statusOption"
-					:options="statusOptions"
-					:inputLabel="t('planninq', 'Status')"
-					:clearable="false"
-					label="label"
-					data-testid="task-form-status" />
-				<NcSelect
-					v-model="priorityOption"
-					:options="priorityOptions"
-					:inputLabel="t('planninq', 'Priority')"
-					:clearable="false"
-					label="label"
-					data-testid="task-form-priority" />
-
-				<template v-if="project">
-					<NcSelect
-						v-model="responsibleOption"
-						:options="peopleOptions"
-						:inputLabel="t('planninq', 'Responsible')"
-						label="label"
-						data-testid="task-form-responsible" />
-					<NcSelect
-						v-model="sharedOptions"
-						:options="peopleOptions.filter((option) => option.id !== draft.assignedTo)"
-						:inputLabel="t('planninq', 'Also working on this')"
-						:multiple="true"
-						label="label"
-						data-testid="task-form-shared-with" />
-				</template>
-
-				<div v-if="submitError" class="task-form-dialog__error" role="alert">
-					{{ submitError }}
+				<NcTextArea
+					v-if="!preview"
+					v-model="draft.description"
+					:label="t('planninq', 'Description')"
+					:helperText="t('planninq', 'Markdown works here: headings, lists and links.')"
+					data-testid="task-form-description"
+					rows="6" />
+				<div v-else class="task-form-dialog__preview" data-testid="task-form-preview-body">
+					<NcRichText v-if="draft.description" :text="draft.description" :useMarkdown="true" />
+					<p v-else class="task-form-dialog__empty">
+						{{ t('planninq', 'No description yet') }}
+					</p>
 				</div>
 			</div>
-		</template>
 
-		<template #actions>
-			<DialogSaveActions
-				:saving="saving"
-				:disabled="draft.title.trim() === ''"
-				data-testid="task-form-save"
-				@cancel="$emit('close')"
-				@save="save" />
-		</template>
-	</NcDialog>
+			<NcSelect
+				v-if="task"
+				v-model="statusOption"
+				:options="statusOptions"
+				:inputLabel="t('planninq', 'Status')"
+				:clearable="false"
+				label="label"
+				data-testid="task-form-status" />
+			<NcSelect
+				v-model="priorityOption"
+				:options="priorityOptions"
+				:inputLabel="t('planninq', 'Priority')"
+				:clearable="false"
+				label="label"
+				data-testid="task-form-priority" />
+
+			<template v-if="project">
+				<NcSelect
+					v-model="responsibleOption"
+					:options="peopleOptions"
+					:inputLabel="t('planninq', 'Responsible')"
+					label="label"
+					data-testid="task-form-responsible" />
+				<NcSelect
+					v-model="sharedOptions"
+					:options="peopleOptions.filter((option) => option.id !== draft.assignedTo)"
+					:inputLabel="t('planninq', 'Also working on this')"
+					:multiple="true"
+					label="label"
+					data-testid="task-form-shared-with" />
+			</template>
+
+			<div v-if="submitError" class="task-form-dialog__error" role="alert">
+				{{ submitError }}
+			</div>
+		</div>
+	</EditDialog>
 </template>
 
 <script>
@@ -99,8 +94,8 @@
  *
  * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-2.1
  */
-import { NcButton, NcDialog, NcRichText, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
-import DialogSaveActions from '../components/DialogSaveActions.vue'
+import { NcButton, NcRichText, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import EditDialog from './EditDialog.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { editPatch, newLaneTask } from '../utils/taskEditing.js'
 import { memberOptions } from '../utils/taskPeople.js'
@@ -110,9 +105,8 @@ export default {
 	name: 'TaskFormDialog',
 
 	components: {
-		DialogSaveActions,
+		EditDialog,
 		NcButton,
-		NcDialog,
 		NcRichText,
 		NcSelect,
 		NcTextArea,

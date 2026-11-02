@@ -1,80 +1,73 @@
 <template>
-	<NcDialog
+	<EditDialog
 		:name="isEdit ? t('planninq', 'Edit risk') : t('planninq', 'Add risk')"
-		@closing="$emit('close')">
-		<template #default>
-			<div class="risk-edit-dialog__body">
-				<NcTextField
-					v-model="title"
-					:label="t('planninq', 'What could go wrong')"
-					data-testid="risk-title"
-					required />
-				<div class="risk-edit-dialog__row">
-					<NcSelect
-						v-model="likelihood"
-						:options="likelihoodOptions"
-						:clearable="false"
-						:inputLabel="t('planninq', 'Likelihood')"
-						label="label"
-						data-testid="risk-likelihood" />
-					<NcSelect
-						v-model="impact"
-						:options="impactOptions"
-						:clearable="false"
-						:inputLabel="t('planninq', 'Impact')"
-						label="label"
-						data-testid="risk-impact" />
-				</div>
-				<p class="risk-edit-dialog__score" data-testid="risk-score-preview">
-					{{ t('planninq', 'Score {score}', { score: likelihood.id * impact.id }) }}
-				</p>
-				<div class="risk-edit-dialog__row">
-					<NcSelect
-						v-model="response"
-						:options="responseOptions"
-						:clearable="false"
-						:inputLabel="t('planninq', 'Response')"
-						label="label"
-						data-testid="risk-response" />
-					<NcSelect
-						v-model="status"
-						:options="statusOptions"
-						:clearable="false"
-						:inputLabel="t('planninq', 'Status')"
-						label="label"
-						data-testid="risk-status" />
-				</div>
+		:saving="saving"
+		:disabled="title.trim() === ''"
+		saveTestid="risk-save"
+		@close="$emit('close')"
+		@save="save">
+		<div class="risk-edit-dialog__body">
+			<NcTextField
+				v-model="title"
+				:label="t('planninq', 'What could go wrong')"
+				data-testid="risk-title"
+				required />
+			<div class="risk-edit-dialog__row">
 				<NcSelect
-					v-model="owner"
-					:options="people"
-					:inputLabel="t('planninq', 'Owner')"
+					v-model="likelihood"
+					:options="likelihoodOptions"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Likelihood')"
 					label="label"
-					data-testid="risk-owner" />
-				<NcTextArea
-					v-model="countermeasures"
-					:label="t('planninq', 'Countermeasures')"
-					resize="vertical"
-					data-testid="risk-countermeasures" />
-				<NcTextField
-					v-model="reviewDate"
-					type="date"
-					:label="t('planninq', 'Review date')"
-					data-testid="risk-review-date" />
-				<div v-if="submitError" class="risk-edit-dialog__error" role="alert">
-					{{ submitError }}
-				</div>
+					data-testid="risk-likelihood" />
+				<NcSelect
+					v-model="impact"
+					:options="impactOptions"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Impact')"
+					label="label"
+					data-testid="risk-impact" />
 			</div>
-		</template>
-
-		<template #actions>
-			<DialogSaveActions
-				:saving="saving"
-				:disabled="title.trim() === ''"
-				data-testid="risk-save"
-				@cancel="$emit('close')"
-				@save="save" />
-		</template>
-	</NcDialog>
+			<p class="risk-edit-dialog__score" data-testid="risk-score-preview">
+				{{ t('planninq', 'Score {score}', { score: likelihood.id * impact.id }) }}
+			</p>
+			<div class="risk-edit-dialog__row">
+				<NcSelect
+					v-model="response"
+					:options="responseOptions"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Response')"
+					label="label"
+					data-testid="risk-response" />
+				<NcSelect
+					v-model="status"
+					:options="statusOptions"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Status')"
+					label="label"
+					data-testid="risk-status" />
+			</div>
+			<NcSelect
+				v-model="owner"
+				:options="people"
+				:inputLabel="t('planninq', 'Owner')"
+				label="label"
+				data-testid="risk-owner" />
+			<NcTextArea
+				v-model="countermeasures"
+				:label="t('planninq', 'Countermeasures')"
+				resize="vertical"
+				data-testid="risk-countermeasures" />
+			<NcTextField
+				v-model="reviewDate"
+				type="date"
+				:label="t('planninq', 'Review date')"
+				data-testid="risk-review-date" />
+			<div v-if="submitError" class="risk-edit-dialog__error" role="alert">
+				{{ submitError }}
+			</div>
+		</div>
+	</EditDialog>
 </template>
 
 <script>
@@ -87,9 +80,10 @@
  *
  * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
  */
-import { NcDialog, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
-import DialogSaveActions from '../components/DialogSaveActions.vue'
+import { NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import EditDialog from './EditDialog.vue'
 import dialogSave from '../mixins/dialogSave.js'
+import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 import { DEFAULT_RISK_SCALE, riskPayload } from '../utils/riskHelpers.js'
 
@@ -97,26 +91,19 @@ export default {
 	name: 'RiskEditDialog',
 
 	components: {
-		DialogSaveActions,
-		NcDialog,
+		EditDialog,
 		NcSelect,
 		NcTextArea,
 		NcTextField,
 	},
 
-	mixins: [dialogSave],
+	mixins: [dialogSave, projectDialog],
 
 	props: {
 		/** The risk to edit; null to add one. */
 		risk: {
 			type: Object,
 			default: null,
-		},
-
-		/** The project. */
-		projectId: {
-			type: String,
-			required: true,
 		},
 
 		/** The risk scale. */

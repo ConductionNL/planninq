@@ -1,77 +1,70 @@
 <template>
-	<NcDialog
+	<EditDialog
 		:name="t('planninq', 'Rules for {column}', { column: column.title })"
-		@closing="$emit('close')">
-		<template #default>
-			<div class="column-rules-dialog__body">
-				<p class="column-rules-dialog__intro">
-					{{ t('planninq', 'When a card enters this column') }}
-				</p>
+		:saving="saving"
+		:disabled="!isValid"
+		saveTestid="column-rules-save"
+		@close="$emit('close')"
+		@save="save">
+		<div class="column-rules-dialog__body">
+			<p class="column-rules-dialog__intro">
+				{{ t('planninq', 'When a card enters this column') }}
+			</p>
 
-				<p v-if="!rules.length" class="column-rules-dialog__empty" data-testid="column-rules-empty">
-					{{ t('planninq', 'No rules yet. Add one to change a card when it enters this column.') }}
-				</p>
+			<p v-if="!rules.length" class="column-rules-dialog__empty" data-testid="column-rules-empty">
+				{{ t('planninq', 'No rules yet. Add one to change a card when it enters this column.') }}
+			</p>
 
-				<ol class="column-rules-dialog__list">
-					<li
-						v-for="(rule, index) in rules"
-						:key="rule.key"
-						class="column-rules-dialog__rule"
-						data-testid="column-rule">
-						<NcSelect
-							:modelValue="actionOptions.find((option) => option.id === rule.action) || null"
-							:options="actionOptions"
-							:clearable="false"
-							:inputLabel="t('planninq', 'Action')"
-							label="label"
-							data-testid="column-rule-action"
-							@update:modelValue="setAction(index, $event)" />
-						<NcSelect
-							v-if="valueOptionsFor(rule)"
-							:modelValue="valueOptionsFor(rule).find((option) => option.id === rule.value) || null"
-							:options="valueOptionsFor(rule)"
-							:clearable="false"
-							:inputLabel="valueLabel(rule.action)"
-							label="label"
-							data-testid="column-rule-value"
-							@update:modelValue="rule.value = $event ? $event.id : ''" />
-						<p v-if="problemText(rule)" class="column-rules-dialog__problem" data-testid="column-rule-problem">
-							{{ problemText(rule) }}
-						</p>
-						<NcButton
-							variant="tertiary"
-							:aria-label="t('planninq', 'Remove rule')"
-							data-testid="column-rule-remove"
-							@click="rules.splice(index, 1)">
-							<template #icon>
-								<DeleteIcon :size="20" />
-							</template>
-						</NcButton>
-					</li>
-				</ol>
+			<ol class="column-rules-dialog__list">
+				<li
+					v-for="(rule, index) in rules"
+					:key="rule.key"
+					class="column-rules-dialog__rule"
+					data-testid="column-rule">
+					<NcSelect
+						:modelValue="actionOptions.find((option) => option.id === rule.action) || null"
+						:options="actionOptions"
+						:clearable="false"
+						:inputLabel="t('planninq', 'Action')"
+						label="label"
+						data-testid="column-rule-action"
+						@update:modelValue="setAction(index, $event)" />
+					<NcSelect
+						v-if="valueOptionsFor(rule)"
+						:modelValue="valueOptionsFor(rule).find((option) => option.id === rule.value) || null"
+						:options="valueOptionsFor(rule)"
+						:clearable="false"
+						:inputLabel="valueLabel(rule.action)"
+						label="label"
+						data-testid="column-rule-value"
+						@update:modelValue="rule.value = $event ? $event.id : ''" />
+					<p v-if="problemText(rule)" class="column-rules-dialog__problem" data-testid="column-rule-problem">
+						{{ problemText(rule) }}
+					</p>
+					<NcButton
+						variant="tertiary"
+						:aria-label="t('planninq', 'Remove rule')"
+						data-testid="column-rule-remove"
+						@click="rules.splice(index, 1)">
+						<template #icon>
+							<DeleteIcon :size="20" />
+						</template>
+					</NcButton>
+				</li>
+			</ol>
 
-				<NcButton variant="secondary" data-testid="column-rule-add" @click="addRule">
-					<template #icon>
-						<PlusIcon :size="20" />
-					</template>
-					{{ t('planninq', 'Add rule') }}
-				</NcButton>
+			<NcButton variant="secondary" data-testid="column-rule-add" @click="addRule">
+				<template #icon>
+					<PlusIcon :size="20" />
+				</template>
+				{{ t('planninq', 'Add rule') }}
+			</NcButton>
 
-				<div v-if="submitError" class="column-rules-dialog__error" role="alert">
-					{{ submitError }}
-				</div>
+			<div v-if="submitError" class="column-rules-dialog__error" role="alert">
+				{{ submitError }}
 			</div>
-		</template>
-
-		<template #actions>
-			<DialogSaveActions
-				:saving="saving"
-				:disabled="!isValid"
-				data-testid="column-rules-save"
-				@cancel="$emit('close')"
-				@save="save" />
-		</template>
-	</NcDialog>
+		</div>
+	</EditDialog>
 </template>
 
 <script>
@@ -89,10 +82,10 @@
  *
  * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
  */
-import { NcButton, NcDialog, NcSelect } from '@nextcloud/vue'
+import { NcButton, NcSelect } from '@nextcloud/vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import DialogSaveActions from '../components/DialogSaveActions.vue'
+import EditDialog from './EditDialog.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { columnRules, RULE_PRIORITIES, ruleIsComplete, ruleProblem, rulesPayload } from '../utils/columnAutomation.js'
 import { labelId } from '../utils/labelHelpers.js'
@@ -104,7 +97,7 @@ let nextKey = 0
 export default {
 	name: 'ColumnRulesDialog',
 
-	components: { DialogSaveActions, NcButton, NcDialog, NcSelect, DeleteIcon, PlusIcon },
+	components: { EditDialog, NcButton, NcSelect, DeleteIcon, PlusIcon },
 
 	props: {
 		/** The column whose rules are edited. */
