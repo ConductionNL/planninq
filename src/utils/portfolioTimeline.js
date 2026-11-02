@@ -77,20 +77,62 @@ function projectRows(project, open) {
 export function buildPortfolioLayout(projects = [], openIds = [], dependencies = [], pxPerDay = PX_PER_DAY.week) {
 	const open = new Set(openIds || [])
 	const rows = sortBySpan(projects).flatMap((project) => projectRows(project, open.has(project.id)))
+	const span = daySpan(rows)
+	const placed = rows.map((row, index) => placeRow(row, { index, minDay: span.minDay, pxPerDay }))
+	return {
+		rows: placed,
+		edgeLines: edgeLinesBetween(placed, dependencies),
+		minDay: span.minDay,
+		dayCount: span.dayCount,
+		chartWidth: span.dayCount * pxPerDay,
+		barsHeight: Math.max(1, placed.length) * (BAR_HEIGHT + ROW_GAP) + ROW_GAP,
+		dated: span.dated,
+	}
+}
+
+/**
+ * The first day and the number of days the dated rows cover.
+ *
+ * @param {Array<object>} rows Rows with startDay and endDay, null when undated.
+ * @return {{minDay: number, dayCount: number, dated: boolean}}
+ */
+function daySpan(rows) {
 	const dated = rows.filter((row) => row.startDay !== null)
-	const minDay = dated.length ? Math.min(...dated.map((row) => row.startDay)) : 0
-	const maxDay = dated.length ? Math.max(...dated.map((row) => row.endDay)) : 0
-	const dayCount = Math.max(1, maxDay - minDay + 1)
+	if (!dated.length) {
+		return { minDay: 0, dayCount: 1, dated: false }
+	}
+	const minDay = Math.min(...dated.map((row) => row.startDay))
+	const maxDay = Math.max(...dated.map((row) => row.endDay))
+	return { minDay, dayCount: Math.max(1, maxDay - minDay + 1), dated: true }
+}
 
-	const placed = rows.map((row, index) => ({
+/**
+ * One row with its bar position; an undated row gets no bar.
+ *
+ * @param {object} row The row.
+ * @param {{index: number, minDay: number, pxPerDay: number}} at Its row index, the axis start and the zoom.
+ * @return {object}
+ */
+function placeRow(row, at) {
+	const dated = row.startDay !== null
+	return {
 		...row,
-		dated: row.startDay !== null,
-		left: row.startDay === null ? 0 : (row.startDay - minDay) * pxPerDay,
-		width: row.startDay === null ? 0 : Math.max(pxPerDay, (row.endDay - row.startDay + 1) * pxPerDay),
-		top: ROW_GAP + index * (BAR_HEIGHT + ROW_GAP),
+		dated,
+		left: dated ? (row.startDay - at.minDay) * at.pxPerDay : 0,
+		width: dated ? Math.max(at.pxPerDay, (row.endDay - row.startDay + 1) * at.pxPerDay) : 0,
+		top: ROW_GAP + at.index * (BAR_HEIGHT + ROW_GAP),
 		color: row.kind === 'task' ? statusColor(row.status) : '',
-	}))
+	}
+}
 
+/**
+ * Dependency lines between task bars, only when both ends are drawn.
+ *
+ * @param {Array<object>} placed The placed rows.
+ * @param {Array<object>} dependencies Stored edges ({id, blocker, blocked}).
+ * @return {Array<object>}
+ */
+function edgeLinesBetween(placed, dependencies) {
 	const taskBars = new Map(placed.filter((row) => row.kind === 'task').map((row) => [row.id, row]))
 	const edgeLines = []
 	for (const [index, edge] of (dependencies || []).entries()) {
@@ -100,14 +142,5 @@ export function buildPortfolioLayout(projects = [], openIds = [], dependencies =
 			edgeLines.push({ key: edge.id || `edge-${index}`, x1: from.left + from.width, y1: from.top + BAR_HEIGHT / 2, x2: to.left, y2: to.top + BAR_HEIGHT / 2 })
 		}
 	}
-
-	return {
-		rows: placed,
-		edgeLines,
-		minDay,
-		dayCount,
-		chartWidth: dayCount * pxPerDay,
-		barsHeight: Math.max(1, placed.length) * (BAR_HEIGHT + ROW_GAP) + ROW_GAP,
-		dated: dated.length > 0,
-	}
+	return edgeLines
 }
