@@ -281,6 +281,52 @@
             }
         ]
     ],
+    "save fails mid-sweep": [
+        [
+            "search",
+            "planninq",
+            "task"
+        ],
+        [
+            "save",
+            {
+                "object": {
+                    "@self": {
+                        "id": "T1"
+                    },
+                    "title": "a",
+                    "labels": [
+                        "L2"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "T1",
+                "_rbac": false
+            }
+        ],
+        [
+            "save",
+            {
+                "object": {
+                    "@self": {
+                        "id": "T3"
+                    },
+                    "title": "c",
+                    "labels": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "T3",
+                "_rbac": false
+            }
+        ],
+        [
+            "exception",
+            "RuntimeException",
+            "save failed"
+        ]
+    ],
     "no tasks": [
         [
             "search",
