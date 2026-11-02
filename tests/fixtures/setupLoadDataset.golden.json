@@ -1,0 +1,3089 @@
+{
+    "load-demo-data | stored \"\" | posted null | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "Pick a dataset first."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"\" | posted null | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "Pick a dataset first."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"\" | posted \"demo\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "install"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "demo"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "installed"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "Imported 12 demo object(s)."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"\" | posted \"demo\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "log.error",
+            "Setup install-demo-data failed: nobody is signed in",
+            [
+                "app",
+                "exception"
+            ]
+        ],
+        [
+            "response",
+            500,
+            {
+                "success": false,
+                "message": "Could not import the demo data: nobody is signed in"
+            }
+        ]
+    ],
+    "load-demo-data | stored \"\" | posted \"none\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"\" | posted \"none\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"\" | posted \"nope\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"nope\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"\" | posted \"nope\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"nope\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"\" | posted 7 | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"7\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"\" | posted 7 | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"7\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"\" | posted [\"demo\"] | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "A dataset is named by a string."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"\" | posted [\"demo\"] | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "A dataset is named by a string."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"\" | posted \"\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"\" | posted \"\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"demo\" | posted null | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "install"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "demo"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "installed"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "Imported 12 demo object(s)."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"demo\" | posted null | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "log.error",
+            "Setup install-demo-data failed: nobody is signed in",
+            [
+                "app",
+                "exception"
+            ]
+        ],
+        [
+            "response",
+            500,
+            {
+                "success": false,
+                "message": "Could not import the demo data: nobody is signed in"
+            }
+        ]
+    ],
+    "load-demo-data | stored \"demo\" | posted \"demo\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "install"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "demo"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "installed"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "Imported 12 demo object(s)."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"demo\" | posted \"demo\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "log.error",
+            "Setup install-demo-data failed: nobody is signed in",
+            [
+                "app",
+                "exception"
+            ]
+        ],
+        [
+            "response",
+            500,
+            {
+                "success": false,
+                "message": "Could not import the demo data: nobody is signed in"
+            }
+        ]
+    ],
+    "load-demo-data | stored \"demo\" | posted \"none\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"demo\" | posted \"none\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"demo\" | posted \"nope\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"nope\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"demo\" | posted \"nope\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"nope\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"demo\" | posted 7 | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"7\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"demo\" | posted 7 | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"7\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"demo\" | posted [\"demo\"] | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "A dataset is named by a string."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"demo\" | posted [\"demo\"] | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "A dataset is named by a string."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"demo\" | posted \"\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"demo\" | posted \"\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"none\" | posted null | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"none\" | posted null | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"none\" | posted \"demo\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "install"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "demo"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "installed"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "Imported 12 demo object(s)."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"none\" | posted \"demo\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "log.error",
+            "Setup install-demo-data failed: nobody is signed in",
+            [
+                "app",
+                "exception"
+            ]
+        ],
+        [
+            "response",
+            500,
+            {
+                "success": false,
+                "message": "Could not import the demo data: nobody is signed in"
+            }
+        ]
+    ],
+    "load-demo-data | stored \"none\" | posted \"none\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"none\" | posted \"none\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"none\" | posted \"nope\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"nope\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"none\" | posted \"nope\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"nope\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"none\" | posted 7 | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"7\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"none\" | posted 7 | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"7\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"none\" | posted [\"demo\"] | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "A dataset is named by a string."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"none\" | posted [\"demo\"] | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "A dataset is named by a string."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"none\" | posted \"\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"\"."
+            }
+        ]
+    ],
+    "load-demo-data | stored \"none\" | posted \"\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"\" | posted null | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "install"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "demo"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "installed"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "Imported 12 demo object(s)."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"\" | posted null | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "log.error",
+            "Setup install-demo-data failed: nobody is signed in",
+            [
+                "app",
+                "exception"
+            ]
+        ],
+        [
+            "response",
+            500,
+            {
+                "success": false,
+                "message": "Could not import the demo data: nobody is signed in"
+            }
+        ]
+    ],
+    "install-demo-data | stored \"\" | posted \"demo\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "install"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "demo"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "installed"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "Imported 12 demo object(s)."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"\" | posted \"demo\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "log.error",
+            "Setup install-demo-data failed: nobody is signed in",
+            [
+                "app",
+                "exception"
+            ]
+        ],
+        [
+            "response",
+            500,
+            {
+                "success": false,
+                "message": "Could not import the demo data: nobody is signed in"
+            }
+        ]
+    ],
+    "install-demo-data | stored \"\" | posted \"none\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"\" | posted \"none\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"\" | posted \"nope\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"nope\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"\" | posted \"nope\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"nope\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"\" | posted 7 | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"7\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"\" | posted 7 | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"7\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"\" | posted [\"demo\"] | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "A dataset is named by a string."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"\" | posted [\"demo\"] | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "A dataset is named by a string."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"\" | posted \"\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"\" | posted \"\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"demo\" | posted null | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "install"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "demo"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "installed"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "Imported 12 demo object(s)."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"demo\" | posted null | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "log.error",
+            "Setup install-demo-data failed: nobody is signed in",
+            [
+                "app",
+                "exception"
+            ]
+        ],
+        [
+            "response",
+            500,
+            {
+                "success": false,
+                "message": "Could not import the demo data: nobody is signed in"
+            }
+        ]
+    ],
+    "install-demo-data | stored \"demo\" | posted \"demo\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "install"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "demo"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "installed"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "Imported 12 demo object(s)."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"demo\" | posted \"demo\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "log.error",
+            "Setup install-demo-data failed: nobody is signed in",
+            [
+                "app",
+                "exception"
+            ]
+        ],
+        [
+            "response",
+            500,
+            {
+                "success": false,
+                "message": "Could not import the demo data: nobody is signed in"
+            }
+        ]
+    ],
+    "install-demo-data | stored \"demo\" | posted \"none\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"demo\" | posted \"none\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"demo\" | posted \"nope\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"nope\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"demo\" | posted \"nope\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"nope\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"demo\" | posted 7 | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"7\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"demo\" | posted 7 | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"7\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"demo\" | posted [\"demo\"] | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "A dataset is named by a string."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"demo\" | posted [\"demo\"] | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "A dataset is named by a string."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"demo\" | posted \"\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"demo\" | posted \"\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"none\" | posted null | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"none\" | posted null | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"none\" | posted \"demo\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "install"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "demo"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "installed"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "Imported 12 demo object(s)."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"none\" | posted \"demo\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "log.error",
+            "Setup install-demo-data failed: nobody is signed in",
+            [
+                "app",
+                "exception"
+            ]
+        ],
+        [
+            "response",
+            500,
+            {
+                "success": false,
+                "message": "Could not import the demo data: nobody is signed in"
+            }
+        ]
+    ],
+    "install-demo-data | stored \"none\" | posted \"none\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"none\" | posted \"none\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"none\" | posted \"nope\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"nope\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"none\" | posted \"nope\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"nope\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"none\" | posted 7 | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"7\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"none\" | posted 7 | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"7\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"none\" | posted [\"demo\"] | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "A dataset is named by a string."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"none\" | posted [\"demo\"] | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "A dataset is named by a string."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"none\" | posted \"\" | install ok": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"\"."
+            }
+        ]
+    ],
+    "install-demo-data | stored \"none\" | posted \"\" | install throws": [
+        [
+            "get",
+            "planninq",
+            "demo_dataset",
+            ""
+        ],
+        [
+            "response",
+            400,
+            {
+                "success": false,
+                "message": "No dataset is called \"\"."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"\" | posted null | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"\" | posted null | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"\" | posted \"demo\" | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"\" | posted \"demo\" | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"\" | posted \"none\" | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"\" | posted \"none\" | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"\" | posted \"nope\" | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"\" | posted \"nope\" | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"\" | posted 7 | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"\" | posted 7 | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"\" | posted [\"demo\"] | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"\" | posted [\"demo\"] | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"\" | posted \"\" | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"\" | posted \"\" | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"demo\" | posted null | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"demo\" | posted null | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"demo\" | posted \"demo\" | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"demo\" | posted \"demo\" | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"demo\" | posted \"none\" | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"demo\" | posted \"none\" | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"demo\" | posted \"nope\" | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"demo\" | posted \"nope\" | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"demo\" | posted 7 | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"demo\" | posted 7 | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"demo\" | posted [\"demo\"] | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"demo\" | posted [\"demo\"] | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"demo\" | posted \"\" | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"demo\" | posted \"\" | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"none\" | posted null | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"none\" | posted null | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"none\" | posted \"demo\" | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"none\" | posted \"demo\" | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"none\" | posted \"none\" | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"none\" | posted \"none\" | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"none\" | posted \"nope\" | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"none\" | posted \"nope\" | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"none\" | posted 7 | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"none\" | posted 7 | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"none\" | posted [\"demo\"] | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"none\" | posted [\"demo\"] | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"none\" | posted \"\" | install ok": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "skip-demo-data | stored \"none\" | posted \"\" | install throws": [
+        [
+            "set",
+            "planninq",
+            "demo_dataset",
+            "none"
+        ],
+        [
+            "set",
+            "planninq",
+            "demo_data_decided",
+            "skipped"
+        ],
+        [
+            "response",
+            200,
+            {
+                "success": true,
+                "message": "No example data was loaded."
+            }
+        ]
+    ],
+    "other | stored \"\" | posted null | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"\" | posted null | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"\" | posted \"demo\" | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"\" | posted \"demo\" | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"\" | posted \"none\" | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"\" | posted \"none\" | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"\" | posted \"nope\" | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"\" | posted \"nope\" | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"\" | posted 7 | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"\" | posted 7 | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"\" | posted [\"demo\"] | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"\" | posted [\"demo\"] | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"\" | posted \"\" | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"\" | posted \"\" | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"demo\" | posted null | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"demo\" | posted null | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"demo\" | posted \"demo\" | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"demo\" | posted \"demo\" | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"demo\" | posted \"none\" | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"demo\" | posted \"none\" | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"demo\" | posted \"nope\" | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"demo\" | posted \"nope\" | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"demo\" | posted 7 | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"demo\" | posted 7 | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"demo\" | posted [\"demo\"] | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"demo\" | posted [\"demo\"] | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"demo\" | posted \"\" | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"demo\" | posted \"\" | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"none\" | posted null | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"none\" | posted null | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"none\" | posted \"demo\" | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"none\" | posted \"demo\" | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"none\" | posted \"none\" | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"none\" | posted \"none\" | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"none\" | posted \"nope\" | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"none\" | posted \"nope\" | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"none\" | posted 7 | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"none\" | posted 7 | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"none\" | posted [\"demo\"] | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"none\" | posted [\"demo\"] | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"none\" | posted \"\" | install ok": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ],
+    "other | stored \"none\" | posted \"\" | install throws": [
+        [
+            "response",
+            404,
+            {
+                "success": false,
+                "message": "Unknown setup action: other"
+            }
+        ]
+    ]
+}
