@@ -1,0 +1,812 @@
+{
+    "migrate nothing stored": [
+        [
+            "getUsersForUserValue",
+            "planix",
+            "notify_due_reminder",
+            "true"
+        ],
+        [
+            "getUsersForUserValue",
+            "planix",
+            "notify_due_reminder",
+            "false"
+        ],
+        [
+            "output.info",
+            "MigrateUserPreferences: no stored planix user preferences on this install; nothing to do."
+        ]
+    ],
+    "migrate two values": [
+        [
+            "getUsersForUserValue",
+            "planix",
+            "notify_due_reminder",
+            "true"
+        ],
+        [
+            "getUserValue",
+            "anna",
+            "planninq",
+            "notify_due_reminder",
+            ""
+        ],
+        [
+            "setUserValue",
+            "anna",
+            "planninq",
+            "notify_due_reminder",
+            "true"
+        ],
+        [
+            "getUserValue",
+            "bram",
+            "planninq",
+            "notify_due_reminder",
+            ""
+        ],
+        [
+            "setUserValue",
+            "bram",
+            "planninq",
+            "notify_due_reminder",
+            "true"
+        ],
+        [
+            "getUsersForUserValue",
+            "planix",
+            "notify_due_reminder",
+            "false"
+        ],
+        [
+            "getUserValue",
+            "cees",
+            "planninq",
+            "notify_due_reminder",
+            ""
+        ],
+        [
+            "setUserValue",
+            "cees",
+            "planninq",
+            "notify_due_reminder",
+            "false"
+        ],
+        [
+            "output.info",
+            "MigrateUserPreferences: migrated 3 preference(s); 0 already set under planninq."
+        ]
+    ],
+    "migrate already present": [
+        [
+            "getUsersForUserValue",
+            "planix",
+            "notify_due_reminder",
+            "true"
+        ],
+        [
+            "getUserValue",
+            "anna",
+            "planninq",
+            "notify_due_reminder",
+            ""
+        ],
+        [
+            "getUsersForUserValue",
+            "planix",
+            "notify_due_reminder",
+            "false"
+        ],
+        [
+            "getUserValue",
+            "bram",
+            "planninq",
+            "notify_due_reminder",
+            ""
+        ],
+        [
+            "output.info",
+            "MigrateUserPreferences: migrated 0 preference(s); 2 already set under planninq."
+        ]
+    ],
+    "migrate all present": [
+        [
+            "getUsersForUserValue",
+            "planix",
+            "notify_due_reminder",
+            "true"
+        ],
+        [
+            "getUsersForUserValue",
+            "planix",
+            "notify_due_reminder",
+            "false"
+        ],
+        [
+            "getUserValue",
+            "anna",
+            "planninq",
+            "notify_due_reminder",
+            ""
+        ],
+        [
+            "output.info",
+            "MigrateUserPreferences: migrated 0 preference(s); 1 already set under planninq."
+        ]
+    ],
+    "migrate read and write fail": [
+        [
+            "getUsersForUserValue",
+            "planix",
+            "notify_due_reminder",
+            "true"
+        ],
+        [
+            "getUserValue",
+            "anna",
+            "planninq",
+            "notify_due_reminder",
+            ""
+        ],
+        [
+            "setUserValue",
+            "anna",
+            "planninq",
+            "notify_due_reminder",
+            "true"
+        ],
+        [
+            "getUserValue",
+            "bram",
+            "planninq",
+            "notify_due_reminder",
+            ""
+        ],
+        [
+            "logger.warning",
+            "MigrateUserPreferences: could not migrate one preference; leaving it under the old app id.",
+            {
+                "exception": "RuntimeException",
+                "key": "notify_due_reminder",
+                "app": "planninq"
+            }
+        ],
+        [
+            "getUserValue",
+            "cees",
+            "planninq",
+            "notify_due_reminder",
+            ""
+        ],
+        [
+            "setUserValue",
+            "cees",
+            "planninq",
+            "notify_due_reminder",
+            "true"
+        ],
+        [
+            "logger.warning",
+            "MigrateUserPreferences: could not migrate one preference; leaving it under the old app id.",
+            {
+                "exception": "RuntimeException",
+                "key": "notify_due_reminder",
+                "app": "planninq"
+            }
+        ],
+        [
+            "getUsersForUserValue",
+            "planix",
+            "notify_due_reminder",
+            "false"
+        ],
+        [
+            "getUserValue",
+            "dirk",
+            "planninq",
+            "notify_due_reminder",
+            ""
+        ],
+        [
+            "setUserValue",
+            "dirk",
+            "planninq",
+            "notify_due_reminder",
+            "false"
+        ],
+        [
+            "logger.warning",
+            "MigrateUserPreferences: could not migrate one preference; leaving it under the old app id.",
+            {
+                "exception": "RuntimeException",
+                "key": "notify_due_reminder",
+                "app": "planninq"
+            }
+        ],
+        [
+            "output.info",
+            "MigrateUserPreferences: migrated 1 preference(s); 0 already set under planninq."
+        ]
+    ],
+    "migrate only failures": [
+        [
+            "getUsersForUserValue",
+            "planix",
+            "notify_due_reminder",
+            "true"
+        ],
+        [
+            "getUserValue",
+            "anna",
+            "planninq",
+            "notify_due_reminder",
+            ""
+        ],
+        [
+            "setUserValue",
+            "anna",
+            "planninq",
+            "notify_due_reminder",
+            "true"
+        ],
+        [
+            "logger.warning",
+            "MigrateUserPreferences: could not migrate one preference; leaving it under the old app id.",
+            {
+                "exception": "RuntimeException",
+                "key": "notify_due_reminder",
+                "app": "planninq"
+            }
+        ],
+        [
+            "getUsersForUserValue",
+            "planix",
+            "notify_due_reminder",
+            "false"
+        ],
+        [
+            "output.info",
+            "MigrateUserPreferences: no stored planix user preferences on this install; nothing to do."
+        ]
+    ],
+    "reconcile no openregister": [
+        [
+            "output.warning",
+            "OpenRegister is not available; skipping due-reminder override reconciliation."
+        ]
+    ],
+    "reconcile no opt-outs": [
+        [
+            "getUsersForUserValue",
+            "planninq",
+            "notify_due_reminder",
+            "false"
+        ],
+        [
+            "output.info",
+            "No pre-existing due-reminder opt-outs to reconcile."
+        ]
+    ],
+    "reconcile seeds all": [
+        [
+            "getUsersForUserValue",
+            "planninq",
+            "notify_due_reminder",
+            "false"
+        ],
+        [
+            "getOverride",
+            "anna",
+            "task",
+            "taskDueSoon"
+        ],
+        [
+            "writeDueReminderOverride",
+            "anna",
+            {
+                "enabled": false
+            }
+        ],
+        [
+            "getOverride",
+            "bram",
+            "task",
+            "taskDueSoon"
+        ],
+        [
+            "writeDueReminderOverride",
+            "bram",
+            {
+                "enabled": false
+            }
+        ],
+        [
+            "output.info",
+            "Seeded 2 due-reminder override(s) for pre-existing opt-outs."
+        ]
+    ],
+    "reconcile keeps overrides": [
+        [
+            "getUsersForUserValue",
+            "planninq",
+            "notify_due_reminder",
+            "false"
+        ],
+        [
+            "getOverride",
+            "anna",
+            "task",
+            "taskDueSoon"
+        ],
+        [
+            "writeDueReminderOverride",
+            "anna",
+            {
+                "enabled": false
+            }
+        ],
+        [
+            "getOverride",
+            "bram",
+            "task",
+            "taskDueSoon"
+        ],
+        [
+            "getOverride",
+            "cees",
+            "task",
+            "taskDueSoon"
+        ],
+        [
+            "writeDueReminderOverride",
+            "cees",
+            {
+                "enabled": false
+            }
+        ],
+        [
+            "output.info",
+            "Seeded 2 due-reminder override(s) for pre-existing opt-outs."
+        ]
+    ],
+    "reconcile refused and fails": [
+        [
+            "getUsersForUserValue",
+            "planninq",
+            "notify_due_reminder",
+            "false"
+        ],
+        [
+            "getOverride",
+            "anna",
+            "task",
+            "taskDueSoon"
+        ],
+        [
+            "writeDueReminderOverride",
+            "anna",
+            {
+                "enabled": false
+            }
+        ],
+        [
+            "getOverride",
+            "bram",
+            "task",
+            "taskDueSoon"
+        ],
+        [
+            "writeDueReminderOverride",
+            "bram",
+            {
+                "enabled": false
+            }
+        ],
+        [
+            "getOverride",
+            "cees",
+            "task",
+            "taskDueSoon"
+        ],
+        [
+            "writeDueReminderOverride",
+            "cees",
+            {
+                "enabled": false
+            }
+        ],
+        [
+            "logger.warning",
+            "Planninq: failed to reconcile due-reminder override",
+            {
+                "user": "cees",
+                "exception": "write cees"
+            }
+        ],
+        [
+            "getOverride",
+            "dirk",
+            "task",
+            "taskDueSoon"
+        ],
+        [
+            "writeDueReminderOverride",
+            "dirk",
+            {
+                "enabled": false
+            }
+        ],
+        [
+            "output.info",
+            "Seeded 2 due-reminder override(s) for pre-existing opt-outs."
+        ]
+    ],
+    "reconcile no pref service": [
+        [
+            "getUsersForUserValue",
+            "planninq",
+            "notify_due_reminder",
+            "false"
+        ],
+        [
+            "writeDueReminderOverride",
+            "anna",
+            {
+                "enabled": false
+            }
+        ],
+        [
+            "output.info",
+            "Seeded 1 due-reminder override(s) for pre-existing opt-outs."
+        ]
+    ],
+    "reconcile pref service fails": [
+        [
+            "getUsersForUserValue",
+            "planninq",
+            "notify_due_reminder",
+            "false"
+        ],
+        [
+            "writeDueReminderOverride",
+            "anna",
+            {
+                "enabled": false
+            }
+        ],
+        [
+            "output.info",
+            "Seeded 1 due-reminder override(s) for pre-existing opt-outs."
+        ]
+    ],
+    "patch not installed 24": [
+        [
+            "logger.info",
+            "Planninq: OpenRegister unavailable, lead-time window not patched on live schema",
+            []
+        ]
+    ],
+    "patch not installed 72": [
+        [
+            "logger.info",
+            "Planninq: OpenRegister unavailable, lead-time window not patched on live schema",
+            []
+        ]
+    ],
+    "patch no mapper 24": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "logger.warning",
+            "Planninq: failed to patch due-reminder window on live schema",
+            {
+                "exception": "no mapper"
+            }
+        ]
+    ],
+    "patch no mapper 72": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "logger.warning",
+            "Planninq: failed to patch due-reminder window on live schema",
+            {
+                "exception": "no mapper"
+            }
+        ]
+    ],
+    "patch find throws 24": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "findBySlug",
+            "task"
+        ],
+        [
+            "logger.warning",
+            "Planninq: failed to patch due-reminder window on live schema",
+            {
+                "exception": "find"
+            }
+        ]
+    ],
+    "patch find throws 72": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "findBySlug",
+            "task"
+        ],
+        [
+            "logger.warning",
+            "Planninq: failed to patch due-reminder window on live schema",
+            {
+                "exception": "find"
+            }
+        ]
+    ],
+    "patch no schemas 24": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "findBySlug",
+            "task"
+        ],
+        [
+            "logger.warning",
+            "Planninq: task schema not found, cannot patch due-reminder window",
+            []
+        ]
+    ],
+    "patch no schemas 72": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "findBySlug",
+            "task"
+        ],
+        [
+            "logger.warning",
+            "Planninq: task schema not found, cannot patch due-reminder window",
+            []
+        ]
+    ],
+    "patch not an array 24": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "findBySlug",
+            "task"
+        ],
+        [
+            "logger.warning",
+            "Planninq: task schema not found, cannot patch due-reminder window",
+            []
+        ]
+    ],
+    "patch not an array 72": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "findBySlug",
+            "task"
+        ],
+        [
+            "logger.warning",
+            "Planninq: task schema not found, cannot patch due-reminder window",
+            []
+        ]
+    ],
+    "patch null config 24": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "findBySlug",
+            "task"
+        ],
+        [
+            "logger.warning",
+            "Planninq: taskDueSoon rule not present on live schema, skipping window patch",
+            []
+        ]
+    ],
+    "patch null config 72": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "findBySlug",
+            "task"
+        ],
+        [
+            "logger.warning",
+            "Planninq: taskDueSoon rule not present on live schema, skipping window patch",
+            []
+        ]
+    ],
+    "patch rule missing 24": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "findBySlug",
+            "task"
+        ],
+        [
+            "logger.warning",
+            "Planninq: taskDueSoon rule not present on live schema, skipping window patch",
+            []
+        ]
+    ],
+    "patch rule missing 72": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "findBySlug",
+            "task"
+        ],
+        [
+            "logger.warning",
+            "Planninq: taskDueSoon rule not present on live schema, skipping window patch",
+            []
+        ]
+    ],
+    "patch patched 24": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "findBySlug",
+            "task"
+        ],
+        [
+            "update",
+            {
+                "x-openregister-notifications": {
+                    "taskDueSoon": {
+                        "trigger": {
+                            "filter": {
+                                "dueDate": {
+                                    "operator": "withinNext",
+                                    "value": "PT24H"
+                                }
+                            }
+                        }
+                    },
+                    "other": 1
+                }
+            }
+        ],
+        [
+            "logger.info",
+            "Planninq: patched taskDueSoon window to PT24H",
+            []
+        ]
+    ],
+    "patch patched 72": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "findBySlug",
+            "task"
+        ],
+        [
+            "update",
+            {
+                "x-openregister-notifications": {
+                    "taskDueSoon": {
+                        "trigger": {
+                            "filter": {
+                                "dueDate": {
+                                    "operator": "withinNext",
+                                    "value": "PT72H"
+                                }
+                            }
+                        }
+                    },
+                    "other": 1
+                }
+            }
+        ],
+        [
+            "logger.info",
+            "Planninq: patched taskDueSoon window to PT72H",
+            []
+        ]
+    ],
+    "patch update throws 24": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "findBySlug",
+            "task"
+        ],
+        [
+            "update",
+            {
+                "x-openregister-notifications": {
+                    "taskDueSoon": {
+                        "trigger": {
+                            "filter": {
+                                "dueDate": {
+                                    "operator": "withinNext",
+                                    "value": "PT24H"
+                                }
+                            }
+                        }
+                    },
+                    "other": 1
+                }
+            }
+        ],
+        [
+            "logger.warning",
+            "Planninq: failed to patch due-reminder window on live schema",
+            {
+                "exception": "update"
+            }
+        ]
+    ],
+    "patch update throws 72": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Db\\SchemaMapper"
+        ],
+        [
+            "findBySlug",
+            "task"
+        ],
+        [
+            "update",
+            {
+                "x-openregister-notifications": {
+                    "taskDueSoon": {
+                        "trigger": {
+                            "filter": {
+                                "dueDate": {
+                                    "operator": "withinNext",
+                                    "value": "PT72H"
+                                }
+                            }
+                        }
+                    },
+                    "other": 1
+                }
+            }
+        ],
+        [
+            "logger.warning",
+            "Planninq: failed to patch due-reminder window on live schema",
+            {
+                "exception": "update"
+            }
+        ]
+    ]
+}
