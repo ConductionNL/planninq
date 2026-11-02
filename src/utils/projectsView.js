@@ -116,9 +116,8 @@ export function pickableProjects(projects, uid) {
  * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
  */
 export function mergeViewResults(results) {
-	const tasks = []
+	const found = { tasks: [], seen: new Set() }
 	const projectsById = {}
-	const seen = new Set()
 	let hidden = 0
 	for (const result of results || []) {
 		if (!result?.project) {
@@ -126,16 +125,40 @@ export function mergeViewResults(results) {
 			continue
 		}
 		projectsById[result.projectId] = result.project
-		for (const task of result.tasks || []) {
-			const id = idOf(task)
-			if (!task || task.project !== result.projectId || seen.has(id)) {
-				continue
-			}
-			seen.add(id)
-			tasks.push(task)
+		addProjectTasks(found, result)
+	}
+	return { tasks: found.tasks, projectsById, hidden }
+}
+
+/**
+ * Add a project's own tasks that were not added yet.
+ *
+ * @param {{tasks: Array<object>, seen: Set}} found The tasks so far and their ids.
+ * @param {{projectId: string, tasks: Array<object>}} result One project's read.
+ *
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
+ */
+function addProjectTasks(found, result) {
+	for (const task of result.tasks || []) {
+		const id = idOf(task)
+		if (belongsTo(task, result.projectId) && !found.seen.has(id)) {
+			found.seen.add(id)
+			found.tasks.push(task)
 		}
 	}
-	return { tasks, projectsById, hidden }
+}
+
+/**
+ * Whether a task is set and on the given project.
+ *
+ * @param {object|null} task The task.
+ * @param {string} projectId The project.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2
+ */
+function belongsTo(task, projectId) {
+	return Boolean(task) && task.project === projectId
 }
 
 /**
