@@ -52,6 +52,115 @@ const FORGE_LINK_SCHEMA = 'forgeLink'
 /** The store error of a PATCH OpenRegister refused because the project changed since it was read (409). */
 const ACL_CONFLICT = 'conflict'
 
+/** The schemas registered on the shared object store, in registration order. */
+const OBJECT_TYPES = [PROJECT_SCHEMA, COLUMN_SCHEMA, TASK_SCHEMA, TIME_ENTRY_SCHEMA, LABEL_SCHEMA, LOG_SCHEMA, RISK_SCHEMA, FINANCE_LINE_SCHEMA, RELEASE_SCHEMA, BOARD_FILTER_SCHEMA, BOARD_VIEW_SCHEMA]
+
+/**
+ * The message of a caught error, or the fallback when it has none.
+ *
+ * @param {Error|object|null} err The caught error.
+ * @param {string} fallback The store error to use instead.
+ * @return {string}
+ *
+ * @spec openspec/specs/projects/spec.md
+ */
+function errorText(err, fallback) {
+	return err?.message || fallback
+}
+
+/**
+ * The status and message of a failed collection read.
+ *
+ * @param {Error|object} err The caught error.
+ * @return {{status: number|undefined, message: string}}
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ */
+function readFailure(err) {
+	return {
+		status: err.response?.status ?? err.status,
+		message: err.response?.data?.message ?? err.message ?? 'fetch-error',
+	}
+}
+
+/**
+ * The store error of an object read that came back empty: `forbidden` on a 403, otherwise `not-found`.
+ *
+ * @param {object|null} storeError The object store's error for the schema.
+ * @return {string}
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ */
+function missingReason(storeError) {
+	return (storeError?.status === 403 || storeError?.statusCode === 403) ? 'forbidden' : 'not-found'
+}
+
+/**
+ * The JSON body of a response, or an empty object when it is not JSON.
+ *
+ * @param {Response} response The response.
+ * @return {Promise<object|null>}
+ *
+ * @spec openspec/specs/projects/spec.md
+ */
+function responseBody(response) {
+	return response.json().catch(() => ({}))
+}
+
+/**
+ * The store error of a refused project PATCH: `conflict` on a 409, otherwise the server message.
+ *
+ * @param {number} status The response status.
+ * @param {object|null} body The response body.
+ * @return {string}
+ *
+ * @spec openspec/specs/projects/spec.md
+ */
+function patchRefusal(status, body) {
+	return status === 409 ? ACL_CONFLICT : (body?.message || 'patch-error')
+}
+
+/**
+ * The request body of a lifecycle transition, with the input values when there are any.
+ *
+ * @param {object} body The transition body.
+ * @param {object} [data] Input values the transition accepts.
+ * @return {object}
+ *
+ * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.3
+ */
+function transitionBody(body, data) {
+	return data ? { ...body, data } : body
+}
+
+/**
+ * A transition answer with the project id filled in from `@self` or the request.
+ *
+ * @param {object} answer The saved project OpenRegister returned.
+ * @param {string} id The project the transition ran on.
+ * @return {object}
+ *
+ * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-1.3
+ */
+function withProjectId(answer, id) {
+	return { ...answer, id: answer.id || answer['@self']?.id || id }
+}
+
+/**
+ * The object URL of a write: the collection for a new object, the object itself otherwise.
+ *
+ * @param {string} schema The schema slug.
+ * @param {string} [id] The object UUID, when it exists.
+ * @return {string}
+ *
+ * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
+ */
+function objectUrl(schema, id) {
+	return id
+		? generateUrl(`/apps/openregister/api/objects/planninq/${schema}/${id}`)
+		: generateUrl(`/apps/openregister/api/objects/planninq/${schema}`)
+}
+
 /**
  * GET one planninq object with the caller's rights.
  *
@@ -91,43 +200,15 @@ export const useProjectsStore = defineStore('projects', {
 		 */
 		_objectStore() {
 			const store = useObjectStore()
-			// Register types if not yet registered. The schema constants ARE the
-			// canonical OR slugs (lib/Settings/planninq_register.json), so they are
-			// passed as slug hints too — liveUpdatesPlugin then derives the
+			// The schema constants ARE the canonical OR slugs
+			// (lib/Settings/planninq_register.json), so they are passed as slug
+			// hints too — liveUpdatesPlugin then derives the
 			// or-collection-{registerSlug}-{schemaSlug} event key without a lazy
 			// register/schema fetch on first subscribe().
-			if (!store.objectTypeRegistry?.[PROJECT_SCHEMA]) {
-				store.registerObjectType(PROJECT_SCHEMA, PROJECT_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: PROJECT_SCHEMA })
-			}
-			if (!store.objectTypeRegistry?.[COLUMN_SCHEMA]) {
-				store.registerObjectType(COLUMN_SCHEMA, COLUMN_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: COLUMN_SCHEMA })
-			}
-			if (!store.objectTypeRegistry?.[TASK_SCHEMA]) {
-				store.registerObjectType(TASK_SCHEMA, TASK_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: TASK_SCHEMA })
-			}
-			if (!store.objectTypeRegistry?.[TIME_ENTRY_SCHEMA]) {
-				store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: TIME_ENTRY_SCHEMA })
-			}
-			if (!store.objectTypeRegistry?.[LABEL_SCHEMA]) {
-				store.registerObjectType(LABEL_SCHEMA, LABEL_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: LABEL_SCHEMA })
-			}
-			if (!store.objectTypeRegistry?.[LOG_SCHEMA]) {
-				store.registerObjectType(LOG_SCHEMA, LOG_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: LOG_SCHEMA })
-			}
-			if (!store.objectTypeRegistry?.[RISK_SCHEMA]) {
-				store.registerObjectType(RISK_SCHEMA, RISK_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: RISK_SCHEMA })
-			}
-			if (!store.objectTypeRegistry?.[FINANCE_LINE_SCHEMA]) {
-				store.registerObjectType(FINANCE_LINE_SCHEMA, FINANCE_LINE_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: FINANCE_LINE_SCHEMA })
-			}
-			if (!store.objectTypeRegistry?.[RELEASE_SCHEMA]) {
-				store.registerObjectType(RELEASE_SCHEMA, RELEASE_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: RELEASE_SCHEMA })
-			}
-			if (!store.objectTypeRegistry?.[BOARD_FILTER_SCHEMA]) {
-				store.registerObjectType(BOARD_FILTER_SCHEMA, BOARD_FILTER_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: BOARD_FILTER_SCHEMA })
-			}
-			if (!store.objectTypeRegistry?.[BOARD_VIEW_SCHEMA]) {
-				store.registerObjectType(BOARD_VIEW_SCHEMA, BOARD_VIEW_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: BOARD_VIEW_SCHEMA })
+			for (const schema of OBJECT_TYPES) {
+				if (!store.objectTypeRegistry?.[schema]) {
+					store.registerObjectType(schema, schema, REGISTER, { registerSlug: REGISTER, schemaSlug: schema })
+				}
 			}
 			return store
 		},
@@ -137,6 +218,51 @@ export const useProjectsStore = defineStore('projects', {
 		 */
 		_currentUid() {
 			return getCurrentUser()?.uid || ''
+		},
+
+		/**
+		 * Merge saved fields into the listed project and the active one.
+		 *
+		 * @param {string} id Project ID
+		 * @param {object} updated The saved fields
+		 *
+		 * @spec openspec/specs/projects/spec.md
+		 */
+		_mergeProject(id, updated) {
+			this.projects = this.projects.map((p) => (p.id === id ? { ...p, ...updated } : p))
+			if (this.activeProject?.id === id) {
+				this.activeProject = { ...this.activeProject, ...updated }
+			}
+		},
+
+		/**
+		 * PATCH task fields; on a refusal `error` holds the server message or the fallback.
+		 *
+		 * @param {string} taskId Task UUID
+		 * @param {{fields: object, failure: string, label: string}} request The fields, the fallback store error and the log label
+		 * @return {Promise<object|null>} The updated task, or null on failure
+		 *
+		 * @spec openspec/specs/kanban-board/spec.md
+		 */
+		async _patchTask(taskId, request) {
+			try {
+				const url = generateUrl(`/apps/openregister/api/objects/planninq/task/${taskId}`)
+				const response = await fetch(url, {
+					method: 'PATCH',
+					headers: buildHeaders(),
+					body: JSON.stringify(request.fields),
+				})
+				if (!response.ok) {
+					const errorData = await responseBody(response)
+					this.error = errorData?.message || request.failure
+					return null
+				}
+				return await response.json()
+			} catch (err) {
+				this.error = errorText(err, request.failure)
+				console.error(`${request.label} error:`, err)
+				return null
+			}
 		},
 
 		// ── 2.2 fetchProjects ─────────────────────────────────────────────
@@ -181,8 +307,7 @@ export const useProjectsStore = defineStore('projects', {
 
 				return this.projects
 			} catch (err) {
-				const status = err.response?.status ?? err.status
-				const message = err.response?.data?.message ?? err.message ?? 'fetch-error'
+				const { status, message } = readFailure(err)
 				this.error = message
 				console.error('fetchProjects error:', { status, message, err })
 				return []
@@ -229,20 +354,15 @@ export const useProjectsStore = defineStore('projects', {
 				const objectStore = this._objectStore()
 				const project = await objectStore.fetchObject(PROJECT_SCHEMA, id)
 				if (!project) {
-					// Check for a 403 error stored by the objectStore.
-					const storeError = objectStore.getError(PROJECT_SCHEMA)
-					if (storeError?.status === 403 || storeError?.statusCode === 403) {
-						this.error = 'forbidden'
-					} else {
-						this.error = 'not-found'
-					}
+					// A 403 error stored by the objectStore reads as forbidden.
+					this.error = missingReason(objectStore.getError(PROJECT_SCHEMA))
 					this.activeProject = null
 					return null
 				}
 				this.activeProject = project
 				return project
 			} catch (err) {
-				this.error = err.message || 'fetch-error'
+				this.error = errorText(err, 'fetch-error')
 				console.error('fetchProject error:', err)
 				return null
 			} finally {
@@ -272,17 +392,14 @@ export const useProjectsStore = defineStore('projects', {
 				const objectStore = this._objectStore()
 				const task = await objectStore.fetchObject(TASK_SCHEMA, id)
 				if (!task) {
-					const storeError = objectStore.getError(TASK_SCHEMA)
-					this.error = (storeError?.status === 403 || storeError?.statusCode === 403)
-						? 'forbidden'
-						: 'not-found'
+					this.error = missingReason(objectStore.getError(TASK_SCHEMA))
 					this.activeTask = null
 					return null
 				}
 				this.activeTask = task
 				return task
 			} catch (err) {
-				this.error = err.message || 'fetch-error'
+				this.error = errorText(err, 'fetch-error')
 				console.error('fetchTask error:', err)
 				return null
 			} finally {
@@ -334,14 +451,11 @@ export const useProjectsStore = defineStore('projects', {
 				const response = await fetch(url, {
 					method: 'POST',
 					headers: buildHeaders(),
-					body: JSON.stringify({
-						...data,
-						status: data.status || 'active',
-					}),
+					body: JSON.stringify({ ...data, status: data.status || 'active' }),
 				})
 
 				if (!response.ok) {
-					const errorData = await response.json().catch(() => ({}))
+					const errorData = await responseBody(response)
 					const message = errorData?.error || 'create-error'
 					this.error = message
 					throw new Error(message)
@@ -355,7 +469,7 @@ export const useProjectsStore = defineStore('projects', {
 				// request (ProjectController::create, boards-configurable-columns).
 				return project
 			} catch (err) {
-				this.error = err.message || 'create-error'
+				this.error = errorText(err, 'create-error')
 				throw err
 			} finally {
 				this.loading = false
@@ -385,20 +499,14 @@ export const useProjectsStore = defineStore('projects', {
 				const objectStore = this._objectStore()
 				const updated = await objectStore.saveObject(PROJECT_SCHEMA, { id, ...data })
 				if (!updated) {
-					const err = objectStore.getError(PROJECT_SCHEMA)
-					this.error = err?.message || 'update-error'
+					this.error = errorText(objectStore.getError(PROJECT_SCHEMA), 'update-error')
 					return null
 				}
 
-				// Update in local arrays.
-				this.projects = this.projects.map((p) => (p.id === id ? { ...p, ...updated } : p))
-				if (this.activeProject?.id === id) {
-					this.activeProject = { ...this.activeProject, ...updated }
-				}
-
+				this._mergeProject(id, updated)
 				return updated
 			} catch (err) {
-				this.error = err.message || 'update-error'
+				this.error = errorText(err, 'update-error')
 				return null
 			} finally {
 				this.loading = false
@@ -433,22 +541,15 @@ export const useProjectsStore = defineStore('projects', {
 				})
 
 				if (!response.ok) {
-					const errorData = await response.json().catch(() => ({}))
-					this.error = response.status === 409 ? ACL_CONFLICT : (errorData?.message || 'patch-error')
+					this.error = patchRefusal(response.status, await responseBody(response))
 					return null
 				}
 
 				const updated = await response.json()
-
-				// Update local arrays.
-				this.projects = this.projects.map((p) => (p.id === id ? { ...p, ...updated } : p))
-				if (this.activeProject?.id === id) {
-					this.activeProject = { ...this.activeProject, ...updated }
-				}
-
+				this._mergeProject(id, updated)
 				return updated
 			} catch (err) {
-				this.error = err.message || 'patch-error'
+				this.error = errorText(err, 'patch-error')
 				return null
 			} finally {
 				this.loading = false
@@ -1179,16 +1280,13 @@ export const useProjectsStore = defineStore('projects', {
 		 */
 		async savePhase(phase) {
 			const { id, ...fields } = phase
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/${PHASE_SCHEMA}/${id}`)
-				: generateUrl(`/apps/openregister/api/objects/planninq/${PHASE_SCHEMA}`)
 			try {
-				const response = await fetch(url, {
+				const response = await fetch(objectUrl(PHASE_SCHEMA, id), {
 					method: id ? 'PATCH' : 'POST',
 					headers: buildHeaders(),
 					body: JSON.stringify(fields),
 				})
-				const body = await response.json().catch(() => ({}))
+				const body = await responseBody(response)
 				if (!response.ok) {
 					return { ok: false, reason: refusalMessage(response.status, body) }
 				}
@@ -1248,21 +1346,18 @@ export const useProjectsStore = defineStore('projects', {
 				const response = await fetch(generateUrl(path), {
 					method: 'POST',
 					headers: buildHeaders(),
-					body: JSON.stringify(data ? { ...body, data } : body),
+					body: JSON.stringify(transitionBody(body, data)),
 				})
-				const answer = await response.json().catch(() => ({}))
+				const answer = await responseBody(response)
 				if (!response.ok) {
 					this.error = answer?.error || 'transition-error'
 					return null
 				}
-				const updated = { ...answer, id: answer.id || answer['@self']?.id || id }
-				this.projects = this.projects.map((p) => (p.id === id ? { ...p, ...updated } : p))
-				if (this.activeProject?.id === id) {
-					this.activeProject = { ...this.activeProject, ...updated }
-				}
+				const updated = withProjectId(answer, id)
+				this._mergeProject(id, updated)
 				return updated
 			} catch (err) {
-				this.error = err.message || 'transition-error'
+				this.error = errorText(err, 'transition-error')
 				return null
 			}
 		},
@@ -1336,7 +1431,7 @@ export const useProjectsStore = defineStore('projects', {
 			try {
 				const response = await fetch(generateUrl(`/apps/planninq/api/projects/${id}`), { method: 'DELETE', headers: buildHeaders() })
 				if (!response.ok) {
-					const body = await response.json().catch(() => ({}))
+					const body = await responseBody(response)
 					this.error = body?.code || 'delete-error'
 					showError(t('planninq', 'Could not delete the project. Please try again.'))
 					return false
@@ -1349,7 +1444,7 @@ export const useProjectsStore = defineStore('projects', {
 
 				return true
 			} catch (err) {
-				this.error = err.message || 'delete-error'
+				this.error = errorText(err, 'delete-error')
 				showError(t('planninq', 'An error occurred during project deletion'))
 				return false
 			} finally {
@@ -1725,24 +1820,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/specs/kanban-board/spec.md
 		 */
 		async updateTaskStatus(taskId, status) {
-			try {
-				const url = generateUrl(`/apps/openregister/api/objects/planninq/task/${taskId}`)
-				const response = await fetch(url, {
-					method: 'PATCH',
-					headers: buildHeaders(),
-					body: JSON.stringify({ status }),
-				})
-				if (!response.ok) {
-					const errorData = await response.json().catch(() => ({}))
-					this.error = errorData?.message || 'task-status-error'
-					return null
-				}
-				return await response.json()
-			} catch (err) {
-				this.error = err.message || 'task-status-error'
-				console.error('updateTaskStatus error:', err)
-				return null
-			}
+			return this._patchTask(taskId, { fields: { status }, failure: 'task-status-error', label: 'updateTaskStatus' })
 		},
 
 		// ── 2.14b createTask ──────────────────────────────────────────────
@@ -1875,24 +1953,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async updateTask(taskId, patch) {
-			try {
-				const url = generateUrl(`/apps/openregister/api/objects/planninq/task/${taskId}`)
-				const response = await fetch(url, {
-					method: 'PATCH',
-					headers: buildHeaders(),
-					body: JSON.stringify(patch),
-				})
-				if (!response.ok) {
-					const errorData = await response.json().catch(() => ({}))
-					this.error = errorData?.message || 'task-update-error'
-					return null
-				}
-				return await response.json()
-			} catch (err) {
-				this.error = err.message || 'task-update-error'
-				console.error('updateTask error:', err)
-				return null
-			}
+			return this._patchTask(taskId, { fields: patch, failure: 'task-update-error', label: 'updateTask' })
 		},
 	},
 })
