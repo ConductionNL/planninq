@@ -205,35 +205,94 @@ class LabelService {
 		}
 
 		// 1. Sweep first: remove the UUID from every referencing task.
-		$tasksUpdated = 0;
-		foreach ($this->fetchAll(objectService: $objectService, schema: self::TASK_SCHEMA) as $task) {
-			$taskId = (string)($task['id'] ?? '');
-			$labels = ($task['labels'] ?? []);
-			if ($taskId === '' || is_array($labels) === false) {
-				continue;
-			}
-
-			if (in_array($labelId, array_map('strval', $labels), true) === false) {
-				// Idempotent: tasks already swept (or never referencing) are skipped.
-				continue;
-			}
-
-			$task['labels'] = array_values(
-				array_filter($labels, static fn ($l): bool => (string)$l !== $labelId)
-			);
-			unset($task['id']);
-
-			$objectService->saveObject(
-				object: $task,
-				register: self::REGISTER,
-				schema: self::TASK_SCHEMA,
-				uuid: $taskId,
-				_rbac: false
-			);
-			$tasksUpdated++;
-		}//end foreach
+		$tasksUpdated = $this->sweepTasks(objectService: $objectService, labelId: $labelId);
 
 		// 2. Delete the label object last (no dangling-reference window).
+		$this->deleteLabelObject(objectService: $objectService, labelId: $labelId);
+
+		$this->logger->info('Planninq: label deleted with cascade', ['label' => $labelId, 'tasksUpdated' => $tasksUpdated]);
+
+		return ['tasksUpdated' => $tasksUpdated];
+	}//end deleteWithCascade()
+
+	/**
+	 * Remove a label from every task that references it, as the system.
+	 *
+	 * Idempotent: tasks already swept (or never referencing it) are skipped.
+	 *
+	 * @param object $objectService The OR ObjectService.
+	 * @param string $labelId       The label UUID.
+	 *
+	 * @return integer The number of tasks saved.
+	 */
+	private function sweepTasks(object $objectService, string $labelId): int {
+		$tasksUpdated = 0;
+		foreach ($this->fetchAll(objectService: $objectService, schema: self::TASK_SCHEMA) as $task) {
+			$labels = self::remainingLabels(task: $task, labelId: $labelId);
+			if ($labels === null) {
+				continue;
+			}
+
+			$task['labels'] = $labels;
+			$this->saveTask(objectService: $objectService, task: $task);
+			$tasksUpdated++;
+		}
+
+		return $tasksUpdated;
+	}//end sweepTasks()
+
+	/**
+	 * A task's labels without the given one, or null when the task has no id,
+	 * no label list, or does not reference the label.
+	 *
+	 * @param array<string,mixed> $task    The task row, with its `id`.
+	 * @param string              $labelId The label UUID.
+	 *
+	 * @return array<int,mixed>|null The remaining labels, or null to skip the task.
+	 */
+	private static function remainingLabels(array $task, string $labelId): ?array {
+		$labels = ($task['labels'] ?? []);
+		if ((string)($task['id'] ?? '') === '' || is_array($labels) === false) {
+			return null;
+		}
+
+		if (in_array($labelId, array_map('strval', $labels), true) === false) {
+			return null;
+		}
+
+		return array_values(array_filter($labels, static fn ($l): bool => (string)$l !== $labelId));
+	}//end remainingLabels()
+
+	/**
+	 * Save a task row under its own id, as the system.
+	 *
+	 * @param object              $objectService The OR ObjectService.
+	 * @param array<string,mixed> $task          The task row, with its `id`.
+	 *
+	 * @return void
+	 */
+	private function saveTask(object $objectService, array $task): void {
+		$taskId = (string)$task['id'];
+		unset($task['id']);
+
+		$objectService->saveObject(
+			object: $task,
+			register: self::REGISTER,
+			schema: self::TASK_SCHEMA,
+			uuid: $taskId,
+			_rbac: false
+		);
+	}//end saveTask()
+
+	/**
+	 * Delete the label object; a label that is already gone is logged, not an error.
+	 *
+	 * @param object $objectService The OR ObjectService.
+	 * @param string $labelId       The label UUID.
+	 *
+	 * @return void
+	 */
+	private function deleteLabelObject(object $objectService, string $labelId): void {
 		try {
 			$objectService->deleteObject(register: self::REGISTER, schema: self::LABEL_SCHEMA, uuid: $labelId);
 		} catch (\Throwable $e) {
@@ -244,14 +303,7 @@ class LabelService {
 				['label' => $labelId, 'exception' => $e->getMessage()]
 			);
 		}
-
-		$this->logger->info(
-			'Planninq: label deleted with cascade',
-			['label' => $labelId, 'tasksUpdated' => $tasksUpdated]
-		);
-
-		return ['tasksUpdated' => $tasksUpdated];
-	}//end deleteWithCascade()
+	}//end deleteLabelObject()
 
 	/**
 	 * Fetch every object of a schema, normalised to plain arrays carrying at
