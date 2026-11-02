@@ -59,27 +59,28 @@ class TaskVtodoBuilder {
 	/**
 	 * The VCALENDAR text holding the task's VTODO.
 	 *
-	 * @param array<string,mixed> $task         The task data.
-	 * @param string              $uid          The VTODO UID.
-	 * @param string              $projectTitle The project's title, or ''.
-	 * @param string              $url          The task's address, or ''.
-	 * @param string              $managedNote  The line that says planninq overwrites edits.
-	 * @param string              $stamp        DTSTAMP as a UTC date-time (Ymd\THis\Z).
+	 * The metadata holds the VTODO `uid`, the project's title (`projectTitle`,
+	 * or ''), the task's address (`url`, or ''), the line that says planninq
+	 * overwrites edits (`managedNote`) and DTSTAMP as a UTC date-time
+	 * (`stamp`, Ymd\THis\Z).
+	 *
+	 * @param array<string,mixed> $task The task data.
+	 * @param array{uid: string, projectTitle: string, url: string, managedNote: string, stamp: string} $meta The VTODO metadata.
 	 *
 	 * @return string The iCalendar text, CRLF line ends, folded at 75 octets.
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.2
 	 */
-	public function build(array $task, string $uid, string $projectTitle, string $url, string $managedNote, string $stamp): string {
+	public function build(array $task, array $meta): string {
 		$lines = [
 			'BEGIN:VCALENDAR',
 			'VERSION:2.0',
 			'PRODID:-//Conduction//Planninq//EN',
 			'BEGIN:VTODO',
-			'UID:' . $this->escape(value: $uid),
-			'DTSTAMP:' . $stamp,
+			'UID:' . $this->escape(value: $meta['uid']),
+			'DTSTAMP:' . $meta['stamp'],
 			'SUMMARY:' . $this->escape(value: $this->text(value: ($task['title'] ?? ''))),
-			'DESCRIPTION:' . $this->escape(value: $this->description(task: $task, managedNote: $managedNote)),
+			'DESCRIPTION:' . $this->escape(value: $this->description(task: $task, managedNote: $meta['managedNote'])),
 			'STATUS:' . (self::STATUS[$this->text(value: ($task['status'] ?? ''))] ?? 'NEEDS-ACTION'),
 		];
 
@@ -90,12 +91,12 @@ class TaskVtodoBuilder {
 
 		$lines = array_merge($lines, $this->dates(task: $task));
 
-		if ($projectTitle !== '') {
-			$lines[] = 'CATEGORIES:' . $this->escape(value: $projectTitle);
+		if ($meta['projectTitle'] !== '') {
+			$lines[] = 'CATEGORIES:' . $this->escape(value: $meta['projectTitle']);
 		}
 
-		if ($url !== '') {
-			$lines[] = 'URL:' . $url;
+		if ($meta['url'] !== '') {
+			$lines[] = 'URL:' . $meta['url'];
 		}
 
 		$lines[] = 'END:VTODO';
