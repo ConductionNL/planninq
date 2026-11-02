@@ -35,7 +35,7 @@ final class SolveRun {
 	 * Constructor.
 	 *
 	 * @param SolverInput                                                                                   $input    What to place.
-	 * @param array{options:array<string,array<int,array<string,mixed>>>,blockers:array<string,array<int,string>>} $built    The options per lesson and the hard wishes that narrowed them.
+	 * @param array{options:array<string,array<int,array<string,mixed>>>,blockers:array<string,array<int,string>>} $built    Options and blockers.
 	 * @param SeededRandom                                                                                  $random   The random numbers.
 	 * @param float                                                                                         $deadline When to stop, as microtime.
 	 *
