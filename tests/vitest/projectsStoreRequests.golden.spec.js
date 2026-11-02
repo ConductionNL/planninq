@@ -216,7 +216,7 @@ async function run(c) {
 	store.activeProject = c.active ? { ...c.active } : null
 	store.activeTask = c.active ? { id: 't0' } : null
 	store.error = 'stale'
-	const errors = vi.spyOn(console, 'error').mockImplementation((...args) => world.log.push(['console.error', args[0]]))
+	const errors = vi.spyOn(console, 'error').mockImplementation((...args) => world.log.push(['console.error', ...args]))
 	let result
 	try {
 		result = { returned: await store[c.action](...c.args) }
