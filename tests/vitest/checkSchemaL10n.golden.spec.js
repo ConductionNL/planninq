@@ -126,6 +126,8 @@ function recordAll() {
 	cases.noCatalogue = run(makeRepo({ ...settings, 'l10n/.schema-l10n-baseline.json': { uncovered: 1 } }), [])
 	cases.update = run(makeRepo({ ...settings, ...CATALOGUE }), ['--update'])
 	cases.noSettingsDir = run(makeRepo({ 'l10n/.schema-l10n-baseline.json': { uncovered: 0 } }), [])
+	cases.noTranslationsKey = run(makeRepo({ ...settings, 'l10n/en.json': { other: {} }, 'l10n/.schema-l10n-baseline.json': { uncovered: 18 } }), [])
+	cases.listAndUpdate = run(makeRepo({ ...settings, ...CATALOGUE }), ['--list', '--update'])
 	return cases
 }
 

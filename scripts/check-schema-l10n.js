@@ -162,10 +162,12 @@ function collect(node, remember) {
 	}
 }
 
-function main() {
-	const update = process.argv.includes('--update')
-	const list = process.argv.includes('--list')
-
+/**
+ * Every display string under lib/Settings, with the first place it was seen.
+ *
+ * @return {Map<string, string>} string -> first place it was seen
+ */
+function schemaStrings() {
 	const strings = new Map()
 	for (const file of schemaFiles(SCHEMA_DIR)) {
 		let doc
@@ -176,15 +178,97 @@ function main() {
 		}
 		collect(doc, recorder(path.relative(REPO_ROOT, file), strings))
 	}
+	return strings
+}
 
-	let covered = new Set()
+/**
+ * The keys of l10n/en.json.
+ *
+ * @return {Set<string>} the catalogue keys
+ */
+function catalogueKeys() {
 	try {
-		covered = new Set(Object.keys(JSON.parse(fs.readFileSync(CATALOGUE, 'utf8')).translations
+		return new Set(Object.keys(JSON.parse(fs.readFileSync(CATALOGUE, 'utf8')).translations
 			|| {}))
 	} catch {
 		// no catalogue yet — then everything is uncovered, which the baseline records
+		return new Set()
+	}
+}
+
+/**
+ * Write the uncovered count as the new baseline.
+ *
+ * @param {number} count - uncovered schema strings
+ */
+function writeBaseline(count) {
+	fs.writeFileSync(
+		BASELINE,
+		JSON.stringify({ uncovered: count }, null, 2) + '\n',
+	)
+	console.log(`baseline written: ${count} uncovered schema string(s)`)
+}
+
+/**
+ * The recorded baseline; exits 1 when there is none.
+ *
+ * @return {number} the uncovered count it allows
+ */
+function readBaseline() {
+	if (!fs.existsSync(BASELINE)) {
+		console.error('No baseline. Run `npm run check:schema-l10n -- --update` and commit it.')
+		process.exit(1)
+	}
+	return JSON.parse(fs.readFileSync(BASELINE, 'utf8')).uncovered
+}
+
+/**
+ * Explain the strings added since the baseline, and exit 1.
+ *
+ * @param {number} added - how many more are uncovered than the baseline allows
+ */
+function failOnGrowth(added) {
+	console.error('')
+	console.error(`${added} schema string(s) added with no catalogue key — they will render`)
+	console.error('in English inside an otherwise translated form.')
+	console.error('')
+	console.error('Add them to l10n/en.json (identity) and l10n/nl.json (translated), then')
+	console.error('run `npm run l10n:build`. See what is uncovered with:')
+	console.error('  node scripts/check-schema-l10n.js --list')
+	process.exit(1)
+}
+
+/**
+ * Compare the counts with the baseline: exit 1 when the uncovered count grew,
+ * suggest lowering the baseline when it fell.
+ *
+ * @param {{total: number, uncovered: number}} counts - schema strings found and uncovered
+ */
+function compareWithBaseline(counts) {
+	const baseline = readBaseline()
+
+	console.log(`${counts.total} schema string(s); ${counts.uncovered} uncovered, baseline ${baseline}`)
+
+	if (counts.uncovered > baseline) {
+		failOnGrowth(counts.uncovered - baseline)
 	}
 
+	if (counts.uncovered < baseline) {
+		console.log(`${baseline - counts.uncovered} fewer than the baseline — lower it with:`)
+		console.log('  npm run check:schema-l10n -- --update')
+	}
+}
+
+/**
+ * Count the uncovered schema strings and compare them with the baseline,
+ * or rewrite the baseline with --update.
+ */
+function main() {
+	const update = process.argv.includes('--update')
+	const list = process.argv.includes('--list')
+
+	const strings = schemaStrings()
+	const covered = catalogueKeys()
 	const uncovered = [...strings.keys()].filter((s) => !covered.has(s)).sort()
 
 	if (list) {
@@ -194,38 +278,11 @@ function main() {
 	}
 
 	if (update) {
-		fs.writeFileSync(
-			BASELINE,
-			JSON.stringify({ uncovered: uncovered.length }, null, 2) + '\n',
-		)
-		console.log(`baseline written: ${uncovered.length} uncovered schema string(s)`)
+		writeBaseline(uncovered.length)
 		return
 	}
 
-	if (!fs.existsSync(BASELINE)) {
-		console.error('No baseline. Run `npm run check:schema-l10n -- --update` and commit it.')
-		process.exit(1)
-	}
-	const baseline = JSON.parse(fs.readFileSync(BASELINE, 'utf8')).uncovered
-
-	console.log(`${strings.size} schema string(s); ${uncovered.length} uncovered, baseline ${baseline}`)
-
-	if (uncovered.length > baseline) {
-		const added = uncovered.length - baseline
-		console.error('')
-		console.error(`${added} schema string(s) added with no catalogue key — they will render`)
-		console.error('in English inside an otherwise translated form.')
-		console.error('')
-		console.error('Add them to l10n/en.json (identity) and l10n/nl.json (translated), then')
-		console.error('run `npm run l10n:build`. See what is uncovered with:')
-		console.error('  node scripts/check-schema-l10n.js --list')
-		process.exit(1)
-	}
-
-	if (uncovered.length < baseline) {
-		console.log(`${baseline - uncovered.length} fewer than the baseline — lower it with:`)
-		console.log('  npm run check:schema-l10n -- --update')
-	}
+	compareWithBaseline({ total: strings.size, uncovered: uncovered.length })
 }
 
 main()
