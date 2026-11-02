@@ -44,6 +44,7 @@ use PHPUnit\Framework\TestCase;
  * @uses   \OCA\Planninq\Timetabling\SolverResult
  * @uses   \OCA\Planninq\Timetabling\TimetableScorer
  * @uses   \OCA\Planninq\Timetabling\WeekGrid
+ * @uses   \OCA\Planninq\Timetabling\ScoringRun
  * @uses   \OCA\Planninq\Timetabling\WishChecker
  */
 class LocalSearchSolverGoldenTest extends TestCase {

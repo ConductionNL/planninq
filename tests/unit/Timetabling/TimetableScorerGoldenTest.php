@@ -37,6 +37,7 @@ use Random\Randomizer;
  * @covers \OCA\Planninq\Timetabling\TimetableScorer
  * @uses   \OCA\Planninq\Timetabling\SolverInput
  * @uses   \OCA\Planninq\Timetabling\WeekGrid
+ * @uses   \OCA\Planninq\Timetabling\ScoringRun
  * @uses   \OCA\Planninq\Timetabling\WishChecker
  */
 class TimetableScorerGoldenTest extends TestCase {
