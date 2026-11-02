@@ -122,7 +122,8 @@ function sceneOptions(options, run) {
 
 /**
  * The root props for one scene: the scene's props, with each '<function>'
- * value and each declared emit turned into a recorder.
+ * value and each emit declared by the component or its mixins turned into a
+ * recorder.
  *
  * @param {object} options - the loaded component
  * @param {{scene: object, log: Array}} run - the scene and the log its recorders write to
@@ -134,7 +135,8 @@ function sceneProps(options, run) {
 	for (const [name, value] of Object.entries(scene.props || {})) {
 		props[name] = value === FUNCTION ? (...args) => log.push(`prop ${name}(${args.length})`) : value
 	}
-	for (const event of options.emits || []) {
+	const emits = [...(options.mixins || []).flatMap((mixin) => mixin.emits || []), ...(options.emits || [])]
+	for (const event of new Set(emits)) {
 		props[`on${event[0].toUpperCase()}${event.slice(1)}`] = (...args) => log.push(`emit ${event}(${JSON.stringify(args)})`)
 	}
 	return props
@@ -163,14 +165,33 @@ function clickButtons(registry, log) {
 }
 
 /**
- * Render a component file in one scene, and click each of its buttons.
+ * Close every rendered dialog stub the way NcDialog does, and note what each
+ * close did.
+ *
+ * @param {Array} registry - the rendered stubs
+ * @param {Array} log - the recorders' log
+ * @return {Array<string>} one line per dialog: the effects of its closing event
+ */
+function closeDialogs(registry, log) {
+	return registry.filter((entry) => entry.name === 'NcDialog').map((entry, index) => {
+		const start = log.length
+		const onClosing = entry.attrs.onClosing
+		for (const handler of Array.isArray(onClosing) ? onClosing : [onClosing].filter(Boolean)) {
+			handler()
+		}
+		return `dialog ${index}: ${log.slice(start).join('; ') || 'nothing'}`
+	})
+}
+
+/**
+ * Render a component file in one scene, click each of its buttons, then close each of its dialogs.
  *
  * A scene has props (a '<function>' value becomes a recorder), data and
  * computed overrides, and spy: method names replaced by recorders.
  *
  * @param {URL} url - the .vue file
  * @param {object} scene - props, data, computed and spy
- * @return {Promise<{html: string, clicks: Array<string>}>} the rendered HTML and the click effects
+ * @return {Promise<{html: string, clicks: Array<string>, closing?: Array<string>}>} the rendered HTML, the click effects and the closing effects
  */
 export async function renderScene(url, scene) {
 	const options = await loadComponent(url)
@@ -181,5 +202,7 @@ export async function renderScene(url, scene) {
 	app.use(createPinia())
 	app.provide(REGISTRY, registry)
 	const html = (await renderToString(app)).replace(/<!--[\s\S]*?-->/g, '')
-	return { html, clicks: clickButtons(registry, log) }
+	const clicks = clickButtons(registry, log)
+	const closing = closeDialogs(registry, log)
+	return closing.length > 0 ? { html, clicks, closing } : { html, clicks }
 }

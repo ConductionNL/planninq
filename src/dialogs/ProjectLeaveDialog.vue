@@ -40,6 +40,7 @@ import { showError } from '@nextcloud/dialogs'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  */
 import { NcButton, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
+import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 
 export default {
@@ -47,12 +48,7 @@ export default {
 
 	components: { NcButton, NcDialog, NcLoadingIcon },
 
-	props: {
-		projectId: {
-			type: String,
-			required: true,
-		},
-	},
+	mixins: [projectDialog],
 
 	emits: ['close', 'left'],
 

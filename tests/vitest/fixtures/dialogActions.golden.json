@@ -6,6 +6,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -13,6 +16,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -20,6 +26,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -27,6 +36,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -37,6 +49,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -44,6 +59,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -51,6 +69,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -58,6 +79,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -69,6 +93,9 @@
         "button 0: emit close([])",
         "button 1: save(\"click-event\")",
         "button 2: nothing"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -77,6 +104,9 @@
         "button 0: emit close([])",
         "button 1: save(\"click-event\")",
         "button 2: nothing"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -85,6 +115,9 @@
         "button 0: emit close([])",
         "button 1: save(\"click-event\")",
         "button 2: nothing"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -93,6 +126,9 @@
         "button 0: emit close([])",
         "button 1: save(\"click-event\")",
         "button 2: nothing"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -104,6 +140,9 @@
         "button 0: remove(\"click-event\")",
         "button 1: emit close([])",
         "button 2: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -112,6 +151,9 @@
         "button 0: remove(\"click-event\")",
         "button 1: emit close([])",
         "button 2: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -120,6 +162,9 @@
         "button 0: remove(\"click-event\")",
         "button 1: emit close([])",
         "button 2: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -128,6 +173,9 @@
         "button 0: remove(\"click-event\")",
         "button 1: emit close([])",
         "button 2: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -138,6 +186,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -145,6 +196,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -152,6 +206,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -159,6 +216,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -169,6 +229,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -176,6 +239,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -183,6 +249,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -190,6 +259,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -200,6 +272,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -207,6 +282,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -214,6 +292,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -221,6 +302,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -231,6 +315,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: close(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -238,6 +325,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: close(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -245,6 +335,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: close(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -252,6 +345,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: close(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -262,6 +358,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -269,6 +368,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -276,6 +378,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -283,6 +388,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -293,6 +401,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -300,6 +411,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -307,6 +421,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -314,6 +431,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -324,6 +444,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: ship(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -331,6 +454,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: ship(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -338,6 +464,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: ship(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -345,6 +474,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: ship(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -355,6 +487,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -362,6 +497,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -369,6 +507,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -376,6 +517,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -386,6 +530,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: nothing"
       ]
     },
     "saving": {
@@ -393,6 +540,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: nothing"
       ]
     },
     "ready": {
@@ -400,6 +550,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: nothing"
       ]
     },
     "savingReady": {
@@ -407,6 +560,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: nothing"
       ]
     }
   },
@@ -417,6 +573,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -424,6 +583,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -431,6 +593,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -438,6 +603,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -448,6 +616,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -455,6 +626,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -462,6 +636,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -469,6 +646,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -481,6 +661,9 @@
         "button 1: save(\"click-event\")",
         "button 2: nothing",
         "button 3: nothing"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "saving": {
@@ -490,6 +673,9 @@
         "button 1: save(\"click-event\")",
         "button 2: nothing",
         "button 3: nothing"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "ready": {
@@ -497,6 +683,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     },
     "savingReady": {
@@ -504,6 +693,9 @@
       "clicks": [
         "button 0: emit close([])",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: emit close([])"
       ]
     }
   },
@@ -514,6 +706,9 @@
       "clicks": [
         "button 0: prop close(0)",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: prop close(0)"
       ]
     },
     "saving": {
@@ -521,6 +716,9 @@
       "clicks": [
         "button 0: prop close(0)",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: prop close(0)"
       ]
     },
     "ready": {
@@ -528,6 +726,9 @@
       "clicks": [
         "button 0: prop close(0)",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: prop close(0)"
       ]
     },
     "savingReady": {
@@ -535,6 +736,9 @@
       "clicks": [
         "button 0: prop close(0)",
         "button 1: save(\"click-event\")"
+      ],
+      "closing": [
+        "dialog 0: prop close(0)"
       ]
     }
   }

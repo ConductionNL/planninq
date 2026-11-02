@@ -81,7 +81,7 @@ const DIALOGS = {
 function instance(options, props) {
 	const parts = [...(options.mixins || []), options]
 	const vm = { t: (app, text) => text, $emit: (name, ...payload) => events.push({ emit: name, payload }) }
-	for (const [name, prop] of Object.entries(options.props || {})) {
+	for (const [name, prop] of Object.entries(Object.assign({}, ...parts.map((part) => part.props || {})))) {
 		if (name in props) {
 			vm[name] = props[name]
 		} else if ('default' in prop) {

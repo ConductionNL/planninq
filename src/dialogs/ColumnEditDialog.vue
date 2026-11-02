@@ -1,69 +1,62 @@
 <template>
-	<NcDialog
+	<EditDialog
 		:name="isEdit ? t('planninq', 'Edit column') : t('planninq', 'Add column')"
-		@closing="$emit('close')">
-		<template #default>
-			<div class="column-edit-dialog__body">
+		:saving="saving"
+		:disabled="!isValid"
+		:label="isEdit ? t('planninq', 'Save') : t('planninq', 'Create')"
+		saveTestid="column-save"
+		@close="$emit('close')"
+		@save="save">
+		<div class="column-edit-dialog__body">
+			<NcTextField
+				v-model="title"
+				:label="t('planninq', 'Column name')"
+				:error="!!titleError"
+				:helperText="titleError"
+				data-testid="column-name"
+				required />
+
+			<NcTextField
+				v-model="wipLimit"
+				type="number"
+				min="0"
+				:label="t('planninq', 'WIP limit')"
+				data-testid="column-wip-limit" />
+
+			<div class="column-edit-dialog__color-row">
+				<input
+					type="color"
+					class="column-edit-dialog__swatch"
+					:aria-label="t('planninq', 'Pick a color')"
+					:value="swatchColor"
+					@input="color = ($event.target.value || '').toUpperCase()">
 				<NcTextField
-					v-model="title"
-					:label="t('planninq', 'Column name')"
-					:error="!!titleError"
-					:helperText="titleError"
-					data-testid="column-name"
-					required />
-
-				<NcTextField
-					v-model="wipLimit"
-					type="number"
-					min="0"
-					:label="t('planninq', 'WIP limit')"
-					data-testid="column-wip-limit" />
-
-				<div class="column-edit-dialog__color-row">
-					<input
-						type="color"
-						class="column-edit-dialog__swatch"
-						:aria-label="t('planninq', 'Pick a color')"
-						:value="swatchColor"
-						@input="color = ($event.target.value || '').toUpperCase()">
-					<NcTextField
-						v-model="color"
-						:label="t('planninq', 'Hex color')"
-						:error="!!colorError"
-						:helperText="colorError || t('planninq', 'Six-digit hex code, e.g. #4376FC')" />
-				</div>
-
-				<NcCheckboxRadioSwitch
-					:modelValue="done"
-					data-testid="column-done"
-					@update:modelValue="done = $event">
-					{{ t('planninq', 'Done column') }}
-				</NcCheckboxRadioSwitch>
-
-				<NcSelect
-					v-if="!done"
-					v-model="statusOption"
-					:options="statusOptions"
-					:clearable="false"
-					:inputLabel="t('planninq', 'Status of cards moved here')"
-					label="label" />
-
-				<div v-if="submitError" class="column-edit-dialog__error" role="alert">
-					{{ submitError }}
-				</div>
+					v-model="color"
+					:label="t('planninq', 'Hex color')"
+					:error="!!colorError"
+					:helperText="colorError || t('planninq', 'Six-digit hex code, e.g. #4376FC')" />
 			</div>
-		</template>
 
-		<template #actions>
-			<DialogSaveActions
-				:saving="saving"
-				:disabled="!isValid"
-				:label="isEdit ? t('planninq', 'Save') : t('planninq', 'Create')"
-				data-testid="column-save"
-				@cancel="$emit('close')"
-				@save="save" />
-		</template>
-	</NcDialog>
+			<NcCheckboxRadioSwitch
+				:modelValue="done"
+				data-testid="column-done"
+				@update:modelValue="done = $event">
+				{{ t('planninq', 'Done column') }}
+			</NcCheckboxRadioSwitch>
+
+			<NcSelect
+				v-if="!done"
+				v-model="statusOption"
+				:options="statusOptions"
+				:clearable="false"
+				:inputLabel="t('planninq', 'Status of cards moved here')"
+				label="label" />
+
+			<div v-if="submitError" class="column-edit-dialog__error" role="alert">
+				{{ submitError }}
+			</div>
+		</div>
+	</EditDialog>
 </template>
 
 <script>
@@ -77,14 +70,10 @@
  *
  * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
  */
-import {
-	NcCheckboxRadioSwitch,
-	NcDialog,
-	NcSelect,
-	NcTextField,
-} from '@nextcloud/vue'
-import DialogSaveActions from '../components/DialogSaveActions.vue'
+import { NcCheckboxRadioSwitch, NcSelect, NcTextField } from '@nextcloud/vue'
+import EditDialog from '../components/EditDialog.vue'
 import dialogSave from '../mixins/dialogSave.js'
+import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 import { columnPayload } from '../utils/columnHelpers.js'
 import { DEFAULT_LABEL_COLOR, isValidHexColor } from '../utils/labelHelpers.js'
@@ -93,26 +82,19 @@ export default {
 	name: 'ColumnEditDialog',
 
 	components: {
-		DialogSaveActions,
+		EditDialog,
 		NcCheckboxRadioSwitch,
-		NcDialog,
 		NcSelect,
 		NcTextField,
 	},
 
-	mixins: [dialogSave],
+	mixins: [dialogSave, projectDialog],
 
 	props: {
 		/** The column to edit; null to add one. */
 		column: {
 			type: Object,
 			default: null,
-		},
-
-		/** The project the column belongs to. */
-		projectId: {
-			type: String,
-			required: true,
 		},
 
 		/** The `order` a new column gets: the end of the board. */

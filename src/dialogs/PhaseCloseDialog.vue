@@ -1,56 +1,51 @@
 <template>
-	<NcDialog :name="t('planninq', 'Close phase {title}', { title: phase.title })" @closing="$emit('close')">
-		<template #default>
-			<div class="phase-close-dialog__body">
-				<p>{{ t('planninq', 'A phase closes with its concluding document: upload it here or pick one of the phase\'s files.') }}</p>
+	<EditDialog
+		:name="t('planninq', 'Close phase {title}', { title: phase.title })"
+		:saving="saving"
+		:disabled="uploading"
+		:label="t('planninq', 'Close phase')"
+		saveTestid="phase-close-confirm"
+		@close="$emit('close')"
+		@save="close">
+		<div class="phase-close-dialog__body">
+			<p>{{ t('planninq', 'A phase closes with its concluding document: upload it here or pick one of the phase\'s files.') }}</p>
 
-				<div v-if="loading" class="phase-close-dialog__loading">
-					<NcLoadingIcon :size="24" />
-				</div>
-				<fieldset v-else-if="files.length" class="phase-close-dialog__files">
-					<legend>{{ t('planninq', 'Concluding document') }}</legend>
-					<NcCheckboxRadioSwitch
-						v-for="file in files"
-						:key="file.id"
-						v-model="picked"
-						type="radio"
-						:value="String(file.id)"
-						name="phase-concluding-document"
-						data-testid="phase-close-file">
-						{{ file.title }}
-					</NcCheckboxRadioSwitch>
-				</fieldset>
-				<p v-else class="phase-close-dialog__muted" data-testid="phase-close-no-files">
-					{{ t('planninq', 'This phase has no files yet.') }}
-				</p>
-
-				<label class="phase-close-dialog__upload">
-					<span>{{ t('planninq', 'Upload a document') }}</span>
-					<input type="file"
-						data-testid="phase-close-upload"
-						:disabled="uploading"
-						@change="upload">
-				</label>
-
-				<div v-if="error"
-					class="phase-close-dialog__error"
-					role="alert"
-					data-testid="phase-close-error">
-					{{ error }}
-				</div>
+			<div v-if="loading" class="phase-close-dialog__loading">
+				<NcLoadingIcon :size="24" />
 			</div>
-		</template>
+			<fieldset v-else-if="files.length" class="phase-close-dialog__files">
+				<legend>{{ t('planninq', 'Concluding document') }}</legend>
+				<NcCheckboxRadioSwitch
+					v-for="file in files"
+					:key="file.id"
+					v-model="picked"
+					type="radio"
+					:value="String(file.id)"
+					name="phase-concluding-document"
+					data-testid="phase-close-file">
+					{{ file.title }}
+				</NcCheckboxRadioSwitch>
+			</fieldset>
+			<p v-else class="phase-close-dialog__muted" data-testid="phase-close-no-files">
+				{{ t('planninq', 'This phase has no files yet.') }}
+			</p>
 
-		<template #actions>
-			<DialogSaveActions
-				:saving="saving"
-				:disabled="uploading"
-				:label="t('planninq', 'Close phase')"
-				data-testid="phase-close-confirm"
-				@cancel="$emit('close')"
-				@save="close" />
-		</template>
-	</NcDialog>
+			<label class="phase-close-dialog__upload">
+				<span>{{ t('planninq', 'Upload a document') }}</span>
+				<input type="file"
+					data-testid="phase-close-upload"
+					:disabled="uploading"
+					@change="upload">
+			</label>
+
+			<div v-if="error"
+				class="phase-close-dialog__error"
+				role="alert"
+				data-testid="phase-close-error">
+				{{ error }}
+			</div>
+		</div>
+	</EditDialog>
 </template>
 
 <script>
@@ -66,8 +61,8 @@
  *
  * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.4
  */
-import { NcCheckboxRadioSwitch, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
-import DialogSaveActions from '../components/DialogSaveActions.vue'
+import { NcCheckboxRadioSwitch, NcLoadingIcon } from '@nextcloud/vue'
+import EditDialog from '../components/EditDialog.vue'
 import { listPhaseFiles, uploadPhaseFile } from '../api/phaseFiles.js'
 import { useProjectsStore } from '../store/projects.js'
 
@@ -75,9 +70,8 @@ export default {
 	name: 'PhaseCloseDialog',
 
 	components: {
-		DialogSaveActions,
+		EditDialog,
 		NcCheckboxRadioSwitch,
-		NcDialog,
 		NcLoadingIcon,
 	},
 

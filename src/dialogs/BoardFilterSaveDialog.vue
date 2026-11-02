@@ -48,6 +48,7 @@
  */
 import { NcButton, NcCheckboxRadioSwitch, NcDialog, NcTextField } from '@nextcloud/vue'
 import dialogSave from '../mixins/dialogSave.js'
+import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 import { savedFilterPayload } from '../utils/boardFilter.js'
 
@@ -56,7 +57,7 @@ export default {
 
 	components: { NcButton, NcCheckboxRadioSwitch, NcDialog, NcTextField },
 
-	mixins: [dialogSave],
+	mixins: [dialogSave, projectDialog],
 
 	props: {
 		/** The saved filter to rename; null to save the active filter. */
@@ -68,12 +69,6 @@ export default {
 		/** The active filter, saved as the criteria of a new filter. */
 		filter: {
 			type: Object,
-			required: true,
-		},
-
-		/** The project UUID. */
-		projectId: {
-			type: String,
 			required: true,
 		},
 	},

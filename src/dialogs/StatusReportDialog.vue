@@ -1,63 +1,59 @@
 <template>
-	<NcDialog :name="t('planninq', 'New report')" size="large" @closing="$emit('close')">
-		<template #default>
-			<div class="status-report-dialog__body">
-				<NcTextField
-					v-model="reportDate"
-					type="date"
-					:label="t('planninq', 'Report date')"
-					data-testid="status-report-date"
-					required />
+	<EditDialog
+		:name="t('planninq', 'New report')"
+		size="large"
+		:saving="saving"
+		:disabled="missing.length > 0 || !reportDate"
+		saveTestid="status-report-save"
+		@close="$emit('close')"
+		@save="save">
+		<div class="status-report-dialog__body">
+			<NcTextField
+				v-model="reportDate"
+				type="date"
+				:label="t('planninq', 'Report date')"
+				data-testid="status-report-date"
+				required />
 
-				<fieldset
-					v-for="aspect in aspects"
-					:key="aspect.id"
-					class="status-report-dialog__aspect"
-					:data-testid="`status-aspect-${aspect.id}`">
-					<legend>{{ aspect.label }}</legend>
-					<div class="status-report-dialog__choices">
-						<NcCheckboxRadioSwitch
-							v-for="option in statusOptions"
-							:key="option.id"
-							type="radio"
-							:name="`status-${aspect.id}`"
-							:value="option.id"
-							:modelValue="fields[aspect.id].status"
-							:data-testid="`status-${aspect.id}-${option.id}`"
-							@update:modelValue="fields[aspect.id].status = $event">
-							{{ option.label }}
-						</NcCheckboxRadioSwitch>
-					</div>
-					<p
-						v-if="suggestionText(aspect.id)"
-						class="status-report-dialog__suggestion"
-						:data-testid="`status-suggestion-${aspect.id}`">
-						{{ suggestionText(aspect.id) }}
-					</p>
-					<NcTextField
-						v-model="fields[aspect.id].note"
-						:label="t('planninq', 'Note')"
-						:data-testid="`status-note-${aspect.id}`" />
-				</fieldset>
-
-				<p v-if="missing.length" class="status-report-dialog__hint">
-					{{ t('planninq', 'Choose a status for every aspect to save the report.') }}
-				</p>
-				<div v-if="submitError" class="status-report-dialog__error" role="alert">
-					{{ submitError }}
+			<fieldset
+				v-for="aspect in aspects"
+				:key="aspect.id"
+				class="status-report-dialog__aspect"
+				:data-testid="`status-aspect-${aspect.id}`">
+				<legend>{{ aspect.label }}</legend>
+				<div class="status-report-dialog__choices">
+					<NcCheckboxRadioSwitch
+						v-for="option in statusOptions"
+						:key="option.id"
+						type="radio"
+						:name="`status-${aspect.id}`"
+						:value="option.id"
+						:modelValue="fields[aspect.id].status"
+						:data-testid="`status-${aspect.id}-${option.id}`"
+						@update:modelValue="fields[aspect.id].status = $event">
+						{{ option.label }}
+					</NcCheckboxRadioSwitch>
 				</div>
-			</div>
-		</template>
+				<p
+					v-if="suggestionText(aspect.id)"
+					class="status-report-dialog__suggestion"
+					:data-testid="`status-suggestion-${aspect.id}`">
+					{{ suggestionText(aspect.id) }}
+				</p>
+				<NcTextField
+					v-model="fields[aspect.id].note"
+					:label="t('planninq', 'Note')"
+					:data-testid="`status-note-${aspect.id}`" />
+			</fieldset>
 
-		<template #actions>
-			<DialogSaveActions
-				:saving="saving"
-				:disabled="missing.length > 0 || !reportDate"
-				data-testid="status-report-save"
-				@cancel="$emit('close')"
-				@save="save" />
-		</template>
-	</NcDialog>
+			<p v-if="missing.length" class="status-report-dialog__hint">
+				{{ t('planninq', 'Choose a status for every aspect to save the report.') }}
+			</p>
+			<div v-if="submitError" class="status-report-dialog__error" role="alert">
+				{{ submitError }}
+			</div>
+		</div>
+	</EditDialog>
 </template>
 
 <script>
@@ -71,8 +67,9 @@
  *
  * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
  */
-import { NcCheckboxRadioSwitch, NcDialog, NcTextField } from '@nextcloud/vue'
-import DialogSaveActions from '../components/DialogSaveActions.vue'
+import { NcCheckboxRadioSwitch, NcTextField } from '@nextcloud/vue'
+import EditDialog from '../components/EditDialog.vue'
+import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 import { ASPECTS, localToday, reportPayload } from '../utils/statusReports.js'
 
@@ -80,19 +77,14 @@ export default {
 	name: 'StatusReportDialog',
 
 	components: {
-		DialogSaveActions,
+		EditDialog,
 		NcCheckboxRadioSwitch,
-		NcDialog,
 		NcTextField,
 	},
 
-	props: {
-		/** The project the report is about. */
-		projectId: {
-			type: String,
-			required: true,
-		},
+	mixins: [projectDialog],
 
+	props: {
 		/** Suggestions keyed by aspect, from suggestMoney, suggestTime and suggestRisk. */
 		suggestions: {
 			type: Object,

@@ -1,43 +1,36 @@
 <template>
-	<NcDialog
+	<EditDialog
 		:name="release ? t('planninq', 'Edit release') : t('planninq', 'New release')"
-		@closing="$emit('close')">
-		<template #default>
-			<div class="release-edit-dialog__body">
-				<NcTextField
-					v-model="title"
-					:label="t('planninq', 'Name')"
-					data-testid="release-title"
-					required />
-				<div class="release-edit-dialog__row">
-					<NcTextField v-model="startDate"
-						type="date"
-						:label="t('planninq', 'Start date')"
-						data-testid="release-start" />
-					<NcTextField v-model="releaseDate"
-						type="date"
-						:label="t('planninq', 'Target date')"
-						data-testid="release-date" />
-				</div>
-				<NcTextArea
-					v-model="description"
-					:label="t('planninq', 'Description')"
-					resize="vertical" />
-				<div v-if="submitError" class="release-edit-dialog__error" role="alert">
-					{{ submitError }}
-				</div>
+		:saving="saving"
+		:disabled="title.trim() === ''"
+		saveTestid="release-save"
+		@close="$emit('close')"
+		@save="save">
+		<div class="release-edit-dialog__body">
+			<NcTextField
+				v-model="title"
+				:label="t('planninq', 'Name')"
+				data-testid="release-title"
+				required />
+			<div class="release-edit-dialog__row">
+				<NcTextField v-model="startDate"
+					type="date"
+					:label="t('planninq', 'Start date')"
+					data-testid="release-start" />
+				<NcTextField v-model="releaseDate"
+					type="date"
+					:label="t('planninq', 'Target date')"
+					data-testid="release-date" />
 			</div>
-		</template>
-
-		<template #actions>
-			<DialogSaveActions
-				:saving="saving"
-				:disabled="title.trim() === ''"
-				data-testid="release-save"
-				@cancel="$emit('close')"
-				@save="save" />
-		</template>
-	</NcDialog>
+			<NcTextArea
+				v-model="description"
+				:label="t('planninq', 'Description')"
+				resize="vertical" />
+			<div v-if="submitError" class="release-edit-dialog__error" role="alert">
+				{{ submitError }}
+			</div>
+		</div>
+	</EditDialog>
 </template>
 
 <script>
@@ -49,9 +42,10 @@
  *
  * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.3
  */
-import { NcDialog, NcTextArea, NcTextField } from '@nextcloud/vue'
-import DialogSaveActions from '../components/DialogSaveActions.vue'
+import { NcTextArea, NcTextField } from '@nextcloud/vue'
+import EditDialog from '../components/EditDialog.vue'
 import dialogSave from '../mixins/dialogSave.js'
+import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 import { releasePayload } from '../utils/roadmapHelpers.js'
 
@@ -59,21 +53,14 @@ export default {
 	name: 'ReleaseEditDialog',
 
 	components: {
-		DialogSaveActions,
-		NcDialog,
+		EditDialog,
 		NcTextArea,
 		NcTextField,
 	},
 
-	mixins: [dialogSave],
+	mixins: [dialogSave, projectDialog],
 
 	props: {
-		/** The project the release belongs to. */
-		projectId: {
-			type: String,
-			required: true,
-		},
-
 		/** The release to edit, or null for a new one. */
 		release: {
 			type: Object,

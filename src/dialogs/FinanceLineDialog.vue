@@ -1,74 +1,69 @@
 <template>
-	<NcDialog
+	<EditDialog
 		:name="isEdit ? t('planninq', 'Edit cost line') : t('planninq', 'Add cost line')"
-		@closing="$emit('close')">
-		<template #default>
-			<div class="finance-line-dialog__body">
-				<div class="finance-line-dialog__row">
-					<NcSelect
-						v-model="kind"
-						:options="kindOptions"
-						:clearable="false"
-						:inputLabel="t('planninq', 'Kind')"
-						label="label"
-						data-testid="finance-line-kind" />
-					<NcSelect
-						v-model="category"
-						:options="categoryOptions"
-						:clearable="false"
-						:inputLabel="t('planninq', 'Category')"
-						data-testid="finance-line-category" />
-				</div>
-				<div class="finance-line-dialog__row">
-					<NcTextField
-						v-model="amount"
-						type="number"
-						min="0"
-						step="0.01"
-						:label="t('planninq', 'Amount in euro')"
-						data-testid="finance-line-amount"
-						required />
-					<NcTextField
-						v-model="date"
-						type="date"
-						:label="t('planninq', 'Date')"
-						data-testid="finance-line-date" />
-				</div>
+		:saving="saving"
+		:disabled="!validAmount || !category"
+		saveTestid="finance-line-save"
+		@close="$emit('close')"
+		@save="save">
+		<div class="finance-line-dialog__body">
+			<div class="finance-line-dialog__row">
 				<NcSelect
-					v-if="phaseOptions.length"
-					v-model="phase"
-					:options="phaseOptions"
-					:inputLabel="t('planninq', 'Phase')"
+					v-model="kind"
+					:options="kindOptions"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Kind')"
 					label="label"
-					data-testid="finance-line-phase" />
-				<NcTextField
-					v-model="description"
-					:label="t('planninq', 'Description')"
-					data-testid="finance-line-description" />
-				<div v-if="submitError" class="finance-line-dialog__error" role="alert">
-					{{ submitError }}
-				</div>
+					data-testid="finance-line-kind" />
+				<NcSelect
+					v-model="category"
+					:options="categoryOptions"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Category')"
+					data-testid="finance-line-category" />
 			</div>
-		</template>
+			<div class="finance-line-dialog__row">
+				<NcTextField
+					v-model="amount"
+					type="number"
+					min="0"
+					step="0.01"
+					:label="t('planninq', 'Amount in euro')"
+					data-testid="finance-line-amount"
+					required />
+				<NcTextField
+					v-model="date"
+					type="date"
+					:label="t('planninq', 'Date')"
+					data-testid="finance-line-date" />
+			</div>
+			<NcSelect
+				v-if="phaseOptions.length"
+				v-model="phase"
+				:options="phaseOptions"
+				:inputLabel="t('planninq', 'Phase')"
+				label="label"
+				data-testid="finance-line-phase" />
+			<NcTextField
+				v-model="description"
+				:label="t('planninq', 'Description')"
+				data-testid="finance-line-description" />
+			<div v-if="submitError" class="finance-line-dialog__error" role="alert">
+				{{ submitError }}
+			</div>
+		</div>
 
 		<template #actions>
-			<DialogSaveActions
-				:saving="saving"
-				:disabled="!validAmount || !category"
-				data-testid="finance-line-save"
-				@cancel="$emit('close')"
-				@save="save">
-				<NcButton
-					v-if="isEdit"
-					variant="error"
-					:disabled="saving"
-					data-testid="finance-line-remove"
-					@click="remove">
-					{{ t('planninq', 'Remove') }}
-				</NcButton>
-			</DialogSaveActions>
+			<NcButton
+				v-if="isEdit"
+				variant="error"
+				:disabled="saving"
+				data-testid="finance-line-remove"
+				@click="remove">
+				{{ t('planninq', 'Remove') }}
+			</NcButton>
 		</template>
-	</NcDialog>
+	</EditDialog>
 </template>
 
 <script>
@@ -81,9 +76,10 @@
  *
  * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
  */
-import { NcButton, NcDialog, NcSelect, NcTextField } from '@nextcloud/vue'
-import DialogSaveActions from '../components/DialogSaveActions.vue'
+import { NcButton, NcSelect, NcTextField } from '@nextcloud/vue'
+import EditDialog from '../components/EditDialog.vue'
 import dialogSave from '../mixins/dialogSave.js'
+import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 import { financeLinePayload } from '../utils/finance.js'
 
@@ -91,26 +87,19 @@ export default {
 	name: 'FinanceLineDialog',
 
 	components: {
-		DialogSaveActions,
+		EditDialog,
 		NcButton,
-		NcDialog,
 		NcSelect,
 		NcTextField,
 	},
 
-	mixins: [dialogSave],
+	mixins: [dialogSave, projectDialog],
 
 	props: {
 		/** The line to change; null to add one. */
 		line: {
 			type: Object,
 			default: null,
-		},
-
-		/** The project. */
-		projectId: {
-			type: String,
-			required: true,
 		},
 
 		/** The admin's cost categories. */
