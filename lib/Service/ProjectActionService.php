@@ -35,13 +35,11 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use OCA\Planninq\Exception\ProjectActionException;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserSession;
-use Psr\Container\ContainerInterface;
 
 /**
  * Server-side multi-object actions on projects, releases and tasks.
@@ -92,21 +90,19 @@ class ProjectActionService {
 	 * Constructor.
 	 *
 	 * @param ProjectMembershipService $membership   Reads planninq objects as the system.
-	 * @param ContainerInterface       $container    Resolves OpenRegister's ObjectService.
+	 * @param OpenRegisterObjects      $objects      Finds OpenRegister's ObjectService when it is installed.
 	 * @param IUserSession             $userSession  The caller.
 	 * @param IGroupManager            $groupManager The caller's groups and admin status.
 	 * @param ITimeFactory             $timeFactory  The server clock.
 	 * @param IL10N                    $l10n         Names a copy.
-	 * @param IAppManager              $appManager   Tells whether OpenRegister is installed.
 	 */
 	public function __construct(
 		private ProjectMembershipService $membership,
-		private ContainerInterface $container,
+		private OpenRegisterObjects $objects,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
 		private ITimeFactory $timeFactory,
 		private IL10N $l10n,
-		private IAppManager $appManager,
 	) {
 	}//end __construct()
 
@@ -542,10 +538,11 @@ class ProjectActionService {
 	 * @throws ProjectActionException When OpenRegister is not installed.
 	 */
 	private function objectService(): object {
-		if ($this->appManager->isInstalled('openregister') === false) {
+		$objectService = $this->objects->objectService();
+		if ($objectService === null) {
 			throw new ProjectActionException(reason: 'planninq-openregister-missing', status: 503, message: 'OpenRegister is not installed.');
 		}
 
-		return $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
+		return $objectService;
 	}//end objectService()
 }//end class
