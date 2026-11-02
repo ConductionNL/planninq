@@ -39,6 +39,7 @@ use RuntimeException;
  * @covers \OCA\Planninq\Controller\TimelineController
  * @covers \OCA\Planninq\Service\DependencyRepository
  * @covers \OCA\Planninq\Service\LabelService
+ * @covers \OCA\Planninq\Service\ReadsObjectRowId
  */
 class ObjectRowIdGoldenTest extends TestCase {
 
@@ -92,6 +93,9 @@ class ObjectRowIdGoldenTest extends TestCase {
 		$rows['both throw']  = new class {
 			/**
 			 * A getter that fails.
+			 *
+			 * @param string $name The method.
+			 * @param array  $args The arguments.
 			 *
 			 * @return mixed
 			 */
@@ -167,6 +171,6 @@ class ObjectRowIdGoldenTest extends TestCase {
 			file_put_contents(self::FIXTURE, json_encode($answers, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)."\n");
 		}
 
-		$this->assertSame(json_decode((string)file_get_contents(self::FIXTURE), true), $answers);
+		$this->assertSame(expected: json_decode((string)file_get_contents(self::FIXTURE), true), actual: $answers);
 	}//end testExtractIdMatchesTheFixture()
 }//end class
