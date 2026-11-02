@@ -72,7 +72,6 @@ class FlowReplay {
 	 */
 	public function replay(FlowBoard $board, array $window): array {
 		$columnIds = $this->orderedColumnIds(columns: $board->columns);
-		$firstColumn = ($columnIds[0] ?? null);
 		$timelines = [];
 		$timings = [];
 		foreach ($board->tasks as $task) {
@@ -81,7 +80,7 @@ class FlowReplay {
 				'states' => $this->states(task: $task, history: $history),
 				'noHistory' => ($history === []),
 			];
-			$timing = $this->timing(task: $task, history: $history, firstColumn: $firstColumn);
+			$timing = $this->timing(board: $board, task: $task);
 			if ($timing !== null) {
 				$timings[] = $timing;
 			}
@@ -235,30 +234,58 @@ class FlowReplay {
 			return [['at' => $created, 'values' => $this->flowValues(source: $task)]];
 		}
 
-		$values = array_fill_keys(self::FIELDS, null);
-		$seen = [];
+		$states = [['at' => $created, 'values' => $this->initialValues(history: $history)]];
 		foreach ($history as $row) {
-			foreach (self::FIELDS as $field) {
-				if (isset($seen[$field]) === false && is_array($row['changed'][$field] ?? null) === true) {
-					$values[$field] = ($row['changed'][$field]['old'] ?? null);
-					$seen[$field] = true;
-				}
+			$next = $this->nextState(states: $states, row: $row);
+			if ($next !== null) {
+				$states[] = $next;
 			}
-		}
-
-		$states = [['at' => $created, 'values' => $values]];
-		foreach ($history as $row) {
-			$changes = $this->flowChanges(changed: (array)($row['changed'] ?? []));
-			if ($changes === []) {
-				continue;
-			}
-
-			$values = array_merge($values, $changes);
-			$states[] = ['at' => max($created, (int)$this->seconds(value: $row['created'] ?? null)), 'values' => $values];
 		}
 
 		return $states;
 	}//end states()
+
+	/**
+	 * The state after one audit row, or null when the row changes no flow field.
+	 *
+	 * The row's moment is never before the task's creation, the moment of the first state.
+	 *
+	 * @param array<int,array{at: int, values: array<string,mixed>}> $states The states so far
+	 * @param array<string,mixed>                                    $row    The audit row
+	 *
+	 * @return array{at: int, values: array<string,mixed>}|null
+	 */
+	private function nextState(array $states, array $row): ?array {
+		$changes = $this->flowChanges(changed: (array)($row['changed'] ?? []));
+		if ($changes === []) {
+			return null;
+		}
+
+		$values = array_merge(end($states)['values'], $changes);
+		return ['at' => max($states[0]['at'], (int)$this->seconds(value: $row['created'] ?? null)), 'values' => $values];
+	}//end nextState()
+
+	/**
+	 * The values a task had at its creation: per field, the old value of its first change, else null.
+	 *
+	 * @param array<int,array<string,mixed>> $history Its audit rows, oldest first
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function initialValues(array $history): array {
+		$values = array_fill_keys(self::FIELDS, null);
+		$seen   = [];
+		foreach ($history as $row) {
+			foreach (self::FIELDS as $field) {
+				if (isset($seen[$field]) === false && is_array($row['changed'][$field] ?? null) === true) {
+					$values[$field] = ($row['changed'][$field]['old'] ?? null);
+					$seen[$field]   = true;
+				}
+			}
+		}
+
+		return $values;
+	}//end initialValues()
 
 	/**
 	 * The new values of the flow fields an audit row changed.
@@ -320,26 +347,52 @@ class FlowReplay {
 	 * else first became `in_progress`; a task that went straight to done has
 	 * a cycle time of zero.
 	 *
-	 * @param array<string,mixed>            $task        The task
-	 * @param array<int,array<string,mixed>> $history     Its audit rows
-	 * @param string|null                    $firstColumn The project's first column
+	 * @param FlowBoard           $board The columns and the audit rows per task
+	 * @param array<string,mixed> $task  The task
 	 *
 	 * @return array<string,mixed>|null
 	 */
-	private function timing(array $task, array $history, ?string $firstColumn): ?array {
-		$states = $this->states(task: $task, history: $history);
-		$finished = $this->seconds(value: $task['completedAt'] ?? null);
-		$estimated = false;
-		if ($finished === null && ($task['status'] ?? null) === 'done') {
-			$finished = $this->lastMomentWhere(states: $states, test: static fn (array $values): bool => $values['status'] === 'done');
-			$estimated = true;
-		}
-
+	private function timing(FlowBoard $board, array $task): ?array {
+		$history = ($board->histories[(string)$task['id']] ?? []);
+		$states  = $this->states(task: $task, history: $history);
+		[$finished, $estimated] = $this->finish(task: $task, states: $states);
 		if ($finished === null) {
 			return null;
 		}
 
 		$created = $this->createdAt(task: $task, history: $history);
+		$started = $this->start(states: $states, firstColumn: ($this->orderedColumnIds(columns: $board->columns)[0] ?? null));
+		$moments = ['created' => $created, 'started' => min(($started ?? $finished), $finished), 'finished' => $finished, 'estimated' => $estimated];
+
+		return $this->timingRow(task: $task, moments: $moments);
+	}//end timing()
+
+	/**
+	 * When a task finished, and whether that moment is estimated from its history.
+	 *
+	 * @param array<string,mixed>                                    $task   The task
+	 * @param array<int,array{at: int, values: array<string,mixed>}> $states Its states
+	 *
+	 * @return array{0:int|null,1:bool} The moment, or null when it did not finish
+	 */
+	private function finish(array $task, array $states): array {
+		$finished = $this->seconds(value: $task['completedAt'] ?? null);
+		if ($finished === null && ($task['status'] ?? null) === 'done') {
+			return [$this->lastMomentWhere(states: $states, test: static fn (array $values): bool => $values['status'] === 'done'), true];
+		}
+
+		return [$finished, false];
+	}//end finish()
+
+	/**
+	 * When work on a task started: it first sat in a column other than the first, or else first became `in_progress`.
+	 *
+	 * @param array<int,array{at: int, values: array<string,mixed>}> $states      Its states
+	 * @param string|null                                            $firstColumn The project's first column
+	 *
+	 * @return int|null
+	 */
+	private function start(array $states, ?string $firstColumn): ?int {
 		$started = $this->firstMomentWhere(
 			states: $states,
 			test: static fn (array $values): bool => $values['column'] !== null && $values['column'] !== $firstColumn
@@ -348,21 +401,31 @@ class FlowReplay {
 			$started = $this->firstMomentWhere(states: $states, test: static fn (array $values): bool => $values['status'] === 'in_progress');
 		}
 
-		$started = min(($started ?? $finished), $finished);
+		return $started;
+	}//end start()
 
+	/**
+	 * The timing row of a finished task.
+	 *
+	 * @param array<string,mixed>                                         $task    The task
+	 * @param array{created:int,started:int,finished:int,estimated:bool} $moments Created, started and finished (Unix seconds), estimated
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function timingRow(array $task, array $moments): array {
 		return [
 			'id' => (string)$task['id'],
 			'projectId' => (string)($task['project'] ?? ''),
 			'title' => (string)($task['title'] ?? ''),
 			'key' => ($task['key'] ?? null),
-			'createdAt' => gmdate('c', $created),
-			'startedAt' => gmdate('c', $started),
-			'finishedAt' => $finished,
-			'leadDays' => round(max(0, $finished - $created) / self::DAY, 2),
-			'cycleDays' => round(max(0, $finished - $started) / self::DAY, 2),
-			'estimated' => $estimated,
+			'createdAt' => gmdate('c', $moments['created']),
+			'startedAt' => gmdate('c', $moments['started']),
+			'finishedAt' => $moments['finished'],
+			'leadDays' => round(max(0, $moments['finished'] - $moments['created']) / self::DAY, 2),
+			'cycleDays' => round(max(0, $moments['finished'] - $moments['started']) / self::DAY, 2),
+			'estimated' => $moments['estimated'],
 		];
-	}//end timing()
+	}//end timingRow()
 
 	/**
 	 * The moment of the first state where the test turned true after being false.
