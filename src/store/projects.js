@@ -23,6 +23,7 @@ import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelper
 import { canSeeProject } from '../utils/portfolioGrouping.js'
 import { actionNames, transitionRequest } from '../utils/projectLifecycle.js'
 import { currentGroupIds, rolePatch } from '../utils/projectRole.js'
+import { responseBody } from '../utils/responseBody.js'
 import { epicPatch } from '../utils/roadmapHelpers.js'
 import { deleteRefusal, withTaskDefaults } from '../utils/taskEditing.js'
 import { useObjectStore } from './objectStore.js'
@@ -93,18 +94,6 @@ function readFailure(err) {
  */
 function missingReason(storeError) {
 	return (storeError?.status === 403 || storeError?.statusCode === 403) ? 'forbidden' : 'not-found'
-}
-
-/**
- * The JSON body of a response, or an empty object when it is not JSON.
- *
- * @param {Response} response The response.
- * @return {Promise<object|null>}
- *
- * @spec openspec/specs/projects/spec.md
- */
-function responseBody(response) {
-	return response.json().catch(() => ({}))
 }
 
 /**
