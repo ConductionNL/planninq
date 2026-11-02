@@ -36,19 +36,12 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || title.trim() === ''"
+			<DialogSaveActions
+				:saving="saving"
+				:disabled="title.trim() === ''"
 				data-testid="phase-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Save') }}
-			</NcButton>
+				@cancel="$emit('close')"
+				@save="save" />
 		</template>
 	</NcDialog>
 </template>
@@ -63,7 +56,8 @@
  *
  * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.2
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { NcDialog, NcTextArea, NcTextField } from '@nextcloud/vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { phasePayload } from '../utils/phaseHelpers.js'
 
@@ -71,9 +65,8 @@ export default {
 	name: 'PhaseEditDialog',
 
 	components: {
-		NcButton,
+		DialogSaveActions,
 		NcDialog,
-		NcLoadingIcon,
 		NcTextArea,
 		NcTextField,
 	},
