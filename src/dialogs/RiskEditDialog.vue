@@ -67,19 +67,12 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || title.trim() === ''"
+			<DialogSaveActions
+				:saving="saving"
+				:disabled="title.trim() === ''"
 				data-testid="risk-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Save') }}
-			</NcButton>
+				@cancel="$emit('close')"
+				@save="save" />
 		</template>
 	</NcDialog>
 </template>
@@ -94,7 +87,8 @@
  *
  * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { NcDialog, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { DEFAULT_RISK_SCALE, riskPayload } from '../utils/riskHelpers.js'
 
@@ -102,9 +96,8 @@ export default {
 	name: 'RiskEditDialog',
 
 	components: {
-		NcButton,
+		DialogSaveActions,
 		NcDialog,
-		NcLoadingIcon,
 		NcSelect,
 		NcTextArea,
 		NcTextField,

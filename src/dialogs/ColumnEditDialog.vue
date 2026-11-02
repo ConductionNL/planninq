@@ -55,19 +55,13 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || !isValid"
+			<DialogSaveActions
+				:saving="saving"
+				:disabled="!isValid"
+				:label="isEdit ? t('planninq', 'Save') : t('planninq', 'Create')"
 				data-testid="column-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ isEdit ? t('planninq', 'Save') : t('planninq', 'Create') }}
-			</NcButton>
+				@cancel="$emit('close')"
+				@save="save" />
 		</template>
 	</NcDialog>
 </template>
@@ -84,13 +78,12 @@
  * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
  */
 import {
-	NcButton,
 	NcCheckboxRadioSwitch,
 	NcDialog,
-	NcLoadingIcon,
 	NcSelect,
 	NcTextField,
 } from '@nextcloud/vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { columnPayload } from '../utils/columnHelpers.js'
 import { DEFAULT_LABEL_COLOR, isValidHexColor } from '../utils/labelHelpers.js'
@@ -99,10 +92,9 @@ export default {
 	name: 'ColumnEditDialog',
 
 	components: {
-		NcButton,
+		DialogSaveActions,
 		NcCheckboxRadioSwitch,
 		NcDialog,
-		NcLoadingIcon,
 		NcSelect,
 		NcTextField,
 	},

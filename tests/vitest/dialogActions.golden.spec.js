@@ -2,7 +2,7 @@
  * Golden test for the Cancel and Save actions of the edit dialogs.
  *
  * Renders each dialog on the server with its package components stubbed, in
- * three states (idle, saving, and ready to save), and compares the HTML, what
+ * four states (idle, saving, ready to save, and saving while ready), and compares the HTML, what
  * clicking each button does, and the hash of the dialog's styles with the
  * fixture. Set PLANNINQ_GOLDEN_RECORD=1 to rewrite the fixture.
  *
@@ -46,7 +46,7 @@ const DIALOGS = {
 }
 
 /**
- * Render one dialog in its three states.
+ * Render one dialog in its four states.
  *
  * @param {string} name - the dialog's file name without .vue
  * @return {Promise<object>} the style hash, and per state the HTML and click effects
@@ -59,6 +59,7 @@ async function recordDialog(name) {
 		idle: await renderScene(url, { props, spy, data: { saving: false } }),
 		saving: await renderScene(url, { props, spy, data: { saving: true } }),
 		ready: await renderScene(url, { props, spy, computed: ready.computed, data: { ...ready.data, saving: false } }),
+		savingReady: await renderScene(url, { props, spy, computed: ready.computed, data: { ...ready.data, saving: true } }),
 	}
 }
 

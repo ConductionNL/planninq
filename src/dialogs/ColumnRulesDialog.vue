@@ -64,19 +64,12 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || !isValid"
+			<DialogSaveActions
+				:saving="saving"
+				:disabled="!isValid"
 				data-testid="column-rules-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Save') }}
-			</NcButton>
+				@cancel="$emit('close')"
+				@save="save" />
 		</template>
 	</NcDialog>
 </template>
@@ -96,9 +89,10 @@
  *
  * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
+import { NcButton, NcDialog, NcSelect } from '@nextcloud/vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { columnRules, RULE_PRIORITIES, ruleIsComplete, ruleProblem, rulesPayload } from '../utils/columnAutomation.js'
 import { labelId } from '../utils/labelHelpers.js'
@@ -110,7 +104,7 @@ let nextKey = 0
 export default {
 	name: 'ColumnRulesDialog',
 
-	components: { NcButton, NcDialog, NcLoadingIcon, NcSelect, DeleteIcon, PlusIcon },
+	components: { DialogSaveActions, NcButton, NcDialog, NcSelect, DeleteIcon, PlusIcon },
 
 	props: {
 		/** The column whose rules are edited. */

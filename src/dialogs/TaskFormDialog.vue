@@ -78,19 +78,12 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || draft.title.trim() === ''"
+			<DialogSaveActions
+				:saving="saving"
+				:disabled="draft.title.trim() === ''"
 				data-testid="task-form-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Save') }}
-			</NcButton>
+				@cancel="$emit('close')"
+				@save="save" />
 		</template>
 	</NcDialog>
 </template>
@@ -106,7 +99,8 @@
  *
  * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-2.1
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcRichText, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { NcButton, NcDialog, NcRichText, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { editPatch, newLaneTask } from '../utils/taskEditing.js'
 import { memberOptions } from '../utils/taskPeople.js'
@@ -116,9 +110,9 @@ export default {
 	name: 'TaskFormDialog',
 
 	components: {
+		DialogSaveActions,
 		NcButton,
 		NcDialog,
-		NcLoadingIcon,
 		NcRichText,
 		NcSelect,
 		NcTextArea,

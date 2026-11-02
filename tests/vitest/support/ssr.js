@@ -22,7 +22,8 @@ const FUNCTION = '<function>'
 
 /**
  * Load a component file as a renderable component: its options with a render
- * function compiled from its template.
+ * function compiled from its template, and every component it could not
+ * import replaced by a stub.
  *
  * @param {URL} url - the .vue file
  * @return {Promise<object>} the component options
@@ -30,7 +31,9 @@ const FUNCTION = '<function>'
 export async function loadComponent(url) {
 	const { options, template } = await loadSfcWithImports(url, loadComponent)
 	const { code } = compile(template, { mode: 'function', prefixIdentifiers: true })
-	return { ...options, render: new Function('Vue', code)(Vue) }
+	const components = Object.fromEntries(Object.entries(options.components || {})
+		.map(([name, component]) => [name, component || stub(name)]))
+	return { ...options, components, render: new Function('Vue', code)(Vue) }
 }
 
 /**
@@ -90,8 +93,7 @@ function stub(name) {
 }
 
 /**
- * The component options for one scene: package components stubbed, data and
- * computed values overridden, and the named methods replaced by recorders.
+ * The component options for one scene: data and computed values overridden, and the named methods replaced by recorders.
  *
  * @param {object} options - the loaded component
  * @param {{scene: object, log: Array}} run - the scene and the log its recorders write to
@@ -99,8 +101,6 @@ function stub(name) {
  */
 function sceneOptions(options, run) {
 	const { scene, log } = run
-	const components = Object.fromEntries(Object.entries(options.components || {})
-		.map(([name, component]) => [name, component || stub(name)]))
 	const computed = { ...(options.computed || {}) }
 	for (const [name, value] of Object.entries(scene.computed || {})) {
 		computed[name] = () => value
@@ -112,7 +112,6 @@ function sceneOptions(options, run) {
 	const data = options.data
 	return {
 		...options,
-		components,
 		computed,
 		methods,
 		data() {

@@ -30,19 +30,12 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || title.trim() === ''"
+			<DialogSaveActions
+				:saving="saving"
+				:disabled="title.trim() === ''"
 				data-testid="release-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Save') }}
-			</NcButton>
+				@cancel="$emit('close')"
+				@save="save" />
 		</template>
 	</NcDialog>
 </template>
@@ -56,7 +49,8 @@
  *
  * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.3
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { NcDialog, NcTextArea, NcTextField } from '@nextcloud/vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { releasePayload } from '../utils/roadmapHelpers.js'
 
@@ -64,9 +58,8 @@ export default {
 	name: 'ReleaseEditDialog',
 
 	components: {
-		NcButton,
+		DialogSaveActions,
 		NcDialog,
-		NcLoadingIcon,
 		NcTextArea,
 		NcTextField,
 	},
