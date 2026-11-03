@@ -31,6 +31,7 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 
 use OCA\Planninq\Controller\ProjectController;
+use OCA\Planninq\Listener\TaskScopeResolver;
 use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\WorkItemKeyService;
@@ -333,6 +334,18 @@ class ProjectControllerTest extends TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 
 		$entity = new class {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
 			/**
 			 * Returns a project stub with bob as member.
 			 *
@@ -349,7 +362,7 @@ class ProjectControllerTest extends TestCase {
 		$objectService->method('saveObject')
 			->willThrowException(new \RuntimeException('Unexpected DB error'));
 
-		$this->container->method('get')->willReturn($objectService);
+		$this->leaveContainer(objectService: $objectService);
 
 		$result = $this->controller->leaveProject('project-uuid-1');
 
@@ -413,6 +426,18 @@ class ProjectControllerTest extends TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 
 		$entity = new class($project) {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
 			/**
 			 * @param array<string,mixed> $project The project.
 			 */
@@ -443,7 +468,7 @@ class ProjectControllerTest extends TestCase {
 				return $entity;
 			}
 		);
-		$this->container->method('get')->willReturn($objectService);
+		$this->leaveContainer(objectService: $objectService);
 
 		$result = $this->controller->leaveProject('project-uuid-1');
 		return [$result->getStatus(), $saved];
@@ -530,6 +555,18 @@ class ProjectControllerTest extends TestCase {
 
 		// Fake entity: alice is owner and member; bob and carol are other members.
 		$entity = new class {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
 			/**
 			 * Returns the project stub.
 			 *
@@ -571,7 +608,7 @@ class ProjectControllerTest extends TestCase {
 				}
 			);
 
-		$this->container->method('get')->willReturn($objectService);
+		$this->leaveContainer(objectService: $objectService);
 
 		$result = $this->controller->leaveProject('project-uuid-1');
 
@@ -595,6 +632,18 @@ class ProjectControllerTest extends TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 
 		$entity = new class {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
 			/**
 			 * Returns the project stub.
 			 *
@@ -635,7 +684,7 @@ class ProjectControllerTest extends TestCase {
 				}
 			);
 
-		$this->container->method('get')->willReturn($objectService);
+		$this->leaveContainer(objectService: $objectService);
 
 		$result = $this->controller->leaveProject('project-uuid-1');
 
@@ -659,6 +708,18 @@ class ProjectControllerTest extends TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 
 		$entity = new class {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
 			/**
 			 * Returns the project stub with alice as sole member.
 			 *
@@ -678,7 +739,7 @@ class ProjectControllerTest extends TestCase {
 		$objectService->method('find')->willReturn($entity);
 		$objectService->expects($this->never())->method('saveObject');
 
-		$this->container->method('get')->willReturn($objectService);
+		$this->leaveContainer(objectService: $objectService);
 
 		$result = $this->controller->leaveProject('project-uuid-1');
 
@@ -686,4 +747,16 @@ class ProjectControllerTest extends TestCase {
 		self::assertArrayHasKey(key: 'error', array: $result->getData());
 
 	}//end testLeaveProjectRefusesWhenLastMember()
+	/**
+	 * The container for a leave: OpenRegister's ObjectService, and a scope resolver that places the found entity in planninq/project.
+	 *
+	 * @param object $objectService The ObjectService double.
+	 *
+	 * @return void
+	 */
+	private function leaveContainer(object $objectService): void {
+		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
+		$resolver->method('planninqSchemaSlug')->willReturnCallback(static fn (string $registerId, string $schemaId): string => ($registerId === '1' && $schemaId === '14' ? 'project' : 'task'));
+		$this->container->method('get')->willReturnCallback(static fn (string $id): object => ($id === TaskScopeResolver::class ? $resolver : $objectService));
+	}//end leaveContainer()
 }//end class
