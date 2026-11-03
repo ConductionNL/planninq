@@ -37,7 +37,10 @@ class CreationPolicyNormaliseGoldenTest extends TestCase {
 
 	private const FIXTURE = __DIR__ . '/fixtures/creation-policy-normalise.golden.json';
 
-	private const KEYS = ['allow_project_creation', 'project_requests', 'project_creation_groups', 'default_columns', ''];
+	private const KEYS = [
+		'allow_project_creation', 'project_requests', 'project_creation_groups', 'default_columns', '',
+		'ALLOW_PROJECT_CREATION', ' project_requests', 'project_requests ', 'Project_Creation_Groups', 'allow-project-creation',
+	];
 
 	private const VALUES = [
 		'all', 'admins', 'groups', 'ALL', ' all', 'on', 'off', 'On', '', '0', 'null', '{}', '[]',
