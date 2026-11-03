@@ -19,109 +19,136 @@
                 ]
             }
         ],
-        "rows": {
-            "s-1": {
-                "externalRef": "a",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+        "rows": [
+            {
+                "id": "s-1",
+                "data": {
+                    "externalRef": "a",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
             },
-            "s-2": {
-                "externalRef": "b",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00",
-                "roomReference": "A1"
+            {
+                "id": "s-2",
+                "data": {
+                    "externalRef": "b",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00",
+                    "roomReference": "A1"
+                }
             },
-            "s-3": {
-                "externalRef": "c",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "cancelled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+            {
+                "id": "s-3",
+                "data": {
+                    "externalRef": "c",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "cancelled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
             },
-            "s-4": {
-                "externalRef": "d",
-                "subject": "Wiskunde",
-                "startsAt": "2026-10-20T09:00:00+02:00",
-                "endsAt": "2026-10-20T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+            {
+                "id": "s-4",
+                "data": {
+                    "externalRef": "d",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-10-20T09:00:00+02:00",
+                    "endsAt": "2026-10-20T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
             },
-            "s-5": {
-                "externalRef": "e",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "magister",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+            {
+                "id": "s-5",
+                "data": {
+                    "externalRef": "e",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "magister",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
             },
-            "s-6": {
-                "externalRef": "f",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW",
-                "roomReference": "B2"
+            {
+                "id": "s-6",
+                "data": {
+                    "externalRef": "f",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW",
+                    "roomReference": "B2"
+                }
             },
-            "s-9": {
-                "externalRef": "m",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+            {
+                "id": "s-9",
+                "data": {
+                    "externalRef": "m",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
             },
-            "00000000-0000-4000-a000-000000000001": {
-                "sourceSystem": "zermelo",
-                "externalRef": "p",
-                "subject": "Frans",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "roomReference": "A2",
-                "title": "Frans",
-                "status": "scheduled",
-                "importedAt": "NOW"
+            {
+                "id": "00000000-0000-4000-a000-000000000001",
+                "data": {
+                    "sourceSystem": "zermelo",
+                    "externalRef": "p",
+                    "subject": "Frans",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "roomReference": "A2",
+                    "title": "Frans",
+                    "status": "scheduled",
+                    "importedAt": "NOW"
+                }
             },
-            "00000000-0000-4000-a000-000000000002": {
-                "sourceSystem": "zermelo",
-                "externalRef": "a2",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW"
+            {
+                "id": "00000000-0000-4000-a000-000000000002",
+                "data": {
+                    "sourceSystem": "zermelo",
+                    "externalRef": "a2",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW"
+                }
             }
-        },
+        ],
         "saves": [
             {
                 "schema": "timetableSession",
@@ -205,99 +232,123 @@
                 ]
             }
         ],
-        "rows": {
-            "s-1": {
-                "externalRef": "a",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-2": {
-                "externalRef": "b",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW",
-                "roomReference": "A1"
-            },
-            "s-3": {
-                "externalRef": "c",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "cancelled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-4": {
-                "externalRef": "d",
-                "subject": "Wiskunde",
-                "startsAt": "2026-10-20T09:00:00+02:00",
-                "endsAt": "2026-10-20T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-5": {
-                "externalRef": "e",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "magister",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-6": {
-                "externalRef": "f",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00",
-                "@self": {
-                    "x": 1
+        "rows": [
+            {
+                "id": "s-1",
+                "data": {
+                    "externalRef": "a",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
                 }
             },
-            "s-9": {
-                "externalRef": "m",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+            {
+                "id": "s-2",
+                "data": {
+                    "externalRef": "b",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW",
+                    "roomReference": "A1"
+                }
             },
-            "00000000-0000-4000-a000-000000000001": {
-                "sourceSystem": "zermelo",
-                "externalRef": "n",
-                "subject": "Wiskunde",
-                "title": "Eigen titel",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "status": "draft",
-                "importedAt": "NOW"
+            {
+                "id": "s-3",
+                "data": {
+                    "externalRef": "c",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "cancelled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-4",
+                "data": {
+                    "externalRef": "d",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-10-20T09:00:00+02:00",
+                    "endsAt": "2026-10-20T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-5",
+                "data": {
+                    "externalRef": "e",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "magister",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-6",
+                "data": {
+                    "externalRef": "f",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00",
+                    "@self": {
+                        "x": 1
+                    }
+                }
+            },
+            {
+                "id": "s-9",
+                "data": {
+                    "externalRef": "m",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "00000000-0000-4000-a000-000000000001",
+                "data": {
+                    "sourceSystem": "zermelo",
+                    "externalRef": "n",
+                    "subject": "Wiskunde",
+                    "title": "Eigen titel",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "status": "draft",
+                    "importedAt": "NOW"
+                }
             }
-        },
+        ],
         "saves": [
             {
                 "schema": "timetableSession",
@@ -405,42 +456,51 @@
                 ]
             }
         ],
-        "rows": {
-            "00000000-0000-4000-a000-000000000001": {
-                "sourceSystem": "zermelo",
-                "externalRef": "7",
-                "subject": "Frans",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "title": "Frans",
-                "status": "scheduled",
-                "importedAt": "NOW"
+        "rows": [
+            {
+                "id": "00000000-0000-4000-a000-000000000001",
+                "data": {
+                    "sourceSystem": "zermelo",
+                    "externalRef": "7",
+                    "subject": "Frans",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "title": "Frans",
+                    "status": "scheduled",
+                    "importedAt": "NOW"
+                }
             },
-            "00000000-0000-4000-a000-000000000002": {
-                "sourceSystem": "zermelo",
-                "externalRef": "x5",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "roomReference": "NEW",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW"
+            {
+                "id": "00000000-0000-4000-a000-000000000002",
+                "data": {
+                    "sourceSystem": "zermelo",
+                    "externalRef": "x5",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "roomReference": "NEW",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW"
+                }
             },
-            "00000000-0000-4000-a000-000000000003": {
-                "sourceSystem": "zermelo",
-                "externalRef": "x7",
-                "subject": "42",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "title": "42",
-                "status": "scheduled",
-                "importedAt": "NOW"
+            {
+                "id": "00000000-0000-4000-a000-000000000003",
+                "data": {
+                    "sourceSystem": "zermelo",
+                    "externalRef": "x7",
+                    "subject": "42",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "title": "42",
+                    "status": "scheduled",
+                    "importedAt": "NOW"
+                }
             }
-        },
+        ],
         "saves": [
             {
                 "schema": "timetableSession",
@@ -576,88 +636,109 @@
                 ]
             }
         ],
-        "rows": {
-            "s-1": {
-                "externalRef": "a",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-2": {
-                "externalRef": "b",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00",
-                "roomReference": "A1"
-            },
-            "s-3": {
-                "externalRef": "c",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "cancelled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-4": {
-                "externalRef": "d",
-                "subject": "Wiskunde",
-                "startsAt": "2026-10-20T09:00:00+02:00",
-                "endsAt": "2026-10-20T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-5": {
-                "externalRef": "e",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "magister",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-6": {
-                "externalRef": "f",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00",
-                "@self": {
-                    "x": 1
+        "rows": [
+            {
+                "id": "s-1",
+                "data": {
+                    "externalRef": "a",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
                 }
             },
-            "s-9": {
-                "externalRef": "m",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+            {
+                "id": "s-2",
+                "data": {
+                    "externalRef": "b",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00",
+                    "roomReference": "A1"
+                }
+            },
+            {
+                "id": "s-3",
+                "data": {
+                    "externalRef": "c",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "cancelled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-4",
+                "data": {
+                    "externalRef": "d",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-10-20T09:00:00+02:00",
+                    "endsAt": "2026-10-20T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-5",
+                "data": {
+                    "externalRef": "e",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "magister",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-6",
+                "data": {
+                    "externalRef": "f",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00",
+                    "@self": {
+                        "x": 1
+                    }
+                }
+            },
+            {
+                "id": "s-9",
+                "data": {
+                    "externalRef": "m",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
             }
-        },
+        ],
         "saves": [],
         "searches": 3,
         "clears": 2,
@@ -718,89 +799,110 @@
                 ]
             }
         ],
-        "rows": {
-            "s-1": {
-                "externalRef": "a",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW",
-                "roomReference": "Q"
-            },
-            "s-2": {
-                "externalRef": "b",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW",
-                "roomReference": "A1"
-            },
-            "s-3": {
-                "externalRef": "c",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "cancelled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-4": {
-                "externalRef": "d",
-                "subject": "Wiskunde",
-                "startsAt": "2026-10-20T09:00:00+02:00",
-                "endsAt": "2026-10-20T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-5": {
-                "externalRef": "e",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "magister",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-6": {
-                "externalRef": "f",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00",
-                "@self": {
-                    "x": 1
+        "rows": [
+            {
+                "id": "s-1",
+                "data": {
+                    "externalRef": "a",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW",
+                    "roomReference": "Q"
                 }
             },
-            "s-9": {
-                "externalRef": "m",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+            {
+                "id": "s-2",
+                "data": {
+                    "externalRef": "b",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW",
+                    "roomReference": "A1"
+                }
+            },
+            {
+                "id": "s-3",
+                "data": {
+                    "externalRef": "c",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "cancelled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-4",
+                "data": {
+                    "externalRef": "d",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-10-20T09:00:00+02:00",
+                    "endsAt": "2026-10-20T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-5",
+                "data": {
+                    "externalRef": "e",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "magister",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-6",
+                "data": {
+                    "externalRef": "f",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00",
+                    "@self": {
+                        "x": 1
+                    }
+                }
+            },
+            {
+                "id": "s-9",
+                "data": {
+                    "externalRef": "m",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
             }
-        },
+        ],
         "saves": [
             {
                 "schema": "timetableSession",
@@ -876,156 +978,195 @@
                 ]
             }
         ],
-        "rows": {
-            "s-1": {
-                "externalRef": "a",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW",
-                "roomReference": "R"
-            },
-            "s-2": {
-                "externalRef": "b",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00",
-                "roomReference": "A1"
-            },
-            "s-3": {
-                "externalRef": "c",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "cancelled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-4": {
-                "externalRef": "d",
-                "subject": "Wiskunde",
-                "startsAt": "2026-10-20T09:00:00+02:00",
-                "endsAt": "2026-10-20T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-5": {
-                "externalRef": "e",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "magister",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-6": {
-                "externalRef": "f",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00",
-                "@self": {
-                    "x": 1
+        "rows": [
+            {
+                "id": "s-1",
+                "data": {
+                    "externalRef": "a",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW",
+                    "roomReference": "R"
                 }
             },
-            "s-9": {
-                "externalRef": "m",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+            {
+                "id": "s-2",
+                "data": {
+                    "externalRef": "b",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00",
+                    "roomReference": "A1"
+                }
             },
-            "s-7": {
-                "externalRef": "a",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00",
-                "roomReference": "second"
+            {
+                "id": "s-3",
+                "data": {
+                    "externalRef": "c",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "cancelled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
             },
-            "": {
-                "externalRef": "g",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+            {
+                "id": "s-4",
+                "data": {
+                    "externalRef": "d",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-10-20T09:00:00+02:00",
+                    "endsAt": "2026-10-20T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
             },
-            "s-8": {
-                "externalRef": 7,
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+            {
+                "id": "s-5",
+                "data": {
+                    "externalRef": "e",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "magister",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
             },
-            "00000000-0000-4000-a000-000000000001": {
-                "sourceSystem": "zermelo",
-                "externalRef": "g",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW"
+            {
+                "id": "s-6",
+                "data": {
+                    "externalRef": "f",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00",
+                    "@self": {
+                        "x": 1
+                    }
+                }
             },
-            "00000000-0000-4000-a000-000000000002": {
-                "sourceSystem": "zermelo",
-                "externalRef": "e",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW"
+            {
+                "id": "s-9",
+                "data": {
+                    "externalRef": "m",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
             },
-            "00000000-0000-4000-a000-000000000003": {
-                "sourceSystem": "zermelo",
-                "externalRef": "7",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW"
+            {
+                "id": "s-7",
+                "data": {
+                    "externalRef": "a",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00",
+                    "roomReference": "second"
+                }
+            },
+            {
+                "id": "",
+                "data": {
+                    "externalRef": "g",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-8",
+                "data": {
+                    "externalRef": 7,
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "00000000-0000-4000-a000-000000000001",
+                "data": {
+                    "sourceSystem": "zermelo",
+                    "externalRef": "g",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW"
+                }
+            },
+            {
+                "id": "00000000-0000-4000-a000-000000000002",
+                "data": {
+                    "sourceSystem": "zermelo",
+                    "externalRef": "e",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW"
+                }
+            },
+            {
+                "id": "00000000-0000-4000-a000-000000000003",
+                "data": {
+                    "sourceSystem": "zermelo",
+                    "externalRef": "7",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW"
+                }
             }
-        },
+        ],
         "saves": [
             {
                 "schema": "timetableSession",
@@ -1121,101 +1262,125 @@
                 ]
             }
         ],
-        "rows": {
-            "s-1": {
-                "externalRef": "a",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW",
-                "roomReference": "R"
-            },
-            "s-2": {
-                "externalRef": "b",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00",
-                "roomReference": "A1"
-            },
-            "s-3": {
-                "externalRef": "c",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "cancelled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-4": {
-                "externalRef": "d",
-                "subject": "Wiskunde",
-                "startsAt": "2026-10-20T09:00:00+02:00",
-                "endsAt": "2026-10-20T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-5": {
-                "externalRef": "e",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "magister",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-6": {
-                "externalRef": "f",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00",
-                "@self": {
-                    "x": 1
+        "rows": [
+            {
+                "id": "s-1",
+                "data": {
+                    "externalRef": "a",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW",
+                    "roomReference": "R"
                 }
             },
-            "s-9": {
-                "externalRef": "m",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+            {
+                "id": "s-2",
+                "data": {
+                    "externalRef": "b",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00",
+                    "roomReference": "A1"
+                }
             },
-            "s-7": {
-                "externalRef": "a",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00",
-                "roomReference": "second"
+            {
+                "id": "s-3",
+                "data": {
+                    "externalRef": "c",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "cancelled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-4",
+                "data": {
+                    "externalRef": "d",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-10-20T09:00:00+02:00",
+                    "endsAt": "2026-10-20T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-5",
+                "data": {
+                    "externalRef": "e",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "magister",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-6",
+                "data": {
+                    "externalRef": "f",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00",
+                    "@self": {
+                        "x": 1
+                    }
+                }
+            },
+            {
+                "id": "s-9",
+                "data": {
+                    "externalRef": "m",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-7",
+                "data": {
+                    "externalRef": "a",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00",
+                    "roomReference": "second"
+                }
             }
-        },
+        ],
         "saves": [
             {
                 "schema": "timetableSession",
@@ -1287,88 +1452,109 @@
                 "failed": []
             }
         ],
-        "rows": {
-            "s-1": {
-                "externalRef": "a",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-2": {
-                "externalRef": "b",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW",
-                "roomReference": "A1"
-            },
-            "s-3": {
-                "externalRef": "c",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "cancelled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-4": {
-                "externalRef": "d",
-                "subject": "Wiskunde",
-                "startsAt": "2026-10-20T09:00:00+02:00",
-                "endsAt": "2026-10-20T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW"
-            },
-            "s-5": {
-                "externalRef": "e",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "magister",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-6": {
-                "externalRef": "f",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00",
-                "@self": {
-                    "x": 1
+        "rows": [
+            {
+                "id": "s-1",
+                "data": {
+                    "externalRef": "a",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
                 }
             },
-            "s-9": {
-                "externalRef": "m",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+            {
+                "id": "s-2",
+                "data": {
+                    "externalRef": "b",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW",
+                    "roomReference": "A1"
+                }
+            },
+            {
+                "id": "s-3",
+                "data": {
+                    "externalRef": "c",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "cancelled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-4",
+                "data": {
+                    "externalRef": "d",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-10-20T09:00:00+02:00",
+                    "endsAt": "2026-10-20T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW"
+                }
+            },
+            {
+                "id": "s-5",
+                "data": {
+                    "externalRef": "e",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "magister",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-6",
+                "data": {
+                    "externalRef": "f",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00",
+                    "@self": {
+                        "x": 1
+                    }
+                }
+            },
+            {
+                "id": "s-9",
+                "data": {
+                    "externalRef": "m",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
             }
-        },
+        ],
         "saves": [
             {
                 "schema": "timetableSession",
@@ -1417,99 +1603,123 @@
                 "failed": []
             }
         ],
-        "rows": {
-            "s-1": {
-                "externalRef": "a",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-2": {
-                "externalRef": "b",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW",
-                "roomReference": "A1"
-            },
-            "s-3": {
-                "externalRef": "c",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "cancelled",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-4": {
-                "externalRef": "d",
-                "subject": "Wiskunde",
-                "startsAt": "2026-10-20T09:00:00+02:00",
-                "endsAt": "2026-10-20T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
-            },
-            "s-5": {
-                "externalRef": "e",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "magister",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "NOW"
-            },
-            "s-6": {
-                "externalRef": "f",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "scheduled",
-                "importedAt": "2026-09-01T00:00:00+00:00",
-                "@self": {
-                    "x": 1
+        "rows": [
+            {
+                "id": "s-1",
+                "data": {
+                    "externalRef": "a",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
                 }
             },
-            "s-9": {
-                "externalRef": "m",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+            {
+                "id": "s-2",
+                "data": {
+                    "externalRef": "b",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW",
+                    "roomReference": "A1"
+                }
             },
-            "": {
-                "externalRef": "h",
-                "subject": "Wiskunde",
-                "startsAt": "2026-09-28T09:00:00+02:00",
-                "endsAt": "2026-09-28T09:50:00+02:00",
-                "groupReference": "3a",
-                "sourceSystem": "zermelo",
-                "title": "Wiskunde",
-                "status": "draft",
-                "importedAt": "2026-09-01T00:00:00+00:00"
+            {
+                "id": "s-3",
+                "data": {
+                    "externalRef": "c",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "cancelled",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-4",
+                "data": {
+                    "externalRef": "d",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-10-20T09:00:00+02:00",
+                    "endsAt": "2026-10-20T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "s-5",
+                "data": {
+                    "externalRef": "e",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "magister",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "NOW"
+                }
+            },
+            {
+                "id": "s-6",
+                "data": {
+                    "externalRef": "f",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "scheduled",
+                    "importedAt": "2026-09-01T00:00:00+00:00",
+                    "@self": {
+                        "x": 1
+                    }
+                }
+            },
+            {
+                "id": "s-9",
+                "data": {
+                    "externalRef": "m",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
+            },
+            {
+                "id": "",
+                "data": {
+                    "externalRef": "h",
+                    "subject": "Wiskunde",
+                    "startsAt": "2026-09-28T09:00:00+02:00",
+                    "endsAt": "2026-09-28T09:50:00+02:00",
+                    "groupReference": "3a",
+                    "sourceSystem": "zermelo",
+                    "title": "Wiskunde",
+                    "status": "draft",
+                    "importedAt": "2026-09-01T00:00:00+00:00"
+                }
             }
-        },
+        ],
         "saves": [
             {
                 "schema": "timetableSession",
