@@ -25,10 +25,45 @@ const OPEN_STATUSES = ['open', 'mitigating']
  */
 function isScale(scale) {
 	const levels = scale?.levels
+	return isLevelCount(levels) && hasLevels(scale.likelihood, levels)
+		&& hasLevels(scale.impact, levels) && hasThresholds(scale.thresholds)
+}
+
+/**
+ * Whether a number of levels is a whole number from 3 to 5.
+ *
+ * @param {number|undefined} levels The candidate.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
+ */
+function isLevelCount(levels) {
 	return Number.isInteger(levels) && levels >= 3 && levels <= 5
-		&& Array.isArray(scale.likelihood) && scale.likelihood.length === levels
-		&& Array.isArray(scale.impact) && scale.impact.length === levels
-		&& Number.isInteger(scale.thresholds?.medium) && Number.isInteger(scale.thresholds?.high)
+}
+
+/**
+ * Whether a list holds one label per level.
+ *
+ * @param {Array|string|undefined} list The candidate list.
+ * @param {number} levels The number of levels.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
+ */
+function hasLevels(list, levels) {
+	return Array.isArray(list) && list.length === levels
+}
+
+/**
+ * Whether both thresholds are whole numbers.
+ *
+ * @param {object|undefined} thresholds The candidate thresholds.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.4
+ */
+function hasThresholds(thresholds) {
+	return Number.isInteger(thresholds?.medium) && Number.isInteger(thresholds?.high)
 }
 
 /**
@@ -147,15 +182,15 @@ export function topOpenRisks(risks = [], limit = 3) {
  */
 export function riskPayload(fields, projectId) {
 	const payload = {
-		title: String(fields?.title ?? '').trim(),
+		title: textOf(fields?.title).trim(),
 		project: projectId,
 		likelihood: Number(fields?.likelihood),
 		impact: Number(fields?.impact),
 		status: ['open', 'mitigating', 'closed', 'occurred'].includes(fields?.status) ? fields.status : 'open',
 		response: ['avoid', 'reduce', 'transfer', 'accept'].includes(fields?.response) ? fields.response : 'reduce',
-		description: String(fields?.description ?? ''),
-		category: String(fields?.category ?? ''),
-		countermeasures: String(fields?.countermeasures ?? ''),
+		description: textOf(fields?.description),
+		category: textOf(fields?.category),
+		countermeasures: textOf(fields?.countermeasures),
 	}
 	if (fields?.owner) {
 		payload.owner = fields.owner
@@ -164,4 +199,16 @@ export function riskPayload(fields, projectId) {
 		payload.reviewDate = fields.reviewDate
 	}
 	return payload
+}
+
+/**
+ * A form value as text, '' when it is missing.
+ *
+ * @param {string|number|null|undefined} value The value.
+ * @return {string}
+ *
+ * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
+ */
+function textOf(value) {
+	return String(value ?? '')
 }
