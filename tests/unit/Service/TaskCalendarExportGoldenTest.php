@@ -214,6 +214,8 @@ class TaskCalendarExportGoldenTest extends TestCase {
 			'object exists'      => ['users' => ['ann'], 'on' => ['ann'], 'task' => $task, 'list' => true, 'object' => true],
 			'dav fails'          => ['users' => ['ann'], 'on' => ['ann'], 'task' => $task, 'fail' => true],
 			'repeated user'      => ['users' => ['ann', 'ann'], 'on' => ['ann'], 'task' => $task],
+			'list not made'      => ['users' => ['ann'], 'on' => ['ann'], 'task' => $task, 'noList' => true],
+			'list without id'    => ['users' => ['ann'], 'on' => ['ann'], 'task' => $task, 'list' => true, 'idless' => true],
 		];
 
 		$recorded = [];
@@ -248,6 +250,7 @@ class TaskCalendarExportGoldenTest extends TestCase {
 			'no dav'          => ['users' => ['ann'], 'list' => true, 'object' => true, 'dav' => false],
 			'no task id'      => ['users' => ['ann'], 'list' => true, 'object' => true, 'id' => ''],
 			'switched off'    => ['users' => ['ann'], 'list' => true, 'object' => true, 'on' => []],
+			'list without id' => ['users' => ['ann'], 'list' => true, 'object' => true, 'idless' => true],
 		];
 
 		$recorded = [];
@@ -317,6 +320,8 @@ class TaskCalendarExportGoldenTest extends TestCase {
 		}
 
 		$this->backend->created = [];
+		$this->backend->noList  = ($case['noList'] ?? false);
+		$this->backend->idless  = ($case['idless'] ?? false);
 	}//end prepare()
 
 	/**
@@ -337,6 +342,7 @@ class TaskCalendarExportGoldenTest extends TestCase {
 			'created' => $this->backend->created,
 			'objects' => $objects,
 			'saved'   => $this->objects->saved,
+			'deleted' => $this->backend->deleted,
 		];
 	}//end davState()
 

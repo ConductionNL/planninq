@@ -210,37 +210,73 @@ class TaskCalendarExportService {
 	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
 	 */
 	public function exportTask(string $taskId, array $task, array $users): int {
-		$users   = array_values(array_filter($users, fn (string $user): bool => $this->isOn(userId: $user)));
+		$users   = $this->switchedOn(users: $users);
 		$backend = $this->davBackend();
 		if ($users === [] || $backend === null || $taskId === '') {
 			return 0;
 		}
 
-		$stored  = $task['calendarEventUid'] ?? null;
-		$uid     = $this->uidOf(taskId: $taskId, stored: $stored);
-		$project = $this->store->text(value: ($task['project'] ?? ''));
-		$ics     = $this->builder->build(
-			task: $task,
+		return $this->writeTask(export: ['backend' => $backend, 'taskId' => $taskId, 'task' => $task], users: $users);
+	}//end exportTask()
+
+	/**
+	 * The users who switched the export on, in order.
+	 *
+	 * @param array<int,string> $users The people to write for.
+	 *
+	 * @return array<int,string>
+	 */
+	private function switchedOn(array $users): array {
+		return array_values(array_filter($users, fn (string $user): bool => $this->isOn(userId: $user)));
+	}//end switchedOn()
+
+	/**
+	 * Write the task's VTODO for each user and store its UID on the task after the first write.
+	 *
+	 * @param array<string,mixed> $export The backend, the task uuid and the task data.
+	 * @param array<int,string>   $users  The users who switched the export on.
+	 *
+	 * @return int How many lists were written.
+	 */
+	private function writeTask(array $export, array $users): int {
+		$stored        = ($export['task']['calendarEventUid'] ?? null);
+		$uid           = $this->uidOf(taskId: $export['taskId'], stored: $stored);
+		$export['ics'] = $this->icsFor(export: $export, uid: $uid);
+
+		$written = 0;
+		foreach ($users as $user) {
+			$written += $this->writeFor(export: $export, userId: $user);
+		}
+
+		if ($written > 0 && $uid !== $stored) {
+			$this->store->storeUid(taskId: $export['taskId'], task: $export['task'], uid: $uid);
+		}
+
+		return $written;
+	}//end writeTask()
+
+	/**
+	 * The task's VCALENDAR text.
+	 *
+	 * @param array<string,mixed> $export The task uuid and the task data.
+	 * @param string              $uid    The VTODO UID.
+	 *
+	 * @return string
+	 */
+	private function icsFor(array $export, string $uid): string {
+		$project = $this->store->text(value: ($export['task']['project'] ?? ''));
+
+		return $this->builder->build(
+			task: $export['task'],
 			meta: [
 				'uid'          => $uid,
 				'projectTitle' => $this->store->projectTitle(projectId: $project),
-				'url'          => $this->taskUrl(projectId: $project, taskId: $taskId),
+				'url'          => $this->taskUrl(projectId: $project, taskId: $export['taskId']),
 				'managedNote'  => $this->l10n->t('Managed by Planninq. Changes made here are replaced by the next change in Planninq.'),
 				'stamp'        => gmdate('Ymd\THis\Z'),
 			]
 		);
-
-		$written = 0;
-		foreach ($users as $user) {
-			$written += $this->writeFor(backend: $backend, userId: $user, taskId: $taskId, ics: $ics);
-		}
-
-		if ($written > 0 && $uid !== $stored) {
-			$this->store->storeUid(taskId: $taskId, task: $task, uid: $uid);
-		}
-
-		return $written;
-	}//end exportTask()
+	}//end icsFor()
 
 	/**
 	 * Remove a task's VTODO from the list of every given user who has one.
@@ -259,10 +295,7 @@ class TaskCalendarExportService {
 		}
 
 		foreach ($users as $user) {
-			$listId = $this->listId(backend: $backend, userId: $user, create: false);
-			if ($listId !== null && $backend->getCalendarObject($listId, $this->objectUri(taskId: $taskId)) !== null) {
-				$backend->deleteCalendarObject($listId, $this->objectUri(taskId: $taskId));
-			}
+			$this->removeFor(export: ['backend' => $backend, 'taskId' => $taskId], userId: $user);
 		}
 	}//end removeTask()
 
@@ -281,7 +314,7 @@ class TaskCalendarExportService {
 			return;
 		}
 
-		$listId = $this->listId(backend: $backend, userId: $userId, create: false);
+		$listId = $this->existingList(backend: $backend, userId: $userId);
 		if ($listId !== null) {
 			$backend->deleteCalendar($listId, true);
 		}
@@ -363,6 +396,17 @@ class TaskCalendarExportService {
 			return null;
 		}
 
+		return $this->withDavMethods(backend: $backend);
+	}//end davBackend()
+
+	/**
+	 * The backend when it has every method the export uses, else null with a warning naming the first one missing.
+	 *
+	 * @param mixed $backend What the container gave.
+	 *
+	 * @return object|null
+	 */
+	private function withDavMethods(mixed $backend): ?object {
 		foreach (self::DAV_METHODS as $method) {
 			if (is_object($backend) === false || method_exists($backend, $method) === false) {
 				$this->logger->warning('Planninq: the CalDAV backend lacks {method}; task export is off', ['method' => $method]);
@@ -371,7 +415,7 @@ class TaskCalendarExportService {
 		}
 
 		return $backend;
-	}//end davBackend()
+	}//end withDavMethods()
 
 	/**
 	 * The UID to use: the stored one, or a new one for a first export.
@@ -392,54 +436,75 @@ class TaskCalendarExportService {
 	/**
 	 * Create or replace the VTODO in one user's list.
 	 *
-	 * @param object $backend The CalDAV backend.
-	 * @param string $userId  The user.
-	 * @param string $taskId  The task uuid.
-	 * @param string $ics     The VCALENDAR text.
+	 * @param array<string,mixed> $export The backend, the task uuid and the VCALENDAR text.
+	 * @param string              $userId The user.
 	 *
 	 * @return int 1 when written, 0 when the list could not be made.
 	 */
-	private function writeFor(object $backend, string $userId, string $taskId, string $ics): int {
-		$listId = $this->listId(backend: $backend, userId: $userId, create: true);
+	private function writeFor(array $export, string $userId): int {
+		$backend = $export['backend'];
+		$listId  = ($this->existingList(backend: $backend, userId: $userId) ?? $this->createList(backend: $backend, userId: $userId));
 		if ($listId === null) {
 			return 0;
 		}
 
-		$uri = $this->objectUri(taskId: $taskId);
+		$uri = $this->objectUri(taskId: $export['taskId']);
 		if ($backend->getCalendarObject($listId, $uri) === null) {
-			$backend->createCalendarObject($listId, $uri, $ics);
+			$backend->createCalendarObject($listId, $uri, $export['ics']);
 			return 1;
 		}
 
-		$backend->updateCalendarObject($listId, $uri, $ics);
+		$backend->updateCalendarObject($listId, $uri, $export['ics']);
 
 		return 1;
 	}//end writeFor()
 
 	/**
-	 * The id of a user's "Planninq" list, created on demand as a VTODO-only list.
+	 * Remove the task's VTODO from one user's list when it is there.
+	 *
+	 * @param array<string,mixed> $export The backend and the task uuid.
+	 * @param string              $userId The user.
+	 *
+	 * @return void
+	 */
+	private function removeFor(array $export, string $userId): void {
+		$backend = $export['backend'];
+		$listId  = $this->existingList(backend: $backend, userId: $userId);
+		if ($listId !== null && $backend->getCalendarObject($listId, $this->objectUri(taskId: $export['taskId'])) !== null) {
+			$backend->deleteCalendarObject($listId, $this->objectUri(taskId: $export['taskId']));
+		}
+	}//end removeFor()
+
+	/**
+	 * The id of a user's "Planninq" list, null when there is none.
 	 *
 	 * @param object $backend The CalDAV backend.
 	 * @param string $userId  The user.
-	 * @param bool   $create  Whether to create it when missing.
 	 *
 	 * @return int|string|null
 	 */
-	private function listId(object $backend, string $userId, bool $create): int|string|null {
-		$principal = 'principals/users/' . $userId;
-		$list      = $backend->getCalendarByUri($principal, self::LIST_URI);
+	private function existingList(object $backend, string $userId): int|string|null {
+		$list = $backend->getCalendarByUri('principals/users/' . $userId, self::LIST_URI);
 		if (is_array($list) === true && isset($list['id']) === true) {
 			return $list['id'];
 		}
 
-		if ($create === false) {
-			return null;
-		}
+		return null;
+	}//end existingList()
 
+	/**
+	 * Create a user's "Planninq" list as a VTODO-only list.
+	 *
+	 * @param object $backend The CalDAV backend.
+	 * @param string $userId  The user.
+	 *
+	 * @return int|string|null The new list's id.
+	 */
+	private function createList(object $backend, string $userId): int|string|null {
 		$properties = ['components' => 'VTODO', '{DAV:}displayname' => 'Planninq'];
 
-		return $backend->createCalendar($principal, self::LIST_URI, $properties);
-	}//end listId()
+		return $backend->createCalendar('principals/users/' . $userId, self::LIST_URI, $properties);
+	}//end createList()
 
 	/**
 	 * The object's name in the list.

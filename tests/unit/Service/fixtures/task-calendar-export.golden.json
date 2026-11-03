@@ -371,7 +371,8 @@
                     "uuid": "t 1",
                     "silent": true
                 }
-            ]
+            ],
+            "deleted": []
         },
         "two on": {
             "result": 2,
@@ -420,7 +421,8 @@
                     "uuid": "t 1",
                     "silent": true
                 }
-            ]
+            ],
+            "deleted": []
         },
         "one of two on": {
             "result": 1,
@@ -457,35 +459,40 @@
                     "uuid": "t 1",
                     "silent": true
                 }
-            ]
+            ],
+            "deleted": []
         },
         "none on": {
             "result": 0,
             "lists": [],
             "created": [],
             "objects": [],
-            "saved": []
+            "saved": [],
+            "deleted": []
         },
         "no users": {
             "result": 0,
             "lists": [],
             "created": [],
             "objects": [],
-            "saved": []
+            "saved": [],
+            "deleted": []
         },
         "no dav": {
             "result": 0,
             "lists": [],
             "created": [],
             "objects": [],
-            "saved": []
+            "saved": [],
+            "deleted": []
         },
         "no task id": {
             "result": 0,
             "lists": [],
             "created": [],
             "objects": [],
-            "saved": []
+            "saved": [],
+            "deleted": []
         },
         "stored uid": {
             "result": 1,
@@ -507,7 +514,8 @@
                     "planninq-task-t 1.ics": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Conduction//Planninq//EN\r\nBEGIN:VTODO\r\nUID:kept@x\r\nDTSTAMP:(stamp)\r\nSUMMARY:Draft\r\nDESCRIPTION:Managed by Planninq. Changes made here are replaced by the next\r\n  change in Planninq.\r\nSTATUS:NEEDS-ACTION\r\nDUE;VALUE=DATE:20261110\r\nCATEGORIES:Project p-1\r\nURL:https://nc.example/index.php/apps/planninq/projects/p-1/tasks/t%201\r\nEND:VTODO\r\nEND:VCALENDAR\r\n"
                 }
             },
-            "saved": []
+            "saved": [],
+            "deleted": []
         },
         "stored blank uid": {
             "result": 1,
@@ -544,7 +552,8 @@
                     "uuid": "t 1",
                     "silent": true
                 }
-            ]
+            ],
+            "deleted": []
         },
         "stored number uid": {
             "result": 1,
@@ -581,7 +590,8 @@
                     "uuid": "t 1",
                     "silent": true
                 }
-            ]
+            ],
+            "deleted": []
         },
         "stored own uid": {
             "result": 1,
@@ -603,7 +613,8 @@
                     "planninq-task-t 1.ics": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Conduction//Planninq//EN\r\nBEGIN:VTODO\r\nUID:planninq-task-t 1@inst\r\nDTSTAMP:(stamp)\r\nSUMMARY:Draft\r\nDESCRIPTION:Managed by Planninq. Changes made here are replaced by the next\r\n  change in Planninq.\r\nSTATUS:NEEDS-ACTION\r\nDUE;VALUE=DATE:20261110\r\nCATEGORIES:Project p-1\r\nURL:https://nc.example/index.php/apps/planninq/projects/p-1/tasks/t%201\r\nEND:VTODO\r\nEND:VCALENDAR\r\n"
                 }
             },
-            "saved": []
+            "saved": [],
+            "deleted": []
         },
         "no project": {
             "result": 1,
@@ -640,7 +651,8 @@
                     "uuid": "t 1",
                     "silent": true
                 }
-            ]
+            ],
+            "deleted": []
         },
         "project ref": {
             "result": 1,
@@ -679,7 +691,8 @@
                     "uuid": "t 1",
                     "silent": true
                 }
-            ]
+            ],
+            "deleted": []
         },
         "list exists": {
             "result": 1,
@@ -707,7 +720,8 @@
                     "uuid": "t 1",
                     "silent": true
                 }
-            ]
+            ],
+            "deleted": []
         },
         "object exists": {
             "result": 1,
@@ -735,7 +749,8 @@
                     "uuid": "t 1",
                     "silent": true
                 }
-            ]
+            ],
+            "deleted": []
         },
         "dav fails": {
             "result": "threw: dav down",
@@ -753,7 +768,8 @@
                 ]
             ],
             "objects": [],
-            "saved": []
+            "saved": [],
+            "deleted": []
         },
         "repeated user": {
             "result": 2,
@@ -790,7 +806,63 @@
                     "uuid": "t 1",
                     "silent": true
                 }
-            ]
+            ],
+            "deleted": []
+        },
+        "list not made": {
+            "result": 0,
+            "lists": [],
+            "created": [
+                [
+                    "principals/users/ann",
+                    "planninq",
+                    {
+                        "components": "VTODO",
+                        "{DAV:}displayname": "Planninq"
+                    }
+                ]
+            ],
+            "objects": [],
+            "saved": [],
+            "deleted": []
+        },
+        "list without id": {
+            "result": 1,
+            "lists": {
+                "principals/users/ann": 2
+            },
+            "created": [
+                [
+                    "principals/users/ann",
+                    "planninq",
+                    {
+                        "components": "VTODO",
+                        "{DAV:}displayname": "Planninq"
+                    }
+                ]
+            ],
+            "objects": {
+                "2": {
+                    "planninq-task-t 1.ics": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Conduction//Planninq//EN\r\nBEGIN:VTODO\r\nUID:planninq-task-t 1@inst\r\nDTSTAMP:(stamp)\r\nSUMMARY:Draft\r\nDESCRIPTION:Managed by Planninq. Changes made here are replaced by the next\r\n  change in Planninq.\r\nSTATUS:NEEDS-ACTION\r\nDUE;VALUE=DATE:20261110\r\nCATEGORIES:Project p-1\r\nURL:https://nc.example/index.php/apps/planninq/projects/p-1/tasks/t%201\r\nEND:VTODO\r\nEND:VCALENDAR\r\n"
+                }
+            },
+            "saved": [
+                {
+                    "object": {
+                        "title": "Draft",
+                        "status": "open",
+                        "project": "p-1",
+                        "dueDate": "2026-11-10",
+                        "assignedTo": "ann",
+                        "calendarEventUid": "planninq-task-t 1@inst"
+                    },
+                    "register": "planninq",
+                    "schema": "task",
+                    "uuid": "t 1",
+                    "silent": true
+                }
+            ],
+            "deleted": []
         }
     },
     "removeTask": {
@@ -804,7 +876,13 @@
                     "planninq-task-other.ics": "BEGIN:VCALENDAR old"
                 }
             },
-            "saved": []
+            "saved": [],
+            "deleted": [
+                [
+                    1,
+                    "planninq-task-t 1.ics"
+                ]
+            ]
         },
         "two users": {
             "lists": {
@@ -820,7 +898,17 @@
                     "planninq-task-other.ics": "BEGIN:VCALENDAR old"
                 }
             },
-            "saved": []
+            "saved": [],
+            "deleted": [
+                [
+                    1,
+                    "planninq-task-t 1.ics"
+                ],
+                [
+                    2,
+                    "planninq-task-t 1.ics"
+                ]
+            ]
         },
         "no object": {
             "lists": {
@@ -828,19 +916,22 @@
             },
             "created": [],
             "objects": [],
-            "saved": []
+            "saved": [],
+            "deleted": []
         },
         "no list": {
             "lists": [],
             "created": [],
             "objects": [],
-            "saved": []
+            "saved": [],
+            "deleted": []
         },
         "no users": {
             "lists": [],
             "created": [],
             "objects": [],
-            "saved": []
+            "saved": [],
+            "deleted": []
         },
         "no dav": {
             "lists": {
@@ -853,7 +944,8 @@
                     "planninq-task-other.ics": "BEGIN:VCALENDAR old"
                 }
             },
-            "saved": []
+            "saved": [],
+            "deleted": []
         },
         "no task id": {
             "lists": {
@@ -866,7 +958,8 @@
                     "planninq-task-other.ics": "BEGIN:VCALENDAR old"
                 }
             },
-            "saved": []
+            "saved": [],
+            "deleted": []
         },
         "switched off": {
             "lists": {
@@ -878,7 +971,27 @@
                     "planninq-task-other.ics": "BEGIN:VCALENDAR old"
                 }
             },
-            "saved": []
+            "saved": [],
+            "deleted": [
+                [
+                    1,
+                    "planninq-task-t 1.ics"
+                ]
+            ]
+        },
+        "list without id": {
+            "lists": {
+                "principals/users/ann": 1
+            },
+            "created": [],
+            "objects": {
+                "1": {
+                    "planninq-task-t 1.ics": "BEGIN:VCALENDAR old",
+                    "planninq-task-other.ics": "BEGIN:VCALENDAR old"
+                }
+            },
+            "saved": [],
+            "deleted": []
         }
     },
     "tasksOf": {
