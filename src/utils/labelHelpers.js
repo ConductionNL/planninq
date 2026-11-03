@@ -8,6 +8,7 @@
  *
  * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
  */
+import { asList } from './asList.js'
 
 /** Default label colour, matching the schema default. */
 export const DEFAULT_LABEL_COLOR = '#4376FC'
@@ -124,11 +125,23 @@ export function sortLabelsByTitle(labels) {
  * @spec openspec/specs/kanban-board/spec.md
  */
 export function resolveTaskLabels(task, labels) {
-	const ids = Array.isArray(task?.labels) ? task.labels : []
-	if (ids.length === 0 || !Array.isArray(labels) || labels.length === 0) {
+	const ids = asList(task?.labels)
+	if (ids.length === 0 || asList(labels).length === 0) {
 		return []
 	}
-	const known = new Map(labels.map((label) => [labelId(label), label]))
+	return sortLabelsByTitle(knownLabels(ids, new Map(labels.map((label) => [labelId(label), label]))))
+}
+
+/**
+ * The labels the ids point at, each once, in id order; unknown ids are dropped.
+ *
+ * @param {Array<string>} ids The label ids.
+ * @param {Map<string, object>} known The known labels by id.
+ * @return {Array<object>}
+ *
+ * @spec openspec/specs/kanban-board/spec.md
+ */
+function knownLabels(ids, known) {
 	const seen = new Set()
 	const resolved = []
 	for (const id of ids) {
@@ -139,7 +152,7 @@ export function resolveTaskLabels(task, labels) {
 			resolved.push(label)
 		}
 	}
-	return sortLabelsByTitle(resolved)
+	return resolved
 }
 
 /**
