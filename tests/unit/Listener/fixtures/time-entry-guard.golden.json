@@ -10,6 +10,18 @@
         "user": "root",
         "project": "proj-a"
     },
+    "plain / create / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "plain / create / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "plain / create / owner": {
         "note": "kept",
         "user": "carol",
@@ -49,6 +61,18 @@
         "note": "kept",
         "user": "dave",
         "project": "proj-a"
+    },
+    "plain / stored dave / admin 2": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "plain / stored dave / root": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
     },
     "plain / stored dave / owner": {
         "note": "kept",
@@ -90,6 +114,18 @@
         "user": "root",
         "project": "proj-a"
     },
+    "plain / stored blank / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "plain / stored blank / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
+    },
     "plain / stored blank / owner": {
         "note": "kept",
         "user": "carol",
@@ -129,6 +165,18 @@
         "note": "kept",
         "user": "root",
         "project": "proj-a"
+    },
+    "plain / stored none / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "plain / stored none / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
     },
     "plain / stored none / owner": {
         "note": "kept",
@@ -170,6 +218,18 @@
         "user": "root",
         "project": "proj-a"
     },
+    "plain / no old / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "plain / no old / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "plain / no old / owner": {
         "note": "kept",
         "user": "carol",
@@ -208,6 +268,15 @@
     "own / create / admin": {
         "note": "kept"
     },
+    "own / create / admin 2": {
+        "note": "kept"
+    },
+    "own / create / root": {
+        "note": "kept",
+        "user": "root",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "own / create / owner": {
         "note": "kept",
         "user": "carol"
@@ -240,6 +309,14 @@
     "own / stored dave / admin": {
         "note": "kept"
     },
+    "own / stored dave / admin 2": {
+        "note": "kept"
+    },
+    "own / stored dave / root": {
+        "note": "kept",
+        "hourlyRate": 80,
+        "billable": true
+    },
     "own / stored dave / owner": {
         "note": "kept"
     },
@@ -267,6 +344,15 @@
     },
     "own / stored blank / admin": {
         "note": "kept"
+    },
+    "own / stored blank / admin 2": {
+        "note": "kept"
+    },
+    "own / stored blank / root": {
+        "note": "kept",
+        "user": "root",
+        "hourlyRate": 50,
+        "billable": null
     },
     "own / stored blank / owner": {
         "note": "kept",
@@ -300,6 +386,15 @@
     "own / stored none / admin": {
         "note": "kept"
     },
+    "own / stored none / admin 2": {
+        "note": "kept"
+    },
+    "own / stored none / root": {
+        "note": "kept",
+        "user": "root",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "own / stored none / owner": {
         "note": "kept",
         "user": "carol"
@@ -331,6 +426,15 @@
     },
     "own / no old / admin": {
         "note": "kept"
+    },
+    "own / no old / admin 2": {
+        "note": "kept"
+    },
+    "own / no old / root": {
+        "note": "kept",
+        "user": "root",
+        "hourlyRate": 0,
+        "billable": null
     },
     "own / no old / owner": {
         "note": "kept",
@@ -364,6 +468,17 @@
     "forged user / create / admin": {
         "note": "kept",
         "project": "proj-a"
+    },
+    "forged user / create / admin 2": {
+        "note": "kept",
+        "project": "proj-a"
+    },
+    "forged user / create / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
     },
     "forged user / create / owner": {
         "note": "kept",
@@ -405,6 +520,18 @@
         "user": "dave",
         "project": "proj-a"
     },
+    "forged user / stored dave / admin 2": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "forged user / stored dave / root": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
+    },
     "forged user / stored dave / owner": {
         "note": "kept",
         "user": "dave",
@@ -443,6 +570,17 @@
     "forged user / stored blank / admin": {
         "note": "kept",
         "project": "proj-a"
+    },
+    "forged user / stored blank / admin 2": {
+        "note": "kept",
+        "project": "proj-a"
+    },
+    "forged user / stored blank / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
     },
     "forged user / stored blank / owner": {
         "note": "kept",
@@ -483,6 +621,17 @@
         "note": "kept",
         "project": "proj-a"
     },
+    "forged user / stored none / admin 2": {
+        "note": "kept",
+        "project": "proj-a"
+    },
+    "forged user / stored none / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "forged user / stored none / owner": {
         "note": "kept",
         "user": "carol",
@@ -521,6 +670,17 @@
     "forged user / no old / admin": {
         "note": "kept",
         "project": "proj-a"
+    },
+    "forged user / no old / admin 2": {
+        "note": "kept",
+        "project": "proj-a"
+    },
+    "forged user / no old / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
     },
     "forged user / no old / owner": {
         "note": "kept",
@@ -562,6 +722,18 @@
         "user": "root",
         "project": "proj-a"
     },
+    "blank user / create / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "blank user / create / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "blank user / create / owner": {
         "note": "kept",
         "user": "carol",
@@ -601,6 +773,18 @@
         "note": "kept",
         "user": "dave",
         "project": "proj-a"
+    },
+    "blank user / stored dave / admin 2": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "blank user / stored dave / root": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
     },
     "blank user / stored dave / owner": {
         "note": "kept",
@@ -642,6 +826,18 @@
         "user": "root",
         "project": "proj-a"
     },
+    "blank user / stored blank / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "blank user / stored blank / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
+    },
     "blank user / stored blank / owner": {
         "note": "kept",
         "user": "carol",
@@ -681,6 +877,18 @@
         "note": "kept",
         "user": "root",
         "project": "proj-a"
+    },
+    "blank user / stored none / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "blank user / stored none / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
     },
     "blank user / stored none / owner": {
         "note": "kept",
@@ -722,6 +930,18 @@
         "user": "root",
         "project": "proj-a"
     },
+    "blank user / no old / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "blank user / no old / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "blank user / no old / owner": {
         "note": "kept",
         "user": "carol",
@@ -761,6 +981,18 @@
         "note": "kept",
         "user": "root",
         "project": "proj-a"
+    },
+    "number user / create / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "number user / create / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
     },
     "number user / create / owner": {
         "note": "kept",
@@ -802,6 +1034,18 @@
         "user": "dave",
         "project": "proj-a"
     },
+    "number user / stored dave / admin 2": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "number user / stored dave / root": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
+    },
     "number user / stored dave / owner": {
         "note": "kept",
         "user": "dave",
@@ -841,6 +1085,18 @@
         "note": "kept",
         "user": "root",
         "project": "proj-a"
+    },
+    "number user / stored blank / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "number user / stored blank / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
     },
     "number user / stored blank / owner": {
         "note": "kept",
@@ -882,6 +1138,18 @@
         "user": "root",
         "project": "proj-a"
     },
+    "number user / stored none / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "number user / stored none / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "number user / stored none / owner": {
         "note": "kept",
         "user": "carol",
@@ -921,6 +1189,18 @@
         "note": "kept",
         "user": "root",
         "project": "proj-a"
+    },
+    "number user / no old / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "number user / no old / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
     },
     "number user / no old / owner": {
         "note": "kept",
@@ -962,6 +1242,18 @@
         "user": "root",
         "project": "proj-a"
     },
+    "rates / create / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "rates / create / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "rates / create / owner": {
         "note": "kept",
         "user": "carol",
@@ -1002,6 +1294,17 @@
         "user": "dave",
         "project": "proj-a"
     },
+    "rates / stored dave / admin 2": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "rates / stored dave / root": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80
+    },
     "rates / stored dave / owner": {
         "note": "kept",
         "user": "dave",
@@ -1039,6 +1342,18 @@
         "note": "kept",
         "user": "root",
         "project": "proj-a"
+    },
+    "rates / stored blank / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "rates / stored blank / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
     },
     "rates / stored blank / owner": {
         "note": "kept",
@@ -1080,6 +1395,18 @@
         "user": "root",
         "project": "proj-a"
     },
+    "rates / stored none / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "rates / stored none / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "rates / stored none / owner": {
         "note": "kept",
         "user": "carol",
@@ -1120,6 +1447,18 @@
         "user": "root",
         "project": "proj-a"
     },
+    "rates / no old / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "rates / no old / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "rates / no old / owner": {
         "note": "kept",
         "user": "carol",
@@ -1157,6 +1496,15 @@
     },
     "rates b / create / admin": {
         "note": "kept"
+    },
+    "rates b / create / admin 2": {
+        "note": "kept"
+    },
+    "rates b / create / root": {
+        "note": "kept",
+        "user": "root",
+        "hourlyRate": 0,
+        "billable": null
     },
     "rates b / create / owner": {
         "note": "kept",
@@ -1196,6 +1544,16 @@
         "note": "kept",
         "user": "dave"
     },
+    "rates b / stored dave / admin 2": {
+        "note": "kept",
+        "user": "dave"
+    },
+    "rates b / stored dave / root": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 80,
+        "billable": true
+    },
     "rates b / stored dave / owner": {
         "note": "kept",
         "user": "dave",
@@ -1232,6 +1590,15 @@
     },
     "rates b / stored blank / admin": {
         "note": "kept"
+    },
+    "rates b / stored blank / admin 2": {
+        "note": "kept"
+    },
+    "rates b / stored blank / root": {
+        "note": "kept",
+        "user": "root",
+        "hourlyRate": 50,
+        "billable": null
     },
     "rates b / stored blank / owner": {
         "note": "kept",
@@ -1270,6 +1637,15 @@
     "rates b / stored none / admin": {
         "note": "kept"
     },
+    "rates b / stored none / admin 2": {
+        "note": "kept"
+    },
+    "rates b / stored none / root": {
+        "note": "kept",
+        "user": "root",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "rates b / stored none / owner": {
         "note": "kept",
         "user": "carol",
@@ -1306,6 +1682,15 @@
     },
     "rates b / no old / admin": {
         "note": "kept"
+    },
+    "rates b / no old / admin 2": {
+        "note": "kept"
+    },
+    "rates b / no old / root": {
+        "note": "kept",
+        "user": "root",
+        "hourlyRate": 0,
+        "billable": null
     },
     "rates b / no old / owner": {
         "note": "kept",
@@ -1345,6 +1730,18 @@
         "note": "kept",
         "user": "root",
         "project": "proj-a"
+    },
+    "wrong proj / create / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "wrong proj / create / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
     },
     "wrong proj / create / owner": {
         "note": "kept",
@@ -1386,6 +1783,18 @@
         "user": "dave",
         "project": "proj-a"
     },
+    "wrong proj / stored dave / admin 2": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "wrong proj / stored dave / root": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
+    },
     "wrong proj / stored dave / owner": {
         "note": "kept",
         "user": "dave",
@@ -1425,6 +1834,18 @@
         "note": "kept",
         "user": "root",
         "project": "proj-a"
+    },
+    "wrong proj / stored blank / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "wrong proj / stored blank / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
     },
     "wrong proj / stored blank / owner": {
         "note": "kept",
@@ -1466,6 +1887,18 @@
         "user": "root",
         "project": "proj-a"
     },
+    "wrong proj / stored none / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "wrong proj / stored none / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "wrong proj / stored none / owner": {
         "note": "kept",
         "user": "carol",
@@ -1506,6 +1939,18 @@
         "user": "root",
         "project": "proj-a"
     },
+    "wrong proj / no old / admin 2": {
+        "note": "kept",
+        "user": "ada",
+        "project": "proj-a"
+    },
+    "wrong proj / no old / root": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "wrong proj / no old / owner": {
         "note": "kept",
         "user": "carol",
@@ -1544,6 +1989,16 @@
     "no project / create / admin": {
         "note": "kept",
         "user": "root"
+    },
+    "no project / create / admin 2": {
+        "note": "kept",
+        "user": "ada"
+    },
+    "no project / create / root": {
+        "note": "kept",
+        "user": "root",
+        "hourlyRate": 0,
+        "billable": null
     },
     "no project / create / owner": {
         "note": "kept",
@@ -1585,6 +2040,16 @@
         "note": "kept",
         "user": "dave"
     },
+    "no project / stored dave / admin 2": {
+        "note": "kept",
+        "user": "dave"
+    },
+    "no project / stored dave / root": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 80,
+        "billable": true
+    },
     "no project / stored dave / owner": {
         "note": "kept",
         "user": "dave",
@@ -1624,6 +2089,16 @@
     "no project / stored blank / admin": {
         "note": "kept",
         "user": "root"
+    },
+    "no project / stored blank / admin 2": {
+        "note": "kept",
+        "user": "ada"
+    },
+    "no project / stored blank / root": {
+        "note": "kept",
+        "user": "root",
+        "hourlyRate": 50,
+        "billable": null
     },
     "no project / stored blank / owner": {
         "note": "kept",
@@ -1665,6 +2140,16 @@
         "note": "kept",
         "user": "root"
     },
+    "no project / stored none / admin 2": {
+        "note": "kept",
+        "user": "ada"
+    },
+    "no project / stored none / root": {
+        "note": "kept",
+        "user": "root",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "no project / stored none / owner": {
         "note": "kept",
         "user": "carol",
@@ -1705,6 +2190,16 @@
         "note": "kept",
         "user": "root"
     },
+    "no project / no old / admin 2": {
+        "note": "kept",
+        "user": "ada"
+    },
+    "no project / no old / root": {
+        "note": "kept",
+        "user": "root",
+        "hourlyRate": 0,
+        "billable": null
+    },
     "no project / no old / owner": {
         "note": "kept",
         "user": "carol",
@@ -1744,6 +2239,13 @@
     "stamped / create / admin": {
         "note": "kept"
     },
+    "stamped / create / admin 2": {
+        "note": "kept"
+    },
+    "stamped / create / root": {
+        "note": "kept",
+        "user": "root"
+    },
     "stamped / create / owner": {
         "note": "kept",
         "user": "carol"
@@ -1772,6 +2274,14 @@
     "stamped / stored dave / admin": {
         "note": "kept"
     },
+    "stamped / stored dave / admin 2": {
+        "note": "kept"
+    },
+    "stamped / stored dave / root": {
+        "note": "kept",
+        "hourlyRate": 80,
+        "billable": true
+    },
     "stamped / stored dave / owner": {
         "note": "kept"
     },
@@ -1799,6 +2309,14 @@
     },
     "stamped / stored blank / admin": {
         "note": "kept"
+    },
+    "stamped / stored blank / admin 2": {
+        "note": "kept"
+    },
+    "stamped / stored blank / root": {
+        "note": "kept",
+        "user": "root",
+        "hourlyRate": 50
     },
     "stamped / stored blank / owner": {
         "note": "kept",
@@ -1830,6 +2348,13 @@
     "stamped / stored none / admin": {
         "note": "kept"
     },
+    "stamped / stored none / admin 2": {
+        "note": "kept"
+    },
+    "stamped / stored none / root": {
+        "note": "kept",
+        "user": "root"
+    },
     "stamped / stored none / owner": {
         "note": "kept",
         "user": "carol"
@@ -1858,6 +2383,13 @@
     "stamped / no old / admin": {
         "note": "kept"
     },
+    "stamped / no old / admin 2": {
+        "note": "kept"
+    },
+    "stamped / no old / root": {
+        "note": "kept",
+        "user": "root"
+    },
     "stamped / no old / owner": {
         "note": "kept",
         "user": "carol"
@@ -1877,5 +2409,6 @@
         "note": "kept",
         "user": "eve"
     },
-    "another schema": []
+    "another schema": [],
+    "another schema, update": []
 }

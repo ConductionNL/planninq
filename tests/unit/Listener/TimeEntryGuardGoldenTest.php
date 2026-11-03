@@ -77,6 +77,8 @@ class TimeEntryGuardGoldenTest extends TestCase {
 		'nobody'  => ['', false, []],
 		'system'  => ['sys', false, []],
 		'admin'   => ['root', true, []],
+		'admin 2' => ['ada', true, []],
+		'root'    => ['root', false, []],
 		'owner'   => ['carol', false, []],
 		'manager' => ['erin', false, []],
 		'pmo'     => ['gwen', false, ['pmo']],
@@ -104,6 +106,11 @@ class TimeEntryGuardGoldenTest extends TestCase {
 		$event = new ObjectCreatingEvent($label);
 		$this->listener(who: self::ACTORS['member'])->handle($event);
 		$recorded['another schema'] = $event->getModifiedData();
+
+		$this->seedProjects();
+		$event = new ObjectUpdatingEvent($label, $label);
+		$this->listener(who: self::ACTORS['member'])->handle($event);
+		$recorded['another schema, update'] = $event->getModifiedData();
 
 		if (getenv('PLANNINQ_GOLDEN_RECORD') === '1') {
 			file_put_contents(self::FIXTURE, json_encode($recorded, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
