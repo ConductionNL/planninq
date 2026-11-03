@@ -53,7 +53,7 @@
       { "id": "TimetableScenariosMenu", "label": "Scenarios", "icon": "CalendarClock", "route": "TimetableScenarios" }
     ] },
     { "id": "Documentation", "label": "Documentation", "icon": "BookOpenVariantOutline", "href": "https://planix.conduction.nl", "section": "footer", "order": 90 },
-    { "id": "StoreMenu", "label": "Store", "icon": "StoreOutline", "route": "Store", "section": "footer", "order": 92 },
+    { "id": "StoreMenu", "label": "Marketplace", "icon": "StoreOutline", "route": "Store", "section": "footer", "order": 92 },
     { "id": "ReportsMenu", "label": "Reports", "icon": "ChartBoxOutline", "route": "Reports", "section": "settings", "order": 95 },
     { "id": "FeaturesRoadmapMenu", "label": "Features & roadmap", "icon": "MapMarkerPath", "route": "FeaturesRoadmap", "section": "footer", "order": 100 },
     { "id": "FlowsMenu", "label": "Flows", "icon": "SitemapOutline", "route": "Flows", "section": "settings", "order": 96 },
@@ -65,10 +65,10 @@
       "id": "Store",
       "route": "/store",
       "type": "store",
-      "title": "Store",
+      "title": "Marketplace",
       "config": {
         "app": "planninq",
-        "title": "Store",
+        "title": "Marketplace",
         "description": "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them."
       },
       "_note": "ADR-114 Decision 4 / ADR-080. Declarative: openregister hosts the store plane, so this app writes NO store controller. With no registry configured the page renders the app's built-in items and makes NO network call."

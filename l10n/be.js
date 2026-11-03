@@ -245,7 +245,7 @@ OC.L10N.register(
         "This project could not be found": "Не ўдалося знайсці гэты праект",
         "Untitled project": "Праект без назвы",
         "and {count} more": "і яшчэ {count}",
-        "Store": "Крама",
+        "Marketplace": "Крама",
         "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Усталюйце рэестры, схемы і патокі, апублікаваныя іншымі арганізацыямі.",
         "Work Date": "Дата працы",
         "Zaak UUID": "Zaak-UUID",
