@@ -193,14 +193,17 @@ trait CalendarExportFixture {
 			public array $objects = [];
 			public array $created = [];
 			public bool $fail = false;
+			public bool $noList = false;
+			public bool $idless = false;
+			public array $deleted = [];
 			private int $next = 1;
-			public function getCalendarByUri($principal, $uri) { return isset($this->lists[$principal]) && $uri === 'planninq' ? ['id' => $this->lists[$principal], 'uri' => $uri] : null; }
-			public function createCalendar($principal, $uri, array $properties) { $this->created[] = [$principal, $uri, $properties]; $this->lists[$principal] = $this->next; $this->objects[$this->next] = []; return $this->next++; }
+			public function getCalendarByUri($principal, $uri) { if ($this->idless && isset($this->lists[$principal])) { return ['uri' => $uri]; } return isset($this->lists[$principal]) && $uri === 'planninq' ? ['id' => $this->lists[$principal], 'uri' => $uri] : null; }
+			public function createCalendar($principal, $uri, array $properties) { $this->created[] = [$principal, $uri, $properties]; if ($this->noList) { return null; } $this->lists[$principal] = $this->next; $this->objects[$this->next] = []; return $this->next++; }
 			public function deleteCalendar($id, bool $force = false) { unset($this->objects[$id]); $this->lists = array_filter($this->lists, fn ($l) => $l !== $id); }
 			public function getCalendarObject($id, $uri) { return isset($this->objects[$id][$uri]) ? ['calendardata' => $this->objects[$id][$uri]] : null; }
 			public function createCalendarObject($id, $uri, $data) { if ($this->fail) { throw new \RuntimeException('dav down'); } if (isset($this->objects[$id][$uri])) { throw new \RuntimeException('exists'); } $this->objects[$id][$uri] = $data; }
 			public function updateCalendarObject($id, $uri, $data) { if ($this->fail) { throw new \RuntimeException('dav down'); } if (!isset($this->objects[$id][$uri])) { throw new \RuntimeException('missing'); } $this->objects[$id][$uri] = $data; }
-			public function deleteCalendarObject($id, $uri) { unset($this->objects[$id][$uri]); }
+			public function deleteCalendarObject($id, $uri) { $this->deleted[] = [$id, $uri]; unset($this->objects[$id][$uri]); }
 			// phpcs:enable
 		};
 	}//end newBackend()
