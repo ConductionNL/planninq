@@ -78,30 +78,11 @@ class TimetableScenarioPublisher {
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
 	 */
 	public function publishDrafts(string $id): array {
-		$scenario = $this->store->load(id: $id);
-		if ($scenario === null
-			|| ($scenario['source'] ?? '') !== 'generated'
-			|| in_array(($scenario['status'] ?? ''), ['done', 'published'], true) === false
-			|| ($scenario['placements'] ?? []) === []
-		) {
-			throw new InvalidArgumentException('Only a finished generated scenario with placements can be published.');
-		}
-
+		$scenario    = $this->publishable(id: $id);
 		[$from, $to] = $this->window(scenario: $scenario);
 		$existing    = $this->store->lessonsFrom(source: self::SOURCE, from: $from->format(DATE_ATOM), to: $to->format(DATE_ATOM));
-		foreach ($existing as $lesson) {
-			if (($lesson['status'] ?? '') === 'scheduled') {
-				throw new InvalidArgumentException('Lessons of this window are already published from the generator. Nothing was written.');
-			}
-		}
-
-		$removed = 0;
-		foreach ($existing as $lesson) {
-			if (str_starts_with((string)($lesson['externalRef'] ?? ''), $id.':') === false) {
-				$this->store->deleteLesson(id: (string)$lesson['id']);
-				$removed++;
-			}
-		}
+		$this->assertNotPublished(lessons: $existing);
+		$removed = $this->removeOtherDrafts(id: $id, lessons: $existing);
 
 		$result = $this->sessions->upsert(sourceSystem: self::SOURCE, sessions: $this->rows(id: $id, scenario: $scenario, from: $from, to: $to));
 		$this->store->save(id: $id, data: array_merge($scenario, ['status' => 'published', 'publishedAt' => (new DateTimeImmutable())->format(DATE_ATOM)]));
@@ -114,6 +95,65 @@ class TimetableScenarioPublisher {
 			'rejected'  => count((array)($result['rejected'] ?? [])),
 		];
 	}//end publishDrafts()
+
+	/**
+	 * The scenario, when it is a finished generated scenario with placements.
+	 *
+	 * @param string $id The scenario id.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @throws InvalidArgumentException When the scenario cannot be published.
+	 */
+	private function publishable(string $id): array {
+		$scenario = $this->store->load(id: $id);
+		if ($scenario === null
+			|| ($scenario['source'] ?? '') !== 'generated'
+			|| in_array(($scenario['status'] ?? ''), ['done', 'published'], true) === false
+			|| ($scenario['placements'] ?? []) === []
+		) {
+			throw new InvalidArgumentException('Only a finished generated scenario with placements can be published.');
+		}
+
+		return $scenario;
+	}//end publishable()
+
+	/**
+	 * Refuse the publish when the generator already published a lesson of the window.
+	 *
+	 * @param array<int,array<string,mixed>> $lessons The generator's lessons of the window.
+	 *
+	 * @return void
+	 *
+	 * @throws InvalidArgumentException When one of them is scheduled.
+	 */
+	private function assertNotPublished(array $lessons): void {
+		foreach ($lessons as $lesson) {
+			if (($lesson['status'] ?? '') === 'scheduled') {
+				throw new InvalidArgumentException('Lessons of this window are already published from the generator. Nothing was written.');
+			}
+		}
+	}//end assertNotPublished()
+
+	/**
+	 * Delete the generator's drafts of the window that belong to another scenario.
+	 *
+	 * @param string                         $id      The scenario id.
+	 * @param array<int,array<string,mixed>> $lessons The generator's lessons of the window.
+	 *
+	 * @return int How many were deleted.
+	 */
+	private function removeOtherDrafts(string $id, array $lessons): int {
+		$removed = 0;
+		foreach ($lessons as $lesson) {
+			if (str_starts_with((string)($lesson['externalRef'] ?? ''), $id.':') === false) {
+				$this->store->deleteLesson(id: (string)$lesson['id']);
+				$removed++;
+			}
+		}
+
+		return $removed;
+	}//end removeOtherDrafts()
 
 	/**
 	 * The draft lesson rows of every week of the window, in the upsert contract's shape.
@@ -134,7 +174,7 @@ class TimetableScenarioPublisher {
 		for ($monday = $this->monday(date: $from); $monday <= $to; $monday = $monday->modify('+7 days')) {
 			foreach ((array)$scenario['placements'] as $placement) {
 				$row = $this->row(id: $id, lesson: ($lessons[$placement['lesson']] ?? null), placement: $placement, monday: $monday, times: $times);
-				if ($row !== null && $row['startsAt'] >= $from->format(DATE_ATOM) && $row['startsAt'] <= $to->format(DATE_ATOM)) {
+				if ($this->inWindow(row: $row, window: [$from, $to]) === true) {
 					$rows[] = $row;
 				}
 			}
@@ -142,6 +182,18 @@ class TimetableScenarioPublisher {
 
 		return $rows;
 	}//end rows()
+
+	/**
+	 * Whether a draft lesson starts inside the window.
+	 *
+	 * @param array<string,string>|null                         $row    The lesson, or null when it could not be built.
+	 * @param array{0:DateTimeImmutable,1:DateTimeImmutable} $window The first day and the end of the last day.
+	 *
+	 * @return bool
+	 */
+	private function inWindow(?array $row, array $window): bool {
+		return $row !== null && $row['startsAt'] >= $window[0]->format(DATE_ATOM) && $row['startsAt'] <= $window[1]->format(DATE_ATOM);
+	}//end inWindow()
 
 	/**
 	 * One draft lesson, or null when the lesson or its period is unknown.
