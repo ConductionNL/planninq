@@ -151,44 +151,60 @@ class FlowHistoryService {
 	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
 	 */
 	public function window(?string $from, ?string $to): ?array {
-		$today = (new DateTimeImmutable('@' . $this->timeFactory->now()->getTimestamp()))->setTime(0, 0);
-		$end = $this->date(value: $to, fallback: $today);
-		$start = null;
-		if ($end !== null) {
-			$start = $this->date(value: $from, fallback: $end->modify('-' . (self::DEFAULT_DAYS - 1) . ' days'));
-		}
+		return $this->windowOf(from: (string)$from, to: (string)$to);
+	}//end window()
 
-		if ($start === null || $end === null || $start > $end) {
+	/**
+	 * The window for two requested days, each empty when not requested.
+	 *
+	 * @param string $from First day, Y-m-d, or empty.
+	 * @param string $to   Last day, Y-m-d, or empty.
+	 *
+	 * @return DateTimeImmutable[]|null
+	 */
+	private function windowOf(string $from, string $to): ?array {
+		$today = (new DateTimeImmutable('@' . $this->timeFactory->now()->getTimestamp()))->setTime(0, 0);
+		$end   = $this->date(value: $to, fallback: $today);
+		if ($end === null) {
 			return null;
 		}
 
-		if ((int)$start->diff($end)->days + 1 > self::MAX_DAYS) {
+		$start = $this->date(value: $from, fallback: $end->modify('-' . (self::DEFAULT_DAYS - 1) . ' days'));
+		if ($start === null || $this->fits(start: $start, end: $end) === false) {
 			return null;
 		}
 
 		return [$start, $end];
-	}//end window()
+	}//end windowOf()
+
+	/**
+	 * Whether a window runs forward and spans at most MAX_DAYS days.
+	 *
+	 * @param DateTimeImmutable $start The first day.
+	 * @param DateTimeImmutable $end   The last day.
+	 *
+	 * @return bool
+	 */
+	private function fits(DateTimeImmutable $start, DateTimeImmutable $end): bool {
+		return $start <= $end && ((int)$start->diff($end)->days + 1) <= self::MAX_DAYS;
+	}//end fits()
 
 	/**
 	 * A Y-m-d date as a UTC midnight; the fallback when empty; null when it
 	 * is not a calendar date.
 	 *
-	 * @param string|null       $value    The value
+	 * @param string            $value    The value
 	 * @param DateTimeImmutable $fallback Used when the value is empty
 	 *
 	 * @return DateTimeImmutable|null
 	 */
-	private function date(?string $value, DateTimeImmutable $fallback): ?DateTimeImmutable {
-		if ($value === null || $value === '') {
+	private function date(string $value, DateTimeImmutable $fallback): ?DateTimeImmutable {
+		if ($value === '') {
 			return $fallback;
 		}
 
 		$parts = [];
-		if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value, $parts) !== 1) {
-			return null;
-		}
-
-		if (checkdate((int)$parts[2], (int)$parts[3], (int)$parts[1]) === false) {
+		if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value, $parts) !== 1 || checkdate((int)$parts[2], (int)$parts[3], (int)$parts[1]) === false) {
 			return null;
 		}
 
