@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+require_once __DIR__ . '/../Support/RecordedGolden.php';
+
 use OCA\Planninq\Service\TimetableCsvParser;
 use PHPUnit\Framework\TestCase;
 
@@ -29,6 +31,7 @@ use PHPUnit\Framework\TestCase;
  * Header check, whole numbers and room types, each refusal with its line.
  */
 class TimetableCsvParserTest extends TestCase {
+	use \OCA\Planninq\Tests\Unit\Support\RecordedGolden;
 
 	/**
 	 * A good sheet: header case and spaces ignored, semicolons accepted, blank lines skipped.
@@ -117,4 +120,27 @@ class TimetableCsvParserTest extends TestCase {
 		self::assertSame(expected: [], actual: $result['rows']);
 		self::assertSame(expected: 'Line 2: capacity must be a whole number of 1 or more.', actual: $result['errors'][0]['message']);
 	}//end testARoomCapacityMustBeAWholeNumber()
+
+	/**
+	 * Every outcome of both sheets, recorded on the code before its helpers changed.
+	 *
+	 * @return void
+	 */
+	public function testSheetsMatchTheRecording(): void {
+		$parser   = new TimetableCsvParser();
+		$activity = 'group,subject,teacher,lessons per week,lesson length,room type';
+		$this->assertMatchesRecording(
+			name: 'timetable-csv',
+			recorded: [
+				'rooms good'      => $parser->parseRooms(csv: "Reference,Capacity,Type\nr-101,30,classroom\n\nlab-1,16,lab\n"),
+				'rooms semicolon' => $parser->parseRooms(csv: "reference;capacity;type\r\nr-1;x;\r"),
+				'rooms short row' => $parser->parseRooms(csv: "reference,capacity,type\nr-1\n"),
+				'rooms bad head'  => $parser->parseRooms(csv: "room,size\nr-1,3\n"),
+				'rooms empty'     => $parser->parseRooms(csv: ''),
+				'activities good' => $parser->parseActivities(csv: $activity . "\n3A,Chem,noor,2,1,lab\n", roomTypes: ['lab']),
+				'activities bad'  => $parser->parseActivities(csv: $activity . "\n3A,,noor,0,x,attic,extra\n", roomTypes: ['lab']),
+				'activities head' => $parser->parseActivities(csv: "group\n3A\n", roomTypes: []),
+			]
+		);
+	}//end testSheetsMatchTheRecording()
 }//end class
