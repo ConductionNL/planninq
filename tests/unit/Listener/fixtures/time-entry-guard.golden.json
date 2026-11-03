@@ -1,0 +1,1881 @@
+{
+    "plain / create / nobody": {
+        "note": "kept"
+    },
+    "plain / create / system": {
+        "note": "kept"
+    },
+    "plain / create / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "plain / create / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "plain / create / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "plain / create / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "plain / create / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "plain / create / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "plain / stored dave / nobody": {
+        "note": "kept"
+    },
+    "plain / stored dave / system": {
+        "note": "kept"
+    },
+    "plain / stored dave / admin": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "plain / stored dave / owner": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "plain / stored dave / manager": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "plain / stored dave / pmo": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "plain / stored dave / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "plain / stored dave / outside": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "plain / stored blank / nobody": {
+        "note": "kept"
+    },
+    "plain / stored blank / system": {
+        "note": "kept"
+    },
+    "plain / stored blank / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "plain / stored blank / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "plain / stored blank / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "plain / stored blank / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "plain / stored blank / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "plain / stored blank / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "plain / stored none / nobody": {
+        "note": "kept"
+    },
+    "plain / stored none / system": {
+        "note": "kept"
+    },
+    "plain / stored none / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "plain / stored none / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "plain / stored none / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "plain / stored none / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "plain / stored none / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "plain / stored none / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "plain / no old / nobody": {
+        "note": "kept"
+    },
+    "plain / no old / system": {
+        "note": "kept"
+    },
+    "plain / no old / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "plain / no old / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "plain / no old / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "plain / no old / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "plain / no old / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "plain / no old / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "own / create / nobody": {
+        "note": "kept"
+    },
+    "own / create / system": {
+        "note": "kept"
+    },
+    "own / create / admin": {
+        "note": "kept"
+    },
+    "own / create / owner": {
+        "note": "kept",
+        "user": "carol"
+    },
+    "own / create / manager": {
+        "note": "kept",
+        "user": "erin"
+    },
+    "own / create / pmo": {
+        "note": "kept",
+        "user": "gwen"
+    },
+    "own / create / member": {
+        "note": "kept",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "own / create / outside": {
+        "note": "kept",
+        "user": "eve",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "own / stored dave / nobody": {
+        "note": "kept"
+    },
+    "own / stored dave / system": {
+        "note": "kept"
+    },
+    "own / stored dave / admin": {
+        "note": "kept"
+    },
+    "own / stored dave / owner": {
+        "note": "kept"
+    },
+    "own / stored dave / manager": {
+        "note": "kept"
+    },
+    "own / stored dave / pmo": {
+        "note": "kept"
+    },
+    "own / stored dave / member": {
+        "note": "kept",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "own / stored dave / outside": {
+        "note": "kept",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "own / stored blank / nobody": {
+        "note": "kept"
+    },
+    "own / stored blank / system": {
+        "note": "kept"
+    },
+    "own / stored blank / admin": {
+        "note": "kept"
+    },
+    "own / stored blank / owner": {
+        "note": "kept",
+        "user": "carol"
+    },
+    "own / stored blank / manager": {
+        "note": "kept",
+        "user": "erin"
+    },
+    "own / stored blank / pmo": {
+        "note": "kept",
+        "user": "gwen"
+    },
+    "own / stored blank / member": {
+        "note": "kept",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "own / stored blank / outside": {
+        "note": "kept",
+        "user": "eve",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "own / stored none / nobody": {
+        "note": "kept"
+    },
+    "own / stored none / system": {
+        "note": "kept"
+    },
+    "own / stored none / admin": {
+        "note": "kept"
+    },
+    "own / stored none / owner": {
+        "note": "kept",
+        "user": "carol"
+    },
+    "own / stored none / manager": {
+        "note": "kept",
+        "user": "erin"
+    },
+    "own / stored none / pmo": {
+        "note": "kept",
+        "user": "gwen"
+    },
+    "own / stored none / member": {
+        "note": "kept",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "own / stored none / outside": {
+        "note": "kept",
+        "user": "eve",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "own / no old / nobody": {
+        "note": "kept"
+    },
+    "own / no old / system": {
+        "note": "kept"
+    },
+    "own / no old / admin": {
+        "note": "kept"
+    },
+    "own / no old / owner": {
+        "note": "kept",
+        "user": "carol"
+    },
+    "own / no old / manager": {
+        "note": "kept",
+        "user": "erin"
+    },
+    "own / no old / pmo": {
+        "note": "kept",
+        "user": "gwen"
+    },
+    "own / no old / member": {
+        "note": "kept",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "own / no old / outside": {
+        "note": "kept",
+        "user": "eve",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "forged user / create / nobody": {
+        "note": "kept"
+    },
+    "forged user / create / system": {
+        "note": "kept"
+    },
+    "forged user / create / admin": {
+        "note": "kept",
+        "project": "proj-a"
+    },
+    "forged user / create / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "forged user / create / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "forged user / create / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "forged user / create / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "forged user / create / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "forged user / stored dave / nobody": {
+        "note": "kept"
+    },
+    "forged user / stored dave / system": {
+        "note": "kept"
+    },
+    "forged user / stored dave / admin": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "forged user / stored dave / owner": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "forged user / stored dave / manager": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "forged user / stored dave / pmo": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "forged user / stored dave / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "forged user / stored dave / outside": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "forged user / stored blank / nobody": {
+        "note": "kept"
+    },
+    "forged user / stored blank / system": {
+        "note": "kept"
+    },
+    "forged user / stored blank / admin": {
+        "note": "kept",
+        "project": "proj-a"
+    },
+    "forged user / stored blank / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "forged user / stored blank / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "forged user / stored blank / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "forged user / stored blank / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "forged user / stored blank / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "forged user / stored none / nobody": {
+        "note": "kept"
+    },
+    "forged user / stored none / system": {
+        "note": "kept"
+    },
+    "forged user / stored none / admin": {
+        "note": "kept",
+        "project": "proj-a"
+    },
+    "forged user / stored none / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "forged user / stored none / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "forged user / stored none / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "forged user / stored none / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "forged user / stored none / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "forged user / no old / nobody": {
+        "note": "kept"
+    },
+    "forged user / no old / system": {
+        "note": "kept"
+    },
+    "forged user / no old / admin": {
+        "note": "kept",
+        "project": "proj-a"
+    },
+    "forged user / no old / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "forged user / no old / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "forged user / no old / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "forged user / no old / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "forged user / no old / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "blank user / create / nobody": {
+        "note": "kept"
+    },
+    "blank user / create / system": {
+        "note": "kept"
+    },
+    "blank user / create / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "blank user / create / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "blank user / create / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "blank user / create / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "blank user / create / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "blank user / create / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "blank user / stored dave / nobody": {
+        "note": "kept"
+    },
+    "blank user / stored dave / system": {
+        "note": "kept"
+    },
+    "blank user / stored dave / admin": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "blank user / stored dave / owner": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "blank user / stored dave / manager": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "blank user / stored dave / pmo": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "blank user / stored dave / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "blank user / stored dave / outside": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "blank user / stored blank / nobody": {
+        "note": "kept"
+    },
+    "blank user / stored blank / system": {
+        "note": "kept"
+    },
+    "blank user / stored blank / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "blank user / stored blank / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "blank user / stored blank / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "blank user / stored blank / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "blank user / stored blank / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "blank user / stored blank / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "blank user / stored none / nobody": {
+        "note": "kept"
+    },
+    "blank user / stored none / system": {
+        "note": "kept"
+    },
+    "blank user / stored none / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "blank user / stored none / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "blank user / stored none / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "blank user / stored none / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "blank user / stored none / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "blank user / stored none / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "blank user / no old / nobody": {
+        "note": "kept"
+    },
+    "blank user / no old / system": {
+        "note": "kept"
+    },
+    "blank user / no old / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "blank user / no old / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "blank user / no old / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "blank user / no old / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "blank user / no old / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "blank user / no old / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "number user / create / nobody": {
+        "note": "kept"
+    },
+    "number user / create / system": {
+        "note": "kept"
+    },
+    "number user / create / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "number user / create / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "number user / create / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "number user / create / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "number user / create / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "number user / create / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "number user / stored dave / nobody": {
+        "note": "kept"
+    },
+    "number user / stored dave / system": {
+        "note": "kept"
+    },
+    "number user / stored dave / admin": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "number user / stored dave / owner": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "number user / stored dave / manager": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "number user / stored dave / pmo": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "number user / stored dave / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "number user / stored dave / outside": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "number user / stored blank / nobody": {
+        "note": "kept"
+    },
+    "number user / stored blank / system": {
+        "note": "kept"
+    },
+    "number user / stored blank / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "number user / stored blank / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "number user / stored blank / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "number user / stored blank / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "number user / stored blank / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "number user / stored blank / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "number user / stored none / nobody": {
+        "note": "kept"
+    },
+    "number user / stored none / system": {
+        "note": "kept"
+    },
+    "number user / stored none / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "number user / stored none / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "number user / stored none / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "number user / stored none / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "number user / stored none / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "number user / stored none / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "number user / no old / nobody": {
+        "note": "kept"
+    },
+    "number user / no old / system": {
+        "note": "kept"
+    },
+    "number user / no old / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "number user / no old / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "number user / no old / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "number user / no old / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "number user / no old / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "number user / no old / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates / create / nobody": {
+        "note": "kept"
+    },
+    "rates / create / system": {
+        "note": "kept"
+    },
+    "rates / create / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "rates / create / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "rates / create / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "rates / create / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "rates / create / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates / create / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates / stored dave / nobody": {
+        "note": "kept"
+    },
+    "rates / stored dave / system": {
+        "note": "kept"
+    },
+    "rates / stored dave / admin": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "rates / stored dave / owner": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "rates / stored dave / manager": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "rates / stored dave / pmo": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "rates / stored dave / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80
+    },
+    "rates / stored dave / outside": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80
+    },
+    "rates / stored blank / nobody": {
+        "note": "kept"
+    },
+    "rates / stored blank / system": {
+        "note": "kept"
+    },
+    "rates / stored blank / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "rates / stored blank / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "rates / stored blank / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "rates / stored blank / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "rates / stored blank / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "rates / stored blank / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "rates / stored none / nobody": {
+        "note": "kept"
+    },
+    "rates / stored none / system": {
+        "note": "kept"
+    },
+    "rates / stored none / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "rates / stored none / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "rates / stored none / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "rates / stored none / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "rates / stored none / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates / stored none / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates / no old / nobody": {
+        "note": "kept"
+    },
+    "rates / no old / system": {
+        "note": "kept"
+    },
+    "rates / no old / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "rates / no old / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "rates / no old / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "rates / no old / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "rates / no old / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates / no old / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates b / create / nobody": {
+        "note": "kept"
+    },
+    "rates b / create / system": {
+        "note": "kept"
+    },
+    "rates b / create / admin": {
+        "note": "kept"
+    },
+    "rates b / create / owner": {
+        "note": "kept",
+        "user": "carol",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates b / create / manager": {
+        "note": "kept",
+        "user": "erin",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates b / create / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates b / create / member": {
+        "note": "kept",
+        "user": "dave"
+    },
+    "rates b / create / outside": {
+        "note": "kept",
+        "user": "eve",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates b / stored dave / nobody": {
+        "note": "kept"
+    },
+    "rates b / stored dave / system": {
+        "note": "kept"
+    },
+    "rates b / stored dave / admin": {
+        "note": "kept",
+        "user": "dave"
+    },
+    "rates b / stored dave / owner": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "rates b / stored dave / manager": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "rates b / stored dave / pmo": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "rates b / stored dave / member": {
+        "note": "kept",
+        "user": "dave"
+    },
+    "rates b / stored dave / outside": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "rates b / stored blank / nobody": {
+        "note": "kept"
+    },
+    "rates b / stored blank / system": {
+        "note": "kept"
+    },
+    "rates b / stored blank / admin": {
+        "note": "kept"
+    },
+    "rates b / stored blank / owner": {
+        "note": "kept",
+        "user": "carol",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "rates b / stored blank / manager": {
+        "note": "kept",
+        "user": "erin",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "rates b / stored blank / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "rates b / stored blank / member": {
+        "note": "kept",
+        "user": "dave"
+    },
+    "rates b / stored blank / outside": {
+        "note": "kept",
+        "user": "eve",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "rates b / stored none / nobody": {
+        "note": "kept"
+    },
+    "rates b / stored none / system": {
+        "note": "kept"
+    },
+    "rates b / stored none / admin": {
+        "note": "kept"
+    },
+    "rates b / stored none / owner": {
+        "note": "kept",
+        "user": "carol",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates b / stored none / manager": {
+        "note": "kept",
+        "user": "erin",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates b / stored none / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates b / stored none / member": {
+        "note": "kept",
+        "user": "dave"
+    },
+    "rates b / stored none / outside": {
+        "note": "kept",
+        "user": "eve",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates b / no old / nobody": {
+        "note": "kept"
+    },
+    "rates b / no old / system": {
+        "note": "kept"
+    },
+    "rates b / no old / admin": {
+        "note": "kept"
+    },
+    "rates b / no old / owner": {
+        "note": "kept",
+        "user": "carol",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates b / no old / manager": {
+        "note": "kept",
+        "user": "erin",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates b / no old / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "rates b / no old / member": {
+        "note": "kept",
+        "user": "dave"
+    },
+    "rates b / no old / outside": {
+        "note": "kept",
+        "user": "eve",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "wrong proj / create / nobody": {
+        "note": "kept"
+    },
+    "wrong proj / create / system": {
+        "note": "kept"
+    },
+    "wrong proj / create / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "wrong proj / create / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "wrong proj / create / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "wrong proj / create / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "wrong proj / create / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "wrong proj / create / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "wrong proj / stored dave / nobody": {
+        "note": "kept"
+    },
+    "wrong proj / stored dave / system": {
+        "note": "kept"
+    },
+    "wrong proj / stored dave / admin": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "wrong proj / stored dave / owner": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "wrong proj / stored dave / manager": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "wrong proj / stored dave / pmo": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a"
+    },
+    "wrong proj / stored dave / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "wrong proj / stored dave / outside": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "wrong proj / stored blank / nobody": {
+        "note": "kept"
+    },
+    "wrong proj / stored blank / system": {
+        "note": "kept"
+    },
+    "wrong proj / stored blank / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "wrong proj / stored blank / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "wrong proj / stored blank / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "wrong proj / stored blank / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "wrong proj / stored blank / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "wrong proj / stored blank / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "wrong proj / stored none / nobody": {
+        "note": "kept"
+    },
+    "wrong proj / stored none / system": {
+        "note": "kept"
+    },
+    "wrong proj / stored none / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "wrong proj / stored none / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "wrong proj / stored none / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "wrong proj / stored none / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "wrong proj / stored none / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "wrong proj / stored none / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "wrong proj / no old / nobody": {
+        "note": "kept"
+    },
+    "wrong proj / no old / system": {
+        "note": "kept"
+    },
+    "wrong proj / no old / admin": {
+        "note": "kept",
+        "user": "root",
+        "project": "proj-a"
+    },
+    "wrong proj / no old / owner": {
+        "note": "kept",
+        "user": "carol",
+        "project": "proj-a"
+    },
+    "wrong proj / no old / manager": {
+        "note": "kept",
+        "user": "erin",
+        "project": "proj-a"
+    },
+    "wrong proj / no old / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "project": "proj-a"
+    },
+    "wrong proj / no old / member": {
+        "note": "kept",
+        "user": "dave",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "wrong proj / no old / outside": {
+        "note": "kept",
+        "user": "eve",
+        "project": "proj-a",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / create / nobody": {
+        "note": "kept"
+    },
+    "no project / create / system": {
+        "note": "kept"
+    },
+    "no project / create / admin": {
+        "note": "kept",
+        "user": "root"
+    },
+    "no project / create / owner": {
+        "note": "kept",
+        "user": "carol",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / create / manager": {
+        "note": "kept",
+        "user": "erin",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / create / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / create / member": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / create / outside": {
+        "note": "kept",
+        "user": "eve",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / stored dave / nobody": {
+        "note": "kept"
+    },
+    "no project / stored dave / system": {
+        "note": "kept"
+    },
+    "no project / stored dave / admin": {
+        "note": "kept",
+        "user": "dave"
+    },
+    "no project / stored dave / owner": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "no project / stored dave / manager": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "no project / stored dave / pmo": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "no project / stored dave / member": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "no project / stored dave / outside": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "no project / stored blank / nobody": {
+        "note": "kept"
+    },
+    "no project / stored blank / system": {
+        "note": "kept"
+    },
+    "no project / stored blank / admin": {
+        "note": "kept",
+        "user": "root"
+    },
+    "no project / stored blank / owner": {
+        "note": "kept",
+        "user": "carol",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "no project / stored blank / manager": {
+        "note": "kept",
+        "user": "erin",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "no project / stored blank / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "no project / stored blank / member": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "no project / stored blank / outside": {
+        "note": "kept",
+        "user": "eve",
+        "hourlyRate": 50,
+        "billable": null
+    },
+    "no project / stored none / nobody": {
+        "note": "kept"
+    },
+    "no project / stored none / system": {
+        "note": "kept"
+    },
+    "no project / stored none / admin": {
+        "note": "kept",
+        "user": "root"
+    },
+    "no project / stored none / owner": {
+        "note": "kept",
+        "user": "carol",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / stored none / manager": {
+        "note": "kept",
+        "user": "erin",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / stored none / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / stored none / member": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / stored none / outside": {
+        "note": "kept",
+        "user": "eve",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / no old / nobody": {
+        "note": "kept"
+    },
+    "no project / no old / system": {
+        "note": "kept"
+    },
+    "no project / no old / admin": {
+        "note": "kept",
+        "user": "root"
+    },
+    "no project / no old / owner": {
+        "note": "kept",
+        "user": "carol",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / no old / manager": {
+        "note": "kept",
+        "user": "erin",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / no old / pmo": {
+        "note": "kept",
+        "user": "gwen",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / no old / member": {
+        "note": "kept",
+        "user": "dave",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "no project / no old / outside": {
+        "note": "kept",
+        "user": "eve",
+        "hourlyRate": 0,
+        "billable": null
+    },
+    "stamped / create / nobody": {
+        "note": "kept"
+    },
+    "stamped / create / system": {
+        "note": "kept"
+    },
+    "stamped / create / admin": {
+        "note": "kept"
+    },
+    "stamped / create / owner": {
+        "note": "kept",
+        "user": "carol"
+    },
+    "stamped / create / manager": {
+        "note": "kept",
+        "user": "erin"
+    },
+    "stamped / create / pmo": {
+        "note": "kept",
+        "user": "gwen"
+    },
+    "stamped / create / member": {
+        "note": "kept"
+    },
+    "stamped / create / outside": {
+        "note": "kept",
+        "user": "eve"
+    },
+    "stamped / stored dave / nobody": {
+        "note": "kept"
+    },
+    "stamped / stored dave / system": {
+        "note": "kept"
+    },
+    "stamped / stored dave / admin": {
+        "note": "kept"
+    },
+    "stamped / stored dave / owner": {
+        "note": "kept"
+    },
+    "stamped / stored dave / manager": {
+        "note": "kept"
+    },
+    "stamped / stored dave / pmo": {
+        "note": "kept"
+    },
+    "stamped / stored dave / member": {
+        "note": "kept",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "stamped / stored dave / outside": {
+        "note": "kept",
+        "hourlyRate": 80,
+        "billable": true
+    },
+    "stamped / stored blank / nobody": {
+        "note": "kept"
+    },
+    "stamped / stored blank / system": {
+        "note": "kept"
+    },
+    "stamped / stored blank / admin": {
+        "note": "kept"
+    },
+    "stamped / stored blank / owner": {
+        "note": "kept",
+        "user": "carol"
+    },
+    "stamped / stored blank / manager": {
+        "note": "kept",
+        "user": "erin"
+    },
+    "stamped / stored blank / pmo": {
+        "note": "kept",
+        "user": "gwen"
+    },
+    "stamped / stored blank / member": {
+        "note": "kept",
+        "hourlyRate": 50
+    },
+    "stamped / stored blank / outside": {
+        "note": "kept",
+        "user": "eve",
+        "hourlyRate": 50
+    },
+    "stamped / stored none / nobody": {
+        "note": "kept"
+    },
+    "stamped / stored none / system": {
+        "note": "kept"
+    },
+    "stamped / stored none / admin": {
+        "note": "kept"
+    },
+    "stamped / stored none / owner": {
+        "note": "kept",
+        "user": "carol"
+    },
+    "stamped / stored none / manager": {
+        "note": "kept",
+        "user": "erin"
+    },
+    "stamped / stored none / pmo": {
+        "note": "kept",
+        "user": "gwen"
+    },
+    "stamped / stored none / member": {
+        "note": "kept"
+    },
+    "stamped / stored none / outside": {
+        "note": "kept",
+        "user": "eve"
+    },
+    "stamped / no old / nobody": {
+        "note": "kept"
+    },
+    "stamped / no old / system": {
+        "note": "kept"
+    },
+    "stamped / no old / admin": {
+        "note": "kept"
+    },
+    "stamped / no old / owner": {
+        "note": "kept",
+        "user": "carol"
+    },
+    "stamped / no old / manager": {
+        "note": "kept",
+        "user": "erin"
+    },
+    "stamped / no old / pmo": {
+        "note": "kept",
+        "user": "gwen"
+    },
+    "stamped / no old / member": {
+        "note": "kept"
+    },
+    "stamped / no old / outside": {
+        "note": "kept",
+        "user": "eve"
+    },
+    "another schema": []
+}
