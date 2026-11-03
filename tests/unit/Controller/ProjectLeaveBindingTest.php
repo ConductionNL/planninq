@@ -32,6 +32,7 @@ use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\WorkItemKeyService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -112,6 +113,55 @@ class ProjectLeaveBindingTest extends TestCase {
 	}//end testTheSaveNamesTheUuidOfTheProjectThatWasChecked()
 
 	/**
+	 * OpenRegister throws on a miss: the caller gets the same 404 as for no project, and nothing is written.
+	 *
+	 * @return void
+	 */
+	public function testAMissThrownByOpenRegisterIsNotFound(): void {
+		$objects = $this->objects();
+		$objects->missWith = new DoesNotExistException('Object not found');
+
+		$response = $this->controller(objects: $objects, uid: 'carol')->leaveProject('gone');
+
+		self::assertSame(expected: 404, actual: $response->getStatus());
+		self::assertSame(expected: ['error' => 'Project not found.'], actual: $response->getData());
+		self::assertSame(expected: [], actual: $objects->saves);
+	}//end testAMissThrownByOpenRegisterIsNotFound()
+
+	/**
+	 * Another failure of the read is no miss: it is classified, without telling the caller why.
+	 *
+	 * @return void
+	 */
+	public function testAnotherReadFailureIsAServerError(): void {
+		$objects = $this->objects();
+		$objects->missWith = new \RuntimeException('database gone');
+
+		$response = $this->controller(objects: $objects, uid: 'carol')->leaveProject('gone');
+
+		self::assertSame(expected: 500, actual: $response->getStatus());
+		self::assertSame(expected: ['error' => 'Failed to complete leave project.'], actual: $response->getData());
+		self::assertSame(expected: [], actual: $objects->saves);
+	}//end testAnotherReadFailureIsAServerError()
+
+	/**
+	 * A user id in the request names nobody: the session user is checked and taken off the project.
+	 *
+	 * @return void
+	 */
+	public function testAForgedUserParameterIsIgnored(): void {
+		$objects  = $this->objects();
+		$response = $this->controller(objects: $objects, uid: 'mallory', forged: 'eve')->leaveProject('p-eve');
+		self::assertSame(expected: 403, actual: $response->getStatus());
+		self::assertSame(expected: [], actual: $objects->saves);
+
+		$response = $this->controller(objects: $objects, uid: 'bob', forged: 'carol')->leaveProject('p-carol');
+		self::assertSame(expected: 200, actual: $response->getStatus());
+		self::assertSame(expected: ['carol'], actual: $objects->rows['project']['p-carol']['members']);
+		self::assertSame(expected: 'carol', actual: $objects->rows['project']['p-carol']['owner']);
+	}//end testAForgedUserParameterIsIgnored()
+
+	/**
 	 * An OpenRegister-like double: the schema argument scopes find (setSchema does not), without it the first table wins.
 	 *
 	 * @return InMemoryObjectService
@@ -132,6 +182,13 @@ class ProjectLeaveBindingTest extends TestCase {
 			 * @var array<string,array{0:string,1:string}>
 			 */
 			public array $misfiled = [];
+
+			/**
+			 * What a miss throws, as OpenRegister does; null answers null.
+			 *
+			 * @var \Throwable|null
+			 */
+			public ?\Throwable $missWith = null;
 
 			/**
 			 * @param array<string,string> $schemaIds Schema slug => schema id.
@@ -167,6 +224,10 @@ class ProjectLeaveBindingTest extends TestCase {
 					}
 				}
 
+				if ($this->missWith !== null) {
+					throw $this->missWith;
+				}
+
 				return null;
 			}
 		};
@@ -183,10 +244,11 @@ class ProjectLeaveBindingTest extends TestCase {
 	 *
 	 * @param InMemoryObjectService $objects The double.
 	 * @param string                $uid     The caller.
+	 * @param string                $forged  What the request claims for every parameter.
 	 *
 	 * @return ProjectController
 	 */
-	private function controller(InMemoryObjectService $objects, string $uid): ProjectController {
+	private function controller(InMemoryObjectService $objects, string $uid, string $forged = ''): ProjectController {
 		$this->objects = $objects;
 		$resolver      = $this->scopeResolver();
 		$container     = $this->createMock(originalClassName: ContainerInterface::class);
@@ -198,8 +260,12 @@ class ProjectLeaveBindingTest extends TestCase {
 		$session = $this->createMock(originalClassName: IUserSession::class);
 		$session->method('getUser')->willReturn($user);
 
+		$request = $this->createMock(originalClassName: IRequest::class);
+		$request->method('getParam')->willReturn($forged === '' ? null : $forged);
+		$request->method('getParams')->willReturn(['uid' => $forged, 'userId' => $forged]);
+
 		return new ProjectController(
-			request: $this->createMock(originalClassName: IRequest::class),
+			request: $request,
 			settingsService: $this->createMock(originalClassName: SettingsService::class),
 			userSession: $session,
 			container: $container,

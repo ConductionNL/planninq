@@ -146,6 +146,21 @@ class TaskActivityGoldenTest extends TestCase {
 	}//end testANumericUserIdDoesNotStopTheOthersEntries()
 
 	/**
+	 * The author is the session user, also when the task names another owner.
+	 *
+	 * @return void
+	 */
+	public function testTheAuthorIsTheSessionUserNotTheTaskOwner(): void {
+		$result = $this->change(spec: ['created', ['owner' => 'mallory', 'project' => 'proj'] + self::TASK, null], uid: 'alice');
+
+		self::assertNotSame(expected: [], actual: $result['published']);
+		foreach ($result['published'] as $entry) {
+			self::assertSame(expected: ['alice'], actual: $entry['setAuthor']);
+			self::assertNotSame(expected: ['alice'], actual: $entry['setAffectedUser']);
+		}
+	}//end testTheAuthorIsTheSessionUserNotTheTaskOwner()
+
+	/**
 	 * One change: the published activities and the log lines.
 	 *
 	 * @param array<int,mixed> $spec The change.

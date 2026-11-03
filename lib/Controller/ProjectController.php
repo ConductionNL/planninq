@@ -107,6 +107,13 @@ class ProjectController extends Controller {
 	];
 
 	/**
+	 * What OpenRegister's find throws on a miss.
+	 *
+	 * @var string
+	 */
+	private const NOT_FOUND_EXCEPTION = 'OCP\\AppFramework\\Db\\DoesNotExistException';
+
+	/**
 	 * FQCN of the OR NotAuthorizedException, resolved at runtime.
 	 *
 	 * @var string
@@ -639,7 +646,16 @@ class ProjectController extends Controller {
 		// the caller must be a member to even read the project. Scoped to the
 		// project table: an unscoped find answers the first table holding the
 		// id, _id, slug or uri, such as a task with a copied members list.
-		$entity = $objectService->find(id: $leave['projectId'], register: 'planninq', schema: 'project');
+		try {
+			$entity = $objectService->find(id: $leave['projectId'], register: 'planninq', schema: 'project');
+		} catch (\Throwable $e) {
+			if (is_a($e, self::NOT_FOUND_EXCEPTION) === false) {
+				return $this->classifyObjectServiceException(e: $e, context: 'leave project', logCtx: $leave);
+			}
+
+			$entity = null;
+		}
+
 		if ($entity === null || $this->isProject(entity: $entity) === false) {
 			return new JSONResponse(['error' => 'Project not found.'], Http::STATUS_NOT_FOUND);
 		}

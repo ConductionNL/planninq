@@ -62,6 +62,7 @@ use Stringable;
  * @uses   \OCA\Planninq\Service\DependencyRepository
  * @uses   \OCA\Planninq\Service\DependencyGraph
  * @uses   \OCA\Planninq\Service\ReadsObjectRowId
+ * @uses   \OCA\Planninq\Listener\TaskScopeResolver
  */
 class SystemWriteGoldenTest extends TestCase {
 	use MembershipFixture;

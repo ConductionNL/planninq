@@ -45,6 +45,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\Planninq\Listener\TaskScopeResolver;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -620,6 +621,9 @@ class ProjectMembershipService {
 				_render: false,
 				_audit: false
 			);
+			if ($entity === null || $this->scopeResolver()->isObjectOfSchema(entity: $entity, schema: $schema) === false) {
+				return null;
+			}
 		} catch (\Throwable $e) {
 			$this->logger->debug(
 				'Planninq: could not read a planninq object for membership',
@@ -628,12 +632,17 @@ class ProjectMembershipService {
 			return null;
 		}
 
-		if ($entity === null) {
-			return null;
-		}
-
 		return $this->rowData(row: $entity);
 	}//end findData()
+
+	/**
+	 * The resolver telling which schema a found object belongs to.
+	 *
+	 * @return TaskScopeResolver
+	 */
+	private function scopeResolver(): TaskScopeResolver {
+		return $this->container->get(TaskScopeResolver::class);
+	}//end scopeResolver()
 
 	/**
 	 * OpenRegister's ObjectService.

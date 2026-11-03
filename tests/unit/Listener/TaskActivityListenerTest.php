@@ -131,7 +131,7 @@ class TaskActivityListenerTest extends TestCase {
 				private object $e,
 			) {
 			}
-			public function find($id): object {
+			public function find($id, mixed ...$flags): object {
 				return $this->e;
 			}
 		};
@@ -140,7 +140,14 @@ class TaskActivityListenerTest extends TestCase {
 				private object $e,
 			) {
 			}
-			public function find($id): object {
+			public function find($id, mixed ...$flags): object {
+				if ($id === 'project-schema') {
+					return new class {
+						public function getSlug(): string {
+							return 'project';
+						}
+					};
+				}
 				return $this->e;
 			}
 		};
@@ -157,8 +164,25 @@ class TaskActivityListenerTest extends TestCase {
 			public function setSchema($s): self {
 				return $this;
 			}
-			public function find($id): array {
-				return $this->project;
+			public function find($id, mixed ...$scope): object {
+				return new class($this->project) {
+					public function __construct(
+						private array $project,
+					) {
+					}
+					public function getObject(): array {
+						return $this->project;
+					}
+					public function getUuid(): string {
+						return 'p1';
+					}
+					public function getRegister(): string {
+						return 'register-1';
+					}
+					public function getSchema(): string {
+						return 'project-schema';
+					}
+				};
 			}
 		};
 
@@ -417,7 +441,7 @@ class TaskActivityListenerTest extends TestCase {
 				private object $e,
 			) {
 			}
-			public function find($id): object {
+			public function find($id, mixed ...$flags): object {
 				return $this->e;
 			}
 		};
@@ -426,7 +450,14 @@ class TaskActivityListenerTest extends TestCase {
 				private object $e,
 			) {
 			}
-			public function find($id): object {
+			public function find($id, mixed ...$flags): object {
+				if ($id === 'project-schema') {
+					return new class {
+						public function getSlug(): string {
+							return 'project';
+						}
+					};
+				}
 				return $this->e;
 			}
 		};
@@ -437,7 +468,7 @@ class TaskActivityListenerTest extends TestCase {
 			public function setSchema($s): self {
 				return $this;
 			}
-			public function find($id): array {
+			public function find($id, mixed ...$scope): array {
 				throw new \RuntimeException('not found');
 			}
 		};
