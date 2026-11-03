@@ -238,6 +238,18 @@ class ProjectHealthService {
 			return false;
 		}
 
+		return $this->writeProject(projectId: $projectId, data: array_merge($project, $health));
+	}//end refresh()
+
+	/**
+	 * Save a project's new data in OpenRegister's system-operation scope.
+	 *
+	 * @param string              $projectId The project UUID.
+	 * @param array<string,mixed> $data      The whole project data to store.
+	 *
+	 * @return bool True when the project was written.
+	 */
+	private function writeProject(string $projectId, array $data): bool {
 		$class = self::OR_SYSTEM_CONTEXT;
 		if (class_exists($class) === false) {
 			$this->logger->warning('Planninq: OpenRegister has no system-operation scope, so a project status was not copied', ['project' => $projectId]);
@@ -248,7 +260,7 @@ class ProjectHealthService {
 			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 			$class::run(
 				static fn () => $objectService->saveObject(
-					object: array_merge($project, $health),
+					object: $data,
 					register: ProjectMembershipService::REGISTER,
 					schema: ProjectMembershipService::PROJECT_SCHEMA,
 					uuid: $projectId,
@@ -267,7 +279,7 @@ class ProjectHealthService {
 		}
 
 		return true;
-	}//end refresh()
+	}//end writeProject()
 
 	/**
 	 * Whether OpenRegister is running a system operation, such as this service's own copy or an import.
