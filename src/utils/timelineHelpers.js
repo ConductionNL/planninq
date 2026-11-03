@@ -12,6 +12,7 @@
  *
  * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md
  */
+import { asList } from './asList.js'
 
 /** Milliseconds in a whole UTC day. */
 export const MS_PER_DAY = 86400000
@@ -100,8 +101,8 @@ export function toScheduled(tasks = []) {
  *
  * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md#requirement-the-timeline-renders-the-existing-dependency-links-not-a-new-copy
  */
-export function buildLayout(scheduled = [], dependencies = [], pxPerDay = PX_PER_DAY.day) {
-	const rows = Array.isArray(scheduled) ? scheduled : []
+export function buildLayout(scheduled, dependencies, pxPerDay = PX_PER_DAY.day) {
+	const rows = asList(scheduled)
 	const empty = rows.length === 0
 
 	const minDay = empty ? 0 : rows.reduce((min, t) => Math.min(min, t.startDay), Infinity)
@@ -124,7 +125,7 @@ export function buildLayout(scheduled = [], dependencies = [], pxPerDay = PX_PER
 	})
 
 	const edgeLines = []
-	;(Array.isArray(dependencies) ? dependencies : []).forEach((edge, i) => {
+	asList(dependencies).forEach((edge, i) => {
 		const from = barById[edge.blocker]
 		const to = barById[edge.blocked]
 		if (!from || !to) {
