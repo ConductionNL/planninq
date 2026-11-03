@@ -162,6 +162,16 @@ class MsProjectImportServiceTest extends TestCase {
 	}//end testMppIsRefusedWithHint()
 
 	/**
+	 * An empty upload is refused as not a plan instead of failing inside the XML reader.
+	 *
+	 * @return void
+	 */
+	public function testEmptyContentIsNotAPlan(): void {
+		$this->assertRefused(content: '', fileName: 'plan.xml', reason: MsProjectImportException::NOT_A_PLAN);
+		$this->assertRefused(content: '', fileName: 'plan.mpp', reason: MsProjectImportException::MPP);
+	}//end testEmptyContentIsNotAPlan()
+
+	/**
 	 * The contractor's plan is read with its name, tasks, links and resources.
 	 *
 	 * @return void
