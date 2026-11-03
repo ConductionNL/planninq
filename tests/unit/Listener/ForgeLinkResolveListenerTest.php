@@ -296,4 +296,45 @@ class ForgeLinkResolveListenerTest extends TestCase {
 
 		self::assertArrayNotHasKey('source', $update->getModifiedData());
 	}//end testAnIntegrationUpdateKeepsTheSourceItSends()
+
+	/**
+	 * A padded forge id is stored trimmed, so a later link to the same item finds it.
+	 */
+	public function testAPaddedForgeIdIsStoredTrimmed(): void {
+		$event = new ObjectCreatingEvent($this->link(data: ['externalId' => "  github:acme/portal#42\t"] + self::LINK));
+
+		$this->listener()->handle($event);
+
+		self::assertSame('github:acme/portal#42', $event->getModifiedData()['externalId'] ?? null);
+	}//end testAPaddedForgeIdIsStoredTrimmed()
+
+	/**
+	 * An integration repeat replaces the integration's own link and keeps a link a person added by hand.
+	 */
+	public function testAnIntegrationRepeatKeepsAManualLink(): void {
+		$this->objects->seed('forgeLink', 'fl-manual', ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => 'github:acme/portal#42', 'url' => 'https://github.com/acme/portal/pull/42', 'source' => 'manual']);
+		$this->objects->seed('forgeLink', 'fl-sync', ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => 'github:acme/portal#42', 'url' => 'https://github.com/acme/portal/pull/42', 'source' => 'integriq']);
+
+		$event = new ObjectCreatingEvent($this->link(data: ['state' => 'merged'] + self::LINK));
+		$this->listener()->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		self::assertArrayHasKey('fl-manual', $this->objects->rows['forgeLink']);
+		self::assertArrayNotHasKey('fl-sync', $this->objects->rows['forgeLink']);
+	}//end testAnIntegrationRepeatKeepsAManualLink()
+
+	/**
+	 * The resolved source always wins over a source an earlier listener put in the modified data.
+	 */
+	public function testTheResolvedSourceReplacesAnEarlierModifiedSource(): void {
+		$event = new ObjectCreatingEvent($this->link(data: self::LINK));
+		$event->setModifiedData(['source' => 'manual']);
+		$this->listener()->handle($event);
+		self::assertSame('integriq', $event->getModifiedData()['source'] ?? null);
+
+		$person = new ObjectCreatingEvent($this->link(data: ['source' => 'manual'] + self::LINK));
+		$person->setModifiedData(['source' => 'integriq']);
+		$this->listener(actor: 'alice')->handle($person);
+		self::assertSame('manual', $person->getModifiedData()['source'] ?? null);
+	}//end testTheResolvedSourceReplacesAnEarlierModifiedSource()
 }//end class
