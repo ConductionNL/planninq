@@ -28,6 +28,7 @@ namespace OCA\Planninq\Controller;
 
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\FlowHistoryService;
+use OCA\Planninq\Service\FlowProjectQuery;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -111,7 +112,7 @@ class FlowController extends Controller {
 			return new JSONResponse(['error' => 'Project not found or not accessible.'], Http::STATUS_FORBIDDEN);
 		}
 
-		$flow = $this->flow->forProject(objectService: $objectService, projectId: $projectId, from: $window[0], to: $window[1]);
+		$flow = $this->flow->forProject(new FlowProjectQuery(objectService: $objectService, projectId: $projectId, from: $window[0], to: $window[1]));
 		$flow['window'] = ['from' => $window[0]->format('Y-m-d'), 'to' => $window[1]->format('Y-m-d')];
 
 		return new JSONResponse($flow);
@@ -151,7 +152,7 @@ class FlowController extends Controller {
 		$flows = [];
 		$finished = [];
 		foreach (array_slice($projects, 0, self::MAX_PROJECTS) as $project) {
-			$flow = $this->flow->forProject(objectService: $objectService, projectId: $project['id'], from: $window[0], to: $window[1]);
+			$flow = $this->flow->forProject(new FlowProjectQuery(objectService: $objectService, projectId: $project['id'], from: $window[0], to: $window[1]));
 			$flow['title'] = $project['title'];
 			$finished = array_merge($finished, $flow['finished']);
 			$flows[] = $flow;

@@ -150,20 +150,15 @@ class Application extends App implements IBootstrap {
 	 * register() has completed, so the guard is order-independent there.
 	 *
 	 * @param IEventDispatcher $dispatcher The live event dispatcher.
-	 * @param string $event OpenRegister event class name.
-	 * @param string $listener Listener class name.
-	 * @param array<int,string> $schemas Schema slugs the listener reacts to.
+	 * @param array{event:string,listener:string,schemas:array<int,string>} $binding OpenRegister event class name, listener class name, schema slugs.
 	 *
 	 * @return void
 	 *
 	 * @spec openspec/specs/task-collaboration/spec.md
 	 */
-	private function registerFilteredObjectListener(
-		IEventDispatcher $dispatcher,
-		string $event,
-		string $listener,
-		array $schemas,
-	): void {
+	private function registerFilteredObjectListener(IEventDispatcher $dispatcher, array $binding): void {
+		['event' => $event, 'listener' => $listener, 'schemas' => $schemas] = $binding;
+
 		$subscription = '\\OCA\\OpenRegister\\Event\\ObjectEventSubscription';
 		if (class_exists($subscription) === true) {
 			$subscription::subscribe(
@@ -206,9 +201,11 @@ class Application extends App implements IBootstrap {
 				foreach ($listeners as $listener => $schemas) {
 					$this->registerFilteredObjectListener(
 						dispatcher: $dispatcher,
-						event: 'OCA\\OpenRegister\\Event\\' . $event,
-						listener: 'OCA\\Planninq\\Listener\\' . $listener,
-						schemas: $schemas
+						binding: [
+							'event'    => 'OCA\\OpenRegister\\Event\\' . $event,
+							'listener' => 'OCA\\Planninq\\Listener\\' . $listener,
+							'schemas'  => $schemas,
+						]
 					);
 				}
 			}
@@ -363,9 +360,7 @@ class Application extends App implements IBootstrap {
 		foreach ([ObjectCreatedEvent::class, ObjectUpdatedEvent::class, ObjectDeletedEvent::class] as $event) {
 			$this->registerFilteredObjectListener(
 				dispatcher: $dispatcher,
-				event: $event,
-				listener: TaskActivityListener::class,
-				schemas: ['task']
+				binding: ['event' => $event, 'listener' => TaskActivityListener::class, 'schemas' => ['task']]
 			);
 		}
 
@@ -388,9 +383,11 @@ class Application extends App implements IBootstrap {
 		// nothing is lost but the coupling count.
 		$this->registerFilteredObjectListener(
 			dispatcher: $dispatcher,
-			event: 'OCA\\OpenRegister\\Event\\ObjectDeletingEvent',
-			listener: 'OCA\\Planninq\\Listener\\TaskDependencyCleanupListener',
-			schemas: ['task']
+			binding: [
+				'event'    => 'OCA\\OpenRegister\\Event\\ObjectDeletingEvent',
+				'listener' => 'OCA\\Planninq\\Listener\\TaskDependencyCleanupListener',
+				'schemas'  => ['task'],
+			]
 		);
 
 		$this->registerMembershipListeners(dispatcher: $dispatcher);

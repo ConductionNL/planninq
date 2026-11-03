@@ -285,6 +285,7 @@ class FlowControllerTest extends TestCase {
 		self::assertSame(3, $data['skipped']);
 		self::assertNotContains('secret', array_column($data['projects'], 'projectId'));
 		self::assertSame('Project p1', $data['projects'][0]['title']);
+		self::assertSame(['2026-09-28', '2026-09-29'], array_column($data['projects'][0]['days'], 'date'));
 		self::assertArrayHasKey('cycle', $data['summary']);
 	}//end testAPortfolioCoversItsReadableProjectsUpTo50()
 

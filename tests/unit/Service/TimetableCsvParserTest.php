@@ -44,6 +44,7 @@ class TimetableCsvParserTest extends TestCase {
 		$parser = new TimetableCsvParser();
 		$rooms  = $parser->parseRooms(csv: "Reference,Capacity,Type\nr-101,30,classroom\n\nlab-1,16,lab\n");
 		self::assertSame(expected: [], actual: $rooms['errors']);
+		self::assertSame(expected: [], actual: $parser->parseRooms(csv: "\n\n reference,capacity,type\nr-1,3,lab")['errors']);
 		self::assertSame(expected: [['reference' => 'r-101', 'capacity' => 30, 'type' => 'classroom'], ['reference' => 'lab-1', 'capacity' => 16, 'type' => 'lab']], actual: $rooms['rows']);
 
 		$activities = $parser->parseActivities(csv: " Group ; Subject;Teacher;Lessons per week;Lesson length;Room type\r\n3A;Chemistry;noor;2;2;lab\r\n", roomTypes: ['classroom', 'lab']);
