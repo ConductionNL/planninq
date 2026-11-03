@@ -115,65 +115,100 @@ class FinanceLineListener implements IEventListener {
 	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.1
 	 */
 	public function handle(Event $event): void {
-		if ($event instanceof ObjectCreatingEvent === true || $event instanceof ObjectDeletingEvent === true) {
-			$this->route(event: $event, object: $event->getObject(), oldData: null);
+		$write = $this->writeOf(event: $event);
+		if ($write === null || $this->isFinanceLine(object: $write['object']) === false) {
 			return;
 		}
 
-		if ($event instanceof ObjectUpdatingEvent === true) {
-			$old     = $event->getOldObject();
-			$oldData = [];
-			if ($old !== null) {
-				$oldData = (array)$old->getObject();
-			}
-
-			$this->route(event: $event, object: $event->getNewObject(), oldData: $oldData);
-		}
+		$write['data'] = (array)$write['object']->getObject();
+		$this->route(write: $write);
 	}//end handle()
 
 	/**
-	 * Send a finance line to the delete guard or the write guard.
+	 * The write an event carries: the event, the written object and, on an update, the stored data.
 	 *
-	 * @param ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event   The event.
-	 * @param object                                                      $object  The line.
-	 * @param array<string,mixed>|null                                    $oldData The stored line on an update.
+	 * @param Event $event The event.
 	 *
-	 * @return void
+	 * @return array<string,mixed>|null Null for any other event.
 	 */
-	private function route(ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event, object $object, ?array $oldData): void {
+	private function writeOf(Event $event): ?array {
+		if ($event instanceof ObjectCreatingEvent === true || $event instanceof ObjectDeletingEvent === true) {
+			return ['event' => $event, 'object' => $event->getObject(), 'old' => null];
+		}
+
+		if ($event instanceof ObjectUpdatingEvent === true) {
+			return ['event' => $event, 'object' => $event->getNewObject(), 'old' => (array)$event->getOldObject()?->getObject()];
+		}
+
+		return null;
+	}//end writeOf()
+
+	/**
+	 * Whether an object is a planninq finance line.
+	 *
+	 * @param object $object The written object.
+	 *
+	 * @return bool
+	 */
+	private function isFinanceLine(object $object): bool {
 		$slug = $this->scopeResolver->planninqSchemaSlug(
 			registerId: (string)($object->getRegister() ?? ''),
 			schemaId: (string)($object->getSchema() ?? '')
 		);
-		if ($slug !== FinanceLineService::SCHEMA) {
+
+		return ($slug === FinanceLineService::SCHEMA);
+	}//end isFinanceLine()
+
+	/**
+	 * Guard a delete; restamp a write that changes only the kept copies; guard and stamp any other write.
+	 *
+	 * @param array<string,mixed> $write The finance line write.
+	 *
+	 * @return void
+	 */
+	private function route(array $write): void {
+		if ($write['event'] instanceof ObjectDeletingEvent === true) {
+			$this->guard(write: $write);
 			return;
 		}
 
-		$data = (array)$object->getObject();
-		if ($event instanceof ObjectDeletingEvent === true) {
-			$this->guard(event: $event, data: $data, oldData: null);
-			return;
-		}
-
-		if ($oldData !== null && $this->withoutKept(data: $data) === $this->withoutKept(data: $oldData)) {
+		if ($this->changesOnlyKept(write: $write) === true) {
 			// Only the kept copies changed. The sync after a project change
 			// writes exactly what the project says, so it is not guarded; any
 			// other value is overwritten with the project's.
-			$this->restampKept(event: $event, data: $data);
+			$this->restampKept(event: $write['event'], data: $write['data']);
 			return;
 		}
 
-		$data = $this->resolveProject(event: $event, data: $data);
-		if ($this->guard(event: $event, data: $data, oldData: $oldData) === false) {
-			return;
-		}
-
-		if ($this->refuseDuplicate(event: $event, data: $data, ownUuid: (string)($object->getUuid() ?? '')) === true) {
-			return;
-		}
-
-		$this->restampKept(event: $event, data: $data);
+		$this->guardAndStamp(write: $write);
 	}//end route()
+
+	/**
+	 * Whether an update changes nothing but the kept copies.
+	 *
+	 * @param array<string,mixed> $write The finance line write.
+	 *
+	 * @return bool
+	 */
+	private function changesOnlyKept(array $write): bool {
+		return ($write['old'] !== null && $this->withoutKept(data: $write['data']) === $this->withoutKept(data: $write['old']));
+	}//end changesOnlyKept()
+
+	/**
+	 * Fill in an imported line's project, refuse a caller who may not write it or a duplicate, then stamp the kept copies.
+	 *
+	 * @param array<string,mixed> $write The finance line write.
+	 *
+	 * @return void
+	 */
+	private function guardAndStamp(array $write): void {
+		$write['data'] = $this->resolveProject(event: $write['event'], data: $write['data']);
+		if ($this->guard(write: $write) === false || $this->refuseDuplicate(write: $write) === true) {
+			return;
+		}
+
+		$this->restampKept(event: $write['event'], data: $write['data']);
+	}//end guardAndStamp()
 
 	/**
 	 * Overwrite the kept copies with the project's values when they differ.
@@ -194,44 +229,55 @@ class FinanceLineListener implements IEventListener {
 	/**
 	 * Refuse the write when the caller may not make it.
 	 *
-	 * @param ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event   The event.
-	 * @param array<string,mixed>                                         $data    The line's new data, or the line being deleted.
-	 * @param array<string,mixed>|null                                    $oldData The stored line on an update.
+	 * @param array<string,mixed> $write The finance line write; on a delete, the line being deleted.
 	 *
 	 * @return bool True when the write may go ahead.
 	 */
-	private function guard(ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event, array $data, ?array $oldData): bool {
-		$imported = ($this->isImported(data: $data) === true || ($oldData !== null && $this->isImported(data: $oldData) === true));
-		if ($imported === true) {
-			if ($this->callerImports() === true) {
-				return true;
-			}
-
-			return $this->refuse(
-				event: $event,
-				code: self::ERROR_IMPORTED,
-				message: 'Lines from the finance system are changed by the finance system only.',
-				data: $data
+	private function guard(array $write): bool {
+		if ($this->touchesImported(write: $write) === true) {
+			return $this->callerImports() === true || $this->refuse(
+				write: $write,
+				refusal: ['code' => self::ERROR_IMPORTED, 'message' => 'Lines from the finance system are changed by the finance system only.']
 			);
 		}
 
-		$projectId  = $this->membership->projectIdFor(schemaSlug: FinanceLineService::SCHEMA, data: $data);
-		$oldProject = '';
-		if ($oldData !== null) {
-			$oldProject = $this->membership->projectIdFor(schemaSlug: FinanceLineService::SCHEMA, data: $oldData);
-		}
-
-		if ($this->mayWrite(projectId: $projectId) === true && ($oldProject === '' || $this->mayWrite(projectId: $oldProject) === true)) {
+		if ($this->mayWrite(projectId: $this->projectOf(data: $write['data'])) === true && $this->mayWriteStored(old: $write['old']) === true) {
 			return true;
 		}
 
 		return $this->refuse(
-			event: $event,
-			code: self::ERROR_NOT_OWNER,
-			message: 'Only the project owner can change the money of this project.',
-			data: $data
+			write: $write,
+			refusal: ['code' => self::ERROR_NOT_OWNER, 'message' => 'Only the project owner can change the money of this project.']
 		);
 	}//end guard()
+
+	/**
+	 * Whether the write sets or replaces a line from the finance system.
+	 *
+	 * @param array<string,mixed> $write The finance line write.
+	 *
+	 * @return bool
+	 */
+	private function touchesImported(array $write): bool {
+		return ($this->isImported(data: $write['data']) === true || $this->isImported(data: ($write['old'] ?? [])) === true);
+	}//end touchesImported()
+
+	/**
+	 * Whether the caller may write the project an update moves the line away from; true on a create or without one.
+	 *
+	 * @param array<string,mixed>|null $old The stored line on an update.
+	 *
+	 * @return bool
+	 */
+	private function mayWriteStored(?array $old): bool {
+		if ($old === null) {
+			return true;
+		}
+
+		$oldProject = $this->projectOf(data: $old);
+
+		return ($oldProject === '' || $this->mayWrite(projectId: $oldProject) === true);
+	}//end mayWriteStored()
 
 	/**
 	 * Fill in the project of an imported line from its project number.
@@ -262,55 +308,77 @@ class FinanceLineListener implements IEventListener {
 	/**
 	 * Refuse a second imported line with a finance line id another line holds.
 	 *
-	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event   The event.
-	 * @param array<string,mixed>                     $data    The line's new data.
-	 * @param string                                  $ownUuid The line's own UUID.
+	 * @param array<string,mixed> $write The finance line write.
 	 *
 	 * @return bool True when the write was refused.
 	 */
-	private function refuseDuplicate(ObjectCreatingEvent|ObjectUpdatingEvent $event, array $data, string $ownUuid): bool {
-		if ($this->isImported(data: $data) === false) {
-			return false;
-		}
-
-		$other = $this->finance->importedLineWith(externalRef: trim((string)($data['externalRef'] ?? '')), ownUuid: $ownUuid);
+	private function refuseDuplicate(array $write): bool {
+		$other = $this->duplicateOf(write: $write);
 		if ($other === '') {
 			return false;
 		}
 
 		$this->refuse(
-			event: $event,
-			code: self::ERROR_DUPLICATE,
-			message: 'A line with this finance line id already exists. Update that line instead.',
-			data: $data + ['conflictingObject' => $other]
+			write: $write,
+			refusal: [
+				'code'              => self::ERROR_DUPLICATE,
+				'message'           => 'A line with this finance line id already exists. Update that line instead.',
+				'conflictingObject' => $other,
+			]
 		);
 
 		return true;
 	}//end refuseDuplicate()
 
 	/**
-	 * Stop the event with an error a client can branch on.
+	 * The other imported line that holds this line's finance line id, empty when there is none or the line is not imported.
 	 *
-	 * @param ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event   The event.
-	 * @param string                                                      $code    The error code.
-	 * @param string                                                      $message The message.
-	 * @param array<string,mixed>                                         $data    The line.
+	 * @param array<string,mixed> $write The finance line write.
+	 *
+	 * @return string
+	 */
+	private function duplicateOf(array $write): string {
+		if ($this->isImported(data: $write['data']) === false) {
+			return '';
+		}
+
+		return $this->finance->importedLineWith(
+			externalRef: trim((string)($write['data']['externalRef'] ?? '')),
+			ownUuid: (string)($write['object']->getUuid() ?? '')
+		);
+	}//end duplicateOf()
+
+	/**
+	 * Refuse the write with an error naming the line's project, and log it.
+	 *
+	 * @param array<string,mixed>  $write   The finance line write.
+	 * @param array<string,string> $refusal The error code and message, and the conflicting line on a duplicate.
 	 *
 	 * @return bool Always false.
 	 */
-	private function refuse(ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event, string $code, string $message, array $data): bool {
-		$projectId = $this->membership->projectIdFor(schemaSlug: FinanceLineService::SCHEMA, data: $data);
-		$error     = ['message' => $message, 'code' => $code, 'project' => $projectId];
-		if (isset($data['conflictingObject']) === true) {
-			$error['conflictingObject'] = $data['conflictingObject'];
+	private function refuse(array $write, array $refusal): bool {
+		$error = ['message' => $refusal['message'], 'code' => $refusal['code'], 'project' => $this->projectOf(data: $write['data'])];
+		if (isset($refusal['conflictingObject']) === true) {
+			$error['conflictingObject'] = $refusal['conflictingObject'];
 		}
 
-		$event->setErrors($error);
-		$event->stopPropagation();
-		$this->logger->info('Planninq: refused a finance line write', ['code' => $code, 'project' => $error['project']]);
+		$write['event']->setErrors($error);
+		$write['event']->stopPropagation();
+		$this->logger->info('Planninq: refused a finance line write', ['code' => $error['code'], 'project' => $error['project']]);
 
 		return false;
 	}//end refuse()
+
+	/**
+	 * The project a finance line belongs to.
+	 *
+	 * @param array<string,mixed> $data The line's data.
+	 *
+	 * @return string
+	 */
+	private function projectOf(array $data): string {
+		return $this->membership->projectIdFor(schemaSlug: FinanceLineService::SCHEMA, data: $data);
+	}//end projectOf()
 
 	/**
 	 * Whether the caller writes lines from the finance system.
