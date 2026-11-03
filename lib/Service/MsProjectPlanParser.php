@@ -72,7 +72,25 @@ class MsProjectPlanParser {
 	 */
 	public function parse(string $content, string $fileName): array {
 		$this->assertAcceptable(content: $content, fileName: $fileName);
+		$root = $this->planRoot(content: $content);
 
+		return [
+			'name'        => $this->text(parent: $root, name: 'Name'),
+			'saveVersion' => $this->text(parent: $root, name: 'SaveVersion'),
+			'tasks'       => $this->planTasks(root: $root),
+		];
+	}//end parse()
+
+	/**
+	 * The Project element of a plan's XML.
+	 *
+	 * @param string $content The file content.
+	 *
+	 * @return DOMElement
+	 *
+	 * @throws MsProjectImportException When the content is not a Project XML plan.
+	 */
+	private function planRoot(string $content): DOMElement {
 		$document = new DOMDocument();
 		$previous = libxml_use_internal_errors(true);
 		// LIBXML_NONET: no network access. No LIBXML_NOENT or LIBXML_DTDLOAD, so
@@ -87,6 +105,19 @@ class MsProjectPlanParser {
 			throw new MsProjectImportException(reason: MsProjectImportException::NOT_A_PLAN, message: 'The file is not a Microsoft Project XML plan.');
 		}
 
+		return $root;
+	}//end planRoot()
+
+	/**
+	 * The plan's tasks below the project summary (outline level 1 and deeper).
+	 *
+	 * @param DOMElement $root The Project element.
+	 *
+	 * @return list<array<string,mixed>>
+	 *
+	 * @throws MsProjectImportException When the plan has too many tasks.
+	 */
+	private function planTasks(DOMElement $root): array {
 		$taskElements = $this->children(parent: $this->child(parent: $root, name: 'Tasks'), name: 'Task');
 		if (count($taskElements) > self::MAX_TASKS) {
 			throw new MsProjectImportException(
@@ -104,12 +135,8 @@ class MsProjectPlanParser {
 			}
 		}
 
-		return [
-			'name'        => $this->text(parent: $root, name: 'Name'),
-			'saveVersion' => $this->text(parent: $root, name: 'SaveVersion'),
-			'tasks'       => $tasks,
-		];
-	}//end parse()
+		return $tasks;
+	}//end planTasks()
 
 	/**
 	 * Refuse a file by its name, size and declarations, before it is parsed.

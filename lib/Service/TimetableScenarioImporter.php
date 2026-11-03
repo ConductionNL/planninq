@@ -162,31 +162,47 @@ class TimetableScenarioImporter {
 	 * @return array{period:string,length:int}|null
 	 */
 	private function slotOf(array $session, array $periods): ?array {
+		$span = $this->lessonSpan(session: $session);
+		if ($span === null) {
+			return null;
+		}
+
+		$covered = array_values(array_filter($periods, fn (array $period): bool => $this->coversPeriod(period: $period, span: $span)));
+		if ($covered === [] || $covered[0]['start'] !== $span[0]->format('H:i')) {
+			return null;
+		}
+
+		return ['period' => $covered[0]['day'].'-'.$covered[0]['number'], 'length' => count($covered)];
+	}//end slotOf()
+
+	/**
+	 * The start and end of a stored lesson, or null when either cannot be read.
+	 *
+	 * @param array<string,mixed> $session The stored lesson.
+	 *
+	 * @return array{0:DateTimeImmutable,1:DateTimeImmutable}|null
+	 */
+	private function lessonSpan(array $session): ?array {
 		try {
-			$starts = new DateTimeImmutable((string)($session['startsAt'] ?? ''));
-			$ends   = new DateTimeImmutable((string)($session['endsAt'] ?? ''));
+			return [new DateTimeImmutable((string)($session['startsAt'] ?? '')), new DateTimeImmutable((string)($session['endsAt'] ?? ''))];
 		} catch (Throwable) {
 			return null;
 		}
+	}//end lessonSpan()
 
-		$day    = strtolower($starts->format('D'));
-		$first  = null;
-		$length = 0;
-		foreach ($periods as $period) {
-			if ($period['day'] !== substr($day, 0, 3) || $period['start'] < $starts->format('H:i') || $period['end'] > $ends->format('H:i')) {
-				continue;
-			}
-
-			$first = ($first ?? $period);
-			$length++;
-		}
-
-		if ($first === null || $first['start'] !== $starts->format('H:i')) {
-			return null;
-		}
-
-		return ['period' => $first['day'].'-'.$first['number'], 'length' => $length];
-	}//end slotOf()
+	/**
+	 * Whether a period lies on the lesson's day, inside its start and end.
+	 *
+	 * @param array{day:string,number:int,start:string,end:string} $period The period.
+	 * @param array{0:DateTimeImmutable,1:DateTimeImmutable}      $span   The lesson's start and end.
+	 *
+	 * @return bool
+	 */
+	private function coversPeriod(array $period, array $span): bool {
+		return $period['day'] === substr(strtolower($span[0]->format('D')), 0, 3)
+			&& $period['start'] >= $span[0]->format('H:i')
+			&& $period['end'] <= $span[1]->format('H:i');
+	}//end coversPeriod()
 
 	/**
 	 * The Monday of a date's week, at midnight.

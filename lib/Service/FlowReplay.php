@@ -167,7 +167,6 @@ class FlowReplay {
 	 * @return array{counts: array<string,int>, finished: array<int,array<string,mixed>>, withoutHistory: int}
 	 */
 	private function dayAt(array $replayed, array $bounds): array {
-		$start  = $bounds['start'];
 		$end    = $bounds['end'];
 		$counts = array_fill_keys($replayed['columnIds'], 0);
 		$withoutHistory = 0;
@@ -183,15 +182,29 @@ class FlowReplay {
 			}
 		}
 
-		$finished = array_values(
+		return [
+			'counts'         => $counts,
+			'finished'       => $this->finishedBetween(timings: $replayed['timings'], bounds: $bounds),
+			'withoutHistory' => $withoutHistory,
+		];
+	}//end dayAt()
+
+	/**
+	 * The finished tasks whose finish lies inside the bounds.
+	 *
+	 * @param array<int,array<string,mixed>> $timings Finished tasks with `finishedAt` (unix seconds).
+	 * @param array{start: int, end: int}    $bounds  Day start, and day end or now (unix seconds).
+	 *
+	 * @return array<int,array<string,mixed>>
+	 */
+	private function finishedBetween(array $timings, array $bounds): array {
+		return array_values(
 			array_filter(
-				$replayed['timings'],
-				static fn (array $row): bool => $row['finishedAt'] >= $start && $row['finishedAt'] <= $end
+				$timings,
+				static fn (array $row): bool => $row['finishedAt'] >= $bounds['start'] && $row['finishedAt'] <= $bounds['end']
 			)
 		);
-
-		return ['counts' => $counts, 'finished' => $finished, 'withoutHistory' => $withoutHistory];
-	}//end dayAt()
+	}//end finishedBetween()
 
 	/**
 	 * A field's value at a moment, or false when the task did not exist yet.
