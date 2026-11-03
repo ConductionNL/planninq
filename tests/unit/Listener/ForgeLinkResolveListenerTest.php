@@ -240,4 +240,60 @@ class ForgeLinkResolveListenerTest extends TestCase {
 		SystemOperationContext::run(fn () => $this->listener(actor: 'alice')->handle($system));
 		self::assertArrayNotHasKey('source', $system->getModifiedData());
 	}//end testTheIntegrationKeepsItsSource()
+
+	/**
+	 * An integration repeat removes every earlier integration link to the same forge item, not only the first.
+	 */
+	public function testEveryEarlierIntegrationLinkIsReplaced(): void {
+		foreach (['fl-a', 'fl-b'] as $id) {
+			$this->objects->seed('forgeLink', $id, ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => 'github:acme/portal#42', 'url' => 'https://github.com/acme/portal/pull/42', 'source' => 'integriq']);
+		}
+
+		$event = new ObjectCreatingEvent($this->link(data: ['state' => 'merged'] + self::LINK));
+		$this->listener()->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		self::assertArrayNotHasKey('fl-a', $this->objects->rows['forgeLink']);
+		self::assertArrayNotHasKey('fl-b', $this->objects->rows['forgeLink']);
+	}//end testEveryEarlierIntegrationLinkIsReplaced()
+
+	/**
+	 * A padded task id resolves, and the link stores the task's own id.
+	 */
+	public function testAPaddedTaskIdIsStoredTrimmed(): void {
+		$manual = ['task' => '  00000000-0000-4000-8000-000000000012 ', 'kind' => 'link', 'url' => 'https://example.org/notes'];
+		$event  = new ObjectCreatingEvent($this->link(data: $manual));
+
+		$this->listener(actor: 'alice')->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		self::assertSame('00000000-0000-4000-8000-000000000012', $event->getModifiedData()['task'] ?? null);
+	}//end testAPaddedTaskIdIsStoredTrimmed()
+
+	/**
+	 * A task, project or key an earlier listener put in the modified data is replaced by the resolved ones.
+	 */
+	public function testEarlierModifiedDataCannotPointTheLinkElsewhere(): void {
+		$event = new ObjectCreatingEvent($this->link(data: self::LINK));
+		$event->setModifiedData(['task' => 'forged', 'project' => 'forged', 'taskKey' => 'ZZ-1', 'note' => 'kept']);
+
+		$this->listener()->handle($event);
+
+		self::assertSame('00000000-0000-4000-8000-000000000012', $event->getModifiedData()['task']);
+		self::assertSame('00000000-0000-4000-8000-0000000000a1', $event->getModifiedData()['project']);
+		self::assertSame('VC-12', $event->getModifiedData()['taskKey']);
+		self::assertSame('kept', $event->getModifiedData()['note']);
+	}//end testEarlierModifiedDataCannotPointTheLinkElsewhere()
+
+	/**
+	 * An update with no person behind it keeps the source it sends.
+	 */
+	public function testAnIntegrationUpdateKeepsTheSourceItSends(): void {
+		$stored = ['source' => 'manual', 'task' => '00000000-0000-4000-8000-000000000012'] + self::LINK;
+		$update = new ObjectUpdatingEvent($this->link(data: ['source' => 'integriq'] + $stored), $this->link(data: $stored));
+
+		$this->listener()->handle($update);
+
+		self::assertArrayNotHasKey('source', $update->getModifiedData());
+	}//end testAnIntegrationUpdateKeepsTheSourceItSends()
 }//end class
