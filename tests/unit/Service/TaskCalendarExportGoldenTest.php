@@ -91,6 +91,7 @@ class TaskCalendarExportGoldenTest extends TestCase {
 			'off'       => ['user' => 'ann', 'on' => [], 'dav' => true],
 			'no-dav'    => ['user' => 'ann', 'on' => ['ann'], 'dav' => false],
 			'no-user'   => ['user' => '', 'on' => ['ann'], 'dav' => true],
+			'no-user-switched-on' => ['user' => '', 'on' => [''], 'dav' => true],
 			'bob'       => ['user' => 'bob', 'on' => ['bob'], 'dav' => true],
 		];
 

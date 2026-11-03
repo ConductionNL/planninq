@@ -237,6 +237,17 @@
             "searches": 0,
             "uids": []
         },
+        "no-user-switched-on": {
+            "written": 0,
+            "present": {
+                "t-1": false,
+                "t-2": false,
+                "t-3": false,
+                "t-4": false
+            },
+            "searches": 0,
+            "uids": []
+        },
         "bob": {
             "written": 2,
             "present": {
