@@ -46,6 +46,8 @@ use RuntimeException;
  * @spec openspec/specs/admin-user-settings/spec.md
  */
 class LabelService {
+	use ReadsObjectRowId;
+
 
 	/**
 	 * OpenRegister register slug owning the Planninq schemas.
@@ -364,58 +366,6 @@ class LabelService {
 
 		return [];
 	}//end normaliseResults()
-
-	/**
-	 * Extract the object UUID from an ObjectService row (entity or array).
-	 *
-	 * @param mixed $row An entity object or a plain array row.
-	 *
-	 * @return string
-	 */
-	private function extractId(mixed $row): string {
-		if (is_object($row) === true) {
-			// `is_callable()`, NOT `method_exists()`.
-			//
-			// OpenRegister's ObjectEntity extends \OCP\AppFramework\Db\Entity,
-			// which implements every property accessor through `__call()` and
-			// declares neither `getUuid()` nor `getId()`. `method_exists()` does
-			// not see magic methods, so both branches were skipped and this
-			// helper returned '' for every entity.
-			//
-			// Consequences, all silent: every label in
-			// `GET /apps/planninq/api/labels` came back with `"id": ""`, so the
-			// admin dialog's `isEdit` (`!!label.id`) was false and the Edit
-			// button opened a CREATE dialog — editing a label would have
-			// duplicated it — while Delete cascaded on an empty id, and
-			// `countUsageByLabel()` keyed every count on '' so every label read
-			// "used by 0 tasks".
-			foreach (['getUuid', 'getId'] as $getter) {
-				if (is_callable([$row, $getter]) === false) {
-					continue;
-				}
-
-				try {
-					$value = $row->$getter();
-				} catch (\Throwable $e) {
-					continue;
-				}
-
-				if ($value !== null && (string)$value !== '') {
-					return (string)$value;
-				}
-			}//end foreach
-		}//end if
-
-		if (is_array($row) === true) {
-			if (isset($row['@self']['id']) === true) {
-				return (string)$row['@self']['id'];
-			}
-
-			return (string)($row['id'] ?? '');
-		}
-
-		return '';
-	}//end extractId()
 
 	/**
 	 * Extract the object data array from an ObjectService row (entity or array).
