@@ -101,7 +101,7 @@ class ForgeLinkResolveListenerTest extends TestCase {
 		$this->listener()->handle($event);
 
 		self::assertFalse($event->isPropagationStopped());
-		self::assertSame(['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'taskKey' => 'VC-12'], $event->getModifiedData());
+		self::assertSame(['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'taskKey' => 'VC-12', 'source' => 'integriq'], $event->getModifiedData());
 		self::assertSame([], $this->registerSchemaErrors(slug: 'forgeLink', payload: array_merge(self::LINK, $event->getModifiedData())));
 	}//end testKeyResolvesTaskAndProject()
 
@@ -195,7 +195,7 @@ class ForgeLinkResolveListenerTest extends TestCase {
 		$this->listener()->handle($event);
 
 		self::assertFalse($event->isPropagationStopped());
-		self::assertSame(['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'taskKey' => 'VC-12'], $event->getModifiedData());
+		self::assertSame(['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'taskKey' => 'VC-12', 'source' => 'integriq'], $event->getModifiedData());
 	}//end testKeyInForgeTextResolves()
 
 	/**
@@ -234,11 +234,11 @@ class ForgeLinkResolveListenerTest extends TestCase {
 	public function testTheIntegrationKeepsItsSource(): void {
 		$event = new ObjectCreatingEvent($this->link(data: self::LINK));
 		$this->listener()->handle($event);
-		self::assertArrayNotHasKey('source', $event->getModifiedData());
+		self::assertSame('integriq', $event->getModifiedData()['source'] ?? null);
 
 		$system = new ObjectCreatingEvent($this->link(data: self::LINK));
 		SystemOperationContext::run(fn () => $this->listener(actor: 'alice')->handle($system));
-		self::assertArrayNotHasKey('source', $system->getModifiedData());
+		self::assertSame('integriq', $system->getModifiedData()['source'] ?? null);
 	}//end testTheIntegrationKeepsItsSource()
 
 	/**
