@@ -8814,17 +8814,65 @@
                 "setAffectedUser": [
                     "dora"
                 ]
+            },
+            {
+                "setApp": [
+                    "planninq"
+                ],
+                "setType": [
+                    "planninq_task"
+                ],
+                "setAuthor": [
+                    ""
+                ],
+                "setTimestamp": true,
+                "setSubject": [
+                    "task_created",
+                    {
+                        "actor": "",
+                        "title": "Draft",
+                        "objectId": "task-1"
+                    }
+                ],
+                "setObject": [
+                    "planninq_task",
+                    0,
+                    "Draft"
+                ],
+                "setAffectedUser": [
+                    "7"
+                ]
+            },
+            {
+                "setApp": [
+                    "planninq"
+                ],
+                "setType": [
+                    "planninq_task"
+                ],
+                "setAuthor": [
+                    ""
+                ],
+                "setTimestamp": true,
+                "setSubject": [
+                    "task_created",
+                    {
+                        "actor": "",
+                        "title": "Draft",
+                        "objectId": "task-1"
+                    }
+                ],
+                "setObject": [
+                    "planninq_task",
+                    0,
+                    "Draft"
+                ],
+                "setAffectedUser": [
+                    "erik"
+                ]
             }
         ],
-        "log": [
-            {
-                "level": "warning",
-                "message": "Planninq: task activity listener skipped an event",
-                "context": {
-                    "exception": "must be of type string, int given"
-                }
-            }
-        ]
+        "log": []
     },
     "shared many / member": {
         "published": [
@@ -8939,17 +8987,65 @@
                 "setAffectedUser": [
                     "dora"
                 ]
+            },
+            {
+                "setApp": [
+                    "planninq"
+                ],
+                "setType": [
+                    "planninq_task"
+                ],
+                "setAuthor": [
+                    "alice"
+                ],
+                "setTimestamp": true,
+                "setSubject": [
+                    "task_created",
+                    {
+                        "actor": "alice",
+                        "title": "Draft",
+                        "objectId": "task-1"
+                    }
+                ],
+                "setObject": [
+                    "planninq_task",
+                    0,
+                    "Draft"
+                ],
+                "setAffectedUser": [
+                    "7"
+                ]
+            },
+            {
+                "setApp": [
+                    "planninq"
+                ],
+                "setType": [
+                    "planninq_task"
+                ],
+                "setAuthor": [
+                    "alice"
+                ],
+                "setTimestamp": true,
+                "setSubject": [
+                    "task_created",
+                    {
+                        "actor": "alice",
+                        "title": "Draft",
+                        "objectId": "task-1"
+                    }
+                ],
+                "setObject": [
+                    "planninq_task",
+                    0,
+                    "Draft"
+                ],
+                "setAffectedUser": [
+                    "erik"
+                ]
             }
         ],
-        "log": [
-            {
-                "level": "warning",
-                "message": "Planninq: task activity listener skipped an event",
-                "context": {
-                    "exception": "must be of type string, int given"
-                }
-            }
-        ]
+        "log": []
     },
     "shared many / assignee": {
         "published": [
@@ -9064,17 +9160,65 @@
                 "setAffectedUser": [
                     "dora"
                 ]
+            },
+            {
+                "setApp": [
+                    "planninq"
+                ],
+                "setType": [
+                    "planninq_task"
+                ],
+                "setAuthor": [
+                    "carl"
+                ],
+                "setTimestamp": true,
+                "setSubject": [
+                    "task_created",
+                    {
+                        "actor": "carl",
+                        "title": "Draft",
+                        "objectId": "task-1"
+                    }
+                ],
+                "setObject": [
+                    "planninq_task",
+                    0,
+                    "Draft"
+                ],
+                "setAffectedUser": [
+                    "7"
+                ]
+            },
+            {
+                "setApp": [
+                    "planninq"
+                ],
+                "setType": [
+                    "planninq_task"
+                ],
+                "setAuthor": [
+                    "carl"
+                ],
+                "setTimestamp": true,
+                "setSubject": [
+                    "task_created",
+                    {
+                        "actor": "carl",
+                        "title": "Draft",
+                        "objectId": "task-1"
+                    }
+                ],
+                "setObject": [
+                    "planninq_task",
+                    0,
+                    "Draft"
+                ],
+                "setAffectedUser": [
+                    "erik"
+                ]
             }
         ],
-        "log": [
-            {
-                "level": "warning",
-                "message": "Planninq: task activity listener skipped an event",
-                "context": {
-                    "exception": "must be of type string, int given"
-                }
-            }
-        ]
+        "log": []
     },
     "shared many / outside": {
         "published": [
@@ -9217,17 +9361,65 @@
                 "setAffectedUser": [
                     "dora"
                 ]
+            },
+            {
+                "setApp": [
+                    "planninq"
+                ],
+                "setType": [
+                    "planninq_task"
+                ],
+                "setAuthor": [
+                    "zed"
+                ],
+                "setTimestamp": true,
+                "setSubject": [
+                    "task_created",
+                    {
+                        "actor": "zed",
+                        "title": "Draft",
+                        "objectId": "task-1"
+                    }
+                ],
+                "setObject": [
+                    "planninq_task",
+                    0,
+                    "Draft"
+                ],
+                "setAffectedUser": [
+                    "7"
+                ]
+            },
+            {
+                "setApp": [
+                    "planninq"
+                ],
+                "setType": [
+                    "planninq_task"
+                ],
+                "setAuthor": [
+                    "zed"
+                ],
+                "setTimestamp": true,
+                "setSubject": [
+                    "task_created",
+                    {
+                        "actor": "zed",
+                        "title": "Draft",
+                        "objectId": "task-1"
+                    }
+                ],
+                "setObject": [
+                    "planninq_task",
+                    0,
+                    "Draft"
+                ],
+                "setAffectedUser": [
+                    "erik"
+                ]
             }
         ],
-        "log": [
-            {
-                "level": "warning",
-                "message": "Planninq: task activity listener skipped an event",
-                "context": {
-                    "exception": "must be of type string, int given"
-                }
-            }
-        ]
+        "log": []
     },
     "shared text / nobody": {
         "published": [

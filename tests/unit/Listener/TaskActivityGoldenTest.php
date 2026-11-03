@@ -134,6 +134,18 @@ class TaskActivityGoldenTest extends TestCase {
 	}//end testActivityMatchesTheRecording()
 
 	/**
+	 * A numeric user id gets the entry, and so does everyone after it.
+	 *
+	 * @return void
+	 */
+	public function testANumericUserIdDoesNotStopTheOthersEntries(): void {
+		$result = $this->change(spec: ['created', ['project' => '', 'assignedTo' => '', 'sharedWith' => ['7', 'erik']] + self::TASK, null], uid: 'alice');
+
+		self::assertSame(expected: [], actual: $result['log']);
+		self::assertSame(expected: [['7'], ['erik']], actual: array_column($result['published'], 'setAffectedUser'));
+	}//end testANumericUserIdDoesNotStopTheOthersEntries()
+
+	/**
 	 * One change: the published activities and the log lines.
 	 *
 	 * @param array<int,mixed> $spec The change.

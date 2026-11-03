@@ -272,7 +272,8 @@ class TaskActivityListener implements IEventListener {
 			$distinct[$member] = true;
 		}
 
-		return array_keys($distinct);
+		// A numeric user id comes back from array_keys() as an int.
+		return array_map('strval', array_keys($distinct));
 	}//end resolveAudience()
 
 	/**
