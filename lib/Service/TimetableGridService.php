@@ -239,22 +239,43 @@ class TimetableGridService {
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 */
 	private function days(mixed $value): ?array {
-		if (is_array($value) === false || $value === []) {
-			return null;
-		}
-
-		foreach ($value as $day) {
-			if (in_array($day, self::WEEK_DAYS, true) === false) {
-				return null;
-			}
-		}
-
-		if (count(array_unique($value)) !== count($value)) {
+		if ($this->isDayList(value: $value) === false) {
 			return null;
 		}
 
 		return array_values(array_intersect(self::WEEK_DAYS, $value));
 	}//end days()
+
+	/**
+	 * Whether a value is a non-empty list of distinct week day keys.
+	 *
+	 * @param mixed $value The submitted days.
+	 *
+	 * @return bool
+	 *
+	 * @psalm-assert-if-true array<array-key,string> $value
+	 */
+	private function isDayList(mixed $value): bool {
+		if ($this->isFilled(value: $value) === false) {
+			return false;
+		}
+
+		$known = array_filter($value, static fn (mixed $day): bool => in_array($day, self::WEEK_DAYS, true));
+		return count($known) === count($value) && count(array_unique($value)) === count($value);
+	}//end isDayList()
+
+	/**
+	 * Whether a value is a non-empty array.
+	 *
+	 * @param mixed $value The value.
+	 *
+	 * @return bool
+	 *
+	 * @psalm-assert-if-true non-empty-array<array-key,mixed> $value
+	 */
+	private function isFilled(mixed $value): bool {
+		return is_array($value) === true && $value !== [];
+	}//end isFilled()
 
 	/**
 	 * The periods with trimmed times, or null when one is malformed or overlaps the one before.
@@ -266,29 +287,59 @@ class TimetableGridService {
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 */
 	private function periods(mixed $value): ?array {
-		if (is_array($value) === false || $value === []) {
+		if ($this->isFilled(value: $value) === false) {
 			return null;
 		}
 
 		$periods  = [];
 		$previous = '00:00';
 		foreach (array_values($value) as $period) {
-			if (is_array($period) === false) {
+			$times = $this->periodAfter(period: $period, previous: $previous);
+			if ($times === null) {
 				return null;
 			}
 
-			$start = $this->time(value: ($period['start'] ?? null));
-			$end   = $this->time(value: ($period['end'] ?? null));
-			if ($start === null || $end === null || $end <= $start || $start < $previous) {
-				return null;
-			}
-
-			$periods[] = ['start' => $start, 'end' => $end];
-			$previous  = $end;
+			$periods[] = $times;
+			$previous  = $times['end'];
 		}
 
 		return $periods;
 	}//end periods()
+
+	/**
+	 * One period's start and end, when both are times, the end after the start and the start not before the previous end.
+	 *
+	 * @param mixed  $period   The submitted period.
+	 * @param string $previous The end of the period before it.
+	 *
+	 * @return array{start:string,end:string}|null
+	 */
+	private function periodAfter(mixed $period, string $previous): ?array {
+		if (is_array($period) === false) {
+			return null;
+		}
+
+		$times = ['start' => $this->time(value: ($period['start'] ?? null)), 'end' => $this->time(value: ($period['end'] ?? null))];
+		if ($this->isOrdered(times: $times, previous: $previous) === false) {
+			return null;
+		}
+
+		return $times;
+	}//end periodAfter()
+
+	/**
+	 * Whether both times are set, the end comes after the start and the start not before the previous end.
+	 *
+	 * @param array{start:string|null,end:string|null} $times    The period's times.
+	 * @param string                                   $previous The end of the period before it.
+	 *
+	 * @return bool
+	 *
+	 * @psalm-assert-if-true array{start:string,end:string} $times
+	 */
+	private function isOrdered(array $times, string $previous): bool {
+		return $times['start'] !== null && $times['end'] !== null && $times['end'] > $times['start'] && $times['start'] >= $previous;
+	}//end isOrdered()
 
 	/**
 	 * A time of day as HH:MM, or null.
