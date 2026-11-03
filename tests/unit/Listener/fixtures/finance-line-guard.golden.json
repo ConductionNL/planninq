@@ -1,0 +1,5444 @@
+{
+    "create manual a / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual a / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual a / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual a / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual a / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create manual a / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create manual a / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create manual b / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual b / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual b / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual b / owner a": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "create manual b / owner b": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual b / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "create manual b / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "create manual no project / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual no project / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual no project / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual no project / owner a": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create manual no project / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create manual no project / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create manual no project / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create manual unknown / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual unknown / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual unknown / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual unknown / owner a": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "missing"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "missing"
+                }
+            }
+        ]
+    },
+    "create manual unknown / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "missing"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "missing"
+                }
+            }
+        ]
+    },
+    "create manual unknown / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "missing"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "missing"
+                }
+            }
+        ]
+    },
+    "create manual unknown / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "missing"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "missing"
+                }
+            }
+        ]
+    },
+    "create manual no owner / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual no owner / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual no owner / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual no owner / owner a": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-c"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-c"
+                }
+            }
+        ]
+    },
+    "create manual no owner / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-c"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-c"
+                }
+            }
+        ]
+    },
+    "create manual no owner / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-c"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-c"
+                }
+            }
+        ]
+    },
+    "create manual no owner / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-c"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-c"
+                }
+            }
+        ]
+    },
+    "create manual in step / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual in step / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual in step / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual in step / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual in step / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create manual in step / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create manual in step / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create manual half step / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual half step / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual half step / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual half step / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual half step / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create manual half step / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create manual half step / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create no source / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create no source / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create no source / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create no source / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create no source / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create no source / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create no source / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported dup / nobody": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported dup / system": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported dup / admin": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported dup / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported dup / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported dup / importer": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported dup / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported dup trim / nobody": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported dup trim / system": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported dup trim / admin": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported dup trim / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported dup trim / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported dup trim / importer": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported dup trim / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported no ref / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported no ref / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported no ref / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported no ref / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported no ref / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported no ref / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported no ref / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported ref num / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported ref num / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported ref num / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported ref num / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported ref num / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported ref num / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported ref num / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported key dup / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported key dup / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported key dup / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported key dup / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create imported key dup / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create imported key dup / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported key dup / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create imported key none / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported key none / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported key none / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported key none / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create imported key none / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create imported key none / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported key none / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create imported key trim / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-b",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported key trim / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-b",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported key trim / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-b",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported key trim / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-b"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "create imported key trim / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-b"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "create imported key trim / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-b",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported key trim / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-b"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "create imported has proj / nobody": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-b",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "create imported has proj / system": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-b",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "create imported has proj / admin": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-b",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "create imported has proj / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "create imported has proj / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "create imported has proj / importer": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-b",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "create imported has proj / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "create imported own uuid / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported own uuid / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported own uuid / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported own uuid / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported own uuid / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create imported own uuid / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create imported own uuid / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create only kept / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [],
+            "projectOwner": null,
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "create only kept / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [],
+            "projectOwner": null,
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "create only kept / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [],
+            "projectOwner": null,
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "create only kept / owner a": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create only kept / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create only kept / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create only kept / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create manual with ref / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual with ref / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual with ref / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual with ref / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual with ref / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create manual with ref / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create manual with ref / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create manual sent clash / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual sent clash / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual sent clash / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual sent clash / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "create manual sent clash / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a",
+            "conflictingObject": "forged"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create manual sent clash / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a",
+            "conflictingObject": "forged"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create manual sent clash / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a",
+            "conflictingObject": "forged"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create import sent clash / nobody": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "forged"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create import sent clash / system": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "forged"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create import sent clash / admin": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "forged"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create import sent clash / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a",
+            "conflictingObject": "forged"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create import sent clash / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a",
+            "conflictingObject": "forged"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create import sent clash / importer": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "forged"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create import sent clash / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a",
+            "conflictingObject": "forged"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create import null clash / nobody": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create import null clash / system": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create import null clash / admin": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create import null clash / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create import null clash / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create import null clash / importer": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "create import null clash / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update manual amount / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update manual amount / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update manual amount / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update manual amount / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update manual amount / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update manual amount / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update manual amount / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update manual a to b / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "update manual a to b / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "update manual a to b / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "update manual a to b / owner a": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "update manual a to b / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "update manual a to b / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "update manual a to b / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "update manual b to a / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update manual b to a / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update manual b to a / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update manual b to a / owner a": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update manual b to a / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update manual b to a / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update manual b to a / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update to no project / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update to no project / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update to no project / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update to no project / owner a": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "update to no project / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "update to no project / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "update to no project / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "update only kept / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update only kept / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update only kept / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update only kept / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update only kept / owner b": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update only kept / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update only kept / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update kept and self / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update kept and self / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update kept and self / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update kept and self / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update kept and self / owner b": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update kept and self / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update kept and self / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update kept in step / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update kept in step / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update kept in step / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update kept in step / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update kept in step / owner b": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update kept in step / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update kept in step / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update key order only / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update key order only / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update key order only / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update key order only / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update key order only / owner b": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update key order only / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update key order only / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update no old / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update no old / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update no old / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update no old / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update no old / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update no old / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update no old / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update no old b / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "update no old b / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "update no old b / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "update no old b / owner a": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "update no old b / owner b": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "bob"
+            ],
+            "projectOwner": "bob",
+            "portfolio": null
+        },
+        "saves": [],
+        "log": []
+    },
+    "update no old b / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "update no old b / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "update imported own / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update imported own / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update imported own / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update imported own / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update imported own / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update imported own / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update imported own / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update imported to dup / nobody": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update imported to dup / system": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update imported to dup / admin": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update imported to dup / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update imported to dup / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update imported to dup / importer": {
+        "errors": {
+            "message": "A line with this finance line id already exists. Update that line instead.",
+            "code": "planninq-finance-line-exists",
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-exists",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update imported to dup / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept",
+            "project": "proj-a"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update manual to import / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update manual to import / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update manual to import / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update manual to import / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update manual to import / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update manual to import / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update manual to import / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update import to manual / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update import to manual / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update import to manual / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update import to manual / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update import to manual / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update import to manual / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update import to manual / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "update imported kept / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update imported kept / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update imported kept / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update imported kept / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update imported kept / owner b": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update imported kept / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "update imported kept / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "financeReaders": [
+                "carol",
+                "mia"
+            ],
+            "projectOwner": "carol",
+            "portfolio": "pf-1"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete manual a / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete manual a / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete manual a / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete manual a / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete manual a / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "delete manual a / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "delete manual a / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "delete manual b / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete manual b / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete manual b / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete manual b / owner a": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "delete manual b / owner b": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete manual b / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "delete manual b / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-b"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": "proj-b"
+                }
+            }
+        ]
+    },
+    "delete no project / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete no project / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete no project / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete no project / owner a": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "delete no project / owner b": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "delete no project / importer": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "delete no project / outside": {
+        "errors": {
+            "message": "Only the project owner can change the money of this project.",
+            "code": "planninq-not-the-project-owner",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-not-the-project-owner",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "delete imported / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete imported / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete imported / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete imported / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "delete imported / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "delete imported / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete imported / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": "proj-a"
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": "proj-a"
+                }
+            }
+        ]
+    },
+    "delete imported dup / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete imported dup / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete imported dup / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete imported dup / owner a": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "delete imported dup / owner b": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "delete imported dup / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "delete imported dup / outside": {
+        "errors": {
+            "message": "Lines from the finance system are changed by the finance system only.",
+            "code": "planninq-finance-line-imported",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a finance line write",
+                "context": {
+                    "code": "planninq-finance-line-imported",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "task write / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "task write / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "task write / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "task write / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "task write / owner b": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "task write / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "task write / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "other register / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "other register / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "other register / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "other register / owner a": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "other register / owner b": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "other register / importer": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    },
+    "other register / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "log": []
+    }
+}
