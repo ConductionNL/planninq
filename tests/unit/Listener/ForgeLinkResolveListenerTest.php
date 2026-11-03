@@ -370,16 +370,66 @@ class ForgeLinkResolveListenerTest extends TestCase {
 	}//end testAnIntegrationRepeatRemovesOnlyItsOwnLinks()
 
 	/**
-	 * A forge id keeps its case: it is stored as sent, and a case variant is not a repeat of a stored link.
+	 * A forge id in another case is the same item: it is stored in canonical form and a person's repeat is refused.
 	 */
-	public function testAForgeIdKeepsItsCase(): void {
+	public function testACaseVariantOfAForgeIdIsTheSameItem(): void {
 		$this->objects->seed('forgeLink', 'fl-sync', ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => 'github:acme/portal#42', 'url' => 'https://github.com/acme/portal/pull/42', 'source' => 'integriq']);
+
+		$person = new ObjectCreatingEvent($this->link(data: ['externalId' => ' GitHub:Acme/Portal#42', 'source' => 'manual'] + self::LINK));
+		$this->listener(actor: 'alice')->handle($person);
+		self::assertSame(ForgeLinkResolveListener::ERROR_DUPLICATE, ($person->getErrors()['code'] ?? null));
+		self::assertArrayHasKey('fl-sync', $this->objects->rows['forgeLink']);
 
 		$event = new ObjectCreatingEvent($this->link(data: ['externalId' => 'GitHub:Acme/Portal#42'] + self::LINK));
 		$this->listener()->handle($event);
-
 		self::assertFalse($event->isPropagationStopped());
+		self::assertSame('github:acme/portal#42', $event->getModifiedData()['externalId'] ?? null);
+		self::assertArrayNotHasKey('fl-sync', $this->objects->rows['forgeLink']);
+	}//end testACaseVariantOfAForgeIdIsTheSameItem()
+
+	/**
+	 * A forge id already in canonical form is left out of the changes.
+	 */
+	public function testACanonicalForgeIdIsNotRewritten(): void {
+		$event = new ObjectCreatingEvent($this->link(data: self::LINK));
+		$this->listener()->handle($event);
+
 		self::assertArrayNotHasKey('externalId', $event->getModifiedData());
-		self::assertArrayHasKey('fl-sync', $this->objects->rows['forgeLink']);
-	}//end testAForgeIdKeepsItsCase()
+	}//end testACanonicalForgeIdIsNotRewritten()
+
+	/**
+	 * A forge id that is not text is refused before anything is looked up or removed.
+	 */
+	public function testAForgeIdThatIsNotTextIsRefused(): void {
+		$this->objects->seed('forgeLink', 'fl-sync', ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => '42', 'url' => 'https://github.com/acme/portal/pull/42', 'source' => 'integriq']);
+
+		foreach ([42, ['github:acme/portal#42'], 4.2, true] as $sent) {
+			$event = new ObjectCreatingEvent($this->link(data: ['externalId' => $sent] + self::LINK));
+			$this->listener()->handle($event);
+
+			self::assertTrue($event->isPropagationStopped(), var_export($sent, true));
+			self::assertSame(ForgeLinkResolveListener::ERROR_INVALID_ID, ($event->getErrors()['code'] ?? null));
+			self::assertSame([], $event->getModifiedData());
+			self::assertArrayHasKey('fl-sync', $this->objects->rows['forgeLink']);
+		}
+	}//end testAForgeIdThatIsNotTextIsRefused()
+
+	/**
+	 * A link without a forge id gets none.
+	 */
+	public function testALinkWithoutAForgeIdGetsNone(): void {
+		foreach ([null, ''] as $sent) {
+			$data = self::LINK;
+			unset($data['externalId']);
+			if ($sent !== null) {
+				$data['externalId'] = $sent;
+			}
+
+			$event = new ObjectCreatingEvent($this->link(data: $data));
+			$this->listener(actor: 'alice')->handle($event);
+
+			self::assertFalse($event->isPropagationStopped());
+			self::assertArrayNotHasKey('externalId', $event->getModifiedData());
+		}
+	}//end testALinkWithoutAForgeIdGetsNone()
 }//end class
