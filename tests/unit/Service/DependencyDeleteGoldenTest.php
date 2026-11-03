@@ -44,6 +44,7 @@ use Psr\Log\NullLogger;
  * @covers \OCA\Planninq\Service\DependencyService
  * @uses   \OCA\Planninq\Service\DependencyRepository
  * @uses   \OCA\Planninq\Service\ProjectRoles
+ * @uses   \OCA\Planninq\Exception\DependencyValidationException
  */
 class DependencyDeleteGoldenTest extends TestCase {
 
