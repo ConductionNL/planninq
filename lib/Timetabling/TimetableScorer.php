@@ -269,6 +269,25 @@ final class TimetableScorer {
 	 * @return array<int,array<string,mixed>>
 	 */
 	private function doubleBookings(array $slots): array {
+		$clashes = [];
+		foreach ($this->bookings(slots: $slots) as $at => $lessons) {
+			if (count($lessons) > 1 && explode("\n", $at)[1] !== '') {
+				[$kind, $reference, $period] = explode("\n", $at);
+				$clashes[] = ['kind' => $kind, 'reference' => $reference, 'period' => $period, 'lessons' => $lessons];
+			}
+		}
+
+		return $clashes;
+	}//end doubleBookings()
+
+	/**
+	 * The lessons booked per teacher, group and room in each period, keyed "kind\nreference\nperiod".
+	 *
+	 * @param array<int,array<string,mixed>> $slots The placed slots.
+	 *
+	 * @return array<string,array<int,string>>
+	 */
+	private function bookings(array $slots): array {
 		$taken = [];
 		foreach ($slots as $slot) {
 			$owners = ['teacher' => (string)$slot['lesson']['teacher'], 'group' => (string)$slot['lesson']['group'], 'room' => (string)$slot['room']];
@@ -279,16 +298,8 @@ final class TimetableScorer {
 			}
 		}
 
-		$clashes = [];
-		foreach ($taken as $at => $lessons) {
-			if (count($lessons) > 1 && explode("\n", $at)[1] !== '') {
-				[$kind, $reference, $period] = explode("\n", $at);
-				$clashes[] = ['kind' => $kind, 'reference' => $reference, 'period' => $period, 'lessons' => $lessons];
-			}
-		}
-
-		return $clashes;
-	}//end doubleBookings()
+		return $taken;
+	}//end bookings()
 
 	/**
 	 * Every broken wish with the lessons that break it.
