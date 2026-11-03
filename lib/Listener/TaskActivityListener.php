@@ -173,14 +173,9 @@ class TaskActivityListener implements IEventListener {
 	 * @return array<string,mixed>|null
 	 */
 	private function taskData(object $object): ?array {
-		$registerId = (string)($object->getRegister() ?? '');
-		$schemaId   = (string)($object->getSchema() ?? '');
-		if ($this->scopeResolver->isPlanninqTask(registerId: $registerId, schemaId: $schemaId) === false) {
-			return null;
-		}
-
-		$data = $object->getObject();
-		if (is_array($data) === false) {
+		$isTask = $this->scopeResolver->isPlanninqTask(registerId: (string)($object->getRegister() ?? ''), schemaId: (string)($object->getSchema() ?? ''));
+		$data   = $object->getObject();
+		if ($isTask === false || is_array($data) === false) {
 			return null;
 		}
 
