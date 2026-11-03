@@ -600,6 +600,18 @@ class TimetableSessionService {
 			return null;
 		}
 
+		return $this->savedId(saved: $saved, uuid: $uuid);
+	}//end save()
+
+	/**
+	 * The id of a saved session: the one OpenRegister answered, else the id it was saved under.
+	 *
+	 * @param mixed       $saved What saveObject() returned; null when OpenRegister refused.
+	 * @param string|null $uuid  The stored id that was updated, or null for a create.
+	 *
+	 * @return string|null
+	 */
+	private function savedId(mixed $saved, ?string $uuid): ?string {
 		if ($saved === null) {
 			return null;
 		}
@@ -610,7 +622,7 @@ class TimetableSessionService {
 		}
 
 		return $uuid;
-	}//end save()
+	}//end savedId()
 
 	/**
 	 * Resolve OpenRegister's ObjectService, cleared of any earlier caller's scope.

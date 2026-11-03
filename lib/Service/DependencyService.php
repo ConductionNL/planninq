@@ -196,9 +196,7 @@ class DependencyService {
 				continue;
 			}
 
-			if ($edge['blocker'] === '' || $edge['blocker'] === $edge['blocked']
-				|| ($edge['type'] === 'blocks' && $this->graph->cyclePath(edges: $edges, blocker: $edge['blocker'], blocked: $edge['blocked']) !== null)
-			) {
+			if ($this->refusesImported(edges: $edges, edge: $edge) === true) {
 				$result['refused']++;
 				continue;
 			}
@@ -212,6 +210,22 @@ class DependencyService {
 
 		return $result;
 	}//end createImported()
+
+	/**
+	 * Whether an imported link is refused: no blocker, a task blocking itself, or a blocking link that closes a cycle.
+	 *
+	 * @param array<int,array<string,mixed>>                $edges The project's edges so far.
+	 * @param array{blocker:string,blocked:string,type:string} $edge  The imported link.
+	 *
+	 * @return bool
+	 */
+	private function refusesImported(array $edges, array $edge): bool {
+		if ($edge['blocker'] === '' || $edge['blocker'] === $edge['blocked']) {
+			return true;
+		}
+
+		return $edge['type'] === 'blocks' && $this->graph->cyclePath(edges: $edges, blocker: $edge['blocker'], blocked: $edge['blocked']) !== null;
+	}//end refusesImported()
 
 	/**
 	 * Whether the edge list already holds blocker → blocked.
