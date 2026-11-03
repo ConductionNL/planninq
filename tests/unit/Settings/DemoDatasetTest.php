@@ -31,6 +31,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Settings;
 
+require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
+
 use DateTimeImmutable;
 use OCA\Planninq\Service\DemoDataService;
 use OCA\Planninq\Service\DependencyGraph;
