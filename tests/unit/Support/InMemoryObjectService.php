@@ -204,7 +204,13 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	 */
 	public function deleteObject(mixed $uuid, mixed $register = null, mixed $schema = null, bool $_rbac = true, bool $_multitenancy = true): bool {
 		$this->deletes[] = ['uuid' => (string)$uuid, 'schema' => $schema, '_rbac' => $_rbac, '_multitenancy' => $_multitenancy];
-		foreach (array_keys($this->rows) as $slug) {
+		// As OpenRegister: a named schema scopes the delete to that table.
+		$tables = array_keys($this->rows);
+		if ($schema !== null) {
+			$tables = [(string)$schema];
+		}
+
+		foreach ($tables as $slug) {
 			unset($this->rows[$slug][(string)$uuid]);
 		}
 

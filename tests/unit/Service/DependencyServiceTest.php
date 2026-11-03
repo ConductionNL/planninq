@@ -726,27 +726,33 @@ class DependencyServiceTest extends TestCase {
 			 *
 			 * @return object|null
 			 */
-			public function find(string $id): ?object {
-				if ($this->schema === 'task') {
-					if (isset($this->tasks[$id]) === false) {
-						return null;
+			public function find(string $id, mixed $register = null, mixed $schema = null, bool $_rbac = true): ?object {
+				// As OpenRegister: the schema argument scopes the lookup; without it every table is tried, first hit wins.
+				foreach (($schema === null ? ['task', 'project', 'dependency'] : [(string)$schema]) as $table) {
+					$row = $this->row(table: $table, id: $id);
+					if ($row !== null) {
+						return $this->entity($row);
 					}
-					return $this->entity($this->tasks[$id]);
 				}
 
-				if ($this->schema === 'project') {
-					if (isset($this->projects[$id]) === false) {
-						return null;
-					}
-					return $this->entity($this->projects[$id]);
+				return null;
+			}
+
+			private function row(string $table, string $id): ?array {
+				if ($table === 'task') {
+					return ($this->tasks[$id] ?? null);
 				}
 
-				// dependency
+				if ($table === 'project') {
+					return ($this->projects[$id] ?? null);
+				}
+
 				foreach ($this->edges as $edge) {
 					if (($edge['id'] ?? '') === $id) {
-						return $this->entity($edge);
+						return $edge;
 					}
 				}
+
 				return null;
 			}
 

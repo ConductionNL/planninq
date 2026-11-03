@@ -387,8 +387,10 @@ class DependencyService {
 
 		$objectService->setRegister(self::REGISTER);
 		$objectService->setSchema(self::SCHEMA);
-		$entity = $objectService->find(id: $id);
-		if ($entity === null) {
+		// Scoped to the dependency table: an unscoped find answers the first table holding the id, _id, slug or uri.
+		$entity = $objectService->find(id: $id, register: self::REGISTER, schema: self::SCHEMA);
+		$uuid   = (string)($entity?->getUuid() ?? '');
+		if ($entity === null || $uuid === '' || $this->isEdge(data: (array)$entity->getObject()) === false) {
 			throw new DependencyValidationException(
 				message: 'Dependency not found.',
 				code: DependencyValidationException::CODE_NOT_FOUND
@@ -404,11 +406,23 @@ class DependencyService {
 			$this->assertProjectMember(objectService: $objectService, projectId: $projectId);
 		}
 
-		$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $id, _rbac: false);
+		// Deleted by the uuid of the edge the guard checked, never by the identifier the caller sent.
+		$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $uuid, _rbac: false);
 
-		$this->logger->info('Planninq: dependency deleted', ['id' => $id]);
+		$this->logger->info('Planninq: dependency deleted', ['id' => $uuid]);
 
 	}//end delete()
+
+	/**
+	 * Whether stored data is a dependency edge: the dependency schema requires both ends.
+	 *
+	 * @param array<string,mixed> $data The stored object.
+	 *
+	 * @return bool
+	 */
+	private function isEdge(array $data): bool {
+		return array_key_exists('blocker', $data) === true && array_key_exists('blocked', $data) === true;
+	}//end isEdge()
 
 	/**
 	 * Refuse a caller who is not an admin; without a group manager nobody is.
@@ -467,7 +481,7 @@ class DependencyService {
 
 		$objectService->setRegister(self::REGISTER);
 		$objectService->setSchema('project');
-		if ($objectService->find(id: $projectId) === null) {
+		if ($objectService->find(id: $projectId, register: self::REGISTER, schema: 'project') === null) {
 			return '';
 		}
 
@@ -544,7 +558,7 @@ class DependencyService {
 
 		$objectService->setRegister(self::REGISTER);
 		$objectService->setSchema('project');
-		$entity = $objectService->find(id: $projectId);
+		$entity = $objectService->find(id: $projectId, register: self::REGISTER, schema: 'project');
 		if ($entity === null) {
 			throw new DependencyValidationException(
 				message: 'Project not found.',
