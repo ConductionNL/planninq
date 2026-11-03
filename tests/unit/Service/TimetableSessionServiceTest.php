@@ -20,6 +20,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Tests\Unit\Service;
 
 require_once __DIR__ . '/../Support/InMemoryTimetableObjectService.php';
+require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
 use InvalidArgumentException;
 use OCA\Planninq\Service\TimetableSessionQuery;
