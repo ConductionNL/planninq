@@ -226,6 +226,11 @@ Vrij en open source onder de EUPL-1.2-licentie.
         </install>
     </repair-steps>
 
+    <commands>
+        <!-- Dry run by default: lists stored forge ids that are not in canonical form; rewrites them with apply. -->
+        <command>OCA\Planninq\Command\RepairForgeLinkIds</command>
+    </commands>
+
     <settings>
         <admin>OCA\Planninq\Settings\AdminSettings</admin>
         <admin-section>OCA\Planninq\Sections\SettingsSection</admin-section>
