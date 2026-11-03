@@ -195,6 +195,17 @@ class ForgeLinkService {
 	}//end inForm()
 
 	/**
+	 * Every code link, read as the system.
+	 *
+	 * @return array<int,array{id:string,data:array<string,mixed>}>
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
+	 */
+	public function all(): array {
+		return $this->membership()->rows(schema: self::SCHEMA, filters: []);
+	}//end all()
+
+	/**
 	 * Delete a code link as the system; false when OpenRegister refuses.
 	 *
 	 * @param string $id The link UUID.
