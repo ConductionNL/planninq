@@ -78,6 +78,13 @@ class ForgeLinkResolveListener implements IEventListener {
 	public const ERROR_DUPLICATE = 'planninq-forge-link-duplicate';
 
 	/**
+	 * Error code of a forge id that is not text.
+	 *
+	 * @var string
+	 */
+	public const ERROR_INVALID_ID = 'planninq-forge-link-invalid-id';
+
+	/**
 	 * The schema this listener acts on.
 	 *
 	 * @var string
@@ -144,8 +151,9 @@ class ForgeLinkResolveListener implements IEventListener {
 	/**
 	 * Point a new code link at the task its key names, or refuse it.
 	 *
-	 * A link to a task that does not exist is refused, and so is a second link
-	 * to the same forge item unless the integration sends it.
+	 * A link to a task that does not exist is refused, so is a forge id that
+	 * is not text, and so is a second link to the same forge item unless the
+	 * integration sends it. The forge id is stored in its canonical form.
 	 *
 	 * @param ObjectCreatingEvent $event The creating event of a code link.
 	 *
@@ -159,9 +167,14 @@ class ForgeLinkResolveListener implements IEventListener {
 			return;
 		}
 
-		$source     = $this->sourceFor(sent: ($data['source'] ?? null));
-		$externalId = trim((string)($data['externalId'] ?? ''));
-		$repeats    = $this->forgeLinks->repeats(taskId: $task['id'], externalId: $externalId);
+		$externalId = $this->forgeId(sent: ($data['externalId'] ?? ''));
+		if ($externalId === null) {
+			$this->refuse(event: $event, message: 'The forge id must be text.', code: self::ERROR_INVALID_ID, data: $data);
+			return;
+		}
+
+		$source  = $this->sourceFor(sent: ($data['source'] ?? null));
+		$repeats = $this->forgeLinks->repeats(taskId: $task['id'], externalId: $externalId);
 		if ($repeats !== [] && $source !== self::INTEGRATION) {
 			$this->refuse(event: $event, message: 'This link is already on the task.', code: self::ERROR_DUPLICATE, data: $data);
 			return;
@@ -169,13 +182,41 @@ class ForgeLinkResolveListener implements IEventListener {
 
 		$this->replace(repeats: $repeats);
 
-		$changes = $this->linkTo(task: $task) + ['source' => $source];
-		if ($externalId !== ($data['externalId'] ?? '')) {
-			$changes['externalId'] = $externalId;
-		}
-
+		$idChange = $this->idChange(externalId: $externalId, sent: (string)($data['externalId'] ?? ''));
+		$changes  = $this->linkTo(task: $task) + ['source' => $source] + $idChange;
 		$event->setModifiedData(array_merge($event->getModifiedData(), $changes));
 	}//end resolve()
+
+	/**
+	 * The canonical form of a sent forge id, or null when it is not text.
+	 *
+	 * @param mixed $sent The forge id the client sent; an empty string when none.
+	 *
+	 * @return string|null
+	 */
+	private function forgeId(mixed $sent): ?string {
+		if (is_string($sent) === false) {
+			return null;
+		}
+
+		return $this->forgeLinks->canonicalId(id: $sent);
+	}//end forgeId()
+
+	/**
+	 * The forge id to store when its canonical form differs from the sent one, else nothing.
+	 *
+	 * @param string $externalId The canonical forge id.
+	 * @param string $sent       The forge id as sent.
+	 *
+	 * @return array<string,string>
+	 */
+	private function idChange(string $externalId, string $sent): array {
+		if ($externalId === $sent) {
+			return [];
+		}
+
+		return ['externalId' => $externalId];
+	}//end idChange()
 
 	/**
 	 * Remove the integration's earlier links to the same forge item.
